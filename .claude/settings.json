@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(/pscratch/sd/d/dfarough/Agentic_recast/bin/bootstrap-recast-tools)",
-      "Bash(/pscratch/sd/d/dfarough/Agentic_recast/bin/hepdata find:*)",
-      "Bash(curl -sL \"https://raw.githubusercontent.com/OpenHands/software-agent-sdk/refs/heads/main/openhands-sdk/openhands/sdk/workspace/local.py\")"
-    ]
-  }
-}
