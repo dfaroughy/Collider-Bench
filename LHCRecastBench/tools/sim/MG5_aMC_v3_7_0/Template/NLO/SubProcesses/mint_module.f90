@@ -46,7 +46,7 @@
 ! of folded calls with ifirst=0 and ifirst=1 are not used. The function
 ! itself must accumulate the values, and must return them when called
 ! with ifirst=2.
-! 
+!
 ! Added the posibility to keep track of more than one integral:
 !
 ! nintegrals=1 : the function that is used to update the grids. This is
@@ -87,7 +87,7 @@ module mint_module
   !     nintegrals=6+2*n_ave_virt
   !
 
-! public variables 
+! public variables
   integer, public :: ncalls0,ndim,itmax,imode,n_ord_virt,nchans,iconfig,ichan,ifold_energy,ifold_yij,ifold_phi
   integer, dimension(ndimmax), public :: ifold
   integer, dimension(maxchannels), public :: iconfigs
@@ -307,7 +307,7 @@ contains
        ncalls0=ncalls0*2
     endif
   end subroutine prepare_next_iteration
-  
+
   subroutine check_desired_accuracy(iterations_done)
     implicit none
     logical :: iterations_done
@@ -330,7 +330,7 @@ contains
        endif
     endif
   end subroutine check_desired_accuracy
-  
+
   subroutine update_integration_grids
     implicit none
     integer :: kchan,kdim,k_ord_virt
@@ -352,7 +352,7 @@ contains
     call regrid_MC_integer
   end subroutine update_integration_grids
 
-  
+
   subroutine combine_final_three_iterations
     implicit none
     integer :: i,j
@@ -406,7 +406,7 @@ contains
   end subroutine print_results_accumulated_three_iterations
 
 
-  
+
   subroutine update_virtual_fraction
 ! Update the fraction of the events for which we include the virtual corrections
 ! in the calculation
@@ -425,7 +425,7 @@ contains
     enddo
   end subroutine update_virtual_fraction
 
-  
+
   subroutine combine_iterations
     implicit none
     integer i,kchan
@@ -479,7 +479,7 @@ contains
     endif
   end subroutine print_results_accumulated
 
- 
+
   subroutine check_fractional_uncertainty(efrac)
     implicit none
     double precision, dimension(nintegrals) :: efrac
@@ -524,7 +524,7 @@ contains
     endif
   end subroutine check_fractional_uncertainty
 
-  
+
 
   subroutine print_results_current_iteration(efrac)
     implicit none
@@ -550,7 +550,7 @@ contains
        endif
     enddo
   end subroutine compute_fractional_uncertainty
-  
+
   subroutine combine_results_channels
     implicit none
     integer :: kchan
@@ -563,7 +563,7 @@ contains
                                 /dble(ntotcalls(1:nintegrals)))
     enddo
   end subroutine combine_results_channels
-  
+
   subroutine check_for_special_channels_loop(channel_loop_done)
     implicit none
     logical :: channel_loop_done
@@ -601,7 +601,7 @@ contains
     etot(1:nintegrals,0)=sqrt(etot(1:nintegrals,0))
     ncalls0=ncalls0*nchans
   end subroutine combine_results_channels_special_loop
-  
+
 
   subroutine get_amount_of_points(enough_points)
     ! fill the ntotcalls() array with the total number of calls used
@@ -616,7 +616,7 @@ contains
        if (i.eq.4 .and. non_zero_point(i).ne.0 ) &
             ntotcalls(i) = non_zero_point(i)
     enddo
-    
+
     if (.not.double_events) then
 ! If not doubling the number of events for each iteration, nothing
 ! needs to be done here.
@@ -626,7 +626,7 @@ contains
     if (pass_cuts_point.lt.25) then
 ! Not enough points have passed to cuts to get a reliable estimate
        if (ntotcalls(1).gt.max_points) then
-! tried many points already. Need to crash. 
+! tried many points already. Need to crash.
           write (*,*) 'ERROR: NOT ENOUGH POINTS PASS THE CUTS. ' // &
                'RESULTS CANNOT BE TRUSTED. ' // &
                'LOOSEN THE GENERATION CUTS, OR ADAPT SET_TAU_MIN()' // &
@@ -674,8 +674,8 @@ contains
     endif
     enough_points=.true.
   end subroutine get_amount_of_points
-  
-  
+
+
 
   subroutine add_point_to_grids(x)
     implicit none
@@ -757,7 +757,7 @@ contains
        if (f(ithree).eq.0) f(isix)=0d0
     enddo
   end subroutine add_point_to_bounding_envelope
-     
+
   subroutine accumulate_the_point(x)
     implicit none
     integer :: i
@@ -774,11 +774,11 @@ contains
 ! Add the PS point to the result of this iteration
     vtot(1:nintegrals,ichan)=vtot(1:nintegrals,ichan)+f(1:nintegrals)
     etot(1:nintegrals,ichan)=etot(1:nintegrals,ichan)+f(1:nintegrals)**2
-! Accumulate the points in the HwU histograms    
+! Accumulate the points in the HwU histograms
     if (f(1).ne.0d0) call HwU_add_points
   end subroutine accumulate_the_point
 
-  
+
   subroutine compute_integrand(fun,x,vol)
     implicit none
     integer :: ifirst,iret
@@ -811,7 +811,7 @@ contains
        f(1:nintegrals)=f1(1:nintegrals)
     endif
   end subroutine compute_integrand
-  
+
   subroutine get_random_x(x,vol,kfold)
     implicit none
     integer :: kdim,k_ord_virt,nintcurr
@@ -851,7 +851,7 @@ contains
        endif
     enddo
   end subroutine get_random_x
-  
+
 
   subroutine start_iteration
     implicit none
@@ -922,7 +922,7 @@ contains
     do kchan=1,nchans
        if (regridded(kchan)) then
        ! set equal to number of points used for the last update
-          nhits_in_grids(kchan)=sum(nhits(1:nint_used,1,kchan),dim=1) 
+          nhits_in_grids(kchan)=sum(nhits(1:nint_used,1,kchan),dim=1)
        endif
     enddo
     call write_grids_to_file
@@ -966,14 +966,14 @@ contains
           write(*,*)'Final result:',ans(2,1),' +/-',unc(2,1)
           write(*,*)'chi**2 per D.o.F.:',chi2(1,1)
           open(unit=58,file='results.dat',status='unknown')
-          write(58,*)ans(1,1)+ans(5,1),unc(2,1),0d0,0,0,0,0,0d0,0d0,ans(2,1) 
+          write(58,*)ans(1,1)+ans(5,1),unc(2,1),0d0,0,0,0,0,0d0,0d0,ans(2,1)
           close(58)
        else
           continue
        endif
     endif
   end subroutine write_results
-  
+
   subroutine write_channel_info
     implicit none
     integer :: kchan,np
@@ -987,7 +987,7 @@ contains
     return
 250 format(a7,i5,1x,a1,1x,i5,1x,l,1x,i8,1x,i8,2x,e10.4,2x,e10.4,2x,e10.4)
   end subroutine write_channel_info
-  
+
 
   subroutine setup_imode_1
     implicit none
@@ -1016,7 +1016,7 @@ contains
     enddo
     ymax_virt(1:nchans)=ans(5,1:nchans)
   end subroutine reset_upper_bounding_envelope
-  
+
   subroutine setup_imode_m1
     implicit none
     even_rn=.true.
@@ -1025,7 +1025,7 @@ contains
     ans_chan(1:nchans)=ans(1,1:nchans)
     ans_chan(0)=sum(ans(1,1:nchans))
   end subroutine setup_imode_m1
-  
+
   subroutine setup_imode_0
     implicit none
     even_rn=.true.
@@ -1058,7 +1058,7 @@ contains
        ncalls0=ncalls0/nchans
     endif
   end subroutine reset_mint_grids
-  
+
   subroutine setup_common
     implicit none
     nit=0
@@ -1069,8 +1069,8 @@ contains
     unc3(1:nintegrals,1:3)=0d0
     HwU_values(1:2)=0d0
   end subroutine setup_common
-  
-  
+
+
   subroutine write_grids_to_file
 ! Write the MINT integration grids to file
     implicit none
@@ -1103,7 +1103,7 @@ contains
     if (use_poly_virtual) call save_polyfit(12)
     close (12)
   end subroutine write_grids_to_file
-  
+
   subroutine read_grids_from_file
 ! Read the MINT integration grids from file
     implicit none
@@ -1241,7 +1241,7 @@ contains
           exit
        endif
     enddo
-! adjust 'xgrid_new' (temporary grid) so that each element contains identical cross section    
+! adjust 'xgrid_new' (temporary grid) so that each element contains identical cross section
     xgrid_new(0,kdim)=0d0
     do kint=1,nint_used
        r=dble(kint)/dble(nint_used)
@@ -1285,7 +1285,7 @@ contains
     xacc(1:nint_used,kdim,kchan)=local_xacc(1:nint_used)
     nhits(1:nint_used,kdim,kchan)=local_nhits(1:nint_used)
   end subroutine smooth_xacc
-    
+
   subroutine nextlexi(iii,kkk,iret)
 ! kkk: array of integers 1 <= kkk(j) <= iii(j), j=1,ndim
 ! at each call iii is increased lexicographycally.
@@ -1293,7 +1293,7 @@ contains
 ! subsequent calls to nextlexi return
 !         kkk(1)      kkk(2)      kkk(3)    iret
 ! 0 calls   1           1           1       0
-! 1         1           1           2       0    
+! 1         1           1           2       0
 ! 2         1           2           1       0
 ! 3         1           2           2       0
 ! 4         1           3           1       0
@@ -1597,7 +1597,7 @@ contains
        gen_counters(4)=gen_counters(4)+1
     endif
   end subroutine increase_gen_counters_middle
-  
+
   subroutine increase_gen_counters_before(vn)
     implicit none
     integer :: vn
@@ -1641,7 +1641,7 @@ contains
        found_point=.true.
     endif
   end subroutine check_upper_bound
-  
+
   subroutine get_random_cell_flat(x,vol)
     implicit none
     double precision :: vol
@@ -1676,7 +1676,7 @@ contains
        upper_bound=upper_bound*ymax(ncell(kdim),kdim,ichan)
     enddo
   end subroutine get_weighted_cell
-  
+
 
   subroutine initialise_mint_gen
     implicit none
@@ -1727,9 +1727,9 @@ contains
     write (*,*) 'Generation efficiencies:',unwgt_eff,unwgt_eff_virt
   end subroutine print_gen_counters
 
-  
+
 end module mint_module
-  
+
 ! Dummy subroutine (normally used with vegas when resuming plots)
 subroutine resume()
 end subroutine resume

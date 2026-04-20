@@ -23,8 +23,12 @@ from pathlib import Path
 from typing import Callable
 
 from agent_runtime.naming import (
-    generate_run_info, resolve_effort, write_run_info, load_config,
-    validate_launch_inputs, finalize_run_info,
+    generate_run_info,
+    resolve_effort,
+    write_run_info,
+    load_config,
+    validate_launch_inputs,
+    finalize_run_info,
 )
 from agent_runtime.runners import RUNNERS, get_runner
 from agent_runtime.workspace import build_workspace
@@ -37,19 +41,24 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=f"{agent_name.title()} agent runner for the LHC-Recast benchmark.",
     )
-    parser.add_argument("--config", default="",
-                        help="YAML config file (CLI flags override; see configs/)")
-    parser.add_argument("--paper-ref", default=None,
-                        help="arXiv ID (required unless set by --config)")
+    parser.add_argument(
+        "--config", default="", help="YAML config file (CLI flags override; see configs/)"
+    )
+    parser.add_argument(
+        "--paper-ref", default=None, help="arXiv ID (required unless set by --config)"
+    )
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Model override")
-    parser.add_argument("--effort", default=None,
-                        help="Reasoning effort: low | medium | high | <int tokens>")
-    parser.add_argument("--sandbox", default=None,
-                        choices=["auto", "bwrap", "none"],
-                        help="Filesystem isolation backend (default: auto)")
-    parser.add_argument("--run-name", default="",
-                        help="Custom run directory name")
+    parser.add_argument(
+        "--effort", default=None, help="Reasoning effort: low | medium | high | <int tokens>"
+    )
+    parser.add_argument(
+        "--sandbox",
+        default=None,
+        choices=["auto", "bwrap", "none"],
+        help="Filesystem isolation backend (default: auto)",
+    )
+    parser.add_argument("--run-name", default="", help="Custom run directory name")
     return parser.parse_args(argv), parser
 
 
@@ -62,9 +71,9 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     args.paper_ref = args.paper_ref or cfg.get("paper")
     if not args.paper_ref:
         parser.error("--paper-ref is required (CLI or --config <yaml>:paper)")
-    args.runner  = args.runner  or cfg.get("runner") or "claude"
-    args.model   = args.model   or cfg.get("model")  or ""
-    args.effort  = args.effort  or cfg.get("effort") or "medium"
+    args.runner = args.runner or cfg.get("runner") or "claude"
+    args.model = args.model or cfg.get("model") or ""
+    args.effort = args.effort or cfg.get("effort") or "medium"
     args.sandbox = args.sandbox or cfg.get("sandbox")
     return cfg
 
@@ -83,7 +92,10 @@ def _run_in_sandbox(
 
     runner = get_runner(runner_name)
     inner_cmd = runner.build_command(
-        prompt, workspace, model, allowlist=None,
+        prompt,
+        workspace,
+        model,
+        allowlist=None,
         max_thinking_tokens=max_thinking_tokens,
     )
     env = os.environ.copy()
@@ -92,8 +104,11 @@ def _run_in_sandbox(
     env["REPO_ROOT"] = str(repo_root)
 
     cmd, cleanup = sandbox_command(
-        workspace, repo_root, inner_cmd,
-        extra_ro_binds=extra_ro_binds, sandbox=sandbox,
+        workspace,
+        repo_root,
+        inner_cmd,
+        extra_ro_binds=extra_ro_binds,
+        sandbox=sandbox,
     )
     try:
         runner.run(cmd, prompt, workspace, env, workspace / "session_log.txt")
@@ -108,6 +123,7 @@ def _score(workspace: Path, paper_ref: str) -> dict:
     if not recast_dir.exists():
         return {"error": "No HEPRecastData directory"}
     from LHCRecastBench.evaluation.score import score_recast
+
     return score_recast(paper_ref, str(recast_dir))
 
 
@@ -146,20 +162,25 @@ def launch_single_run(
         run_name = args.run_name
     else:
         info = generate_run_info(
-            paper_ref=paper_ref, agent_name=agent_name,
+            paper_ref=paper_ref,
+            agent_name=agent_name,
             model_name=args.model or args.runner,
         )
         run_name = info["run_dir"]
-    info.update({
-        "runner": args.runner,
-        "effort": effort_label,
-        "max_thinking_tokens": max_thinking,
-        "sandbox": args.sandbox or "auto",
-    })
+    info.update(
+        {
+            "runner": args.runner,
+            "effort": effort_label,
+            "max_thinking_tokens": max_thinking,
+            "sandbox": args.sandbox or "auto",
+        }
+    )
 
     print(f"Setting up workspace: {run_name}")
-    print(f"Agent ID: {info['agent_id']}   "
-          f"(effort={effort_label}, max_thinking_tokens={max_thinking})")
+    print(
+        f"Agent ID: {info['agent_id']}   "
+        f"(effort={effort_label}, max_thinking_tokens={max_thinking})"
+    )
     workspace = build_workspace(repo_root, agent_name, paper_ref, run_name)
     recast_path = workspace.parent
     write_run_info(recast_path, info)
@@ -168,7 +189,7 @@ def launch_single_run(
     prompt = build_prompt(paper_ref)
     (workspace / "prompt.txt").write_text(prompt)
 
-    runtime_dir   = repo_root / "agents" / agent_name / "runtime"
+    runtime_dir = repo_root / "agents" / agent_name / "runtime"
     shared_runtime = repo_root / "agent_runtime"
     extra_ro_binds = [runtime_dir, shared_runtime]
 
@@ -178,9 +199,13 @@ def launch_single_run(
     try:
         print(f"Running {args.runner} agent (sandbox={args.sandbox or 'auto'})...")
         _run_in_sandbox(
-            workspace, repo_root, prompt,
-            runner_name=args.runner, model=args.model or None,
-            max_thinking_tokens=max_thinking, sandbox=args.sandbox,
+            workspace,
+            repo_root,
+            prompt,
+            runner_name=args.runner,
+            model=args.model or None,
+            max_thinking_tokens=max_thinking,
+            sandbox=args.sandbox,
             extra_ro_binds=extra_ro_binds,
         )
 
@@ -194,9 +219,9 @@ def launch_single_run(
             print(f"  ERROR: {scores['error']}")
             exit_code = 1
         else:
-            n_pass   = scores.get("n_pass", 0)
+            n_pass = scores.get("n_pass", 0)
             n_filled = scores.get("n_filled", 0)
-            overall  = scores.get("overall_score", 0)
+            overall = scores.get("overall_score", 0)
             print(f"  Overall: {n_pass}/{n_filled} bins pass ({overall:.0%})")
     except BaseException:
         exit_code = 1
@@ -204,7 +229,9 @@ def launch_single_run(
     finally:
         finalize_run_info(
             recast_path,
-            exit_code=exit_code, started_at=started_at, scores=scores,
+            exit_code=exit_code,
+            started_at=started_at,
+            scores=scores,
             session_logs=[workspace / "session_log.txt"],
         )
 

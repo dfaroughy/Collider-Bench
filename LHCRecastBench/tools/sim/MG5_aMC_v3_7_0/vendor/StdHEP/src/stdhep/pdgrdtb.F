@@ -2,7 +2,7 @@
       subroutine PDGRDTB
 C
 C   read mass and width table supplied by PDG
-C   fill two common blocks 
+C   fill two common blocks
 C	PDGTBL - complete list of particles in PDG table
 C	STDTBL - list of particles in PDG table defined by STDHEP
 C

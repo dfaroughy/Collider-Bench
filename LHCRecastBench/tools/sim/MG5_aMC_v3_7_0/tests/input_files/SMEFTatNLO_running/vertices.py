@@ -9,7 +9,7 @@ import couplings as C
 import lorentz as L
 
 if configuration.bottomYukawa:
-    
+
     V_171_bot = Vertex(name = 'V_171_bot',
                    particles = [ P.b__tilde__, P.b, P.H ],
                    color = [ 'Identity(1,2)' ],
@@ -4836,4 +4836,3 @@ V_801 = Vertex(name = 'V_801',
                color = [ 'Identity(1,2)' ],
                lorentz = [ L.FFVV185 ],
                couplings = {(0,0):C.GC_395})
-

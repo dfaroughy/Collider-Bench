@@ -1,0 +1,40 @@
+# pre-commit hooks — run automatically on `git commit`.
+#
+# One-time setup per clone:
+#   pip install pre-commit
+#   pre-commit install
+#
+# Ad-hoc run (e.g. first time, or to lint the whole tree):
+#   pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        # agent_env.sh and docs contain YAML-ish snippets in code fences; only
+        # lint the real config files.
+        files: ^configs/.*\.ya?ml$
+      - id: check-added-large-files
+        args: ["--maxkb=1000"]
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      # Lint first, then format — format after lint so auto-fixes are final.
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+
+  # Guard against accidentally committing secrets (API keys, tokens).
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: ^(runs/|old/|LHCRecastBench/tools/sim/(delphes|MG5_aMC_v3_7_0)/)

@@ -15,7 +15,7 @@ c       complex g2(2)          : coupling constant: gc(1) scalar
 c                                                   gc(2) pseudo-scalar
 c
 c output:
-c       complex vertex         : amplitude  
+c       complex vertex         : amplitude
 c
 
       implicit none

@@ -14,7 +14,7 @@ C
 
       blnk = ' '
       write(lnhout,1001)
-C... 
+C...
       do 100 i=1,210
         id1 = mpdgha(i)
 	if(id1.eq.99999 .or. id1.eq.0)then

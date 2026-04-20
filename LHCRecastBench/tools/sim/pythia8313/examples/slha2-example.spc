@@ -89,12 +89,12 @@ Block nmix                  # neutralino mixing matrix
   4  2     2.42755488e-01   # N_{4,2}
   4  3     6.75886261e-01   # N_{4,3}
   4  4    -6.91555829e-01   # N_{4,4}
-Block Umix                  # chargino U mixing matrix 
+Block Umix                  # chargino U mixing matrix
   1  1     9.56751989e-01   # U_{1,1}
   1  2    -2.90904850e-01   # U_{1,2}
   2  1     2.90904850e-01   # U_{2,1}
   2  2     9.56751989e-01   # U_{2,2}
-Block Vmix                  # chargino V mixing matrix 
+Block Vmix                  # chargino V mixing matrix
   1  1     9.80497030e-01   # V_{1,1}
   1  2    -1.96533903e-01   # V_{1,2}
   2  1     1.96533903e-01   # V_{2,1}
@@ -337,4 +337,3 @@ Block msoft Q= 8.83270075e+02 # MSSM DRbar SUSY breaking parameters
      3     1.11839811e+03     # M_3(Q)
     21     1.09553132e+05     # mH1^2(Q)
     22    -3.74275829e+05     # mH2^2(Q)
-

@@ -3,11 +3,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -15,7 +15,7 @@
 ################################################################################
 
 """A sample script running a comparison between different loop ME generators using
-objects and routines defined in me_comparator. To define your own test case, 
+objects and routines defined in me_comparator. To define your own test case,
 simply modify this script. Support for new ME generator is achieved through
 inheritance of the MERunner class.
 """
@@ -56,11 +56,11 @@ if '__main__' == __name__:
     logging.getLogger('madgraph').setLevel(logging.INFO)
     logging.getLogger('cmdprint').setLevel(logging.INFO)
     logging.getLogger('tutorial').setLevel(logging.ERROR)
-        
+
     logging.basicConfig(level=logging.INFO)
 
     my_proc_list = []
-#    my_proc_list.append(('g g > g g g',{'QCD':3,'QED':0},['QCD'],{'QCD':8,'QED':0}))    
+#    my_proc_list.append(('g g > g g g',{'QCD':3,'QED':0},['QCD'],{'QCD':8,'QED':0}))
 # Just to check that th general setup is ok, let's try some trivial processes
 #    my_proc_list.append(('u u~ > d d~',{'QCD':2,'QED':0},['QCD'],{'QCD':6,'QED':0}))
 #    my_proc_list.append(('d g > d g',{'QCD':2,'QED':0},['QCD'],{'QCD':6,'QED':0}))
@@ -74,18 +74,18 @@ if '__main__' == __name__:
 ## Check of the gga R2
 #    my_proc_list.append(('d~ d > g a',{'QED':1,'QCD':1},['QCD'],{'QCD':4,'QED':2}))
 #    my_proc_list.append(('d~ d > g z',{'QED':1,'QCD':1},['QCD'],{'QCD':4,'QED':2}))
-## Check of the ggh R2    
+## Check of the ggh R2
 #    my_proc_list.append(('g g > h t t~ ',{'QED':1,'QCD':2},['QCD'],{'QCD':6,'QED':2}))
-## Check of the ggvv R2    
+## Check of the ggvv R2
 #    my_proc_list.append(('d d~ > w+ w- g',{'QED':2,'QCD':1},['QCD'],{'QCD':4,'QED':4}))
 #    my_proc_list.append(('d~ d > z z g',{'QED':2,'QCD':1},['QCD'],{'QCD':4,'QED':4}))
 #    my_proc_list.append(('d~ d > z a g',{'QED':2,'QCD':1},['QCD'],{'QCD':4,'QED':4}))
-## Check of the gggv R2 
+## Check of the gggv R2
 #    my_proc_list.append(('d~ d > z g g',{'QED':1,'QCD':2},['QCD'],{'QCD':6,'QED':2}))
 #    my_proc_list.append(('d~ d > a g g',{'QED':1,'QCD':2},['QCD'],{'QCD':6,'QED':2}))
-## Now adding some masses to mess things around 
+## Now adding some masses to mess things around
 #    my_proc_list.append(('g g > z t t~',{'QED':1,'QCD':2},['QCD'],{'QCD':6,'QED':2}))
-#    my_proc_list.append(('g g > a t t~',{'QED':1,'QCD':2},['QCD'],{'QCD':6,'QED':2}))    
+#    my_proc_list.append(('g g > a t t~',{'QED':1,'QCD':2},['QCD'],{'QCD':6,'QED':2}))
 ## The ones below are a bit long
 #    my_proc_list.append(('d d~ > d d~ d d~',{'QED':0,'QCD':4},['QCD'],{'QCD':10,'QED':0}))
 ## And an hardcore one for fun
@@ -93,7 +93,7 @@ if '__main__' == __name__:
 
     #my_proc_list = me_comparator.create_proc_list(['u', 'u~','d','d~','g'],
     #                                              initial=2, final=2)
-    
+
     #my_proc_list = me_comparator.create_proc_list_enhanced(
     #    fermion, fermion, boson,
     #    initial=2, final_1=2, final_2 = 1)
@@ -128,7 +128,7 @@ if '__main__' == __name__:
     # Create a MERunner object for MadLoop 5 optimized
     ML5_opt = loop_me_comparator.LoopMG5Runner()
     ML5_opt.setup(mg5_path, optimized_output=True)
-    
+
     # Create a MERunner object for MadLoop 5 default
     ML5_default = loop_me_comparator.LoopMG5Runner()
     ML5_default.setup(mg5_path, optimized_output=False)
@@ -150,7 +150,7 @@ if '__main__' == __name__:
     my_comp.run_comparison(my_proc_list,
                            model=model,
                            energy=energy)
-    
+
     # Save the result of a runner
     #SaveRunner('trial.pkl',ML5_opt)
 

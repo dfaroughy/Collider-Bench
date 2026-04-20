@@ -19,7 +19,7 @@ C     These are constants related to the split orders
       INTEGER    NSQUAREDSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
 C
-C ARGUMENTS 
+C ARGUMENTS
 C
       INTEGER %(wfsargsdecl)s
       %(mass_dp_format)s %(margsdecl)s
@@ -30,10 +30,10 @@ C In this case of a loop-induced process, the SQUAREDSOINDEX argument is dummy
 ## }
 	  INTEGER LOOPNUM, SQUAREDSOINDEX
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       %(real_dp_format)s PL(0:3,NLOOPLINE)
-      %(real_mp_format)s MP_PL(0:3,NLOOPLINE)	  
+      %(real_mp_format)s MP_PL(0:3,NLOOPLINE)
       %(mass_dp_format)s M2L(NLOOPLINE)
       INTEGER PAIRING(NLOOPLINE),WE(%(nwfsargs)d)
       INTEGER I, J, K, TEMP,I_LIB
@@ -75,7 +75,7 @@ C
       %(complex_mp_format)s MP_W(20,NWAVEFUNCS)
       common/%(proc_prefix)sMP_W/MP_W
 
-	  %(real_dp_format)s LSCALE 
+	  %(real_dp_format)s LSCALE
 	  INTEGER CTMODE
       common/%(proc_prefix)sCT/LSCALE,CTMODE
 	  INTEGER LIBINDEX
@@ -111,12 +111,12 @@ C For loop-induced processes, we must reduce this loop amplitude if it contribut
         DO J=1,NLOOPLINE
 		  PL(I,J)=0.D0
 		  IF (DOING_QP) THEN
-		    MP_PL(I,J)=0.0e+0_16		    
+		    MP_PL(I,J)=0.0e+0_16
 		  ENDIF
           DO K=TEMP,(TEMP+PAIRING(J)-1)
             PL(I,J)=PL(I,J)-DBLE(W(1+I,WE(K)))
 			IF (DOING_QP) THEN
-		      MP_PL(I,J)=MP_PL(I,J)-REAL(MP_W(1+I,WE(K)),KIND=16)	    
+		      MP_PL(I,J)=MP_PL(I,J)-REAL(MP_W(1+I,WE(K)),KIND=16)
 		    ENDIF
           ENDDO
           TEMP=TEMP+PAIRING(J)
@@ -159,7 +159,7 @@ C Ninja is used
 	ENDIF
 ##	}
       ELSE
-C Tensor Integral Reduction is used 
+C Tensor Integral Reduction is used
 	CALL %(proc_prefix)sTIRLOOP(SQUAREDSOINDEX,LOOPNUM,I_LIB,NLOOPLINE,PL,M2L,RANK,LOOPRES(1,SQUAREDSOINDEX,LOOPNUM),S(SQUAREDSOINDEX,LOOPNUM))
 ## }else{
 	CALL %(proc_prefix)sCTLOOP(NLOOPLINE,PL,M2L,RANK,AMPL(1,NCTAMPS+LOOPNUM),S(1,LOOPNUM))
@@ -182,7 +182,7 @@ C Tensor Integral Reduction is used
 
 ##	}
       ELSE
-C Tensor Integral Reduction is used 
+C Tensor Integral Reduction is used
 	CALL %(proc_prefix)sTIRLOOP(1,LOOPNUM,I_LIB,NLOOPLINE,PL,M2L,RANK,AMPL(1,NCTAMPS+LOOPNUM),S(1,LOOPNUM))
 ## }
       ENDIF

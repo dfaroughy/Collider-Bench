@@ -1,7 +1,7 @@
-  module countdigits 
+  module countdigits
    include 'cts_mprec.h'
    implicit none
-   private 
+   private
    public :: ctscountdigits
    contains
 !
@@ -29,14 +29,14 @@
    use avh_olo_forCutTools
    use avh_olo_forCutTools_units
    include 'cts_mprec.h'
-   implicit none 
+   implicit none
    integer, intent(in) :: scaloopin
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     , intent(in) :: limitvalue
    integer :: idig,ncountd
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: thrsin
-   include 'cts_mpr.h' 
+   include 'cts_mpr.h'
     :: one
    logical, intent(in) :: ext_num_for_r1in
    include 'cts_mpinit.h'
@@ -44,8 +44,8 @@
    call ctscountdigits(ncountd)
    write (*,*) ' '
    write (*,'(a72)') '------------------------------------------------------------------------'
-   write (*,'(a72)') '|              You are using CutTools - Version 1.9.3                  |'  
-   write (*,'(a72)') '|              Authors: G. Ossola, C. Papadopoulos, R. Pittau          |' 
+   write (*,'(a72)') '|              You are using CutTools - Version 1.9.3                  |'
+   write (*,'(a72)') '|              Authors: G. Ossola, C. Papadopoulos, R. Pittau          |'
    write (*,'(a72)') '|              Published in JHEP 0803:042,2008                         |'
    write (*,'(a72)') '|              http://www.ugr.es/~pittau/CutTools                      |'
    write (*,'(a72)') '|                                                                      |'
@@ -72,27 +72,27 @@
 !  scaloop= 2 -> avh       1-loop scalar functions (massive with complex masses)
 !  scaloop= 3 -> qcdloop   1-loop scalar functions (Ellis and Zanderighi)
 !
-   scaloop= scaloopin 
+   scaloop= scaloopin
    ext_num_for_r1= ext_num_for_r1in
    call set_unit('all',-1)
    if    (scaloop.eq.2) then
-!                               
+!
 !    avh initialization:
 !
-     thrsin= 1.d-6 
+     thrsin= 1.d-6
      call olo_precision(ncountd)
-     call olo_onshell(thrsin) 
+     call olo_onshell(thrsin)
    elseif(scaloop.eq.3) then
-!                               
+!
 !    qcdloop initialization:
 !
-     call qlinit 
+     call qlinit
 !
 !    also OneLOop is used for rank 1 and 2 2-point functions:
 !
-     thrsin= 1.d-6 
-     call olo_precision(ncountd) 
-     call olo_onshell(thrsin) 
+     thrsin= 1.d-6
+     call olo_precision(ncountd)
+     call olo_onshell(thrsin)
    else
     stop 'value of scaloop not allowed'
    endif
@@ -116,7 +116,7 @@
 !
   subroutine ctsstatistics(discarded)
   use scale
-  implicit none 
+  implicit none
   logical, intent(out) :: discarded
   write(*,*) 'n_tot =',n_tot  ! total n. of points
   write(*,*) 'n_mp  =',n_mp   ! n. of points evaluated in mult. prec.
@@ -127,7 +127,3 @@
    discarded=.false.
   endif
   end subroutine ctsstatistics
-
-
-
- 

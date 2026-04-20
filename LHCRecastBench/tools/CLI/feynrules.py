@@ -12,14 +12,13 @@ Usage:
 
 import argparse
 import json
-import os
 import re
 import ssl
 import sys
 import time
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urljoin, quote
+from urllib.parse import quote
 from urllib.request import urlopen, Request, urlretrieve
 
 try:
@@ -30,13 +29,13 @@ except Exception:
 BASE_URL = "https://feynrules.irmp.ucl.ac.be"
 
 CATEGORIES = [
-    ("StandardModel",      "Standard Model"),
-    ("SimpleExtensions",   "Simple Extensions of the SM"),
-    ("SusyModels",         "Supersymmetric Models"),
-    ("ExtraDimModels",     "Extra-dimensional Models"),
-    ("EffectiveModels",    "Strongly Coupled and Effective Field Theories"),
-    ("MiscellaneousModels","Miscellaneous"),
-    ("NLOModels",          "NLO"),
+    ("StandardModel", "Standard Model"),
+    ("SimpleExtensions", "Simple Extensions of the SM"),
+    ("SusyModels", "Supersymmetric Models"),
+    ("ExtraDimModels", "Extra-dimensional Models"),
+    ("EffectiveModels", "Strongly Coupled and Effective Field Theories"),
+    ("MiscellaneousModels", "Miscellaneous"),
+    ("NLOModels", "NLO"),
 ]
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -45,6 +44,7 @@ CATALOG_PATH = REPO_ROOT / "LHCRecastBench" / "data" / "feynrules_catalog.json"
 UFO_EXTS = (".tgz", ".tar.gz", ".zip", ".tar.bz2")
 
 # ---------- HTTP ----------
+
 
 def _http_get(url, retries=3, backoff=4):
     ctx = ssl.create_default_context()
@@ -55,7 +55,7 @@ def _http_get(url, retries=3, backoff=4):
         try:
             with urlopen(req, timeout=30, context=ctx) as resp:
                 return resp.read().decode("utf-8", errors="replace")
-        except Exception as exc:
+        except Exception:
             if attempt < retries - 1:
                 time.sleep(backoff * (attempt + 1))
             else:
@@ -63,6 +63,7 @@ def _http_get(url, retries=3, backoff=4):
 
 
 # ---------- HTML parsing ----------
+
 
 class _LinkExtractor(HTMLParser):
     """Collect (href, link_text) pairs."""
@@ -107,16 +108,30 @@ def _wiki_models_in_category(category_slug):
     for href, text in _extract_links(html):
         if not href.startswith("/wiki/"):
             continue
-        slug = href[len("/wiki/"):].split("#", 1)[0].split("?", 1)[0].strip("/")
+        slug = href[len("/wiki/") :].split("#", 1)[0].split("?", 1)[0].strip("/")
         if not slug or slug == category_slug:
             continue
         # Skip TracWiki nav pages
         if slug in {
-            "WikiStart", "TracGuide", "TitleIndex", "RecentChanges",
-            "WikiFormatting", "InterMapTxt", "InterTrac", "TracBrowser",
-            "TracQuery", "TracReports", "TracTickets", "TracTimeline",
-            "TracWiki", "TracChangeset", "TracIni", "TracSearch",
-            "ModelDatabaseMainPage", "WikiNewPage", "TracLogging",
+            "WikiStart",
+            "TracGuide",
+            "TitleIndex",
+            "RecentChanges",
+            "WikiFormatting",
+            "InterMapTxt",
+            "InterTrac",
+            "TracBrowser",
+            "TracQuery",
+            "TracReports",
+            "TracTickets",
+            "TracTimeline",
+            "TracWiki",
+            "TracChangeset",
+            "TracIni",
+            "TracSearch",
+            "ModelDatabaseMainPage",
+            "WikiNewPage",
+            "TracLogging",
         }:
             continue
         if slug in seen:
@@ -136,7 +151,7 @@ def _attachments_in_model(model_slug):
     seen = set()
     attachments = []
     prefix = f"/attachment/wiki/{model_slug}/"
-    for href, text in _extract_links(html):
+    for href, _text in _extract_links(html):
         # Trac uses /attachment/wiki/.../file (description page) and /raw-attachment/wiki/.../file (direct)
         if prefix in href or f"/raw-attachment/wiki/{model_slug}/" in href:
             # Normalise to /raw-attachment for downloads
@@ -208,6 +223,7 @@ def _first_paragraph(html):
 
 # ---------- Catalog ----------
 
+
 def build_catalog(verbose=True):
     """Walk every category and model page, return a manifest dict."""
     catalog = {
@@ -245,8 +261,7 @@ def build_catalog(verbose=True):
 def load_catalog():
     if not CATALOG_PATH.exists():
         print(
-            f"Catalog not found at {CATALOG_PATH}.\n"
-            "Run: feynrules refresh-catalog",
+            f"Catalog not found at {CATALOG_PATH}.\n" "Run: feynrules refresh-catalog",
             file=sys.stderr,
         )
         sys.exit(2)
@@ -290,6 +305,7 @@ def _find_model(catalog, name):
 
 # ---------- Subcommands ----------
 
+
 def cmd_categories(args):
     if args.json:
         print(json.dumps([{"slug": s, "name": n} for s, n in CATEGORIES], indent=2))
@@ -307,13 +323,15 @@ def cmd_list(args):
             blob = f"{m['slug']} {m['title']} {m['description']}".lower()
             if args.search.lower() not in blob:
                 continue
-        rows.append({
-            "category": cat["slug"],
-            "slug": m["slug"],
-            "title": m["title"],
-            "description": m["description"],
-            "n_attachments": len(m.get("attachments", [])),
-        })
+        rows.append(
+            {
+                "category": cat["slug"],
+                "slug": m["slug"],
+                "title": m["title"],
+                "description": m["description"],
+                "n_attachments": len(m.get("attachments", [])),
+            }
+        )
 
     if args.json:
         print(json.dumps(rows, indent=2))
@@ -400,6 +418,7 @@ def cmd_fetch(args):
 
         if args.extract and a["filename"].lower().endswith((".tgz", ".tar.gz", ".tar.bz2")):
             import tarfile
+
             try:
                 with tarfile.open(out, "r:*") as tar:
                     tar.extractall(dest)
@@ -408,6 +427,7 @@ def cmd_fetch(args):
                 print(f"    ! extract failed: {exc}", file=sys.stderr)
         elif args.extract and a["filename"].lower().endswith(".zip"):
             import zipfile
+
             try:
                 with zipfile.ZipFile(out) as zf:
                     zf.extractall(dest)
@@ -416,12 +436,17 @@ def cmd_fetch(args):
                 print(f"    ! extract failed: {exc}", file=sys.stderr)
 
     if args.json:
-        print(json.dumps({
-            "model": m["slug"],
-            "category": cat["slug"],
-            "dest": str(dest),
-            "downloaded": downloaded,
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "model": m["slug"],
+                    "category": cat["slug"],
+                    "dest": str(dest),
+                    "downloaded": downloaded,
+                },
+                indent=2,
+            )
+        )
     else:
         print(f"\nDownloaded {len(downloaded)} file(s) to {dest}")
 

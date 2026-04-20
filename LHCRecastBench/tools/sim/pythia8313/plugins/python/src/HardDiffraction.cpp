@@ -48,7 +48,7 @@
 struct PyCallBack_Pythia8_HardDiffraction : public Pythia8::HardDiffraction {
 	using Pythia8::HardDiffraction::HardDiffraction;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardDiffraction *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -61,7 +61,7 @@ struct PyCallBack_Pythia8_HardDiffraction : public Pythia8::HardDiffraction {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardDiffraction *>(this), "onBeginEvent");
 		if (overload) {
@@ -74,7 +74,7 @@ struct PyCallBack_Pythia8_HardDiffraction : public Pythia8::HardDiffraction {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardDiffraction *>(this), "onEndEvent");
 		if (overload) {
@@ -87,7 +87,7 @@ struct PyCallBack_Pythia8_HardDiffraction : public Pythia8::HardDiffraction {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardDiffraction *>(this), "onStat");
 		if (overload) {
@@ -106,7 +106,7 @@ struct PyCallBack_Pythia8_HardDiffraction : public Pythia8::HardDiffraction {
 struct PyCallBack_Pythia8_ResonanceDecays : public Pythia8::ResonanceDecays {
 	using Pythia8::ResonanceDecays::ResonanceDecays;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceDecays *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -119,7 +119,7 @@ struct PyCallBack_Pythia8_ResonanceDecays : public Pythia8::ResonanceDecays {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceDecays *>(this), "onBeginEvent");
 		if (overload) {
@@ -132,7 +132,7 @@ struct PyCallBack_Pythia8_ResonanceDecays : public Pythia8::ResonanceDecays {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceDecays *>(this), "onEndEvent");
 		if (overload) {
@@ -145,7 +145,7 @@ struct PyCallBack_Pythia8_ResonanceDecays : public Pythia8::ResonanceDecays {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceDecays *>(this), "onStat");
 		if (overload) {
@@ -164,7 +164,7 @@ struct PyCallBack_Pythia8_ResonanceDecays : public Pythia8::ResonanceDecays {
 struct PyCallBack_Pythia8_PartonLevel : public Pythia8::PartonLevel {
 	using Pythia8::PartonLevel::PartonLevel;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PartonLevel *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -177,7 +177,7 @@ struct PyCallBack_Pythia8_PartonLevel : public Pythia8::PartonLevel {
 		}
 		return PartonLevel::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PartonLevel *>(this), "onBeginEvent");
 		if (overload) {
@@ -190,7 +190,7 @@ struct PyCallBack_Pythia8_PartonLevel : public Pythia8::PartonLevel {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PartonLevel *>(this), "onEndEvent");
 		if (overload) {
@@ -203,7 +203,7 @@ struct PyCallBack_Pythia8_PartonLevel : public Pythia8::PartonLevel {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PartonLevel *>(this), "onStat");
 		if (overload) {
@@ -222,7 +222,7 @@ struct PyCallBack_Pythia8_PartonLevel : public Pythia8::PartonLevel {
 struct PyCallBack_Pythia8_GammaKinematics : public Pythia8::GammaKinematics {
 	using Pythia8::GammaKinematics::GammaKinematics;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaKinematics *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -235,7 +235,7 @@ struct PyCallBack_Pythia8_GammaKinematics : public Pythia8::GammaKinematics {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaKinematics *>(this), "onBeginEvent");
 		if (overload) {
@@ -248,7 +248,7 @@ struct PyCallBack_Pythia8_GammaKinematics : public Pythia8::GammaKinematics {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaKinematics *>(this), "onEndEvent");
 		if (overload) {
@@ -261,7 +261,7 @@ struct PyCallBack_Pythia8_GammaKinematics : public Pythia8::GammaKinematics {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaKinematics *>(this), "onStat");
 		if (overload) {
@@ -280,7 +280,7 @@ struct PyCallBack_Pythia8_GammaKinematics : public Pythia8::GammaKinematics {
 struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 	using Pythia8::PhaseSpace::PhaseSpace;
 
-	bool setupSampling() override { 
+	bool setupSampling() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "setupSampling");
 		if (overload) {
@@ -293,7 +293,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"PhaseSpace::setupSampling\"");
 	}
-	bool trialKin(bool a0, bool a1) override { 
+	bool trialKin(bool a0, bool a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "trialKin");
 		if (overload) {
@@ -306,7 +306,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"PhaseSpace::trialKin\"");
 	}
-	bool finalKin() override { 
+	bool finalKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "finalKin");
 		if (overload) {
@@ -319,7 +319,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"PhaseSpace::finalKin\"");
 	}
-	double sigmaSumSigned() const override { 
+	double sigmaSumSigned() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "sigmaSumSigned");
 		if (overload) {
@@ -332,7 +332,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhaseSpace::sigmaSumSigned();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "isResolved");
 		if (overload) {
@@ -345,7 +345,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhaseSpace::isResolved();
 	}
-	void rescaleSigma(double a0) override { 
+	void rescaleSigma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "rescaleSigma");
 		if (overload) {
@@ -358,7 +358,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhaseSpace::rescaleSigma(a0);
 	}
-	void rescaleMomenta(double a0) override { 
+	void rescaleMomenta(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "rescaleMomenta");
 		if (overload) {
@@ -371,7 +371,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhaseSpace::rescaleMomenta(a0);
 	}
-	double weightGammaPDFApprox() override { 
+	double weightGammaPDFApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "weightGammaPDFApprox");
 		if (overload) {
@@ -384,7 +384,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhaseSpace::weightGammaPDFApprox();
 	}
-	void setGammaKinPtr(class Pythia8::GammaKinematics * a0) override { 
+	void setGammaKinPtr(class Pythia8::GammaKinematics * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "setGammaKinPtr");
 		if (overload) {
@@ -397,7 +397,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhaseSpace::setGammaKinPtr(a0);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -410,7 +410,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "onBeginEvent");
 		if (overload) {
@@ -423,7 +423,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "onEndEvent");
 		if (overload) {
@@ -436,7 +436,7 @@ struct PyCallBack_Pythia8_PhaseSpace : public Pythia8::PhaseSpace {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhaseSpace *>(this), "onStat");
 		if (overload) {

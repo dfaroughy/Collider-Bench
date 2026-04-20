@@ -7,7 +7,7 @@ DOTF = %.f
 
 # I wish I would do that but Olivier would kill me
 #FFLAGS = -ffree-form -ffree-line-length-300
-FFLAGS = -g 
+FFLAGS = -g
 
 SOURCE = DiscreteSampler.o StringCast.o tester.o
 

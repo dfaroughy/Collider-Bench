@@ -6,7 +6,7 @@ file generated with POWHEG-BOX version 1.0
 !Single vector boson production parameters
 idvecbos  24   ! PDG code for vector boson to be produced ( W+:24 W-:-24 )
 vdecaymode 1      !(1:electronic decay, 2: muonic decay, 3: tauonic decay)
- 
+
 numevts 623
 ih1   1          ! hadron 1 (1 for protons, -1 for antiprotons)
 ih2   1          ! hadron 2 (1 for protons, -1 for antiprotons)
@@ -17,7 +17,7 @@ ebeam2 3500d0    ! energy of beam 2
 ! To be set only if using LHA pdfs
 lhans1  10050    ! pdf set for hadron 1 (LHA numbering)
 lhans2  10050    ! pdf set for hadron 2 (LHA numbering)
- 
+
 ncall1 12000   ! number of calls for initializing the integration grid
 itmx1    5     ! number of iterations for initializing the integration grid
 ncall2 20000   ! number of calls for computing the integral and finding upper bound
@@ -29,22 +29,22 @@ nubound 20000  ! number of bbarra calls to setup norm of upper bounding function
 icsimax  1     ! <= 100, number of csi subdivision when computing the upper bounds
 iymax    1     ! <= 100, number of y subdivision when computing the upper bounds
 xupbound 2d0   ! increase upper bound for radiation generation
- 
+
 ############################################################################
- 
+
 ! W production
- 
+
 # Default
- 
+
 withdamp  0
 ptsqmin 0.8
 withnegweights 0
 hfact 0
- 
+
 # Integration grids
 use-old-grid    0
 use-old-ubound  0
- 
+
 # Use fixed scales
 runningscale 0
 runningscales 0
@@ -57,14 +57,14 @@ renscfact 2.26836
 btlscalereal 1
 btlscalect 1
 ckkwscalup 0
- 
+
 masswindow_low  5d0
 masswindow_high 5d0
 *** Input file for wm events was: ***
 !Single vector boson production parameters
 idvecbos -24   ! PDG code for vector boson to be produced ( W+:24 W-:-24 )
 vdecaymode 1      !(1:electronic decay, 2: muonic decay, 3: tauonic decay)
- 
+
 numevts 427
 ih1   1           ! hadron 1 (1 for protons, -1 for antiprotons)
 ih2   1           ! hadron 2 (1 for protons, -1 for antiprotons)
@@ -75,7 +75,7 @@ ebeam2 3500d0     ! energy of beam 2
 ! To be set only if using LHA pdfs
 lhans1  10050     ! pdf set for hadron 1 (LHA numbering)
 lhans2  10050     ! pdf set for hadron 2 (LHA numbering)
- 
+
 ncall1 12000   ! number of calls for initializing the integration grid
 itmx1    5     ! number of iterations for initializing the integration grid
 ncall2 20000   ! number of calls for computing the integral and finding upper bound
@@ -87,20 +87,20 @@ nubound 2000   ! number of bbarra calls to setup norm of upper bounding function
 icsimax  1     ! <= 100, number of csi subdivision when computing the upper bounds
 iymax    1     ! <= 100, number of y subdivision when computing the upper bounds
 xupbound 2d0   ! increase upper bound for radiation generation
- 
+
 ############################################################################
- 
+
 ! W production
- 
+
 withdamp  0
 ptsqmin 0.8
 withnegweights 0
 hfact 0
- 
+
 # Integration grids
 use-old-grid    0
 use-old-ubound  0
- 
+
 # Use fixed scales
 runningscale 0
 runningscales 0
@@ -113,7 +113,7 @@ renscfact 2.26836
 btlscalereal 1
 btlscalect 1
 ckkwscalup 0
- 
+
 masswindow_low  5d0
 masswindow_high 5d0
 *** End of input files ***

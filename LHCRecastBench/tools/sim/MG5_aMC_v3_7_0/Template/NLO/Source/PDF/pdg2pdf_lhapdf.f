@@ -25,7 +25,7 @@ c     Based on pdf.f, wrapper for calling the pdf of MCFM
 c     ih is now signed <0 for antiparticles
 c     if ih<0 does not have a dedicated pdf, then the one for ih>0 will be called
 c     and the sign of ipdg flipped accordingly.
-c      
+c
 c     ibeam is the beam identity 1/2
 c      if set to -1/-2 it meand that ipdg should not be flipped even if ih<0
 c      usefull for re-weighting
@@ -40,7 +40,7 @@ C
 C     Include
 C
       include 'pdf.inc'
-C      
+C
       integer i,j,ihlast(20),ipart,iporg,ireuse,imemlast(20),iset,imem
      &     ,i_replace,ii,isetlast(20)
       double precision xlast(20),xmulast(20),pdflast(-7:7,20)
@@ -54,7 +54,7 @@ C
       data i_replace/20/
 
       if (ih.eq.0) then
-c     Lepton collisions (no PDF). 
+c     Lepton collisions (no PDF).
          pdg2pdf=1d0
          return
       endif
@@ -74,7 +74,7 @@ c     instead of stopping the code, as this might accidentally happen.
       else
          ipart = ipdg
       endif
-      
+
       if(iabs(ipart).eq.21) then
          ipart=0
       else if(iabs(ipart).eq.22) then
@@ -85,7 +85,7 @@ c     instead of stopping the code, as this might accidentally happen.
 c     This will be called for any PDG code, but we only support up to 7
 C         write(*,*) 'PDF not supported for pdg ',ipdg
 C         write(*,*) 'For lepton colliders, please set the lpp* '//
-C     $    'variables to 0 in the run_card'  
+C     $    'variables to 0 in the run_card'
 C         open(unit=26,file='../../../error',status='unknown')
 C         write(26,*) 'Error: PDF not supported for pdg ',ipdg
 C         stop 1
@@ -125,7 +125,7 @@ c     Reuse previous result, if possible
       if (ireuse.gt.0) then
          if (pdflast(iporg,ireuse).ne.-99d9) then
             pdg2pdf=pdflast(iporg,ireuse)
-            return 
+            return
          endif
       endif
 
@@ -144,4 +144,3 @@ c
       pdg2pdf=pdflast(ipart,i_replace)
       return
       end
-

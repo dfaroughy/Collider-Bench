@@ -34,7 +34,7 @@ C----------------------------------------------------------------------
       integer j,kk,l,i
       PARAMETER (PI=3.14159265358979312D0)
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -105,7 +105,7 @@ c *average* to the total cross section, so no extra weight needed
       xnorm=1d3
 c Collect accumulated results
       call finalize_histograms(nevhep)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)
@@ -175,7 +175,7 @@ C INITIALIZE
             CALL HWVSUM(4,PHEP(1,IHEP),PSUM,PSUM)
             ICHSUM=ICHSUM+ICHRG(IDHW(IHEP))
          ENDIF
-         IST=ISTHEP(IHEP)      
+         IST=ISTHEP(IHEP)
          ID=IDHEP(IHEP)
          ID1=IHADR(ID) ! equal to the PDG of the massive quark in hadron
 C TOP
@@ -184,7 +184,7 @@ C TOP
               P_TOP(MU,1)=PHEP(MU,IHEP)
            ENDDO
         ENDIF
-c Define particles that go into jet. 
+c Define particles that go into jet.
         IF (IST.EQ.1.AND.ABS(ID).GE.100)THEN
            NTRACKS=NTRACKS+1
            if (abs(id1).eq.5) THEN
@@ -223,12 +223,12 @@ C CHECK MOMENTUM AND CHARGE CONSERVATION
          WRITE(*,*) 'NO TRACKS FOUND, DROP ANALYSIS OF THIS EVENT'
          GOTO 999
       ENDIF
-         
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C KT ALGORITHM, FASTJET IMPLEMENTATION
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       NJET=0
-      JET_KTRADIUS = 0.7D0          
+      JET_KTRADIUS = 0.7D0
       JET_KTPTMIN  = 5D0
       PALG=1D0
       CALL fastjetppgenkt(PTRACK,NTRACKS,JET_KTRADIUS,JET_KTPTMIN,PALG,
@@ -241,8 +241,8 @@ c Check that jets are ordered in pt
             stop
          endif
       enddo
-         
-C b-jet 
+
+C b-jet
       do i=1,njet
          is_b_jet(i)=.false.
          do j=1,NB
@@ -327,7 +327,7 @@ c fill the histograms
                call HwU_fill(l+20,etabj2,WWW)
             endif
          enddo
-         call HwU_add_points      
+         call HwU_add_points
  999  RETURN
       END
 
@@ -440,5 +440,3 @@ C
       ENDIF
       RETURN
       END
-
-

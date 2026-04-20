@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -21,7 +21,7 @@
 module avh_olo_forIREGI_dilog
 !***********************************************************************
 !                     /1    ln(1-zz*t)
-!   dilog(xx,iph) = - |  dt ---------- 
+!   dilog(xx,iph) = - |  dt ----------
 !                     /0        t
 ! with  zz = 1 - xx*exp(imag*pi*iph)  [pi, NOT 2*pi]
 !
@@ -105,7 +105,7 @@ contains
     if (ntrm(ii,prcpar).le.2) then
       do jj=1,ii
         ntrm(jj,prcpar) = max(2,ntrm(ii,prcpar))
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif
@@ -202,7 +202,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   r_gt_1 = (rex*rex+imx*imx.gt.RONE)
   lyy = log(yy)
   if (odd.ne.0) yy = -yy
@@ -221,7 +221,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -269,7 +269,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   if (yy.eq.RONE.and.odd.eq.0) then
     if (ntwo.ne.0) then
       if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop dilog_r: ' &
@@ -299,7 +299,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -654,7 +654,7 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 
   function sumterms_r( z1,z2 ) result(rslt)
@@ -690,6 +690,6 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 end module

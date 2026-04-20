@@ -66,7 +66,7 @@ c   This subroutine generates the momenta associated to visible particles
 c
 c   inputs   1. x(20): random number given by Vegas
 c
-c   outputs  
+c   outputs
 c            1. jac_visible: jacobian for the generation of visible momenta
 c            2. n_var: dimension of the subspace associated to visible particles
 c
@@ -154,7 +154,7 @@ c         if width is positive, generate the component
 
             jac_visible=jac_visible*jac_temp
             if (jac_temp.le.0d0) then
-              jac=-1d0 
+              jac=-1d0
               return
             endif
 
@@ -208,8 +208,8 @@ c
       subroutine get_component(c_point,gam,x,gen_point,jac,var_num,Emax)
 c******************************************************************************
 c
-c     This subroutine gets the value of gen_point (PT,phi or y) 
-c     from uniform variable x and gives the jacobian of the transformation. 
+c     This subroutine gets the value of gen_point (PT,phi or y)
+c     from uniform variable x and gives the jacobian of the transformation.
 c     If uniform = false, gen_point is generated according to a Breit Wigner
 c     arount c_point,  with width gam.
 c
@@ -266,7 +266,7 @@ c     var_num=1 means that we generate a theta
 
        gen_point=(point_max-point_min)*x+point_min
 
-c     var_num=2 means that we generate a phi (note that phi is a cyclic variable) 
+c     var_num=2 means that we generate a phi (note that phi is a cyclic variable)
       elseif(var_num.eq.2) then
 
       if(gam.lt.(2d0*pi/10).and.gam.gt.0d0) then
@@ -363,15 +363,15 @@ c**************************************************************
 
       subroutine generate_propa(x,n_var)
 c******************************************************************************
-c     This subroutine generates the invariant masses mapped onto variable of integration 
+c     This subroutine generates the invariant masses mapped onto variable of integration
 c******************************************************************************
       implicit none
 c
       include 'phasespace.inc'
       include 'nexternal.inc'
-      include 'data.inc' 
-      include 'coupl.inc' 
-      include 'madweight_param.inc' 
+      include 'data.inc'
+      include 'coupl.inc'
+      include 'madweight_param.inc'
 c
 c     argument
 c
@@ -473,7 +473,7 @@ c     lower bound
 
       Double Precision function  Breit_Wigner_for_part(MG_num,M,W)
 C-------------------------------------------------------
-C     Retruns the Breit-Wigner weight for resonance MG_num              
+C     Retruns the Breit-Wigner weight for resonance MG_num
 C-------------------------------------------------------
       implicit none
 C
@@ -486,7 +486,7 @@ C     argument
 C
       integer MG_num            !MG number of the propagator
       double precision M,W      !Mass and Width
-C      
+C
 C     global
 C
       include 'phasespace.inc'
@@ -495,11 +495,11 @@ C
       double precision momenta(0:3,-max_branches:2*max_particles)
       double precision mvir2(-max_branches:2*max_particles)
       common/to_diagram_kin/momenta,mvir2
-C     
+C
 C     local
 C
       double precision E,pp2
-      
+
       E=momenta(0,MG_num)
       pp2=momenta(1,MG_num)**2+momenta(2,MG_num)**2+momenta(3,MG_num)**2
       Breit_Wigner_for_part=(E**2-pp2-M**2)**2+M**2*W**2
@@ -514,7 +514,7 @@ c     Normalisation for the measure d(sqrts)  (and not ds)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c                                                                          c
 c    IN THIS FILE, THE USER CAN DEFINE A SMEARING FUNCTION FOR THE         c
-c    THE RECONSTRUCTED MISSING ENERGY, AND ADJUST THE WEIGHT               c 
+c    THE RECONSTRUCTED MISSING ENERGY, AND ADJUST THE WEIGHT               c
 c                                                                          c
 c    By default, the transfer function is a delta function                 c
 C                                                                          c
@@ -534,7 +534,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       double precision  missPhi_EXP, missPT_EXP
       common /to_missEXP/  missPhi_EXP, missPT_EXP
- 
+
       double precision pxISR, pyISR
       common /to_ISR/  pxISR, pyISR
 
@@ -543,7 +543,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       double precision px_visible,py_visible
       common /to_pTrec_visible/px_visible,py_visible
-c     I. first define the transfer function, smear the information 
+c     I. first define the transfer function, smear the information
 c           (by default: TF= delta)
 
       misspx_reco=missPT_EXP*dcos(missPhi_EXP)
@@ -552,15 +552,15 @@ c           (by default: TF= delta)
       call smear_missing_reco(misspx_reco,misspy_reco,weight)
 
 c     II. Now define the transverse momentum associated with the ISR
-c          = -pT_miss_reco - [ sum (pT of visible particles) ] 
+c          = -pT_miss_reco - [ sum (pT of visible particles) ]
 c
-      pxISR =-misspx_reco -px_visible 
+      pxISR =-misspx_reco -px_visible
       pyISR =-misspy_reco -py_visible
 c      Note that the last two equalities hold in the case (.not. ISR .and. num_inv.eq.0)
 
-c     III. Finally: the values in the variables misspx, misspy are matched 
-c          to -px(neutrinos) and -pz(neutrinos) later on in the code, so 
-c          these variables should be shifted by px_ISR and py_ISR  
+c     III. Finally: the values in the variables misspx, misspy are matched
+c          to -px(neutrinos) and -pz(neutrinos) later on in the code, so
+c          these variables should be shifted by px_ISR and py_ISR
 c
 c         Note that [ sum (pT of visible particles) ] = (-misspx, -misspy)
 c         in the code

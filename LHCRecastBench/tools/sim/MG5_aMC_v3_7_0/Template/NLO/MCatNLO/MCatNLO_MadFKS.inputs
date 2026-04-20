@@ -8,7 +8,7 @@ source banner.dat
 HWPATH="../srcHerwig"
 PYPATH="../srcPythia"
 
-# SHOWER VERSIONS 
+# SHOWER VERSIONS
 HERWIGVER="herwig6521.o"
 PYTHIAVER="pythia6428.o"
 

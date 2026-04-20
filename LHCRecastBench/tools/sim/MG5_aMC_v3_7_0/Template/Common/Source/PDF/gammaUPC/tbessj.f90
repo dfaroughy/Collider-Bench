@@ -24,7 +24,7 @@
       REAL*8 FUNCTION ZEROJP(N,K)
 !--------------------------------------------------------------------
 !     CALCULATE THE Kth ZERO OF THE DERIVATIVE OF BESSEL FUNCTION
-!     OF ORDER N, J(N,X) 
+!     OF ORDER N, J(N,X)
 !--------------------------------------------------------------------
 !     CALLING MODE:
 !       RES = ZEROJP(N,K)
@@ -44,7 +44,7 @@
       DATA TOL/1.D-7/,NITMX/15/
       DATA C1,C2,C3,C4 /0.8086165D0,0.072490D0,.05097D0,.0094D0/
       DATA IMPROV/.TRUE./
-      
+
       PI = 4.d0*ATAN(1.d0)
 
         FN = DFLOAT(N)
@@ -127,7 +127,7 @@
 !                          MODULE BESSJP                               .
 ! ......................................................................
 !
-!    THIS SUBROUTINE CALCULATES THE FIRST DERIVATIVE OF FIRST KIND BESSEL 
+!    THIS SUBROUTINE CALCULATES THE FIRST DERIVATIVE OF FIRST KIND BESSEL
 !    FUNCTION OF ORDER N, FOR REAL X.
 !                                                                     .
 ! ......................................................................
@@ -140,9 +140,9 @@
 !
 !      BESSJP    R*8           FUNCTION EVALUATION AT X                        .
 !.......................................................................
-!    CALLED SUBROUTINE                                                  
+!    CALLED SUBROUTINE
 !
-!      BESSJ     FIRST KIND BESSEL FUNCTION                            
+!      BESSJ     FIRST KIND BESSEL FUNCTION
 !
 ! ----------------------------------------------------------------------
       DOUBLE PRECISION X,BESSJP,BESSJ
@@ -161,7 +161,7 @@
 !     This subroutine calculates the first kind modified Bessel function
 !     of integer order N, for any REAL X. We use here the classical
 !     recursion formula, when X > N. For X < N, the Miller's algorithm
-!     is used to avoid overflows. 
+!     is used to avoid overflows.
 !     REFERENCE:
 !     C.W.CLENSHAW, CHEBYSHEV SERIES FOR MATHEMATICAL FUNCTIONS,
 !     MATHEMATICAL TABLES, VOL.5, 1962.
@@ -278,7 +278,7 @@
       .2457520174D-5,-.240337019D-6 /,P6 /.636619772D0 /
       DATA Q1,Q2,Q3,Q4,Q5 /.04687499995D0,-.2002690873D-3,   &
       .8449199096D-5,-.88228987D-6,.105787412D-6 /
-      DATA R1,R2,R3,R4,R5,R6 /72362614232.D0,-7895059235.D0, & 
+      DATA R1,R2,R3,R4,R5,R6 /72362614232.D0,-7895059235.D0, &
       242396853.1D0,-2972611.439D0,15704.48260D0,-30.16036606D0 /
       DATA S1,S2,S3,S4,S5,S6 /144725228442.D0,2300535178.D0, &
       18583304.74D0,99447.43394D0,376.9991397D0,1.D0 /

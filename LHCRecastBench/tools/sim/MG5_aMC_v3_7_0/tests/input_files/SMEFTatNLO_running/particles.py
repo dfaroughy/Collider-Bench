@@ -384,4 +384,3 @@ G__plus__ = Particle(pdg_code = 251,
                      Y = 0)
 
 G__minus__ = G__plus__.anti()
-

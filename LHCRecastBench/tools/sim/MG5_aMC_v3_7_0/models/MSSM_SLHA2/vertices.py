@@ -4940,4 +4940,3 @@ V_822 = Vertex(name = 'V_822',
                color = [ 'Identity(3,4)' ],
                lorentz = [ L.VVSS1 ],
                couplings = {(0,0):C.GC_338})
-

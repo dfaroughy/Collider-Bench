@@ -62,7 +62,7 @@ Event pull down menu, selected the Event Tree option. More help on \
 node or track selection in those display is available in the Help pull down \
 menu.", 0, 0},
 
-mainP = {"Main Panel", 'P', True, HELP_TEXT, 
+mainP = {"Main Panel", 'P', True, HELP_TEXT,
 "\n The main panel of this window graphically describes the kinematics \
 of the event. On the left, a few buttons to select which type of tracks \
 are on display and to control the appearance of the plot. On the right, \
@@ -82,10 +82,10 @@ viewing angle of the 3D display. The top part sets various rotation angles, \
 the left-bottom part, zooming. The right-bottom button allows you to get \
 back to the default viewing angle ( that is, a bird's eye view of the X-Y \
 plane.\n\n\
-  Known deficiency : No perspective is currently available.",0,0}, 
+  Known deficiency : No perspective is currently available.",0,0},
 /*        1         2         3         4         5         6 */
 /* 3456789012345678901234567890123456789012345678901234567890 */
-  
+
 file = {"File", 'F', False, HELP_TEXT,
 "\nThe File pull-down menu allows you to get the input data and create \
 new anciliary window showing the selected event. It also has the print \
@@ -235,7 +235,7 @@ Track Highlights: \n\
         	  is highlighted. \n\
         - Ancestors : Up to the tree top, all ancestors of \n\
         	  the selected node are highlighted. ",0,0},
-     
+
 trackSel = {"Track & Node Selection",'S', False, HELP_TEXT,
 "\n Further information about tracks or nodes in the tree is available. \
 In fact, all the information in the HEPEVT COMMON block, written in the \
@@ -278,9 +278,9 @@ main panel. If so, resize the window to readjust graphical context ",0,0};
 */
 helpMenuInfo
 
-*MainMenuHelp[] = {&gettingStarted,&mainP, &file, &event, &preferences, 
+*MainMenuHelp[] = {&gettingStarted,&mainP, &file, &event, &preferences,
         &trackSel, NULL};
-        
+
 /*
 **
 ** Similar prose for the Space Display
@@ -321,7 +321,7 @@ node or track selection in those display is available in the Help pull down \
 menu.  The Phase space display is also available from this application.",
  0, 0},
 
-mainSpace = {"Main Panel", 'P', True, HELP_TEXT, 
+mainSpace = {"Main Panel", 'P', True, HELP_TEXT,
 "\n The main panel of this window graphically describes the kinematics in real \
 space. On the left, a few buttons to select which type of tracks \
 are on display and to control the appearance of the plot. On the right, \
@@ -345,10 +345,10 @@ viewing angle of the 3D display. The top part sets various rotation angles, \
 the left-bottom part, zooming. The right-bottom button allows you to get \
 back to the default viewing angle ( that is, a bird's eye view of the X-Y \
 plane.\n\n\
-  Known deficiency : No perspective is currently available.",0,0}, 
+  Known deficiency : No perspective is currently available.",0,0},
 /*        1         2         3         4         5         6 */
 /* 3456789012345678901234567890123456789012345678901234567890 */
-  
+
 fileSpace = {"File", 'F', False, HELP_TEXT,
 "\nThe File pull-down menu allows you to get the input data and create \
 new anciliary window showing the selected event. It also has the print \
@@ -460,7 +460,7 @@ Show Color Code: \n\
      A fictious Tree display can be used to understand the\n\
      crummy color chosen in this application.  Currently, \n\
      this coding is fixed. If you have a better idea and \n\
-     are willing to do the coding, let's talk! ", 0, 0},     
+     are willing to do the coding, let's talk! ", 0, 0},
 /*        1         2         3         4         5         6 */
 /* 3456789012345678901234567890123456789012345678901234567890 */
 
@@ -506,7 +506,7 @@ Track Highlights: \n\
         	  is highlighted. \n\
         - Ancestors : Up to the tree top, all ancestors of \n\
         	  the selected node are highlighted. ",0,0},
-     
+
 trackSelSpace = {"Track & Node Selection",'S', False, HELP_TEXT,
 "\n Further information about tracks or nodes in the tree is available. \
 In fact, all the information in the HEPEVT COMMON block, written in the \
@@ -551,7 +551,7 @@ helpMenuInfo
 */
 
 static helpMenuInfo
-                         
+
 gettingStartedPara = {"Getting Started", 'G', True,  HELP_TEXT,
 "\n The Eta-Pt ( e.g. rapidity - transverse plane ) 3-D plot \
 of the StdHep Display provides an effective way to represent the parton  \
@@ -561,7 +561,7 @@ Phase Space display or the real space display exhibiting detached vertices.  \
 More details on this particular representation is available in the next \
 menu. Thanks to A. Para for suggesting this window.", 0, 0},
 
-mainPPara = {"Main Panel", 'P', True, HELP_TEXT, 
+mainPPara = {"Main Panel", 'P', True, HELP_TEXT,
 "\n The main panel of this window graphically describes the kinematics \
 of the event, in the context of the naive parton model. Along the \
 Z (beam) axis, the rapidity, on the X-Y plane, the transverse momentum. \
@@ -584,9 +584,8 @@ viewing angle of the 3D display. The top part sets various rotation angles, \
 the left-bottom part, zooming. The right-bottom button allows you to get \
 back to the default viewing angle ( that is, a bird's eye view of the X-Y \
 plane.\n\n\
-  Known deficiency : No perspective is currently available.",0,0}; 
+  Known deficiency : No perspective is currently available.",0,0};
 
 helpMenuInfo
 
 *MainMenuHelpPara[] = {&gettingStartedPara, &mainPPara, NULL};
-  

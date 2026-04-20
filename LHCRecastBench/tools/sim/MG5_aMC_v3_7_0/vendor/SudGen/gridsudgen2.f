@@ -29,14 +29,14 @@ c When inode=1:
 c values of grid nodes: Q(j), 1<=j<=jmax, Q being either st or xm
 c (or their squares if need be). They are defined as follows:
 c   Q(j) = b^[ Q0*(j/jmax)^k - alpha ]
-c and by imposing 
+c and by imposing
 c   Q(1)    = Qmin
 c   Q(jmax) = Qmax
 c with Qmin and Qmax given. These imply the following consistency relations:
 c   alpha*log(b)*(jmax^k-1) = log(Qmax) - jmax^k*log(Qmin)
 c   Q0 = alpha + log(Qmax)/log(b)
 c These are best exploited by choosing k, jmax, and b, and thus solving
-c for alpha and Q0. 
+c for alpha and Q0.
 c At given k and jmax, the values of the grid nodes are independent
 c of b. Thus, we can just choose b=10 or b=e. Consider that:
 c  - more points towards Qmin -> increase k
@@ -68,7 +68,7 @@ c
       real*8 stlow,stupp,xmlow,xmupp,alst,q0st,alxm,q0xm,stval,xmval,
      $     stmax,stbound,qnodeval,qnodeval2,qnodeval3,aux1_qnode3
      $     ,kernelC,grids_tmp(nnst)
-      
+
       real*8 emission_scales(10000),emission_weights(10000)
       double precision xlowthrs
       integer maxseed,iseed,iseedtopy,ifk88seed
@@ -138,7 +138,7 @@ c Discard first (tends to be extremely small)
       read(*,*) ntrial
       write (*,*) 'enter splitting kernel enhancement'
       read(*,*) kernelC
-      
+
       if(inode.eq.1)then
         call getalq0(nnst,xkst,stlow,stupp,base,alst,q0st)
         call getalq0(nnxm,xkxm,xmlow,xmupp,base,alxm,q0xm)
@@ -163,7 +163,7 @@ c
             xm(inxm)=qnodeval3(inxm,nnxm,xkxm)
          endif
       enddo
-      
+
 ! setup grid nodes for st
       do inst=1,nnst
          if(inode.eq.1)then
@@ -175,7 +175,7 @@ c
          endif
       enddo
 
-      
+
       do itype=itype_low,itype_upp
          write(*,*)'===>Doing itype=',itype
          do ipart=ipart_low,ipart_upp
@@ -189,7 +189,7 @@ c
                iseed=iseedtopy()
 c     now I have a given itype, ipart and dipole mass
                do itrial=1,ntrial
-                  
+
                   call py_compute_sudakov(emission_scales
      $                 ,emission_weights,xmval,ipmap(ipart),itype
      $                 ,stupp,stlow,kernelC,iseed)
@@ -455,4 +455,3 @@ c
       iseedtopy=itmp
       return
       end
-

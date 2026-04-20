@@ -1,15 +1,15 @@
       SUBROUTINE %(proc_prefix)s%(bunch_name)s_%(bunch_number)d(P,NHEL,H,IC)
-C       
-      use %(proc_prefix)sPOLYNOMIAL_CONSTANTS      
+C
+      use %(proc_prefix)sPOLYNOMIAL_CONSTANTS
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    NCOMB
       PARAMETER (NCOMB=%(ncomb)d)
-  
+
 ## if (not LoopInduced) {
 	  INTEGER NBORNAMPS
       PARAMETER (NBORNAMPS=%(nbornamps)d)
@@ -27,7 +27,7 @@ C
 C     These are constants related to the split orders
       INTEGER    NSO, NSQUAREDSO, NAMPSO
 	  PARAMETER (NSO=%(nSO)d, NSQUAREDSO=%(nSquaredSO)d, NAMPSO=%(nAmpSO)d)
-C  
+C
 C ARGUMENTS
 C
      %(real_mp_format)s P(0:3,NEXTERNAL)
@@ -37,10 +37,10 @@ C
 C LOCAL VARIABLES
 C
 	  INTEGER I,J,K
-	  %(complex_mp_format)s COEFS(MAXLWFSIZE,0:VERTEXMAXCOEFS-1,MAXLWFSIZE)	  
-C  
+	  %(complex_mp_format)s COEFS(MAXLWFSIZE,0:VERTEXMAXCOEFS-1,MAXLWFSIZE)
+C
 C GLOBAL VARIABLES
-C 
+C
       %(include_vector)s
       include 'mp_coupl_same_name.inc'
 
@@ -50,14 +50,14 @@ C
 
 	  INTEGER SQSO_TARGET
 	  common/%(proc_prefix)sSOCHOICE/SQSO_TARGET
-      
+
 	  LOGICAL UVCT_REQ_SO_DONE,MP_UVCT_REQ_SO_DONE,CT_REQ_SO_DONE,MP_CT_REQ_SO_DONE,LOOP_REQ_SO_DONE,MP_LOOP_REQ_SO_DONE,CTCALL_REQ_SO_DONE,FILTER_SO
 	  common/%(proc_prefix)sSO_REQS/UVCT_REQ_SO_DONE,MP_UVCT_REQ_SO_DONE,CT_REQ_SO_DONE,MP_CT_REQ_SO_DONE,LOOP_REQ_SO_DONE,MP_LOOP_REQ_SO_DONE,CTCALL_REQ_SO_DONE,FILTER_SO
 
 ## if(not LoopInduced) {
 	  %(complex_mp_format)s AMP(NBORNAMPS)
 	  common/%(proc_prefix)sMP_AMPS/AMP
-## }	  
+## }
 	  %(complex_mp_format)s W(20,NWAVEFUNCS)
 	  common/%(proc_prefix)sMP_W/W
 
@@ -69,7 +69,7 @@ C
       %(complex_mp_format)s AMPL(3,NCTAMPS)
 ## } else {
       %(complex_mp_format)s AMPL(3,NLOOPAMPS)
-## } 
+## }
 	  common/%(proc_prefix)sMP_AMPL/AMPL
 
 C

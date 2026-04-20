@@ -13,7 +13,7 @@ c       real    twidth         : t boson width         W_T
 c
 c output:
 c       complex tc(18)        : tensor               KK mode T
-c     
+c
       implicit none
       double complex wm(18), wp(18), tc(18),g(2)
       double precision  tmass,twidth,vmass

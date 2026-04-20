@@ -78,7 +78,7 @@ C...         u and d have opposite definitions
 C...         charmed and top mesons have wrong sign
           if(IS3.EQ.4 .AND. IS2.NE.4) istran=-istran
           if(IS3.EQ.6 .AND. IS2.NE.6 .AND. IS2.NE.4) istran=-istran
-C...    
+C...
 	  if(ida.eq.112) istran=isign(225,ID)
 	  if(ida.eq.10110) istran=isign(9010221,ID)
 	  if(ida.eq.10111) istran=isign(20113,ID)
@@ -138,7 +138,7 @@ C...         u and d have opposite definitions
 C... ion
       elseif(KQN.eq.1) then
         write(ITLIS,*) ' ISTRAN 2: ion is not allowed'
-C...SUSY 
+C...SUSY
       elseif(KSUSY.eq.1 .or. KSUSY.eq.2) then
 	if(ida.eq.1000001) istran=isign(22,ID)
 	if(ida.eq.1000002) istran=isign(21,ID)
@@ -207,7 +207,7 @@ C...         u and d have opposite definitions
 C...         charmed and top mesons have wrong sign
           if(I2.EQ.4 .AND. I1.NE.4) istran=-istran
           if(I2.EQ.6 .AND. I1.NE.6 .AND. I1.NE.4) istran=-istran
-C...    
+C...
 	  if(ida.eq.225) istran=isign(112,ID)
 	  if(ida.eq.10221) istran=0
 	  if(ida.eq.9010221) istran=isign(10110,ID)

@@ -24,7 +24,7 @@ c
 cc
       include 'run.inc'
       include 'coupl.inc'
-      
+
 c     Vegas stuff
       integer         nndim
       common/tosigint/nndim
@@ -55,7 +55,7 @@ c     Vegas stuff
       logical Hevents
       common/SHevents/Hevents
       character*10 dum
-c statistics for MadLoop      
+c statistics for MadLoop
       integer ntot,nsun,nsps,nups,neps,n100,nddp,nqdp,nini,n10,n1(0:9)
       common/ups_stats/ntot,nsun,nsps,nups,neps,n100,nddp,nqdp,nini,n10,n1
 
@@ -85,7 +85,7 @@ C  BEGIN CODE
 C-----
 c Write the process PID in the log.txt files (i.e., to the screen)
       write (*,*) getpid()
-      
+
       useitmax=.false. ! to be overwritten in open_output_files.f if need be
 c
 c     Setup the timing variable
@@ -105,7 +105,7 @@ c
          virtual_fraction(kchan)=max(virt_fraction,min_virt_fraction)
       enddo
       n_ord_virt=amp_split_size
-      
+
 c
 c     Read process number
 c
@@ -127,15 +127,15 @@ c
       do i=0,9
         n1(i)=0
       enddo
-      
+
       call setrun                !Sets up run parameters
       call setpara('param_card.dat')   !Sets up couplings and masses
       call setcuts               !Sets up cuts and particle masses
       call printout              !Prints out a summary of paramaters
       call run_printout          !Prints out a summary of the run settings
       call fill_configurations_common
-      call check_amp_split 
-c     
+      call check_amp_split
+c
 c     Get user input
 c
       write(*,*) "getting user params"
@@ -187,7 +187,7 @@ c     Prepare the MINT folding
       ifold_energy=ndim-2
       ifold_yij=ndim-1
       ifold_phi=ndim
-c      
+c
       i_momcmp_count=0
       xratmax=0.d0
       unwgt=.false.
@@ -273,7 +273,7 @@ c
       write(*,*) 'Time spent in MCsubtraction : ',t_MC_subt
       write(*,*) 'Time spent in Counter_terms : ',tCount
       write(*,*) 'Time spent in Integrated_CT : ',tIS-tOLP
-      write(*,*) 'Time spent in Virtuals : ',tOLP      
+      write(*,*) 'Time spent in Virtuals : ',tOLP
       write(*,*) 'Time spent in FxFx_cluster : ',tFxFx
       write(*,*) 'Time spent in Nbody_prefactor : ',tf_nb
       write(*,*) 'Time spent in N1body_prefactor : ',tf_all
@@ -331,7 +331,7 @@ c timing statistics
       data t_coupl/0.0/
       end
 
-      
+
       double precision function sigint(xx,vegas_wgt,ifl,f)
       use weight_lines
       use extra_weights
@@ -419,7 +419,7 @@ c PineAPPL
       call get_MC_integer(max(ini_fin_fks(ichan),1)
      $     ,ini_fin_fks_map(ini_fin_fks(ichan),0),iran_picked,vol)
       nFKS_picked=ini_fin_fks_map(ini_fin_fks(ichan),iran_picked)
-      
+
 c The nbody contributions
       if (abrv.eq.'real') goto 11
       nbody=.true.
@@ -469,7 +469,7 @@ c The n+1-body contributions (including counter terms)
 
       do i=nFKS_min,nFKS_max
          iFKS=ini_fin_fks_map(ini_fin_fks(ichan),i)
-         calculatedBorn=.false. 
+         calculatedBorn=.false.
          ! MZ this is a temporary fix for processes without
          ! soft singularities associated to the initial state
          ! DO NOT extend this fix to event generation
@@ -511,7 +511,7 @@ c The n+1-body contributions (including counter terms)
             call compute_real_emission(p,1d0)
          endif
       enddo
-      
+
  12   continue
 c Include PDFs and alpha_S and reweight to include the uncertainties
       if (ickkw.eq.-1) call include_veto_multiplier
@@ -525,7 +525,7 @@ c Include the bias weight specified in the bias_weight_function
          if (do_rwgt_scale .and. ickkw.eq.-1) call reweight_scale_NNLL
          if (do_rwgt_pdf) call reweight_pdf
       endif
-      
+
       if (pineappl) then
          if (sum) then
             write (*,*) 'ERROR: PineAPPL only possible '/
@@ -565,7 +565,7 @@ c Finalize PS point
       call setfksfactor(.false.)
       return
       end
-      
+
       subroutine setup_ini_fin_FKS_map(ini_fin_FKS_map)
       implicit none
       include 'nexternal.inc'
@@ -609,7 +609,7 @@ c
          firsttime=.false.
          do iFKS=1,fks_configs
             nFKSprocessBorn(iFKS)=0
-            if ( need_color_links_D(iFKS) .or. 
+            if ( need_color_links_D(iFKS) .or.
      &           need_charge_links_D(iFKS) )then
                nFKSprocessBorn(iFKS)=iFKS
             endif

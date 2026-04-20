@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2011 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -33,7 +33,7 @@ import models.check_param_card as writter
 
 class TestBlock(unittest.TestCase):
     """Check the class linked to a block of the param_card"""
-    
+
     def test_block_load_string(self):
         """test that we recognize the different syntax"""
 
@@ -42,21 +42,21 @@ class TestBlock(unittest.TestCase):
         b.load_str(text)
         self.assertEqual(b.name, 'sminputs')
         self.assertEqual(b.scale, None)
-        
+
         text = """Block SMINPUTS # Q=1 #"""
         b = writter.Block()
         b.load_str(text)
         self.assertEqual(b.name, 'sminputs')
-        self.assertEqual(b.scale, None)       
-        
+        self.assertEqual(b.scale, None)
+
         text = """Block SMINPUTS  Q=1 #"""
         b = writter.Block()
         b.load_str(text)
         self.assertEqual(b.name, 'sminputs')
-        self.assertEqual(b.scale, 1) 
-        
+        self.assertEqual(b.scale, 1)
+
     def test_block_str(self):
-        """check that we can write correctly the block"""    
+        """check that we can write correctly the block"""
 
         text = """Block SMINPUTS  Q=1 # test"""
         b = writter.Block()
@@ -72,25 +72,25 @@ BLOCK SMINPUTS Q= 1.000000e+00 #  test
 
     def test_block_append_remove(self):
         """check if we can safely add a parameter"""
-        
+
         text = """Block SMINPUTS  Q=1 # test"""
         b = writter.Block()
         b.load_str(text)
-        
+
         b.append(writter.Parameter(block='sminputs', lhacode=[1,2], value=3))
         b.append(writter.Parameter(block='sminputs', lhacode=[1], value=4))
 
         self.assertEqual(len(b),2)
         self.assertRaises(AssertionError, b.append, writter.Parameter(block='other'))
-                         
-        self.assertRaises(writter.InvalidParamCard, 
+
+        self.assertRaises(writter.InvalidParamCard,
            b.append, writter.Parameter(block='sminputs', lhacode=[1,2], value=9))
         self.assertEqual(len(b),2)
-        
-        
+
+
         b.remove([1,2])
         self.assertEqual(len(b),1)
-        self.assertEqual(list(b.param_dict.keys()),[(1,)])               
+        self.assertEqual(list(b.param_dict.keys()),[(1,)])
 
 
 class TestParamCard(unittest.TestCase):
@@ -100,9 +100,9 @@ class TestParamCard(unittest.TestCase):
         """ test that we can modify a param card """
 
         full_card = os.path.join(_file_path, os.path.pardir,
-                                     'input_files', 'param_card_sm.dat')        
+                                     'input_files', 'param_card_sm.dat')
         card = writter.ParamCard(full_card)
-        
+
         self.assertFalse(card.has_param('mass', [999]))
         self.assertFalse(card.has_param('new', [24]))
         self.assertFalse(card.has_param('new', [23]))
@@ -113,48 +113,48 @@ class TestParamCard(unittest.TestCase):
         self.assertFalse(card.has_param('new', [23]))
         card.copy_param('mass',[23], 'new')
         card.copy_param('mass',[23], lhacode=[999])
-        
+
         self.assertEqual(len(card['new']), 2)
-        self.assertTrue(card.has_param('mass', [999]))                        
+        self.assertTrue(card.has_param('mass', [999]))
         self.assertTrue(card.has_param('new', [24]))
         self.assertTrue(card.has_param('new', [23]))
         self.assertTrue(card.has_param('mass', [23]))
-        
+
         card.remove_param('new', [23])
         card.remove_param('new', [24])
         card.remove_param('mass',[999])
-        
+
         self.assertFalse(card.has_param('mass', [999]))
         self.assertFalse(card.has_param('new', [24]))
         self.assertFalse(card.has_param('new', [23]))
         self.assertTrue(card.has_param('mass', [23]))
-        
+
         self.assertNotIn('new', list(card.keys()))
-        
+
         card.mod_param('mass', [23], 'new', [25], 43)
         card.mod_param('decay', [23], 'new', [26], 43)
-        
+
         self.assertEqual(len(card['new']), 2)
-        self.assertTrue(card.has_param('new', [25]))                        
+        self.assertTrue(card.has_param('new', [25]))
         self.assertTrue(card.has_param('new', [26]))
         self.assertFalse(card.has_param('new', [23]))
         self.assertFalse(card.has_param('mass', [23]))
         self.assertEqual(card['new'].get([25]).value, 43)
-        
+
         card.mod_param('new', [25], 'mass', [23])
-        card.mod_param('new', [26], 'decay', [23])       
-                
+        card.mod_param('new', [26], 'decay', [23])
+
         self.assertNotIn('new', list(card.keys()))
-        
-                
+
+
 
     def test_mod_card(self):
         """ test that we can modify a param card """
 
         full_card = os.path.join(_file_path, os.path.pardir,
-                                     'input_files', 'param_card_sm.dat')        
+                                     'input_files', 'param_card_sm.dat')
         card = writter.ParamCard(full_card)
-        
+
         # Rename the blocks
         mass = card['mass']
         card.rename_blocks({'mass':'polemass','decay':'width'})
@@ -164,63 +164,63 @@ class TestParamCard(unittest.TestCase):
         self.assertNotIn('decay', card)
         self.assertEqual(mass, card['polemass'])
         self.assertEqual(mass.name, 'polemass')
-    
+
         # Change the lhacode of a parameter
         param = card['width'].get([23])
         card.mod_param('width', [23], lhacode=[32])
-        
+
         self.assertRaises(KeyError, card['width'].get, [23])
         self.assertEqual(param, card['width'].get([32]))
         self.assertEqual(param.lhacode, [32])
-        
+
         # change the block of a parameter
         card.mod_param('width', [32], block='mass')
-        
+
         self.assertRaises(KeyError, card['width'].get, [32])
         self.assertEqual(param, card['mass'].get([32]))
         self.assertEqual(param.lhacode, [32])
         self.assertEqual(param.lhablock, 'mass')
-        
-       
+
+
         # change the block of a parameter and lhacode
         card.mod_param('mass', [32], block='polemass', lhacode=[35])
-        
+
         self.assertNotIn('mass', card)
         self.assertRaises(KeyError, card['polemass'].get, [32])
         self.assertRaises(KeyError, card['width'].get, [32])
         self.assertEqual(param, card['polemass'].get([35]))
         self.assertEqual(param.lhacode, [35])
-        self.assertEqual(param.lhablock, 'polemass')        
-        
+        self.assertEqual(param.lhablock, 'polemass')
+
         # change the value / comment
         card.mod_param('polemass', [35], value=2, comment='new')
         self.assertEqual(param.value, 2)
         self.assertEqual(param.comment, 'new')
-        self.assertRaises(writter.InvalidParamCard, card.mod_param, 
+        self.assertRaises(writter.InvalidParamCard, card.mod_param,
                                              *('polemass', [35], 'width', [24]))
-        
-    
-    
-    
+
+
+
+
 class TestParamCardIterator(unittest.TestCase):
     """ Test the ParamCard Object """
-    
+
     def test_paramcard_scan(self):
         full_card = os.path.join(_file_path, os.path.pardir,
-                                     'input_files', 'param_card_sm.dat')        
+                                     'input_files', 'param_card_sm.dat')
         card = writter.ParamCard(full_card)
-        
+
         # create a simple 1D scan
         card['mass'].get(6).value = "scan:[1,2,3,4,5]"
         mh = card['mass'].get(25).value # to check that param_card are independant
-        
+
         itercard = writter.ParamCardIterator(card)
         card['mass'].get(25).value = 25.0
         for i, new_card in enumerate(itercard):
             self.assertEqual(new_card['mass'].get(6).value, i+1)
             self.assertEqual(new_card['mass'].get(25).value, mh)
         self.assertEqual(i, 4)
-        
+
         # create a 1D scan with two parameter
         card['mass'].get(6).value = "scan1:[1,2,3,4,5]"
         card['mass'].get(25).value = "scan1:[0,10,20,30,40]"
@@ -229,7 +229,7 @@ class TestParamCardIterator(unittest.TestCase):
             self.assertEqual(new_card['mass'].get(6).value, i+1)
             self.assertEqual(new_card['mass'].get(25).value, 10*i)
         self.assertEqual(i, 4)
-        
+
         # create a 2D scan with two parameter
         card['mass'].get(6).value = "scan:[1,2,3]"
         card['mass'].get(25).value = "scan:[0,10,20,30]"
@@ -242,29 +242,29 @@ class TestParamCardIterator(unittest.TestCase):
             choice = (new_card['mass'].get(6).value, new_card['mass'].get(25).value)
             self.assertIn(choice, all_possibilities)
             all_possibilities.remove(choice)
-            
-        self.assertEqual(i, 11)                    
+
+        self.assertEqual(i, 11)
         self.assertFalse(all_possibilities)
-        
-         
+
+
 class TestParamCardRule(unittest.TestCase):
     """ Test the ParamCardRule Object"""
-    
+
     def setUp(self):
         """test"""
         self.main = writter.ParamCardRule()
-    
+
     def test_read(self):
         """Check if we can read a file"""
-        
+
         self.main.load_rule(os.path.join(_file_path, os.path.pardir,
                                      'input_files', 'param_card_rule_sm.dat'))
-        
+
         self.assertEqual(2, len(self.main.zero))
         self.assertEqual(self.main.zero,[('Mass', [1], ''), ('Mass', [2], '')])
         self.assertEqual(self.main.one,[('CKM', [1, 1], ''), ('CKM', [2, 2], '')])
         self.assertEqual(self.main.identical,[('Mass', [1], [2], '')])
-        
+
     def test_write(self):
         """Check if we can write a file"""
         self.main.add_zero('mass',[1])
@@ -274,19 +274,19 @@ class TestParamCardRule(unittest.TestCase):
         fsock = StringIO.StringIO()
         self.main.write_file(fsock)
         out = fsock.getvalue()
-        
+
         target = """<file>######################################################################
 ## VALIDITY RULE FOR THE PARAM_CARD   ####
 ######################################################################
 <zero>
-     mass 1 # 
-     mass 2 # 
+     mass 1 #
+     mass 2 #
 </zero>
 <one>
-     mass 3    2 # 
+     mass 3    2 #
 </one>
 <identical>
-     mass 1 : 2 # 
+     mass 1 : 2 #
 </identical>
 <opposite>
 </opposite>
@@ -296,42 +296,42 @@ class TestParamCardRule(unittest.TestCase):
 
         self.assertEqual(out.split('\n'), target.split('\n'))
 
-        
+
     def test_read_write_param_card(self):
         """Test that we can write a param_card from the ParamCard object"""
-        
+
         dict = self.main.read_param_card(os.path.join(_file_path, os.path.pardir,
                                      'input_files', 'restrict_sm.dat'))
-        
+
         solution = {'yukawa': {'[4]': (0.0, 'ymc'),
-                               '[5]': (0.0, 'ymb'), 
-                               '[6]': (164.5, 'ymt'), 
-                               '[15]': (1.777, 'ymtau')}, 
+                               '[5]': (0.0, 'ymb'),
+                               '[6]': (164.5, 'ymt'),
+                               '[15]': (1.777, 'ymtau')},
                     'wolfenstein': {'[1]': (0.0, 'cabi'),
                                     '[2]': (0.0, 'cabi'),
                                     '[3]': (0.0, 'cabi'),
-                                    '[4]': (0.0, 'cabi')}, 
-                    'sminputs': {'[3]': (0.118, 'as'), 
-                                 '[1]': (132.507, 'aewm1'), 
-                                 '[2]': (1.16639e-05, 'gf')}, 
-                    'mass': {'[13]': (0.0, 'mm'), 
-                             '[23]': (91.188, 'mz'), 
-                             '[15]': (1.777, 'mta'), 
-                             '[11]': (0.0, 'me'), 
-                             '[6]': (172.0, 'mt'), 
-                             '[25]': (91.188, 'mh'), 
-                             '[4]': (0.0, 'mc'), 
-                             '[5]': (0.0, 'mb'), }, 
-                    'decay': {'[6]': (0.0, 'wt'), 
-                              '[25]': (2.441404, 'wh'), 
-                              '[24]': (3.0, 'ww'), 
+                                    '[4]': (0.0, 'cabi')},
+                    'sminputs': {'[3]': (0.118, 'as'),
+                                 '[1]': (132.507, 'aewm1'),
+                                 '[2]': (1.16639e-05, 'gf')},
+                    'mass': {'[13]': (0.0, 'mm'),
+                             '[23]': (91.188, 'mz'),
+                             '[15]': (1.777, 'mta'),
+                             '[11]': (0.0, 'me'),
+                             '[6]': (172.0, 'mt'),
+                             '[25]': (91.188, 'mh'),
+                             '[4]': (0.0, 'mc'),
+                             '[5]': (0.0, 'mb'), },
+                    'decay': {'[6]': (0.0, 'wt'),
+                              '[25]': (2.441404, 'wh'),
+                              '[24]': (3.0, 'ww'),
                               '[23]': (2.441404, 'wz')}}
 
 
         for key, item in solution.items():
             for key2, (value, comment) in item.items():
                 self.assertEqual(value, float(dict[key].get(eval(key2)).value))
-       
+
 
         fsock = StringIO.StringIO()
         self.main.write_param_card(fsock, dict)
@@ -343,14 +343,14 @@ class TestParamCardRule(unittest.TestCase):
 ###################################
 ## INFORMATION FOR SMINPUTS
 ###################################
-BLOCK SMINPUTS # 
+BLOCK SMINPUTS #
       1 1.325070e+02 # aewm1
       2 1.166390e-05 # gf
       3 1.180000e-01 # as
 ###################################
 ## INFORMATION FOR MASS
 ###################################
-BLOCK MASS # 
+BLOCK MASS #
       4 0.000000e+00 # mc
       5 0.000000e+00 # mb
       6 1.720000e+02 # mt
@@ -362,7 +362,7 @@ BLOCK MASS #
 ###################################
 ## INFORMATION FOR WOLFENSTEIN
 ###################################
-BLOCK WOLFENSTEIN # 
+BLOCK WOLFENSTEIN #
       1 0.000000e+00 # lamws
       2 0.000000e+00 # aws
       3 0.000000e+00 # rhows
@@ -370,7 +370,7 @@ BLOCK WOLFENSTEIN #
 ###################################
 ## INFORMATION FOR YUKAWA
 ###################################
-BLOCK YUKAWA # 
+BLOCK YUKAWA #
       4 0.000000e+00 # ymc
       5 0.000000e+00 # ymb
       6 1.645000e+02 # ymt
@@ -384,28 +384,28 @@ DECAY 6 0.000000e+00 # wt
       9.900000e-01 2 5 24 # branching ratio
       1.000000e-02 2 3 24 # branching ratio
 
-DECAY 15 0.000000e+00 # 
+DECAY 15 0.000000e+00 #
 DECAY 23 2.441404e+00 # wz
-      1.000000e+00 2 -5 5 # 
+      1.000000e+00 2 -5 5 #
 
 DECAY 24 3.000000e+00 # ww
 DECAY 25 2.441404e+00 # wh
 
 """
 
-        self.assertEqual(target.split('\n'), output.split('\n')) 
+        self.assertEqual(target.split('\n'), output.split('\n'))
         dict = self.main.read_param_card([l+'\n' for l in output.split('\n')])
-        
+
 
         for key, item in solution.items():
             for key2, (value, comment) in item.items():
-                self.assertEqual(value, float(dict[key].get(eval(key2)).value))       
+                self.assertEqual(value, float(dict[key].get(eval(key2)).value))
 
- 
-    
+
+
     def test_load_with_restrict_model(self):
         """ check that the rule are correctly set for a restriction """
-        
+
         # Load a model and a given restriction file
         sm_path = import_ufo.find_ufo_path('sm')
         base_model = import_ufo.import_full_model(sm_path)
@@ -414,34 +414,34 @@ DECAY 25 2.441404e+00 # wh
                                      'input_files', 'restrict_sm.dat')
         base_model.set_parameters_and_couplings(restrict_file)
         base_model.restrict_model(restrict_file)
-        
+
         # Check the information of the CardRule is present and fine:
         self.assertTrue(hasattr(base_model,'rule_card'))
 
 
         target_zero =[('wolfenstein', [1], ''),
-                      ('wolfenstein', [2], ''), 
-                      ('wolfenstein', [3], ''), 
-                      ('wolfenstein', [4], ''), 
-                      ('yukawa', [4], ''), 
-                      ('yukawa', [5], ''), 
-                      ('yukawa', [11], ''), 
-                      ('yukawa', [13], ''), 
-                      ('mass', [4], ''), 
-                      ('mass', [5], ''), 
-                      ('mass', [11], ''), 
-                      ('mass', [13], ''), 
-                      ('decay', [6], ''), 
+                      ('wolfenstein', [2], ''),
+                      ('wolfenstein', [3], ''),
+                      ('wolfenstein', [4], ''),
+                      ('yukawa', [4], ''),
+                      ('yukawa', [5], ''),
+                      ('yukawa', [11], ''),
+                      ('yukawa', [13], ''),
+                      ('mass', [4], ''),
+                      ('mass', [5], ''),
+                      ('mass', [11], ''),
+                      ('mass', [13], ''),
+                      ('decay', [6], ''),
                       ('decay', [15], '')]
 
         self.assertEqual(base_model.rule_card.zero, target_zero)
         target_one = []
         self.assertEqual(base_model.rule_card.one, target_one)
-        target_identical = [('mass', [25], [23], '')]                
+        target_identical = [('mass', [25], [23], '')]
         self.assertEqual(base_model.rule_card.identical, target_identical)
         target_rule = []
         self.assertEqual(base_model.rule_card.rule, target_rule)
-        
+
         # test that the rule_card is what we expect
         fsock = StringIO.StringIO()
         base_model.rule_card.write_file(fsock)
@@ -450,25 +450,25 @@ DECAY 25 2.441404e+00 # wh
 ## VALIDITY RULE FOR THE PARAM_CARD   ####
 ######################################################################
 <zero>
-     wolfenstein 1 # 
-     wolfenstein 2 # 
-     wolfenstein 3 # 
-     wolfenstein 4 # 
-     yukawa 4 # 
-     yukawa 5 # 
-     yukawa 11 # 
-     yukawa 13 # 
-     mass 4 # 
-     mass 5 # 
-     mass 11 # 
-     mass 13 # 
-     decay 6 # 
-     decay 15 # 
+     wolfenstein 1 #
+     wolfenstein 2 #
+     wolfenstein 3 #
+     wolfenstein 4 #
+     yukawa 4 #
+     yukawa 5 #
+     yukawa 11 #
+     yukawa 13 #
+     mass 4 #
+     mass 5 #
+     mass 11 #
+     mass 13 #
+     decay 6 #
+     decay 15 #
 </zero>
 <one>
 </one>
 <identical>
-     mass 25 : 23 # 
+     mass 25 : 23 #
 </identical>
 <opposite>
 </opposite>
@@ -477,10 +477,10 @@ DECAY 25 2.441404e+00 # wh
 </file>"""
 
         self.assertEqual(out.split('\n'), target.split('\n'))
-        
+
     def test_check_param(self):
-        """check if the check param_card is working""" 
-        
+        """check if the check param_card is working"""
+
         # Load a model and a given restriction file
         sm_path = import_ufo.find_ufo_path('sm')
         base_model = import_ufo.import_full_model(sm_path)
@@ -489,48 +489,48 @@ DECAY 25 2.441404e+00 # wh
                                      'input_files', 'restrict_sm.dat')
         base_model.set_parameters_and_couplings(restrict_file)
         base_model.restrict_model(restrict_file)
-        
+
         #
         base_model.rule_card.check_param_card(restrict_file)
         full_card = os.path.join(_file_path, os.path.pardir,
                                      'input_files', 'param_card_sm.dat')
-        
+
         self.assertRaises(writter.InvalidParamCard, base_model.rule_card.check_param_card,
-                    full_card) 
-        
+                    full_card)
+
     def test_make_valid(self):
         """ check that we can modify a param_card following a restriction"""
 
         # Load a model and a given restriction file
         full_card = os.path.join(_file_path, os.path.pardir,
                                      'input_files', 'param_card_sm.dat')
-        
+
         restriction = """<file>######################################################################
 ## VALIDITY RULE FOR THE PARAM_CARD   ####
 ######################################################################
 <zero>
-     ckmblock 1 # 
-     yukawa 4 # 
-     yukawa 5 # 
-     mass 11 # 
-     mass 13 # 
-     mass 2 # 
-     mass 4 # 
-     mass 1 # 
-     mass 3 # 
-     mass 5 # 
-     decay 15 # 
-     decay 6 # 
+     ckmblock 1 #
+     yukawa 4 #
+     yukawa 5 #
+     mass 11 #
+     mass 13 #
+     mass 2 #
+     mass 4 #
+     mass 1 #
+     mass 3 #
+     mass 5 #
+     decay 15 #
+     decay 6 #
 </zero>
 <one>
 </one>
 <identical>
-     mass 25 : 23 # 
-     decay 25 : 23 # 
+     mass 25 : 23 #
+     decay 25 : 23 #
 </identical>
 <constraint>
 </constraint>
-</file>""" 
+</file>"""
         fsock = StringIO.StringIO()
         writter.make_valid_param_card(full_card, restriction, outputpath=fsock)
         output = fsock.getvalue()
@@ -540,7 +540,7 @@ DECAY 25 2.441404e+00 # wh
 ###################################
 ## INFORMATION FOR MASS
 ###################################
-BLOCK MASS # 
+BLOCK MASS #
       15 1.777000e+00 # mta
       6 1.743000e+02 # mt
       5 0.000000e+00 # mb fixed by the model
@@ -555,14 +555,14 @@ BLOCK MASS #
 ###################################
 ## INFORMATION FOR SMINPUTS
 ###################################
-BLOCK SMINPUTS # 
+BLOCK SMINPUTS #
       1 1.325070e+02 # aewm1
       2 1.166390e-05 # gf
       3 1.180000e-01 # as
 ###################################
 ## INFORMATION FOR YUKAWA
 ###################################
-BLOCK YUKAWA # 
+BLOCK YUKAWA #
       5 0.000000e+00 # ymb fixed by the model
       6 1.645000e+02 # ymt
       15 1.777000e+00 # ymtau
@@ -571,35 +571,35 @@ BLOCK YUKAWA #
 ## INFORMATION FOR DECAY
 ###################################
 DECAY 6 0.000000e+00 # fixed by the model
-DECAY 23 2.441404e+00 # 
-DECAY 24 2.047600e+00 # 
+DECAY 23 2.441404e+00 #
+DECAY 24 2.047600e+00 #
 DECAY 25 2.441404e+00 # must be identical to [23]
 DECAY 15 0.000000e+00 # fixed by the model
 ###################################
 ## INFORMATION FOR CKMBLOCK
 ###################################
-BLOCK CKMBLOCK # 
+BLOCK CKMBLOCK #
       1 0.000000e+00 # fixed by the model
 
 """
-      
+
         self.assertEqual(output.split('\n'), target.split('\n'))
-        
-        
+
+
 class TestConvertSLAH(unittest.TestCase):
     """ Test the ParamCardRule Object"""
-    
+
     sps1a = os.path.join(_file_path, os.path.pardir,
                                      'input_files', 'sps1a_param_card.dat')
-    
+
     output = '/tmp/mg5param.dat'
-     
-     
+
+
     def tearDown(self):
-        
+
         if os.path.exists(self.output):
             os.remove(self.output)
-        
+
     def test_convert_to_mg5(self):
         """take the slah1 and convert it to mg5"""
 
@@ -622,7 +622,7 @@ BLOCK SPINFO #  spectrum calculator information
 ## INFORMATION FOR MODSEL
 ###################################
 BLOCK MODSEL #  model selection
-      1 1 sugra # 
+      1 1 sugra #
       2 1 # fake line for the formating line point of view
 ###################################
 ## INFORMATION FOR SMINPUTS
@@ -1294,11 +1294,11 @@ DECAY 1000035 2.585851e+00 # neutralino4 decays
 ###################################
 ## INFORMATION FOR USQMIX
 ###################################
-BLOCK USQMIX # 
-      1 1 1.000000e+00 # 
-      2 2 1.000000e+00 # 
-      4 4 1.000000e+00 # 
-      5 5 1.000000e+00 # 
+BLOCK USQMIX #
+      1 1 1.000000e+00 #
+      2 2 1.000000e+00 #
+      4 4 1.000000e+00 #
+      5 5 1.000000e+00 #
       3 3 5.536450e-01 # o_{11}
       3 6 8.327528e-01 # o_{12}
       6 3 8.327528e-01 # o_{21}
@@ -1306,11 +1306,11 @@ BLOCK USQMIX #
 ###################################
 ## INFORMATION FOR DSQMIX
 ###################################
-BLOCK DSQMIX # 
-      1 1 1.000000e+00 # 
-      2 2 1.000000e+00 # 
-      4 4 1.000000e+00 # 
-      5 5 1.000000e+00 # 
+BLOCK DSQMIX #
+      1 1 1.000000e+00 #
+      2 2 1.000000e+00 #
+      4 4 1.000000e+00 #
+      5 5 1.000000e+00 #
       3 3 9.387379e-01 # o_{11}
       3 6 3.446319e-01 # o_{12}
       6 3 -3.446319e-01 # o_{21}
@@ -1318,11 +1318,11 @@ BLOCK DSQMIX #
 ###################################
 ## INFORMATION FOR SELMIX
 ###################################
-BLOCK SELMIX # 
-      1 1 1.000000e+00 # 
-      2 2 1.000000e+00 # 
-      4 4 1.000000e+00 # 
-      5 5 1.000000e+00 # 
+BLOCK SELMIX #
+      1 1 1.000000e+00 #
+      2 2 1.000000e+00 #
+      4 4 1.000000e+00 #
+      5 5 1.000000e+00 #
       3 3 2.824872e-01 # o_{11}
       3 6 9.592711e-01 # o_{12}
       6 3 9.592711e-01 # o_{21}
@@ -1330,82 +1330,82 @@ BLOCK SELMIX #
 ###################################
 ## INFORMATION FOR FRALPHA
 ###################################
-BLOCK FRALPHA # 
+BLOCK FRALPHA #
       1 -1.138252e-01 # mixing angle in the neutral higgs boson sector
 ###################################
 ## INFORMATION FOR VCKM
 ###################################
-BLOCK VCKM # 
-      1 1 1.000000e+00 # 
-      2 2 1.000000e+00 # 
-      3 3 1.000000e+00 # 
+BLOCK VCKM #
+      1 1 1.000000e+00 #
+      2 2 1.000000e+00 #
+      3 3 1.000000e+00 #
 ###################################
 ## INFORMATION FOR SNUMIX
 ###################################
-BLOCK SNUMIX # 
-      1 1 1.000000e+00 # 
-      2 2 1.000000e+00 # 
-      3 3 1.000000e+00 # 
+BLOCK SNUMIX #
+      1 1 1.000000e+00 #
+      2 2 1.000000e+00 #
+      3 3 1.000000e+00 #
 ###################################
 ## INFORMATION FOR UPMNS
 ###################################
-BLOCK UPMNS # 
-      1 1 1.000000e+00 # 
-      2 2 1.000000e+00 # 
-      3 3 1.000000e+00 # 
+BLOCK UPMNS #
+      1 1 1.000000e+00 #
+      2 2 1.000000e+00 #
+      3 3 1.000000e+00 #
 ###################################
 ## INFORMATION FOR TE
 ###################################
-BLOCK TE # 
+BLOCK TE #
       1 1 0.000000e+00 # T_e(Q) DRbar
       2 2 0.000000e+00 # T_mu(Q) DRbar
       3 3 -2.540197e+01 # T_tau(Q) DRbar
 ###################################
 ## INFORMATION FOR TU
 ###################################
-BLOCK TU # 
+BLOCK TU #
       1 1 0.000000e+00 # T_u(Q) DRbar
       2 2 0.000000e+00 # T_c(Q) DRbar
       3 3 -4.447525e+02 # T_t(Q) DRbar
 ###################################
 ## INFORMATION FOR TD
 ###################################
-BLOCK TD # 
+BLOCK TD #
       1 1 0.000000e+00 # T_d(Q) DRbar
       2 2 0.000000e+00 # T_s(Q) DRbar
       3 3 -1.106937e+02 # T_b(Q) DRbar
 ###################################
 ## INFORMATION FOR MSL2
 ###################################
-BLOCK MSL2 # 
+BLOCK MSL2 #
       1 1 3.815567e+04 # mel(q)
       2 2 3.815567e+04 # mmul(q)
       3 3 3.782868e+04 # mtaul(q)
 ###################################
 ## INFORMATION FOR MSE2
 ###################################
-BLOCK MSE2 # 
+BLOCK MSE2 #
       1 1 1.863063e+04 # mer(q)
       2 2 1.863063e+04 # mmur(q)
       3 3 1.796764e+04 # mtaur(q)
 ###################################
 ## INFORMATION FOR MSQ2
 ###################################
-BLOCK MSQ2 # 
+BLOCK MSQ2 #
       1 1 2.998367e+05 # mql1(q)
       2 2 2.998367e+05 # mql2(q)
       3 3 2.487654e+05 # mql3(q)
 ###################################
 ## INFORMATION FOR MSU2
 ###################################
-BLOCK MSU2 # 
+BLOCK MSU2 #
       1 1 2.803821e+05 # mur(q)
       2 2 2.803821e+05 # mcr(q)
       3 3 1.791371e+05 # mtr(q)
 ###################################
 ## INFORMATION FOR MSD2
 ###################################
-BLOCK MSD2 # 
+BLOCK MSD2 #
       1 1 2.736847e+05 # mdr(q)
       2 2 2.736847e+05 # msr(q)
       3 3 2.702620e+05 # mbr(q)
@@ -1418,9 +1418,3 @@ BLOCK MSD2 #
         writter.convert_to_mg5card(self.sps1a, fsock)
         output = fsock.getvalue()
         self.assertEqual(output.split('\n'), target.split('\n'))
-        
-        
-        
-        
-        
-        

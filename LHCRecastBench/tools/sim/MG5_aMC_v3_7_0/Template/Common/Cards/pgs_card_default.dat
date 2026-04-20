@@ -1,5 +1,5 @@
 LHC                 ! parameter set name
-320                 ! eta cells in calorimeter  
+320                 ! eta cells in calorimeter
 200                 ! phi cells in calorimeter
 0.0314159           ! eta width of calorimeter cells  |eta| < 5
 0.0314159           ! phi width of calorimeter cells

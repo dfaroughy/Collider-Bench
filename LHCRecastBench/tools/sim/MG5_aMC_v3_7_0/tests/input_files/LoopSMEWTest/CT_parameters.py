@@ -446,4 +446,3 @@ UV_yuk_t = CTParameter(name = 'UV_yuk_t',
                        0:'cond(MT,0.0,-(1.0/2.0)*((G**2)/(16.0*cmath.pi**2))*CF*(-3.0*reglog(MT**2/MU_R**2)+4.0)*2.0)'
                        },
                        texname = r'\delta y_t')
-

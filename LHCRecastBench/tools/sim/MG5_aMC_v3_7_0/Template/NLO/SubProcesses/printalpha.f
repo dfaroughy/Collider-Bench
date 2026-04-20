@@ -8,7 +8,7 @@
 
       call alphaq2(q**2, alpha)
 
-      write(*,*) 'ALPHAVALUE', alpha 
+      write(*,*) 'ALPHAVALUE', alpha
 
 
       return

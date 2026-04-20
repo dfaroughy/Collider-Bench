@@ -1,5 +1,5 @@
 c Compile with:
-c  gfortran -ffixed-line-length-132 -o readfort90 readfort90.for 
+c  gfortran -ffixed-line-length-132 -o readfort90 readfort90.for
 c                                       mcatnlo_hbook_gfortran.f
       implicit real*8(a-h,o-z)
       parameter (nexternal=5)
@@ -73,9 +73,9 @@ c
       implicit real*4(a-h,o-z)
       character*4 cc(2)
       data cc/' sdk',' prb'/
-c 
+c
       pi=acos(-1.d0)
-      call inihist 
+      call inihist
 c
       k=0
       call mbook(k+ 1,'pt'//' #ev',2.e0,0.e0,200.e0)
@@ -159,7 +159,7 @@ c
       call multitop(k+ 2,99,2,2,'log10[energy]',' ','LOG')
       call multitop(k+ 3,99,2,2,'log10[theta1]',' ','LOG')
       call multitop(k+ 4,99,2,2,'log10[theta2]',' ','LOG')
-      enddo                
+      enddo
       end
 
 

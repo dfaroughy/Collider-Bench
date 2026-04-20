@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -92,19 +92,19 @@ class ModelReader(loop_base_objects.LoopModel):
                         if str(param.value).lower() == 'auto':
                             param.value = auto_width(param_card, param.lhacode)
             #misc.sprint(type(param_card), card_reader.ParamCard,  isinstance(param_card, card_reader.ParamCard))
-            #assert isinstance(param_card, card_reader.ParamCard),'%s is not a ParamCard: %s' % (type(param_card),  isinstance(param_card, card_reader.ParamCard))    
-            
+            #assert isinstance(param_card, card_reader.ParamCard),'%s is not a ParamCard: %s' % (type(param_card),  isinstance(param_card, card_reader.ParamCard))
+
             if complex_mass_scheme is None:
                 if aloha.complex_mass:
                     param_card.convert_to_complex_mass_scheme()
             else:
                 if complex_mass_scheme:
                     param_card.convert_to_complex_mass_scheme()
-    
+
             key = [k for k in param_card.keys() if not k.startswith('qnumbers ')
                                             and not k.startswith('decay_table')
                                             and 'info' not in k]
-            
+
             if set(key) != set(parameter_dict.keys()):
                 # the two card are different. check if this critical
                 fail = True
@@ -112,19 +112,19 @@ class ModelReader(loop_base_objects.LoopModel):
                 unknow_set = set(key).difference(set(parameter_dict.keys()))
                 missing_block = ','.join(missing_set)
                 unknow_block = ','.join(unknow_set)
-                
-    
+
+
                 msg = '''Invalid restriction card (not same block)
     %s != %s.
     Missing block: %s
     Unknown block : %s''' % (set(key), set(parameter_dict.keys()),
                              missing_block, unknow_block)
                 apply_conversion = []
-                
+
                 if 'loop' in missing_set:
                     key.append('loop')
                     fail =  False
-                
+
                 if not missing_block:
                     logger.warning("Unknow type of information in the card: %s" % unknow_block)
                     fail = False
@@ -139,7 +139,7 @@ class ModelReader(loop_base_objects.LoopModel):
                 elif  self.need_slha2(missing_set, unknow_set):
                     apply_conversion.append('to_slha2')
                     overwrite = True
-                    
+
                 if apply_conversion:
                     try:
                         if 'to_slha2' in apply_conversion:
@@ -148,7 +148,7 @@ class ModelReader(loop_base_objects.LoopModel):
                                  "Please check that the conversion occurs as expected (The converter is not fully general)")
                                 import time
                                 time.sleep(5)
-                            
+
                             param_card = param_card.input_path
                             param_card = card_reader.convert_to_mg5card(param_card,
                                                                          writting=overwrite)
@@ -168,8 +168,8 @@ class ModelReader(loop_base_objects.LoopModel):
                     except Exception:
                         raise
                         raise MadGraph5Error(msg)
-                        
-                
+
+
                 if fail:
                     raise MadGraph5Error(msg)
 
@@ -186,7 +186,7 @@ class ModelReader(loop_base_objects.LoopModel):
                             raise MadGraph5Error('%s %s not define' % (block, pid))
 
                     if isinstance(value, str) and value.lower() == 'auto':
-                        value = '0.0' 
+                        value = '0.0'
                     if scale and parameter_dict[block][pid].name == 'aS':
                         runner = Alphas_Runner(value, nloop=2)
                         try:
@@ -201,11 +201,11 @@ class ModelReader(loop_base_objects.LoopModel):
                                 value = 0.0
                             else:
                                 raise
-                            
+
                     exec("locals()[\'%s\'] = %s" % (parameter_dict[block][pid].name,
                                           value), all_params)
                     parameter_dict[block][pid].value = float(value)
-           
+
         else:
             # No param_card, use default values
             for param in external_parameters:
@@ -213,7 +213,7 @@ class ModelReader(loop_base_objects.LoopModel):
                     runner = Alphas_Runner(value, nloop=3)
                     value = runner(scale)
                 exec("locals()[\'%s\'] = %s" % (param.name, param.value), globals(), all_params)
-            
+
         # Define all functions used
         for func in self['functions']:
             exec("def %s(%s):\n   return %s" % (func.name,
@@ -226,7 +226,7 @@ class ModelReader(loop_base_objects.LoopModel):
                 key != ('external',)]
         keys.sort(key=len)
         for key in keys:
-            derived_parameters += self['parameters'][key]	
+            derived_parameters += self['parameters'][key]
 
         # Now calculate derived parameters
         for param in derived_parameters:
@@ -270,51 +270,51 @@ class ModelReader(loop_base_objects.LoopModel):
 
         self.set('coupling_dict', dict([(coup.name, coup.value) \
                                         for coup in couplings]))
-        
+
         return all_params
-    
+
     def get_mass(self, pdg_code):
         """easy way to have access to a mass value"""
-        
+
         if isinstance(pdg_code, (int,str)):
             return self.get('parameter_dict')[self.get_particle(pdg_code).get('mass')].real
         else:
             return self.get('parameter_dict')[pdg_code.get('mass')].real
-            
+
     def get_width(self, pdg_code):
         """easy way to have access to a width value"""
         if isinstance(pdg_code, (int,str)):
             return self.get('parameter_dict')[self.get_particle(pdg_code).get('width')].real
         else:
             return self.get('parameter_dict')[pdg_code.get('mass')].real
-    
+
     def need_slha2(self, missing_set, unknow_set):
-    
+
         return all([b in missing_set for b in ['te','msl2','dsqmix','tu','selmix','msu2','msq2','usqmix','td', 'mse2','msd2']]) and\
                      all(b in unknow_set for b in ['ae','ad','sbotmix','au','modsel','staumix','stopmix'])
-    
+
 class Alphas_Runner(object):
     """Evaluation of strong coupling constant alpha_S"""
-    #     Author: Olivier Mattelaer translated from a fortran routine 
+    #     Author: Olivier Mattelaer translated from a fortran routine
     #     written by R. K. Ellis
     #
     #     q -- scale at which alpha_s is to be evaluated
     #
     #     asmz -- value of alpha_s at the mass of the Z-boson
-    #     nloop -- the number of loops (1,2, or 3) at which beta 
+    #     nloop -- the number of loops (1,2, or 3) at which beta
     #
     #     function is evaluated to determine running.
     #     the values of the cmass and the bmass should be set
-    #---------------------------------------------------------------------------    
-    
+    #---------------------------------------------------------------------------
+
     def __init__(self, asmz, nloop, zmass=91.188, cmass=1.4, bmass=4.7):
-    
+
         self.asmz = asmz
         self.nloop = nloop
         self.zmass = zmass
         self.cmass = cmass
         self.bmass = bmass
-    
+
         assert asmz > 0
         assert cmass > 0
         assert bmass > 0
@@ -322,13 +322,13 @@ class Alphas_Runner(object):
         t = 2 * math.log(bmass/zmass)
         self.amb = self.newton1(t, asmz, 5)
         t = 2 * math.log(cmass/bmass)
-        self.amc = self.newton1(t, self.amb, 4)    
-    
+        self.amc = self.newton1(t, self.amb, 4)
+
     def __call__(self, scale):
         """Evaluation of strong coupling constant alpha_S at scale 'scale'."""
         assert scale > 0
-        
-        
+
+
         if scale < 0.188775276209:
             return 0
         elif scale < self.cmass:
@@ -351,25 +351,25 @@ class Alphas_Runner(object):
     d = [1.22140465909230, 0.99743079911360, 0.66077962451190]
 
 
-    
+
     def newton1(self, t, alphas, nf):
-        """calculate a_out using nloop beta-function evolution 
+        """calculate a_out using nloop beta-function evolution
         with nf flavours, given starting value as-in
-        given alphas and logarithmic separation between 
+        given alphas and logarithmic separation between
         input scale and output scale t.
         Evolution is performed using Newton's method,
-        with a precision given by tol."""        
+        with a precision given by tol."""
         nloop = self.nloop
         tol = 5e-4
         arg = nf-3
-        b0, c1, c2, d = self.b0[arg], self.c1[arg], self.c2[arg], self.d[arg] 
+        b0, c1, c2, d = self.b0[arg], self.c1[arg], self.c2[arg], self.d[arg]
 
         if nloop == 2:
             f = lambda AS: 1.0/AS+c1*math.log((c1*AS)/(1+c1*AS))
         elif nloop == 3:
             f = lambda AS: 1.0/AS+0.5*c1*math.log((c2*AS**2)/(1+c1*AS+c2*AS**2)) \
                  -(c1**2-2*c2)/d*math.atan((2*c2*AS+c1)/d)
-        
+
         a_out = alphas / (1 + alphas * b0 * t)
         if nloop == 1:
             return a_out
@@ -377,7 +377,7 @@ class Alphas_Runner(object):
         a_out = alphas/(1+b0*alphas*t+c1*alphas*math.log(1+alphas*b0*t))
         if a_out < 0:
             a_out = 0.3
-        
+
         while 1:
             AS = a_out
             F = b0 * t + f(alphas) -f(AS)
@@ -392,7 +392,3 @@ class Alphas_Runner(object):
             if delta < tol:
                 break
         return a_out
-            
-
-
-

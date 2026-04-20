@@ -609,4 +609,3 @@ GC_149 = Coupling(name = 'GC_149',
 GC_150 = Coupling(name = 'GC_150',
                   value = '(2*g10*g9)/MV**2',
                   order = {'NP':2})
-

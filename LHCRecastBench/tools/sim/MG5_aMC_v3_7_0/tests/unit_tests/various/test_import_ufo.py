@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -50,18 +50,18 @@ class TestImportUFO(unittest.TestCase):
         """Test that the coupling_hierarchy is set"""
         self.assertEqual(self.base_model.get('order_hierarchy'),
                          {'QCD': 1, 'QED': 2, 'HIG':2, 'HIW': 2})
-         
+
     def test_expansion_order(self):
         """Test that the expansion_order is set"""
         self.assertEqual(self.base_model.get('expansion_order'),
                          {'QCD': 99, 'QED': 99, 'HIG':1, 'HIW': 1})
-        
+
 
     def test_get_symmetric_lorentz(self):
 
         import models as ufomodels
         ufo_model = ufomodels.load_model(import_ufo.find_ufo_path('sm'), decay=False)
-        ufo2mg5_converter = import_ufo.UFOMG5Converter(ufo_model)    
+        ufo2mg5_converter = import_ufo.UFOMG5Converter(ufo_model)
         model = ufo2mg5_converter.load_model()
 
         #sm = import_ufo.load_model(import_ufo.find_ufo_path('sm'), False)
@@ -69,7 +69,7 @@ class TestImportUFO(unittest.TestCase):
         #obj.load_model()
         old_lor = ufo2mg5_converter.get_symmetric_lorentz('VSS1', {}, change_number=False)
         self.assertEqual(old_lor.name, 'VSS1')
-        self.assertEqual(old_lor.structure, 'P(1,2) - P(1,3)')        
+        self.assertEqual(old_lor.structure, 'P(1,2) - P(1,3)')
         new_lor = ufo2mg5_converter.get_symmetric_lorentz('VSS1', {0: 1, 1: 2, 2: 0}, change_number=True)
         self.assertEqual(new_lor.name, 'SVS2')
         self.assertEqual(new_lor.structure, 'P(2,3) - P(2,1)')
@@ -80,7 +80,7 @@ class TestImportUFO(unittest.TestCase):
 
         old_lor = ufo2mg5_converter.get_symmetric_lorentz('VVSS1', {}, change_number=False)
         self.assertEqual(old_lor.name, 'VVSS1')
-        self.assertEqual(old_lor.structure, 'Metric(1,2)')     
+        self.assertEqual(old_lor.structure, 'Metric(1,2)')
 
         new_lor = ufo2mg5_converter.get_symmetric_lorentz('VVSS1', {0: 1, 1: 0, 2: 3, 3:2}, change_number=True)
         self.assertEqual(new_lor.name, 'VVSS2')
@@ -111,7 +111,7 @@ class TestImportUFO(unittest.TestCase):
         self.assertEqual(output, ' 1 T(0,2,1)')
 
         output = fct(' 1', {0:1, 1:2, 2:0})
-        self.assertEqual(output, ' 1') 
+        self.assertEqual(output, ' 1')
 
 
 
@@ -128,7 +128,7 @@ class TestImportUFO_fromcmd(unittest.TestCase):
         path = os.path.join(_file_path, '..', 'input_files', '231_Model_UFO')
         self.cmd.exec_cmd("import model %s" % path, postcmd=True, precmd=True)
 
-        self.assertNotIn("j", self.cmd._multiparticles) 
+        self.assertNotIn("j", self.cmd._multiparticles)
 
 class TestNFlav(unittest.TestCase):
     """Test class for the get_nflav function"""
@@ -227,7 +227,7 @@ class TestImportUFONoSideEffect(unittest.TestCase):
        converting it to a MG5 model"""
 
     def test_ImportUFONoSideEffectLO(self):
-        """Checks that there are no side effects of the import of the LO UFO sm"""       
+        """Checks that there are no side effects of the import of the LO UFO sm"""
         ufo_model = ufomodels.load_model(import_ufo.find_ufo_path('sm'),False)
         original_all_particles = copy.copy(ufo_model.all_particles)
         original_all_vertices = copy.copy(ufo_model.all_vertices)
@@ -239,13 +239,13 @@ class TestImportUFONoSideEffect(unittest.TestCase):
 
         ufo2mg5_converter = import_ufo.UFOMG5Converter(ufo_model)
         model = ufo2mg5_converter.load_model()
-        # It is important to run import_ufo.OrganizeModelExpression(ufo_model).main() 
+        # It is important to run import_ufo.OrganizeModelExpression(ufo_model).main()
         # since this reverts some of the changes done in load_model()
         # There *is* side effects in-between, namely the expression of the CTcouplings
         # which contained CTparameters have been substituted to dictionaries.
-        parameters, couplings = import_ufo.OrganizeModelExpression(ufo_model).main()        
+        parameters, couplings = import_ufo.OrganizeModelExpression(ufo_model).main()
 
-        self.assertEqual(original_all_particles,ufo_model.all_particles)        
+        self.assertEqual(original_all_particles,ufo_model.all_particles)
         self.assertEqual(original_all_vertices,ufo_model.all_vertices)
         self.assertEqual(original_all_couplings,ufo_model.all_couplings)
         self.assertEqual(original_all_lorentz,ufo_model.all_lorentz)
@@ -265,8 +265,8 @@ class TestImportUFONoSideEffect(unittest.TestCase):
                     self.assertEqual(part.goldstoneboson,True)
                 else:
                     raise import_ufo.UFOImportError("Goldstone %s has no attribute of goldstnoneboson in loop_qcd_qed_sm"%part.name)
-                    
-        
+
+
     def test_ImportUFONoSideEffectNLO(self):
         """Checks that there are no side effects of the import of the NLO UFO sm"""
         ufo_model = ufomodels.load_model(import_ufo.find_ufo_path('loop_sm'),False)
@@ -283,11 +283,11 @@ class TestImportUFONoSideEffect(unittest.TestCase):
 
         ufo2mg5_converter = import_ufo.UFOMG5Converter(ufo_model)
         model = ufo2mg5_converter.load_model()
-        # It is important to run import_ufo.OrganizeModelExpression(ufo_model).main() 
+        # It is important to run import_ufo.OrganizeModelExpression(ufo_model).main()
         # since this reverts some of the changes done in load_model()
         # There *is* side effects in-between, namely the expression of the CTcouplings
         # which contained CTparameters have been substituted to dictionaries.
-        parameters, couplings = import_ufo.OrganizeModelExpression(ufo_model).main()        
+        parameters, couplings = import_ufo.OrganizeModelExpression(ufo_model).main()
 
         self.assertEqual(original_all_particles,ufo_model.all_particles)
         self.assertEqual(original_all_vertices,ufo_model.all_vertices)
@@ -319,7 +319,7 @@ class TestImportUFONoSideEffect(unittest.TestCase):
         old_vert = [ v for v in ufo_model.all_CTvertices if pdg == [p.pdg_code for p in v.particles]]
         #pick one
         old_vert = old_vert[0]
-        
+
         # find the number of coupling associate to this lorentz structure
         ind = vert['lorentz'].index(new_name)
         coup_name = [ c for ((l,col),c) in vert['couplings'].items() if l ==ind]
@@ -344,40 +344,40 @@ class TestRestrictModel(unittest.TestCase):
         self.restrict_file = os.path.join(_file_path, os.path.pardir,
                                      'input_files', 'restrict_sm.dat')
         self.model.set_parameters_and_couplings(self.restrict_file)
-         
-        
+
+
     def test_detect_special_parameters(self):
-        """ check that detect zero parameters works"""        
-        
+        """ check that detect zero parameters works"""
+
         expected = set(['I3x32', 'etaWS', 'conjg__CKM3x2', 'CKM1x2', 'WT', 'I1x32', 'I1x33', 'I1x31', 'I2x32', 'CKM3x1', 'I2x13', 'I2x12', 'I3x23', 'I3x22', 'I3x21', 'conjg__CKM2x1', 'lamWS', 'conjg__CKM2x3', 'I2x23', 'AWS', 'CKM1x3', 'conjg__CKM3x1', 'I4x23', 'ymc', 'ymb', 'yme', 'CKM3x2', 'CKM2x3', 'CKM2x1', 'ymm', 'conjg__CKM1x3', 'Me', 'ym', 'I2x22', 'WTau', 'lamWS__exp__2', 'lamWS__exp__3', 'yc', 'yb', 'ye', 'MC', 'MB', 'MM', 'conjg__CKM1x2', 'I3x31', 'rhoWS', 'I4x33', 'I4x13'])
         zero, one = self.model.detect_special_parameters()
         result = set(zero)
         self.assertEqual(len(result), len(expected))
 
         self.assertEqual(expected, result)
-        
+
         expected = set(['conjg__CKM3x3', 'conjg__CKM2x2', 'CKM1x1', 'CKM2x2', 'CKM3x3', 'conjg__CKM1x1'])
         result = set(one)
         self.assertEqual(expected, result)
 
-        
-        
+
+
     def test_detect_identical_parameters(self):
         """ check that we detect correctly identical parameter """
-        
+
         expected=set([('MZ','MH')])
         result = self.model.detect_identical_parameters()
         result = [tuple([obj[0].name for obj in obj_list]) for obj_list in result]
-        
+
         self.assertEqual(expected, set(result))
-        
+
     def test_merge_identical_parameters(self):
         """check that we treat correctly the identical parameters"""
-        
+
         parameters = self.model.detect_identical_parameters()
         self.model.merge_iden_parameters(parameters[0])
-        
-        
+
+
         #check that both MZ and MH are not anymore in the external_parameter
         keeped = '1*%s' % parameters[0][0][0].name
         removed = parameters[0][1][0].name
@@ -386,35 +386,35 @@ class TestRestrictModel(unittest.TestCase):
                 for param in data:
                     self.assertNotEqual(param.name, removed)
             elif dep == ():
-                found=0      
+                found=0
                 for param in data:
                     if removed == param.name:
                         found += 1
                         self.assertEqual(param.expr, keeped)
                 self.assertEqual(found, 1)
-        
+
         # checked that the mass (and the width) of those particles identical
         self.assertEqual(self.model['particle_dict'][23]['mass'],
                          self.model['particle_dict'][25]['mass'])
         self.assertNotEqual(self.model['particle_dict'][23]['width'],
                          self.model['particle_dict'][25]['width'])
-        
 
-        
+
+
     def test_detect_zero_iden_couplings(self):
         """ check that detect zero couplings works"""
-        
+
         zero, iden = self.model.detect_identical_couplings()
-        
+
         # check what is the zero coupling
         expected = set(['GC_17', 'GC_16', 'GC_15', 'GC_14', 'GC_13', 'GC_19', 'GC_18', 'GC_22', 'GC_30', 'GC_20', 'GC_89', 'GC_88', 'GC_101', 'GC_102', 'GC_103', 'GC_42', 'GC_106', 'GC_107', 'GC_82', 'GC_43', 'GC_84', 'GC_85', 'GC_86', 'GC_105', 'GC_28', 'GC_29', 'GC_48', 'GC_44', 'GC_23', 'GC_46', 'GC_47', 'GC_26', 'GC_24', 'GC_25', 'GC_83', 'GC_87', 'GC_93', 'GC_92', 'GC_91', 'GC_90'])
         result = set(zero)
         self.assertEqual(len(expected), len(result))
         for name in result:
             self.assertEqual(self.model['coupling_dict'][name], 0)
-        
-        self.assertEqual(expected, result)        
-        
+
+        self.assertEqual(expected, result)
+
         # check what are the identical coupling
         expected = [[('GC_100',1), ('GC_108',1), ('GC_49',1), ('GC_45',1), ('GC_40',1), ('GC_41',1), ('GC_104',1)],
                     [('GC_21', 1), ('GC_27', -1)],
@@ -445,20 +445,20 @@ class TestRestrictModel(unittest.TestCase):
                     [('GC_76', 1), ('GC_79', -1)],
                     [('GC_77', 1), ('GC_78', -1)],
                     [('GC_96', 1), ('GC_97', -1)]]
-        
+
         for elem in expected:
             elem.sort(key=str)
         for elem in iden:
             elem.sort(key=str)
-        
+
         expected.sort(key=str)
         iden.sort(key=str)
-        
+
         self.assertEqual(expected, iden)
 
     def test_locate_couplings(self):
         """ check the creation of the coupling to vertex dict """
-        
+
         for candidate in self.model['interactions']:
             if [p['pdg_code'] for p in candidate['particles']] == [5, 5, 25]:
                 input_bbh = candidate
@@ -471,41 +471,41 @@ class TestRestrictModel(unittest.TestCase):
                 coupling_wen = candidate['couplings'][(0,0)]
             if [p['pdg_code'] for p in candidate['particles']] == [22, 24, 24]:
                 input_aww = candidate
-                coupling_aww = candidate['couplings'][(0,0)]            
-        
-        
+                coupling_aww = candidate['couplings'][(0,0)]
+
+
         target = [coupling_bbh, coupling_zzhh, coupling_wen, coupling_aww]
         sol = {coupling_bbh: [input_bbh['id']],
                coupling_zzhh: [input_zzhh['id']],
                coupling_wen: [43, 44, 45, 66, 67, 68],
                coupling_aww: [input_aww['id']]}
         # b b~ h // z z h h //w- e+ ve // a w+ w-
-        
+
         self.model.locate_coupling()
         for coup in target:
             self.assertIn(coup, self.model.coupling_pos)
             self.assertEqual(sol[coup], [v['id'] for v in self.model.coupling_pos[coup]])
 
-  
+
     def test_merge_iden_couplings(self):
         """ check that the merged couplings are treated correctly:
              suppression and replacement in the vertex """
-        
+
         self.model.locate_coupling()
         zero, iden = self.model.detect_identical_couplings()
         self.assertEqual(len(iden), 14)
-        
+
         # Check that All the code/model is the one intended for this test
-        target = [i for i in iden if len(i)==7][0] 
+        target = [i for i in iden if len(i)==7][0]
         target2 = [i[0] for i in target]
         GC = target2[0]
-        
+
         check_content = [['d', 'u', 'w+'], ['s', 'c', 'w+'], ['b', 't', 'w+'], ['u', 'd', 'w+'], ['c', 's', 'w+'], ['t', 'b', 'w+'], ['e-', 've', 'w+'], ['m-', 'vm', 'w+'], ['tt-', 'vt', 'w+'], ['ve', 'e-', 'w+'], ['vm', 'm-', 'w+'], ['vt', 'tt-', 'w+']]
         content =  [[p.get('name') for p in v.get('particles')] \
                for v in self.model.get('interactions') \
                if any([c in target2 for c in v['couplings'].values()])]
 
-        self.assertEqual(len(check_content),len(content))#, 'test not up-to-date'      
+        self.assertEqual(len(check_content),len(content))#, 'test not up-to-date'
 
         vertex_id = [v.get('id') \
                for v in self.model.get('interactions') \
@@ -518,7 +518,7 @@ class TestRestrictModel(unittest.TestCase):
                 if coup in target2:
                     is_in_target = True
             assert is_in_target == True, 'test not up-to-date'
-        
+
         # check now that everything is fine
         self.model.merge_iden_couplings(target)
         for id in vertex_id:
@@ -528,12 +528,12 @@ class TestRestrictModel(unittest.TestCase):
                 if coup == GC:
                     has_GC = True
             self.assertTrue(has_GC, True)
-        
+
         # check that the same occur with opposite sign coupling
-        target = [i for i in sorted(iden) if len(i)==2][1] 
+        target = [i for i in sorted(iden) if len(i)==2][1]
         target2 = [i[0] for i in target]
         GC = target2[0]
-        
+
         check_content = [['a', 'w+', 'w+'], ['e-', 'e-', 'a'], ['mu-', 'mu-', 'a'], ['ta-', 'ta-', 'a']]
         content =  [[p.get('name') for p in v.get('particles')] \
                for v in self.model.get('interactions') \
@@ -541,18 +541,18 @@ class TestRestrictModel(unittest.TestCase):
         #content =  [[v.get('couplings').values() for p in v.get('particles')] \
         #       for v in self.model.get('interactions')]
         self.assertEqual(len(check_content),len(content))#, 'test not up-to-date'
-        
+
         vertex_id = [v.get('id') \
                for v in self.model.get('interactions') \
                if any([c in target2[1:] for c in v['couplings'].values()])]
-        
+
         for id in vertex_id:
             is_in_target = False
             for coup in self.model.get_interaction(id)['couplings'].values():
                 if coup in target2:
                     is_in_target = True
             assert is_in_target == True, 'test not up-to-date'
-        
+
         self.model.merge_iden_couplings(target)
         for id in vertex_id:
             has_GC = False
@@ -561,12 +561,12 @@ class TestRestrictModel(unittest.TestCase):
                 if coup == '-%s' % GC:
                     has_GC = True
             self.assertTrue(has_GC, True)
-        
-                 
+
+
 
     def test_remove_couplings(self):
         """ check that the detection of irrelevant interactions works """
-        
+
         for candidate in self.model['interactions']:
             if [p['pdg_code'] for p in candidate['particles']] == [5, 5, 25]:
                 input_bbh = candidate
@@ -574,7 +574,7 @@ class TestRestrictModel(unittest.TestCase):
             if [p['pdg_code'] for p in candidate['particles']] == [21, 21, 21, 21]:
                 input_4g = candidate
                 coupling_4g = candidate['couplings'][(0,0)]
-        
+
         found_bbh = 0
         found_4g = 0
         for dep,data in self.model['couplings'].items():
@@ -583,18 +583,18 @@ class TestRestrictModel(unittest.TestCase):
                 elif param.name == coupling_4g: found_4g +=1
         self.assertGreater(found_bbh, 0)
         self.assertGreater(found_4g, 0)
-        
+
         # make the real test
         result = self.model.remove_couplings([coupling_bbh,coupling_4g])
-        
+
         for dep,data in self.model['couplings'].items():
             for param in data:
                 self.assertNotIn(param.name, [coupling_bbh, coupling_4g])
 
-             
+
     def test_remove_interactions(self):
         """ check that the detection of irrelevant interactions works """
-        
+
         for candidate in self.model['interactions']:
             if [p['pdg_code'] for p in candidate['particles']] == [5, 5, 25]:
                 input_bbh = candidate
@@ -608,31 +608,31 @@ class TestRestrictModel(unittest.TestCase):
                 coupling_ddz_2 = candidate['couplings'][(0,1)]
             if [p['pdg_code'] for p in candidate['particles']] == [11, 11, 23]:
                 input_eez = candidate
-                coupling_eez_1 = candidate['couplings'][(0,0)]            
+                coupling_eez_1 = candidate['couplings'][(0,0)]
                 coupling_eez_2 = candidate['couplings'][(0,1)]
-        
-        #security                                      
-        found_4g = 0  
-        found_bbh = 0 
+
+        #security
+        found_4g = 0
+        found_bbh = 0
         for dep,data in self.model['couplings'].items():
             for param in data:
                 if param.name == coupling_4g: found_4g +=1
                 elif param.name == coupling_bbh: found_bbh +=1
         self.assertGreater(found_bbh, 0)
         self.assertGreater(found_4g, 0)
-        
+
         # make the real test
         self.model.locate_coupling()
         result = self.model.remove_interactions([coupling_bbh, coupling_4g])
         self.assertNotIn(input_bbh, self.model['interactions'])
         self.assertNotIn(input_4g, self.model['interactions'])
-        
-    
+
+
         # Now test case where some of them are deleted and some not
         if coupling_ddz_1 != coupling_eez_1:
             coupling_eez_1, coupling_eez_2 = coupling_eez_2, coupling_eez_1
         assert coupling_ddz_1 == coupling_eez_1
-        
+
         result = self.model.remove_interactions([coupling_ddz_1, coupling_ddz_2])
         self.assertIn(coupling_eez_2, list(input_eez['couplings'].values()))
         self.assertNotIn(coupling_eez_1, list(input_eez['couplings'].values()))
@@ -641,7 +641,7 @@ class TestRestrictModel(unittest.TestCase):
 
     def test_remove_interactions2(self):
         """ check that the detection of irrelevant interactions works """
-        
+
         for candidate in self.model['interactions']:
             if [p['pdg_code'] for p in candidate['particles']] == [5, 5, 25]:
                 input_bbh = candidate
@@ -655,31 +655,31 @@ class TestRestrictModel(unittest.TestCase):
                 coupling_ddz_2 = candidate['couplings'][(0,1)]
             if [p['pdg_code'] for p in candidate['particles']] == [11, 11, 23]:
                 input_eez = candidate
-                coupling_eez_1 = candidate['couplings'][(0,0)]            
+                coupling_eez_1 = candidate['couplings'][(0,0)]
                 coupling_eez_2 = candidate['couplings'][(0,1)]
-        
-        #security                                      
-        found_4g = 0  
-        found_bbh = 0 
+
+        #security
+        found_4g = 0
+        found_bbh = 0
         for dep,data in self.model['couplings'].items():
             for param in data:
                 if param.name == coupling_4g: found_4g +=1
                 elif param.name == coupling_bbh: found_bbh +=1
         self.assertGreater(found_bbh, 0)
         self.assertGreater(found_4g, 0)
-        
+
         # make the real test
         self.model.locate_coupling()
         #result = self.model.remove_interactions([coupling_bbh, coupling_4g])
         #self.assertNotIn(input_bbh, self.model['interactions'])
         #self.assertNotIn(input_4g, self.model['interactions'])
-        
-    
+
+
         # Now test case where some of them are deleted and some not
         if coupling_ddz_1 != coupling_eez_1:
             coupling_eez_1, coupling_eez_2 = coupling_eez_2, coupling_eez_1
         assert coupling_ddz_1 == coupling_eez_1
-        
+
         result = self.model.remove_interactions([coupling_ddz_1])
         self.assertIn(coupling_eez_2, list(input_eez['couplings'].values()))
         self.assertNotIn(coupling_eez_1, list(input_eez['couplings'].values()))
@@ -692,7 +692,7 @@ class TestRestrictModel(unittest.TestCase):
 
     def test_remove_interactions3(self):
         """ check that the detection of irrelevant interactions works """
-        
+
         for candidate in self.model['interactions']:
             if [p['pdg_code'] for p in candidate['particles']] == [5, 5, 25]:
                 input_bbh = candidate
@@ -706,31 +706,31 @@ class TestRestrictModel(unittest.TestCase):
                 coupling_ddz_2 = candidate['couplings'][(0,1)]
             if [p['pdg_code'] for p in candidate['particles']] == [11, 11, 23]:
                 input_eez = candidate
-                coupling_eez_1 = candidate['couplings'][(0,0)]            
+                coupling_eez_1 = candidate['couplings'][(0,0)]
                 coupling_eez_2 = candidate['couplings'][(0,1)]
-        
-        #security                                      
-        found_4g = 0  
-        found_bbh = 0 
+
+        #security
+        found_4g = 0
+        found_bbh = 0
         for dep,data in self.model['couplings'].items():
             for param in data:
                 if param.name == coupling_4g: found_4g +=1
                 elif param.name == coupling_bbh: found_bbh +=1
         self.assertGreater(found_bbh, 0)
         self.assertGreater(found_4g, 0)
-        
+
         # make the real test
         self.model.locate_coupling()
         #result = self.model.remove_interactions([coupling_bbh, coupling_4g])
         #self.assertNotIn(input_bbh, self.model['interactions'])
         #self.assertNotIn(input_4g, self.model['interactions'])
-        
-    
+
+
         # Now test case where some of them are deleted and some not
         if coupling_ddz_1 != coupling_eez_1:
             coupling_eez_1, coupling_eez_2 = coupling_eez_2, coupling_eez_1
         assert coupling_ddz_1 == coupling_eez_1
-        
+
         result = self.model.remove_interactions([coupling_ddz_2])
         self.assertIn(coupling_eez_2, list(input_eez['couplings'].values()))
         self.assertIn(coupling_eez_1, list(input_eez['couplings'].values()))
@@ -744,7 +744,7 @@ class TestRestrictModel(unittest.TestCase):
 
     def test_put_parameters_to_zero(self):
         """check that we remove parameters correctly"""
-        
+
         part_t = self.model.get_particle(6)
         # Check that we remove a mass correctly
         self.assertEqual(part_t['mass'], 'MT')
@@ -753,13 +753,13 @@ class TestRestrictModel(unittest.TestCase):
         for dep,data in self.model['parameters'].items():
             for param in data:
                 self.assertNotEqual(param.name, 'MT')
-        
+
         for particle in self.model['particles']:
             self.assertNotEqual(particle['mass'], 'MT')
-                    
+
         for pdg, particle in self.model['particle_dict'].items():
             self.assertNotEqual(particle['mass'], 'MT')
-        
+
         # Check that we remove a width correctly
         self.assertEqual(part_t['width'], 'WT')
         self.model.fix_parameter_values(['WT'],[])
@@ -769,8 +769,8 @@ class TestRestrictModel(unittest.TestCase):
                 self.assertNotEqual(param.name, 'WT')
 
         for pdg, particle in self.model['particle_dict'].items():
-            self.assertNotEqual(particle['width'], 'WT')       
-             
+            self.assertNotEqual(particle['width'], 'WT')
+
         # Check that we can remove correctly other external parameter
         self.model.fix_parameter_values(['ymb','yb'],[])
         for dep,data in self.model['parameters'].items():
@@ -778,72 +778,72 @@ class TestRestrictModel(unittest.TestCase):
                 self.assertNotIn(param.name, ['ymb'])
                 if param.name == 'yb':
                     param.expr == 'ZERO'
-                    
+
     def test_get_new_coupling_name(self):
         """ test that the static function get_new_coupling_name
             behaves as expected
         """
-        
+
         # reject wrong input
         self.assertRaises(AssertionError, import_ufo.RestrictModel.get_new_coupling_name,
                          '','','',0)
         self.assertRaises(AssertionError, import_ufo.RestrictModel.get_new_coupling_name,
                          '','','',2.)
         self.assertRaises(AssertionError, import_ufo.RestrictModel.get_new_coupling_name,
-                         '','1','2',1)      
+                         '','1','2',1)
         self.assertRaises(AssertionError, import_ufo.RestrictModel.get_new_coupling_name,
-                         '',1,1,1)         
+                         '',1,1,1)
         self.assertRaises(AssertionError, import_ufo.RestrictModel.get_new_coupling_name,
                          1,'1','1',1)
-        
+
         # real test
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', 'GC2', 'GC2', 1), 'GC1')        
+                        'GC1', 'GC2', 'GC2', 1), 'GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', 'GC2', '-GC2', 1), '-GC1') 
+                        'GC1', 'GC2', '-GC2', 1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', '-GC2', 'GC2', 1), '-GC1') 
+                        'GC1', '-GC2', 'GC2', 1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', '-GC2', '-GC2', 1), 'GC1') 
+                        'GC1', '-GC2', '-GC2', 1), 'GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        '-GC1', 'GC2', 'GC2', 1), '-GC1') 
+                        '-GC1', 'GC2', 'GC2', 1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        '-GC1', 'GC2', '-GC2', 1), 'GC1') 
+                        '-GC1', 'GC2', '-GC2', 1), 'GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        '-GC1', '-GC2', 'GC2', 1), 'GC1') 
+                        '-GC1', '-GC2', 'GC2', 1), 'GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        '-GC1', '-GC2', '-GC2', 1), '-GC1') 
+                        '-GC1', '-GC2', '-GC2', 1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', 'GC2', 'GC2', -1), '-GC1') 
+                        'GC1', 'GC2', 'GC2', -1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', 'GC2', '-GC2', -1), 'GC1') 
+                        'GC1', 'GC2', '-GC2', -1), 'GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', '-GC2', 'GC2', -1), 'GC1') 
+                        'GC1', '-GC2', 'GC2', -1), 'GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        'GC1', '-GC2', '-GC2', -1), '-GC1') 
+                        'GC1', '-GC2', '-GC2', -1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        '-GC1', 'GC2', 'GC2', -1), 'GC1') 
+                        '-GC1', 'GC2', 'GC2', -1), 'GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        '-GC1', 'GC2', '-GC2', -1), '-GC1') 
+                        '-GC1', 'GC2', '-GC2', -1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
-                        '-GC1', '-GC2', 'GC2', -1), '-GC1') 
+                        '-GC1', '-GC2', 'GC2', -1), '-GC1')
         self.assertEqual(import_ufo.RestrictModel.get_new_coupling_name(\
                         '-GC1', '-GC2', '-GC2', -1), 'GC1')
-                   
+
     def test_restrict_from_a_param_card(self):
         """ check the full restriction chain in one case b b~ h """
-        
+
         for candidate in self.model['interactions']:
             if [p['pdg_code'] for p in candidate['particles']] == [5, 5, 25]:
                 interaction = candidate
                 coupling = interaction['couplings'][(0,0)]
-    
+
 
         self.model.restrict_model(self.restrict_file)
 
         # check remove interactions
         self.assertNotIn(interaction, self.model['interactions'])
-        
+
         # check remove parameters
         for dep,data in self.model['parameters'].items():
             for param in data:
@@ -859,9 +859,9 @@ class TestRestrictModel(unittest.TestCase):
         part_t = self.model.get_particle(6)
         self.assertEqual(part_b['mass'], 'ZERO')
         self.assertEqual(part_t['width'], 'ZERO')
-                
+
         # check identical masses
-        keeped, rejected = None, None 
+        keeped, rejected = None, None
         for param in self.model['parameters'][('external',)]:
             if param.name == 'MH':
                 self.assertEqual(keeped, None)
@@ -869,16 +869,16 @@ class TestRestrictModel(unittest.TestCase):
             elif param.name == 'MZ':
                 self.assertEqual(keeped, None)
                 keeped, rejected = 'MZ','MH'
-                
+
         self.assertNotEqual(keeped, None)
-        
+
         found = 0
         for param in self.model['parameters'][()]:
             self.assertNotEqual(param.name, keeped)
             if param.name == rejected:
                 found +=1
         self.assertEqual(found, 1)
-       
+
 class TestBenchmarkModel(unittest.TestCase):
     """Test class for the RestrictModel object"""
 
@@ -891,29 +891,28 @@ class TestBenchmarkModel(unittest.TestCase):
         self.model = import_ufo.RestrictModel(model)
         self.restrict_file = os.path.join(_file_path, os.path.pardir,
                                      'input_files', 'restrict_sm.dat')
-        
-        
+
+
     def test_use_as_benchmark(self):
         """check that the value inside the restrict card overwritte the default
         parameter such that this option can be use for benchmark point"""
-        
+
         params_ext = self.model['parameters'][('external',)]
         value = {}
-        [value.__setitem__(data.name, data.value) for data in params_ext] 
+        [value.__setitem__(data.name, data.value) for data in params_ext]
         self.model.restrict_model(self.restrict_file)
         #use the UFO -> MG4 converter class
-        
+
         params_ext = self.model['parameters'][('external',)]
         value2 = {}
-        [value2.__setitem__(data.name, data.value) for data in params_ext] 
-        
+        [value2.__setitem__(data.name, data.value) for data in params_ext]
+
         self.assertNotEqual(value['WW'], value2['WW'])
-                
+
     def test_model_name(self):
         """ test that the model name is correctly set """
         self.assertEqual(self.base_model["name"], "sm")
-        model = import_ufo.import_model('sm-full') 
+        model = import_ufo.import_model('sm-full')
         self.assertEqual(model["name"], "sm-full")
-        model = import_ufo.import_model('sm-no_b_mass') 
-        self.assertEqual(model["name"], "sm-no_b_mass")        
-
+        model = import_ufo.import_model('sm-no_b_mass')
+        self.assertEqual(model["name"], "sm-no_b_mass")

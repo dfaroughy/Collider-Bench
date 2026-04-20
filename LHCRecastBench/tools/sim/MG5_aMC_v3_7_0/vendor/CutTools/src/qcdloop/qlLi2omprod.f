@@ -1,7 +1,7 @@
       double complex function qlLi2omprod(v,w,z,iep)
       implicit none
       include 'qlconstants.f'
-c     expression for dilog(1-(v-i*ep)/(w-i*ep)*(z+iep)) 
+c     expression for dilog(1-(v-i*ep)/(w-i*ep)*(z+iep))
 C     for real v,w and complex z
       double precision v,w,y,ddilog,rarg,omrarg,iep
       double complex qllnrat,lnarg,lnomarg,prod,arg,omarg,z,cln,
@@ -12,7 +12,7 @@ C----case for real z
       rarg=v*y/w
       omrarg=1d0-rarg
       if (rarg .le. 1d0) then
-         if (rarg .eq. 0d0 .or. rarg .eq. 1d0) then 
+         if (rarg .eq. 0d0 .or. rarg .eq. 1d0) then
             prod=0d0
          else
             lnarg=qllnrat(v,w)+cln(z,iep)
@@ -32,7 +32,7 @@ C----case for complex z
       arg=dcmplx(v/w)*z
       omarg=cone-arg
       if (abs(arg) .le. 1d0) then
-         if (abs(arg) .eq. 0d0 .or. abs(arg) .eq. 1d0) then 
+         if (abs(arg) .eq. 0d0 .or. abs(arg) .eq. 1d0) then
             prod=0d0
          else
             lnarg=qllnrat(v,w)+cln(z,iep)
@@ -49,5 +49,5 @@ C----case for complex z
       endif
 
       endif
-      return 
+      return
       end

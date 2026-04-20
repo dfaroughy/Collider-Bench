@@ -34,7 +34,7 @@ all: $(targets) ../config.mk
 config.mk: ../configure
 	cd ..; ./configure
 
-# Main part: build library. 
+# Main part: build library.
 
 $(TMPDIR)/%%.o : $(SRCDIR)/%%.cc
 	@mkdir -p $(TMPDIR)

@@ -36,7 +36,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer i
       integer kk,l
       call HwU_write_file
-      return                
+      return
       end
 
 
@@ -102,7 +102,7 @@ CC     $   '|T@NLOQ2J','|T@NLOQJJ'/
       do j=nincoming+1,nexternal
           nQCD=nQCD+1
           do i=0,3
-             pQCD(i,nQCD)=p(i,j) 
+             pQCD(i,nQCD)=p(i,j)
           enddo
       enddo
 
@@ -145,7 +145,7 @@ CC     $   '|T@NLOQ2J','|T@NLOQJJ'/
          call HwU_fill(l+8,dlog10(pt_ttx),wgts)
       enddo
 c
- 999  return      
+ 999  return
       end
 
 
@@ -161,7 +161,7 @@ c
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

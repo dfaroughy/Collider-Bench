@@ -8,19 +8,19 @@
 #ifndef HelAmps_sm_H
 #define HelAmps_sm_H
 
-#include <cmath> 
+#include <cmath>
 #include "Complex.h"
 
-using namespace std; 
+using namespace std;
 
-namespace Pythia8_sm 
+namespace Pythia8_sm
 {
 void vxxxxx(double p[4], double vmass, int nhel, int nsv, Complex<double>
     v[6]);
 
-void sxxxxx(double p[4], int nss, Complex<double> sc[3]); 
+void sxxxxx(double p[4], int nss, Complex<double> sc[3]);
 
-double Sgn(double e, double f); 
+double Sgn(double e, double f);
 
 void txxxxx(double p[4], double tmass, int nhel, int nst, Complex<double>
     fi[18]);
@@ -426,4 +426,3 @@ void VVVV1_3(Complex<double> V1[], Complex<double> V2[], Complex<double> V4[],
 }  // end namespace Pythia8_sm
 
 #endif  // HelAmps_sm_H
-

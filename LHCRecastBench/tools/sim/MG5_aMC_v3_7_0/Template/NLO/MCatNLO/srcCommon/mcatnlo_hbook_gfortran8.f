@@ -3,7 +3,7 @@ C#### YOU WILL NOT NEED WHAT FOLLOWS IN YOUR OWN ANALYSIS
 C####
 C************************************************************************
 C
-C                           HISTOGRAMMING PACKAGE 
+C                           HISTOGRAMMING PACKAGE
 C                                 M. MANGANO
 C
 C************************************************************************
@@ -17,9 +17,9 @@ C    LAST REVISED oct 1990 (Add multi-plots on one page, routines MULTITOP,
 C         			MTFILL,...)
 C**********************************************************************
 C
-C Fills up to 100 histograms with up to 100 bins. 
-C Gives a data file (to be specified in the calling program by assigning 
-C a file name to unit 98) and a topdrawer file (to be specified in the 
+C Fills up to 100 histograms with up to 100 bins.
+C Gives a data file (to be specified in the calling program by assigning
+C a file name to unit 98) and a topdrawer file (to be specified in the
 C calling program by assigning a file name to unit 99).
 C
 C INITIALIZATION:
@@ -37,12 +37,12 @@ C The bin size will be 1. (possibly GeV, if that's what you want), the
 C first bin being  10<x<11. and the last one being 69.<x<70
 C
 C FILLING:
-C When it's time, call MFILL(N,X,Y); this will add Y (real*8) to the bin 
-C in which X (real*8) happens to be, within histogram N. 
+C When it's time, call MFILL(N,X,Y); this will add Y (real*8) to the bin
+C in which X (real*8) happens to be, within histogram N.
 C
 C PLAYING AROUND:
 C At the end of the day you may want to sum, divide, cancel, etc.etc.
-C various histograms (bin by bin). Then you call MOPERA(I,'O',J,K,X,Y). 
+C various histograms (bin by bin). Then you call MOPERA(I,'O',J,K,X,Y).
 C The 1-character string O can take the following values:
 C +  : sums       X*(hist I) with Y*(hist J) and puts the result in hist K;
 C -  : subtracts  X*(hist I) with Y*(hist J) and puts the result in hist K;
@@ -57,7 +57,7 @@ C      value at a given bin is less than or equal to 0, puts 0 in K
 C M  : statistical analysis; if I contains the weights (let's say WGT),
 C      J contains variable times weight (F*WGT) and K contains the
 C      variable squared times the weight (F**2*WGT), then, after using 'M',
-C      J will contain the average value of the variable <F> and K will 
+C      J will contain the average value of the variable <F> and K will
 C      contain the sigma of the average: sigma=sqrt(<F**2>-<F>**2).
 C      If WGT=1. for all the entries, then it is enough to put I=J, and
 C      it is not necessary to book a hist with the weights.
@@ -65,8 +65,8 @@ C V  : estimates errors for vegas evaluation of differential distributions.
 C      Fill I with the values of
 C      the functions do integrate times the Vegas weight (fun*wgt); fill
 C      J with fun**2*wgt; then K will contain an estimate of the error
-C      of the integration. Putting X=1/(#of iterations) performs the 
-C      avegare over the iterations, and gives the right normalization to 
+C      of the integration. Putting X=1/(#of iterations) performs the
+C      avegare over the iterations, and gives the right normalization to
 C      the differential distribution, I, and to the errors, K. J stays the same.
 C
 C FINAL ACCOUNTING:
@@ -80,12 +80,12 @@ C OUTPUT:
 C To get a .dat file containing the values of the histograms, together with
 C some information (like integral, mean values, etc.etc.) call MPRINT(N),
 C for each hist N that you want in the .dat file. Before the call to MPRINT
-C you want to open unit 98 and give it a name:                       
+C you want to open unit 98 and give it a name:
 C     OPEN(UNIT=98,NAME='NAME.DAT',STATUS='NEW')
-C If you want a topdrawer file with a plot of the hist values, call 
+C If you want a topdrawer file with a plot of the hist values, call
 C MTOP(N,M,'X','Y','SCALE'). The points of the plot will be taken from histogram
 C N, the error bars from histogram M. 'SCALE', character*(*), determines
-C the scale for y, logarithmic or linear (SCALE=LOG,LIN). 
+C the scale for y, logarithmic or linear (SCALE=LOG,LIN).
 C If you do not want error bars, keep
 C a histogram of zeros, or just call a hist that had not been booked.
 C X will appear as a 'bottom title', and Y will appear as a 'left title'.
@@ -96,8 +96,8 @@ C     OPEN(UNIT=99,NAME='NAME.TOP',STATUS='NEW')
 C--------------------------------------------------------------------------
 C
 C  COMMON/HISTO/  Histogram N
-C                           
-C   BOOK(N),      Three-letter character-string: 'NO' if histogram was not 
+C
+C   BOOK(N),      Three-letter character-string: 'NO' if histogram was not
 C		  Booked, 'RES' if it was resetted, 'YES' otherwise
 C   TITLE(N),     Title of the histogram
 C
@@ -126,12 +126,12 @@ C
       INTEGER I
       NHIST=0
       NHIST2=0
-      DO 1, I=1,NMB             
+      DO 1, I=1,NMB
    1  BOOK(I)=' NO'
       DO 2 I=1,50
    2  BOOK2(I)=' NO'
-      END  
-    
+      END
+
       SUBROUTINE MBOOK(N,TIT,DEL,XMIN,XMAX)
       IMPLICIT NONE
       INCLUDE 'mcatnlo_hbook_gfortran8.inc'
@@ -207,7 +207,7 @@ C SF, 10/3/2010 -- avoids numerical problems
       SUBROUTINE MINTEG(NIN,NOUT,IDIR,IPOW)
 C If IPOW=1 performs the integral of the distribution contained in histogram
 C NIN up to the value specified by the abscissa (if IDIR=1) or from this
-C value on (if IDIR=-1). The resulting integral distribution is put into 
+C value on (if IDIR=-1). The resulting integral distribution is put into
 C NOUT, which is automatically booked if NOUT.ne.NIN .  Choosing IPOW=2
 C the routine will return the square root of the integral of the squares,
 C as is required, for example, for the propagation of the mean quadratic error
@@ -217,22 +217,22 @@ C of a given distribution. Overscores and underscores are included.
       INTEGER NIN,NOUT,IDIR,IPOW,I,L,M
       REAL*8 SUMPOW
       CHARACTER*14  C
-      DIMENSION C(2) 
+      DIMENSION C(2)
       DATA C/' INTEG BELOW X',' INTEG ABOVE X'/
       IF(BOOK(NIN)(1:1).NE.'Y') RETURN
-      M = NBIN(NIN)                                           
+      M = NBIN(NIN)
       I = (IDIR + 3)/2
       IF(NOUT.NE.NIN.AND.BOOK(NOUT)(1:1).NE.'Y') THEN
-      	CALL MBOOK(NOUT,TITLE(NIN)//C(I), 
+      	CALL MBOOK(NOUT,TITLE(NIN)//C(I),
      &                HDEL(NIN),HMIN(NIN),HMAX(NIN))
       ENDIF
       IF(IDIR.EQ.1) THEN
          HIST(NOUT,1) = SUMPOW(HIST(NIN,1),USCORE(NIN),IPOW)
          IHIS(NOUT,1) = IHIS(NIN,1) + IUSCORE(NIN)
          XHIS(NOUT,1) = XHIS(NIN,1) + HDEL(NIN)/2
-         DO L=2,M                      
+         DO L=2,M
             HIST(NOUT,L) = SUMPOW(HIST(NIN,L),HIST(NOUT,L-1),IPOW)
-            IHIS(NOUT,L) = IHIS(NIN,L) + IHIS(NOUT,L-1) 
+            IHIS(NOUT,L) = IHIS(NIN,L) + IHIS(NOUT,L-1)
             XHIS(NOUT,L) = XHIS(NIN,L) + HDEL(NIN)/2
          ENDDO
          OSCORE(NOUT) = SUMPOW(OSCORE(NIN),HIST(NIN,M),IPOW)
@@ -241,14 +241,14 @@ C of a given distribution. Overscores and underscores are included.
          HIST(NOUT,M) = SUMPOW(HIST(NIN,M),OSCORE(NIN),IPOW)
          IHIS(NOUT,M) = IHIS(NIN,M) + IOSCORE(NIN)
          XHIS(NOUT,M) = XHIS(NIN,M) - HDEL(NIN)/2
-         DO L=M-1,1,-1                        
+         DO L=M-1,1,-1
             HIST(NOUT,L) = SUMPOW(HIST(NIN,L),HIST(NOUT,L+1),IPOW)
             IHIS(NOUT,L) = IHIS(NIN,L) + IHIS(NOUT,L+1)
             XHIS(NOUT,L) = XHIS(NIN,L) - HDEL(NIN)/2
          ENDDO
          USCORE(NOUT) = SUMPOW(USCORE(NIN),HIST(NIN,1),IPOW)
          IUSCORE(NOUT) = IUSCORE(NIN)+IHIS(NIN,1)
-      ELSE                                 
+      ELSE
          CALL MBWARN('MINTEG')
          WRITE(*,*) 'Wrong idir in minteg: OPERATION NOT PERFORMED'
          RETURN
@@ -282,13 +282,13 @@ C of a given distribution. Overscores and underscores are included.
       IF(NBIN(I).NE.NBIN(J).AND.(OPER.EQ.'+'.OR.OPER.EQ.'-'.OR.OPER.EQ.
      &    '*'.OR.OPER.EQ.'/'.OR.OPER.EQ.'M'.OR.OPER.EQ.'A')) THEN
 	  CALL MBWARN('MOPERA')
-          WRITE(*,*) I,J                               
+          WRITE(*,*) I,J
   20      FORMAT(' ****** INCOMPATIBLE OPERATION HIST ',I2,' &',I2,
      &    '*******'/)
           RETURN
       ENDIF
       IF(BOOK(I)(1:1).NE.'Y'.OR.BOOK(J)(1:1).NE.'Y') RETURN
-      IF(BOOK(K)(1:1).NE.'Y') 
+      IF(BOOK(K)(1:1).NE.'Y')
      &  CALL MBOOK(K,TITLE(I),HDEL(I),HMIN(I),HMAX(I))
       IF(OPER.EQ.'E') THEN
 c If I contains the accumulated weights, J the accumulated squares of the
@@ -363,12 +363,12 @@ c the average value of I to K and will put in J the quadratic dispersion.
       	ELSEIF(OPER.EQ.'R') THEN
           IF(HIST(I,L).GT.0.) THEN
             HIST(K,L)=X*SQRT(HIST(I,L))
-          ELSE                           
+          ELSE
             HIST(K,L)=0.
           ENDIF
       	ELSEIF(OPER.EQ.'S') THEN
           HIST(K,L)=X*HIST(I,L)**2
-      	ELSEIF(OPER.EQ.'L') THEN  
+      	ELSEIF(OPER.EQ.'L') THEN
           IF(HIST(I,L).EQ.0..OR.J.EQ.0.) THEN
              HIST(K,L)=0.
            ELSE
@@ -381,22 +381,22 @@ c the average value of I to K and will put in J the quadratic dispersion.
              XAVG=HIST(J,L)/XNORM
              HIST(K,L)=
      &       SQRT(ABS(-XAVG**2+HIST(K,L)/XNORM)/DFLOAT(IHIS(I,L)))
-             HIST(J,L)=XAVG 
-           ELSE 
+             HIST(J,L)=XAVG
+           ELSE
              HIST(K,L)=0.
              HIST(J,L)=0.
            ENDIF
-      	ELSEIF(OPER.EQ.'V') THEN                 
+      	ELSEIF(OPER.EQ.'V') THEN
            XAVG=HIST(I,L)*X
            XSQAVG=HIST(J,L)*X
            XNORM=DFLOAT(IHIS(I,L))*X
            IF(XNORM.NE.0.) THEN
               HIST(K,L)=SQRT(ABS(XSQAVG-XAVG**2)/XNORM)
               HIST(I,L)=XAVG
-           ELSE  
+           ELSE
               HIST(K,L)=0.
-           ENDIF 
-      	ELSE 
+           ENDIF
+      	ELSE
 	 CALL MBWARN('MOPERA')
          WRITE(*,*) OPER
    5     FORMAT(' ****** OPERATION ="',A1,'" UNKNOWN ********'/)
@@ -404,15 +404,15 @@ c the average value of I to K and will put in J the quadratic dispersion.
         ENDIF
         ENDDO
       	IF(OPER.EQ.'+') THEN
-       	  USCORE(K)=X*USCORE(I) + Y*USCORE(J)  
-       	  OSCORE(K)=X*OSCORE(I) + Y*OSCORE(J)  
-      	ELSEIF(OPER.EQ.'-') THEN     
+       	  USCORE(K)=X*USCORE(I) + Y*USCORE(J)
+       	  OSCORE(K)=X*OSCORE(I) + Y*OSCORE(J)
+      	ELSEIF(OPER.EQ.'-') THEN
       	  USCORE(K)=X*USCORE(I) - Y*USCORE(J)
       	  OSCORE(K)=X*OSCORE(I) - Y*OSCORE(J)
-      	ELSEIF(OPER.EQ.'*') THEN     
+      	ELSEIF(OPER.EQ.'*') THEN
       	  USCORE(K)=X*USCORE(I) * Y*USCORE(J)
       	  OSCORE(K)=X*OSCORE(I) * Y*OSCORE(J)
-      	ELSEIF(OPER.EQ.'/') THEN     
+      	ELSEIF(OPER.EQ.'/') THEN
           IF(Y.EQ.0..OR.USCORE(J).EQ.0.) THEN
             USCORE(K)=0.
           ELSE
@@ -429,28 +429,28 @@ c the average value of I to K and will put in J the quadratic dispersion.
       	ELSEIF(OPER.EQ.'R') THEN
           IF(USCORE(I).GT.0.) THEN
             USCORE(K)=X*SQRT(USCORE(I))
-          ELSE                           
+          ELSE
             USCORE(K)=0.
-          ENDIF     
+          ENDIF
           IF(OSCORE(I).GT.0.) THEN
             OSCORE(K)=X*SQRT(OSCORE(I))
-          ELSE                           
+          ELSE
             OSCORE(K)=0.
-          ENDIF     
+          ENDIF
       	ELSEIF(OPER.EQ.'S') THEN
           USCORE(K)=X*USCORE(I)**2
           OSCORE(K)=X*OSCORE(I)**2
-      	ELSEIF(OPER.EQ.'L') THEN  
+      	ELSEIF(OPER.EQ.'L') THEN
           IF(USCORE(I).EQ.0..OR.J.EQ.0.) THEN
              USCORE(K)=0.
            ELSE
              USCORE(K)=X*LOG10(Y*USCORE(I))
-           ENDIF                         
+           ENDIF
           IF(OSCORE(I).EQ.0..OR.J.EQ.0.) THEN
              OSCORE(K)=0.
            ELSE
              OSCORE(K)=X*LOG10(Y*OSCORE(I))
-           ENDIF                         
+           ENDIF
         ENDIF
       ENDIF
       RETURN
@@ -466,7 +466,7 @@ C If the histogram is not booked or resetted, do not copy it
 C If the histogram was resetted without having being booked, do not copy it.
 C This may happen if MFINAL is called prior to MCOPY
       IF(BOOK(NIN)(1:1).EQ.'R'.AND.HMIN(NIN).EQ.HMAX(NIN)) RETURN
-      IF(BOOK(NOUT)(1:1).NE.'Y'.AND.BOOK(NOUT)(1:1).NE.'R') 
+      IF(BOOK(NOUT)(1:1).NE.'Y'.AND.BOOK(NOUT)(1:1).NE.'R')
      &  CALL MBOOK(NOUT,TITLE(NIN)(2:),HDEL(NIN),HMIN(NIN),HMAX(NIN))
       IF(BOOK(NIN).EQ.'RES')BOOK(NOUT)='RES'
       HDEL(NOUT)=HDEL(NIN)
@@ -500,7 +500,7 @@ C This may happen if MFINAL is called prior to MCOPY
       HINT(N)=0.
       DO 1 I=1,NBIN(N)
    1  HIST(N,I)=0.
-      END                   
+      END
 
       SUBROUTINE MDUMP(N)
       IMPLICIT NONE
@@ -514,45 +514,45 @@ C This may happen if MFINAL is called prior to MCOPY
       SAVE HISTL,XHISL,HDELL,HMINL,HMAXL,USCOREL,OSCOREL,
      &NBINL,IHISL,IUSCOREL,IOSCOREL,IENTL,HAVGL,HINTL,HSIGL,
      &BOOKL,TITLEL
-      BOOKL=BOOK(N)                                                           
-      TITLEL=TITLE(N)                   
-      HDELL=HDEL(N)  
+      BOOKL=BOOK(N)
+      TITLEL=TITLE(N)
+      HDELL=HDEL(N)
       HMINL=HMIN(N)
       HMAXL=HMAX(N)
       USCOREL=USCORE(N)
       OSCOREL=OSCORE(N)
       NBINL=NBIN(N)
       HSIGL=HSIG(N)
-      IENTL=IENT(N)     
+      IENTL=IENT(N)
       IUSCOREL=IUSCORE(N)
-      IOSCOREL=IOSCORE(N)      
-      HAVGL=HAVG(N)         
-      HINTL=HINT(N)   
+      IOSCOREL=IOSCORE(N)
+      HAVGL=HAVG(N)
+      HINTL=HINT(N)
       DO 1 I=1,NBIN(N)
       XHISL(I)=XHIS(N,I)
       IHISL(I)=IHIS(N,I)
    1  HISTL(I)=HIST(N,I)
       RETURN
       ENTRY MFETCH(N)
-      BOOK(N)=BOOKL                   
-      TITLE(N)=TITLEL                   
-      HDEL(N)=HDELL  
+      BOOK(N)=BOOKL
+      TITLE(N)=TITLEL
+      HDEL(N)=HDELL
       HMIN(N)=HMINL
       HMAX(N)=HMAXL
       USCORE(N)=USCOREL
       OSCORE(N)=OSCOREL
       NBIN(N)=NBINL
       HSIG(N)=HSIGL
-      IENT(N)=IENTL     
+      IENT(N)=IENTL
       IUSCORE(N)=IUSCOREL
-      IOSCORE(N)=IOSCOREL      
-      HAVG(N)=HAVGL         
-      HINT(N)=HINTL   
+      IOSCORE(N)=IOSCOREL
+      HAVG(N)=HAVGL
+      HINT(N)=HINTL
       DO 2 I=1,NBINL
       XHIS(N,I)=XHISL(I)
       IHIS(N,I)=IHISL(I)
    2  HIST(N,I)=HISTL(I)
-      END               
+      END
 
       SUBROUTINE MRESET(N)
       IMPLICIT NONE
@@ -580,7 +580,7 @@ c Per marcare un istogramma
       REAL*8 AVG,XIN,SIG,IF,X
 c
       AVG=0
-      XIN=0                                  
+      XIN=0
       SIG=0
       IF=0
       DO J=1,NBIN(N)
@@ -588,7 +588,7 @@ c
  	 AVG=AVG+X*XHIS(N,J)
          XIN=XIN+X
 	 IF(X.NE.0) IF=1
-      ENDDO             
+      ENDDO
       IF(XIN.EQ.0) GO TO 10
       AVG = AVG/XIN
       DO J=1,NBIN(N)
@@ -600,7 +600,7 @@ c
       HAVG(N) = AVG
       HSIG(N) = SIG
       IF(IF.EQ.0) BOOK(N)='RES'
-      END               
+      END
 
       SUBROUTINE MFINAL3(N)
 C Identical to MFINAL, except for the fact that if the histogram is void
@@ -611,7 +611,7 @@ C but was previously booked, BOOK is left as it is and not set to RES
       REAL*8 AVG,XIN,SIG,IF,X
       IF(BOOK(N)(1:1).NE.'Y') RETURN
       AVG=0
-      XIN=0                                  
+      XIN=0
       SIG=0
       IF=0
       IF(HMIN(N).NE.HMAX(N))IF=1
@@ -620,7 +620,7 @@ C but was previously booked, BOOK is left as it is and not set to RES
  	 AVG=AVG+X*XHIS(N,J)
          XIN=XIN+X
 	 IF(X.NE.0) IF=1
-      ENDDO             
+      ENDDO
       IF(XIN.EQ.0) GO TO 10
       AVG = AVG/XIN
       DO J=1,NBIN(N)
@@ -632,7 +632,7 @@ C but was previously booked, BOOK is left as it is and not set to RES
       HAVG(N) = AVG
       HSIG(N) = SIG
       IF(IF.EQ.0) BOOK(N)='RES'
-      END               
+      END
 
       SUBROUTINE MNORM(N,X)
       IMPLICIT NONE
@@ -671,7 +671,7 @@ c        CALL MBKWRN('MNORM')
       WRITE(98,*) TITLE(N)
       DO 1 J=1,NBIN(N)
       IF(HIST(N,J).EQ.0.) GO TO 1
-      WRITE(98,'(3X,F10.4,2X,E15.4)')  
+      WRITE(98,'(3X,F10.4,2X,E15.4)')
      &                            XHIS(N,J),HIST(N,J)
     1 CONTINUE
       WRITE(98,15) HAVG(N),HSIG(N),HINT(N)
@@ -696,27 +696,27 @@ c        CALL MBKWRN('MNORM')
       ENDIF
       IF(BOOK(N)(:1).NE.'Y') RETURN
       WRITE(99,100) TITLE(N),BTIT,LTIT,SCALE,HMIN(N),HMAX(N)
-  100 FORMAT( /1x,                               
+  100 FORMAT( /1x,
      &' SET WINDOW Y 2.5 TO 9.'/,1X,
      &' SET WINDOW X 2.5 TO 10.'/,1X,
-     &' SET FONT DUPLEX '/1X, 
+     &' SET FONT DUPLEX '/1X,
      &' SET SYMBOL 5O SIZE 1.8'/,1X,
      &' TITLE TOP ','"',A,'"',/1X,
      &' TITLE BOTTOM ','"',A,'"',/1X,
      &' TITLE LEFT ','"',A,'"',/1X,
      &' SET SCALE Y ',A,/1X,
-     &' (SET TICKS TOP OFF)   '/1x,     
+     &' (SET TICKS TOP OFF)   '/1x,
      &' SET LIMITS X ',F10.5,' ',F10.5,/1X,
      &' SET ORDER X Y DY ')
       DO 1 J=1,NBIN(N)
-      WRITE(99,'(3X,F10.4,2(2X,E15.4))')  
+      WRITE(99,'(3X,F10.4,2(2X,E15.4))')
      &                            XHIS(N,J),HIST(N,J),HIST(M,J)
     1 CONTINUE
       WRITE(99,200)
   200 FORMAT('   PLOT')
       WRITE(99,300) HINT(N),HAVG(N),HSIG(N),IENT(N),IUSCORE(N)
      &   ,IOSCORE(N),USCORE(N),OSCORE(N),IMON,IDAY,IYEAR,CTIME(1:5)
-  300 FORMAT( /1x,                               
+  300 FORMAT( /1x,
      &' BOX 6.25 0.9 SIZE 7.5 1.2'/,1X,
      &' SET WINDOW Y 0. TO 2.'/,1X,
      &' SET TITLE SIZE -1.5'/1X,
@@ -727,12 +727,12 @@ c        CALL MBKWRN('MNORM')
      &                                 ,'Oversc =',I6,'"',/1X,
      &' TITLE 2.8 0.6 "Intgr ufloat=',1PE10.3,'  Intgr ofloat=',
      &      1PE10.3,'"',/1X,
-     &' TITLE 7.5 0.6 "',I2,'-',I2,', 19',I2,2X,A5,'"',/1X,                
-     &' SET TITLE SIZE -2')                            
+     &' TITLE 7.5 0.6 "',I2,'-',I2,', 19',I2,2X,A5,'"',/1X,
+     &' SET TITLE SIZE -2')
       WRITE(99,400)
   400 FORMAT('   NEW PLOT')
       END
- 
+
       SUBROUTINE MNRTOP(N,M,BTIT,LTIT,SCALE)
       IMPLICIT NONE
       INCLUDE 'mcatnlo_hbook_gfortran8.inc'
@@ -747,28 +747,28 @@ c        CALL MBKWRN('MNORM')
       ENDIF
       CALL MFINAL(N)
       WRITE(99,100) TITLE(N)(1:20),BTIT,LTIT,SCALE,HMIN(N),HMAX(N)
-  100 FORMAT( /1x,                               
+  100 FORMAT( /1x,
      &' SET WINDOW Y 2.5 TO 7.'/,1X,
      &' SET WINDOW X 2.5 TO 10.'/,1X,
-     &' SET FONT DUPLEX '/1X, 
+     &' SET FONT DUPLEX '/1X,
      &' SET SYMBOL 5O SIZE 1.8'/,1X,
      &' TITLE TOP ','"',A,'"',/1X,
      &' TITLE BOTTOM ','"',A,'"',/1X,
      &' TITLE LEFT ','"',A,'"',/1X,
      &' SET SCALE Y ',A,/1X,
-     &' (SET TICKS TOP OFF)   '/1x,     
+     &' (SET TICKS TOP OFF)   '/1x,
      &' SET LIMITS X ',F10.5,' ',F10.5,/1X,
      &' SET ORDER X Y DY ')
       DO 1 J=1,NBIN(N)
       IF(HIST(N,J).EQ.0) GO TO 1
-      WRITE(99,'(3X,F10.4,2(2X,E10.3))')  
+      WRITE(99,'(3X,F10.4,2(2X,E10.3))')
      &                            XHIS(N,J),HIST(N,J),HIST(M,J)
     1 CONTINUE
       WRITE(99,200)
   200 FORMAT('   PLOT')
       WRITE(99,300) HINT(N),HAVG(N),HSIG(N),IENT(N),IUSCORE(N)
      &   ,IOSCORE(N),USCORE(N),OSCORE(N),IMON,IDAY,IYEAR,CTIME(1:5)
-  300 FORMAT( /1x,                               
+  300 FORMAT( /1x,
      &' BOX 6.25 0.9 SIZE 7.5 1.2'/,1X,
      &' SET WINDOW Y 0. TO 2.'/,1X,
      &' SET TITLE SIZE -1.5'/1X,
@@ -779,7 +779,7 @@ c        CALL MBKWRN('MNORM')
      &                                 ,'Oversc =',I6,'"',/1X,
      &' TITLE 2.8 0.6 "Intgr ufloat=',1PE10.3,'  Intgr ofloat=',
      &      1PE10.3,'"',/1X,
-     &' TITLE 7.5 0.6 "',I2,'-',I2,', 19',I2,2X,A5,'"',/1X,                
+     &' TITLE 7.5 0.6 "',I2,'-',I2,', 19',I2,2X,A5,'"',/1X,
      &' SET TITLE SIZE -2')
       WRITE(99,400)
   400 FORMAT('   NEW PLOT')
@@ -799,19 +799,19 @@ c        CALL MBKWRN('MNORM')
          WRITE(*,*) 'Histogram',N,TITLE2(N),' already in use. '
          WRITE(*,*) 'superseded by ',TIT
       ENDIF
-      TITLE2(N)='   '//TIT                     
+      TITLE2(N)='   '//TIT
       BOOK2(N)='YES'
 C-- setup x-boundaries
       HDEL2(1,N)=DELX
-      HMIN2(1,N)=XMIN  
+      HMIN2(1,N)=XMIN
       HMAX2(1,N)=XMAX
       NBIN2(1,N)=INT((XMAX-XMIN)/(DELX*0.9999))
 C-- setup y-boundaries
       HDEL2(2,N)=DELY
-      HMIN2(2,N)=YMIN  
+      HMIN2(2,N)=YMIN
       HMAX2(2,N)=YMAX
       NBIN2(2,N)=INT((YMAX-YMIN)/(DELY*0.9999))
-      IENT2(N)=0                      
+      IENT2(N)=0
       IOSCORE2(N)=0
       HAVG2(1,N)=0.
       HAVG2(2,N)=0.
@@ -824,9 +824,9 @@ C-- setup y-boundaries
    2  CONTINUE
       DO 3 I=1,NBIN2(1,N)
       DO 3 J=1,NBIN2(2,N)
-      HIST2(N,I,J)=0.                   
+      HIST2(N,I,J)=0.
    3  CONTINUE
-      END        
+      END
 
       SUBROUTINE MFILL2(N,X,Y,WGT)
       IMPLICIT NONE
@@ -838,7 +838,7 @@ C-- setup y-boundaries
 C Modified by SF on 10/8/2005; now similar to mfill()
       IF( X.LT.HMIN2(1,N) .OR. X.GE.HMAX2(1,N) .OR.
      #    Y.LT.HMIN2(2,N) .OR. Y.GE.HMAX2(2,N) )THEN
-         IOSCORE2(N)=IOSCORE2(N)+1 
+         IOSCORE2(N)=IOSCORE2(N)+1
       ELSE
          XI=((X-HMIN2(1,N))/HDEL2(1,N))+1.
          YI=((Y-HMIN2(2,N))/HDEL2(2,N))+1.
@@ -850,7 +850,7 @@ C Modified by SF on 10/8/2005; now similar to mfill()
            IHIS2(N,I,J)=IHIS2(N,I,J)+1
            HIST2(N,I,J)=HIST2(N,I,J)+WGT
          ELSE
-           IOSCORE2(N)=IOSCORE2(N)+1 
+           IOSCORE2(N)=IOSCORE2(N)+1
          ENDIF
       ENDIF
       END
@@ -864,7 +864,7 @@ C Modified by SF on 10/8/2005; now similar to mfill()
       CHARACTER OPER*1
       INTEGER L1,L2
       IF(NBIN2(1,I).NE.NBIN2(1,J).OR.NBIN2(2,I).NE.NBIN2(2,J).
-     &AND.(OPER.EQ.'+'.OR.OPER.EQ.'-'.OR.OPER.EQ.         
+     &AND.(OPER.EQ.'+'.OR.OPER.EQ.'-'.OR.OPER.EQ.
      &'*'.OR.OPER.EQ.'/'.OR.OPER.EQ.'M')) GO TO 10
       DO L1=1,NBIN2(1,I)
       DO L2=1,NBIN2(2,I)
@@ -908,7 +908,7 @@ C Modified by SF on 10/8/2005; now similar to mfill()
   20  FORMAT(' ****** INCOMPATIBLE OPERATION HIST2 ',I2,' &',I2,
      &                                                   '*******'/)
       END
-     
+
 
       SUBROUTINE MCOPY2(NIN,NOUT)
       IMPLICIT NONE
@@ -921,7 +921,7 @@ C If the histogram was resetted without having being booked, do not copy it.
 C This may happen if MFINAL2 is called prior to MCOPY2
       IF(BOOK2(NIN)(1:1).EQ.'R'.AND.
      &   HMIN2(1,NIN).EQ.HMAX2(1,NIN)) RETURN
-      IF(BOOK2(NOUT)(1:1).NE.'Y'.AND.BOOK2(NOUT)(1:1).NE.'R') 
+      IF(BOOK2(NOUT)(1:1).NE.'Y'.AND.BOOK2(NOUT)(1:1).NE.'R')
      &  CALL MBOOK2(NOUT,TITLE2(NIN),
      &              HDEL2(1,NIN),HMIN2(1,NIN),HMAX2(1,NIN),
      &              HDEL2(2,NIN),HMIN2(2,NIN),HMAX2(2,NIN))
@@ -964,7 +964,7 @@ C This may happen if MFINAL2 is called prior to MCOPY2
       INTEGER N,I,J
       REAL*8 XIN
       IF(BOOK2(N)(:1).NE.'Y') RETURN
-      XIN=0.                                  
+      XIN=0.
 C-- projection on the x-axis
       DO 2 I=1,NBIN2(1,N)
         DO 1 J=1,NBIN2(2,N)
@@ -978,20 +978,20 @@ C-- projection on the y-axis
       HINT2(N)=XIN
       RETURN
   10  BOOK2(N)=' NO'
-      END               
+      END
 
       SUBROUTINE MFINAL32(N)
 C Identical to MFINAL3, except for the fact that if the histogram is void
-C but was previously booked, BOOK is left as it is and not set to RES, 
-C and for the fact that XPROJ and YPROJ are initialized to zero, which 
-C might prevent errors in the computation of the integral in the case that 
+C but was previously booked, BOOK is left as it is and not set to RES,
+C and for the fact that XPROJ and YPROJ are initialized to zero, which
+C might prevent errors in the computation of the integral in the case that
 C the histograms are plotted several times during a single run (via MCOPY2)
       IMPLICIT NONE
       INCLUDE 'mcatnlo_hbook_gfortran8.inc'
       INTEGER N,I,J
       REAL*8 XIN
       IF(BOOK2(N)(1:1).NE.'Y') RETURN
-      XIN=0.                                  
+      XIN=0.
       DO I=1,NBIN2(1,N)
         XPROJ(N,I)=0.
       ENDDO
@@ -1011,7 +1011,7 @@ C-- projection on the y-axis
       HINT2(N)=XIN
       RETURN
   10  BOOK2(N)=' NO'
-      END               
+      END
 
       SUBROUTINE PROHIS(N,M,IAX)
 C-- projects the scatter plot N onto the IAX axis (x,y->IAX=1,2) and
@@ -1019,7 +1019,7 @@ C   put the contents in histogram M, after automatically booking it.
       IMPLICIT NONE
       INCLUDE 'mcatnlo_hbook_gfortran8.inc'
       INTEGER N,M,IAX,I
-      BOOK(M)='YES'      
+      BOOK(M)='YES'
       NBIN(M)=NBIN2(IAX,N)
       HDEL(M)=HDEL2(IAX,N)
       HMIN(M)=HMIN2(IAX,N)
@@ -1035,10 +1035,10 @@ C   put the contents in histogram M, after automatically booking it.
       XHIS(M,I)=YHIS2(N,I)
       ENDIF
       ENDDO
-      END                             
+      END
 
 
-      SUBROUTINE MNORM2(N,X)    
+      SUBROUTINE MNORM2(N,X)
       IMPLICIT NONE
       INCLUDE 'mcatnlo_hbook_gfortran8.inc'
       INTEGER N,I,J
@@ -1047,8 +1047,8 @@ C   put the contents in histogram M, after automatically booking it.
       DO 1, I=1,NBIN2(1,N)
       DO 1, J=1,NBIN2(2,N)
     1 HIST2(N,I,J)=HIST2(N,I,J)/HINT2(N)*X
-      HINT2(N)=X                      
-      END  
+      HINT2(N)=X
+      END
 
       SUBROUTINE MPRINT2(N)
       IMPLICIT NONE
@@ -1056,7 +1056,7 @@ C   put the contents in histogram M, after automatically booking it.
       INTEGER N,I,J
       CHARACTER CTIME*10,CDATE*10
       INTEGER INI,IMON,IDAY,IYEAR
-      DATA INI/0/               
+      DATA INI/0/
       IF(INI.EQ.0) THEN
       CALL MYDATE(IMON,IDAY,IYEAR,CTIME,CDATE)
       INI=1
@@ -1083,7 +1083,7 @@ C   put the contents in histogram M, after automatically booking it.
       INTEGER INI,IMON,IDAY,IYEAR
       CHARACTER*(*) LTIT,BTIT,PLOPT
       DOUBLE PRECISION RANXX
-      DATA INI/0/                  
+      DATA INI/0/
 C Modified by SF on 26/10/2007, for a better treatment of negative entries.
 C When BOX is chosen, negative bins are represented by circles rather
 C than boxes. SCMAX need be redefined as the maximum of the absolute
@@ -1101,14 +1101,14 @@ C This assumes that the length of the axes is about 5
       IF(BOOK2(N)(:1).NE.'Y') RETURN
       WRITE(99,100) TITLE2(N),BTIT,LTIT,HMIN2(1,N),HMAX2(1,N),
      *   HMIN2(2,N),HMAX2(2,N)
-  100 FORMAT( /1x,                               
+  100 FORMAT( /1x,
      &' SET WINDOW Y 2.5 TO 9.'/,1X,
      &' SET WINDOW X 2.5 TO 10.'/,1X,
-     &' SET FONT DUPLEX '/1X, 
+     &' SET FONT DUPLEX '/1X,
      &' TITLE TOP ','"',A,'"',/1X,
      &' TITLE BOTTOM ','"',A,'"',/1X,
      &' TITLE LEFT ','"',A,'"',/1X,
-     &' (SET TICKS TOP OFF)   '/1x,     
+     &' (SET TICKS TOP OFF)   '/1x,
      &' SET LIMITS X ',F10.5,' ',F10.5,/1X,
      &' SET LIMITS Y ',F10.5,' ',F10.5,/1X,
      &' PLOT AXES',/1X,
@@ -1142,7 +1142,7 @@ C-- squares with area proportional to the bin weight
   300 FORMAT('   PLOT')
       WRITE(99,400) HINT2(N),IENT2(N)
      &   ,IOSCORE2(N),IMON,IDAY,IYEAR,CTIME(1:5)
-  400 FORMAT( /1x,                               
+  400 FORMAT( /1x,
      &' BOX 6.25 1.0 SIZE 7.5 1.'/,1X,
      &' SET WINDOW Y 0. TO 2.'/,1X,
      &' SET TITLE SIZE -1.5'/1X,
@@ -1155,14 +1155,14 @@ C-- squares with area proportional to the bin weight
   500 FORMAT('   NEW PLOT')
 
 C-- dots - as many as the value of HINT2(n), distributed according to wgt
-      ELSEIF(PLOPT.EQ.'DOT') THEN                                        
+      ELSEIF(PLOPT.EQ.'DOT') THEN
       XINT=0.
       DO 11, I=1,NBIN2(1,N)
       DO 11, J=1,NBIN2(2,N)
-      XINT=XINT+HIST2(N,I,J)    
+      XINT=XINT+HIST2(N,I,J)
  11   CONTINUE
       WRITE(99,*) '  SET INTENSITY 3'
-      DO 3, I=1,NBIN2(1,N)          
+      DO 3, I=1,NBIN2(1,N)
       DO 3, J=1,NBIN2(2,N)
       IF(HIST2(N,I,J).EQ.0..OR.XINT.EQ.0.) GO TO 3
       NDOTS=INT(500*ABS(HIST2(N,I,J))/XINT)
@@ -1175,12 +1175,12 @@ C      IF(RN.LT.REST) NDOTS=NDOTS+1
       WRITE(99,*) X,Y
       ENDDO
       NTOT=NTOT+NDOTS
-  3   CONTINUE       
+  3   CONTINUE
       WRITE(99,*) '  SET INTENSITY 1'
-      WRITE(99,300)                 
+      WRITE(99,300)
       WRITE(99,600) HINT2(N),IENT2(N),NTOT
      &   ,IMON,IDAY,IYEAR,CTIME(1:5)
-  600 FORMAT( /1x,                               
+  600 FORMAT( /1x,
      &' BOX 6.25 1.0 SIZE 7.5 1.'/,1X,
      &' SET WINDOW Y 0. TO 2.'/,1X,
      &' SET TITLE SIZE -1.5'/1X,
@@ -1194,7 +1194,7 @@ C      IF(RN.LT.REST) NDOTS=NDOTS+1
       ENDIF
       END
 
-            
+
       FUNCTION RANXX(SEED)
 *     -----------------
 * Ref.: K. Park and K.W. Miller, Comm. of the ACM 31 (1988) p.1192
@@ -1243,7 +1243,7 @@ C  DEFAULT SIZES
       INI=1
       ENDIF
       IF(SCA.EQ.'REF') THEN
-        IFRAME=0 
+        IFRAME=0
         RETURN
       ENDIF
       IF(BOOK(NH)(:1).NE.'Y') RETURN
@@ -1383,10 +1383,10 @@ C
       END
 
       SUBROUTINE NEWPLOT
-      WRITE(99,202) 
+      WRITE(99,202)
 202   FORMAT('   NEW PLOT',/,/)
       CALL MULTITOP(1,1,1,1,' ',' ','REF')
-      END                         
+      END
 
 C*******************************************************************
 C     END OF THE HISTOGRAMMING PACKAGE

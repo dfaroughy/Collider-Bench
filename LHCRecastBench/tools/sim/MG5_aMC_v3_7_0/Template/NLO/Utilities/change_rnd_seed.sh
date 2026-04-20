@@ -18,4 +18,3 @@ for p in P*_[1-9]*/vegas_rnd_seed ; do
    let new=old+max-min
    echo $new > $p
 done
-

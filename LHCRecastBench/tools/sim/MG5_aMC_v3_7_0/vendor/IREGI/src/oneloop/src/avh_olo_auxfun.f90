@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -456,7 +456,7 @@ contains
     rslt = 0
   endif
   end function
- 
+
   function eta2_0( aa ,bb ) result(rslt)
 !*******************************************************************
 !*******************************************************************
@@ -479,7 +479,7 @@ contains
   else
     rslt = 0
   endif
-  end function 
+  end function
 
 
   function kallen( p1,p2,p3 ) result(rslt)

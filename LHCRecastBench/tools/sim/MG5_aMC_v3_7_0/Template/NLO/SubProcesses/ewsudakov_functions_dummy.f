@@ -41,7 +41,7 @@
         enddo
       enddo
 
-      return 
+      return
       end
 
       subroutine ewsudakov_f77(p_born_in, gstr_in, results)

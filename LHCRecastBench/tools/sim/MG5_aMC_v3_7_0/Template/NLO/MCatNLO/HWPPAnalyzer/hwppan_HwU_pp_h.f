@@ -33,7 +33,7 @@ C----------------------------------------------------------------------
       PARAMETER (PI=3.14159265358979312D0)
       integer j,kk,l,i,nnn
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -107,7 +107,7 @@ c for the uncertainty estimate
       call HwU_book(l+34,'H-j1 y,pT_j1>50GeV '//HwUtype(i),60,-6.d0,6.d0)
       call HwU_book(l+35,'H-j1 y,pT_j1>70GeV '//HwUtype(i),60,-6.d0,6.d0)
       call HwU_book(l+36,'H-j1 y,pT_j1>90GeV '//HwUtype(i),60,-6.d0,6.d0)
-      
+
       call HwU_book(l+37,'njets '//HwUtype(i),11,-0.5d0,10.5d0)
       call HwU_book(l+38,'njets, y_j<2.5 '//HwUtype(i),11,-0.5d0,10.5d0)
       call HwU_book(l+39,'xsec '//HwUtype(i),3,-0.5d0,2.5d0)
@@ -131,7 +131,7 @@ c *average* to the total cross section, so no extra weight needed
       xnorm=1d3
 c Collect accumulated results
       call finalize_histograms(nevhep)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)
@@ -193,7 +193,7 @@ C EFFECT, SO THROW THE EVENT AWAY
       IFH=0
       NN=0
       DO 100 IHEP=1,NHEP
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID1=IDHEP(IHEP)
         IF(ID1.EQ.25)THEN
           IFH=1
@@ -295,8 +295,8 @@ c
       if(pth.ge.30.d0) call HwU_fill(l+21,yh,WWW)
       if(pth.ge.50.d0) call HwU_fill(l+22,yh,WWW)
       if(pth.ge.70.d0) call HwU_fill(l+23,yh,WWW)
-      if(pth.ge.90.d0) call HwU_fill(l+24,yh,WWW)  
-c     
+      if(pth.ge.90.d0) call HwU_fill(l+24,yh,WWW)
+c
       if(njet.ge.1)then
          call HwU_fill(l+25,yj1,WWW)
          if(ptj1.ge.10.d0) call HwU_fill(l+26,yj1,WWW)
@@ -304,7 +304,7 @@ c
          if(ptj1.ge.50.d0) call HwU_fill(l+28,yj1,WWW)
          if(ptj1.ge.70.d0) call HwU_fill(l+29,yj1,WWW)
          if(ptj1.ge.90.d0) call HwU_fill(l+30,yj1,WWW)
-c     
+c
          call HwU_fill(l+31,yh-yj1,WWW)
          if(ptj1.ge.10.d0) call HwU_fill(l+32,yh-yj1,WWW)
          if(ptj1.ge.30.d0) call HwU_fill(l+33,yh-yj1,WWW)
@@ -334,7 +334,7 @@ C
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

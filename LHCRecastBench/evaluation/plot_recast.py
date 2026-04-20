@@ -84,9 +84,7 @@ def _align(ref_values, ref_errors, rec_values):
     """Convert parallel lists (with possible Nones) to aligned numpy arrays
     over the bins where both sides have a value. Returns (ref, ref_err, rec, mask)."""
     n = min(len(ref_values), len(rec_values))
-    mask = np.array(
-        [ref_values[i] is not None and rec_values[i] is not None for i in range(n)]
-    )
+    mask = np.array([ref_values[i] is not None and rec_values[i] is not None for i in range(n)])
     ref = np.array([ref_values[i] if mask[i] else 0.0 for i in range(n)], dtype=float)
     err = np.array(
         [ref_errors[i] if (mask[i] and ref_errors[i] is not None) else 0.0 for i in range(n)],
@@ -137,7 +135,6 @@ def plot_table(
     edges, xname, xunits = _bin_edges(ref_data)
     if len(edges) < 2:
         return []
-    widths = np.diff(edges)
 
     ref_series = {s["name"]: s for s in _extract_series(ref_data)}
     rec_series = {s["name"]: s for s in _extract_series(rec_data)}
@@ -151,14 +148,16 @@ def plot_table(
         ref, err, rec, mask = _align(ref_s["values"], ref_s["errors"], rec_s["values"])
         if _is_all_zero(ref) and _is_all_zero(rec):
             continue
-        series_plots.append({
-            "name": name,
-            "label": _series_label(name),
-            "ref": ref,
-            "err": err,
-            "rec": rec,
-            "mask": mask,
-        })
+        series_plots.append(
+            {
+                "name": name,
+                "label": _series_label(name),
+                "ref": ref,
+                "err": err,
+                "rec": rec,
+                "mask": mask,
+            }
+        )
 
     if not series_plots:
         return []
@@ -205,14 +204,23 @@ def plot_table(
                 continue
 
             hep.histplot(
-                ref_p, bins=edges, yerr=err_p if np.any(err_p > 0) else False,
-                histtype="step", color=c, linestyle="-",
-                label=f"{s['label']} (CMS)", ax=ax,
+                ref_p,
+                bins=edges,
+                yerr=err_p if np.any(err_p > 0) else False,
+                histtype="step",
+                color=c,
+                linestyle="-",
+                label=f"{s['label']} (CMS)",
+                ax=ax,
             )
             hep.histplot(
-                rec_p, bins=edges,
-                histtype="step", color=c, linestyle="--",
-                label=f"{s['label']} (Recast)", ax=ax,
+                rec_p,
+                bins=edges,
+                histtype="step",
+                color=c,
+                linestyle="--",
+                label=f"{s['label']} (Recast)",
+                ax=ax,
             )
 
             # Ratio: recast / CMS per bin, propagated error
@@ -221,8 +229,13 @@ def plot_table(
                 ratio_err = np.where(ref_p > 0, err_p / ref_p, np.nan)
             rx.errorbar(
                 0.5 * (edges[:-1] + edges[1:]),
-                ratio, yerr=ratio_err,
-                fmt="o", color=c, markersize=4, linewidth=1, capsize=0,
+                ratio,
+                yerr=ratio_err,
+                fmt="o",
+                color=c,
+                markersize=4,
+                linewidth=1,
+                capsize=0,
             )
 
         ax.set_yscale("log")
@@ -275,10 +288,12 @@ def plot_recast(arxiv_id: str, recast_dir: str) -> dict:
             results["plots"].append({"table": ref_file.stem, "error": "missing in recast"})
             continue
         written = plot_table(ref_file, recast_file, eval_dir, arxiv_id)
-        results["plots"].append({
-            "table": ref_file.stem,
-            "files": [str(p) for p in written],
-        })
+        results["plots"].append(
+            {
+                "table": ref_file.stem,
+                "files": [str(p) for p in written],
+            }
+        )
 
     return results
 

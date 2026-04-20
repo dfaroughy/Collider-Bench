@@ -11,7 +11,7 @@ c       real    g(2)           : fermion mass                        m_f
 c
 c output:
 c       complex uio(18)        : outgoing tensor    T_{mu,vu} = T(mu+4*(vu-1))
-c     
+c
       implicit none
       double complex fi(18), fo(18), uio(18),g(2)
       double precision fmass,tmass,twidth
@@ -77,7 +77,7 @@ c diagonal terms:
       tc(i,i)=2d0*(fgamf(i)*k(i)+(fkslaf-ffm))
       enddo
       tc(1,1)=2d0*(fgamf(1)*k(1)-(fkslaf-ffm))
-      
+
 c make indices upper indices before contracting with propagator
       do i=2,4
          tc(1,i)=-tc(1,i)

@@ -17,7 +17,7 @@
 *									*
 *	Calls:	log,zfflo1,(d/a)imag,real/dble				*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -41,7 +41,7 @@
 *	statement function
 *
 	absc(cc) = abs(DBLE(cc)) + abs(DIMAG(cc))
-*  #] declarations: 
+*  #] declarations:
 *  #[ initialisations:
 	data xprec /-1./
 	if ( xprec .ne. precc ) then
@@ -53,7 +53,7 @@
 	    bdn20 = ffbnd(1,19,bf)
 *		we don't have bf(21) ...
 	endif
-*  #] initialisations: 
+*  #] initialisations:
 *  #[ check input:
 *	(throw out later)
 	if ( ltest .and. absc(cx).gt.1.5 .or. DBLE(cx).gt..75 ) then
@@ -76,7 +76,7 @@
 	    zlog = -cx
 	    return
 	endif
-*  #] exceptional cases: 
+*  #] exceptional cases:
 *  #[ get log,dilog:
 	if ( xa .lt. xloss**2 ) then
 	    zlog = zfflo1(cx,ier)
@@ -116,7 +116,7 @@
 *	watch the powers of z.
 	zdilog = cz + cz2*(DBLE(bf(1)) + cz*(DBLE(bf(2)) + zdilog))
 	endif
-*  #] get log,dilog: 
+*  #] get log,dilog:
 *  #[ check for numerical problems:
 *
 *	if we just need the real part the dominant term is xi^2/4
@@ -126,7 +126,7 @@
 	    x = DBLE(zdilog)
 	    if ( lwarn ) call ffwarn(151,ier,x,xi**2/4)
 	endif
-*  #] check for numerical problems: 
+*  #] check for numerical problems:
 *###] ffzli2:
 	end
 *###[ ffzzdl:
@@ -147,7 +147,7 @@
 *								*
 *	Calls:	log,zfflo1,(d/a)imag,real/dble			*
 *								*
-***#]*comment:*************************************************** 
+***#]*comment:***************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -171,7 +171,7 @@
 *	statement function
 *
 	absc(c) = abs(DBLE(c)) + abs(DIMAG(c))
-*  #] declarations: 
+*  #] declarations:
 *  #[ initialisations:
 	data xprec /-1./
 	if ( xprec .ne. precc ) then
@@ -182,10 +182,10 @@
 	    bdn15 = ffbnd(1,15,bf)
 	    bdn20 = ffbnd(1,19,bf)
 	endif
-*  #] initialisations: 
+*  #] initialisations:
 *  #[ debug:
 *	if ( lwrite ) print *,'ffzzdl(',cx,')'
-*  #] debug: 
+*  #] debug:
 *  #[ exceptional cases:
 	xi  = DIMAG(cx)
 	xr  = DBLE(cx)
@@ -211,7 +211,7 @@
 	    ipi12 = 0
 	    return
 	endif
-*  #] exceptional cases: 
+*  #] exceptional cases:
 *  #[ transform to |x|<1, Re(x) < 0.5:
 	if ( xr .le. x05) then
 	    if (xa .gt. 1) then
@@ -290,7 +290,7 @@
 		jsgn = -1
 	    endif
 	endif
-*  #] transform to |x|<1, Re(x) < 0.5: 
+*  #] transform to |x|<1, Re(x) < 0.5:
 *  #[ get dilog:
 	if ( absc(cz) .lt. xclogm ) then
 	    zdilog = cz
@@ -329,8 +329,8 @@
 	else
 	    zdilog = -zdilog + cy
 	endif
-*  #] get dilog: 
-*###] ffzzdl: 
+*  #] get dilog:
+*###] ffzzdl:
 	end
 *###[ zfflog:
 	DOUBLE COMPLEX function zfflog(cx,ieps,cy,ier)
@@ -342,7 +342,7 @@
 *					(for Absoft, Apollo DN300)	*
 *		Im(cx) = 0, Re(cx) < 0:	take sign according to ieps	*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 *
 *	arguments
@@ -360,12 +360,12 @@
 *
 	include 'ff.h'
 	absc(c) = abs(DBLE(c)) + abs(DIMAG(c))
-*  #] declarations: 
+*  #] declarations:
 *  #[ check input:
 	if ( lwarn .and. absc(cx-1) .lt. xloss ) then
 	    call ffwarn(128,ier,absc(cx-1),x1)
 	endif
-*  #] check input: 
+*  #] check input:
 *  #[ calculations:
 	xa = absc(cx)
 	if ( xa .lt. xalogm ) then
@@ -403,15 +403,15 @@
 *	    print *,'zfflog: neem log van ',cx
 	    zfflog = log(cx)
 	endif
-*  #] calculations: 
-*###] zfflog: 
+*  #] calculations:
+*###] zfflog:
 	end
 *###[ zfflo1:
 	DOUBLE COMPLEX function zfflo1(cx,ier)
 ***#[*comment:***************************************************
 *	calculates log(1-x) for |x|<.14 in a faster way to ~15	*
 *	significant figures.					*
-***#]*comment:*************************************************** 
+***#]*comment:***************************************************
 *  #[ declarations:
 	implicit none
 	integer ier
@@ -421,7 +421,7 @@
 	save xprec,bdn01,bdn05,bdn10,bdn15,bdn19
 	include 'ff.h'
 	absc(c) = abs(DBLE(c)) + abs(DIMAG(c))
-*  #] declarations: 
+*  #] declarations:
 *  #[ initialisations:
 	data xprec /-1./
 	if ( precc .ne. xprec ) then
@@ -433,7 +433,7 @@
 	    bdn15 = ffbnd(1,15,xninv)
 	    bdn19 = ffbnd(1,19,xninv)
 	endif
-*  #] initialisations: 
+*  #] initialisations:
 *  #[ calculations:
 	xa = absc(cx)
 	if ( xa .gt. bdn19 ) then
@@ -467,15 +467,15 @@
      +		   + zfflo1 ))))
 	endif
 	zfflo1 = - cx*( DBLE(xninv(1)) + zfflo1 )
-*  #] calculations: 
-*###] zfflo1: 
+*  #] calculations:
+*###] zfflo1:
 	end
 *###[ zfflo2:
 	DOUBLE COMPLEX function zfflo2(x,ier)
 ***#[*comment:***************************************************
 *	calculates log(1-x)+x for |x|<.14 in a faster way to	*
 *	~15 significant figures.				*
-***#]*comment:*************************************************** 
+***#]*comment:***************************************************
 *  #[ declarations:
 	implicit none
 	integer ier,ier0
@@ -485,7 +485,7 @@
 	save xprec,bdn01,bdn05,bdn10,bdn15,bdn18
 	include 'ff.h'
 	absc(cc) = abs(DBLE(cc)) + abs(DIMAG(cc))
-*  #] declarations: 
+*  #] declarations:
 *  #[ initialisation:
 	data xprec /-1./
 	if ( xprec .ne. precc ) then
@@ -500,7 +500,7 @@
 	    precx = xprec
 	    xprec = precc
 	endif
-*  #] initialisation: 
+*  #] initialisation:
 *  #[ calculations:
 	xa = absc(x)
 	if ( xa .gt. bdn18 ) then
@@ -530,7 +530,7 @@
      +		x*( DBLE(xninv(5)) + x*( DBLE(xninv(6)) + zfflo2 ))))
 	endif
 	zfflo2 = - x**2*( DBLE(xninv(2)) + zfflo2 )
-*  #] calculations: 
+*  #] calculations:
 *  #[ check output:
 	if ( ltest ) then
 	    ier0 = ier
@@ -539,15 +539,15 @@
 	    if ( xloss*abs(xheck) .gt. precc ) print *,'zfflo2: error:',
      +		' answer is not OK',d1,zfflo2,xheck
 	endif
-*  #] check output: 
-*###] zfflo2: 
+*  #] check output:
+*###] zfflo2:
 	end
 *###[ zfflo3:
 	DOUBLE COMPLEX function zfflo3(x,ier)
 ***#[*comment:***************************************************
 *	calculates log(1-x)+x+x^2/2 for |x|<.14 in a faster 	*
 *	way to ~15 significant figures.				*
-***#]*comment:*************************************************** 
+***#]*comment:***************************************************
 *  #[ declarations:
 	implicit none
 	integer ier,ier0
@@ -557,7 +557,7 @@
 	save xprec,bdn01,bdn05,bdn10,bdn15
 	include 'ff.h'
 	absc(cc) = abs(DBLE(cc)) + abs(DIMAG(cc))
-*  #] declarations: 
+*  #] declarations:
 *  #[ initialisation:
 	data xprec /-1./
 	if ( xprec .ne. precx ) then
@@ -571,7 +571,7 @@
 	    precx = xprec
 	    xprec = precc
 	endif
-*  #] initialisation: 
+*  #] initialisation:
 *  #[ calculations:
 	xa = absc(x)
 	if ( xa .gt. bdn15 ) then
@@ -597,7 +597,7 @@
      +		x*( DBLE(xninv(6)) + x*( DBLE(xninv(7)) + zfflo3 ))))
 	endif
 	zfflo3 = - x**3*( DBLE(xninv(3)) + zfflo3 )
-*  #] calculations: 
+*  #] calculations:
 *  #[ check output:
 	if ( ltest ) then
 	    ier0 = ier
@@ -606,8 +606,8 @@
 	    if ( xloss*abs(xheck) .gt. precc ) print *,'zfflo3: error:',
      +		' answer is not OK',d1,zfflo3,xheck
 	endif
-*  #] check output: 
-*###] zfflo3: 
+*  #] check output:
+*###] zfflo3:
 	end
 *###[ zff0li:
 	DOUBLE COMPLEX function zff0li(r2)
@@ -617,7 +617,7 @@
 *	and Re(Li2(z))=0						*
 *	written by P.Noguiero (Lisboa)					*									*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -633,7 +633,7 @@
 *
 *	common blocks
 *
-*  #] declarations: 
+*  #] declarations:
 *  #[ data:
 *
 	data c1(1) / 0.2500000000000000 /
@@ -688,7 +688,7 @@
 	data c2(24) / 1.9077807703926496D-25 /
 	data c2(25) / 8.0274683356039559E-27 /
 *
-*  #] data: 
+*  #] data:
 *  #[ work:
 *
 	if ( abs(r2).le.0.1d0)t h en
@@ -714,7 +714,6 @@
 
 	zff0li = DCMPLX(zx,sqrt(r2-zx*zx))
 *
-*  #] work: 
-*###] zff0li: 
+*  #] work:
+*###] zff0li:
 	end
-

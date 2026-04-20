@@ -31,7 +31,7 @@ C     ipara = 1->Gmu; 2->MZ; 3->MW; 4->MT/YMT; 5->MH; 6->tadpole
       COMMON /TO_AMP_SPLIT_EWSUD_LO2/ AMP_SPLIT_EWSUD_LO2
 
       DOUBLE COMPLEX MT_DER_LO2
-      COMMON /TO_MT_DER_LO2/MT_DER_LO2 
+      COMMON /TO_MT_DER_LO2/MT_DER_LO2
 
 
       DOUBLE COMPLEX AMP_SPLIT_UP2(AMP_SPLIT_SIZE),
@@ -70,7 +70,7 @@ C     check that mdl_mt and mdl_ymt are equal
 
 C        call %(mename)s(P,NHEL,%(hell)s matxcen)
 C        amp_split_cen(:) = amp_split_ewsud(:)
-        
+
 C       vary the parameter up
         IF (I.EQ.1) THEN
           MDL_GF = XUP
@@ -120,7 +120,7 @@ C       vary the parameter down
      $   /(2*XSAVE*XDELTA)
 
 
-C       reset the parameter 
+C       reset the parameter
         IF (I.EQ.1) THEN
           MDL_GF = XSAVE
         ELSE IF (I.EQ.2) THEN
@@ -144,7 +144,3 @@ C       reset the parameter
 
       RETURN
       END
-
-
-
-

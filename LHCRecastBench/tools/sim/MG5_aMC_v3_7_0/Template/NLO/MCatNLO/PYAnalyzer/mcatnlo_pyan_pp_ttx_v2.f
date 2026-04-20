@@ -165,10 +165,10 @@ C EFFECT, SO THROW THE EVENT AWAY
           pihep(j)=0.d0
           pihep(j)=p(ihep,j)
         enddo
-        IST=K(IHEP,1)      
+        IST=K(IHEP,1)
         ID1=K(IHEP,2)
         IORI=K(IHEP,3)
-C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM 
+C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM
 C        IF(IQ1*IQ2.EQ.1) GOTO 11
         IF (IST.LE.10) THEN
           CALL VVSUM(4,PIHEP,PSUM,PSUM)
@@ -358,4 +358,3 @@ C-----------------------------------------------------------------------
    10 PQ=PQ+P(I)*Q(I)
       VDOT=PQ
       END
-

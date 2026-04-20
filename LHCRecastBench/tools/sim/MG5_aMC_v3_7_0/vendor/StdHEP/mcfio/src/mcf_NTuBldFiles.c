@@ -31,8 +31,8 @@ int GetFileNTuBuildWindow(nTuBuildWindow *window, char* filename)
     int i, j;
     char *text, *tc;
     varGenNtuple *varTmp;
-    
-    
+
+
     header_c_.n_obj_header = 0;
     line_title_c_.n_obj_line_title = 0;
     mcf_ntubldRead(filename);
@@ -56,7 +56,7 @@ int GetFileNTuBuildWindow(nTuBuildWindow *window, char* filename)
     text = (char *)
             malloc(sizeof(char) * 80 * (line_title_c_.n_obj_line_title -1));
     for (i=1, tc=text; i<line_title_c_.n_obj_line_title; i++) {
-        strcpy(tc, line_title_c_.line_title[i].line); 
+        strcpy(tc, line_title_c_.line_title[i].line);
         tc += strlen(line_title_c_.line_title[i].line);
         *tc = '\n'; tc++;
     }
@@ -80,24 +80,24 @@ int GetFileNTuBuildWindow(nTuBuildWindow *window, char* filename)
         varTmp->name = (char *)
             malloc(sizeof(char) * (strlen(variable_c_.variable[i].name) + 1));
         strcpy(varTmp->name, variable_c_.variable[i].name);
-        
+
         if (varTmp->description != NULL) free(varTmp->description);
         if ((strlen(variable_c_.variable[i].description) > 1) ||
-                    variable_c_.variable[i].description[0] != ' ') { 
-           varTmp->description = (char *) malloc(sizeof(char) * 
+                    variable_c_.variable[i].description[0] != ' ') {
+           varTmp->description = (char *) malloc(sizeof(char) *
                 (strlen(variable_c_.variable[i].description) + 1));
            strcpy(varTmp->description, variable_c_.variable[i].description);
-        }   
+        }
         varTmp->type = variable_c_.variable[i].type;
         varTmp->isFixedSize = True;
         if (strncmp(variable_c_.variable[i].isfixedsize,"Yes",3))
             varTmp->isFixedSize = False;
         varTmp->numDim = variable_c_.variable[i].numdim;
-        if (varTmp->numDim > 0) 
+        if (varTmp->numDim > 0)
            for (j=0; j< varTmp->numDim; j++)
                varTmp->dimensions[j] = variable_c_.variable[i].dimensions[j];
-                
-    }    
+
+    }
     UpdateVariableList(window, 1);
     UpdateDialogVFields(window);
     /*
@@ -109,23 +109,23 @@ int GetFileNTuBuildWindow(nTuBuildWindow *window, char* filename)
         XtSetSensitive(window->generateC, True);
         XtSetSensitive(window->generateDbin, True);
         if (window->dbinFileName != NULL) free(window->dbinFileName);
-        window->dbinFileName = (char *) 
+        window->dbinFileName = (char *)
                               malloc((strlen(filename)+1) * sizeof(char));
         strcpy(window->dbinFileName, filename);
     } else return 0;
     /*
-    ** Set the ordering. Trivial in this case, it has been ordered in 
+    ** Set the ordering. Trivial in this case, it has been ordered in
     ** the save routine.
     */
     dNTu->varOrdering = (int *) malloc(sizeof(int) * dNTu->numAvailable);
     for (i=0; i<dNTu->numAvailable; i++)
-       dNTu->varOrdering[i] = dNTu->numAvailable + 1; 
-    
+       dNTu->varOrdering[i] = dNTu->numAvailable + 1;
+
     for (i=0; i<dNTu->numVariables; i++)
        dNTu->varOrdering[i] = i;
-    return 0; 
+    return 0;
 }
-void SaveFileNTuBuildWindow(nTuBuildWindow *window) 
+void SaveFileNTuBuildWindow(nTuBuildWindow *window)
 {
     FILE *Ffp;
     int i,j, k, kmode, itype, l, nl, dd[5], ncTot, nc, nVar, iv, iSpace, nm;
@@ -135,26 +135,26 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
     varGenNtuple **varGenOrdered;
     varGenNtuple *varTmp, *var1, *var2, *varEnd;
     time_t clock;
-    
+
     dNTu = window->descrNtu;
     env = NULL;
     env = getenv("MCFIO_DIR");
     /*
-    ** Compute the variable ordering: Rule: if parallel array, first 
-    ** fixed size, then all the indexed ones. within such groups, we order 
+    ** Compute the variable ordering: Rule: if parallel array, first
+    ** fixed size, then all the indexed ones. within such groups, we order
     ** variable by types.  If substrutures, same idea, variable are ordered
     ** by types. Blank variables are placed last
     */
     if (dNTu->varOrdering != NULL) free(dNTu->varOrdering);
     dNTu->varOrdering = (int *) malloc(sizeof(int) * dNTu->numAvailable);
     for (i=0; i<dNTu->numAvailable; i++)
-       dNTu->varOrdering[i] = dNTu->numAvailable + 1; 
+       dNTu->varOrdering[i] = dNTu->numAvailable + 1;
     for (itype=0, l=0; itype<N_VAR_TYPES; itype++) {
       for (i=0; i<dNTu->numAvailable; i++) {
         varTmp = dNTu->variables[i];
         if ((varTmp->nameBlank != True) && (varTmp->type == itype) &&
                 (varTmp->isFixedSize == True)) {
-                       dNTu->varOrdering[i] = l; l++; 
+                       dNTu->varOrdering[i] = l; l++;
                 }
           }
     }
@@ -175,15 +175,15 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
     varGenOrdered =
        (varGenNtuple **) malloc(sizeof(varGenNtuple *) * nVar);
     for (iv=0; iv< nVar; iv++) {
-       for (j=0; j<dNTu->numAvailable; j++)  
-          if (dNTu->varOrdering[j] == iv)  i = j; 
+       for (j=0; j<dNTu->numAvailable; j++)
+          if (dNTu->varOrdering[j] == iv)  i = j;
        varTmp = dNTu->variables[i];
        varGenOrdered[iv] = (varGenNtuple *) malloc(sizeof(varGenNtuple));
        varGenOrdered[iv]->name = NULL;
        varGenOrdered[iv]->description = NULL;
        CopyVarGenNtuple(varTmp, varGenOrdered[iv]);
     }
-    for (j=0; j<dNTu->numAvailable; j++)  
+    for (j=0; j<dNTu->numAvailable; j++)
             DestroyVarGenNtuple(dNTu->variables[j]);
     free(dNTu->variables);
     dNTu->variables = varGenOrdered;
@@ -192,21 +192,21 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
     for (iv=0; iv< nVar; iv++) dNTu->varOrdering[iv] = iv;
     UpdateVariableList(window, 0);
     /*
-    ** Check the alignement of the structure. Variable must aligned on 
-    ** a word boundary. We got 8+4 bytes offset due to the version and 
-    ** the multiplicity value (which is an int ).  So we always add a 
+    ** Check the alignement of the structure. Variable must aligned on
+    ** a word boundary. We got 8+4 bytes offset due to the version and
+    ** the multiplicity value (which is an int ).  So we always add a
     ** padding variable.  Note: ultimately, this
-    ** machine dependant code, but seems to be ok for 32 bit to 64 
+    ** machine dependant code, but seems to be ok for 32 bit to 64
     ** bit conversion. One way to avoid this is to start the structure
     ** with the longest type, however, it still unsafe as we want
-    ** to keep the variable part sepqarated from the arrays of 
-    ** substrures.  
+    ** to keep the variable part sepqarated from the arrays of
+    ** substrures.
     */
     for (iv=0, iSpace=2*sizeof(int) + 8*sizeof(char); iv< nVar; iv++) {
         varTmp = dNTu->variables[iv];
         nm = 1;
         for (k=0; k<varTmp->numDim; k++) nm = nm * varTmp->dimensions[k];
-        if ((dNTu->orgStyle == PARALLEL_ARRAY_NTU) && 
+        if ((dNTu->orgStyle == PARALLEL_ARRAY_NTU) &&
             (varTmp->isFixedSize == False)) nm = nm * dNTu->maxMultiplicity;
         switch (varTmp->type) {
            case BYTE_NTU: case CHARACTER_NTU:
@@ -233,7 +233,7 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
               case POINTER_NTU:
                   sizeV = sizeof(void *); /* This different on 32 vs 64 bit */
                   break;
-             default : 
+             default :
                   fprintf(stderr, " mcf_ComputNTuLength, internal error \n");
                   sizeV = 0;
                   break;
@@ -253,50 +253,50 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
                          k = BYTE_NTU;
                          nl = nc;
                          break;
-                 }        
+                 }
                  sprintf(line, " This structure is misaligned! \n\
  Variable %s does not start on a word boundary. \n\
  One must add %d bytes upstream of this variable. \n\
  Suggestion: insert %d %s at location %d.\n", varTmp->name,
                           nc, nl, VarTypesNamesF77[k], (iv+1));
-    
-                 DialogF(DF_ERR, window->shell, 1, 
+
+                 DialogF(DF_ERR, window->shell, 1,
                             line, "Acknowledged");
                  varEnd = dNTu->variables[dNTu->numAvailable-1];
                  if (varEnd->nameBlank != True) ExtendVariableList(window);
                  for (i=dNTu->numAvailable-1; i>iv; i--) {
                         var2 =  dNTu->variables[i];
                         var1 = dNTu->variables[i-1];
-                        if ((var1->nameBlank != True) || 
-                            (var2->nameBlank != True)) 
+                        if ((var1->nameBlank != True) ||
+                            (var2->nameBlank != True))
                                CopyVarGenNtuple(var1, var2);
                   }
                   varTmp = dNTu->variables[iv];
                   varTmp->nameBlank = True;
                   if (varTmp->name != NULL) {
-                       free(varTmp->name); 
+                       free(varTmp->name);
                        varTmp->name = NULL;
                   }
                   if (varTmp->description != NULL) {
-                       free(varTmp->description); 
+                       free(varTmp->description);
                        varTmp->description = NULL;
                   }
-                  varTmp->type = k; 
-                  varTmp->numDim = 0;    
+                  varTmp->type = k;
+                  varTmp->numDim = 0;
                   XmListSelectPos(window->listW, (iv+1));
                   UpdateVariableList(window, 0);
                   return;
 
           }
           iSpace += (nm * sizeV);
-    }                    
+    }
     Ffp = fopen(window->dbinFileName, "w");
     fprintf(Ffp,"# ntuBuild\n");
     time(&clock);
     tc = line; sprintf(tc,"#Creation Date : %n", &j); tc += j;
     strncpy(tc,ctime(&clock), 24); tc += 24; *tc='\n'; tc++; *tc = '\0';
     fprintf(Ffp,line);
-    text = XmTextGetString(window->titleW); 
+    text = XmTextGetString(window->titleW);
     strcpy(line, text);
     XtFree(text);
     for (i=0; i<strlen(text); i++)
@@ -304,14 +304,14 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
     fprintf(Ffp,"Database %s 0100\n",line);
     fprintf(Ffp,"# \n");
     /*
-    ** This is no longer needed... 
+    ** This is no longer needed...
     */
     /*  fprintf(Ffp,"include $MCFIO_DIR/mcf_NTuBld.db\n"); */
     fprintf(Ffp,"# \n");
     fprintf(Ffp,"make line_title \"ntuBuild Database, v1.0\"\n");
     text = XmTextGetString(window->descriptW);
-    tc = text; 
-    if (*tc == '\0') 
+    tc = text;
+    if (*tc == '\0')
        fprintf(Ffp,"make line_title \" \"\n");
     else {
        ncTot = strlen(tc); nc =0;
@@ -329,54 +329,54 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
        }
     }
     XtFree(text);
-    
-    text = XmTextGetString(window->titleW); 
+
+    text = XmTextGetString(window->titleW);
     fprintf(Ffp,"make header \"%s\" /\n", text);
     XtFree(text);
-    
-    text = XmTextGetString(window->versionW); 
+
+    text = XmTextGetString(window->versionW);
     fprintf(Ffp," \"%s\" /\n", text);
     XtFree(text);
-    
-    if (window->nameIndexBlank) 
+
+    if (window->nameIndexBlank)
       fprintf(Ffp," \"dummyIndex\" /\n");
     else {
-      text = XmTextGetString(window->nameIndexW); 
+      text = XmTextGetString(window->nameIndexW);
       fprintf(Ffp," \"%s\" /\n", text);
       XtFree(text);
     }
     /*
-    ** Count the number of variable really defined 
+    ** Count the number of variable really defined
     */
     dNTu->numVariables = 0;
     for (i=0; i< dNTu->numAvailable; i++)
          if (dNTu->variables[i]->nameBlank == False)
                dNTu->numVariables = dNTu->numVariables +1;
-    
-    fprintf(Ffp, " %d %d %d \n", dNTu->maxMultiplicity,  dNTu->orgStyle, 
+
+    fprintf(Ffp, " %d %d %d \n", dNTu->maxMultiplicity,  dNTu->orgStyle,
                                dNTu->numVariables);
-                               
+
     fprintf(Ffp,"# \n");
     for (iv=0; iv< nVar; iv++) {
-       for (j=0; j<dNTu->numVariables; j++)  
-          if (dNTu->varOrdering[j] == iv)  i = j; 
+       for (j=0; j<dNTu->numVariables; j++)
+          if (dNTu->varOrdering[j] == iv)  i = j;
        varTmp = dNTu->variables[i];
        fprintf(Ffp,"# \n");
        fprintf(Ffp, "make variable \"%s\" /\n", varTmp->name);
-       if (varTmp->description == NULL) 
+       if (varTmp->description == NULL)
              fprintf(Ffp,"\" \" /\n");
-       else 
+       else
              fprintf(Ffp, " \"%s\" /\n", varTmp->description);
        fprintf(Ffp, " %d ", varTmp->type);
        for (j=0; j<5; j++) {
              if (j< varTmp->numDim) dd[j] = varTmp->dimensions[j];
              else dd[j] = 0;
-       }      
+       }
        if (varTmp->isFixedSize)
-                fprintf(Ffp, "\"Yes\" %d %d %d %d %d %d \n", varTmp->numDim, 
+                fprintf(Ffp, "\"Yes\" %d %d %d %d %d %d \n", varTmp->numDim,
                           dd[0], dd[1], dd[2], dd[3], dd[4]);
-          else 
-                fprintf(Ffp, "\"No\" %d %d %d %d %d %d \n", varTmp->numDim, 
+          else
+                fprintf(Ffp, "\"No\" %d %d %d %d %d %d \n", varTmp->numDim,
                           dd[0], dd[1], dd[2], dd[3], dd[4]);
     }
     fprintf(Ffp,"# \n");
@@ -385,7 +385,7 @@ void SaveFileNTuBuildWindow(nTuBuildWindow *window)
     XtSetSensitive(window->generateC, True);
     XtSetSensitive(window->generateDbin, True);
     window->isSaved = True;
-    fclose(Ffp);                          
+    fclose(Ffp);
 }
 /*
 ** Extend the list of available variable, by a fixed amount..
@@ -398,7 +398,7 @@ void ExtendVariableList(nTuBuildWindow *window)
     int i,j;
 
     varLTmp =
-       (varGenNtuple **) malloc(sizeof(varGenNtuple *) * 
+       (varGenNtuple **) malloc(sizeof(varGenNtuple *) *
               (NUM_START_VARIABLES + window->descrNtu->numAvailable));
     for (i=0; i<(window->descrNtu->numAvailable + NUM_START_VARIABLES); i++) {
        if (i < window->descrNtu->numAvailable)
@@ -411,18 +411,18 @@ void ExtendVariableList(nTuBuildWindow *window)
        varLTmp[i]->type = INTEGER_NTU;
        varLTmp[i]->isFixedSize = False;
        varLTmp[i]->numDim = 0;
-       for (j=0; j<MAX_VAR_DIMENSIONS; j++) 
+       for (j=0; j<MAX_VAR_DIMENSIONS; j++)
             varLTmp[i]->dimensions[j] = -1;
        varLTmp[i]->offset = 0;
-       varLTmp[i]->offsetXDR = NULL;     
+       varLTmp[i]->offsetXDR = NULL;
        }
     }
     free(window->descrNtu->variables);
     window->descrNtu->variables = varLTmp;
-         
+
     window->descrNtu->numAvailable += NUM_START_VARIABLES;
     UpdateVariableList(window, 0);
-    
+
 }
 int VerifyStruct(nTuBuildWindow *window, int help)
 {
@@ -430,27 +430,27 @@ int VerifyStruct(nTuBuildWindow *window, int help)
     varGenNtuple *var1, *var2;
     descrGenNtuple *dNTu = window->descrNtu;
     int i,j;
-    
+
     if (window == NULL) return False;
     if((window->titleBlank || window->multiplicityBlank ) ||
        (window->nameIndexBlank && window->descrNtu->maxMultiplicity > 0)) {
-          if (help == True) DialogF(DF_ERR, window->shell, 1, 
+          if (help == True) DialogF(DF_ERR, window->shell, 1,
 " You must fill the name/title, \n,\
   the name for the main index and \n\
   the maximum main index value (0 if not applicable)", "Acknowledged");
       return False;
     }
     text = XmTextGetString(window->versionW);
-    if (strlen(text) < 3) { 
-          if (help == True) DialogF(DF_ERR, window->shell, 1, 
+    if (strlen(text) < 3) {
+          if (help == True) DialogF(DF_ERR, window->shell, 1,
 " The version string is suspect. \n Expecting string y.xx", "Acknowledged");
       XtFree(text);
       return False;
-    } 
+    }
     XtFree(text);
     text = NULL;
     if (window->nameIndexBlank == FALSE) text =
-                             XmTextGetString(window->nameIndexW); 
+                             XmTextGetString(window->nameIndexW);
     for(i=0; i<dNTu->numAvailable; i++) {
          if (dNTu->variables[i]->nameBlank) continue;
          if (text != NULL) {
@@ -464,7 +464,7 @@ int VerifyStruct(nTuBuildWindow *window, int help)
         }
         for (j=i+1; j<dNTu->numAvailable; j++) {
            if (dNTu->variables[j]->nameBlank) continue;
-           if (strcmp(dNTu->variables[j]->name, 
+           if (strcmp(dNTu->variables[j]->name,
                       dNTu->variables[i]->name) == 0) {
             if (help == True) DialogF(DF_ERR, window->shell, 1,
 " Duplicate Variable name  %s", "Acknowledged", dNTu->variables[i]->name);

@@ -10,7 +10,7 @@ CONTAINS
     ! CTMODE=2 ---> ROTATE THE LOOP PROPAGATOR DIRECTION,i.e D0...DN-1 to DN-1...D0
     ! IMODE=0, IBP reduction
     ! IMODE=1, PaVe reduction
-    ! IMODE=2, PaVe reduction with stablility improved by IBP reduction 
+    ! IMODE=2, PaVe reduction with stablility improved by IBP reduction
     IMPLICIT NONE
     INTEGER,INTENT(IN)::NLOOPLINE,MAXRANK,IMODE,NCOEFS
     INTEGER,INTENT(IN),OPTIONAL::CTMODE
@@ -37,9 +37,9 @@ CONTAINS
     ! when rmax=6,nmax=5 -> xiarraymax2=610
     INTEGER::xiarraymax2,xiarraymax,xiarraymax3
     !REAL(KIND(1d0)),DIMENSION(xiarraymax2)::syfactor
-    REAL(KIND(1d0)),DIMENSION(:),ALLOCATABLE::syfactor 
+    REAL(KIND(1d0)),DIMENSION(:),ALLOCATABLE::syfactor
     !INTEGER,DIMENSION(xiarraymax2,-1:NLOOPLINE)::sy
-    INTEGER,DIMENSION(:,:),ALLOCATABLE::sy 
+    INTEGER,DIMENSION(:,:),ALLOCATABLE::sy
 !    REAL(KIND(1d0)),PARAMETER::EPS=1d-10
     REAL(KIND(1d0))::temp
     INTEGER::ctmode_local
@@ -138,9 +138,9 @@ CONTAINS
   END SUBROUTINE tensor_integral_reduce
 
   SUBROUTINE tensor_integral_reduce2(IMODE,NLOOPLINE,MAXRANK,NCOEFS,PDEN,PijMatrix,M2L,MU,TICOEFS,TSTABLE)
-    ! IMODE=0, IBP reduction 
-    ! IMODE=1, PaVe reduction 
-    ! IMODE=2, PaVe reduction with stablility improved by IBP reduction     
+    ! IMODE=0, IBP reduction
+    ! IMODE=1, PaVe reduction
+    ! IMODE=2, PaVe reduction with stablility improved by IBP reduction
     IMPLICIT NONE
     INTEGER,INTENT(IN)::NLOOPLINE,MAXRANK,IMODE,NCOEFS
     REAL(KIND(1d0)),INTENT(IN)::MU
@@ -155,12 +155,12 @@ CONTAINS
     INTEGER,DIMENSION(NLOOPLINE)::zerp
     ! f[i,n]=(i+n-1)!/(n-1)!/i!
     ! nmax=5,rmax=6,NLOOPLINE=nmax+1
-    ! see syntensor in ti_reduce.f90 
+    ! see syntensor in ti_reduce.f90
     ! xiarraymax2=(f[0,nmax])+(f[1,nmax])+(f[2,nmax]+f[0,nmax])
     ! +(f[3,nmax]+f[1,nmax])+(f[4,nmax]+f[2,nmax]+f[0,nmax])
     ! +(f[5,nmax]+f[3,nmax]+f[1,nmax])+(f[6,nmax]+f[4,nmax]+f[2,nmax]+f[0,nmax])
     ! when rmax=5,nmax=5 -> xiarraymax2=314
-    ! when rmax=6,nmax=5 -> xiarraymax2=610 
+    ! when rmax=6,nmax=5 -> xiarraymax2=610
     INTEGER::xiarraymax2,xiarraymax,xiarraymax3
     !REAL(KIND(1d0)),DIMENSION(xiarraymax2)::syfactor
     REAL(KIND(1d0)),DIMENSION(:),ALLOCATABLE::syfactor
@@ -190,7 +190,7 @@ CONTAINS
        IF(.NOT.ALLOCATED(sy))THEN
           ALLOCATE(sy(xiarraymax2,-1:MAXNLOOP_IREGI))
        ENDIF
-       ! initialization xiarray and metric 
+       ! initialization xiarray and metric
        CALL all_Integers(1,1,1,sol11,factor1)
        DO i=0,3
           DO j=0,3
@@ -391,8 +391,8 @@ CONTAINS
              ELSE
                 ! optimized PaVe reduction
                 ! the stability has been improved by IBP reduction
-                scalar(1:4)=pave_opt_reduce2(NLOOPLINE,paveindices,PijMatrix,M2L)                
-             ENDIF             
+                scalar(1:4)=pave_opt_reduce2(NLOOPLINE,paveindices,PijMatrix,M2L)
+             ENDIF
              IF(.NOT.STABLE_IREGI)THEN
                 WRITE(*,*)"IREGI:WARNING, it detects unstable case, some integrals may set to be 0."
                 RETURN
@@ -409,13 +409,13 @@ CONTAINS
 
   SUBROUTINE symmetry(IMODE,NLOOPLINE,ntot,xiarraymax,xiarraymax2,xiarraymax3,&
        sy,syfactor,numzerp,zerp,PDEN,M2L,NCOEFS,coefs)
-    ! IMODE=0, IBP reduction  
+    ! IMODE=0, IBP reduction
     ! IMODE=1, PaVe reduction
-    ! IMODE=2, PaVe reduction with stablility improved by IBP reduction 
+    ! IMODE=2, PaVe reduction with stablility improved by IBP reduction
     IMPLICIT NONE
     INTEGER,INTENT(IN)::ntot,numzerp,NLOOPLINE,IMODE,NCOEFS,xiarraymax,xiarraymax2,xiarraymax3
     INTEGER,DIMENSION(xiarraymax2,-1:NLOOPLINE-numzerp),INTENT(IN)::sy
-    !INTEGER,DIMENSION(*,*),INTENT(IN)::sy 
+    !INTEGER,DIMENSION(*,*),INTENT(IN)::sy
     REAL(KIND(1d0)),DIMENSION(xiarraymax2),INTENT(IN)::syfactor
     INTEGER,DIMENSION(NLOOPLINE),INTENT(IN)::zerp
     REAL(KIND(1d0)),DIMENSION(NLOOPLINE,0:3),INTENT(IN)::PDEN

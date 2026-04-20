@@ -1118,8 +1118,8 @@ function elliptic_inc_ea ( phi, a )
 !    The value is computed using Carlson elliptic integrals:
 !
 !      k = sin ( a * pi / 180 )
-!      E(phi,a) = 
-!                  sin ( phi )   RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ) 
+!      E(phi,a) =
+!                  sin ( phi )   RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 )
 !        - 1/3 k^2 sin^3 ( phi ) RD ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ).
 !
 !  Licensing:
@@ -1207,7 +1207,7 @@ subroutine elliptic_inc_ea_values ( n_data, phi, a, ea )
 !
 !    This is one form of the incomplete elliptic integral of the second kind.
 !
-!      E(PHI,A) = integral ( 0 <= T <= PHI ) 
+!      E(PHI,A) = integral ( 0 <= T <= PHI )
 !        sqrt ( 1 - sin^2 ( A ) * sin^2 ( T ) ) dT
 !
 !  Licensing:
@@ -1235,8 +1235,8 @@ subroutine elliptic_inc_ea_values ( n_data, phi, a, ea )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -1350,8 +1350,8 @@ function elliptic_inc_ek ( phi, k )
 !
 !    The value is computed using Carlson elliptic integrals:
 !
-!      E(phi,k) = 
-!                  sin ( phi )   RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ) 
+!      E(phi,k) =
+!                  sin ( phi )   RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 )
 !        - 1/3 k^2 sin^3 ( phi ) RD ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ).
 !
 !  Licensing:
@@ -1436,7 +1436,7 @@ subroutine elliptic_inc_ek_values ( n_data, phi, k, ek )
 !
 !    This is the incomplete elliptic integral of the second kind.
 !
-!      E(PHI,K) = integral ( 0 <= T <= PHI ) 
+!      E(PHI,K) = integral ( 0 <= T <= PHI )
 !        sqrt ( 1 - K^2 * sin ( T )^2 ) dT
 !
 !  Licensing:
@@ -1464,8 +1464,8 @@ subroutine elliptic_inc_ek_values ( n_data, phi, k, ek )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -1579,8 +1579,8 @@ function elliptic_inc_em ( phi, m )
 !
 !    The value is computed using Carlson elliptic integrals:
 !
-!      E(phi,m) = 
-!                sin ( phi )   RF ( cos^2 ( phi ), 1-m sin^2 ( phi ), 1 ) 
+!      E(phi,m) =
+!                sin ( phi )   RF ( cos^2 ( phi ), 1-m sin^2 ( phi ), 1 )
 !        - 1/3 m sin^3 ( phi ) RD ( cos^2 ( phi ), 1-m sin^2 ( phi ), 1 ).
 !
 !  Licensing:
@@ -1665,7 +1665,7 @@ subroutine elliptic_inc_em_values ( n_data, phi, m, em )
 !
 !    This is the incomplete elliptic integral of the second kind.
 !
-!      E(PHI,M) = integral ( 0 <= T <= PHI ) 
+!      E(PHI,M) = integral ( 0 <= T <= PHI )
 !        sqrt ( 1 - M * sin ( T )^2 ) dT
 !
 !  Licensing:
@@ -1693,8 +1693,8 @@ subroutine elliptic_inc_em_values ( n_data, phi, m, em )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -1882,7 +1882,7 @@ subroutine elliptic_inc_fa_values ( n_data, phi, a, fa )
 !
 !    This is the incomplete elliptic integral of the first kind.
 !
-!      F(PHI,A) = integral ( 0 <= T <= PHI ) 
+!      F(PHI,A) = integral ( 0 <= T <= PHI )
 !        dT / sqrt ( 1 - sin^2 ( A ) * sin^2 ( T ) )
 !
 !  Licensing:
@@ -1910,8 +1910,8 @@ subroutine elliptic_inc_fa_values ( n_data, phi, a, fa )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -2095,7 +2095,7 @@ subroutine elliptic_inc_fk_values ( n_data, phi, k, fk )
 !
 !    This is the incomplete elliptic integral of the first kind.
 !
-!      F(PHI,K) = integral ( 0 <= T <= PHI ) 
+!      F(PHI,K) = integral ( 0 <= T <= PHI )
 !        dT / sqrt ( 1 - K^2 * sin ( T )^2 )
 !
 !  Licensing:
@@ -2123,8 +2123,8 @@ subroutine elliptic_inc_fk_values ( n_data, phi, k, fk )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -2308,7 +2308,7 @@ subroutine elliptic_inc_fm_values ( n_data, phi, m, fm )
 !
 !    This is the incomplete elliptic integral of the first kind.
 !
-!      F(PHI,M) = integral ( 0 <= T <= PHI ) 
+!      F(PHI,M) = integral ( 0 <= T <= PHI )
 !        dT / sqrt ( 1 - M * sin ( T )^2 )
 !
 !  Licensing:
@@ -2336,8 +2336,8 @@ subroutine elliptic_inc_fm_values ( n_data, phi, m, fm )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -2540,7 +2540,7 @@ subroutine elliptic_inc_pia_values ( n_data, phi, n, a, pia )
 !
 !    This is the incomplete elliptic integral of the third kind.
 !
-!      Pi(PHI,N,A) = integral ( 0 <= T <= PHI ) 
+!      Pi(PHI,N,A) = integral ( 0 <= T <= PHI )
 !        dT / (1 - N sin^2(T) ) sqrt ( 1 - sin^2(A) * sin ( T )^2 )
 !
 !  Licensing:
@@ -2568,8 +2568,8 @@ subroutine elliptic_inc_pia_values ( n_data, phi, n, a, pia )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -2794,7 +2794,7 @@ subroutine elliptic_inc_pik_values ( n_data, phi, n, k, pik )
 !
 !    This is the incomplete elliptic integral of the third kind.
 !
-!      Pi(PHI,N,K) = integral ( 0 <= T <= PHI ) 
+!      Pi(PHI,N,K) = integral ( 0 <= T <= PHI )
 !        dT / (1 - N sin^2(T) ) sqrt ( 1 - K^2 * sin ( T )^2 )
 !
 !  Licensing:
@@ -2822,8 +2822,8 @@ subroutine elliptic_inc_pik_values ( n_data, phi, n, k, pik )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -3048,7 +3048,7 @@ subroutine elliptic_inc_pim_values ( n_data, phi, n, m, pim )
 !
 !    This is the incomplete elliptic integral of the third kind.
 !
-!      Pi(PHI,N,M) = integral ( 0 <= T <= PHI ) 
+!      Pi(PHI,N,M) = integral ( 0 <= T <= PHI )
 !        dT / (1 - N sin^2(T) ) sqrt ( 1 - M * sin ( T )^2 )
 !
 !  Licensing:
@@ -3076,8 +3076,8 @@ subroutine elliptic_inc_pim_values ( n_data, phi, n, m, pim )
 !
 !  Parameters:
 !
-!    Input/output, integer N_DATA.  The user sets N_DATA to 0 
-!    before the first call.  On each call, the routine increments N_DATA by 1, 
+!    Input/output, integer N_DATA.  The user sets N_DATA to 0
+!    before the first call.  On each call, the routine increments N_DATA by 1,
 !    and returns the corresponding data when there is no more data, the
 !    output value of N_DATA will be 0 again.
 !
@@ -3969,7 +3969,7 @@ subroutine jacobi_cn_values ( n_data, u, a, k, m, cn )
 !
 !  Input:
 !
-!    integer N_DATA.  The user sets N_DATA to 0 before the first call.  
+!    integer N_DATA.  The user sets N_DATA to 0 before the first call.
 !
 !  Output:
 !
@@ -4172,7 +4172,7 @@ subroutine jacobi_dn_values ( n_data, u, a, k, m, dn )
 !
 !  Input:
 !
-!    integer N_DATA.  The user sets N_DATA to 0 before the first call.  
+!    integer N_DATA.  The user sets N_DATA to 0 before the first call.
 !
 !  Output:
 !
@@ -4375,7 +4375,7 @@ subroutine jacobi_sn_values ( n_data, u, a, k, m, sn )
 !
 !  Input:
 !
-!    integer N_DATA.  The user sets N_DATA to 0 before the first call.  
+!    integer N_DATA.  The user sets N_DATA to 0 before the first call.
 !
 !  Output:
 !

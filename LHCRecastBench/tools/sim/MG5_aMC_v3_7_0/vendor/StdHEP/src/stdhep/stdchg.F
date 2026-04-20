@@ -12,6 +12,6 @@ C      stdchg = particle charge (real number)
 
       ich = hepchg(id)
       stdchg = float(ich)/3.
-      
+
       return
       end

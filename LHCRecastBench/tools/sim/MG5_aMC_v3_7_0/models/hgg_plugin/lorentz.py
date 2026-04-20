@@ -36,4 +36,3 @@ VVVVS2 = Lorentz(name = 'VVVVS2',
 VVVVS3 = Lorentz(name = 'VVVVS3',
                  spins = [ 3, 3, 3, 3, 1 ],
                  structure = 'Metric(1,3)*Metric(2,4) - Metric(1,2)*Metric(3,4)')
-

@@ -65,10 +65,10 @@ c     then try PdfData directory
       enddo
 
 c     try to find the path from the executable
-c                                                                                                                     
+c
       call getarg(0,path)       !path is the PATH to the madevent executable (either global or from launching directory)
-      pos = index(path,'/', .true.)                                                                                   
-      path = path(:pos)                                                                                               
+      pos = index(path,'/', .true.)
+      path = path(:pos)
       fine2 = index(path, ' ')-1
       upbuff = '../../../../../../../'
       tempname = Tablefile
@@ -87,7 +87,6 @@ c
 
 
       print*,'table for the pdf NOT found!!!'
-      
+
       return
       end
-

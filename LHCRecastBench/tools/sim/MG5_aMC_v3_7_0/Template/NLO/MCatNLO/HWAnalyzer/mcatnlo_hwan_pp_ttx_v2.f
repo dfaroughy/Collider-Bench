@@ -61,7 +61,7 @@ C----------------------------------------------------------------------
       parameter(NPL=15000)
       common/c_analysis/nwgt_analysis
       OPEN(UNIT=99,FILE='HERQQ.TOP',STATUS='UNKNOWN')
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=1.D3/DFLOAT(NEVHEP)
       DO I=1,NPL
@@ -105,7 +105,7 @@ C----------------------------------------------------------------------
      # etaq1,getpseudorap,etaq2,azi,azinorm,qqm,dr,yqq
       DOUBLE PRECISION XPTQ(5),XPTB(5),XPLP(5),XPNU(5),XPBQ(5),XPLM(5),
      # XPNB(5),XPBB(5),p_t(0:3),p_tx(0:3),pttx(0:3),
-     # mtt,pt_t,pt_tx,pt_ttx,yt,ytx,yttx,var 
+     # mtt,pt_t,pt_tx,pt_ttx,yt,ytx,yttx,var
       DOUBLE PRECISION YPBQBB(4),YPLPLM(4),YPBQLM(4),YPBBLP(4),
      # YPBQNB(4),YPBBNU(4),YPTQTB(4)
       REAL*8 PI
@@ -142,14 +142,14 @@ C EFFECT, SO THROW THE EVENT AWAY
       IQ1=0
       IQ2=0
       DO 100 IHEP=1,NHEP
-C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM 
+C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM
 C        IF(IQ1*IQ2.EQ.1) GOTO 11
         IF (IDHW(IHEP).EQ.16) DIDSOF=.TRUE.
         IF (ISTHEP(IHEP).EQ.1) THEN
           CALL HWVSUM(4,PHEP(1,IHEP),PSUM,PSUM)
           ICHSUM=ICHSUM+ICHRG(IDHW(IHEP))
         ENDIF
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID=IDHW(IHEP)
         ID1=IDHEP(IHEP)
         IF(IST.EQ.155.AND.ID1.EQ.6)THEN

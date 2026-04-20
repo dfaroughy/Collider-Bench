@@ -13,14 +13,14 @@ script=refine_splitted.sh
 # 1st argument the Directory name
 grid_directory=$1;
 # 2st argument Directory where to find the grid input
-base_directory=$2; 
+base_directory=$2;
 # 3st argument the offset
 offset=$3;
 
 
 # prepare the directory where to run
 if [[ ! -e $grid_directory ]]; then
-    # Do not exists     
+    # Do not exists
     mkdir $grid_directory;
 else
    rm -rf $grid_directory/$k;
@@ -48,7 +48,7 @@ echo   $offset > moffset.dat;
 
 # run the executable. The loop is design to avoid
 # filesystem problem (executable not found)
-for((try=1;try<=16;try+=1)); 
+for((try=1;try<=16;try+=1));
 do
     ../madevent 2>&1 >> $k <input_app.txt | tee -a $k;
     status_code=${PIPESTATUS[0]};
@@ -56,7 +56,7 @@ do
     then
         break
     else
-        echo $try > fail.log 
+        echo $try > fail.log
     fi
 done
 echo "" >> $k; echo "ls status:" >> $k; ls >> $k
@@ -70,7 +70,7 @@ if [[ $subdir -ne 1 &&  -s results.dat && $MG5DEBUG != true ]]; then
 	 rm -f moffset.dat &> /dev/null
 	 rm -f fail.log &> /dev/null
 fi
-if [[ $status_code -ne 0 ]]; then 
+if [[ $status_code -ne 0 ]]; then
 	 rm results.dat
 	 echo "ERROR DETECTED"
 	 echo "end code not correct $status_code" > results.dat

@@ -1,7 +1,7 @@
 !
-! define some constants 
+! define some constants
 !
- module constants  
+ module constants
   include 'cts_mprec.h'
   implicit none
   private
@@ -87,8 +87,8 @@
   function dp_root3(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpr.h' 
-    :: dp_root3,aus  
+   include 'cts_dpr.h'
+    :: dp_root3,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -101,8 +101,8 @@
   function dp_pi(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpr.h' 
-    :: dp_pi,aus  
+   include 'cts_dpr.h'
+    :: dp_pi,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -115,7 +115,7 @@
   function dp_lambda(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: dp_lambda,aus
    logical :: computing=.true.
    save aus,computing
@@ -123,13 +123,13 @@
     computing=.false.
     aus= -1.d0
    endif
-   dp_lambda= aus          
+   dp_lambda= aus
   end function dp_lambda
 !
   function dp_sigma(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: dp_sigma,aus
    logical :: computing=.true.
    save aus,computing
@@ -137,13 +137,13 @@
     computing=.false.
     aus= -0.5d0
    endif
-   dp_sigma= aus          
+   dp_sigma= aus
   end function dp_sigma
 !
   function dp_c0(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: dp_c0,aus
    logical :: computing=.true.
    save aus,computing
@@ -157,7 +157,7 @@
   function dp_c1(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: dp_c1,aus
    logical :: computing=.true.
    save aus,computing
@@ -171,7 +171,7 @@
   function dp_ci(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: dp_ci,aus
    logical :: computing=.true.
    save aus,computing
@@ -179,14 +179,14 @@
     computing=.false.
     aus= dcmplx(0.d0,1.d0)
    endif
-   dp_ci= aus 
+   dp_ci= aus
   end function dp_ci
 !
   function dp_cexp1(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
-    :: dp_cexp1,aus  
+   include 'cts_dpc.h'
+    :: dp_cexp1,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -199,8 +199,8 @@
   function dp_cexp2(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
-    :: dp_cexp2,aus  
+   include 'cts_dpc.h'
+    :: dp_cexp2,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -213,8 +213,8 @@
   function dp_cexp3(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
-    :: dp_cexp3,aus  
+   include 'cts_dpc.h'
+    :: dp_cexp3,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -227,8 +227,8 @@
   function dp_cexp4(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
-    :: dp_cexp4,aus  
+   include 'cts_dpc.h'
+    :: dp_cexp4,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -241,8 +241,8 @@
   function dp_cexpk1(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
-    :: dp_cexpk1,aus  
+   include 'cts_dpc.h'
+    :: dp_cexpk1,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -255,7 +255,7 @@
   function dp_tau11(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: dp_tau11,aus
    logical :: computing=.true.
    save aus,computing
@@ -269,13 +269,13 @@
   function dp_tau12(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: dp_tau12,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
     computing=.false.
-    aus= 1.d0 
+    aus= 1.d0
    endif
    dp_tau12= aus
   end function dp_tau12
@@ -283,22 +283,22 @@
   function dp_tiny(p)
    include 'cts_dpr.h'
     , intent(in) :: p
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: dp_tiny,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
     computing=.false.
-    aus= tiny(p) 
+    aus= tiny(p)
    endif
    dp_tiny= aus
-  end function dp_tiny 
+  end function dp_tiny
 !
   function mp_root3(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpr.h' 
-    :: mp_root3,aus  
+   include 'cts_mpr.h'
+    :: mp_root3,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -312,8 +312,8 @@
   function mp_pi(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpr.h' 
-    :: mp_pi,aus  
+   include 'cts_mpr.h'
+    :: mp_pi,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -327,7 +327,7 @@
   function mp_lambda(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpr.h' 
+   include 'cts_mpr.h'
     :: mp_lambda,aus
    logical :: computing=.true.
    save aus,computing
@@ -341,7 +341,7 @@
   function mp_sigma(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpr.h' 
+   include 'cts_mpr.h'
     :: mp_sigma,aus
    logical :: computing=.true.
    save aus,computing
@@ -355,7 +355,7 @@
   function mp_c0(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: mp_c0,aus
    logical :: computing=.true.
    save aus,computing
@@ -369,7 +369,7 @@
   function mp_c1(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: mp_c1,aus
    logical :: computing=.true.
    save aus,computing
@@ -383,7 +383,7 @@
   function mp_ci(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: mp_ci,aus
    logical :: computing=.true.
    save aus,computing
@@ -391,14 +391,14 @@
     computing=.false.
     aus= dcmplx(0.d0,1.d0)
    endif
-   mp_ci= aus 
+   mp_ci= aus
   end function mp_ci
 !
   function mp_cexp1(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
-    :: mp_cexp1,aus  
+   include 'cts_mpc.h'
+    :: mp_cexp1,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -411,8 +411,8 @@
   function mp_cexp2(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
-    :: mp_cexp2,aus  
+   include 'cts_mpc.h'
+    :: mp_cexp2,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -425,8 +425,8 @@
   function mp_cexp3(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
-    :: mp_cexp3,aus  
+   include 'cts_mpc.h'
+    :: mp_cexp3,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -436,11 +436,11 @@
    mp_cexp3= aus
   end function mp_cexp3
 !
-  function mp_cexp4(p)    
+  function mp_cexp4(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
-    :: mp_cexp4,aus  
+   include 'cts_mpc.h'
+    :: mp_cexp4,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -453,8 +453,8 @@
   function mp_cexpk1(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
-    :: mp_cexpk1,aus  
+   include 'cts_mpc.h'
+    :: mp_cexpk1,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
@@ -467,7 +467,7 @@
   function mp_tau11(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: mp_tau11,aus
    logical :: computing=.true.
    save aus,computing
@@ -481,13 +481,13 @@
   function mp_tau12(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: mp_tau12,aus
    logical :: computing=.true.
    save aus,computing
    if (computing) then
     computing=.false.
-    aus= 1.d0 
+    aus= 1.d0
    endif
    mp_tau12= aus
   end function mp_tau12
@@ -495,7 +495,7 @@
   function mp_tiny(p)
    include 'cts_mpr.h'
     , intent(in) :: p
-   include 'cts_mpr.h' 
+   include 'cts_mpr.h'
     :: mp_tiny,aus
    logical :: computing=.true.
    save aus,computing
@@ -504,6 +504,5 @@
     aus= tiny(1.d0)
    endif
    mp_tiny= aus
-  end function mp_tiny 
+  end function mp_tiny
  end module constants
-

@@ -1,5 +1,5 @@
 #
-# Platform independent part of make procedure for Nirvana utilities directory, 
+# Platform independent part of make procedure for Nirvana utilities directory,
 # included by machine specific makefiles.
 #
 include ../../stdhep_arch
@@ -39,7 +39,7 @@ INCLS= DialogF.h getfiles.h stringUtils.h printUtils.h psUtils.h \
 	misc.h fileUtils.h help.h prefFile.h fontsel.h
 VMSSRCS = vmsUtils.c vmsUtils.h vmsparam.h
 
-all: $(NLIBDIR)/libNUtil$(SFX).a 
+all: $(NLIBDIR)/libNUtil$(SFX).a
 
 $(NLIBDIR)/libNUtil$(SFX).a: $(OBJS)
 	$(AR) -urs $(NLIBDIR)/libNUtil$(SFX).a $(OBJS)
@@ -55,7 +55,7 @@ realclean:
 
 depend:
 	$(MAKEDEPEND) -fMakefile.common -- $(CFLAGS) -- $(SRCS)
-	
+
 #------------------------------------------
 
 .SUFFIXES : 		# cancel implicit rules

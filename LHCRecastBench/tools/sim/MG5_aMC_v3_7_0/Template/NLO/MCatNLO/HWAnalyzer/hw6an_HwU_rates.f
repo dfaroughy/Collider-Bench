@@ -27,7 +27,7 @@ C----------------------------------------------------------------------
       INCLUDE 'HERWIG65.INC'
       include 'reweight0.inc'
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -73,7 +73,7 @@ c *average* to the total cross section, so no extra weight needed
       xnorm=1d3
 c Collect accumulated results
       call finalize_histograms(nevhep)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)

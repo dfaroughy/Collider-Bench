@@ -2247,7 +2247,7 @@ C...Subdivide standard ID code into constituent pieces.
 
       if(kqa.eq.0)  then
       elseif(kqa.ge.10000000) then
-C... ions 
+C... ions
 	do i=2201,2210
             if(cmplist(i).eq.kqa) hepcmp = i
 	enddo
@@ -2299,7 +2299,7 @@ C... leptons
         else
 C... now what about R-hadrons?
 C... 2211 - 6791 [entire meson space]
-        if(kqx.eq.1 .and. kqr.eq.0 .and. kqj.gt.0 
+        if(kqx.eq.1 .and. kqr.eq.0 .and. kqj.gt.0
      1	   .and. kq1.gt.0 .and. kq2.gt.0 )then
 	  if( kql.gt.0 .and. (kq2.eq.0 .or. kq3.eq.0))then
 	  elseif(kq1.eq.7 .or. kq1.eq.8)then
@@ -2348,7 +2348,7 @@ C...undefined
 
       elseif(kq1.eq.0) then
 C...Diquarks.
-C... 103 
+C... 103
         if(kqx.ne.0 .and. kqr.ne.0 .and. kql.ne.0)then
 C... no excited states
         elseif(kqj.ne.1.and.kqj.ne.3) then

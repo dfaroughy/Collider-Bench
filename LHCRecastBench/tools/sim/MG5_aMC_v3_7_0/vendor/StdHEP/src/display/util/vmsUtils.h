@@ -26,7 +26,7 @@
 *			       VMS-style command line to something Unix-like.  *
 *			       Limitations: no abbreviations, some syntax      *
 *			       information is lost so some errors will yield   *
-*			       strange results.				       * 
+*			       strange results.				       *
 *									       *
 *        rint              - Returns the integer (represented as a double      *
 *                              precision number) nearest its double argument.  *

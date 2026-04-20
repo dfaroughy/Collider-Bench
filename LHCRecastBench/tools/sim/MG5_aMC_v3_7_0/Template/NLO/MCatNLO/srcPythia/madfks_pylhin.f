@@ -165,7 +165,7 @@ C--weights.
       do
          READ(61,'(a)')STRING
          if (index(string,'<initrwgt>').ne.0) then
-c Found extra weight labels:  
+c Found extra weight labels:
             do
                READ(61,'(a)')STRING
 c     exit when end of weight information is found
@@ -217,7 +217,7 @@ C--Read up to </init> in the event file
 C----------------------------------------------------------------------
       SUBROUTINE HWURSC(NP,PP)
 C  RESCALES A SET OF NP (<21) 3-MOMENTA PP(1-3,*) IN
-C  THEIR CMF TO PUT PP ON MASS-SHELL AT MASSES PP(5,*) 
+C  THEIR CMF TO PUT PP ON MASS-SHELL AT MASSES PP(5,*)
 C----------------------------------------------------------------------
       IMPLICIT NONE
       INTEGER NP,IP,IT,NT
@@ -262,7 +262,7 @@ C--ITERATE RESCALING OF 3-MOMENTA
       ENDDO
 C--FAILED TO CONVERGE
         write(*,*)'WARNING #1 IN HWURSC'
-C--CONVERGED: RESCALE 3-MOMENTA AND BOOST BACK 
+C--CONVERGED: RESCALE 3-MOMENTA AND BOOST BACK
  100  IF (FAC.LT.0D0)THEN
          write(*,*)'FATAL ERROR #3 IN HWURSC'
          stop

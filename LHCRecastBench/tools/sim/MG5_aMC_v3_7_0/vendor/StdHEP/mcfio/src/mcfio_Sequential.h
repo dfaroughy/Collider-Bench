@@ -7,8 +7,8 @@
 *									       *
 *******************************************************************************/
 int mcfioC_OpenReadSequential(char *device, char *label, int filenumber);
-int mcfioC_OpenWriteSequential(char *device, char *label, char *title, 
-                char *comment, int numevts_pred, 
+int mcfioC_OpenWriteSequential(char *device, char *label, char *title,
+                char *comment, int numevts_pred,
                 int *blkIds, unsigned int nBlocks);
 int mcfioC_NextEventSequential(int stream);
 void mcfioC_CloseSequentialFile(int stream);

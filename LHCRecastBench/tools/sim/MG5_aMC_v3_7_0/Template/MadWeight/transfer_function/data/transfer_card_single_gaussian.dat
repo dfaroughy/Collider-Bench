@@ -15,7 +15,7 @@
 
 #+-----------------------------------------------------------------------+
 #|    Parameter for particles: mu,e                                      |
-#|    Information: single gaussian with parameter depending of the energy 
+#|    Information: single gaussian with parameter depending of the energy
 #|                                                                       |
 #+-----------------------------------------------------------------------+
 
@@ -28,7 +28,7 @@ BLOCK TF_lepton_E
 	12	 0.02d0  #
 #+-----------------------------------------------------------------------+
 #|    Parameter for particles: u,d,s,c,b,g                               |
-#|    Information: single gaussian with parameter depending of the energy 
+#|    Information: single gaussian with parameter depending of the energy
 #|                                                                       |
 #+-----------------------------------------------------------------------+
 

@@ -13,7 +13,7 @@ c       real    vwidth         : width of output vector v'
 c
 c output:
 c       complex jvs(6)         : vector current             j^mu(v':v,s)
-c     
+c
       implicit none
       double complex vc(6),sc(3),gc,jvs(6),dg,vk
       double complex cm2        ! mass**2- I Gamma mass (Fabio)
@@ -75,9 +75,9 @@ c
       if ( vwidth.eq.rZero .and. q2.eq.vm2 ) then
          write(stdo,*)
      &        ' helas-error : jvs in jvsxxx is on vmass pole'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : q     = ',q(0),q(1),q(2),q(3)
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : abs(q)= ',sqrt(abs(q2))
          jvs(1)=cmplx(rZero)
          jvs(2)=cmplx(rZero)

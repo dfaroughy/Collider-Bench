@@ -5,7 +5,7 @@ c
 c 1. PDF set
 c 2. Collider parameters
 c 3. cuts
-c---------------------------------------------------------------------- 
+c----------------------------------------------------------------------
       use extra_weights
       implicit none
       include 'PDF/pdf.inc'
@@ -69,16 +69,16 @@ c Default scale and PDF choice used for the actual run
 c For backward compatibility
       scale = muR_ref_fixed
       q2fact(1) = muF1_ref_fixed**2      ! fact scale**2 for pdf1
-      q2fact(2) = muF2_ref_fixed**2      ! fact scale**2 for pdf2     
+      q2fact(2) = muF2_ref_fixed**2      ! fact scale**2 for pdf2
       scalefact=muR_over_ref
       ellissextonfact=QES_over_ref
 
       call fill_needed_splittings()! this sub is inside fks_singular.f
 
 c check that the event normalization input is reasoble
-      buff = event_norm 
+      buff = event_norm
       call case_trap2(buff) ! requires a string of length 20 at least
-      event_norm=buff 
+      event_norm=buff
       if ( event_norm(1:7).ne.'average' .and.
      $     event_norm(1:3).ne.'sum' .and.
      $     event_norm(1:5).ne.'unity'.and.
@@ -100,7 +100,7 @@ c Check parameters for FxFx/UNLOPS/NNLL-veto
       xqcut=0d0
       xmtc=0d0
       D=1d0
-c Set alphaS(mZ)      
+c Set alphaS(mZ)
       if(lpp(1).ne.0.or.lpp(2).ne.0) then
          write(*,*) 'A PDF is used, so alpha_s(MZ)'/
      &        /' is going to be modified'
@@ -146,7 +146,7 @@ C Fill common block for Les Houches init info
             elseif(lpp(i).eq.4) then
                idbmup(i)=13
             elseif(lpp(i).eq.-4) then
-               idbmup(i)=-13               
+               idbmup(i)=-13
             elseif(lpp(i).eq.0) then
                open (unit=71,status='old',file='initial_states_map.dat')
                read (71,*,err=100)idum,idum,idbmup(1),idbmup(2)

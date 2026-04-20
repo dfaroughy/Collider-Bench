@@ -18,7 +18,7 @@
 !   U.S. Department of Energy under contract number DE-AC03-76SF00098.
 !   See README file accompanying this software for other legal details.
 
-!   A detailed description of this package, and instructions for compiling 
+!   A detailed description of this package, and instructions for compiling
 !   and testing this program on various specific systems are included in the
 !   README file that accompanies this file.
 
@@ -600,7 +600,7 @@ endif
 
 d(1) = sign (nd, ia)
 d(2) = ixd
-call mpnorm (d, c, mpnw) 
+call mpnorm (d, c, mpnw)
 
 100 continue
 if (mpidb .ge. 9) then
@@ -684,7 +684,7 @@ mq = cl2 * log (t1) + 1.d0 - mprxx
 !   Compute A^2 outside of the iteration loop.
 
 mpnw = nws + 1
-call mpmul (a, a, s(k0), mpnw) 
+call mpmul (a, a, s(k0), mpnw)
 
 !   Compute the initial approximation of A ^ (-2/3).
 
@@ -707,16 +707,16 @@ do k = 2, mq - 1
   mpnw = min (2 * mpnw - 2, nws) + 1
   nw2 = mpnw
 100  continue
-  call mpmul (b, b, s(k1), mpnw) 
-  call mpmul (b, s(k1), s(k2), mpnw) 
-  call mpmul (s(k0), s(k2), s(k1), mpnw) 
-  call mpsub (f, s(k1), s(k2), mpnw) 
+  call mpmul (b, b, s(k1), mpnw)
+  call mpmul (b, s(k1), s(k2), mpnw)
+  call mpmul (s(k0), s(k2), s(k1), mpnw)
+  call mpsub (f, s(k1), s(k2), mpnw)
   mpnw = nw1
-  call mpmul (b, s(k2), s(k1), mpnw) 
-  call mpdivd (s(k1), 3.d0, 0, s(k2), mpnw) 
+  call mpmul (b, s(k2), s(k1), mpnw)
+  call mpdivd (s(k1), 3.d0, 0, s(k2), mpnw)
   mpnw = nw2
-  call mpadd (b, s(k2), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mpadd (b, s(k2), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -725,24 +725,24 @@ do k = 2, mq - 1
 
 !   Perform last iteration using Karp's trick.
 
-call mpmul (a, b, s(k0), mpnw) 
+call mpmul (a, b, s(k0), mpnw)
 nw1 = mpnw
 mpnw = min (2 * mpnw - 2, nws) + 1
 nw2 = mpnw
-call mpmul (s(k0), s(k0), s(k1), mpnw) 
-call mpmul (s(k0), s(k1), s(k2), mpnw) 
-call mpsub (a, s(k2), s(k1), mpnw) 
+call mpmul (s(k0), s(k0), s(k1), mpnw)
+call mpmul (s(k0), s(k1), s(k2), mpnw)
+call mpsub (a, s(k2), s(k1), mpnw)
 mpnw = nw1
-call mpmul (s(k1), b, s(k2), mpnw) 
-call mpdivd (s(k2), 3.d0, 0, s(k1), mpnw) 
+call mpmul (s(k1), b, s(k2), mpnw)
+call mpdivd (s(k2), 3.d0, 0, s(k1), mpnw)
 mpnw = nw2
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpeq (s(k2), b, mpnw) 
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpeq (s(k2), b, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 120  if (mpidb .ge. 7) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -1241,7 +1241,7 @@ enddo
 
 d1(1) = nd
 d1(2) = ixd
-call mpnorm (d1, c, mpnw) 
+call mpnorm (d1, c, mpnw)
 
 if (mpidb .ge. 8) then
   call mpmdc (c, dt1, n1)
@@ -1420,7 +1420,7 @@ enddo
 d(1) = sign (nc, ia * ib)
 d(2) = a(2) - b(2) + is - 2
 
-call mpnorm (d, c, mpnw) 
+call mpnorm (d, c, mpnw)
 
 190  if (mpidb .ge. 8) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -1510,7 +1510,7 @@ endif
 120  if (bb .ne. aint (bb)) then
   bb = sign (bb, b)
   call mpdmc (bb, n1 * mpnbt, f)
-  call mpdiv (a, f, c, mpnw) 
+  call mpdiv (a, f, c, mpnw)
   goto 150
 endif
 
@@ -1541,7 +1541,7 @@ d(2) = a(2) - n1
 if (j .le. mpnw + 2) d(j+2) = 0.d0
 if (j .le. mpnw + 1) d(j+3) = 0.d0
 
-call mpnorm (d, c, mpnw) 
+call mpnorm (d, c, mpnw)
 
 150  if (mpidb .ge. 9) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -1755,8 +1755,8 @@ endif
 
 !   Fix up results.  B may have trailing zeros and C may have leading zeros.
 
-call mproun (b, mpnw) 
-call mproun (c, mpnw) 
+call mproun (b, mpnw)
+call mproun (c, mpnw)
 
 120  if (mpidb .ge. 9)  then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -1932,7 +1932,7 @@ d(2) = d2
 
 !   Fix up result, since some words may be negative or exceed MPBDX.
 
-call mpnorm (d, c, mpnw) 
+call mpnorm (d, c, mpnw)
 
 170  if (mpidb .ge. 8) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -2006,7 +2006,7 @@ endif
 120  if (bb .ne. aint (bb)) then
   bb = sign (bb, b)
   call mpdmc (bb, n1 * mpnbt, f)
-  call mpmul (f, a, c, mpnw) 
+  call mpmul (f, a, c, mpnw)
   goto 140
 endif
 
@@ -2024,7 +2024,7 @@ d(2) = a(2) + n1
 d(na+3) = 0.d0
 d(na+4) = 0.d0
 
-call mpnorm (d, c, mpnw) 
+call mpnorm (d, c, mpnw)
 
 140  if (mpidb .ge. 9) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -2088,9 +2088,9 @@ f(4) = 0.
 !   Add or subtract 1/2 from the input, depending on its sign.
 
 if (ia .eq. 1) then
-  call mpadd (a, f, s(k0), mpnw) 
+  call mpadd (a, f, s(k0), mpnw)
 else
-  call mpsub (a, f, s(k0), mpnw) 
+  call mpsub (a, f, s(k0), mpnw)
 endif
 ic = sign (1., s(k0))
 nc = abs (s(k0))
@@ -2246,7 +2246,7 @@ endif
 a(1) = sign (na, ia)
 a(2) = a2
 
-call mproun (a, mpnw) 
+call mproun (a, mpnw)
 
 170  if (mpidb .ge. 9) then
   no = min (int (abs (a(1))), mpndb) + 2
@@ -2311,15 +2311,15 @@ f1(2) = 0.
 f1(3) = 1.
 f1(4) = 0.
 if (nn .eq. 0) then
-  call mpeq (f1, b, mpnw) 
+  call mpeq (f1, b, mpnw)
   mpnw = nws
   goto 120
 elseif (nn .eq. 1) then
-  call mpeq (a, b, mpnw) 
+  call mpeq (a, b, mpnw)
   goto 110
 elseif (nn .eq. 2) then
-  call mpmul (a, a, s(k0), mpnw) 
-  call mpeq (s(k0), b, mpnw) 
+  call mpmul (a, a, s(k0), mpnw)
+  call mpeq (s(k0), b, mpnw)
   goto 110
 endif
 
@@ -2327,8 +2327,8 @@ endif
 
 t1 = nn
 mn = cl2 * log (t1) + 1.d0 + mprxx
-call mpeq (f1, b, mpnw) 
-call mpeq (a, s(k0), mpnw) 
+call mpeq (f1, b, mpnw)
+call mpeq (a, s(k0), mpnw)
 kn = nn
 
 !   Compute B ^ N using the binary rule for exponentiation.
@@ -2336,27 +2336,27 @@ kn = nn
 do j = 1, mn
   kk = kn / 2
   if (kn .ne. 2 * kk) then
-    call mpmul (b, s(k0), s(k1), mpnw) 
-    call mpeq (s(k1), b, mpnw) 
+    call mpmul (b, s(k0), s(k1), mpnw)
+    call mpeq (s(k1), b, mpnw)
   endif
   kn = kk
   if (j .lt. mn) then
-    call mpmul (s(k0), s(k0), s(k1), mpnw) 
-    call mpeq (s(k1), s(k0), mpnw) 
+    call mpmul (s(k0), s(k0), s(k1), mpnw)
+    call mpeq (s(k1), s(k0), mpnw)
   endif
 enddo
 
 !   Compute reciprocal if N is negative.
 
 110  if (n .lt. 0) then
-  call mpdiv (f1, b, s(k0), mpnw) 
-  call mpeq (s(k0), b, mpnw) 
+  call mpdiv (f1, b, s(k0), mpnw)
+  call mpeq (s(k0), b, mpnw)
 endif
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 120  if (mpidb .ge. 7) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -2438,13 +2438,13 @@ endif
 !   If N = 1, 2 or 3, call MPEQ, MPSQRT or MPCBRT.  These are faster.
 
 if (n .eq. 1) then
-  call mpeq (a, b, mpnw) 
+  call mpeq (a, b, mpnw)
   goto 140
 elseif (n .eq. 2) then
-  call mpsqrt (a, b, mpnw) 
+  call mpsqrt (a, b, mpnw)
   goto 140
 elseif (n .eq. 3) then
-  call mpcbrt (a, b, mpnw) 
+  call mpcbrt (a, b, mpnw)
   goto 140
 endif
 
@@ -2466,9 +2466,9 @@ mq = cl2 * log (t1) + 1.d0 - mprxx
 
 !   Check how close A is to 1.
 
-call mpsub (a, f1, s(k0), mpnw) 
+call mpsub (a, f1, s(k0), mpnw)
 if (s(k0) .eq. 0.) then
-  call mpeq (f1, b, mpnw) 
+  call mpeq (f1, b, mpnw)
   goto 140
 endif
 call mpmdc (s(k0), t1, n1)
@@ -2484,23 +2484,23 @@ if (n1 .le. -30) then
 !   A is so close to 1 that it is cheaper to use the binomial series.
 
     mpnw = mpnw + 1
-    call mpdivd (s(k0), t2, 0, s(k1), mpnw) 
-    call mpadd (f1, s(k1), s(k2), mpnw) 
+    call mpdivd (s(k0), t2, 0, s(k1), mpnw)
+    call mpadd (f1, s(k1), s(k2), mpnw)
     k = 0
 
 100 k = k + 1
     t1 = 1 - k * n
     t2 = (k + 1) * n
-    call mpmuld (s(k1), t1, 0, s(k3), mpnw) 
-    call mpdivd (s(k3), t2, 0, s(k1), mpnw) 
-    call mpmul (s(k0), s(k1), s(k3), mpnw) 
-    call mpeq (s(k3), s(k1), mpnw) 
-    call mpadd (s(k1), s(k2), s(k3), mpnw) 
-    call mpeq (s(k3), s(k2), mpnw) 
+    call mpmuld (s(k1), t1, 0, s(k3), mpnw)
+    call mpdivd (s(k3), t2, 0, s(k1), mpnw)
+    call mpmul (s(k0), s(k1), s(k3), mpnw)
+    call mpeq (s(k3), s(k1), mpnw)
+    call mpadd (s(k1), s(k2), s(k3), mpnw)
+    call mpeq (s(k3), s(k2), mpnw)
     if (s(k1) .ne. 0. .and. s(k1+1) .ge. - mpnw) goto 100
 
-    call mpeq (s(k2), b, mpnw) 
-    call mpdiv (f1, s(k2), s(k0), mpnw) 
+    call mpeq (s(k2), b, mpnw)
+    call mpdiv (f1, s(k2), s(k0), mpnw)
     goto 130
   endif
 endif
@@ -2522,13 +2522,13 @@ iq = 0
 do k = 2, mq
   mpnw = min (2 * mpnw - 2, nws) + 1
 110  continue
-  call mpnpwr (b, n, s(k0), mpnw) 
-  call mpmul (a, s(k0), s(k1), mpnw) 
-  call mpsub (f1, s(k1), s(k0), mpnw) 
-  call mpmul (b, s(k0), s(k1), mpnw) 
-  call mpdivd (s(k1), tn, 0, s(k0), mpnw) 
-  call mpadd (b, s(k0), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mpnpwr (b, n, s(k0), mpnw)
+  call mpmul (a, s(k0), s(k1), mpnw)
+  call mpsub (f1, s(k1), s(k0), mpnw)
+  call mpmul (b, s(k0), s(k1), mpnw)
+  call mpdivd (s(k1), tn, 0, s(k0), mpnw)
+  call mpadd (b, s(k0), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 110
@@ -2537,13 +2537,13 @@ enddo
 
 !   Take the reciprocal to give final result.
 
-call mpdiv (f1, b, s(k1), mpnw) 
-call mpeq (s(k1), b, mpnw) 
+call mpdiv (f1, b, s(k1), mpnw)
+call mpeq (s(k1), b, mpnw)
 
 !   Restore original precision level.
 
 130  mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 140  if (mpidb .ge. 7) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -2592,7 +2592,7 @@ do i = 3, mpnw + 4
   a(i) = aint (mpbdx * r30 * sd)
 enddo
 
-call mproun (a, mpnw) 
+call mproun (a, mpnw)
 
 if (mpidb .ge. 9) then
   no = min (int (abs (a(1))), mpndb) + 2
@@ -2818,15 +2818,15 @@ do k = 2, mq - 1
   mpnw = min (2 * mpnw - 2, nws) + 1
   nw2 = mpnw
 100  continue
-  call mpmul (b, b, s(k0), mpnw) 
-  call mpmul (a, s(k0), s(k1), mpnw) 
-  call mpsub (f, s(k1), s(k0), mpnw) 
+  call mpmul (b, b, s(k0), mpnw)
+  call mpmul (a, s(k0), s(k1), mpnw)
+  call mpsub (f, s(k1), s(k0), mpnw)
   mpnw = nw1
-  call mpmul (b, s(k0), s(k1), mpnw) 
-  call mpmuld (s(k1), 0.5d0, 0, s(k0), mpnw) 
+  call mpmul (b, s(k0), s(k1), mpnw)
+  call mpmuld (s(k1), 0.5d0, 0, s(k0), mpnw)
   mpnw = nw2
-  call mpadd (b, s(k0), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mpadd (b, s(k0), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -2835,23 +2835,23 @@ enddo
 
 !   Perform last iteration using Karp's trick.
 
-call mpmul (a, b, s(k0), mpnw) 
+call mpmul (a, b, s(k0), mpnw)
 nw1 = mpnw
 mpnw = min (2 * mpnw - 2, nws) + 1
 nw2 = mpnw
-call mpmul (s(k0), s(k0), s(k1), mpnw) 
-call mpsub (a, s(k1), s(k2), mpnw) 
+call mpmul (s(k0), s(k0), s(k1), mpnw)
+call mpsub (a, s(k1), s(k2), mpnw)
 mpnw = nw1
-call mpmul (s(k2), b, s(k1), mpnw) 
-call mpmuld (s(k1), 0.5d0, 0, s(k2), mpnw) 
+call mpmul (s(k2), b, s(k1), mpnw)
+call mpmuld (s(k1), 0.5d0, 0, s(k2), mpnw)
 mpnw = nw2
-call mpadd (s(k0), s(k2), s(k1), mpnw) 
-call mpeq (s(k1), b, mpnw) 
+call mpadd (s(k0), s(k2), s(k1), mpnw)
+call mpeq (s(k1), b, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 120  if (mpidb .ge. 7) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -2904,7 +2904,7 @@ b(1) = - b1
 
 !   Perform addition and restore the sign of B.
 
-call mpadd (a, b, c, mpnw) 
+call mpadd (a, b, c, mpnw)
 b(1) = b1
 
 120  return
@@ -2941,7 +2941,7 @@ real a(*)
 ! mpidb = 0
 ! nws = mpnw
 ! mpnw = min (mpnw, 10)
-! call mpoutc (a, b, n, mpnw) 
+! call mpoutc (a, b, n, mpnw)
 ! n = min (n, 70)
 ! write (mpldb, 1) cs, ' ', (b(k), k = 1, 4), (b(k), k = 9, n)
 !  1 format (a12,67a1:/(79a1))
@@ -2992,7 +2992,7 @@ if (mpidb .ge. 7) then
 
   do k = 1, n
     write (cx, '(I4)') k
-    call mpdeb (cx, a(1,k), mpnw) 
+    call mpdeb (cx, a(1,k), mpnw)
   enddo
 endif
 
@@ -3016,11 +3016,11 @@ it = (i + j + 1) / 2
 l = ip(j)
 ip(j) = ip(it)
 ip(it) = l
-call mpeq (a(1,ip(j)), s(k0), mpnw) 
+call mpeq (a(1,ip(j)), s(k0), mpnw)
 j = j - 1
 
 140  do l = i, j
-  call mpcpr (s(k0), a(1,ip(l)), ic, mpnw) 
+  call mpcpr (s(k0), a(1,ip(l)), ic, mpnw)
   if (ic .lt. 0) goto 160
 enddo
 
@@ -3030,7 +3030,7 @@ goto 190
 160  i = l
 
 do l = j, i, -1
-  call mpcpr (s(k0), a(1,ip(l)), ic, mpnw) 
+  call mpcpr (s(k0), a(1,ip(l)), ic, mpnw)
   if (ic .gt. 0) goto 180
 enddo
 
@@ -3044,7 +3044,7 @@ ip(i) = ip(j)
 ip(j) = l
 goto 140
 
-190  call mpcpr (s(k0), a(1,ip(i)), ic, mpnw) 
+190  call mpcpr (s(k0), a(1,ip(i)), ic, mpnw)
 if (ic .ge. 0) goto 200
 l = ip(jq)
 ip(jq) = ip(i)
@@ -3122,8 +3122,8 @@ if (mpier .ne. 0) then
   return
 endif
 if (mpidb .ge. 5) then
-  call mpdeb ('MPANG I', x, mpnw) 
-  call mpdeb ('MPANG I', y, mpnw) 
+  call mpdeb ('MPANG I', x, mpnw)
+  call mpdeb ('MPANG I', y, mpnw)
 endif
 
 ix = sign (1., x(1))
@@ -3160,9 +3160,9 @@ endif
 
 if (nx .eq. 0) then
   if (iy .gt. 0) then
-    call mpmuld (pi, 0.5d0, 0, a, mpnw) 
+    call mpmuld (pi, 0.5d0, 0, a, mpnw)
   else
-    call mpmuld (pi, -0.5d0, 0, a, mpnw) 
+    call mpmuld (pi, -0.5d0, 0, a, mpnw)
   endif
   goto 120
 elseif (ny .eq. 0) then
@@ -3170,7 +3170,7 @@ elseif (ny .eq. 0) then
     a(1) = 0.
     a(2) = 0.
   else
-    call mpeq (pi, a, mpnw) 
+    call mpeq (pi, a, mpnw)
   endif
   goto 120
 endif
@@ -3191,12 +3191,12 @@ mq = cl2 * log (t1) + 1.d0 - mprxx
 
 !   Normalize x and y so that x^2 + y^2 = 1.
 
-call mpmul (x, x, s(k0), mpnw) 
-call mpmul (y, y, s(k1), mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpsqrt (s(k2), s(k3), mpnw) 
-call mpdiv (x, s(k3), s(k1), mpnw) 
-call mpdiv (y, s(k3), s(k2), mpnw) 
+call mpmul (x, x, s(k0), mpnw)
+call mpmul (y, y, s(k1), mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpsqrt (s(k2), s(k3), mpnw)
+call mpdiv (x, s(k3), s(k1), mpnw)
+call mpdiv (y, s(k3), s(k2), mpnw)
 
 !   Compute initial approximation of the angle.
 
@@ -3215,10 +3215,10 @@ call mpdmc (t3, 0, a)
 
 if (abs (t1) .le. abs (t2)) then
   kk = 1
-  call mpeq (s(k1), s(k0), mpnw) 
+  call mpeq (s(k1), s(k0), mpnw)
 else
   kk = 2
-  call mpeq (s(k2), s(k0), mpnw) 
+  call mpeq (s(k2), s(k0), mpnw)
 endif
 
 mpnw = 3
@@ -3231,17 +3231,17 @@ do k = 2, mq
   mpnw = min (2 * mpnw - 2, nws) + 1
 
 100  continue
-  call mpcssn (a, pi, s(k1), s(k2), mpnw) 
+  call mpcssn (a, pi, s(k1), s(k2), mpnw)
   if (kk .eq. 1) then
-    call mpsub (s(k0), s(k1), s(k3), mpnw) 
-    call mpdiv (s(k3), s(k2), s(k4), mpnw) 
-    call mpsub (a, s(k4), s(k1), mpnw) 
+    call mpsub (s(k0), s(k1), s(k3), mpnw)
+    call mpdiv (s(k3), s(k2), s(k4), mpnw)
+    call mpsub (a, s(k4), s(k1), mpnw)
   else
-    call mpsub (s(k0), s(k2), s(k3), mpnw) 
-    call mpdiv (s(k3), s(k1), s(k4), mpnw) 
-    call mpadd (a, s(k4), s(k1), mpnw) 
+    call mpsub (s(k0), s(k2), s(k3), mpnw)
+    call mpdiv (s(k3), s(k1), s(k4), mpnw)
+    call mpadd (a, s(k4), s(k1), mpnw)
   endif
-  call mpeq (s(k1), a, mpnw) 
+  call mpeq (s(k1), a, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -3251,9 +3251,9 @@ enddo
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (a, mpnw) 
+call mproun (a, mpnw)
 
-120  if (mpidb .ge. 5) call mpdeb ('MPANG O', a, mpnw) 
+120  if (mpidb .ge. 5) call mpdeb ('MPANG O', a, mpnw)
 
 return
 end subroutine
@@ -3278,7 +3278,7 @@ if (mpier .ne. 0) then
   y(2) = 0.
   return
 endif
-if (mpidb .ge. 5) call mpdeb ('MPCSSH I', a, mpnw) 
+if (mpidb .ge. 5) call mpdeb ('MPCSSH I', a, mpnw)
 
 n5 = mpnw + 5
 k0 = 1
@@ -3292,24 +3292,24 @@ f(2) = 0.
 f(3) = 1.
 f(4) = 0.
 
-call mpexp (a, al2, s(k0), mpnw) 
-call mpdiv (f, s(k0), s(k1), mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, s(k3), mpnw) 
-call mpeq (s(k3), x, mpnw) 
-call mpsub (s(k0), s(k1), s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, s(k3), mpnw) 
-call mpeq (s(k3), y, mpnw) 
+call mpexp (a, al2, s(k0), mpnw)
+call mpdiv (f, s(k0), s(k1), mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, s(k3), mpnw)
+call mpeq (s(k3), x, mpnw)
+call mpsub (s(k0), s(k1), s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, s(k3), mpnw)
+call mpeq (s(k3), y, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (x, mpnw) 
-call mproun (y, mpnw) 
+call mproun (x, mpnw)
+call mproun (y, mpnw)
 
 if (mpidb .ge. 5) then
-  call mpdeb ('MPCSSH O', x, mpnw) 
-  call mpdeb ('MPCSSH O', y, mpnw) 
+  call mpdeb ('MPCSSH O', x, mpnw)
+  call mpdeb ('MPCSSH O', y, mpnw)
 endif
 return
 end subroutine
@@ -3351,7 +3351,7 @@ if (mpier .ne. 0) then
   y(2) = 0.
   return
 endif
-if (mpidb .ge. 6) call mpdeb ('MPCSSN I', a, mpnw) 
+if (mpidb .ge. 6) call mpdeb ('MPCSSN I', a, mpnw)
 
 ia = sign (1., a(1))
 na = min (int (abs (a(1))), mpnw)
@@ -3395,10 +3395,10 @@ f(4) = 0.
 
 !   Reduce to between - Pi and Pi.
 
-call mpmuld (pi, 2.d0, 0, s(k0), mpnw) 
-call mpdiv (a, s(k0), s(k1), mpnw) 
-call mpnint (s(k1), s(k2), mpnw) 
-call mpsub (s(k1), s(k2), s(k3), mpnw) 
+call mpmuld (pi, 2.d0, 0, s(k0), mpnw)
+call mpdiv (a, s(k0), s(k1), mpnw)
+call mpnint (s(k1), s(k2), mpnw)
+call mpsub (s(k1), s(k2), s(k3), mpnw)
 
 !   Determine nearest multiple of Pi / 2, and within a quadrant, the nearest
 !   multiple of Pi / 16.  Through most of the rest of this subroutine, KA and
@@ -3416,8 +3416,8 @@ else
 endif
 t1 = (16 * ka + kb) / 64.d0
 call mpdmc (t1, 0, s(k1))
-call mpsub (s(k3), s(k1), s(k2), mpnw) 
-call mpmul (s(k0), s(k2), s(k1), mpnw) 
+call mpsub (s(k3), s(k1), s(k2), mpnw)
+call mpmul (s(k0), s(k2), s(k1), mpnw)
 
 !   Compute cosine and sine of the reduced argument s using Taylor's series.
 
@@ -3427,8 +3427,8 @@ if (s(k1) .eq. 0.) then
   l1 = 0
   goto 110
 endif
-call mpeq (s(k1), s(k0), mpnw) 
-call mpmul (s(k0), s(k0), s(k2), mpnw) 
+call mpeq (s(k1), s(k0), mpnw)
+call mpmul (s(k0), s(k0), s(k2), mpnw)
 l1 = 0
 
 100  l1 = l1 + 1
@@ -3444,10 +3444,10 @@ if (l1 .eq. 10000) then
 endif
 
 t2 = - (2.d0 * l1) * (2.d0 * l1 + 1.d0)
-call mpmul (s(k2), s(k1), s(k3), mpnw) 
-call mpdivd (s(k3), t2, 0, s(k1), mpnw) 
-call mpadd (s(k1), s(k0), s(k3), mpnw) 
-call mpeq (s(k3), s(k0), mpnw) 
+call mpmul (s(k2), s(k1), s(k3), mpnw)
+call mpdivd (s(k3), t2, 0, s(k1), mpnw)
+call mpadd (s(k1), s(k0), s(k3), mpnw)
+call mpeq (s(k3), s(k0), mpnw)
 
 !   Check for convergence of the series.
 
@@ -3455,10 +3455,10 @@ if (s(k1) .ne. 0. .and. s(k1+1) .ge. s(k0+1) - mpnw) goto 100
 
 !   Compute Cos (s) = Sqrt [1 - Sin^2 (s)].
 
-110  call mpeq (s(k0), s(k1), mpnw) 
-call mpmul (s(k0), s(k0), s(k2), mpnw) 
-call mpsub (f, s(k2), s(k3), mpnw) 
-call mpsqrt (s(k3), s(k0), mpnw) 
+110  call mpeq (s(k0), s(k1), mpnw)
+call mpmul (s(k0), s(k0), s(k2), mpnw)
+call mpsub (f, s(k2), s(k3), mpnw)
+call mpsqrt (s(k3), s(k0), mpnw)
 
 !   Compute cosine and sine of b * Pi / 32.
 
@@ -3507,14 +3507,14 @@ endif
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (x, mpnw) 
-call mproun (y, mpnw) 
+call mproun (x, mpnw)
+call mproun (y, mpnw)
 
 120  if (mpidb .ge. 6) then
   write (mpldb, 3) l1
 3 format ('Iteration count:',i5)
-  call mpdeb ('MPCSSN O', x, mpnw) 
-  call mpdeb ('MPCSSN O', y, mpnw) 
+  call mpdeb ('MPCSSN O', x, mpnw)
+  call mpdeb ('MPCSSN O', y, mpnw)
 endif
 return
 end subroutine
@@ -3547,7 +3547,7 @@ if (mpier .ne. 0) then
   b(2) = 0.
   return
 endif
-if (mpidb .ge. 7) call mpdeb ('MPEXP I', a, mpnw) 
+if (mpidb .ge. 7) call mpdeb ('MPEXP I', a, mpnw)
 
 ia = sign (1., a(1))
 na = min (int (abs (a(1))), mpnw)
@@ -3605,14 +3605,14 @@ f(4) = 0.
 !   NZ = Nint [A / Log(2)] for correcting the exponent of the final result.
 
 if (abs (t1 - alt) .gt. mprdx) then
-  call mpdiv (a, al2, s(k0), mpnw) 
-  call mpnint (s(k0), s(k1), mpnw) 
+  call mpdiv (a, al2, s(k0), mpnw)
+  call mpnint (s(k0), s(k1), mpnw)
   call mpmdc (s(k1), t1, n1)
   nz = t1 * 2.d0 ** n1 + sign (mprxx, t1)
-  call mpmul (al2, s(k1), s(k2), mpnw) 
-  call mpsub (a, s(k2), s(k0), mpnw) 
+  call mpmul (al2, s(k1), s(k2), mpnw)
+  call mpsub (a, s(k2), s(k0), mpnw)
 else
-  call mpeq (a, s(k0), mpnw) 
+  call mpeq (a, s(k0), mpnw)
   nz = 0
 endif
 tl = s(k0+1) - mpnw
@@ -3629,12 +3629,12 @@ endif
 
 !   Divide the reduced argument by 2 ^ NQ.
 
-call mpdivd (s(k0), 1.d0, nq, s(k1), mpnw) 
+call mpdivd (s(k0), 1.d0, nq, s(k1), mpnw)
 
 !   Compute Exp using the usual Taylor series.
 
-call mpeq (f, s(k2), mpnw) 
-call mpeq (f, s(k3), mpnw) 
+call mpeq (f, s(k2), mpnw)
+call mpeq (f, s(k3), mpnw)
 l1 = 0
 
 100  l1 = l1 + 1
@@ -3650,10 +3650,10 @@ if (l1 .eq. 10000) then
 endif
 
 t2 = l1
-call mpmul (s(k2), s(k1), s(k0), mpnw) 
-call mpdivd (s(k0), t2, 0, s(k2), mpnw) 
-call mpadd (s(k3), s(k2), s(k0), mpnw) 
-call mpeq (s(k0), s(k3), mpnw) 
+call mpmul (s(k2), s(k1), s(k0), mpnw)
+call mpdivd (s(k0), t2, 0, s(k2), mpnw)
+call mpadd (s(k3), s(k2), s(k0), mpnw)
+call mpeq (s(k0), s(k3), mpnw)
 
 !   Check for convergence of the series.
 
@@ -3662,24 +3662,24 @@ if (s(k2) .ne. 0. .and. s(k2+1) .ge. tl) goto 100
 !   Raise to the (2 ^ NQ)-th power.
 
 do i = 1, nq
-  call mpmul (s(k0), s(k0), s(k1), mpnw) 
-  call mpeq (s(k1), s(k0), mpnw) 
+  call mpmul (s(k0), s(k0), s(k1), mpnw)
+  call mpeq (s(k1), s(k0), mpnw)
 enddo
 
 !   Multiply by 2 ^ NZ.
 
-120  call mpmuld (s(k0), 1.d0, nz, s(k1), mpnw) 
-call mpeq (s(k1), b, mpnw) 
+120  call mpmuld (s(k0), 1.d0, nz, s(k1), mpnw)
+call mpeq (s(k1), b, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 130  if (mpidb .ge. 7) then
   write (mpldb, 4) l1
 4 format ('Iteration count:',i5)
-  call mpdeb ('MPEXP O', b, mpnw) 
+  call mpdeb ('MPEXP O', b, mpnw)
 endif
 return
 end subroutine
@@ -3791,7 +3791,7 @@ if (mpier .ne. 0) then
   b(2) = 0.
   return
 endif
-if (mpidb .ge. 6) call mpdeb ('MPLOG I', a, mpnw) 
+if (mpidb .ge. 6) call mpdeb ('MPLOG I', a, mpnw)
 
 ia = sign (1., a(1))
 na = min (int (abs (a(1))), mpnw)
@@ -3854,11 +3854,11 @@ iq = 0
 do k = 2, mq
   mpnw = min (2 * mpnw - 2, nws) + 1
 100  continue
-  call mpexp (b, al2, s(k0), mpnw) 
-  call mpsub (a, s(k0), s(k1), mpnw) 
-  call mpdiv (s(k1), s(k0), s(k2), mpnw) 
-  call mpadd (b, s(k2), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mpexp (b, al2, s(k0), mpnw)
+  call mpsub (a, s(k0), s(k1), mpnw)
+  call mpdiv (s(k1), s(k0), s(k2), mpnw)
+  call mpadd (b, s(k2), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -3868,9 +3868,9 @@ enddo
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
-120  if (mpidb .ge. 6) call mpdeb ('MPLOG O', b, mpnw) 
+120  if (mpidb .ge. 6) call mpdeb ('MPLOG O', b, mpnw)
 
 return
 end subroutine
@@ -3935,40 +3935,40 @@ f(1) = 1.
 f(2) = 0.
 f(3) = 2.
 f(4) = 0.
-call mpsqrt (f, s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw) 
+call mpsqrt (f, s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw)
 f(2) = -1.
 f(3) = 0.5d0 * mpbdx
-call mpsub (s(k2), f, s(k4), mpnw) 
+call mpsub (s(k2), f, s(k4), mpnw)
 
 !   Perform iterations as described above.
 
 do k = 1, mq
-  call mpadd (s(k0), s(k1), s(k2), mpnw) 
-  call mpmul (s(k0), s(k1), s(k3), mpnw) 
-  call mpsqrt (s(k3), s(k1), mpnw) 
-  call mpmuld (s(k2), 0.5d0, 0, s(k0), mpnw) 
-  call mpsub (s(k0), s(k1), s(k2), mpnw) 
-  call mpmul (s(k2), s(k2), s(k3), mpnw) 
+  call mpadd (s(k0), s(k1), s(k2), mpnw)
+  call mpmul (s(k0), s(k1), s(k3), mpnw)
+  call mpsqrt (s(k3), s(k1), mpnw)
+  call mpmuld (s(k2), 0.5d0, 0, s(k0), mpnw)
+  call mpsub (s(k0), s(k1), s(k2), mpnw)
+  call mpmul (s(k2), s(k2), s(k3), mpnw)
   t1 = 2.d0 ** k
-  call mpmuld (s(k3), t1, 0, s(k2), mpnw) 
-  call mpsub (s(k4), s(k2), s(k3), mpnw) 
-  call mpeq (s(k3), s(k4), mpnw) 
+  call mpmuld (s(k3), t1, 0, s(k2), mpnw)
+  call mpsub (s(k4), s(k2), s(k3), mpnw)
+  call mpeq (s(k3), s(k4), mpnw)
 enddo
 
 !   Complete computation.
 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpmul (s(k2), s(k2), s(k3), mpnw) 
-call mpdiv (s(k3), s(k4), s(k2), mpnw) 
-call mpeq (s(k2), pi, mpnw) 
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpmul (s(k2), s(k2), s(k3), mpnw)
+call mpdiv (s(k3), s(k4), s(k2), mpnw)
+call mpeq (s(k2), pi, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (pi, mpnw) 
+call mproun (pi, mpnw)
 
-if (mpidb .ge. 7) call mpdeb ('MPPI O', pi, mpnw) 
+if (mpidb .ge. 7) call mpdeb ('MPPI O', pi, mpnw)
 return
 end subroutine
 
@@ -4015,7 +4015,7 @@ if (mpidb .ge. 6) then
 
   do k = 0, n
     write (cx, '(I4)') k
-    call mpdeb (cx, a(1,k+1), mpnw) 
+    call mpdeb (cx, a(1,k+1), mpnw)
   enddo
 
   write (mpldb, 2) x1, nx
@@ -4067,39 +4067,39 @@ endif
 
 !   Compute P(x).
 
-call mpeq (a(1,n+1), s(k1), mpnw) 
+call mpeq (a(1,n+1), s(k1), mpnw)
 
 do k = n - 1, 0, -1
-  call mpmul (s(k0), s(k1), s(k2), mpnw) 
-  call mpadd (s(k2), a(1,k+1), s(k1), mpnw) 
+  call mpmul (s(k0), s(k1), s(k2), mpnw)
+  call mpadd (s(k2), a(1,k+1), s(k1), mpnw)
 enddo
 
 !   Compute P'(x).
 
 t1 = n
-call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw) 
+call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw)
 
 do k = n - 1, 1, -1
-  call mpmul (s(k0), s(k2), s(k3), mpnw) 
+  call mpmul (s(k0), s(k2), s(k3), mpnw)
   t1 = k
-  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw) 
-  call mpadd (s(k3), s(k4), s(k2), mpnw) 
+  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw)
+  call mpadd (s(k3), s(k4), s(k2), mpnw)
 enddo
 
 !   Compute P(x) / P'(x) and update x.
 
-call mpdiv (s(k1), s(k2), s(k3), mpnw) 
-call mpsub (s(k0), s(k3), s(k4), mpnw) 
+call mpdiv (s(k1), s(k2), s(k3), mpnw)
+call mpsub (s(k0), s(k3), s(k4), mpnw)
 
 if (mpidb .ge. 7) then
   write (mpldb, 5) l1
 5 format ('Iteration',i4)
-  call mpdeb ('X', s(k0), mpnw) 
-  call mpdeb ('P(X)', s(k1), mpnw) 
-  call mpdeb ('P''(X)', s(k2), mpnw) 
-  call mpdeb ('CORR', s(k3), mpnw) 
+  call mpdeb ('X', s(k0), mpnw)
+  call mpdeb ('P(X)', s(k1), mpnw)
+  call mpdeb ('P''(X)', s(k2), mpnw)
+  call mpdeb ('CORR', s(k3), mpnw)
 endif
-call mpeq (s(k4), s(k0), mpnw) 
+call mpeq (s(k4), s(k0), mpnw)
 
 !   If this was the second iteration at full precision, there is no need to
 !   continue (the adjusted value of x is correct); otherwise repeat.
@@ -4120,17 +4120,17 @@ if (mpidb .ge. 7) then
 endif
 goto 110
 
-140  call mpeq (s(k0), x, mpnw) 
+140  call mpeq (s(k0), x, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (x, mpnw) 
+call mproun (x, mpnw)
 
 if (mpidb .ge. 6) then
   write (mpldb, 7) l1
 7 format ('Iteration count:',i5)
-  call mpdeb ('MPPOL O', x, mpnw) 
+  call mpdeb ('MPPOL O', x, mpnw)
 endif
 return
 end subroutine
@@ -4178,8 +4178,8 @@ if (l .lt. mpnw + 4) then
 endif
 
 l1 = l + 1
-call mpadd (a, b, c, mpnw) 
-call mpadd (a(l1), b(l1), c(l1), mpnw) 
+call mpadd (a, b, c, mpnw)
+call mpadd (a(l1), b(l1), c(l1), mpnw)
 
 return
 end subroutine
@@ -4253,20 +4253,20 @@ f(2) = 0.
 f(3) = 1.
 f(4) = 0.
 
-call mpmul (a, b, s(k0), mpnw) 
-call mpmul (a(l1), b(l1), s(k1), mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpsub (s(k0), s(k1), s(k3), mpnw) 
-call mpadd (a, a(l1), s(k0), mpnw) 
-call mpsub (b, b(l1), s(k1), mpnw) 
-call mpmul (s(k0), s(k1), s(k4), mpnw) 
-call mpsub (s(k4), s(k3), s(k1), mpnw) 
-call mpmul (b, b, s(k0), mpnw) 
-call mpmul (b(l1), b(l1), s(k3), mpnw) 
-call mpadd (s(k0), s(k3), s(k4), mpnw) 
-call mpdiv (f, s(k4), s(k0), mpnw) 
-call mpmul (s(k2), s(k0), c, mpnw) 
-call mpmul (s(k1), s(k0), c(l1), mpnw) 
+call mpmul (a, b, s(k0), mpnw)
+call mpmul (a(l1), b(l1), s(k1), mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpsub (s(k0), s(k1), s(k3), mpnw)
+call mpadd (a, a(l1), s(k0), mpnw)
+call mpsub (b, b(l1), s(k1), mpnw)
+call mpmul (s(k0), s(k1), s(k4), mpnw)
+call mpsub (s(k4), s(k3), s(k1), mpnw)
+call mpmul (b, b, s(k0), mpnw)
+call mpmul (b(l1), b(l1), s(k3), mpnw)
+call mpadd (s(k0), s(k3), s(k4), mpnw)
+call mpdiv (f, s(k4), s(k0), mpnw)
+call mpmul (s(k2), s(k0), c, mpnw)
+call mpmul (s(k1), s(k0), c(l1), mpnw)
 
 if (mpidb .ge. 7) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -4376,14 +4376,14 @@ k1 = k0 + n4
 k2 = k1 + n4
 k3 = k2 + n4
 
-call mpmul (a, b, s(k0), mpnw) 
-call mpmul (a(l1), b(l1), s(k1), mpnw) 
-call mpsub (s(k0), s(k1), c, mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpadd (a, a(l1), s(k0), mpnw) 
-call mpadd (b, b(l1), s(k1), mpnw) 
-call mpmul (s(k0), s(k1), s(k3), mpnw) 
-call mpsub (s(k3), s(k2), c(l1), mpnw) 
+call mpmul (a, b, s(k0), mpnw)
+call mpmul (a(l1), b(l1), s(k1), mpnw)
+call mpsub (s(k0), s(k1), c, mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpadd (a, a(l1), s(k0), mpnw)
+call mpadd (b, b(l1), s(k1), mpnw)
+call mpmul (s(k0), s(k1), s(k3), mpnw)
+call mpsub (s(k3), s(k2), c(l1), mpnw)
 
 if (mpidb .ge. 7) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -4436,8 +4436,8 @@ if (mpidb .ge. 5) then
 
   do k = 0, n
     write (cx, '(I4)') k
-    call mpdeb (cx, a(1,k+1), mpnw) 
-    call mpdeb (cx, a(la+1,k+1), mpnw) 
+    call mpdeb (cx, a(1,k+1), mpnw)
+    call mpdeb (cx, a(la+1,k+1), mpnw)
   enddo
 
   write (mpldb, 2) x1(1), nx(1), x1(2), nx(2)
@@ -4491,46 +4491,46 @@ endif
 
 !   Compute P(x).
 
-call mpmmpc (a(1,n+1), a(la+1,n+1), n5, s(k1), mpnw) 
+call mpmmpc (a(1,n+1), a(la+1,n+1), n5, s(k1), mpnw)
 
 do k = n - 1, 0, -1
-  call mpcmul (n5, s(k0), s(k1), s(k2), mpnw) 
-  call mpadd (s(k2), a(1,k+1), s(k1), mpnw) 
-  call mpadd (s(k2+n5), a(la+1,k+1), s(k1+n5), mpnw) 
+  call mpcmul (n5, s(k0), s(k1), s(k2), mpnw)
+  call mpadd (s(k2), a(1,k+1), s(k1), mpnw)
+  call mpadd (s(k2+n5), a(la+1,k+1), s(k1+n5), mpnw)
 enddo
 
 !   Compute P'(x).
 
 t1 = n
-call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw) 
-call mpmuld (a(la+1,n+1), t1, 0, s(k2+n5), mpnw) 
+call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw)
+call mpmuld (a(la+1,n+1), t1, 0, s(k2+n5), mpnw)
 
 do k = n - 1, 1, -1
-  call mpcmul (n5, s(k0), s(k2), s(k3), mpnw) 
+  call mpcmul (n5, s(k0), s(k2), s(k3), mpnw)
   t1 = k
-  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw) 
-  call mpmuld (a(la+1,k+1), t1, 0, s(k4+n5), mpnw) 
-  call mpcadd (n5, s(k3), s(k4), s(k2), mpnw) 
+  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw)
+  call mpmuld (a(la+1,k+1), t1, 0, s(k4+n5), mpnw)
+  call mpcadd (n5, s(k3), s(k4), s(k2), mpnw)
 enddo
 
 !   Compute P(x) / P'(x) and update x.
 
-call mpcdiv (n5, s(k1), s(k2), s(k3), mpnw) 
-call mpcsub (n5, s(k0), s(k3), s(k4), mpnw) 
+call mpcdiv (n5, s(k1), s(k2), s(k3), mpnw)
+call mpcsub (n5, s(k0), s(k3), s(k4), mpnw)
 
 if (mpidb .ge. 6) then
   write (mpldb, 5) l1
 5 format ('Iteration',i4)
-  call mpdeb ('X', s(k0), mpnw) 
-  call mpdeb (' ', s(k0+n5), mpnw) 
-  call mpdeb ('P(X)', s(k1), mpnw) 
-  call mpdeb (' ', s(k1+n5), mpnw) 
-  call mpdeb ('P''(X)', s(k2), mpnw) 
-  call mpdeb (' ', s(k2+n5), mpnw) 
-  call mpdeb ('CORR', s(k3), mpnw) 
-  call mpdeb (' ', s(k3+n5), mpnw) 
+  call mpdeb ('X', s(k0), mpnw)
+  call mpdeb (' ', s(k0+n5), mpnw)
+  call mpdeb ('P(X)', s(k1), mpnw)
+  call mpdeb (' ', s(k1+n5), mpnw)
+  call mpdeb ('P''(X)', s(k2), mpnw)
+  call mpdeb (' ', s(k2+n5), mpnw)
+  call mpdeb ('CORR', s(k3), mpnw)
+  call mpdeb (' ', s(k3+n5), mpnw)
 endif
-call mpceq (n5, s(k4), s(k0), mpnw) 
+call mpceq (n5, s(k4), s(k0), mpnw)
 
 !   If this was the second iteration at full precision, there is no need to
 !   continue (the adjusted value of x is correct); otherwise repeat.
@@ -4552,19 +4552,19 @@ if (mpidb .ge. 6) then
 endif
 goto 110
 
-140  call mpmmpc (s(k0), s(k0+n5), lx, x, mpnw) 
+140  call mpmmpc (s(k0), s(k0+n5), lx, x, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (x, mpnw) 
-call mproun (x(lx+1), mpnw) 
+call mproun (x, mpnw)
+call mproun (x(lx+1), mpnw)
 
 if (mpidb .ge. 5) then
   write (mpldb, 7) l1
 7 format ('Iteration count:',i5)
-  call mpdeb ('MPCPOL O', x, mpnw) 
-  call mpdeb (' ', x(lx+1), mpnw) 
+  call mpdeb ('MPCPOL O', x, mpnw)
+  call mpdeb (' ', x(lx+1), mpnw)
 endif
 return
 end subroutine
@@ -4637,16 +4637,16 @@ f1(3) = 1.
 f1(4) = 0.
 f2(1) = 0.
 f2(2) = 0.
-call mpmmpc (a, a(l1), n5, s(k0), mpnw) 
+call mpmmpc (a, a(l1), n5, s(k0), mpnw)
 if (nn .eq. 0) then
-  call mpmmpc (f1, f2, l, b, mpnw) 
+  call mpmmpc (f1, f2, l, b, mpnw)
   mpnw = nws
   goto 120
 elseif (nn .eq. 1) then
-  call mpceq (n5, s(k0), s(k2), mpnw) 
+  call mpceq (n5, s(k0), s(k2), mpnw)
   goto 110
 elseif (nn .eq. 2) then
-  call mpcmul (n5, s(k0), s(k0), s(k2), mpnw) 
+  call mpcmul (n5, s(k0), s(k0), s(k2), mpnw)
   goto 110
 endif
 
@@ -4654,7 +4654,7 @@ endif
 
 t1 = nn
 mn = cl2 * log (t1) + 1.d0 + mprxx
-call mpmmpc (f1, f2, n5, s(k2), mpnw) 
+call mpmmpc (f1, f2, n5, s(k2), mpnw)
 kn = nn
 
 !   Compute B ^ N using the binary rule for exponentiation.
@@ -4662,30 +4662,30 @@ kn = nn
 do j = 1, mn
   kk = kn / 2
   if (kn .ne. 2 * kk) then
-    call mpcmul (n5, s(k2), s(k0), s(k1), mpnw) 
-    call mpceq (n5, s(k1), s(k2), mpnw) 
+    call mpcmul (n5, s(k2), s(k0), s(k1), mpnw)
+    call mpceq (n5, s(k1), s(k2), mpnw)
   endif
   kn = kk
   if (j .lt. mn) then
-    call mpcmul (n5, s(k0), s(k0), s(k1), mpnw) 
-    call mpceq (n5, s(k1), s(k0), mpnw) 
+    call mpcmul (n5, s(k0), s(k0), s(k1), mpnw)
+    call mpceq (n5, s(k1), s(k0), mpnw)
   endif
 enddo
 
 !   Compute reciprocal if N is negative.
 
 110  if (n .lt. 0) then
-  call mpmmpc (f1, f2, n5, s(k1), mpnw) 
-  call mpcdiv (n5, s(k1), s(k2), s(k0), mpnw) 
-  call mpceq (n5, s(k0), s(k2), mpnw) 
+  call mpmmpc (f1, f2, n5, s(k1), mpnw)
+  call mpcdiv (n5, s(k1), s(k2), s(k0), mpnw)
+  call mpceq (n5, s(k0), s(k2), mpnw)
 endif
-call mpmmpc (s(k2), s(n5+k2), l, b, mpnw) 
+call mpmmpc (s(k2), s(n5+k2), l, b, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
-call mproun (b(l1), mpnw) 
+call mproun (b, mpnw)
+call mproun (b(l1), mpnw)
 
 120  if (mpidb .ge. 7) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -4748,23 +4748,23 @@ k0 = 1
 k1 = k0 + n4
 k2 = k1 + n4
 
-call mpmul (a, a, s(k0), mpnw) 
-call mpmul (a(l1), a(l1), s(k1), mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpsqrt (s(k2), s(k0), mpnw) 
-call mpeq (a, s(k1), mpnw) 
+call mpmul (a, a, s(k0), mpnw)
+call mpmul (a(l1), a(l1), s(k1), mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpsqrt (s(k2), s(k0), mpnw)
+call mpeq (a, s(k1), mpnw)
 s(k1) = abs (s(k1))
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw) 
-call mpsqrt (s(k1), s(k0), mpnw) 
-call mpmuld (s(k0), 2.d0, 0, s(k1), mpnw) 
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw)
+call mpsqrt (s(k1), s(k0), mpnw)
+call mpmuld (s(k0), 2.d0, 0, s(k1), mpnw)
 if (a(1) .ge. 0.) then
-  call mpeq (s(k0), b, mpnw) 
-  call mpdiv (a(l1), s(k1), b(l1), mpnw) 
+  call mpeq (s(k0), b, mpnw)
+  call mpdiv (a(l1), s(k1), b(l1), mpnw)
 else
-  call mpdiv (a(l1), s(k1), b, mpnw) 
+  call mpdiv (a(l1), s(k1), b, mpnw)
   b(1) = abs (b(1))
-  call mpeq (s(k0), b(l1), mpnw) 
+  call mpeq (s(k0), b(l1), mpnw)
   b(l1) = sign (b(l1), a(l1))
 endif
 
@@ -4800,8 +4800,8 @@ if (mpidb .ge. 9) write (mpldb, 1)
 1 format ('MPCSUB')
 
 l1 = l + 1
-call mpsub (a, b, c, mpnw) 
-call mpsub (a(l1), b(l1), c(l1), mpnw) 
+call mpsub (a, b, c, mpnw)
+call mpsub (a(l1), b(l1), c(l1), mpnw)
 
 return
 end subroutine
@@ -5585,7 +5585,7 @@ endif
 !   Check if precision level is too low to justify the advanced routine.
 
 if (mpnw .le. ncr) then
-  call mpcbrt (a, b, mpnw) 
+  call mpcbrt (a, b, mpnw)
   goto 120
 endif
 n5 = mpnw + 5
@@ -5601,13 +5601,13 @@ mq = cl2 * log (t1) + 1.d0 - mprxx
 
 !   Compute A^2 outside of the iteration loop.
 
-call mpsqx (a, s(k0), mpnw) 
+call mpsqx (a, s(k0), mpnw)
 
 !   Compute the initial approximation of A ^ (-2/3).
 
 mpnw = ncr + 1
-call mpcbrt (a, s(k1), mpnw) 
-call mpdiv (s(k1), a, b, mpnw) 
+call mpcbrt (a, s(k1), mpnw)
+call mpdiv (s(k1), a, b, mpnw)
 f(1) = 1.
 f(2) = 0.
 f(3) = 1.
@@ -5622,16 +5622,16 @@ do k = mpmcr + 1, mq - 1
   mpnw = min (2 * mpnw - 2, nws) + 1
   nw2 = mpnw
 100  continue
-  call mpsqx (b, s(k1), mpnw) 
-  call mpmulx (b, s(k1), s(k2), mpnw) 
-  call mpmulx (s(k0), s(k2), s(k1), mpnw) 
-  call mpsub (f, s(k1), s(k2), mpnw) 
+  call mpsqx (b, s(k1), mpnw)
+  call mpmulx (b, s(k1), s(k2), mpnw)
+  call mpmulx (s(k0), s(k2), s(k1), mpnw)
+  call mpsub (f, s(k1), s(k2), mpnw)
   mpnw = nw1
-  call mpmulx (b, s(k2), s(k1), mpnw) 
-  call mpdivd (s(k1), 3.d0, 0, s(k2), mpnw) 
+  call mpmulx (b, s(k2), s(k1), mpnw)
+  call mpdivd (s(k1), 3.d0, 0, s(k2), mpnw)
   mpnw = nw2
-  call mpadd (b, s(k2), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mpadd (b, s(k2), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -5640,24 +5640,24 @@ do k = mpmcr + 1, mq - 1
 
 !   Perform last iteration using Karp's trick.
 
-call mpmulx (a, b, s(k0), mpnw) 
+call mpmulx (a, b, s(k0), mpnw)
 nw1 = mpnw
 mpnw = min (2 * mpnw - 2, nws) + 1
 nw2 = mpnw
-call mpsqx (s(k0), s(k1), mpnw) 
-call mpmulx (s(k0), s(k1), s(k2), mpnw) 
-call mpsub (a, s(k2), s(k1), mpnw) 
+call mpsqx (s(k0), s(k1), mpnw)
+call mpmulx (s(k0), s(k1), s(k2), mpnw)
+call mpsub (a, s(k2), s(k1), mpnw)
 mpnw = nw1
-call mpmulx (s(k1), b, s(k2), mpnw) 
-call mpdivd (s(k2), 3.d0, 0, s(k1), mpnw) 
+call mpmulx (s(k1), b, s(k2), mpnw)
+call mpdivd (s(k2), 3.d0, 0, s(k1), mpnw)
 mpnw = nw2
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpeq (s(k2), b, mpnw) 
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpeq (s(k2), b, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 120  if (mpidb .ge. 6) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -5747,7 +5747,7 @@ endif
 !   routine.
 
 if (nb .le. ncr) then
-  call mpdiv (a, b, c, mpnw) 
+  call mpdiv (a, b, c, mpnw)
   goto 120
 endif
 n5 = mpnw + 5
@@ -5768,7 +5768,7 @@ f(1) = 1.
 f(2) = 0.
 f(3) = 1.
 f(4) = 0.
-call mpdiv (f, b, c, mpnw) 
+call mpdiv (f, b, c, mpnw)
 iq = 0
 
 !   Perform the Newton-Raphson iterations described above.
@@ -5778,13 +5778,13 @@ do k = mpmcr + 1, mq - 1
   mpnw = min (2 * mpnw - 2, nws) + 1
   nw2 = mpnw
 100  continue
-  call mpmulx (b, c, s(k0), mpnw) 
-  call mpsub (f, s(k0), s(k1), mpnw) 
+  call mpmulx (b, c, s(k0), mpnw)
+  call mpsub (f, s(k0), s(k1), mpnw)
   mpnw = nw1
-  call mpmulx (c, s(k1), s(k0), mpnw) 
+  call mpmulx (c, s(k1), s(k0), mpnw)
   mpnw = nw2
-  call mpadd (c, s(k0), s(k1), mpnw) 
-  call mpeq (s(k1), c, mpnw) 
+  call mpadd (c, s(k0), s(k1), mpnw)
+  call mpeq (s(k1), c, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -5793,22 +5793,22 @@ do k = mpmcr + 1, mq - 1
 
 !   Perform last iteration using Karp's trick.
 
-call mpmulx (a, c, s(k0), mpnw) 
+call mpmulx (a, c, s(k0), mpnw)
 nw1 = mpnw
 mpnw = min (2 * mpnw - 2, nws) + 1
 nw2 = mpnw
-call mpmulx (s(k0), b, s(k1), mpnw) 
-call mpsub (a, s(k1), s(k2), mpnw) 
+call mpmulx (s(k0), b, s(k1), mpnw)
+call mpsub (a, s(k1), s(k2), mpnw)
 mpnw = nw1
-call mpmulx (s(k2), c, s(k1), mpnw) 
+call mpmulx (s(k2), c, s(k1), mpnw)
 mpnw = nw2
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpeq (s(k2), c, mpnw) 
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpeq (s(k2), c, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (c, mpnw) 
+call mproun (c, mpnw)
 
 120  if (mpidb .ge. 7) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -5874,7 +5874,7 @@ endif
 !   advanced routine.
 
 if (na .le. ncr .or. nb .le. ncr) then
-  call mpmul (a, b, c, mpnw) 
+  call mpmul (a, b, c, mpnw)
   goto 190
 endif
 
@@ -5936,7 +5936,7 @@ enddo
 
 !   Fix up the result.
 
-call mpnorm (d1, c, mpnw) 
+call mpnorm (d1, c, mpnw)
 
 190  if (mpidb .ge. 8) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -5980,7 +5980,7 @@ na = min (int (abs (a(1))), mpnw)
 !   Check if precision level of A is too low to justify the advanced routine.
 
 if (na .le. ncr .and. n .ge. 0 .and. n .le. 4) then
-  call mpnpwr (a, n, b, mpnw) 
+  call mpnpwr (a, n, b, mpnw)
   goto 120
 endif
 if (na .eq. 0) then
@@ -6008,13 +6008,13 @@ f1(2) = 0.
 f1(3) = 1.
 f1(4) = 0.
 if (nn .eq. 0) then
-  call mpeq (f1, b, mpnw) 
+  call mpeq (f1, b, mpnw)
   goto 120
 elseif (nn .eq. 1) then
-  call mpeq (a, b, mpnw) 
+  call mpeq (a, b, mpnw)
   goto 110
 elseif (nn .eq. 2) then
-  call mpsqx (a, b, mpnw) 
+  call mpsqx (a, b, mpnw)
   goto 110
 endif
 
@@ -6022,8 +6022,8 @@ endif
 
 t1 = nn
 mn = cl2 * log (t1) + 1.d0 + mprxx
-call mpeq (f1, b, mpnw) 
-call mpeq (a, s(k0), mpnw) 
+call mpeq (f1, b, mpnw)
+call mpeq (a, s(k0), mpnw)
 kn = nn
 
 !   Compute B ^ N using the binary rule for exponentiation.
@@ -6031,21 +6031,21 @@ kn = nn
 do j = 1, mn
   kk = kn / 2
   if (kn .ne. 2 * kk) then
-    call mpmulx (b, s(k0), s(k1), mpnw) 
-    call mpeq (s(k1), b, mpnw) 
+    call mpmulx (b, s(k0), s(k1), mpnw)
+    call mpeq (s(k1), b, mpnw)
   endif
   kn = kk
   if (j .lt. mn) then
-    call mpsqx (s(k0), s(k1), mpnw) 
-    call mpeq (s(k1), s(k0), mpnw) 
+    call mpsqx (s(k0), s(k1), mpnw)
+    call mpeq (s(k1), s(k0), mpnw)
   endif
 enddo
 
 !   Compute reciprocal if N is negative.
 
 110  if (n .lt. 0) then
-  call mpdivx (f1, b, s(k0), mpnw) 
-  call mpeq (s(k0), b, mpnw) 
+  call mpdivx (f1, b, s(k0), mpnw)
+  call mpeq (s(k0), b, mpnw)
 endif
 
 120  if (mpidb .ge. 6) then
@@ -6116,20 +6116,20 @@ endif
 !   Check if precision level is too low to justify the advanced routine.
 
 if (mpnw .le. ncr) then
-  call mpnrt (a, n, b, mpnw) 
+  call mpnrt (a, n, b, mpnw)
   goto 140
 endif
 
 !   If N = 1, 2 or 3, call MPEQ, MPSQRX or MPCBRX.  These are faster.
 
 if (n .eq. 1) then
-  call mpeq (a, b, mpnw) 
+  call mpeq (a, b, mpnw)
   goto 140
 elseif (n .eq. 2) then
-  call mpsqrx (a, b, mpnw) 
+  call mpsqrx (a, b, mpnw)
   goto 140
 elseif (n .eq. 3) then
-  call mpcbrx (a, b, mpnw) 
+  call mpcbrx (a, b, mpnw)
   goto 140
 endif
 
@@ -6151,9 +6151,9 @@ mq = cl2 * log (t1) + 1.d0 - mprxx
 
 !   Check how close A is to 1.
 
-call mpsub (a, f1, s(k0), mpnw) 
+call mpsub (a, f1, s(k0), mpnw)
 if (s(k0) .eq. 0.) then
-  call mpeq (f1, b, mpnw) 
+  call mpeq (f1, b, mpnw)
   goto 140
 endif
 call mpmdc (s(k0), t1, n1)
@@ -6168,22 +6168,22 @@ if (n1 .le. -30) then
 
 !   A is so close to 1 that it is cheaper to use the binomial series.
 
-    call mpdivd (s(k0), t2, 0, s(k1), mpnw) 
-    call mpadd (f1, s(k1), s(k2), mpnw) 
+    call mpdivd (s(k0), t2, 0, s(k1), mpnw)
+    call mpadd (f1, s(k1), s(k2), mpnw)
     k = 0
 
 100 k = k + 1
     t1 = 1 - k * n
     t2 = (k + 1) * n
-    call mpmuld (s(k1), t1, 0, s(k3), mpnw) 
-    call mpdivd (s(k3), t2, 0, s(k1), mpnw) 
-    call mpmulx (s(k0), s(k1), s(k3), mpnw) 
-    call mpeq (s(k3), s(k1), mpnw) 
-    call mpadd (s(k1), s(k2), s(k3), mpnw) 
-    call mpeq (s(k3), s(k2), mpnw) 
+    call mpmuld (s(k1), t1, 0, s(k3), mpnw)
+    call mpdivd (s(k3), t2, 0, s(k1), mpnw)
+    call mpmulx (s(k0), s(k1), s(k3), mpnw)
+    call mpeq (s(k3), s(k1), mpnw)
+    call mpadd (s(k1), s(k2), s(k3), mpnw)
+    call mpeq (s(k3), s(k2), mpnw)
     if (s(k1) .ne. 0. .and. s(k1+1) .ge. - mpnw) goto 100
 
-    call mpeq (s(k2), b, mpnw) 
+    call mpeq (s(k2), b, mpnw)
     goto 130
   endif
 endif
@@ -6191,8 +6191,8 @@ endif
 !   Compute the initial approximation of A ^ (-1/N).
 
 mpnw = ncr + 1
-call mpnrt (a, n, s(k0), mpnw) 
-call mpdiv (f1, s(k0), b, mpnw) 
+call mpnrt (a, n, s(k0), mpnw)
+call mpdiv (f1, s(k0), b, mpnw)
 tn = n
 call mpdmc (tn, 0, f2)
 iq = 0
@@ -6205,15 +6205,15 @@ do k = mpmcr + 1, mq
   mpnw = min (2 * mpnw - 1, nws) + 1
   nw2 = mpnw
 110  continue
-  call mpnpwx (b, n, s(k0), mpnw) 
-  call mpmulx (a, s(k0), s(k1), mpnw) 
-  call mpsub (f1, s(k1), s(k0), mpnw) 
+  call mpnpwx (b, n, s(k0), mpnw)
+  call mpmulx (a, s(k0), s(k1), mpnw)
+  call mpsub (f1, s(k1), s(k0), mpnw)
   mpnw = nw1
-  call mpmulx (b, s(k0), s(k1), mpnw) 
-  call mpdivd (s(k1), tn, 0, s(k0), mpnw) 
+  call mpmulx (b, s(k0), s(k1), mpnw)
+  call mpdivd (s(k1), tn, 0, s(k0), mpnw)
   mpnw = nw2
-  call mpadd (b, s(k0), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mpadd (b, s(k0), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 110
@@ -6222,13 +6222,13 @@ enddo
 
 !   Take the reciprocal to give final result.
 
-call mpdivx (f1, b, s(k0), mpnw) 
-call mpeq (s(k0), b, mpnw) 
+call mpdivx (f1, b, s(k0), mpnw)
+call mpeq (s(k0), b, mpnw)
 
 !   Restore original precision level.
 
 130  mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 140  if (mpidb .ge. 6) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -6289,7 +6289,7 @@ endif
 !   Check if precision level is too low to justify the advanced routine.
 
 if (mpnw .le. ncr) then
-  call mpsqrt (a, b, mpnw) 
+  call mpsqrt (a, b, mpnw)
   goto 120
 endif
 n5 = mpnw + 5
@@ -6306,8 +6306,8 @@ mq = cl2 * log (t1) + 1.d0 - mprxx
 !   Compute the initial approximation of 1 / Sqrt(A).
 
 mpnw = ncr + 1
-call mpsqrt (a, s(k0), mpnw) 
-call mpdiv (s(k0), a, b, mpnw) 
+call mpsqrt (a, s(k0), mpnw)
+call mpdiv (s(k0), a, b, mpnw)
 f(1) = 1.
 f(2) = 0.
 f(3) = 1.
@@ -6322,15 +6322,15 @@ do k = mpmcr + 1, mq - 1
   mpnw = min (2 * mpnw - 2, nws) + 1
   nw2 = mpnw
 100  continue
-  call mpsqx (b, s(k0), mpnw) 
-  call mpmulx (a, s(k0), s(k1), mpnw) 
-  call mpsub (f, s(k1), s(k0), mpnw) 
+  call mpsqx (b, s(k0), mpnw)
+  call mpmulx (a, s(k0), s(k1), mpnw)
+  call mpsub (f, s(k1), s(k0), mpnw)
   mpnw = nw1
-  call mpmulx (b, s(k0), s(k1), mpnw) 
-  call mpmuld (s(k1), 0.5d0, 0, s(k0), mpnw) 
+  call mpmulx (b, s(k0), s(k1), mpnw)
+  call mpmuld (s(k1), 0.5d0, 0, s(k0), mpnw)
   mpnw = nw2
-  call mpadd (b, s(k0), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mpadd (b, s(k0), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -6339,23 +6339,23 @@ enddo
 
 !   Perform last iteration using Karp's trick.
 
-call mpmulx (a, b, s(k0), mpnw) 
+call mpmulx (a, b, s(k0), mpnw)
 nw1 = mpnw
 mpnw = min (2 * mpnw - 2, nws) + 1
 nw2 = mpnw
-call mpsqx (s(k0), s(k1), mpnw) 
-call mpsub (a, s(k1), s(k2), mpnw) 
+call mpsqx (s(k0), s(k1), mpnw)
+call mpsub (a, s(k1), s(k2), mpnw)
 mpnw = nw1
-call mpmulx (s(k2), b, s(k1), mpnw) 
-call mpmuld (s(k1), 0.5d0, 0, s(k2), mpnw) 
+call mpmulx (s(k2), b, s(k1), mpnw)
+call mpmuld (s(k1), 0.5d0, 0, s(k2), mpnw)
 mpnw = nw2
-call mpadd (s(k0), s(k2), s(k1), mpnw) 
-call mpeq (s(k1), b, mpnw) 
+call mpadd (s(k0), s(k2), s(k1), mpnw)
+call mpeq (s(k1), b, mpnw)
 
 !   Restore original precision level.
 
 mpnw = nws
-call mproun (b, mpnw) 
+call mproun (b, mpnw)
 
 120  if (mpidb .ge. 6) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -6409,7 +6409,7 @@ endif
 !   advanced routine.
 
 if (na .le. ncr) then
-  call mpmul (a, a, b, mpnw) 
+  call mpmul (a, a, b, mpnw)
   goto 190
 endif
 
@@ -6454,7 +6454,7 @@ enddo
 
 !   Fix up the result.
 
-call mpnorm (d1, b, mpnw) 
+call mpnorm (d1, b, mpnw)
 
 190  if (mpidb .ge. 8) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -6514,12 +6514,12 @@ if (l1 .eq. 50) then
 endif
 
 s1 = s(k0+1)
-call mpadd (a, b, s(k0), mpnw) 
-call mpmuld (s(k0), 0.5d0, 0, s(k1), mpnw) 
-call mpmulx (a, b, s(k0), mpnw) 
-call mpsqrx (s(k0), b, mpnw) 
-call mpeq (s(k1), a, mpnw) 
-call mpsub (a, b, s(k0), mpnw) 
+call mpadd (a, b, s(k0), mpnw)
+call mpmuld (s(k0), 0.5d0, 0, s(k1), mpnw)
+call mpmulx (a, b, s(k0), mpnw)
+call mpsqrx (s(k0), b, mpnw)
+call mpeq (s(k1), a, mpnw)
+call mpsub (a, b, s(k0), mpnw)
 
 !   Check for convergence.
 
@@ -6553,7 +6553,7 @@ if (mpier .ne. 0) then
   y(2) = 0.
   return
 endif
-if (mpidb .ge. 5) call mpdeb ('MPCSHX I', a, mpnw) 
+if (mpidb .ge. 5) call mpdeb ('MPCSHX I', a, mpnw)
 
 n4 = mpnw + 4
 k0 = 1
@@ -6564,16 +6564,16 @@ f(2) = 0.
 f(3) = 1.
 f(4) = 0.
 
-call mpexpx (a, pi, al2, s(k0), mpnw) 
-call mpdivx (f, s(k0), s(k1), mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, x, mpnw) 
-call mpsub (s(k0), s(k1), s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, y, mpnw) 
+call mpexpx (a, pi, al2, s(k0), mpnw)
+call mpdivx (f, s(k0), s(k1), mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, x, mpnw)
+call mpsub (s(k0), s(k1), s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, y, mpnw)
 
 if (mpidb .ge. 5) then
-  call mpdeb ('MPCSHX O', x, mpnw) 
-  call mpdeb ('MPCSHX O', y, mpnw) 
+  call mpdeb ('MPCSHX O', x, mpnw)
+  call mpdeb ('MPCSHX O', y, mpnw)
 endif
 return
 end subroutine
@@ -6608,7 +6608,7 @@ if (mpier .ne. 0) then
   b(2) = 0.
   return
 endif
-if (mpidb .ge. 5) call mpdeb ('MPEXPX I', a, mpnw) 
+if (mpidb .ge. 5) call mpdeb ('MPEXPX I', a, mpnw)
 
 ncr = 2 ** mpmcr
 ia = sign (1., a(1))
@@ -6619,7 +6619,7 @@ t1 = t1 * 2.d0 ** n1
 !   Check if precision level is too low to justify the advanced routine.
 
 if (mpnw .le. ncr) then
-  call mpexp (a, al2, b, mpnw) 
+  call mpexp (a, al2, b, mpnw)
   goto 120
 endif
 
@@ -6681,12 +6681,12 @@ f1(4) = 0.
 
 t2 = nws
 mq = cl2 * log (t2) + 1.d0 - mprxx
-call mpadd (a, f1, s(k0), mpnw) 
+call mpadd (a, f1, s(k0), mpnw)
 
 !   Compute initial approximation to Exp (A).
 
 mpnw = ncr
-call mpexp (a, al2, b, mpnw) 
+call mpexp (a, al2, b, mpnw)
 iq = 0
 
 !   Perform the Newton-Raphson iteration described above with a dynamically
@@ -6695,17 +6695,17 @@ iq = 0
 do k = mpmcr + 1, mq
   mpnw = min (2 * mpnw, nws)
 100  continue
-  call mplogx (b, pi, al2, s(k1), mpnw) 
-  call mpsub (s(k0), s(k1), s(k2), mpnw) 
-  call mpmulx (b, s(k2), s(k1), mpnw) 
-  call mpeq (s(k1), b, mpnw) 
+  call mplogx (b, pi, al2, s(k1), mpnw)
+  call mpsub (s(k0), s(k1), s(k2), mpnw)
+  call mpmulx (b, s(k2), s(k1), mpnw)
+  call mpeq (s(k1), b, mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
   endif
 enddo
 
-120  if (mpidb .ge. 6) call mpdeb ('MPEXPX O', b, mpnw) 
+120  if (mpidb .ge. 6) call mpdeb ('MPEXPX O', b, mpnw)
 return
 end subroutine
 
@@ -6739,7 +6739,7 @@ if (mpier .ne. 0) then
   b(2) = 0.
   return
 endif
-if (mpidb .ge. 6) call mpdeb ('MPLOGX I', a, mpnw) 
+if (mpidb .ge. 6) call mpdeb ('MPLOGX I', a, mpnw)
 
 ia = sign (1., a(1))
 na = min (int (abs (a(1))), mpnw)
@@ -6748,7 +6748,7 @@ ncr = 2 ** mpmcr
 !   Check if precision level is too low to justify the advanced routine.
 
 if (mpnw .le. ncr) then
-  call mplog (a, al2, b, mpnw) 
+  call mplog (a, al2, b, mpnw)
   goto 110
 endif
 
@@ -6816,14 +6816,14 @@ f4(4) = 0.
 !   If argument is 1, the result is zero.  If the argument is extremely close
 !   to 1.  If so, employ a Taylor's series instead.
 
-call mpsub (a, f1, s(k0), mpnw) 
+call mpsub (a, f1, s(k0), mpnw)
 if (s(k0) .eq. 0.) then
   b(1) = 0.
   b(2) = 0.
   goto 110
 elseif (s(k0+1) .le. mzl) then
-  call mpeq (s(k0), s(k1), mpnw) 
-  call mpeq (s(k1), s(k2), mpnw) 
+  call mpeq (s(k0), s(k1), mpnw)
+  call mpeq (s(k1), s(k2), mpnw)
   i1 = 1
   is = 1
   tl = s(k0+1) - mpnw - 1
@@ -6831,14 +6831,14 @@ elseif (s(k0+1) .le. mzl) then
 100  i1 = i1 + 1
   is = - is
   st = is * i1
-  call mpmulx (s(k1), s(k2), s(k3), mpnw) 
-  call mpeq (s(k3), s(k2), mpnw) 
-  call mpdivd (s(k3), st, 0, s(k4), mpnw) 
-  call mpadd (s(k0), s(k4), s(k3), mpnw) 
-  call mpeq (s(k3), s(k0), mpnw) 
+  call mpmulx (s(k1), s(k2), s(k3), mpnw)
+  call mpeq (s(k3), s(k2), mpnw)
+  call mpdivd (s(k3), st, 0, s(k4), mpnw)
+  call mpadd (s(k0), s(k4), s(k3), mpnw)
+  call mpeq (s(k3), s(k0), mpnw)
   if (s(k2+1) .ge. tl) goto 100
 
-  call mpeq (s(k0), b, mpnw) 
+  call mpeq (s(k0), b, mpnw)
   goto 110
 endif
 
@@ -6851,31 +6851,31 @@ tn = n2
 if (it2 .eq. 1) then
   call mpdmc (1.d0, n2, s(k0))
 else
-  call mpmuld (a, 1.d0, n2, s(k0), mpnw) 
+  call mpmuld (a, 1.d0, n2, s(k0), mpnw)
 endif
 
 !   Perform AGM iterations.
 
-call mpeq (f1, s(k1), mpnw) 
-call mpdivx (f4, s(k0), s(k2), mpnw) 
-call mpagmx (s(k1), s(k2), mpnw) 
+call mpeq (f1, s(k1), mpnw)
+call mpdivx (f4, s(k0), s(k2), mpnw)
+call mpagmx (s(k1), s(k2), mpnw)
 
 !   Compute B = Pi / (2 * A), where A is the limit of the AGM iterations.
 
-call mpmuld (s(k1), 2.d0, 0, s(k0), mpnw) 
-call mpdivx (pi, s(k0), s(k1), mpnw) 
+call mpmuld (s(k1), 2.d0, 0, s(k0), mpnw)
+call mpdivx (pi, s(k0), s(k1), mpnw)
 
 !   If the input was exactly 2, divide by TN.  Otherwise subtract TN * Log(2).
 
 if (it2 .eq. 1) then
-  call mpdivd (s(k1), tn, 0, s(k0), mpnw) 
+  call mpdivd (s(k1), tn, 0, s(k0), mpnw)
 else
-  call mpmuld (al2, tn, 0, s(k2), mpnw) 
-  call mpsub (s(k1), s(k2), s(k0), mpnw) 
+  call mpmuld (al2, tn, 0, s(k2), mpnw)
+  call mpsub (s(k1), s(k2), s(k0), mpnw)
 endif
-call mpeq (s(k0), b, mpnw) 
+call mpeq (s(k0), b, mpnw)
 
-110  if (mpidb .ge. 6) call mpdeb ('MPLOGX O', b, mpnw) 
+110  if (mpidb .ge. 6) call mpdeb ('MPLOGX O', b, mpnw)
 return
 end subroutine
 
@@ -6911,7 +6911,7 @@ if (mpidb .ge. 5) then
 
   do k = 0, n
     write (cx, '(I4)') k
-    call mpdeb (cx, a(1,k+1), mpnw) 
+    call mpdeb (cx, a(1,k+1), mpnw)
   enddo
 
   write (mpldb, 2) x1, nx
@@ -6922,7 +6922,7 @@ endif
 
 ncr = 2 ** mpmcr
 if (mpnw .le. ncr) then
-  call mppol (n, l, a, x1, nx, x, mpnw) 
+  call mppol (n, l, a, x1, nx, x, mpnw)
   l1 = 0
   goto 150
 endif
@@ -6950,8 +6950,8 @@ nws = mpnw
 !   Compute the initial approximation.
 
 mpnw = ncr
-call mppol (n, l, a, x1, nx, x, mpnw) 
-call mpeq (x, s(k0), mpnw) 
+call mppol (n, l, a, x1, nx, x, mpnw)
+call mpeq (x, s(k0), mpnw)
 tl = 2 - mpnw
 l1 = 0
 ls = -10
@@ -6972,39 +6972,39 @@ endif
 
 !   Compute P(x).
 
-call mpeq (a(1,n+1), s(k1), mpnw) 
+call mpeq (a(1,n+1), s(k1), mpnw)
 
 do k = n - 1, 0, -1
-  call mpmulx (s(k0), s(k1), s(k2), mpnw) 
-  call mpadd (s(k2), a(1,k+1), s(k1), mpnw) 
+  call mpmulx (s(k0), s(k1), s(k2), mpnw)
+  call mpadd (s(k2), a(1,k+1), s(k1), mpnw)
 enddo
 
 !   Compute P'(x).
 
 t1 = n
-call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw) 
+call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw)
 
 do k = n - 1, 1, -1
-  call mpmulx (s(k0), s(k2), s(k3), mpnw) 
+  call mpmulx (s(k0), s(k2), s(k3), mpnw)
   t1 = k
-  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw) 
-  call mpadd (s(k3), s(k4), s(k2), mpnw) 
+  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw)
+  call mpadd (s(k3), s(k4), s(k2), mpnw)
 enddo
 
 !   Compute P(x) / P'(x) and update x.
 
-call mpdivx (s(k1), s(k2), s(k3), mpnw) 
-call mpsub (s(k0), s(k3), s(k4), mpnw) 
+call mpdivx (s(k1), s(k2), s(k3), mpnw)
+call mpsub (s(k0), s(k3), s(k4), mpnw)
 
 if (mpidb .ge. 6) then
   write (mpldb, 5) l1
 5 format ('Iteration',i4)
-  call mpdeb ('X', s(k0), mpnw) 
-  call mpdeb ('P(X)', s(k1), mpnw) 
-  call mpdeb ('P''(X)', s(k2), mpnw) 
-  call mpdeb ('CORR', s(k3), mpnw) 
+  call mpdeb ('X', s(k0), mpnw)
+  call mpdeb ('P(X)', s(k1), mpnw)
+  call mpdeb ('P''(X)', s(k2), mpnw)
+  call mpdeb ('CORR', s(k3), mpnw)
 endif
-call mpeq (s(k4), s(k0), mpnw) 
+call mpeq (s(k4), s(k0), mpnw)
 
 !   If this was the second iteration at full precision, there is no need to
 !   continue (the adjusted value of x is correct); otherwise repeat.
@@ -7031,12 +7031,12 @@ if (mpidb .ge. 6) then
 endif
 goto 110
 
-140  call mpeq (s(k0), x, mpnw) 
+140  call mpeq (s(k0), x, mpnw)
 
 150  if (mpidb .ge. 5) then
   write (mpldb, 7) l1
 7 format ('Iteration count:',i5)
-  call mpdeb ('MPPOLX O', x, mpnw) 
+  call mpdeb ('MPPOLX O', x, mpnw)
 endif
 return
 end subroutine
@@ -7080,8 +7080,8 @@ if (mpier .ne. 0) then
   return
 endif
 if (mpidb .ge. 6) then
-  call mpdeb ('MPANGX I', x, mpnw) 
-  call mpdeb ('MPANGX I', y, mpnw) 
+  call mpdeb ('MPANGX I', x, mpnw)
+  call mpdeb ('MPANGX I', y, mpnw)
 endif
 
 ix = sign (1., x(1))
@@ -7093,7 +7093,7 @@ ncr = 2 ** mpmcr
 !   Check if precision level is too low to justify the advanced routine.
 
 if (mpnw .le. ncr) then
-  call mpang (x, y, pi, a, mpnw) 
+  call mpang (x, y, pi, a, mpnw)
   goto 100
 endif
 
@@ -7126,9 +7126,9 @@ endif
 
 if (nx .eq. 0) then
   if (iy .gt. 0) then
-    call mpmuld (pi, 0.5d0, 0, a, mpnw) 
+    call mpmuld (pi, 0.5d0, 0, a, mpnw)
   else
-    call mpmuld (pi, -0.5d0, 0, a, mpnw) 
+    call mpmuld (pi, -0.5d0, 0, a, mpnw)
   endif
   goto 100
 elseif (ny .eq. 0) then
@@ -7136,7 +7136,7 @@ elseif (ny .eq. 0) then
     a(1) = 0.
     a(2) = 0.
   else
-    call mpeq (pi, a, mpnw) 
+    call mpeq (pi, a, mpnw)
   endif
   goto 100
 endif
@@ -7166,26 +7166,26 @@ f4(4) = 0.
 call mpmdc (x, t1, n1)
 n2 = mpnbt * (mpnw / 2 + 2) - n1
 tn = n2
-call mpmuld (x, 1.d0, n2, s(k1), mpnw) 
-call mpmuld (y, 1.d0, n2, s(k2), mpnw) 
-call mpmmpc (s(k1), s(k2), n4, s(k0), mpnw) 
+call mpmuld (x, 1.d0, n2, s(k1), mpnw)
+call mpmuld (y, 1.d0, n2, s(k2), mpnw)
+call mpmmpc (s(k1), s(k2), n4, s(k0), mpnw)
 
 !   Perform AGM iterations.
 
-call mpmmpc (f1, f0, n4, s(k1), mpnw) 
-call mpmmpc (f4, f0, n4, s(k3), mpnw) 
-call mpcdvx (n4, s(k3), s(k0), s(k2), mpnw) 
-call mpcagx (s(k1), s(k2), mpnw) 
+call mpmmpc (f1, f0, n4, s(k1), mpnw)
+call mpmmpc (f4, f0, n4, s(k3), mpnw)
+call mpcdvx (n4, s(k3), s(k0), s(k2), mpnw)
+call mpcagx (s(k1), s(k2), mpnw)
 
 !   Compute A = Imag (Pi / (2 * Z)), where Z is the limit of the complex AGM.
 
-call mpmuld (s(k1), 2.d0, 0, s(k0), mpnw) 
-call mpmuld (s(k1+n4), 2.d0, 0, s(k0+n4), mpnw) 
-call mpmmpc (pi, f0, n4, s(k2), mpnw) 
-call mpcdvx (n4, s(k2), s(k0), s(k1), mpnw) 
-call mpeq (s(k1+n4), a, mpnw) 
+call mpmuld (s(k1), 2.d0, 0, s(k0), mpnw)
+call mpmuld (s(k1+n4), 2.d0, 0, s(k0+n4), mpnw)
+call mpmmpc (pi, f0, n4, s(k2), mpnw)
+call mpcdvx (n4, s(k2), s(k0), s(k1), mpnw)
+call mpeq (s(k1+n4), a, mpnw)
 
-100  if (mpidb .ge. 6) call mpdeb ('MPANGX O', a, mpnw) 
+100  if (mpidb .ge. 6) call mpdeb ('MPANGX O', a, mpnw)
 
 return
 end subroutine
@@ -7225,13 +7225,13 @@ if (l1 .eq. 50) then
 endif
 
 s1 = s(k0+1)
-call mpcadd (n4, a, b, s(k0), mpnw) 
-call mpmuld (s(k0), 0.5d0, 0, s(k1), mpnw) 
-call mpmuld (s(k0+n4), 0.5d0, 0, s(k1+n4), mpnw) 
-call mpcmlx (n4, a, b, s(k0), mpnw) 
-call mpcsqx (n4, s(k0), b, mpnw) 
-call mpceq (n4, s(k1), a, mpnw) 
-call mpsub (a, b, s(k0), mpnw) 
+call mpcadd (n4, a, b, s(k0), mpnw)
+call mpmuld (s(k0), 0.5d0, 0, s(k1), mpnw)
+call mpmuld (s(k0+n4), 0.5d0, 0, s(k1+n4), mpnw)
+call mpcmlx (n4, a, b, s(k0), mpnw)
+call mpcsqx (n4, s(k0), b, mpnw)
+call mpceq (n4, s(k1), a, mpnw)
+call mpsub (a, b, s(k0), mpnw)
 
 !   Check for convergence.
 
@@ -7311,20 +7311,20 @@ f(2) = 0.
 f(3) = 1.
 f(4) = 0.
 
-call mpmulx (a, b, s(k0), mpnw) 
-call mpmulx (a(l1), b(l1), s(k1), mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpsub (s(k0), s(k1), s(k3), mpnw) 
-call mpadd (a, a(l1), s(k0), mpnw) 
-call mpsub (b, b(l1), s(k1), mpnw) 
-call mpmulx (s(k0), s(k1), s(k4), mpnw) 
-call mpsub (s(k4), s(k3), s(k1), mpnw) 
-call mpsqx (b, s(k0), mpnw) 
-call mpsqx (b(l1), s(k3), mpnw) 
-call mpadd (s(k0), s(k3), s(k4), mpnw) 
-call mpdivx (f, s(k4), s(k0), mpnw) 
-call mpmul (s(k2), s(k0), c, mpnw) 
-call mpmul (s(k1), s(k0), c(l1), mpnw) 
+call mpmulx (a, b, s(k0), mpnw)
+call mpmulx (a(l1), b(l1), s(k1), mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpsub (s(k0), s(k1), s(k3), mpnw)
+call mpadd (a, a(l1), s(k0), mpnw)
+call mpsub (b, b(l1), s(k1), mpnw)
+call mpmulx (s(k0), s(k1), s(k4), mpnw)
+call mpsub (s(k4), s(k3), s(k1), mpnw)
+call mpsqx (b, s(k0), mpnw)
+call mpsqx (b(l1), s(k3), mpnw)
+call mpadd (s(k0), s(k3), s(k4), mpnw)
+call mpdivx (f, s(k4), s(k0), mpnw)
+call mpmul (s(k2), s(k0), c, mpnw)
+call mpmul (s(k1), s(k0), c(l1), mpnw)
 
 if (mpidb .ge. 7) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -7390,14 +7390,14 @@ k1 = k0 + n4
 k2 = k1 + n4
 k3 = k2 + n4
 
-call mpmulx (a, b, s(k0), mpnw) 
-call mpmulx (a(l1), b(l1), s(k1), mpnw) 
-call mpsub (s(k0), s(k1), c, mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpadd (a, a(l1), s(k0), mpnw) 
-call mpadd (b, b(l1), s(k1), mpnw) 
-call mpmulx (s(k0), s(k1), s(k3), mpnw) 
-call mpsub (s(k3), s(k2), c(l1), mpnw) 
+call mpmulx (a, b, s(k0), mpnw)
+call mpmulx (a(l1), b(l1), s(k1), mpnw)
+call mpsub (s(k0), s(k1), c, mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpadd (a, a(l1), s(k0), mpnw)
+call mpadd (b, b(l1), s(k1), mpnw)
+call mpmulx (s(k0), s(k1), s(k3), mpnw)
+call mpsub (s(k3), s(k2), c(l1), mpnw)
 
 if (mpidb .ge. 7) then
   no = min (int (abs (c(1))), mpndb) + 2
@@ -7447,8 +7447,8 @@ if (mpidb .ge. 5) then
 
   do k = 0, n
     write (cx, '(I4)') k
-    call mpdeb (cx, a(1,k+1), mpnw) 
-    call mpdeb (cx, a(la+1,k+1), mpnw) 
+    call mpdeb (cx, a(1,k+1), mpnw)
+    call mpdeb (cx, a(la+1,k+1), mpnw)
   enddo
 
   write (mpldb, 2) x1(2), nx(2)
@@ -7459,7 +7459,7 @@ endif
 
 ncr = 2 ** mpmcr
 if (mpnw .le. ncr) then
-  call mpcpol (n, la, a, x1, nx, lx, x, mpnw) 
+  call mpcpol (n, la, a, x1, nx, lx, x, mpnw)
   l1 = 0
   goto 150
 endif
@@ -7488,7 +7488,7 @@ nws = mpnw
 !   Set the initial value.
 
 mpnw = ncr
-call mpcpol (n, la, a, x1, nx, n4, s(k0), mpnw) 
+call mpcpol (n, la, a, x1, nx, n4, s(k0), mpnw)
 tl = -4.
 l1 = 0
 ls = -10
@@ -7509,46 +7509,46 @@ endif
 
 !   Compute P(x).
 
-call mpmmpc (a(1,n+1), a(la+1,n+1), n4, s(k1), mpnw) 
+call mpmmpc (a(1,n+1), a(la+1,n+1), n4, s(k1), mpnw)
 
 do k = n - 1, 0, -1
-  call mpcmlx (n4, s(k0), s(k1), s(k2), mpnw) 
-  call mpadd (s(k2), a(1,k+1), s(k1), mpnw) 
-  call mpadd (s(k2+n4), a(la+1,k+1), s(k1+n4), mpnw) 
+  call mpcmlx (n4, s(k0), s(k1), s(k2), mpnw)
+  call mpadd (s(k2), a(1,k+1), s(k1), mpnw)
+  call mpadd (s(k2+n4), a(la+1,k+1), s(k1+n4), mpnw)
 enddo
 
 !   Compute P'(x).
 
 t1 = n
-call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw) 
-call mpmuld (a(la+1,n+1), t1, 0, s(k2+n4), mpnw) 
+call mpmuld (a(1,n+1), t1, 0, s(k2), mpnw)
+call mpmuld (a(la+1,n+1), t1, 0, s(k2+n4), mpnw)
 
 do k = n - 1, 1, -1
-  call mpcmlx (n4, s(k0), s(k2), s(k3), mpnw) 
+  call mpcmlx (n4, s(k0), s(k2), s(k3), mpnw)
   t1 = k
-  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw) 
-  call mpmuld (a(la+1,k+1), t1, 0, s(k4+n4), mpnw) 
-  call mpcadd (n4, s(k3), s(k4), s(k2), mpnw) 
+  call mpmuld (a(1,k+1), t1, 0, s(k4), mpnw)
+  call mpmuld (a(la+1,k+1), t1, 0, s(k4+n4), mpnw)
+  call mpcadd (n4, s(k3), s(k4), s(k2), mpnw)
 enddo
 
 !   Compute P(x) / P'(x) and update x.
 
-call mpcdvx (n4, s(k1), s(k2), s(k3), mpnw) 
-call mpcsub (n4, s(k0), s(k3), s(k4), mpnw) 
+call mpcdvx (n4, s(k1), s(k2), s(k3), mpnw)
+call mpcsub (n4, s(k0), s(k3), s(k4), mpnw)
 
 if (mpidb .ge. 6) then
   write (mpldb, 5) l1
 5 format ('ITERATION',i4)
-  call mpdeb ('X', s(k0), mpnw) 
-  call mpdeb (' ', s(k0+n4), mpnw) 
-  call mpdeb ('P(X)', s(k1), mpnw) 
-  call mpdeb (' ', s(k1+n4), mpnw) 
-  call mpdeb ('P''(X)', s(k2), mpnw) 
-  call mpdeb (' ', s(k2+n4), mpnw) 
-  call mpdeb ('CORR', s(k3), mpnw) 
-  call mpdeb (' ', s(k3+n4), mpnw) 
+  call mpdeb ('X', s(k0), mpnw)
+  call mpdeb (' ', s(k0+n4), mpnw)
+  call mpdeb ('P(X)', s(k1), mpnw)
+  call mpdeb (' ', s(k1+n4), mpnw)
+  call mpdeb ('P''(X)', s(k2), mpnw)
+  call mpdeb (' ', s(k2+n4), mpnw)
+  call mpdeb ('CORR', s(k3), mpnw)
+  call mpdeb (' ', s(k3+n4), mpnw)
 endif
-call mpceq (n4, s(k4), s(k0), mpnw) 
+call mpceq (n4, s(k4), s(k0), mpnw)
 
 !   If this was the second iteration at full precision, there is no need to
 !   continue (the adjusted value of x is correct); otherwise repeat.
@@ -7576,13 +7576,13 @@ if (mpidb .ge. 6) then
 endif
 goto 110
 
-140  call mpmmpc (s(k0), s(k0+n4), lx, x, mpnw) 
+140  call mpmmpc (s(k0), s(k0+n4), lx, x, mpnw)
 
 150  if (mpidb .ge. 5) then
   write (mpldb, 7) l1
 7 format ('Iteration count:',i5)
-  call mpdeb ('MPCPLX O', x, mpnw) 
-  call mpdeb (' ', x(lx+1), mpnw) 
+  call mpdeb ('MPCPLX O', x, mpnw)
+  call mpdeb (' ', x(lx+1), mpnw)
 endif
 return
 end subroutine
@@ -7631,7 +7631,7 @@ ncr = 2 ** mpmcr
 !   Check if precision level of A is too low to justify advanced routine.
 
 if (na1 .le. ncr .and. na2 .le. ncr) then
-  call mpcpwr (l, a, n, b, mpnw) 
+  call mpcpwr (l, a, n, b, mpnw)
   goto 120
 endif
 if (na1 .eq. 0 .and. na2 .eq. 0) then
@@ -7663,15 +7663,15 @@ f1(3) = 1.
 f1(4) = 0.
 f2(1) = 0.
 f2(2) = 0.
-call mpmmpc (a, a(l1), n4, s(k0), mpnw) 
+call mpmmpc (a, a(l1), n4, s(k0), mpnw)
 if (nn .eq. 0) then
-  call mpmmpc (f1, f2, l, b, mpnw) 
+  call mpmmpc (f1, f2, l, b, mpnw)
   goto 120
 elseif (nn .eq. 1) then
-  call mpceq (n4, s(k0), s(k2), mpnw) 
+  call mpceq (n4, s(k0), s(k2), mpnw)
   goto 110
 elseif (nn .eq. 2) then
-  call mpcmlx (n4, s(k0), s(k0), s(k2), mpnw) 
+  call mpcmlx (n4, s(k0), s(k0), s(k2), mpnw)
   goto 110
 endif
 
@@ -7679,7 +7679,7 @@ endif
 
 t1 = nn
 mn = cl2 * log (t1) + 1.d0 + mprxx
-call mpmmpc (f1, f2, n4, s(k2), mpnw) 
+call mpmmpc (f1, f2, n4, s(k2), mpnw)
 kn = nn
 
 !   Compute B ^ N using the binary rule for exponentiation.
@@ -7687,24 +7687,24 @@ kn = nn
 do j = 1, mn
   kk = kn / 2
   if (kn .ne. 2 * kk) then
-    call mpcmlx (n4, s(k2), s(k0), s(k1), mpnw) 
-    call mpceq (n4, s(k1), s(k2), mpnw) 
+    call mpcmlx (n4, s(k2), s(k0), s(k1), mpnw)
+    call mpceq (n4, s(k1), s(k2), mpnw)
   endif
   kn = kk
   if (j .lt. mn) then
-    call mpcmlx (n4, s(k0), s(k0), s(k1), mpnw) 
-    call mpceq (n4, s(k1), s(k0), mpnw) 
+    call mpcmlx (n4, s(k0), s(k0), s(k1), mpnw)
+    call mpceq (n4, s(k1), s(k0), mpnw)
   endif
 enddo
 
 !   Compute reciprocal if N is negative.
 
 110  if (n .lt. 0) then
-  call mpmmpc (f1, f2, n4, s(k1), mpnw) 
-  call mpcdvx (n4, s(k1), s(k2), s(k0), mpnw) 
-  call mpceq (n4, s(k0), s(k2), mpnw) 
+  call mpmmpc (f1, f2, n4, s(k1), mpnw)
+  call mpcdvx (n4, s(k1), s(k2), s(k0), mpnw)
+  call mpceq (n4, s(k0), s(k2), mpnw)
 endif
-call mpmmpc (s(k2), s(n4+k2), l, b, mpnw) 
+call mpmmpc (s(k2), s(n4+k2), l, b, mpnw)
 
 120  if (mpidb .ge. 6) then
   no = min (int (abs (b(1))), mpndb) + 2
@@ -7761,23 +7761,23 @@ k0 = 1
 k1 = k0 + n4
 k2 = k1 + n4
 
-call mpsqx (a, s(k0), mpnw) 
-call mpsqx (a(l1), s(k1), mpnw) 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpsqrx (s(k2), s(k0), mpnw) 
-call mpeq (a, s(k1), mpnw) 
+call mpsqx (a, s(k0), mpnw)
+call mpsqx (a(l1), s(k1), mpnw)
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpsqrx (s(k2), s(k0), mpnw)
+call mpeq (a, s(k1), mpnw)
 s(k1) = abs (s(k1))
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw) 
-call mpsqrx (s(k1), s(k0), mpnw) 
-call mpmuld (s(k0), 2.d0, 0, s(k1), mpnw) 
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw)
+call mpsqrx (s(k1), s(k0), mpnw)
+call mpmuld (s(k0), 2.d0, 0, s(k1), mpnw)
 if (a(1) .ge. 0.) then
-  call mpeq (s(k0), b, mpnw) 
-  call mpdivx (a(l1), s(k1), b(l1), mpnw) 
+  call mpeq (s(k0), b, mpnw)
+  call mpdivx (a(l1), s(k1), b(l1), mpnw)
 else
-  call mpdivx (a(l1), s(k1), b, mpnw) 
+  call mpdivx (a(l1), s(k1), b, mpnw)
   b(1) = abs (b(1))
-  call mpeq (s(k0), b(l1), mpnw) 
+  call mpeq (s(k0), b(l1), mpnw)
   b(l1) = sign (b(l1), a(l1))
 endif
 
@@ -7817,7 +7817,7 @@ if (mpier .ne. 0) then
   y(2) = 0.
   return
 endif
-if (mpidb .ge. 5) call mpdeb ('MPCSSX I', a, mpnw) 
+if (mpidb .ge. 5) call mpdeb ('MPCSSX I', a, mpnw)
 
 ia = sign (1., a(1))
 na = min (int (abs (a(1))), mpnw)
@@ -7826,7 +7826,7 @@ ncr = 2 ** mpmcr
 !   Check if precision level is too low to justify advanced routine.
 
 if (mpnw .le. ncr) then
-  call mpcssn (a, pi, x, y, mpnw) 
+  call mpcssn (a, pi, x, y, mpnw)
   l1 = 0
   goto 120
 endif
@@ -7870,11 +7870,11 @@ nws = mpnw
 
 !   Reduce argument to between - Pi and Pi.
 
-call mpmuld (pi, 2.d0, 0, s(k0), mpnw) 
-call mpdivx (a, s(k0), s(k1), mpnw) 
-call mpnint (s(k1), s(k2), mpnw) 
-call mpmulx (s(k2), s(k0), s(k1), mpnw) 
-call mpsub (a, s(k1), s(k0), mpnw) 
+call mpmuld (pi, 2.d0, 0, s(k0), mpnw)
+call mpdivx (a, s(k0), s(k1), mpnw)
+call mpnint (s(k1), s(k2), mpnw)
+call mpmulx (s(k2), s(k0), s(k1), mpnw)
+call mpsub (a, s(k1), s(k0), mpnw)
 
 !   If reduced argument is close to 0, pi/2, -pi/2, pi or -pi, call mpcssn.
 
@@ -7887,7 +7887,7 @@ t2 = t1 * 2.d0 ** n1 / cpi
 if (abs (t2) < 1d-10 .or. abs (t2 - 0.5d0) < 1d-10 &
   .or. abs (t2 + 0.5d0) < 1d-10 .or. abs (t2 - 1.d0) < 1d-10 &
   .or. abs (t2 + 1.d0) < 1d-10) then
-  call mpcssn (s(k0), pi, x, y, mpnw) 
+  call mpcssn (s(k0), pi, x, y, mpnw)
   goto 120
 endif
 
@@ -7895,12 +7895,12 @@ endif
 
 t2 = nws
 mq = cl2 * log (t2) + 1.d0 - mprxx
-call mpeq (f1, s(k2), mpnw) 
+call mpeq (f1, s(k2), mpnw)
 
 !   Compute initial approximation to [Cos (A), Sin (A)].
 
 mpnw = ncr
-call mpcssn (s(k0), pi, s(k3), s(k3+n4), mpnw) 
+call mpcssn (s(k0), pi, s(k3), s(k3+n4), mpnw)
 iq = 0
 
 !   Perform the Newton-Raphson iteration with a dynamically changing precision
@@ -7909,10 +7909,10 @@ iq = 0
 do k = mpmcr + 1, mq
   mpnw = min (2 * mpnw, nws)
 100  continue
-  call mpangx (s(k3), s(k3+n4), pi, s(k1), mpnw) 
-  call mpsub (s(k0), s(k1), s(k2+n4), mpnw) 
-  call mpcmlx (n4, s(k3), s(k2), s(k1), mpnw) 
-  call mpceq (n4, s(k1), s(k3), mpnw) 
+  call mpangx (s(k3), s(k3+n4), pi, s(k1), mpnw)
+  call mpsub (s(k0), s(k1), s(k2+n4), mpnw)
+  call mpcmlx (n4, s(k3), s(k2), s(k1), mpnw)
+  call mpceq (n4, s(k1), s(k3), mpnw)
   if (k .eq. mq - nit .and. iq .eq. 0) then
     iq = 1
     goto 100
@@ -7921,17 +7921,17 @@ do k = mpmcr + 1, mq
 
 !   The final (cos, sin) result must be normalized to have magnitude 1.
 
-call mpsqx (s(k3), s(k0), mpnw) 
-call mpsqx (s(k3+n4), s(k0+n4), mpnw) 
-call mpadd (s(k0), s(k0+n4), s(k1), mpnw) 
-call mpsqrx (s(k1), s(k2), mpnw) 
-call mpdivx (s(k3), s(k2), s(k0), mpnw) 
-call mpdivx (s(k3+n4), s(k2), s(k0+n4), mpnw) 
-call mpmpcm (n4, s(k0), x, y, mpnw) 
+call mpsqx (s(k3), s(k0), mpnw)
+call mpsqx (s(k3+n4), s(k0+n4), mpnw)
+call mpadd (s(k0), s(k0+n4), s(k1), mpnw)
+call mpsqrx (s(k1), s(k2), mpnw)
+call mpdivx (s(k3), s(k2), s(k0), mpnw)
+call mpdivx (s(k3+n4), s(k2), s(k0+n4), mpnw)
+call mpmpcm (n4, s(k0), x, y, mpnw)
 
 120  if (mpidb .ge. 5) then
-  call mpdeb ('MPCSSX O', x, mpnw) 
-  call mpdeb ('MPCSSX O', y, mpnw) 
+  call mpdeb ('MPCSSX O', x, mpnw)
+  call mpdeb ('MPCSSX O', y, mpnw)
 endif
 return
 end subroutine
@@ -7963,7 +7963,7 @@ ncr = 2 ** mpmcr
 !   Check if precision level is too low to justify the advanced routine.
 
 if (mpnw .le. ncr) then
-  call mppi (pi, mpnw) 
+  call mppi (pi, mpnw)
   goto 110
 endif
 n4 = mpnw + 4
@@ -7988,35 +7988,35 @@ f(1) = 1.
 f(2) = 0.
 f(3) = 2.
 f(4) = 0.
-call mpsqrx (f, s(k2), mpnw) 
-call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw) 
+call mpsqrx (f, s(k2), mpnw)
+call mpmuld (s(k2), 0.5d0, 0, s(k1), mpnw)
 f(2) = -1.
 f(3) = 0.5d0 * mpbdx
-call mpsub (s(k2), f, s(k4), mpnw) 
+call mpsub (s(k2), f, s(k4), mpnw)
 
 !   Perform iterations as described above.
 
 do k = 1, mq
-  call mpadd (s(k0), s(k1), s(k2), mpnw) 
-  call mpmulx (s(k0), s(k1), s(k3), mpnw) 
-  call mpsqrx (s(k3), s(k1), mpnw) 
-  call mpmuld (s(k2), 0.5d0, 0, s(k0), mpnw) 
-  call mpsub (s(k0), s(k1), s(k2), mpnw) 
-  call mpsqx (s(k2), s(k3), mpnw) 
+  call mpadd (s(k0), s(k1), s(k2), mpnw)
+  call mpmulx (s(k0), s(k1), s(k3), mpnw)
+  call mpsqrx (s(k3), s(k1), mpnw)
+  call mpmuld (s(k2), 0.5d0, 0, s(k0), mpnw)
+  call mpsub (s(k0), s(k1), s(k2), mpnw)
+  call mpsqx (s(k2), s(k3), mpnw)
   t1 = 2.d0 ** k
-  call mpmuld (s(k3), t1, 0, s(k2), mpnw) 
-  call mpsub (s(k4), s(k2), s(k3), mpnw) 
-  call mpeq (s(k3), s(k4), mpnw) 
+  call mpmuld (s(k3), t1, 0, s(k2), mpnw)
+  call mpsub (s(k4), s(k2), s(k3), mpnw)
+  call mpeq (s(k3), s(k4), mpnw)
 enddo
 
 !   Complete computation.
 
-call mpadd (s(k0), s(k1), s(k2), mpnw) 
-call mpsqx (s(k2), s(k3), mpnw) 
-call mpdivx (s(k3), s(k4), s(k2), mpnw) 
-call mpeq (s(k2), pi, mpnw) 
+call mpadd (s(k0), s(k1), s(k2), mpnw)
+call mpsqx (s(k2), s(k3), mpnw)
+call mpdivx (s(k3), s(k4), s(k2), mpnw)
+call mpeq (s(k2), pi, mpnw)
 
-110  if (mpidb .ge. 7) call mpdeb ('MPPIX O', pi, mpnw) 
+110  if (mpidb .ge. 7) call mpdeb ('MPPIX O', pi, mpnw)
 
 return
 end subroutine
@@ -8035,4 +8035,3 @@ use mpfunh
 use mpfuni
 use mpfunj
 end module
-

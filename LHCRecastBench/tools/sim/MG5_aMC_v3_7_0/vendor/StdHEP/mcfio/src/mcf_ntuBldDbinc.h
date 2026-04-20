@@ -12,10 +12,10 @@
  * 8/21/95   TW        Strings class removed from dbin generated code.
  * 8/22/95   TW        Strings class removed from dbinc.cc
  *
- * November 1995: some clean up to be able to run this code and 
+ * November 1995: some clean up to be able to run this code and
  * standard dbin simulateneously..
- * Make some routine & variable static, and change the name of routine 
+ * Make some routine & variable static, and change the name of routine
  * called from the outside, following the Nirvana/mcfio conventions.
- * 
+ *
  */
 void mcf_ntubldRead(char* fname);

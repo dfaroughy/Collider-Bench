@@ -59,7 +59,7 @@
 // auxiliary routines
 #define OLO_SCALE   __avh_olo_dp_MOD_olo_scale
 #define OLO_ONSHELL __avh_olo_dp_MOD_olo_onshell
-#define OLO_UNIT    __avh_olo_dp_MOD_olo_unit   
+#define OLO_UNIT    __avh_olo_dp_MOD_olo_unit
 
 extern "C" {
 

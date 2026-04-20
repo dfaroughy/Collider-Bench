@@ -57,7 +57,7 @@
 struct PyCallBack_Pythia8_ResonanceGeneric : public Pythia8::ResonanceGeneric {
 	using Pythia8::ResonanceGeneric::ResonanceGeneric;
 
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGeneric *>(this), "allowCalc");
 		if (overload) {
@@ -70,7 +70,7 @@ struct PyCallBack_Pythia8_ResonanceGeneric : public Pythia8::ResonanceGeneric {
 		}
 		return ResonanceGeneric::allowCalc();
 	}
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGeneric *>(this), "init");
 		if (overload) {
@@ -83,7 +83,7 @@ struct PyCallBack_Pythia8_ResonanceGeneric : public Pythia8::ResonanceGeneric {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGeneric *>(this), "initConstants");
 		if (overload) {
@@ -96,7 +96,7 @@ struct PyCallBack_Pythia8_ResonanceGeneric : public Pythia8::ResonanceGeneric {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGeneric *>(this), "initBSM");
 		if (overload) {
@@ -109,7 +109,7 @@ struct PyCallBack_Pythia8_ResonanceGeneric : public Pythia8::ResonanceGeneric {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGeneric *>(this), "calcPreFac");
 		if (overload) {
@@ -122,7 +122,7 @@ struct PyCallBack_Pythia8_ResonanceGeneric : public Pythia8::ResonanceGeneric {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGeneric *>(this), "calcWidth");
 		if (overload) {
@@ -141,7 +141,7 @@ struct PyCallBack_Pythia8_ResonanceGeneric : public Pythia8::ResonanceGeneric {
 struct PyCallBack_Pythia8_ResonanceGmZ : public Pythia8::ResonanceGmZ {
 	using Pythia8::ResonanceGmZ::ResonanceGmZ;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGmZ *>(this), "init");
 		if (overload) {
@@ -154,7 +154,7 @@ struct PyCallBack_Pythia8_ResonanceGmZ : public Pythia8::ResonanceGmZ {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGmZ *>(this), "initConstants");
 		if (overload) {
@@ -167,7 +167,7 @@ struct PyCallBack_Pythia8_ResonanceGmZ : public Pythia8::ResonanceGmZ {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGmZ *>(this), "initBSM");
 		if (overload) {
@@ -180,7 +180,7 @@ struct PyCallBack_Pythia8_ResonanceGmZ : public Pythia8::ResonanceGmZ {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGmZ *>(this), "allowCalc");
 		if (overload) {
@@ -193,7 +193,7 @@ struct PyCallBack_Pythia8_ResonanceGmZ : public Pythia8::ResonanceGmZ {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGmZ *>(this), "calcPreFac");
 		if (overload) {
@@ -206,7 +206,7 @@ struct PyCallBack_Pythia8_ResonanceGmZ : public Pythia8::ResonanceGmZ {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGmZ *>(this), "calcWidth");
 		if (overload) {
@@ -225,7 +225,7 @@ struct PyCallBack_Pythia8_ResonanceGmZ : public Pythia8::ResonanceGmZ {
 struct PyCallBack_Pythia8_ResonanceW : public Pythia8::ResonanceW {
 	using Pythia8::ResonanceW::ResonanceW;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceW *>(this), "init");
 		if (overload) {
@@ -238,7 +238,7 @@ struct PyCallBack_Pythia8_ResonanceW : public Pythia8::ResonanceW {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceW *>(this), "initConstants");
 		if (overload) {
@@ -251,7 +251,7 @@ struct PyCallBack_Pythia8_ResonanceW : public Pythia8::ResonanceW {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceW *>(this), "initBSM");
 		if (overload) {
@@ -264,7 +264,7 @@ struct PyCallBack_Pythia8_ResonanceW : public Pythia8::ResonanceW {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceW *>(this), "allowCalc");
 		if (overload) {
@@ -277,7 +277,7 @@ struct PyCallBack_Pythia8_ResonanceW : public Pythia8::ResonanceW {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceW *>(this), "calcPreFac");
 		if (overload) {
@@ -290,7 +290,7 @@ struct PyCallBack_Pythia8_ResonanceW : public Pythia8::ResonanceW {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceW *>(this), "calcWidth");
 		if (overload) {
@@ -309,7 +309,7 @@ struct PyCallBack_Pythia8_ResonanceW : public Pythia8::ResonanceW {
 struct PyCallBack_Pythia8_ResonanceTop : public Pythia8::ResonanceTop {
 	using Pythia8::ResonanceTop::ResonanceTop;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceTop *>(this), "init");
 		if (overload) {
@@ -322,7 +322,7 @@ struct PyCallBack_Pythia8_ResonanceTop : public Pythia8::ResonanceTop {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceTop *>(this), "initConstants");
 		if (overload) {
@@ -335,7 +335,7 @@ struct PyCallBack_Pythia8_ResonanceTop : public Pythia8::ResonanceTop {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceTop *>(this), "initBSM");
 		if (overload) {
@@ -348,7 +348,7 @@ struct PyCallBack_Pythia8_ResonanceTop : public Pythia8::ResonanceTop {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceTop *>(this), "allowCalc");
 		if (overload) {
@@ -361,7 +361,7 @@ struct PyCallBack_Pythia8_ResonanceTop : public Pythia8::ResonanceTop {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceTop *>(this), "calcPreFac");
 		if (overload) {
@@ -374,7 +374,7 @@ struct PyCallBack_Pythia8_ResonanceTop : public Pythia8::ResonanceTop {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceTop *>(this), "calcWidth");
 		if (overload) {
@@ -393,7 +393,7 @@ struct PyCallBack_Pythia8_ResonanceTop : public Pythia8::ResonanceTop {
 struct PyCallBack_Pythia8_ResonanceFour : public Pythia8::ResonanceFour {
 	using Pythia8::ResonanceFour::ResonanceFour;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceFour *>(this), "init");
 		if (overload) {
@@ -406,7 +406,7 @@ struct PyCallBack_Pythia8_ResonanceFour : public Pythia8::ResonanceFour {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceFour *>(this), "initConstants");
 		if (overload) {
@@ -419,7 +419,7 @@ struct PyCallBack_Pythia8_ResonanceFour : public Pythia8::ResonanceFour {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceFour *>(this), "initBSM");
 		if (overload) {
@@ -432,7 +432,7 @@ struct PyCallBack_Pythia8_ResonanceFour : public Pythia8::ResonanceFour {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceFour *>(this), "allowCalc");
 		if (overload) {
@@ -445,7 +445,7 @@ struct PyCallBack_Pythia8_ResonanceFour : public Pythia8::ResonanceFour {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceFour *>(this), "calcPreFac");
 		if (overload) {
@@ -458,7 +458,7 @@ struct PyCallBack_Pythia8_ResonanceFour : public Pythia8::ResonanceFour {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceFour *>(this), "calcWidth");
 		if (overload) {
@@ -477,7 +477,7 @@ struct PyCallBack_Pythia8_ResonanceFour : public Pythia8::ResonanceFour {
 struct PyCallBack_Pythia8_ResonanceH : public Pythia8::ResonanceH {
 	using Pythia8::ResonanceH::ResonanceH;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceH *>(this), "init");
 		if (overload) {
@@ -490,7 +490,7 @@ struct PyCallBack_Pythia8_ResonanceH : public Pythia8::ResonanceH {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceH *>(this), "initConstants");
 		if (overload) {
@@ -503,7 +503,7 @@ struct PyCallBack_Pythia8_ResonanceH : public Pythia8::ResonanceH {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceH *>(this), "initBSM");
 		if (overload) {
@@ -516,7 +516,7 @@ struct PyCallBack_Pythia8_ResonanceH : public Pythia8::ResonanceH {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceH *>(this), "allowCalc");
 		if (overload) {
@@ -529,7 +529,7 @@ struct PyCallBack_Pythia8_ResonanceH : public Pythia8::ResonanceH {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceH *>(this), "calcPreFac");
 		if (overload) {
@@ -542,7 +542,7 @@ struct PyCallBack_Pythia8_ResonanceH : public Pythia8::ResonanceH {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceH *>(this), "calcWidth");
 		if (overload) {
@@ -561,7 +561,7 @@ struct PyCallBack_Pythia8_ResonanceH : public Pythia8::ResonanceH {
 struct PyCallBack_Pythia8_ResonanceHchg : public Pythia8::ResonanceHchg {
 	using Pythia8::ResonanceHchg::ResonanceHchg;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchg *>(this), "init");
 		if (overload) {
@@ -574,7 +574,7 @@ struct PyCallBack_Pythia8_ResonanceHchg : public Pythia8::ResonanceHchg {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchg *>(this), "initConstants");
 		if (overload) {
@@ -587,7 +587,7 @@ struct PyCallBack_Pythia8_ResonanceHchg : public Pythia8::ResonanceHchg {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchg *>(this), "initBSM");
 		if (overload) {
@@ -600,7 +600,7 @@ struct PyCallBack_Pythia8_ResonanceHchg : public Pythia8::ResonanceHchg {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchg *>(this), "allowCalc");
 		if (overload) {
@@ -613,7 +613,7 @@ struct PyCallBack_Pythia8_ResonanceHchg : public Pythia8::ResonanceHchg {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchg *>(this), "calcPreFac");
 		if (overload) {
@@ -626,7 +626,7 @@ struct PyCallBack_Pythia8_ResonanceHchg : public Pythia8::ResonanceHchg {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchg *>(this), "calcWidth");
 		if (overload) {
@@ -645,7 +645,7 @@ struct PyCallBack_Pythia8_ResonanceHchg : public Pythia8::ResonanceHchg {
 struct PyCallBack_Pythia8_ResonanceZprime : public Pythia8::ResonanceZprime {
 	using Pythia8::ResonanceZprime::ResonanceZprime;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZprime *>(this), "init");
 		if (overload) {
@@ -658,7 +658,7 @@ struct PyCallBack_Pythia8_ResonanceZprime : public Pythia8::ResonanceZprime {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZprime *>(this), "initConstants");
 		if (overload) {
@@ -671,7 +671,7 @@ struct PyCallBack_Pythia8_ResonanceZprime : public Pythia8::ResonanceZprime {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZprime *>(this), "initBSM");
 		if (overload) {
@@ -684,7 +684,7 @@ struct PyCallBack_Pythia8_ResonanceZprime : public Pythia8::ResonanceZprime {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZprime *>(this), "allowCalc");
 		if (overload) {
@@ -697,7 +697,7 @@ struct PyCallBack_Pythia8_ResonanceZprime : public Pythia8::ResonanceZprime {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZprime *>(this), "calcPreFac");
 		if (overload) {
@@ -710,7 +710,7 @@ struct PyCallBack_Pythia8_ResonanceZprime : public Pythia8::ResonanceZprime {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZprime *>(this), "calcWidth");
 		if (overload) {
@@ -729,7 +729,7 @@ struct PyCallBack_Pythia8_ResonanceZprime : public Pythia8::ResonanceZprime {
 struct PyCallBack_Pythia8_ResonanceWprime : public Pythia8::ResonanceWprime {
 	using Pythia8::ResonanceWprime::ResonanceWprime;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWprime *>(this), "init");
 		if (overload) {
@@ -742,7 +742,7 @@ struct PyCallBack_Pythia8_ResonanceWprime : public Pythia8::ResonanceWprime {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWprime *>(this), "initConstants");
 		if (overload) {
@@ -755,7 +755,7 @@ struct PyCallBack_Pythia8_ResonanceWprime : public Pythia8::ResonanceWprime {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWprime *>(this), "initBSM");
 		if (overload) {
@@ -768,7 +768,7 @@ struct PyCallBack_Pythia8_ResonanceWprime : public Pythia8::ResonanceWprime {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWprime *>(this), "allowCalc");
 		if (overload) {
@@ -781,7 +781,7 @@ struct PyCallBack_Pythia8_ResonanceWprime : public Pythia8::ResonanceWprime {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWprime *>(this), "calcPreFac");
 		if (overload) {
@@ -794,7 +794,7 @@ struct PyCallBack_Pythia8_ResonanceWprime : public Pythia8::ResonanceWprime {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWprime *>(this), "calcWidth");
 		if (overload) {
@@ -813,7 +813,7 @@ struct PyCallBack_Pythia8_ResonanceWprime : public Pythia8::ResonanceWprime {
 struct PyCallBack_Pythia8_ResonanceRhorizontal : public Pythia8::ResonanceRhorizontal {
 	using Pythia8::ResonanceRhorizontal::ResonanceRhorizontal;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceRhorizontal *>(this), "init");
 		if (overload) {
@@ -826,7 +826,7 @@ struct PyCallBack_Pythia8_ResonanceRhorizontal : public Pythia8::ResonanceRhoriz
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceRhorizontal *>(this), "initConstants");
 		if (overload) {
@@ -839,7 +839,7 @@ struct PyCallBack_Pythia8_ResonanceRhorizontal : public Pythia8::ResonanceRhoriz
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceRhorizontal *>(this), "initBSM");
 		if (overload) {
@@ -852,7 +852,7 @@ struct PyCallBack_Pythia8_ResonanceRhorizontal : public Pythia8::ResonanceRhoriz
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceRhorizontal *>(this), "allowCalc");
 		if (overload) {
@@ -865,7 +865,7 @@ struct PyCallBack_Pythia8_ResonanceRhorizontal : public Pythia8::ResonanceRhoriz
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceRhorizontal *>(this), "calcPreFac");
 		if (overload) {
@@ -878,7 +878,7 @@ struct PyCallBack_Pythia8_ResonanceRhorizontal : public Pythia8::ResonanceRhoriz
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceRhorizontal *>(this), "calcWidth");
 		if (overload) {
@@ -897,7 +897,7 @@ struct PyCallBack_Pythia8_ResonanceRhorizontal : public Pythia8::ResonanceRhoriz
 struct PyCallBack_Pythia8_ResonanceExcited : public Pythia8::ResonanceExcited {
 	using Pythia8::ResonanceExcited::ResonanceExcited;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceExcited *>(this), "init");
 		if (overload) {
@@ -910,7 +910,7 @@ struct PyCallBack_Pythia8_ResonanceExcited : public Pythia8::ResonanceExcited {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceExcited *>(this), "initConstants");
 		if (overload) {
@@ -923,7 +923,7 @@ struct PyCallBack_Pythia8_ResonanceExcited : public Pythia8::ResonanceExcited {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceExcited *>(this), "initBSM");
 		if (overload) {
@@ -936,7 +936,7 @@ struct PyCallBack_Pythia8_ResonanceExcited : public Pythia8::ResonanceExcited {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceExcited *>(this), "allowCalc");
 		if (overload) {
@@ -949,7 +949,7 @@ struct PyCallBack_Pythia8_ResonanceExcited : public Pythia8::ResonanceExcited {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceExcited *>(this), "calcPreFac");
 		if (overload) {
@@ -962,7 +962,7 @@ struct PyCallBack_Pythia8_ResonanceExcited : public Pythia8::ResonanceExcited {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceExcited *>(this), "calcWidth");
 		if (overload) {
@@ -981,7 +981,7 @@ struct PyCallBack_Pythia8_ResonanceExcited : public Pythia8::ResonanceExcited {
 struct PyCallBack_Pythia8_ResonanceGraviton : public Pythia8::ResonanceGraviton {
 	using Pythia8::ResonanceGraviton::ResonanceGraviton;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGraviton *>(this), "init");
 		if (overload) {
@@ -994,7 +994,7 @@ struct PyCallBack_Pythia8_ResonanceGraviton : public Pythia8::ResonanceGraviton 
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGraviton *>(this), "initConstants");
 		if (overload) {
@@ -1007,7 +1007,7 @@ struct PyCallBack_Pythia8_ResonanceGraviton : public Pythia8::ResonanceGraviton 
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGraviton *>(this), "initBSM");
 		if (overload) {
@@ -1020,7 +1020,7 @@ struct PyCallBack_Pythia8_ResonanceGraviton : public Pythia8::ResonanceGraviton 
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGraviton *>(this), "allowCalc");
 		if (overload) {
@@ -1033,7 +1033,7 @@ struct PyCallBack_Pythia8_ResonanceGraviton : public Pythia8::ResonanceGraviton 
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGraviton *>(this), "calcPreFac");
 		if (overload) {
@@ -1046,7 +1046,7 @@ struct PyCallBack_Pythia8_ResonanceGraviton : public Pythia8::ResonanceGraviton 
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceGraviton *>(this), "calcWidth");
 		if (overload) {
@@ -1065,7 +1065,7 @@ struct PyCallBack_Pythia8_ResonanceGraviton : public Pythia8::ResonanceGraviton 
 struct PyCallBack_Pythia8_ResonanceKKgluon : public Pythia8::ResonanceKKgluon {
 	using Pythia8::ResonanceKKgluon::ResonanceKKgluon;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceKKgluon *>(this), "init");
 		if (overload) {
@@ -1078,7 +1078,7 @@ struct PyCallBack_Pythia8_ResonanceKKgluon : public Pythia8::ResonanceKKgluon {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceKKgluon *>(this), "initConstants");
 		if (overload) {
@@ -1091,7 +1091,7 @@ struct PyCallBack_Pythia8_ResonanceKKgluon : public Pythia8::ResonanceKKgluon {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceKKgluon *>(this), "initBSM");
 		if (overload) {
@@ -1104,7 +1104,7 @@ struct PyCallBack_Pythia8_ResonanceKKgluon : public Pythia8::ResonanceKKgluon {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceKKgluon *>(this), "allowCalc");
 		if (overload) {
@@ -1117,7 +1117,7 @@ struct PyCallBack_Pythia8_ResonanceKKgluon : public Pythia8::ResonanceKKgluon {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceKKgluon *>(this), "calcPreFac");
 		if (overload) {
@@ -1130,7 +1130,7 @@ struct PyCallBack_Pythia8_ResonanceKKgluon : public Pythia8::ResonanceKKgluon {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceKKgluon *>(this), "calcWidth");
 		if (overload) {
@@ -1149,7 +1149,7 @@ struct PyCallBack_Pythia8_ResonanceKKgluon : public Pythia8::ResonanceKKgluon {
 struct PyCallBack_Pythia8_ResonanceLeptoquark : public Pythia8::ResonanceLeptoquark {
 	using Pythia8::ResonanceLeptoquark::ResonanceLeptoquark;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceLeptoquark *>(this), "init");
 		if (overload) {
@@ -1162,7 +1162,7 @@ struct PyCallBack_Pythia8_ResonanceLeptoquark : public Pythia8::ResonanceLeptoqu
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceLeptoquark *>(this), "initConstants");
 		if (overload) {
@@ -1175,7 +1175,7 @@ struct PyCallBack_Pythia8_ResonanceLeptoquark : public Pythia8::ResonanceLeptoqu
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceLeptoquark *>(this), "initBSM");
 		if (overload) {
@@ -1188,7 +1188,7 @@ struct PyCallBack_Pythia8_ResonanceLeptoquark : public Pythia8::ResonanceLeptoqu
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceLeptoquark *>(this), "allowCalc");
 		if (overload) {
@@ -1201,7 +1201,7 @@ struct PyCallBack_Pythia8_ResonanceLeptoquark : public Pythia8::ResonanceLeptoqu
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceLeptoquark *>(this), "calcPreFac");
 		if (overload) {
@@ -1214,7 +1214,7 @@ struct PyCallBack_Pythia8_ResonanceLeptoquark : public Pythia8::ResonanceLeptoqu
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceLeptoquark *>(this), "calcWidth");
 		if (overload) {
@@ -1233,7 +1233,7 @@ struct PyCallBack_Pythia8_ResonanceLeptoquark : public Pythia8::ResonanceLeptoqu
 struct PyCallBack_Pythia8_ResonanceNuRight : public Pythia8::ResonanceNuRight {
 	using Pythia8::ResonanceNuRight::ResonanceNuRight;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceNuRight *>(this), "init");
 		if (overload) {
@@ -1246,7 +1246,7 @@ struct PyCallBack_Pythia8_ResonanceNuRight : public Pythia8::ResonanceNuRight {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceNuRight *>(this), "initConstants");
 		if (overload) {
@@ -1259,7 +1259,7 @@ struct PyCallBack_Pythia8_ResonanceNuRight : public Pythia8::ResonanceNuRight {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceNuRight *>(this), "initBSM");
 		if (overload) {
@@ -1272,7 +1272,7 @@ struct PyCallBack_Pythia8_ResonanceNuRight : public Pythia8::ResonanceNuRight {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceNuRight *>(this), "allowCalc");
 		if (overload) {
@@ -1285,7 +1285,7 @@ struct PyCallBack_Pythia8_ResonanceNuRight : public Pythia8::ResonanceNuRight {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceNuRight *>(this), "calcPreFac");
 		if (overload) {
@@ -1298,7 +1298,7 @@ struct PyCallBack_Pythia8_ResonanceNuRight : public Pythia8::ResonanceNuRight {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceNuRight *>(this), "calcWidth");
 		if (overload) {
@@ -1317,7 +1317,7 @@ struct PyCallBack_Pythia8_ResonanceNuRight : public Pythia8::ResonanceNuRight {
 struct PyCallBack_Pythia8_ResonanceZRight : public Pythia8::ResonanceZRight {
 	using Pythia8::ResonanceZRight::ResonanceZRight;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZRight *>(this), "init");
 		if (overload) {
@@ -1330,7 +1330,7 @@ struct PyCallBack_Pythia8_ResonanceZRight : public Pythia8::ResonanceZRight {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZRight *>(this), "initConstants");
 		if (overload) {
@@ -1343,7 +1343,7 @@ struct PyCallBack_Pythia8_ResonanceZRight : public Pythia8::ResonanceZRight {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZRight *>(this), "initBSM");
 		if (overload) {
@@ -1356,7 +1356,7 @@ struct PyCallBack_Pythia8_ResonanceZRight : public Pythia8::ResonanceZRight {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZRight *>(this), "allowCalc");
 		if (overload) {
@@ -1369,7 +1369,7 @@ struct PyCallBack_Pythia8_ResonanceZRight : public Pythia8::ResonanceZRight {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZRight *>(this), "calcPreFac");
 		if (overload) {
@@ -1382,7 +1382,7 @@ struct PyCallBack_Pythia8_ResonanceZRight : public Pythia8::ResonanceZRight {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceZRight *>(this), "calcWidth");
 		if (overload) {
@@ -1401,7 +1401,7 @@ struct PyCallBack_Pythia8_ResonanceZRight : public Pythia8::ResonanceZRight {
 struct PyCallBack_Pythia8_ResonanceWRight : public Pythia8::ResonanceWRight {
 	using Pythia8::ResonanceWRight::ResonanceWRight;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWRight *>(this), "init");
 		if (overload) {
@@ -1414,7 +1414,7 @@ struct PyCallBack_Pythia8_ResonanceWRight : public Pythia8::ResonanceWRight {
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWRight *>(this), "initConstants");
 		if (overload) {
@@ -1427,7 +1427,7 @@ struct PyCallBack_Pythia8_ResonanceWRight : public Pythia8::ResonanceWRight {
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWRight *>(this), "initBSM");
 		if (overload) {
@@ -1440,7 +1440,7 @@ struct PyCallBack_Pythia8_ResonanceWRight : public Pythia8::ResonanceWRight {
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWRight *>(this), "allowCalc");
 		if (overload) {
@@ -1453,7 +1453,7 @@ struct PyCallBack_Pythia8_ResonanceWRight : public Pythia8::ResonanceWRight {
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWRight *>(this), "calcPreFac");
 		if (overload) {
@@ -1466,7 +1466,7 @@ struct PyCallBack_Pythia8_ResonanceWRight : public Pythia8::ResonanceWRight {
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceWRight *>(this), "calcWidth");
 		if (overload) {
@@ -1485,7 +1485,7 @@ struct PyCallBack_Pythia8_ResonanceWRight : public Pythia8::ResonanceWRight {
 struct PyCallBack_Pythia8_ResonanceHchgchgLeft : public Pythia8::ResonanceHchgchgLeft {
 	using Pythia8::ResonanceHchgchgLeft::ResonanceHchgchgLeft;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgLeft *>(this), "init");
 		if (overload) {
@@ -1498,7 +1498,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgLeft : public Pythia8::ResonanceHchgch
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgLeft *>(this), "initConstants");
 		if (overload) {
@@ -1511,7 +1511,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgLeft : public Pythia8::ResonanceHchgch
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgLeft *>(this), "initBSM");
 		if (overload) {
@@ -1524,7 +1524,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgLeft : public Pythia8::ResonanceHchgch
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgLeft *>(this), "allowCalc");
 		if (overload) {
@@ -1537,7 +1537,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgLeft : public Pythia8::ResonanceHchgch
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgLeft *>(this), "calcPreFac");
 		if (overload) {
@@ -1550,7 +1550,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgLeft : public Pythia8::ResonanceHchgch
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgLeft *>(this), "calcWidth");
 		if (overload) {
@@ -1569,7 +1569,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgLeft : public Pythia8::ResonanceHchgch
 struct PyCallBack_Pythia8_ResonanceHchgchgRight : public Pythia8::ResonanceHchgchgRight {
 	using Pythia8::ResonanceHchgchgRight::ResonanceHchgchgRight;
 
-	bool init(class Pythia8::Info * a0) override { 
+	bool init(class Pythia8::Info * a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgRight *>(this), "init");
 		if (overload) {
@@ -1582,7 +1582,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgRight : public Pythia8::ResonanceHchgc
 		}
 		return ResonanceWidths::init(a0);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgRight *>(this), "initConstants");
 		if (overload) {
@@ -1595,7 +1595,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgRight : public Pythia8::ResonanceHchgc
 		}
 		return ResonanceWidths::initConstants();
 	}
-	bool initBSM() override { 
+	bool initBSM() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgRight *>(this), "initBSM");
 		if (overload) {
@@ -1608,7 +1608,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgRight : public Pythia8::ResonanceHchgc
 		}
 		return ResonanceWidths::initBSM();
 	}
-	bool allowCalc() override { 
+	bool allowCalc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgRight *>(this), "allowCalc");
 		if (overload) {
@@ -1621,7 +1621,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgRight : public Pythia8::ResonanceHchgc
 		}
 		return ResonanceWidths::allowCalc();
 	}
-	void calcPreFac(bool a0) override { 
+	void calcPreFac(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgRight *>(this), "calcPreFac");
 		if (overload) {
@@ -1634,7 +1634,7 @@ struct PyCallBack_Pythia8_ResonanceHchgchgRight : public Pythia8::ResonanceHchgc
 		}
 		return ResonanceWidths::calcPreFac(a0);
 	}
-	void calcWidth(bool a0) override { 
+	void calcWidth(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ResonanceHchgchgRight *>(this), "calcWidth");
 		if (overload) {

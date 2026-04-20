@@ -5,7 +5,7 @@
 
 if [[  "$1" == ""  ]]; then
     echo 'Path to MadAnalysis and topdrawer must be given to plot'
-    exit 
+    exit
 else
      MAdir=$1
      td=$2
@@ -54,9 +54,9 @@ fi
 echo 'end plot_events'
 
 #$td/td -device=ps plots.top -sideways
-$td/td plots.top 
+$td/td plots.top
 csplit -ks -n 3 -f ma_plot plots.top "/   NEW PLOT/" '{250}'
-    
+
 for file in ma_plot??? ; do
   echo ">> Converting topdrawer file $file to postscript" >> log.convert
 #  $td/td -device=ps $file -sideways
@@ -70,4 +70,3 @@ for file in ma_plot???.ps ; do
   echo ">> Converting file $file" >> log.convert
   $MAdir/epstosmth --gsopt='-r60x60 -dGraphicsAlphaBits=4' --gsdev=jpeg $file
 done
-

@@ -11,7 +11,7 @@ c       complex gc             : coupling constant                  ghhh
 c
 c output:
 c       complex uss(3)         : internal particle current (scalar)
-c    
+c
 c not used:
 c       xm,xw
 c

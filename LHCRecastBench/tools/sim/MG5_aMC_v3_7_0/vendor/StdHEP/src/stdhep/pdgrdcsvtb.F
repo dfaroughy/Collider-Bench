@@ -2,7 +2,7 @@
       subroutine pdgrdcsvtb
 C
 C   This routine reads the new, complete, mass and width table supplied by PDG
-C   fill two common blocks 
+C   fill two common blocks
 C	PDGTBL - complete list of particles in PDG table
 C	STDTBL - list of particles in PDG table defined by STDHEP
 C
@@ -48,14 +48,14 @@ C  point to standard decay tables
       read (lnhdcy, fmt = '(a)', end = 600) cline
 c make sure this is not an old style file.
       if (cline (1 : 1) .eq. 'M' .or. cline (1 : 1) .eq. 'W') then
-           write(lnhout,112) 
+           write(lnhout,112)
 	   return
       endif
 
       if (cline (1 : 1) .ne. '*') then
         call parsecsv
 
-C... fill stdtbl 
+C... fill stdtbl
         if( pdgid.ne.0)then
 C... translate to STDHEP numbering
           itr = pdgtran(pdgid,1)
@@ -73,7 +73,7 @@ c  is there an antiparticle?
 	            call fillastdtbl(itr,indx)
         	  endif
         	endif
-	      endif 
+	      endif
 	    else
 	      write(lnhout,104) itr, pdgid
             endif
@@ -83,7 +83,7 @@ C	    write(lnhout,103) pdgid
           endif
         endif
 
-C... fill pdgtbl 
+C... fill pdgtbl
         if(pdgid.ne.0)then
             icnt = icnt + 1
 	    call fillpdgtbl(icnt)
@@ -111,12 +111,12 @@ c... finished processing cline
 
       subroutine fillstdtbl(itr,indx)
 C
-C   add an entry to the STDTBL common block 
+C   add an entry to the STDTBL common block
 C
       implicit none
 C
 #include "stdtbl.inc"
-#include "stdcsv.inc" 
+#include "stdcsv.inc"
 #include "stdlun.inc"
 C
       character*20 chepn
@@ -148,12 +148,12 @@ C
 
       subroutine fillastdtbl(itr,indx)
 C
-C   add an antiparticle entry to the STDTBL common block 
+C   add an antiparticle entry to the STDTBL common block
 C
       implicit none
 C
 #include "stdtbl.inc"
-#include "stdcsv.inc" 
+#include "stdcsv.inc"
 #include "stdlun.inc"
 C
       character*20 chepn
@@ -186,7 +186,7 @@ C
 
       subroutine fillpdgtbl(indx)
 C
-C   add an entry to the PDGTBL common block 
+C   add an entry to the PDGTBL common block
 C
       implicit none
 C

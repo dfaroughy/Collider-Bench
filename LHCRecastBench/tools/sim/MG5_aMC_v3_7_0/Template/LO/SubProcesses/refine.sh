@@ -14,7 +14,7 @@ if [ "$keeplog" = true ] ; then
 else
     k=/dev/null
 fi
-script=%(script_name)s                         
+script=%(script_name)s
 
 grid_directory=%(base_directory)s
 j=%(directory)s
@@ -22,12 +22,12 @@ j=%(directory)s
           mkdir $j
           if [[ -e $grid_directory/ftn26 ]];then
              cp $grid_directory/ftn26 $j/ftn25
-          fi 
+          fi
           if [[ ! -e ../../SubProcesses ]];then
           	 if [[ -e ftn26 ]]; then
           	 	cp ./ftn26 $j/ftn25
           	 fi
-          fi	
+          fi
      fi
      cd $j
      if [ "$keeplog" = true ] ; then
@@ -54,7 +54,7 @@ j=%(directory)s
 
      # run the executable. The loop is design to avoid
      # filesystem problem (executable not found)
-     for((try=1;try<=16;try+=1)); 
+     for((try=1;try<=16;try+=1));
      do
 	 if [ "$keeplog" = true ] ; then
          if [[ -e ../madevent ]];then
@@ -87,17 +87,17 @@ j=%(directory)s
              fi
 	 fi
      done
-     if [[ $status_code -ne 0 ]]; then 
+     if [[ $status_code -ne 0 ]]; then
 	 rm results.dat
 	 echo "ERROR DETECTED"
 	 echo "end-code not correct $status_code" > results.dat
-     fi     
+     fi
      if [[ -e ftn26 ]]; then
          cp ftn26 ftn25
      fi
 
      if [ "$keeplog" = true ] ; then
-	 echo "" >> $k; echo "ls status:" >> $k; ls >> $k	 
+	 echo "" >> $k; echo "ls status:" >> $k; ls >> $k
      else
 	 rm ftn26 &> /dev/null
      fi
@@ -107,4 +107,3 @@ j=%(directory)s
 
 
      cd ../
-

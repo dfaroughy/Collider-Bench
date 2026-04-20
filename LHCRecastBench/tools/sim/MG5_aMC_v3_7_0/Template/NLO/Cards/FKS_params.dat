@@ -42,9 +42,9 @@
 ! contributions included by MadFKS in the context of mixed-order expansions
 ! ==========================================================================
 !
-! Set the QCD and QED squared order that must be factorized by the  
-! contribution selected. This follows the same convention as the syntax 
-! QCD^2== and QED^2== used at generation time. The default value of -1 
+! Set the QCD and QED squared order that must be factorized by the
+! contribution selected. This follows the same convention as the syntax
+! QCD^2== and QED^2== used at generation time. The default value of -1
 ! instructs MadFKS to include all those available.
 !
 #QCD^2==
@@ -94,7 +94,7 @@
 !     type=14: virtual corrections
 !     type=15: virt-trick: average born contribution
 ! ==========================================================================
-! 
+!
 ! The first entry specifies the length  of the list of vetoed or allowed types
 !
 ! Example:

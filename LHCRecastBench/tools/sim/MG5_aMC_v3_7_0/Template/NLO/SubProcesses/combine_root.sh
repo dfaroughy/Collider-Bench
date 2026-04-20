@@ -1,5 +1,5 @@
 #!/bin/bash
-# Main driver for the combination. 
+# Main driver for the combination.
 # To be executed in ./SubProcesses; the upper-level command
 # (the only one to be executed) is:
 #
@@ -81,4 +81,3 @@ rm -f rootinput.txt
 steerall $@
 
 rm -f AutoDict_vector_TH1D*
-

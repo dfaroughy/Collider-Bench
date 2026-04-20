@@ -1,12 +1,12 @@
 c************************************************************************
 c  THIS FILE CONTAINS THE DEFINITIONS OF USEFUL FUNCTIONS OF MOMENTA:
-c  
+c
 c  DOT(p1,p2)         : 4-Vector Dot product
 c  R2(p1,p2)          : distance in eta,phi between two particles
 c  SumDot(P1,P2,dsign): invariant mass of 2 particles
 c  rap(p)             : rapidity of particle in the lab frame (p in CM frame)
 C  RAP2(P)            : rapidity of particle in the lab frame (p in lab frame)
-c  DELTA_PHI(P1, P2)  : separation in phi of two particles 
+c  DELTA_PHI(P1, P2)  : separation in phi of two particles
 c  ET(p)              : transverse energy of particle
 c  PT(p)              : transverse momentum of particle
 c  DJ(p1,p2)          : y*S (Durham) value for two partons
@@ -54,7 +54,7 @@ c
       double precision p1(0:3),p2(0:3),dsign
 c
 c     Local
-c      
+c
       integer i
       double precision ptot(0:3)
 c
@@ -275,7 +275,7 @@ c$$$      write(*,*) 'p2a = ',p2a,'eta2 = ',eta2
 c$$$      write(*,*) 'dj = ',dj
       endif
       end
-      
+
       double precision function PYDJ(p1,p2)
 c***************************************************************************
 c     Uses Durham algorythm to calculate the y value for two partons
@@ -306,10 +306,10 @@ c-----
       pydj = p1(0)*p2(0)/(p1(0)+p2(0))**2*SumDot(p1,p2,1d0)
 
       end
-      
+
       double precision function DJ1(p1,p2)
 c***************************************************************************
-c     Uses single-sided Durham algorythm to calculate the y value for 
+c     Uses single-sided Durham algorythm to calculate the y value for
 c     parton radiated off non-parton
 c     If collision type is hh, hadronic jet measure is used
 c       y_{ij} = 2min[p_{i,\perp}^2,p_{j,\perp}^2]/S
@@ -358,7 +358,7 @@ c     write(*,*) 'pm2 = ',pm2,', p2a = ',p2a,'eta2 = ',eta2
 c     write(*,*) 'dj = ',dj
       endif
       end
-      
+
       double precision function DJB(p1)
 c***************************************************************************
 c     Uses kt algorythm to calculate the y value for one parton
@@ -557,7 +557,7 @@ C****************************************************************************
       double precision p1(0:3),p2(0:3)
       dot=p1(0)*p2(0)-p1(1)*p2(1)-p1(2)*p2(2)-p1(3)*p2(3)
 
-      if(dabs(dot).lt.1d-6)then ! solve numerical problem 
+      if(dabs(dot).lt.1d-6)then ! solve numerical problem
          dot=0d0
       endif
 
@@ -674,7 +674,7 @@ c
       P(1)=PT*dcos(phi)
       P(2)=PT*dsin(phi)
       P(3)=PT*dsinh(eta)
-      P(0)=dsqrt(p(1)**2+p(2)**2+p(3)**2+m**2)  
+      P(0)=dsqrt(p(1)**2+p(2)**2+p(3)**2+m**2)
       return
       end
 
@@ -699,7 +699,7 @@ c
 c-----
 c  Begin Code
 c-----
-c 
+c
       if(p(1).gt.zero) then
       phi=datan(p(2)/p(1))
       else if(p(1).lt.zero) then
@@ -712,4 +712,3 @@ c
       if(phi.lt.zero) phi=phi+2*pi
       return
       end
-

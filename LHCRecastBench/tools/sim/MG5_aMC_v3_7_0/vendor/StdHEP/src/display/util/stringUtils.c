@@ -81,7 +81,7 @@ XmString MultiFontString(char *string)
     XmString cString;
     char *segment, *segPtr, *stringPtr;
     int segType;
-    
+
     segment = XtMalloc(strlen(string)+1);
     segPtr = segment;
     segType = NORMAL;
@@ -132,14 +132,14 @@ XmString MultiFontString(char *string)
 	cString = extendString(cString, segment, TypeNames[segType]);
     }
     XtFree(segment);
-    return cString;	    
+    return cString;
 }
 
 /* extend an existing compuund string with a C string and character set */
 XmString extendString(XmString cString, char *string, char *charset)
 {
     XmString cTemp, cSegment;
-    
+
     cSegment = XmStringCreateLtoR(string, charset);
     cTemp = XmStringConcat(cString, cSegment);
     XmStringFree(cString);
@@ -159,12 +159,12 @@ void GetMFString(XmString fromString, char *toString, int maxLength)
     XmStringDirection direction;
     Boolean separator;
     int newCharset, curCharset = NORMAL;
-    
+
     /* loop over all of the segments in the string */
     XmStringInitContext(&context, fromString);
     while (XmStringGetNextSegment(context, &text,
     		&charset, &direction, &separator)) {
-    	
+
     	/* if character set changes, include toggle escape sequence */
     	newCharset = charsetNum(charset);
     	if (curCharset != newCharset) {
@@ -174,18 +174,18 @@ void GetMFString(XmString fromString, char *toString, int maxLength)
     	    if (toPtr-toString >= maxLength - 1) break;
     	    curCharset = newCharset;
     	}
-    	
+
     	/* copy the new segment into the output string expanding escape chars */
     	toPtr += expandEscapeChars(text, toPtr, maxLength-(toPtr-toString)-1);
     	if (toPtr-toString >= maxLength - 1) break;
-    	
+
     	/* if next segment is a separator, add a newline */
     	if (separator) {
     	    *toPtr++ = '\n';
     	    if (toPtr-toString >= maxLength - 1) break;
     	}
     }
-    
+
     /* terminate the string, free the context, and return the length */
     *toPtr++ = '\0';
     XmStringFreeContext(context);
@@ -200,7 +200,7 @@ Boolean CharsetAvailable(char *charset, XmFontList fontList)
     XmFontContext context;
     XFontStruct *font;
     char *fontCharset;
-    
+
     /* Loop through all of the fonts in fontList, matching their character
        set names with the argument charset.  Return true if a match is found */
     if (!XmFontListInitFontContext(&context, fontList))
@@ -227,7 +227,7 @@ Boolean CharsetAvailable(char *charset, XmFontList fontList)
 static int charsetNum(char *charset)
 {
     int i;
-    
+
     for (i=0; i<NUM_TYPES; i++) {
 	if (!strcmp(charset, TypeNames[i]))
 	    return i;
@@ -244,7 +244,7 @@ static int charsetNum(char *charset)
 static int expandEscapeChars(char *fromString, char *toString, int maxLength)
 {
     char *fromPtr = fromString, *toPtr = toString;
-    
+
     while (*fromPtr!='\0' && toPtr-toString<maxLength) {
     	if (*fromPtr == TOGGLE_CHAR) {
     	    *toPtr++ = TOGGLE_CHAR;
@@ -254,4 +254,4 @@ static int expandEscapeChars(char *fromString, char *toString, int maxLength)
     	*toPtr++ = *fromPtr++;
     }
     return toPtr - toString;
-}  
+}

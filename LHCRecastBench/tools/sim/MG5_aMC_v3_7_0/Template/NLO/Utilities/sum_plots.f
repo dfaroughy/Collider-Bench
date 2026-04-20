@@ -58,7 +58,7 @@ c---  Nothing found yet
       enddo
 
 c---  Loop over all the lines of the first file
-      do 
+      do
          read(11,'(a)',end=99) buff
          if ( index(buff,'TITLE').ne.0 .and.(
      &        index(buff,'BOTTOM').ne.0 .or.
@@ -167,7 +167,7 @@ c---  Nothing found yet
          pass(i)=.false.
       enddo
 c---  Loop over all the lines of the first file
-      do 
+      do
          read(unit,'(a)',end=99) buff
          iline(ifile)=iline(ifile)+1
          if ( index(buff,'TITLE').ne.0 .and.(
@@ -264,7 +264,7 @@ c Rewind the file back to the last title that we found
       do i=1,nif
          step(i)=9d99
       enddo
-      
+
       minx=9d99
       maxx=-9d99
       do i=1,nif
@@ -286,7 +286,7 @@ c Rewind the file back to the last title that we found
             stop
          endif
       enddo
-         
+
       do i=1,nif
          idata(i)=nint((maxx-minx)/step(i))+1
          if (idata(i).ne.idata(1)) then

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -20,7 +20,7 @@ import six
 StringIO = six
 import copy
 import fractions
-import os 
+import os
 import sys
 
 root_path = os.path.split(os.path.dirname(os.path.realpath( __file__ )))[0]
@@ -53,13 +53,13 @@ class IOHistogramTest(IOTests.IOTestManager):
             target: CKKWL_djrs_output.gnuplot
         """
         # MLM first
-        histos = histograms.HwUList(pjoin(_input_file_path,'MLM_djrs.dat'), 
+        histos = histograms.HwUList(pjoin(_input_file_path,'MLM_djrs.dat'),
                                              consider_reweights='ALL', run_id=0)
         histo_output_options = {
-          'format':'gnuplot', 
-          'uncertainties':['scale','pdf','statistical','merging_scale','alpsfact'], 
+          'format':'gnuplot',
+          'uncertainties':['scale','pdf','statistical','merging_scale','alpsfact'],
           'ratio_correlations':True,
-          'arg_string':'Automatic plotting from MG5aMC', 
+          'arg_string':'Automatic plotting from MG5aMC',
           'jet_samples_to_keep':None,
           'use_band':['merging','alpsfact'],
           'auto_open':False}
@@ -71,13 +71,13 @@ class IOHistogramTest(IOTests.IOTestManager):
                             open(pjoin(self.IOpath,'MLM_djrs_output_2.HwU')).read())
 
         # then CKKWL
-        histos = histograms.HwUList(pjoin(_input_file_path,'CKKWL_djrs.dat'), 
+        histos = histograms.HwUList(pjoin(_input_file_path,'CKKWL_djrs.dat'),
                                               consider_reweights='ALL', run_id=0)
         histo_output_options = {
-          'format':'gnuplot', 
-          'uncertainties':['scale','pdf','statistical','merging_scale'], 
+          'format':'gnuplot',
+          'uncertainties':['scale','pdf','statistical','merging_scale'],
           'ratio_correlations':True,
-          'arg_string':'Automatic plotting from MG5aMC', 
+          'arg_string':'Automatic plotting from MG5aMC',
           'jet_samples_to_keep':None,
           'use_band':['merging'],
           'auto_open':False}
@@ -86,5 +86,4 @@ class IOHistogramTest(IOTests.IOTestManager):
         histos_2.output(pjoin(self.IOpath,'CKKWL_djrs_output_2'),
                                                          **histo_output_options)
         self.assertEqual(open(pjoin(self.IOpath,'CKKWL_djrs_output.HwU')).read(),
-                      open(pjoin(self.IOpath,'CKKWL_djrs_output_2.HwU')).read()) 
-        
+                      open(pjoin(self.IOpath,'CKKWL_djrs_output_2.HwU')).read())

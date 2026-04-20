@@ -105,7 +105,7 @@ c
      &       + ( kvc43 + kvc21 )*f12p21
 
 c     (-) from gamma^5 in EDM only
-      vertex = ( -gc(1,1) + cImag*gc(1,2) )*dum1    
+      vertex = ( -gc(1,1) + cImag*gc(1,2) )*dum1
 
       if ( gc(2,1).ne.cZero .or.
      &     gc(2,2).ne.cZero      ) then

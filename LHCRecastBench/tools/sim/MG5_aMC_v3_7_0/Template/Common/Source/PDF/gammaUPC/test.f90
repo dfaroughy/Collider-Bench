@@ -7,7 +7,7 @@ PROGRAM test
   REAL(KIND(1d0))::x1,x2
   REAL(KIND(1d0))::flux1,flux2,flux3,flux4,flux5,flux6
   REAL(KIND(1d0))::gamma1,gamma2
-  REAL(KIND(1d0)),PARAMETER::mproton=0.938272081d0 ! the mass of proton (GeV) 
+  REAL(KIND(1d0)),PARAMETER::mproton=0.938272081d0 ! the mass of proton (GeV)
   REAL(KIND(1d0)),PARAMETER::mN=0.9315d0 ! average nucleaon mass in nuclei (GeV)
   REAL(KIND(1d0)),PARAMETER::mchic=3.55d0
   REAL(KIND(1d0))::cmsenergy,tau,dy,ychic,ymin,ymax,gagam
@@ -45,7 +45,7 @@ PROGRAM test
   neutron_tagging(1)=0
   neutron_tagging(2)=0
   !flux1=PhotonPhotonFlux_AB_WoodsSaxon_eval(x1,x2)
-  !flux1=Lgammagamma_UPC(5d0,3,1) 
+  !flux1=Lgammagamma_UPC(5d0,3,1)
   !PRINT *, "0n0n:",flux1
   !RETURN
   neutron_tagging(1)=-1
@@ -93,13 +93,13 @@ PROGRAM test
 !     !flux3=flux1*flux2*2d0 ! Xn0n+0nXn
 !     !flux2=flux2**2 ! 0n0n
 !     !flux1=flux1**2 ! XnXn
-!  
+!
 !     !WRITE(2033,*)0.1973d0*db,flux1,flux3,flux2
 !     !WRITE(2033,*)0.1973d0*db,flux1,flux2
 !     WRITE(2033,*)0.1973d0*db,flux4,flux5,flux6
 !  ENDDO
 !  CLOSE(UNIT=2033)
-  
+
 !  RETURN
   USE_CHARGEFORMFACTOR4PHOTON=.True.
   GENERATE_PhotonPhotonFlux_GRID=.FALSE.
@@ -109,8 +109,8 @@ PROGRAM test
   nuclearZ_beam2=82
   ebeam(1)=2.75d3
   ebeam(2)=2.75d3
-  
-  
+
+
   do i=1,5
   array(i) = 0 + 2.18 * real(i-1)/(100-1)
   mass(i) = 10**array(i)
@@ -119,7 +119,7 @@ PROGRAM test
   delta_B(i) = DeltaB_UPC_at_W(mass(i),3,1)
   delta_B_inel(i) = DeltaB_UPC_at_W(mass(i),3,0)
   END do
-  
+
   PRINT *, mass
   PRINT *, flux
   PRINT *, flux_inel

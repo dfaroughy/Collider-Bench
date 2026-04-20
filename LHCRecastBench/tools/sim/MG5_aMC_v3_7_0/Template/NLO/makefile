@@ -1,18 +1,18 @@
 FILES = Cards HTML SubProcesses bin lib Source Events FixedOrderAnalysis MCatNLO \
 	   index.html README README.lhapdf TemplateVersion.txt MGMEVersion.txt
-  
+
 amcatnlo.tar.gz: amcatnlo.tar
 	rm -f amcatnlo.tar.gz
 	gzip amcatnlo.tar
-  
-amcatnlo.tar: 
+
+amcatnlo.tar:
 	tar cf amcatnlo.tar $(FILES)
-  
+
 gridpack.tar.gz: gridpack.tar
 	rm -f gridpack.tar.gz
 	gzip gridpack.tar
-  
-gridpack.tar: 
+
+gridpack.tar:
 	mv Events Events1
 	mkdir Events
 	cp Events1/banner_header.txt Events/
@@ -20,7 +20,7 @@ gridpack.tar:
 	cp bin/run.sh ./
 	mv -f $(FILES) amcatnlo
 	tar -cf gridpack.tar amcatnlo run.sh
-	mv -f amcatnlo/* ./ 
+	mv -f amcatnlo/* ./
 	rmdir amcatnlo
 	rm run.sh
 	rm -rf Events
@@ -36,4 +36,3 @@ clean:
 	rm -f SubProcesses/*.o
 	for dir in `ls -d SubProcesses/P*`; do cd $$dir; make clean; cd ../../;\
 	    done
-

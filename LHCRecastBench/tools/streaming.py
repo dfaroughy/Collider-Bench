@@ -21,12 +21,9 @@ Usage:
 """
 
 import os
-import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import uproot
-import awkward as ak
-import numpy as np
 
 
 def _process_one_file(url, branches, process_fn, sample_info, step_size):
@@ -41,9 +38,21 @@ def _process_one_file(url, branches, process_fn, sample_info, step_size):
                 chunk_result = process_fn(events, sample_info)
                 results.append(chunk_result)
     except Exception as e:
-        return {"error": str(e), "url": url, "n_events": 0, "chunks": [], "elapsed_s": time.time() - t0}
+        return {
+            "error": str(e),
+            "url": url,
+            "n_events": 0,
+            "chunks": [],
+            "elapsed_s": time.time() - t0,
+        }
 
-    return {"url": url, "n_events": n_events, "chunks": results, "error": None, "elapsed_s": time.time() - t0}
+    return {
+        "url": url,
+        "n_events": n_events,
+        "chunks": results,
+        "error": None,
+        "elapsed_s": time.time() - t0,
+    }
 
 
 def _calibrate(file_urls, branches, process_fn, sample_info, n_probe=3):
@@ -92,8 +101,10 @@ def _calibrate(file_urls, branches, process_fn, sample_info, n_probe=3):
     if avg_file_time > 60:
         max_workers = min(64, ncpus, max_by_mem, max_by_files)
 
-    print(f"  Calibration: {n_probe} files, {events_per_sec:.0f} evt/s, "
-          f"{avg_file_time:.1f}s/file → {max_workers} workers, step_size={step_size}")
+    print(
+        f"  Calibration: {n_probe} files, {events_per_sec:.0f} evt/s, "
+        f"{avg_file_time:.1f}s/file → {max_workers} workers, step_size={step_size}"
+    )
 
     return step_size, max_workers, probe_results
 
@@ -120,14 +131,18 @@ def stream_files(
 
     n_files = len(file_urls)
     if n_files == 0:
-        return {"file_results": [], "total_events": 0, "n_files_ok": 0, "n_files_fail": 0, "elapsed_s": 0}
+        return {
+            "file_results": [],
+            "total_events": 0,
+            "n_files_ok": 0,
+            "n_files_fail": 0,
+            "elapsed_s": 0,
+        }
 
     t0 = time.time()
 
     # Calibrate on first few files
-    step_size, max_workers, probe_results = _calibrate(
-        file_urls, branches, process_fn, sample_info
-    )
+    step_size, max_workers, probe_results = _calibrate(file_urls, branches, process_fn, sample_info)
 
     # Collect probe results
     file_results = list(probe_results)
@@ -142,7 +157,9 @@ def stream_files(
 
         with ThreadPoolExecutor(max_workers=max_workers) as pool:
             futures = {
-                pool.submit(_process_one_file, url, branches, process_fn, sample_info, step_size): url
+                pool.submit(
+                    _process_one_file, url, branches, process_fn, sample_info, step_size
+                ): url
                 for url in remaining_urls
             }
             for future in as_completed(futures):

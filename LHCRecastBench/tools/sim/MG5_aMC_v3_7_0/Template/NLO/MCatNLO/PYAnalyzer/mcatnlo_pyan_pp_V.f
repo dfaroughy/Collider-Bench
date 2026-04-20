@@ -154,7 +154,7 @@ C EFFECT, SO THROW THE EVENT AWAY
         do j=1,4
           pihep(j)=p(ihep,j)
         enddo
-        IST=K(IHEP,1)      
+        IST=K(IHEP,1)
         ID1=K(IHEP,2)
         IORI=K(IHEP,3)
         IF (IST.LE.10) THEN
@@ -281,4 +281,3 @@ C-----------------------------------------------------------------------
    10 PQ=PQ+P(I)*Q(I)
       VDOT=PQ
       END
-

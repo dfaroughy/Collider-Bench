@@ -1,5 +1,5 @@
 c-----------------------------------------------------------
-c Chapter 7: Next permutation of n letters(p59) 
+c Chapter 7: Next permutation of n letters(p59)
 c-----------------------------------------------------------
 c   Name of subroutine: NEXPER
 c
@@ -71,7 +71,7 @@ c next permutation of {1,...,n}. Ref NW p 59.
       end
 c-----------------------------------------------------------
 c
-c    Calucul de la factorielle    
+c    Calucul de la factorielle
 c
 c-----------------------------------------------------------
 c-----Subroutine begins here--------------------------------
@@ -87,5 +87,3 @@ c-----Subroutine begins here--------------------------------
         n=a
 	return
 	end
-
-

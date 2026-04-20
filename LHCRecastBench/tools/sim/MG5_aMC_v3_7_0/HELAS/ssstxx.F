@@ -1,6 +1,6 @@
       subroutine ssstxx(tc1,tc2,sc,gt,vertex)
 c
-c- by RF - Feb. 2006 
+c- by RF - Feb. 2006
 c
 c This subroutine computes an amplitude of the tts coupling.
 c

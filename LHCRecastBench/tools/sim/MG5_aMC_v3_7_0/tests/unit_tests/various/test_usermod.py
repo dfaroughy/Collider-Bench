@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph Development team and Contributors
 #
-# This file is a part of the MadGraph 5 project, an application which 
+# This file is a part of the MadGraph 5 project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph license which should accompany this 
+# It is subject to the MadGraph license which should accompany this
 # distribution.
 #
 # For more information, please visit: http://madgraph.phys.ucl.ac.be
@@ -20,8 +20,8 @@ import copy
 import os
 import sys
 import time
-import tempfile 
-import shutil 
+import tempfile
+import shutil
 
 import tests.unit_tests as unittest
 import madgraph.core.base_objects as base_objects
@@ -52,19 +52,19 @@ class UFOBaseClass(object):
 
     def __init__(self, *args, **options):
         assert(len(self.require_args) == len (args))
-    
+
         for i, name in enumerate(self.require_args):
             setattr(self, name, args[i])
-    
+
         for (option, value) in options.items():
             setattr(self, option, value)
 
     def get(self, name):
         return getattr(self, name)
-    
+
     def set(self, name, value):
         setattr(self, name, value)
-        
+
     def get_all(self):
         """Return a dictionary containing all the information of the object"""
         return self.__dict__
@@ -95,7 +95,7 @@ class UFOBaseClass(object):
 
 all_particles = []
 
-    
+
 
 class Particle(UFOBaseClass):
     """A standard Particle"""
@@ -131,10 +131,10 @@ class Particle(UFOBaseClass):
         """ find how we draw a line if not defined
         valid output: dashed/straight/wavy/curly/double/swavy/scurly
         """
-        
+
         spin = self.spin
         color = self.color
-        
+
         #use default
         if spin == 1:
             return 'dashed'
@@ -148,7 +148,7 @@ class Particle(UFOBaseClass):
         elif spin == 3:
             if color == 1:
                 return 'wavy'
-            
+
             else:
                 return 'curly'
         elif spin == 5:
@@ -160,16 +160,16 @@ class Particle(UFOBaseClass):
 
     def anti(self):
         if self.selfconjugate:
-            raise Exception('%s has no anti particle.' % self.name) 
+            raise Exception('%s has no anti particle.' % self.name)
         outdic = {}
         for k,v in six.iteritems(self.__dict__):
-            if k not in self.require_args_all:                
+            if k not in self.require_args_all:
                 outdic[k] = -v
         if self.color in [1,8]:
             newcolor = self.color
         else:
             newcolor = -self.color
-                
+
         return Particle(-self.pdg_code, self.antiname, self.name, self.spin, newcolor, self.mass, self.width,
                         self.antitexname, self.texname, -self.charge, self.line, self.propagating, self.goldstoneboson, **outdic)
 
@@ -204,7 +204,7 @@ class Vertex(UFOBaseClass):
     require_args=['name', 'particles', 'color', 'lorentz', 'couplings']
 
     def __init__(self, name, particles, color, lorentz, couplings, **opt):
- 
+
         args = (name, particles, color, lorentz, couplings)
 
         UFOBaseClass.__init__(self, *args, **opt)
@@ -222,11 +222,11 @@ class Coupling(UFOBaseClass):
 
     def __init__(self, name, value, order, **opt):
 
-        args =(name, value, order)    
+        args =(name, value, order)
         UFOBaseClass.__init__(self, *args, **opt)
         global all_couplings
         all_couplings.append(self)
-  
+
 
 
 all_lorentz = []
@@ -234,7 +234,7 @@ all_lorentz = []
 class Lorentz(UFOBaseClass):
 
     require_args=['name','spins','structure']
-    
+
     def __init__(self, name, spins, structure='external', **opt):
         args = (name, spins, structure)
         UFOBaseClass.__init__(self, *args, **opt)
@@ -255,7 +255,7 @@ class Function(object):
         self.name = name
         self.arguments = arguments
         self.expr = expression
-    
+
     def __call__(self, *opt):
 
         for i, arg in enumerate(self.arguments):
@@ -268,7 +268,7 @@ all_orders = []
 class CouplingOrder(object):
 
     def __init__(self, name, expansion_order, hierarchy, perturbative_expansion = 0):
-        
+
         global all_orders
         all_orders.append(self)
 
@@ -287,7 +287,7 @@ class Decay(UFOBaseClass):
 
         global all_decays
         all_decays.append(self)
-    
+
         # Add the information directly to the particle
         particle.partial_widths = partial_widths
 
@@ -308,7 +308,7 @@ class Model(object):
     def __init__(self):
         global all_form_factors, all_particles, all_decays,all_orders, all_functions,\
                all_lorentz,all_couplings, all_vertices, all_parameters
-               
+
         self.all_form_factors = all_form_factors
         self.all_particles = all_particles
         self.all_decays = all_decays
@@ -318,11 +318,11 @@ class Model(object):
         self.all_couplings = all_couplings
         self.all_vertices = all_vertices
         self.all_parameters = all_parameters
-        
-    
+
+
 
 #===============================================================================
-# Test The UFO usermod package 
+# Test The UFO usermod package
 #===============================================================================
 class TestModUFO(unittest.TestCase):
     """Test class for the USERMOD object"""
@@ -332,30 +332,30 @@ class TestModUFO(unittest.TestCase):
         self.debug=False
         if self.debug:
             self.path = "/tmp/"
-        else:   
-            self.path = tempfile.mkdtemp(prefix='unitest_usermod') 
+        else:
+            self.path = tempfile.mkdtemp(prefix='unitest_usermod')
 
         #Read the full SM
         self.sm_path = import_ufo.find_ufo_path('sm')
         self.base_model = usermod.UFOModel(self.sm_path)
-        
+
     def tearDown(self):
-        
+
         if not self.debug:
             shutil.rmtree(self.path)
         self.assertFalse(self.debug)
 
     def test_write_model(self):
         """ Check that we can write all the require UFO files """
-        
+
         output = pjoin(self.path, 'usrmod')
         self.base_model.write(output)
         sm_path = import_ufo.find_ufo_path('sm')
-        self.assertEqual(12, 
-                len([1 for name in os.listdir(sm_path) if name.endswith('.py')]), 
+        self.assertEqual(12,
+                len([1 for name in os.listdir(sm_path) if name.endswith('.py')]),
                'New file in  UFO format, usrmod need to be modified')
 
-        self.assertEqual(11, 
+        self.assertEqual(11,
                 len([1 for name in os.listdir(output) if name.endswith('.py')]))
 
         sys.path.insert(0, os.path.dirname(output))
@@ -364,10 +364,10 @@ class TestModUFO(unittest.TestCase):
 
     def compare(self, text1, text2, optional=[], default={}):
         """ """
-        
+
         texts= [text1, text2]
         data = []
-        
+
         for text in texts:
             curr_data = []
             data.append(curr_data)
@@ -376,7 +376,7 @@ class TestModUFO(unittest.TestCase):
                 line = line.strip()
                 if line.endswith(',') or line.endswith(')'):
                     line = line[:-1]
-                    
+
                 if (line.count('=') == 2 and line.count('(') == 1):
                     if curr_object:
                         curr_data.append(curr_object)
@@ -389,7 +389,7 @@ class TestModUFO(unittest.TestCase):
             else:
                 if curr_object:
                     curr_data.append(curr_object)
-        
+
         for element in data[0]:
             #print element, type(element)
             for i in range(1, len(data)):
@@ -412,9 +412,9 @@ class TestModUFO(unittest.TestCase):
         self.base_model.write_orders(output)
         filename = os.path.join(output, 'coupling_orders.py')
         text = open(os.path.join(filename)).read()
-        
+
         target = """
-# This file was automatically created by The UFO_usermod        
+# This file was automatically created by The UFO_usermod
 
 from object_library import all_orders, CouplingOrder
 QCD = CouplingOrder(name = 'QCD',
@@ -431,7 +431,7 @@ QED = CouplingOrder(name = 'QED',
 """
 
         self.compare(target, text, default={'perturbative_expansion':'0'})
-        
+
 
 
 
@@ -446,31 +446,31 @@ QED = CouplingOrder(name = 'QED',
         target = open(pjoin(self.sm_path, 'particles.py')).read()
 
 
-        
+
         #format the ouptut
         target = target.replace('0.0,','0,')
         target = target.replace('1/3,','0.333333333333,')
         target = target.replace('2/3,','0.666666666667,')
         target = target.split('\n')
-        target = [l.strip() for l in target 
-                  if l.strip() and not l.strip().startswith('#') and 
+        target = [l.strip() for l in target
+                  if l.strip() and not l.strip().startswith('#') and
                   not l.split('=')[0].strip() in ['line', 'propagating', 'goldstoneboson', 'GoldstoneBoson','selfconjugate']]
         duplicate = []
-        target = [l for l in target if not '.anti()' in l or duplicate.append(l.split('=')[0].strip())] 
-        
+        target = [l for l in target if not '.anti()' in l or duplicate.append(l.split('=')[0].strip())]
+
         text = text.replace('.0,',',')
         text = text.replace('1/3,','0.333333333333,')
         text = text.replace('2/3,','0.666666666667,')
         text = text.replace('0.6666666666666666', '0.666666666667')
         text = text.replace('0.3333333333333333', '0.333333333333')
-        text = text.split('\n')        
+        text = text.split('\n')
         text = [l.strip() for l in text
-                  if l.strip() and not l.strip().startswith('#') and 
+                  if l.strip() and not l.strip().startswith('#') and
                   not l.split('=')[0].strip() in ['line', 'propagating', 'goldstoneboson', 'GoldstoneBoson','selfconjugate']]
 
-        
-        keep = True      
-        new_text = []  
+
+        keep = True
+        new_text = []
         for line in text:
             if 'Particle' in line:
                 if line.split('=')[0].strip() in duplicate:
@@ -482,11 +482,11 @@ QED = CouplingOrder(name = 'QED',
             else:
                 new_text.append(line)
         text=new_text
-        
+
         for line1, line2 in zip(target, text):
             self.assertEqual(line1.replace(',',')'), line2.replace(',',')'))
 
-                
+
     def test_write_vertices(self):
         """Check that the content of the file is valid"""
 
@@ -512,15 +512,15 @@ V_2 = Vertex(name = 'V_2',
 
 
 #===============================================================================
-# Test The UFO usermod package 
+# Test The UFO usermod package
 #===============================================================================
 class Test_ADDON_UFO(unittest.TestCase):
     """Test class for the USERMOD object"""
 
 
     def setUp(self):
-        
-        self.path = tempfile.mkdtemp(prefix='unitest_usermod') 
+
+        self.path = tempfile.mkdtemp(prefix='unitest_usermod')
 
         #Read the full SM
         self.sm_path = import_ufo.find_ufo_path('sm')
@@ -531,14 +531,14 @@ class Test_ADDON_UFO(unittest.TestCase):
             obj = getattr(self.mymodel, key)
             for o in obj[:]:
                 obj.pop()
-        
+
     def tearDown(self):
-        
+
         shutil.rmtree(self.path)
-        
+
     def test_add_particle(self):
         """Check that we can an external parameter consistently"""
-        
+
         #ZERO is define in all model => we should just do nothing
         ZERO = Parameter(name = 'ZERO',
                  nature = 'internal',
@@ -552,7 +552,7 @@ class Test_ADDON_UFO(unittest.TestCase):
                value = 125,
                texname = '\\text{MH}',
                lhablock = 'MASS',
-               lhacode = [ 25 ])        
+               lhacode = [ 25 ])
 
         WH = Parameter(name = 'WH',
                nature = 'external',
@@ -561,7 +561,7 @@ class Test_ADDON_UFO(unittest.TestCase):
                texname = '\\text{MH}',
                lhablock = 'WIDTH',
                lhacode = [ 25 ])
-        
+
         H = Particle(pdg_code = 25,
              name = 'H',
              antiname = 'H',
@@ -575,14 +575,14 @@ class Test_ADDON_UFO(unittest.TestCase):
              GhostNumber = 0,
              LeptonNumber = 0,
              Y = 0)
-        
+
         number_particles = len(self.base_model.particles)
-        self.assertEqual( number_particles, len(self.sm.all_particles)) 
+        self.assertEqual( number_particles, len(self.sm.all_particles))
         #Add a particle which is exactly the Higgs like in the Standard Model
         self.base_model.add_particle(H)
         self.assertEqual( number_particles, len(self.base_model.particles))
         self.assertEqual( number_particles, len(self.sm.all_particles))
-        
+
         #Same name but different pid ->add but with rename
         H = Particle(pdg_code = 26,
              name = 'H',
@@ -596,14 +596,14 @@ class Test_ADDON_UFO(unittest.TestCase):
              charge = 0,
              GhostNumber = 0,
              LeptonNumber = 0,
-             Y = 0) 
+             Y = 0)
         self.base_model.add_particle(H)
-        self.assertEqual( number_particles+1, len(self.base_model.particles))       
+        self.assertEqual( number_particles+1, len(self.base_model.particles))
         self.assertEqual( number_particles, len(self.sm.all_particles))
         orig_number_particles = number_particles
         number_particles+=1
         self.assertEqual(H.name, 'H__1')
-        
+
         #Different name and different pid keep it
         H = Particle(pdg_code = 26,
              name = 'H2',
@@ -617,10 +617,10 @@ class Test_ADDON_UFO(unittest.TestCase):
              charge = 0,
              GhostNumber = 0,
              LeptonNumber = 0,
-             Y = 0) 
+             Y = 0)
         self.base_model.add_particle(H)
-        self.assertEqual( number_particles+1, len(self.base_model.particles)) 
-        self.assertEqual( orig_number_particles, len(self.sm.all_particles))      
+        self.assertEqual( number_particles+1, len(self.base_model.particles))
+        self.assertEqual( orig_number_particles, len(self.sm.all_particles))
         number_particles+=1
         self.assertEqual(H.name, 'H2')
         #Different name But different pid.
@@ -636,16 +636,16 @@ class Test_ADDON_UFO(unittest.TestCase):
              charge = 0,
              GhostNumber = 0,
              LeptonNumber = 0,
-             Y = 0) 
+             Y = 0)
         self.base_model.add_particle(H)
-        self.assertEqual( number_particles, len(self.base_model.particles)) 
-        self.assertEqual( orig_number_particles, len(self.sm.all_particles))      
+        self.assertEqual( number_particles, len(self.base_model.particles))
+        self.assertEqual( orig_number_particles, len(self.sm.all_particles))
         #number_particles+=1
         self.assertEqual(H.name, 'H3')
-        
+
         ###################################################
         ##  ALL THOSE TEST WERE NOT CHEKING MASS / WIDTH ##
-        ###################################################                       
+        ###################################################
         # plugin to zero -> keep the one of the model
         H = Particle(pdg_code = 25,
              name = 'H',
@@ -659,16 +659,16 @@ class Test_ADDON_UFO(unittest.TestCase):
              charge = 0,
              GhostNumber = 0,
              LeptonNumber = 0,
-             Y = 0)         
+             Y = 0)
         self.base_model.add_particle(H)
         self.assertEqual( number_particles, len(self.base_model.particles))
-        self.assertEqual( orig_number_particles, len(self.sm.all_particles))       
-        self.assertEqual(H.name, 'H')        
+        self.assertEqual( orig_number_particles, len(self.sm.all_particles))
+        self.assertEqual(H.name, 'H')
         self.assertEqual(H.mass.name, 'ZERO')
         true_higgs = self.base_model.particle_dict[25]
-        self.assertEqual(true_higgs.name, 'H')        
-        self.assertEqual(true_higgs.mass.name, 'MH')        
-        
+        self.assertEqual(true_higgs.name, 'H')
+        self.assertEqual(true_higgs.mass.name, 'MH')
+
         # base_model to zero -> keep the one of the plugin
         M5 = Parameter(name = 'M5',
                nature = 'external',
@@ -676,14 +676,14 @@ class Test_ADDON_UFO(unittest.TestCase):
                value = 125,
                texname = '\\text{MH}',
                lhablock = 'MASS',
-               lhacode = [ 5 ]) 
+               lhacode = [ 5 ])
         W5 = Parameter(name = 'W5',
                nature = 'external',
                type = 'real',
                value = 125,
                texname = '\\text{MH}',
                lhablock = 'DECAY',
-               lhacode = [ 5 ]) 
+               lhacode = [ 5 ])
         B = Particle(pdg_code = 5,
              name = 'B',
              antiname = 'B~',
@@ -696,32 +696,32 @@ class Test_ADDON_UFO(unittest.TestCase):
              charge = 0,
              GhostNumber = 0,
              LeptonNumber = 0,
-             Y = 0)   
+             Y = 0)
 
         self.base_model.add_parameter(M5)
         self.base_model.add_parameter(W5)
         self.base_model.add_particle(B)
-        self.assertEqual( number_particles, len(self.base_model.particles)) 
-        self.assertEqual( orig_number_particles, len(self.sm.all_particles))      
+        self.assertEqual( number_particles, len(self.base_model.particles))
+        self.assertEqual( orig_number_particles, len(self.sm.all_particles))
         # For the mass both are define, so this is should be a merge
-        self.assertEqual(B.name, 'B')        
+        self.assertEqual(B.name, 'B')
         self.assertEqual(B.mass.name, 'M5')
         true_b = self.base_model.particle_dict[5]
-        self.assertEqual(true_b.name, 'b')        
-        self.assertEqual(true_b.mass.name, 'MB') # keep MB since M5 is merge on MB            
+        self.assertEqual(true_b.name, 'b')
+        self.assertEqual(true_b.mass.name, 'MB') # keep MB since M5 is merge on MB
         self.assertEqual(self.base_model.old_new['M5'], 'MB')
         # For the width the model one is zero => overwrite
-        self.assertEqual(B.name, 'B')        
+        self.assertEqual(B.name, 'B')
         self.assertEqual(B.width.name, 'W5')
         self.assertEqual(true_b.width.name, 'W5')
 
 
 
-        
-        
+
+
     def test_add_external_parameters(self):
-        """Check that we can an external parameter consistently"""        
-                
+        """Check that we can an external parameter consistently"""
+
         nb_param = len(self.base_model.parameters)
         #ZERO is define in all model => we should just do nothing
         ZERO = Parameter(name = 'ZERO',
@@ -732,9 +732,9 @@ class Test_ADDON_UFO(unittest.TestCase):
         # add it and check that nothing happen!
         self.base_model.add_parameter(ZERO)
         self.assertEqual(nb_param,  len(self.base_model.parameters))
-        
-        
-        # MH is already define 
+
+
+        # MH is already define
         MH = Parameter(name = 'MH',
                nature = 'external',
                type = 'real',
@@ -742,11 +742,11 @@ class Test_ADDON_UFO(unittest.TestCase):
                texname = '\\text{MH}',
                lhablock = 'MASS',
                lhacode = [ 25 ])
-        
+
         # add it and check that nothing happen!
         self.base_model.add_parameter(MH)
-        self.assertEqual(nb_param,  len(self.base_model.parameters))           
-        
+        self.assertEqual(nb_param,  len(self.base_model.parameters))
+
         # MH is already definebut has a different name ib both model
         MH = Parameter(name = 'MH2',
                nature = 'external',
@@ -755,10 +755,10 @@ class Test_ADDON_UFO(unittest.TestCase):
                texname = '\\text{MH}',
                lhablock = 'MASS',
                lhacode = [ 25 ])
-        
+
         # add it and check that nothing happen!
         self.base_model.add_parameter(MH)
-        self.assertEqual(nb_param,  len(self.base_model.parameters)) 
+        self.assertEqual(nb_param,  len(self.base_model.parameters))
         # But the information should be present in the old->new dict
         self.assertEqual(self.base_model.old_new['MH2'], 'MH')
 
@@ -768,14 +768,14 @@ class Test_ADDON_UFO(unittest.TestCase):
                type = 'real',
                texname = '\\text{MH}',
                value = '25*MH2**2*AMH2*MH25')
-        
+
         self.base_model.add_parameter(GH)
-        self.assertEqual(nb_param+1,  len(self.base_model.parameters)) 
+        self.assertEqual(nb_param+1,  len(self.base_model.parameters))
         #check that the expression of GH is correctly modified
         self.assertEqual(GH.value, '25*MH**2*AMH2*MH25')
         self.assertEqual(GH.name, 'GH')
         nb_param = nb_param+1
-        
+
         # Add an internal parameter depending of MH2
         # But with a name conflict
         Gf = Parameter(name = 'Gf',
@@ -783,15 +783,15 @@ class Test_ADDON_UFO(unittest.TestCase):
                type = 'real',
                texname = '\\text{MH}',
                value = '25*MH2**2*AMH2*MH25')
-        
+
         self.base_model.add_parameter(Gf)
-        self.assertEqual(nb_param+1,  len(self.base_model.parameters)) 
+        self.assertEqual(nb_param+1,  len(self.base_model.parameters))
         #check that the expression of GH is correctly modified
         self.assertEqual(Gf.value, '25*MH**2*AMH2*MH25')
         self.assertEqual(Gf.name, 'Gf__1')
-        self.assertEqual(self.base_model.old_new['Gf'], 'Gf__1')       
+        self.assertEqual(self.base_model.old_new['Gf'], 'Gf__1')
         nb_param = nb_param+1
-         
+
         # Add an internal parameter depending of MH2 and of Gf
         # But with a name conflict
         Gf2 = Parameter(name = 'Gf2',
@@ -799,14 +799,14 @@ class Test_ADDON_UFO(unittest.TestCase):
                type = 'real',
                texname = '\\text{MH}',
                value = '25*MH2**2*AMH2*MH25*math.cmath(Gf)')
-        
+
         self.base_model.add_parameter(Gf2)
-        self.assertEqual(nb_param+1,  len(self.base_model.parameters)) 
+        self.assertEqual(nb_param+1,  len(self.base_model.parameters))
         #check that the expression of GH is correctly modified
         self.assertEqual(Gf2.value, '25*MH**2*AMH2*MH25*math.cmath(Gf__1)')
-        self.assertEqual(Gf2.name, 'Gf2') 
-        nb_param = nb_param+1        
-        
+        self.assertEqual(Gf2.name, 'Gf2')
+        nb_param = nb_param+1
+
         # MH250 is a completely new external parameter
         MH250 = Parameter(name = 'MH250',
                nature = 'external',
@@ -816,7 +816,7 @@ class Test_ADDON_UFO(unittest.TestCase):
                lhablock = 'MASS',
                lhacode = [ 250 ])
         self.base_model.add_parameter(MH250)
-        self.assertEqual(nb_param+1,  len(self.base_model.parameters))         
+        self.assertEqual(nb_param+1,  len(self.base_model.parameters))
         nb_param += 1
 
         # MH251 is a completely new external parameter with same name as MH250
@@ -829,53 +829,53 @@ class Test_ADDON_UFO(unittest.TestCase):
                lhacode = [ 251 ])
 
         self.base_model.add_parameter(MH251)
-        self.assertEqual(nb_param+1,  len(self.base_model.parameters)) 
+        self.assertEqual(nb_param+1,  len(self.base_model.parameters))
         self.assertEqual(self.base_model.old_new['MH250'], 'MH250__1')
-        self.assertEqual(MH251.name, 'MH250__1')         
+        self.assertEqual(MH251.name, 'MH250__1')
         nb_param += 1
 
-                          
-                          
+
+
     def test_couplings(self):
-        
+
         nb_coup = len(self.base_model.couplings)
-        
-        
+
+
         GC_107 = Coupling(name = 'GC_107',
                   value = '(ee*complex(0,1)*complexconjugate(CKM3x2))/(sw*cmath.sqrt(2))',
                   order = {'QED':1})
-        
+
         self.base_model.add_coupling(GC_107)
         self.assertEqual(nb_coup,  len(self.base_model.couplings))
         self.assertEqual(nb_coup,  len(self.sm.all_couplings))
         self.assertTrue(hasattr(GC_107, 'replace'))
         self.assertEqual(nb_coup,  len(self.sm.all_couplings))
- 
+
         GC_107 = Coupling(name = 'GC_110',
                   value = '(ee*complex(0,1)*complexconjugate(CKM3x2))/(sw*cmath.sqrt(2))',
                   order = {'QED':1})
-        
+
         self.base_model.add_coupling(GC_107)
         self.assertEqual(nb_coup,  len(self.base_model.couplings))
         self.assertEqual(nb_coup,  len(self.sm.all_couplings))
-        self.assertTrue(hasattr(GC_107, 'replace')) 
-        self.assertEqual(nb_coup,  len(self.sm.all_couplings)) 
-        
+        self.assertTrue(hasattr(GC_107, 'replace'))
+        self.assertEqual(nb_coup,  len(self.sm.all_couplings))
+
         GC_107 = Coupling(name = 'GC_107',
                   value = '(ee*complex(0,1)*complexconjugate(CKM3x99))/(sw*cmath.sqrt(2))',
                   order = {'QED':1})
-        
+
         self.base_model.add_coupling(GC_107)
         self.assertEqual(nb_coup+1,  len(self.base_model.couplings))
         self.assertEqual(nb_coup,  len(self.sm.all_couplings))
-        self.assertFalse(hasattr(GC_107, 'replace'))        
-        
-    
+        self.assertFalse(hasattr(GC_107, 'replace'))
+
+
     def test_interaction(self):
-        
+
         GC_1 = Coupling(name = 'GC_1',
                   value = '(ee*complex(0,1)*complexconjugate(CKM3x100))/(sw*cmath.sqrt(2))',
-                  order = {'QED':1})        
+                  order = {'QED':1})
         self.base_model.add_coupling(GC_1)
         M5 = Parameter(name = 'M5',
                nature = 'external',
@@ -883,17 +883,17 @@ class Test_ADDON_UFO(unittest.TestCase):
                value = 125,
                texname = '\\text{MH}',
                lhablock = 'MASS',
-               lhacode = [ 5 ]) 
+               lhacode = [ 5 ])
         W5 = Parameter(name = 'W5',
                nature = 'external',
                type = 'real',
                value = 125,
                texname = '\\text{MH}',
                lhablock = 'DECAY',
-               lhacode = [ 5 ]) 
+               lhacode = [ 5 ])
         self.base_model.add_parameter(M5)
         self.base_model.add_parameter(W5)
-        
+
         L = Lorentz(name = 'FFS2',
                spins = [ 2, 2, 1 ],
                structure = 'Identity(2,1)')
@@ -911,9 +911,9 @@ class Test_ADDON_UFO(unittest.TestCase):
              charge = 0,
              GhostNumber = 0,
              LeptonNumber = 0,
-             Y = 0) 
+             Y = 0)
         self.base_model.add_particle(B)
-        
+
         V_2 = Vertex(name = 'V_2',
              particles = [ B, B, B, B ],
              color = [ '1' ],
@@ -924,35 +924,35 @@ class Test_ADDON_UFO(unittest.TestCase):
         self.assertEqual(len(all_particles),1)
         self.assertEqual(len(self.mymodel.all_particles),1)
         self.assertEqual(len(self.mymodel.all_vertices),1)
-        
+
         orig = len(self.base_model.vertices)
         self.base_model.add_interaction(V_2, self.mymodel)
         self.assertEqual(orig+1, len(self.base_model.vertices))
         added = self.base_model.vertices[-1]
         self.assertEqual(added.name, 'V_2__1')
         self.assertNotEqual(id(added.particles[0]), id(B))
-        
+
         # check the size for avoiding border effect
         self.assertEqual(len(all_particles),1)
         self.assertEqual(len(self.mymodel.all_particles),1)
-        self.assertEqual(len(self.mymodel.all_vertices),1)        
-        
-         
-        
+        self.assertEqual(len(self.mymodel.all_vertices),1)
+
+
+
         ## add a second time the interaction to check that she is not added
         orig = len(self.base_model.vertices)
         self.base_model.add_interaction(V_2, self.mymodel)
         self.assertEqual(orig, len(self.base_model.vertices))
-        
+
         ## check that the sm model is not impacted
         self.assertNotEqual(orig, len(self.sm.all_vertices))
 
 
     def test_identify_particle(self):
-        
+
         GC_1 = Coupling(name = 'GC_1',
                   value = '(ee*complex(0,1)*complexconjugate(CKM3x100))/(sw*cmath.sqrt(2))',
-                  order = {'QED':1})        
+                  order = {'QED':1})
         #self.base_model.add_coupling(GC_1)
         M5 = Parameter(name = 'M5',
                nature = 'external',
@@ -960,17 +960,17 @@ class Test_ADDON_UFO(unittest.TestCase):
                value = 125,
                texname = '\\text{MH}',
                lhablock = 'MASS',
-               lhacode = [ 105 ]) 
+               lhacode = [ 105 ])
         W5 = Parameter(name = 'W5',
                nature = 'external',
                type = 'real',
                value = 125,
                texname = '\\text{MH}',
                lhablock = 'DECAY',
-               lhacode = [ 105 ]) 
+               lhacode = [ 105 ])
         #self.base_model.add_parameter(M5)
         #self.base_model.add_parameter(W5)
-        
+
         L = Lorentz(name = 'FFS2',
                spins = [ 2, 2, 1 ],
                structure = 'Identity(2,1)')
@@ -988,9 +988,9 @@ class Test_ADDON_UFO(unittest.TestCase):
              charge = 0,
              GhostNumber = 0,
              LeptonNumber = 0,
-             Y = 0) 
+             Y = 0)
         #self.base_model.add_particle(B)
-        
+
         V_2 = Vertex(name = 'V_2',
              particles = [ B, B, B, B ],
              color = [ '1' ],
@@ -998,7 +998,7 @@ class Test_ADDON_UFO(unittest.TestCase):
              couplings = {(0,0): GC_1})
         self.mymodel.__path__ = '.'
         self.base_model.add_model(self.mymodel, identify_particles={'B':'H'})
-        
+
         # check that the B object still has is name/pdg_code
         self.assertEqual(B.pdg_code, 105)
         self.assertEqual(B.name, 'B')
@@ -1011,9 +1011,3 @@ class Test_ADDON_UFO(unittest.TestCase):
         parameters_name = [p.name for p in model.all_parameters]
         self.assertIn('MH', parameters_name)
         self.assertNotIn('M5', parameters_name)
-        
-        
-        
-        
-        
-                        

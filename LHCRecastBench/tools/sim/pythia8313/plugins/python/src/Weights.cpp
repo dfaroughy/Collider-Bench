@@ -44,7 +44,7 @@
 struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 	using Pythia8::WeightsMerging::WeightsMerging;
 
-	void init() override { 
+	void init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "init");
 		if (overload) {
@@ -57,7 +57,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::init();
 	}
-	void clear() override { 
+	void clear() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "clear");
 		if (overload) {
@@ -70,7 +70,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::clear();
 	}
-	void bookVectors(class std::vector<double, class std::allocator<double> > a0, class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > a1) override { 
+	void bookVectors(class std::vector<double, class std::allocator<double> > a0, class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "bookVectors");
 		if (overload) {
@@ -83,7 +83,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::bookVectors(a0, a1);
 	}
-	double getWeightsValue(int a0) const override { 
+	double getWeightsValue(int a0) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "getWeightsValue");
 		if (overload) {
@@ -96,7 +96,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::getWeightsValue(a0);
 	}
-	void reweightValueByIndex(int a0, double a1) override { 
+	void reweightValueByIndex(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "reweightValueByIndex");
 		if (overload) {
@@ -109,7 +109,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::reweightValueByIndex(a0, a1);
 	}
-	void reweightValueByName(class std::basic_string<char> a0, double a1) override { 
+	void reweightValueByName(class std::basic_string<char> a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "reweightValueByName");
 		if (overload) {
@@ -122,7 +122,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::reweightValueByName(a0, a1);
 	}
-	void collectWeightNames(class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > & a0) override { 
+	void collectWeightNames(class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "collectWeightNames");
 		if (overload) {
@@ -135,7 +135,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::collectWeightNames(a0);
 	}
-	void collectWeightValues(class std::vector<double, class std::allocator<double> > & a0, double a1) override { 
+	void collectWeightValues(class std::vector<double, class std::allocator<double> > & a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "collectWeightValues");
 		if (overload) {
@@ -148,7 +148,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 		}
 		return WeightsMerging::collectWeightValues(a0, a1);
 	}
-	void init(bool a0) override { 
+	void init(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsMerging *>(this), "init");
 		if (overload) {
@@ -167,7 +167,7 @@ struct PyCallBack_Pythia8_WeightsMerging : public Pythia8::WeightsMerging {
 struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 	using Pythia8::WeightsLHEF::WeightsLHEF;
 
-	void clear() override { 
+	void clear() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "clear");
 		if (overload) {
@@ -180,7 +180,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsLHEF::clear();
 	}
-	void bookVectors(class std::vector<double, class std::allocator<double> > a0, class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > a1) override { 
+	void bookVectors(class std::vector<double, class std::allocator<double> > a0, class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "bookVectors");
 		if (overload) {
@@ -193,7 +193,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsLHEF::bookVectors(a0, a1);
 	}
-	void collectWeightValues(class std::vector<double, class std::allocator<double> > & a0, double a1) override { 
+	void collectWeightValues(class std::vector<double, class std::allocator<double> > & a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "collectWeightValues");
 		if (overload) {
@@ -206,7 +206,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsLHEF::collectWeightValues(a0, a1);
 	}
-	void collectWeightNames(class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > & a0) override { 
+	void collectWeightNames(class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "collectWeightNames");
 		if (overload) {
@@ -219,7 +219,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsLHEF::collectWeightNames(a0);
 	}
-	void init() override { 
+	void init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "init");
 		if (overload) {
@@ -232,7 +232,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsBase::init();
 	}
-	void init(bool a0) override { 
+	void init(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "init");
 		if (overload) {
@@ -245,7 +245,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsBase::init(a0);
 	}
-	double getWeightsValue(int a0) const override { 
+	double getWeightsValue(int a0) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "getWeightsValue");
 		if (overload) {
@@ -258,7 +258,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsBase::getWeightsValue(a0);
 	}
-	void reweightValueByIndex(int a0, double a1) override { 
+	void reweightValueByIndex(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "reweightValueByIndex");
 		if (overload) {
@@ -271,7 +271,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 		}
 		return WeightsBase::reweightValueByIndex(a0, a1);
 	}
-	void reweightValueByName(class std::basic_string<char> a0, double a1) override { 
+	void reweightValueByName(class std::basic_string<char> a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsLHEF *>(this), "reweightValueByName");
 		if (overload) {
@@ -290,7 +290,7 @@ struct PyCallBack_Pythia8_WeightsLHEF : public Pythia8::WeightsLHEF {
 struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragmentation {
 	using Pythia8::WeightsFragmentation::WeightsFragmentation;
 
-	void init() override { 
+	void init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "init");
 		if (overload) {
@@ -303,7 +303,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsFragmentation::init();
 	}
-	void clear() override { 
+	void clear() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "clear");
 		if (overload) {
@@ -316,7 +316,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsFragmentation::clear();
 	}
-	void collectWeightNames(class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > & a0) override { 
+	void collectWeightNames(class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "collectWeightNames");
 		if (overload) {
@@ -329,7 +329,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsFragmentation::collectWeightNames(a0);
 	}
-	void collectWeightValues(class std::vector<double, class std::allocator<double> > & a0, double a1) override { 
+	void collectWeightValues(class std::vector<double, class std::allocator<double> > & a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "collectWeightValues");
 		if (overload) {
@@ -342,7 +342,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsFragmentation::collectWeightValues(a0, a1);
 	}
-	void init(bool a0) override { 
+	void init(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "init");
 		if (overload) {
@@ -355,7 +355,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsBase::init(a0);
 	}
-	void bookVectors(class std::vector<double, class std::allocator<double> > a0, class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > a1) override { 
+	void bookVectors(class std::vector<double, class std::allocator<double> > a0, class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > > a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "bookVectors");
 		if (overload) {
@@ -368,7 +368,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsBase::bookVectors(a0, a1);
 	}
-	double getWeightsValue(int a0) const override { 
+	double getWeightsValue(int a0) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "getWeightsValue");
 		if (overload) {
@@ -381,7 +381,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsBase::getWeightsValue(a0);
 	}
-	void reweightValueByIndex(int a0, double a1) override { 
+	void reweightValueByIndex(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "reweightValueByIndex");
 		if (overload) {
@@ -394,7 +394,7 @@ struct PyCallBack_Pythia8_WeightsFragmentation : public Pythia8::WeightsFragment
 		}
 		return WeightsBase::reweightValueByIndex(a0, a1);
 	}
-	void reweightValueByName(class std::basic_string<char> a0, double a1) override { 
+	void reweightValueByName(class std::basic_string<char> a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WeightsFragmentation *>(this), "reweightValueByName");
 		if (overload) {

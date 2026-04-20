@@ -21,16 +21,16 @@ CFG_FILE=/pscratch/sd/d/dfarough/Agentic_recast/tools/sim/pythia8313/install/sha
 read -d "" USAGE << "BLOCKTEXT"
 Usage: ./pythia8-config [OPTIONS]
 
-Configuration tool for the PYTHIA event generator library. The available 
-options are defined below. All available options (without arguments) for the 
-PYTHIA configuration script are also valid for this script. See 
-"./configuration --help" in the top PYTHIA 8 directory for more details. 
+Configuration tool for the PYTHIA event generator library. The available
+options are defined below. All available options (without arguments) for the
+PYTHIA configuration script are also valid for this script. See
+"./configuration --help" in the top PYTHIA 8 directory for more details.
 
 Available options.
 --help         : Print this help message (also -h, --h, and -help).
 --version      : Returns the Pythia version.
 --config       : Print the argument(s) used to configure Pythia.
---prefix       : Installation prefix (cf. autoconf). Note that if the 
+--prefix       : Installation prefix (cf. autoconf). Note that if the
                  installation is spread over multiple directories, the
                  binary directory with the trailing "bin" removed is
                  then returned.
@@ -57,7 +57,7 @@ Available options.
   powheg   : Hard process production with POWHEGBOX matrix element executables.
   rivet    : Support use of RIVET through direct interface.
   root     : Use ROOT trees and histograms with PYTHIA.
-             Note: this option automatically invokes DIR/bin/root-config to set 
+             Note: this option automatically invokes DIR/bin/root-config to set
              the ROOT lib/ and include/ paths. To set your ROOT paths manually
              instead, use --with-root-lib=DIR and --with-root-include=DIR.
   gzip     : Enable reading of GZIPPED files using the libz library.
@@ -143,17 +143,17 @@ for VAR in "$@"; do
     elif [ "$VAR" = "XMLDOC" ];     then VAR="PREFIX_SHARE/xmldoc"
     elif [ "$VAR" = "LIBS" ];       then VAR="LDFLAGS"
     elif [ "$VAR" = "CFLAGS" ];     then VAR="CXXFLAGS"; fi
-    
+
     # All "--with" arguments.
     if [[ $VAR = WITH_* ]]; then
 	VAR=${VAR#WITH_}; eval VAL=\$${VAR}_USE
-	if [ -z "$VAL" ]; then eval OUT=\"$OUT \$$VAR\" 
+	if [ -z "$VAL" ]; then eval OUT=\"$OUT \$$VAR\"
 	else OUT="$OUT $VAL"; fi;
     # All "--prefix" arguments.
     elif [[ $VAR = PREFIX* ]]; then eval OUT=\"$OUT \$$VAR\"
     # Flag arguments.
     elif [ "$VAR" = "CXXFLAGS" ]; then OUT="$OUT $CXX_COMMON -I$PREFIX_INCLUDE"
-    elif [ "$VAR" = "LDFLAGS" ]; then 
+    elif [ "$VAR" = "LDFLAGS" ]; then
 	OUT="$OUT -L$PREFIX_LIB -Wl,-rpath,$PREFIX_LIB -lpythia8 $GZIP_LIB"
     # Package arguments.
     else

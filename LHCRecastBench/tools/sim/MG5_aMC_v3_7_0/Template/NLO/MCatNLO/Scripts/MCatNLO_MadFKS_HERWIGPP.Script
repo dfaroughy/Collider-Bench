@@ -1,7 +1,7 @@
 #!/bin/bash
 # finds out architecture name, defines system files, and construct
 # the relevant directory for run, if not present. If the architecture
-# cannot be figured out, defines ./Run as working directory, and use 
+# cannot be figured out, defines ./Run as working directory, and use
 # sun as system file -- it should work in most of the cases
 function architecture {
 PATH=".:""$PATH"
@@ -29,7 +29,7 @@ if [ 0 = $rc ]
 then
 :
 else
-echo $* did not succeed, exit status=$rc 
+echo $* did not succeed, exit status=$rc
 exit $rc
 fi
 }
@@ -92,7 +92,7 @@ FREEZE|freeze) PDFGROUP=LHAPDF ;;
 EXTRAPOLATE|extrapolate) PDFGROUP=LHAEXT ;;
 *) echo "no such option; failure in linklhapdf" ; exit 1 ;;
 esac
-}    
+}
 
 # converts pdg numbers to names, relevant for decays
 function name {
@@ -291,7 +291,7 @@ then
   if ! make -C $thisdir/HWPPAnalyzer $HWPPUTI $HWPPANALYZER.so $HWPPMAKE "$LIBSMAKE" "$LIBSMAKEP" "$INCLMAKE" "$FORFILEMAKE"
   then
     echo $HWPPANALYZER compilation did not succeed, exiting.
-    exit -1 
+    exit -1
   fi
   ln -sf $thisdir/HWPPAnalyzer/$HWPPANALYZER.so $thisdir
 fi
@@ -383,7 +383,7 @@ ifile="MCATNLO_"$MCMODE"_input"
 exefile="MCATNLO_"$MCMODE"_EXE"
 if [ -f ./$ifile ]
 then
-\rm ./$ifile 
+\rm ./$ifile
 fi
 mv $EXEC_NAMEFF $exefile
 
@@ -421,7 +421,7 @@ fi
 cat <<EOF >> ./$ifile
 # create the Handler & Reader
 create ThePEG::LesHouchesFileReader /Herwig/EventHandlers/LHEReader
-create ThePEG::LesHouchesEventHandler /Herwig/EventHandlers/LHEHandler 
+create ThePEG::LesHouchesEventHandler /Herwig/EventHandlers/LHEHandler
 insert /Herwig/EventHandlers/LHEHandler:LesHouchesReaders 0 /Herwig/EventHandlers/LHEReader
 EOF
 
@@ -436,14 +436,14 @@ EOF
 cat <<EOF >> ./$ifile
 set /Herwig/EventHandlers/LHEHandler:WeightOption VarNegWeight
 set /Herwig/EventHandlers/LHEHandler:PartonExtractor /Herwig/Partons/$EXTRACTOR
-set /Herwig/EventHandlers/LHEHandler:CascadeHandler /Herwig/Shower/ShowerHandler 
+set /Herwig/EventHandlers/LHEHandler:CascadeHandler /Herwig/Shower/ShowerHandler
 set /Herwig/EventHandlers/LHEHandler:HadronizationHandler /Herwig/Hadronization/ClusterHadHandler
 set /Herwig/EventHandlers/LHEHandler:DecayHandler /Herwig/Decays/DecayHandler
 set /Herwig/Generators/$GENERATOR:EventHandler /Herwig/EventHandlers/LHEHandler
 set /Herwig/Generators/$GENERATOR:NumberOfEvents $NEVENTS
 set /Herwig/Generators/$GENERATOR:RandomNumberGenerator:Seed $RNDEVSEED_HWPP
 set /Herwig/Generators/$GENERATOR:PrintEvent $MAXPR_HWPP
-set /Herwig/Generators/$GENERATOR:MaxErrors $ERR_NUM_HWPP 
+set /Herwig/Generators/$GENERATOR:MaxErrors $ERR_NUM_HWPP
 set /Herwig/Generators/$GENERATOR:DebugLevel 1
 EOF
 
@@ -494,7 +494,7 @@ set /Herwig/Shower/ShowerHandler:PDFB /Herwig/Partons/MRST-NLO
 EOF
 fi
 
-cat <<EOF >> ./$ifile 
+cat <<EOF >> ./$ifile
 
 # DEFINE THE INPUT EVENT FILE
 set /Herwig/EventHandlers/LHEReader:FileName $SCRTCH$EVPREFIX
@@ -592,7 +592,7 @@ fi
 
 cat<<EOF >> ./$ifile
 # CREATE AND APPLY CUTS
-create ThePEG::Cuts /Herwig/Cuts/NoCuts 
+create ThePEG::Cuts /Herwig/Cuts/NoCuts
 set /Herwig/EventHandlers/LHEReader:Cuts /Herwig/Cuts/NoCuts
 EOF
 
@@ -609,14 +609,14 @@ fi
 if [ $HADRONIZE_HWPP = ".FALSE." ]
 then
 cat <<EOF >> ./$ifile
-# Hadronization off 
+# Hadronization off
 set /Herwig/EventHandlers/LHEHandler:HadronizationHandler NULL
 EOF
 fi
 
 cat <<EOF >> ./$ifile
 # HERE YOU CAN TURN ON/OFF DECAY
-# If DecayHandler is set equal to NULL, then set CheckQuark equal to 0, to 
+# If DecayHandler is set equal to NULL, then set CheckQuark equal to 0, to
 # prevent a lot of warnings
 #set /Herwig/EventHandlers/LHEHandler:DecayHandler NULL
 #set /Herwig/Analysis/Basics:CheckQuark 0
@@ -732,7 +732,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# pi0 
+# pi0
 set /Herwig/Particles/pi0:Stable Stable
 
 EOF
@@ -747,7 +747,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# W+ 
+# W+
 set /Herwig/Particles/W+:Stable Stable
 
 EOF
@@ -762,7 +762,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# W- 
+# W-
 set /Herwig/Particles/W-:Stable Stable
 
 EOF
@@ -777,7 +777,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# Z0 
+# Z0
 set /Herwig/Particles/Z0:Stable Stable
 
 EOF
@@ -792,7 +792,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# mu+ 
+# mu+
 set /Herwig/Particles/mu+:Stable Stable
 
 EOF
@@ -807,7 +807,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# mu- 
+# mu-
 set /Herwig/Particles/mu-:Stable Stable
 
 EOF
@@ -822,7 +822,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# tau+ 
+# tau+
 set /Herwig/Particles/tau+:Stable Stable
 
 EOF
@@ -837,7 +837,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in Herwig++/src/default/mesons.in or similar
 #
 
-# tau- 
+# tau-
 set /Herwig/Particles/tau-:Stable Stable
 
 EOF
@@ -852,7 +852,7 @@ cat <<EOF >> ./$ifile
 # Particle names can be found in ThePEG/PDT/EnumParticles.h
 #
 
-# Higgs 
+# Higgs
 set /Herwig/Particles/h0:Stable Stable
 
 EOF
@@ -927,7 +927,7 @@ EOF
 mv $thisdir/MCATNLO_HERWIGPP.hepmc $thisdir/"$EVT_NAMEF".hepmc
 }
 
-# this function set the parameter pdftype according to the value 
+# this function set the parameter pdftype according to the value
 # of HERPDF (the entry of this function) given in input
 function whichherpdf {
 case $1 in

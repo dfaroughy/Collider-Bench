@@ -6,7 +6,7 @@ agent:   iterative
 paper:   CMS-SUS-16-047
 runner:   claude
 model:    claude-opus-4-7
-effort:    1500           
+effort:    1500
 max_iters: 5
 min_iters: 1
 extends: base.yaml

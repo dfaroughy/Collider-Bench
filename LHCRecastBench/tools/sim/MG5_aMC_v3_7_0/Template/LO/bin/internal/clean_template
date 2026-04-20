@@ -53,7 +53,7 @@ rm -f Source/leshouche.inc >& /dev/null
 rm -f Source/coupl.inc >& /dev/null
 
 
-# MG5 info are copied inside the Python script 
+# MG5 info are copied inside the Python script
 
 #   Now we need to get into the SubProcesses Directory
 
@@ -70,7 +70,7 @@ rm -f minput.mg  >& /dev/null
 rm -f dname.mg  >& /dev/null
 rm -f subproc.mg  >& /dev/null
 rm -f *.html >& /dev/null
-rm -f procdef_mg5.dat >& /dev/null 
+rm -f procdef_mg5.dat >& /dev/null
 rm -f particles.dat >& /dev/null
 rm -f interactions.dat >& /dev/null
 rm -f coupl.inc >& /dev/null
@@ -105,4 +105,3 @@ cd ..
 if [[ ! -e  ./Cards/run_card_default.dat ]]; then
   cp ./Cards/run_card.dat ./Cards/run_card_default.dat
 fi
-

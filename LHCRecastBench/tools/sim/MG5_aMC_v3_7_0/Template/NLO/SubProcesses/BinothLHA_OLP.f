@@ -58,7 +58,7 @@ c get the momenta in the BLHA format
 c======================================================================
 c Replace the following line with the call to the one-loop code you wish
 c to use. virt_wgts contains finite part, single and double pole and the
-c Born. 
+c Born.
 c
       if (firsttime_init) then
          call BinothLHAInit()

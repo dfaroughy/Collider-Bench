@@ -7,16 +7,15 @@ c**                                                                    **
 c************************************************************************
 
       program helas_couplings
-      
+
       include 'coupl.inc'
       include 'formats.inc'
-      
+
       call setpara('param_card.dat',.true.)
 
       open(unit=1,file="helas_couplings.txt")
       include "helas_couplings.inc"
-      
-      close(1)
-      
-      END
 
+      close(1)
+
+      END

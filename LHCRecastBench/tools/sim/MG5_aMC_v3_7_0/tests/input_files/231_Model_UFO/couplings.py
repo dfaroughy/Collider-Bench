@@ -2780,4 +2780,3 @@ GC_692 = Coupling(name = 'GC_692',
 GC_693 = Coupling(name = 'GC_693',
                   value = '-(complex(0,1)*l3*cmath.cos(cabi)**4) - (complex(0,1)*l5*cmath.cos(cabi)**4)/2. - 4*complex(0,1)*l1*cmath.cos(cabi)**2*cmath.sin(cabi)**2 - 4*complex(0,1)*l2*cmath.cos(cabi)**2*cmath.sin(cabi)**2 + 2*complex(0,1)*l3*cmath.cos(cabi)**2*cmath.sin(cabi)**2 - 2*complex(0,1)*l4*cmath.cos(cabi)**2*cmath.sin(cabi)**2 + complex(0,1)*l5*cmath.cos(cabi)**2*cmath.sin(cabi)**2 - complex(0,1)*l3*cmath.sin(cabi)**4 - (complex(0,1)*l5*cmath.sin(cabi)**4)/2.',
                   order = {'QED':2})
-

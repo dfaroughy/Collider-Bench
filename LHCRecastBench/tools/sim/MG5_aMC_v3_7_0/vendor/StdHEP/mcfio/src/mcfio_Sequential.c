@@ -58,15 +58,15 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
    char *fileRbio;
 /*
 ** Prolog, as in mcfio_Direct
-*/   
-  if (McfStreamPtrList == NULL) mcfioC_Init(); 
+*/
+  if (McfStreamPtrList == NULL) mcfioC_Init();
   if (McfNumOfStreamActive >= MCF_STREAM_NUM_MAX) {
      fprintf(stderr,
-  " mcfio_OpenReadSequential: Too many streams opened simultaneously.\n"); 
+  " mcfio_OpenReadSequential: Too many streams opened simultaneously.\n");
      return -1;
    }
 /*
-** Check that this device is not already in used, if so, check that the 
+** Check that this device is not already in used, if so, check that the
 **  status is MCFIO_EOF, if so, assign the jstr to that stream.
 */
    for (i=0, jstr = -1; i<McfNumOfStreamActive; i++) {
@@ -74,24 +74,24 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
            str = McfStreamPtrList[i];
            if ((str->row == MCFIO_READ) && (str->dos == MCFIO_SEQUENTIAL)) {
               if (strcmp(device, str->device) == 0) {
-                  if (str->status != MCFIO_EOF) 
+                  if (str->status != MCFIO_EOF)
                       mcfioC_CloseSequentialFile((i+1));
                   jstr = i;
-              }     
+              }
            }
        }
-   }  
+   }
    while ((jstr == -1) && (i<MCF_STREAM_NUM_MAX)) {
           if (McfStreamPtrList[i] == NULL) jstr=i;
           i++;
           }
    if(jstr == -1) {
      fprintf(stderr,
-  " mcfio_OpenReadSequential: Internal error, please report \n"); 
+  " mcfio_OpenReadSequential: Internal error, please report \n");
      return -1;
    }
 /*
-** building the filename string for rbio.  Note that we do not repeat the 
+** building the filename string for rbio.  Note that we do not repeat the
 ** label if the device has already been opened prior to this call.
 **
 */
@@ -99,13 +99,13 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
    if (McfStreamPtrList[jstr] == NULL) {
        ll = strlen(device) + strlen(vsn) + 40;
        fileRbio = (char *) malloc (sizeof(char)*ll);
-       if (strcmp(vsn,"None") == 0)                                          
-           sprintf(fileRbio,"%s:S=%d", 
+       if (strcmp(vsn,"None") == 0)
+           sprintf(fileRbio,"%s:S=%d",
                device, filenumber);
-        else if (strcmp(vsn,"Disk") == 0) 
+        else if (strcmp(vsn,"Disk") == 0)
            sprintf(fileRbio,"%s:UFORT", device);
-        else 
-           sprintf(fileRbio,"%s:VSN=%s:S=%d", 
+        else
+           sprintf(fileRbio,"%s:VSN=%s:S=%d",
                device, vsn, filenumber);
        ll = strlen(fileRbio);
        rbfopen_(&jfn, fileRbio, "R", &iost, ll, 1);
@@ -115,15 +115,15 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
        sprintf(fileRbio,"%s:S=%d", device, filenumber);
        ll = strlen(fileRbio);
        rbopen_(&jfn, fileRbio, &iost, ll, 1);
-   }       
+   }
    free(fileRbio);
-   if (iost != 0) { 
+   if (iost != 0) {
            fprintf(stderr,
  " mcfio_OpenReadSequential: Problem opening device %s, \
  VSN %s, file %d \n", device, vsn, filenumber);
      return -1;
    }
-   
+
    if (McfStreamPtrList[jstr] == NULL) {
       McfStreamPtrList[jstr] = (mcfStream *) malloc(sizeof(mcfStream));
       str = McfStreamPtrList[jstr];
@@ -141,9 +141,9 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
       str->vsn = (char*) malloc(sizeof(char) * ll);
       strcpy(str->vsn, vsn);
       str->minlrec = MCF_XDR_MINLREC;
-      if (strcmp(vsn,"Disk") == 0)  
+      if (strcmp(vsn,"Disk") == 0)
           ll = MCF_XDR_MAXLREC;
-      else     
+      else
          rblklen_(&jfn, &ll, &iost);
       str->maxlrec = ll;
       str->shead = NULL;
@@ -164,15 +164,15 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
     str->numWordsC = 0;
     str->numWordsT = 0;
 /*
-** decode the first buffer, the Sequential header. 
-*/   
+** decode the first buffer, the Sequential header.
+*/
    if (str->buffer == NULL) {
-       str->bufferSize = str->maxlrec; 
+       str->bufferSize = str->maxlrec;
        str->buffer = (char *) malloc(sizeof(char) * (str->maxlrec + 1));
-   }    
+   }
    ldat = str->maxlrec;
    rbread_(&jfn, str->buffer, &ldat, &lrdat, &iost);
-   if (iost != 0) { 
+   if (iost != 0) {
      fprintf(stderr,
  " mcfio_OpenReadSequential: Problem reading first record on \n device %s, \
  VSN %s, file %d \n", device, vsn, filenumber);
@@ -188,27 +188,27 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
 
    if (xdr_mcfast_fileheader(str->xdr, &idtmp,
                 &ntot, McfGenericVersion, &(str->fhead), str->id) == FALSE) {
-       fprintf (stderr, 
+       fprintf (stderr,
                "mcfio_OpenReadSequential: Unable to decode seqheader \n");
        mcfioC_FreeStream(&McfStreamPtrList[jstr]);
        rbfclose_(&jfn, &iost);
        return -1;
    }
    if (idtmp != FILEHEADER) {
-       fprintf (stderr, 
+       fprintf (stderr,
             "mcfio_OpenReadSequential: First Structure not the file header \n");
-      
-       fprintf (stderr, 
+
+       fprintf (stderr,
             "                    : Further accesses probably suspicious \n");
        mcfioC_FreeStream(&McfStreamPtrList[jstr]);
        rbfclose_(&jfn, &iost);
        return -1;
    }
    xdr_setpos(str->xdr, p1);
-   str->currentPos = p1;   
+   str->currentPos = p1;
    str->numWordsC += (ntot/4);
    str->status = MCFIO_RUNNING;
-   if (str->ehead == NULL) 
+   if (str->ehead == NULL)
        str->ehead = (mcfxdrEventHeader *) malloc(sizeof(mcfxdrEventHeader));
    str->ehead->dimBlocks = str->fhead->nBlocks;
    str->ehead->blockIds = NULL;
@@ -218,7 +218,7 @@ int mcfioC_OpenReadSequential(char *device, char *vsn, int filenumber)
    str->ehead->ptrNTuples = NULL;
    McfNumOfStreamActive++;
    return (jstr+1);
-   
+
 }
 
 
@@ -232,19 +232,19 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
    char *fileRbio;
 /*
 ** Prolog, as in mcfio_Direct
-*/   
-  if (McfStreamPtrList == NULL) { 
+*/
+  if (McfStreamPtrList == NULL) {
      fprintf(stderr,
-" mcfio_OpenWriteSequential: We will first initialize by calling mcfio_Init.\n"); 
+" mcfio_OpenWriteSequential: We will first initialize by calling mcfio_Init.\n");
      mcfioC_Init();
   }
   if (McfNumOfStreamActive >= MCF_STREAM_NUM_MAX) {
      fprintf(stderr,
-  " mcfio_OpenWriteSequential: Too many streams opened simultaneously.\n"); 
+  " mcfio_OpenWriteSequential: Too many streams opened simultaneously.\n");
      return -1;
    }
 /*
-** Check that this device is not already in used, if so, check that the 
+** Check that this device is not already in used, if so, check that the
 **  status is MCFIO_EOF, if so, assign the jstr to that stream.
 */
    for (i=0, jstr = -1; i<McfNumOfStreamActive; i++) {
@@ -252,34 +252,34 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
            str = McfStreamPtrList[i];
            if ((str->row == MCFIO_WRITE) && (str->dos == MCFIO_SEQUENTIAL)) {
               if (strcmp(device, str->device) == 0) {
-                  if (str->status != MCFIO_EOF) 
+                  if (str->status != MCFIO_EOF)
                       mcfioC_CloseSequentialFile((i+1));
                   jstr = i;
-              }     
+              }
            }
        }
-   }  
+   }
    while ((jstr == -1) && (i<MCF_STREAM_NUM_MAX)) {
           if (McfStreamPtrList[i] == NULL) jstr=i;
           i++;
           }
    if(jstr == -1) {
      fprintf(stderr,
-  " mcfio_OpenWriteSequential: Internal error, please report \n"); 
+  " mcfio_OpenWriteSequential: Internal error, please report \n");
      return -1;
    }
    if ((title != NULL) && (strlen(title) > 255)) {
      fprintf(stderr,
-  " mcfio_OpenWriteSequential: Title is too long\n"); 
+  " mcfio_OpenWriteSequential: Title is too long\n");
      return -1;
    }
-     
+
    if ((comment != NULL) && (strlen(comment) > 255)) {
      fprintf(stderr,
-  " mcfio_OpenWriteSequential: comment is too long\n"); 
+  " mcfio_OpenWriteSequential: comment is too long\n");
      return -1;
    }
-      
+
 /*
 ** building the filename string for rbio
 */
@@ -287,17 +287,17 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
    lwdat = MCF_XDR_MAXLREC;
    if (McfStreamPtrList[jstr] == NULL) {
        filenumber = 1;
-       ll = strlen(device) + strlen(vsn) + 80; /* more than 10 digits for 
+       ll = strlen(device) + strlen(vsn) + 80; /* more than 10 digits for
                                                ** filenumber block length O.K.
-                                               */ 
+                                               */
        fileRbio = (char *) malloc (sizeof(char)*ll);
-       if (strcmp(vsn,"None") == 0)                                          
-           sprintf(fileRbio,"%s:D=mcfio_%d.dat:S=%d:F=U:B=%d", 
+       if (strcmp(vsn,"None") == 0)
+           sprintf(fileRbio,"%s:D=mcfio_%d.dat:S=%d:F=U:B=%d",
                device, filenumber, filenumber, lwdat);
-        else if (strcmp(vsn,"Disk") == 0) 
+        else if (strcmp(vsn,"Disk") == 0)
            sprintf(fileRbio,"%s:UFORT", device);
-        else 
-           sprintf(fileRbio,"%s:D=mcfio_%d.dat:VSN=%s:S=%d:F=U:B=%d", 
+        else
+           sprintf(fileRbio,"%s:D=mcfio_%d.dat:VSN=%s:S=%d:F=U:B=%d",
                device, filenumber,vsn, filenumber, lwdat);
        ll = strlen(fileRbio);
        rbfopen_(&jfn, fileRbio, "W", &iost, ll, 1);
@@ -306,20 +306,20 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
        filenumber = str->filenumber;
        ll = strlen(device) + 80;
        fileRbio = (char *) malloc (sizeof(char)*ll);
-       sprintf(fileRbio,"%s:D=mcfio_%d.dat:S=%d:F=U:B=%d", 
+       sprintf(fileRbio,"%s:D=mcfio_%d.dat:S=%d:F=U:B=%d",
                 device, filenumber, filenumber, lwdat);
        ll = strlen(fileRbio);
        rbopen_(&jfn, fileRbio, &iost, ll, 1);
-   }       
+   }
    free(fileRbio);
-   if (iost != 0) { 
+   if (iost != 0) {
            fprintf(stderr,
  " mcfio_OpenWriteSequential: \n\
     Problem opening device %s, \
  VSN %s, file %d, Rbio status =  \n", device, vsn, filenumber, iost);
      return -1;
    }
-   
+
    if (McfStreamPtrList[jstr] == NULL) {
       McfStreamPtrList[jstr] = (mcfStream *) malloc(sizeof(mcfStream));
       str = McfStreamPtrList[jstr];
@@ -337,9 +337,9 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
       strcpy(str->vsn, vsn);
       str->filenumber = 1;
       str->minlrec = MCF_XDR_MINLREC;
-      if (strcmp(vsn,"Disk") == 0)  
+      if (strcmp(vsn,"Disk") == 0)
           ll = MCF_XDR_MAXLREC;
-      else     
+      else
          rblklen_(&jfn, &ll, &iost);
       str->maxlrec = ll;
       str->shead = NULL;
@@ -359,14 +359,14 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
     str->numWordsC = 0;
     str->numWordsT = 0;
 /*
-** encode the first buffer, the file header. 
-*/   
+** encode the first buffer, the file header.
+*/
     if (str->buffer == NULL) {
        str->bufferSize =  str->maxlrec;
        str->buffer = (char *) malloc(sizeof(char) * (str->maxlrec + 1));
-    }    
+    }
     ldat = str->maxlrec;
-   
+
     xdrmem_create(str->xdr, str->buffer, str->maxlrec, XDR_ENCODE);
     str->firstPos = xdr_getpos(str->xdr);
     str->status = MCFIO_BOF;
@@ -381,7 +381,7 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
    */
     if (title == NULL) strcpy(str->fhead->title,"No Title given");
       else strcpy(str->fhead->title,title);
-    
+
     if (comment == NULL) strcpy(str->fhead->comment,"No comment");
        else strcpy(str->fhead->comment, comment);
     str->fhead->numevts_expect = numevts_pred;
@@ -393,25 +393,25 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
     if (str->fhead->blockIds != NULL) free(str->fhead->blockIds);
     str->fhead->blockIds = (int *) malloc(sizeof(int) * nBlocks);
     if (str->fhead->blockNames != NULL) {
-      for (i=0; i<nBlocks; i++) if (str->fhead->blockNames[i] != NULL) { 
+      for (i=0; i<nBlocks; i++) if (str->fhead->blockNames[i] != NULL) {
              free(str->fhead->blockNames[i]);
              str->fhead->blockNames[i] = NULL;
       }
       free(str->fhead->blockNames);
-    }    
+    }
     str->fhead->blockNames = (char**) malloc(sizeof(char*) * nBlocks);
     for (i=0; i<nBlocks; i++) {
       str->fhead->blockIds[i] = blkIds[i];
-      str->fhead->blockNames[i] = 
+      str->fhead->blockNames[i] =
         (char *) malloc(sizeof(char) * (MCF_XDR_B_TITLE_LENGTH + 1));
       mcfioC_GetBlockName(blkIds[i], str->fhead->blockNames[i]);
-    } 
-     
+    }
+
     p1 = xdr_getpos(str->xdr);
     idtmp = FILEHEADER;
     if (xdr_mcfast_fileheader(str->xdr, &idtmp,
               &ntot, McfGenericVersion, &(str->fhead), str->id) == FALSE) {
-       fprintf (stderr, 
+       fprintf (stderr,
                "mcfio_OpenWriteSequential: Unable to encode fileheader \n");
        mcfioC_FreeStream(&McfStreamPtrList[jstr]);
        rbfclose_(&jfn, &iost);
@@ -419,17 +419,17 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
    }
 /*
 ** write this buffer.
-*/ 
+*/
     str->numWordsC += (ntot/4);
     p2 = xdr_getpos(str->xdr);
     ldat = p2 - p1;
-    if (ldat < 512) ldat = 512;  
-    rbwrite_(&jfn, str->buffer, &ldat, &lwdat, &iost); 
-    if (iost != 0) { 
+    if (ldat < 512) ldat = 512;
+    rbwrite_(&jfn, str->buffer, &ldat, &lwdat, &iost);
+    if (iost != 0) {
      fprintf(stderr,
  " mcfio_OpenWriteSequential: Problem writing first record on \n device %s, \
  VSN %s, file %d \n", device, vsn, filenumber);
-     fprintf(stderr, " Status from Rbio %d \n", iost); 
+     fprintf(stderr, " Status from Rbio %d \n", iost);
      mcfioC_FreeStream(&McfStreamPtrList[jstr]);
      rbfclose_(&jfn, &iost);
      return -1;
@@ -442,24 +442,24 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
 /*
 ** Compose the dummy Sequential header to the first buffer.
 */
-   if (str->shead == NULL) 
+   if (str->shead == NULL)
        str->shead = (mcfxdrSequentialHeader *)
                     malloc(sizeof(mcfxdrSequentialHeader));
    str->shead->nRecords = 1;
    idtmp = SEQUENTIALHEADER;
    if (xdr_mcfast_seqheader(str->xdr, &idtmp,
                              &ntot, McfGenericVersion, &(str->shead)) == FALSE) {
-       fprintf (stderr, 
+       fprintf (stderr,
                "mcfio_OpenWriteSequential: Unable to encode fileheader \n");
        mcfioC_FreeStream(&McfStreamPtrList[jstr]);
        rbfclose_(&jfn, &iost);
        return -1;
    }
-   
+
 /*
 ** Compose the first dummy event header into memory. This will overwritten
 **   with the complete information upon closure of the event.
-*/   
+*/
    str->ehead = (mcfxdrEventHeader *) malloc(sizeof(mcfxdrEventHeader));
    str->ehead->dimBlocks = str->fhead->nBlocks;
    str->ehead->nBlocks = 0;
@@ -473,15 +473,15 @@ int mcfioC_OpenWriteSequential(char *device, char *vsn, char *title,
    str->ehead->blockIds = (int *) malloc(sizeof(int) * str->fhead->nBlocks);
    str->ehead->ptrBlocks = (u_int *) malloc(sizeof(int) * str->fhead->nBlocks);
    str->ehead->nTupleIds = (int *) malloc(sizeof(int) * str->fhead->nNtuples);
-   str->ehead->ptrNTuples = 
+   str->ehead->ptrNTuples =
        (u_int *) malloc(sizeof(int) * str->fhead->nNtuples);
    if (mcfioC_WrtEvt(str, INITIATE) == FALSE) {
-       fprintf (stderr, 
+       fprintf (stderr,
                "mcfio_OpenWriteSequential: Unable to encode Evtheader \n");
        mcfioC_FreeStream(&McfStreamPtrList[jstr]);
        rbfclose_(&jfn, &iost);
        return -1;
-   }    
+   }
    str->ehead->evtnum = 0;
    McfNumOfStreamActive++;
    return (jstr+1);
@@ -494,26 +494,26 @@ int mcfioC_NextEventSequential(int stream)
    u_int p1;
    mcfStream *str;
    char *tmpbuf;
-   
+
   jfn = stream;
   jstr = stream -1;
   str = McfStreamPtrList[jstr];
-  
+
 /*
-** Branching code Here, INPUT vs OUTPUT 
+** Branching code Here, INPUT vs OUTPUT
 */
    if (str->row == MCFIO_READ) {
 /*
-** Read the first record. Decode the Sequential header. Read more records 
+** Read the first record. Decode the Sequential header. Read more records
 **   if need be.
 */
-      if (str->buffer2  == NULL) 
-          str->buffer2 = (char *) malloc(sizeof(char)* (str->maxlrec+1)); 
+      if (str->buffer2  == NULL)
+          str->buffer2 = (char *) malloc(sizeof(char)* (str->maxlrec+1));
       rbread_(&jfn, str->buffer2, &(str->maxlrec), &lrdat, &iost);
-      if (iost != 0) { 
+      if (iost != 0) {
          fprintf(stderr,
                 " mcfio_NextEventSequential: \n\
-   Problem reading first record for this evt, stream %d, Rbio status %d \n", 
+   Problem reading first record for this evt, stream %d, Rbio status %d \n",
                        stream, iost);
           mcfioC_FreeStream(&McfStreamPtrList[jstr]);
           rbfclose_(&jfn, &iost);
@@ -522,14 +522,14 @@ int mcfioC_NextEventSequential(int stream)
 /*
 ** Read the Sequential header to get the number of buffers.
 */
-      if (str->shead == NULL) 
-          str->shead = 
+      if (str->shead == NULL)
+          str->shead =
             (mcfxdrSequentialHeader *) malloc(sizeof(mcfxdrSequentialHeader));
       xdrmem_create(str->xdr, str->buffer2, str->maxlrec, XDR_DECODE);
-      str->firstPos = xdr_getpos(str->xdr); 
+      str->firstPos = xdr_getpos(str->xdr);
       if (xdr_mcfast_seqheader(str->xdr, &idtmp,
                              &ntot, McfGenericVersion, &(str->shead)) == FALSE) {
-          fprintf (stderr, 
+          fprintf (stderr,
                "mcfio_NextEventSequential: Unable to decode seqheader \n");
           mcfioC_FreeStream(&McfStreamPtrList[jstr]);
           rbfclose_(&jfn, &iost);
@@ -548,7 +548,7 @@ int mcfioC_NextEventSequential(int stream)
          tmpbuf += lrdat;
          for (i=1; i<str->shead->nRecords; i++) {
              rbread_(&jfn, tmpbuf, &(str->maxlrec), &lrdat, &iost);
-             if (iost != 0) { 
+             if (iost != 0) {
                  fprintf(stderr,
                 " mcfio_NextEventSequential: \n\
      Problem reading first record for this evt, stream %d, Rbio status\n",
@@ -560,14 +560,14 @@ int mcfioC_NextEventSequential(int stream)
              tmpbuf += lrdat;
          }
          /*
-         ** We have to reposition ourselves.. 
+         ** We have to reposition ourselves..
          */
          xdrmem_create(str->xdr, str->buffer, str->bufferSize, XDR_DECODE);
          xdr_setpos(str->xdr, str->currentPos);
        }
       if (xdr_mcfast_eventheader(str->xdr, &idtmp,
                           &ntot, McfGenericVersion, &(str->ehead)) == FALSE) {
-          fprintf (stderr, 
+          fprintf (stderr,
                "mcfio_NextEventSequential: Unable to decode evtheader \n");
           mcfioC_FreeStream(&McfStreamPtrList[jstr]);
           rbfclose_(&jfn, &iost);
@@ -578,7 +578,7 @@ int mcfioC_NextEventSequential(int stream)
     } else {  /* Writing an event.. */
     /*
     ** The entire buffer is at str->buffer. it has a size of
-    ** str->bufferSize bytes. First, we have to compute the number of 
+    ** str->bufferSize bytes. First, we have to compute the number of
     ** records, rewrite the Sequential header, and the Event header.
     */
        p1 = str->currentPos;
@@ -594,22 +594,22 @@ int mcfioC_NextEventSequential(int stream)
        idtmp = EVENTHEADER;
        xdr_mcfast_eventheader(str->xdr, &idtmp,
             &ntot, McfGenericVersion, &(str->ehead));
-       str->currentPos = xdr_getpos(str->xdr); 
+       str->currentPos = xdr_getpos(str->xdr);
        str->numWordsC += (ntot/4);
     /*
     ** The buffer is ready to be written to sequential media
     **
     */
-       
+
        lrem = p1 - str->firstPos;
        for (i=0, tmpbuf=str->buffer; i<str->shead->nRecords; i++) {
-           if (i == (str->shead->nRecords - 1)) 
+           if (i == (str->shead->nRecords - 1))
                ldat = (lrem > 512) ? lrem : 512;
-           else 
+           else
                ldat = str->maxlrec;
            rbwrite_(&jfn, tmpbuf, &ldat, &lwdat, &iost);
            /* printf(" Wrote in evt loop %d \n" , lwdat); */
-           if (iost != 0) { 
+           if (iost != 0) {
               fprintf(stderr,
                   " mcfio_NextEventSequential: \n\
      Problem writing record on Stream %d, Rbio status %d ", stream, iost);
@@ -620,7 +620,7 @@ int mcfioC_NextEventSequential(int stream)
            str->numWordsT += lwdat/4;
            lrem -= ldat;
            tmpbuf += ldat;
-        }    
+        }
         /*
         ** Initiate a new bufffer
         */
@@ -629,7 +629,7 @@ int mcfioC_NextEventSequential(int stream)
         idtmp = SEQUENTIALHEADER;
         if (xdr_mcfast_seqheader(str->xdr, &idtmp,
                         &ntot, McfGenericVersion, &(str->shead)) == FALSE) {
-            fprintf (stderr, 
+            fprintf (stderr,
                "mcfio_OpenWriteSequential: Unable to encode fileheader \n");
             mcfioC_FreeStream(&McfStreamPtrList[jstr]);
             rbfclose_(&jfn, &iost);
@@ -639,14 +639,14 @@ int mcfioC_NextEventSequential(int stream)
         str->ehead->nBlocks = 0;
         str->ehead->previousevtnum = str->ehead->evtnum;
         if (mcfioC_WrtEvt(str, INITIATE) == FALSE) {
-           fprintf (stderr, 
+           fprintf (stderr,
                "mcfio_OpenWriteSequential: Unable to encode Evtheader \n");
            mcfioC_FreeStream(&McfStreamPtrList[jstr]);
            rbfclose_(&jfn, &iost);
            return -1;
         }
         str->ehead->evtnum = str->ehead->previousevtnum;
-            
+
     }
     str->status = MCFIO_RUNNING;
     return MCFIO_RUNNING;
@@ -656,13 +656,13 @@ void mcfioC_CloseSequentialFile(int stream)
 {
    mcfStream *str;
    int jfn, iost, jstr;
-   
+
    jstr = stream -1;
    str =  McfStreamPtrList[jstr];
    str->status = MCFIO_EOF;
    jfn = jstr + 1;
    rbclose_(&jfn, &iost);
-   if (iost != 0) {  
+   if (iost != 0) {
       fprintf(stderr,
                   " mcfio_CloseSequentialFile: \n\
      Problem closing file Stream %d, Rbio status %d ", jstr, iost);
@@ -674,19 +674,19 @@ void mcfioC_CloseSequentialTape(int stream)
 {
    mcfStream *str;
    int jfn, iost, jstr;
-   
+
    jstr = stream -1;
    str =  McfStreamPtrList[jstr];
    jfn = jstr + 1;
    rbfclose_(&jfn, &iost);
    /*
-   ** This suppose to work, 
+   ** This suppose to work,
    ** but does not..
    **
      if (strcmp(str->vsn,"Disk") != 0) rbrewind_(&jfn, &iost);
       rbumount_(&jfn, &iost);
    */
-   if (iost != 0)  
+   if (iost != 0)
       fprintf(stderr,
                   " mcfio_CloseSequentialTape: \n\
    Problem closing file Stream %d, Rbio status %d ", stream, iost);

@@ -2,7 +2,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cc                                    PERMUTATION MODULE                                   cc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c
-c     Need to contain TWO functions:                                                       cc                   
+c     Need to contain TWO functions:                                                       cc
 c           - weight_perm_global                                                           cc
 c           - weight_perm_BW  (associate to a given propagator                             cc
 c    The total wieght is the product of those weight. The permuation below a given         cc
@@ -16,14 +16,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'nexternal.inc'
       integer perm ! perm unique identifier
       integer perm_id(nexternal-2) !order of the particles.
-      !      
+      !
       !  DO nothing
       !
       weight_perm_global = 1d0
       !
       !  FORCE ONE OF THE B to tagged. b have position 3 and 6 in MG (p p > t t~, (t > w+ b, w+ > l+ vl), (t~ > w- b~, w- > j j)
       !
-      return 
+      return
       end
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     ANOTHER OPTION:
@@ -31,7 +31,7 @@ c     FORCE ONE OF THE B to tagged. b have position 3 and 6 in MG (p p > t t~, (
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c       double precision function weight_perm_global(perm, perm_id)
 c       implicit none
-c       include 'nexternal.inc'       
+c       include 'nexternal.inc'
 c       integer perm ! perm unique identifier
 c       integer perm_id(nexternal-2) !order of the particles.
 c       integer tag_lhco(3:nexternal)
@@ -48,9 +48,9 @@ c     &dummy2(max_particles)
 c         common/LHCO_input/eta_init,phi_init,pt_init,
 c     &j_mass,ntrk,btag,had_em,dummy1,dummy2,tag_init,type,run_number,
 c     &trigger
-c      integer lhco_b1, lhco_b2  
+c      integer lhco_b1, lhco_b2
 c
-c      lhco_b1 = tag_lhco(3)   
+c      lhco_b1 = tag_lhco(3)
 c      lhco_b2 = tag_lhco(6)
 c       if (btag(lhco_b1).eq.0d0.and.btag(lhco_b2).eq.0d0) then
 c          weight_perm_global = 0d0
@@ -83,9 +83,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       common/ph_sp_init/c_point
 c
 c     User define parameter
-c      
+c
       double precision pi
-      data pi/3.14159265359d0/ 
+      data pi/3.14159265359d0/
       double precision eff_width
 c
 c     Generic function
@@ -109,7 +109,7 @@ c
             EXIT
          endif
       enddo
-      InvMass2 = DOT(p_temp, p_temp) 
+      InvMass2 = DOT(p_temp, p_temp)
 c
 c     weighting by the Breit-Wigner
 c

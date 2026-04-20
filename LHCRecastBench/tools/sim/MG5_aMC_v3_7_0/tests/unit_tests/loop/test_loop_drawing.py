@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Unit test library for the various properties of objects in 
+"""Unit test library for the various properties of objects in
    loop_helas_objects.py"""
 from __future__ import division
 from __future__ import absolute_import
@@ -72,60 +72,60 @@ class TestLoopDrawer(unittest.TestCase):
                                             '../../input_files/test_draw_nlo.obj'), 'rb'))
 
     class FakeAMP(dict):
-        
+
         def get(self, name):
             return self[name]
-    
+
     def assertnozerolength(self, diagram):
         """check that all line have a non zero length"""
-        
+
         for line in diagram.lineList:
-            a = (line.begin.pos_x, line.begin.pos_y ) 
+            a = (line.begin.pos_x, line.begin.pos_y )
             b= (line.end.pos_x, line.end.pos_y )
             self.assertNotEqual(a,b)
 
     def assertnocrossing(self, diagram):
         """check that all line have a non zero length"""
-        
+
         for i, line1 in enumerate(diagram.lineList):
             if i == len(diagram.lineList):
                 continue
             for line2 in diagram.lineList[i+1:]:
                 if line1.begin in [line2.end, line2.begin] and line1.end in [line2.end, line2.begin]:
                     continue
-                
-                
+
+
                 self.assertFalse(line1.has_intersection(line2),'(%s,%s),(%s,%s) with (%s,%s),(%s,%s)' %\
                                  (line1.begin.pos_x, line1.begin.pos_y,
                                   line1.end.pos_x, line1.end.pos_y,
                                   line2.begin.pos_x, line2.begin.pos_y,
                                   line2.end.pos_x, line2.end.pos_y) )
 
-            
+
 
     def test_loop_convert_diagram(self):
         """check that the drawer assign the correct Drawing-class"""
-        
+
         lo_diagram = self.store_diagram['g g > g g'][0]
         amp = self.FakeAMP({'structure_repository': self.store_diagram['g g > g g']['structure']})
         drawer = draw_lib.DiagramDrawer()
-        new_diagram = drawer.convert_diagram(diagram=lo_diagram, 
-                               model=self.model, 
+        new_diagram = drawer.convert_diagram(diagram=lo_diagram,
+                               model=self.model,
                                amplitude=amp)
-        
+
         self.assertEqual(new_diagram.__class__.__name__, 'FeynmanDiagram')
-        
+
         nlo_diagram = self.store_diagram['g g > g g'][12]
-            
-        new_diagram = drawer.convert_diagram(diagram=nlo_diagram, 
-                               model=self.model, 
+
+        new_diagram = drawer.convert_diagram(diagram=nlo_diagram,
+                               model=self.model,
                                amplitude=amp)
-        
-        self.assertEqual(new_diagram.__class__.__name__, 'LoopFeynmanDiagram')        
-        
+
+        self.assertEqual(new_diagram.__class__.__name__, 'LoopFeynmanDiagram')
+
     def test_LO_draw_with_NLO_generation(self):
         """ check if we can make the drawing """
-    
+
         # test that LO is still fine when generate via NLO: 4 point
         diagram = self.store_diagram['g g > g g'][0]
         diagram = draw_lib.FeynmanDiagram(diagram, self.model)
@@ -177,10 +177,10 @@ class TestLoopDrawer(unittest.TestCase):
 
     def test_NLO_draw(self):
         """ check if we can make the drawing """
-    
+
         # test that NLO DRAW is fine first check for diagram
         # +        +
-        #  +   + 
+        #  +   +
         #   +
         #   I
         #   I              +
@@ -193,11 +193,11 @@ class TestLoopDrawer(unittest.TestCase):
         #   +              +
         #  +                +
         # +                  +
-        
+
         diagram = self.store_diagram['g g > g g'][12]
         structure = self.store_diagram['g g > g g']['structure']
         diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
-        
+
 
         diagram.load_diagram()
         diagram.define_level()
@@ -207,17 +207,17 @@ class TestLoopDrawer(unittest.TestCase):
         level = [v.level for v in diagram.vertexList]
         level_solution.sort()
         level.sort()
-        self.assertEqual(level, level_solution)        
+        self.assertEqual(level, level_solution)
         diagram.find_initial_vertex_position()
-        
+
         level_solution = [1, 1, 2, 1, 0, 3, 0, 3]
         level = [v.level for v in diagram.vertexList]
         self.assertEqual(level, level_solution)
         x_solution = [1/3, 1/3, 2/3, 1/3, 0, 1, 0, 1]
         y_solution = [1/6, 5/6, 3/4, 1/2, 0, 0, 1, 1]
-        
+
         self.assertEqual(len(diagram.vertexList), 8)
-        
+
         for i in range(0, 8):
             self.assertEqual(
                 diagram.vertexList[i].level,
@@ -237,40 +237,40 @@ class TestLoopDrawer(unittest.TestCase):
 
     def test_flipping(self):
         """ check if the flipping of loop-line work"""
-        
-        
+
+
         ### Box cut at the T-channel
         #diagram = copy.deepcopy(self.store_diagram['g g > g g'][60])
         structure = self.store_diagram['g g > g g']['structure']
         #diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
-            
+
         #self.assertTrue(diagram.need_to_flip())
         #diagram.load_diagram()
         #diagram.loop_flip()
         #nb_t = len([1 for l in diagram.lineList if l.state and l.loop_line])
         #self.assertEqual(nb_t,3)
         #self.assertFalse(diagram.need_to_flip())
-        
+
         ### Triangle
         diagram = copy.deepcopy(self.store_diagram['g g > g g'][8])
-        
+
         diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
 #        diagram.load_diagram()
         self.assertTrue(diagram.need_to_flip())
-        
+
         ### Triangle
         diagram = copy.deepcopy(self.store_diagram['FULL g g > g g'][202])
-        
+
         diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
 #        diagram.load_diagram()
-        self.assertFalse(diagram.need_to_flip())        
+        self.assertFalse(diagram.need_to_flip())
         # Same test but for d d~ > e+ e- mu+ mu-:
         diagram = copy.deepcopy(self.store_diagram['FULL d d~ > e+ e- mu+ mu-'][42])
         diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
         diagram.load_diagram()
         diagram.define_level()
         self.assertTrue(diagram.need_to_flip())
-        
+
     def test_level_with_flipping_triangle(self):
 
         diagram = copy.deepcopy(self.store_diagram['g g > g g'][8])
@@ -283,16 +283,16 @@ class TestLoopDrawer(unittest.TestCase):
         diagram.define_level()
         level_solution = [1, 1, 2, 1, 0, 2, 0, 3]
         level = [v.level for v in diagram.vertexList]
-        self.assertEqual(level, level_solution)        
-        
+        self.assertEqual(level, level_solution)
+
         diagram.find_initial_vertex_position()
-        
+
         level_solution = [1, 1, 2, 1, 0, 3, 0, 3]
         level = [v.level for v in diagram.vertexList]
         self.assertEqual(level, level_solution)
         x_solution = [1/3, 1/3, 2/3, 1/3, 0, 1, 0, 1]
         y_solution = [1/6, 5/6, 3/4, 1/2, 0, 0, 1, 1]
-        
+
         self.assertEqual(len(diagram.vertexList), 8)
         for i in range(0, 8):
             self.assertEqual(
@@ -310,36 +310,36 @@ class TestLoopDrawer(unittest.TestCase):
         for line in diagram.lineList:
             self.assertNotEqual(line.begin, None)
             self.assertNotEqual(line.end, None)
-        
-        
 
-        
 
-    # The test below is 'commented' out as it is no longer compatible with 
+
+
+
+    # The test below is 'commented' out as it is no longer compatible with
     # the diagram ordering obtained from the new loop model and the old format
     # is no longer supported. I therefore need to be updated.
     def no_test_special_gg_gg(self):
-        
+
         diagram = self.store_diagram['g g > g g'][75]
         structure = self.store_diagram['g g > g g']['structure']
         diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
-        
+
         diagram.load_diagram()
         self.assertFalse(diagram.need_to_flip())
-        
+
         # check the position for this diagram
         diagram.define_level()
         level_solution = [2, 1, 1, 3, 3, 0, 0]
         level = [v.level for v in diagram.vertexList]
-        self.assertEqual(level, level_solution)        
-        
+        self.assertEqual(level, level_solution)
+
         diagram.find_initial_vertex_position()
-        
+
         level = [v.level for v in diagram.vertexList]
         self.assertEqual(level, level_solution)
         x_solution = [2/3, 1/3, 1/3, 1, 1, 0, 0]
         y_solution = [1/2, 3/4, 1/4, 0, 1, 1, 0]
-        
+
         self.assertEqual(len(diagram.vertexList), 7)
         for i in range(0, 7):
             self.assertEqual(
@@ -359,15 +359,15 @@ class TestLoopDrawer(unittest.TestCase):
             self.assertNotEqual(line.end, None)
 
         # check the associate position
-        
+
         diagram.find_initial_vertex_position()
-                
+
     def test_NLO_draw_all_gg_gg(self):
         for i in range(5,85):
             diagram = copy.deepcopy(self.store_diagram['g g > g g'][i])
             structure = self.store_diagram['g g > g g']['structure']
             diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
-        
+
 
             diagram.load_diagram()
             diagram.define_level()
@@ -379,32 +379,32 @@ class TestLoopDrawer(unittest.TestCase):
             diagram = copy.deepcopy(self.store_diagram['g g > g g g'][i])
             structure = self.store_diagram['g g > g g g']['structure']
             diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
-        
+
             diagram.load_diagram()
             diagram.define_level()
             diagram.find_initial_vertex_position()
             self.assertnozerolength(diagram)
             self.assertFalse(diagram._debug_has_intersection())
 
-        
+
 
     def test_NLO_draw_all_reconstructed_gg_gg(self):
-               
+
         for i in range(200,230):
             diagram = copy.deepcopy(self.store_diagram['FULL g g > g g'][i])
             Drawer = draw_lib.DiagramDrawer()
-            diagram = Drawer.convert_diagram(diagram, self.model) 
+            diagram = Drawer.convert_diagram(diagram, self.model)
             if diagram is None:
                 continue # counter term are not drawn
             self.assertnozerolength(diagram)
             self.assertnocrossing(diagram)
-            
+
     def test_NLO_draw_all_reconstructed_dd_eemm(self):
-               
+
         for i in range(72):
             diagram = copy.deepcopy(self.store_diagram['FULL d d~ > e+ e- mu+ mu-'][i])
             Drawer = draw_lib.DiagramDrawer()
-            diagram = Drawer.convert_diagram(diagram, self.model) 
+            diagram = Drawer.convert_diagram(diagram, self.model)
             if diagram is None:
                 continue # counter term are not drawn
             self.assertnozerolength(diagram)
@@ -415,7 +415,7 @@ class TestLoopDrawer(unittest.TestCase):
             diagram = copy.deepcopy(self.store_diagram['u u~ > u u~ g'][i])
             structure = self.store_diagram['u u~ > u u~ g']['structure']
             diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
-        
+
             diagram.load_diagram()
             diagram.define_level()
             diagram.find_initial_vertex_position()
@@ -428,18 +428,18 @@ class TestLoopDrawer(unittest.TestCase):
             diagram = copy.deepcopy(self.store_diagram['u u~ > u u~ d d~'][i])
             structure = self.store_diagram['u u~ > u u~ d d~']['structure']
             diagram = draw_lib.LoopFeynmanDiagram(diagram, structure, self.model)
-        
+
             diagram.load_diagram()
             diagram.define_level()
             diagram.find_initial_vertex_position()
             self.assertnozerolength(diagram)
-                        
+
 
 class LoopDiagramDrawerTest(unittest.TestCase):
     """Test class for all functions related to the LoopDiagramDrawer
         diagram made by hand
     """
-    
+
     myloopmodel = loop_base_objects.LoopModel()
     mypartlist = base_objects.ParticleList()
     myinterlist = base_objects.InteractionList()
@@ -518,19 +518,19 @@ class LoopDiagramDrawerTest(unittest.TestCase):
         self.mymodel.set('particles', self.mypartlist)
         self.mymodel.set('interactions', self.myinterlist)
         self.myproc.set('model',self.mymodel)
-        
+
         self.myloopmodel = save_load_object.load_from_file(os.path.join(_input_file_path,\
                                                             'test_toyLoopModel.pkl'))
 
         box_diagram, box_struct = self.def_box()
         pent_diagram, pent_struct = self.def_pent()
-       
+
         self.box_drawing = draw_lib.LoopFeynmanDiagram(
                                 box_diagram, box_struct, self.myloopmodel)
 
     def test_fuse_line(self):
         """ check that we fuse line correctly """
-        
+
         self.box_drawing.load_diagram()
         #avoid that element are erase from memory
         line1 = self.box_drawing.lineList[0]
@@ -539,10 +539,10 @@ class LoopDiagramDrawerTest(unittest.TestCase):
         vertex2 = line1.end
         vertex3 = line2.begin
         vertex4 = line2.end
-        
+
         # fuse line1 and line2
         self.box_drawing.fuse_line(line1, line2)
-        
+
         # check that all link to line1 are ok
         self.assertEqual(line1.begin, vertex1)
         self.assertEqual(line1.end, vertex3)
@@ -551,24 +551,24 @@ class LoopDiagramDrawerTest(unittest.TestCase):
         #self.assertTrue(vertex1 in self.box_drawing.vertexList)
         #self.assertTrue(vertex4 in self.box_drawing.vertexList)
 
-        
+
         #check that all info to line2 are deleted
         self.assertNotIn(line2, self.box_drawing.lineList)
         self.assertNotIn(line2, vertex1.lines)
         self.assertNotIn(line2, vertex3.lines)
         self.assertNotIn(vertex2, self.box_drawing.vertexList)
         self.assertNotIn(vertex3, self.box_drawing.vertexList)
-        
+
 
     def def_box(self):
         """ Test the drawing of a simple loop box """
-        
+
         myleglist = base_objects.LegList([base_objects.Leg({'id':21,
                                               'number':num, 'state':True,
                                               'loop_line':False}) \
                                               for num in range(1, 5)])
         myleglist.append(base_objects.Leg({'id':1,'number':5,'loop_line':True}))
-        myleglist.append(base_objects.Leg({'id':-1,'number':6,'loop_line':True}))                         
+        myleglist.append(base_objects.Leg({'id':-1,'number':6,'loop_line':True}))
         l1=myleglist[0]
         l1.set('state',False)
         l2=myleglist[1]
@@ -578,12 +578,12 @@ class LoopDiagramDrawerTest(unittest.TestCase):
         l5=myleglist[4]
         l6=myleglist[5]
 
-        
+
         # One way of constructing this diagram, with a three-point amplitude
         l15 = base_objects.Leg({'id':1,'number':1,'loop_line':True, 'state':False})
         l12 = base_objects.Leg({'id':1,'number':1,'loop_line':True})
-        l13 = base_objects.Leg({'id':1,'number':1,'loop_line':True}) 
-        lfake = base_objects.Leg({'id':1,'number':1,'loop_line':True})         
+        l13 = base_objects.Leg({'id':1,'number':1,'loop_line':True})
+        lfake = base_objects.Leg({'id':1,'number':1,'loop_line':True})
 
         vx15 = base_objects.Vertex({'legs':base_objects.LegList([l1, l5, l15]), 'id': 3})
         vx12 = base_objects.Vertex({'legs':base_objects.LegList([l15, l2, l12]), 'id': 3})
@@ -596,10 +596,10 @@ class LoopDiagramDrawerTest(unittest.TestCase):
         myCTVertexList=base_objects.VertexList([ctvx,])
         myPentaDiag1=loop_base_objects.LoopDiagram({'vertices':myVertexList1,'type':1,\
                                                     'CT_vertices':myCTVertexList})
-        
+
         return myPentaDiag1, []
 
-    def def_pent(self):       
+    def def_pent(self):
         """ Test the gg>gggg d*dx* tagging of a quark pentagon which is tagged"""
 
         # Five gluon legs with two initial states
@@ -608,7 +608,7 @@ class LoopDiagramDrawerTest(unittest.TestCase):
                                               'loop_line':False}) \
                                               for num in range(1, 7)])
         myleglist.append(base_objects.Leg({'id':1,'number':7,'loop_line':True}))
-        myleglist.append(base_objects.Leg({'id':-1,'number':8,'loop_line':True}))                         
+        myleglist.append(base_objects.Leg({'id':-1,'number':8,'loop_line':True}))
         l1=myleglist[0]
         l2=myleglist[1]
         l3=myleglist[2]
@@ -621,7 +621,7 @@ class LoopDiagramDrawerTest(unittest.TestCase):
         # One way of constructing this diagram, with a three-point amplitude
         l17 = base_objects.Leg({'id':1,'number':1,'loop_line':True})
         l12 = base_objects.Leg({'id':1,'number':1,'loop_line':True})
-        l68 = base_objects.Leg({'id':-1,'number':6,'loop_line':True}) 
+        l68 = base_objects.Leg({'id':-1,'number':6,'loop_line':True})
         l56 = base_objects.Leg({'id':-1,'number':5,'loop_line':True})
         l34 = base_objects.Leg({'id':21,'number':3,'loop_line':False})
 
@@ -639,17 +639,17 @@ class LoopDiagramDrawerTest(unittest.TestCase):
         myPentaDiag1=loop_base_objects.LoopDiagram({'vertices':myVertexList1,'type':1})
 
         myStructRep=loop_base_objects.FDStructureList()
-        
+
         myPentaDiag1.tag(myStructRep, self.myproc['model'],7,8)
-        
+
         return myPentaDiag1,myStructRep
-        # test the drawing of myPentaDiag with its loop vertices and those in the 
+        # test the drawing of myPentaDiag with its loop vertices and those in the
         # structures of myStructRep
-        
+
 
     def def_diagrams_epemddx(self):
         """ Test the drawing of diagrams from the loop process e+e- > dd~ """
-    
+
         myleglist = base_objects.LegList()
         myleglist.append(base_objects.Leg({'id':-11,
                                          'state':False}))
@@ -659,30 +659,30 @@ class LoopDiagramDrawerTest(unittest.TestCase):
                                          'state':True}))
         myleglist.append(base_objects.Leg({'id':-1,
                                          'state':True}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myproc)
         myloopamplitude.generate_diagrams()
-        
+
         # Now the drawing test on myloopamplitude['loop_diagrams']
         return myloopamplitude['loop_diagrams']
-            
-        
-        
+
+
+
 #    def do_draw(self):
-#        """draw the diagrams for producing the plot associated to 
+#        """draw the diagrams for producing the plot associated to
 #        those tests"""
-#        
+#
 #        opt = drawing.DrawOption({'external':1, 'horizontal':0, 'max_size':0})
-#        penta_diagram = base_objects.Diagram(self.neg_diagram_dict)  
+#        penta_diagram = base_objects.Diagram(self.neg_diagram_dict)
 #        penta_drawing = drawing.FeynmanDiagramNLO(penta_diagram, _model, opt)
-#        
+#
 #        penta_drawing.load_diagram()
 #        penta_drawing.define_level()
 #        penta_drawing.find_initial_vertex_position()
@@ -693,12 +693,12 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #        plot.draw(opt)
 
 
-    
+
 ##===============================================================================
 ## TestFeynmanDiagramLoop
 ##===============================================================================
 #class TestFeynmanDiagramNLO(unittest.TestCase):
-#    """Test the object which compute the position of the vertex/line 
+#    """Test the object which compute the position of the vertex/line
 #        for a given Diagram object with Loop
 #    """
 #
@@ -740,7 +740,7 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #
 #    vertex4 = base_objects.Vertex({'id':4, \
 #                        'legs':base_objects.LegList([leg4, leg6, leg10])})
-#    
+#
 #    vertex5 = base_objects.Vertex({'id':0, \
 #                        'legs':base_objects.LegList([leg9, leg10])})
 #
@@ -773,10 +773,10 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #                            'inloop':True, 'from_group':True})
 #    leg10 = base_objects_nlo.LegNLO({'id':-4, 'number':2, 'state':False,
 #                            'inloop':True, 'from_group':True})
-#    
+#
 #    vertex1 = base_objects.Vertex({'id':1, \
-#                        'legs':base_objects.LegList([leg1, leg3, leg7])})    
-#   
+#                        'legs':base_objects.LegList([leg1, leg3, leg7])})
+#
 #    vertex2 = base_objects.Vertex({'id':2, \
 #                        'legs':base_objects.LegList([leg4, leg5, leg8])})
 #
@@ -785,14 +785,14 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #
 #    vertex4 = base_objects.Vertex({'id':4, \
 #                        'legs':base_objects.LegList([leg2, leg8, leg10])})
-#    
+#
 #    vertex5 = base_objects.Vertex({'id':0, \
 #                        'legs':base_objects.LegList([leg9, leg10])})
 #
 #    vertexlist = base_objects.VertexList([vertex1, vertex2, vertex3, vertex4, \
 #                                                                      vertex5])
-#    triangle_diagram_dict = {'vertices':vertexlist} 
-#    
+#    triangle_diagram_dict = {'vertices':vertexlist}
+#
 #    # Doulby Extended (both outgoing particles decays)
 #    # Check the possibility to go to negative number
 #    leg1 = base_objects_nlo.LegNLO({'id':1, 'number':1, 'state':False,
@@ -824,15 +824,15 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #                            'inloop':True, 'from_group':True})
 #    leg14 = base_objects_nlo.LegNLO({'id':-5, 'number':2, 'state':False,
 #                            'inloop':True, 'from_group':True})
-#    
+#
 #    vertex1 = base_objects.Vertex({'id':1, \
-#                        'legs':base_objects.LegList([leg1, leg3, leg9])})    
+#                        'legs':base_objects.LegList([leg1, leg3, leg9])})
 #    vertex2 = base_objects.Vertex({'id':2, \
 #                        'legs':base_objects.LegList([leg5, leg8, leg10])})
 #    vertex3 = base_objects.Vertex({'id':3, \
 #                        'legs':base_objects.LegList([leg10, leg4, leg11])})
 #    vertex4 = base_objects.Vertex({'id':4, \
-#                        'legs':base_objects.LegList([leg7, leg6, leg12])})   
+#                        'legs':base_objects.LegList([leg7, leg6, leg12])})
 #    vertex5 = base_objects.Vertex({'id':5, \
 #                        'legs':base_objects.LegList([leg9, leg12, leg13])})
 #    vertex6 = base_objects.Vertex({'id':6, \
@@ -843,9 +843,9 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #    vertexlist = base_objects.VertexList([vertex1, vertex2, vertex3, vertex4, \
 #                                                     vertex5, vertex6, vertex7])
 #    neg_diagram_dict = {'vertices':vertexlist}
-#    
-#    
-#    #The pentagone 
+#
+#
+#    #The pentagone
 #    leg1 = base_objects_nlo.LegNLO({'id':1, 'number':1, 'state':False,
 #                            'inloop':False, 'from_group':False})
 #    leg2 = base_objects_nlo.LegNLO({'id':2, 'number':2, 'state':False,
@@ -860,74 +860,74 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #                            'inloop':False, 'from_group':False})
 #    leg7 = base_objects_nlo.LegNLO({'id':11, 'number':7, 'state':True,
 #                            'inloop':False, 'from_group':False})
-#    
+#
 #    #((1(21),3(21)>1(21),id:1),(4(21),5(21)>4(21),id:1),(1(21),2(21)>1(21),id:1),
-#    #(4(21),7(21)>4(21),id:1),(1(21),4(21),6(21),id:1)) (QCD=5)  
+#    #(4(21),7(21)>4(21),id:1),(1(21),4(21),6(21),id:1)) (QCD=5)
 #    leg8 = base_objects_nlo.LegNLO({'id':-1, 'number':1, 'state':False,
 #                            'inloop':True, 'from_group':True})
 #    leg9 = base_objects_nlo.LegNLO({'id':-2, 'number':4, 'state':True,
 #                            'inloop':True, 'from_group':True})
 #    leg10 = base_objects_nlo.LegNLO({'id':-2, 'number':1, 'state':True,
-#                            'inloop':True, 'from_group':True})     
+#                            'inloop':True, 'from_group':True})
 #    leg11 = base_objects_nlo.LegNLO({'id':-3, 'number':4, 'state':True,
 #                            'inloop':True, 'from_group':True})
 #
 #    #
 #    vertex1 = base_objects.Vertex({'id':1, \
-#                        'legs':base_objects.LegList([leg1, leg3, leg8])})    
+#                        'legs':base_objects.LegList([leg1, leg3, leg8])})
 #    vertex2 = base_objects.Vertex({'id':2, \
 #                        'legs':base_objects.LegList([leg4, leg5, leg9])})
 #    vertex3 = base_objects.Vertex({'id':3, \
 #                        'legs':base_objects.LegList([leg8, leg2, leg10])})
 #    vertex4 = base_objects.Vertex({'id':4, \
-#                        'legs':base_objects.LegList([leg9, leg7, leg11])})   
+#                        'legs':base_objects.LegList([leg9, leg7, leg11])})
 #    vertex5 = base_objects.Vertex({'id':5, \
 #                        'legs':base_objects.LegList([leg10, leg11, leg6])})
-#    
+#
 #    vertexlist = base_objects.VertexList([vertex1, vertex2, vertex3, vertex4, \
 #                                                                       vertex5])
 #    penta_diagram_dict = {'vertices':vertexlist}
-#       
+#
 #    def setUp(self):
 #        """ basic construction """
-#        
+#
 #        opt = drawing.DrawOption({'external':1, 'horizontal':0, 'max_size':0})
 #        # gg>g(g>uux)g (via a T channel)
-#        box_diagram = base_objects.Diagram(self.box_diagram_dict)  
+#        box_diagram = base_objects.Diagram(self.box_diagram_dict)
 #        self.box_drawing = drawing.FeynmanDiagramNLO(box_diagram, _model, opt)
 #
-#        triangle_diagram = base_objects.Diagram(self.triangle_diagram_dict)  
-#        self.triangle_drawing = drawing.FeynmanDiagramNLO(triangle_diagram, _model, opt)    
-#    
-#    
+#        triangle_diagram = base_objects.Diagram(self.triangle_diagram_dict)
+#        self.triangle_drawing = drawing.FeynmanDiagramNLO(triangle_diagram, _model, opt)
+#
+#
 #    def test_find_initial_vertex_position_for_neg(self):
 #        """Test if we can correctly set the position with loop"""
-#        
+#
 #        opt = drawing.DrawOption({'external':1, 'horizontal':0, 'max_size':0})
-#        neg_diagram = base_objects.Diagram(self.neg_diagram_dict)  
+#        neg_diagram = base_objects.Diagram(self.neg_diagram_dict)
 #        neg_drawing = drawing.FeynmanDiagramNLO(neg_diagram, _model, opt)
 #        neg_drawing.load_diagram()
 #        neg_drawing.define_level()
 #        neg_drawing.find_initial_vertex_position()
-#        
+#
 #        level = [1, 3, 2, 0, 1, 1, -1, 4, 4, -1, -1, -1]
 #        x_position = [(l+1)/5 for l in level]
 #        y_position = [1/6, 1/2, 1/2, 1/2, 1/2, 5/6, 0.0, 0.0, 1.0, 1/4, 3/4, 1.0]
-#                                                    
+#
 #
 #        for i in range(len(level)):
 #            self.assertAlmostEquals(neg_drawing.vertexList[i].pos_x, \
 #                              x_position[i])
 #            self.assertAlmostEquals(neg_drawing.vertexList[i].pos_y, \
 #                              y_position[i])
-#            
+#
 #    def test_find_initial_vertex_position_for_s_loop(self):
 #        """Test if we can correctly set the position with loop"""
-#        
+#
 #        opt = drawing.DrawOption({'external':1, 'horizontal':0, 'max_size':0})
-#        penta_diagram = base_objects.Diagram(self.penta_diagram_dict)  
+#        penta_diagram = base_objects.Diagram(self.penta_diagram_dict)
 #        penta_drawing = drawing.FeynmanDiagramNLO(penta_diagram, _model, opt)
-#        
+#
 #        penta_drawing.load_diagram()
 #        penta_drawing.define_level()
 #        penta_drawing.find_initial_vertex_position()
@@ -935,24 +935,24 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #        level = [1, 2, 1, 2, 2, 0, 3, 0, 3, 3]
 #        x_position = [(l)/3 for l in level]
 #        y_position = [0.25, 1/6, 0.75, 0.5, 5/6, 0, 0, 1, 0.5, 1]
-#        
+#
 #        for i in range(len(level)):
 #            self.assertAlmostEquals(penta_drawing.vertexList[i].pos_x, \
 #                              x_position[i])
 #            self.assertAlmostEquals(penta_drawing.vertexList[i].pos_y, \
 #                              y_position[i])
-#    
-     
-#        
-#        
+#
+
+#
+#
 #    def do_draw(self):
-#        """draw the diagrams for producing the plot associated to 
+#        """draw the diagrams for producing the plot associated to
 #        those tests"""
-#        
+#
 #        opt = drawing.DrawOption({'external':1, 'horizontal':0, 'max_size':0})
-#        penta_diagram = base_objects.Diagram(self.neg_diagram_dict)  
+#        penta_diagram = base_objects.Diagram(self.neg_diagram_dict)
 #        penta_drawing = drawing.FeynmanDiagramNLO(penta_diagram, _model, opt)
-#        
+#
 #        penta_drawing.load_diagram()
 #        penta_drawing.define_level()
 #        penta_drawing.find_initial_vertex_position()
@@ -961,7 +961,7 @@ class LoopDiagramDrawerTest(unittest.TestCase):
 #                                        '__testdiag3__.eps', model=_model, \
 #                                         amplitude='')
 #        plot.draw(opt)
-        
+
 if __name__ == '__main__':
 
     # For debugging it's interesting to store problematic diagram in one file.
@@ -1009,15 +1009,10 @@ if __name__ == '__main__':
         for pos in pos_list:
             diag_content['FULL %s' %gen_line][pos] = diag[pos]
 
-        
 
-    # Store the diagrams  
+
+    # Store the diagrams
     file_test_diagram = open(os.path.join(_file_path , \
                                     '../../input_files/test_draw_nlo.obj'), 'w')
     pickle.dump(diag_content, file_test_diagram)
     print('done')
-        
-        
-        
-        
-        

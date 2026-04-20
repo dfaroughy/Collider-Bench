@@ -996,21 +996,21 @@
       CHARACTER NAME*(*),ENAM*(*)
       CHARACTER*80 ERRTXT
       PARAMETER (NAME = 'BSKA/JMDBSKA', ENAM = 'EBSKA/DEBKA')
- 
+
       PARAMETER (Z1 = 1, Z2 = 2, Z3 = 3, Z4 = 4)
       PARAMETER (Z12 = Z1/Z2, Z13 = Z1/Z3, Z14 = Z1/Z4, Z23 = Z2/Z3)
       PARAMETER (Z34 = Z3/Z4)
- 
+
       DIMENSION B(0:*)
- 
+
       PARAMETER (PI = 3.14159 26535 89793D0, PIV = PI/4)
- 
+
       LEX=.FALSE.
       GO TO 9
- 
+
       ENTRY JMDEBKA(X,IA,JA,NL,B)
       LEX=.TRUE.
- 
+
     9 MODE=10*IA+JA
       N=NL-1
       U=2/X
@@ -1105,16 +1105,16 @@ C CERN PROGLIB# M507    LENOCC          .VERSION KERNFOR  4.21  890323
 C ORIG. March 85, A.Petrilli, re-write 21/02/89, JZ
 C
 C-    Find last non-blank character in CHV
- 
+
       CHARACTER    CHV*(*)
- 
+
       N = LEN(CHV)
- 
+
       DO 17  JJ= N,1,-1
       IF (CHV(JJ:JJ).NE.' ') GO TO 99
  17    CONTINUE
       JJ = 0
- 
+
  99    JMLNOC = JJ
       RETURN
       END
@@ -1902,7 +1902,7 @@ CMM   DOUBLE PRECISION DABS, XDENOM
      3        VAL, VOL, XMULT, YDI, YDMIN
 CMM   INTEGER IABS
       DATA SINGTL/ 1.0D-4/
-      DATA BIG/ 1.0D+10/  
+      DATA BIG/ 1.0D+10/
       SAVE
 *      write(*,*) 'SOL',sol
 *      write(*,*) 'FNLIN',fnlin
@@ -1997,7 +1997,7 @@ C -- JMB
       IF (DEL.NE.0.D0) THEN
          DFORIG(I)=(FNEW(I)-FMAJOR)/DEL
       ELSE
-         DFORIG(I)=0.D0         
+         DFORIG(I)=0.D0
       ENDIF
  160  CONTINUE
       CALL FEQN(NCUT,FORIG,FGAM,FNLIN)
@@ -2059,7 +2059,7 @@ C -- JMB
       VAL=FNLIN(IBACK)-SOL(IBACK+1)*SPDIAG(IBACK)
       SOL(IBACK)=VAL
 *     write(*,*) 'sol(iback),iback,val',sol(iback),iback,val
-      IF(ABS(DIAGJ(IBACK)).LT.BIG*ABS(VAL)) THEN 
+      IF(ABS(DIAGJ(IBACK)).LT.BIG*ABS(VAL)) THEN
          IF (DIAGJ(IBACK).NE.0.D0) THEN
             SOL(IBACK)=VAL/DIAGJ(IBACK)
          ELSE
@@ -4839,14 +4839,14 @@ C -- Abort the event if there are any errors.
       ABORT = .FALSE.
 
 C     Decide how many hard scatters
-C     If NSCAT=0, this event was rejected (this can happen because the 
-C     cross section at a given centre-of-mass energy changes with 
+C     If NSCAT=0, this event was rejected (this can happen because the
+C     cross section at a given centre-of-mass energy changes with
 C     eikonalisation).
 C     J returns the index of the upper S bound.
       CALL HWNSCT(J)
 
       IF (JMBUG.GT.0) THEN
-         WRITE(*,*) 'HWMSCT:NUMBER OF SCATTERS REQUESTED =',NSCAT    
+         WRITE(*,*) 'HWMSCT:NUMBER OF SCATTERS REQUESTED =',NSCAT
          CHECKSUM=CHECKSUM+NSCAT
          IF (NSCAT.GT.0) THEN
             CHECKEV=CHECKEV+1
@@ -4874,7 +4874,7 @@ C --     Finish event (making sure aborted events aren't printed)
  10      CONTINUE
 
          IF (REPORT.EQ.0) THEN
-            
+
             CALL HWHSCT(REPORT,(I.EQ.2),JMUEO,PTJIM)
 
             IF (REPORT.EQ.5) THEN
@@ -4892,7 +4892,7 @@ c     If there's an error which isn't a fatal error, retry.
                   GOTO 10
                ELSE
 c     Avoid infinite loops. If there's really no phase space, reduce
-c     the number of scatters.     
+c     the number of scatters.
                   NSCAT=NSCAT-1
                   IF (JMBUG.GT.0) WRITE(*,*) 'LOST A SCATTER'
                   COUNTER=0
@@ -4900,17 +4900,17 @@ c     the number of scatters.
             ENDIF
 
             IF (ANOMOFF) THEN
-               
+
                IF (ANOMSC(1,1).NE.0.OR.ANOMSC(1,2).NE.0)THEN
                   WRITE(JMOUT,*) 'Anom. scat',ANOMSC(1,1),ANOMSC(1,2)
                   NSCAT=NSCAT-1
                   REPORT=6
                ENDIF
-               
+
             ENDIF
-            
+
          ENDIF
-         
+
       ENDDO
 
       IF (JMBUG.GT.0) THEN
@@ -4978,7 +4978,7 @@ C --------------------------------------------------------------------------
       IERR = 0
 
 C --  Z is the fraction of the beam-beam centre-of-mass energy (squared)
-C     available in the subcollision. 
+C     available in the subcollision.
       IF (JCMVAR.EQ.0) THEN
         Z=-1.D0
         J=1
@@ -4992,14 +4992,14 @@ C --  Stage one: Keep the event?
       ELSE
          EIK=JMGAMZ(Z,2,J)
          UNEIK=JMGAMZ(Z,1,J)
-         TEST=EIK/UNEIK      
+         TEST=EIK/UNEIK
 C     Adjust the probability of zero scatters to the fact that some
 C     scatters are lost in event generation.
          IF (JMARRY(5+MAXMS,J).GT.0.AND.JMUEO.EQ.0) THEN
             TEST=TEST*JMARRY(6+MAXMS,J)/JMARRY(5+MAXMS,J)
          ENDIF
          DICE = JMRNDM(2,DUM)
-         
+
          IF (DICE.GT.TEST) THEN
 C     Event is rejected
             NSCAT = 0
@@ -5066,7 +5066,7 @@ C     Defualt debug level to lowest.
       JMBUG=0
 
 C     Number of attempts to regenerate a scatter which
-C     is initially vetoed by energy conservation 
+C     is initially vetoed by energy conservation
       MAXMSTRY=100
 
 C     Master flag for MI
@@ -5135,21 +5135,21 @@ C     Modified Bessel function K0
 C       Modified Bessel function K1
          AREA=(AREA-X2/TWO*JMDBESK1(X2))*JMU2*JMV2/(JMU2-JMV2)/
      &        (TWO*PIFAC)
-         
+
       ELSE IF (NPHOTONS.EQ.2) THEN
-         
+
 C     `e+e-' type run.
 C     Modified Bessel function K1
          AREA = JMV2*X1*JMDBESK1(X1)/(4.D0*PIFAC)
-         
-         
+
+
       ELSE IF (NPHOTONS.EQ.0) THEN
-         
+
 C     `pp' type run.
 C     Modified Bessel function K3
          CALL JMDBSKA(X2,0,1,3,BESSEL)
          AREA = JMU2/96/PIFAC*(X2**3)*BESSEL(3)
-         
+
       ENDIF
 
       JMAREA = AREA
@@ -5179,9 +5179,9 @@ C -----------------------------------------------------------------
          ENDIF
       ELSE
          WRITE (6,13)
-         WRITE (6,12) INT(TOTSCAT)         
+         WRITE (6,12) INT(TOTSCAT)
       ENDIF
-         
+
  10   FORMAT(10X,
      &     'NO MULTIPLE SCATTERS:NO MODIFICATION NECESSARY')
  11      FORMAT(1P,
@@ -5317,37 +5317,37 @@ C     ------------------------------------------------------------------------
 
 c     Step-size
          H = (ONE - JMZMIN)/FLOAT(NPSIMP)
-         
+
 c     Lower limit of integration
          Y = JMZMIN+DELTA
-         
+
          SUM = EPFUN( Y, 0 )
-         
+
          Y = JMZMIN
-         
+
          DO 2, I=1, NPSIMP/2
-            
+
             Y = Y + H
             TMP = EPFUN(Y, 2*I-1 )*FOUR
             SUM = SUM + TMP
-            
+
             Y = Y + H
             TMP = EPFUN(Y, 2*I )*TWO
             SUM = SUM + TMP
-            
+
  2       CONTINUE
-         
+
 C     Get the weight for the end point correct
          SUM = SUM - TMP/TWO
          XSECN = SUM*H/THREE
 
       ELSE
-         
+
          SUM   = EPFUN( 1.D0, 1 )
          XSECN = SUM
-         
+
       ENDIF
-         
+
       RETURN
    50 FORMAT(8F10.5)
       END
@@ -5374,7 +5374,7 @@ C --------------------------------------------------------------------------
       TOTSCAT=0
 
 C     If MI are not switched on, do nothing.
-      IF (MSFLAG.EQ.0) RETURN 
+      IF (MSFLAG.EQ.0) RETURN
 
 
 
@@ -5391,15 +5391,15 @@ C     lepton or an incoming pointlike photon
      &    (ABS(IPRO).EQ.55).OR.(ABS(IPRO).EQ.60).OR.
      &    (ABS(IPRO).EQ.90).OR.(ABS(IPRO).EQ.91).OR.
      &    (ABS(IPRO).EQ.95)) THEN
-         
-         WRITE(JMOUT,1006) 
+
+         WRITE(JMOUT,1006)
      &        'JMINIT: Multiparton interactions make no sense'
      &        ,'        for this process: Turning them off.'
          MSFLAG=0
          RETURN
 
       ELSE IF (ABS(IPRO).EQ.15) THEN
-         
+
 c     MI fine and can be used either in the full eikonal or in the
 c     underlying event approximation, depending on the users setting of
 c     JMUEO.
@@ -5408,7 +5408,7 @@ c     JMUEO.
 
          IF (JMUEO.EQ.0) THEN
             PTJIM=PTMIN
-         ELSE 
+         ELSE
             JMUEO=1
             IF (2.0*PTJIM.GT.PTMIN) THEN
                WRITE(6,*)
@@ -5421,7 +5421,7 @@ c     JMUEO.
      &      'JMINIT: Multiparton interactions being used in the '
             WRITE(JMOUT,1006)
      &      '        underlying event under high ET jets'
-            
+
          ENDIF
 
       ELSE
@@ -5465,7 +5465,7 @@ C --  Print out radii to be used.
       ELSE IF (IPART2.EQ.91.OR.IPART2.EQ.73) THEN
          WRITE(JMOUT,1009) JMU2
          WRITE(JMOUT,1010) JMV2
-      ELSE 
+      ELSE
          WRITE(JMOUT,1010) JMV2
       ENDIF
 
@@ -5879,7 +5879,7 @@ c     totally democratically.
       ELSE
 c     JIMMY being used to simulate the underlying event to a special
 c     (low cross section) process.
-         JMSNFN = N*PIFAC/PHAD*FAC1*CHI**N/JMFACT(N)*DEXP(-CHI)         
+         JMSNFN = N*PIFAC/PHAD*FAC1*CHI**N/JMFACT(N)*DEXP(-CHI)
       ENDIF
 
       IF (JMBUG.GT.10) THEN
@@ -6239,7 +6239,7 @@ C     (flag=0 otherwise)
       DOUBLE PRECISION FUNCTION QCDRES( Z )
 C     ---------------------------------------------------------------------
 C     Purpose: To calculate the inclusive hadron(or photon)+hadron(or
-C     photon) => JETS 
+C     photon) => JETS
 C     ---------------------------------------------------------------------
       include 'HERWIG65.INC'
       include 'JIMMY.INC'
@@ -6277,10 +6277,3 @@ C     photon becoming a hadronic = 1/phad)
       RETURN
 
       END
-
-
-
-
-
-
-

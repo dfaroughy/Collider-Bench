@@ -19,7 +19,7 @@ C initialize HEP logical units
       MSTU(11)=LNHOUT
       OPEN(UNIT=LNHOUT,FILE='listPythia.lpt',STATUS='NEW')
 C
-C... 
+C...
       write(lnhout,1001)
       call pylist(11)
       write(lnhout,1002)
@@ -35,4 +35,3 @@ c...close output file
  1002 format(' ----------------------- pylist(12) -------------------')
  1003 format(' ----------------------- pylist(13) -------------------')
       END
-

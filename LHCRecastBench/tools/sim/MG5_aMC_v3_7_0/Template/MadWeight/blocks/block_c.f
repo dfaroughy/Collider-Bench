@@ -6,7 +6,7 @@ c
 c               * P2
 c              *
 c     *********
-c      MV_r1   * 
+c      MV_r1   *
 c               * |P1| (missing)
 c
 c     |P_1| is fixed to reproduce MV_r1, theta_1 and phi_1 are generated randomly
@@ -58,7 +58,7 @@ c
 c      write(*,*) 'phi, x,nvar',phi_miss,x(n_var),n_var
 c
 c      theta_miss=dacos(momenta(3,p1)/dsqrt(momenta(1,p1)**2
-c     & +momenta(2,p1)**2+momenta(3,p1)**2)) 
+c     & +momenta(2,p1)**2+momenta(3,p1)**2))
 c      phi_miss=phi(momenta(0,p1))
       momenta(1,p1)=dsin(theta_miss)*dcos(phi_miss)
       momenta(2,p1)=dsin(theta_miss)*dsin(phi_miss)
@@ -71,8 +71,8 @@ c
       p1_ti=(mvir2(p1)+mvir2(p2)-mvir2(r1))/dem
       p1_E1=2d0*momenta(0,p2)/dem
 c
-c     solve the equation 
-c     E1^2-|P1|^2=m_1^2   <=>   (1-p1_E1^2)*E1^2-2*p1_ti*p1_E1*E1-p1_ti^2-m1^2=0 
+c     solve the equation
+c     E1^2-|P1|^2=m_1^2   <=>   (1-p1_E1^2)*E1^2-2*p1_ti*p1_E1*E1-p1_ti^2-m1^2=0
 c
 
           jac_factor=1d0
@@ -130,13 +130,13 @@ c            endif
               momenta(0,p1)=sol(index_sol)
               normP1=p1sol(index_sol)
               jac_factor=2d0
-          elseif (p1sol(1).gt.0d0.and.p1sol(2).le.0d0) then  
+          elseif (p1sol(1).gt.0d0.and.p1sol(2).le.0d0) then
               momenta(0,p1)=sol(1)
               normP1=p1sol(1)
-          elseif (p1sol(1).le.0d0.and.p1sol(2).gt.0d0) then  
+          elseif (p1sol(1).le.0d0.and.p1sol(2).gt.0d0) then
               momenta(0,p1)=sol(2)
               normP1=p1sol(2)
-          else 
+          else
             momenta(0,p1)=-1d0
             jac_loc=-1d0
             jac=-1d0
@@ -146,7 +146,7 @@ c            endif
           momenta(0,p1)=-1d0
           jac_loc=-1d0
           jac=-1d0
-          return 
+          return
         endif
       endif
 
@@ -156,7 +156,7 @@ c          jac=-1d0
 c          return
 c      endif
 
-      
+
 
 c
 c     fill the momentum p1,r1
@@ -179,11 +179,10 @@ c
       jac_loc=jac_loc*dsin(theta_miss)*normP1**2       ! PS weight for the initial set of variable
 c
       jac_loc=jac_loc*jac_factor
-     &/dabs(4d0*normP1*momenta(0,p2)-2d0*momenta(0,p1)*dem)  ! jac for the change of variables 
-                         !  the factor 2*E1 has been removed since it factorizes with the factor 1/2E1 in the PS weight 
+     &/dabs(4d0*normP1*momenta(0,p2)-2d0*momenta(0,p1)*dem)  ! jac for the change of variables
+                         !  the factor 2*E1 has been removed since it factorizes with the factor 1/2E1 in the PS weight
 
       jac=jac*jac_loc
 
       return
       end
-

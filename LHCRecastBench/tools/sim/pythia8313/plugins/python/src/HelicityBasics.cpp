@@ -55,7 +55,7 @@
 struct PyCallBack_Pythia8_HelicityParticle : public Pythia8::HelicityParticle {
 	using Pythia8::HelicityParticle::HelicityParticle;
 
-	int index() const override { 
+	int index() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityParticle *>(this), "index");
 		if (overload) {
@@ -74,7 +74,7 @@ struct PyCallBack_Pythia8_HelicityParticle : public Pythia8::HelicityParticle {
 struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrixElement {
 	using Pythia8::HelicityMatrixElement::HelicityMatrixElement;
 
-	void initPointers(class Pythia8::ParticleData * a0, class Pythia8::CoupSM * a1, class Pythia8::Settings * a2) override { 
+	void initPointers(class Pythia8::ParticleData * a0, class Pythia8::CoupSM * a1, class Pythia8::Settings * a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "initPointers");
 		if (overload) {
@@ -87,7 +87,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::initPointers(a0, a1, a2);
 	}
-	class Pythia8::HelicityMatrixElement * initChannel(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override { 
+	class Pythia8::HelicityMatrixElement * initChannel(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "initChannel");
 		if (overload) {
@@ -100,7 +100,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::initChannel(a0);
 	}
-	double decayWeight(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override { 
+	double decayWeight(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "decayWeight");
 		if (overload) {
@@ -113,7 +113,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::decayWeight(a0);
 	}
-	double decayWeightMax(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override { 
+	double decayWeightMax(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "decayWeightMax");
 		if (overload) {
@@ -126,7 +126,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::decayWeightMax(a0);
 	}
-	struct std::complex<double> calculateME(class std::vector<int, class std::allocator<int> > a0) override { 
+	struct std::complex<double> calculateME(class std::vector<int, class std::allocator<int> > a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "calculateME");
 		if (overload) {
@@ -139,7 +139,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::calculateME(a0);
 	}
-	void calculateD(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override { 
+	void calculateD(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "calculateD");
 		if (overload) {
@@ -152,7 +152,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::calculateD(a0);
 	}
-	void calculateRho(unsigned int a0, class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a1) override { 
+	void calculateRho(unsigned int a0, class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "calculateRho");
 		if (overload) {
@@ -165,7 +165,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::calculateRho(a0, a1);
 	}
-	struct std::complex<double> breitWigner(double a0, double a1, double a2) override { 
+	struct std::complex<double> breitWigner(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "breitWigner");
 		if (overload) {
@@ -178,7 +178,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::breitWigner(a0, a1, a2);
 	}
-	struct std::complex<double> sBreitWigner(double a0, double a1, double a2, double a3, double a4) override { 
+	struct std::complex<double> sBreitWigner(double a0, double a1, double a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "sBreitWigner");
 		if (overload) {
@@ -191,7 +191,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::sBreitWigner(a0, a1, a2, a3, a4);
 	}
-	struct std::complex<double> pBreitWigner(double a0, double a1, double a2, double a3, double a4) override { 
+	struct std::complex<double> pBreitWigner(double a0, double a1, double a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "pBreitWigner");
 		if (overload) {
@@ -204,7 +204,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::pBreitWigner(a0, a1, a2, a3, a4);
 	}
-	struct std::complex<double> dBreitWigner(double a0, double a1, double a2, double a3, double a4) override { 
+	struct std::complex<double> dBreitWigner(double a0, double a1, double a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "dBreitWigner");
 		if (overload) {
@@ -217,7 +217,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::dBreitWigner(a0, a1, a2, a3, a4);
 	}
-	void initConstants() override { 
+	void initConstants() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "initConstants");
 		if (overload) {
@@ -230,7 +230,7 @@ struct PyCallBack_Pythia8_HelicityMatrixElement : public Pythia8::HelicityMatrix
 		}
 		return HelicityMatrixElement::initConstants();
 	}
-	void initWaves(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override { 
+	void initWaves(class std::vector<class Pythia8::HelicityParticle, class std::allocator<class Pythia8::HelicityParticle> > & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HelicityMatrixElement *>(this), "initWaves");
 		if (overload) {

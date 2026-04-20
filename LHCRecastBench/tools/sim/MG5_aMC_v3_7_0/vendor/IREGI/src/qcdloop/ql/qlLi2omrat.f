@@ -10,9 +10,9 @@ c     Hence arguments are typically negative invariants
       if (arg .gt. 1d0) then
       wlog=qllnrat(x,y)
       qlLi2omrat=dcmplx(pisqo6-ddilog(omarg))-log(arg)*wlog
-      else 
+      else
       qlLi2omrat=dcmplx(ddilog(arg))
       endif
 
-      return 
+      return
       end

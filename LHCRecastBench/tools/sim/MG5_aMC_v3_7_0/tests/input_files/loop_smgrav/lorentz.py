@@ -73,7 +73,7 @@ R2RGA_VVVV5 = Lorentz(name = 'R2RGA_VVVV5',
 
 R2_GGZ = Lorentz(name = 'R2_GGZ',
                  spins = [ 3, 3, 3 ],
-                 structure = 'Epsilon(3,1,2,-1)*P(-1,2)-Epsilon(3,1,2,-1)*P(-1,1)') 
+                 structure = 'Epsilon(3,1,2,-1)*P(-1,2)-Epsilon(3,1,2,-1)*P(-1,1)')
 
 R2_GGVV = Lorentz(name = 'R2_GGVV',
                  spins = [ 3, 3, 3, 3 ],
@@ -192,4 +192,3 @@ VVT2 = Lorentz(name = 'VVT2',
 VVT3 = Lorentz(name = 'VVT3',
                spins = [ 3, 3, 5 ],
                structure = 'P(1003,2)*P(2003,1)*Metric(1,2) + P(1003,1)*P(2003,2)*Metric(1,2) - P(2,1)*P(2003,2)*Metric(1,1003) - P(2,1)*P(1003,2)*Metric(1,2003) - P(1,2)*P(2003,1)*Metric(2,1003) + P(-1,1)*P(-1,2)*Metric(1,2003)*Metric(2,1003) - P(1,2)*P(1003,1)*Metric(2,2003) + P(-1,1)*P(-1,2)*Metric(1,1003)*Metric(2,2003) + P(1,2)*P(2,1)*Metric(1003,2003) - P(-1,1)*P(-1,2)*Metric(1,2)*Metric(1003,2003)')
-

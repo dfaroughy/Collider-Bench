@@ -47,7 +47,7 @@
 struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 	using Pythia8::MergingHooks::MergingHooks;
 
-	double tmsDefinition(const class Pythia8::Event & a0) override { 
+	double tmsDefinition(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "tmsDefinition");
 		if (overload) {
@@ -60,7 +60,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::tmsDefinition(a0);
 	}
-	double dampenIfFailCuts(const class Pythia8::Event & a0) override { 
+	double dampenIfFailCuts(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "dampenIfFailCuts");
 		if (overload) {
@@ -73,7 +73,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::dampenIfFailCuts(a0);
 	}
-	bool canCutOnRecState() override { 
+	bool canCutOnRecState() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "canCutOnRecState");
 		if (overload) {
@@ -86,7 +86,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::canCutOnRecState();
 	}
-	bool doCutOnRecState(const class Pythia8::Event & a0) override { 
+	bool doCutOnRecState(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "doCutOnRecState");
 		if (overload) {
@@ -99,7 +99,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::doCutOnRecState(a0);
 	}
-	bool canVetoTrialEmission() override { 
+	bool canVetoTrialEmission() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "canVetoTrialEmission");
 		if (overload) {
@@ -112,7 +112,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::canVetoTrialEmission();
 	}
-	bool doVetoTrialEmission(const class Pythia8::Event & a0, const class Pythia8::Event & a1) override { 
+	bool doVetoTrialEmission(const class Pythia8::Event & a0, const class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "doVetoTrialEmission");
 		if (overload) {
@@ -125,7 +125,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::doVetoTrialEmission(a0, a1);
 	}
-	double hardProcessME(const class Pythia8::Event & a0) override { 
+	double hardProcessME(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "hardProcessME");
 		if (overload) {
@@ -138,7 +138,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::hardProcessME(a0);
 	}
-	void init() override { 
+	void init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "init");
 		if (overload) {
@@ -151,7 +151,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::init();
 	}
-	int getNumberOfClusteringSteps(const class Pythia8::Event & a0, bool a1) override { 
+	int getNumberOfClusteringSteps(const class Pythia8::Event & a0, bool a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "getNumberOfClusteringSteps");
 		if (overload) {
@@ -164,7 +164,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::getNumberOfClusteringSteps(a0, a1);
 	}
-	double tmsNow(const class Pythia8::Event & a0) override { 
+	double tmsNow(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "tmsNow");
 		if (overload) {
@@ -177,7 +177,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::tmsNow(a0);
 	}
-	bool canVetoEmission() override { 
+	bool canVetoEmission() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "canVetoEmission");
 		if (overload) {
@@ -190,7 +190,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::canVetoEmission();
 	}
-	bool doVetoEmission(const class Pythia8::Event & a0) override { 
+	bool doVetoEmission(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "doVetoEmission");
 		if (overload) {
@@ -203,7 +203,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::doVetoEmission(a0);
 	}
-	bool useShowerPlugin() override { 
+	bool useShowerPlugin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "useShowerPlugin");
 		if (overload) {
@@ -216,7 +216,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::useShowerPlugin();
 	}
-	bool usesVincia() override { 
+	bool usesVincia() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "usesVincia");
 		if (overload) {
@@ -229,7 +229,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::usesVincia();
 	}
-	bool canVetoStep() override { 
+	bool canVetoStep() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "canVetoStep");
 		if (overload) {
@@ -242,7 +242,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::canVetoStep();
 	}
-	bool doVetoStep(const class Pythia8::Event & a0, const class Pythia8::Event & a1, bool a2) override { 
+	bool doVetoStep(const class Pythia8::Event & a0, const class Pythia8::Event & a1, bool a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "doVetoStep");
 		if (overload) {
@@ -255,7 +255,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::doVetoStep(a0, a1, a2);
 	}
-	bool setShowerStartingScales(bool a0, bool a1, double & a2, const class Pythia8::Event & a3, double & a4, bool & a5, double & a6, bool & a7, double & a8, bool & a9) override { 
+	bool setShowerStartingScales(bool a0, bool a1, double & a2, const class Pythia8::Event & a3, double & a4, bool & a5, double & a6, bool & a7, double & a8, bool & a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "setShowerStartingScales");
 		if (overload) {
@@ -268,7 +268,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return MergingHooks::setShowerStartingScales(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -281,7 +281,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "onBeginEvent");
 		if (overload) {
@@ -294,7 +294,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "onEndEvent");
 		if (overload) {
@@ -307,7 +307,7 @@ struct PyCallBack_Pythia8_MergingHooks : public Pythia8::MergingHooks {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MergingHooks *>(this), "onStat");
 		if (overload) {

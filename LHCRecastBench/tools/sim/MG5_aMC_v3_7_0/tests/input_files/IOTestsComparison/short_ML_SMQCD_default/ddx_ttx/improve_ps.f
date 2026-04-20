@@ -1,18 +1,18 @@
       SUBROUTINE ML5_0_IMPROVE_PS_POINT_PRECISION(P)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       DOUBLE PRECISION P(0:3,NEXTERNAL)
       REAL*16 QP_P(0:3,NEXTERNAL)
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J
 
 C     ----------
@@ -38,32 +38,32 @@ C     ----------
 
       SUBROUTINE ML5_0_MP_IMPROVE_PS_POINT_PRECISION(P)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P(0:3,NEXTERNAL)
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J
       INTEGER ERRCODE,ERRCODETMP
       REAL*16 NEWP(0:3,NEXTERNAL)
-C     
+C
 C     FUNCTIONS
-C     
+C
       LOGICAL ML5_0_MP_IS_PHYSICAL
-C     
+C
 C     SAVED VARIABLES
-C     
+C
       INCLUDE 'MadLoopParams.inc'
-C     
+C
 C     SAVED VARIABLES
-C     
+C
       INTEGER WARNED
       DATA WARNED/0/
 
@@ -74,12 +74,12 @@ C     BEGIN CODE
 C     ----------
 
 C     ERROR CODES CONVENTION
-C     
+C
 C     1         ::  None physical PS point input
 C     100-1000  ::  Error in the origianl method for restoring
 C      precision
 C     1000-9999 ::  Error when restoring precision ala PSMC
-C     
+C
       ERRCODETMP=0
       ERRCODE=0
 
@@ -150,24 +150,24 @@ C     Report to the user or update the PS point.
 
       FUNCTION ML5_0_MP_IS_CLOSE(P,NEWP,WARNED)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       REAL*16 ZERO
       PARAMETER (ZERO=0.0E+00_16)
       REAL*16 THRS_CLOSE
       PARAMETER (THRS_CLOSE=1.0E-02_16)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P(0:3,NEXTERNAL), NEWP(0:3,NEXTERNAL)
       LOGICAL ML5_0_MP_IS_CLOSE
       INTEGER WARNED
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J
       REAL*16 REF,REF2
       DOUBLE PRECISION BUFFDP
@@ -198,9 +198,9 @@ C      ONE
 
       FUNCTION ML5_0_MP_IS_PHYSICAL(P,WARNED)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    NINITIAL
@@ -217,22 +217,22 @@ C
       PARAMETER (THRES_ONSHELL=1.0E-02_16)
       REAL*16 THRES_FOURMOM
       PARAMETER (THRES_FOURMOM=1.0E-06_16)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P(0:3,NEXTERNAL)
       LOGICAL ML5_0_MP_IS_PHYSICAL
       INTEGER WARNED
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J
       REAL*16 BUFF,REF
       REAL*16 MASSES(NEXTERNAL)
       DOUBLE PRECISION BUFFDPA,BUFFDPB
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 
       INCLUDE 'mp_coupl.inc'
 
@@ -305,9 +305,9 @@ C     FOR THAT WE NEED A REFERENCE SCALE
 
       INTEGER I,J
 
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       DOUBLE PRECISION P(0:3,NEXTERNAL),PSUM(0:3)
       DO I=0,3
         PSUM(I)=ZERO
@@ -349,9 +349,9 @@ C
 
       INTEGER I,J
 
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P(0:3,NEXTERNAL),PSUM(0:3),DOT
       DOUBLE PRECISION DP_P(0:3,NEXTERNAL),DP_PSUM(0:3),DP_DOT
 
@@ -398,25 +398,25 @@ C      therefore perform the cast by hand
       END
 
 C     Rotate_PS rotates the PS point PS (without modifying it)
-C     stores the result in P and for the quadruple precision 
+C     stores the result in P and for the quadruple precision
 C     version , it also modifies the global variables
 C     PS and MP_DONE accordingly.
 
       SUBROUTINE ML5_0_ROTATE_PS(P_IN,P,ROTATION)
       IMPLICIT NONE
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       DOUBLE PRECISION P_IN(0:3,NEXTERNAL),P(0:3,NEXTERNAL)
       INTEGER ROTATION
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J
 
 C     ----------
@@ -449,23 +449,23 @@ C         rotation=2 => (xp=-z,yp=y,zp=x)
 
       SUBROUTINE ML5_0_MP_ROTATE_PS(P_IN,P,ROTATION)
       IMPLICIT NONE
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P_IN(0:3,NEXTERNAL),P(0:3,NEXTERNAL)
       INTEGER ROTATION
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       LOGICAL MP_DONE
       COMMON/ML5_0_MP_DONE/MP_DONE
 
@@ -505,9 +505,9 @@ C     *****************************************************************
       SUBROUTINE ML5_0_MP_ORIG_IMPROVE_PS_POINT_PRECISION(P,ERRCODE
      $ ,WARNED)
       IMPLICIT NONE
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    NINITIAL
@@ -522,27 +522,27 @@ C
       PARAMETER (TWO=2.0E+00_16)
       REAL*16 THRS_TEST
       PARAMETER (THRS_TEST=1.0E-15_16)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P(0:3,NEXTERNAL)
       INTEGER ERRCODE, WARNED
-C     
+C
 C     FUNCTIONS
-C     
+C
       LOGICAL ML5_0_MP_IS_CLOSE
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J, P1, P2
 C     PT STANDS FOR PTOT
       REAL*16 PT(0:3), NEWP(0:3,NEXTERNAL)
       REAL*16 BUFF,REF,REF2,DISCR
       REAL*16 MASSES(NEXTERNAL)
       REAL*16 SHIFTE(2),SHIFTZ(2)
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 
       INCLUDE 'mp_coupl.inc'
 
@@ -613,14 +613,14 @@ C     Mathematica gives
 C     ptotC = {ptotE, ptotX, ptotY, ptotZ};
 C     pm1C = {pm1E + sm1E, pm1X, pm1Y, pm1Z + sm1Z};
 C     {pm0E + sm0E, ptotX - pm1X, ptotY - pm1Y, pm0Z + sm0Z};
-C     sol = Solve[{ptotC[[1]] - pm1C[[1]] - pm0C[[1]] == 0,  
+C     sol = Solve[{ptotC[[1]] - pm1C[[1]] - pm0C[[1]] == 0,
 C     ptotC[[4]] - pm1C[[4]] - pm0C[[4]] == 0,
 C     pm1C[[1]]^2 - pm1C[[2]]^2 - pm1C[[3]]^2 - pm1C[[4]]^2 == m1M^2,
 C     pm0C[[1]]^2 - pm0C[[2]]^2 - pm0C[[3]]^2 - pm0C[[4]]^2 == m2M^2},
 C     {sm1E, sm1Z, sm0E, sm0Z}] // FullSimplify;
 C     (solC[[1]] /. {m1M -> 0, m2M -> 0} /. {pm1X -> 0, pm1Y -> 0})
 C     END
-C     
+C
       DISCR = -PT(0)**2 + PT(1)**2 + PT(2)**2 + PT(3)**2
       IF (DISCR.LT.ZERO) DISCR = -DISCR
 
@@ -673,9 +673,9 @@ C     *****************************************************************
       SUBROUTINE ML5_0_MP_PSMC_IMPROVE_PS_POINT_PRECISION(P,ERRCODE
      $ ,WARNED)
       IMPLICIT NONE
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    NINITIAL
@@ -694,25 +694,25 @@ C
       INTEGER    NAPPROXZEROS
       PARAMETER (NAPPROXZEROS=3)
 
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P(0:3,NEXTERNAL)
       INTEGER ERRCODE,ERROR,WARNED
-C     
+C
 C     FUNCTIONS
-C     
+C
       LOGICAL ML5_0_MP_IS_CLOSE
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J, P1, P2
       REAL*16 NEWP(0:3,NEXTERNAL), PBUFF(0:3)
       REAL*16 BUFF, BUFF2, XSCALE, APPROX_ZEROS(NAPPROXZEROS)
       REAL*16 MASSES(NEXTERNAL)
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 
       INCLUDE 'mp_coupl.inc'
 
@@ -844,9 +844,9 @@ C     Consistency check
 
       SUBROUTINE ML5_0_FINDX(P,SEED,XSCALE,ERROR)
       IMPLICIT NONE
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    NINITIAL
@@ -863,14 +863,14 @@ C
       PARAMETER (MAXITERATIONS=8)
       REAL*16 CONVERGED
       PARAMETER (CONVERGED=1.0E-26_16)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 P(0:3,NEXTERNAL),SEED,XSCALE
       INTEGER ERROR
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J,ERR
       REAL*16 PVECSQ(NEXTERNAL)
       REAL*16 XN, XNP1,FVAL,DVAL
@@ -930,9 +930,9 @@ C     For good measure, we iterate one last time
 
       SUBROUTINE ML5_0_FUNCT(PVECSQ,X,DERIVATIVE,ERROR,RES)
       IMPLICIT NONE
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    NINITIAL
@@ -945,21 +945,21 @@ C
       PARAMETER (ONE=1.0E+00_16)
       REAL*16 TWO
       PARAMETER (TWO=2.0E+00_16)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       REAL*16 PVECSQ(NEXTERNAL),X,RES
       INTEGER ERROR
       LOGICAL DERIVATIVE
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER I,J
       REAL*16 BUFF,FACTOR
       REAL*16 MASSES(NEXTERNAL)
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 
       INCLUDE 'mp_coupl.inc'
 
@@ -1011,4 +1011,3 @@ C     derivative in the case that all particle are massless.
  800  CONTINUE
 
       END
-

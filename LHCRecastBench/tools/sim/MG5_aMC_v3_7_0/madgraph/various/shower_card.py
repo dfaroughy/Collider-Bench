@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2011 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -31,8 +31,8 @@ else:
     import madgraph.various.misc as misc
     import madgraph.various.banner as banner
     from madgraph import InvalidCmd
-    
-logger = logging.getLogger('madgraph.shower_card') 
+
+logger = logging.getLogger('madgraph.shower_card')
 
 pjoin = os.path.join
 
@@ -43,9 +43,9 @@ class ShowerCard(banner.RunCard):
     """ """
     true = ['.true.', 't', 'true', '1']
     false = ['.false.', 'f', 'false', '0']
-    logical_vars = ['ue_enabled', 'hadronize', 'b_stable', 'pi_stable', 'wp_stable', 
-                    'wm_stable', 'z_stable', 'h_stable', 'tap_stable', 'tam_stable', 
-                    'mup_stable', 'mum_stable', 'is_4lep', 'is_bbar', 'combine_td', 
+    logical_vars = ['ue_enabled', 'hadronize', 'b_stable', 'pi_stable', 'wp_stable',
+                    'wm_stable', 'z_stable', 'h_stable', 'tap_stable', 'tam_stable',
+                    'mup_stable', 'mum_stable', 'is_4lep', 'is_bbar', 'combine_td',
                     'qed_shower', 'primordialkt',
                     'space_shower_me_corrections', 'time_shower_me_corrections',
                     'time_shower_me_extended', 'time_shower_me_after_first']
@@ -62,11 +62,11 @@ class ShowerCard(banner.RunCard):
     # used / written for thar mc
     names_dict = {}
     stdhep_dict = {'HERWIG6':'mcatnlo_hwan_stdhep.o', 'PYTHIA6':'mcatnlo_pyan_stdhep.o'}
-    
+
     def __new__(cls, *args, **opts):
-        
-        #important to bypass the run_card.__new__ which is designed as a 
-        #factory between LO and NLO card. 
+
+        #important to bypass the run_card.__new__ which is designed as a
+        #factory between LO and NLO card.
         return banner.ConfigFile.__new__(cls, *args, **opts)
 
     def __init__(self, card=None, testing=False):
@@ -74,12 +74,12 @@ class ShowerCard(banner.RunCard):
         self.testing = testing
         self.text = None
         super().__init__(card)
-        
 
-    def add_param(self, name, *args, 
+
+    def add_param(self, name, *args,
                   py8='', py6='', hw6='', hwpp='',
                   all_sh=None, sh_postfix=False,**opts):
-        
+
         if all_sh:
             if py8 is not None and not py8:
                 py8 = all_sh
@@ -118,7 +118,7 @@ class ShowerCard(banner.RunCard):
     def default_setup(self):
         """default value for all the parameters"""
 
-        # Number of events, jobs, errors, and random seeds   
+        # Number of events, jobs, errors, and random seeds
         self.add_param("nevents", -1, comment="N evts to shower (< 0 = all)",
                        all_sh='nevents')
         self.add_param("nsplit_jobs", 1, comment="N jobs to run in parallel (< 100!!)")
@@ -133,7 +133,7 @@ class ShowerCard(banner.RunCard):
                        hw6='rndevseed2_hw')
 
 
-        # PDFs and non-perturbative modelling 
+        # PDFs and non-perturbative modelling
         self.add_param("pdfcode", 1, comment="0 = internal, 1 = same as NLO, other = lhaglue",
                        all_sh='pdfcode')
         self.add_param("ue_enabled", False, comment="underlying event",
@@ -177,8 +177,8 @@ class ShowerCard(banner.RunCard):
                        hw6='is_bb_hw')
 
 
-        # FxFx merging parameters 
-        self.add_param("Qcut",  -1.0, comment="Merging scale", 
+        # FxFx merging parameters
+        self.add_param("Qcut",  -1.0, comment="Merging scale",
                        py8='qcut')
         self.add_param("njmax", -1, comment="Maximal multiplicity in the merging. -1 means guessed  from the process definition",
                        py8='njmax')
@@ -242,7 +242,7 @@ class ShowerCard(banner.RunCard):
                 list_dm.append(int(key.split('_',1)[1]))
             #special case for DM_*
             for i in range(1,100):
-                if not i in list_dm: 
+                if not i in list_dm:
                     self['dm_'+str(i)] = ''
 
         self.text=content
@@ -254,7 +254,7 @@ class ShowerCard(banner.RunCard):
         if not testing write_to is an input path, if testing the text is
         returned by the function
         """
-        
+
         try:
             self[key] = value
         except InvalidCmd as error:
@@ -262,7 +262,7 @@ class ShowerCard(banner.RunCard):
 
         if isinstance(self[key], str):
             if value.lower() == 'none':
-                self[key] = '' 
+                self[key] = ''
 
         #then update self.text and write the new card
         if write_to:
@@ -278,9 +278,9 @@ class ShowerCard(banner.RunCard):
 
     def write(self, output_file, template=None, python_template=False,
                     write_hidden=False, template_options=None, **opt):
-        """Write the shower_card in output_file according to template 
+        """Write the shower_card in output_file according to template
            (a path to a valid shower_card)"""
-        
+
 
         to_write = set(self.user_set)
 
@@ -314,7 +314,7 @@ class ShowerCard(banner.RunCard):
                 newlines.append('%s%s%s=%s%s %s' % (s1,key,s2,s3,value,comment))
             else:
                 newlines.append(line)
-                
+
             for key in to_write:
                 newlines.append(' %s = %s #%s' % (key,self[key],self.comments[key]))
 
@@ -343,11 +343,11 @@ class ShowerCard(banner.RunCard):
         lines = []
         bool_dict = {True: '.true.', False: '.false.'}
         bool_dict_num = {True: '1', False: '0'}
-        
+
         for key in self:
             value = self[key]
             key = key.lower()
-            if isinstance(value, bool): 
+            if isinstance(value, bool):
                 # deal with special case for pythia:
                 if key in ['ue_enabled', 'hadronize'] and self.shower == 'PYTHIA6':
                     value = bool_dict_num[value]
@@ -369,7 +369,7 @@ class ShowerCard(banner.RunCard):
                     except KeyError as error:
                         misc.sprint(key,error)
                         continue
-                    
+
                 elif key.startswith('dm_') and not value:
                     continue
                 if value is None or not value:
@@ -404,4 +404,3 @@ class ShowerCard(banner.RunCard):
             return ('\n'.join(lines) + '\n')
         else:
             open(card_path, 'w').write(('\n'.join(lines) + '\n'))
-

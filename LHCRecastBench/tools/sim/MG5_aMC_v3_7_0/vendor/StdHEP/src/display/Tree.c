@@ -1,7 +1,7 @@
 /**********************************************************************************
   * Tree.c: The Tree Widget Source File
   *         From:
-  *                   The X Window System, 
+  *                   The X Window System,
   *            Programming and Applications with Xt
   *                   OSF/Motif Edition
   *         by
@@ -16,17 +16,17 @@
   *
   * This code is based on the OSF/Motif widget set and the X Window System
   *
-  * Permission to use, copy, modify, and distribute this software for 
+  * Permission to use, copy, modify, and distribute this software for
   * any purpose and without fee is hereby granted, provided that the above
   * copyright notice appear in all copies and that both the copyright notice
   * and this permission notice appear in supporting documentation.
   *
-  * Prentice Hall and the author disclaim all warranties with regard to 
+  * Prentice Hall and the author disclaim all warranties with regard to
   * this software, including all implied warranties of merchantability and fitness.
   * In no event shall Prentice Hall or the author be liable for any special,
-  * indirect or cosequential damages or any damages whatsoever resulting from 
-  * loss of use, data or profits, whether in an action of contract, negligence 
-  * or other tortious action, arising out of or in connection with the use 
+  * indirect or cosequential damages or any damages whatsoever resulting from
+  * loss of use, data or profits, whether in an action of contract, negligence
+  * or other tortious action, arising out of or in connection with the use
   * or performance of this software.
   *
   * Open Software Foundation is a trademark of The Open Software Foundation, Inc.
@@ -93,31 +93,31 @@ XsTreeClassRec XstreeClassRec = {
     sizeof(XsTreeRec),                /* widget_size        */
     NULL,                             /* class_init         */
     NULL,                             /* class_part_init    */
-    FALSE,                            /* class_inited       */	
+    FALSE,                            /* class_inited       */
     Initialize,                       /* initialize         */
-    NULL,                             /* initialize_hook    */	
+    NULL,                             /* initialize_hook    */
     XtInheritRealize,                 /* realize            */
     NULL,                             /* actions            */
-    0,                                /* num_actions        */	
+    0,                                /* num_actions        */
     resources,                        /* resources          */
     XtNumber(resources),              /* num_resources      */
     NULLQUARK,                        /* xrm_class          */
-    TRUE,                             /* compress_motion    */	
-    TRUE,                             /* compress_exposure  */	
-    TRUE,                             /* compress_enterleave*/	
+    TRUE,                             /* compress_motion    */
+    TRUE,                             /* compress_exposure  */
+    TRUE,                             /* compress_enterleave*/
     TRUE,                             /* visible_interest   */
     NULL,                             /* destroy            */
     NULL,                             /* resize             */
     Redisplay,                        /* expose             */
     SetValues,                        /* set_values         */
-    NULL,                             /* set_values_hook    */	
+    NULL,                             /* set_values_hook    */
     XtInheritSetValuesAlmost,         /* set_values_almost  */
-    NULL,                             /* get_values_hook    */	
+    NULL,                             /* get_values_hook    */
     NULL,                             /* accept_focus       */
-    XtVersion,                        /* version            */	
+    XtVersion,                        /* version            */
     NULL,                             /* callback_private   */
     NULL,                             /* tm_table           */
-    NULL,                             /* query_geometry     */	
+    NULL,                             /* query_geometry     */
     NULL,                             /* display_accelerator*/
     NULL,                             /* extension          */
   },
@@ -125,11 +125,11 @@ XsTreeClassRec XstreeClassRec = {
     /* composite_class fields */
     GeometryManager,                 /* geometry_manager    */
     ChangeManaged,                   /* change_managed      */
-    XtInheritInsertChild,            /* insert_child        */	
-    XtInheritDeleteChild,            /* delete_child        */	
+    XtInheritInsertChild,            /* insert_child        */
+    XtInheritDeleteChild,            /* delete_child        */
     NULL,                            /* extension           */
   },
-  { 
+  {
     /* constraint_class fields */
    treeConstraintResources,          /* subresources        */
    XtNumber(treeConstraintResources),/* subresource_count   */
@@ -141,7 +141,7 @@ XsTreeClassRec XstreeClassRec = {
    },
   {
     /* Tree class fields */
-    0,                               /* ignore              */	
+    0,                               /* ignore              */
   }
 };
 
@@ -154,7 +154,7 @@ static void Initialize(request, inew)
   XGCValues values;
   XtGCMask  valueMask;
   /*
-   * Make sure the widget's width and height are 
+   * Make sure the widget's width and height are
    * greater than zero.
    */
   if (request->core.width <= 0)
@@ -167,14 +167,14 @@ static void Initialize(request, inew)
   valueMask = GCForeground | GCBackground;
   values.foreground = inew->tree.foreground;
   values.background = inew->core.background_pixel;
-  inew->tree.gc = XtGetGC ((Widget)inew, valueMask, &values);  
+  inew->tree.gc = XtGetGC ((Widget)inew, valueMask, &values);
   /*
    * Create the hidden root widget.
    */
   inew->tree.tree_root = (Widget) NULL;
   XtSetArg(wargs[0], XtNwidth, 1);
   XtSetArg(wargs[1], XtNheight, 1);
-  inew->tree.tree_root = 
+  inew->tree.tree_root =
           XtCreateWidget("root", widgetClass, (Widget)inew, wargs, 2);
   /*
    * Allocate the tables used by the layout
@@ -182,7 +182,7 @@ static void Initialize(request, inew)
    */
   inew->tree.horizontal = create_offset(10);
   inew->tree.vertical   = create_offset(10);
-} 
+}
 
 static void ConstraintInitialize(request, inew)
      Widget request, inew;
@@ -195,10 +195,10 @@ static void ConstraintInitialize(request, inew)
   tree_const->tree.n_sub_nodes = 0;
   tree_const->tree.max_sub_nodes = 0;
   tree_const->tree.sub_nodes = (WidgetList) NULL;
-  tree_const->tree.x = tree_const->tree.y = 0; 
+  tree_const->tree.x = tree_const->tree.y = 0;
   /*
-   * If this widget has a super-node, add it to that 
-   * widget' sub-nodes list. Otherwise make it a sub-node of 
+   * If this widget has a super-node, add it to that
+   * widget' sub-nodes list. Otherwise make it a sub-node of
    * the tree_root widget.
    */
   if(tree_const->tree.super_node)
@@ -206,7 +206,7 @@ static void ConstraintInitialize(request, inew)
   else
     if(tw->tree.tree_root)
       insert_new_node(tw->tree.tree_root, inew);
-} 
+}
 
 static Boolean SetValues(current, request, inew)
     XsTreeWidget current, request, inew;
@@ -225,8 +225,8 @@ static Boolean SetValues(current, request, inew)
    values.foreground = inew->tree.foreground;
    values.background = inew->core.background_pixel;
    XtReleaseGC((Widget)inew, inew->tree.gc);
-   inew->tree.gc    = XtGetGC ((Widget)inew, valueMask, &values);   
-   redraw = TRUE;     
+   inew->tree.gc    = XtGetGC ((Widget)inew, valueMask, &values);
+   redraw = TRUE;
  }
  /*
   * If the minimum spacing has changed, recalculate the
@@ -234,7 +234,7 @@ static Boolean SetValues(current, request, inew)
   * need SetValues to do another one.
   */
  if (inew->tree.v_min_space != current->tree.v_min_space ||
-     inew->tree.h_min_space != current->tree.h_min_space){ 
+     inew->tree.h_min_space != current->tree.h_min_space){
    new_layout(inew);
    redraw = FALSE;
  }
@@ -259,12 +259,12 @@ static Boolean ConstraintSetValues(current, request, inew)
    if(newconst->tree.super_node)
      insert_new_node(newconst->tree.super_node, inew);
    /*
-    * If the Tree widget has been realized, 
+    * If the Tree widget has been realized,
     * compute new layout.
     */
    if(XtIsRealized((Widget)tw))
      new_layout(tw);
-  }               
+  }
   return (False);
 }
 
@@ -274,23 +274,23 @@ static void insert_new_node(super_node, node)
   TreeConstraints super_const = TREE_CONSTRAINT(super_node);
   TreeConstraints node_const = TREE_CONSTRAINT(node);
   int index = super_const->tree.n_sub_nodes;
-  
+
   node_const->tree.super_node = super_node;
   /*
-   * If there is no more room in the sub_nodes array, 
+   * If there is no more room in the sub_nodes array,
    * allocate additional space.
-   */  
+   */
   if(super_const->tree.n_sub_nodes ==
                              super_const->tree.max_sub_nodes){
-    super_const->tree.max_sub_nodes += 
+    super_const->tree.max_sub_nodes +=
                     (super_const->tree.max_sub_nodes / 2) + 2;
-    super_const->tree.sub_nodes = 
-     (WidgetList) XtRealloc((char*)super_const->tree.sub_nodes, 
+    super_const->tree.sub_nodes =
+     (WidgetList) XtRealloc((char*)super_const->tree.sub_nodes,
                            (super_const->tree.max_sub_nodes) *
                             sizeof(Widget));
-  } 
+  }
   /*
-   * Add the sub_node in the next available slot and 
+   * Add the sub_node in the next available slot and
    * increment the counter.
    */
   super_const->tree.sub_nodes[index] = node;
@@ -306,8 +306,8 @@ static void delete_node(super_node, node)
   /*
    * Make sure the super_node exists.
    */
-  if(!super_node) return;  
-  
+  if(!super_node) return;
+
   super_const = TREE_CONSTRAINT(super_node);
   /*
    * Find the sub_node on its super_node's list.
@@ -318,40 +318,40 @@ static void delete_node(super_node, node)
   if (pos == super_const->tree.n_sub_nodes) return;
   /*
    * Decrement the number of sub_nodes
-   */  
+   */
   super_const->tree.n_sub_nodes--;
   /*
    * Fill in the gap left by the sub_node.
    * Zero the last slot for good luck.
    */
-  for (i = pos; i < super_const->tree.n_sub_nodes; i++) 
-    super_const->tree.sub_nodes[i] = 
+  for (i = pos; i < super_const->tree.n_sub_nodes; i++)
+    super_const->tree.sub_nodes[i] =
                             super_const->tree.sub_nodes[i+1];
  super_const->tree.sub_nodes[super_const->tree.n_sub_nodes]=0;
 }
 
-static void ConstraintDestroy(w) 
+static void ConstraintDestroy(w)
 #ifdef JUST_LIKE_BOOK  /* Unimportant but perhaps confusing */
      XsTreeWidget w;
 #else
      Widget w;
 #endif
-{ 
+{
   TreeConstraints tree_const = TREE_CONSTRAINT(w);
   int i;
- /* 
+ /*
   * Remove the widget from its parent's sub-nodes list and
   * make all this widget's sub-nodes sub-nodes of the parent.
   */
-  /* This could break, since XtDestroyWidget will sometimes remove a 
-     supernode before this contraint has the opportunity to act. 
-     For now, there will be no rearrangement of the tree upon removal 
+  /* This could break, since XtDestroyWidget will sometimes remove a
+     supernode before this contraint has the opportunity to act.
+     For now, there will be no rearrangement of the tree upon removal
      of a node... */
- 
-/*   if(tree_const->tree.super_node) { 
+
+/*   if(tree_const->tree.super_node) {
     delete_node(tree_const->tree.super_node, w);
     for(i=0;i< tree_const->tree.n_sub_nodes; i++)
-      insert_new_node(tree_const->tree.super_node, 
+      insert_new_node(tree_const->tree.super_node,
                       tree_const->tree.sub_nodes[i]);
   }
   new_layout(w->core.parent);
@@ -414,15 +414,15 @@ static void Redisplay (w, event, region)
       * and the left edge of each of its sub_nodes. Don't
       * draw lines from the fake tree_root.
       */
-     if(child != w->tree.tree_root && 
+     if(child != w->tree.tree_root &&
         tree_const->tree.n_sub_nodes)
        for (j = 0; j < tree_const->tree.n_sub_nodes; j++)
-         XDrawLine(XtDisplay(w), XtWindow(w), 
+         XDrawLine(XtDisplay(w), XtWindow(w),
                    w->tree.gc,
-                   child->core.x + child->core.width, 
+                   child->core.x + child->core.width,
                    child->core.y + child->core.height / 2,
                    tree_const->tree.sub_nodes[j]->core.x,
-                   tree_const->tree.sub_nodes[j]->core.y + 
+                   tree_const->tree.sub_nodes[j]->core.y +
                 tree_const->tree.sub_nodes[j]->core.height/2);
     }
 }
@@ -467,10 +467,10 @@ static void new_layout(tw)
   * Set the current horizontal width to the max widths of all
   * widgets at this level.
   */
- set_current_position(tw->tree.horizontal, level, 
+ set_current_position(tw->tree.horizontal, level,
                       MAX(current_hpos, w->core.width));
  /*
-  * If the node has no sub_nodes, just set the vertical 
+  * If the node has no sub_nodes, just set the vertical
   * position to the next available space.
   */
  if(tree_const->tree.n_sub_nodes == 0){
@@ -481,30 +481,30 @@ static void new_layout(tw)
    TreeConstraints const1, const2;
    Position        top, bottom;
   /*
-   * If the node has sub_nodes, recursively figure the 
+   * If the node has sub_nodes, recursively figure the
    * positions of each sub_node.
    */
    for(i = 0; i < tree_const->tree.n_sub_nodes; i++)
-    depth = compute_positions(tw, 
+    depth = compute_positions(tw,
                               tree_const->tree.sub_nodes[i],
                               level + 1);
   /*
-   * Now that the vertical positions of all children are 
+   * Now that the vertical positions of all children are
    * known, find the vertical extent of all sub_nodes.
    */
   first_kid= tree_const->tree.sub_nodes[0];
-  last_kid = 
+  last_kid =
    tree_const->tree.sub_nodes[tree_const->tree.n_sub_nodes-1];
   const1   = TREE_CONSTRAINT(first_kid);
   const2   = TREE_CONSTRAINT(last_kid);
-  top      = const1->tree.y + first_kid->core.height / 2; 
+  top      = const1->tree.y + first_kid->core.height / 2;
   bottom   = const2->tree.y + last_kid->core.height / 2;
   /*
    * Set the node's position to the center of its sub_nodes.
    */
   tree_const->tree.y = (top + bottom)/2 - (w->core.height/ 2);
   /*
-   * If this position is less than the next available 
+   * If this position is less than the next available
    * position, correct it to be the next available
    * position, calculate the amount by which all sub_nodes
    * must be shifted, and shift the entire sub-tree.
@@ -528,7 +528,7 @@ static void new_layout(tw)
   * Record the current vertical position at this level.
   */
   set_current_position(tw->tree.vertical, level,
-                       tw->tree.v_min_space + 
+                       tw->tree.v_min_space +
                        tree_const->tree.y + w->core.height);
   return (MAX(depth, level));
 }
@@ -542,7 +542,7 @@ static void shift_subtree(w, offset)
   /*
    * Shift the node by the offset.
    */
-  tree_const->tree.y += offset; 
+  tree_const->tree.y += offset;
   /*
    * Shift each sub-node into place.
    */
@@ -558,14 +558,14 @@ static void set_positions(tw, w, level)
  int               i;
  Dimension         replyWidth = 0, replyHeight = 0;
  XtGeometryResult  result;
-  
+
  if(w){
   TreeConstraints tree_const = TREE_CONSTRAINT(w);
  /*
-  * Add up the sum of the width's of all nodes to this 
+  * Add up the sum of the width's of all nodes to this
   * depth, and use it as the x position.
   */
-  tree_const->tree.x = (level * tw->tree.h_min_space) + 
+  tree_const->tree.x = (level * tw->tree.h_min_space) +
                 sum_of_positions(tw->tree.horizontal, level);
  /*
   * Move the widget into position.
@@ -577,19 +577,19 @@ static void set_positions(tw, w, level)
   */
   if(tw->core.width < tree_const->tree.x + w->core.width ||
      tw->core.height < tree_const->tree.y + w->core.height){
-    result = 
-      XtMakeResizeRequest((Widget)tw, MAX(tw->core.width, 
-                                  tree_const->tree.x + 
+    result =
+      XtMakeResizeRequest((Widget)tw, MAX(tw->core.width,
+                                  tree_const->tree.x +
                                   w->core.width),
-                              MAX(tw->core.height, 
-                                  tree_const->tree.y + 
+                              MAX(tw->core.height,
+                                  tree_const->tree.y +
                                   w->core.height),
                           &replyWidth, &replyHeight);
     /*
      * Accept any compromise.
      */
      if (result == XtGeometryAlmost)
-       XtMakeResizeRequest ((Widget)tw, replyWidth, replyHeight, 
+       XtMakeResizeRequest ((Widget)tw, replyWidth, replyHeight,
                              NULL, NULL);
   }
  /*
@@ -603,10 +603,10 @@ static void set_positions(tw, w, level)
 static TreeOffsetPtr create_offset(size)
    long size;
 {
- TreeOffsetPtr  offset = 
+ TreeOffsetPtr  offset =
                  (TreeOffsetPtr) XtMalloc(sizeof(TreeOffset));
  offset->size = size;
- offset->array = 
+ offset->array =
              (Dimension *) XtMalloc(size * sizeof(Dimension));
  return (offset);
 }
@@ -636,7 +636,7 @@ static void set_current_position(offset, index, value)
  if(index >= offset->size){
    offset->size = index + index / 2;
    offset->array =
-    (Dimension *) XtRealloc((char*)offset->array, 
+    (Dimension *) XtRealloc((char*)offset->array,
                             offset->size * sizeof(Dimension));
  }
  offset->array[index] = value;
@@ -649,10 +649,9 @@ static Position sum_of_positions(offset, index)
   int    i;
   Position  sum  = 0;
   long      stop = index;
-  if(index > offset->size) 
+  if(index > offset->size)
     stop = offset->size;
   for (i=0;i < stop; i++)
     sum += offset->array[i];
   return (sum);
 }
-

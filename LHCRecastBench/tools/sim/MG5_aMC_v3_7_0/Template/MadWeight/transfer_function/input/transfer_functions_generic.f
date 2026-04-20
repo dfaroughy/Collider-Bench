@@ -4,7 +4,7 @@ c     this subroutine defines the central point
 c*******************************************************
       implicit none
 c
-c     parameter   
+c     parameter
 c
       include '../../nexternal.inc'
       include '../../run.inc'
@@ -57,7 +57,7 @@ c--------
 c     begin code
 c--------
 c
-c    define c_point, var 
+c    define c_point, var
 c-------------------------------------------------------------------
       c_point(1,1,1)=c_point_x1()    !cpoint for x1
       c_point(2,1,1)=c_point_x2()    !cpoint for x2
@@ -81,7 +81,7 @@ c
 c
          c_point(i,1,2)=sigma_theta_g(p_exp(0,i),n_lhco)
          c_point(i,2,2)=sigma_phi_g(p_exp(0,i),n_lhco)
-         c_point(i,3,2)=p_exp(0,i)*sigma_e_g(p_exp(0,i),n_lhco)/rho(p_exp(0,i))  
+         c_point(i,3,2)=p_exp(0,i)*sigma_e_g(p_exp(0,i),n_lhco)/rho(p_exp(0,i))
       elseif(IS_A_J(i))then
          c_point(i,1,1)=theta(p_exp(0,i))
          c_point(i,2,1)=phi(p_exp(0,i))
@@ -89,7 +89,7 @@ c
 c
          c_point(i,1,2)=sigma_theta_j(p_exp(0,i),n_lhco)
          c_point(i,2,2)=sigma_phi_j(p_exp(0,i),n_lhco)
-         c_point(i,3,2)=p_exp(0,i)*sigma_e_j(p_exp(0,i),n_lhco)/rho(p_exp(0,i))  
+         c_point(i,3,2)=p_exp(0,i)*sigma_e_j(p_exp(0,i),n_lhco)/rho(p_exp(0,i))
       elseif(IS_A_E(i))then
          c_point(i,1,1)=theta(p_exp(0,i))
          c_point(i,2,1)=phi(p_exp(0,i))
@@ -97,7 +97,7 @@ c
 c
          c_point(i,1,2)=sigma_theta_e(p_exp(0,i),n_lhco)
          c_point(i,2,2)=sigma_phi_e(p_exp(0,i),n_lhco)
-         c_point(i,3,2)=p_exp(0,i)*sigma_e_e(p_exp(0,i),n_lhco)/rho(p_exp(0,i))     
+         c_point(i,3,2)=p_exp(0,i)*sigma_e_e(p_exp(0,i),n_lhco)/rho(p_exp(0,i))
       elseif(IS_A_M(i))then
          c_point(i,1,1)=theta(p_exp(0,i))
          c_point(i,2,1)=phi(p_exp(0,i))
@@ -105,7 +105,7 @@ c
 c
          c_point(i,1,2)=sigma_theta_m(p_exp(0,i),n_lhco)
          c_point(i,2,2)=sigma_phi_m(p_exp(0,i),n_lhco)
-         c_point(i,3,2)=p_exp(0,i)*sigma_e_m(p_exp(0,i),n_lhco)/rho(p_exp(0,i))       
+         c_point(i,3,2)=p_exp(0,i)*sigma_e_m(p_exp(0,i),n_lhco)/rho(p_exp(0,i))
       elseif(IS_A_T(i))then
          c_point(i,1,1)=theta(p_exp(0,i))
          c_point(i,2,1)=phi(p_exp(0,i))
@@ -113,11 +113,11 @@ c
 c
          c_point(i,1,2)=sigma_theta_t(p_exp(0,i),n_lhco)
          c_point(i,2,2)=sigma_phi_t(p_exp(0,i),n_lhco)
-         c_point(i,3,2)=p_exp(0,i)*sigma_e_t(p_exp(0,i),n_lhco)/rho(p_exp(0,i))       
+         c_point(i,3,2)=p_exp(0,i)*sigma_e_t(p_exp(0,i),n_lhco)/rho(p_exp(0,i))
       else
          c_point(i,1,2)=-1d0
          c_point(i,2,2)=-1d0
-         c_point(i,3,2)=-1d0         
+         c_point(i,3,2)=-1d0
       endif
       enddo
 c
@@ -130,16 +130,16 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 c
       subroutine transfer_fct(P,weight)
 c----------------------------------------------------------------------
-c     This is the transfer function 
+c     This is the transfer function
 c     scale on event-by-event basis.
-c----------------------------------------------------------------------      
+c----------------------------------------------------------------------
       implicit none
 c
       integer    maxexternal
       parameter (maxexternal=15)
 c
 c     ARGUMENTS
-c      
+c
       DOUBLE PRECISION P(0:3,maxexternal)
       DOUBLE PRECISION weight
 c
@@ -189,7 +189,7 @@ C
 c
 c      uncomment the following lines to print
 c      reconstructed momenta (p_exp), and parton-level
-c      momenta (p) 
+c      momenta (p)
 c
 c      do i=1,nexternal
 c      write(*,*) 'p_exp',i, (pexp(k,i),k=0,3)
@@ -200,7 +200,7 @@ c      enddo
 c
 c     start loop over final particles
 c
-      do i = 3,nexternal  
+      do i = 3,nexternal
          n_lhco=tag_lhco(i)
 c
 c     add a weight if particle != neut
@@ -217,20 +217,20 @@ c
             call tf_e_jet(pexp(0,i),p(0,i),n_lhco,weight)
             call tf_phi_jet(pexp(0,i),p(0,i),n_lhco,weight)
             call tf_theta_jet(pexp(0,i),p(0,i),n_lhco,weight)
-         elseif(IS_A_E(i))then 
+         elseif(IS_A_E(i))then
             call tf_e_elec(pexp(0,i),p(0,i),n_lhco,weight)
             call tf_phi_elec(pexp(0,i),p(0,i),n_lhco,weight)
-            call tf_theta_elec(pexp(0,i),p(0,i),n_lhco,weight)           
-         elseif(IS_A_M(i))then 
+            call tf_theta_elec(pexp(0,i),p(0,i),n_lhco,weight)
+         elseif(IS_A_M(i))then
             call tf_e_muon(pexp(0,i),p(0,i),n_lhco,weight)
             call tf_phi_muon(pexp(0,i),p(0,i),n_lhco,weight)
             call tf_theta_muon(pexp(0,i),p(0,i),n_lhco,weight)
-         elseif(IS_A_T(i))then 
+         elseif(IS_A_T(i))then
             call tf_e_tau(pexp(0,i),p(0,i),n_lhco,weight)
             call tf_phi_tau(pexp(0,i),p(0,i),n_lhco,weight)
             call tf_theta_tau(pexp(0,i),p(0,i),n_lhco,weight)
          endif! nothing for neutrino
-         
+
          call check_nan(weight)
 
       enddo
@@ -247,7 +247,7 @@ C
 C     Subroutine for X1
 C
       DOUBLE PRECISION FUNCTION c_point_x1()
-      
+
       include '../../nexternal.inc'
 
       integer tag_init(3:nexternal),type(nexternal),run_number,trigger
@@ -321,7 +321,7 @@ C
       parameter (pi=3.141592654d0)
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 
       x1_exp=phi_init(opt_lhco)
@@ -330,7 +330,7 @@ C
 $$tf_x1$$
 
       weight=weight*tf_x1
-      
+
       return
       end
 C
@@ -352,14 +352,14 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
       x1_exp=phi_init(opt_lhco)
       x2_exp=pt_init(opt_lhco)
 
 $$tf_x2$$
 
       weight=weight*tf_x2
-      
+
       return
       end
 C
@@ -377,12 +377,12 @@ c      double precision pi
 c      parameter (pi=3.141592654d0)
 c      include '../../nexternal.inc'
 c            include 'nb_tf.inc'
-c      include 'TF_param.inc'     
+c      include 'TF_param.inc'
 c
 c$$tf_pt$$
 c
 c      weight=weight*tf_pt
-c      
+c
 c      return
 c      end
 c
@@ -404,12 +404,12 @@ C
       parameter (pi=3.141592654d0)
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_e_j$$
 
       weight=weight*tf_e_j
-      
+
       return
       end
 
@@ -426,12 +426,12 @@ $$tf_e_j$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_phi_j$$
 
       weight=weight*tf_phi_j
-      
+
       return
       end
 
@@ -448,12 +448,12 @@ $$tf_phi_j$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_theta_j$$
 
       weight=weight*tf_theta_j
-      
+
       return
       end
 
@@ -474,12 +474,12 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_e_b$$
 
       weight=weight*tf_e_b
-      
+
       return
       end
 
@@ -496,12 +496,12 @@ $$tf_e_b$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_phi_b$$
 
       weight=weight*tf_phi_b
-      
+
       return
       end
 
@@ -518,12 +518,12 @@ $$tf_phi_b$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_theta_b$$
 
       weight=weight*tf_theta_b
-      
+
       return
       end
 C
@@ -543,12 +543,12 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_e_g$$
 
       weight=weight*tf_e_g
-      
+
       return
       end
 
@@ -565,12 +565,12 @@ $$tf_e_g$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_phi_g$$
 
       weight=weight*tf_phi_g
-      
+
       return
       end
 
@@ -587,11 +587,11 @@ $$tf_phi_g$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_theta_g$$
 
-      weight=weight*tf_theta_g      
+      weight=weight*tf_theta_g
       return
       end
 
@@ -612,12 +612,12 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_e_e$$
 
       weight=weight*tf_e_e
-      
+
       return
       end
 
@@ -634,12 +634,12 @@ $$tf_e_e$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_phi_e$$
 
       weight=weight*tf_phi_e
-      
+
       return
       end
 
@@ -656,12 +656,12 @@ $$tf_phi_e$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_theta_e$$
 
       weight=weight*tf_theta_e
-      
+
       return
       end
 
@@ -682,12 +682,12 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_e_m$$
 
       weight=weight*tf_e_m
-      
+
       return
       end
 
@@ -704,12 +704,12 @@ $$tf_e_m$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_phi_m$$
 
       weight=weight*tf_phi_m
-      
+
       return
       end
 
@@ -726,12 +726,12 @@ $$tf_phi_m$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_theta_m$$
 
       weight=weight*tf_theta_m
-      
+
       return
       end
 
@@ -752,12 +752,12 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_e_t$$
 
       weight=weight*tf_e_t
-      
+
       return
       end
 
@@ -774,12 +774,12 @@ $$tf_e_t$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_phi_t$$
 
       weight=weight*tf_phi_t
-      
+
       return
       end
 
@@ -796,12 +796,12 @@ $$tf_phi_t$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$tf_theta_t$$
 
       weight=weight*tf_theta_t
-      
+
       return
       end
 
@@ -824,10 +824,10 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_x1$$
-      
+
       return
       end
 
@@ -846,10 +846,10 @@ $$sigma_x1$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_x2$$
-      
+
       return
       end
 
@@ -868,7 +868,7 @@ c            include 'nb_tf.inc'
       include 'TF_param.inc'
 
 c$$sigma_pt$$
-      
+
 c      return
 c      end
 
@@ -883,10 +883,10 @@ c      end
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_e_j$$
-      
+
       return
       end
 
@@ -901,10 +901,10 @@ $$sigma_e_j$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_phi_j$$
-      
+
       return
       end
 
@@ -919,11 +919,11 @@ $$sigma_phi_j$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_theta_j$$
 
-      
+
       return
       end
 
@@ -942,12 +942,12 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_e_b$$
 
 
-      
+
       return
       end
 
@@ -962,12 +962,12 @@ $$sigma_e_b$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_phi_b$$
 
 
-      
+
       return
       end
 
@@ -982,12 +982,12 @@ $$sigma_phi_b$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_theta_b$$
 
- 
-      
+
+
       return
       end
 C
@@ -1005,12 +1005,12 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_e_g$$
 
 
-      
+
       return
       end
 
@@ -1025,11 +1025,11 @@ $$sigma_e_g$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_phi_g$$
 
-      
+
       return
       end
 
@@ -1044,10 +1044,10 @@ $$sigma_phi_g$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_theta_g$$
-     
+
       return
       end
 
@@ -1066,11 +1066,11 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_e_e$$
 
-      
+
       return
       end
 
@@ -1085,11 +1085,11 @@ $$sigma_e_e$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_phi_e$$
 
-      
+
       return
       end
 
@@ -1104,11 +1104,11 @@ $$sigma_phi_e$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_theta_e$$
 
-      
+
       return
       end
 
@@ -1127,11 +1127,11 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_e_m$$
 
-      
+
       return
       end
 
@@ -1146,10 +1146,10 @@ $$sigma_e_m$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_phi_m$$
-      
+
       return
       end
 
@@ -1164,11 +1164,11 @@ $$sigma_phi_m$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_theta_m$$
 
-      
+
       return
       end
 
@@ -1187,11 +1187,11 @@ C
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_e_t$$
 
-      
+
       return
       end
 
@@ -1206,10 +1206,10 @@ $$sigma_e_t$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_phi_t$$
-      
+
       return
       end
 
@@ -1224,17 +1224,17 @@ $$sigma_phi_t$$
 
       include '../../nexternal.inc'
             include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $$sigma_theta_t$$
 
-      
+
       return
       end
 
       SUBROUTINE INIT_MET_LHCO
 C-------------------------------------------------------
-C     initialize tag value for LHCO MET 
+C     initialize tag value for LHCO MET
 C-------------------------------------------------------
       include '../../nexternal.inc'
       integer num_inv,num_jet,num_bjet,num_e,num_ae,num_mu,mum_amu,num_ta,num_ata,num_photon   !number of jet,elec,muon, undetectable
@@ -1267,5 +1267,3 @@ c
 
       return
       end
-
-

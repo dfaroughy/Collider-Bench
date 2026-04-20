@@ -14,26 +14,26 @@ public:
   // Constructor.
   CPPProcess() {}
 
-  // Initialize process. 
-  virtual void initProc(string param_card_name); 
+  // Initialize process.
+  virtual void initProc(string param_card_name);
 
   // Get and set momenta for matrix element evaluation
   void setMomenta(vector<double*>& momenta){p = momenta;}
 
   // Get amplitude for one colorflow
   std::complex<double> get_jamp(int T);
-  
+
   // Info on number of colorflows
   int NCol();
 
-  // Info on color  
-  int colorstring(int i,int j); 
+  // Info on color
+  int colorstring(int i,int j);
 
   // Constants for array limits
   static const int ninitial = %(ninitial)d;
   static const int nexternal = %(nexternal)d;
   static const int nprocesses = %(nprocesses)d;
-  
+
   // for Matchbox public functions to calculate the matrix element for all subprocesses
   %(all_sigma_kin_definitions)s
 

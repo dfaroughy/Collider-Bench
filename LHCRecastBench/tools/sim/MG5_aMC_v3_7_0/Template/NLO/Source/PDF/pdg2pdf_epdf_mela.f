@@ -18,7 +18,7 @@ c timing statistics
          return
 
       end
-      
+
       double precision function pdg2pdf(ih,ipdg,ibeam,x,xmu)
 c***************************************************************************
 c     Based on pdf.f, wrapper for calling the pdf of MCFM
@@ -33,7 +33,7 @@ C
 C     Include
 C
       include 'pdf.inc'
-C      
+C
       double precision Ctq3df,Ctq4Fn,Ctq5Pdf,Ctq6Pdf,Ctq5L
       integer mode,Irt,i,j,i_replace,ii
       double precision xlast(20),xmulast(20),pdflast(-7:7,20),q2max
@@ -63,7 +63,7 @@ C  PDFs with beamstrahlung use specific initialisation/evaluation
       common /to_ee_omx1/ omx_ee
 
       if (ih.eq.0) then
-c     Lepton collisions (no PDF). 
+c     Lepton collisions (no PDF).
          pdg2pdf=1d0
          return
       endif
@@ -86,14 +86,14 @@ c     instead of stopping the code, as this might accidentally happen.
 
 C     dressed leptons
       if (abs(ih).eq.3) then
-        ! change e/mu/tau = 8/9/10 to 11/13/15 
+        ! change e/mu/tau = 8/9/10 to 11/13/15
         if (abs(ipdg).eq.8) then
           ipart = sign(1,ipdg) * 11
         else if (abs(ipdg).eq.9) then
           ipart = sign(1,ipdg) * 13
         else if (abs(ipdg).eq.10) then
           ipart = sign(1,ipdg) * 15
-        else 
+        else
           ipart = ipdg
         endif
 
@@ -116,7 +116,7 @@ C     dressed leptons
           ! case with beamstrahlung. This case may not be symmetric
           ! because of different beam parameters for e+ and e-; need to
           ! pass both ih (transformed to +-1) and ipart
-          do i_ee = 1, n_ee 
+          do i_ee = 1, n_ee
             ! we pass ih/abs(ih)*ipart as PDG id because
             ! the eMELA/ePDF convention always refers as an electron beam
             ! Note that the photon from the positron will have -7!!
@@ -171,7 +171,7 @@ C  PDFs with beamstrahlung use specific initialisation/evaluation
           ! e+ in e+ / e- in e-
           id_epdf = 11
       else if (iabs(id).eq.7.or.abs(id).eq.22) then
-          ! photon in e+/e-; 
+          ! photon in e+/e-;
           !  the abs comes because photon from positron has -7
           id_epdf = 22
       else
@@ -230,7 +230,7 @@ C  PDFs with beamstrahlung use specific initialisation/evaluation
           ! e+ in e+ / e- in e-
           id_epdf = id
       else if (id.eq.7.or.id.eq.22) then
-          ! photon in e+/e-; 
+          ! photon in e+/e-;
           !  the abs comes because photon from positron has -7
           id_epdf = 22
       else
@@ -250,9 +250,9 @@ C  PDFs with beamstrahlung use specific initialisation/evaluation
       !  1/(1-x)^ps_expo, which is taken into account by the
       !  phase-space parameterization
       ! In this case the frist argument is the BS component
-      ! the second is the parton id 
+      ! the second is the parton id
       ! the third is the beam_id (+-1 for electron/positron)
-      call bs_elpdfq2(i_ee,id_epdf,ih,x,omx,xmu2,1d0-ps_expo,call_epdf_bs) 
+      call bs_elpdfq2(i_ee,id_epdf,ih,x,omx,xmu2,1d0-ps_expo,call_epdf_bs)
 
       return
       end

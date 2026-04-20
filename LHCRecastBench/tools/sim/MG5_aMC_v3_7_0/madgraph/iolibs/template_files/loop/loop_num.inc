@@ -1,9 +1,9 @@
 C THE CORE SUBROUTINE CALLED BY CUTTOOLS WHICH CONTAINS THE HELAS CALLS BUILDING THE LOOP
 
       SUBROUTINE %(proc_prefix)sLOOPNUM(Q,RES)
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  INTEGER    NCOMB
       PARAMETER (NCOMB=%(ncomb)d)
 	  INTEGER    NEXTERNAL
@@ -17,13 +17,13 @@ C
       PARAMETER (MAXLCOUPLINGS=%(maxlcouplings)d)
 	  %(complex_dp_format)s IMAG1
       PARAMETER (IMAG1=(0D0,1D0))
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(complex_dp_format)s Q(0:3)
       %(complex_dp_format)s RES
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_dp_format)s CFTOT
       %(complex_dp_format)s BUFF
@@ -31,7 +31,7 @@ C
 C
 C GLOBAL VARIABLES
 C
-      INTEGER WE(NEXTERNAL)	  
+      INTEGER WE(NEXTERNAL)
       INTEGER ID, SYMFACT, MULTIPLIER, AMPLNUM
       common/%(proc_prefix)sLOOP/WE,ID,SYMFACT,MULTIPLIER,AMPLNUM
 
@@ -50,7 +50,7 @@ C
 
 	  %(dp_born_amps_decl)s
 	  %(complex_dp_format)s W(20,NWAVEFUNCS%(ncomb_helas_objs)s)
-	  common/%(proc_prefix)sWFCTS/W  
+	  common/%(proc_prefix)sWFCTS/W
 
 	  INTEGER HELPICKED
 	  common/%(proc_prefix)sHELCHOICE/HELPICKED
@@ -68,9 +68,9 @@ C
 	  END
 
       SUBROUTINE %(proc_prefix)sLOOPNUMHEL(Q,RES,H)
-C  
-C CONSTANTS 
-C  
+C
+C CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    MAXLCOUPLINGS
@@ -86,14 +86,14 @@ C
       PARAMETER (NLOOPAMPS=%(nloopamps)d)
 	  INTEGER    NCOMB
       PARAMETER (NCOMB=%(ncomb)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(complex_dp_format)s Q(0:3)
       %(complex_dp_format)s RES
 	  INTEGER H
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_dp_format)s BUFF(4)
       %(complex_dp_format)s WL(20,NMAXLOOPWFS)
@@ -105,13 +105,13 @@ C
 	  %(mass_dp_format)s ML(NEXTERNAL+2)
       common/%(proc_prefix)sDP_LOOP/LC,ML
 
-      INTEGER WE(NEXTERNAL)  
+      INTEGER WE(NEXTERNAL)
       INTEGER ID, SYMFACT,MULTIPLIER,AMPLNUM
       common/%(proc_prefix)sLOOP/WE,ID,SYMFACT,MULTIPLIER,AMPLNUM
 
-	  %(dp_born_amps_decl)s	  
+	  %(dp_born_amps_decl)s
 	  %(complex_dp_format)s W(20,NWAVEFUNCS%(ncomb_helas_objs)s)
-	  common/%(proc_prefix)sWFCTS/W  
+	  common/%(proc_prefix)sWFCTS/W
 
 C ----------
 C BEGIN CODE
@@ -121,17 +121,17 @@ C ----------
       END
 
       SUBROUTINE %(proc_prefix)sMPLOOPNUM(Q,RES)
-	  
+
       INCLUDE 'cts_mprec.h'
-	  IMPLICIT NONE	  
-C  
-C CONSTANTS 
-C 
+	  IMPLICIT NONE
+C
+C CONSTANTS
+C
 	  INTEGER    NCOMB
       PARAMETER (NCOMB=%(ncomb)d)
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-	  %(nbornamps_decl)s	  
+	  %(nbornamps_decl)s
       INTEGER    NLOOPAMPS
       PARAMETER (NLOOPAMPS=%(nloopamps)d)
 	  INTEGER    NWAVEFUNCS
@@ -140,13 +140,13 @@ C
       PARAMETER (MAXLCOUPLINGS=%(maxlcouplings)d)
 	  %(complex_mp_format)s IMAG1
       PARAMETER (IMAG1=(0E0_16,1E0_16))
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       INCLUDE 'cts_mpc.h'                                             , INTENT(IN), DIMENSION(0:3) :: Q
       INCLUDE 'cts_mpc.h'                                             , INTENT(OUT) :: RES
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_mp_format)s QPRES
       %(complex_mp_format)s QPQ(0:3)
@@ -154,9 +154,9 @@ C
       INTEGER I,J,H
 	  %(complex_mp_format)s CFTOT
       %(complex_mp_format)s BUFF
-C  
+C
 C GLOBAL VARIABLES
-C 
+C
 	  LOGICAL MP_DONE
 	  common/%(proc_prefix)sMP_DONE/MP_DONE
 
@@ -164,10 +164,10 @@ C
 	  common/%(proc_prefix)sMP_PSPOINT/MP_PS,MP_P
 
 	  %(real_dp_format)s LSCALE
-	  INTEGER CTMODE	  
+	  INTEGER CTMODE
       common/%(proc_prefix)sCT/LSCALE,CTMODE
 
-      INTEGER WE(NEXTERNAL)  
+      INTEGER WE(NEXTERNAL)
       INTEGER ID, SYMFACT,MULTIPLIER,AMPLNUM
       common/%(proc_prefix)sLOOP/WE,ID,SYMFACT,MULTIPLIER,AMPLNUM
 
@@ -184,9 +184,9 @@ C
 	  INTEGER CF_N(NLOOPAMPS,%(color_matrix_size)s)
 	  common/%(proc_prefix)sCF/CF_D,CF_N
 
-	  %(mp_born_amps_decl)s	  
+	  %(mp_born_amps_decl)s
 	  %(complex_mp_format)s W(20,NWAVEFUNCS%(ncomb_helas_objs)s)
-	  common/%(proc_prefix)sMP_WFS/W	
+	  common/%(proc_prefix)sMP_WFS/W
 
 	  INTEGER HELPICKED
 	  common/%(proc_prefix)sHELCHOICE/HELPICKED
@@ -196,7 +196,7 @@ C ----------
       DO I=0,3
         QPQ(I) = Q(I)
       ENDDO
-	  QPRES=(0.0E0_16,0.0E0_16)	  
+	  QPRES=(0.0E0_16,0.0E0_16)
 
       IF(.NOT.MP_DONE.AND.CTMODE.EQ.0) THEN
 C       This is just to compute the wfs in quad prec
@@ -216,9 +216,9 @@ C       This is just to compute the wfs in quad prec
       END
 
       SUBROUTINE %(proc_prefix)sMPLOOPNUMHEL(Q,RES,H)
-C  
-C CONSTANTS 
-C  
+C
+C CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    MAXLCOUPLINGS
@@ -229,19 +229,19 @@ C
 	  PARAMETER (ZERO=0E0_16)
 	  INTEGER    NWAVEFUNCS
       PARAMETER (NWAVEFUNCS=%(nwavefuncs)d)
-	  %(nbornamps_decl)s	  
+	  %(nbornamps_decl)s
       INTEGER    NLOOPAMPS
       PARAMETER (NLOOPAMPS=%(nloopamps)d)
 	  INTEGER    NCOMB
       PARAMETER (NCOMB=%(ncomb)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(complex_mp_format)s Q(0:3)
       %(complex_mp_format)s RES
 	  INTEGER H
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_mp_format)s BUFF(4)
       %(complex_mp_format)s WL(20,NMAXLOOPWFS)
@@ -257,7 +257,7 @@ C
       INTEGER ID, SYMFACT,MULTIPLIER,AMPLNUM
       common/%(proc_prefix)sLOOP/WE,ID,SYMFACT,MULTIPLIER,AMPLNUM
 
-	  %(mp_born_amps_decl)s	  
+	  %(mp_born_amps_decl)s
 	  %(complex_mp_format)s W(20,NWAVEFUNCS%(ncomb_helas_objs)s)
 	  common/%(proc_prefix)sMP_WFS/W
 C ----------
@@ -268,14 +268,14 @@ C ----------
       END
 
       SUBROUTINE %(proc_prefix)sMPLOOPNUM_DUMMY(Q,RES)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       INCLUDE 'cts_mprec.h'
       INCLUDE 'cts_mpc.h'                                             , INTENT(IN), DIMENSION(0:3) :: Q
       INCLUDE 'cts_mpc.h'                                             , INTENT(OUT) :: RES
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       COMPLEX*16 DRES
       COMPLEX*16 DQ(0:3)

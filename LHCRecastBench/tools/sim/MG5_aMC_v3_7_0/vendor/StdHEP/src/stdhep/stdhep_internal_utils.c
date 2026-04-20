@@ -30,7 +30,7 @@
 #ifndef TRUE
 #define TRUE 1
 #endif
-/* 
+/*
 *   StdHep definitions and include files
 */
 #include "stdhep.h"
@@ -116,9 +116,9 @@ int StdHepTempCopy(int idir, int istr)
 	    hepev5_.idrupmulti[i] = tmpev4_.idrupt;
 	} else {
 	    fprintf(stderr," StdHepTempCopy: %d multiple interactions in this event\n",
-	         hepev2_.nmulti );  
+	         hepev2_.nmulti );
 	    fprintf(stderr," StdHepTempCopy: only %d multiple interactions are allowed\n",
-	         NMXMLT );  
+	         NMXMLT );
 	}
         for (i = 0; i < stdtmp_.nhept; i++) {
             hepev2_.jmulti[nh+i] = hepev2_.nmulti;

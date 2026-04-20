@@ -3,20 +3,20 @@
 %(process_lines)s
 
 //--------------------------------------------------------------------------
-// Initialize process. 
-  
+// Initialize process.
+
 void %(process_class_name)s::initProc() {
 // Instantiate the model class and set parameters that stay fixed during run
     pars = Parameters_%(model_name)s::getInstance();
     pars->setIndependentParameters(particleDataPtr, coupSUSYPtr, slhaPtr);
     pars->setIndependentCouplings();
     %(initProc_lines)s
-} 
+}
 
 //--------------------------------------------------------------------------
-// Evaluate |M|^2, part independent of incoming flavour. 
+// Evaluate |M|^2, part independent of incoming flavour.
 
-void %(process_class_name)s::sigmaKin() { 
+void %(process_class_name)s::sigmaKin() {
     // Set the parameters which change event by event
     pars->setDependentParameters(particleDataPtr, coupSUSYPtr, slhaPtr, alpS);
     pars->setDependentCouplings();
@@ -26,9 +26,9 @@ void %(process_class_name)s::sigmaKin() {
 }
 
 //--------------------------------------------------------------------------
-// Evaluate |M|^2, including incoming flavour dependence. 
+// Evaluate |M|^2, including incoming flavour dependence.
 
-double %(process_class_name)s::sigmaHat() {  
+double %(process_class_name)s::sigmaHat() {
     %(sigmaHat_lines)s
 }
 
@@ -40,7 +40,7 @@ void %(process_class_name)s::setIdColAcol() {
 }
 
 //--------------------------------------------------------------------------
-// Evaluate weight for angles of decay products in process 
+// Evaluate weight for angles of decay products in process
 
 double %(process_class_name)s::weightDecay(Event& process, int iResBeg, int iResEnd) {
     %(weightDecay_lines)s

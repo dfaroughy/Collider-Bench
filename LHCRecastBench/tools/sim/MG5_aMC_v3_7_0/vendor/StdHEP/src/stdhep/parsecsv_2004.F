@@ -1,7 +1,7 @@
 
       subroutine parsecsv_2004
 C
-C   This routine reads a line from the new, complete, 
+C   This routine reads a line from the new, complete,
 C   mass and width table supplied by PDG.
 C   This routine works with the 2004 table:
 C   FORMAT (BN, 2(E11.0, 1X, 2(E9.0, 1X)), A3, 1X, A1, 1X, A4, 1X, 3(A1, 1X), A7, 1X, A4, 1X, 2(A1, 1X), A18, 1X, A)
@@ -27,7 +27,7 @@ c set everything to zero, just in case
       name = ' '
 
 c make sure this is not an old style file or a comment
-      if (cline(1:1).eq.'M' .or. cline(1:1).eq.'W' 
+      if (cline(1:1).eq.'M' .or. cline(1:1).eq.'W'
      &    .or. cline(1:1).eq.'*') then
 	   return
       endif
@@ -55,7 +55,7 @@ c      write(lnhout,102) wval, wpos, wneg
       quarklist = cline(117:132)
 
 C translate charge
-      frac=0 
+      frac=0
       do i=1,4
         if(cchg(i:i).eq.'/') frac=i
       enddo

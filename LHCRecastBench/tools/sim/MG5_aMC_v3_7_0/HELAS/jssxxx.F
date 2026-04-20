@@ -29,7 +29,7 @@ c where the s1 charge is defined by the flowing-OUT quantum number.
 c
 c output:
 c       complex jss(6)         : vector current            j^mu(v:s1,s2)
-c     
+c
       implicit none
       double complex s1(3),s2(3),gc,jss(6),dg,adg
       double complex cm2        ! mass**2- I Gamma mass (Fabio)
@@ -94,7 +94,7 @@ c
      &        ' helas-error : jss in jssxxx is on vmass pole'
          write(stdo,*)
      &        '             : q     = ',q(0),q(1),q(2),q(3)
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : abs(q)= ',sqrt(abs(q2))
          jss(1) = cZero
          jss(2) = cZero

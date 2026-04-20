@@ -11,7 +11,7 @@ c       complex gc(2)          : coupling constants                  gvf
 c
 c output:
 c       complex vertex         : amplitude                     <fo|v|fi>
-c     
+c
       implicit none
       double complex fi(6),fo(6),gc(2),vc(6),vertex
 

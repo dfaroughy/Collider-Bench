@@ -6,14 +6,14 @@ c*************************************************************************
       include 'vector.inc' ! defines VECSIZE_MEMMAX
       include 'maxconfigs.inc'
 c     parameters for clustering:
-c     id_cl gives diagrams for propagators     
+c     id_cl gives diagrams for propagators
       integer id_cl(maxsproc,n_max_cl,0:n_max_cg)
       logical heavyrad(n_max_cg)
       common/cl_map/id_cl,heavyrad
 c     resmap gives potential resonances for diagrams
       logical resmap(n_max_cl,n_max_cg)
       common/res_map/resmap
-c     cl_val      
+c     cl_val
       double precision pt2ijcl(nexternal),zcl(nexternal),mt2ij(nexternal),mt2last
       double precision pcl(0:4,n_max_cl) ! 4 is mass**2
       integer imocl(nexternal), idacl(nexternal,2), igraphs(0:n_max_cg)

@@ -4,7 +4,7 @@ c- by RF - Mar. 2006
 c
 c
 c This subroutine computes an off-shell vector current from the vector-
-c vector-Higgs-Higgs effective coupling.  
+c vector-Higgs-Higgs effective coupling.
 c
       implicit none
 c--   dimension of the current set to arbitrary length
@@ -44,15 +44,15 @@ c      include "dimension.inc"
       dg = sc1(1)*sc2(1) /q2
 
       if (g1(1).NE.(0D0,0D0)) then
-         qvc = vc(1)*q(1) - vc(2)*q(2) - vc(3)*q(3) - vc(4)*q(4)	
-         qp1 = q(1)*p1(1) - q(2)*p1(2) - q(3)*p1(3) - q(4)*p1(4)	
-         
+         qvc = vc(1)*q(1) - vc(2)*q(2) - vc(3)*q(3) - vc(4)*q(4)
+         qp1 = q(1)*p1(1) - q(2)*p1(2) - q(3)*p1(3) - q(4)*p1(4)
+
          jvs1(1) = g1(1)* (vc(1)*qp1 - p1(1)*qvc)
          jvs1(2) = g1(1)* (vc(2)*qp1 - p1(2)*qvc)
          jvs1(3) = g1(1)* (vc(3)*qp1 - p1(3)*qvc)
          jvs1(4) = g1(1)* (vc(4)*qp1 - p1(4)*qvc)
       endif
- 
+
       if (g1(2).NE.(0D0,0D0)) then
          p12 = p1(1)*q(2) - p1(2)*q(1)
          p13 = p1(1)*q(3) - p1(3)*q(1)

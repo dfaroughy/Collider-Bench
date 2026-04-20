@@ -4,7 +4,7 @@ C
       double precision phkk,vhkk,whkk
       integer idres,idxres,nobam,idbam,idch,npoint
 C
-      PARAMETER (NMXHKK=49998) 
+      PARAMETER (NMXHKK=49998)
       COMMON /HKKEVT/ NHKK,NEVHKK,ISTHKK(NMXHKK),IDHKK(NMXHKK),
      &                JMOHKK(2,NMXHKK),JDAHKK(2,NMXHKK),
      &                PHKK(5,NMXHKK),VHKK(4,NMXHKK),WHKK(4,NMXHKK)

@@ -157,7 +157,7 @@ void SetDeleteRemap(int state)
 ** mouse pointer.  Whether it pops up the dialog centered under the pointer
 ** or in its default position centered over the parent widget, depends on
 ** the value set in the SetPointerCenteredDialogs call.
-*/ 
+*/
 void ManageDialogCenteredOnPointer(Widget dialogChild)
 {
     Widget shell = XtParent(dialogChild);
@@ -172,12 +172,12 @@ void ManageDialogCenteredOnPointer(Widget dialogChild)
     	XtManageChild(dialogChild);
     	return;
     }
-    
+
     /* Temporarily set value of XmNmappedWhenManaged
        to stop the dialog from popping up right away */
     XtVaGetValues(shell, XmNmappedWhenManaged, &mappedWhenManaged, 0);
     XtVaSetValues(shell, XmNmappedWhenManaged, False, 0);
-    
+
     /* Manage the dialog */
     XtManageChild(dialogChild);
 
@@ -204,10 +204,10 @@ void ManageDialogCenteredOnPointer(Widget dialogChild)
 
     /* Set desired window position in the DialogShell */
     XtVaSetValues(shell, XmNx, x, XmNy, y, NULL);
-    
+
     /* Map the widget */
     XtMapWidget(shell);
-    
+
     /* Restore the value of XmNmappedWhenManaged */
     XtVaSetValues(shell, XmNmappedWhenManaged, mappedWhenManaged, 0);
 }
@@ -280,12 +280,12 @@ char *GetXmStringText(XmString fromString)
     XmStringCharSet charset;
     XmStringDirection direction;
     Boolean separator;
-    
+
     /* Malloc a buffer large enough to hold the string.  XmStringLength
        should always be slightly longer than necessary, but won't be
-       shorter than the equivalent null-terminated string */ 
+       shorter than the equivalent null-terminated string */
     toString = XtMalloc(XmStringLength(fromString));
-    
+
     /* loop over all of the segments in the string, copying each segment
        into the output string and converting separators into newlines */
     XmStringInitContext(&context, fromString);
@@ -297,7 +297,7 @@ char *GetXmStringText(XmString fromString)
     	if (separator)
     	    *toPtr++ = '\n';
     }
-    
+
     /* terminate the string, free the context, and return the string */
     *toPtr++ = '\0';
     XmStringFreeContext(context);
@@ -321,7 +321,7 @@ XFontStruct *GetDefaultFontStruct(XmFontList font)
     XtFree(charset);
     return fs;
 }
-   
+
 /*
 ** Create a string table suitable for passing to XmList widgets
 */
@@ -357,11 +357,11 @@ void FreeStringTable(XmString *table)
 ** is happening when they take an action with a non-obvious side effect,
 ** such as when a user double clicks on a list item.  The argument is an
 ** XmPushButton widget to "press"
-*/ 
+*/
 void SimulateButtonPress(Widget widget)
 {
     XKeyPressedEvent keyEvent;
-    
+
     memset((char *)&keyEvent, 0, sizeof(XKeyPressedEvent));
     keyEvent.type = KeyPress;
     keyEvent.serial = 1;
@@ -381,8 +381,8 @@ Widget AddMenuItem(Widget parent, char *name, char *label,
 {
     Widget button;
     XmString st1, st2;
-    
-    button = XtVaCreateManagedWidget(name, xmPushButtonWidgetClass, parent, 
+
+    button = XtVaCreateManagedWidget(name, xmPushButtonWidgetClass, parent,
     	XmNlabelString, st1=XmStringCreateSimple(label),
     	XmNmnemonic, mnemonic,
     	XmNacceleratorText, st2=XmStringCreateSimple(accText),
@@ -403,8 +403,8 @@ Widget AddMenuToggle(Widget parent, char *name, char *label,
 {
     Widget button;
     XmString st1, st2;
-    
-    button = XtVaCreateManagedWidget(name, xmToggleButtonWidgetClass, parent, 
+
+    button = XtVaCreateManagedWidget(name, xmToggleButtonWidgetClass, parent,
     	XmNlabelString, st1=XmStringCreateSimple(label),
     	XmNmnemonic, mnemonic,
     	XmNacceleratorText, st2=XmStringCreateSimple(accText),
@@ -422,7 +422,7 @@ Widget AddMenuToggle(Widget parent, char *name, char *label,
 Widget AddMenuSeparator(Widget parent, char *name)
 {
     Widget button;
-    
+
     button = XmCreateSeparator(parent, name, NULL, 0);
     XtManageChild(button);
     return button;
@@ -437,9 +437,9 @@ Widget AddSubMenu(Widget parent, char *name, char *label, char mnemonic)
 {
     Widget menu;
     XmString st1;
-    
+
     menu = XmCreatePulldownMenu(parent, name, NULL, 0);
-    XtVaCreateManagedWidget(name, xmCascadeButtonWidgetClass, parent, 
+    XtVaCreateManagedWidget(name, xmCascadeButtonWidgetClass, parent,
     	XmNlabelString, st1=XmStringCreateSimple(label),
     	XmNmnemonic, mnemonic,
     	XmNsubMenuId, menu, 0);
@@ -457,7 +457,7 @@ void SetIntLabel(Widget label, int value)
 {
     char labelString[20];
     XmString s1;
-    
+
     sprintf(labelString, "%d", value);
     s1=XmStringCreateSimple(labelString);
     XtVaSetValues(label, XmNlabelString, s1, 0);
@@ -467,7 +467,7 @@ void SetFloatLabel(Widget label, double value)
 {
     char labelString[20];
     XmString s1;
-    
+
     sprintf(labelString, "%g", value);
     s1=XmStringCreateSimple(labelString);
     XtVaSetValues(label, XmNlabelString, s1, 0);
@@ -476,14 +476,14 @@ void SetFloatLabel(Widget label, double value)
 void SetIntText(Widget text, int value)
 {
     char labelString[20];
-    
+
     sprintf(labelString, "%d", value);
     XmTextSetString(text, labelString);
 }
 void SetFloatText(Widget text, double value)
 {
     char labelString[20];
-    
+
     sprintf(labelString, "%g", value);
     XmTextSetString(text, labelString);
 }
@@ -537,7 +537,7 @@ int GetFloatTextWarn(Widget text, double *value, char *fieldName, int warnBlank)
 {
     int result;
     char *valueStr;
-    
+
     result = GetFloatText(text, value);
     if (result == TEXT_READ_OK || (result == TEXT_IS_BLANK && !warnBlank))
     	return result;
@@ -556,7 +556,7 @@ int GetIntTextWarn(Widget text, int *value, char *fieldName, int warnBlank)
 {
     int result;
     char *valueStr;
-    
+
     result = GetIntText(text, value);
     if (result == TEXT_READ_OK || (result == TEXT_IS_BLANK && !warnBlank))
     	return result;
@@ -579,7 +579,7 @@ int GetIntTextWarn(Widget text, int *value, char *fieldName, int warnBlank)
  *
  * parameters: w       - text widget to add the callback to
  *             passTxt - pointer to a string created by caller of this routine.
- *		         **NOTE** The length of this string should be one 
+ *		         **NOTE** The length of this string should be one
  *			 greater than the maximum specified by XmNmaxLength.
  *			 This string is set to empty just before the callback
  *			 is added.
@@ -604,7 +604,7 @@ void BeginWait(Widget topCursorWidget)
     XColor xcolors[2];
     int scr;
     static Cursor  waitCursor = 0;
-    
+
     /* if the watch cursor hasn't been created yet, create it */
     if (!waitCursor) {
 	pixmap = XCreateBitmapFromData(display, DefaultRootWindow(display),
@@ -691,7 +691,7 @@ static void passwdCB(Widget w, char * passTxt, XmTextVerifyCallbackStruct
 	for (pos = strlen(passTxt) + 1; pos >= txtVerStr->endPos; --pos)
 	    passTxt[pos+j] = passTxt[pos];
     if (j < 0)				/* compress case */
-	for (pos = txtVerStr->startPos + numCharsTyped; 
+	for (pos = txtVerStr->startPos + numCharsTyped;
 			     pos <= strlen(passTxt)+1; ++pos)
 	    passTxt[pos] = passTxt[pos-j];
     /* then copy text to be inserted into passTxt */
@@ -709,7 +709,7 @@ static void passwdCB(Widget w, char * passTxt, XmTextVerifyCallbackStruct
 static void removeWhiteSpace(char *string)
 {
     char *outPtr = string;
-    
+
     while (TRUE) {
     	if (*string != ' ' && *string != '\t')
 	    *(outPtr++) = *(string++);
@@ -744,7 +744,7 @@ static void addMnemonicGrabs(Widget dialog, Widget w)
     int numChildren, i, isMenu;
     KeySym mnemonic = '\0';
     unsigned char rowColType;
-    
+
     if (XtIsComposite(w)) {
 	if (XtClass(w) == xmRowColumnWidgetClass) {
 	    XtVaGetValues(w, XmNrowColumnType, &rowColType, 0);
@@ -793,7 +793,7 @@ static void findAndActivateMnemonic(Widget w, unsigned int keycode)
     char mneString[2];
     Widget userData;
     unsigned char rowColType;
-    
+
     if (XtIsComposite(w)) {
 	if (XtClass(w) == xmRowColumnWidgetClass) {
 	    XtVaGetValues(w, XmNrowColumnType, &rowColType, 0);

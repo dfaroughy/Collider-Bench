@@ -7,7 +7,7 @@ C-----------------------------------------------------------------------------
 C
 C	This function returns the 1-loop value of alpha.
 C
-C	INPUT: 
+C	INPUT:
 C		qsq   = Q^2
 C
 C-----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ C-----------------------------------------------------------------------------
 C
 C	This function returns the 1-loop value of alpha_w.
 C
-C	INPUT: 
+C	INPUT:
 C		qsq = Q^2
 C               nh  = # of Higgs doublets
 C
@@ -48,7 +48,7 @@ C
 c
 c	  include
 c
-	  
+
 c
 c constants
 c
@@ -94,15 +94,15 @@ C
 C	This function returns the 2-loop value of a MSbar fermion mass
 C       at a given scale.
 C
-C	INPUT: mf    = MSbar mass of fermion at MSbar fermion mass scale 
+C	INPUT: mf    = MSbar mass of fermion at MSbar fermion mass scale
 C	       scale = scale at which the running mass is evaluated
 C	       asmz  = AS(MZ) : this is passed to alphas(scale,asmz,nloop)
 C              nloop = # of loops in the evolution
-C       
+C
 C
 C
 C	EXTERNAL:      double precision alphas(scale,asmz,nloop)
-C                      
+C
 C-----------------------------------------------------------------------------
 C
       implicit none
@@ -127,7 +127,7 @@ c     CONSTANTS
 c
       double precision  One, Two, Three, Pi
       parameter( One = 1.0d0, Two = 2.0d0, Three = 3.0d0 )
-      parameter( Pi = 3.14159265358979323846d0) 
+      parameter( Pi = 3.14159265358979323846d0)
       double precision tmass
       parameter(tmass=174d0)
 cc
@@ -147,12 +147,11 @@ C
       as    = alphas(scale)
       asmf  = alphas(mf)
       l2    = (1+ A1*as/Pi)/(1+ A1*asmf/Pi)
-      
-      
+
+
       mfrun = mf * (as/asmf)**(gamma0/beta0)
 
       if(nloop.eq.2) mfrun =mfrun*l2
 ccc
       return
       end
-

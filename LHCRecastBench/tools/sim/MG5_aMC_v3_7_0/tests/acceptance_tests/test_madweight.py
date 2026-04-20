@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph Development team and Contributors
 #
-# This file is a part of the MadGraph 5 project, an application which 
+# This file is a part of the MadGraph 5 project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph license which should accompany this 
+# It is subject to the MadGraph license which should accompany this
 # distribution.
 #
 # For more information, please visit: http://madgraph.phys.ucl.ac.be
@@ -49,16 +49,16 @@ class Testmadweight(unittest.TestCase):
     """ check if the ValidCmd works correctly """
 
     def setUp(self):
-        
+
         self.debuging = unittest.debug
         if self.debuging:
             self.path = pjoin(MG5DIR, 'MW_TEST')
             if os.path.exists(self.path):
                 shutil.rmtree(self.path)
-            os.mkdir(self.path) 
+            os.mkdir(self.path)
         else:
             self.path = tempfile.mkdtemp(prefix='mw_test_mg5')
-        self.run_dir = pjoin(self.path, 'MGPROC') 
+        self.run_dir = pjoin(self.path, 'MGPROC')
 
     def tearDown(self):
 
@@ -124,7 +124,7 @@ class Testmadweight(unittest.TestCase):
         self.assertTrue(os.path.exists(pjoin(self.run_dir,'lib/libmodel.a')))
         self.assertTrue(os.path.exists(pjoin(self.run_dir,'lib/libpdf.a')))
         self.assertTrue(os.path.exists(pjoin(self.run_dir,'lib/libtools.a')))
-    
+
     def test_tt_semi(self):
         """test output madweight for one specific process"""
 
@@ -132,7 +132,7 @@ class Testmadweight(unittest.TestCase):
         self.generate('p p > t t~ , t > e+ ve b , ( t~ > W- b~ , W- > j j )' , 'sm')
         # test that each file in P0_qq_zh_z_ll_h_bbx has been correctly written
         self.assertTrue(os.path.exists(pjoin(self.run_dir,'SubProcesses/P0_gg_ttx_t_epveb_tx_wmbx_wm_qq')))
-                        
+
         # test that all libraries have been compiled
 
         self.assertTrue(os.path.exists(pjoin(self.run_dir,'lib/libblocks.a')))
@@ -158,10 +158,10 @@ class TestMadWeight(unittest.TestCase):
                 tf_set = 1.
             else:
                 event_nb, card_nb, tf_set, weight, error = list(map(float, split))
-            
+
             solution[(event_nb,card_nb,tf_set)] = (weight,error)
         return solution
-            
+
     def test_mw_wproduction(self):
         """checking that the weight for p p > w+ > e+ ve is working"""
 
@@ -169,7 +169,7 @@ class TestMadWeight(unittest.TestCase):
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_W_prod'))
         except Exception as error:
             pass
-        
+
         cmd = """set automatic_html_opening False --no_save
                  set cluster_temp_path /tmp --no_save
                  generate p p > w+, w+ > e+ ve
@@ -186,7 +186,7 @@ class TestMadWeight(unittest.TestCase):
                  set pdlabel cteq6l1
                  """
         open('/tmp/mg5_cmd','w').write(cmd)
-        
+
         if logging.getLogger('madgraph').level <= 20:
             stdout=None
             stderr=None
@@ -194,13 +194,13 @@ class TestMadWeight(unittest.TestCase):
             devnull =open(os.devnull,'w')
             stdout=devnull
             stderr=devnull
-        
-        subprocess.call([sys.executable,pjoin(MG5DIR,'bin','mg5_aMC'), 
+
+        subprocess.call([sys.executable,pjoin(MG5DIR,'bin','mg5_aMC'),
                          '/tmp/mg5_cmd'],
                          cwd=pjoin(MG5DIR),
                         stdout=stdout, stderr=stderr)
 
-        data = open(pjoin(MG5DIR, 'TEST_MW_W_prod', 'Events', 'fermi', 'weights.out')).read() 
+        data = open(pjoin(MG5DIR, 'TEST_MW_W_prod', 'Events', 'fermi', 'weights.out')).read()
 
         solution = self.get_result(data)
         expected = """# Weight (un-normalize) for each card/event
@@ -215,11 +215,11 @@ class TestMadWeight(unittest.TestCase):
         for key, (value,error) in expected.items():
             assert key in solution
             value2, error2 = solution[key]
-            
+
             self.assertLess(abs(value-value2), 5* abs(error+error2), '%s != %s' % (value, value2))
             self.assertLess(abs(value-value2)/abs(value+value2), 0.01)
             self.assertLess(abs(error2)/abs(value2), 0.02)
-            
+
         try:
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_W_prod'))
         except Exception as error:
@@ -232,7 +232,7 @@ class TestMadWeight(unittest.TestCase):
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_W2J_prod'))
         except Exception as error:
             pass
-        
+
         cmd = """set automatic_html_opening False --no_save
                  set cluster_temp_path /tmp --no_save
                  generate p p > w+ j j, w+ > e+ ve
@@ -249,7 +249,7 @@ class TestMadWeight(unittest.TestCase):
                  set pdlabel cteq6l1
                  """
         open('/tmp/mg5_cmd','w').write(cmd)
-        
+
         devnull =open(os.devnull,'w')
         if logging.getLogger('madgraph').level <= 20:
             stdout=None
@@ -258,12 +258,12 @@ class TestMadWeight(unittest.TestCase):
             devnull =open(os.devnull,'w')
             stdout=devnull
             stderr=devnull
-        subprocess.call([sys.executable, pjoin(MG5DIR,'bin','mg5_aMC'), 
+        subprocess.call([sys.executable, pjoin(MG5DIR,'bin','mg5_aMC'),
                          '/tmp/mg5_cmd'],
                          cwd=pjoin(MG5DIR),
                         stdout=stdout, stderr=stderr)
 
-        data = open(pjoin(MG5DIR, 'TEST_MW_W2J_prod', 'Events', 'fermi', 'weights.out')).read() 
+        data = open(pjoin(MG5DIR, 'TEST_MW_W2J_prod', 'Events', 'fermi', 'weights.out')).read()
 
         solution = self.get_result(data)
         expected = """# Weight (un-normalize) for each card/event
@@ -278,7 +278,7 @@ class TestMadWeight(unittest.TestCase):
         for key, (value,error) in expected.items():
             assert key in solution
             value2, error2 = solution[key]
-            
+
             self.assertLess(abs(value-value2), 5* abs(error+error2), '%s != %s' % (value, value2))
             self.assertLess(abs(value-value2)/abs(value+value2), 0.01)
             self.assertLess(abs(error2)/abs(value2), 0.02)
@@ -287,11 +287,9 @@ class TestMadWeight(unittest.TestCase):
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_W2J_prod'))
         except Exception as error:
             pass
-        
+
         import glob
         if glob.glob('/tmp/run*'):
-            self.assertFalse(True, '''Path /tmp/run???? found on filesystem. 
-            This might indicates that the cluster cleaning are commented (in submit2). 
+            self.assertFalse(True, '''Path /tmp/run???? found on filesystem.
+            This might indicates that the cluster cleaning are commented (in submit2).
             Please check''')
-        
-        

@@ -24,7 +24,7 @@ c is the number of color flows at Born level
       logical spec_case
 
       include 'orders.inc'
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
       double precision particle_charge(nexternal)
       common /c_charges/particle_charge
@@ -46,8 +46,8 @@ C For QED-type splittings, ipartner is simply all the charged particles
 C in the event except for FKSfather. In this case, all the born color
 C flows are allowed
 
-c ipartners(0): number of particles that can be colour or anticolour partner 
-c   of the father, the Born-level particle to which i_fks and j_fks are 
+c ipartners(0): number of particles that can be colour or anticolour partner
+c   of the father, the Born-level particle to which i_fks and j_fks are
 c   attached. If one given particle is the colour/anticolour partner of
 c   the father in more than one colour flow, it is counted only once
 c   in ipartners(0)
@@ -83,7 +83,7 @@ c colour and anticolour
       isspecial=.false.
 c
       if (split_type(qcd_pos)) then
-        ! identify the color partners 
+        ! identify the color partners
 c consider only leading colour flows
         num_leading_cflows=0
         do i=1,max_bcol
@@ -101,8 +101,8 @@ c
           if(.not.is_leading_cflow(i))cycle
 c Loop over Born-level colour flows
           isspecial0=.false.
-c nglu and nsngl are the number of gluons (except for the father) and of 
-c colour singlets in the Born process, according to the information 
+c nglu and nsngl are the number of gluons (except for the father) and of
+c colour singlets in the Born process, according to the information
 c stored in ICOLUP
           nglu=0
           nsngl=0
@@ -169,7 +169,7 @@ c Therefore, ipartners(k0)=j
                         stop
                      endif
                      spec_case=l.eq.2 .and. colorflow(k0,0).ge.1 .and.
-     &                    colorflow(k0,colorflow(k0,0)).eq.i 
+     &                    colorflow(k0,colorflow(k0,0)).eq.i
                      if (.not.spec_case)then
 c Increase by one the number of colour flows in which the father is
 c (anti)colour-connected with its k0^th partner (according to the
@@ -205,7 +205,7 @@ c by one unit, so decrease it
         enddo
 
       else if (split_type(qed_pos)) then
-        ! do nothing, the partner will be assigned at run-time 
+        ! do nothing, the partner will be assigned at run-time
         ! (it is kinematics-dependent)
         continue
       endif
@@ -234,7 +234,7 @@ c      include "fks.inc"
       common/cisspecial/isspecial
 
       include 'orders.inc'
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
 
       logical is_leading_cflow(max_bcol)
@@ -246,7 +246,7 @@ c
         stop
       endif
 c
-      
+
       if (split_type(QCD_pos)) then
       ! these tests only apply for QCD-type splittings
         do i=1,ipartners(0)
@@ -350,7 +350,7 @@ c
       common /MC_info/ ipartners,colorflow
 c
 c     Shower MonteCarlo
-c     
+c
       character*10 shower_mc
       common /cMonteCarloType/shower_mc
 
@@ -363,7 +363,7 @@ c
       double precision dot
 
       include 'pmass.inc'
-      
+
       found=.false.
       ppmin=1d99
       fksfather=min(i_fks,j_fks)
@@ -377,7 +377,7 @@ c
             same_state = (j.gt.nincoming.and.fksfather.gt.nincoming).or.
      $                   (j.le.nincoming.and.fksfather.le.nincoming)
 
-            if ((pdg_type(j).eq.pdg_type(fksfather).and..not.same_state).or. 
+            if ((pdg_type(j).eq.pdg_type(fksfather).and..not.same_state).or.
      $          (pdg_type(j).eq.-pdg_type(fksfather).and.same_state)) then
 
               ppnow=dot(pp(0,fksfather),pp(0,j)) - pmass(fksfather)*pmass(j)
@@ -388,14 +388,14 @@ c
             endif
           endif
         enddo
-        
+
         ! if no partner has been found, then look for the
         ! lowest-mass/chargeprod pair
         if (.not.found) then
           do j=1,nexternal
             if (j.ne.fksfather.and.j.ne.i_fks) then
               if (particle_charge(fksfather).ne.0d0.and.particle_charge(j).ne.0d0) then
-                ppnow=dot(pp(0,fksfather),pp(0,j)) - pmass(fksfather)*pmass(j) / 
+                ppnow=dot(pp(0,fksfather),pp(0,j)) - pmass(fksfather)*pmass(j) /
      $            (particle_charge(fksfather) * particle_charge(j))
                 if (ppnow.lt.ppmin) then
                   found=.true.
@@ -411,7 +411,7 @@ c
         if (.not.found) then
           do j=1,nexternal
             if (j.ne.fksfather.and.j.ne.i_fks) then
-              ppnow=dot(pp(0,fksfather),pp(0,j)) - pmass(fksfather)*pmass(j) 
+              ppnow=dot(pp(0,fksfather),pp(0,j)) - pmass(fksfather)*pmass(j)
               if (ppnow.lt.ppmin) then
                 found=.true.
                 partner=j
@@ -471,7 +471,7 @@ c True MC subtraction term
      #                   xmc,nofpartners,lzone,flagmc,z,xmcxsec)
 c G-function matrix element, to recover the real soft limit
       call xmcsubtME(pp,xi_i_fks,y_ij_fks,gfactsf,gfactcl,xrealme)
-      
+
       wgt=xmc+xrealme
       do iamp=1, amp_split_size
         amp_split_mc(iamp) = amp_split_mc(iamp) + amp_split_gfunc(iamp)
@@ -524,8 +524,8 @@ c Particle types (=colour) of i_fks, j_fks and fks_mother
       integer iamp
       double precision amp_split_gfunc(amp_split_size)
       common /to_amp_split_gfunc/amp_split_gfunc
-      double precision amp_split_s(amp_split_size), 
-     $                 amp_split_c(amp_split_size), 
+      double precision amp_split_s(amp_split_size),
+     $                 amp_split_c(amp_split_size),
      $                 amp_split_sc(amp_split_size)
 
       include "pmass.inc"
@@ -584,7 +584,7 @@ c Main routine for MC counterterms
       include "../../Source/MODEL/input.inc"
       include 'nFKSconfigs.inc'
       include 'orders.inc'
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
       integer fks_j_from_i(nexternal,0:nexternal)
      &     ,particle_type(nexternal),pdg_type(nexternal)
@@ -606,7 +606,7 @@ c Main routine for MC counterterms
 
       double precision shattmp,dot,xkern(2),xkernazi(2),
      & born_red(nsplitorders), born_red_tilde(nsplitorders)
-      double precision bornbars(max_bcol,nsplitorders), 
+      double precision bornbars(max_bcol,nsplitorders),
      &                 bornbarstilde(max_bcol,nsplitorders)
 
       integer i,j,npartner,cflows,ileg,N_p,iord
@@ -793,9 +793,9 @@ c Distinguish ISR and FSR
       endif
       x=1-xi_i_fks
       s=shat
-      xij=2*(1-xm12/s-(1-x))/(2-(1-x)*(1-yj)) 
+      xij=2*(1-xm12/s-(1-x))/(2-(1-x)*(1-yj))
 
-c G-function parameters 
+c G-function parameters
       gfactsf=gfunction(x,alsf,besf,2d0)
       if(abs(i_type).eq.3)gfactsf=1d0
       becl=-(1d0-ymin)
@@ -938,7 +938,7 @@ c g->qq, a->qq, a->ee (icode=2)
                      N_p=1
                      if(limit)then
                         xkern(1)=(g**2/N_p)*4*vtf*(1-x)*((1-x)**2+x**2)/(s*x)
-                        xkern(2)=xkern(1) * dble(gal(1))**2 / g**2 * 
+                        xkern(2)=xkern(1) * dble(gal(1))**2 / g**2 *
      &                                       ch_i**2 * abs(i_type) / vtf
                      elseif(non_limit)then
                         xfact=(1-yi)*(1-x)/x
@@ -991,7 +991,7 @@ c q->gq, q->aq, e->ae (icode=3)
                      if(isspecial)N_p=1
                      if(limit)then
                         xkern(1)=(g**2/N_p)*4*vcf*(1-x)*((1-x)**2+1)/(s*x**2)
-                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) * 
+                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) *
      &                                      (ch_i**2 / vcf)
                         xkernazi(1)=-(g**2/N_p)*16*vcf*(1-x)**2/(s*x**2)
                         xkernazi(2)=xkernazi(1) * (dble(gal(1))**2 / g**2) *
@@ -1029,7 +1029,7 @@ c
                         xkern(1)=(g**2/N_p)*
      &                       ( 4*vcf*(1-x)*(s**2*(1-x)**2+(s-xm12)**2) )/
      &                       ( (s-xm12)*(s*x-xm12)**2 )
-                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) * 
+                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) *
      &                                      (ch_i**2 / vcf)
                      elseif(non_limit)then
                         xfact=(2-(1-x)*(1-yj))/xij*(1-xm12/s)*(1-x)*(1-yj)
@@ -1047,7 +1047,7 @@ c q->qg, q->qa, sq->sqg, sq->sqa, e->ea (icode=4)
                      N_p=1
                      if(limit)then
                         xkern(1)=(g**2/N_p)*4*vcf*(1+x**2)/(s*x)
-                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) * 
+                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) *
      &                                      (ch_m**2 / vcf)
                      elseif(non_limit)then
                         xfact=(1-yi)*(1-x)/x
@@ -1085,7 +1085,7 @@ c
                         xkern(1)=(g**2/N_p)*4*vcf*
      &                        ( s**2*(1+x**2)-2*xm12*(s*(1+x)-xm12) )/
      &                        ( s*(s-xm12)*(s*x-xm12) )
-                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) * 
+                        xkern(2)=xkern(1) * (dble(gal(1))**2 / g**2) *
      &                                      (ch_j**2 / vcf)
                      elseif(non_limit)then
                         xfact=(2-(1-x)*(1-yj))/xij*(1-xm12/s)*(1-x)*(1-yj)
@@ -1137,7 +1137,7 @@ c Dead zone
           do i = 1,2
             xkern(i)=0d0
             xkernazi(i)=0d0
-          enddo   
+          enddo
           if(dampMCsubt)then
               emscav(npartner)=2d0*sqrt(ebeam(1)*ebeam(2))
               emscwgt(npartner)=0d0
@@ -1183,7 +1183,7 @@ c check the lines below
      &          xkern(1)*born_red(iord)+xkernazi(1)*born_red_tilde(iord)
              do iamp=1,amp_split_size
                amp_split_xmcxsec(iamp,npartner) =
-     &            xkern(1)*amp_split_bornred(iamp,iord) + 
+     &            xkern(1)*amp_split_bornred(iamp,iord) +
      &            xkernazi(1)*amp_split_bornredtilde(iamp,iord)
              enddo
            else if(iord.eq.qed_pos) then
@@ -1191,12 +1191,12 @@ c check the lines below
      &          xkern(2)*born_red(iord)+xkernazi(2)*born_red_tilde(iord)
              do iamp=1,amp_split_size
                amp_split_xmcxsec(iamp,npartner) =
-     &            xkern(2)*amp_split_bornred(iamp,iord) + 
+     &            xkern(2)*amp_split_bornred(iamp,iord) +
      &            xkernazi(2)*amp_split_bornredtilde(iamp,iord)
              enddo
            endif
         enddo
-        if (dampMCsubt) then 
+        if (dampMCsubt) then
           xmcxsec(npartner)=xmcxsec(npartner)*emscwgt(npartner)
           do iamp=1,amp_split_size
             amp_split_xmcxsec(iamp,npartner) = amp_split_xmcxsec(iamp,npartner)*emscwgt(npartner)
@@ -1261,7 +1261,7 @@ c min() avoids troubles if ran2()=1
       endif
 
       do i=1,nexternal
-         if (i.le.ipartners(0)) then 
+         if (i.le.ipartners(0)) then
            xmcxsec(i)=xmcxsec(i)*probne
            do iamp = 1, amp_split_size
              amp_split_xmcxsec(iamp,i)=amp_split_xmcxsec(iamp,i)*probne
@@ -1283,7 +1283,7 @@ c min() avoids troubles if ran2()=1
 c Computes barred amplitudes (bornbars) squared according
 c to Odagiri's prescription (hep-ph/9806531).
 c Computes barred azimuthal amplitudes (bornbarstilde) with
-c the same method 
+c the same method
       implicit none
 
       include "genps.inc"
@@ -1346,7 +1346,7 @@ c Particle types (=color) of i_fks, j_fks and fks_mother
 
       double precision born(nsplitorders)
       double complex borntilde(nsplitorders)
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
       complex*16 ans_cnt(2, nsplitorders), wgt1(2)
       common /c_born_cnt/ ans_cnt
@@ -1355,7 +1355,7 @@ c Particle types (=color) of i_fks, j_fks and fks_mother
       common /c_extra_cnt/iextra_cnt, isplitorder_born, isplitorder_cnt
 
       integer iamp
-      double precision amp_split_born(amp_split_size,nsplitorders) 
+      double precision amp_split_born(amp_split_size,nsplitorders)
       double complex amp_split_borntilde(amp_split_size,nsplitorders)
       double precision amp_split_bornbars(amp_split_size,max_bcol,nsplitorders),
      $                 amp_split_bornbarstilde(amp_split_size,max_bcol,nsplitorders)
@@ -1367,7 +1367,7 @@ c
       logical is_leading_cflow(max_bcol)
       integer num_leading_cflows
       common/c_leading_cflows/is_leading_cflow,num_leading_cflows
-      
+
 c
 C BORN
       call sborn(p_born,wgt_born)
@@ -1391,7 +1391,7 @@ c BORN TILDE
 C check if momenta have to be rotated
       if (ileg.eq.1.or.ileg.eq.2) then
         if (j_fks.eq.2 .and. nexternal-1.ne.3) then
-c Rotation according to innerpin.m. Use rotate_invar() if a more 
+c Rotation according to innerpin.m. Use rotate_invar() if a more
 c general rotation is needed.
 c Exclude 2->1 (at the Born level) processes: matrix elements are
 c independent of the PS point, but non-zero helicity configurations
@@ -1453,17 +1453,17 @@ c Insert <ij>/[ij] which is not included by sborn()
               pj(i)=p(i,j_fks)
            enddo
            if(j_fks.eq.2)then
-c Rotation according to innerpin.m. Use rotate_invar() if a more 
+c Rotation according to innerpin.m. Use rotate_invar() if a more
 c general rotation is needed
               pi(1)=-pi(1)
               pi(3)=-pi(3)
               pj(1)=-pj(1)
               pj(3)=-pj(3)
            endif
-           CALL IXXXSO(pi ,ZERO ,+1,+1,W1)        
-           CALL OXXXSO(pj ,ZERO ,-1,+1,W2)        
-           CALL IXXXSO(pi ,ZERO ,-1,+1,W3)        
-           CALL OXXXSO(pj ,ZERO ,+1,+1,W4)        
+           CALL IXXXSO(pi ,ZERO ,+1,+1,W1)
+           CALL OXXXSO(pj ,ZERO ,-1,+1,W2)
+           CALL IXXXSO(pi ,ZERO ,-1,+1,W3)
+           CALL OXXXSO(pj ,ZERO ,+1,+1,W4)
            Wij_angle=(0d0,0d0)
            Wij_recta=(0d0,0d0)
            do i=1,4
@@ -1507,10 +1507,10 @@ c Insert <ij>/[ij] which is not included by sborn()
                   pi(i)=p_i_fks_ev(i)
                   pj(i)=p(i,j_fks)
                enddo
-               CALL IXXXSO(pi ,ZERO ,+1,+1,W1)        
-               CALL OXXXSO(pj ,ZERO ,-1,+1,W2)        
-               CALL IXXXSO(pi ,ZERO ,-1,+1,W3)        
-               CALL OXXXSO(pj ,ZERO ,+1,+1,W4)        
+               CALL IXXXSO(pi ,ZERO ,+1,+1,W1)
+               CALL OXXXSO(pj ,ZERO ,-1,+1,W2)
+               CALL IXXXSO(pi ,ZERO ,-1,+1,W3)
+               CALL OXXXSO(pj ,ZERO ,+1,+1,W4)
                Wij_angle=(0d0,0d0)
                Wij_recta=(0d0,0d0)
                do i=1,4
@@ -1541,7 +1541,7 @@ c Insert the extra factor due to Madgraph convention for polarization vectors
          stop
       endif
 
-      
+
 
 c BARRED AMPLITUDES
       do i=1,max_bcol
@@ -1549,7 +1549,7 @@ c BARRED AMPLITUDES
           if (sumborn.ne.0d0.and.is_leading_cflow(i)) then
             bornbars(i,iord)=jamp2(i)/sumborn * born(iord) *iden_comp
             do iamp=1,amp_split_size
-              amp_split_bornbars(iamp,i,iord)=jamp2(i)/sumborn * 
+              amp_split_bornbars(iamp,i,iord)=jamp2(i)/sumborn *
      &                              amp_split_born(iamp,iord) *iden_comp
             enddo
           elseif (born(iord).eq.0d0 .or. jamp2(i).eq.0d0
@@ -1565,19 +1565,19 @@ c BARRED AMPLITUDES
           if (sumborn.ne.0d0.and.is_leading_cflow(i)) then
             bornbarstilde(i,iord)=jamp2(i)/sumborn * dble(borntilde(iord)) *iden_comp
             do iamp=1,amp_split_size
-              amp_split_bornbarstilde(iamp,i,iord)=jamp2(i)/sumborn * 
+              amp_split_bornbarstilde(iamp,i,iord)=jamp2(i)/sumborn *
      &                      dble(amp_split_borntilde(iamp,iord)) *iden_comp
             enddo
           elseif (borntilde(iord).eq.0d0 .or. jamp2(i).eq.0d0
      &           .or..not.is_leading_cflow(i)) then
             bornbarstilde(i,iord)=0d0
             do iamp=1,amp_split_size
-              amp_split_bornbarstilde(iamp,i,iord)=0d0 
+              amp_split_bornbarstilde(iamp,i,iord)=0d0
             enddo
           else
             write (*,*) 'ERROR #2, dividing by zero'
             stop
-          endif      
+          endif
 c bornbars(i) is the i-th leading-color amplitude squared re-weighted
 c in such a way that the sum of bornbars(i) is born rather than sumborn.
 c the same holds for bornbarstilde(i).
@@ -1945,7 +1945,7 @@ c
 c Monte Carlo functions
 c
 c The invariants given in input to these routines follow FNR conventions
-c (i.e., are defined as (p+k)^2, NOT 2 p.k). 
+c (i.e., are defined as (p+k)^2, NOT 2 p.k).
 c The invariants used inside these routines follow MNR conventions
 c (i.e., are defined as -2p.k, NOT (p+k)^2)
 
@@ -2102,7 +2102,7 @@ c
 
 
       function xjacHW6_xiztoxy(ileg,e0sq,xm12,xm22,s,x,yi,yj,xtk,xuk,xq1q,xq2q)
-c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower 
+c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower
 c variables, and x and y are FKS variables
       implicit none
       integer ileg
@@ -2221,7 +2221,7 @@ c
      &                                (s*x-xm12)/(2*(s-xm12)**3)
          else
             zeta2=get_zeta(s,w2,w1,xm22,xm12)
-            zHWPP=1-zeta2 
+            zHWPP=1-zeta2
          endif
 c
       else
@@ -2251,7 +2251,7 @@ c Shower evolution variable
       if(z.lt.0d0)goto 999
       w1=-xq1q+xq2q-xtk
       w2=-xq2q+xq1q-xuk
-c 
+c
       if(ileg.eq.1)then
          xiHWPP=s*(1-yi)/(1+yi)
 c
@@ -2292,7 +2292,7 @@ c
 
 
       function xjacHWPP_xiztoxy(ileg,xm12,xm22,s,x,yi,yj,xtk,xuk,xq1q,xq2q)
-c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower 
+c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower
 c variables, and x and y are FKS variables
       implicit none
       integer ileg
@@ -2305,7 +2305,7 @@ c variables, and x and y are FKS variables
       z=zHWPP(ileg,xm12,xm22,s,x,yi,yj,xtk,xuk,xq1q,xq2q)
       if(z.lt.0d0)goto 999
       w1=-xq1q+xq2q-xtk
-      w2=-xq2q+xq1q-xuk 
+      w2=-xq2q+xq1q-xuk
 c
       if(ileg.eq.1)then
          tmp=-s/(1+yi)
@@ -2458,7 +2458,7 @@ c
 
 
       function xjacPY6Q_xiztoxy(ileg,xm12,xm22,s,x,yi,yj,xtk,xuk,xq1q,xq2q)
-c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower 
+c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower
 c variables, and x and y are FKS variables
       implicit none
       integer ileg
@@ -2494,7 +2494,7 @@ c
          elseif(1-yj.lt.tiny)then
             tmp=-s*(1-x)*(s*x-xm12)/( 2*(s-xm12) )
          else
-            call dinvariants_dFKS(ileg,s,x,yi,yj,xm12,xm22,dw1dx,dw1dy,dw2dx,dw2dy) 
+            call dinvariants_dFKS(ileg,s,x,yi,yj,xm12,xm22,dw1dx,dw1dy,dw2dx,dw2dy)
             tmp=s/(s+w2-xm12)*dw2dy
          endif
 c
@@ -2587,7 +2587,7 @@ c
 
 
       function xjacPY6PT_xiztoxy(ileg,xm12,xm22,s,x,yi,yj,xtk,xuk,xq1q,xq2q)
-c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower 
+c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower
 c variables, and x and y are FKS variables
       implicit none
       integer ileg
@@ -2733,7 +2733,7 @@ c
 
 
       function xjacPY8_xiztoxy(ileg,xm12,xm22,s,x,yi,yj,xtk,xuk,xq1q,xq2q)
-c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower 
+c Returns the jacobian d(z,xi)/d(x,y), where z and xi are the shower
 c variables, and x and y are FKS variables
       implicit none
       integer ileg
@@ -3145,7 +3145,7 @@ c Definition and initialisation of variables
       do i=0,3
          pifat(i)=p_born(i,ifat)
          pip(i)  =p_born(i,ip)
-         psum(i) =pifat(i)+pip(i) 
+         psum(i) =pifat(i)+pip(i)
       enddo
       max_scale=scalemax
       xmp2=dot(pip,pip)
@@ -3224,7 +3224,7 @@ c
          endif
 
       endif
- 
+
       max_scale=min(max_scale,shower_S_scale(nFKSprocess*2-1))
       max_scale=max(max_scale,3d0)
       if(qMC.gt.max_scale)lzone=.false.

@@ -18,4 +18,3 @@ INCLUDE 'coupl.inc'
 ENDIF
 RETURN
 END
-

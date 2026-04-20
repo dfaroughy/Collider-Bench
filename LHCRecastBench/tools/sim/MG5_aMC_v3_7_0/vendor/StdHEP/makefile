@@ -15,7 +15,7 @@ FFLAGS += -std=legacy
 CFLAGS += -Wno-implicit-function-declaration
 
 # The cern libraries are needed to build the Phase and Space executables.
-# There is no point in building the libraries unless the executables will 
+# There is no point in building the libraries unless the executables will
 # be built.
 ifdef CRNLIB
    BUILD_DISPLAY = spin util display

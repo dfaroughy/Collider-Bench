@@ -3,7 +3,7 @@ c
 c- by RF - Feb. 2006
 c
 c This subroutine computes the portion of the off-shell current
-c for the color-octect tensor t3 in terms of w1 and w2 
+c for the color-octect tensor t3 in terms of w1 and w2
 c
 c input:
 c       complex w1(6)          : first  vector                        w1
@@ -29,7 +29,7 @@ c      include "dimension.inc"
       parameter( sqrTwo = 1.41421356237309514547462185873882845044d0 )
 
       s2g = g * sqrTwo
-      
+
       jt( 1) = 0 ! dcmplx( s2g * (w1(1)*w2(1)-w1(1)*w2(1)) )
       jt( 2) =  dcmplx( s2g * (w1(1)*w2(2)-w1(2)*w2(1)) )
       jt( 3) =  dcmplx( s2g * (w1(1)*w2(3)-w1(3)*w2(1)) )

@@ -55,11 +55,12 @@ class IterationResult:
 
 # ── Small helpers ──────────────────────────────────────────────────────────
 
+
 def _parse_status(report_path: Path) -> str:
     if not report_path.exists():
         return "CONTINUE"
     m = re.search(r"Status:\s*`?(STOP|CONTINUE)`?", report_path.read_text(), re.I)
-    return (m.group(1).upper() if m else "CONTINUE")
+    return m.group(1).upper() if m else "CONTINUE"
 
 
 def _has_analysis_code(ws: Path) -> bool:
@@ -86,6 +87,7 @@ def _score_iteration(iter_dir: Path, paper_ref: str) -> tuple[bool | None, dict]
         return None, {}
     try:
         from LHCRecastBench.evaluation.score import score_recast
+
         scores = score_recast(paper_ref, str(hep))
     except Exception as exc:
         print(f"  scoring failed: {exc}")
@@ -95,6 +97,7 @@ def _score_iteration(iter_dir: Path, paper_ref: str) -> tuple[bool | None, dict]
 
 
 # ── Sandbox plumbing ───────────────────────────────────────────────────────
+
 
 def _run_in_sandbox(
     repo_root: Path,
@@ -109,7 +112,10 @@ def _run_in_sandbox(
     extra_ro_binds: list[Path] | None = None,
 ) -> None:
     inner_cmd = runner.build_command(
-        prompt, workspace, model, allowlist=allowlist,
+        prompt,
+        workspace,
+        model,
+        allowlist=allowlist,
         max_thinking_tokens=max_thinking_tokens,
     )
     env = os.environ.copy()
@@ -118,8 +124,11 @@ def _run_in_sandbox(
     env["REPO_ROOT"] = str(repo_root)
 
     from agent_runtime.sandbox import sandbox_command
+
     cmd, cleanup = sandbox_command(
-        workspace, repo_root, inner_cmd,
+        workspace,
+        repo_root,
+        inner_cmd,
         extra_ro_binds=extra_ro_binds or [],
         sandbox=sandbox,
     )
@@ -130,6 +139,7 @@ def _run_in_sandbox(
 
 
 # ── Planner ────────────────────────────────────────────────────────────────
+
 
 def _setup_planner_workspace(repo_root: Path, run_dir: Path, paper_ref: str) -> Path:
     """Create a small workspace containing paper PDF, template YAMLs, PLANNER.md."""
@@ -143,16 +153,22 @@ def _setup_planner_workspace(repo_root: Path, run_dir: Path, paper_ref: str) -> 
     shutil.copy2(roles_dir / "PLANNER.md", ws / "PLANNER.md")
 
     # Paper PDF
-    pdf = (repo_root / "LHCRecastBench" / "papers" / paper_ref
-           / "for_agent" / "papers" / f"{paper_ref}.pdf")
+    pdf = (
+        repo_root
+        / "LHCRecastBench"
+        / "papers"
+        / paper_ref
+        / "for_agent"
+        / "papers"
+        / f"{paper_ref}.pdf"
+    )
     papers = ws / "papers"
     papers.mkdir()
     if pdf.exists():
         shutil.copy2(pdf, papers / f"{paper_ref}.pdf")
 
     # Null-valued templates (what the executor must fill)
-    tmpl_src = (repo_root / "LHCRecastBench" / "papers" / paper_ref
-                / "for_agent" / "HEPRecastData")
+    tmpl_src = repo_root / "LHCRecastBench" / "papers" / paper_ref / "for_agent" / "HEPRecastData"
     if tmpl_src.is_dir():
         shutil.copytree(tmpl_src, ws / "HEPRecastData_templates")
 
@@ -181,7 +197,12 @@ def _run_planner(
     print(f"[planner] running (model={model or 'default'}, effort≈{effort_max_tokens})")
     try:
         _run_in_sandbox(
-            repo_root, ws, prompt, runner, model, output_file,
+            repo_root,
+            ws,
+            prompt,
+            runner,
+            model,
+            output_file,
             max_thinking_tokens=effort_max_tokens,
             allowlist="Read Write Glob Grep",
             sandbox=sandbox_choice,
@@ -206,9 +227,11 @@ def _run_planner(
 
 # ── Executor ───────────────────────────────────────────────────────────────
 
+
 def _init_executor_workspace(repo_root: Path, run_dir: Path, paper_ref: str) -> Path:
     """Fresh executor workspace at <run_dir>/workspace/."""
     from agent_runtime.workspace import build_workspace
+
     return build_workspace(repo_root, "sisyphus", paper_ref, run_dir.name)
 
 
@@ -283,11 +306,16 @@ def _run_executor(
     (workspace / "prompt.txt").write_text(prompt)
     output_file = workspace / "session_log.txt"
 
-    sisy_runtime   = repo_root / "agents" / "sisyphus" / "runtime"
+    sisy_runtime = repo_root / "agents" / "sisyphus" / "runtime"
     simple_runtime = repo_root / "agents" / "simple" / "runtime"
     shared_runtime = repo_root / "agent_runtime"
     _run_in_sandbox(
-        repo_root, workspace, prompt, runner, model, output_file,
+        repo_root,
+        workspace,
+        prompt,
+        runner,
+        model,
+        output_file,
         max_thinking_tokens=max_thinking_tokens,
         allowlist=None,
         sandbox=sandbox_choice,
@@ -296,6 +324,7 @@ def _run_executor(
 
 
 # ── Critic ─────────────────────────────────────────────────────────────────
+
 
 def _setup_critic_workspace(
     repo_root: Path,
@@ -316,9 +345,15 @@ def _setup_critic_workspace(
     # Executor artifacts
     artifacts = ws / "artifacts"
     artifacts.mkdir()
-    for name in ("report.md", "score.json", "analysis.py",
-                 "datasets.yaml", "results.json", "status.md",
-                 "previous_score.json"):
+    for name in (
+        "report.md",
+        "score.json",
+        "analysis.py",
+        "datasets.yaml",
+        "results.json",
+        "status.md",
+        "previous_score.json",
+    ):
         src = iter_dir / name
         if src.exists():
             shutil.copy2(src, artifacts / name)
@@ -339,8 +374,15 @@ def _setup_critic_workspace(
     # Plan + paper
     if plan_path is not None and plan_path.exists():
         shutil.copy2(plan_path, ws / "plan.md")
-    pdf = (repo_root / "LHCRecastBench" / "papers" / paper_ref
-           / "for_agent" / "papers" / f"{paper_ref}.pdf")
+    pdf = (
+        repo_root
+        / "LHCRecastBench"
+        / "papers"
+        / paper_ref
+        / "for_agent"
+        / "papers"
+        / f"{paper_ref}.pdf"
+    )
     if pdf.exists():
         shutil.copy2(pdf, ws / "paper.pdf")
 
@@ -368,10 +410,17 @@ def _run_critic(
     (ws / "prompt.txt").write_text(prompt)
     output_file = ws / "session_log.txt"
 
-    print(f"[critic ] iter {iter_index:03d} (model={model or 'default'}, effort≈{effort_max_tokens})")
+    print(
+        f"[critic ] iter {iter_index:03d} (model={model or 'default'}, effort≈{effort_max_tokens})"
+    )
     try:
         _run_in_sandbox(
-            repo_root, ws, prompt, runner, model, output_file,
+            repo_root,
+            ws,
+            prompt,
+            runner,
+            model,
+            output_file,
             max_thinking_tokens=effort_max_tokens,
             allowlist="Read Write Glob Grep",
             sandbox=sandbox_choice,
@@ -396,6 +445,7 @@ def _run_critic(
 
 # ── Main loop ──────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Sisyphus recast loop: planner + iter(executor→score→critic).",
@@ -405,29 +455,33 @@ def main() -> int:
     parser.add_argument("--max-iters", type=int, default=None)
     parser.add_argument("--min-iters", type=int, default=None)
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
-    parser.add_argument("--model", default=None,
-                        help="Main executor model")
-    parser.add_argument("--effort", default=None,
-                        help="Executor reasoning effort (low|medium|high|<int>)")
+    parser.add_argument("--model", default=None, help="Main executor model")
+    parser.add_argument(
+        "--effort", default=None, help="Executor reasoning effort (low|medium|high|<int>)"
+    )
     parser.add_argument("--critic-model", default=None)
     parser.add_argument("--critic-effort", default=None)
     parser.add_argument("--planner-effort", default=None)
-    parser.add_argument("--sandbox", default=None,
-                        choices=["auto", "bwrap", "none"])
+    parser.add_argument("--sandbox", default=None, choices=["auto", "bwrap", "none"])
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parents[4]
 
     from agent_runtime.naming import (
-        generate_run_info, resolve_effort, write_run_info, load_config,
-        validate_launch_inputs, finalize_run_info,
+        generate_run_info,
+        resolve_effort,
+        write_run_info,
+        load_config,
+        validate_launch_inputs,
+        finalize_run_info,
     )
+
     try:
         cfg = load_config(args.config)
     except ValueError as exc:
         parser.error(str(exc))
 
-    args.paper_ref      = args.paper_ref      or cfg.get("paper")
+    args.paper_ref = args.paper_ref or cfg.get("paper")
     if not args.paper_ref:
         parser.error("--paper-ref is required (CLI or config)")
     try:
@@ -435,19 +489,19 @@ def main() -> int:
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
 
-    args.runner         = args.runner         or cfg.get("runner") or "claude"
-    args.model          = args.model          or cfg.get("model")  or ""
-    args.effort         = args.effort         or cfg.get("effort") or "medium"
-    args.critic_model   = args.critic_model   or cfg.get("critic_model")   or args.model or ""
-    args.critic_effort  = args.critic_effort  or cfg.get("critic_effort")  or "low"
+    args.runner = args.runner or cfg.get("runner") or "claude"
+    args.model = args.model or cfg.get("model") or ""
+    args.effort = args.effort or cfg.get("effort") or "medium"
+    args.critic_model = args.critic_model or cfg.get("critic_model") or args.model or ""
+    args.critic_effort = args.critic_effort or cfg.get("critic_effort") or "low"
     args.planner_effort = args.planner_effort or cfg.get("planner_effort") or "low"
-    args.sandbox        = args.sandbox        or cfg.get("sandbox")
-    args.max_iters      = args.max_iters if args.max_iters is not None else int(cfg.get("max_iters", 5))
-    args.min_iters      = args.min_iters if args.min_iters is not None else int(cfg.get("min_iters", 1))
+    args.sandbox = args.sandbox or cfg.get("sandbox")
+    args.max_iters = args.max_iters if args.max_iters is not None else int(cfg.get("max_iters", 5))
+    args.min_iters = args.min_iters if args.min_iters is not None else int(cfg.get("min_iters", 1))
 
     paper_ref = args.paper_ref
     exec_effort_label, exec_max_thinking = resolve_effort(args.effort)
-    _, critic_max_thinking  = resolve_effort(args.critic_effort)
+    _, critic_max_thinking = resolve_effort(args.critic_effort)
     _, planner_max_thinking = resolve_effort(args.planner_effort)
 
     # Run directory and metadata
@@ -457,14 +511,14 @@ def main() -> int:
         model_name=args.model or args.runner,
     )
     recast_dir = run_info["run_dir"]
-    run_info["runner"]              = args.runner
-    run_info["effort"]              = exec_effort_label
+    run_info["runner"] = args.runner
+    run_info["effort"] = exec_effort_label
     run_info["max_thinking_tokens"] = exec_max_thinking
-    run_info["max_iters"]           = args.max_iters
-    run_info["sandbox"]             = args.sandbox or "auto"
-    run_info["critic_model"]        = args.critic_model or None
-    run_info["critic_effort"]       = args.critic_effort
-    run_info["planner_effort"]      = args.planner_effort
+    run_info["max_iters"] = args.max_iters
+    run_info["sandbox"] = args.sandbox or "auto"
+    run_info["critic_model"] = args.critic_model or None
+    run_info["critic_effort"] = args.critic_effort
+    run_info["planner_effort"] = args.planner_effort
 
     recast_path = repo_root / "runs" / recast_dir
     recast_path.mkdir(parents=True, exist_ok=True)
@@ -472,16 +526,21 @@ def main() -> int:
     validation_dir.mkdir(exist_ok=True)
     write_run_info(recast_path, run_info)
     print(f"Recast directory: {recast_dir}")
-    print(f"Agent ID: {run_info['agent_id']} "
-          f"(executor effort={exec_effort_label}/{exec_max_thinking}; "
-          f"critic effort={args.critic_effort}/{critic_max_thinking}; "
-          f"planner effort={args.planner_effort}/{planner_max_thinking})")
+    print(
+        f"Agent ID: {run_info['agent_id']} "
+        f"(executor effort={exec_effort_label}/{exec_max_thinking}; "
+        f"critic effort={args.critic_effort}/{critic_max_thinking}; "
+        f"planner effort={args.planner_effort}/{planner_max_thinking})"
+    )
 
     runner = get_runner(args.runner)
 
     # ── Planner (runs once, always) ────────────────────────────────────────
     plan_path = _run_planner(
-        repo_root, recast_path, paper_ref, runner,
+        repo_root,
+        recast_path,
+        paper_ref,
+        runner,
         model=args.critic_model or args.model or None,
         effort_max_tokens=planner_max_thinking,
         sandbox_choice=args.sandbox,
@@ -527,7 +586,8 @@ def main() -> int:
         try:
             if sandbox_ws and sandbox_ws.exists() and iter_name:
                 (sandbox_ws / "controller_interrupt.log").write_text(
-                    f"Interrupted by signal={signum}\n")
+                    f"Interrupted by signal={signum}\n"
+                )
                 dest = validation_dir / iter_name
                 if dest.exists():
                     shutil.rmtree(dest)
@@ -552,7 +612,10 @@ def main() -> int:
                 _seed_executor_workspace(sandbox_ws, plan_path, previous_iter)
 
                 _run_executor(
-                    repo_root, sandbox_ws, paper_ref, iter_index,
+                    repo_root,
+                    sandbox_ws,
+                    paper_ref,
+                    iter_index,
                     has_prior=(previous_iter is not None),
                     runner=runner,
                     model=args.model or None,
@@ -578,13 +641,19 @@ def main() -> int:
                 overall_pass, scores = _score_iteration(iter_dir, paper_ref)
                 overall_score = scores.get("overall_score", 0.0) if scores else 0.0
                 status = _parse_status(iter_dir / "report.md")
-                print(f"  {iter_name}: score={overall_score:.0%}, "
-                      f"pass={overall_pass}, status={status}")
+                print(
+                    f"  {iter_name}: score={overall_score:.0%}, "
+                    f"pass={overall_pass}, status={status}"
+                )
 
-                history.append(IterationResult(
-                    directory=iter_dir, status=status,
-                    score=overall_score, overall_pass=overall_pass,
-                ))
+                history.append(
+                    IterationResult(
+                        directory=iter_dir,
+                        status=status,
+                        score=overall_score,
+                        overall_pass=overall_pass,
+                    )
+                )
                 summary = {
                     "paper_ref": paper_ref,
                     "iterations": len(history),
@@ -593,26 +662,33 @@ def main() -> int:
                     "last_score": overall_score,
                     "last_overall_pass": overall_pass,
                     "history": [
-                        {"iter": h.directory.name, "status": h.status,
-                         "score": h.score, "overall_pass": h.overall_pass}
+                        {
+                            "iter": h.directory.name,
+                            "status": h.status,
+                            "score": h.score,
+                            "overall_pass": h.overall_pass,
+                        }
                         for h in history
                     ],
                 }
-                (recast_path / "controller_summary.json").write_text(
-                    json.dumps(summary, indent=2))
+                (recast_path / "controller_summary.json").write_text(json.dumps(summary, indent=2))
 
                 stop = overall_pass is True and len(history) >= args.min_iters
                 if stop:
                     summary["status"] = "CONVERGED"
                     (recast_path / "controller_summary.json").write_text(
-                        json.dumps(summary, indent=2))
+                        json.dumps(summary, indent=2)
+                    )
                     print(f"\nConverged after {len(history)} iteration(s).")
                     final_scores = scores
                     return 0
 
                 # Not converged → run the critic to seed the next iter.
                 _run_critic(
-                    repo_root, iter_dir, paper_ref, iter_index,
+                    repo_root,
+                    iter_dir,
+                    paper_ref,
+                    iter_index,
                     plan_path=plan_path,
                     runner=runner,
                     model=args.critic_model or args.model or None,
@@ -640,7 +716,7 @@ def main() -> int:
                 continue
 
         # Loop exhausted without converging
-        summary = (recast_path / "controller_summary.json")
+        summary = recast_path / "controller_summary.json"
         if summary.exists():
             data = json.loads(summary.read_text())
             data["status"] = "MAX_ITERS"

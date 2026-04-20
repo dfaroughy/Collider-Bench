@@ -1,5 +1,5 @@
 // Driver for Pythia 8. Reads an input file dynamically created on
-// the basis of the inputs specified in MCatNLO_MadFKS_PY8.Script 
+// the basis of the inputs specified in MCatNLO_MadFKS_PY8.Script
 #include "Pythia8/Pythia.h"
 #include "Pythia8/Pythia8ToHepMC.h"
 #include "HepMC/GenEvent.h"
@@ -20,7 +20,7 @@ extern "C" {
 }
 #define cevwgt cevwgt_
 
-extern "C" { 
+extern "C" {
   void pyabeg_(int&,char(*)[wgts_info_len_used]);
   void pyaend_(double&);
   void pyanal_(int&,double(*));
@@ -124,7 +124,7 @@ int main() {
     //define the IO_HEPEVT
     _hepevtio = new HepMC::IO_HEPEVT;
     _hepevtio->write_event(hepmcevt);
-    
+
     //event weight
     cevwgt.EVWGT=hepmcevt->weights()[0];
 

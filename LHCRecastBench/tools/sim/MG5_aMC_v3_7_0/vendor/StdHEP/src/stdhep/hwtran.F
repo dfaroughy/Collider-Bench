@@ -74,7 +74,7 @@ C...spin 1/2 baryons
       elseif(i1.ne.0 .and. i3.ne.0 .and. j1.eq.4)then
 C...spin 3/2 baryons
       elseif(i1.ne.0 .and. i2.ne.0 .and. i3.eq.0)then
-C...mesons 
+C...mesons
 C...check for illegal antiparticles
         if(i1.eq.i2 .and. id.lt.0) hwtran=0
       elseif(i2.ne.0 .and. i3.ne.0 .and. i1.eq.0)then

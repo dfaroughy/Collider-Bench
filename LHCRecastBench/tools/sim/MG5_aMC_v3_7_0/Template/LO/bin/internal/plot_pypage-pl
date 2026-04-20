@@ -34,7 +34,7 @@ until($listpos>$#incard){
       $qcdOrder = "";
       $qedOrder = "";
       $model    = "";
-  }      
+  }
 
 
 
@@ -51,22 +51,21 @@ until($listpos>$#incard){
    print PAGE "<tr  align=\"center\">";
    print PAGE "<TD> Name </TD>";
    print PAGE "<TD> Variable </TD>";
-   print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">R(i,j)</td> <TD> distance in the (y,phi) plane</td>"; 
+   print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">R(i,j)</td> <TD> distance in the (y,phi) plane</td>";
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">m(i,j)</td> <TD> invariant mass     </td> ";
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">pt(i) </td> <TD> transverse momentum</td> ";
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">y(i)  </td> <TD> rapidity in the lab</td> ";
    print PAGE "</table><BR>";
 
-   foreach $f (<./$ARGV[0]/*.jpg>) { 
+   foreach $f (<./$ARGV[0]/*.jpg>) {
      print PAGE "\<IMG SRC=\"$f\" BORDER\=1\> \<BR\> \n";
      $feps=substr($f,0,-3)."eps";
      ($junk, $fname)   =split("$ARGV[0]\/" , $feps);
-     print PAGE "\<A HREF\=\"$feps\"\>Download EPS $fname\</A\> \<BR\> \<BR\> \<BR\>\n"; 
+     print PAGE "\<A HREF\=\"$feps\"\>Download EPS $fname\</A\> \<BR\> \<BR\> \<BR\>\n";
    }
 
-   
+
    print PAGE "\<\/CENTER\>\n";
    print PAGE "\<\/BODY\> \n";
    print PAGE "\<\/HTML\> \n";
    close(PAGE)
-

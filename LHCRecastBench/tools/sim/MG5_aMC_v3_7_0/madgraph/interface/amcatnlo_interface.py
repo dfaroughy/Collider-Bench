@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -68,9 +68,9 @@ logger_stderr = logging.getLogger('fatalerror') # ->stderr
 # a new function for the improved NLO generation
 glob_directories_map = []
 def generate_directories_fks_async(i):
-        
+
     arglist = glob_directories_map[i]
-    
+
     curr_exporter = arglist[0]
     mefile = arglist[1]
     curr_fortran_model = arglist[2]
@@ -78,11 +78,11 @@ def generate_directories_fks_async(i):
     nme = arglist[4]
     path = arglist[5]
     olpopts = arglist[6]
-    
+
     infile = open(mefile,'rb')
     me = six.moves.cPickle.load(infile)
-    infile.close()      
-    
+    infile.close()
+
     calls, splitorders = curr_exporter.generate_directories_fks(me, curr_fortran_model, ime, nme, path, olpopts)
 
     nexternal = curr_exporter.proc_characteristic['nexternal']
@@ -91,11 +91,11 @@ def generate_directories_fks_async(i):
     splitting_types = curr_exporter.proc_characteristic['splitting_types']
     #processes = me.born_matrix_element.get('processes')
     processes = me.born_me.get('processes')
-    
+
     #only available after export has been done, so has to be returned from here
     max_loop_vertex_rank = -99
     if me.virt_matrix_element:
-        max_loop_vertex_rank = me.virt_matrix_element.get_max_loop_vertex_rank()  
+        max_loop_vertex_rank = me.virt_matrix_element.get_max_loop_vertex_rank()
     if six.PY2:
         return [calls, curr_exporter.fksdirs, max_loop_vertex_rank, ninitial, nexternal, processes, max_n_matched_jets, splitting_types, splitorders]
     else:
@@ -107,16 +107,16 @@ class CheckFKS(mg_interface.CheckValidForCmd):
     def check_display(self, args):
         """ Check the arguments of the display diagrams command in the context
         of the Loop interface."""
-        
+
         mg_interface.MadGraphCmd.check_display(self,args)
-        
+
         if args[0] in ['diagrams', 'processes'] and len(args)>=3 \
                 and args[1] not in ['born','loop','virt','real']:
             raise self.InvalidCmd("Can only display born, loop (virt) or real diagrams, not %s."%args[1])
         # rename args[1] if it is 'virt'
         if len(args) > 1:
             if args[1] == 'virt':
-                args[1] = 'loop' 
+                args[1] = 'loop'
 
     def check_add(self, args):
 
@@ -126,8 +126,8 @@ class CheckFKS(mg_interface.CheckValidForCmd):
             logger.warning('Generating a process including the Sudakov approximation of EW corrections.\n' + \
                            'Please cite arxiv:2110.03714, arxiv:2309.00452')
             args.remove('--ewsudakov')
-        
-        super(CheckFKS, self).check_add(args)        
+
+        super(CheckFKS, self).check_add(args)
         if '$' in args:
             raise self.InvalidCmd('$ syntax not valid for aMC@NLO. $$ syntax is on the other hand a valid syntax.')
 
@@ -141,7 +141,7 @@ class CheckFKS(mg_interface.CheckValidForCmd):
 
     def check_output(self, args):
         """ check the validity of the line"""
-                  
+
         if args and args[0] == 'ewsudakovsa':
             self._export_format = 'ewsudsa'
             args.pop(0)
@@ -149,7 +149,7 @@ class CheckFKS(mg_interface.CheckValidForCmd):
             self._export_format = 'NLO'
 
         forbidden_formats = ['madevent', 'standalone']
-        
+
 
         if not hasattr(self, '_fks_multi_proc') or not self._fks_multi_proc:
             text = 'No processes generated. Please generate a process first.'
@@ -178,13 +178,13 @@ class CheckFKS(mg_interface.CheckValidForCmd):
 
         self._export_dir = os.path.realpath(self._export_dir)
 
-                
+
     def check_launch(self, args, options):
         """check the validity of the line. args are DIR and MODE
         MODE being LO, NLO, aMC@NLO or aMC@LO. If no mode is passed, aMC@NLO is used"""
-        # modify args in order to be DIR 
+        # modify args in order to be DIR
         # mode being either standalone or madevent
-        
+
         if not args:
             if self._done_export:
                 args.append(self._done_export[0])
@@ -194,7 +194,7 @@ class CheckFKS(mg_interface.CheckValidForCmd):
             else:
                 self.help_launch()
                 raise self.InvalidCmd('No default location available, please specify location.')
-        
+
         if len(args) > 2:
             self.help_launch()
             return self.InvalidCmd, 'Invalid Syntax: Too many argument'
@@ -214,7 +214,7 @@ class CheckFKS(mg_interface.CheckValidForCmd):
                 raise self.InvalidCmd('%s is not a valid process directory nor run mode' % args[0])
 
         mode = args[1]
-        
+
         # search for a valid path
         if os.path.isdir(args[0]):
             path = os.path.realpath(args[0])
@@ -222,10 +222,10 @@ class CheckFKS(mg_interface.CheckValidForCmd):
             path = pjoin(MG5DIR,args[0])
         elif  MG4DIR and os.path.isdir(pjoin(MG4DIR,args[0])):
             path = pjoin(MG4DIR,args[0])
-        else:    
+        else:
             raise self.InvalidCmd('%s is not a valid directory' % args[0])
         args[0] = path
-                
+
         # inform where we are for future command
         self._done_export = [path, mode]
 
@@ -241,7 +241,7 @@ class CheckFKSWeb(mg_interface.CheckValidForCmdWeb, CheckFKS):
     pass
 
 class CompleteFKS(mg_interface.CompleteForCmd):
-    
+
     def complete_display(self, text, line, begidx, endidx):
         """Complete the display command in the context of the FKS interface"""
 
@@ -260,12 +260,12 @@ class CompleteFKS(mg_interface.CompleteForCmd):
         forbidden_names = ['MadGraphII', 'Template', 'pythia-pgs', 'CVS',
                             'Calculators', 'MadAnalysis', 'SimpleAnalysis',
                             'mg5', 'DECAY', 'EventConverter', 'Models',
-                            'ExRootAnalysis', 'HELAS', 'Transfer_Fct', 'aloha', 
+                            'ExRootAnalysis', 'HELAS', 'Transfer_Fct', 'aloha',
                             'madgraph', 'bin', 'tests', 'input', 'vendor', 'models']
-        
+
         #name of the run =>proposes old run name
         args = self.split_arg(line[0:begidx])
-        if len(args) >= 1: 
+        if len(args) >= 1:
             if len(args) > 1 and args[1] == 'aloha':
                 try:
                     return self.aloha_complete_output(text, line, begidx, endidx)
@@ -305,7 +305,7 @@ class CompleteFKS(mg_interface.CompleteForCmd):
         if len(args) == 2:
             modes = ['aMC@NLO', 'NLO', 'aMC@LO', 'LO']
             return self.list_completion(text, modes, line)
-            
+
         #option
         if len(args) >= 3:
             out={}
@@ -319,13 +319,13 @@ class CompleteFKS(mg_interface.CompleteForCmd):
                     '--force', '--cluster', '--multicore', '--interactive',
                     '--nocompile', '--reweightonly', '--parton', '--only_generation', '--name', '--appl_start_grid']
             out['Options'] = self.list_completion(text, opt, line)
-        
+
 
         return self.deal_multiple_categories(out, formatting)
 
 class HelpFKS(mg_interface.HelpToCmd):
 
-    def help_display(self):   
+    def help_display(self):
         mg_interface.MadGraphCmd.help_display(self)
         logger.info("   In aMC@NLO5, after display diagrams, the user can add the option")
         logger.info("   \"born\", \"virt\" or \"real\" to display only the corresponding diagrams.")
@@ -335,8 +335,8 @@ class HelpFKS(mg_interface.HelpToCmd):
         _launch_parser.print_help()
 
 class aMCatNLOInterface(CheckFKS, CompleteFKS, HelpFKS, Loop_interface.CommonLoopInterface):
-    
-    _fks_display_opts = ['real_diagrams', 'born_diagrams', 'virt_diagrams', 
+
+    _fks_display_opts = ['real_diagrams', 'born_diagrams', 'virt_diagrams',
                          'real_processes', 'born_processes', 'virt_processes']
 
     _nlo_modes_for_completion = ['all','real']
@@ -420,7 +420,7 @@ class aMCatNLOInterface(CheckFKS, CompleteFKS, HelpFKS, Loop_interface.CommonLoo
                         raise self.InvalidCmd('No virtuals have been generated')
                     text = "\n".join([amp.nice_string() for amp in self._curr_amps])
                 else:
-                    text = 'Born diagrams:\n' 
+                    text = 'Born diagrams:\n'
                     text += '\n'.join(amp.nice_string() for amp in get_amps_dict['born']())
                     text += '\n\nReal diagrams:'
                     text += '\n'.join(amp.nice_string() for amp in get_amps_dict['real']())
@@ -430,7 +430,7 @@ class aMCatNLOInterface(CheckFKS, CompleteFKS, HelpFKS, Loop_interface.CommonLoo
 
                 # set _curr_amps back to empty
                 self._curr_amps = diagram_generation.AmplitudeList()
-                    
+
             elif args[0] == 'processes':
                 if len(args)>=2 and args[1] in list(get_amps_dict.keys()):
                     get_amps = get_amps_dict[args[1]]
@@ -453,7 +453,7 @@ class aMCatNLOInterface(CheckFKS, CompleteFKS, HelpFKS, Loop_interface.CommonLoo
             mg_interface.MadGraphCmd.do_display(self,line,output)
 
     def do_add(self, line, *args,**opt):
-        
+
         args = self.split_arg(line)
         # Check the validity of the arguments
         self.ewsudakov = False
@@ -462,7 +462,7 @@ class aMCatNLOInterface(CheckFKS, CompleteFKS, HelpFKS, Loop_interface.CommonLoo
 
         if args[0] == 'model':
             return self.add_model(args[1:])
-        elif args[0] != 'process': 
+        elif args[0] != 'process':
             raise self.InvalidCmd("The add command can only be used with process or model")
         else:
             if any ([a.startswith("--loop_filter=") for a in args]):
@@ -479,7 +479,7 @@ class aMCatNLOInterface(CheckFKS, CompleteFKS, HelpFKS, Loop_interface.CommonLoo
             run_interface.check_compiler(self.options, block=False)
         #validate_model will reset self._generate_info; to avoid
         #this store it
-        
+
         if not aMCatNLOInterface.display_expansion:
             if proc_type[2] != ['QCD'] and proc_type[1] == 'all':
                 aMCatNLOInterface.display_expansion = True
@@ -550,8 +550,8 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                                       'Please specify them from the command line.')
 
             # this is a very rough attempt, and works only to guess QED/QCD
-            qed, qcd = fks_common.get_qed_qcd_orders_from_weighted(len(myprocdef['legs']), 
-                                                                   self._curr_model.get('order_hierarchy'), 
+            qed, qcd = fks_common.get_qed_qcd_orders_from_weighted(len(myprocdef['legs']),
+                                                                   self._curr_model.get('order_hierarchy'),
                                                                    weighted['WEIGHTED'])
 
             if qed < 0 or qcd < 0:
@@ -573,10 +573,10 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                 myprocdef.set('squared_orders', orders)
                 # warn the user of what happened
                 logger.info(('Setting the born squared orders automatically in the process definition to %s.\n' + \
-                                'If this is not what you need, please regenerate with the correct orders.'), 
-                                ' '.join(['%s^2<=%s' %(k,v) if v else '%s=%s' % (k,v) for k,v in myprocdef['squared_orders'].items()]), 
+                                'If this is not what you need, please regenerate with the correct orders.'),
+                                ' '.join(['%s^2<=%s' %(k,v) if v else '%s=%s' % (k,v) for k,v in myprocdef['squared_orders'].items()]),
                                 '$MG:BOLD')
-            else: 
+            else:
                 orders = {'QED': qed, 'QCD': qcd}
                 sqorders = {'QED': 2*qed, 'QCD': 2*qcd}
                 # set all the other coupling to zero
@@ -599,15 +599,15 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                 myprocdef.set('squared_orders', sqorders)
                 # warn the user of what happened
                 logger.info(('Setting the born orders automatically in the process definition to %s.\n' + \
-                                'If this is not what you need, please regenerate with the correct orders.'), 
-                                ' '.join(['%s<=%s' %(k,v) if v else '%s=%s' % (k,v) for k,v in myprocdef['orders'].items()]), 
-                                '$MG:BOLD')                
+                                'If this is not what you need, please regenerate with the correct orders.'),
+                                ' '.join(['%s<=%s' %(k,v) if v else '%s=%s' % (k,v) for k,v in myprocdef['orders'].items()]),
+                                '$MG:BOLD')
 
         # now check that all couplings that are there in orders also appear
         # in squared_orders. If not, set the corresponding one
         for k, v in myprocdef['orders'].items():
             if k not in myprocdef['squared_orders'].keys():
-                myprocdef['squared_orders'][k] = 2*v 
+                myprocdef['squared_orders'][k] = 2*v
                 logger.warning('Order %s is not constrained as squared_orders. Using: %s^2=%d' % (k,k,2*v) )
 
         # check that all the couplings of the model have been constrained
@@ -615,7 +615,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
         for o in myprocdef['model'].get('coupling_orders'):
             if o not in myprocdef['squared_orders'].keys():
                 logger.warning('No squared order constraint for order %s. Setting to 0' % o)
-                myprocdef['squared_orders'][o] = 0 
+                myprocdef['squared_orders'][o] = 0
 
         myprocdef['born_sq_orders'] = copy.copy(myprocdef['squared_orders'])
         # split all orders in the model, for the moment it's the simplest solution
@@ -662,8 +662,8 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
             myprocdef['squared_orders']['WEIGHTED'] += 2 * \
                     max([myprocdef.get('model').get('order_hierarchy')[ord] for \
                     ord in myprocdef['perturbation_couplings']])
-        # if [orders] have not been specified, 
-        # finally set perturbation_couplings to **all** the coupling orders 
+        # if [orders] have not been specified,
+        # finally set perturbation_couplings to **all** the coupling orders
         # avaliable in the model.
         # This is necessary because when doing EW corrections one only specifies
         # squared-orders constraints. In that case, all kind of splittings/loop-particles
@@ -687,7 +687,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
         else:
             self.ncores_for_proc_gen = 0
 
-        # check if any initial-state leg contains leptons. If so, switch 
+        # check if any initial-state leg contains leptons. If so, switch
         # include_lepton_initiated_processes to True
         lep_ids = [11, -11, 13, -13, 15, -15]
         initial_ids = sum([l['ids'] for l in myprocdef['legs'] if not l['state']], [])
@@ -709,7 +709,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
         fksproc =fks_base.FKSMultiProcess(myprocdef,fks_options)
         try:
             self._fks_multi_proc.add(fksproc)
-        except AttributeError: 
+        except AttributeError:
             self._fks_multi_proc = fksproc
             self._fks_multi_proc['loop_filter'] = fks_options['loop_filter']
 
@@ -717,7 +717,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
             base = {}
             for amp in self._fks_multi_proc.get_born_amplitudes():
                 nb_part = len(amp['process']['legs'])
-                for diag in amp['diagrams']:   
+                for diag in amp['diagrams']:
                     if nb_part not in  base:
                         base[nb_part] = diag.get('orders')
                     elif base[nb_part] != diag.get('orders'):
@@ -738,13 +738,13 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
 
     def do_output(self, line):
         """Main commands: Initialize a new Template or reinitialize one"""
-        
+
         args = self.split_arg(line)
         # Check Argument validity
         self.check_output(args)
-        
+
         noclean = '-noclean' in args
-        force = '-f' in args 
+        force = '-f' in args
         nojpeg = '-nojpeg' in args
         main_file_name = ""
         try:
@@ -757,10 +757,10 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
         # initialize the writer
         if self._export_format in ['NLO','ewsudsa']:
             output_type_dict = {'NLO': 'amcatnlo', 'ewsudsa': 'ewsudsa'}
-            self._curr_exporter = export_v4.ExportV4Factory(self, noclean, 
+            self._curr_exporter = export_v4.ExportV4Factory(self, noclean,
                       output_type=output_type_dict[self._export_format],
                       group_subprocesses=group_processes)
-            
+
             self._curr_exporter.pass_information_from_cmd(self)
 
         # check if a dir with the same name already exists
@@ -769,7 +769,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
             # Don't ask if user already specified force or noclean
             logger.info('INFO: directory %s already exists.' % self._export_dir)
             logger.info('If you continue this directory will be deleted and replaced.')
-            answer = self.ask('Do you want to continue?', 'y', ['y','n'], 
+            answer = self.ask('Do you want to continue?', 'y', ['y','n'],
                                                 timeout=self.options['timeout'])
             if answer != 'y':
                 raise self.InvalidCmd('Stopped by user request')
@@ -794,19 +794,19 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
 
         # Automatically run finalize
         self.finalize(nojpeg)
-            
+
         # Generate the virtuals if from OLP
         if self.options['OLP']!='MadLoop':
             self._curr_exporter.generate_virtuals_from_OLP(
               self.born_processes_for_olp,self._export_dir,self.options['OLP'])
-                
+
         # Remember that we have done export
         self._done_export = (self._export_dir, self._export_format)
 
         # Reset _export_dir, so we don't overwrite by mistake later
         self._export_dir = None
 
-    # Export a matrix element  
+    # Export a matrix element
     def export(self, nojpeg = False, main_file_name = "", group_processes=False):
         """Export a generated amplitude to file"""
 
@@ -818,7 +818,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
             # Sort amplitudes according to number of diagrams,
             # to get most efficient multichannel output
             self._curr_amps.sort(key = lambda a: a.get_number_of_diagrams(), reverse=True)
-                
+
             cpu_time1 = time.time()
             ndiags = 0
             if not self._curr_matrix_elements.get_matrix_elements():
@@ -828,17 +828,17 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                 else:
                     self._curr_matrix_elements = \
                              fks_helas.FKSHelasMultiProcess(\
-                                self._fks_multi_proc, 
+                                self._fks_multi_proc,
                                 loop_optimized= self.options['loop_optimized_output'])
-                    
-                    if not self.options['low_mem_multicore_nlo_generation']: 
+
+                    if not self.options['low_mem_multicore_nlo_generation']:
                         # generate the code the old way
                         ndiags = sum([len(me.get('diagrams')) for \
                                       me in self._curr_matrix_elements.\
                                       get_matrix_elements()])
                         # assign a unique id number to all process and
                         # generate a list of possible PDF combinations
-                        uid = 0 
+                        uid = 0
                         initial_states=[]
                         for me in self._curr_matrix_elements.get_matrix_elements():
                             uid += 1 # update the identification number
@@ -849,7 +849,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                             except IndexError:
                                 initial_states.append(sorted(list(set((p.get_initial_pdg(1)) for \
                                                                       p in me.born_me.get('processes')))))
-                        
+
                             for fksreal in me.real_processes:
                             # Pick out all initial state particles for the two beams
                                 try:
@@ -858,8 +858,8 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                                 except IndexError:
                                     initial_states.append(sorted(list(set((p.get_initial_pdg(1)) for \
                                                                  p in fksreal.matrix_element.get('processes')))))
-                                    
-                            
+
+
                         # remove doubles from the list
                         checked = []
                         for e in initial_states:
@@ -890,9 +890,9 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
         if self._export_format in ['NLO', 'ewsudsa']:
             path = os.path.join(path, 'SubProcesses')
 
-            #_curr_matrix_element is a FKSHelasMultiProcess Object 
+            #_curr_matrix_element is a FKSHelasMultiProcess Object
             self._fks_directories = []
-            proc_charac = self._curr_exporter.proc_characteristic 
+            proc_charac = self._curr_exporter.proc_characteristic
             for charac in ['has_isr', 'has_fsr', 'has_loops']:
                 proc_charac[charac] = self._curr_matrix_elements[charac]
 
@@ -909,9 +909,9 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                 if not self.options['low_mem_multicore_nlo_generation']:
                     #me is a FKSHelasProcessFromReals
                     calls_dir, splitorders_dir = \
-                            self._curr_exporter.generate_directories_fks(me, 
-                            self._curr_helas_model, 
-                            ime, len(self._curr_matrix_elements.get('matrix_elements')), 
+                            self._curr_exporter.generate_directories_fks(me,
+                            self._curr_helas_model,
+                            ime, len(self._curr_matrix_elements.get('matrix_elements')),
                             path,self.options['OLP'])
                     calls += calls_dir
                     splitorders += [so for so in splitorders_dir if so not in splitorders]
@@ -920,8 +920,8 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                     self.born_processes.append(me.born_me.get('processes'))
                 else:
                     glob_directories_map.append(\
-                            [self._curr_exporter, me, self._curr_helas_model, 
-                             ime, len(self._curr_matrix_elements.get('matrix_elements')), 
+                            [self._curr_exporter, me, self._curr_helas_model,
+                             ime, len(self._curr_matrix_elements.get('matrix_elements')),
                              path, self.options['OLP']])
 
             if self.options['low_mem_multicore_nlo_generation']:
@@ -944,11 +944,11 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                                                   list(range(len(glob_directories_map)))).get(9999999)
                 except KeyboardInterrupt:
                     pool.terminate()
-                    raise KeyboardInterrupt 
-    
+                    raise KeyboardInterrupt
+
                 pool.close()
                 pool.join()
-                
+
                 #clean up tmp files containing final matrix elements
                 for mefile in self._curr_matrix_elements.get('matrix_elements'):
                     os.remove(mefile)
@@ -957,13 +957,13 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                     proc_charac[charac] = self._curr_exporter.proc_characteristic[charac]
                 # ninitial and nexternal
 
-                
+
                 proc_charac['nexternal'] = max([diroutput[4] for diroutput in diroutputmap])
                 ninitial_set = set([diroutput[3] for diroutput in diroutputmap])
                 if len(ninitial_set) != 1:
-                    raise MadGraph5Error("Invalid ninitial values: %s" % ' ,'.join(list(ninitial_set)))    
+                    raise MadGraph5Error("Invalid ninitial values: %s" % ' ,'.join(list(ninitial_set)))
                 proc_charac['ninitial'] = list(ninitial_set)[0]
-                
+
                 #  max_n_matched_jets
                 njet_set = set([int(diroutput[6]) for diroutput in diroutputmap])
                 proc_charac['max_n_matched_jets'] = max(njet_set)
@@ -971,7 +971,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                 self.born_processes = []
                 self.born_processes_for_olp = []
                 max_loop_vertex_ranks = []
-                
+
                 # transform proc_charac['splitting_types'] into a set
                 splitting_types = set(proc_charac['splitting_types'])
                 for diroutput in diroutputmap:
@@ -993,7 +993,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
 
             card_path = os.path.join(path, os.path.pardir, 'SubProcesses', \
                                      'procdef_mg5.dat')
-            
+
             if self.options['loop_optimized_output'] and \
                len(max_loop_vertex_ranks) > 0:
                 self._curr_exporter.write_coef_specs_file(max_loop_vertex_ranks)
@@ -1010,7 +1010,7 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
                                      'initial_states_map.dat')
             nmaxpdf = self._curr_exporter.write_init_map(subproc_path,
                                 self._curr_matrix_elements.get('initial_states'))
-            self._curr_exporter.write_maxproc_files(nmaxpdf, 
+            self._curr_exporter.write_maxproc_files(nmaxpdf,
                                 os.path.join(path, os.path.pardir, 'SubProcesses'))
 
             self._curr_exporter.write_orderstag_file(splitorders, self._export_dir)
@@ -1044,16 +1044,16 @@ Please also cite ref. 'arXiv:1804.10017' when using results from this code.
             config_line = [l for l in self.history if l.strip().startswith('set')]
             for line in config_line:
                 ME.exec_cmd(line)
-            stop = self.define_child_cmd_interface(ME)                
+            stop = self.define_child_cmd_interface(ME)
             return stop
 
         ext_program = launch_ext.aMCatNLOLauncher(argss[0], self, run_mode=argss[1],
                                                   shell = isinstance(self, extended_cmd.CmdShell),
                                                   **options)
         ext_program.run()
-        
-                    
-   
+
+
+
 class aMCatNLOInterfaceWeb(mg_interface.CheckValidForCmdWeb, aMCatNLOInterface):
     pass
 
@@ -1088,7 +1088,7 @@ _launch_parser.add_option("-p", "--parton", default=False, action='store_true',
 _launch_parser.add_option("-o", "--only_generation", default=False, action='store_true',
                             help="Skip grid set up, just generate events starting from " + \
                             "the last available results")
-# the last option is different from the corresponding in amcatnlo_run_interface as it stores the 
+# the last option is different from the corresponding in amcatnlo_run_interface as it stores the
 # 'name' entry of the options, not the run_name one
 _launch_parser.add_option("-n", "--name", default=False, dest='name',
                             help="Provide a name to the run")
@@ -1096,6 +1096,3 @@ _launch_parser.add_option("-R", "--reweight", default=False, action='store_true'
                             help="Run the reweight module (reweighting by different model parameter")
 _launch_parser.add_option("-M", "--madspin", default=False, action='store_true',
                             help="Run the madspin package")
-
-
-

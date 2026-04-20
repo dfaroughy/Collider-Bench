@@ -32,7 +32,7 @@
 struct PyCallBack_Pythia8_Particle : public Pythia8::Particle {
 	using Pythia8::Particle::Particle;
 
-	int index() const override { 
+	int index() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Particle *>(this), "index");
 		if (overload) {

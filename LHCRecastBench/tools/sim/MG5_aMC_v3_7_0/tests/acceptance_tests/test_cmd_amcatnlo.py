@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -55,12 +55,12 @@ pjoin = os.path.join
 #===============================================================================
 class MECmdShell(IOTests.IOTestManager):
     """this treats all the command not related to MG_ME"""
-    
+
     loadtime = time.time()
-    
+
     def setUp(self):
         self.debugging = unittest.debug
-    
+
         if not self.debugging:
             self.tmpdir = tempfile.mkdtemp(prefix='amc')
             #if os.path.exists(self.tmpdir):
@@ -73,19 +73,19 @@ class MECmdShell(IOTests.IOTestManager):
             os.mkdir(pjoin(MG5DIR, 'TEST_AMC'))
             self.tmpdir = pjoin(MG5DIR, 'TEST_AMC')
             self.path = pjoin(self.tmpdir,'MGProcess')
-        
+
     def tearDown(self):
         if not self.debugging:
             shutil.rmtree(self.tmpdir)
-    
-    
+
+
     def generate(self, process, model, multiparticles=[]):
         """Create a process"""
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
-            
+
 
         try:
             shutil.rmtree(self.path)
@@ -94,7 +94,7 @@ class MECmdShell(IOTests.IOTestManager):
 
         interface = MGCmd.MasterCmd()
         interface.no_notification()
-        
+
         run_cmd('import model %s' % model)
         for multi in multiparticles:
             run_cmd('define %s' % multi)
@@ -122,12 +122,12 @@ class MECmdShell(IOTests.IOTestManager):
 
     @staticmethod
     def join_path(*path):
-        """join path and treat spaces"""     
+        """join path and treat spaces"""
         combine = os.path.join(*path)
-        return combine.replace(' ',r'\ ')        
-    
+        return combine.replace(' ',r'\ ')
+
     def do(self, line):
-        """ exec a line in the cmd under test """        
+        """ exec a line in the cmd under test """
         self.cmd_line.exec_cmd(line, errorhandling=False,precmd=True)
 
 
@@ -175,9 +175,9 @@ class MECmdShell(IOTests.IOTestManager):
         """ target: info.html
         """
         #check that the info.html file correctly lists all the subprocesses,
-        #even when the process string has to be split on more lines (for length 
+        #even when the process string has to be split on more lines (for length
         #reasons)
-        
+
         cmd = os.getcwd()
         self.generate(['p p > h w+ > ta+ ta- e+ ve QED^2=8 QCD^2=0 [QCD]'], 'sm')
         self.assertEqual(cmd, os.getcwd())
@@ -327,25 +327,25 @@ class MECmdShell(IOTests.IOTestManager):
         decay t~ > w- b~
         launch -i
         decay_events run_01
-        add madspin --replace_line="set spinmode.*" --after_line=banner set spinmode=onshell 
+        add madspin --replace_line="set spinmode.*" --after_line=banner set spinmode=onshell
         """ % (self.path,nevents)
-        
+
         interface = MGCmd.MasterCmd()
         interface.no_notification()
-        
+
         open(pjoin(self.tmpdir,'cmd'),'w').write(text)
-        
+
         interface.exec_cmd('import command %s' % pjoin(self.tmpdir, 'cmd'))
-        
+
         # perform some basic check
         orig_lhe = pjoin(self.path,'Events','run_01','events.lhe.gz')
         lhe_on = pjoin(self.path,'Events','run_01_decayed_1','events.lhe.gz')
         lhe_onshell= pjoin(self.path,'Events','run_01_decayed_2','events.lhe.gz')
-        
+
         self.assertTrue(lhe_on)
         mt =174
         wt = 1.5
-        
+
         # check that original event has top onshell
         nb_event = 0
         for event in lhe_parser.EventFile(orig_lhe):
@@ -371,9 +371,9 @@ class MECmdShell(IOTests.IOTestManager):
                     #else:
                     #    self.assertTrue(False, 'not top-antitop decaying')
             self.assertIn(nb_final, [2,3])
-        self.assertEqual(nb_event, nevents)        
-        
-        
+        self.assertEqual(nb_event, nevents)
+
+
         # check that each events has the decay ON mode
         nb_event = 0
         for event in lhe_parser.EventFile(lhe_on):
@@ -428,11 +428,11 @@ class MECmdShell(IOTests.IOTestManager):
                     else:
                         self.assertTrue(False, 'not top-antitop decaying')
             self.assertIn(nb_final, [4,5])
-        self.assertEqual(nb_event, nevents)        
+        self.assertEqual(nb_event, nevents)
 
-        
+
     def test_madspin_LOonly(self):
-        
+
         text = """
         set crash_on_error True --no_save
         generate p p > w+ [LOonly]
@@ -443,21 +443,21 @@ class MECmdShell(IOTests.IOTestManager):
         decay w+ > e+ ve
         launch -i
         decay_events run_01
-        add madspin --replace_line="set spinmode.*" --after_line="banner" set spinmode=onshell 
+        add madspin --replace_line="set spinmode.*" --after_line="banner" set spinmode=onshell
         """ % self.path
-        
+
         interface = MGCmd.MasterCmd()
         interface.no_notification()
-        
+
         open(pjoin(self.tmpdir,'cmd'),'w').write(text)
-        
+
         interface.exec_cmd('import command %s' % pjoin(self.tmpdir, 'cmd'))
-        
+
      # perform some basic check
         lhe_on = pjoin(self.path,'Events','run_01_decayed_1','events.lhe.gz')
         lhe_onshell= pjoin(self.path,'Events','run_01_decayed_2','events.lhe.gz')
-        
-        self.assertTrue(lhe_on)        
+
+        self.assertTrue(lhe_on)
         # check that each events has the decay ON mode
         nb_event = 0
         for event in lhe_parser.EventFile(lhe_on):
@@ -479,9 +479,9 @@ class MECmdShell(IOTests.IOTestManager):
                         misc.sprint(p.pdg, p.status)
                         self.assertTrue(False, 'not W decaying')
             self.assertIn(nb_final, [2])
-        self.assertEqual(nb_event, 10)      
-        
-        self.assertTrue(lhe_onshell)        
+        self.assertEqual(nb_event, 10)
+
+        self.assertTrue(lhe_onshell)
         # check that each events has the decay ON mode
         nb_event = 0
         for event in lhe_parser.EventFile(lhe_onshell):
@@ -502,12 +502,12 @@ class MECmdShell(IOTests.IOTestManager):
                     else:
                         self.assertTrue(False, 'not W decaying')
             self.assertIn(nb_final, [2])
-        self.assertEqual(nb_event, 10)  
-          
+        self.assertEqual(nb_event, 10)
+
 
     def generate_production(self):
         """production"""
-        
+
         if os.path.exists('%s/Cards/proc_card_mg5.dat' % self.path):
             proc_path = '%s/Cards/proc_card_mg5.dat' % self.path
             if 'p p > e+ ve QED^2=4 QCD^2=0 [QCD]' in open(proc_path).read():
@@ -516,7 +516,7 @@ class MECmdShell(IOTests.IOTestManager):
                         self.cmd_line.exec_cmd('quit')
                     os.system('rm -rf %s/RunWeb' % self.path)
                     os.system('rm -rf %s/Events/run_01' % self.path)
-                    os.system('rm -rf %s/Events/run_01_LO' % self.path)                        
+                    os.system('rm -rf %s/Events/run_01_LO' % self.path)
                     self.cmd_line = NLOCmd.aMCatNLOCmdShell(me_dir= '%s' % self.path)
                     self.cmd_line.run_cmd('set automatic_html_opening False --no_save')
 
@@ -526,7 +526,7 @@ class MECmdShell(IOTests.IOTestManager):
                     open('%s/Cards/run_card_default.dat' % self.path, 'w').write(card)
                     os.system('cp  %s/Cards/run_card_default.dat %s/Cards/run_card.dat'% (self.path, self.path))
                     os.system('cp  %s/Cards/shower_card_default.dat %s/Cards/shower_card.dat'% (self.path, self.path))
-                    
+
                     return
 
         cmd = os.getcwd()
@@ -539,7 +539,7 @@ class MECmdShell(IOTests.IOTestManager):
         open('%s/Cards/run_card.dat' % self.path, 'w').write(card)
 
 
- 
+
 
 
     def test_amcantlo_script(self):
@@ -578,7 +578,7 @@ class MECmdShell(IOTests.IOTestManager):
 
     def notest_eft_running_nlo(self):
         """check that  gives the correct result"""
-        
+
         mg_cmd = MGCmd.MasterCmd()
         mg_cmd.no_notification()
         mg_cmd.run_cmd('set automatic_html_opening False --save')
@@ -588,7 +588,7 @@ class MECmdShell(IOTests.IOTestManager):
         #self.cmd_line = MECmd.MadEventCmdShell(me_dir=  self.path)
         #self.cmd_line.no_notification()
         #self.cmd_line.exec_cmd('set automatic_html_opening False')
-        
+
         #check validity of the default run_card
         run_card = banner.RunCardNLO(pjoin(self.path, 'Cards','run_card.dat'))
 
@@ -598,8 +598,8 @@ class MECmdShell(IOTests.IOTestManager):
         self.assertTrue('mue_ref_fixed' in run_card.user_set)
         self.assertTrue('mue_over_ref' not in  run_card.user_set)
         self.assertTrue(run_card['fixed_extra_scale'])
-        
-        
+
+
 
         cwd = os.getcwd()
         import subprocess
@@ -617,7 +617,7 @@ class MECmdShell(IOTests.IOTestManager):
             stdout= None
 
 
-        subprocess.call([pjoin(self.path, 'bin','generate_events'),'aMC@LO', '-p', '-f'],            
+        subprocess.call([pjoin(self.path, 'bin','generate_events'),'aMC@LO', '-p', '-f'],
                          cwd=pjoin(self.path),
                          stdout=stdout,stderr=stdout)
 
@@ -636,7 +636,7 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_generate_events_lo_hw6_stdhep(self):
         """test the param_card created is correct"""
-        
+
         self.generate_production()
         cmd = """generate_events aMC@LO
                  set nevents 100
@@ -644,8 +644,8 @@ class MECmdShell(IOTests.IOTestManager):
         open('/tmp/mg5_cmd','w').write(cmd)
         self.cmd_line.import_command_file('/tmp/mg5_cmd')
         #self.do('import command %s/mg5_cmd')
-        #self.do('generate_events LO -f')        
-        
+        #self.do('generate_events LO -f')
+
         # test the lhe event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/events.lhe.gz' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/summary.txt' % self.path))
@@ -662,19 +662,19 @@ class MECmdShell(IOTests.IOTestManager):
             os.path.getsize('%s/Events/run_01_LO/events_HERWIG6_0.hep.gz' % self.path),
             os.path.getsize('%s/Events/run_01_LO/events.lhe.gz' % self.path)
         )
-        
+
 
 
     def test_generate_events_lo_py6_stdhep(self):
         """test the param_card created is correct"""
-        
+
         self.generate_production()
 
         #change to py6
         card = open('%s/Cards/run_card.dat' % self.path).read()
-        open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace('HERWIG6', 'PYTHIA6Q'))       
-        self.do('generate_events aMC@LO -f')        
-        
+        open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace('HERWIG6', 'PYTHIA6Q'))
+        self.do('generate_events aMC@LO -f')
+
         # test the lhe event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/events.lhe.gz' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/summary.txt' % self.path))
@@ -696,15 +696,15 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_generate_events_nlo_hw6_split(self):
         """test the param_card created is correct"""
-        
+
         cmd = os.getcwd()
         self.generate(['p p > e+ ve QED^2=4 QCD^2=0 [QCD]'], 'loop_sm')
         self.assertEqual(cmd, os.getcwd())
         #change splitevent generation
         card = open('%s/Cards/run_card.dat' % self.path).read()
         open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace(' -1 = nevt_job', ' 1000 = nevt_job'))
-        self.do('generate_events aMC@NLO -fp')        
-        
+        self.do('generate_events aMC@NLO -fp')
+
         # test the lhe event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01/events.lhe.gz' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/summary.txt' % self.path))
@@ -717,15 +717,15 @@ class MECmdShell(IOTests.IOTestManager):
 
         check_html_page(self, pjoin(self.path, 'crossx.html'))
         check_html_page(self, pjoin(self.path, 'HTML', 'run_01', 'results.html'))
-        
+
 
     def test_calculate_xsect_nlo(self):
         """test the param_card created is correct"""
-        
+
         self.generate_production()
-        
-        self.do('calculate_xsect NLO -f')        
-        
+
+        self.do('calculate_xsect NLO -f')
+
         # test the plot file exists
         self.assertTrue(os.path.exists('%s/Events/run_01/MADatNLO.HwU' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/res_0.txt' % self.path))
@@ -741,11 +741,11 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_calculate_xsect_lo(self):
         """test the param_card created is correct"""
-        
+
         self.generate_production()
-        
-        self.do('calculate_xsect LO -f')        
-        
+
+        self.do('calculate_xsect LO -f')
+
         # test the plot file exists
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/MADatNLO.HwU' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/res_0.txt' % self.path))
@@ -755,17 +755,17 @@ class MECmdShell(IOTests.IOTestManager):
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/alllogs_0.html' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01_LO/alllogs_1.html' % self.path))
 
-    
+
     def test_amcatnlo_from_file(self):
         """ """
-        
+
         cwd = os.getcwd()
         try:
             os.remove('%s/test.log' % self.tmpdir)
         except Exception as error:
             pass
         import subprocess
-        
+
         stdout = open('%s/test.log' % self.tmpdir,'w')
         if logging.getLogger('madgraph').level <= 20:
             stderr=None
@@ -773,8 +773,8 @@ class MECmdShell(IOTests.IOTestManager):
             devnull =open(os.devnull,'w')
             stderr=devnull
 
-            
-        subprocess.call([sys.executable, pjoin(_file_path, os.path.pardir,'bin','mg5_aMC'), 
+
+        subprocess.call([sys.executable, pjoin(_file_path, os.path.pardir,'bin','mg5_aMC'),
                          pjoin(_file_path, 'input_files','test_amcatnlo')],
                          cwd=self.tmpdir,
                         stdout=stdout,stderr=stderr)
@@ -789,7 +789,7 @@ class MECmdShell(IOTests.IOTestManager):
                 break
         #      Run at p-p collider (6500.0 + 6500.0 GeV)
         self.assertIn('Run at p-p collider (6500.0 + 6500.0 GeV)', data[i+2])
-        #      Total cross-section: 1.249e+03 +- 3.2e+00 pb        
+        #      Total cross-section: 1.249e+03 +- 3.2e+00 pb
         cross_section = data[i+4]
         cross_section = float(cross_section.split(':')[1].split('+-')[0])
         try:
@@ -797,7 +797,7 @@ class MECmdShell(IOTests.IOTestManager):
         except TypeError:
             self.assertTrue(cross_section < 6750.0 and cross_section > 6650.0)
 
-        #      Number of events generated: 10000        
+        #      Number of events generated: 10000
         self.assertIn('Number of events generated: 100', data[i+3])
 
 
@@ -812,7 +812,7 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_generate_taggedph_nloew(self):
         """test the param_card created is correct"""
-        
+
 
         text = """
         import model loop_qcd_qed_sm_Gmu-a0
@@ -822,13 +822,13 @@ class MECmdShell(IOTests.IOTestManager):
         set lepphreco False
         set quarkphreco False
         """ % (self.path)
-        
+
         interface = MGCmd.MasterCmd()
         interface.no_notification()
-        
+
         open(pjoin(self.tmpdir,'cmd'),'w').write(text)
-        
-        
+
+
         os.system('rm -rf %s/RunWeb' % self.path)
         os.system('rm -rf %s/Events/run_*' % self.path)
 
@@ -847,11 +847,11 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_generate_eeww_nlo_emela_noph(self):
         """ we will test the generation of NLO EW for w+w- production,
-        using the gmu ren. scheme and the delta scheme for the factorisation 
+        using the gmu ren. scheme and the delta scheme for the factorisation
         of IR singularities
         The expected generation/compilation/running time is about 5 mins with 8 cores
         """
-        
+
         text = """
         import model loop_qcd_qed_sm_Gmu
         generate e+ e- > w+ w- [QED]
@@ -905,12 +905,12 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_generate_eeww_nlo_emela_wph(self):
         """ we will test the generation of NLO EW for w+w- production,
-        using the gmu ren. scheme and the delta scheme for the factorisation 
+        using the gmu ren. scheme and the delta scheme for the factorisation
         of IR singularities.
         Photon in the initial state is included.
         The expected generation/compilation/running time is about 5 mins with 8 cores
         """
-        
+
         text = """
         import model loop_qcd_qed_sm_Gmu
         define ep = e+ a
@@ -966,13 +966,13 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_generate_eett_nlo_emela_bs(self):
         """ we will test the generation of NLO EW for ttbar production,
-        using the alphamz ren. scheme and the delta scheme for the factorisation 
-        of IR singularities. (Actually, the amz scheme will be transformed 
+        using the alphamz ren. scheme and the delta scheme for the factorisation
+        of IR singularities. (Actually, the amz scheme will be transformed
         internally to the MSbar one)
         Beamstrahlung is included.
         The expected generation/compilation/running time is about 5 mins with 8 cores
         """
-        
+
         text = """
         import model loop_qcd_qed_sm
         generate e+ e- > t t~ [QED]
@@ -1027,13 +1027,13 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_generate_eett_lo_emela_clusterpath(self):
         """ we will test the generation of LO EW for ttbar production,
-        using the alphamz ren. scheme and the delta scheme for the factorisation 
-        of IR singularities. (Actually, the amz scheme will be transformed 
+        using the alphamz ren. scheme and the delta scheme for the factorisation
+        of IR singularities. (Actually, the amz scheme will be transformed
         internally to the MSbar one)
-        We will set a cluster_temp_path 
+        We will set a cluster_temp_path
         """
 
-        
+
         text = """
         import model loop_qcd_qed_sm
         set cluster_temp_path /tmp/ --no_save
@@ -1085,7 +1085,7 @@ class MECmdShell(IOTests.IOTestManager):
         """ we will test the generation of NLO QCD for ttbar production,
         (without ISR, fixed beam energy
         """
-        
+
         text = """
         import model loop_sm-no_b_mass
         generate e+ e- > t t~ [QCD]
@@ -1093,7 +1093,7 @@ class MECmdShell(IOTests.IOTestManager):
         launch NLO
         set ebeam1 500
         set ebeam2 500
-        set lpp1 0 
+        set lpp1 0
         set lpp2 0
         """ % (self.path)
 

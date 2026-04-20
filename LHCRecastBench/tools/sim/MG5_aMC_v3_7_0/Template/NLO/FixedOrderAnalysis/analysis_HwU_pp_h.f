@@ -50,7 +50,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_book(l+34,'H-j1 y,pT_j1>50GeV ' ,100,-6.d0,6.d0)
       call HwU_book(l+35,'H-j1 y,pT_j1>70GeV ' ,100,-6.d0,6.d0)
       call HwU_book(l+36,'H-j1 y,pT_j1>90GeV ' ,100,-6.d0,6.d0)
-      
+
       call HwU_book(l+37,'njets ' ,11,-0.5d0,10.5d0)
       call HwU_book(l+38,'njets,abs(y_j)<2.5 ' ,11,-0.5d0,10.5d0)
       call HwU_book(l+39,'xsec ' ,3,-0.5d0,2.5d0)
@@ -65,7 +65,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 
@@ -169,8 +169,8 @@ c
       if(pth.ge.30.d0) call HwU_fill(l+21,yh,WGTS)
       if(pth.ge.50.d0) call HwU_fill(l+22,yh,WGTS)
       if(pth.ge.70.d0) call HwU_fill(l+23,yh,WGTS)
-      if(pth.ge.90.d0) call HwU_fill(l+24,yh,WGTS)  
-c     
+      if(pth.ge.90.d0) call HwU_fill(l+24,yh,WGTS)
+c
       if(njet.ge.1)then
          call HwU_fill(l+25,yj1,WGTS)
          if(ptj1.ge.10.d0) call HwU_fill(l+26,yj1,WGTS)
@@ -178,7 +178,7 @@ c
          if(ptj1.ge.50.d0) call HwU_fill(l+28,yj1,WGTS)
          if(ptj1.ge.70.d0) call HwU_fill(l+29,yj1,WGTS)
          if(ptj1.ge.90.d0) call HwU_fill(l+30,yj1,WGTS)
-c     
+c
          call HwU_fill(l+31,yh-yj1,WGTS)
          if(ptj1.ge.10.d0) call HwU_fill(l+32,yh-yj1,WGTS)
          if(ptj1.ge.30.d0) call HwU_fill(l+33,yh-yj1,WGTS)
@@ -190,9 +190,9 @@ c
       call HwU_fill(l+37,njdble,WGTS)
       call HwU_fill(l+38,njcdble,WGTS)
       call HwU_fill(l+39,1d0,WGTS)
-c      
+c
 C
- 999  return      
+ 999  return
       end
 
 
@@ -209,7 +209,7 @@ C
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

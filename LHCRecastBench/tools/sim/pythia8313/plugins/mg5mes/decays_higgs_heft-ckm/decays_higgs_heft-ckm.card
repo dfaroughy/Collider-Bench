@@ -10,7 +10,7 @@ add process h > z j j  QCD=0                        @11
 add process h > z b b~ QCD=0                        @11
 
 # 4-parton final states specific to ZZ (aa and gg not included)
-# Can also be reached via eg h > b b , + z -> l l 
+# Can also be reached via eg h > b b , + z -> l l
 #add process h > l+ l- l+ l-   HIG=0 HIW=0          @12
 #add process h > vl vl~ vl vl~ HIG=0 HIW=0          @12
 #add process h > ta+ ta- l+ l- HIG=0 HIW=0          @12
@@ -21,7 +21,7 @@ add process h > z b b~ QCD=0                        @11
 #add process h > b b~ vl vl~   HIG=0 HIW=0          @12
 #add process h > b b~ ta+ ta-  HIG=0 HIW=0          @12
 #add process h > b b~ b b~  QCD=0 HIG=0 HIW=0       @12
-					            
+
 add process h > w+ w-                               @20
 add process h > w+ l- vl~                           @21
 add process h > w- l+ vl                            @21

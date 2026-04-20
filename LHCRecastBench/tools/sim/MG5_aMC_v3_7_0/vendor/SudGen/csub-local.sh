@@ -7,7 +7,7 @@
 #  * in all command line arguments, "SEED"
 #    is replaced by the corresponding mass
 #
-# 
+#
 # queue options:
 #   * espresso     = 20 minutes
 #   * microcentury = 1 hour
@@ -71,7 +71,7 @@ function write_masses {
 	echo "WARNING: file "$fnmass" already exists, will use this."
 	echo
     fi
-     
+
 }
 
 function write_submit {
@@ -87,8 +87,8 @@ fi
 echo '
 executable = '\$EXECUTABLE'
 output = '\$LOGDIR'/\$(argument).stdout
-error = '\$LOGDIR'/\$(argument).stderr 
-log = '\$LOGDIR'/\$(argument).log 
+error = '\$LOGDIR'/\$(argument).stderr
+log = '\$LOGDIR'/\$(argument).log
 arguments = \"${@:3}\"
 getenv = True
 periodic_release =  (NumJobStarts < 10) && ((CurrentTime - EnteredCurrentStatus) > 30)

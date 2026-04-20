@@ -53,7 +53,7 @@ c
 c     c
       include 'vector.inc'
       include 'run.inc'
-      
+
       integer           mincfig, maxcfig
       common/to_configs/mincfig, maxcfig
 
@@ -80,7 +80,7 @@ c      common/to_colstats/ncols,ncolflow,ncolalt,ic
 %(DRIVER_EXTRA_HEADER)s
 C-----
 C  BEGIN CODE
-C----- 
+C-----
       call cpu_time(t_before)
       CUMULATED_TIMING = t_before
 %(DRIVER_EXTRA_INITIALISE)s
@@ -123,7 +123,7 @@ c      open (unit=lun+1,file='results.dat',status='unknown',err=13)
       call setrun                !Sets up run parameters
       call setpara(param_card_name %(secondparam)s)   !Sets up couplings and masses
       include 'pmass.inc'        !Sets up particle masses
-      call setcuts               !Sets up cuts 
+      call setcuts               !Sets up cuts
       call printout              !Prints out a summary of paramaters
       call run_printout          !Prints out a summary of the run settings
       nconfigs = 1
@@ -135,7 +135,7 @@ c   If CKKW-type matching, read IS Sudakov grid
         goto 40
  20     issgridfile='lib/'//issgridfile
         do i=1,5
-          open(unit=lunsud,file=issgridfile,status='old',ERR=30)          
+          open(unit=lunsud,file=issgridfile,status='old',ERR=30)
           exit
  30       issgridfile='../'//issgridfile
           if(i.eq.5)then
@@ -147,7 +147,7 @@ c   If CKKW-type matching, read IS Sudakov grid
  40     call readgrid(lunsud)
         print *,'Done reading IS Sudakovs'
       endif
-        
+
       if(ickkw.eq.2)then
         hmult=.false.
         if(ngroup.ge.nhmult) hmult=.true.
@@ -158,7 +158,7 @@ c   If CKKW-type matching, read IS Sudakov grid
         endif
       endif
 
-c     
+c
 c     Get user input
 c
       write(*,*) "getting user params"
@@ -170,7 +170,7 @@ c
           fixed_fac_scale1 = .true.
           fixed_fac_scale2 = .true.
           ickkw = 0
-      endif 
+      endif
       minvar(1,1) = 0              !This tells it to map things invarients
       write(*,*) 'Attempting mappinvarients',nconfigs,nexternal
       if (mincfig.lt.0)then
@@ -206,7 +206,7 @@ c     Now write out events to permanent file
 c
       if (twgt .gt. 0d0) maxwgt=maxwgt/twgt
       write(lun,'(a,f20.5)') 'Summary', maxwgt
-      
+
 
 c      write(*,'(a34,20I7)'),'Color flows originally chosen:   ',
 c     &     (ncolflow(i),i=1,ncols)
@@ -352,7 +352,7 @@ c               lbw(i+1)=1
 c               jconfig=jconfig-2**i
 c            else
 c               lbw(i+1)=0
-c            endif 
+c            endif
 c            write(*,*) i+1, lbw(i+1)
 c         enddo
       endif
@@ -400,14 +400,14 @@ c
 cv    check local file
 c
       fopened=.false.
-      tempname=filename 	 
-      fine=index(tempname,' ') 	 
+      tempname=filename
+      fine=index(tempname,' ')
       if(fine.eq.0) fine=len(tempname)
       open(unit=lun,file=tempname,status='old',ERR=20)
       fopened=.true.
       return
 
-c      
+c
 c     getting the path of the executable
 c
  20   call getarg(0,path) !path is the PATH to the madevent executable (either global or from launching directory)
@@ -419,7 +419,7 @@ c     getting the name of the directory
 c
       if (lbw(0).eq.0)then
          ! No BW separation
-         write(buffer,*) mincfig 
+         write(buffer,*) mincfig
          path = path(:fine2)//'G'//adjustl(buffer)
          fine2 = index(path, ' ') -1
       else
@@ -436,14 +436,6 @@ c
       tempname = path(:fine2)//filename
       open(unit=lun,file=tempname,status='old',ERR=30)
       fopened = .true.
-      
+
  30    return
        end
-
-
-
-
-
-
-
-

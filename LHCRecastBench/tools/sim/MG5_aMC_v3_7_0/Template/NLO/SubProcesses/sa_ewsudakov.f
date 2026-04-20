@@ -5,9 +5,9 @@ c**************************************************************************
       implicit none
       include 'nexternal.inc'
       double precision p(0:3, nexternal), gs, res(3)
-      integer i 
+      integer i
       double precision t0, t1
- 
+
       ! read the info from stdin (gstrong and momenta)
 200   write(*,*) 'enter gstrong'
       read(*,*) gs
@@ -27,7 +27,3 @@ c**************************************************************************
       return
 
       end
-
-
-
-

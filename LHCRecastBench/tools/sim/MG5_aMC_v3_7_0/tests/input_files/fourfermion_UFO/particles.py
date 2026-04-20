@@ -125,4 +125,3 @@ phi = Particle(pdg_code = 9000010,
                texname = '\\phi',
                antitexname = '\\phi',
                charge = 0)
-

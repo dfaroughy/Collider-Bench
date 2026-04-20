@@ -2,8 +2,8 @@ C routines to perform moemntum reshuffling based on those
 C employed in MadSTR (1907.04898)
 C One particle at the time is considered, either recoiling on
 C all other FS particles, or on the initial state ones
-      
-      
+
+
       REAL*8 function lambda_tr(x,y,z)
 C-----triangular function
       implicit none
@@ -26,11 +26,11 @@ C-----triangular function
 
 
       subroutine reshuffle_momenta_old(p,q,iresh,pdg_old,pdg_new,pass)
-C A wrapper which, based on ihowresh, calls the subroutine for 
+C A wrapper which, based on ihowresh, calls the subroutine for
 C the initial- or final-state reshuffling
-      implicit none 
+      implicit none
       include 'nexternal.inc'
-C-----Arguments      
+C-----Arguments
       double precision p(0:3,nexternal-1), q(0:3,nexternal-1)
       integer iresh, pdg_old, pdg_new
       double precision mass_old, mass_new
@@ -40,7 +40,7 @@ C-----Local
       parameter(ihowresh=1) ! 1->initial, 2->final
 
       if (iresh.gt.nincoming) then
-          ! for the reshuffling of a final-state particle, 
+          ! for the reshuffling of a final-state particle,
           ! two options exist: recoil on all other FS particles,
           ! or recoil on the initial state
           if (ihowresh.eq.1) then
@@ -62,11 +62,11 @@ C-----Local
 
 
       subroutine reshuffle_momenta(p,q,iresh,pdg_old,pdg_new,pass)
-C A wrapper which, based on ihowresh, calls the subroutine for 
+C A wrapper which, based on ihowresh, calls the subroutine for
 C the initial- or final-state reshuffling
-      implicit none 
+      implicit none
       include 'nexternal.inc'
-C-----Arguments      
+C-----Arguments
       double precision p(0:3,nexternal-1), q(0:3,nexternal-1)
       integer iresh(2), pdg_old(2), pdg_new(2)
       double precision mass_old, mass_new
@@ -82,7 +82,7 @@ C-----Local
       parameter (reshuffle_two=.true.)
 
       ! consistency check
-      do i = 1, 2 
+      do i = 1, 2
         if (iresh(i).eq.0.or.pdg_old(i).eq.0.or.pdg_new(i).eq.0) then
           if (iresh(i).ne.0.or.pdg_old(i).ne.0.or.pdg_new(i).ne.0) then
             write(*,*) 'ERROR in reshuffling, inconsistent values',
@@ -103,7 +103,7 @@ C-----Local
           if (iresh(i).eq.0) continue
 
           if (iresh(i).gt.nincoming) then
-            ! for the reshuffling of a final-state particle, 
+            ! for the reshuffling of a final-state particle,
             ! two options exist: recoil on all other FS particles,
             ! or recoil on the initial state
             if (ihowresh.eq.1) then
@@ -131,7 +131,7 @@ C-----Local
       subroutine reshuffle_final_two(p,q,iresh,pdg_old,pdg_new,pass)
 ************************************************************************
 *     Authors: Marco Zaro                                              *
-*     Given momenta p(nu,nexternal-1) produce q(nu,external-1).        * 
+*     Given momenta p(nu,nexternal-1) produce q(nu,external-1).        *
 *     Only in this function, iresh, pdg_old, pdg_new are 2-component   *
 *     arrays, with the informations on the two particles whose mass    *
 *     Is going to be changed.                                          *
@@ -139,9 +139,9 @@ C-----Local
 *     momentum of the two particles. Also the angles in the combined   *
 *     rest frame are preserved. The other momenta are left unchanged   *
 ************************************************************************
-      implicit none 
+      implicit none
       include 'nexternal.inc'
-C-----Arguments      
+C-----Arguments
       double precision p(0:3,nexternal-1), q(0:3,nexternal-1)
       integer iresh(2), pdg_old(2), pdg_new(2)
       double precision mass_old(2), mass_new(2)
@@ -183,7 +183,7 @@ C-----Functions
         return
       endif
 
-      ! go in the rest frame of the total momentum and 
+      ! go in the rest frame of the total momentum and
       ! compute the momenta of the two particles in that frame
       do i = 1,2
         call invboostx(p(0, iresh(i)), ptot, pcom(0,i))
@@ -192,7 +192,7 @@ C-----Functions
       pspac2 = threedot(pcom(0,1),pcom(0,1))
       ! the modulus of the spatial momenta for the new momenta
       qspac2 = lambda_tr(invm2,mass_new(1)**2,mass_new(2)**2) / 4d0 / invm2
-      ! now compute the new momenta in the com frame, keeping 
+      ! now compute the new momenta in the com frame, keeping
       ! the same spatial direction as p, and finally boost them back in
       ! the original frame
       do i = 1,2
@@ -208,7 +208,7 @@ C-----Functions
 
       return
       end
-       
+
 
 
 
@@ -216,15 +216,15 @@ C-----Functions
       subroutine reshuffle_initial_state(p,q,iresh,pdg_old,pdg_new,pass)
 ************************************************************************
 *     Authors: Marco Zaro                                              *
-*     Given momenta p(nu,nexternal-1) produce q(nu,external-1) with    * 
+*     Given momenta p(nu,nexternal-1) produce q(nu,external-1) with    *
 *     the mass of particle iresh set according to pdg_new.             *
 *     In this case, iresh is in the initial stete.                     *
 *     The spatial components of the IS momenta are set such that       *
 *     No change is needed for the final state ones                     *
 ************************************************************************
-      implicit none 
+      implicit none
       include 'nexternal.inc'
-C-----Arguments      
+C-----Arguments
       double precision p(0:3,nexternal-1), q(0:3,nexternal-1)
       integer iresh, pdg_old, pdg_new
       double precision mass_old, mass_new
@@ -239,9 +239,9 @@ C-----Local
       double precision dot, threedot, sumdot, get_mass_from_id
       external dot, threedot, sumdot, get_mass_from_id
       double precision rescale_init
-C--------------- 
-C     BEGIN CODE                                                                   
-C---------------    
+C---------------
+C     BEGIN CODE
+C---------------
 
       pass = .true.
       mass_old = get_mass_from_id(pdg_old)
@@ -270,7 +270,7 @@ C---------------
       do i = 1,nincoming
         if (i.eq.iresh) then
             qinboost(0,i) = mass_new
-            qinboost(1:3,i) = 0d0 
+            qinboost(1:3,i) = 0d0
         else
             m2_other = dot(p(0,i),p(0,i))
             qinboost(0,i) = (shat - m2_other - mass_new**2) / 2d0 / mass_new
@@ -298,7 +298,7 @@ C---------------
       ! check the momenta before returning
       call check_reshuffled_momenta(p, q, iresh, mass_new)
 
-      return     
+      return
       end
 
 
@@ -307,14 +307,14 @@ C---------------
       subroutine reshuffle_final(p,q,iresh,pdg_old,pdg_new,pass)
 ************************************************************************
 *     Authors: Marco Zaro                                              *
-*     Given momenta p(nu,nexternal-1) produce q(nu,external-1) with    * 
+*     Given momenta p(nu,nexternal-1) produce q(nu,external-1) with    *
 *     the mass of particle iresh set according to pdg_new.             *
 *     The reshuffling recoils against the other final-state particles. *
 *     If the reshuffling is not possible, pass is set to False         *
 ************************************************************************
-      implicit none 
+      implicit none
       include 'nexternal.inc'
-C-----Arguments      
+C-----Arguments
       double precision p(0:3,nexternal-1), q(0:3,nexternal-1)
       integer iresh, pdg_old, pdg_new
       double precision mass_old, mass_new
@@ -328,9 +328,9 @@ C-----Local
       double precision dot, threedot, get_mass_from_id
       external dot, threedot, get_mass_from_id
       double precision rescale_init
-C--------------- 
-C     BEGIN CODE                                                                   
-C---------------    
+C---------------
+C     BEGIN CODE
+C---------------
 
       pass = .true.
       mass_old = get_mass_from_id(pdg_old)
@@ -402,22 +402,22 @@ C *** finally the initial state particles, do nothing
       ! check the momenta before returning
       call check_reshuffled_momenta(p, q, iresh, mass_new)
 
-      return     
+      return
       end
 
 
       subroutine reshuffle_initial(p,q,iresh,pdg_old,pdg_new,pass)
 ************************************************************************
 *     Authors: Marco Zaro                                              *
-*     Given momenta p(nu,nexternal-1) produce q(nu,external-1) with    * 
+*     Given momenta p(nu,nexternal-1) produce q(nu,external-1) with    *
 *     the mass of particle iresh set according to pdg_new.             *
 *     The reshuffling is performed by changing the energy of the       *
 *     initial state particles.                                         *
 *     If the reshuffling is not possible, pass is set to False         *
 ************************************************************************
-      implicit none 
+      implicit none
       include 'nexternal.inc'
-C-----Arguments      
+C-----Arguments
       double precision p(0:3,nexternal-1), q(0:3,nexternal-1)
       integer iresh, pdg_old, pdg_new
       double precision mass_old, mass_new
@@ -431,10 +431,10 @@ C-----Local
       double precision dot, threedot, get_mass_from_id
       external dot, threedot, get_mass_from_id
       double precision rescale_init
- 
-C--------------- 
-C     BEGIN CODE                                                                    
-C---------------    
+
+C---------------
+C     BEGIN CODE
+C---------------
       pass = .true.
       mass_old = get_mass_from_id(pdg_old)
       mass_new = get_mass_from_id(pdg_new)
@@ -471,17 +471,17 @@ C energies (sum of z components of FS momenta)
       q(0,1) = (etot + ztot)/2d0
       q(1,1) = 0d0
       q(2,1) = 0d0
-      q(3,1) = dsign(q(0,1), p(3,1)) 
+      q(3,1) = dsign(q(0,1), p(3,1))
 
       q(0,2) = (etot - ztot)/2d0
       q(1,2) = 0d0
       q(2,2) = 0d0
-      q(3,2) = dsign(q(0,2), p(3,2)) 
+      q(3,2) = dsign(q(0,2), p(3,2))
 
       ! check the momenta before returning
       call check_reshuffled_momenta(p, q, iresh, mass_new)
 
-      return     
+      return
       end
 
 
@@ -501,7 +501,7 @@ C energies (sum of z components of FS momenta)
      $   ' implemented', nincoming
         stop
       endif
-      
+
       do i = 1, nexternal-1
 C--------mass shell conditions
         if (i.ne.iresh) then
@@ -630,7 +630,7 @@ C--------momentum conservation
       end function filoc_int
 
 
-      
+
 
 
 
@@ -646,7 +646,7 @@ c it is the inverse of boostx
 c
 c input:
 c       real    p(0:3)         : four-momentum p in the same frame as q
-c       real    q(0:3)         : four-momentum q 
+c       real    q(0:3)         : four-momentum q
 c
 c output:
 c       real    pboost(0:3)    : four-momentum p in the boosted frame

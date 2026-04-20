@@ -5,7 +5,7 @@ import random
 from six.moves import range
 
 class FortranList(list):
-    
+
     def __init__(self, min, max=None):
         if max is None:
             self.min = 1
@@ -15,11 +15,11 @@ class FortranList(list):
             self.max = max + 1
         list.__init__(self,[0]*(self.max-self.min))
 
-        
+
     def __getitem__(self, index):
         assert self.min <= index < self.max, 'outside range %s <= %s < %s' % (self.min, index, self.max)
         return list.__getitem__(self, index - self.min)
-    
+
     def __setitem__(self, index, value):
         assert self.min <= index < self.max
         return list.__setitem__(self, index - self.min , value)
@@ -27,30 +27,30 @@ class FortranList(list):
 class DoubleFortranList(FortranList):
 
     def __init__(self, min, max=(None,None)):
-        
+
         min1 = min[0]
-        max1 = max[0] 
+        max1 = max[0]
         FortranList.__init__(self, min1, max1)
-        
+
         min2 = min[1]
         max2 = max[1]
-        
+
         for i in range(len(self)):
             list.__setitem__(self,i,FortranList(min2,max2))
-        
+
     def __getitem__(self, index):
         var1 = index[0]
         var2 = index[1]
         list1 = FortranList.__getitem__(self, var1)
         return list1.__getitem__(var2)
-        
+
     def __setitem__(self, index, value):
         var1 = index[0]
         var2 = index[1]
-        
+
         list1 = FortranList.__getitem__(self, var1)
         list1.__setitem__(var2, value)
-                
+
 
 class RAMBOError(Exception):
     """ A Error class for RAMBO routine """
@@ -79,8 +79,8 @@ def RAMBO(N,ET,XM):
     ibegin = 0
     iwarn = FortranList(5)
     Nincoming = 2
-    
-    
+
+
     # Object Initialization
     Z = FortranList(N)
     Q = DoubleFortranList((4,N))
@@ -95,9 +95,9 @@ def RAMBO(N,ET,XM):
 # Check input object
     assert isinstance(XM, FortranList)
     assert XM.min == 1
-    assert XM.max == N+1 
+    assert XM.max == N+1
 
-# INITIALIZATION STEP: FACTORIALS FOR THE PHASE SPACE WEIGHT                                                                               
+# INITIALIZATION STEP: FACTORIALS FOR THE PHASE SPACE WEIGHT
     if not ibegin:
         ibegin = 1
         twopi = 8 * math.atan(1)
@@ -105,7 +105,7 @@ def RAMBO(N,ET,XM):
         Z[2] = po2log
         for k in range(3, N+1):
             Z[k] = Z[k-1] + po2log - 2.*math.log(k-2) - math.log(k-1)
-          
+
 # CHECK ON THE NUMBER OF PARTICLES
         assert 1 < N < 101
 
@@ -116,14 +116,14 @@ def RAMBO(N,ET,XM):
         if XM[i] != 0:
             nm +=1
         xmt += abs(XM[i])
-        
+
     if xmt > ET:
         raise RAMBOError(' Not enough energy in this case')
 
-#                                                                                                                                          
-# THE PARAMETER VALUES ARE NOW ACCEPTED                                                                                                    
-#                                                                                                                                          
-# GENERATE N MASSLESS MOMENTA IN INFINITE PHASE SPACE                                                                                      
+#
+# THE PARAMETER VALUES ARE NOW ACCEPTED
+#
+# GENERATE N MASSLESS MOMENTA IN INFINITE PHASE SPACE
     for i in range(1,N+1):
         r1=random_nb(1)
         c = 2 * r1 -1
@@ -131,13 +131,13 @@ def RAMBO(N,ET,XM):
         f = twopi * random_nb(2)
         r1 = random_nb(3)
         r2 = random_nb(4)
-        
+
         Q[(4,i)]=-math.log(r1*r2)
         Q[(3,i)]= Q[(4,i)]*c
         Q[(2,i)]=Q[(4,i)]*s*math.cos(f)
         Q[(1,i)]=Q[(4,i)]*s*math.sin(f)
-        
-# CALCULATE THE PARAMETERS OF THE CONFORMAL TRANSFORMATION                                                                                 
+
+# CALCULATE THE PARAMETERS OF THE CONFORMAL TRANSFORMATION
     for i in range(1, N+1):
         for k in range(1,5):
             R[k] = R[k] + Q[(k,i)]
@@ -153,23 +153,23 @@ def RAMBO(N,ET,XM):
     for i in range(1, N+1):
         bq = B[1]*Q[(1,i)]+B[2]*Q[(2,i)]+B[3]*Q[(3,i)]
         for k in range(1,4):
-            P[k,i] = x*(Q[(k,i)]+B[k]*(Q[(4,i)]+a*bq)) 
+            P[k,i] = x*(Q[(k,i)]+B[k]*(Q[(4,i)]+a*bq))
         P[(4,i)] = x*(g*Q[(4,i)]+bq)
-        
-# CALCULATE WEIGHT AND POSSIBLE WARNINGS                                                                                                   
+
+# CALCULATE WEIGHT AND POSSIBLE WARNINGS
     wt = po2log
     if N != 2:
         wt = (2 * N-4) * math.log(ET) + Z[N]
     if wt < -180 and iwarn[1] < 5:
         print("RAMBO WARNS: WEIGHT = EXP(%f20.9) MAY UNDERFLOW" % wt)
         iwarn[1] += 1
-    if wt > 174 and iwarn[2] < 5:      
+    if wt > 174 and iwarn[2] < 5:
         print(" RAMBO WARNS: WEIGHT = EXP(%f20.9) MAY  OVERFLOW" % wt)
         iwarn[2] += 1
 
-                                                                                                                                          
-# RETURN FOR WEIGHTED MASSLESS MOMENTA                                                                                                     
-    if nm == 0: 
+
+# RETURN FOR WEIGHTED MASSLESS MOMENTA
+    if nm == 0:
         return P, wt
 
 
@@ -181,7 +181,7 @@ def RAMBO(N,ET,XM):
     n_iter  = 0
     x= xmax
     accu = ET * acc
-  
+
     while 1:
         f0 = -ET
         g0 = 0
@@ -189,7 +189,7 @@ def RAMBO(N,ET,XM):
         for i in range(1, N+1):
             E[i] = math.sqrt(XM2[i]+x2*P2[i])
             f0 += E[i]
-            g0 += P2[i]/E[i] 
+            g0 += P2[i]/E[i]
         if abs(f0) <= accu:
             break
         n_iter  += 1
@@ -203,8 +203,8 @@ def RAMBO(N,ET,XM):
         for k in range(1,4):
             P[(k,i)] = x * P[(k,i)]
         P[(4,i)] = E[i]
-        
-# CALCULATE THE MASS-EFFECT WEIGHT FACTOR                                                                                                  
+
+# CALCULATE THE MASS-EFFECT WEIGHT FACTOR
     wt2 = 1.
     wt3 = 0.
     for i in range(1, N+1):
@@ -212,7 +212,7 @@ def RAMBO(N,ET,XM):
         wt3 += V[i]**2/E[i]
     wtm = (2.*N-3.)*math.log(x)+math.log(wt2/wt3*ET)
 
-# RETURN FOR  WEIGHTED MASSIVE MOMENTA                                                                                                     
+# RETURN FOR  WEIGHTED MASSIVE MOMENTA
     wt += wtm
     if(wt < -180 and iwarn[3] < 5):
         print(" RAMBO WARNS: WEIGHT = EXP(%s) MAY UNDERFLOW" % wt)
@@ -230,15 +230,3 @@ def random_nb(value):
     while output < 1e-16:
         output= random.uniform(0,1)
     return output
-          
-
-
-            
-
-
-
-
-
-
-
-

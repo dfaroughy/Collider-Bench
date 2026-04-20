@@ -2,7 +2,7 @@
 c
 c This subroutine computes an off-shell vector current from an external
 c fermion pair.  The vector boson propagator is given in Feynman gauge
-c for a massless vector and in unitary gauge for a massive vector in the 
+c for a massless vector and in unitary gauge for a massive vector in the
 c case when they are all color octets.
 c
 c input:
@@ -14,7 +14,7 @@ c       real    vwidth         : width of OUTPUT vector v
 c
 c output:
 c       complex jio(6)         : vector current          j^mu(<fo|v|fi>)
-c     
+c
       implicit none
       double complex fi(6),fo(6),gc(2),jio(6),c0,c1,c2,c3,cs,d
       double precision q(0:3),vmass,vwidth,q2,vm2

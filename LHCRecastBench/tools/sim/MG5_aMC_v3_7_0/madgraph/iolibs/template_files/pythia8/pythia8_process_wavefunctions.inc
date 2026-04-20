@@ -1,6 +1,6 @@
 double p[nexternal][4];
 int i;
- 
+
 // Convert Pythia 4-vectors to double[]
 for(i=0;i < nexternal;i++){
     p[i][0] = pME[i].e();
@@ -14,4 +14,3 @@ for(i=0;i < nexternal;i++){
 
 // Calculate all amplitudes
 %(amplitude_calls)s
-

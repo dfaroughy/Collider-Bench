@@ -201,4 +201,3 @@ V_32 = Vertex(name = 'V_32',
               color = [ '1' ],
               lorentz = [ L.FFV1, L.FFV2 ],
               couplings = {(0,0):C.GC_4,(0,1):C.GC_10})
-

@@ -7,7 +7,7 @@ C...User process initialization commonblock.
      &IDWTUP,NPRUP,XSECUP(MAXPUP),XERRUP(MAXPUP),XMAXUP(MAXPUP),
      &LPRUP(MAXPUP)
 
-C  
+C
 C	Les Houches accord 2001
 C
 C	MAXPUP - max. number of different processes to be interfaced at one time
@@ -16,7 +16,7 @@ C	EBMUP - energy in GeV of beam particles 1 and 2
 C	PDFGUP - author group for beam particles 1 and 2 according to PDFlib specifications
 C	PDFSUP - PDF set ID for beam particles 1 and 2 according to PDFlib specifications
 C
-C	For e+e- or when the SHG defaults are to be used, 
+C	For e+e- or when the SHG defaults are to be used,
 C 	set PDFGUP=-1 and PDFSUP=-1
 C
 C	IDWTUP - master switch dictating how the event weights are interpreted

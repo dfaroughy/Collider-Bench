@@ -91,9 +91,9 @@ cc
        common/to_ewsud_helselect/ewsud_helselect
        INTEGER  SDK_GET_NCOMB
        external SDK_GET_NCOMB
-       double complex BORN_HEL_MAX(amp_split_size), BORN_HEL(amp_split_size) 
+       double complex BORN_HEL_MAX(amp_split_size), BORN_HEL(amp_split_size)
        logical debug,deepdebug
-       common/ew_debug/debug 
+       common/ew_debug/debug
        double precision s,t,u,invm2_04
        external invm2_04
        INTEGER HELS(NEXTERNAL-1)
@@ -108,7 +108,7 @@ cc
        COMMON /to_sud_mod/ sud_mod
 c from MAdLoop
        integer USERHEL
-       COMMON/USERCHOICE/USERHEL       
+       COMMON/USERCHOICE/USERHEL
 
        integer cs_run
        COMMON/to_cs_run/cs_run
@@ -139,7 +139,7 @@ c      COMMON/USERCHOICE/USERHEL
        REAL*8        virthel(0:3,0:ANS_DIMENSION), born_leadhel(0:ANS_DIMENSION),
      .               virt_leadhel(0:ANS_DIMENSION),sud_leadhel(0:ANS_DIMENSION),
      .               born_allhel(0:ANS_DIMENSION),
-     .               virt_allhel(0:ANS_DIMENSION),sud_allhel(0:ANS_DIMENSION)      
+     .               virt_allhel(0:ANS_DIMENSION),sud_allhel(0:ANS_DIMENSION)
 
       integer maximumtries, tries
       logical first_time_momenta
@@ -153,8 +153,8 @@ c, logfromLOip1
       double precision print_loop_over_born, print_sud_over_born,
      .                 print_loopminussud_over_born, print_born,
      ,                 previous_print_loopminussud_over_born(0:ANS_DIMENSION),
-     .                 previous_print_loopminussud_over_born_hel(0:ANS_DIMENSION,3**8),          
-     .                 previous_loopminussud(0:ANS_DIMENSION), 
+     .                 previous_print_loopminussud_over_born_hel(0:ANS_DIMENSION,3**8),
+     .                 previous_loopminussud(0:ANS_DIMENSION),
      .                 previous_loopminussud_hel(0:ANS_DIMENSION,3**8)
       double precision QES2_value, ren_scale_value
       logical use_QES2_value, use_ren_scale_value
@@ -171,7 +171,7 @@ c, logfromLOip1
 
 C-----
 C  BEGIN CODE
-C-----  
+C-----
 
       cs_run=.true.
       sud_mc_hel=.false.
@@ -183,7 +183,7 @@ C-----
       endif
 
       energy=1d3
-      
+
       QES2_value=1d4
       ren_scale_value=1d2
       use_QES2_value=.false.
@@ -196,7 +196,7 @@ C-----
       maximumtries=20000000
       energy_increase_factor=1.8d0
       angle_decrease_factor=2d0
-c Set a number that is possible. E.g. > 0.5d0 for a 2->2 
+c Set a number that is possible. E.g. > 0.5d0 for a 2->2
       min_inv_frac=1d0/20d0
       tolerance_next_point=5d-2
       frac_lead_hel=1d-2
@@ -204,13 +204,13 @@ c Set a number that is possible. E.g. > 0.5d0 for a 2->2
 c Do not change deb_settozero here
       deb_settozero=0
       printinewsdkf=.False.
-      
+
       debug=.True.
 c      debug=.False
 
       deepdebug=.False.
 c      deepdebug=.False.
-      if(deepdebug) debug=.True.      
+      if(deepdebug) debug=.True.
 
       first_time_momenta=.True.
 
@@ -219,7 +219,7 @@ c      deepdebug=.False.
 
 !!!!!!!!!!!!!!!!!!!!!!  turn off for  LO_ONLY !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-          call get_nsqso_loop(nsqso)          
+          call get_nsqso_loop(nsqso)
           call get_answer_dimension(MLResArrayDim)
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -236,7 +236,7 @@ c      deepdebug=.False.
       call printout              !Prints out a summary of paramaters
       call run_printout          !Prints out a summary of the run settings
       include 'pmass.inc'
-     
+
       call FKSParamReader('FKS_params.dat',.TRUE.,.FALSE.)
       tolerance_default = IRPoleCheckThreshold
       iconfig=1
@@ -268,7 +268,7 @@ c      call sdk_test_functions()
       read(*,*) npoints
       write(*,*)'Insert the relative tolerance'
       write(*,*)' A negative number will mean use the default one: ',
-     1 tolerance_default 
+     1 tolerance_default
       read(*,*) tolerance
       if (tolerance .le. zero) then
           tolerance = tolerance_default
@@ -277,7 +277,7 @@ c      call sdk_test_functions()
       endif
 
       mu_r = ren_scale
-c      qes2 = energy**2 
+c      qes2 = energy**2
 
       do i = nincoming+1, nexternal-1
           pmass_rambo(i-nincoming) = pmass(i)
@@ -324,7 +324,7 @@ c initialization
 200   continue
 
 
-       
+
           finite=0d0
           single=0d0
           double=0d0
@@ -333,7 +333,7 @@ c initialization
           if (.not.first_time_momenta) goto 201
 
           if (nincoming.eq.1) then
-              call rambo(0, nexternal-nincoming-1, pmass(1), 
+              call rambo(0, nexternal-nincoming-1, pmass(1),
      1         pmass_rambo, prambo)
               p_born(0,1) = pmass(1)
               p_born(1,1) = 0d0
@@ -347,13 +347,13 @@ c initialization
                   p_born(1,1) = 0d0
                   p_born(2,1) = 0d0
                   p_born(3,1) = pmass(3)/2d0
-                  if (pmass(1) > 0d0) 
+                  if (pmass(1) > 0d0)
      1               p_born(3,1) = dsqrt(pmass(3)**2/4d0 - pmass(1)**2)
                   p_born(0,2) = pmass(3)/2d0
                   p_born(1,2) = 0d0
                   p_born(2,2) = 0d0
                   p_born(3,2) = -pmass(3)/2d0
-                  if (pmass(2) > 0d0) 
+                  if (pmass(2) > 0d0)
      1               p_born(3,2) = -dsqrt(pmass(3)**2/4d0 - pmass(1)**2)
 
                   prambo(0,1) = pmass(3)
@@ -365,7 +365,7 @@ c initialization
                   ! this is a 2->2 configuration, start with
                   ! 90 degree angle along the x axis
                   angle = pi/2d0
-                    
+
                   p_born(0,1) = energy/2d0
                   p_born(1,1) = 0d0
                   p_born(2,1) = 0d0
@@ -382,9 +382,9 @@ c initialization
                       write(*,*) 'ERROR MASS 2 !=0'
                       stop 1
                   endif
-                  
+
                   !the spatial momentum in a 2->2 scattering
-                  pfin = energy**4 + pmass(3)**4 + pmass(4)**4 
+                  pfin = energy**4 + pmass(3)**4 + pmass(4)**4
      $                    - 2d0*energy**2*pmass(3)**2
      $                    - 2d0*energy**2*pmass(4)**2
      $                    - 2d0*pmass(3)**2*pmass(4)**2
@@ -399,10 +399,10 @@ c initialization
                   p_born(1,4) = -dsin(angle) * pfin
                   p_born(2,4) = 0d0
                   p_born(3,4) = -dcos(angle) * pfin
-                
+
               endif
           else
-              write(*,*) 'INVALID NUMBER OF INCOMING PARTICLES', 
+              write(*,*) 'INVALID NUMBER OF INCOMING PARTICLES',
      1          nincoming
               stop
           endif
@@ -444,7 +444,7 @@ c----------
           p_born(1,4) = -dsin(angle) * pfin
           p_born(2,4) = 0d0
           p_born(3,4) = -dcos(angle) * pfin
- 
+
           do j = 0, 3
             do k = 1, nexternal-1
               p_born_first(j,k) = p_born(j,k)
@@ -456,7 +456,7 @@ c----------
               write(*,*) 'P', i, p_born(:,i)
           enddo
 
-      endif 
+      endif
 
 
 
@@ -473,12 +473,12 @@ c----------
 
       do i=1,nexternal-1
        do j=i+1, nexternal-1
-         k=k+1         
+         k=k+1
          if(i.le.2.and.j.ge.3) then
           invarianti(k)=invm2_04(p_born(0,i),p_born(0,j),-1d0)
           else
           invarianti(k)=invm2_04(p_born(0,i),p_born(0,j),1d0)
-         endif       
+         endif
 
 
 
@@ -490,13 +490,13 @@ c----------
            else
              invariantiprevious(k)=invarianti(k)
            endif
-           
-C           ! MZ 
+
+C           ! MZ
 C           !!!!if (abs(invm2_04(p_born(0,i),p_born(0,j),1d0)).lt.s*min_inv_frac) then
 C           if (abs(invm2_04(p_born(0,i),p_born(0,j),1d0)).lt.s*min_inv_frac
 C     .          .or.(k.eq.2.and.abs(invm2_04(p_born(0,i),p_born(0,j),1d0)).gt.s*min_inv_frac*1.001d0)) then
 C            tries=tries+1
-C            !MZ increase the energy if the point cannot be found 
+C            !MZ increase the energy if the point cannot be found
 C            if (mod(tries,1000000).eq.0) then
 C                energy = energy*2d0
 C                write(*,*) 'increasing energy to ', energy
@@ -521,7 +521,7 @@ C     . or min_inv_frac"
 C
 C              print*, "invarianti=",invarianti
 C              print*, "invariantifirst=",invariantifirst
-C           
+C
 C              stop
                continue
            else
@@ -535,20 +535,20 @@ C              stop
            else
              invariantiprevious(k)=invarianti(k)
            endif
-          
 
 
-     
- 
+
+
+
            endif
 
-         endif        
-       
+         endif
+
 
 
 
        enddo
-      enddo   
+      enddo
 
       invariantiprevious(1)=sprevious
 
@@ -557,7 +557,7 @@ C              stop
      .        "error_invariants from previous step =", error_inv
 
 
-     
+
       if(first_time_momenta) then
 
 
@@ -566,10 +566,10 @@ C              stop
         tries=0
 
         OPEN(90, FILE='PS.input', ACTION='WRITE')
-      
- 
+
+
         do l=1,nexternal-1
-      
+
          write (90,*) P_born(0,l),P_born(1,l),P_born(2,l),P_born(3,l)
 
          do k=0,3
@@ -630,7 +630,7 @@ c----------
 
 
 
-          
+
 
 
 
@@ -645,12 +645,12 @@ c----------
           USERHEL=-1
           call SLOOPMATRIX_THRES(p_born,virthel,1d-3,PREC_FOUND
      $ ,RET_CODE)
-          
+
           do iamp= 1, amp_split_size_born
              iampvirt(iamp)=0
           enddo
 
-          
+
 
           do iamp=1,amp_split_size_born
             call amp_split_pos_to_orders(iamp, orders)
@@ -661,7 +661,7 @@ c----------
                  iampvirt(iamp)=j
               endif
             enddo
-            
+
 
 
 
@@ -711,12 +711,12 @@ c----------
      .        AMP_SPLIT_BORN(iamp))
 
               print_born = dble(AMP_SPLIT_BORN(iamp))
-             
-            
-              write(73,*), energy, angle, "summed", print_loop_over_born, print_sud_over_born,
-     .        print_loopminussud_over_born, print_born  
 
-              if(.not.first_time_momenta) write(75,*),  energy, "summed",  
+
+              write(73,*), energy, angle, "summed", print_loop_over_born, print_sud_over_born,
+     .        print_loopminussud_over_born, print_born
+
+              if(.not.first_time_momenta) write(75,*),  energy, "summed",
      .        print_loopminussud_over_born*AMP_SPLIT_BORN(iamp) - previous_loopminussud(iamp),
      .        print_loopminussud_over_born - previous_print_loopminussud_over_born(iamp)
 
@@ -741,7 +741,7 @@ c----------
              call sdk_get_hels(chosen_hel, hels)
              do iamp = 1, amp_split_size_born
 
-         
+
 
                CALL SBORN_ONEHEL(P_born,hels(1),chosen_hel,born_hel)
                born_from_sborn_onehel(:)=amp_split_ewsud(:)
@@ -802,13 +802,13 @@ c----------
 
 
               if ( born_from_sborn_onehel(iamp).eq.0) cycle
-                
+
                  if(abs(BORN_HEL_MAX(iamp)).lt.abs(born_from_sborn_onehel(iamp))) then
                     BORN_HEL_MAX(iamp)=born_from_sborn_onehel(iamp)
                  endif
 
 
-                 if(debug) then 
+                 if(debug) then
                    write(*,*) 'SPLITORDER', iamp
                    write(*,*) 'BORN: ', AMP_SPLIT_BORN_ONEHEL(iamp)
 
@@ -834,9 +834,9 @@ c----------
 
           if(debug) write(*,*) 'NOW ONLY DOMINANT HELICITIES'
           if(debug) write(*,*) ''
-       
 
-          OPEN(70, FILE='Lead_Hel.dat', ACTION='WRITE') 
+
+          OPEN(70, FILE='Lead_Hel.dat', ACTION='WRITE')
           OPEN(71, FILE='Born_Sud.dat', ACTION='WRITE')
           OPEN(72, FILE='NonDiag_structure.dat', ACTION='WRITE')
 
@@ -861,7 +861,7 @@ c----------
           do iamp = 1, amp_split_size_born
             if(debug) write(*,*) 'DOMINANT HELICITIES FOR iamp=',iamp
             if(debug) write(*,*) ''
-            WRITE (70,*) , iamp       
+            WRITE (70,*) , iamp
             WRITE (71,*) , iamp
             WRITE (72,*) , iamp
 
@@ -904,20 +904,20 @@ ccc             111    ---> all non_diagonal
      .         abs(born_from_sborn_onehel(iamp))/abs(BORN_HEL_MAX(iamp)),
      .        "of BORN_HEL_MAX"
 
-              if (abs(BORN_HEL_MAX(iamp)).NE.0d0  
-     .        .AND.    abs(born_from_sborn_onehel(iamp)).GT.frac_lead_hel*abs(BORN_HEL_MAX(iamp))) 
-     .             then 
+              if (abs(BORN_HEL_MAX(iamp)).NE.0d0
+     .        .AND.    abs(born_from_sborn_onehel(iamp)).GT.frac_lead_hel*abs(BORN_HEL_MAX(iamp)))
+     .             then
 
 
 
 
-                    if (debug) printinewsdkf=.True. 
-                    if(debug) write(*,*) 'HEL LEADCONF =',chosen_hel 
+                    if (debug) printinewsdkf=.True.
+                    if(debug) write(*,*) 'HEL LEADCONF =',chosen_hel
                     if(debug) write(*,*) '    '
-                    call sudakov_wrapper(p_born) 
+                    call sudakov_wrapper(p_born)
 
 
-                    if(debug.and.nexternal.eq.5) 
+                    if(debug.and.nexternal.eq.5)
      .              write(*,*),'t= ', t, "u =", u, "(t/u)=" , (t/u)
 
                     if(deb_settozero.eq.1.or.deb_settozero.eq.111.and.debug) then
@@ -926,7 +926,7 @@ ccc             111    ---> all non_diagonal
 
                     endif
 
-                    
+
                     if(deb_settozero.eq.10.or.deb_settozero.eq.111.and.debug) then
                       write(*,*) 'LSC Non diag-->',
      .                (amp_split_ewsud_lsc(iamp))/AMP_SPLIT_BORN_ONEHEL(iamp)/(bigL(s))
@@ -940,7 +940,7 @@ ccc             111    ---> all non_diagonal
 
 
                  if(debug)  write(*,*) '    '
-           
+
                     write(*,*) 'BORN for HEL LEADCONF ',chosen_hel,' = ', AMP_SPLIT_BORN_ONEHEL(iamp)
 
                  if(deb_settozero.ne.0.and.debug) write(*,*) ' !!!!!!SUDAKOV/BORN!!!! is !!!! wrong !!!.
@@ -982,21 +982,21 @@ ccc             111    ---> all non_diagonal
 
 
                  born_leadhel(iamp)=born_leadhel(iamp)+AMP_SPLIT_BORN_ONEHEL(iamp)
-                 virt_leadhel(iamp)=virt_leadhel(iamp)+virthel(1,iampvirt(iamp))/2d0 /4d0   
+                 virt_leadhel(iamp)=virt_leadhel(iamp)+virthel(1,iampvirt(iamp))/2d0 /4d0
                  sud_leadhel(iamp)=sud_leadhel(iamp)+(amp_split_ewsud_lsc(iamp)+
      .                  amp_split_ewsud_ssc(iamp)+
      .                  amp_split_ewsud_xxc(iamp)+
      .                  AMP_SPLIT_EWSUD_PAR(iamp)+
      .                  (AMP_SPLIT_EWSUD_QCD(iamp+1)+AMP_SPLIT_EWSUD_PARQCD(iamp+1)))
 
-                 if(debug) print*, 
+                 if(debug) print*,
      .            'virthel/born/2  and / 4  for HEL LEADCONF ',
      .            chosen_hel,' = ', virthel(1,iampvirt(iamp))/AMP_SPLIT_BORN_ONEHEL(iamp)/2d0 /4d0
                  if(debug) write(*,*) '     '
-                 if(debug) print*, 'PREC_FOUND=', PREC_FOUND, 
+                 if(debug) print*, 'PREC_FOUND=', PREC_FOUND,
      .            'RET_CODE=', RET_CODE
 
-                
+
 
                  if(debug) write(*,*) '    '
 
@@ -1013,13 +1013,13 @@ ccc             111    ---> all non_diagonal
      .            AMP_SPLIT_BORN_ONEHEL(iamp))
 
                   print_born = dble(AMP_SPLIT_BORN_ONEHEL(iamp))
-             
+
                   write(73,*), energy, angle, chosen_hel, print_loop_over_born, print_sud_over_born,
-     .            print_loopminussud_over_born, print_born  
+     .            print_loopminussud_over_born, print_born
 
 
                   if(deepdebug) write(73,*), energy, angle, chosen_hel,
-     .             "(loop-sud/born2)", 
+     .             "(loop-sud/born2)",
      .            dble((virthel(1,iampvirt(iamp))/2d0 /4d0
      .            -(amp_split_ewsud_lsc(iamp)+amp_split_ewsud_ssc(iamp)+amp_split_ewsud_xxc(iamp)
      .            +AMP_SPLIT_EWSUD_PAR(iamp)+(AMP_SPLIT_EWSUD_QCD(iamp+1)+AMP_SPLIT_EWSUD_PARQCD(iamp+1))))/
@@ -1033,22 +1033,22 @@ ccc             111    ---> all non_diagonal
      ."
 
                   if(.not.first_time_momenta) write(75,*),  energy, chosen_hel,
-     .            print_loopminussud_over_born * AMP_SPLIT_BORN_ONEHEL(iamp) - 
+     .            print_loopminussud_over_born * AMP_SPLIT_BORN_ONEHEL(iamp) -
      .            previous_loopminussud_hel(iamp,chosen_hel),
      .            print_loopminussud_over_born - previous_print_loopminussud_over_born_hel(chosen_hel,iamp)
 
                   previous_print_loopminussud_over_born_hel(chosen_hel,iamp) = print_loopminussud_over_born
-                  previous_loopminussud_hel(iamp,chosen_hel)= print_loopminussud_over_born 
+                  previous_loopminussud_hel(iamp,chosen_hel)= print_loopminussud_over_born
      .            * AMP_SPLIT_BORN_ONEHEL(iamp)
 
               endif
             enddo
 
-            if (born_leadhel(iamp).ne.0d0) then 
-              write(73,*), energy, angle, 
+            if (born_leadhel(iamp).ne.0d0) then
+              write(73,*), energy, angle,
      .        "lead-hel-summed",
      .         dble(virt_leadhel(iamp)/born_leadhel(iamp)),
-     .         dble(sud_leadhel(iamp)/born_leadhel(iamp)),  
+     .         dble(sud_leadhel(iamp)/born_leadhel(iamp)),
      .         dble((virt_leadhel(iamp)-sud_leadhel(iamp))/born_leadhel(iamp)), born_leadhel(iamp)
 
             endif
@@ -1082,7 +1082,7 @@ ccc             111    ---> all non_diagonal
 
 
           if(debug) write(*,*) 'I go to the next point'
-c          return    
+c          return
 
 
           if (npointsChecked.eq.0) then
@@ -1125,11 +1125,11 @@ c          energy=energy
 c          ren_scale = energy!/2.0d0
 c          QES2=100d0!energy**2
 
-      if (npointsChecked.lt.npoints) goto 200 
+      if (npointsChecked.lt.npoints) goto 200
 
-          write(*,*) 'NUMBER OF POINTS PASSING THE CHECK', 
+          write(*,*) 'NUMBER OF POINTS PASSING THE CHECK',
      1     npoints - nfail
-          write(*,*) 'NUMBER OF POINTS FAILING THE CHECK', 
+          write(*,*) 'NUMBER OF POINTS FAILING THE CHECK',
      1     nfail
           write(*,*) 'TOLERANCE ', tolerance
 
@@ -1194,7 +1194,7 @@ C CHECK WHETHER TOTAL ENERGY IS SUFFICIENT; COUNT NONZERO MASSES
       PRINT 1002,XMT,ET
       STOP
 
-  201 CONTINUE 
+  201 CONTINUE
       if (lflag.eq.1) then
         w0= exp((2.*N-4.)*LOG(ET)+Z(N))
         do j= 1,N
@@ -1326,10 +1326,9 @@ C
 
 
       subroutine rans(rand)
-c     Just a wrapper to ran2      
+c     Just a wrapper to ran2
       implicit none
       double precision rand, ran2
       rand = ran2()
-      return 
+      return
       end
-

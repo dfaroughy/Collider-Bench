@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -40,86 +40,86 @@ logger = logging.getLogger('cmdprint.ext_program')
 
 class ExtLauncher(object):
     """ Generic Class for executing external program """
-    
+
     program_dir = ''
     executable = ''  # path from program_dir
-    
+
     force = False
-    
+
     def __init__(self, cmd, running_dir, card_dir='', **options):
         """ initialize an object """
-        
+
         self.running_dir = running_dir
         self.card_dir = os.path.join(self.running_dir, card_dir)
         self.cmd_int = cmd
         if 'force' in options:
             self.force = options['force']
-        
+
         #include/overwrite options
         for key,value in options.items():
             setattr(self, key, value)
-            
+
         self.cards = [] # files can be modified (path from self.card_dir)
-            
+
     def run(self):
         """ execute the main code """
 
-        self.prepare_run()   
-        
+        self.prepare_run()
+
         import madgraph.interface.common_run_interface as common_run_interface
-        
+
         self.cmd_int.me_dir = self.running_dir
         if self.cards:
             common_run_interface.CommonRunCmd.ask_edit_card_static(self.cards,
                              mode='fixed', plot=False,
                              timeout=0, ask=self.cmd_int.ask, force=self.force)
-             
+
         #for card in self.cards:
         #    self.treat_input_file(card, default = 'n')
 
         self.launch_program()
 
-        
+
     def prepare_run(self):
         """ aditional way to prepare the run"""
         pass
-    
+
     def launch_program(self):
         """launch the main program"""
         subprocess.call([self.executable], cwd=self.running_dir)
-    
+
     def edit_file(self, path):
         """edit a file"""
 
         path = os.path.realpath(path)
         open_file(path)
-    
+
 
     # Treat Nicely the timeout
     def timeout_fct(self,timeout):
         if timeout:
             # avoid to always wait a given time for the next answer
             self.force = True
-   
+
     def ask(self, question, default, choices=[], path_msg=None):
         """nice handling of question"""
-     
+
         if not self.force:
-            return self.cmd_int.ask(question, default, choices=choices, 
+            return self.cmd_int.ask(question, default, choices=choices,
                                 path_msg=path_msg, fct_timeout=self.timeout_fct)
         else:
             return str(default)
-         
-        
+
+
     def treat_input_file(self, filename, default=None, msg=''):
         """ask to edit a file"""
-        
+
         if msg == '' and filename == 'param_card.dat':
             msg = \
             "WARNING: If you edit this file don\'t forget to consistently "+\
             "modify the different parameters,\n especially the width of all "+\
             "particles."
-                                         
+
         if not self.force:
             if msg:  print(msg)
             question = 'Do you want to edit file: %(card)s?' % {'card':filename}
@@ -128,7 +128,7 @@ class ExtLauncher(object):
             ans = self.ask(question, default, choices, path_info)
         else:
             ans = default
-        
+
         if ans == 'y':
             path = os.path.join(self.card_dir, filename)
             self.edit_file(path)
@@ -137,13 +137,13 @@ class ExtLauncher(object):
         else:
             path = os.path.join(self.card_dir, filename)
             files.cp(ans, path)
-            
+
 class MadLoopLauncher(ExtLauncher):
     """ A class to launch a simple Standalone test """
-    
+
     def __init__(self, cmd_int, running_dir, **options):
         """ initialize the StandAlone Version """
-        
+
         ExtLauncher.__init__(self, cmd_int, running_dir, './Cards', **options)
         self.cards = ['param_card.dat','MadLoopParams.dat']
 
@@ -174,11 +174,11 @@ class MadLoopLauncher(ExtLauncher):
                             parse_check_output(open(os.path.join(dir_path,\
                                           'result.dat')),format='dict')['res_p']
                         PSfile.write('\n'.join([' '.join(['%.16E'%pi for pi \
-                                             in pmom]) for pmom in default_ps]))                     
+                                             in pmom]) for pmom in default_ps]))
                     PSfile.write("\n\nEach line number 'i' like the above one sets"+\
                             " the momentum of particle number i, \nordered like in"+\
                             " the process definition. The format is (E,px,py,pz).")
-                    PSfile.close()       
+                    PSfile.close()
                 self.edit_file(os.path.join(dir_path,'PS.input'))
         else:
             super(MadLoopLauncher,self).treat_input_file(filename,default,msg)
@@ -205,26 +205,26 @@ class MadLoopLauncher(ExtLauncher):
                         %(shell_name,abs(nps),\
                     'double precision' if nps>0 else 'quadruple precision'))
                 # Ask if the user wants to edit the PS point.
-                self.treat_input_file('PS.input', default='n', 
+                self.treat_input_file('PS.input', default='n',
                   msg='Phase-space point for process %s.'%shell_name,\
                                                              dir_path=curr_path)
                 # We use mu_r=-1.0 to use the one defined by the user in the
                 # param_card.dat
-                me_cmd.MadLoopInitializer.fix_PSPoint_in_check(sub_path, 
+                me_cmd.MadLoopInitializer.fix_PSPoint_in_check(sub_path,
                   read_ps = os.path.isfile(os.path.join(curr_path, 'PS.input')),
                   npoints = 1, mu_r=-1.0)
-                
+
                 # Make sure to temporarily disable the double-check of the helicity filter
                 # as this would disable the stability check.
                 MadLoopparam = banner_mod.MadLoopParam(
-                                          os.path.join(self.card_dir, 'MadLoopParams.dat'))   
+                                          os.path.join(self.card_dir, 'MadLoopParams.dat'))
                 bu_helicity_filter_value = MadLoopparam['DoubleCheckHelicityFilter']
                 MadLoopparam.set('DoubleCheckHelicityFilter', False)
                 MadLoopparam.write(os.path.join(self.card_dir, 'MadLoopParams.dat'))
-                
+
                 # check
                 t1, t2, ram_usage = me_cmd.MadLoopInitializer.make_and_run(curr_path)
-                
+
                 # Restore the original value of 'DoubleCheckHelicityFilter'
                 MadLoopparam.set('DoubleCheckHelicityFilter', bu_helicity_filter_value)
                 MadLoopparam.write(os.path.join(self.card_dir, 'MadLoopParams.dat'))
@@ -248,20 +248,20 @@ class MadLoopLauncher(ExtLauncher):
     def format_res_string(self, res, shell_name):
         """ Returns a good-looking string presenting the results.
         The argument the tuple ((fin,born,spole,dpole,me_pow), p_out)."""
-        
+
         main_color='$MG:color:BLUE'
-        
+
         def special_float_format(float):
             return '%s%.16e'%('' if float<0.0 else ' ',float)
-        
+
         so_order_names = res['Split_Orders_Names']
-        
+
         def format_so_orders(so_orders):
             return ' '.join(['%s=%d'%(so_order_names[i],so_orders[i]) for i in
                                                          range(len(so_orders))])
 
         ASCII_bar = ('|'+''.join(['='*96]),main_color)
-        
+
         ret_code_h = res['return_code']//100
         ret_code_t = (res['return_code']-100*ret_code_h)//10
         ret_code_u = res['return_code']%10
@@ -277,12 +277,12 @@ class MadLoopLauncher(ExtLauncher):
             StabilityOutput.append('| Stable kinematic configuration (SPS).')
         elif ret_code_h==3:
             StabilityOutput.append('| Unstable kinematic configuration (UPS).')
-            StabilityOutput.append('| Quadruple precision rescue successful.')            
+            StabilityOutput.append('| Quadruple precision rescue successful.')
         elif ret_code_h==4:
             StabilityOutput.append('| Exceptional kinematic configuration (EPS).')
             StabilityOutput.append('| Both double and quadruple precision'+\
                                                   ' computations are unstable.')
-        
+
         if ret_code_t==2 or ret_code_t==4:
             StabilityOutput.append('| Quadruple precision was used for this'+\
                                                                  'computation.')
@@ -301,9 +301,9 @@ class MadLoopLauncher(ExtLauncher):
         PS_point_spec.append('\n'.join(['| '+' '.join(['%s'%\
            special_float_format(pi) for pi in pmom]) for pmom in res['res_p']]))
         PS_point_spec.append('|')
-        
+
         str_lines=[]
-        
+
         notZeroBorn=True
         if res['export_format']!='LoopInduced' and len(so_order_names) and \
                                      len([1 for k in res['Born_kept'] if k])==0:
@@ -311,7 +311,7 @@ class MadLoopLauncher(ExtLauncher):
             str_lines.append(
 ("|  /!\\ There is no Born contribution for the squared orders specified in "+
                                   "the process definition/!\\",'$MG:color:RED'))
-        
+
         if res['export_format']=='Default' and notZeroBorn:
             str_lines.extend(['\n',ASCII_bar,
   ('|| Results for process %s'%shell_name,main_color),
@@ -354,7 +354,7 @@ class MadLoopLauncher(ExtLauncher):
                                            %('*' if res['Born_kept'][i] else ' ',
                                                format_so_orders(bso_contrib[0]),
                                   special_float_format(bso_contrib[1]['BORN'])))
-        
+
         if len(so_order_names):
             str_lines.append('|')
 
@@ -383,21 +383,21 @@ class MadLoopLauncher(ExtLauncher):
                     str_lines.append('|    Single pole = %s'%\
                                    special_float_format(lso_contrib[1]['1EPS']))
                     str_lines.append('|    Double pole = %s'%\
-                                   special_float_format(lso_contrib[1]['2EPS']))              
+                                   special_float_format(lso_contrib[1]['2EPS']))
         str_lines.extend([ASCII_bar,'\n'])
 
         return str_lines
 
 class SALauncher(ExtLauncher):
     """ A class to launch a simple Standalone test """
-    
+
     def __init__(self, cmd_int, running_dir, **options):
         """ initialize the StandAlone Version"""
-        
+
         ExtLauncher.__init__(self, cmd_int, running_dir, './Cards', **options)
         self.cards = ['param_card.dat']
 
-    
+
     def launch_program(self):
         """launch the main program"""
         sub_path = os.path.join(self.running_dir, 'SubProcesses')
@@ -412,8 +412,8 @@ class SALauncher(ExtLauncher):
 
 class MWLauncher(ExtLauncher):
     """ A class to launch a simple Standalone test """
-    
-    
+
+
     def __init__(self, cmd_int, running_dir, **options):
         """ initialize the StandAlone Version"""
         ExtLauncher.__init__(self, cmd_int, running_dir, './Cards', **options)
@@ -421,7 +421,7 @@ class MWLauncher(ExtLauncher):
 
     def launch_program(self):
         """launch the main program"""
-        
+
         import madgraph.interface.madweight_interface as MW
         # Check for number of cores if multicore mode
         mode = str(self.cluster)
@@ -440,25 +440,25 @@ class MWLauncher(ExtLauncher):
                 nb_node = self.ask('How many core do you want to use?', max_node, list(range(2,max_node+1)))
             else:
                 nb_node=max_node
-                
+
         import madgraph.interface.madevent_interface as ME
-        
+
         stdout_level = self.cmd_int.options['stdout_level']
         if self.shell:
             usecmd = MW.MadWeightCmdShell(me_dir=self.running_dir, options=self.options)
         else:
             usecmd = MW.MadWeightCmd(me_dir=self.running_dir, options=self.options)
             usecmd.pass_in_web_mode()
-        #Check if some configuration were overwritten by a command. If so use it    
+        #Check if some configuration were overwritten by a command. If so use it
         set_cmd = [l for l in self.cmd_int.history if l.strip().startswith('set')]
         for line in set_cmd:
             try:
                 usecmd.do_set(line[3:], log=False)
             except Exception:
                 pass
-            
+
         usecmd.do_set('stdout_level %s'  % stdout_level,log=False)
-        #ensure that the logger level 
+        #ensure that the logger level
         launch = self.cmd_int.define_child_cmd_interface(
                      usecmd, interface=False)
 
@@ -467,27 +467,27 @@ class MWLauncher(ExtLauncher):
             command += " --cluster"
         elif mode == "2":
             command += " --nb_core=%s" % nb_node
-        
+
         if self.force:
             command+= " -f"
         if self.laststep:
             command += ' --laststep=%s' % self.laststep
-        
+
         try:
             os.remove('ME5_debug')
         except:
            pass
         launch.run_cmd(command)
         launch.run_cmd('quit')
-        
+
         if os.path.exists('ME5_debug'):
             return True
-        
+
 
 
 class aMCatNLOLauncher(ExtLauncher):
     """A class to launch MadEvent run"""
-    
+
     def __init__(self, running_dir, cmd_int, run_mode='', unit='pb', **option):
         """ initialize the StandAlone Version"""
 
@@ -502,21 +502,21 @@ class aMCatNLOLauncher(ExtLauncher):
 
         self.unit = unit
         self.run_mode = run_mode
-        
+
         if self.cluster or option['cluster']:
             self.cluster = 1
         if self.multicore or option['multicore']:
             self.cluster = 2
-        
+
         self.cards = []
 
         # Assign a valid run name if not put in options
         if self.name == '':
             self.name = me_cmd.MadEventCmd.find_available_run_name(self.running_dir)
-    
+
     def launch_program(self):
         """launch the main program"""
-        
+
         # Check for number of cores if multicore mode
         mode = str(self.cluster)
         nb_node = 1
@@ -534,15 +534,15 @@ class aMCatNLOLauncher(ExtLauncher):
                 nb_node = self.ask('How many cores do you want to use?', max_node, list(range(2,max_node+1)))
             else:
                 nb_node=max_node
-                
+
         import madgraph.interface.amcatnlo_run_interface as run_int
-        
+
         if hasattr(self, 'shell') and self.shell:
             usecmd = run_int.aMCatNLOCmdShell(me_dir=self.running_dir, options = self.cmd_int.options)
         else:
             usecmd = run_int.aMCatNLOCmd(me_dir=self.running_dir, options = self.cmd_int.options)
-        
-        #Check if some configuration were overwritten by a command. If so use it    
+
+        #Check if some configuration were overwritten by a command. If so use it
         set_cmd = [l for l in self.cmd_int.history if l.strip().startswith('set')]
         all_options = list(usecmd.options_configuration.keys()) +  list(usecmd.options_madgraph.keys()) + list(usecmd.options_madevent.keys())
         for line in set_cmd:
@@ -569,7 +569,7 @@ class aMCatNLOLauncher(ExtLauncher):
         if mode == "1":
             command += " -c"
         elif mode == "2":
-            command += " -m" 
+            command += " -m"
             usecmd.nb_core = int(nb_node)
         try:
             os.remove('ME5_debug')
@@ -577,14 +577,14 @@ class aMCatNLOLauncher(ExtLauncher):
            pass
         launch.run_cmd(command)
         launch.run_cmd('quit')
-        
-        
 
-                
-        
+
+
+
+
 class MELauncher(ExtLauncher):
     """A class to launch MadEvent run"""
-    
+
     def __init__(self, running_dir, cmd_int , unit='pb', **option):
         """ initialize the StandAlone Version"""
 
@@ -600,21 +600,21 @@ class MELauncher(ExtLauncher):
         assert hasattr(self, 'shell')
 
         self.unit = unit
-        
+
         if self.cluster:
             self.cluster = 1
         if self.multicore:
             self.cluster = 2
-        
+
         self.cards = []
 
         # Assign a valid run name if not put in options
         if self.name == '':
             self.name = me_cmd.MadEventCmd.find_available_run_name(self.running_dir)
-    
+
     def launch_program(self):
         """launch the main program"""
-        
+
         # Check for number of cores if multicore mode
         mode = str(self.cluster)
         nb_node = 1
@@ -632,11 +632,11 @@ class MELauncher(ExtLauncher):
                 nb_node = self.ask('How many cores do you want to use?', max_node, list(range(2,max_node+1)))
             else:
                 nb_node=max_node
-                
+
         import madgraph.interface.madevent_interface as ME
-        
+
         stdout_level = self.cmd_int.options['stdout_level']
-        
+
         with ME.MadEventCmd.RunWebHandling(self.running_dir):
             if os.path.exists(pjoin(self.running_dir, 'bin','internal', 'launch_plugin.py')):
                 with  misc.TMP_variable(sys, 'path', sys.path + [pjoin(self.running_dir, 'bin', 'internal')]):
@@ -652,7 +652,7 @@ class MELauncher(ExtLauncher):
             else:
                 usecmd = ME.MadEventCmd(me_dir=self.running_dir, options=self.options, force_run=True)
                 usecmd.pass_in_web_mode()
-            #Check if some configuration were overwritten by a command. If so use it    
+            #Check if some configuration were overwritten by a command. If so use it
             set_cmd = [l for l in self.cmd_int.history if l.strip().startswith('set')]
             all_options = list(usecmd.options_configuration.keys()) +  list(usecmd.options_madgraph.keys()) + list(usecmd.options_madevent.keys())
             for line in set_cmd:
@@ -664,7 +664,7 @@ class MELauncher(ExtLauncher):
                 except usecmd.InvalidCmd:
                     pass
             usecmd.do_set('stdout_level %s'  % stdout_level,log=False)
-            #ensure that the logger level 
+            #ensure that the logger level
             launch = self.cmd_int.define_child_cmd_interface(
                          usecmd, interface=False)
             #launch.me_dir = self.running_dir
@@ -680,52 +680,52 @@ class MELauncher(ExtLauncher):
                 command += " --cluster"
             elif mode == "2":
                 command += " --nb_core=%s" % nb_node
-            
+
             if self.force:
                 command+= " -f"
-            
+
             if self.laststep:
                 command += ' --laststep=%s' % self.laststep
             if self.reweight:
                 command += ' -R '
             if self.madspin:
                 command += ' -M '
-            
-            
+
+
             try:
                 os.remove('ME5_debug')
             except:
                 pass
-    
+
             launch.run_cmd(command)
             launch.run_cmd('quit')
-            
+
             if os.path.exists('ME5_debug'):
                 return True
-            
+
             # Display the cross-section to the screen
-            path = os.path.join(self.running_dir, 'SubProcesses', 'results.dat') 
+            path = os.path.join(self.running_dir, 'SubProcesses', 'results.dat')
             if not os.path.exists(path):
                 logger.error('Generation failed (no results.dat file found)')
                 return
             fsock = open(path)
             line = fsock.readline()
             cross, error = line.split()[0:2]
-            
-            logger.info('more information in %s' 
+
+            logger.info('more information in %s'
                                      % os.path.join(self.running_dir, 'index.html'))
-                
+
 
 class Pythia8Launcher(ExtLauncher):
     """A class to launch Pythia8 run"""
-    
+
     def __init__(self, running_dir, cmd_int, **option):
         """ initialize launching Pythia 8"""
 
         running_dir = os.path.join(running_dir, 'examples')
         ExtLauncher.__init__(self, cmd_int, running_dir, '.', **option)
         self.cards = []
-    
+
     def prepare_run(self):
         """ ask for pythia-pgs/delphes run """
 
@@ -748,12 +748,12 @@ class Pythia8Launcher(ExtLauncher):
         date_file_list.sort()
         date_file_list.reverse()
         files = [d[1] for d in date_file_list]
-        
+
         answer = ''
         answer = self.ask('Select a main file to run:', files[0], files)
 
         self.cards.append(answer)
-    
+
         self.executable = self.cards[-1].replace(".cc","")
 
         # Assign a valid run name if not put in options
@@ -764,7 +764,7 @@ class Pythia8Launcher(ExtLauncher):
                 if not os.path.exists(path):
                     self.name = '%s_%02i.log' % (self.executable, i)
                     break
-        
+
         if self.name == '':
             raise MadGraph5Error('too many runs in this directory')
 
@@ -786,7 +786,7 @@ class Pythia8Launcher(ExtLauncher):
                                                            model_dir))
             self.cards.append(os.path.join(self.model_dir,
                                            "param_card_%s.dat" % model))
-        
+
     def launch_program(self):
         """launch the main program"""
 
@@ -799,17 +799,17 @@ class Pythia8Launcher(ExtLauncher):
         makefile = self.executable.replace("main_","Makefile_")
         print("Running make with %s" % makefile)
         misc.compile(arg=['-f', makefile], cwd=self.running_dir, mode='cpp')
-        
+
         print("Running " + self.executable)
-        
+
         output = open(os.path.join(self.running_dir, self.name), 'w')
         if not self.executable.startswith('./'):
             self.executable = os.path.join(".", self.executable)
         subprocess.call([self.executable], stdout = output, stderr = output,
                         cwd=self.running_dir)
-        
+
         # Display the cross-section to the screen
-        path = os.path.join(self.running_dir, self.name) 
+        path = os.path.join(self.running_dir, self.name)
         pydoc.pager(open(path).read())
 
         print("Output of the run is found at " + \
@@ -817,4 +817,3 @@ class Pythia8Launcher(ExtLauncher):
 
 # old compatibility shortcut
 open_file = misc.open_file
-

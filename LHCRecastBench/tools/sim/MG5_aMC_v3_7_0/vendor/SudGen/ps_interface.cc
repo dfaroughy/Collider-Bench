@@ -6,13 +6,13 @@
 using namespace std;
 using namespace Pythia8;
 
-extern "C" { 
+extern "C" {
 
   // set up a global instance of pythia8 and dire
   Pythia pythia4dire;
   Dire dire;
 
-  // Allow Pythia to use Dire merging classes. 
+  // Allow Pythia to use Dire merging classes.
   MyMerging* merging           = new MyMerging();
   MyHardProcess* hardProcess   = new MyHardProcess();
   MyMergingHooks* mergingHooks = new MyMergingHooks();
@@ -31,14 +31,14 @@ extern "C" {
       stringstream s;
 
       if ( i+1 == 6
-        || i+1 == 7 
-        || i+1 == 8 
-        || i+1 == 9 
-        || i+1 == 10 
-        || i+1 == 17 
-        || i+1 == 18 
-        || i+1 == 19 
-        || i+1 == 20) continue; 
+        || i+1 == 7
+        || i+1 == 8
+        || i+1 == 9
+        || i+1 == 10
+        || i+1 == 17
+        || i+1 == 18
+        || i+1 == 19
+        || i+1 == 20) continue;
 
       s << i+1 << ":m0 =" << masses[i];
       pythia4dire.readString(s.str());
@@ -102,7 +102,7 @@ extern "C" {
 
     dire.init(pythia4dire);
 
-    // Transfer initialized shower weights pointer to merging class. 
+    // Transfer initialized shower weights pointer to merging class.
     merging->setWeightsPtr(dire.weightsPtr);
     merging->setShowerPtrs(dire.timesPtr, dire.spacePtr);
 
@@ -126,4 +126,3 @@ extern "C" {
 
 
 }
-

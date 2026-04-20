@@ -20,7 +20,7 @@ C
       logical filmap, cluster
       external filmap, cluster
 
-c     
+c
 c     check whether y_cut is used -> set scale to y_cut*S
 c
 
@@ -40,11 +40,11 @@ c        q2fact(1) = scale**2    ! fact scale**2 for pdf1
 c        q2fact(2) = scale**2    ! fact scale**2 for pdf2
 c        fixed_ren_scale=.true.
 c        fixed_fac_scale1=.true.
-c        fixed_fac_scale2=.true.      
+c        fixed_fac_scale2=.true.
 c      endif
-c   
+c
 c     initialize clustering map
-c         
+c
       if (.not.filmap()) then
         write(*,*) 'cuts.f: cluster map initialization failed'
         stop
@@ -62,7 +62,6 @@ c
         enddo
       endif
       igraphs(0)=0
-       
+
       RETURN
       END
-

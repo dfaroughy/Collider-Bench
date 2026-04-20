@@ -1975,7 +1975,7 @@ CONTAINS
              RETURN
           ENDIF
        ELSEIF(lind.EQ.0.AND.ss+paveindices(0).LT.2*NLOOPLINE-4)THEN
-          ! Generalization of Eq.(7.13) 
+          ! Generalization of Eq.(7.13)
           CALL CXYZMATRICES(NLOOPLINE,PCL,M2L,&
                XMATRIX,YMATRIX,ZMATRIX,detY,detZ)
           IF(ABS(detY).LT.EPS)THEN
@@ -2219,9 +2219,9 @@ CONTAINS
 
   FUNCTION comp_pave_UV(NLOOPLINE,paveindices,PCL,M2L) RESULT(pave_UV)
     ! hep-ph/0509141
-    ! More expressions are given in hep-ph/0609282: 
+    ! More expressions are given in hep-ph/0609282:
     ! rank 9 for point 4, rank 8 for point 3 and rank 10 for point 2.
-    ! General formalism is also aviable. 
+    ! General formalism is also aviable.
     ! However, I think the expressions in hep-ph/0509141 are sufficient and I will leave it.
     IMPLICIT NONE
     INTEGER,INTENT(IN)::NLOOPLINE
@@ -2623,7 +2623,7 @@ CONTAINS
                    RETURN
                 CASE DEFAULT
                    WRITE(*,*)"ERROR:out of range of comp_pave_UV"
-                   STOP   
+                   STOP
                 END SELECT
              CASE(2)
                 SELECT CASE(kk)
@@ -2704,7 +2704,7 @@ CONTAINS
                    RETURN
                 CASE DEFAULT
                    WRITE(*,*)"ERROR:out of range of comp_pave_UV"
-                   STOP   
+                   STOP
                 END SELECT
              CASE(1)
                 SELECT CASE(kk)

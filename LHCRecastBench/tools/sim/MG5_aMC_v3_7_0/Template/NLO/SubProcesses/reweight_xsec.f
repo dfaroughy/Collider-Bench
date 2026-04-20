@@ -28,7 +28,7 @@ c$$$c new settings NLO
 c$$$      apimZ  = alphas(MDL_MZ)/pi
 c$$$
 c$$$      if(dabs(scale/central-1d0).lt.tootiny) then
-c$$$c if scale muR is the same as the central scale of muR, get 
+c$$$c if scale muR is the same as the central scale of muR, get
 c$$$c "input value" mb(muR) with highest possible accuracy
 c$$$         CALL runalpha(apimZ,MDL_MZ,central,4d0,4,0,apimuR)
 c$$$         CALL runalpha(apimZ,MDL_MZ,mbmb,4d0,4,0,apimb)
@@ -39,7 +39,7 @@ c$$$c step 1: get "input value" mb(central scale) from most accurate running
 c$$$         CALL runalpha(apimZ,MDL_MZ,central,4d0,4,0,apicentral)
 c$$$         CALL runalpha(apimZ,MDL_MZ,mbmb,4d0,4,0,apimb)
 c$$$         CALL runmass(mbmb,apimb,apicentral,4d0,4,mbcentral)
-c$$$c step 2: get variation around central value, ie mb(muR), with loop 
+c$$$c step 2: get variation around central value, ie mb(muR), with loop
 c$$$c         order consistent with computation LO: 1-loop, NLO: 2-loop
 c$$$         CALL runalpha(apicentral,central,scale,4d0,2,0,apimuR)
 c$$$         CALL runmass(mbcentral,apicentral,apimuR,4d0,2,mbmuR)
@@ -226,7 +226,7 @@ C-{{{ subroutine runalpha:
       subroutine runalpha(api0,mu0,mu,nf,nloop,verb,apiout)
 C..
 c..   NEEDS:  rkck.f rkqs.f odeint.f  (from Numerical Recipes)
-c..   
+c..
 c..   Note:  api = {\alpha_s \over \pi}
 C..
 c..   purpose : computes the value of api(mu) from api(mu0)
@@ -237,7 +237,7 @@ c..   api0  :  api(mu0)
 c..   nf    :  number of flavors
 c..   nloop :  number of loops
 c..   verb  :  0=quiet,  1=verbose
-c..   apiout:  api(mu)    
+c..   apiout:  api(mu)
 C..
       implicit real*8 (a-h,o-z)
       INTEGER KMAXX,NMAX,NVAR
@@ -248,7 +248,7 @@ C..
 c..   /path/  is for odeint.for:
       COMMON /path/ kmax,kount,dxsav,x(KMAXX),y(NMAX,KMAXX)
       common /bfunc/ beta0,beta1,beta2,beta3
-      COMMON /cbnrhs/nrhs 
+      COMMON /cbnrhs/nrhs
       data pi/3.14159265358979323846264338328d0/
       EXTERNAL rhs,rkqs
 
@@ -342,7 +342,7 @@ C..
      &     *(50065/162.d0 + (6472*z3)/81.d0) - nf*(1078361/162.d0 +
      &     (6508*z3)/27.d0))/256.d0
 
-      
+
       nloop=nloopin
 
       if (nloop.gt.4) then
@@ -375,12 +375,12 @@ C-{{{ subroutine runmass:
 c..
 c..   evaluates the running of the MS-bar quark mass
 c..   by expanding the equation
-c..   
+c..
 c..   m(mu) = m(mu0) * exp( \int_a0^af dx gammam(x)/x/beta(x) )
-c..   
+c..
 c..   in terms of alpha_s. The results agree with RunDec.m.
-c..   
-c..   
+c..
+c..
 c..   Input:
 c..   ------
 c..   mass0  :  m(mu0)
@@ -392,7 +392,7 @@ c..
 c..   Output:
 c..   -------
 c..   massout:  m(muf)
-c..   
+c..
       implicit real*8 (a-h,o-z)
       real*8 mass0,massout,massfun
       real*8 nf
@@ -444,7 +444,7 @@ c..
 
 
       massout = mass0*(apif/api0)**cc0*cfuncmuf/cfuncmu0
-      
+
       return
       end
 
@@ -496,5 +496,3 @@ C
          endif
       endif
       end
-
-

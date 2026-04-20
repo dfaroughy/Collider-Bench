@@ -9,8 +9,6 @@ do
   cp V0*/nsqso_born.inc .
   cp V0*/nsquaredSO.inc .
   make check_sudakov > check_sudakov_make.log
-  ./check_sudakov < input_check_sudakov.dat > output_check_sudakov.dat 
+  ./check_sudakov < input_check_sudakov.dat > output_check_sudakov.dat
   cd $basedir
 done
-
-

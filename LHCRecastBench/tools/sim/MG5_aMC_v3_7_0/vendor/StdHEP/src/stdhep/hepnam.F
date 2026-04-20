@@ -141,7 +141,7 @@ C...Add on heavy flavour content for heavy baryon.
 	    elseif(idq2.ge.7 .and. idq1.lt.7) then
               chau(len+1:len+3)=chqk(idq2)(1:2)//chqk(idq1)(1:1)
               len=len+3
-	    else 
+	    else
               chau(len+1:len+4)=chqk(idq2)(1:2)//chqk(idq1)(1:2)
               len=len+4
 	    endif
@@ -160,7 +160,7 @@ C...Add on heavy flavour content for heavy baryon.
 	    elseif(idq2.ge.7 .and. idq1.lt.7) then
               chau(len+1:len+3)=chqk(idq1)(1:1)//chqk(idq2)(1:2)
               len=len+3
-	    else 
+	    else
               chau(len+1:len+4)=chqk(idq1)(1:2)//chqk(idq2)(1:2)
               len=len+4
 	    endif

@@ -1,4 +1,4 @@
-      
+
       subroutine taudecay_param()
       implicit none
 
@@ -149,7 +149,7 @@
          pi3=2d0*pi0+pim        ! rho- decay
       else
          pi3=3d0*pim            ! rho0 decay
-      endif      
+      endif
       IF (S.GT.pi3**2) THEN
         GS=G*(W/M)*GFUN(S,mode)/GFUN(M**2,mode)
       ELSE
@@ -175,7 +175,7 @@
       else
          pi3=3d0*pim            ! rho0 decay
          pi1=pim
-      endif        
+      endif
       IF (QKWA.LT.(ROM+pi1)**2) THEN
         GFUN=4.1d0/QKWA*(QKWA-pi3**2)**3*(1d0-3.3d0*(QKWA-pi3**2)+5.8d0*(QKWA-pi3**2)**2)
       ELSE
@@ -184,7 +184,7 @@
       END
 
       double precision function klambda(a,b)
-      implicit none 
+      implicit none
       double precision a,b,c
       klambda=1d0+a**2+b**2-2d0*(a*b+b+a)
       return
@@ -208,7 +208,7 @@
       implicit none
       double precision p1(0:3),p2(0:3)
       pdot=p1(0)*p2(0)-p1(1)*p2(1)-p1(2)*p2(2)-p1(3)*p2(3)
-      if(dabs(pdot).lt.1d-6)then ! solve numerical problem 
+      if(dabs(pdot).lt.1d-6)then ! solve numerical problem
          pdot=0d0
       endif
       return

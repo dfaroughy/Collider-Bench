@@ -87,4 +87,4 @@ set main.recast.store_root = False
 # cms_b2g_14_004                v1.2        on    delphes_card_cms_b2g_14_004.tcl                    # CMS   - 8 TeV - Dark matter production with a ttbar pair
 # cms_b2g_12_022                v1.2        on    delphes_card_cms_b2g_14_004.tcl                    # CMS   - 8 TeV - Monotop search
 # CMS_B2G_12_012                v1.2        on    delphes_card_cms_b2g_12_012.tcl                    # CMS   - 8 TeV - T5/3 partners in the SSDL channel
-# 
+#

@@ -28,18 +28,18 @@ c                         [    2       2                   ]
       double precision si,ta,mp2sq,mp4sq,musq,r,Y(4,4)
       double complex Ires(-2:0),qlLsm1_2me,qlL0,qlL1,qllnrat,fac
       logical landau
-      si=2d0*Y(1,3)  
-      ta=2d0*Y(2,4)  
-      mp4sq=2d0*Y(1,4)  
-      mp2sq=2d0*Y(2,3)  
+      si=2d0*Y(1,3)
+      ta=2d0*Y(2,4)
+      mp4sq=2d0*Y(1,4)
+      mp2sq=2d0*Y(2,3)
       r=1d0-mp2sq*mp4sq/(si*ta)
 
 C     Use expansion only in cases where signs (si,ta,mp2sq,mp4sq) are not
-C     ++-- or --++      
-      landau=((sign(1d0,si) .eq. sign(1d0,ta)) 
-     . .and. (sign(1d0,mp2sq) .eq. sign(1d0,mp4sq))  
-     . .and. (sign(1d0,si) .ne. sign(1d0,mp2sq)))  
-      if ((abs(r) .lt. 1d-6) .and. (landau .eqv. .false.)) then         
+C     ++-- or --++
+      landau=((sign(1d0,si) .eq. sign(1d0,ta))
+     . .and. (sign(1d0,mp2sq) .eq. sign(1d0,mp4sq))
+     . .and. (sign(1d0,si) .ne. sign(1d0,mp2sq)))
+      if ((abs(r) .lt. 1d-6) .and. (landau .eqv. .false.)) then
 C---expanded case
       fac=dcmplx(1d0/(si*ta))
       Ires(-2)=czip
@@ -61,5 +61,3 @@ C---general case
 
       return
       end
-
-

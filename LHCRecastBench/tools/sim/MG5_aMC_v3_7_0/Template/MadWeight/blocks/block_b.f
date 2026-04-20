@@ -6,7 +6,7 @@ c
 c              *P3    * P2
 c            *       *
 c     ***************
-c     MV_r2  MV_r1   * 
+c     MV_r2  MV_r1   *
 c                     * |P1| (missing)
 c
 c     Pz1,PT1 are fixed to reproduce MV_r1 and MV_r2; phi_1 is generated randomly
@@ -93,10 +93,10 @@ c
       Pz1_ti=MinvB(2,1)*Ma(1)+MinvB(2,2)*Ma(2)
       PT1_E1=-MinvB(1,1)*Mc(1)-MinvB(1,2)*Mc(2)
       Pz1_E1=-MinvB(2,1)*Mc(1)-MinvB(2,2)*Mc(2)
-c    
-c     solve the mass shell equation 
-c    
-c     E1^2-|P1|^2=m_1^2   <=>   E1^2-b*E1+c=0 
+c
+c     solve the mass shell equation
+c
+c     E1^2-|P1|^2=m_1^2   <=>   E1^2-b*E1+c=0
 c
       jac_factor=1d0
       dem=1d0-PT1_E1**2-Pz1_E1**2
@@ -116,7 +116,7 @@ c
 
         if (rho.eq.0d0.and.b.lt.0d0) then   ! max 1 sol
           momenta(0,p1)=-b/2d0
-          PT1=PT1_ti+PT1_E1*momenta(0,p1) 
+          PT1=PT1_ti+PT1_E1*momenta(0,p1)
           if (PT1.le.0d0) then
             jac=-1d0
             momenta(0,p1)=-1d0
@@ -157,7 +157,7 @@ c            call ntuple(rand,0.0,1.0,p1)
         else                                ! 0 sol
           momenta(0,p1)=-1d0
           jac=-1d0
-          return 
+          return
         endif
       endif
 c
@@ -186,14 +186,13 @@ c
       jac_loc=jac_loc*PT1       ! PS weight for the initial set of variable
 c
       invjac=-8d0*cphi12*E3*pt2*momenta(3,p1)
-     & +8d0*cphi13*E2*pt3*momenta(3,p1) 
-     & +8d0*E3*pt1*pz2 - 8d0*cphi13*momenta(0,p1)*pt3*pz2 
-     & -8d0*E2*pt1*pz3 + 8d0*cphi12*momenta(0,p1)*pt2*pz3      
-         !  the factor 2*E1 has been removed since it factorizes with the factor 1/2E1 in the PS weight 
+     & +8d0*cphi13*E2*pt3*momenta(3,p1)
+     & +8d0*E3*pt1*pz2 - 8d0*cphi13*momenta(0,p1)*pt3*pz2
+     & -8d0*E2*pt1*pz3 + 8d0*cphi12*momenta(0,p1)*pt2*pz3
+         !  the factor 2*E1 has been removed since it factorizes with the factor 1/2E1 in the PS weight
 
-      jac_loc=jac_loc*jac_factor/dabs(invjac)   
-      jac=jac*jac_loc   
+      jac_loc=jac_loc*jac_factor/dabs(invjac)
+      jac=jac*jac_loc
 
       return
       end
-

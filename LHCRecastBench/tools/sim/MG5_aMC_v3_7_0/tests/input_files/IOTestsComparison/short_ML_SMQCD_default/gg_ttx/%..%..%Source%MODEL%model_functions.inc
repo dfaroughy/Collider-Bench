@@ -28,5 +28,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       COMPLEX*32 MP_B0F
       COMPLEX*32 MP_SQRT_TRAJECTORY
       COMPLEX*32 MP_LOG_TRAJECTORY
-
-

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -39,18 +39,18 @@ class TestGenerateLoopFKS(unittest.TestCase):
     def setUp(self):
         if not hasattr(self, 'mymodel'):
             TestGenerateLoopFKS.mymodel = import_ufo.import_model('loop_sm')
-    
+
     def test_generate_virtuals_single_process(self):
         """checks that the virtuals are correctly generated for a single process"""
 
         myleglist = MG.MultiLegList()
-        
-        # test process is u u~ > u u~  
+
+        # test process is u u~ > u u~
         myleglist.append(MG.MultiLeg({'ids':[2], 'state':False}))
         myleglist.append(MG.MultiLeg({'ids':[-2], 'state':False}))
         myleglist.append(MG.MultiLeg({'ids':[2], 'state':True}))
         myleglist.append(MG.MultiLeg({'ids':[-2], 'state':True}))
-    
+
         myproc1 = MG.ProcessDefinition({'legs':myleglist,
                                         'model':self.mymodel,
                                         'born_sq_orders':{'QCD':4, 'QED':0},
@@ -68,10 +68,10 @@ class TestGenerateLoopFKS(unittest.TestCase):
                                         'sqorders_types':{'QED':'=', 'QCD':'='},
                                         'perturbation_couplings':['QCD'],
                                         'NLO_mode': 'all'})
-        
+
         my_process_definitions1 = MG.ProcessDefinitionList([myproc1])
         my_process_definitions2 = MG.ProcessDefinitionList([myproc2])
-        
+
         # without virtuals
         myfksmulti1 = fks_base.FKSMultiProcess(\
                 {'process_definitions': my_process_definitions1})
@@ -91,13 +91,13 @@ class TestGenerateLoopFKS(unittest.TestCase):
         """checks that the virtuals are correctly generated for a FKShelasMatrixElement"""
 
         myleglist = MG.MultiLegList()
-        
-        # test process is u u~ > u u~  
+
+        # test process is u u~ > u u~
         myleglist.append(MG.MultiLeg({'ids':[2], 'state':False}))
         myleglist.append(MG.MultiLeg({'ids':[-2], 'state':False}))
         myleglist.append(MG.MultiLeg({'ids':[2], 'state':True}))
         myleglist.append(MG.MultiLeg({'ids':[-2], 'state':True}))
-    
+
         myproc = MG.ProcessDefinition({'legs':myleglist,
                                        'model':self.mymodel,
                                        'born_sq_orders':{'QCD':4, 'QED':0},
@@ -107,14 +107,12 @@ class TestGenerateLoopFKS(unittest.TestCase):
                                        'perturbation_couplings':['QCD'],
                                        'perturbation_couplings':['QCD'],
                                        'NLO_mode': 'all'})
-        
+
         my_process_definitions = MG.ProcessDefinitionList([myproc])
-        
+
         myfksmulti = fks_base.FKSMultiProcess(\
                 {'process_definitions': my_process_definitions})
 
         myfksmulti.generate_virtuals()
         myfksme = fks_helas.FKSHelasMultiProcess(myfksmulti)
         self.assertNotEqual(myfksme['matrix_elements'][0].virt_matrix_element, None)
-
-

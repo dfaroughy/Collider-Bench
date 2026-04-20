@@ -32,5 +32,5 @@ c
       do i=-16,-11
          mcmass(i)=mcmass(-i)
       enddo
-      return      
+      return
       end

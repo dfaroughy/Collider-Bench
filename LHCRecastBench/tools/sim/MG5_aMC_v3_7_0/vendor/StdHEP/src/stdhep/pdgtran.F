@@ -38,7 +38,7 @@ C... ions not allowed
       elseif(ida.eq.9221132 .or. ida.eq.9331122) then
 C... pentaquarks
       elseif(ksusy.eq.1 .or. ksusy.eq.2) then
-C...SUSY 
+C...SUSY
       elseif(ksusy.eq.3) then
 C...technicolor
       elseif(ksusy.eq.4) then
@@ -84,7 +84,7 @@ C...no excited baryon states
 	  if(i3.ge.6) pdgtran=0
         endif
       elseif(i1.ne.0 .and. i2.ne.0 .and. i3.eq.0)then
-C...mesons 
+C...mesons
         if(mconv.eq.2) then
           if(ida.eq.9000331) pdgtran=0
           if(ida.eq.100411) pdgtran=0

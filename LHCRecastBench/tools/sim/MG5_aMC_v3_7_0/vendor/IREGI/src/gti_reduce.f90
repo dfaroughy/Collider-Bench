@@ -107,8 +107,8 @@ CONTAINS
   END SUBROUTINE general_ti_reduce
 
   SUBROUTINE general_ti_reduce2(IMODE,NLOOPLINE,idim_init,indices_init,MAXRANK,NCOEFS,PDEN,PijMatrix,M2L,MU,TICOEFS,TSTABLE)
-    ! IMODE=0, IBP reduction 
-    ! IMODE=1, PaVe reduction 
+    ! IMODE=0, IBP reduction
+    ! IMODE=1, PaVe reduction
     IMPLICIT NONE
     INTEGER,INTENT(IN)::NLOOPLINE,MAXRANK,IMODE,NCOEFS,idim_init
     INTEGER,DIMENSION(NLOOPLINE),INTENT(IN)::indices_init
@@ -159,7 +159,7 @@ CONTAINS
        IF(.NOT.ALLOCATED(sy))THEN
           ALLOCATE(sy(xiarraymax2,-1:MAXNLOOP_IREGI))
        ENDIF
-       ! initialization xiarray and metric,factorial_pair 
+       ! initialization xiarray and metric,factorial_pair
        CALL all_Integers(1,1,1,sol11,factor1)
        CALL calc_factorial_pair
        DO i=0,3
@@ -271,7 +271,7 @@ CONTAINS
     INTEGER,INTENT(IN)::ntot,numzerp,NLOOPLINE,IMODE,NCOEFS,idim_init,xiarraymax2,xiarraymax,xiarraymax3
     INTEGER,DIMENSION(NLOOPLINE),INTENT(IN)::indices_init
     INTEGER,DIMENSION(xiarraymax2,-1:NLOOPLINE-numzerp),INTENT(IN)::sy
-    !INTEGER,DIMENSION(*,*),INTENT(IN)::sy  
+    !INTEGER,DIMENSION(*,*),INTENT(IN)::sy
     REAL(KIND(1d0)),DIMENSION(xiarraymax2),INTENT(IN)::syfactor
     INTEGER,DIMENSION(NLOOPLINE),INTENT(IN)::zerp
     REAL(KIND(1d0)),DIMENSION(NLOOPLINE,0:3),INTENT(IN)::PDEN
@@ -357,7 +357,7 @@ CONTAINS
              scalar(1:4)=scalar_integral_reduce2(NLOOPLINE,idim,indices,PijMatrix,M2L)
           ELSE
              IF(idim-2*nindtot+2*NLOOPLINE.GE.0.AND.indices(1).EQ.1)THEN
-                ! PaVe reduction 
+                ! PaVe reduction
                 ! it can be improved as Gamma(ni+di)/Gamma(ni)*1/Gamma(ni+di), where 1/Gamma(ni+di) from factemp
                 CALL IBP2PAVE(NLOOPLINE,idim,indices,nindtot,factemp,paveindices)
                 scalar(1:4)=pavefun_reduce2(NLOOPLINE,paveindices,PijMatrix,M2L)*factemp
@@ -377,13 +377,13 @@ CONTAINS
 
   SUBROUTINE general_symmetry(IMODE,NLOOPLINE,idim_init,indices_init,ntot,xiarraymax,xiarraymax2,xiarraymax3,&
        sy,syfactor,numzerp,zerp,PDEN,M2L,NCOEFS,coefs)
-    ! IMODE=0, IBP reduction  
-    ! IMODE=1, PaVe reduction 
+    ! IMODE=0, IBP reduction
+    ! IMODE=1, PaVe reduction
     IMPLICIT NONE
     INTEGER,INTENT(IN)::ntot,numzerp,NLOOPLINE,IMODE,NCOEFS,idim_init,xiarraymax2,xiarraymax,xiarraymax3
     INTEGER,DIMENSION(NLOOPLINE),INTENT(IN)::indices_init
     INTEGER,DIMENSION(xiarraymax2,-1:NLOOPLINE-numzerp),INTENT(IN)::sy
-    !INTEGER,DIMENSION(*,*),INTENT(IN)::sy 
+    !INTEGER,DIMENSION(*,*),INTENT(IN)::sy
     REAL(KIND(1d0)),DIMENSION(xiarraymax2),INTENT(IN)::syfactor
     INTEGER,DIMENSION(NLOOPLINE),INTENT(IN)::zerp
     REAL(KIND(1d0)),DIMENSION(NLOOPLINE,0:3),INTENT(IN)::PDEN
@@ -470,7 +470,7 @@ CONTAINS
              ! IBP reduction
              scalar(1:4)=scalar_integral_reduce(NLOOPLINE,idim,indices,PDEN,M2L)
           ELSE
-             ! PaVe reduction 
+             ! PaVe reduction
              ! it can be improved as Gamma(ni+di)/Gamma(ni)*1/Gamma(ni+di), where 1/Gamma(ni+di) from factemp
              IF(idim-2*nindtot+2*NLOOPLINE.GE.0.AND.indices(1).EQ.1)THEN
                 CALL IBP2PAVE(NLOOPLINE,idim,indices,nindtot,factemp,paveindices)

@@ -65,7 +65,7 @@ static char *removeWhiteSpace(char *string);
 ** to read preference resources and store their values in a data
 ** structure.  The table can, so far, describe four types
 ** of values (this will probably be expanded in the future to include
-** more types): ints, booleans, enumerations, and strings.  Each entry 
+** more types): ints, booleans, enumerations, and strings.  Each entry
 ** includes the name and class for saving and restoring the parameter
 ** in X database format, the data type, a default value in the form of
 ** a character string, and the address where the parameter value is
@@ -98,11 +98,11 @@ static char *removeWhiteSpace(char *string);
 **			by XtDisplayInitialize.
 **	nOptions	Number of items in opTable
 **	argcInOut	Address of argument count.  This will be altered
-**			to remove the command line options that are 
+**			to remove the command line options that are
 **			recognized in the option table.
 **	argvInOut	Argument vector.  Will be altered as argcInOut.
 */
-XrmDatabase CreatePreferencesDatabase(char *fileName, char *appName, 
+XrmDatabase CreatePreferencesDatabase(char *fileName, char *appName,
 	 XrmOptionDescList opTable, int nOptions, unsigned int *argcInOut,
 	 char **argvInOut)
 {
@@ -112,7 +112,7 @@ XrmDatabase CreatePreferencesDatabase(char *fileName, char *appName,
     char **argvCopy;
     static XrmOptionDescRec xrmOnlyTable[] =
 	    {{"-xrm", NULL, XrmoptionResArg, (caddr_t)NULL}};
-        
+
     /* read the preferences file into an X database.
        On failure prefDB will be NULL. */
 #ifdef VMS
@@ -121,11 +121,11 @@ XrmDatabase CreatePreferencesDatabase(char *fileName, char *appName,
     sprintf(fullName, "%s/%s", getenv("HOME"), fileName);
 #endif /*VMS*/
     db = XrmGetFileDatabase(fullName);
-    
+
     /* parse the command line, storing results in the preferences database */
     XrmParseCommand(&db, opTable, nOptions, appName, (int *)argcInOut,
     	    argvInOut);
-    
+
     /* process -xrm (resource setting by resource name) arguments so those
        pertaining to preference resources will be included in the database.
        Don't remove -xrm arguments from the argument vector, however, so
@@ -145,7 +145,7 @@ XrmDatabase CreatePreferencesDatabase(char *fileName, char *appName,
 **
 ** Fill in preferences data from two X databases, values in prefDB taking
 ** precidence over those in appDB.
-*/	 
+*/
 void RestorePreferences(XrmDatabase prefDB, XrmDatabase appDB,
 	char *appName, char *appClass, PrefDescripRec *rsrcDescrip, int nRsrc)
 {
@@ -188,7 +188,7 @@ void RestorePreferences(XrmDatabase prefDB, XrmDatabase appDB,
 void RestoreDefaultPreferences(PrefDescripRec *rsrcDescrip, int nRsrc)
 {
     int i;
-    
+
     for (i=0; i<nRsrc; i++)
 	stringToPref(rsrcDescrip[i].defaultString, &rsrcDescrip[i]);
 }
@@ -206,7 +206,7 @@ int SavePreferences(Display *display, char *fileName, char *fileHeader,
     FILE *fp;
     int type;
     int i;
-    
+
     /* preferences files reside in the home directory, prepend the contents
        of the $HOME environment variable (can this be counted on?) */
 #ifdef VMS
@@ -218,10 +218,10 @@ int SavePreferences(Display *display, char *fileName, char *fileHeader,
     /* open the file */
     if ((fp = fopen(fullName, "w")) == NULL)
     	return False;
-    
+
     /* write the file header text out to the file */
     fprintf(fp, "%s\n", fileHeader);
-    
+
     /* write out the resources so they can be read by XrmGetFileDatabase */
     XtGetApplicationNameAndClass(display, &appName, &appClass);
     for (i=0; i<nRsrc; i++) {
@@ -252,7 +252,7 @@ static int stringToPref(char *string, PrefDescripRec *rsrcDescrip)
 {
     int i;
     char *cleanStr, *endPtr, **enumStrings;
-    
+
     switch (rsrcDescrip->dataType) {
       case PREF_INT:
 	cleanStr = removeWhiteSpace(string);
@@ -313,7 +313,7 @@ static int stringToPref(char *string, PrefDescripRec *rsrcDescrip)
 static char *removeWhiteSpace(char *string)
 {
     char *outPtr, *outString;
-    
+
     outPtr = outString = XtMalloc(strlen(string)+1);
     while (TRUE) {
     	if (*string != ' ' && *string != '\t')
@@ -332,7 +332,7 @@ Implementation Note:
 Q: Why aren't you using the Xt type conversion services?
 A: 1) To create a save file, you also need to convert values back to text form,
 and there are no converters for that direction.  2) XtGetApplicationResources
-can only be used on the resource database created by the X toolkit at 
+can only be used on the resource database created by the X toolkit at
 initialization time, and there is no way to intervene in the creation of
 that database or store new resources in it reliably after it is created.
 3) The alternative, XtConvertAndStore is not adequately documented.  The

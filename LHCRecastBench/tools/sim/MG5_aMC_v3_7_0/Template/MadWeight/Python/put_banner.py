@@ -89,7 +89,7 @@
 ##---MW_Banner:---------------------------------------------------------##
 ##     derived from Class Banner                                        ##
 ##     -init(output_file)                                               ##
-##     |    use Banner init and define interesting input/output/header  ##   
+##     |    use Banner init and define interesting input/output/header  ##
 ##     |    update the global version and card for MW run               ##
 ##     |                                                                ##
 ##     + write:                                                         ##
@@ -125,19 +125,19 @@ class Banner:
         ##     |      full_banner_txt: void text will be filled by all the      ##
         ##     |                       information to write in the banner       ##
         """
-        
+
         self.version_info={'MG/ME version':'./MGMEVersion.txt',
                            'madgraph version':'./SubProcesses/MGVersion.txt',
                            'template version':'./TemplateVersion.txt',
                            'helas version':'./Source/DHELAS/HELASVersion.txt',
                            'model version':'./Source/MODEL/ModelVersion.txt'}
-        
+
         self.card_info={'MGProcCard':'./Cards/proc_card_mg5.dat',
                         'slha':'./Cards/param_card.dat',
                         'MGRunCard':'./Cards/run_card.dat'}
-        
+
         self.full_banner_txt=''
-        
+
     #2 #######################################################################
     def put_header(self):
         """    |   put in variable full_banner_txt the content of the file      ##
@@ -148,7 +148,7 @@ class Banner:
     #2 #######################################################################
     def put_version_info(self):
         """ find the version number and create the text_file """
-        
+
         self.full_banner_txt+="<MGVersion>\n"
         for key,pos in self.version_info.items():
             try:
@@ -159,14 +159,14 @@ class Banner:
                 self.full_banner_txt+='\n'
         self.full_banner_txt+="</MGVersion>\n"
 
-    #2 #######################################################################        
+    #2 #######################################################################
     def put_info_card(self):
         """    |   put in variable full_banner_txt the copy of the card betwenn ##
         ##     |   xml tag. defined in self.card_info                           ##
         ##     |   if self.mod_TAG(filepos) is defined the information between  ##
         ##     |   the tag is the output of that function                       ##
         """
-        
+
         for key,pos in self.card_info.items():
             self.full_banner_txt+="<"+key+">\n"
             #check if a special routine has to be apply on this key (def by mod_KEY)
@@ -181,7 +181,7 @@ class Banner:
         """    |   put in variable full_banner_txt the content of the file      ##
         ##     |   self.input_file                                              ##
         """
-        
+
         self.full_banner_txt+=open(self.input_file,'rU').read()
         if self.full_banner_txt[-1]!='\n':
             self.full_banner_txt+='\n'
@@ -201,7 +201,7 @@ class Banner:
 
 
 
-#1 #######################################################################            
+#1 #######################################################################
 class ME_Banner(Banner):
 
     #2 #######################################################################
@@ -214,7 +214,7 @@ class ME_Banner(Banner):
         ##     |      self.header_file: position of the header file             ##
         ##     |                       (=./Events/banner_header.txt)            ##
         """
-        
+
         Banner.__init__(self)
         if os.path.isfile(event_file):
             self.input_file=event_file
@@ -227,11 +227,11 @@ class ME_Banner(Banner):
         self.output_file=self.input_file
         self.header_file='./Events/banner_header.txt'
 
-    #2 #######################################################################        
+    #2 #######################################################################
     def write(self):
         """   |   main schedular to write the banner                           ##
         """
-        
+
         self.put_header()          #put default header
         self.check_grid_pack()     #check if gridpack is actif and if we need to write this file
         self.put_version_info()    #define the version of all the part
@@ -252,7 +252,7 @@ class ME_Banner(Banner):
         if value=='.true.':
             self.card_info['MGGridCard']='./Cards/grid_card.dat'
 
-    #2 #######################################################################        
+    #2 #######################################################################
     def mod_MGRunCard(self,inputfile):
         """    |   modify the seed of the run_card (if needed) and retrun the   ##
         ##     |   modify (or original) run_card.dat                            ##
@@ -269,15 +269,15 @@ class ME_Banner(Banner):
         return text
 
 
-#1 #######################################################################    
+#1 #######################################################################
 class MW_Banner(Banner):
 
-    #2 #######################################################################    
+    #2 #######################################################################
     def __init__(self,event_file):
         """    |    use Banner init and define interesting input/output/header  ##
         ##     |    update the global version and card for MW run               ##
         """
-        
+
         Banner.__init__(self)
         self.input_file=''
         self.output_file=event_file
@@ -291,11 +291,11 @@ class MW_Banner(Banner):
         self.card_info['MWCard']='./Cards/MadWeight_card.dat'
         self.card_info['TransferCard']='./Cards/transfer_card.dat'
 
-    #2 #######################################################################        
+    #2 #######################################################################
     def write(self):
         """   |   main schedular to write the banner                           ##
         """
-        
+
         self.put_header()          #put default header
         self.put_version_info()    #define the version of all the part
         self.put_info_card()       #define all the text linked to the card
@@ -312,6 +312,6 @@ if '__main__'==__name__:
         filename=input('Enter file with events (in directory Events)')
     else:
         filename=opt[1]
-    
+
     me_banner=ME_Banner(filename,initdir=def_pos.initpos)
     me_banner.write()

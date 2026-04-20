@@ -20,7 +20,7 @@ C
 
 c-------------------
 c     START THE CODE
-c-------------------      
+c-------------------
 
 c     initialize the pdf set
       call FindPDFPath(LHAPath)
@@ -30,16 +30,16 @@ c     initialize the pdf set
       if (pdlabel.eq.'lhapdf') then
          call pdfset(parm,value)
          call GetOrderAs(nloop)
-         nloop=nloop+1  
+         nloop=nloop+1
          asmz=alphasPDF(zmass)
       else
           write(*,*) 'Unknown PDLABEL', pdlabel
           stop 1
       endif
-      
+
       return
       end
- 
+
 
       subroutine FindPDFPath(LHAPath)
 c********************************************************************
@@ -67,13 +67,13 @@ c     first try in the current directory
          if(exists)return
       enddo
 
-c      
+c
 c     getting the path of the executable
 c
       call getarg(0,path) !path is the PATH to the madevent executable (either global or from launching directory)
       pos = index(path,'/',.true.)
       path = path(:pos)
-      fine2=index(path,' ')-1	 
+      fine2=index(path,' ')-1
 
 
 c
@@ -94,7 +94,6 @@ c         LHAPath=up//LHAPath
       enddo
       print*,'Could not find PDFsets directory, quitting'
       stop
-      
+
       return
       end
-

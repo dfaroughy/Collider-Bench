@@ -19,7 +19,7 @@ C...
       CALL hptrlstj
 C          Fill Stdhep common block 1 (only valid for Pythia)
       call stdflpyxsec(nevt)
-C          Write Stdhep begin-run record   
+C          Write Stdhep begin-run record
       call stdxwrt(100,istr,lok)
       if(lok.ne.0) write(lnhout,*)
      1        ' Problem writing stdhep begin run record'
@@ -41,7 +41,7 @@ C          Fill Stdhep common block 1 (only valid for Pythia)
 C
 C          Fill Stdhep common block 1
       call stdflpyxsec(nevt)
-C          Write end-of-run record  
+C          Write end-of-run record
       call stdxwrt(200,istr,lok)
       if(lok.ne.0) write(lnhout,*) ' Problem writing end run record'
 
@@ -118,7 +118,7 @@ c
 	   if(ist.le.200 .and. ist.gt.0) icnt(ist) = icnt(ist) + 1
 	 enddo
       elseif(ii.eq.3)then
-         write(lnhout,1001) 
+         write(lnhout,1001)
 	 do i=1,200
             write(lnhout,1002) i,icnt(i)
 	 enddo

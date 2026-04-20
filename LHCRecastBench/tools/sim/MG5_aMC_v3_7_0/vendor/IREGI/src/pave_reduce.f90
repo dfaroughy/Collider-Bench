@@ -113,7 +113,7 @@ CONTAINS
           ENDIF
           indices0(1)=ind1
           DO i=0,i2
-             ! solve for sumf 
+             ! solve for sumf
              sumf(1:4)=DCMPLX(0d0)
              SELECT CASE(NLOOPLINE-1)
              CASE(1)
@@ -362,7 +362,7 @@ CONTAINS
        nindtot=nindtot+paveindices(i)
        indices0(i)=paveindices(i)
     ENDDO
-    ! the end of recursion 
+    ! the end of recursion
     IF(NLOOPLINE.LE.4.AND.indices_zero)THEN
        pave(1:4)=I0C2(NLOOPLINE,PijMatrix,M2L)
        IF(RECYCLING)item%value(1:4)=pave(1:4)
@@ -382,7 +382,7 @@ CONTAINS
        IF(RECYCLING)item%value(1:4)=pave(1:4)
        RETURN
     ENDIF
-    ! 2-point functions 
+    ! 2-point functions
     IF(NLOOPLINE.EQ.2)THEN
        ! Eqs.(4.1-4.13)
        P02=PijMatrix(2,2)+PijMatrix(1,1)-2d0*PijMatrix(1,2)
@@ -431,7 +431,7 @@ CONTAINS
           ELSE
              yy1=SIGNED_MINOR11(NLOOPLINE,XMATRIX,1,2)
              IF(ABS(yy1).GE.EPS)THEN
-                ! Eq.(5.40) 
+                ! Eq.(5.40)
                 pave(1:4)=pave_S2(paveindices(0)+paveindices(2),0,&
                      NLOOPLINE,paveindices,PijMatrix,M2L)
                 pave(4)=pave(4)+4d0*pave_UV2(NLOOPLINE,paveindices,PijMatrix,M2L)
@@ -554,7 +554,7 @@ CONTAINS
              ELSE
                 xx2=SIGNED_MINOR11(NLOOPLINE,XMATRIX,1,2)
                 IF(ABS(xx2).GE.EPS)THEN
-                   ! Eq.(5.38) 
+                   ! Eq.(5.38)
                    indices0(0)=0
                    indices0(1)=0
                    indices0(2)=ii+2
@@ -568,7 +568,7 @@ CONTAINS
                    IF(RECYCLING)item%value(1:4)=pave(1:4)
                    RETURN
                 ELSE
-                   ! Eq.(5.53) 
+                   ! Eq.(5.53)
                    xx2=SIGNED_MINOR11(NLOOPLINE,XMATRIX,2,2)
                    IF(ABS(xx2).GE.EPS)THEN
                       indices0(0)=2
@@ -600,7 +600,7 @@ CONTAINS
     ! 3-point functions
     IF(NLOOPLINE.EQ.3)THEN
        IF(lind.GE.2)THEN
-          ! Eqs.(5.11,5.38,5.53) 
+          ! Eqs.(5.11,5.38,5.53)
           ii=paveindices(2)
           jj=paveindices(3)
           CALL XYZMATRICES2(NLOOPLINE,PijMatrix,M2L,&
@@ -691,7 +691,7 @@ CONTAINS
                 ENDIF
              ENDDO
              IF(ABS(xx2).GE.EPS)THEN
-                ! Eq.(5.38) 
+                ! Eq.(5.38)
                 pave(1:4)=DCMPLX(0d0)
                 DO i=1,2
                    xx1=SIGNED_MINOR11(NLOOPLINE-1,&
@@ -816,7 +816,7 @@ CONTAINS
        !ENDDO
        !IF(ABS(detZ).GE.EPS.AND.ABS(detZ).GE.EPS*ABS(xx2))THEN
        IF(ABS(detZ).GE.EPS)THEN
-          ! Eq.(5.10) 
+          ! Eq.(5.10)
           indices1(0)=paveindices(0)-2
           indices1(1:2)=paveindices(2:3)
           ind1=paveindices(1)
@@ -1170,7 +1170,7 @@ CONTAINS
                 IF(RECYCLING)item%value(1:4)=pave(1:4)
                 RETURN
              ELSE
-                ! Eq.(5.53) 
+                ! Eq.(5.53)
                 xx2=SIGNED_MINOR11(NLOOPLINE,XMATRIX,2,2)
                 pos=1
                 postemp=1
@@ -1310,7 +1310,7 @@ CONTAINS
           ENDIF
        ENDDO
        IF(ABS(yy1).GE.EPS.AND.ABS(xx2).GE.EPS)THEN
-          ! Eq.(5.40) 
+          ! Eq.(5.40)
           pave(1:4)=DCMPLX(0d0)
           pave(4)=pave(4)+4d0*xx2*pave_UV2(NLOOPLINE,paveindices,PijMatrix,M2L)
           pave(1:4)=pave(1:4)+xx2*pave_S2(kk+ii+jj+ll,0,NLOOPLINE,&
@@ -1515,7 +1515,7 @@ CONTAINS
           RETURN
        ENDIF
     ENDIF
-    ! Eq.(3.6) in hep-ph/0212259v2 && Eq.(D.4) in hep-ph/0509141 
+    ! Eq.(3.6) in hep-ph/0212259v2 && Eq.(D.4) in hep-ph/0509141
     ! >=5 point scalar functions
     IF(indices_zero.AND.NLOOPLINE.GE.5)THEN
        CALL XYZMATRICES2(NLOOPLINE,PijMatrix,M2L,&
@@ -1584,7 +1584,7 @@ CONTAINS
                 RETURN
              ENDIF
           ELSEIF(ii+jj+kk+ll.LT.6)THEN
-             ! Generalization of Eq.(6.18), (6.19), (6.20), (6.21) 
+             ! Generalization of Eq.(6.18), (6.19), (6.20), (6.21)
              CALL XYZMATRICES2(NLOOPLINE,PijMatrix,M2L,&
                   XMATRIX,YMATRIX,ZMATRIX,detY,detZ)
              IF(ABS(detY).GE.EPS)THEN
@@ -1728,7 +1728,7 @@ CONTAINS
           ll=paveindices(5)
           ss=ii+jj+kk+ll
           IF(ss.EQ.1)THEN
-             ! Eq.(6.19) 
+             ! Eq.(6.19)
              CALL XYZMATRICES2(NLOOPLINE,PijMatrix,M2L,&
                   XMATRIX,YMATRIX,ZMATRIX,detY,detZ)
              IF(ABS(detY).GE.EPS)THEN
@@ -2000,7 +2000,7 @@ CONTAINS
           ss=ss+paveindices(i)
           IF(paveindices(i).NE.0)pos=i-1
        ENDDO
-       ! Generalization of Eq.(7.16) 
+       ! Generalization of Eq.(7.16)
        IF(lind.GE.2)THEN
           !ss=0
           !DO i=2,NLOOPLINE
@@ -4122,7 +4122,7 @@ CONTAINS
              RETURN
           ENDIF
        ELSEIF(lind.EQ.0.AND.ss+paveindices(0).LT.2*NLOOPLINE-4)THEN
-          ! Generalization of Eq.(7.13) 
+          ! Generalization of Eq.(7.13)
           CALL XYZMATRICES(NLOOPLINE,PCL,M2L,&
                XMATRIX,YMATRIX,ZMATRIX,detY,detZ)
           IF(ABS(detY).LT.EPS)THEN
@@ -4258,7 +4258,7 @@ CONTAINS
   END FUNCTION pave_f
 
   FUNCTION pave_f2(k,NLOOPLINE,PijMatrix,M2L)
-    ! Eq.(2.24) in hep-ph/0509141 
+    ! Eq.(2.24) in hep-ph/0509141
     IMPLICIT NONE
     INTEGER,INTENT(IN)::NLOOPLINE,k
     REAL(KIND(1d0)),DIMENSION(NLOOPLINE,NLOOPLINE),INTENT(IN)::PijMatrix
@@ -4444,7 +4444,7 @@ CONTAINS
 
 
   FUNCTION pave_S12(P,k,NLOOPLINE,paveindices,PijMatrix,M2L) RESULT(pave)
-    ! Eq.(5.13) in hep-ph/0509141 
+    ! Eq.(5.13) in hep-ph/0509141
     IMPLICIT NONE
     INTEGER,INTENT(IN)::k,P,NLOOPLINE
     REAL(KIND(1d0)),DIMENSION(NLOOPLINE,NLOOPLINE),INTENT(IN)::PijMatrix
@@ -4536,7 +4536,7 @@ CONTAINS
     INTEGER,DIMENSION(0:NLOOPLINE)::indices0
     COMPLEX(KIND(1d0)),PARAMETER::imag=DCMPLX(0d0,1d0)
     REAL(KIND(1d0)),PARAMETER::pi=3.141592653589793d0
-    COMPLEX(KIND(1d0)),PARAMETER::ipi2=DCMPLX(0d0,9.869604401089358d0) ! imag*pi**2 
+    COMPLEX(KIND(1d0)),PARAMETER::ipi2=DCMPLX(0d0,9.869604401089358d0) ! imag*pi**2
     REAL(KIND(1d0))::P02,P032,P021,P031,P041,P042,P043
     INTEGER::ii,jj,kk,ll,ss,i
     indices_zero=.TRUE.
@@ -4871,7 +4871,7 @@ CONTAINS
           RETURN
        ENDIF
     ENDIF
-    ! 4-point Eq.(A.4) 
+    ! 4-point Eq.(A.4)
     IF(NLOOPLINE.EQ.4)THEN
        IF(lind.GE.2)THEN
           pave_UV2=DCMPLX(0d0)
@@ -5126,9 +5126,9 @@ CONTAINS
 
   FUNCTION pave_UV(NLOOPLINE,paveindices,PCL,M2L)
     ! hep-ph/0509141
-    ! More expressions are given in hep-ph/0609282: 
+    ! More expressions are given in hep-ph/0609282:
     ! rank 9 for point 4, rank 8 for point 3 and rank 10 for point 2.
-    ! General formalism is also aviable. 
+    ! General formalism is also aviable.
     ! However, I think the expressions in hep-ph/0509141 are sufficient and I will leave it.
     IMPLICIT NONE
     INTEGER,INTENT(IN)::NLOOPLINE
@@ -5530,7 +5530,7 @@ CONTAINS
                    RETURN
                 CASE DEFAULT
                    WRITE(*,*)"ERROR:out of range of pave_UV"
-                   STOP   
+                   STOP
                 END SELECT
              CASE(2)
                 SELECT CASE(kk)
@@ -5611,7 +5611,7 @@ CONTAINS
                    RETURN
                 CASE DEFAULT
                    WRITE(*,*)"ERROR:out of range of pave_UV"
-                   STOP   
+                   STOP
                 END SELECT
              CASE(1)
                 SELECT CASE(kk)

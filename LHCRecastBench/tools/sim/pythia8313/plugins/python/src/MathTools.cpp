@@ -49,7 +49,7 @@
 struct PyCallBack_Pythia8_PhysicsBase : public Pythia8::PhysicsBase {
 	using Pythia8::PhysicsBase::PhysicsBase;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhysicsBase *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -62,7 +62,7 @@ struct PyCallBack_Pythia8_PhysicsBase : public Pythia8::PhysicsBase {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhysicsBase *>(this), "onBeginEvent");
 		if (overload) {
@@ -75,7 +75,7 @@ struct PyCallBack_Pythia8_PhysicsBase : public Pythia8::PhysicsBase {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhysicsBase *>(this), "onEndEvent");
 		if (overload) {
@@ -88,7 +88,7 @@ struct PyCallBack_Pythia8_PhysicsBase : public Pythia8::PhysicsBase {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PhysicsBase *>(this), "onStat");
 		if (overload) {

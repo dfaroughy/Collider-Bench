@@ -2,7 +2,7 @@
 !     Module      : DiscreteSampler
 !     Author      : Valentin Hirschi
 !     Date        : 29.10.2014
-!     Description : 
+!     Description :
 !              A relatively simple and flexible module to do
 !              sampling of discrete dimensions for Monte-Carlo
 !              purposes.
@@ -19,7 +19,7 @@
 !
 !     DS_register_dimension(name, n_bins,(all_grid|void))
 !       ::  Register a new dimension with its name and number of bins
-!       ::  If all_grid is specified and set to False, then only a 
+!       ::  If all_grid is specified and set to False, then only a
 !       ::  running grid is specified, it is useful for registering
 !       ::  grid intended for convolution only.
 !
@@ -29,7 +29,7 @@
 !     DS_print_global_info(name|index|void)
 !       ::  Print global information on a registered information, using
 !       ::  either its name or index. or all if none is selected
-!     
+!
 !     DS_clear
 !       ::  Reinitializes the module and all grid data
 !
@@ -41,7 +41,7 @@
 !       ::  Add one bin to dimension of name dimension_name.
 !       ::  The user can add an ID to the added bin or just use the
 !       ::  default sequential labeling
-!    
+!
 !     DS_remove_bin(dimension_name, (binID|integerID))
 !       ::  Remove a bin in a dimension by either specfiying its index
 !       ::  in this dimension or its binID (remember you can create a
@@ -54,16 +54,16 @@
 !       ::  the binID do not exist at the time of adding them, they will
 !       ::  be registered on the flight. By setting the option 'reset'
 !       ::  to '.True.' (default is '.False.'), you can chose to hardset
-!       ::  the weight of this bin (with n_entries=min_bin_probing_points 
+!       ::  the weight of this bin (with n_entries=min_bin_probing_points
 !       ::  then) instead of adding it.
 !
 !     DS_update_grid((dim_name|void))
-!       ::  Update the reference grid of the dimension dim_name or 
+!       ::  Update the reference grid of the dimension dim_name or
 !       ::  update all of them at the same time without argument.
 !       ::  It uses the running grid for this and it reinitilizes it.
 !
 !     DS_write_grid((file_name|stream_id), (dim_name|void), (grid_type|void))
-!       :: Append to file 'file_name' or a given stream the data for 
+!       :: Append to file 'file_name' or a given stream the data for
 !       :: the current reference grid for dimension dim_name or
 !       :: or all of them if called without dim_name.
 !       :: You can specify grid_type to be written out to be either 'ref'
@@ -74,10 +74,10 @@
 !       :: the data obtained from file 'file_name' or stream_id for this
 !       :: dimension or all of them if called without dim_name.
 !       :: The data is loaded in the running grid only (which is
-!       :: re-initialized before this), so you have to call 
+!       :: re-initialized before this), so you have to call
 !       :: 'DS_update_grid' if you want it pased to the ref_grid.
 !
-!     DS_get_point(dim_name, random_variable, 
+!     DS_get_point(dim_name, random_variable,
 !       (binIDPicked|integerIDPicked), jacobian_weight, (mode|void),
 !                                        (convoluted_grid_names|void))
 !       :: From a given random variable in [0.0,1.0] and a dimension
@@ -100,12 +100,12 @@
 !       :: Example:
 !       ::  call DS_get_point('MyDim',0.02,out_binPicked,out_jac,mode='norm',
 !       :: & convoluted_grid_names = (/'ConvolutionDim1','ConvolutionDim2'/))
-! 
+!
 !     DS_set_min_points(min_point, (dim_name|void))
 !       :: Sets the minimum number of points that must be used to probe
-!       :: each bin of a particular dimension (or all if not specified) 
-!       :: before DS_get_point uses a uniform sampling on the bins 
-!       :: (possibly with convolution) when the reference grid is empty. 
+!       :: each bin of a particular dimension (or all if not specified)
+!       :: before DS_get_point uses a uniform sampling on the bins
+!       :: (possibly with convolution) when the reference grid is empty.
 !       :: By default it is 10.
 !
 !     DS_get_dim_status(dim_name)
@@ -114,19 +114,19 @@
 !       :: dim_status =  0 : Dimension exists but the reference grid is
 !       ::                   empty and the running grid does not yet
 !       ::                   have all its bins filled with min_point.
-!       :: dim_status =  1 : Dimension exists with a non-empty 
+!       :: dim_status =  1 : Dimension exists with a non-empty
 !       ::                   reference grid and a running grid with all
 !       ::                   bins filled with more than min_points entries.
-!    
+!
 !     DS_set_grid_mode(grid_name,grid_mode)
 !       :: Sets the kind of reference grid which is currently active.
-!       :: grid_mode = 'default' : This means that the reference grid holds 
+!       :: grid_mode = 'default' : This means that the reference grid holds
 !       ::   the same kind of weights than the running grid. When the reference
 !       ::   grid will be updated, the running grid will be *combined* with
 !       ::   the reference grid, and not overwritten by it.
 !       :: grid_mode = 'init' : This means that the reference grid is used for
 !       ::   initialisation, and its weights do not compare with those put
-!       ::   in the running grid. When updated, the reference grid will 
+!       ::   in the running grid. When updated, the reference grid will
 !       ::   therefore be *overwritten* by the running grid.
 !
 !
@@ -134,14 +134,14 @@
 !       :: Returns the current value stored in the run grid for
 !       :: dimension grid_name of what are the parameter damping the
 !       :: bin with small contributions and whose Jacobian can
-!       :: potentially be very large. See the definition of these 
+!       :: potentially be very large. See the definition of these
 !       :: parameters for a description of the procedure.
 !
 !     DS_set_damping_for_grid(grid_name, small_contrib, damping_power)
 !       :: Sets the value for both the ref and running grid of the
 !       :: dimension grid_name of what are the parameter damping the
 !       :: bin with small contributions and whose Jacobian can
-!       :: potentially be very large. See the definition of these 
+!       :: potentially be very large. See the definition of these
 !       :: parameters for a description of the procedure.
 !
       module DiscreteSampler
@@ -171,7 +171,7 @@
         module procedure  binID_from_binID
         module procedure  binID_from_integer
       end interface assignment (=)
-!     Define and easy way of comparing binIDs 
+!     Define and easy way of comparing binIDs
       interface operator (==)
         module procedure  equal_binID
       end interface operator (==)
@@ -189,7 +189,7 @@
         type(binID) bid
       endtype
 
-!     Define and easy way of adding Bins 
+!     Define and easy way of adding Bins
       interface operator (+)
         module procedure  DS_combine_two_bins
       end interface operator (+)
@@ -202,17 +202,17 @@
 !         the reference grid, and not overwrite it.
 !       grid_mode = 2 : This means that the reference grid is used for
 !         initialisation, and its weights do not compare with those put
-!         in the running grid. When updated, the reference grid will 
+!         in the running grid. When updated, the reference grid will
 !         therefore be *overwritten* by the running grid.
         integer                               :: grid_mode
 !
-!       Treat specially bin with a contribution (i.e. weight) worth less than 
+!       Treat specially bin with a contribution (i.e. weight) worth less than
 !       'small_contrib_threshold' of the averaged contributionover all bins.
-!       For those, we sample according to the square root (or the specified power 
-!       'damping power' of the difference between the reference value corresponding 
+!       For those, we sample according to the square root (or the specified power
+!       'damping power' of the difference between the reference value corresponding
 !       to the chosen mode and the small_contrib_threshold.
-!       In this way, we are less sensitive to possible large fluctuations 
-!       of very suppressed contributions for which the Jacobian would be 
+!       In this way, we are less sensitive to possible large fluctuations
+!       of very suppressed contributions for which the Jacobian would be
 !       really big. However, the square-root is such that a really
 !       suppressed contribution at the level of numerical precision
 !       would still never be probed.
@@ -232,7 +232,7 @@
 !       The sum of the variance of the weight in each bin
         real*8                                :: variance_norm
 !       The sum of the squared weights in each bin
-        real*8                                :: norm_sqr    
+        real*8                                :: norm_sqr
         integer                               :: n_tot_entries
 !       A handy way of referring to the dimension by its name rather than
 !       an index.
@@ -315,11 +315,11 @@
 !       ---------------------------------------------------------------
         subroutine DS_initialize(tolerate_zero_norm, verbose)
         implicit none
-!         
+!
 !         Subroutine arguments
-!         
+!
           logical, optional, intent(in)            :: tolerate_zero_norm
-          logical, optional, intent(in)            :: verbose 
+          logical, optional, intent(in)            :: verbose
 
           if (allocated(DS_isInitialized)) then
             write(*,*) "DiscreteSampler:: Error: The DiscreteSampler"//
@@ -359,9 +359,9 @@
 
         subroutine DS_Logger(msg)
         implicit none
-!         
+!
 !         Subroutine arguments
-!         
+!
           character(len=*), intent(in)        :: msg
 
           if (DS_verbose) write(*,*) msg
@@ -369,7 +369,7 @@
         end subroutine DS_Logger
 
 !       ---------------------------------------------------------------
-!       This subroutine clears the module and reinitialize all data 
+!       This subroutine clears the module and reinitialize all data
 !       ---------------------------------------------------------------
         subroutine DS_clear()
           call DS_deallocate_grid(ref_grid)
@@ -389,7 +389,7 @@
                 deallocate(grid(i)%dimension_name)
               endif
             enddo
-            deallocate(grid)            
+            deallocate(grid)
           endif
         end subroutine DS_deallocate_grid
 
@@ -400,9 +400,9 @@
 !       ---------------------------------------------------------------
         subroutine DS_register_dimension(dim_name,n_bins,all_grids)
         implicit none
-!         
+!
 !         Subroutine arguments
-!        
+!
           integer , intent(in)                :: n_bins
           character(len=*), intent(in)        :: dim_name
           logical , optional                  :: all_grids
@@ -433,11 +433,11 @@
         end subroutine DS_register_dimension
 
 !       ---------------------------------------------------------------
-!       This subroutine registers a dimension to a given grid 
+!       This subroutine registers a dimension to a given grid
 !       ---------------------------------------------------------------
         subroutine DS_add_dimension_to_grid(grid, dim_name, n_bins)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           type(sampledDimension), dimension(:), allocatable,
@@ -466,7 +466,7 @@
             endif
           endif
 
-!         Either allocate the discrete grids or append a dimension 
+!         Either allocate the discrete grids or append a dimension
           if (allocated(grid)) then
             allocate(tmp(size(grid)))
             do i=1, size(grid)
@@ -496,7 +496,7 @@
         end subroutine DS_add_dimension_to_grid
 
 !       ----------------------------------------------------------------------
-!       Copy a dimension from source to target, making sure to allocate  
+!       Copy a dimension from source to target, making sure to allocate
 !       ----------------------------------------------------------------------
         subroutine DS_copy_dimension(source, trget)
           type(sampledDimension), intent(out)   :: trget
@@ -521,7 +521,7 @@
           trget%abs_norm                = source%abs_norm
           trget%variance_norm           = source%variance_norm
           trget%norm_sqr                = source%norm_sqr
-          trget%n_tot_entries           = source%n_tot_entries 
+          trget%n_tot_entries           = source%n_tot_entries
           trget%min_bin_probing_points  = source%min_bin_probing_points
           trget%grid_mode               = source%grid_mode
           trget%damping_power           = source%damping_power
@@ -529,11 +529,11 @@
         end subroutine DS_copy_dimension
 
 !       ----------------------------------------------------------------------
-!       This subroutine removes a dimension at index dim_index from a given grid 
+!       This subroutine removes a dimension at index dim_index from a given grid
 !       ----------------------------------------------------------------------
         subroutine DS_remove_dimension(dim_name)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in) :: dim_name
@@ -552,11 +552,11 @@
 !
 
 !       ----------------------------------------------------------------------
-!       This subroutine removes a dimension at index dim_index from a given grid 
+!       This subroutine removes a dimension at index dim_index from a given grid
 !       ----------------------------------------------------------------------
         subroutine DS_remove_dimension_from_grid(grid, dim_index)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           type(sampledDimension), dimension(:), allocatable,
@@ -592,10 +592,10 @@
 !       ---------------------------------------------------------------
         subroutine DS_reinitialize_dimension(d_dim)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
-          type(sampledDimension), intent(inout) :: d_dim 
+          type(sampledDimension), intent(inout) :: d_dim
 !
 !         Local variables
 !
@@ -621,10 +621,10 @@
 !       ---------------------------------------------------------------
         subroutine DS_initialize_dimension(d_dim)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
-          type(sampledDimension), intent(inout) :: d_dim 
+          type(sampledDimension), intent(inout) :: d_dim
 !
 !         Local variables
 !
@@ -655,11 +655,11 @@
         end subroutine DS_initialize_dimension
 
 !       ---------------------------------------------------------------
-!       This subroutine takes care of reinitializing a given bin 
+!       This subroutine takes care of reinitializing a given bin
 !       ---------------------------------------------------------------
         subroutine DS_initialize_bin(d_bin)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           type(bin), intent(inout) :: d_bin
@@ -671,11 +671,11 @@
         end subroutine DS_initialize_bin
 
 !       ---------------------------------------------------------------
-!       This subroutine takes care of initializing a given bin 
+!       This subroutine takes care of initializing a given bin
 !       ---------------------------------------------------------------
         subroutine DS_reinitialize_bin(d_bin)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           type(bin), intent(inout) :: d_bin
@@ -683,7 +683,7 @@
 !         Begin code
 !
           d_bin%weight_sqr = 0.0d0
-          d_bin%abs_weight = 0.0d0          
+          d_bin%abs_weight = 0.0d0
           d_bin%weight     = 0.0d0
           d_bin%n_entries  = 0
         end subroutine DS_reinitialize_bin
@@ -695,10 +695,10 @@
 !       ---------------------------------------------------------------
         subroutine DS_set_min_points(min_points, dim_name)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
-!     
+!
           integer, intent(in)                      :: min_points
           character(len=*), intent(in), optional   :: dim_name
 !
@@ -711,7 +711,7 @@
           if(present(dim_name)) then
             ref_grid(DS_dim_index(ref_grid,dim_name))%
      &                               min_bin_probing_points = min_points
-            run_grid(DS_dim_index(ref_grid,dim_name))% 
+            run_grid(DS_dim_index(ref_grid,dim_name))%
      &                               min_bin_probing_points = min_points
           else
             do i=1,size(ref_grid)
@@ -727,13 +727,13 @@
 !       dim_status =  0 : Dimension exists but the reference grid is
 !                         empty and the running grid does not yet
 !                         have all its bins filled with min_point.
-!       dim_status =  1 : Dimension exists with a non-empty 
+!       dim_status =  1 : Dimension exists with a non-empty
 !                         reference grid and a running grid with all
 !                         bins filled with more than min_points entries.
 !       ---------------------------------------------------------------
         function DS_get_dim_status(grid_name)
         implicit none
-!         
+!
 !         Function arguments
 !
           character(len=*), intent(in)     :: grid_name
@@ -746,7 +746,7 @@
           integer                           :: int_grid_mode
           type(Bin)                         :: mRunBin
           integer                           :: i
-!         
+!
 !         Begin code
 !
           ref_grid_index = DS_dim_index(ref_grid, grid_name, .True.)
@@ -758,8 +758,8 @@
           if (ref_grid(ref_grid_index)%n_tot_entries.ne.0) then
             DS_get_dim_status = 1
             return
-          endif    
-         
+          endif
+
 !         If the running grid has zero entries, then consider the grid
 !         uninitialized
           if(size(run_grid(run_grid_index)%bins).eq.0) then
@@ -788,10 +788,10 @@
         subroutine DS_set_damping_for_grid(grid_name, in_small_contrib,
      &                                                 in_damping_power)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
-          character(len=*), intent(in)     :: grid_name          
+          character(len=*), intent(in)     :: grid_name
           real*8, intent(in)               :: in_small_contrib
           real*8, intent(in)               :: in_damping_power
 !
@@ -799,7 +799,7 @@
 !
           integer                          :: ref_grid_index
           integer                          :: run_grid_index
-!         
+!
 !         Begin code
 !
           ref_grid_index = DS_dim_index(ref_grid, grid_name, .True.)
@@ -818,13 +818,13 @@
           endif
 
 !         Limit arbitrarily at 50% because anything above that really
-!         breaks the assumption of a small grid deformation not 
+!         breaks the assumption of a small grid deformation not
 !         significantly affecting the averaged contribution taked as
 !         a threshold.
           if (in_small_contrib.lt.0.0d0.or.
      &                                  in_small_contrib.gt.0.5d0) then
             write(*,*) "The small relative contribution threshold "//
-     &      toStr_real_with_ndig(in_small_contrib,3) 
+     &      toStr_real_with_ndig(in_small_contrib,3)
      &      //") given in argument of the function 'DS_set_damping_"//
      &      "for_grid' must be >=0.0 and <= 0.5."
             stop 1
@@ -833,16 +833,16 @@
           if (in_damping_power.lt.0.0d0.or.
      &                                  in_damping_power.gt.1.0d0) then
             write(*,*) "The damping power ("//
-     &      toStr_real_with_ndig(in_damping_power,3) 
+     &      toStr_real_with_ndig(in_damping_power,3)
      &      //") given in argument of the function 'DS_set_damping_"//
      &      "for_grid' must be >= 0.0 and <= 1.0."
             stop 1
           endif
 
-          ref_grid(ref_grid_index)%small_contrib_threshold = 
+          ref_grid(ref_grid_index)%small_contrib_threshold =
      &                                                  in_small_contrib
           ref_grid(ref_grid_index)%damping_power = in_damping_power
-          run_grid(run_grid_index)%small_contrib_threshold = 
+          run_grid(run_grid_index)%small_contrib_threshold =
      &                                                  in_small_contrib
           run_grid(run_grid_index)%damping_power = in_damping_power
         end subroutine DS_set_damping_for_grid
@@ -854,17 +854,17 @@
         subroutine DS_get_damping_for_grid(grid_name, out_small_contrib,
      &                                                out_damping_power)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
-          character(len=*), intent(in)      :: grid_name          
+          character(len=*), intent(in)      :: grid_name
           real*8, intent(out)               :: out_small_contrib
-          real*8, intent(out)               :: out_damping_power        
+          real*8, intent(out)               :: out_damping_power
 !
 !         Local variables
 !
           integer                           :: run_grid_index
-!         
+!
 !         Begin code
 !
           run_grid_index = DS_dim_index(run_grid, grid_name, .True.)
@@ -883,28 +883,28 @@
 
 !       ---------------------------------------------------------------
 !       Access function to modify the mode of the reference grid:
-!       grid_mode = 'default' : This means that the reference grid holds 
+!       grid_mode = 'default' : This means that the reference grid holds
 !         the same kind of weights than the running grid. When the reference
 !         grid will be updated, the running grid will be *combined* with
 !         the reference grid, and not overwritten by it.
 !       grid_mode = 'init' : This means that the reference grid is used for
 !         initialisation, and its weights do not compare with those put
-!         in the running grid. When updated, the reference grid will 
+!         in the running grid. When updated, the reference grid will
 !         therefore be *overwritten* by the running grid.
 !       ---------------------------------------------------------------
         subroutine DS_set_grid_mode(grid_name, grid_mode)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)     :: grid_mode
-          character(len=*), intent(in)     :: grid_name          
+          character(len=*), intent(in)     :: grid_name
 !
 !         Local variables
 !
           integer                           :: ref_grid_index
           integer                           :: int_grid_mode
-!         
+!
 !         Begin code
 !
           ref_grid_index = DS_dim_index(ref_grid, grid_name, .True.)
@@ -928,7 +928,7 @@
 !         Notice that we don't change the mode of the running_grid
 !         because in this way, after any DS_update() is done, the
 !         ref_grid will automatically turn its mode to 'default' because
-!         it inherits the attribute of the running grid. 
+!         it inherits the attribute of the running grid.
 !         However, if the running grid was loaded from a saved grid file
 !         then it might be that the run_grid also has the grid_mode set
 !         to 'initialization' which will then correctly be copied to the
@@ -944,7 +944,7 @@
 
         function DS_get_dimension(grid, dim_name)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(sampledDimension), dimension(:), intent(in), allocatable
@@ -962,10 +962,10 @@
 !       ---------------------------------------------------------------
         function DS_bin_index_default(bins, mBinID)
         implicit none
-!         
+!
 !         Function arguments
 !
-          type(Bin), dimension(:), intent(in)  
+          type(Bin), dimension(:), intent(in)
      &                                  :: bins
           type(BinID)                   :: mBinID
           integer                       :: DS_bin_index_default
@@ -978,10 +978,10 @@
 
         function DS_bin_index_with_force(bins, mBinID,force)
         implicit none
-!         
+!
 !         Function arguments
 !
-          type(Bin), dimension(:), intent(in)  
+          type(Bin), dimension(:), intent(in)
      &                                  :: bins
           type(BinID)                   :: mBinID
           integer                       :: DS_bin_index_with_force
@@ -1000,12 +1000,12 @@
               return
             endif
           endif
-          
+
           DS_bin_index_with_force = -1
           do i = 1, size(bins)
             if (bins(i)%bid==mBinID) then
               DS_bin_index_with_force = i
-              return              
+              return
             endif
           enddo
           if (DS_bin_index_with_force.eq.-1.and.(.not.Force)) then
@@ -1020,13 +1020,13 @@
 !       Functions of the interface get_bin facilitating the access to a
 !       given bin.
 !       ---------------------------------------------------------------
-        
+
         function DS_get_bin_from_binID(bins, mBinID)
         implicit none
-!         
+!
 !         Function arguments
 !
-          type(Bin), dimension(:), intent(in)  
+          type(Bin), dimension(:), intent(in)
      &                                  :: bins
           type(BinID)                   :: mBinID
           type(Bin)                     :: DS_get_bin_from_binID
@@ -1043,7 +1043,7 @@
         function DS_get_bin_from_binID_and_dimName(grid, dim_name,
      &                                                          mBinID)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(sampledDimension), dimension(:), intent(in), allocatable
@@ -1066,13 +1066,13 @@
 
 
 !       ---------------------------------------------------------------
-!       Add a new weight to a certan bin (characterized by either its 
+!       Add a new weight to a certan bin (characterized by either its
 !       binID or index)
 !       ---------------------------------------------------------------
         subroutine DS_add_entry_with_BinID(dim_name, mBinID, weight,
      &                                                            reset)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)  :: dim_name
@@ -1085,7 +1085,7 @@
           integer dim_index, bin_index
           type(Bin)                     :: newBin
           integer                       :: n_entries
-          logical                       :: opt_reset          
+          logical                       :: opt_reset
 !
 !         Begin code
 !
@@ -1121,22 +1121,22 @@
      &                   run_grid(dim_index)%bins(bin_index)%weight_sqr
           run_grid(dim_index)%abs_norm = run_grid(dim_index)%abs_norm -
      &                   run_grid(dim_index)%bins(bin_index)%abs_weight
-          run_grid(dim_index)%variance_norm = 
+          run_grid(dim_index)%variance_norm =
      &              run_grid(dim_index)%variance_norm -
      &              DS_bin_variance(run_grid(dim_index)%bins(bin_index))
-          run_grid(dim_index)%n_tot_entries = 
+          run_grid(dim_index)%n_tot_entries =
      &              run_grid(dim_index)%n_tot_entries -
      &                     run_grid(dim_index)%bins(bin_index)%n_entries
 !         Update the information directly stored in the bin
           if(.not.opt_reset) then
             n_entries = run_grid(dim_index)%bins(bin_index)%n_entries
-            run_grid(dim_index)%bins(bin_index)%weight = 
+            run_grid(dim_index)%bins(bin_index)%weight =
      &        (run_grid(dim_index)%bins(bin_index)%weight*n_entries
      &                                           + weight)/(n_entries+1)
-            run_grid(dim_index)%bins(bin_index)%weight_sqr = 
+            run_grid(dim_index)%bins(bin_index)%weight_sqr =
      &        (run_grid(dim_index)%bins(bin_index)%weight_sqr*n_entries
      &                                        + weight**2)/(n_entries+1)
-            run_grid(dim_index)%bins(bin_index)%abs_weight = 
+            run_grid(dim_index)%bins(bin_index)%abs_weight =
      &        (run_grid(dim_index)%bins(bin_index)%abs_weight*n_entries
      &                                      + abs(weight))/(n_entries+1)
             run_grid(dim_index)%bins(bin_index)%n_entries = n_entries+1
@@ -1144,7 +1144,7 @@
             run_grid(dim_index)%bins(bin_index)%weight = weight
             run_grid(dim_index)%bins(bin_index)%weight_sqr = weight**2
             run_grid(dim_index)%bins(bin_index)%abs_weight = abs(weight)
-            run_grid(dim_index)%bins(bin_index)%n_entries = 
+            run_grid(dim_index)%bins(bin_index)%n_entries =
      &                       run_grid(dim_index)%min_bin_probing_points
           endif
 !         Now add the bin information back to the info in the grid
@@ -1154,10 +1154,10 @@
      &                   run_grid(dim_index)%bins(bin_index)%weight_sqr
           run_grid(dim_index)%abs_norm = run_grid(dim_index)%abs_norm +
      &                   run_grid(dim_index)%bins(bin_index)%abs_weight
-          run_grid(dim_index)%variance_norm = 
+          run_grid(dim_index)%variance_norm =
      &              run_grid(dim_index)%variance_norm +
      &              DS_bin_variance(run_grid(dim_index)%bins(bin_index))
-          run_grid(dim_index)%n_tot_entries = 
+          run_grid(dim_index)%n_tot_entries =
      &              run_grid(dim_index)%n_tot_entries +
      &                     run_grid(dim_index)%bins(bin_index)%n_entries
 
@@ -1166,13 +1166,13 @@
         subroutine DS_add_entry_with_BinIntID(dim_name, BinIntID,
      &                                                weight, reset)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)  :: dim_name
           integer                       :: BinIntID
           real*8                        :: weight
-          logical, optional             :: reset          
+          logical, optional             :: reset
 !
 !         Begin code
 !
@@ -1233,7 +1233,7 @@
             write(*,*) 'DiscreteSampler:: No grid registered for name'//
      &        " '"//d_name//"'."
             return
-          endif  
+          endif
 
           write(*,*) "DiscreteSampler:: ========================"//
      &       "=========================="
@@ -1275,7 +1275,7 @@
 !       ---------------------------------------------------------------
         subroutine DS_print_dim_info(d_dim)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(sampledDimension), intent(in)  :: d_dim
@@ -1321,16 +1321,16 @@
             enddo
             samplingBar1(1:1) = '|'
             samplingBar2(1:1) = '|'
-            samplingBar3(1:1) = '|'             
+            samplingBar3(1:1) = '|'
             curr_pos1 = 2
             curr_pos2 = 2
-            curr_pos3 = 2 
-            do i=1,min(10,size(d_dim%bins)) 
+            curr_pos3 = 2
+            do i=1,min(10,size(d_dim%bins))
               samplingBar1(curr_pos1:curr_pos1+1) =
      &                             trim(DS_toStr(d_dim%bins(i)%bid))
-              samplingBar2(curr_pos2:curr_pos2+1) = 
+              samplingBar2(curr_pos2:curr_pos2+1) =
      &                             trim(DS_toStr(d_dim%bins(i)%bid))
-              samplingBar3(curr_pos3:curr_pos3+1) = 
+              samplingBar3(curr_pos3:curr_pos3+1) =
      &                             trim(DS_toStr(d_dim%bins(i)%bid))
               curr_pos1 = curr_pos1+2
               curr_pos2 = curr_pos2+2
@@ -1385,7 +1385,7 @@
 !         Write out info
 !
           n_bins = size(d_dim%bins)
-          
+
           write(*,*) "DiscreteSampler::   -> Total number of "//
      &         "entries : "//trim(toStr(d_dim%n_tot_entries))
           if (n_bins.gt.10) then
@@ -1421,10 +1421,10 @@
 
 !       ---------------------------------------------------------------
 !         Functions to add a bin with different binID specifier
-!       ---------------------------------------------------------------      
+!       ---------------------------------------------------------------
         subroutine DS_add_bin_with_IntegerID(dim_name,intID)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           integer, intent(in)      :: intID
@@ -1437,7 +1437,7 @@
 
         subroutine DS_add_bin_with_void(dim_name)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*)         :: dim_name
@@ -1456,7 +1456,7 @@
 
         subroutine DS_add_bin_with_binID(dim_name,mBinID)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           type(binID), intent(in)  :: mBinID
@@ -1470,18 +1470,18 @@
 !
           call DS_reinitialize_bin(new_bin)
           new_bin%bid = mBinID
-          call DS_add_bin_to_bins(ref_grid(DS_dim_index(ref_grid, 
+          call DS_add_bin_to_bins(ref_grid(DS_dim_index(ref_grid,
      &                                          dim_name))%bins,new_bin)
-          call DS_add_bin_to_bins(run_grid(DS_dim_index(run_grid, 
+          call DS_add_bin_to_bins(run_grid(DS_dim_index(run_grid,
      &                                          dim_name))%bins,new_bin)
         end subroutine DS_add_bin_with_binID
 
         subroutine DS_add_bin_to_bins(bins,new_bin)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
-          type(Bin), dimension(:), allocatable, intent(inout)  
+          type(Bin), dimension(:), allocatable, intent(inout)
      &                             :: bins
           type(Bin)                :: new_bin
 !
@@ -1509,7 +1509,7 @@
           deallocate(bins)
           allocate(bins(size(tmp)))
           do i=1,size(bins)
-            call DS_copy_bin(tmp(i),bins(i))          
+            call DS_copy_bin(tmp(i),bins(i))
           enddo
           deallocate(tmp)
         end subroutine DS_add_bin_to_bins
@@ -1530,7 +1530,7 @@
 !       ---------------------------------------------------------------
         subroutine DS_remove_bin_withIndex(dim_name, binIndex)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)   :: dim_name
@@ -1545,7 +1545,7 @@
 
         subroutine DS_remove_bin_withBinID(dim_name, mbinID)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)   :: dim_name
@@ -1572,11 +1572,11 @@
 
         subroutine DS_remove_bin_withIntegerID(dim_name, mBinIntID)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)   :: dim_name
-          integer, intent(in)            :: mBinIntID       
+          integer, intent(in)            :: mBinIntID
 !
 !         Begin code
 !
@@ -1585,7 +1585,7 @@
 
         subroutine DS_remove_bin_from_grid(grid, bin_index)
           implicit none
-!         
+!
 !         Subroutine arguments
 !
           type(SampledDimension), intent(inout)  :: grid
@@ -1602,7 +1602,7 @@
 !         Update the norm, norm_sqr and the number of entries in
 !         the corresponding dimension
           grid%norm = grid%norm - grid%bins(bin_index)%weight
-          grid%norm_sqr = grid%norm_sqr - 
+          grid%norm_sqr = grid%norm_sqr -
      &                                   grid%bins(bin_index)%weight_sqr
           grid%abs_norm = grid%abs_norm -
      &                                   grid%bins(bin_index)%abs_weight
@@ -1615,7 +1615,7 @@
             tmp(i) = grid%bins(i)
           enddo
           do i=bin_index+1,size(grid%bins)
-            tmp(i-1) = grid%bins(i)          
+            tmp(i-1) = grid%bins(i)
           enddo
           deallocate(grid%bins)
           allocate(grid%bins(size(tmp)))
@@ -1631,15 +1631,15 @@
 !       ---------------------------------------------------------------
         subroutine DS_update_all_grids(filterZeros)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           logical, optional :: filterZeros
-!         
+!
 !         Local variables
 !
           integer           :: i
-          logical           :: do_filterZeros          
+          logical           :: do_filterZeros
 !
 !         Begin code
 !
@@ -1658,12 +1658,12 @@
 
         subroutine DS_update_grid_with_dim_name(dim_name, filterZeros)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*)                 :: dim_name
-          logical, optional                :: filterZeros          
-!         
+          logical, optional                :: filterZeros
+!
 !         Local variables
 !
           integer           :: i
@@ -1683,15 +1683,15 @@
 
         subroutine DS_update_grid_with_dim_index(d_index,filterOutZeros)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           integer                               :: d_index
           logical                               :: filterOutZeros
-!         
+!
 !         Local variables
 !
-          integer                               :: i, ref_d_index 
+          integer                               :: i, ref_d_index
           integer                               :: ref_bin_index
           integer                               :: j, shift
           character, dimension(:), allocatable  :: dim_name
@@ -1712,7 +1712,7 @@
      &         run_grid(d_index)%dimension_name,.True.).eq.-1) then
               call DS_Logger('Reference grid does not have dimension '//
      &                         trim(toStr(dim_name))//'. Adding it now')
-              call DS_add_dimension_to_grid(ref_grid, 
+              call DS_add_dimension_to_grid(ref_grid,
      &                                        trim(toStr(dim_name)) , 0)
           endif
           ref_d_index = DS_dim_index(ref_grid, dim_name)
@@ -1722,7 +1722,7 @@
           do i=1,size(run_grid(d_index)%bins)
             mBinID = run_grid(d_index)%bins(i)%bid
             ref_bin_index = DS_bin_index(
-     &                        ref_grid(ref_d_index)%bins,mBinID,.True.) 
+     &                        ref_grid(ref_d_index)%bins,mBinID,.True.)
             if (ref_bin_index.eq.-1) then
               call DS_Logger('Bin with binID '//trim(DS_toStr(mBinID))//
      &              ' is missing in the reference grid. Adding it now.')
@@ -1733,7 +1733,7 @@
               ref_bin_index = DS_bin_index(
      &                                ref_grid(ref_d_index)%bins,mBinID)
             endif
-            
+
             run_bin = run_grid(d_index)%bins(i)
             if ((run_bin%n_entries.lt.ref_grid(ref_d_index)%
      &           min_bin_probing_points).and.empty_ref_grid) then
@@ -1780,9 +1780,9 @@
           ref_grid(ref_d_index)%min_bin_probing_points =
      &       run_grid(d_index)%min_bin_probing_points
           ref_grid(ref_d_index)%grid_mode = run_grid(d_index)%grid_mode
-          ref_grid(ref_d_index)%small_contrib_threshold = 
+          ref_grid(ref_d_index)%small_contrib_threshold =
      &                        run_grid(d_index)%small_contrib_threshold
-          ref_grid(ref_d_index)%damping_power = 
+          ref_grid(ref_d_index)%damping_power =
      &                                  run_grid(d_index)%damping_power
 
 !         Now filter all bins in ref_grid that have 0.0 weight and
@@ -1813,13 +1813,13 @@
 
         function DS_combine_two_bins(BinA, BinB) result(CombinedBin)
         implicit none
-!         
+!
 !         Function arguments
 !
           integer               :: d_index
           Type(Bin), intent(in) :: BinA, BinB
           Type(Bin)             :: CombinedBin
-!         
+!
 !         Local variables
 !
           call DS_reinitialize_bin(CombinedBin)
@@ -1837,11 +1837,11 @@
             CombinedBin%abs_weight = 0.0d0
             CombinedBin%weight_sqr = 0.0d0
           else
-            CombinedBin%weight     = (BinA%weight*BinA%n_entries + 
+            CombinedBin%weight     = (BinA%weight*BinA%n_entries +
      &                 BinB%weight*BinB%n_entries)/CombinedBin%n_entries
             CombinedBin%abs_weight = (BinA%abs_weight*BinA%n_entries +
      &             BinB%abs_weight*BinB%n_entries)/CombinedBin%n_entries
-            CombinedBin%weight_sqr = (BinA%weight_sqr*BinA%n_entries + 
+            CombinedBin%weight_sqr = (BinA%weight_sqr*BinA%n_entries +
      &             BinB%weight_sqr*BinB%n_entries)/CombinedBin%n_entries
           endif
         end function DS_combine_two_bins
@@ -1849,7 +1849,7 @@
 !       ================================================
 !       Main function to pick a point
 !       ================================================
- 
+
       subroutine DS_get_point_with_integerBinID(dim_name,
      &           random_variable, integerIDPicked, jacobian_weight,mode,
      &                                            convoluted_grid_names)
@@ -1920,7 +1920,7 @@
         real*8                  :: normalized_bin_bound
         logical, dimension(:), allocatable   :: bin_indices_to_fill
         logical                 :: initialization_done
-        real*8                  :: sampling_norm        
+        real*8                  :: sampling_norm
 !       Local variables related to convolution
         real*8, dimension(:), allocatable :: convolution_factors
         integer                 :: conv_bin_index
@@ -1946,7 +1946,7 @@
           endif
         else
           chosen_mode = 2
-        endif  
+        endif
 
         if (.not.allocated(ref_grid)) then
           write(*,*) "DiscreteSampler:: Error, dimensions"//
@@ -1969,7 +1969,7 @@
      &     " in the running grid."
           stop 1
         endif
-        runGrid = run_grid(run_grid_index)        
+        runGrid = run_grid(run_grid_index)
 
 !       If the reference grid is empty, force the use of uniform
 !       sampling
@@ -1989,21 +1989,21 @@
 !       If the grid is empty we must first make sure that each bin was
 !       probed with min_bin_probing_points before using a uniform grid
         allocate(bin_indices_to_fill(size(mGrid%bins)))
-        initialization_done = .True.        
+        initialization_done = .True.
         if(mGrid%n_tot_entries.eq.0) then
           min_bin_index     = 1
           do i=1,size(mGrid%bins)
             mRunBin = DS_get_bin(runGrid%bins,mGrid%bins(i)%bid)
             if (mRunBin%n_entries.lt.mGrid%min_bin_probing_points) then
               bin_indices_to_fill(i) = .True.
-              initialization_done    = .False.            
+              initialization_done    = .False.
             else
               bin_indices_to_fill(i) = .False.
             endif
           enddo
           if(.not.initialization_done) then
-!           In this case, we will only fill in bins which do not have 
-!           have enough entries (and select them uniformly) and veto the 
+!           In this case, we will only fill in bins which do not have
+!           have enough entries (and select them uniformly) and veto the
 !           others. The jacobian returned is still the one corresponding
 !           to a uniform distributions over the whole set of bins.
 !           Possible convolutions are ignored
@@ -2041,22 +2041,22 @@
 !       Treat specially contributions worth less than 5% of the
 !       contribution averaged over all bins. For those, we sample
 !       according to the square root (or the specified power 'pow'
-!       of the reference value corresponding to the chosen mode. 
-!       In this way, we are less sensitive to possible large fluctuations 
-!       of very suppressed contributions for which the Jacobian would be 
+!       of the reference value corresponding to the chosen mode.
+!       In this way, we are less sensitive to possible large fluctuations
+!       of very suppressed contributions for which the Jacobian would be
 !       really big. However, the square-root is such that a really
 !       suppressed contribution at the level of numerical precision
 !       would still never be probed.
-!       
+!
         average_contrib              = sampling_norm / size(mGrid%bins)
 !       Ignore this if the average contribution is zero
         if (average_contrib.gt.0.0d0) then
           do i=1,size(mGrid%bins)
-            mBin = mGrid%bins(i)    
+            mBin = mGrid%bins(i)
             if ( (mBin%weight/average_contrib) .lt.
      &                               runGrid%small_contrib_threshold) then
               sampling_norm       = sampling_norm - mGrid%bins(i)%weight
-              mGrid%bins(i)%weight = 
+              mGrid%bins(i)%weight =
      &          ((mBin%weight/(runGrid%small_contrib_threshold
      &        *average_contrib))**runGrid%damping_power)*
      &        runGrid%small_contrib_threshold*average_contrib
@@ -2079,7 +2079,7 @@
               stop 1
             endif
           enddo
-          sampling_norm          = 0.0d0          
+          sampling_norm          = 0.0d0
           do i=1,size(mGrid%bins)
             convolution_factors(i) = 1.0d0
             do j=1,size(convoluted_grid_names)
@@ -2100,7 +2100,7 @@
               convolution_factors(i) = convolution_factors(i)*
      &                          conv_dim%bins(conv_bin_index)%abs_weight
             enddo
-            sampling_norm = sampling_norm + 
+            sampling_norm = sampling_norm +
      &        convolution_factors(i)*mGrid%bins(i)%weight
           enddo
         else
@@ -2175,11 +2175,11 @@
                    convolution_factors(i) = 1.0d0
                  endif
                endif
-               sampling_norm = sampling_norm + 
+               sampling_norm = sampling_norm +
      &                       mGrid%bins(i)%weight*convolution_factors(i)
             enddo
 !           If sampling_norm is again zero it means that the two grids
-!           are "orthogonal" so that we have no choice but to randomize 
+!           are "orthogonal" so that we have no choice but to randomize
 !           both.
             if (sampling_norm.eq.0.0d0) then
               do i=1,size(mGrid%bins)
@@ -2191,7 +2191,7 @@
         endif
 
 !
-!       Now come the usual sampling method 
+!       Now come the usual sampling method
 !
         running_bound = 0.0d0
         do i=1,size(mGrid%bins)
@@ -2199,7 +2199,7 @@
             cycle
           endif
           mBin = mGrid%bins(i)
-          normalized_bin_bound = mBin%weight * 
+          normalized_bin_bound = mBin%weight *
      &                        ( convolution_factors(i) / sampling_norm )
           running_bound = running_bound + normalized_bin_bound
           if (random_variable.lt.running_bound) then
@@ -2234,19 +2234,19 @@
 !       ================================================
 
 !       ---------------------------------------------------------------
-!       This function writes the ref_grid to a file specified by its 
+!       This function writes the ref_grid to a file specified by its
 !       filename.
 !       ---------------------------------------------------------------
         subroutine DS_write_grid_with_filename(filename, dim_name,
      &                                                        grid_type)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)           :: filename
           character(len=*), intent(in), optional :: dim_name
-          character(len=*), intent(in), optional :: grid_type          
-!         
+          character(len=*), intent(in), optional :: grid_type
+!
 !         Local variables
 !
           logical fileExist
@@ -2274,11 +2274,11 @@
               call DS_write_grid_with_streamID(123, dim_name)
             endif
           else
-            if (present(grid_type)) then              
+            if (present(grid_type)) then
               call DS_write_grid_with_streamID(123, grid_type=grid_type)
             else
               call DS_write_grid_with_streamID(123)
-            endif                
+            endif
           endif
           close(123)
         end subroutine DS_write_grid_with_filename
@@ -2287,16 +2287,16 @@
 !       This function writes the ref_grid or all grids to a file
 !       specified by its stream ID.
 !       ---------------------------------------------------------------
-        subroutine DS_write_grid_with_streamID(streamID, dim_name, 
+        subroutine DS_write_grid_with_streamID(streamID, dim_name,
      &                                                       grid_type)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           integer, intent(in)                    :: streamID
           character(len=*), intent(in), optional :: dim_name
           character(len=*), intent(in), optional :: grid_type
-!         
+!
 !         Local variables
 !
           type(SampledDimension)                 :: grid
@@ -2331,7 +2331,7 @@
             return
           endif
           if (present(dim_name)) then
-            if (chosen_grid.eq.1.or.chosen_grid.eq.3) then            
+            if (chosen_grid.eq.1.or.chosen_grid.eq.3) then
               grid = ref_grid(DS_dim_index(ref_grid, dim_name))
               call DS_write_grid_from_grid(grid, streamID,'ref')
             endif
@@ -2360,13 +2360,13 @@
 !       ---------------------------------------------------------------
         subroutine DS_write_grid_from_grid(grid, streamID, grid_type)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           integer, intent(in)                    :: streamID
           type(SampledDimension), intent(in)     :: grid
-          character(len=*), intent(in)           :: grid_type          
-!         
+          character(len=*), intent(in)           :: grid_type
+!
 !         Local variables
 !
           integer                                :: i
@@ -2386,7 +2386,7 @@
             write(*,*) "DiscreteSampler:: Error, grid_type'"//
      &       grid_type//"' not recognized."
             stop 1
-          endif  
+          endif
           write(streamID,*) ' '//trim(toStr(grid%min_bin_probing_points
      &      ))//" # Attribute 'min_bin_probing_points' of the grid."
           write(streamID,*) ' '//trim(toStr(grid%grid_mode
@@ -2399,7 +2399,7 @@
           write(streamID,*) '# binID   n_entries weight   weight_sqr'//
      &      '   abs_weight'
           do i=1,size(grid%bins)
-            write(streamID,*) 
+            write(streamID,*)
      &          '   '//trim(DS_toStr(grid%bins(i)%bid))//
      &          '   '//trim(toStr(grid%bins(i)%n_entries))//
      &          '   '//trim(toStr(grid%bins(i)%weight,'ESw.15E3'))//
@@ -2416,15 +2416,15 @@
 !       ---------------------------------------------------------------
         subroutine DS_load_grid_with_filename(filename, dim_name)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           character(len=*), intent(in)           :: filename
           character(len=*), intent(in), optional :: dim_name
-!         
+!
 !         Local variables
 !
-          logical fileExist        
+          logical fileExist
 !
 !         Begin code
 !
@@ -2453,17 +2453,17 @@
         end subroutine DS_load_grid_with_filename
 
 !       ---------------------------------------------------------------
-!       This function loads the grid specified in a file specified by its 
+!       This function loads the grid specified in a file specified by its
 !       stream ID into the run_grid.
 !       ---------------------------------------------------------------
         subroutine DS_load_grid_with_streamID(streamID, dim_name)
         implicit none
-!         
+!
 !         Subroutine arguments
 !
           integer, intent(in)                    :: streamID
           character(len=*), intent(in), optional :: dim_name
-!         
+!
 !         Local variables
 !
           integer                                :: i
@@ -2491,11 +2491,11 @@
           startedGrid   = .False.
           read_position = 0
           do
-998         continue          
+998         continue
             read(streamID, "(A)", size=char_size, eor=998,
      &                                    end=999, advance='no') TwoBuff
 
-      
+
             if (char_size.le.1) then
               cycle
             endif
@@ -2514,7 +2514,7 @@
                 read_position = 0
                 cycle
               endif
-              read(streamID,*,end=990) bid, n_entries, weight, 
+              read(streamID,*,end=990) bid, n_entries, weight,
      &                                            weight_sqr, abs_weight
               new_bin%bid           = bid
               new_bin%n_entries     = n_entries
@@ -2537,7 +2537,7 @@
                     run_dim_index = DS_dim_index(run_grid,
      &                                               trim(buff),.True.)
                     if (run_dim_index.ne.-1) then
-                      call DS_remove_dimension_from_grid(run_grid, 
+                      call DS_remove_dimension_from_grid(run_grid,
      &                                                    run_dim_index)
                     endif
                     call DS_register_dimension(trim(buff),0,.False.)
@@ -2547,17 +2547,17 @@
                       write(*,*) 'DiscreteSampler:: Warning, the '//
      &                  "grid read is not of type 'reference'."//
      &                  "  It will be skipped."
-                      call DS_remove_dimension_from_grid(run_grid, 
+                      call DS_remove_dimension_from_grid(run_grid,
      &                                                    run_dim_index)
                       read_position = 0
                       startedGrid = .False.
                       goto 998
                     endif
                   case(3)
-                    read(streamID,*,end=990) 
+                    read(streamID,*,end=990)
      &                run_grid(size(run_grid))%min_bin_probing_points
                   case(4)
-                    read(streamID,*,end=990) 
+                    read(streamID,*,end=990)
      &                run_grid(size(run_grid))%grid_mode
                   case(5)
                     read(streamID,*,end=990) small_contrib_threshold
@@ -2582,12 +2582,12 @@
      &                                                   = damping_power
 !                   Make sure that the last info read before reading the
 !                   bin content (here the info with read_position=6)
-!                   sets startedGrid to .True. to start the bin readout 
+!                   sets startedGrid to .True. to start the bin readout
                     startedGrid   = .True.
                   case default
                     write(*,*) 'DiscreteSampler:: Number of entries'//
      &                ' before reaching bin lists exceeded.'
-                    goto 990 
+                    goto 990
                 end select
                 read_position = read_position + 1
               endif
@@ -2608,14 +2608,14 @@
 !       ---------------------------------------------------------------
 !       Synchronizes the cumulative information in a given grid from
 !       its bins.
-!       --------------------------------------------------------------- 
+!       ---------------------------------------------------------------
         subroutine DS_synchronize_grid_with_bins(grid)
         implicit none
 !
 !         Subroutine argument
 !
           type(sampledDimension), intent(inout) :: grid
-!         
+!
 !         Local variables
 !
           real*8           :: norm, abs_norm, norm_sqr, variance_norm
@@ -2633,7 +2633,7 @@
             norm_sqr        = norm_sqr       + grid%bins(i)%weight_sqr
             abs_norm        = abs_norm       + grid%bins(i)%abs_weight
             norm            = norm           + grid%bins(i)%weight
-            variance_norm   = variance_norm  + 
+            variance_norm   = variance_norm  +
      &                                     DS_bin_variance(grid%bins(i))
           enddo
           grid%n_tot_entries = n_tot_entries
@@ -2652,7 +2652,7 @@
 !       ---------------------------------------------------------------
         function equal_binID(binID1,binID2)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(binID), intent(in)  :: binID1, binID2
@@ -2673,7 +2673,7 @@
 !       ---------------------------------------------------------------
         pure elemental subroutine binID_from_binID(binID1,binID2)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(binID), intent(out)  :: binID1
@@ -2686,7 +2686,7 @@
 
         pure elemental subroutine binID_from_integer(binID1,binIDInt)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(binID), intent(out)  :: binID1
@@ -2700,7 +2700,7 @@
 !       Provide a constructor-like way of creating a binID
         function DS_binID(binIDInt)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(binID)              :: DS_binID
@@ -2715,7 +2715,7 @@
 !       ---------------------------------------------------------------
         function DS_toStr(mBinID)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(binID), intent(in)  :: mBinID
@@ -2736,7 +2736,7 @@
 !       ---------------------------------------------------------------
         function DS_dim_index_default(grid, dim_name)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(sampledDimension), dimension(:), intent(in), allocatable
@@ -2745,14 +2745,14 @@
           integer                       :: DS_dim_index_default
 !
 !         Begin code
-!  
+!
           DS_dim_index_default =
      &               DS_dim_index_with_force(grid, dim_name, .False.)
         end function DS_dim_index_default
 
         function DS_dim_index_with_force(grid, dim_name, force)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(sampledDimension), dimension(:), intent(in), allocatable
@@ -2792,17 +2792,17 @@
 
         function DS_dim_index_default_with_chararray(grid, dim_name)
         implicit none
-!         
+!
 !         Function arguments
 !
-          type(sampledDimension), dimension(:), intent(in), allocatable 
+          type(sampledDimension), dimension(:), intent(in), allocatable
      &                                         :: grid
           character, dimension(:), intent(in)  :: dim_name
           integer                 :: DS_dim_index_default_with_chararray
 !
 !         Begin code
-!  
-          DS_dim_index_default_with_chararray = 
+!
+          DS_dim_index_default_with_chararray =
      &                DS_dim_index_with_force_with_chararray(
      &                                          grid, dim_name, .False.)
         end function DS_dim_index_default_with_chararray
@@ -2810,7 +2810,7 @@
         function DS_dim_index_with_force_with_chararray(
      &                                            grid, dim_name, force)
         implicit none
-!         
+!
 !         Function arguments
 !
           type(sampledDimension), dimension(:), intent(in), allocatable

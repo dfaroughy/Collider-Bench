@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -23,7 +23,7 @@ import shutil
 import sys
 import logging
 import time
-import tempfile   
+import tempfile
 from six.moves import zip
 
 logger = logging.getLogger('test_cmd')
@@ -51,8 +51,8 @@ from madgraph import MG4DIR, MG5DIR, MadGraph5Error, InvalidCmd
 from tests import test_manager
 pjoin = os.path.join
 
-    
-    
+
+
 
 
 #===============================================================================
@@ -60,9 +60,9 @@ pjoin = os.path.join
 #===============================================================================
 class TestMECmdRWGT(unittest.TestCase):
     """this treats all the command not related to MG_ME"""
-    
+
     def setUp(self):
-        
+
         self.debugging = unittest.debug
         if self.debugging:
             self.path = pjoin(MG5DIR, "tmp_test")
@@ -71,92 +71,92 @@ class TestMECmdRWGT(unittest.TestCase):
             os.mkdir(pjoin(MG5DIR, "tmp_test"))
         else:
             self.path = tempfile.mkdtemp(prefix='acc_test_mg5')
-        self.run_dir = pjoin(self.path, 'MGPROC') 
-    
+        self.run_dir = pjoin(self.path, 'MGPROC')
+
     def tearDown(self):
 
         if self.path != pjoin(MG5DIR, "tmp_test"):
             shutil.rmtree(self.path)
-        
+
 
     def get_cmd(self, event=None):
-        
+
         with misc.chdir(self.path):
-            if event:   
+            if event:
                 files.cp(event, self.path)
                 event = pjoin(self.path, os.path.basename(event))
             cmd = RGWTcmd.ReweightInterface(event_path=event)
         return cmd, event
-        
+
     def get_MEcmd(self, event):
-        
+
         mycmd = MGCmd.MasterCmd(mgme_dir=MG5DIR)
         mycmd.use_rawinput = False
         mycmd.haspiping = False
         #misc.sprint(mgcmd, dir(mgcmd))
         mycmd.run_cmd('import model sm; generate e+ e- > mu+ mu-; output %s' % self.run_dir)
-        
+
         #os.mkdir(pjoin(self.run_dir, 'Events'))
         os.mkdir(pjoin(self.run_dir, 'Events', 'run_01'))
         files.cp(event, pjoin(self.run_dir,'Events','run_01', 'unweighted_events.lhe.gz'))
-        
+
         mecmd = MECmd.MadEventCmdShell(me_dir=self.run_dir)
-        
+
         return mecmd
 
 
     def get_aMCcmd(self, event):
-        
+
         mycmd = MGCmd.MasterCmd(mgme_dir=MG5DIR)
         mycmd.use_rawinput = False
         mycmd.haspiping = False
         #misc.sprint(mgcmd, dir(mgcmd))
         mycmd.run_cmd('import model sm; generate u u~ > mu+ mu- [QCD]; output %s' % self.run_dir)
-        
+
         #os.mkdir(pjoin(self.run_dir, 'Events'))
         os.mkdir(pjoin(self.run_dir, 'Events', 'run_01'))
         files.cp(event, pjoin(self.run_dir,'Events','run_01', 'events.lhe.gz'))
-        
+
         mecmd = aMCCmd.aMCatNLOCmd(me_dir=self.run_dir)
         mecmd.force_run = True
-        return mecmd                
+        return mecmd
 
     def test_oneloop_reweighting(self):
         """ testing that we can reweight the hj sample to a loop-induced  sample
         """
         me_cmd = self.get_MEcmd(pjoin(_pickle_path, 'hj_heft.lhe.gz'))
-        
+
         cmd_lines = """
         change model loop_sm
         change process p p > h j [QCD]
         launch
         %s/param_card_nlo.dat
         """ % _pickle_path
-        
+
         ff = open(pjoin(self.run_dir, 'Cards', 'reweight_card.dat'),'w')
         ff.write(cmd_lines)
         ff.close()
-        
+
         if logger.level <= 10:
             me_cmd.run_cmd('reweight run_01 --from_cards')
         else:
             with misc.stdchannel_redirected(sys.stdout, os.devnull):
                 me_cmd.run_cmd('reweight run_01 --from_cards')
-        
+
         lhe = lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'unweighted_events.lhe.gz'))
-        
+
         #solutions = [12.905371, 12.271068, 12.271753, 12.436969, 12.330121, 12.441459, 12.290359, 12.406486, 12.352107, 11.862291, 12.346005, 12.603302, 12.483697, 12.597262, 12.352434, 11.841136, 12.559252, 12.693822, 12.073114, 12.080773, 12.088188, 12.169921, 12.36124, 12.620677, 12.641769]
         solutions = [14.288834, 13.551237, 13.564131, 13.745311, 13.620339, 13.750088, 13.611093, 13.709763, 13.670902, 13.071603, 13.658932, 13.939627, 13.827959, 13.932638, 13.669482, 13.045913, 13.888161, 14.045136, 13.319103, 13.327884, 13.336799, 13.430042, 13.658435, 13.959817, 13.984111]
         #solutions = []
         for i,event in enumerate(lhe):
-            
+
             rwgt_data = event.parse_reweight()
             #solutions.append(rwgt_data['rwgt_1'])
             #continue
             self.assertIn('rwgt_1', rwgt_data)
             self.assertTrue(misc.equal(rwgt_data['rwgt_1'], solutions[i]))
         #misc.sprint(solutions)
-        
+
     def test_mass_reweighting(self):
         """ testing that we can reweight the tt~ sample when increasing the top mass
         """
@@ -165,8 +165,8 @@ class TestMECmdRWGT(unittest.TestCase):
         change output 2.0
         launch
         set mass mt 200
-        """ 
-        
+        """
+
         ff = open(pjoin(self.run_dir, 'Cards', 'reweight_card.dat'),'w')
         ff.write(cmd_lines)
         ff.close()
@@ -175,10 +175,10 @@ class TestMECmdRWGT(unittest.TestCase):
         #with misc.stdchannel_redirected(sys.stdout, os.devnull):
             me_cmd.run_cmd('reweight run_01 --from_cards')
 
-        #check that initial file is untouched!        
+        #check that initial file is untouched!
         lhe = lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'unweighted_events.lhe.gz'))
         for i,event in enumerate(lhe):
-            #if i==0: misc.sprint(event)      
+            #if i==0: misc.sprint(event)
             rwgt_data = event.parse_reweight()
             for part in event:
                 if part.status ==1: #final state
@@ -189,7 +189,7 @@ class TestMECmdRWGT(unittest.TestCase):
         lhe = lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'rwgt_events_rwgt_1.lhe.gz'))
         solutions = [99.680499, 0.082768602, 143.50352, 181.09149, 10.047137, 277.84815, 335.8447, 429.69546, 0.33729439, 183.69371, 512.05078, 154.24208, 120.30974, 277.77287, 40.902709, 1225.9486, 310.24914, 124.02094, 82.414442, 110.40182]
         for i,event in enumerate(lhe):
-            
+
             rwgt_data = event.parse_reweight()
             #solutions.append(event.wgt)
             self.assertTrue(misc.equal(event.scale, event.get_ht_scale(0.5)))
@@ -200,58 +200,58 @@ class TestMECmdRWGT(unittest.TestCase):
             self.assertTrue(misc.equal(event.wgt, solutions[i]))
         #misc.sprint(solutions)
         #raise Exception('stop here')
-        
+
     def test_nlo_reweighting(self):
-        """ check identical re-weighting in ttbar 
+        """ check identical re-weighting in ttbar
         """
-        
+
         me_cmd = self.get_aMCcmd(pjoin(_pickle_path, 'ttbar_nlo.lhe.gz'))
-        
+
         cmd_lines = """
         change mode LO+NLO
         launch --rwgt_name=MYNLO
-        """ 
+        """
 
         ff = open(pjoin(self.run_dir, 'Cards', 'reweight_card.dat'),'w')
         ff.write(cmd_lines)
         ff.close()
         mad_logger = logging.getLogger('madgraph')
 
-        if mad_logger.level > 20: 
+        if mad_logger.level > 20:
             with misc.stdchannel_redirected(sys.stdout, os.devnull):
                 me_cmd.run_cmd('reweight run_01 --from_cards')
         else:
             me_cmd.run_cmd('reweight run_01 --from_cards')
-        
+
         lhe = lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'events.lhe.gz'))
-        for i,event in enumerate(lhe): 
+        for i,event in enumerate(lhe):
             rwgt_data = event.parse_reweight()
             self.assertEqual(event.wgt, rwgt_data['MYNLO_nlo'])
             self.assertIn('MYNLO_lo', rwgt_data)
-            
+
     @test_manager.bypass_for_py3
     def test_nlo_output2(self):
-        """ check identical re-weighting in ttbar 
+        """ check identical re-weighting in ttbar
         """
-        
+
         me_cmd = self.get_aMCcmd(pjoin(_pickle_path, 'hj_nlo.lhe.gz'))
-        
+
         cmd_lines = """
         change mode NLO_tree
         change model heft
         change process p p > h
         change process p p > h j --add
-        launch 
+        launch
         change output 2.0
         launch
-        """ 
+        """
 
         ff = open(pjoin(self.run_dir, 'Cards', 'reweight_card.dat'),'w')
         ff.write(cmd_lines)
         ff.close()
-        
+
         mad_logger = logging.getLogger('madgraph')
-        if mad_logger.level > 20: 
+        if mad_logger.level > 20:
             with misc.stdchannel_redirected(sys.stdout, os.devnull):
                 me_cmd.run_cmd('reweight run_01 --from_cards')
         else:
@@ -261,10 +261,10 @@ class TestMECmdRWGT(unittest.TestCase):
         solutions = [41.511565, 42.03619, 41.511565, 41.511565, 41.60499, 41.511565, 41.511565, 41.511565, 41.511565, 42.18183, 41.511565, 44.833753, 41.511565, -41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.845674, 41.511565, 42.19144, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 42.267845, 41.511927, 41.511567, 41.511565, 42.123567, 42.274246, 41.515701, -41.511565, 41.511565, 46.037437, 41.511565, 42.348885, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 42.120097, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.514522, 41.511565, 41.976074, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 49.051683, 41.511565, 41.884112, 41.511565, 41.511565, 41.511565, 42.032671, 41.511565, 41.511565, 41.566824, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, -41.511565, 41.511565, 42.160378, 41.779005, 41.511565, 41.511565, 41.511832, 41.511565, 41.511565, 41.511565, 41.511565, 41.511565, 42.186379, 41.511565, 41.511565, 41.511565, -41.511565, 42.212259, 41.511565, 41.511565]
         lhe = lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'rwgt_events_tree_rwgt_1.lhe.gz'))
         lhe_orig = lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'events.lhe.gz'))
-        
+
         i=-1
         #solutions = []
-        for event, event_orig in zip(lhe, lhe_orig): 
+        for event, event_orig in zip(lhe, lhe_orig):
             i+=1
             rwgt_data = event_orig.parse_reweight()
             #solutions.append(rwgt_data['rwgt_1_tree'])
@@ -282,11 +282,11 @@ class TestMECmdRWGT(unittest.TestCase):
 
     @test_manager.bypass_for_py3
     def test_loop_improved_reweighting(self):
-        """ check identical re-weighting in ttbar 
+        """ check identical re-weighting in ttbar
         """
-        
+
         me_cmd = self.get_aMCcmd(pjoin(_pickle_path, 'hj_fxfx.lhe.gz'))
-        
+
         cmd_lines = """
         change mode NLO_tree
         change model loop_sm-no_b_mass
@@ -296,7 +296,7 @@ class TestMECmdRWGT(unittest.TestCase):
         launch --rwgt_name=MYNLO
         change output 2.0
         launch
-        """ 
+        """
 
         ff = open(pjoin(self.run_dir, 'Cards', 'reweight_card.dat'),'w')
         ff.write(cmd_lines)
@@ -306,11 +306,11 @@ class TestMECmdRWGT(unittest.TestCase):
         else:
             with misc.stdchannel_redirected(sys.stdout, os.devnull):
                 me_cmd.run_cmd('reweight run_01 --from_cards')
-        
+
         lhe = lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'events.lhe.gz'))
         lhe2=  lhe_parser.EventFile(pjoin(self.run_dir,'Events','run_01', 'rwgt_events_tree_rwgt_1.lhe.gz'))
         solutions = [-113.54512, -113.58961, 113.54938, 113.48467, 113.54938, 113.12672, -113.4863, 113.54938, 113.54938, -113.26805, 105.5589, 110.41614, -113.57167, -113.26911, 113.53355, 113.54938, 113.54869, 113.43885, 113.4151, 113.43279, -113.59921, -113.54938, 113.47688, -113.41315, 113.54938, 113.54938, 113.50453, 113.54938, -113.34559, 113.41821, 113.50674, 113.54273, -113.55721, 113.5204, 113.54938, 113.9101, 113.54938, 110.76533, 85.233315, 113.38153, 113.4684, 113.41541, 113.54272, 114.08548, -113.54938, -113.48963, 113.47811, 86.336518, -113.53947, 113.62442, 113.54938, 119.1288, -113.54595, 113.39149, 113.6222, -113.50107, 114.29253, 81.891469, 113.43238, 113.59844, 112.58522, 113.53639, 111.24306, -113.52251, -113.42222, 113.53443, 113.52775, 113.59714, 101.79775, -173.10123, -113.64323, -113.52939, 113.76665, 113.38901, 113.54938, -113.85094, 112.01344, 113.52052, 113.54769, 113.54938, 113.54938, -113.74874, 114.35555, 113.49268, 113.1658, -113.54938, 113.54938, 113.45114, -106.86842, -113.25424, 113.54488, -113.70535, 113.53027, 113.02052, 113.54938, 113.54938, 113.48797, 113.5419, 113.47777, 113.53698, -113.54938, 113.58857, -113.59011, -113.53687, -113.5632, -113.54938, 50.881047, 113.54904, 113.54696, -113.53998, 98.021403, 113.52701, 113.54544, 112.85106, 113.54891, 113.54938, 113.48127, 113.27728, 113.43749, 113.4915, 113.5246, 113.48554, 113.48386, 112.76115, -113.51762, 113.54938, 112.42106, 113.47272, 115.03299, -113.53507, 113.3365, 113.48839, -113.62701, 113.54938, 113.54019, 115.84251, 113.45177, -113.5123, 113.54938, 113.53011, 109.36941, 112.78596, 113.53325, -113.62137, 113.19992, 114.3632, 113.557, 113.54938, 113.5199, 113.42012, -113.57844, 49.469316, 112.17603, 113.51455, 113.51559, 113.54938]
-        for i,event in enumerate(lhe): 
+        for i,event in enumerate(lhe):
             try:
                 event2 = next(lhe2)
             except StopIteration:
@@ -321,24 +321,24 @@ class TestMECmdRWGT(unittest.TestCase):
                 self.assertTrue(misc.equal(rwgt_data['MYNLO_tree'], solutions[i],3), '(event %s) %s != %s ' % (i, rwgt_data['MYNLO_tree'], solutions[i]))
             self.assertTrue(misc.equal(rwgt_data['MYNLO_tree'], event2.wgt, 3), '(event %s) %s != %s ' % (i, rwgt_data['MYNLO_tree'], event2.wgt))
         #misc.sprint(solutions)
-            
+
     def test_scan_reweighting(self):
         """ testing that we can use the scan syntax and that we can assign name to weight
         """
         me_cmd = self.get_MEcmd(pjoin(_pickle_path, 'wj_zj.lhe.gz'))
-        
-        
+
+
         cmd_lines = """
         launch --rwgt_name=SINGLE
         set aEWM1 150
         launch  --rwgt_name=NAME
         set aEWM1 scan:[140,150]
-        """ 
-        
+        """
+
         ff = open(pjoin(self.run_dir, 'Cards', 'reweight_card.dat'),'w')
         ff.write(cmd_lines)
         ff.close()
-        
+
         if not self.debugging:
             with misc.stdchannel_redirected(sys.stdout, os.devnull):
                 me_cmd.run_cmd('reweight run_01 --from_cards')
@@ -357,12 +357,12 @@ class TestMECmdRWGT(unittest.TestCase):
             self.assertIn('NAME_0', rwgt_data)
             self.assertIn('NAME_1', rwgt_data)
             self.assertEqual(rwgt_data['NAME_1'],rwgt_data['SINGLE'])
-            
+
             solutions1.append(rwgt_data['NAME_0'])
             solutions2.append(rwgt_data['NAME_1'])
             self.assertTrue(misc.equal(rwgt_data['NAME_0'], solutions1[i]))
             self.assertTrue(misc.equal(rwgt_data['NAME_1'], solutions2[i]))
-            
+
 
     def old_test_nlo_reweighting_comb(self):
         """check that nlo reweighting is working.
@@ -371,9 +371,9 @@ class TestMECmdRWGT(unittest.TestCase):
            or by the various check of the standalone checks.
            This way of combining weights is now outdated
         """
-        
-        # create a reweight directory   
-        interface = MGCmd.MasterCmd()  
+
+        # create a reweight directory
+        interface = MGCmd.MasterCmd()
         interface.exec_cmd("import model loop_sm", errorhandling=False)
         interface.exec_cmd("set group_subprocesses False")
         interface.exec_cmd("generate u d~ > e+ ve [virt=QCD]", precmd=True, errorhandling=False)
@@ -382,11 +382,11 @@ class TestMECmdRWGT(unittest.TestCase):
         # update make_opts
         m_opts = {}
         if interface.options['lhapdf']:
-            #lhapdfversion = subprocess.Popen([mgcmd.options['lhapdf'], '--version'], 
+            #lhapdfversion = subprocess.Popen([mgcmd.options['lhapdf'], '--version'],
             #        stdout = subprocess.PIPE).stdout.read().strip()[0]
             m_opts['lhapdf'] = True
             m_opts['lhapdfversion'] = 5 # 6 always fail on my computer since 5 is compatible but slower always use 5
-            m_opts['llhapdf'] = subprocess.Popen([interface.options['lhapdf'], '--libs'], 
+            m_opts['llhapdf'] = subprocess.Popen([interface.options['lhapdf'], '--libs'],
                     stdout = subprocess.PIPE).stdout.read().strip().split()[0].decode()
             m_opts['f2pymode'] = True
         else:
@@ -395,13 +395,13 @@ class TestMECmdRWGT(unittest.TestCase):
             lhapdfversion = 0
 
         path = pjoin(self.path,'rw_mevirt', 'Source', 'make_opts')
-        
+
         commonCmd.CommonRunCmd.update_make_opts_full(path, m_opts)
-    
-    
+
+
         # Now compile the Source directory
         misc.compile(cwd=pjoin(self.path, 'rw_mevirt', 'Source'))
-        #link it 
+        #link it
         with misc.chdir(pjoin(self.path)):
             if self.path not in sys.path:
                 sys.path.insert(0, self.path)
@@ -412,36 +412,36 @@ class TestMECmdRWGT(unittest.TestCase):
                 while '.' in tmp_mod_name:
                     tmp_mod_name = tmp_mod_name.rsplit('.',1)[0]
                     del sys.modules[tmp_mod_name]
-                mymod = __import__(mod_name, globals(), locals(), [])  
+                mymod = __import__(mod_name, globals(), locals(), [])
             else:
-                mymod = __import__(mod_name, globals(), locals(), []) 
-                
+                mymod = __import__(mod_name, globals(), locals(), [])
+
             mymod =  mymod.Source.rwgt2py
             #mymod.initialise([1,1], 244600)
-       
-            scales2 =  [[1283.6655, 1283.6655], [1283.6655, 1283.6655], [1283.6655, 1283.6655]] 
-            pdg =  [[21, 21], [2, 2]] 
-            bjx =  [[0.00036333765, 0.00036942677], [0.5007504, 0.51807252]] 
-            wgt =  [[-1.0551457726, 0.890469566701], [0.0, 0.0], [0.0, 0.0]] 
-            gs =  [1.3206738, 1.3206738] 
-            qcdpower =  [2, 2] 
-            orig_wgt =  -0.28722482722716736 
-            ref_wgts =  [-1.8403634002861815, 1.5531385730590141] 
-       
 
-        #value = mymod.test_pdf() 
+            scales2 =  [[1283.6655, 1283.6655], [1283.6655, 1283.6655], [1283.6655, 1283.6655]]
+            pdg =  [[21, 21], [2, 2]]
+            bjx =  [[0.00036333765, 0.00036942677], [0.5007504, 0.51807252]]
+            wgt =  [[-1.0551457726, 0.890469566701], [0.0, 0.0], [0.0, 0.0]]
+            gs =  [1.3206738, 1.3206738]
+            qcdpower =  [2, 2]
+            orig_wgt =  -0.28722482722716736
+            ref_wgts =  [-1.8403634002861815, 1.5531385730590141]
+
+
+        #value = mymod.test_pdf()
         #self.assertAlmostEqual(value, 1.0)
-            
-        out, partial = mymod.get_wgt(scales2, pdg, bjx, wgt, gs, qcdpower, 1., 1.)  
+
+        out, partial = mymod.get_wgt(scales2, pdg, bjx, wgt, gs, qcdpower, 1., 1.)
         #print ref_wgts, partial, [partial[i]/ref_wgts[i] for i in range(2)]
         #print out, orig_wgt, out/orig_wgt
         self.assertAlmostEqual(partial[0], ref_wgts[0], places=2)
         self.assertAlmostEqual(partial[1], ref_wgts[1], places=2)
         self.assertAlmostEqual(out, orig_wgt, places=2)
-        
-        
-        
-        
+
+
+
+
         #if True and __debug__: #this is only for trivial reweighting
         #    if not misc.equal(out, orig_wgt,1):
         #        misc.sprint(event)
@@ -452,16 +452,3 @@ class TestMECmdRWGT(unittest.TestCase):
         #        misc.sprint("fail since %s != %s for the sum." % (out, orig_wgt))
         #        misc.sprint( need_V, R, ratio_T)
         #        raw_input()
-                
-
-            
-        
-        
-                           
-        
-           
-           
-           
-        
-        
-        

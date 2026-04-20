@@ -63,7 +63,7 @@ c$$$      read (*,*) inputfile
       loc=index(event_file,'.',back)
       loc1=index(executable,' ')
       loc2=index(inputfile,' ')
-         
+
       ifile=34
       ifile2=44
       open(unit=ifile,file=event_file,status='old')
@@ -109,7 +109,7 @@ c$$$      read (*,*) inputfile
 c$$$         write (mgfile,'(a)') 'Arguments = '//executable(1:loc1)//
 c$$$     &        inputfile(1:loc2)//event_file(1:loc)//str
 c$$$         write (mgfile,'(a)') 'queue'
-      enddo 
+      enddo
       close(ifile)
 c$$$      close(mgfile)
       end
@@ -126,4 +126,3 @@ c$$$      close(mgfile)
       write (mgfile,'(a)') 'log = /dev/null'
       return
       end
-

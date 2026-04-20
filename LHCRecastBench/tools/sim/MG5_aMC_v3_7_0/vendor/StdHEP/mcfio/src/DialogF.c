@@ -112,7 +112,7 @@ unsigned DialogF (unsigned dialog_type, Widget parent, unsigned n,
     char *but_lbl, *input_string, *input_string_ptr;
     int argcount, num_but_lbls = 0, i;
     Arg args[256];
-    
+
     struct dfcallbackstruct df;
 
     static int dialog_types[] = {		/* Supported dialog types */
@@ -164,11 +164,11 @@ unsigned DialogF (unsigned dialog_type, Widget parent, unsigned n,
 
     for (argcount = 0; argcount < n; ++argcount) {   /* Set up button labels */
 	but_lbl = va_arg(var, char *);
-	but_lbl_xms[num_but_lbls] = XmStringCreateLtoR (but_lbl, 
+	but_lbl_xms[num_but_lbls] = XmStringCreateLtoR (but_lbl,
 		XmSTRING_DEFAULT_CHARSET);
-	XtSetArg (args[argcount], button_name[ df.apply_up ? argcount : 
-		((argcount == 0) ? argcount : argcount+1) ], 
-		but_lbl_xms[num_but_lbls++]); 
+	XtSetArg (args[argcount], button_name[ df.apply_up ? argcount :
+		((argcount == 0) ? argcount : argcount+1) ],
+		but_lbl_xms[num_but_lbls++]);
     }
 
     /* Get & translate msg string
@@ -213,7 +213,7 @@ unsigned DialogF (unsigned dialog_type, Widget parent, unsigned n,
 	/* Limit the length of the text that can be entered in text field */
 	XtVaSetValues(XmSelectionBoxGetChild(dialog, XmDIALOG_TEXT),
 		XmNmaxLength, DF_MAX_PROMPT_LENGTH-1, 0);
-	
+
 	switch (n) {		/* number of buttons requested */
 	case 0: case 3:
 	    break;		/* or default of 3 buttons */
@@ -235,16 +235,16 @@ unsigned DialogF (unsigned dialog_type, Widget parent, unsigned n,
 	va_end(var);
 
 	ManageDialogCenteredOnPointer(dialog);/* Pop it up, wait for response */
-	
+
 	/* Get the focus to the input string.  There is some timing problem
 	   within Motif that requires this to be called several times */
 	for (i=0; i<20; i++)
 	    XmProcessTraversal(XmSelectionBoxGetChild(dialog, XmDIALOG_TEXT),
 		    XmTRAVERSE_CURRENT);
-	
+
 	while (!df.done_with_dialog)
 	    XtAppProcessEvent (XtWidgetToApplicationContext(dialog), XtIMAll);
- 
+
 	argcount = 0;			/* Pass back string user entered */
 	XtSetArg (args[argcount], XmNtextString, &input_string_xms); argcount++;
 	XtGetValues (dialog, args, argcount);
@@ -298,7 +298,7 @@ unsigned DialogF (unsigned dialog_type, Widget parent, unsigned n,
 	}
 
 	ManageDialogCenteredOnPointer(dialog);/* Pop it up, wait for response*/
-	
+
 	while (!df.done_with_dialog)
 	    XtAppProcessEvent (XtWidgetToApplicationContext(dialog), XtIMAll);
 	XtDestroyWidget(dialog_shell);

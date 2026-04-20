@@ -53,7 +53,7 @@ int ParseFilename(char *fullname, char *filename, char *pathname)
 {
     int fullLen = strlen(fullname);
     int i, pathLen, fileLen;
-	    
+
 #ifdef VMS
     /* find the last ] or : */
     for (i=fullLen-1; i>=0; i--) {
@@ -161,7 +161,7 @@ static void copyThruSlash(char **toString, char **fromString)
 {
     char *to = *toString;
     char *from = *fromString;
-    
+
     while (TRUE) {
         *to = *from;
         if (*from =='\0') {

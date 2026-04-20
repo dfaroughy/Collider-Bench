@@ -57,11 +57,11 @@ c     global variable to set (or not)
       double precision cm_rap
       logical set_cm_rap
       common/to_cm_rap/set_cm_rap,cm_rap
-      
+
       set_cm_rap=.false. ! then cm_rap will be set as .5d0*dlog(xbk(1)*ebeam(1)/(xbk(2)*ebeam(2)))
                          ! ebeam(1) and ebeam(2) are defined here thanks to 'run.inc'
       shat = x1*ebeam(1)*ebeam(2)
-      return 
+      return
       end
 
       subroutine get_dummy_x1_x2(sjac, X, R, pbeam1, pbeam2, stot,shat)
@@ -82,29 +82,29 @@ c     global variable to set (or not)
       double precision cm_rap
       logical set_cm_rap
       common/to_cm_rap/set_cm_rap,cm_rap
-      
+
       set_cm_rap=.false. ! then cm_rap will be set as .5d0*dlog(xbk(1)*ebeam(1)/(xbk(2)*ebeam(2)))
                          ! ebeam(1) and ebeam(2) are defined here thanks to 'run.inc'
       shat = x(1)*x(2)*ebeam(1)*ebeam(2)
-      return 
+      return
       end
 
 
       logical  function dummy_boostframe()
       implicit none
 c
-c      
+c
       dummy_boostframe = .false.
       return
       end
-      
+
 
       double precision function user_dynamical_scale(P)
 c     allow to define your own dynamical scale, need to set dynamical_scale_choice to 0 (or 10) to use it
       implicit none
       include 'nexternal.inc'
       double precision P(0:3, nexternal)
-c     Commmon to have access to all variable defined in the run_card      
+c     Commmon to have access to all variable defined in the run_card
       include 'genps.inc'
       include 'vector.inc'
       include 'run.inc'
@@ -115,8 +115,8 @@ c     fixed scale
       return
       end
 
-      
-      
+
+
 C ************************************************************
 C default for the library implementing a dummy bias function
 C ************************************************************
@@ -127,7 +127,7 @@ C Parameters
 C
           include 'nexternal.inc'
 
-C     
+C
 C Arguments
 C
           double precision p(0:3, nexternal)
@@ -143,15 +143,15 @@ C
           double precision stored_bias_weight
 c          data stored_bias_weight/1.0d0/
           logical impact_xsec, requires_full_event_info
-C         Impact_xsec 
+C         Impact_xsec
 C         Not impacting the xsec since the bias is 1.0. Therefore
 C         bias_wgt will not be written in the lhe event file.
 C         Setting it to .True. makes sure that it will not be written.
 C         Default: True
-C         Requires_full_event_info          
+C         Requires_full_event_info
 C         Of course this module does not require the full event
 C         information (color, resonances, helicities, etc..)
-c         Default: False          
+c         Default: False
           common/bias/stored_bias_weight,impact_xsec,
      &                requires_full_event_info
 
@@ -162,4 +162,3 @@ C --------------------
 
       return
       end subroutine bias_wgt_custom
-

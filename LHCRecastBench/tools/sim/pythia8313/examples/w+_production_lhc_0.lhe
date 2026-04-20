@@ -81,7 +81,7 @@ done               # this tells MG there are no more procs
 # Model information                                                  *
 #*********************************************************************
 # Begin MODEL  # This is TAG. Do not modify this line
-sm           
+sm
 # End   MODEL  # This is TAG. Do not modify this line
 #*********************************************************************
 # Start multiparticle definitions                                    *
@@ -176,14 +176,14 @@ DECAY        25     5.75308848E-03   # H   width
 #   mind the format:   value    = variable     ! comment             *
 #*********************************************************************
 #
-#*******************                                                 
+#*******************
 # Running parameters
-#*******************                                                 
-#                                                                    
+#*******************
+#
 #*********************************************************************
 # Tag name for the run (one word)                                    *
 #*********************************************************************
-  'fermi'     = run_tag ! name of the run 
+  'fermi'     = run_tag ! name of the run
 #*********************************************************************
 # Run to generate the grid pack                                      *
 #*********************************************************************
@@ -191,7 +191,7 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # Number of events and rnd seed                                      *
 #*********************************************************************
-  100         = nevents ! Number of unweighted events requested 
+  100         = nevents ! Number of unweighted events requested
      25484 = iseed   ! rnd seed (0=assigned automatically=default))
 #*********************************************************************
 # Collider type and energy                                           *
@@ -208,9 +208,9 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # PDF CHOICE: this automatically fixes also alpha_s and its evol.    *
 #*********************************************************************
-# 'cteq6_l'    = pdlabel     ! PDF set  
+# 'cteq6_l'    = pdlabel     ! PDF set
  'lhapdf'    = pdlabel        ! PDF label
- 10042       = lhaid          ! PDF set 
+ 10042       = lhaid          ! PDF set
 #*********************************************************************
 # Renormalization and factorization scales                           *
 #*********************************************************************
@@ -230,22 +230,22 @@ DECAY        25     5.75308848E-03   # H   width
  F        = chcluster        ! cluster only according to channel diag
  F        = pdfwgt           ! for ickkw=1, perform pdf reweighting
 #*********************************************************************
-#                                                                    
+#
 #**********************************
 # BW cutoff (M+/-bwcutoff*Gamma)
 #**********************************
   15d0  = bwcutoff
-#*******************                                                 
+#*******************
 # Standard Cuts
-#*******************                                                 
-#                                                                    
+#*******************
+#
 #*********************************************************************
 # Minimum and maximum pt's                                           *
 #*********************************************************************
- 0d0 = ptj       ! minimum pt for the jets 
- 0d0  = ptb       ! minimum pt for the b 
- 0d0 = pta       ! minimum pt for the photons 
- 0d0 = ptl       ! minimum pt for the charged leptons 
+ 0d0 = ptj       ! minimum pt for the jets
+ 0d0  = ptb       ! minimum pt for the b
+ 0d0 = pta       ! minimum pt for the photons
+ 0d0 = ptl       ! minimum pt for the charged leptons
  0d0  = misset    ! minimum missing Et (sum of neutrino's momenta)
  0d0  = ptheavy   ! minimum pt for one heavy final state
  0d0 = ptonium   ! minimum pt for the quarkonium states
@@ -257,10 +257,10 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # Minimum and maximum E's (in the lab frame)                         *
 #*********************************************************************
- 0d0  = ej     ! minimum E for the jets 
- 0d0  = eb     ! minimum E for the b 
- 0d0  = ea     ! minimum E for the photons 
- 0d0  = el     ! minimum E for the charged leptons 
+ 0d0  = ej     ! minimum E for the jets
+ 0d0  = eb     ! minimum E for the b
+ 0d0  = ea     ! minimum E for the photons
+ 0d0  = el     ! minimum E for the charged leptons
  1d9  = ejmax ! maximum E for the jets
  1d9  = ebmax ! maximum E for the b
  1d9  = eamax ! maximum E for the photons
@@ -268,10 +268,10 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # Maximum and minimum rapidity                                       *
 #*********************************************************************
- 1d9  = etaj    ! max rap for the jets 
- 1d9  = etab    ! max rap for the b 
- 1d9  = etaa    ! max rap for the photons 
- 1d9  = etal    ! max rap for the charged leptons 
+ 1d9  = etaj    ! max rap for the jets
+ 1d9  = etab    ! max rap for the b
+ 1d9  = etaa    ! max rap for the photons
+ 1d9  = etal    ! max rap for the charged leptons
  1d9  = etaonium ! max rap for the quarkonium states
  0d0  = etajmin ! min rap for the jets
  0d0  = etabmin ! min rap for the b
@@ -280,16 +280,16 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # Minimum and maximum DeltaR distance                                *
 #*********************************************************************
- 0d0 = drjj    ! min distance between jets 
- 0d0 = drbb    ! min distance between b's 
- 0d0 = drll    ! min distance between leptons 
- 0d0 = draa    ! min distance between gammas 
- 0d0 = drbj    ! min distance between b and jet 
- 0d0 = draj    ! min distance between gamma and jet 
- 0d0 = drjl    ! min distance between jet and lepton 
- 0d0 = drab    ! min distance between gamma and b 
- 0d0 = drbl    ! min distance between b and lepton 
- 0d0 = dral    ! min distance between gamma and lepton 
+ 0d0 = drjj    ! min distance between jets
+ 0d0 = drbb    ! min distance between b's
+ 0d0 = drll    ! min distance between leptons
+ 0d0 = draa    ! min distance between gammas
+ 0d0 = drbj    ! min distance between b and jet
+ 0d0 = draj    ! min distance between gamma and jet
+ 0d0 = drjl    ! min distance between jet and lepton
+ 0d0 = drab    ! min distance between gamma and b
+ 0d0 = drbl    ! min distance between b and lepton
+ 0d0 = dral    ! min distance between gamma and lepton
  1d9 = drjjmax ! max distance between jets
  1d9 = drbbmax ! max distance between b's
  1d9 = drllmax ! max distance between leptons
@@ -303,8 +303,8 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # Minimum and maximum invariant mass for pairs                       *
 #*********************************************************************
- 0d0   = mmjj    ! min invariant mass of a jet pair 
- 0d0   = mmbb    ! min invariant mass of a b pair 
+ 0d0   = mmjj    ! min invariant mass of a jet pair
+ 0d0   = mmbb    ! min invariant mass of a b pair
  0d0   = mmaa    ! min invariant mass of gamma gamma pair
  0d0   = mmll    ! min invariant mass of l+l- (same flavour) lepton pair
  1d9   = mmjjmax ! max invariant mass of a jet pair
@@ -314,15 +314,15 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # Minimum and maximum invariant mass for all letpons                 *
 #*********************************************************************
- 0d0   = mmnl    ! min invariant mass for all letpons (l+- and vl) 
- 1d9   = mmnlmax ! max invariant mass for all letpons (l+- and vl) 
+ 0d0   = mmnl    ! min invariant mass for all letpons (l+- and vl)
+ 1d9   = mmnlmax ! max invariant mass for all letpons (l+- and vl)
 #*********************************************************************
 # Inclusive cuts                                                     *
 #*********************************************************************
- 0d0  = xptj ! minimum pt for at least one jet  
- 0d0  = xptb ! minimum pt for at least one b 
- 0d0  = xpta ! minimum pt for at least one photon 
- 0d0  = xptl ! minimum pt for at least one charged lepton 
+ 0d0  = xptj ! minimum pt for at least one jet
+ 0d0  = xptb ! minimum pt for at least one b
+ 0d0  = xpta ! minimum pt for at least one photon
+ 0d0  = xptl ! minimum pt for at least one charged lepton
 #*********************************************************************
 # Control the pt's of the jets sorted by pt                          *
 #*********************************************************************
@@ -330,7 +330,7 @@ DECAY        25     5.75308848E-03   # H   width
  0d0   = ptj2min ! minimum pt for the second jet in pt
  0d0   = ptj3min ! minimum pt for the third jet in pt
  0d0   = ptj4min ! minimum pt for the fourth jet in pt
- 1d9   = ptj1max ! maximum pt for the leading jet in pt 
+ 1d9   = ptj1max ! maximum pt for the leading jet in pt
  1d9   = ptj2max ! maximum pt for the second jet in pt
  1d9   = ptj3max ! maximum pt for the third jet in pt
  1d9   = ptj4max ! maximum pt for the fourth jet in pt
@@ -349,8 +349,8 @@ DECAY        25     5.75308848E-03   # H   width
 #*********************************************************************
 # WBF cuts                                                           *
 #*********************************************************************
- 0   = xetamin ! minimum rapidity for two jets in the WBF case  
- 0   = deltaeta ! minimum rapidity for two jets in the WBF case 
+ 0   = xetamin ! minimum rapidity for two jets in the WBF case
+ 0   = deltaeta ! minimum rapidity for two jets in the WBF case
 #*********************************************************************
 # maximal pdg code for quark to be considered as a jet               *
 # otherwise b cuts are applied                                       *

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -40,7 +40,7 @@ class FileWriter(io.FileIO):
                                    %('|'.join(supported_preprocessor_commands)))
     preprocessor_endif_re=re.compile(\
     r"\s*}\s*(?P<endif>else)?\s*(\((?P<body>.*)\))?\s*(?P<new_block>{)?\s*")
-    
+
     class FileWriterError(IOError):
         """Exception raised if an error occurs in the definition
         or the execution of a Writer."""
@@ -122,13 +122,13 @@ class FileWriter(io.FileIO):
                 res_lines = [line+'\n']
             for line_to_write in res_lines:
                 self.write(line_to_write)
-                
+
     def preprocess_template(self, input_lines, context={}):
         """ This class takes care of applying the pre-processing statements
         starting with ## in the template .inc files, using the contextual
         variables specified in the dictionary 'context' given in input with
         the variable names given as keys and their respective value as values."""
-        
+
         template_lines = []
         if isinstance(input_lines, list):
             for line in input_lines:
@@ -139,7 +139,7 @@ class FileWriter(io.FileIO):
             template_lines.extend(input_lines.split('\n'))
         else:
             raise self.FileWriterError("%s not string" % repr(input_lines))
-        
+
         res = []
         # The variable below tracks the conditional statements structure
         if_stack = []
@@ -168,7 +168,7 @@ class FileWriter(io.FileIO):
                       "python expression '%s' given the context %s provided."%\
                             (preproc_command.group('body'),str(context))+\
                                            "\nLine %d of file %s."%(i,self.name))
-        
+
         if len(if_stack)>0:
             raise self.FilePreProcessingError('Some conditional statements are'+\
                                                      ' not properly terminated.')
@@ -198,7 +198,7 @@ class FortranWriter(FileWriter):
     number_re = re.compile(r'^(?P<num>\d+)\s+(?P<rest>.*)')
     line_cont_char = '$'
     comment_char = 'c'
-    uniformcase = True #force everyting to be lower/upper case 
+    uniformcase = True #force everyting to be lower/upper case
     downcase = False
     line_length = 71
     max_split = 20
@@ -216,8 +216,8 @@ class FortranWriter(FileWriter):
 
         # This Routine is for a single line
         assert(isinstance(line, str) and line.find('\n') == -1)
-        
-        
+
+
         res_lines = []
 
         # Check if empty line and write it
@@ -270,10 +270,10 @@ class FortranWriter(FileWriter):
                         else:
                             splitline[i] = splitline[i].upper()
                     i = i + 1
-    
+
                 myline = "\'".join(splitline).rstrip()
 
-            # Check if line starts with dual keyword and adjust indent 
+            # Check if line starts with dual keyword and adjust indent
             if self.__keyword_list and re.search(self.keyword_pairs[\
                 self.__keyword_list[-1]][0], myline.lower()):
                 key = self.__keyword_list.pop()
@@ -314,18 +314,18 @@ class FortranWriter(FileWriter):
 
     def write_comment_line(self, line, prefix=''):
         """Write a comment line, with correct indent and line splits"""
-        
+
         # write_comment_line must have a single line as argument
         assert(isinstance(line, str) and line.find('\n') == -1)
 
         if line.startswith('F2PY'):
             return ["C%s\n" % line.strip()]
         elif line.startswith(('C','c')):
-            return ['%s\n' % line] 
+            return ['%s\n' % line]
         elif line.startswith("$OMP"):
-            return ['!%s\n' % line] 
+            return ['!%s\n' % line]
         elif prefix == "#" and line.startswith(("ifdef","else","endif")):
-            return ['#%s\n' % line] 
+            return ['#%s\n' % line]
 
         res_lines = []
 
@@ -363,25 +363,25 @@ class FortranWriter(FileWriter):
                     if split_at_tmp > split_at:
                         split_at = split_at_tmp
             return split_at
-                
+
 
         res_lines = [line]
 
         while len(res_lines[-1]) > self.line_length:
-            split_at = get_split_index(res_lines[-1], self.line_length, 
+            split_at = get_split_index(res_lines[-1], self.line_length,
                                        self.max_split, split_characters)
             if split_at == 0:
-                split_at = get_split_index(res_lines[-1], self.line_length, 
+                split_at = get_split_index(res_lines[-1], self.line_length,
                                        self.max_split + 30, split_characters)
                 if split_at == 0:
                     split_at = self.line_length
-                
+
             newline = res_lines[-1][split_at:]
             nquotes = self.count_number_of_quotes(newline)
-#            res_lines.append(line_start + 
-#              ('//\''+res_lines[-1][(split_at-1):] if nquotes%2==1 else 
-#               ''+res_lines[-1][split_at:]) 
-            offset = 0   
+#            res_lines.append(line_start +
+#              ('//\''+res_lines[-1][(split_at-1):] if nquotes%2==1 else
+#               ''+res_lines[-1][split_at:])
+            offset = 0
             if nquotes%2==1:
                 if res_lines[-1][(split_at-1)] == '\'':
                     offset = 1
@@ -406,10 +406,10 @@ class FortranWriter(FileWriter):
             res_lines[-2] = (res_lines[-2][:(split_at-offset)]+'\'' if nquotes%2==1 \
                                                   else res_lines[-2][:split_at-offset])
         return res_lines
-    
+
     def count_number_of_quotes(self, line):
         """ Count the number of real quotes (not escaped ones) in a line. """
-        
+
         splitline = line.split('\'')
         i = 0
         while i < len(splitline):
@@ -420,7 +420,7 @@ class FortranWriter(FileWriter):
             i = i + 1
         return len(splitline)-1
 
-    @staticmethod   
+    @staticmethod
     def get_routine(text, fct_names, call_back=None):
         """
         get the fortran function from a fortran file
@@ -448,7 +448,7 @@ class FortranWriter(FileWriter):
                 removed.append(line)
 
         return removed
-    
+
     def remove_routine(self, text, fct_names, formatting=True):
         """write the incoming text but fully removing the associate routine/function
            text can be a path to a file, an iterator, a string
@@ -463,10 +463,10 @@ class FortranWriter(FileWriter):
             else:
                 if not line.endswith('\n'):
                     line = '%s\n' % line
-                super(FileWriter,self).writelines(line) 
-     
+                super(FileWriter,self).writelines(line)
+
         return self.get_routine(text, fct_names, call_back)
-        
+
 
 
 class FortranWriter90(FortranWriter):
@@ -496,13 +496,13 @@ class CPPWriter(FileWriter):
                            '^switch': standard_indent}
     indent_single_keywords = {'^else': standard_indent}
     indent_content_keywords = {'^class': standard_indent,
-                              '^namespace': 0}        
+                              '^namespace': 0}
     cont_indent_keywords = {'^case': standard_indent,
                             '^default': standard_indent,
                             '^public': standard_indent,
                             '^private': standard_indent,
                             '^protected': standard_indent}
-    
+
     spacing_patterns = [(r'\s*\"\s*}', '\"'),
                         (r'\s*,\s*', ', '),
                         (r'\s*-\s*', ' - '),
@@ -546,7 +546,7 @@ class CPPWriter(FileWriter):
                          r'\g<1>e\g<2>\g<3>'),
                         (r'\s+',' '),
                         (r'^\s*#','#')]
-    
+
     spacing_re = dict([(key[0], re.compile(key[0])) for key in \
                        spacing_patterns])
 
@@ -564,7 +564,7 @@ class CPPWriter(FileWriter):
     max_split = 40
     split_characters = " "
     comment_split_characters = " "
-    
+
     # Private variables
     __indent = 0
     __keyword_list = collections.deque()
@@ -627,7 +627,7 @@ class CPPWriter(FileWriter):
             if not self.__keyword_list:
                 raise self.CPPWriterError(\
                                 'Non-matching } in C++ output: ' \
-                                + myline)                
+                                + myline)
             # First take care of "case" and "default"
             if self.__keyword_list[-1] in list(self.cont_indent_keywords.keys()):
                 key = self.__keyword_list.pop()
@@ -673,7 +673,7 @@ class CPPWriter(FileWriter):
             if len(myline) > breakline_index and myline[breakline_index] =='\n':
                 breakline_index +=1
             myline = myline[breakline_index:].lstrip()
-            
+
             if myline:
                 # If anything is left of myline, write it recursively
                 res_lines.extend(self.write_line(myline))
@@ -714,7 +714,7 @@ class CPPWriter(FileWriter):
                     res_lines.extend(self.write_line(myline))
 
                 return res_lines
-                    
+
         # Check if line starts with single keyword
         for key in self.indent_single_keywords.keys():
             if re.search(key, myline):
@@ -732,7 +732,7 @@ class CPPWriter(FileWriter):
                     res_lines.extend(self.write_line(myline))
 
                 return res_lines
-                    
+
         # Check if line starts with content keyword
         for key in self.indent_content_keywords.keys():
             if re.search(key, myline):
@@ -755,7 +755,7 @@ class CPPWriter(FileWriter):
                     res_lines.extend(self.write_line(myline))
 
                 return res_lines
-                    
+
         # Check if line starts with continuous indent keyword
         for key in self.cont_indent_keywords.keys():
             if re.search(key, myline):
@@ -774,7 +774,7 @@ class CPPWriter(FileWriter):
                                 self.cont_indent_keywords[key]
 
                 return res_lines
-                    
+
         # Check if this line is an array initialization a ={b,c,d};
         if self.init_array_pattern.search(myline):
             res_lines.append("\n".join(self.split_line(\
@@ -816,11 +816,11 @@ class CPPWriter(FileWriter):
                 # If anything is left of myline, write it recursively
                 res_lines.extend(self.write_line(myline))
             return res_lines
-        
+
         if line.startswith("#"):
             res_lines.append('%s\n' % line)
             return res_lines
-            
+
 
         # Write line(s) to file
         res_lines.append("\n".join(self.split_line(myline, \
@@ -857,7 +857,7 @@ class CPPWriter(FileWriter):
         if self.end_comment_pattern.search(line):
             self.__comment_ongoing = False
             line = self.end_comment_pattern.sub("", line)
-            
+
         line = self.comment_pattern.sub("", line).strip()
         # Avoid extra space for lines starting with certain multiple patterns
         if self.no_space_comment_patterns.match(line):
@@ -900,7 +900,7 @@ class CPPWriter(FileWriter):
                 start_pos = quote.end()
 
         line_no_quotes.append(line[start_pos:])
-        
+
         # Fix spacing for line, but only outside of quotes
         line.rstrip()
         for i, no_quote in enumerate(line_no_quotes):
@@ -927,7 +927,7 @@ class CPPWriter(FileWriter):
                 if index >= 0:
                     split_at = self.line_length - self.max_split + index + 1
                     break
-                
+
             # no valid breaking so find the first breaking allowed:
             if split_at == -1:
                 split_at = len(long_line)
@@ -937,7 +937,7 @@ class CPPWriter(FileWriter):
                         split_at = min(split, split_at)
             if split_at == len(long_line):
                 break
-                    
+
             # Don't allow split within quotes
             quotes = self.quote_chars.findall(long_line[:split_at])
             if quotes and len(quotes) % 2 == 1:
@@ -965,7 +965,7 @@ class CPPWriter(FileWriter):
 
         if comment:
             res_lines[-1] += " " + self.comment_char + comment
-            
+
         return res_lines
 
     def split_comment_line(self, line):
@@ -984,7 +984,7 @@ class CPPWriter(FileWriter):
                                   self.line_length].rfind(' ')
             if index >= 0:
                 split_at = self.line_length - self.max_split + index + 1
-            
+
             # Append new line
             if long_line[split_at:].lstrip():
                 # Replace old line
@@ -994,23 +994,23 @@ class CPPWriter(FileWriter):
                                  long_line[split_at:].strip())
             else:
                 break
-            
+
         return res_lines
 
 class PythonWriter(FileWriter):
-    
+
     def write_comments(self, text):
         text = '#%s\n' % text.replace('\n','\n#')
         self.write(text)
-        
+
 class MakefileWriter(FileWriter):
-    
+
     def write_comments(self, text):
         text = '#%s\n' % text.replace('\n','\n#')
         self.write(text)
-        
+
     def writelines(self, lines):
         """Extends the regular file.writeline() function to write out
         nicely formatted code"""
-        
+
         self.write(lines)

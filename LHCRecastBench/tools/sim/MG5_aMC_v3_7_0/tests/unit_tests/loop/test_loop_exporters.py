@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Unit test library for the various properties of objects in 
+"""Unit test library for the various properties of objects in
    loop_helas_objects.py"""
 
 from __future__ import absolute_import
@@ -71,7 +71,7 @@ _proc_file_path = os.path.join(_mgme_file_path, 'UNITTEST_proc')
 # IOExportMadLoopUTest
 #===============================================================================
 class IOExportMadLoopUnitTest(IOTests.IOTestManager):
-    """Test class for the loop exporter modules. It uses hardcoded output 
+    """Test class for the loop exporter modules. It uses hardcoded output
     for the comparisons."""
 
     loop_exporters = {}
@@ -85,42 +85,42 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
                              fortran_model=None):
         """ Simply adds a test for the process defined and all the exporters
         specified."""
-        
+
         if model==None:
             model = self.models['loop_sm']
         if fortran_model==None:
             fortran_model = self.fortran_models['fortran_model']
-        
+
         needed = False
 
         if not isinstance(exporters,list):
             if self.need(testFolder,testName):
-                needed = True    
+                needed = True
         elif any(self.need('%s_%s'%(testFolder,exporter) ,testName) for \
                                                          exporter in exporters):
             needed = True
-            
+
         if not needed:
             return
-        
+
         myleglist = base_objects.LegList()
         for i, pid in enumerate(particles_ids):
-            myleglist.append(base_objects.Leg({'id':pid, 
+            myleglist.append(base_objects.Leg({'id':pid,
                                            'state':False if i<2 else True}))
         myproc = base_objects.Process({'legs': myleglist,
                         'model': model,
                         'orders': orders,
                         'perturbation_couplings': perturbation_couplings,
                         'NLO_mode': NLO_mode})
-        
+
         if isinstance(exporters, dict):
             # Several exporters given in a dictionary
-            test_list = [('%s_%s'%(testFolder,exp),exp) for exp in exporters]            
+            test_list = [('%s_%s'%(testFolder,exp),exp) for exp in exporters]
         elif not isinstance(exporters,list) :
             # Exporter directly given
             test_list = [(testFolder,exporters)]
         else:
-            test_list = [('%s_%s'%(testFolder,exp),exp) for exp in exporters] 
+            test_list = [('%s_%s'%(testFolder,exp),exp) for exp in exporters]
 
         for (folderName, exporter) in test_list:
             if self.need(folderName,testName):
@@ -131,7 +131,7 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
                   helasModel=fortran_model,
                   testedFiles=files_to_check,
                   outputPath=_proc_file_path))
-    
+
     def get_exporter_withName(self, exporter_name):
         """ Returns on demand the exporter of given nickname """
 
@@ -140,7 +140,7 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
             self.loop_exporters[exporter_name] = loop_exporters.\
                               LoopProcessExporterFortranSA(
                             _proc_file_path,
-                              {'clean':False, 'complex_mass':False, 
+                              {'clean':False, 'complex_mass':False,
                                'export_format':'madloop','mp':True,
                                'loop_dir':_loop_file_path,
                                'cuttools_dir':_cuttools_file_path,
@@ -152,7 +152,7 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
             self.loop_exporters[exporter_name] = loop_exporters.\
                               LoopProcessOptimizedExporterFortranSA(\
                               _proc_file_path,
-                              {'clean':False, 'complex_mass':False, 
+                              {'clean':False, 'complex_mass':False,
                                'export_format':'madloop','mp':True,
                                'loop_dir':_loop_file_path,
                                'cuttools_dir':_cuttools_file_path,
@@ -167,17 +167,17 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
 
     def load_IOTestsUnit(self):
         """load the models and exporters if necessary."""
-            
+
         if not hasattr(self, 'models') or \
            not hasattr(self, 'fortran_models') or \
            not hasattr(self, 'loop_exporters'):\
-           
+
             self.models = { \
-                'loop_sm' : import_ufo.import_model('loop_sm') 
+                'loop_sm' : import_ufo.import_model('loop_sm')
                           }
             self.fortran_models = {
                 'fortran_model' : helas_call_writers.FortranUFOHelasCallWriter(\
-                                                         self.models['loop_sm']) 
+                                                         self.models['loop_sm'])
                                   }
 
             # g g > t t~
@@ -195,7 +195,7 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
                                        orders = {'QCD':2,'QED':0},
                                        files_to_check=IOTests.IOTest.proc_files)
 
-            # And the loop induced g g > h h for good measure 
+            # And the loop induced g g > h h for good measure
             # Use only one exporter only here
             self.addIOTestsForProcess( testName = 'gg_hh',
                                        testFolder = 'short_ML_SMQCD_LoopInduced',
@@ -205,8 +205,8 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
 
     def testIO_UnitProcOutputIOTests(self, load_only=False):
       """ Run the iotests """
-      
-      self.load_IOTestsUnit()      
+
+      self.load_IOTestsUnit()
       if not load_only:
           # Set it to True if you want info during the regular test_manager.py runs
           self.runIOTests(verbose=False)
@@ -215,22 +215,22 @@ class IOExportMadLoopUnitTest(IOTests.IOTestManager):
 # IOExportMadLoopUTest
 #===============================================================================
 class IOTestMadLoopSquaredOrdersExport(IOTests.IOTestManager):
-    """Test class for the writing of loop_matrix.f in the presence of squared 
-    order constraints and differentiation of different "split orders" 
+    """Test class for the writing of loop_matrix.f in the presence of squared
+    order constraints and differentiation of different "split orders"
     combinations."""
-    
+
     @IOTests.set_global(unitary=False)
     def setUp(self):
        """Loading the different writers, exporters and model used for these
        IOTests"""
        if not hasattr(self, 'model'):
            self.model=import_ufo.import_model('loop_qcd_qed_sm-full')
-           
+
        if not hasattr(self, 'exporter'):
            self.exporter = loop_exporters.\
                                   LoopProcessOptimizedExporterFortranSA(\
                                   _proc_file_path,
-                                  {'clean':False, 'complex_mass':False, 
+                                  {'clean':False, 'complex_mass':False,
                                    'export_format':'madloop','mp':True,
                                    'loop_dir':_loop_file_path,
                                    'cuttools_dir':_cuttools_file_path,
@@ -256,10 +256,10 @@ class IOTestMadLoopSquaredOrdersExport(IOTests.IOTestManager):
 
         fortran_model=\
           helas_call_writers.FortranUFOHelasCallWriterOptimized(self.model,False)
-        
+
         SO_tests = [({},['QCD','QED'],{},{},['QCD','QED'],'QCDQEDpert_default')
                     ,({},['QCD'],{},{},['QCD'],'QCDpert_default')
-                    ,({},['QED'],{},{},['QED'],'QEDpert_default')            
+                    ,({},['QED'],{},{},['QED'],'QEDpert_default')
                     ,({},['QCD','QED'],{'QCD':4},{'QCD':'=='},['QCD','QED'],
                                                         'QCDQEDpert_QCDsq_eq_4')
                     ,({},['QCD','QED'],{'QED':4},{'QCD':'<='},['QCD','QED'],
@@ -282,29 +282,29 @@ class IOTestMadLoopSquaredOrdersExport(IOTests.IOTestManager):
                                            'perturbation_couplings':pert_orders,
                                            'sqorders_types':sq_orders_type,
                                            'split_orders':split_orders})
-                
+
             myloopamp = loop_diagram_generation.LoopAmplitude(myproc)
             matrix_element=loop_helas_objects.LoopHelasMatrixElement(\
                                                 myloopamp,optimized_output=True)
-            
-            # It is enough here to generate and check the filer loop_matrix.f 
-            # only here. For that we must initialize the general replacement 
+
+            # It is enough here to generate and check the filer loop_matrix.f
+            # only here. For that we must initialize the general replacement
             # dictionary first (The four functions below are normally directly
             # called from the write_matrix_element function in the exporter
-            # [but we don't call it here because we only want the file 
+            # [but we don't call it here because we only want the file
             # loop_matrix.f]).
             matrix_element.rep_dict = self.exporter.\
                                    generate_general_replace_dict(matrix_element)
-            
+
             # and for the same reason also force the computation of the analytical
             # information in the Helas loop diagrams.
             matrix_element.compute_all_analytic_information(
                                       self.exporter.get_aloha_model(self.model))
-            
+
             # Finally the entries specific to the optimized output
             self.exporter.set_optimized_output_specific_replace_dict_entries(\
                                                                  matrix_element)
-        
+
             # We can then finally write out 'loop_matrix.f'
             with misc.chdir(self.IOpath):
                 writer = writers.FortranWriter(\
@@ -312,8 +312,8 @@ class IOTestMadLoopSquaredOrdersExport(IOTests.IOTestManager):
                 self.exporter.write_loopmatrix(writer,matrix_element,
                                      fortran_model, write_auxiliary_files=False)
                 writer = writers.FortranWriter(\
-                     pjoin(self.IOpath,'write_mp_compute_loop_coefs_%s.f'%name))                    
-                self.exporter.write_mp_compute_loop_coefs(writer, 
+                     pjoin(self.IOpath,'write_mp_compute_loop_coefs_%s.f'%name))
+                self.exporter.write_mp_compute_loop_coefs(writer,
                                                   matrix_element, fortran_model)
             for file in glob.glob(pjoin(self.IOpath,'mp_helas_calls_*.f'))+\
                         glob.glob(pjoin(self.IOpath,'helas_calls_*.f'))+\

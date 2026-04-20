@@ -198,17 +198,17 @@ contains
       endif
       mpier = 0
       mpnw = mpnwx + 1
-      call mppi (t1, mpnw) 
+      call mppi (t1, mpnw)
       call mpdmc (2.d0, 0, t0)
-      call mplog (t0, t2, t2, mpnw) 
+      call mplog (t0, t2, t2, mpnw)
       call mpdmc (10.d0, 0, t0)
-      call mplog (t0, t2, t3, mpnw) 
-      call mpnpwr (t0, mpiep, t4, mpnw) 
+      call mplog (t0, t2, t3, mpnw)
+      call mpnpwr (t0, mpiep, t4, mpnw)
       mpnw = mpnwx
-      call mpeq (t1, mppicx%mpr, mpnw) 
-      call mpeq (t2, mpl02x%mpr, mpnw) 
-      call mpeq (t3, mpl10x%mpr, mpnw) 
-      call mpeq (t4, mpepsx%mpr, mpnw) 
+      call mpeq (t1, mppicx%mpr, mpnw)
+      call mpeq (t2, mpl02x%mpr, mpnw)
+      call mpeq (t3, mpl10x%mpr, mpnw)
+      call mpeq (t4, mpepsx%mpr, mpnw)
   end subroutine
 
 ! Additions
@@ -216,7 +216,7 @@ contains
       type (mp_realx), intent(in) :: a, b
       integer mpnw
       mpnw = mpnwx
-      call mpadd (a%mpr, b%mpr, mpadd_xx%mpr, mpnw) 
+      call mpadd (a%mpr, b%mpr, mpadd_xx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpadd_xq (a, b)
@@ -224,7 +224,7 @@ contains
       type (mp_real), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpadd (a%mpr, b%mpr, mpadd_xq%mpr, mpnw) 
+      call mpadd (a%mpr, b%mpr, mpadd_xq%mpr, mpnw)
   end function
 
   type (mp_realx) function mpadd_qx (a, b)
@@ -232,7 +232,7 @@ contains
       type (mp_realx), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpadd (a%mpr, b%mpr, mpadd_qx%mpr, mpnw) 
+      call mpadd (a%mpr, b%mpr, mpadd_qx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpadd_xd (a, b)
@@ -242,7 +242,7 @@ contains
       integer mpnw
       mpnw = mpnwx
       call mpdmc (b, 0, t1%mpr)
-      call mpadd (a%mpr, t1%mpr, mpadd_xd%mpr, mpnw) 
+      call mpadd (a%mpr, t1%mpr, mpadd_xd%mpr, mpnw)
   end function
 
   type (mp_realx) function mpadd_dx (a, b)
@@ -252,7 +252,7 @@ contains
       integer mpnw
       mpnw = mpnwx
       call mpdmc (a, 0, t1%mpr)
-      call mpadd (b%mpr, t1%mpr, mpadd_dx%mpr, mpnw) 
+      call mpadd (b%mpr, t1%mpr, mpadd_dx%mpr, mpnw)
   end function
 
 ! Subtractions
@@ -260,7 +260,7 @@ contains
       type (mp_realx), intent(in) :: a, b
       integer mpnw
       mpnw = mpnwx
-      call mpsub (a%mpr, b%mpr, mpsub_xx%mpr, mpnw) 
+      call mpsub (a%mpr, b%mpr, mpsub_xx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpsub_xq (a, b)
@@ -268,7 +268,7 @@ contains
       type (mp_real), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpsub (a%mpr, b%mpr, mpsub_xq%mpr, mpnw) 
+      call mpsub (a%mpr, b%mpr, mpsub_xq%mpr, mpnw)
   end function
 
   type (mp_realx) function mpsub_qx (a, b)
@@ -276,7 +276,7 @@ contains
       type (mp_realx), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpsub (a%mpr, b%mpr, mpsub_qx%mpr, mpnw) 
+      call mpsub (a%mpr, b%mpr, mpsub_qx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpsub_xd (a, b)
@@ -286,7 +286,7 @@ contains
       integer mpnw
       mpnw = mpnwx
       call mpdmc (b, 0, t1%mpr)
-      call mpsub (a%mpr, t1%mpr, mpsub_xd%mpr, mpnw) 
+      call mpsub (a%mpr, t1%mpr, mpsub_xd%mpr, mpnw)
   end function
 
   type (mp_realx) function mpsub_dx (a, b)
@@ -296,7 +296,7 @@ contains
       integer mpnw
       mpnw = mpnwx
       call mpdmc (a, 0, t1%mpr)
-      call mpsub (t1%mpr, b%mpr, mpsub_dx%mpr, mpnw) 
+      call mpsub (t1%mpr, b%mpr, mpsub_dx%mpr, mpnw)
   end function
 
 ! Unary Minus
@@ -304,7 +304,7 @@ contains
     type (mp_realx), intent(in) :: a
     integer mpnw
     mpnw = mpnwx
-    call mpeq (a%mpr, mpneg_x%mpr, mpnw)  
+    call mpeq (a%mpr, mpneg_x%mpr, mpnw)
     mpneg_x%mpr(1) = - mpneg_x%mpr(1)
   end function
 
@@ -313,7 +313,7 @@ contains
       type (mp_realx), intent(in) :: a, b
       integer mpnw
       mpnw = mpnwx
-      call mpmul (a%mpr, b%mpr, mpmul_xx%mpr, mpnw) 
+      call mpmul (a%mpr, b%mpr, mpmul_xx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpmul_xq (a, b)
@@ -321,7 +321,7 @@ contains
       type (mp_real), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpmul (a%mpr, b%mpr, mpmul_xq%mpr, mpnw) 
+      call mpmul (a%mpr, b%mpr, mpmul_xq%mpr, mpnw)
   end function
 
   type (mp_realx) function mpmul_qx (a, b)
@@ -329,7 +329,7 @@ contains
       type (mp_realx), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpmul (a%mpr, b%mpr, mpmul_qx%mpr, mpnw) 
+      call mpmul (a%mpr, b%mpr, mpmul_qx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpmul_xd (a, b)
@@ -337,7 +337,7 @@ contains
       real*8, intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpmuld (a%mpr, b, 0, mpmul_xd%mpr, mpnw) 
+      call mpmuld (a%mpr, b, 0, mpmul_xd%mpr, mpnw)
   end function
 
   type (mp_realx) function mpmul_dx (a, b)
@@ -345,7 +345,7 @@ contains
       type (mp_realx), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpmuld (b%mpr, a, 0, mpmul_dx%mpr, mpnw) 
+      call mpmuld (b%mpr, a, 0, mpmul_dx%mpr, mpnw)
   end function
 
 ! Divisions
@@ -353,7 +353,7 @@ contains
       type (mp_realx), intent(in) :: a, b
       integer mpnw
       mpnw = mpnwx
-      call mpdiv (a%mpr, b%mpr, mpdiv_xx%mpr, mpnw) 
+      call mpdiv (a%mpr, b%mpr, mpdiv_xx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpdiv_xq (a, b)
@@ -361,7 +361,7 @@ contains
       type (mp_real), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpdiv (a%mpr, b%mpr, mpdiv_xq%mpr, mpnw) 
+      call mpdiv (a%mpr, b%mpr, mpdiv_xq%mpr, mpnw)
   end function
 
   type (mp_realx) function mpdiv_qx (a, b)
@@ -369,7 +369,7 @@ contains
       type (mp_realx), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpdiv (a%mpr, b%mpr, mpdiv_qx%mpr, mpnw) 
+      call mpdiv (a%mpr, b%mpr, mpdiv_qx%mpr, mpnw)
   end function
 
   type (mp_realx) function mpdiv_xd (a, b)
@@ -377,7 +377,7 @@ contains
       real*8, intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpdivd (a%mpr, b, 0, mpdiv_xd%mpr, mpnw) 
+      call mpdivd (a%mpr, b, 0, mpdiv_xd%mpr, mpnw)
   end function
 
   type (mp_realx) function mpdiv_dx (a, b)
@@ -387,7 +387,7 @@ contains
       integer mpnw
       mpnw = mpnwx
       call mpdmc (a, 0, t1%mpr)
-      call mpdiv (t1%mpr, b%mpr, mpdiv_dx%mpr, mpnw) 
+      call mpdiv (t1%mpr, b%mpr, mpdiv_dx%mpr, mpnw)
   end function
 
 ! Powers
@@ -396,7 +396,7 @@ contains
       integer, intent(in) :: ib
       integer mpnw
       mpnw = mpnwx
-      call mpnpwr (a%mpr, ib, mpexp_xi%mpr, mpnw) 
+      call mpnpwr (a%mpr, ib, mpexp_xi%mpr, mpnw)
   end function
 
 ! Assignments
@@ -405,7 +405,7 @@ contains
       type (mp_realx), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpeq (b%mpr, a%mpr, mpnw) 
+      call mpeq (b%mpr, a%mpr, mpnw)
   end subroutine
 
   subroutine mpeq_xq (a, b)
@@ -413,7 +413,7 @@ contains
       type (mp_real), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpeq (b%mpr, a%mpr, mpnw) 
+      call mpeq (b%mpr, a%mpr, mpnw)
   end subroutine
 
   subroutine mpeq_qx (a, b)
@@ -421,7 +421,7 @@ contains
       type (mp_realx), intent(in) :: b
       integer mpnw
       mpnw = mpnwx
-      call mpeq (b%mpr, a%mpr, mpnw) 
+      call mpeq (b%mpr, a%mpr, mpnw)
   end subroutine
 
   subroutine mpeq_xd (a, b)
@@ -445,7 +445,7 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .eq. 0) then
          mpeqt_xx = .true.
       else
@@ -460,7 +460,7 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .ne. 0) then
          mpnet_xx = .true.
       else
@@ -475,7 +475,7 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .le. 0) then
          mplet_xx = .true.
       else
@@ -490,7 +490,7 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .ge. 0) then
          mpget_xx = .true.
       else
@@ -505,7 +505,7 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .lt. 0) then
          mpltt_xx = .true.
       else
@@ -520,7 +520,7 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .gt. 0) then
          mpgtt_xx = .true.
       else
@@ -534,7 +534,7 @@ contains
     type (mp_realx), intent(in) :: a
     integer mpnw
     mpnw = mpnwx
-    call mpeq (a%mpr, mp_absx%mpr, mpnw) 
+    call mpeq (a%mpr, mp_absx%mpr, mpnw)
     mp_absx%mpr(1) = abs (mp_absx%mpr(1))
   end function
 
@@ -551,11 +551,11 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .ge. 0) then
-         call mpeq (a%mpr, mp_maxx%mpr, mpnw) 
+         call mpeq (a%mpr, mp_maxx%mpr, mpnw)
       else
-         call mpeq (b%mpr, mp_maxx%mpr, mpnw) 
+         call mpeq (b%mpr, mp_maxx%mpr, mpnw)
       endif
   end function
 
@@ -564,11 +564,11 @@ contains
       integer ic
       integer mpnw
       mpnw = mpnwx
-      call mpcpr (a%mpr, b%mpr, ic, mpnw) 
+      call mpcpr (a%mpr, b%mpr, ic, mpnw)
       if (ic .le. 0) then
-         call mpeq (a%mpr, mp_minx%mpr, mpnw) 
+         call mpeq (a%mpr, mp_minx%mpr, mpnw)
       else
-         call mpeq (b%mpr, mp_minx%mpr, mpnw) 
+         call mpeq (b%mpr, mp_minx%mpr, mpnw)
       endif
   end function
 
@@ -577,7 +577,7 @@ contains
     type (mp_realx), intent(in) :: a
     integer mpnw
     mpnw = mpnwx
-    call mpsqrt (a%mpr, mp_sqrtx%mpr, mpnw) 
+    call mpsqrt (a%mpr, mp_sqrtx%mpr, mpnw)
   end function
 
 !  Conversion
@@ -585,14 +585,14 @@ contains
       type (mp_realx), intent(in) :: a
       integer mpnw
       mpnw = mpnwx
-      call mpeq (a%mpr, mp_xtoq%mpr, mpnw) 
+      call mpeq (a%mpr, mp_xtoq%mpr, mpnw)
   end function
 
   type (mp_realx) function mp_qtox (a)
       type (mp_real), intent(in) :: a
       integer mpnw
       mpnw = mpnwx
-      call mpeq (a%mpr, mp_qtox%mpr, mpnw) 
+      call mpeq (a%mpr, mp_qtox%mpr, mpnw)
   end function
 
   type (mp_realx) function mp_dtox (da)
@@ -609,15 +609,15 @@ contains
     type (mp_realx), intent (out) :: q1, q2, q3, q4, q5, q6, q7, q8, q9
     optional :: q2, q3, q4, q5, q6, q7, q8, q9
 
-    call mpinpx (iu, q1) 
-    if (present (q2)) call mpinpx (iu, q2) 
-    if (present (q3)) call mpinpx (iu, q3) 
-    if (present (q4)) call mpinpx (iu, q4) 
-    if (present (q5)) call mpinpx (iu, q5) 
-    if (present (q6)) call mpinpx (iu, q6) 
-    if (present (q7)) call mpinpx (iu, q7) 
-    if (present (q8)) call mpinpx (iu, q8) 
-    if (present (q9)) call mpinpx (iu, q9) 
+    call mpinpx (iu, q1)
+    if (present (q2)) call mpinpx (iu, q2)
+    if (present (q3)) call mpinpx (iu, q3)
+    if (present (q4)) call mpinpx (iu, q4)
+    if (present (q5)) call mpinpx (iu, q5)
+    if (present (q6)) call mpinpx (iu, q6)
+    if (present (q7)) call mpinpx (iu, q7)
+    if (present (q8)) call mpinpx (iu, q8)
+    if (present (q9)) call mpinpx (iu, q9)
     return
   end subroutine
 
@@ -652,7 +652,7 @@ contains
       l = l + l1
       goto 100
     endif
-    call mpinpc (az, l, a%mpr, mpnw) 
+    call mpinpc (az, l, a%mpr, mpnw)
     goto 300
 
 200 continue
@@ -668,15 +668,15 @@ contains
       integer, intent(in) :: iu
       type (mp_realx), intent(in) :: q1, q2, q3, q4, q5, q6, q7, q8, q9
       optional :: q2, q3, q4, q5, q6, q7, q8, q9
-      call mpoutx (iu, q1) 
-      if (present (q2)) call mpoutx (iu, q2) 
-      if (present (q3)) call mpoutx (iu, q3) 
-      if (present (q4)) call mpoutx (iu, q4) 
-      if (present (q5)) call mpoutx (iu, q5) 
-      if (present (q6)) call mpoutx (iu, q6) 
-      if (present (q7)) call mpoutx (iu, q7) 
-      if (present (q8)) call mpoutx (iu, q8) 
-      if (present (q9)) call mpoutx (iu, q9) 
+      call mpoutx (iu, q1)
+      if (present (q2)) call mpoutx (iu, q2)
+      if (present (q3)) call mpoutx (iu, q3)
+      if (present (q4)) call mpoutx (iu, q4)
+      if (present (q5)) call mpoutx (iu, q5)
+      if (present (q6)) call mpoutx (iu, q6)
+      if (present (q7)) call mpoutx (iu, q7)
+      if (present (q8)) call mpoutx (iu, q8)
+      if (present (q9)) call mpoutx (iu, q9)
       return
   end subroutine
 
@@ -687,7 +687,7 @@ contains
       character*1 az(mpiplx+100)
       integer mpnw
       mpnw = mpnwx
-      call mpoutc (q%mpr, az, l, mpnw) 
+      call mpoutc (q%mpr, az, l, mpnw)
       az(l+1) = ','
       write(iu, '(78A1)') (az(i), i = 1, l+1)
   end subroutine

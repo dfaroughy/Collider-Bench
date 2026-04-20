@@ -1,5 +1,5 @@
       DOUBLE PRECISION FUNCTION GET_RESCALE_ALPHA_FACTOR(NTAG,QED_POW)
-C     returns the power of ratios of alpha needed to compensate 
+C     returns the power of ratios of alpha needed to compensate
 C     for the presence of external tagged photons
 C     It is automatically written, and it detects whether the
 C     starting model is in the Gmu or alpha0 scheme.
@@ -29,7 +29,7 @@ C     virtuals (single pole if ivirt = 1, finite if ivirt = 0
       INCLUDE '../../Source/MODEL/input.inc'
 
       IF (IVIRT.EQ.1) THEN
-C       single 
+C       single
         GET_VIRTUAL_A0GMU_CONV = 0D0
       ELSE IF (IVIRT.EQ.0) THEN
 C       finite part
@@ -40,4 +40,3 @@ C       finite part
 
       RETURN
       END
-

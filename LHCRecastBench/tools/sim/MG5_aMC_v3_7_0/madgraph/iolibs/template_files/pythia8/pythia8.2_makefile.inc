@@ -29,9 +29,9 @@ else
   targets=$(LIBDIRARCH)/libProcesses_%(model)s.a
 endif
 
-all: $(targets) 
+all: $(targets)
 
-# Main part: build library. 
+# Main part: build library.
 
 $(TMPDIR)/%%.o : $(SRCDIR)/%%.cc
 	@mkdir -p $(TMPDIR)

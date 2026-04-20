@@ -9,7 +9,7 @@
 #include <sys/param.h>
 /*
 ** An array of such things, running parallel to the NTuDDLList
-*/   
+*/
 void mcfioC_ShowBrowserHeadDump();
 void mcfioC_ShowBrowserEvtHeadDump();
 #ifdef HISTO
@@ -17,5 +17,3 @@ void mcfioC_ShowBrowserOneDHist();
 void mcfioC_OneDHistUpdateNTupleContent();
 #endif
 void mcfioC_RemoveWhiteSpace(char *str);
-
-

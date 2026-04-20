@@ -25,14 +25,14 @@ c                         [                               ]
 c                         [   p4sq    s23    p3sq         ]
 c                         [ - ----  - ---  - ----    0    ]
 c                         [    2       2      2           ]
-      include 'qlconstants.f' 
+      include 'qlconstants.f'
       double precision si,ta,mp3sq,mp4sq,musq,Y(4,4)
       double complex Ires(-2:0),qlLsm1_2mht,qllnrat,fac
 
-      si=2d0*Y(1,3)  
-      ta=2d0*Y(2,4)  
-      mp4sq=2d0*Y(1,4)  
-      mp3sq=2d0*Y(3,4)  
+      si=2d0*Y(1,3)
+      ta=2d0*Y(2,4)
+      mp4sq=2d0*Y(1,4)
+      mp3sq=2d0*Y(3,4)
 
       fac=dcmplx(1d0/(si*ta))
       Ires(-2)=fac
@@ -40,7 +40,7 @@ c                         [    2       2      2           ]
      . *(qllnrat(si,mp3sq)
      .  +qllnrat(ta,mp4sq)
      .  +qllnrat(ta,musq))
-   
+
       Ires( 0)=fac*(qllnrat(ta,musq)**2
      .       +chalf*qllnrat(si,musq)**2
      .       -chalf*qllnrat(mp3sq,musq)**2
@@ -48,5 +48,3 @@ c                         [    2       2      2           ]
      .  +ctwo*qlLsm1_2mht(-si,-ta,-mp3sq,-mp4sq))
       return
       end
-
-

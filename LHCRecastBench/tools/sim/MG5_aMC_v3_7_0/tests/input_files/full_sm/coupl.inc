@@ -14,11 +14,11 @@ c Version: 1.4   Date: 25. 10. 2010,    11:39
       common/FRDUM1/ DUM1
 
 
-c Masses : 
+c Masses :
       double precision MD,MU,MS,MC,MB,MT,Me,MM,MTA,MZ,MW,MH
       common/masses/ MD,MU,MS,MC,MB,MT,Me,MM,MTA,MZ,MW,MH
 
-c Widths : 
+c Widths :
       double precision WT,WZ,WW,WH
       common/widths/ WT,WZ,WW,WH
 
@@ -44,4 +44,3 @@ c Interactions associated with Standard_Model:
      +GVX67,MGVX74,MGVX72,MGVX33,MGVX34,MGVX35,MGVX36,MGVX37,MGVX3
      +8,MGVX39,MGVX40,MGVX41,MGVX45,MGVX46,MGVX47,MGVX48,MGVX49,MG
      +VX50,MGVX51,MGVX52,MGVX53,MGVX54,MGVX60,GG
-

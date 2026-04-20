@@ -3,9 +3,9 @@ c Include file for mcfast i/o layer.
 c
 c	Paul Lebrun, October 1994.
 c
-        integer  MCFIO_VERSION 
-        integer  MCFIO_STATUS 
-        integer  MCFIO_RUNNING 
+        integer  MCFIO_VERSION
+        integer  MCFIO_STATUS
+        integer  MCFIO_RUNNING
         integer  MCFIO_BOF
         integer  MCFIO_EOF
         integer  MCFIO_NUMBLOCKS
@@ -69,7 +69,7 @@ c
         PARAMETER (MCFIO_TRIGGERMASK = 2004)
         PARAMETER (MCFIO_NUMNTUPLES = 4001)
         PARAMETER (MCFIO_NTUPLESLIST = 4002)
-       
+
         integer mcfio_OpenReadDirect
         integer mcfio_OpenReadMapped
         integer mcfio_OpenWriteDirect
@@ -92,7 +92,7 @@ c
         integer mcfio_GetNTupleCategory
         integer mcfio_GetNTupleTitle
         integer mcfio_GetNTupleName
-        
+
         external mcfio_OpenReadDirect
         external mcfio_OpenReadMapped
         external mcfio_OpenWriteDirect
@@ -143,10 +143,10 @@ C
         parameter ( MCFIO_HEPEUP = 203 )
         parameter ( MCFIO_HEPRUP = 204 )
 c
-c	Some of these statements should be in the user code, 
+c	Some of these statements should be in the user code,
 c	uncommented.
 c
-c	integer xdr_mcfast_track_offline 
+c	integer xdr_mcfast_track_offline
 c	external xdr_mcfast_track_offline
 c	integer xdr_mcfast_track_offlslow
 c	external xdr_mcfast_track_offlslow

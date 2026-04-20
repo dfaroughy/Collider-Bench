@@ -55,18 +55,18 @@ bool_t xdr_stdhep_cm1_(XDR *xdrs, int *blockid,
 {
 /*  Translate the STDCM1 COMMON block from the STDHEP package to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, mcfio will allocate the space for the 
+    directly the COMMON.  Also, mcfio will allocate the space for the
     string version.  */
-    
+
     unsigned int nn, nn1, nn2;
     int *idat;
     double *dat;
     char *vers;
     char *cdat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE))  {
        if (( *blockid != MCFIO_STDHEPEND)&&( *blockid != MCFIO_STDHEPBEG)) {
-          fprintf (stderr, "mcf_Stdhep_cm1_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_cm1_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
        }
@@ -77,16 +77,16 @@ bool_t xdr_stdhep_cm1_(XDR *xdrs, int *blockid,
                + 2 * sizeof(char) * ( MCF_XDR_STDCM2_LENGTH + 1 );
        if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
        strncpy(version[0],stdver_.stdhep_ver, 4);
-     } 
-      
+     }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) )
               == FALSE) return FALSE;
-              
-     if ((xdrs->x_op == XDR_DECODE) && 
+
+     if ((xdrs->x_op == XDR_DECODE) &&
           (( *blockid != MCFIO_STDHEPEND)&&( *blockid != MCFIO_STDHEPBEG))) {
-          fprintf (stderr, "mcf_Stdhep_cm1_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_cm1_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -98,9 +98,9 @@ bool_t xdr_stdhep_cm1_(XDR *xdrs, int *blockid,
      if ( xdr_double(xdrs, &(stdcm1_.stdseed1) ) == FALSE) return FALSE;
      if ( xdr_double(xdrs, &(stdcm1_.stdseed2) ) == FALSE) return FALSE;
      /*
-     ** V5.01 Upgrade : adding stdcm2 
-     */ 
-     vers = *version;          
+     ** V5.01 Upgrade : adding stdcm2
+     */
+     vers = *version;
      if (((strcmp(vers,"1.") == 0) || (strcmp(vers,"2.") == 0) ||
           (strcmp(vers,"3.") == 0) || (strcmp(vers,"4.") == 0) ||
 	  (strcmp(vers,"5.00") == 0) ) && (xdrs->x_op == XDR_DECODE)) {
@@ -108,7 +108,7 @@ bool_t xdr_stdhep_cm1_(XDR *xdrs, int *blockid,
 	   strncpy(stdcm2_.pdfname, " ", MCF_XDR_STDCM2_LENGTH);
            return TRUE;
      }
-/* 
+/*
   allocate memory and deal with encoding and decoding separately
 */
      cdat = malloc(MCF_XDR_STDCM2_LENGTH+1);
@@ -133,9 +133,9 @@ bool_t xdr_stdhep_cm1_(XDR *xdrs, int *blockid,
      free(cdat);
 
      /*
-     ** V5.02 Upgrade : add nevtlh to stdcm1 
+     ** V5.02 Upgrade : add nevtlh to stdcm1
      ** note that we cannot get here unless the version is 5.00 or greater
-     */ 
+     */
      if (((strcmp(vers,"5.00") == 0) || (strcmp(vers,"5.01") == 0))
 	  && (xdrs->x_op == XDR_DECODE)) {
 	   stdcm1_.nevtlh = 0;
@@ -144,5 +144,4 @@ bool_t xdr_stdhep_cm1_(XDR *xdrs, int *blockid,
      if ( xdr_int(xdrs, &(stdcm1_.nevtlh) ) == FALSE) return FALSE;
 
      return TRUE;
-}   
-
+}

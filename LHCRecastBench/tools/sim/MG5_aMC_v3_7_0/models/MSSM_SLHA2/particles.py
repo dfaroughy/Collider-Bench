@@ -809,4 +809,3 @@ ghWm = Particle(pdg_code = 9000005,
                 Y = 0)
 
 ghWm__tilde__ = ghWm.anti()
-

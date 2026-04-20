@@ -1,6 +1,6 @@
 C************************************************************************
 C
-C                           HISTOGRAMMING PACKAGE 
+C                           HISTOGRAMMING PACKAGE
 C                                 M. MANGANO
 C
 C************************************************************************
@@ -12,13 +12,13 @@ C    LAST REVISED NOVEMBER 9, 1988
 C    LAST REVISED JUNE 12, 1989  (ADD SCATTER PLOTS)
 C    LAST REVISED oct 1990 (Add multi-plots on one page, routines MULTITOP,
 C         			MTFILL,...)
-C    LAST REVISED Jun 2003 by FM: passed to double precision AND 
-C    included the date for linux      
+C    LAST REVISED Jun 2003 by FM: passed to double precision AND
+C    included the date for linux
 C**********************************************************************
 C
-C Fills up to 500 histograms with up to 100 bins. 
-C Gives a data file (to be specified in the calling program by assigning 
-C a file name to unit 98) and a topdrawer file (to be specified in the 
+C Fills up to 500 histograms with up to 100 bins.
+C Gives a data file (to be specified in the calling program by assigning
+C a file name to unit 98) and a topdrawer file (to be specified in the
 C calling program by assigning a file name to unit 99).
 C
 C INITIALIZATION:
@@ -36,12 +36,12 @@ C The bin size will be 1. (possibly GeV, if that's what you want), the
 C first bin being  10<x<11. and the last one being 69.<x<70
 C
 C FILLING:
-C When it's time, call MFILL(N,X,Y); this will add Y (real*8) to the bin 
-C in which X (real*8) happens to be, within histogram N. 
+C When it's time, call MFILL(N,X,Y); this will add Y (real*8) to the bin
+C in which X (real*8) happens to be, within histogram N.
 C
 C PLAYING AROUND:
 C At the end of the day you may want to sum, divide, cancel, etc.etc.
-C various histograms (bin by bin). Then you call MOPERA(I,'O',J,K,X,Y). 
+C various histograms (bin by bin). Then you call MOPERA(I,'O',J,K,X,Y).
 C The 1-character string O can take the following values:
 C +  : sums       X*(hist I) with Y*(hist J) and puts the result in hist K;
 C -  : subtracts  X*(hist I) with Y*(hist J) and puts the result in hist K;
@@ -56,7 +56,7 @@ C      value at a given bin is less than or equal to 0, puts 0 in K
 C M  : statistical analysis; if I contains the weights (let's say WGT),
 C      J contains variable times weight (F*WGT) and K contains the
 C      variable squared times the weight (F**2*WGT), then, after using 'M',
-C      J will contain the average value of the variable <F> and K will 
+C      J will contain the average value of the variable <F> and K will
 C      contain the sigma of the average: sigma=sqrt(<F**2>-<F>**2).
 C      If WGT=1. for all the entries, then it is enough to put I=J, and
 C      it is not necessary to book a hist with the weights.
@@ -64,8 +64,8 @@ C V  : estimates errors for vegas evaluation of differential distributions.
 C      Fill I with the values of
 C      the functions do integrate times the Vegas weight (fun*wgt); fill
 C      J with fun**2*wgt; then K will contain an estimate of the error
-C      of the integration. Putting X=1/(#of iterations) performs the 
-C      avegare over the iterations, and gives the right normalization to 
+C      of the integration. Putting X=1/(#of iterations) performs the
+C      avegare over the iterations, and gives the right normalization to
 C      the differential distribution, I, and to the errors, K. J stays the same.
 C
 C FINAL ACCOUNTING:
@@ -79,12 +79,12 @@ C OUTPUT:
 C To get a .dat file containing the values of the histograms, together with
 C some information (like integral, mean values, etc.etc.) call MPRINT(N),
 C for each hist N that you want in the .dat file. Before the call to MPRINT
-C you want to open unit 98 and give it a name:                       
+C you want to open unit 98 and give it a name:
 C     OPEN(UNIT=98,NAME='NAME.DAT',STATUS='NEW')
-C If you want a topdrawer file with a plot of the hist values, call 
+C If you want a topdrawer file with a plot of the hist values, call
 C MTOP(N,M,'X','Y','SCALE'). The points of the plot will be taken from histogram
 C N, the error bars from histogram M. 'SCALE', character*(*), determines
-C the scale for y, logarithmic or linear (SCALE=LOG,LIN). 
+C the scale for y, logarithmic or linear (SCALE=LOG,LIN).
 C If you do not want error bars, keep
 C a histogram of zeros, or just call a hist that had not been booked.
 C X will appear as a 'bottom title', and Y will appear as a 'left title'.
@@ -95,8 +95,8 @@ C     OPEN(UNIT=99,NAME='NAME.TOP',STATUS='NEW')
 C--------------------------------------------------------------------------
 C
 C  COMMON/HISTO/  Histogram N
-C                           
-C   BOOK(N),      Three-letter character-string: 'NO' if histogram was not 
+C
+C   BOOK(N),      Three-letter character-string: 'NO' if histogram was not
 C		  Booked, 'YES' otherwise
 C   TITLE(N),     Title of the histogram
 C
@@ -137,14 +137,14 @@ C
 C     START
 C
       NHIST=0
-      DO 1, I=1,NPLOTS             
+      DO 1, I=1,NPLOTS
    1  BOOK(I)=' NO'
 C     Initialize the number of bins of the amcblast grids
       if(pineappl) appl_obs_nbins = 0
-      END  
- 
+      END
 
-    
+
+
       SUBROUTINE MBOOK(N,TIT,DEL,XMIN,XMAX)
 C*************************************************************
       IMPLICIT NONE
@@ -243,7 +243,7 @@ c
       SUBROUTINE MINTEG(NIN,NOUT,IDIR,IPOW)
 C If IPOW=1 performs the integral of the distribution contained in histogram
 C NIN up to the value specified by the abscissa (if IDIR=1) or from this
-C value on (if IDIR=-1). The resulting integral distribution is put into 
+C value on (if IDIR=-1). The resulting integral distribution is put into
 C NOUT, which is automatically booked if NOUT.ne.NIN .  Choosing IPOW=2
 C the routine will return the square root of the integral of the squares,
 C as is required, for example, for the propagation of the mean quadratic error
@@ -251,7 +251,7 @@ C of a given distribution. Overscores and underscores are included.
       IMPLICIT NONE
 C
 C     ARGUMENTS
-C     
+C
       INTEGER NIN,NOUT,IDIR,IPOW
 C
 C     GLOBAL
@@ -262,7 +262,7 @@ c     LOCAL
 c
       INTEGER M,I,L
       CHARACTER*14  C
-      DIMENSION C(2) 
+      DIMENSION C(2)
       DATA C/' INTEG BELOW X',' INTEG ABOVE X'/
 C
 C     EXTERNAL
@@ -272,19 +272,19 @@ C
 C     START
 C
       IF(BOOK(NIN)(1:1).NE.'Y') RETURN
-      M = NBIN(NIN)                                           
+      M = NBIN(NIN)
       I = (IDIR + 3)/2
       IF(NOUT.NE.NIN.AND.BOOK(NOUT)(1:1).NE.'Y') THEN
-      	CALL MBOOK(NOUT,TITLE(NIN)//C(I), 
+      	CALL MBOOK(NOUT,TITLE(NIN)//C(I),
      &                HDEL(NIN),HMIN(NIN),HMAX(NIN))
       ENDIF
       IF(IDIR.EQ.1) THEN
          HIST(NOUT,1) = SUMPOW(HIST(NIN,1),USCORE(NIN),IPOW)
          IHIS(NOUT,1) = IHIS(NIN,1) + IUSCORE(NIN)
          XHIS(NOUT,1) = XHIS(NIN,1) + HDEL(NIN)/2
-         DO L=2,M                      
+         DO L=2,M
             HIST(NOUT,L) = SUMPOW(HIST(NIN,L),HIST(NOUT,L-1),IPOW)
-            IHIS(NOUT,L) = IHIS(NIN,L) + IHIS(NOUT,L-1) 
+            IHIS(NOUT,L) = IHIS(NIN,L) + IHIS(NOUT,L-1)
             XHIS(NOUT,L) = XHIS(NIN,L) + HDEL(NIN)/2
          ENDDO
          OSCORE(NOUT) = SUMPOW(OSCORE(NIN),HIST(NIN,M),IPOW)
@@ -293,14 +293,14 @@ C
          HIST(NOUT,M) = SUMPOW(HIST(NIN,M),OSCORE(NIN),IPOW)
          IHIS(NOUT,M) = IHIS(NIN,M) + IOSCORE(NIN)
          XHIS(NOUT,M) = XHIS(NIN,M) - HDEL(NIN)/2
-         DO L=M-1,1,-1                        
+         DO L=M-1,1,-1
             HIST(NOUT,L) = SUMPOW(HIST(NIN,L),HIST(NOUT,L+1),IPOW)
             IHIS(NOUT,L) = IHIS(NIN,L) + IHIS(NOUT,L+1)
             XHIS(NOUT,L) = XHIS(NIN,L) - HDEL(NIN)/2
          ENDDO
          USCORE(NOUT) = SUMPOW(USCORE(NIN),HIST(NIN,1),IPOW)
          IUSCORE(NOUT) = IUSCORE(NIN)+IHIS(NIN,1)
-      ELSE                                 
+      ELSE
          CALL MWARN('MINTEG')
          WRITE(*,*) 'Wrong idir in minteg: OPERATION NOT PERFORMED'
          RETURN
@@ -356,12 +356,12 @@ C
       IF(NBIN(I).NE.NBIN(J).AND.(OPER.EQ.'+'.OR.OPER.EQ.'-'.OR.OPER.EQ.
      &    '*'.OR.OPER.EQ.'/'.OR.OPER.EQ.'M'.OR.OPER.EQ.'A')) THEN
 	  CALL MWARN('MOPERA')
-          WRITE(*,*) I,J                               
+          WRITE(*,*) I,J
   20      FORMAT(' ****** INCOMPATIBLE OPERATION HIST ',I2,' &',I2,
      &    '*******'/)
           RETURN
       ENDIF
-      IF(BOOK(K)(1:1).NE.'Y') 
+      IF(BOOK(K)(1:1).NE.'Y')
      &  CALL MBOOK(K,TITLE(I),HDEL(I),HMIN(I),HMAX(I))
       IF(OPER.EQ.'E') THEN
 c If I contains the accumulated weights, J the accumulated squares of the
@@ -446,12 +446,12 @@ c the average value of I to K and will put in J the quadratic dispersion.
       	ELSEIF(OPER.EQ.'R') THEN
           IF(HIST(I,L).GT.0.) THEN
             HIST(K,L)=X*DSQRT(HIST(I,L))
-          ELSE                           
+          ELSE
             HIST(K,L)=0.
           ENDIF
       	ELSEIF(OPER.EQ.'S') THEN
           HIST(K,L)=X*HIST(I,L)**2
-      	ELSEIF(OPER.EQ.'L') THEN  
+      	ELSEIF(OPER.EQ.'L') THEN
           IF(HIST(I,L).EQ.0..OR.J.EQ.0.) THEN
              HIST(K,L)=0.
            ELSE
@@ -464,22 +464,22 @@ c the average value of I to K and will put in J the quadratic dispersion.
              XAVG=HIST(J,L)/XNORM
              HIST(K,L)=
      &       DSQRT(ABS(-XAVG**2+HIST(K,L)/XNORM)/DFLOAT(IHIS(I,L)))
-             HIST(J,L)=XAVG 
-           ELSE 
+             HIST(J,L)=XAVG
+           ELSE
              HIST(K,L)=0.
              HIST(J,L)=0.
            ENDIF
-      	ELSEIF(OPER.EQ.'V') THEN                 
+      	ELSEIF(OPER.EQ.'V') THEN
            XAVG=HIST(I,L)*X
            XSQAVG=HIST(J,L)*X
            XNORM=DFLOAT(IHIS(I,L))*X
            IF(XNORM.NE.0.) THEN
               HIST(K,L)=DSQRT(ABS(XSQAVG-XAVG**2)/XNORM)
               HIST(I,L)=XAVG
-           ELSE  
+           ELSE
               HIST(K,L)=0.
-           ENDIF 
-      	ELSE 
+           ENDIF
+      	ELSE
 	 CALL MWARN('MOPERA')
          WRITE(*,*) OPER
    5     FORMAT(' ****** OPERATION ="',A1,'" UNKNOWN ********'/)
@@ -487,15 +487,15 @@ c the average value of I to K and will put in J the quadratic dispersion.
         ENDIF
         ENDDO
       	IF(OPER.EQ.'+') THEN
-       	  USCORE(K)=X*USCORE(I) + Y*USCORE(J)  
-       	  OSCORE(K)=X*OSCORE(I) + Y*OSCORE(J)  
-      	ELSEIF(OPER.EQ.'-') THEN     
+       	  USCORE(K)=X*USCORE(I) + Y*USCORE(J)
+       	  OSCORE(K)=X*OSCORE(I) + Y*OSCORE(J)
+      	ELSEIF(OPER.EQ.'-') THEN
       	  USCORE(K)=X*USCORE(I) - Y*USCORE(J)
       	  OSCORE(K)=X*OSCORE(I) - Y*OSCORE(J)
-      	ELSEIF(OPER.EQ.'*') THEN     
+      	ELSEIF(OPER.EQ.'*') THEN
       	  USCORE(K)=X*USCORE(I) * Y*USCORE(J)
       	  OSCORE(K)=X*OSCORE(I) * Y*OSCORE(J)
-      	ELSEIF(OPER.EQ.'/') THEN     
+      	ELSEIF(OPER.EQ.'/') THEN
           IF(Y.EQ.0..OR.USCORE(J).EQ.0.) THEN
             USCORE(K)=0.
           ELSE
@@ -512,28 +512,28 @@ c the average value of I to K and will put in J the quadratic dispersion.
       	ELSEIF(OPER.EQ.'R') THEN
           IF(USCORE(I).GT.0.) THEN
             USCORE(K)=X*DSQRT(USCORE(I))
-          ELSE                           
+          ELSE
             USCORE(K)=0.
-          ENDIF     
+          ENDIF
           IF(OSCORE(I).GT.0.) THEN
             OSCORE(K)=X*DSQRT(OSCORE(I))
-          ELSE                           
+          ELSE
             OSCORE(K)=0.
-          ENDIF     
+          ENDIF
       	ELSEIF(OPER.EQ.'S') THEN
           USCORE(K)=X*USCORE(I)**2
           OSCORE(K)=X*OSCORE(I)**2
-      	ELSEIF(OPER.EQ.'L') THEN  
+      	ELSEIF(OPER.EQ.'L') THEN
           IF(USCORE(I).EQ.0..OR.J.EQ.0.) THEN
              USCORE(K)=0.
            ELSE
              USCORE(K)=X*LOG10(Y*USCORE(I))
-           ENDIF                         
+           ENDIF
           IF(OSCORE(I).EQ.0..OR.J.EQ.0.) THEN
              OSCORE(K)=0.
            ELSE
              OSCORE(K)=X*LOG10(Y*OSCORE(I))
-           ENDIF                         
+           ENDIF
         ENDIF
       ENDIF
       RETURN
@@ -545,12 +545,12 @@ C*************************************************************
 C
 C     ARGUMENTS
 C
-      INTEGER N 
+      INTEGER N
 C
 C     LOCAL
 C
       INTEGER I
-C     
+C
 C     GLOBAL
 C
       INCLUDE 'dbook.inc'
@@ -631,7 +631,7 @@ C     START
 C
       IF(BOOK(N)(1:1).NE.'Y') RETURN
       AVG=0
-      XIN=0                                  
+      XIN=0
       SIG=0
       IF=0
       DO J=1,NBIN(N)
@@ -639,7 +639,7 @@ C
  	 AVG=AVG+X*XHIS(N,J)
          XIN=XIN+X
 	 IF(X.NE.0) IF=1
-      ENDDO             
+      ENDDO
       IF(XIN.EQ.0) GO TO 10
       AVG = AVG/XIN
       DO J=1,NBIN(N)
@@ -650,7 +650,7 @@ C
       HINT(N) = XIN
       HAVG(N) = AVG
       HSIG(N) = SIG
-      END               
+      END
 
       SUBROUTINE MNORM(N,X)
 C*************************************************************
@@ -676,16 +676,16 @@ C
       IF(HINT(N).EQ.0.) THEN
 	CALL MWARN('MNORM')
 	WRITE(*,*)' INTEGRAL HIST ',N,' IS ZERO: CANNOT RENORMALIZE'
-	RETURN               
+	RETURN
       ELSE
 	Y=X/HINT(N)
       ENDIF
       DO 1, I=1,NBIN(N)
     1 HIST(N,I)=HIST(N,I)*Y
-      HINT(N)=X            
+      HINT(N)=X
       OSCORE(N)=OSCORE(N)*Y
       USCORE(N)=USCORE(N)*Y
-      END                  
+      END
 
       SUBROUTINE MPRINT(N)
 C*************************************************************
@@ -716,7 +716,7 @@ C      WRITE(98,7) N,IYEAR,IMON,IDAY,CTIME(1:5)
       WRITE(98,*) TITLE(N)
       DO 1 J=1,NBIN(N)
       IF(HIST(N,J).EQ.0.) GO TO 1
-      WRITE(98,'(3X,F10.4,2X,E15.4)')  
+      WRITE(98,'(3X,F10.4,2X,E15.4)')
      &                            XHIS(N,J),HIST(N,J)
     1 CONTINUE
       WRITE(98,15) HAVG(N),HSIG(N),HINT(N)
@@ -729,7 +729,7 @@ C    7 FORMAT(4X,'HIST = ',I3,'   19',I2,'-',I2,'-',I2,1X,A5/)
 
 
       SUBROUTINE MTOP4(N,M,BTIT,LTIT,SCALE)
-      
+
 C*************************************************************
       IMPLICIT NONE
 C
@@ -761,17 +761,17 @@ cRF
       IF (N.eq.1)WRITE(99,'(A)')' SET DEVICE POSTSCRIPT ORIENT=3'
 
       WRITE(99,100) TITLE(N),BTIT,LTIT,SCALE,HMIN(N),HMAX(N)
-  100 FORMAT( /1x,                               
+  100 FORMAT( /1x,
      &' SET INTENSITY 4'/,1X,
      &' SET WINDOW Y 2.5 TO 9.'/,1X,
      &' SET WINDOW X 2.5 TO 12.'/,1X,
-     &' SET FONT DUPLEX '/1X, 
+     &' SET FONT DUPLEX '/1X,
      &' SET SYMBOL 5O SIZE 1.8'/,1X,
      &' TITLE TOP ','"',A20,'"',/1X,
      &' TITLE BOTTOM ','"',A20,'"',/1X,
      &' TITLE LEFT ','"',A20,'"',/1X,
      &' SET SCALE Y ',A,/1X,
-     &' (SET TICKS TOP OFF)   '/1x,     
+     &' (SET TICKS TOP OFF)   '/1x,
      &' SET LIMITS X ',F10.5,' ',F10.5,/1X,
      &' SET ORDER X Y DY ')
       maxbin=0d0
@@ -779,13 +779,13 @@ cRF
          maxbin=max(maxbin,abs(HIST(N,J)))
       ENDDO
       DO 1 J=1,NBIN(N)
-         WRITE(99,'(3X,F10.4,2(2X,E15.4))')  
+         WRITE(99,'(3X,F10.4,2(2X,E15.4))')
      &        XHIS(N,J),HIST(N,J),HIST(M,J)
     1 CONTINUE
       WRITE(99,200)
   200 FORMAT('   HISTO')
   300 FORMAT( /1x,
-     &' (INFO-BOX'/,1X,                               
+     &' (INFO-BOX'/,1X,
      &' BOX 7.3 1.3 SIZE 9.5 0.7'/,1X,
      &' SET WINDOW Y 0. TO 2.'/,1X,
      &' SET TITLE SIZE -1.5'/1X,
@@ -794,7 +794,7 @@ cRF
      &             '   RMS =',1PE10.3,'"',/1X,
      &' TITLE 3.8 1.1 "Entries =',I8,2x,'Entries =',I8,2X
      &                ,'Undersc =',I6,2X,'Oversc =',I6,'"',/1X,
-     &' SET TITLE SIZE -2')                            
+     &' SET TITLE SIZE -2')
       WRITE(99,400)
   400 FORMAT('   NEW PLOT')
       END
@@ -829,35 +829,35 @@ C
 C  PLOT SIZE, CORNERS
       REAL*8 WIDTH,HEIGHT,XCORN,YCORN
       DATA WIDTH,HEIGHT/11.5,8.5/,XCORN,YCORN/1.5,1./
-C  PLOT VERSUS TEXT FRACTION                  
+C  PLOT VERSUS TEXT FRACTION
       REAL*8 XPFRAC,YPFRAC,XTFRAC,YTFRAC
       DATA XPFRAC,YPFRAC/0.75,0.75/,XTFRAC,YTFRAC/0.25,0.25/
-C  DEFAULT SIZES                                           
+C  DEFAULT SIZES
       REAL*8 TIC0,LAB0,TIT0,LABS
       DATA TIT0,LAB0,TIC0/3d0,3d0,0.06d0/
-      DATA INI/0/                                          
+      DATA INI/0/
       IF(INI.EQ.0) THEN
 c      CALL IDATE(IMON,IDAY,IYEAR)
 c      CALL TIME(CTIME)
-      IFRAME=0        
+      IFRAME=0
 C      WRITE(99,71) IYEAR,IMON,IDAY,CTIME(1:5)
 C   71 FORMAT(4X,' (   19',I2,' -',I2,' -',I2,1X,A5/)
-      INI=1         
+      INI=1
       ENDIF
       IF(SCA.EQ.'REF') THEN
 	IFRAME=0
 	RETURN
       ENDIF
       IF(BOOK(NH)(:1).NE.'Y') RETURN
-      IFRMAX=N*M         
+      IFRMAX=N*M
       IFRAME=IFRAME+1
       IF(IFRAME.GT.IFRMAX.OR.N.NE.NOLD.OR.M.NE.MOLD) THEN
       	IFRAME=1
-        WRITE(99,202)   
+        WRITE(99,202)
 C        WRITE(99,1) IMON,IDAY,CTIME(1:5)
 C  1     FORMAT(' SET FONT DUPLEX',/,'  SET TITLE SIZE 2',/,
 C     +      ' TITLE 12.8 9 ANGLE -90 ','" MLM   ',I2,'-',I2,1X,A5,'"')
-      ENDIF                                
+      ENDIF
       IF(IFRAME.EQ.1) THEN
     	I=1
 	J=1
@@ -872,20 +872,20 @@ C     +      ' TITLE 12.8 9 ANGLE -90 ','" MLM   ',I2,'-',I2,1X,A5,'"')
       NS=N-1
       XD=WIDTH/DFLOAT(N)
       SRED=DSQRT(DFLOAT(N*M))
-      TITS=TIT0/SRED          
+      TITS=TIT0/SRED
       LABS=LAB0/SRED
       TICS=TIC0/SRED
       XTIT0=0.55*XPFRAC*XD
-      NOLD=N            
+      NOLD=N
 10    IF(M.EQ.MOLD) GO TO 20
       YD=HEIGHT/DFLOAT(M)
       YTIT0=0.06*YD
-      MOLD=M        
+      MOLD=M
 20    CONTINUE
       XL=(I-1)*XD + XCORN
       YL=(M-J)*YD + YCORN
       XU=XL+XD*XPFRAC
-      YU=YL+YD*YPFRAC        
+      YU=YL+YD*YPFRAC
       IP=0
       XMX=0.
       DO IBIN=1,NBIN(NH)
@@ -915,7 +915,7 @@ c$$$                GO TO 50
 c$$$        ENDIF
         FMAX=10.**( AINT(LOG10(ABS(FMX))+1000001) - 1000000 )
         FMIN=10.**( AINT(LOG10(ABS(FMN))+1000000) - 1000000 )
-      ENDIF                         
+      ENDIF
       WRITE(99,100) TITS,LABS,TICS,XL,XU,YL,YU
 100   FORMAT(2X,'( SET FONT DUPLEX',/,
      *       2X,'SET TITLE SIZE ',F8.4,/,
@@ -926,59 +926,59 @@ c$$$        ENDIF
       XTIT=XL+XTIT0
       YTIT=YU+YTIT0
       WRITE(99,101) XL,YTIT,TITLE(NH)(1:40)
-101   FORMAT('  TITLE ',2(F8.4,1X),'"',A,'"')                  
+101   FORMAT('  TITLE ',2(F8.4,1X),'"',A,'"')
       YTIT=YTIT-2.*YTIT0
       WRITE(99,102) XTIT,YTIT,HINT(NH)
-102   FORMAT('  TITLE ',2(F8.4,1X),'" INT=',1PE10.3,'"')                  
+102   FORMAT('  TITLE ',2(F8.4,1X),'" INT=',1PE10.3,'"')
       YTIT=YTIT-YTIT0
       WRITE(99,103) XTIT,YTIT,IENT(NH)
-103   FORMAT('  TITLE ',2(F8.4,1X),'" ENT=',I9,'"')                  
-      YTIT=YTIT-YTIT0                         
+103   FORMAT('  TITLE ',2(F8.4,1X),'" ENT=',I9,'"')
+      YTIT=YTIT-YTIT0
       IF(USCORE(NH).NE.0.) THEN
         WRITE(99,104) XTIT,YTIT,USCORE(NH)
-104     FORMAT('  TITLE ',2(F8.4,1X),'" UFL=',1PE10.3,'"')                  
-        YTIT=YTIT-YTIT0                      
+104     FORMAT('  TITLE ',2(F8.4,1X),'" UFL=',1PE10.3,'"')
+        YTIT=YTIT-YTIT0
       ENDIF
       IF(OSCORE(NH).NE.0.) THEN
         WRITE(99,105) XTIT,YTIT,OSCORE(NH)
-105     FORMAT('  TITLE ',2(F8.4,1X),'" OFL=',1PE10.3,'"')                  
-        YTIT=YTIT-YTIT0                      
-      ENDIF      
+105     FORMAT('  TITLE ',2(F8.4,1X),'" OFL=',1PE10.3,'"')
+        YTIT=YTIT-YTIT0
+      ENDIF
       WRITE(99,106) XTIT,YTIT,XU,YTIT,XTIT,YTIT,XTIT,YU
 106   FORMAT(2X,'SET ORD X Y ',/,2(F8.4,1X),/,2(F8.4,1X),/,
      *       2X,'JOIN TEXT',/,
      *       2X,2(F8.4,1X),/,2(F8.4,1X),/,
-     *       2X,'JOIN TEXT')                                    
+     *       2X,'JOIN TEXT')
       WRITE(99,108) TITS*1.5
 108   FORMAT(2X,'SET TITLE SIZE ',F8.4)
       WRITE(99,107) BTIT,XL-0.75*XD*XTFRAC,YL+(YU-YL)/3.,LTIT,SCALE,
      * HMIN(NH),HMAX(NH),FMIN,FMAX
-107   FORMAT(                                           
+107   FORMAT(
      &' TITLE BOTTOM ','"',A,'"',/1X,
      &' TITLE ',f10.5,f10.5,' ANGLE 90 ','"',A,'"',/1X,
      &' SET SCALE Y ',A,/1X,
-     &' SET TICKS TOP OFF   '/1x,     
+     &' SET TICKS TOP OFF   '/1x,
      &' SET LIMITS X ',F10.5,' ',F10.5,/1X,
      &' SET LIMITS Y ',1PE10.3,' ',1PE10.3,/1X,
-     &' SET ORDER X Y DY')               
-C                       
+     &' SET ORDER X Y DY')
+C
 C  END HEADER , FILL TOPDRAWER WITH DATA
 C
       ENTRY MTFILL(NH,NE,N,M,BTIT,LTIT,SCA)
-      IP=IP+1                             
+      IP=IP+1
       IF(IP.GT.4) IP=1
       WRITE(99,110) TITLE(NH),HINT(NH),IENT(NH)
 110   FORMAT(' ( ',A,/,' ( INT=',1PE10.3,'  ENTRIES=',I12)
-      DO 200 IBIN=1,NBIN(NH)           
-      WRITE(99,'(3X,F10.4,2(2X,E15.4))')  
+      DO 200 IBIN=1,NBIN(NH)
+      WRITE(99,'(3X,F10.4,2(2X,E15.4))')
      &          XHIS(NH,IBIN),HIST(NH,IBIN),HIST(NE,IBIN)
-200   CONTINUE                                           
+200   CONTINUE
       WRITE(99,201)  PLOT(IP)
       IF(BOOK(NE).NE.'NO')   WRITE(99,*)  '  PLOT'
-201   FORMAT(2X,'HIST ',A)           
+201   FORMAT(2X,'HIST ',A)
 202   FORMAT('   NEW PLOT',/,/)
-203   RETURN     
-      END                     
+203   RETURN
+      END
 
 
       SUBROUTINE MWARN(ROUT)
@@ -1011,7 +1011,7 @@ c     PineAPPL commons
          do j=1,nh_obs
             if(n.eq.ih_obs(j))then
                appl_obs_num   = j
-               appl_obs_histo = var 
+               appl_obs_histo = var
 c     Fill the reference PineAPPL histograms
 c     Fill the PineAPPL files
                call APPL_fill
@@ -1035,7 +1035,7 @@ c     PineAPPL commons
       common /for_pineappl/ pineappl
 c     Initialize the grids only if the switch "pineappl" is different from zero
 c     and if the title string containes the word "central" and does not contain
-c     the word "Born". 
+c     the word "Born".
       if(pineappl.and.index(string,"central").ne.0.and.
      1                  index(string,"Born").eq.0)then
 c     Observable parameters
@@ -1050,7 +1050,7 @@ c     compute bin edges
          appl_obs_min = appl_obs_bins(0)
          appl_obs_max = appl_obs_bins(appl_obs_nbins)
          if(abs(appl_obs_max-xu).gt.0.00000001d0)then
-            write(*,*) 'PineAPPL Histogram: ', 
+            write(*,*) 'PineAPPL Histogram: ',
      1                 'Change of the upper limit:',xu,'-->',
      2                  appl_obs_max
          endif
@@ -1230,6 +1230,3 @@ c accumula l'errore in quadratura
 c
       call mopera(j+2,'Q',j+3,j+3,dum,dum)
       end
-
-
-

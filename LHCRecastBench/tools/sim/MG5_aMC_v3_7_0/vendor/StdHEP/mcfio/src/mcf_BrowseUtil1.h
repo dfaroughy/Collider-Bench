@@ -8,8 +8,8 @@
 *******************************************************************************/
 #include <sys/param.h>
 /*
-** a bunch of data structure to keep information to be able to manage 
-** volatile histograms in the Browser. 
+** a bunch of data structure to keep information to be able to manage
+** volatile histograms in the Browser.
 */
 typedef struct nTuBroHsGeneralRec{
     int type;     /* The HistoScope type of item (1D Hist, 2D hist, Ntuple) */
@@ -23,7 +23,7 @@ typedef struct nTuBroHs1DRec{
     int subBlock; /* The subblock number to be histogram -1 = all */
     long *lDat;   /* The addresses to be histogrammed ( or starting address) */
     int *varIndices;
-       /* An array containing the array index if var. multi-dimensional */ 
+       /* An array containing the array index if var. multi-dimensional */
 }  nTuBroHs1D;
 
 typedef struct nTuBroHs2DRec{
@@ -36,9 +36,9 @@ typedef struct nTuBroHs2DRec{
     long *xLDat;  /* The addresses to be histogrammed ( or starting address) */
     long *yLDat;  /* The addresses to be histogrammed ( or starting address) */
     int *xVarIndices;
-       /* An array containing the array index if var. multi-dimensional */ 
+       /* An array containing the array index if var. multi-dimensional */
     int *yVarIndices;
-       /* An array containing the array index if var. multi-dimensional */ 
+       /* An array containing the array index if var. multi-dimensional */
 }  nTuBroHs2D;
 
 /*
@@ -61,15 +61,15 @@ typedef struct nTuBrowserInfoRec {
     int nHisto2D;       /* The number of 2D histo */
     int nHistoNtuples;  /* The number of Ntuples */
     int sizeOfLists;    /* The size of the the following lists */
-    nTuBroHsGeneral **hsItemList;  
+    nTuBroHsGeneral **hsItemList;
                  /* The list of structures containing info for hs histograms */
     int currentData;    /* A flag stating if the data is current */
     void *data;		/* A pointer to the temporary user data area */
 } nTuBrowserInfo;
- 
+
 /*
 ** An array of such things, running parallel to the NTuDDLList
-*/   
+*/
 extern  nTuBrowserInfo **NTupleBrowserList;
 
 void mcfioC_CreateBrowserAnalysis();
@@ -77,5 +77,3 @@ void mcfioC_ExtendBrowserAnalysis(nTuBrowserInfo *nTuBr);
 void mcfioC_createBrowserData(nTuBrowserInfo *nTuBr);
 void mcfioC_DestroyBrowserAnalysis();
 void mcfioC_ShowBrowserDataDump(nTuBrowserInfo * nTuBr);
-
-

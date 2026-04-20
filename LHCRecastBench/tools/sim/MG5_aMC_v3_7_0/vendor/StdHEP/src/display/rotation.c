@@ -61,19 +61,19 @@ void ShowAbsRotationPanel(StdHepWindow *window)
     else
     	XRaiseWindow(XtDisplay(window->absRotationPanel),
     		     XtWindow(XtParent(window->absRotationPanel)));
-}    
+}
 
 void UpdateRotationPanel(StdHepWindow *window)
 {
     double alpha, beta, gamma, m[3][3];
     char rotString[100];
     XmString cRotString;
-    
+
     if (window->absRotationPanel == NULL)
     	return;
     if (!XtIsManaged(window->absRotationPanel))
     	return;
-    	
+
     SpinGetTransform(window->spin, m);
     matrixToAngles(m, &alpha, &beta, &gamma);
     sprintf(rotString, "Alpha %d, Beta %d, Gamma %d\n",
@@ -87,14 +87,14 @@ static void anglesToMatrix(double alpha, double beta, double gamma,
 			   double m[3][3])
 {
     double cosAlpha, sinAlpha, cosBeta, sinBeta, cosGamma, sinGamma;
-    
+
     sinAlpha = sin(RADIANS(alpha));
     sinBeta = sin(RADIANS(beta));
     sinGamma = sin(RADIANS(gamma));
     cosAlpha = cos(RADIANS(alpha));
     cosBeta = cos(RADIANS(beta));
     cosGamma = cos(RADIANS(gamma));
-    
+
     m[0][0] = cosGamma*cosBeta*cosAlpha - sinGamma*sinAlpha;
     m[0][1] = 0. - sinGamma*cosBeta*cosAlpha - cosGamma*sinAlpha;
     m[0][2] = sinBeta*cosAlpha;
@@ -119,7 +119,7 @@ static void matrixToAngles(double m[3][3], double *alpha,
     double alphaResult, betaResult, gammaResult, betaResults[2];
     double temp, testMatrix[3][3];
     int i, j, k, verified;
-    
+
     /* try solutions for both beta = (+/-)acos(m[2][2]) */
     cosBeta = m[2][2];
     betaResults[0] = acos(cosBeta);
@@ -167,7 +167,7 @@ static void matrixToAngles(double m[3][3], double *alpha,
     	    alphaResult = EPSILON;
 
     	/* Verify and select solution */
-    	anglesToMatrix(DEGREES(alphaResult), DEGREES(betaResult), 
+    	anglesToMatrix(DEGREES(alphaResult), DEGREES(betaResult),
     	    	       DEGREES(gammaResult), testMatrix);
     	verified = True;
     	for (i=0; i<=1; i++) {
@@ -210,7 +210,7 @@ static void createAbsRotationPanel(StdHepWindow *window)
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_HELP_BUTTON));
     XtManageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_APPLY_BUTTON));
     SET_ONE_RSRC(XtParent(selBox), XmNtitle, "Rotation Angles");
-    
+
     ac = 0;
     form = XmCreateForm(selBox, "form", args, ac);
 
@@ -232,7 +232,7 @@ static void createAbsRotationPanel(StdHepWindow *window)
     					    args, ac);
     XmStringFree(s1);
     XtManageChild(currentValuesLabel);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("Set to:"))); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -240,7 +240,7 @@ static void createAbsRotationPanel(StdHepWindow *window)
     setToLabel = XmCreateLabelGadget(form, "setToLabel", args, ac);
     XmStringFree(s1);
     XtManageChild(setToLabel);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("Alpha"))); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -249,7 +249,7 @@ static void createAbsRotationPanel(StdHepWindow *window)
     alphaLabel = XmCreateLabelGadget(form, "alphaLabel", args, ac);
     XmStringFree(s1);
     XtManageChild(alphaLabel);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNcolumns, 3); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -258,7 +258,7 @@ static void createAbsRotationPanel(StdHepWindow *window)
     XtSetArg(args[ac], XmNleftWidget, alphaLabel); ac++;
     alphaText = XmCreateText(form, "alphaText", args, ac);
     XtManageChild(alphaText);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("Beta"))); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -278,7 +278,7 @@ static void createAbsRotationPanel(StdHepWindow *window)
     XtSetArg(args[ac], XmNleftWidget, betaLabel); ac++;
     betaText = XmCreateText(form, "betaText", args, ac);
     XtManageChild(betaText);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("Gamma"))); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -313,7 +313,7 @@ static void absRotOkCB(Widget w, StdHepWindow *window, caddr_t call_data)
     double angles[3], m[3][3], value;
     char *string;
     int i, nRead;
-    
+
     for (i=ALPHA; i<=GAMMA; i++) {
 	string = XmTextGetString(window->absRotFields[i]);
 	nRead = sscanf(string, "%lf", &value);
@@ -327,13 +327,13 @@ static void absRotOkCB(Widget w, StdHepWindow *window, caddr_t call_data)
     }
     anglesToMatrix(angles[ALPHA], angles[BETA], angles[GAMMA], m);
     SpinSetTransform(window->spin, m);
-    	
+
 }
 
 static void absRotCancelCB(Widget w, StdHepWindow *window, caddr_t call_data)
 {
     int i;
-    
+
     for (i=ALPHA; i<=GAMMA; i++)
 	XmTextSetString(window->absRotFields[i], "");
 }

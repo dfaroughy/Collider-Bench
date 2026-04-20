@@ -26,7 +26,6 @@ libmodel.a: $(MODEL)
 
 $(LIBDIR)libmodel.a: libmodel.a
 	cp libmodel.a $(LIBDIR)
-	
-clean: 
-	rm *.o libmodel.a
 
+clean:
+	rm *.o libmodel.a

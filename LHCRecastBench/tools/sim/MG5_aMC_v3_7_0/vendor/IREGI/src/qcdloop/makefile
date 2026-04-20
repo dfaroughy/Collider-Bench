@@ -5,12 +5,12 @@ QLDIR  = $(HERE)/ql
 FFDIR  = $(HERE)/ff
 
 # -----------------------------------------------------------------------------
-# Specify the object files. 
+# Specify the object files.
 
 TEST= \
-test.o 
+test.o
 
-.f.o:	
+.f.o:
 		$(FC) $(F77FLAGS) -c $*.f
 
 
@@ -21,13 +21,13 @@ all: test
 test: qldir ffdir 		\
 	$(TEST)
 	$(FC) $(FFLAGS) -L$(QLDIR) -L$(FFDIR) -o $@ \
-            $(TEST) -lqcdloop -lff 
+            $(TEST) -lqcdloop -lff
 
 ffdir:
-	(cd $(FFDIR); make; ranlib libff.a) 
+	(cd $(FFDIR); make; ranlib libff.a)
 
 qldir:
-	(cd $(QLDIR); make) 
+	(cd $(QLDIR); make)
 
 
 # -----------------------------------------------------------------------------
@@ -38,5 +38,3 @@ clean:
 # -----------------------------------------------------------------------------
 
 # DO NOT DELETE
-
-

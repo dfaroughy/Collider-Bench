@@ -38,7 +38,7 @@
 #include <Xm/Xm.h>
 #include <X11/Shell.h>
 #include <X11/StringDefs.h>
-#include <X11/Intrinsic.h> 
+#include <X11/Intrinsic.h>
 #include <Xm/ArrowB.h>
 #include <Xm/ArrowBG.h>
 #include <Xm/BulletinB.h>
@@ -90,7 +90,7 @@
 */
 void ListNodeHep(Widget parent, nodehep *ptr)
 {
-	
+
     Arg    	args[512];
     int    	argcnt;
     Widget 	retval;
@@ -102,7 +102,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
     Widget	text;
     Widget 	dialogShell;
     char 	*ctext, *cbegin;
-    
+
     int i, j, ip, l, id;
     int *ml;
     double pmom, pt;
@@ -113,8 +113,8 @@ void ListNodeHep(Widget parent, nodehep *ptr)
     int nlines;
     int lctext;
     char ctmp[80];
-    
-    
+
+
     if (ptr == NULL) {
     	if (w1->nodeWindowShell)
     	    XtDestroyWidget(XtParent(w1->nodeWindowShell));
@@ -123,7 +123,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
     e1 = w1->event;
     p1 = e1.particles;
     if ((ptr->multiplicity) < 1) return;
-    
+
 /* Normal Tree, real event */
 
     if (w1->modetreedisp == TREEDISPREAL) {
@@ -155,7 +155,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
         ip = *ml;
         ptemp = p1; for(l=0; l< ip; l++, ptemp ++);
       /*
-      *place, px, py, pz, 
+      *place, px, py, pz,
       * Pt and Rapidity
       */
         ppx = 1.0 * ptemp->px; ppy = 1.* ptemp->py;
@@ -171,7 +171,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
         ctext = ctext + strlen(ctext);
         sprintf(ctext," Momentum, Pt  = %10.4g %10.4g \n ", pmom, pt);
         ctext = ctext + strlen(ctext);
-        sprintf(ctext," Rapidity, Pseudo Rap. = %8.4g %8.4g \n ", 
+        sprintf(ctext," Rapidity, Pseudo Rap. = %8.4g %8.4g \n ",
       				rm, prm);
         ctext = ctext + strlen(ctext);
        }
@@ -183,9 +183,9 @@ void ListNodeHep(Widget parent, nodehep *ptr)
         w1->nodeWindowShell = form;
       } else {
 /*
-* Very short documentation about Color code. 
+* Very short documentation about Color code.
 */
-      cbegin = (char *) malloc(500); 
+      cbegin = (char *) malloc(500);
              /* A stupid gues.. Looks verbose enough...*/
       ctext = cbegin;
       ml = ptr->stdIndex;
@@ -204,15 +204,15 @@ void ListNodeHep(Widget parent, nodehep *ptr)
       sprintf(ctmp," \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
       nlines = 10;
-      
+
       id = ptr->stdid; if (id < 0) id = -1 * id;
-      
+
       if ((id == 47) || (id == 25) || (id == 33)) {
       sprintf(ctmp," Supersymetric, Higgs or other \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
       sprintf(ctmp,"   undiscovered particles are black \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
-      
+
       } else if ((id == 23) || (id == 24) || (id == 9) || (id  == 21)) {
       sprintf(ctmp," Weak Gauge bosons and Gluons are \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
@@ -226,7 +226,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
       sprintf(ctmp," to it's mass or virtuality \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
-      
+
       } else if ((id <= 20) && (id > 10)) {
       sprintf(ctmp," Leptons are pure RGB colors ( 3 families only) \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
@@ -234,7 +234,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
       sprintf(ctmp," Neutrino are grey. \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
-      
+
       } else if (id <= 7)  {
       sprintf(ctmp," The quarks are a mixture of two RGB Colors, \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
@@ -244,7 +244,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
       sprintf(ctmp," Note : The charge is not represented by a color \n ");
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
-      
+
       } else  {
       sprintf(ctmp," Hadrons:  Color is set by the heaviest quark \n " );
       strcpy(ctext, ctmp); ctext = ctext + strlen(ctmp);
@@ -262,7 +262,7 @@ void ListNodeHep(Widget parent, nodehep *ptr)
         form = XmCreateFormDialog(parent, "HEP Node Content", args, argcnt);
         w1->colorWindowShell = form;
      }
-      
+
     if (w1->nodeWindowShell !=NULL)
        XtDestroyWidget(XtParent(w1->nodeWindowShell));
     argcnt = 0;
@@ -286,9 +286,9 @@ void ListNodeHep(Widget parent, nodehep *ptr)
     if (nlines < 12) text = XmCreateText(form, "text", args, argcnt);
     else text = XmCreateScrolledText(form, "text", args, argcnt);
     XtManageChild(text);
-    
+
     SET_ONE_RSRC(XtParent(form), XmNtitle, "HEP Node Content");
     XtManageChild(form);
     free (cbegin);
-           
+
 }

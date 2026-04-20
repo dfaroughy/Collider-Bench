@@ -648,7 +648,7 @@ c
         tsi=tsi*dv2g
         ti2=ti*ti
 88     format(1x,'tsi',g14.6)
-       if(tsi.eq.0.d0)then 
+       if(tsi.eq.0.d0)then
          rpp=1.d15
        else
          rpp=abs(ti2/tsi)
@@ -777,7 +777,7 @@ c 200    format(2i8,4z16/(5z16))
 c        return
 c        end
 
-      
+
 
       subroutine randa(n,rand)
       implicit double precision (a-h,o-z)
@@ -861,5 +861,3 @@ c Set nprn equal to zero to print nothing
       stddev=sd
       return
       end
-
-

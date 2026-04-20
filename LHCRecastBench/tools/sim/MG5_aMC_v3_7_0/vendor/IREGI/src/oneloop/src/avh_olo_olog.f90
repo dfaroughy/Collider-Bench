@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -21,7 +21,7 @@
 module avh_olo_forIREGI_olog
 !***********************************************************************
 ! Provides the functions
-!   olog(x,n) = log(x) + n*pi*imag  
+!   olog(x,n) = log(x) + n*pi*imag
 !   olog2(x,n) = olog(x,n)/(x-1)
 ! In the vicinity of x=1,n=0, the logarithm of complex argument is
 ! evaluated with a series expansion.
@@ -87,7 +87,7 @@ contains
     if (ntrm(ii,prcpar).le.1) then
       do jj=1,ii
         ntrm(jj,prcpar) = ntrm(ii,prcpar)
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif

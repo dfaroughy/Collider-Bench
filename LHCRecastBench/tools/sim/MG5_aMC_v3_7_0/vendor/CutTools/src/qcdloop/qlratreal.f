@@ -11,17 +11,17 @@
 *									*
 ***comment:*************************************************************
       implicit none
-      include 'qlconstants.f' 
+      include 'qlconstants.f'
       double precision si,ta,ieps,rat
       rat=si/ta
       if (rat .gt. zip) then
       ieps=0d0
       return
       elseif (si .lt. zip) then
-      ieps=-1d0 
+      ieps=-1d0
       return
       elseif (ta .lt. zip) then
-      ieps=+1d0 
+      ieps=+1d0
       return
       elseif (ta .eq. zip) then
       write(6,*) 'error in qlratreal, ta=',ta

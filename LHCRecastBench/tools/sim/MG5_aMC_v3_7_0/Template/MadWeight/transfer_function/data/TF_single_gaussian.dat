@@ -28,10 +28,10 @@
 ##          - a delta functions for the rest                            ##
 ##########################################################################
 ##                                                                      ##
-##   Syntax/variables:                                                  ## 
+##   Syntax/variables:                                                  ##
 ##                                                                      ##
 ##  - a definition for transfer functions should define the variable tf ##
-##    while a definition for the width shoud define the variable width  ##                               
+##    while a definition for the width shoud define the variable width  ##
 ##	- You can use all standard f77 functions. (All variables are	##
 ##		in double precision format). 	                        ##
 ##	- The experimental event is  defined by the variable pexp(i)    ##
@@ -69,8 +69,8 @@
 
 ##**********************************************************************##
 ##                           TF JET					##
-##**********************************************************************## 
-<block name='jet'>   #name can be anything 
+##**********************************************************************##
+<block name='jet'>   #name can be anything
 <info> single gaussian with parameter depending of the energy </info>
 <particles> u,d,s,c,b,g </particles>
 # this defined when this tf will be used.the letter correspond to the label in
@@ -83,7 +83,7 @@
         prov2=(#4+#5*dsqrt(p(0))+#6*p(0))
 
         tf=(exp(-(p(0)-pexp(0)-prov1)**2/2d0/prov2**2))                !first gaussian
-        tf=tf*((1d0/dsqrt(2d0*pi))/(prov2))            !normalisation 	
+        tf=tf*((1d0/dsqrt(2d0*pi))/(prov2))            !normalisation
 </tf>
 <width>
         width=(#4+#5*dsqrt(pexp(0))+#6*pexp(0))
@@ -91,11 +91,11 @@
 </width>
 </variable>
 
- # in this case THETA/PHI are not defined because they are considered 
+ # in this case THETA/PHI are not defined because they are considered
  # in delta (=default)
  # The same syntax apply
 </block>
-<block name='lepton'>   #name can be anything 
+<block name='lepton'>   #name can be anything
 <info> single gaussian with parameter depending of the energy </info>
 <particles> mu,e </particles>
 # this defined when this tf will be used.the letter correspond to the label in
@@ -108,7 +108,7 @@
         prov2=(#10+#11*dsqrt(p(0))+#12*p(0))
 
         tf=(exp(-(p(0)-pexp(0)-prov1)**2/2d0/prov2**2))                !first gaussian
-        tf=tf*((1d0/dsqrt(2d0*pi))/(prov2))            !normalisation   
+        tf=tf*((1d0/dsqrt(2d0*pi))/(prov2))            !normalisation
 </tf>
 <width>
         width=(#10+#11*dsqrt(pexp(0))+#12*pexp(0))
@@ -116,9 +116,8 @@
 </width>
 </variable>
 
- # in this case THETA/PHI are not defined because they are considered 
+ # in this case THETA/PHI are not defined because they are considered
  # in delta (=default)
  # The same syntax apply
 </block>
 </file>
-

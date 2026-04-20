@@ -12,13 +12,12 @@
         !     if = -1, then it is not in the split_orders
       PARAMETER (QCD_POS = 1)
       PARAMETER (QED_POS = 2)
-        !     this is to keep track of the various 
+        !     this is to keep track of the various
         !     coupling combinations entering each ME
       INTEGER AMP_SPLIT_SIZE, AMP_SPLIT_SIZE_BORN
       PARAMETER (AMP_SPLIT_SIZE = 4)
-        !     the first entries in the next line in amp_split are for the born 
+        !     the first entries in the next line in amp_split are for the born
       PARAMETER (AMP_SPLIT_SIZE_BORN = 1)
       DOUBLE PRECISION AMP_SPLIT(AMP_SPLIT_SIZE)
       DOUBLE COMPLEX AMP_SPLIT_CNT(AMP_SPLIT_SIZE,2,NSPLITORDERS)
       COMMON /TO_AMP_SPLIT/AMP_SPLIT, AMP_SPLIT_CNT
-

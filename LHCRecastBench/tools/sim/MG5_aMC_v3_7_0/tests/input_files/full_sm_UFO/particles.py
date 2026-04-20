@@ -382,4 +382,3 @@ phi__plus__ = Particle(pdg_code = 251,
                        GhostNumber = 0)
 
 phi__minus__ = phi__plus__.anti()
-

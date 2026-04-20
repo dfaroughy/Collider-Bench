@@ -1,10 +1,10 @@
       program check_events
 c Checks self-consistency of event files. Compile with
-c gfortran -I../SubProcesses/P0_<anydir> -I../Source -ffixed-line-length-132 
+c gfortran -I../SubProcesses/P0_<anydir> -I../Source -ffixed-line-length-132
 c   -o check_events check_events.f handling_lhe_events.f appl_interface_dummy.f
 c                   fill_MC_mshell.f dbook.f extra_weights.f
-c With some work on finalizeprocesses(), it should work also for 
-c LH files created by Herwig, assuming they are identified by a 
+c With some work on finalizeprocesses(), it should work also for
+c LH files created by Herwig, assuming they are identified by a
 c negative number of events
       use extra_weights
       implicit none
@@ -67,7 +67,7 @@ c negative number of events
       real*8 ecm,xmass(3*nexternal),xmom(0:3,3*nexternal),xnorm
 
       integer kk,kr,kf,kpdf
-      double precision 
+      double precision
      # sum_wgt_resc_scale(0:maxorders,maxscales,maxscales,maxdynscales),
      # sum_wgt_resc_pdf(0:maxPDFs,maxPDFsets),
      # xmax_wgt_resc_scale(0:maxorders,maxscales,maxscales,maxdynscales),
@@ -136,7 +136,7 @@ c read from events
       else
          mcatnlo_delta=.false.
       endif
-      
+
       ifile=34
       open (unit=ifile,file=event_file,status='old')
       open (unit=51,file='res_wgt',status='unknown')
@@ -254,7 +254,7 @@ c
      &     IDBMUP,EBMUP,PDFGUP,PDFSUP,IDWTUP,NPRUP,
      &     XSECUP,XERRUP,XMAXUP,LPRUP)
 
-      
+
       do i=1,min(100,maxevt)
         call read_lhef_event_catch(ifile,
      &       NUP,IDPRUP,XWGTUP,SCALUP,AQEDUP,AQCDUP,
@@ -278,7 +278,7 @@ c
             saved_weight=abs(XWGTUP)
           else
             if( ((jwgtinfo.eq.0.and.wgtcentral.ne.0.d0) .or.
-     #           jwgtinfo.eq.8.or.jwgtinfo.eq.9) .and. 
+     #           jwgtinfo.eq.8.or.jwgtinfo.eq.9) .and.
      #          (.not.rwgtinfo) )then
               write(*,*)'Inconsistency #2 in event file',i,' ',buff
               stop
@@ -343,7 +343,7 @@ c
       call read_lhef_init(ifile,
      &     IDBMUP,EBMUP,PDFGUP,PDFSUP,IDWTUP,NPRUP,
      &     XSECUP,XERRUP,XMAXUP,LPRUP)
-      
+
 
       sum_wgt=0d0
       sum_abs_wgt=0d0
@@ -490,7 +490,7 @@ c
          sum_abs_wgt=sum_abs_wgt+abs(XWGTUP)
 
 c Note: with pre-beta2 convention, the reweighting cross sections were
-c normalized such that one needed to compute e.g. 
+c normalized such that one needed to compute e.g.
 c XWGTUP*wgtxsecmu(kr,kf)/wgtref
          if(jwgtinfo.eq.8.or.jwgtinfo.eq.9)then
             do oo=0,n_orderstags
@@ -533,7 +533,7 @@ c XWGTUP*wgtxsecmu(kr,kf)/wgtref
      #                       jwgtinfo,mexternal,iwgtnumpartn,
      #            wgtcentral,wgtmumin,wgtmumax,wgtpdfmin,wgtpdfmax
           if( ((jwgtinfo.eq.0.and.wgtcentral.ne.0.d0) .or.
-     #         jwgtinfo.eq.8.or.jwgtinfo.eq.9) .and. 
+     #         jwgtinfo.eq.8.or.jwgtinfo.eq.9) .and.
      #        (.not.rwgtinfo) )then
              write(*,*)'Inconsistency #2 in event file',i,' ',buff
              stop
@@ -715,7 +715,7 @@ c Don't check momentum conservation in that case
  111     continue
       enddo
 
-      if( maxevt.ne.(ipos+ineg) .or. 
+      if( maxevt.ne.(ipos+ineg) .or.
      #    ipos.ne.(ipos_S+ipos_H) .or.
      #    ineg.ne.(ineg_S+ineg_H) )then
         write(*,*)'Something wrong with counting events:',
@@ -1044,7 +1044,7 @@ c
       integer idups_Sproc_HW6(401:499,-1:22),
      #        idups_Hproc_HW6(401:499,-1:22)
       common/cHW6processes/idups_Sproc_HW6,idups_Hproc_HW6
-c Derived from conventions used by HW6 
+c Derived from conventions used by HW6
 C  401    q qbar -> X
 C  402    q g    -> X
 C  403    qbar q -> X
@@ -1275,7 +1275,7 @@ c
         if(wrong)goto 100
 c Find partner(s) of particle i. If the colour of particle i is attached to
 c the colour (anticoulour) of particle n, then ncol1=n (ncol2=n).
-c If the anticolour of particle i is attached to the colour (anticoulour) 
+c If the anticolour of particle i is attached to the colour (anticoulour)
 c of particle n, then nacl1=n (nacl2=n)
         ncol1=-1
         ncol2=-1
@@ -1340,7 +1340,7 @@ c Initial(final) state anticolour is connected to final(initial) state colour
 
 
       subroutine setdecmat()
-c Assume up to 20 intermediate states (called mothers) will be present in 
+c Assume up to 20 intermediate states (called mothers) will be present in
 c the LH file, each with up to 40 decay channels, each with up to 5 decay
 c products (called daughters). Maximum PDG code is 25
 c  nmothers(0) = number of mothers (<=20)
@@ -1542,7 +1542,7 @@ c
           write(*,*)imo,i
           stop
         endif
-c Now nset(imo,1) matches jmo(i). Fill nch, ndec, jda and ndecev, or 
+c Now nset(imo,1) matches jmo(i). Fill nch, ndec, jda and ndecev, or
 c find match and fill what appropriate
         do k=1,nset(imo,0)
           jdatmp(k)=IDUP(nset(imo,k+1))
@@ -1615,7 +1615,7 @@ c
       do i=1,nmothers(0)
         write(74,100)i,jmo(i)
       enddo
-c 
+c
       do i=1,nmothers(0)
         ndecev(0,i)=0
         do j=1,nch(i)
@@ -1861,7 +1861,7 @@ C****************************************************************************
       double precision p1(0:3),p2(0:3)
       dot=p1(0)*p2(0)-p1(1)*p2(1)-p1(2)*p2(2)-p1(3)*p2(3)
 
-      if(dabs(dot).lt.1d-6)then ! solve numerical problem 
+      if(dabs(dot).lt.1d-6)then ! solve numerical problem
          dot=0d0
       endif
 

@@ -105,7 +105,7 @@
 *	and the minimum value the logarithm accepts without complaining
 *	about arguments zero is (DOUBLE PRECISION cq DOUBLE COMPLEX)
 *
-* begin_modification by R. Pittau 
+* begin_modification by R. Pittau
 *	s = 1
 *	xalogm = 1
 *	do 5 i=1,10000
@@ -118,7 +118,7 @@
 	if ( xalogm.eq.0 ) xalogm = 1d-308
 * end_modification
 	if ( lwrite ) print *,'ffini: xalogm = ',xalogm
-* begin_modification by R. Pittau 
+* begin_modification by R. Pittau
 *	s = 1
 *	xclogm = abs(DCMPLX(s))
 *	do 7 i=1,10000
@@ -1284,7 +1284,7 @@ C	path = '/Users/ellis/QCDLoop-1.9/ff/'
 *###] fftayl:
 	end
 
-        subroutine ffzalgm(zalogm) 
+        subroutine ffzalgm(zalogm)
         implicit none
         double precision s,zalogm
         integer i
@@ -1293,7 +1293,7 @@ C	path = '/Users/ellis/QCDLoop-1.9/ff/'
 	do 5 i=1,10000
 	    s = s/2
 	    if ( 2*abs(s) .eq. zalogm) then
-            else            
+            else
              goto 6
             endif
 	    zalogm = abs(s)
@@ -1301,7 +1301,7 @@ C	path = '/Users/ellis/QCDLoop-1.9/ff/'
     6	continue
         end
 
-        subroutine ffzclgm(zclogm) 
+        subroutine ffzclgm(zclogm)
         implicit none
         double precision s,zclogm
         integer i
@@ -1313,4 +1313,4 @@ C	path = '/Users/ellis/QCDLoop-1.9/ff/'
 	    zclogm = abs(DCMPLX(s))
     7	continue
     8	continue
-        end 
+        end

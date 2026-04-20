@@ -1,10 +1,10 @@
 	  SUBROUTINE %(proc_prefix)sCOLLIERLOOP(CTMODE, NLOOPLINE,RANK,PL,PDEN,M2L,TIRCOEFS,TIRCOEFSERRORS)
-C  
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and COLLIER.
 C It supports any rank when 1 < NLOOPLINE < 7.
-C  
+C
 %(process_lines)s
 C
 C
@@ -12,9 +12,9 @@ C MODULES
 C
 	  USE COLLIER
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C  
+C
+C CONSTANTS
+C
       LOGICAL checkPConservation
       PARAMETER (checkPConservation=.TRUE.)
       %(real_dp_format)s PIVALUE
@@ -23,20 +23,20 @@ C
       parameter (MAXRANK=%(maxrank)d)
       INTEGER NLOOPGROUPS
       PARAMETER (NLOOPGROUPS=%(nloop_groups)d)
-      include 'loop_max_coefs.inc'    
-C  
-C ARGUMENTS 
+      include 'loop_max_coefs.inc'
+C
+C ARGUMENTS
 C
       INTEGER NLOOPLINE, RANK, CTMODE
       %(real_dp_format)s PL(0:3,NLOOPLINE)
-      %(real_dp_format)s PDEN(0:3,NLOOPLINE-1)    
+      %(real_dp_format)s PDEN(0:3,NLOOPLINE-1)
       %(mass_dp_format)s M2L(NLOOPLINE)
       %(complex_dp_format)s RES(3)
       %(complex_dp_format)s TIRCOEFS(0:LOOPMAXCOEFS-1,3)
       %(complex_dp_format)s TIRCOEFSERRORS(0:LOOPMAXCOEFS-1,3)
 
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       INTEGER N, I, J, K, L
       INTEGER C0,C1,C2,C3
@@ -49,7 +49,7 @@ C
       INTEGER COEFMAP_ZERO(0:LOOPMAXCOEFS-1)
       INTEGER COEFMAP_ONE(0:LOOPMAXCOEFS-1)
       INTEGER COEFMAP_TWO(0:LOOPMAXCOEFS-1)
-      INTEGER COEFMAP_THREE(0:LOOPMAXCOEFS-1)     
+      INTEGER COEFMAP_THREE(0:LOOPMAXCOEFS-1)
       %(collier_coefmap)s
 
       %(real_dp_format)s REF_NORMALIZATION
@@ -57,7 +57,7 @@ C
       double complex M2LCOLLIER(0:NLOOPLINE-1)
       double complex MomVec(0:3,NLOOPLINE-1)
       double complex MomInv((NLOOPLINE*(NLOOPLINE-1))/2)
-     
+
       double complex TNten(0:RANK,0:RANK,0:RANK,0:RANK)
       double complex TNtenuv(0:RANK,0:RANK,0:RANK,0:RANK)
       double precision TNtenerr(0:RANK)
@@ -93,7 +93,7 @@ C
 
 C
 C     These global variables cache the coefficients already computed by COLLIER
-C     so that they can be reused. In particular, in CTMODE 2, the cached ERROR 
+C     so that they can be reused. In particular, in CTMODE 2, the cached ERROR
 C     quantities for eahc rank will be used to make use of COLLIER's internal
 C     assessment of the numerical accuracy.
 C
@@ -120,7 +120,7 @@ C ----------
         N_CACHES =1
       ENDIF
 
-C     Initialize COLLIER if needed 
+C     Initialize COLLIER if needed
       IF (COLLIERINIT) THEN
         COLLIERINIT=.FALSE.
         CALL INITCOLLIER()
@@ -138,7 +138,7 @@ C           Record how many events where put in the cache. On the first PS point
               NCALLS_IN_CACHE(I) = NCOLLIERCALLS(I)
             ENDIF
           ENDDO
-          DO I=1,N_CACHES         
+          DO I=1,N_CACHES
 C           Now apply a safety check that our last event had as many calls as the cache is setup for.
 C           The only case for now when it can be half of the calls when we are doing the true loop-direction test with also the computation of a rotated PS point (which is computed for one mode only).
             IF (NCALLS_IN_CACHE(I).ne.-1.and..NOT. ( NCOLLIERCALLS(I).eq.NCALLS_IN_CACHE(I).or. ( CTModeRun.eq.-1.and..not.COLLIERUseInternalStabilityTest.and.NRotations_DP.gt.0.and.MOD(NCALLS_IN_CACHE(I),2).eq.0.and.(NCALLS_IN_CACHE(I)/2).eq.NCOLLIERCALLS(I) ) ) ) then
@@ -153,7 +153,7 @@ C             Make sure all caches are switched off at first.
 C             Reset the cache design property
               NCALLS_IN_CACHE(:) = -1
               NCOLLIERCALLS(:)   = 0
-              IF (COLLIER_CACHE_ACTIVE.eq.1) THEN             
+              IF (COLLIER_CACHE_ACTIVE.eq.1) THEN
                 CALL SwitchOnCache_cll((unique_id-1)*N_CACHES+1)
               ENDIF
 C             No need to check the other caches since we already had to reset here.
@@ -161,7 +161,7 @@ C             No need to check the other caches since we already had to reset he
             ENDIF
           ENDDO
           CALL InitEvent_cll((UNIQUE_ID-1)*N_CACHES+1)
-          NCOLLIERCALLS(1) = 0        
+          NCOLLIERCALLS(1) = 0
           IF(COLLIERComputeUVpoles.and.COLLIERUseCacheForPoles) THEN
             CALL InitEvent_cll((UNIQUE_ID-1)*N_CACHES+2)
             NCOLLIERCALLS(2) = 0
@@ -175,7 +175,7 @@ C             No need to check the other caches since we already had to reset he
         ENDIF
         CALL SetDeltaIR_cll(0.0d0,(PIVALUE**2)/6.0d0)
         CALL SetDeltaUV_cll(0.0d0)
-        CALL SetMuIR2_cll(mu_r**2)      
+        CALL SetMuIR2_cll(mu_r**2)
         CALL SetMuUV2_cll(mu_r**2)
       ENDIF
 
@@ -193,7 +193,7 @@ C     Number of coefficients for the current rank
       ENDIF
 
       DO I=0,CURR_MAXCOEF-1
-        DO K=1,3            
+        DO K=1,3
           TIRCOEFSERRORS(I,K)=DCMPLX(0.0d0,0.0d0)
         ENDDO
       ENDDO
@@ -210,7 +210,7 @@ C       Use MADLOOP internal cache dedicated to COLLIER that emulates the CTMODE
             MaxCoefForRank(I) = 0.0d0
           ENDDO
           DO I=0,CURR_MAXCOEF-1
-            CURR_RANK = COEFMAP_ZERO(I)+COEFMAP_ONE(I)+COEFMAP_TWO(I)+COEFMAP_THREE(I)            
+            CURR_RANK = COEFMAP_ZERO(I)+COEFMAP_ONE(I)+COEFMAP_TWO(I)+COEFMAP_THREE(I)
             MaxCoefForRank(CURR_RANK)=max(MaxCoefForRank(CURR_RANK),abs(TIR_COEFS_DIRECT_MODE(I,1,ID)))
           ENDDO
           DO I=0,CURR_MAXCOEF-1
@@ -220,18 +220,18 @@ C       Use MADLOOP internal cache dedicated to COLLIER that emulates the CTMODE
 C               The expression below is like taking the absolute value when summing errors linearly
 C                TIRCOEFSERRORS(I,K)=(TIR_COEFS_ERROR(CURR_RANK,ID)/MaxCoefForRank(CURR_RANK))*DCMPLX( ABS(DBLE(TIRCOEFS(I,K))),ABS(DIMAG(TIRCOEFS(I,K))) )
 C               But empirically, I observed that retaining the original complex phase leads to slightly more accurate estimates
-                TIRCOEFSERRORS(I,K)=(TIR_COEFS_ERROR(CURR_RANK,ID)/MaxCoefForRank(CURR_RANK))*TIRCOEFS(I,K)           
+                TIRCOEFSERRORS(I,K)=(TIR_COEFS_ERROR(CURR_RANK,ID)/MaxCoefForRank(CURR_RANK))*TIRCOEFS(I,K)
               ENDDO
-            ENDIF   
-          ENDDO    
+            ENDIF
+          ENDDO
           RETURN
-        ENDIF       
+        ENDIF
       ELSE
 C       Apply the loop-direction switching here.
-        CALL %(proc_prefix)sSWITCH_ORDER(CTMODE,NLOOPLINE,PL,PDEN,M2L)    
+        CALL %(proc_prefix)sSWITCH_ORDER(CTMODE,NLOOPLINE,PL,PDEN,M2L)
       ENDIF
 
-C     Make sure masses are complex 
+C     Make sure masses are complex
       do I=1,NLOOPLINE
         M2LCOLLIER(I-1)=DCMPLX(M2L(I))
       ENDDO
@@ -342,7 +342,7 @@ C     Now compute the IR poles if asked for
         ENDIF
         IF(COLLIER_CACHE_ACTIVE.eq.1.AND.COLLIERUseCacheForPoles) THEN
           CALL SwitchOffCache_cll((unique_id-1)*N_CACHES+3)
-          CALL SwitchOnCache_cll((unique_id-1)*N_CACHES+4)          
+          CALL SwitchOnCache_cll((unique_id-1)*N_CACHES+4)
         ENDIF
         CALL SetDeltaIR_cll(0.0d0,1.0d0+(PIVALUE**2)/6.0d0)
         IF (NLOOPLINE.ne.1) THEN
@@ -357,7 +357,7 @@ C     Now compute the IR poles if asked for
           IF(COLLIERUseCacheForPoles) THEN
             CALL SwitchOffCache_cll((unique_id-1)*N_CACHES+4)
           ENDIF
-          CALL SwitchOnCache_cll((unique_id-1)*N_CACHES+1)        
+          CALL SwitchOnCache_cll((unique_id-1)*N_CACHES+1)
         ENDIF
         CALL SetDeltaIR_cll(0.0d0,(PIVALUE**2)/6.0d0)
       ENDIF
@@ -384,7 +384,7 @@ C       Because we must set q -> -q, we apply a minus sign to coefs of odd rank
           TIRCOEFS(I,2) = TIRCOEFS(I,2) + SGN*( TNten_IR1(C0,C1,C2,C3)-TNten(C0,C1,C2,C3) )
           TIRCOEFS(I,3) = SGN*( TNten_IR2(C0,C1,C2,C3)-TNten(C0,C1,C2,C3) )
         ELSE
-          TIRCOEFS(I,3) = DCMPLX(0.0d0,0.0d0)       
+          TIRCOEFS(I,3) = DCMPLX(0.0d0,0.0d0)
         ENDIF
       ENDDO
 
@@ -405,7 +405,7 @@ C       Now compute the errors on each coefficient
           MaxCoefForRank(I) = 0.0d0
         ENDDO
         DO I=0,CURR_MAXCOEF-1
-          CURR_RANK = COEFMAP_ZERO(I)+COEFMAP_ONE(I)+COEFMAP_TWO(I)+COEFMAP_THREE(I)              
+          CURR_RANK = COEFMAP_ZERO(I)+COEFMAP_ONE(I)+COEFMAP_TWO(I)+COEFMAP_THREE(I)
           MaxCoefForRank(CURR_RANK)=max(MaxCoefForRank(CURR_RANK),abs(TIRCOEFS(I,1)))
         ENDDO
         DO I=0,CURR_MAXCOEF-1
@@ -413,19 +413,19 @@ C       Now compute the errors on each coefficient
           IF (MaxCoefForRank(CURR_RANK).ne.0.0d0) THEN
             DO K=1,3
 C               The expression below is like taking the absolute value when summing errors linearly
-C             TIRCOEFSERRORS(I,K)=(TNtenerr(CURR_RANK)/MaxCoefForRank(CURR_RANK))*DCMPLX( ABS(DBLE(TIRCOEFS(I,K))),ABS(DIMAG(TIRCOEFS(I,K))) )          
+C             TIRCOEFSERRORS(I,K)=(TNtenerr(CURR_RANK)/MaxCoefForRank(CURR_RANK))*DCMPLX( ABS(DBLE(TIRCOEFS(I,K))),ABS(DIMAG(TIRCOEFS(I,K))) )
 C               But empirically, I observed that retaining the original complex phase leads to slightly more accurate estimates
               TIRCOEFSERRORS(I,K)=(TNtenerr(CURR_RANK)/MaxCoefForRank(CURR_RANK))*TIRCOEFS(I,K)
             ENDDO
           ENDIF
         ENDDO
-        
+
       ENDIF
 
-      END SUBROUTINE %(proc_prefix)sCOLLIERLOOP 
+      END SUBROUTINE %(proc_prefix)sCOLLIERLOOP
 
       SUBROUTINE %(proc_prefix)sCLEAR_COLLIER_CACHE()
-        
+
         USE COLLIER
 
         include 'loop_max_coefs.inc'
@@ -433,7 +433,7 @@ C               But empirically, I observed that retaining the original complex 
         PARAMETER (NLOOPGROUPS=%(nloop_groups)d)
         integer MAXRANK
         parameter (MAXRANK=%(maxrank)d)
-        
+
         integer I,J,K
 
         include 'MadLoopParams.inc'
@@ -486,7 +486,7 @@ C       LOCAL VARIABLES
 C
         LOGICAL NEED_REINITIALIZATION
         INTEGER N_CACHES
-C       
+C
 C       GLOBAL VARIABLES
 C
 C
@@ -528,7 +528,7 @@ C       MadLoop running mode and store it in the sCOLLIER_CACHE_RELEVANT_PARAMS 
 
         INTEGER SQSO_TARGET
         common/%(proc_prefix)sSOCHOICE/SQSO_TARGET
-        
+
 C
 C       BEGIN CODE
 C
@@ -555,7 +555,7 @@ C       Handle the request of turning off the caching
             CALL SwitchOffCache_cll((unique_id-1)*4+1)
             COLLIER_CACHE_ACTIVE = 0
           ENDIF
-C         If we were asked to turn the cache off but it was already so, then do nothing       
+C         If we were asked to turn the cache off but it was already so, then do nothing
           RETURN
         ENDIF
 
@@ -570,7 +570,7 @@ C       We are now in the position where we are asked to activate the global cac
 
 C       If we activate it for the first time, make sure to store the value of the relevant parameters, activate and return.
         IF (COLLIER_CACHE_ACTIVE.eq.-1) THEN
-          USERHEL_BU         = USERHEL 
+          USERHEL_BU         = USERHEL
           SQSO_TARGET_BU     = SQSO_TARGET
           COLLIERMode_BU     = COLLIERMode
           COLLIERUseInternalStabilityTest_BU = COLLIERUseInternalStabilityTest
@@ -584,19 +584,19 @@ C       Now perform sanity check before the activation to decide if we need to r
         NEED_REINITIALIZATION = .FALSE.
 
         IF (SQSO_TARGET.NE.SQSO_TARGET_BU) THEN
-          NEED_REINITIALIZATION = .TRUE.        
+          NEED_REINITIALIZATION = .TRUE.
         ENDIF
 
         IF (COLLIERMode.NE.COLLIERMode_BU) THEN
-          NEED_REINITIALIZATION = .TRUE.        
+          NEED_REINITIALIZATION = .TRUE.
         ENDIF
 
         IF (COLLIERUseInternalStabilityTest.NEQV.COLLIERUseInternalStabilityTest_BU) THEN
-          NEED_REINITIALIZATION = .TRUE.        
+          NEED_REINITIALIZATION = .TRUE.
         ENDIF
 
         IF (CTModeRun_BU.ne.CTModeRun.and.(.not.COLLIERUseInternalStabilityTest)) THEN
-          NEED_REINITIALIZATION = .TRUE.              
+          NEED_REINITIALIZATION = .TRUE.
         ENDIF
 
 ## if(AmplitudeReduction){
@@ -624,18 +624,18 @@ C       except if the LoopFilter is ON which really shouldn't be the case anymor
 C         Log the event because if it happens a lot of time and floods the screen, the user must see it
 C         and either change its usage of MadLoop or turnoff COLLIER cache
           WRITE(*,*) 'INFO: MadLoop detected that the global cache of COLLIER had to be reset because of a change in your use of MadLoop. This should not happend for each event.'
-          USERHEL_BU         = USERHEL 
+          USERHEL_BU         = USERHEL
           SQSO_TARGET_BU     = SQSO_TARGET
           COLLIERMode_BU     = COLLIERMode
           COLLIERUseInternalStabilityTest_BU = COLLIERUseInternalStabilityTest
-          CTModeRun_BU       = CTModeRun          
+          CTModeRun_BU       = CTModeRun
           IF (COLLIERGLOBALCACHE.EQ.-1) THEN
             CALL INITCACHESYSTEM_CLL(N_CACHES*NPROCS,MAXNEXTERNAL)
           ELSE
             CALL INITCACHESYSTEM_CLL(N_CACHES*NPROCS,COLLIERGLOBALCACHE)
           ENDIF
           NCOLLIERCALLS(:)   = 0
-          NCALLS_IN_CACHE(:) = -1 
+          NCALLS_IN_CACHE(:) = -1
 C         Make sure all caches are switched off at first.
           call SwitchOffCacheSystem_cll()
         ENDIF

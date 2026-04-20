@@ -44,4 +44,3 @@ V_43 = Vertex(name = 'V_43',
               color = [ 'f(1,2,3)' ],
               lorentz = [ L.VVVS1 ],
               couplings = {(0,0):C.GC_17})
-

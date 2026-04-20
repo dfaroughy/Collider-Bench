@@ -34,7 +34,7 @@ C|     Author: Pierre Artoisenet (UCL-CP3)                               |
 C|             Olivier Mattelaer (UCL-CP3)                               |
 C+-----------------------------------------------------------------------+
 C|     This file is generated automaticly by MADWEIGHT-TF_BUILDER        |
-C+-----------------------------------------------------------------------+     
+C+-----------------------------------------------------------------------+
 ##************************************************************************
 $E$ TF_HEADER $E$
 ##************************************************************************
@@ -57,13 +57,13 @@ C+-----------------------------------------------------------------------+
       double precision pi
       parameter (pi=3.141592654d0)
       include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 $B$ tf_include $E$
 
 $B$ tf_definition $E$
 
       weight=weight*tf
-      
+
       return
       end
 ##************************************************************************
@@ -88,14 +88,14 @@ C+-----------------------------------------------------------------------+
       parameter (pi=3.141592654d0)
 
 	  include 'nb_tf.inc'
-      include 'TF_param.inc'     
+      include 'TF_param.inc'
 
 $B$ tf_include $E$
 
 $B$ width_definition $E$
-      
+
       $b$ width_var $e$= width
-      
+
       return
       end
 ##************************************************************************
@@ -111,35 +111,35 @@ C|     Subroutine: GET_CENTRAL_POINT                                     |
 C|                                                                       |
 C|     purpose: Define the central point of integration c_point(P,I,J,1) |
 C|              and the width associated c_point(P,I,J,2)                |
-C|                 P: Permutation                                        | 
+C|                 P: Permutation                                        |
 C|                 I: MadGraph Position                                  |
 C|                 J: 1,2,3 for THETA,PHI,RHO variable                   |
 C+-----------------------------------------------------------------------+
       subroutine get_central_point
       implicit none
-c                                                                        
-c     parameter                                                          
-c                                                                        
+c
+c     parameter
+c
       include 'run.inc'
       include 'nexternal.inc'
       include 'permutation.inc'
       include 'TF_param.inc'
 
-c                                                                        
-c     global                                                             
-c                                                                        
+c
+c     global
+c
       double precision c_point(NPERM,1:max_particles,3,2)
       common/ph_sp_init/c_point
-c                                                                        
+c
 c      double precision p_exp(0:3,nexternal)
 c      common /to_pexp/p_exp
       double precision pexp_init(0:3,nexternal)  !impulsion in original configuration
       common/to_pexp_init/pexp_init
       integer tag_lhco(3:nexternal)
       common/lhco_order/tag_lhco
-c                                                                        
-c     local                                                              
-c                                                                       
+c
+c     local
+c
       integer perm_id(nexternal-2)
       integer i,perm
       integer n_lhco
@@ -160,33 +160,33 @@ C|              transfer_fct                                             |
 C+-----------------------------------------------------------------------+
      subroutine transfer_fct(P,weight)
       implicit none
-c                                                 
+c
       integer    maxexternal
       parameter (maxexternal=15)
-c                               
-c     ARGUMENTS                 
-c                               
+c
+c     ARGUMENTS
+c
       DOUBLE PRECISION P(0:3,maxexternal)
       DOUBLE PRECISION weight
-c                                        
-c     INCLUDE and COMMON                 
-c                                        
+c
+c     INCLUDE and COMMON
+c
       include 'phasespace.inc'
       include 'nexternal.inc'
       include 'run.inc'
-c                            
-c                            
+c
+c
       double precision pexp(0:3,nexternal)
       integer tag_lhco(3:nexternal)
       common/to_pexp/pexp
       common/lhco_order/tag_lhco
-C                               
-C     SPECIAL FCT              
-C                               
+C
+C     SPECIAL FCT
+C
       DOUBLE PRECISION R2,DOT,ET,ETA,DJ,SumDot,PT
-c                
-c     LOCAL                                      
-c                
+c
+c     LOCAL
+c
       integer i,k
       integer n_lhco
 ##************************************************************************
@@ -258,4 +258,3 @@ c
 ##************************************************************************
 $E$ DEF_TF_E_FOR_ONE_PART $E$
 ##************************************************************************
-

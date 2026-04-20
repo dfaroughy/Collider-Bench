@@ -4,9 +4,9 @@
 CF2PY intent(in)::path
 
 C     INCLUDE FILES
-C     
-C     the include file with the values of the parameters and masses   
-C     
+C
+C     the include file with the values of the parameters and masses
+C
       INCLUDE 'coupl.inc'
       CALL SETPARA(PATH)
       RETURN
@@ -14,22 +14,22 @@ C
 
       SUBROUTINE GET_ME(P, ALPHAS, SCALE2, NHEL , ANS,RETURNCODE)
       IMPLICIT NONE
-C     
-C     CONSTANTS  
-C     
+C
+C     CONSTANTS
+C
       REAL*8 ZERO
       PARAMETER (ZERO=0D0)
 
 C     integer nexternal C number particles (incoming+outgoing) in the
-C     me 
+C     me
       INCLUDE 'nexternal.inc'
 
 C     CHARACTER(512) MADLOOPRESOURCEPATH
-C     
+C
 C     INCLUDE FILES
-C     
-C     the include file with the values of the parameters and masses   
-C     
+C
+C     the include file with the values of the parameters and masses
+C
       INCLUDE 'coupl.inc'
 C     particle masses
       REAL*8 PMASS(NEXTERNAL)
@@ -38,7 +38,7 @@ C     integer    n_max_cg
       INCLUDE 'nsquaredSO.inc'
 
 C     LOCAL
-C     
+C
       INTEGER I
 C     four momenta. Energy is the zeroth component.
       REAL*8 P(0:3,NEXTERNAL)
@@ -57,9 +57,9 @@ CF2PY INTENT(IN) :: NHEL
 CF2PY INTENT(IN) :: P(0:3,NEXTERNAL)
 CF2PY INTENT(IN) :: ALPHAS
 CF2PY INTENT(IN) :: SCALE2
-C     
+C
 C     LOCAL BUFFERING OF ANSWER to avoid re-computing
-C     
+C
       INTEGER BUFFER_SIZE
       PARAMETER (BUFFER_SIZE=5)
       DOUBLE PRECISION OLD_ALPHAS(BUFFER_SIZE)
@@ -73,19 +73,19 @@ C
       DATA BUFFER_POSITION /1/
       SAVE OLD_ALPHAS, OLD_SCALE2, OLD_NHEL, OLD_P, BUFFER_POSITION
       SAVE OLD_ME, OLD_RETURN
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     This is from ML code for the list of split orders selected by
 C     the process definition
-C     
+C
       INTEGER NLOOPCHOSEN
       CHARACTER*20 CHOSEN_LOOP_SO_INDICES(NSQUAREDSO)
       LOGICAL CHOSEN_LOOP_SO_CONFIGS(NSQUAREDSO)
       COMMON/ML5_0_CHOSEN_LOOP_SQSO/CHOSEN_LOOP_SO_CONFIGS
-C     
+C
 C     CHECK BUFFERING
-C     
+C
       DO I=1, BUFFER_SIZE
         IF(SCALE2.EQ.OLD_SCALE2(I))THEN
           IF(ALPHAS.EQ.OLD_ALPHAS(I).AND.NHEL.EQ.OLD_NHEL(I))THEN
@@ -97,9 +97,9 @@ C
           ENDIF
         ENDIF
       ENDDO
-C     
+C
 C     BEGIN CODE
-C     
+C
       CALL ML5_0_FORCE_STABILITY_CHECK(.TRUE.)
       CALL ML5_0_GET_ANSWER_DIMENSION(MATELEM_ARRAY_DIM)
       ALLOCATE(MATELEM(0:3,0:MATELEM_ARRAY_DIM))
@@ -120,9 +120,9 @@ C     chosen
 C     Update the couplings with the new ALPHAS
       CALL UPDATE_AS_PARAM2(SCALE2, ALPHAS)
 
-C     
+C
 C     Now we can call the matrix element
-C     
+C
       IF (NHEL.EQ.0) THEN
         CALL ML5_0_SLOOPMATRIX_THRES(P,MATELEM,-1.0D0, PREC_FOUND,
      $    RETURNCODE)
@@ -131,22 +131,14 @@ C
      $    PREC_FOUND, RETURNCODE)
       ENDIF
 
-C     loop induce -> only finite part 
+C     loop induce -> only finite part
       ANS =  MATELEM(1,0)
 
-C     
+C
 C     Store result for the buffering
-C     
+C
       OLD_ME(BUFFER_POSITION) = ANS
       OLD_RETURN(BUFFER_POSITION) = RETURNCODE
       BUFFER_POSITION = MOD(BUFFER_POSITION, BUFFER_SIZE) +1
 
       END
-
-
-
-
-
-
-
-

@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -176,10 +176,10 @@ contains
 ! Returns the number of the Riemann-sheet (times 2) for the complex
 ! number  xx*exp(ix*imag*pi) . The real part of xx is assumed to be
 ! positive or zero. Examples:
-! xx=1+imag, ix=-1 -> ii= 0 
-! xx=1+imag, ix= 1 -> ii= 2 
-! xx=1-imag, ix=-1 -> ii=-2 
-! xx=1-imag, ix= 1 -> ii= 0 
+! xx=1+imag, ix=-1 -> ii= 0
+! xx=1+imag, ix= 1 -> ii= 2
+! xx=1-imag, ix=-1 -> ii=-2
+! xx=1-imag, ix= 1 -> ii= 0
 ! xx=1     , ix= 1 -> ii= 0  convention that log(-1)=pi on
 ! xx=1     , ix=-1 -> ii=-2  the principal Riemann-sheet
 !*******************************************************************
@@ -200,9 +200,9 @@ contains
 
   function prduct_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -216,9 +216,9 @@ contains
 
   function prduct_qr(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy
   include 'avh_olo_real.h90'
@@ -230,9 +230,9 @@ contains
 
   function ratio_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the ratio  zz  of  yy  and  xx  
+! Return the ratio  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -281,7 +281,7 @@ contains
   function li2c(xx) result(rslt)
 !*******************************************************************
 !    /1    ln(1-(1-xx)*t)
-!  - |  dt -------------- 
+!  - |  dt --------------
 !    /0        t
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx

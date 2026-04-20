@@ -15,7 +15,7 @@ C       3) second loop
 C           3.1) loop on permutation
 C           3.2) loop on configuration
 C           3.3) write result
-C          
+C
 C**************************************************************************
       IMPLICIT NONE
 C
@@ -119,7 +119,7 @@ c      common/cifold/ifold
 c      double precision WEIGTHING_PERM
 c      external WEIGTHING_PERM
 C**************************************************************************
-C    step 1: initialisation     
+C    step 1: initialisation
 C**************************************************************************
       call global_init
       store=0d0
@@ -360,7 +360,7 @@ c                NCALL = NCALL * nb_sol_perm
                    value = perm_value_it(i,j)
                    error = perm_error_it(i,j)
                    call get_perm(I, loc_perm)
-                   write(23,*) I,' ',config_pos,' ',J,' ',value,' ', error,                                                                                                                             
+                   write(23,*) I,' ',config_pos,' ',J,' ',value,' ', error,
      &              '1   2', (2+loc_perm(k-2), k=3,nexternal)
                 endif
                 tf_value_it(j) = 0d0
@@ -369,7 +369,7 @@ c                NCALL = NCALL * nb_sol_perm
  3         endif
        enddo
        enddo
-       check_value = temp_val * min_prec_cut1 
+       check_value = temp_val * min_prec_cut1
        if (loop_index.eq.1) then
           NCALL = nevents
           ITMX = max_it_step2
@@ -398,7 +398,7 @@ c      write(23,*) "======================================"
 
 C**************************************************************************
 C     write histogram file (not activated in the standard mode)           *
-C************************************************************************** 
+C**************************************************************************
       if (histo)   call histo_final(NPERM*nb_sol_config)
 
       close(21)
@@ -460,7 +460,7 @@ c     ==================================
       subroutine get_min_perm()
       implicit none
       double precision cross,tmp
-      integer i,j      
+      integer i,j
 
       include 'permutation.inc'
       include 'madweight_param.inc'
@@ -502,7 +502,7 @@ c             write(*,*) i, j, tmp, min_perm(config_pos), 'kept'
 
 
       enddo
-      
+
       return
       end
 
@@ -515,7 +515,7 @@ c     ==================================
       double precision data(NPERM)
       integer i,j
       do i=1,NPERM
-         perm_order(i, config_pos) = i 
+         perm_order(i, config_pos) = i
       enddo
       data(1) = perm_value_it(1,1)/(1d-99+perm_error_it(1,1))
       do i=2,NPERM
@@ -680,7 +680,7 @@ C*******************************************************************************
 
       double precision fct
       external fct
-      double precision temp 
+      double precision temp
 
       temp = fct(x,w)*w
       store=store+temp
@@ -712,7 +712,7 @@ C      DOUBLE PRECISION              S,X1,X2,PSWGT,JAC
 C      COMMON /PHASESPACE/ S,X1,X2,PSWGT,JAC
 C      integer*4 it,ndo
 C      double precision xi(100,20),si,si2,swgt,schi
-C      common/bveg2/xi,si,si2,swgt,schi,ndo,it   
+C      common/bveg2/xi,si,si2,swgt,schi,ndo,it
 
 C      buffer='grid_00_000'
 C      if (config.ge.10)then
@@ -727,7 +727,7 @@ C         write(buffer(10:11),'(i2)')perm_pos
 C      else
 C         write(buffer(11:11),'(i1)')perm_pos
 C      endif
-C         write(*,*) buffer         
+C         write(*,*) buffer
 
 C      open(unit=88,file=buffer)
 C      write(88,100)ndo
@@ -764,7 +764,7 @@ C      DOUBLE PRECISION              S,X1,X2,PSWGT,JAC
 C      COMMON /PHASESPACE/ S,X1,X2,PSWGT,JAC
 C      integer*4 it,ndo
 C      double precision xi(100,20),si,si2,swgt,schi
-C      common/bveg2/xi,si,si2,swgt,schi,ndo,it   
+C      common/bveg2/xi,si,si2,swgt,schi,ndo,it
 
 C      buffer='grid_00_000'
 C      if (config.ge.10)then
@@ -779,13 +779,13 @@ C         write(buffer(10:11),'(i2)')perm_pos
 C      else
 C         write(buffer(11:11),'(i1)')perm_pos
 C      endif
-C         write(*,*) buffer         
+C         write(*,*) buffer
 C      open(unit=88,file=buffer)
 C      READ(88,100) ndo
 C      do i=1,config
 C         READ(88,101)(xi(i,j),j=1,20)
 C      enddo
-C      close(88) 
+C      close(88)
 
 
 C 100  format(5X,I5)
@@ -867,7 +867,7 @@ c      common/bveg2/xi,si,si2,swgt,schi,ndo,it
           nb_point_by_perm(i) = 0
       enddo
       do j =1, nb_tf
-          value = sum_perm(j) 
+          value = sum_perm(j)
           if (sum_nb_point.gt.0) then
              error = sum_error(j) - value**2/(sum_nb_point-1)
           else
@@ -914,4 +914,3 @@ c      endif
       enddo
       return
       end
-

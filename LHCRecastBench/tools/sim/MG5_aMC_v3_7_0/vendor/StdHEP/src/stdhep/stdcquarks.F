@@ -37,7 +37,7 @@ C... illegal
           kq1=0
           kq2=0
           kq3=0
-        endif         
+        endif
 
 C...Construction from quark content for heavy meson, diquark, baryon.
       elseif(kq3.eq.0) then

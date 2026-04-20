@@ -109,7 +109,7 @@ fi
 if [[ $run_cluster == 2 ]] ; then
     args='[\n'
     for dir in P*_* ; do
-	cd $dir 
+	cd $dir
 	for job in ajob* ; do
 	    graph=`fgrep "for i in" $job | cut -d" " -f4`
 	    args="$args""['madevent_vegas','"$dir"','"$job"','"$vegas_mint"','"$run_mode"','"$use_preset"','"$run_mode"_G"$graph"'],\n"

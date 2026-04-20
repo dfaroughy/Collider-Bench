@@ -300,7 +300,7 @@ R2_ddG0 = Coupling(name = 'R2_ddG0',
 
 R2_ssG0 = Coupling(name = 'R2_ssG0',
                 value = '-AxialG0Down2*(2.0*R2MixedFactor)',
-                order = {'QCD':2,'QED':1}) 
+                order = {'QCD':2,'QED':1})
 
 R2_bbH = Coupling(name = 'R2_bbH',
                 value = 'VectorHDown3*(2.0*R2MixedFactor)',
@@ -5062,7 +5062,7 @@ UV_GQQt = Coupling(name = 'UV_GQQt',
 
 UV_bMass = Coupling(name = 'UV_bMass',
                  value = 'bMass_UV',
-                 order = {'QCD':2}) 
+                 order = {'QCD':2})
 
 UV_tMass = Coupling(name = 'UV_tMass',
                  value = 'tMass_UV',
@@ -7209,7 +7209,3 @@ UV_GTTLEW = Coupling(name = 'UV_GTTLEW',
 UV_GTTREW = Coupling(name = 'UV_GTTREW',
                      value = 'complex(0,1)/2.*G*(complexconjugate(tWcft_UV_EW_R)+tWcft_UV_EW_R)',
                      order = {'QED':2,'QCD':1})
-
-
-
-

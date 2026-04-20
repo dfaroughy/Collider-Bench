@@ -20,7 +20,7 @@ c
       double complex T11, T22, T33, T44, T12, T13, T14, T23, T24, T34
       double precision g, fmass, fwidth, pf(4), k(4), pf2, m2
       integer i
-      
+
       double precision rZero, rTwo
       parameter( rZero = 0.0d0, rTwo = 2.0d0 )
       double complex ci

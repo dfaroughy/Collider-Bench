@@ -453,4 +453,3 @@ V_74 = Vertex(name = 'V_74',
               color = [ '1' ],
               lorentz = [ L.FFV2 ],
               couplings = {(0,0):C.GC_29})
-

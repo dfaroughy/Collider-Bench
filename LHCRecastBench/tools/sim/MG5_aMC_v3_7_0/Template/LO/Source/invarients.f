@@ -3,7 +3,7 @@ c***************************************************************************
 c     Calculates all of the invarients for a 2->n process
 c***************************************************************************
       implicit none
-c     
+c
 c     Constants
 c
       include 'genps.inc'
@@ -13,7 +13,7 @@ c
       integer nfinal,ninvar
 c
 c     Local
-c     
+c
       integer ip1,ip2,ipstart,ipstop,np,i
       integer ncycle
       character*10 buff
@@ -107,9 +107,9 @@ c***************************************************************************
 c     Calculates all of the invarients for a 2->n process
 c***************************************************************************
       implicit none
-c     
+c
 c     Constants
-c     
+c
       include 'genps.inc'
 c
 c     Arguments
@@ -118,7 +118,7 @@ c
       double precision p1(0:3,nfinal+2),s,xx(55)
 c
 c     Local
-c     
+c
       integer ip1,ip2,ipstart,ipstop,np,i,j
       integer imom(maxinvar)
       integer ncycle
@@ -223,7 +223,7 @@ c----
       nbranch = nexternal-2
       jgrid=0
 c
-c     
+c
 c     Try simple mapping if nconfigs = 1
 c
       nb_tchannel = 0
@@ -241,13 +241,13 @@ c         do j=1,3*nbranch-4+2
          enddo
          ns_channel=ns_channel - 1
          nb_tchannel=nbranch-ns_channel-1
-         write(*,*) 'T-channel found: ',nb_tchannel 
-         
+         write(*,*) 'T-channel found: ',nb_tchannel
+
       else
 c      if (ep) jgrid=1
 c      if (pp) jgrid=2
       do iconfig=mincfig,maxcfig
-         tchannel = .false.         
+         tchannel = .false.
          do j=1,nbranch-1
             if (iforest(1,-j,iconfig) .eq. 1.or.(nincoming.eq.2.and.iforest(1,-j,iconfig) .eq. 2)) then
                tchannel=.true.
@@ -255,7 +255,7 @@ c      if (pp) jgrid=2
             jgrid=jgrid+1
             minvar(j,iconfig) = jgrid
             if (tchannel .and. j .lt. nbranch-1) then
-               jgrid=jgrid+1            
+               jgrid=jgrid+1
                minvar(nbranch-1+2*j,iconfig)=jgrid
             endif
          enddo             !Each Branch
@@ -312,5 +312,3 @@ c         endif
         ra(i)=rra
       go to 10
       end
-
-

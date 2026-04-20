@@ -12,5 +12,3 @@
 
       DOUBLE COMPLEX nan
       parameter (nan = (1D123, 1D123))
-
-

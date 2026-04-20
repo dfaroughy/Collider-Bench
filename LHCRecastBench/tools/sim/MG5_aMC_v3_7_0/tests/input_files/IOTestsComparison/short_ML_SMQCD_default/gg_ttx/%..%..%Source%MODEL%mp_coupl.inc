@@ -40,5 +40,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $ ,MP__UVWFCT_G_1_1EPS,MP__UV_3GB,MP__UV_3GT,MP__UV_GQQB
      $ ,MP__UV_GQQT,MP__UV_TMASS,MP__UVWFCT_T_0,MP__UVWFCT_G_1
      $ ,MP__UVWFCT_G_2
-
-

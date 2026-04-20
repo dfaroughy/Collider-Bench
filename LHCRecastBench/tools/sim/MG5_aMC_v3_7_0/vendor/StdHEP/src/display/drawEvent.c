@@ -53,34 +53,34 @@ extern float stdchg_(long *id);
 static Pixel allocRGB(Screen *screen,
 	unsigned short red, unsigned short green, unsigned short blue);
 static Pixel particlePixel(int particleID);
-static void detectorToSegment(SpaceWindow *window, SpinSegment *segdt, 
+static void detectorToSegment(SpaceWindow *window, SpinSegment *segdt,
 					SpinSegment *seg);
 
 /*
 ** AllocateColors
 **
-** Generate the HEP color convention : This routines fills the 
+** Generate the HEP color convention : This routines fills the
 ** Global array ParticleColors, which is simply an list of color indices generated
-** by calls to XAllocColor. 
+** by calls to XAllocColor.
 **
-** This convention is the following : 
+** This convention is the following :
 **
-** 	The photon is always black.  If a color can not be allocated, Black 
+** 	The photon is always black.  If a color can not be allocated, Black
 ** 	is chosen.
 **
-** 	For GrayScale Display, the charged leptons are white, the other 
-** 	neutrinos are black and the quarks and hadrons are gray. 
+** 	For GrayScale Display, the charged leptons are white, the other
+** 	neutrinos are black and the quarks and hadrons are gray.
 **
-** 	For Color display,  the charged leptons have the three fundamental 
-** 	RGB colors: electron is blue, muon is green and tau is red. 
+** 	For Color display,  the charged leptons have the three fundamental
+** 	RGB colors: electron is blue, muon is green and tau is red.
 ** 	The neutrinos are gray. The quarks are characterised a mixture
-** 	where one componenet of RGB is set to 0, the other two are 
-** 	half of the full intensity.  For instance, the up quark has 
+** 	where one componenet of RGB is set to 0, the other two are
+** 	half of the full intensity.  For instance, the up quark has
 ** 	no blue compoenet, and is half green, half red.
-** 	The Weak bosons and the gluons are made of a disgusting 
-** 	mixture of all RGB colors ( pink for the W andZ bosons, 
+** 	The Weak bosons and the gluons are made of a disgusting
+** 	mixture of all RGB colors ( pink for the W andZ bosons,
 ** 	brown for the gluons).
-**	The color of a hadron is set the by color of the heaviest quark 
+**	The color of a hadron is set the by color of the heaviest quark
 **	in this hadron.
 */
 void AllocateColors(Screen *screen)
@@ -165,14 +165,14 @@ void AllocateColors(Screen *screen)
     }
 }
 /*
-** Produce a bunch of Radial coordinates to build a small icon describing the 
+** Produce a bunch of Radial coordinates to build a small icon describing the
 ** this vertex.
 */
 void SetPinVertex()
 {
   int i,j;
   double pi, dphi, dteta, phi, teta;
-  
+
   pi = acos(-1.0);
   dphi = 2.0 * pi / NUMPINSPHI; dteta = pi / NUMPINSTETA;
   for (i=0, phi = 0. ; i < NUMPINSTETA; i++, phi += dphi) {
@@ -193,23 +193,23 @@ void SetPinVertex()
 ** deduced).  The structure PhaseEvent is described in phase.h.  The setting
 ** of the displayMode toggle on the event display panel determines how the
 ** event is mapped onto the screen:
-** 
+**
 ** BY_MOMENTUM:		The length is proportional the  |P|, the norm of the 3-d
 **		      	momentum vector. This is the simplest and default option.
 **
-** BY_PT:	 	The length of the vector is proportional to Pt, the 
-**			transverse momentum. This trick greatly enhances 
+** BY_PT:	 	The length of the vector is proportional to Pt, the
+**			transverse momentum. This trick greatly enhances
 **			the "high Pt" Physics in the event.
 **
-** BY_RAPIDITY: 	The length of the vector is propotional to the rapidity 
+** BY_RAPIDITY: 	The length of the vector is propotional to the rapidity
 **			of the particle, as defined in the PDG bible.
 **
 ** BY_PSEUDORAPIDITY:	The length of the vector is proportional to the pseudo
-**			rapidity, i.e., the mass of the particle is 
+**			rapidity, i.e., the mass of the particle is
 **			neglected.
 **
 ** BY_USER_ROUTINE :	The user function specified in the DisplayEvent call
-**			is called to determine what the new vector ought to be... 
+**			is called to determine what the new vector ought to be...
 */
 void DrawEvent(StdHepWindow *window, int setScale)
 {
@@ -230,11 +230,11 @@ void DrawEvent(StdHepWindow *window, int setScale)
     PhaseWindow *winp;
     SpaceWindow *wins;
     ParaWindow *winpa;
-    
-    /* If a Space window, find out the number of vertices in this event, 
-       so we can allocate more space to draw short segments to represent 
+
+    /* If a Space window, find out the number of vertices in this event,
+       so we can allocate more space to draw short segments to represent
        a vertex.. */
-       
+
     if (window->type == STDHEP_SPACE) {
        wins = (SpaceWindow *) window;
     /* allocate space for the maximum possible number of segments or points */
@@ -254,7 +254,7 @@ void DrawEvent(StdHepWindow *window, int setScale)
         else
 	   segments = (SpinSegment *)XtMalloc(sizeof(SpinSegment) * nParticles);
      }
-    
+
     /* Loop over all of the particles, translating them into 3-D line segments
        or points for the Spin widget.  Also find the particle of maximum value
        (for setting the scale and printing statistics), and the number of stable
@@ -315,10 +315,10 @@ void DrawEvent(StdHepWindow *window, int setScale)
     		}
     	    }
     	  }
-       } else {            
+       } else {
 	   segment=segments;
            maxLength = 0.;
-	   for (i=0, p=particles, v=wins->vertices; 
+	   for (i=0, p=particles, v=wins->vertices;
 	                     i<nParticles; i++, p++, v++) {
     	    if (p->stable)
     		nStable++;
@@ -335,41 +335,41 @@ void DrawEvent(StdHepWindow *window, int setScale)
 	   if (wins->nDetectorSegments > 0) {
 	    for (i=0, segdt = wins->detectorSegments;
 	          i < wins->nDetectorSegments;
-	           i++, segdt++, segment++, nSegments++)  
+	           i++, segdt++, segment++, nSegments++)
 	          detectorToSegment(wins, segdt, segment);
-	   } 
+	   }
 	   if (wins->showVertices) {
 	   for (i=0, pinv=wins->realVertices;
 	         i < wins->numRealVertices; i++, pinv++){
 	          if (fabs((double) pinv->z) < wins->currentScale) {
 	            VertexToSegment(wins, pinv, &segment);
 	             nSegments += NUMPINSPHI *NUMPINSTETA;
-	          } 
+	          }
              }
            }
          }
-	}    
+	}
 	/* Display the line segments with the spin widget */
 	SpinSetSegments(window->spin, segments, nSegments);
 	XtFree((char *) segments);
-	/* 
-	* Currently, the spin widget Perspective resource is buggy, 
-	* turn if off.. 
+	/*
+	* Currently, the spin widget Perspective resource is buggy,
+	* turn if off..
 	*/
         SET_ONE_RSRC(window->spin, XmNperspectiveOn, FALSE);
-    
+
     /* If requested, set the scale to show the data most effectively */
     if (setScale) {
     	SpinSetScale(window->spin, (maxLength > 0.) ? 1./maxLength : 1.);
     	DrawScale(window);
     }
-    
+
     /* Fill in the statistics window */
     if (npvis == 0) {
     	sprintf(statText, "%d tracks, %d are stable.\nNo Tracks are visible",
     		nParticles, nStable);
     } else {
-        if ((window->type == STDHEP_PHASE) || (window->type == STDHEP_PARA)) { 
+        if ((window->type == STDHEP_PHASE) || (window->type == STDHEP_PARA)) {
 	    GET_ONE_RSRC(window->statsLabel, XmNfontList, &fontList);
 	    if (CharsetAvailable("greek", fontList)) {
     	        hepnmg_(&particles[maxIndex].id, nameText);
@@ -382,7 +382,7 @@ void DrawEvent(StdHepWindow *window, int setScale)
 "%d tracks, %d are stable,\n%d are now displayed\nTrack of max. %s is a(n) %s",
     	        nParticles, nStable, nSegments,
     	        unitText[winp->displayMode], nameText);
-    	    } else { 
+    	    } else {
 	    sprintf(statText,
 "%d tracks, %d are stable,\n%d are now displayed\nTrack of max. %s is a(n) %s",
     	        nParticles, nStable, nSegments,
@@ -392,7 +392,7 @@ void DrawEvent(StdHepWindow *window, int setScale)
     	    if (wins->showVertices)
     	      nns = nSegments
     	         - (NUMPINSPHI * NUMPINSTETA * wins->numRealVertices);
-    	    else nns = nSegments; 
+    	    else nns = nSegments;
 	    sprintf(statText,
 "%d tracks, %d are stable,\n%d are now displayed\n %d distinct vertices found",
     	        nParticles, nStable, nns, wins->numRealVertices);
@@ -462,13 +462,13 @@ int ParticleToParaSegment(ParaWindow *window, PhaseParticle *p,
      seg->y1 = 0.;
      seg->x2 = p->px;
      seg->y2 = p->py;
-     if (p->pz < 0.) 
-         seg->z1 = window->currentTranslz - 
-               ( ParticleRapidity(p->px, p->py, p->pz, p->mass) * 
+     if (p->pz < 0.)
+         seg->z1 = window->currentTranslz -
+               ( ParticleRapidity(p->px, p->py, p->pz, p->mass) *
                 window->currentRapToPt);
-     else 
-         seg->z1 = window->currentTranslz + 
-               ( ParticleRapidity(p->px, p->py, p->pz, p->mass) * 
+     else
+         seg->z1 = window->currentTranslz +
+               ( ParticleRapidity(p->px, p->py, p->pz, p->mass) *
                 window->currentRapToPt);
      seg->z2 = seg->z1;
      seg->pixel = particlePixel(p->id);
@@ -480,10 +480,10 @@ int TrackToSegment(SpaceWindow *window,  PhaseParticle *p, SpaceVertex *v,
 		      SpinSegment *seg, double *length)
 {
 	double scaleZ, scaleT;
-	
+
         if (!ParticleVisible((StdHepWindow *)window, p->id, p->stable))
     	return False;
-	
+
 	scaleZ = window->currentMomToSpace;
 	scaleT = window->currentMomToSpace * window->currentLongToTr;
 	seg->x1 = window->currentLongToTr * v->x;
@@ -495,18 +495,18 @@ int TrackToSegment(SpaceWindow *window,  PhaseParticle *p, SpaceVertex *v,
 	*/
 	if (fabs(seg->z1) > window->currentScale) return False;
     	/*
-    	** Now translate 
+    	** Now translate
     	*/
     	seg->x1 = seg->x1 + window->currentLongToTr * window->currentTransl[0];
     	seg->y1 = seg->y1 + window->currentLongToTr * window->currentTransl[1];
     	seg->z1 = seg->z1 + window->currentTransl[2];
-    	/* 
+    	/*
     	** The end of the tracks is set by the momentum
     	*/
 	seg->x2 = seg->x1 + scaleT * p->px;
 	seg->y2 = seg->y1 + scaleT * p->py;
 	seg->z2 = seg->z1 + scaleZ * p->pz;
-	*length = sqrt ((seg->x2 * seg->x2) + (seg->y2 * seg->y2) + 
+	*length = sqrt ((seg->x2 * seg->x2) + (seg->y2 * seg->y2) +
 			 (seg->z2 * seg->z2));
     	seg->pixel = particlePixel(p->id);
 	return True;
@@ -520,9 +520,9 @@ void VertexToSegment(SpaceWindow *window,  SpaceVertex *v,
 	SpinSegment *segt;
 	Pixel black;
         Screen *screen;
-        
+
         screen = XtScreen(window->shell);
-        black = BlackPixelOfScreen(screen);	 
+        black = BlackPixelOfScreen(screen);
 	scaleZ = PINSIZE * window->maxTransl[2];
 /* 	scaleT = PINSIZE * window->maxTransl[0]; */
 	segt = *seg;
@@ -532,16 +532,16 @@ void VertexToSegment(SpaceWindow *window,  SpaceVertex *v,
 	    segt->y1 = window->currentLongToTr * v->y;
 	    segt->z1 = v->z;
     	/*
-    	** Now translate 
+    	** Now translate
     	*/
-    	    segt->x1 = segt->x1 + 
+    	    segt->x1 = segt->x1 +
     	       window->currentLongToTr * window->currentTransl[0];
-    	    segt->y1 = segt->y1 + 
+    	    segt->y1 = segt->y1 +
     	       window->currentLongToTr * window->currentTransl[1];
-    	    segt->z1 = segt->z1 + 
+    	    segt->z1 = segt->z1 +
     	       window->currentTransl[2];
     	    /*
-    	    ** The end of the pins.. 
+    	    ** The end of the pins..
     	    */
 	    segt->x2 = segt->x1 + scaleZ * XPinVertexPoints[j][i];
 	    segt->y2 = segt->y1 + scaleZ * YPinVertexPoints[j][i];
@@ -553,15 +553,15 @@ void VertexToSegment(SpaceWindow *window,  SpaceVertex *v,
 	 *seg = segt;
 }
 
-static void detectorToSegment(SpaceWindow *window, SpinSegment *segdt, 
+static void detectorToSegment(SpaceWindow *window, SpinSegment *segdt,
 					SpinSegment *seg)
 {
 	int i,j;
 	Pixel black;
         Screen *screen;
-        
+
         screen = XtScreen(window->shell);
-        black = BlackPixelOfScreen(screen);	 
+        black = BlackPixelOfScreen(screen);
 	seg->pixel = black;
 	seg->x1 = window->currentLongToTr * segdt->x1;
 	seg->y1 = window->currentLongToTr * segdt->y1;
@@ -570,29 +570,29 @@ static void detectorToSegment(SpaceWindow *window, SpinSegment *segdt,
 	seg->y2 = window->currentLongToTr * segdt->y2;
 	seg->z2 = segdt->z2;
     	/*
-    	** Now translate 
+    	** Now translate
     	*/
-    	seg->x1 = seg->x1 + 
+    	seg->x1 = seg->x1 +
     	       window->currentLongToTr * window->currentTransl[0];
-    	seg->y1 = seg->y1 + 
+    	seg->y1 = seg->y1 +
     	       window->currentLongToTr * window->currentTransl[1];
-    	seg->z1 = seg->z1 + 
+    	seg->z1 = seg->z1 +
     	       window->currentTransl[2];
-    	seg->x2 = seg->x2 + 
+    	seg->x2 = seg->x2 +
     	       window->currentLongToTr * window->currentTransl[0];
-    	seg->y2 = seg->y2 + 
+    	seg->y2 = seg->y2 +
     	       window->currentLongToTr * window->currentTransl[1];
-    	seg->z2 = seg->z2 + 
+    	seg->z2 = seg->z2 +
     	       window->currentTransl[2];
      	return;
 }
 
 
-	
+
 void SetDisplayMode(PhaseWindow *window, int newMode)
 {
     int changeScale, oldMode = window->displayMode;
-    
+
     changeScale = (((newMode == BY_MOMENTUM || newMode == BY_PT) &&
     	  (oldMode != BY_MOMENTUM && oldMode != BY_PT)    ) ||
          ((newMode == BY_RAPIDITY || newMode == BY_PSEUDORAPIDITY) &&
@@ -622,11 +622,11 @@ void DrawScale(StdHepWindow *window)
     /* Get the scale factor for translating spin coordinates to pixels */
     GET_ONE_RSRC(window->spin, XmNwidth, &spinWidth);
     scale = (1./(SpinGetScale(window->spin)/2.)) / (double)spinWidth;
-    
+
     /* Calculate the width of the scale draw area in spin coordinates */
     GET_ONE_RSRC(scaleWidget, XmNwidth, &widgetWidth);
     scaleAreaWidth = widgetWidth * scale;
-    
+
     /* choose a sensible length for the scale bar, such as 1, 5, 10, 50 etc. */
     if (scaleAreaWidth < 1.) {
     	while (scaleBarLength > scaleAreaWidth) {
@@ -640,7 +640,7 @@ void DrawScale(StdHepWindow *window)
     	}
     	scaleBarLength /= barMultiplier;
     }
-    
+
     /* draw the scale bar in the middle of the scale area widget */
     GET_ONE_RSRC(scaleWidget, XmNheight, &widgetHeight);
     leftX = ((scaleAreaWidth - scaleBarLength) / 2.) / scale;
@@ -652,7 +652,7 @@ void DrawScale(StdHepWindow *window)
     XDrawLine(display, scaleWindow, gc, leftX, topY, leftX, bottomY);
     XDrawLine(display, scaleWindow, gc, rightX, topY, rightX, bottomY);
     XDrawLine(display, scaleWindow, gc, leftX, midY, rightX, midY);
-    
+
     /* put in the text to label the scale */
     if (window->type == STDHEP_PHASE) {
       winp = (PhaseWindow *) window;
@@ -664,14 +664,14 @@ void DrawScale(StdHepWindow *window)
       winpa = (ParaWindow *) window;
       scaleVertex = scaleBarLength / winpa->currentRapToPt;
       sprintf (scaleText, "%G eta = %G Gev/c",scaleBarLength, scaleVertex);
-    
+
     } else {
       wins = (SpaceWindow *) window;
       tempMom = wins->currentMomToSpace;
       if( tempMom == 0.0) tempMom = EPSILON;
       scaleVertex = scaleBarLength / tempMom;
       sprintf (scaleText, "%G cm = %G Gev/c",scaleBarLength, scaleVertex);
-    } 
+    }
     cScaleText = MKSTRING(scaleText);
     SET_ONE_RSRC(window->scaleLabel, XmNlabelString, cScaleText);
     XmStringFree(cScaleText);
@@ -683,13 +683,13 @@ static Pixel allocRGB(Screen *screen,
 {
     Display *display = DisplayOfScreen(screen);
     XColor color;
-    
+
     color.red = red;
     color.green = green;
     color.blue = blue;
     if (XAllocColor(display, DefaultColormapOfScreen(screen), &color))
     	return color.pixel;
-    else 
+    else
      	return BlackPixelOfScreen(screen);
 }
 
@@ -697,17 +697,17 @@ int ParticleVisible(StdHepWindow *window, long id, int stable)
 {
     long absID = abs(id);
     float charge = stdchg_(&id);
-    
+
     if (stable && !window->stable)
     	return False;
     if (!stable && !window->unstable)
    	return False;
-   	
+
     if ((fabs(charge) < 0.1) && !window->neutral)
     	return False;
     if ((fabs(charge) > 0.1) && !window->charged)
    	return False;
-     
+
     if (absID == 11 && !window->electrons)
 	return False;
     if (absID == 13 && !window->muons)
@@ -717,7 +717,7 @@ int ParticleVisible(StdHepWindow *window, long id, int stable)
     if ((absID <=  6 || absID == 9 || absID == 21) && !window->quarks)
 	return False;
     if ((absID == 23 || absID == 24) && !window->wz)
-	return False; 
+	return False;
     if (absID == 22 && !window->gammas)
 	return False;
     if (absID >= 100 && !window->hadrons)
@@ -734,8 +734,8 @@ int ParticleColorIndex(int particleID)
 {
     long absID = abs(particleID);
     long i, aid, kq[3], kqj;
-    double akqx, akq3, akq2, akq1, akqj; 
-    
+    double akqx, akq3, akq2, akq1, akqj;
+
     /*
     ** For non hadrons, return the particle id as the color
     */
@@ -744,7 +744,7 @@ int ParticleColorIndex(int particleID)
     	    return MAXPARTCOLOR - 1;
     	return absID;
     }
-    
+
     /*
     ** For hadrons, return the largest digit? (ask paul...)
     */
@@ -764,7 +764,7 @@ int ParticleColorIndex(int particleID)
 
     kqj = 0;
     for (i=0; i<3; i++)
-        if (kq[i] > kqj) kqj = kq[i];  
+        if (kq[i] > kqj) kqj = kq[i];
 
     if (kqj > (MAXPARTCOLOR-1))
     	return MAXPARTCOLOR-1;
@@ -787,7 +787,7 @@ double ParticlePT(double px, double py)
 double ParticleRapidity(double px, double py, double pz, double mass)
 {
     double p, pt, e;
-    
+
     p = ParticleMomentum(px, py, pz);
     e = sqrt(p*p + mass*mass);
     return fabs(0.5*log(fabs((e+pz+0.0001)/(e-pz+0.0000001))));
@@ -796,7 +796,7 @@ double ParticleRapidity(double px, double py, double pz, double mass)
 double ParticlePseudorapidity(double px, double py, double pz)
 {
     double p, pt, teta;
-    
+
     p = ParticleMomentum(px, py, pz);
     pt = ParticlePT(px,py);
     teta = acos(pz/(p+ 0.00001));

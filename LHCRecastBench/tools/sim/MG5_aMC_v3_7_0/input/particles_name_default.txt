@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -16,7 +16,7 @@
 #
 # Standard Model
 # quarks
-     1      d     
+     1      d
     -1      d~
      2      u
     -2      u~
@@ -28,22 +28,22 @@
     -5      b~
      6      t
     -6      t~
-# Lepton    
+# Lepton
      11     e-
     -11     e+
      12     ve
     -12     ve~
-     13     mu-   
-    -13     mu+   
+     13     mu-
+    -13     mu+
      14     vm
     -14     vm~
-     15     ta-   
-    -15     ta+   
+     15     ta-
+    -15     ta+
      16     vt
     -16     vt~
 # Boson
-     21     g 
-     22     a            
+     21     g
+     22     a
      23     z
      24     w+
     -24     w-

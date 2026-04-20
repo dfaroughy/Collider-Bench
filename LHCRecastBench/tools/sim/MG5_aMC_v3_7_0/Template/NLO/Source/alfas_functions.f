@@ -7,7 +7,7 @@ C-----------------------------------------------------------------------------
 C
 C	This function returns the 1-loop value of alpha.
 C
-C	INPUT: 
+C	INPUT:
 C		qsq   = Q^2
 C
 C-----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ C-----------------------------------------------------------------------------
 C
 C	This function returns the 1-loop value of alpha_w.
 C
-C	INPUT: 
+C	INPUT:
 C		qsq = Q^2
 C               nh  = # of Higgs doublets
 C
@@ -48,7 +48,7 @@ C
 c
 c	  include
 c
-	  
+
 c
 c constants
 c
@@ -87,9 +87,9 @@ c$$$      ALPHAS=alphas_not_timed(Q)
 c$$$      if (abs(ALPHAS/alphas_not_timed(Q)-1d0).gt.1d-4) then
 c$$$         write (*,*) Q,ALPHAS,alphas_not_timed(Q),ALPHAS/alphas_not_timed(Q)-1d0
 c$$$      endif
-      
+
 c     call cpu_time(tAfter)
-      
+
 c      tPDF = tPDF + (tAfter-tBefore)
       RETURN
       end
@@ -170,7 +170,7 @@ c      tPDF = tPDF + (tAfter-tBefore)
          alphas_from_grids=ALPHAS_not_timed(scale)
       endif
       end
-      
+
 C-----------------------------------------------------------------------------
 C
       DOUBLE PRECISION FUNCTION ALPHAS_not_timed(Q)
@@ -182,7 +182,7 @@ c     q -- scale at which alpha_s is to be evaluated
 c
 c-- common block alfas.inc
 c     asmz -- value of alpha_s at the mass of the Z-boson
-c     nloop -- the number of loops (1,2, or 3) at which beta 
+c     nloop -- the number of loops (1,2, or 3) at which beta
 c
 c     function is evaluated to determine running.
 c     the values of the cmass and the bmass should be set
@@ -206,24 +206,24 @@ C
 C
       SAVE AMZ0,NLOOP0,AMB,AMC
       DATA AMZ0,NLOOP0/0D0,0/
-      IF (Q .LE. 0D0) THEN 
+      IF (Q .LE. 0D0) THEN
          WRITE(6,*) 'q .le. 0 in alphas'
          WRITE(6,*) 'q= ',Q
          STOP
       ENDIF
-      IF (asmz .LE. 0D0) THEN 
+      IF (asmz .LE. 0D0) THEN
          WRITE(6,*) 'asmz .le. 0 in alphas',asmz
 c         WRITE(6,*) 'continue with asmz=0.1185'
          STOP
          asmz=0.1185D0
       ENDIF
-      IF (CMASS .LE. 0.3D0) THEN 
+      IF (CMASS .LE. 0.3D0) THEN
          WRITE(6,*) 'cmass .le. 0.3GeV in alphas',CMASS
 c         WRITE(6,*) 'continue with cmass=1.5GeV?'
          STOP
          CMASS=1.42D0
       ENDIF
-      IF (BMASS .LE. 0D0) THEN 
+      IF (BMASS .LE. 0D0) THEN
          WRITE(6,*) 'bmass .le. 0 in alphas',BMASS
          WRITE(6,*) 'COMMON/QMASS/CMASS,BMASS'
          STOP
@@ -260,9 +260,9 @@ c--- evaluate strong coupling at scale q
       SUBROUTINE NEWTON1(T,A_IN,A_OUT,NLOOP,NF)
 C     Author: R.K. Ellis
 
-c---  calculate a_out using nloop beta-function evolution 
+c---  calculate a_out using nloop beta-function evolution
 c---  with nf flavours, given starting value as-in
-c---  given as_in and logarithmic separation between 
+c---  given as_in and logarithmic separation between
 c---  input scale and output scale t.
 c---  Evolution is performed using Newton's method,
 c---  with a precision given by tol.
@@ -287,7 +287,7 @@ C---     DEL=SQRT(4*C2-C1**2)
      & -(C1(NF)**2-2D0*C2(NF))/DEL(NF)
      & *ATAN((2D0*C2(NF)*AS+C1(NF))/DEL(NF))
 
-           
+
       A_OUT=A_IN/(1D0+A_IN*B0(NF)*T)
       IF (NLOOP .EQ. 1) RETURN
       A_OUT=A_IN/(1D0+B0(NF)*A_IN*T+C1(NF)*A_IN*LOG(1D0+A_IN*B0(NF)*T))
@@ -318,15 +318,15 @@ C
 C	This function returns the 2-loop value of a MSbar fermion mass
 C       at a given scale.
 C
-C	INPUT: mf    = MSbar mass of fermion at MSbar fermion mass scale 
+C	INPUT: mf    = MSbar mass of fermion at MSbar fermion mass scale
 C	       scale = scale at which the running mass is evaluated
 C	       asmz  = AS(MZ) : this is passed to alphas(scale,asmz,nloop)
 C              nloop = # of loops in the evolution
-C       
+C
 C
 C
 C	EXTERNAL:      double precision alphas(scale,asmz,nloop)
-C                      
+C
 C-----------------------------------------------------------------------------
 C
       implicit none
@@ -351,7 +351,7 @@ c     CONSTANTS
 c
       double precision  One, Two, Three, Pi
       parameter( One = 1.0d0, Two = 2.0d0, Three = 3.0d0 )
-      parameter( Pi = 3.14159265358979323846d0) 
+      parameter( Pi = 3.14159265358979323846d0)
       double precision tmass
       parameter(tmass=174d0)
 cc
@@ -371,12 +371,11 @@ C
       as    = alphas(scale)
       asmf  = alphas(mf)
       l2    = (1+ A1*as/Pi)/(1+ A1*asmf/Pi)
-      
-      
+
+
       mfrun = mf * (as/asmf)**(gamma0/beta0)
 
       if(nloop.eq.2) mfrun =mfrun*l2
 ccc
       return
       end
-

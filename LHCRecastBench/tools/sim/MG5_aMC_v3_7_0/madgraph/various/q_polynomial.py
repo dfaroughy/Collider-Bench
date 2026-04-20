@@ -14,36 +14,36 @@ class PolynomialError(Exception): pass
 def get_number_of_coefs_for_rank(r):
     """ Returns the number of independent coefficients there is in a
     fully symmetric tensor of rank r """
-    import madgraph.various.misc as misc 
+    import madgraph.various.misc as misc
     return sum([((3+ri)*(2+ri)*(1+ri))//6 for ri in range(0,r+1)])
 
 class Polynomial(object):
-    """ A class to represent a polynomial in the loop momentum (4-vector) q 
-    and how the symmetrized coefficients are ordered. The ordering rule 
+    """ A class to represent a polynomial in the loop momentum (4-vector) q
+    and how the symmetrized coefficients are ordered. The ordering rule
     correspond to what is presented in Eq. C.15 of arxiv:hep-ph/1405.0301"""
-        
+
     def __init__(self, rank):
-        
+
         assert rank > -1, "The rank of a q-polynomial should be 0 or positive"
         self.rank=rank
         self.init_coef_list()
-        
+
     def init_coef_list(self):
         """ Creates a list whose elements are arrays being the coefficient
-        indices. We order this list according to the algorithm in  
+        indices. We order this list according to the algorithm in
         get_coef_position. This coef_list can then be used for the function
         get_coef_at_position()
         """
-        
+
         self.coef_list=[None,]*get_number_of_coefs_for_rank(self.rank)
-        
+
         PNO = Polynomial_naive_ordering(self.rank)
-        
-        for coef in PNO.coef_list:            
+
+        for coef in PNO.coef_list:
             self.coef_list[self.get_coef_position(list(coef))]=coef
-        
+
     def get_coef_position(self, indices_list):
-        """ Returns the canonical position for a coefficient characterized 
+        """ Returns the canonical position for a coefficient characterized
         by the value of the indices of the loop momentum q it multiplies,
         that is for example C_01032 multiplying q_0*q_1*q_0*q_3*q_2.
         We assume that the explicit construction of the position below is
@@ -53,7 +53,7 @@ class Polynomial(object):
 
         if len(indices_list)==0:
             return 0
-        
+
         res = get_number_of_coefs_for_rank(len(indices_list)-1)
 
         new_indices_list = copy.copy(indices_list)
@@ -62,7 +62,7 @@ class Polynomial(object):
         for i, ind in enumerate(new_indices_list):
             if ind>0:
                 res = res + (fact(ind+i)//(fact(i+1)*fact(ind - 1)))
-         
+
         return res
 
     def get_coef_at_position(self, pos):
@@ -72,25 +72,25 @@ class Polynomial(object):
 
 class Polynomial_naive_ordering(object):
     """ A class to represent a polynomial in the loop momentum (4-vector) q"""
-    
+
     def __init__(self, rank):
-        
+
         assert rank > -1, "The rank of a q-polynomial should be 0 or positive"
         self.rank=rank
         self.init_coef_list()
-        
+
     def init_coef_list(self):
         """ Creates a list whose elements are arrays being the coefficient
-        indices sorted in growing order and the value is their position in a 
+        indices sorted in growing order and the value is their position in a
         one-dimensional vector. For example the position of the coefficient
-        C_01032 will be placed in the list under array.array('i',(0,0,1,3,2)). 
+        C_01032 will be placed in the list under array.array('i',(0,0,1,3,2)).
         """
         self.coef_list=[]
         self.coef_list.append(array.array('i',()))
-        
+
         if self.rank==0:
             return
-        
+
         tmp_coef_list=[array.array('i',(0,)),array.array('i',(1,)),
                    array.array('i',(2,)),array.array('i',(3,))]
         self.coef_list.extend(tmp_coef_list)
@@ -106,7 +106,7 @@ class Polynomial_naive_ordering(object):
             self.coef_list.extend(tmp_coef_list)
 
     def get_coef_position(self, indices_list):
-        """ Returns the canonical position for a coefficient characterized 
+        """ Returns the canonical position for a coefficient characterized
         by the value of the indices of the loop momentum q it multiplies,
         that is for example C_01032 multiplying q_0*q_1*q_0*q_3*q_2 """
 
@@ -115,7 +115,7 @@ class Polynomial_naive_ordering(object):
         try:
             return self.coef_list.index(array.array('i',new_indices_list))
         except ValueError:
-            raise PolynomialError("The index %s looked for could not be found"%str(indices_list))   
+            raise PolynomialError("The index %s looked for could not be found"%str(indices_list))
 
     def get_coef_at_position(self, pos):
         """ Returns the coefficient at position pos in the one dimensional
@@ -124,8 +124,8 @@ class Polynomial_naive_ordering(object):
 
 class PolynomialRoutines(object):
     """ The mother class to output the polynomial subroutines """
-    
-    def __init__(self, max_rank, updater_max_rank=None, 
+
+    def __init__(self, max_rank, updater_max_rank=None,
                         coef_format='complex*16', sub_prefix='',
                         proc_prefix='',mp_prefix='',
                         line_split=30):
@@ -141,13 +141,13 @@ class PolynomialRoutines(object):
                 raise PolynomialError("The updater max rank must be at most"+\
                                                 " equal to the overall max rank")
             else:
-                self.updater_max_rank = updater_max_rank            
+                self.updater_max_rank = updater_max_rank
         if coef_format=='complex*16':
             self.rzero='0.0d0'
             self.czero='(0.0d0,0.0d0)'
         elif coef_format=='complex*32':
             self.rzero='0.0e0_16'
-            self.czero='CMPLX(0.0e0_16,0.0e0_16,KIND=16)'            
+            self.czero='CMPLX(0.0e0_16,0.0e0_16,KIND=16)'
         else:
             self.rzero='0.0e0'
             self.czero='(0.0e0,0.0e0)'
@@ -156,7 +156,7 @@ class PolynomialRoutines(object):
             raise PolynomialError("The rank of a q-polynomial should be 0 or positive")
         self.max_rank=max_rank
         self.pq=Polynomial(max_rank)
-        
+
         # A useful replacement dictionary
         self.rep_dict = {'sub_prefix':self.sub_prefix,
                          'proc_prefix':self.proc_prefix,
@@ -165,10 +165,10 @@ class PolynomialRoutines(object):
 
 class FortranPolynomialRoutines(PolynomialRoutines):
     """ A daughter class to output the subroutine in the fortran format"""
-    
+
     def write_polynomial_constant_module(self):
         """ Writes a fortran90 module that defined polynomial constants objects."""
-        
+
         # Start with the polynomial constants module header
         polynomial_constant_lines = []
         polynomial_constant_lines.append(
@@ -176,7 +176,7 @@ class FortranPolynomialRoutines(PolynomialRoutines):
 implicit none
 include 'coef_specs.inc'
 include 'loop_max_coefs.inc'
-"""%self.sub_prefix)   
+"""%self.sub_prefix)
         # Add the N coef for rank
         polynomial_constant_lines.append(
 'C Map associating a rank to each coefficient position')
@@ -188,7 +188,7 @@ include 'loop_max_coefs.inc'
             polynomial_constant_lines.append(
 'DATA COEFTORANK_MAP(%(start)d:%(end)d)/%(n_entries)d*%(rank)d/'%
 {'start': start,'end': end,'n_entries': end-start+1,'rank': rank})
-        
+
         polynomial_constant_lines.append(
 '\nC Map defining the number of coefficients for a symmetric tensor of a given rank')
         polynomial_constant_lines.append(
@@ -217,14 +217,14 @@ DATA NCOEF_R/%(ranks)s/"""%{'max_rank':self.max_rank,'ranks':','.join([
 
         polynomial_constant_lines.append(
                             "\nEND MODULE %sPOLYNOMIAL_CONSTANTS\n"%self.sub_prefix)
-        
+
         return '\n'.join(polynomial_constant_lines)
-    
-    
+
+
     def write_pjfry_mapping(self):
-        """ Returns a fortran subroutine which fills in the array of integral reduction 
+        """ Returns a fortran subroutine which fills in the array of integral reduction
         coefficients following MadLoop standards using pjfry++ coefficients."""
-        
+
         # THE OUTPUT OF COEFS FROM PJFRY++ IS
         # RANK=0: (,)
         # RANK=1: (0,),(1,),(2,),(3,)
@@ -235,8 +235,8 @@ DATA NCOEF_R/%(ranks)s/"""%{'max_rank':self.max_rank,'ranks':','.join([
         # RANK=1: (0,),(1,),(2,),(3,)
         # RANK=2: (0,0),(0,1),(0,2),(0,3),(1,1),(2,1),(3,1),(2,2),(2,3),(3,3)
         # ...
-        
-        
+
+
         # Helper function
         def format_power(pow):
             b, e = pow
@@ -245,8 +245,8 @@ DATA NCOEF_R/%(ranks)s/"""%{'max_rank':self.max_rank,'ranks':','.join([
                 return str(b)
             else:
                 return "%s^%d" % (b, e)
-            
-            
+
+
         def get_coef_position(indices_list):
             new_indices_list=copy.copy(indices_list)
             new_indices_list.sort()
@@ -264,7 +264,7 @@ DATA NCOEF_R/%(ranks)s/"""%{'max_rank':self.max_rank,'ranks':','.join([
                         den *= j
                 pos += num/den
             return pos
-        
+
         lines = []
         lines.append(
                 """SUBROUTINE %(sub_prefix)sCONVERT_PJFRY_COEFFS(RANK,PJCOEFS,TIRCOEFS)
@@ -276,7 +276,7 @@ C      ARGUMENTS
                 %(coef_format)s PJCOEFS(0:LOOPMAXCOEFS-1,3)
                 %(coef_format)s TIRCOEFS(0:LOOPMAXCOEFS-1,3)"""
                 %{'sub_prefix':self.sub_prefix,'coef_format':self.coef_format})
-        
+
         for R in range(self.max_rank+1):
             Ncoeff=((3+R)*(2+R)*(1+R))/6
             if R == 0:
@@ -292,7 +292,7 @@ C      ARGUMENTS
                     qpow = sindices.count(qvalue)
                     if qpow > 0:
                         coeff_list.append(format_power([qvalue,qpow]))
-                                        
+
                 if not coeff_list:
                     coeff_str = "1"
                 else:
@@ -304,19 +304,19 @@ C      ARGUMENTS
             lines.append('IF(RANK.LE.%d)RETURN'%R)
 
         lines.append('end')
-        
+
         return '\n'.join(lines)
-    
+
     def write_iregi_mapping(self):
-        """ Returns a fortran subroutine which fills in the array of integral reduction 
+        """ Returns a fortran subroutine which fills in the array of integral reduction
         coefficients following MadLoop standards using IREGI coefficients."""
-        
+
         # THE OUTPUT OF COEFS FROM IREGI IS
         # RANK=0: (,)
         # RANK=1: (0,),(1,),(2,),(3,)
         # RANK=2: (0,0),(0,1),(0,2),(0,3),(1,1),(2,1),(3,1),(2,2),(2,3),(3,3)
         # ...
-                
+
         # Helper function
         def format_power(pow):
             b, e = pow
@@ -325,7 +325,7 @@ C      ARGUMENTS
                 return str(b)
             else:
                 return "%s^%d" % (b, e)
-            
+
         lines = []
         lines.append(
                 """SUBROUTINE %(sub_prefix)sCONVERT_IREGI_COEFFS(RANK,IREGICOEFS,TIRCOEFS)
@@ -337,7 +337,7 @@ C        ARGUMENTS
                 %(coef_format)s IREGICOEFS(0:LOOPMAXCOEFS-1,3)
                 %(coef_format)s TIRCOEFS(0:LOOPMAXCOEFS-1,3)"""
                 %{'sub_prefix':self.sub_prefix,'coef_format':self.coef_format})
-        
+
         iregi_gen = FromIREGIFortranCodeGenerator(self.max_rank)
         for R in range(self.max_rank+1):
             Ncoeff=((3+R)*(2+R)*(1+R))//6
@@ -355,7 +355,7 @@ C        ARGUMENTS
                     qpow = sindices.count(qvalue)
                     if qpow > 0:
                         coeff_list.append(format_power([qvalue,qpow]))
-                                        
+
                 if not coeff_list:
                     coeff_str = "1"
                 else:
@@ -366,14 +366,14 @@ C        ARGUMENTS
                 lines.append('TIRCOEFS(%d,1:3)=IREGICOEFS(%d,1:3)'%(i,iregipos))
             lines.append('IF(RANK.LE.%d)RETURN'%R)
         lines.append('end')
-        
+
         return '\n'.join(lines)
-    
+
     def get_COLLIER_mapping(self):
         """ Returns a list of tuples of the form:
           [ (COLLIER_ind0, COLLIER_ind1, COLLIER_ind2, COLLIER_ind3), ]
           where the position in the list is the coef_ID in MadLoop ordering.
-        """        
+        """
         res = []
         for coef_pos in range(0,get_number_of_coefs_for_rank(self.pq.rank)):
             indices_list = self.pq.get_coef_at_position(coef_pos)
@@ -382,13 +382,13 @@ C        ARGUMENTS
                         indices_list.count(2),
                         indices_list.count(3)))
         return res
-    
+
     def write_golem95_mapping(self):
         """ Returns a fortran subroutine which fills in the array of tensorial
         coefficients following golem95 standards using MadLoop coefficients."""
 
         subroutines = []
-        
+
         # Set number of space-time dimensions to 4 here
         d = 4
         golem_max_rank = 6
@@ -401,7 +401,7 @@ C        ARGUMENTS
                 LHS, RHS, lst, dic = \
                         FromGolem95FortranCodeGenerator.generate_equations(R, k)
                 block_info[(R,k)] = (lst, dic)
-     
+
         # Helper function
         def format_power(pow):
             b, e = pow
@@ -410,12 +410,12 @@ C        ARGUMENTS
                 return str(b)
             else:
                 return "%s^%d" % (b, e)
-                
+
         # Write out one subroutine per rank
         for R in range(golem_max_rank+1):
-            
+
             lines=[]
-            
+
             if R==0:
                 lines.append(
                 """SUBROUTINE %(sub_prefix)sFILL_GOLEM_COEFFS_0(ML_COEFS,GOLEM_COEFS)
@@ -429,7 +429,7 @@ C        ARGUMENTS
                 lines.append("end")
                 subroutines.append('\n'.join(lines))
                 continue
-            
+
             # Start by writing out the header:
             lines.append(
               """SUBROUTINE %(sub_prefix)sFILL_GOLEM_COEFFS_%(rank)d(ML_COEFS,GOLEM_COEFS)
@@ -449,11 +449,11 @@ C        ARGUMENTS
                 lines.append('end')
                 subroutines.append('\n'.join(lines))
                 continue
-                
+
             # The constant coefficient is treated separately
             lines.append("c Constant coefficient ")
             lines.append("GOLEM_COEFS%%c0=ML_COEFS(%d)"\
-                                                 %self.pq.get_coef_position([]))            
+                                                 %self.pq.get_coef_position([]))
 
             # Now write out the explicit mapping
             for k in range(1,min(R,d)+1):
@@ -472,32 +472,32 @@ C        ARGUMENTS
                         lines.append("c Coefficient %s"%coeff_str)
                         lines.append("GOLEM_COEFS%%c%d(%d,%d)=%sML_COEFS(%d)"\
                                % (k, lab, i+1, ML_sign_convention, ML_coef_pos))
-            
+
             subroutines.append('\n'.join(lines+['end']))
-            
+
         return '\n\n'.join(subroutines)
 
     def write_compact_wl_updater(self,r_1,r_2,loop_over_vertex_coefs_first=True):
         """ Give out the subroutine to update a polynomial of rank r_1 with
         one of rank r_2 """
-        
-        # The update is basically given by 
+
+        # The update is basically given by
         # OUT(j,coef,i) = A(k,*,i) x B(j,*,k)
-        # with k a summed index and the 'x' operation is equivalent to 
+        # with k a summed index and the 'x' operation is equivalent to
         # putting together two regular polynomial in q with scalar coefficients
-        # The complexity of this subroutine is therefore 
+        # The complexity of this subroutine is therefore
         # MAXLWFSIZE**3 * NCoef(r_1) * NCoef(r_2)
         # Which is for example 22'400 when updating a rank 4 loop wavefunction
         # with a rank 1 updater.
-        # The situation is slightly improved by a smarter handling of the 
+        # The situation is slightly improved by a smarter handling of the
         # coefficients equal to zero
-        
+
         lines=[]
-        
+
         # Start by writing out the header:
         lines.append(
           """SUBROUTINE %(sub_prefix)sUPDATE_WL_%(r_1)d_%(r_2)d(A,LCUT_SIZE,B,IN_SIZE,OUT_SIZE,OUT)
-  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS      
+  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS
   implicit none
   INTEGER I,J,K,L,M
   %(coef_format)s A(MAXLWFSIZE,0:LOOPMAXCOEFS-1,MAXLWFSIZE)
@@ -508,7 +508,7 @@ C        ARGUMENTS
   %(coef_format)s UPDATER_COEF
 """%{'sub_prefix':self.sub_prefix,'proc_prefix':self.proc_prefix,
                            'r_1':r_1,'r_2':r_2,'coef_format':self.coef_format})
-        
+
         # Start the loop on the elements i,j of the vector OUT(i,coef,j)
         lines.append("C Welcome to the computational heart of MadLoop...")
         if loop_over_vertex_coefs_first:
@@ -550,8 +550,8 @@ C        ARGUMENTS
     ENDDO
     """%(get_number_of_coefs_for_rank(r_1)-1,
          self.czero,
-         get_number_of_coefs_for_rank(r_2)-1))            
-        
+         get_number_of_coefs_for_rank(r_2)-1))
+
         lines.append("END")
         # return the subroutine
         return '\n'.join(lines)
@@ -559,18 +559,18 @@ C        ARGUMENTS
     def write_expanded_wl_updater(self,r_1,r_2):
         """ Give out the subroutine to update a polynomial of rank r_1 with
         one of rank r_2 """
-        
-        # The update is basically given by 
+
+        # The update is basically given by
         # OUT(j,coef,i) = A(k,*,i) x B(j,*,k)
-        # with k a summed index and the 'x' operation is equivalent to 
+        # with k a summed index and the 'x' operation is equivalent to
         # putting together two regular polynomial in q with scalar coefficients
-        # The complexity of this subroutine is therefore 
+        # The complexity of this subroutine is therefore
         # MAXLWFSIZE**3 * NCoef(r_1) * NCoef(r_2)
         # Which is for example 22'400 when updating a rank 4 loop wavefunction
         # with a rank 1 updater.
-        
+
         lines=[]
-        
+
         # Start by writing out the header:
         lines.append(
           """SUBROUTINE %(sub_prefix)sUPDATE_WL_%(r_1)d_%(r_2)d(A,LCUT_SIZE,B,IN_SIZE,OUT_SIZE,OUT)
@@ -582,7 +582,7 @@ C        ARGUMENTS
   INTEGER LCUT_SIZE,IN_SIZE,OUT_SIZE
 """%{'sub_prefix':self.sub_prefix,'proc_prefix':self.proc_prefix,
                             'r_1':r_1,'r_2':r_2,'coef_format':self.coef_format})
-        
+
         # Start the loop on the elements i,j of the vector OUT(i,coef,j)
         lines.append("DO I=1,LCUT_SIZE")
         lines.append("  DO J=1,OUT_SIZE")
@@ -590,10 +590,10 @@ C        ARGUMENTS
         lines.append("      OUT(J,K,I)=%s"%self.czero)
         lines.append("    ENDDO")
         lines.append("    DO K=1,IN_SIZE")
-        
+
         # Now we write the lines defining the coefs of OUT(j,*,i) from those
         # of A(k,*,i) and B(j,*,k)
-        # The dictionary below stores the position of the new coefficient 
+        # The dictionary below stores the position of the new coefficient
         # derived as keys and the list of the buidling blocks expressing
         # them as values
         coef_expressions={}
@@ -615,7 +615,7 @@ C        ARGUMENTS
                 lines.append("OUT(J,%d,I)=OUT(J,%d,I)+"%(coef,coef)+\
                              '+'.join(value[split:split+self.line_split]))
                 split=split+self.line_split
-                
+
         # And now we simply close the enddo.
         lines.append("    ENDDO")
         lines.append("  ENDDO")
@@ -624,22 +624,22 @@ C        ARGUMENTS
 
         # return the subroutine
         return '\n'.join(lines)
-        
+
     def write_polynomial_evaluator(self):
         """ Give out the subroutine to evaluate a polynomial of a rank up to
         the maximal one specified when initializing the FortranPolynomialRoutines
         object. """
         lines=[]
-        
+
         # Start by writing out the header:
         lines.append("""SUBROUTINE %(sub_prefix)sEVAL_POLY(C,R,Q,OUT)
-                        USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS      
+                        USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS
                         %(coef_format)s C(0:LOOPMAXCOEFS-1)
                         INTEGER R
                         %(coef_format)s Q(0:3)
-                        %(coef_format)s OUT                                                 
+                        %(coef_format)s OUT
                         """%self.rep_dict)
-        
+
         # Start by the trivial coefficient of order 0.
         lines.append("OUT=C(0)")
         # Now scan them all progressively
@@ -655,10 +655,10 @@ C        ARGUMENTS
             while split<len(terms):
                 lines.append("OUT=OUT+"+\
                                    '+'.join(terms[split:split+self.line_split]))
-                split=split+self.line_split            
+                split=split+self.line_split
             lines.append("ENDIF")
         lines.append("END")
-        
+
         return '\n'.join(lines)
 
     def write_wl_merger(self):
@@ -666,72 +666,72 @@ C        ARGUMENTS
         wavefunction of a loop to create the coefficients of the polynomial
         representing the numerator, while multiplying each of them by 'const'."""
         lines=[]
-        
+
         # Start by writing out the header:
         lines.append(
 """SUBROUTINE %(sub_prefix)sMERGE_WL(WL,R,LCUT_SIZE,CONST,OUT)
-  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS      
+  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS
   INTEGER I,J
   %(coef_format)s WL(MAXLWFSIZE,0:LOOPMAXCOEFS-1,MAXLWFSIZE)
   INTEGER R,LCUT_SIZE
   %(coef_format)s CONST
   %(coef_format)s OUT(0:LOOPMAXCOEFS-1)
-"""%self.rep_dict)                    
-     
+"""%self.rep_dict)
+
         # Now scan them all progressively
         lines.append("DO I=1,LCUT_SIZE")
         lines.append("  DO J=0,NCOEF_R(R)-1")
-        lines.append("      OUT(J)=OUT(J)+WL(I,J,I)*CONST")               
+        lines.append("      OUT(J)=OUT(J)+WL(I,J,I)*CONST")
         lines.append("  ENDDO")
         lines.append("ENDDO")
         lines.append("END")
-        
-        return '\n'.join(lines)       
-             
+
+        return '\n'.join(lines)
+
     def write_add_coefs(self):
         """ Give out the subroutine to simply add together the coefficients
         of two loop polynomials of rank R1 and R2 storing the result in the
         first polynomial given in the arguments."""
         lines=[]
-        
+
         # Start by writing out the header:
         lines.append("""SUBROUTINE %(sub_prefix)sADD_COEFS(A,RA,B,RB)
-                        USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS      
+                        USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS
                         INTEGER I
                         %(coef_format)s A(0:LOOPMAXCOEFS-1),B(0:LOOPMAXCOEFS-1)
                         INTEGER RA,RB
-                        """%self.rep_dict) 
+                        """%self.rep_dict)
 
         # Now scan them all progressively
         lines.append("DO I=0,NCOEF_R(RB)-1")
-        lines.append("  A(I)=A(I)+B(I)")               
+        lines.append("  A(I)=A(I)+B(I)")
         lines.append("ENDDO")
         lines.append("END")
-        
+
         return '\n'.join(lines)
-    
+
 class FromIREGIFortranCodeGenerator():
     """ Back up of the class Polynomial, which uses the same coefficeints orders with IREGI.
     It is useful in the case that the order of MadLoop coefficients changes in the future."""
-    
+
     def __init__(self, rank):
-        
+
         assert rank > -1, "The rank of a q-polynomial should be 0 or positive"
         self.rank=rank
         self.init_coef_list()
-        
+
     def init_coef_list(self):
         """ Creates a list whose elements are arrays being the coefficient
-        indices sorted in growing order and the value is their position in a 
+        indices sorted in growing order and the value is their position in a
         one-dimensional vector. For example the position of the coefficient
-        C_01032 will be placed in the list under array.array('i',(0,0,1,3,2)). 
+        C_01032 will be placed in the list under array.array('i',(0,0,1,3,2)).
         """
         self.coef_list=[]
         self.coef_list.append(array.array('i',()))
-        
+
         if self.rank==0:
             return
-        
+
         tmp_coef_list=[array.array('i',(0,)),array.array('i',(1,)),
                    array.array('i',(2,)),array.array('i',(3,))]
         self.coef_list.extend(tmp_coef_list)
@@ -745,9 +745,9 @@ class FromIREGIFortranCodeGenerator():
                     new_tmp_coef_list.append(new_coef)
             tmp_coef_list=new_tmp_coef_list
             self.coef_list.extend(tmp_coef_list)
-    
+
     def get_coef_position(self, indices_list):
-        """ Returns the canonical position for a coefficient characterized 
+        """ Returns the canonical position for a coefficient characterized
         by the value of the indices of the loop momentum q it multiplies,
         that is for example C_01032 multiplying q_0*q_1*q_0*q_3*q_2 """
 
@@ -756,7 +756,7 @@ class FromIREGIFortranCodeGenerator():
         try:
             return self.coef_list.index(array.array('i',new_indices_list))
         except ValueError:
-            raise PolynomialError("The index %s looked for could not be found"%str(indices_list))   
+            raise PolynomialError("The index %s looked for could not be found"%str(indices_list))
 
     def get_coef_at_position(self, pos):
         """ Returns the coefficient at position pos in the one dimensional
@@ -765,10 +765,10 @@ class FromIREGIFortranCodeGenerator():
 
 
 class FromGolem95FortranCodeGenerator():
-    """ Just a container class with helper functions taken from the script 
+    """ Just a container class with helper functions taken from the script
     tens.py of golem which generates most of the golem95 tens_rec.f fortran
     code."""
-    
+
     PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
        31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
        73, 79, 83, 89, 97, 101, 103, 107, 109, 113,
@@ -792,7 +792,7 @@ class FromGolem95FortranCodeGenerator():
        1229, 1231, 1237, 1249, 1259, 1277, 1279, 1283, 1289, 1291,
        1297, 1301, 1303, 1307, 1319, 1321, 1327, 1361, 1367, 1373]
 
-    @classmethod    
+    @classmethod
     def combinat(cls, n, k):
         """
             Calculates the binomial coefficient (n atop k).
@@ -812,22 +812,22 @@ class FromGolem95FortranCodeGenerator():
         r"""
             Generates a mapping from tensor components \hat{C}(a_1, ..., a_k)
             into a one dimensional array.
-    
+
             PARAMETER
-    
+
             R  -- rank
             k  -- number of non-zero components of q
-    
+
             RETURN
-    
+
             (lst, dic)
-    
+
             lst -- list of (a_1, ..., a_k)
             dic -- mapping from (a_1, ..., a_k) -> int
-    
+
             lst[dic[X]] = X if X in dic
         """
-    
+
         def rec_generator(k, R):
             if k == 0:
                 yield []
@@ -838,7 +838,7 @@ class FromGolem95FortranCodeGenerator():
                             yield [a_1] + tail
                     else:
                         yield [a_1]
-        
+
         lst = []
         dic = {}
         i = 0
@@ -847,7 +847,7 @@ class FromGolem95FortranCodeGenerator():
             lst.append(t)
             dic[t] = i
             i += 1
-    
+
         assert i == cls.combinat(R, k), \
                 "len(%s) != %d, R=%d,k=%d" % (lst,cls.combinat(R, k),R,k)
         return lst, dic
@@ -857,20 +857,20 @@ class FromGolem95FortranCodeGenerator():
         """
             Generates a set of equations for a given number of non-zero
             components and fixed maximum rank.
-        
+
             PARAMETER
-    
+
             R  -- rank
             k  -- number of non-zero components of q
-    
+
             RETURN
-    
+
             (LHS, RHS)
-    
+
             LHS -- a matrix (i.e. list of lists) of coefficients
             RHS -- a list of values of q
         """
-    
+
         lst, dic = cls.generate_mapping(R, k)
         l = len(lst)
         LHS = []
@@ -882,16 +882,16 @@ class FromGolem95FortranCodeGenerator():
                 for term in lst]
             LHS.append(coeffs)
             RHS.append(q)
-    
+
         return LHS, RHS, lst, dic
 
     @classmethod
     def select(cls, items, k):
         """
         Iterator over all selections of k elements from a given list.
-    
+
         PARAMETER
-    
+
         items  --  list of elements to choose from (no repetitions)
         k      --  number of elements to select.
         """
@@ -909,16 +909,16 @@ class FromGolem95FortranCodeGenerator():
                 yield head + result
             for result in cls.select(tail, k):
                 yield result
-                
+
 if __name__ == '__main__':
     """I test here the write_golem95_mapping function"""
-    
+
     P=Polynomial(7)
     print("Coef (6,0,0,0) is at pos %s"%P.get_coef_position([0,0,0,0,0,0]))
     print("Coef (1,1,2,2) is at pos %s"%P.get_coef_position([0,1,2,2,3,3]))
     print("Coef (7,0,0,0) is at pos %s"%P.get_coef_position([0,0,0,0,0,0,0]))
     print("Coef (1,2,2,2) is at pos %s"%P.get_coef_position([0,1,1,2,2,3,3]))
-    
+
     sys.exit(0)
 
     max_rank=6
@@ -932,4 +932,3 @@ if __name__ == '__main__':
     import madgraph.iolibs.file_writers as writers
     FWriter = writers.FortranWriter("GOLEM95_interface.f")
     FWriter.writelines(FPR.write_golem95_mapping())
-    

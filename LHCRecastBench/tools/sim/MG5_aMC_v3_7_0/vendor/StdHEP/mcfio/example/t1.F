@@ -14,7 +14,7 @@ c
 	PARAMETER (NUMTRIES = 50)
 	integer xdr_stdhep_multi
 	external xdr_stdhep_multi
-	
+
 c
 c	Initialization phase.
 c
@@ -25,44 +25,44 @@ c
 	blkids(1) = MCFIO_STDHEPM
 	blkids(2) = MCFIO_OFFTRACKARRAYS
 	blkids(3) = MCFIO_OFFTRACKSTRUCT
-	ostr_all = mcfio_OpenWriteDirect(filename, title, %val(0), 
+	ostr_all = mcfio_OpenWriteDirect(filename, title, %val(0),
      &             NUMTRIES, blkids, numblocks)
-        if (ostr_all .eq. -1) then 
+        if (ostr_all .eq. -1) then
            print *, ' Can t open output file, give up '
            stop
         end if
-        
+
         ivalue = 456
-        call mcfio_SetEventInfo(ostr_all, MCFIO_RUNNUMBER, ivalue) 
+        call mcfio_SetEventInfo(ostr_all, MCFIO_RUNNUMBER, ivalue)
         do i = 1, NUMTRIES
           call fill_stdhep(i)
           if (mcfio_block(ostr_all, MCFIO_STDHEPM, xdr_stdhep_multi)
-     &        .eq. -1) then 
+     &        .eq. -1) then
              print *, ' Error writing STDHEP block '
              STOP
           end if
           ivalue = i/12
-          call mcfio_SetEventInfo(ostr_all, MCFIO_STORENUMBER, ivalue) 
-          if (i .ne. 13) then 
+          call mcfio_SetEventInfo(ostr_all, MCFIO_STORENUMBER, ivalue)
+          if (i .ne. 13) then
             ivalue = 0
           else
             ivalue =255
             call study_stdhep
           end if
-          call mcfio_SetEventInfo(ostr_all, MCFIO_TRIGGERMASK, ivalue) 
-          if (mcfio_NextEvent(ostr_all) .eq. -1) then 
+          call mcfio_SetEventInfo(ostr_all, MCFIO_TRIGGERMASK, ivalue)
+          if (mcfio_NextEvent(ostr_all) .eq. -1) then
              print *,'  Error writing next event, Stop '
              stop
           end if
         end do
         call mcfio_close(ostr_all)
         stop
-        end 
+        end
         subroutine fill_stdhep(inum)
 c
 c	Moronic routine to generate pseudo data.
 c
-        implicit none 
+        implicit none
 #include "stdhep.inc"
 	integer inum
 	real rand
@@ -72,11 +72,11 @@ c
 	double precision vec(4), masses(5)
 	save masses
 	data masses/0.1345, 0.6783, 1.245, 1.45, 5.678/
-	
+
 	nmulti = 1
 	jmulti(1) = 1
 	nn = mod(inum, 100) * ifix(5. * rand())
-	if (nn .gt. NMXHEP) nn = 10 
+	if (nn .gt. NMXHEP) nn = 10
 	nevhep = inum
 	nhep = nn
 	do i = 1, nn
@@ -101,12 +101,12 @@ c
           jdahep(2,i) = 4
         end do
         return
-        end 
+        end
 	subroutine study_stdhep
 	implicit none
 	integer i, io, nn
 #include "stdhep.inc"
-	
+
 	print  *, ' Number of tracks ', nhep
 	nn = nhep
 	if (nn .gt. 3 ) nn = 3
@@ -116,8 +116,4 @@ c
 	 print *, ' Y position, Z position ', vhep(2,i), vhep(3,i)
 	end do
 	return
-	end 	
-          
-	    
-	  
-	
+	end

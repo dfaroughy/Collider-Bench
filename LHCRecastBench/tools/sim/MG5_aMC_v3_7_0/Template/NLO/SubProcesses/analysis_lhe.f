@@ -1,6 +1,6 @@
 c LHE analysis routines used when having fo_analysis_format=lhe in the
 c FO_analyse_card.
-c that card also defines FO_LHE_WEIGHT which is a minimal weight to write the 
+c that card also defines FO_LHE_WEIGHT which is a minimal weight to write the
 c event (event with lower weights will be un-weighted)
 
       subroutine analysis_begin(nwgt,weights_info)
@@ -67,7 +67,7 @@ c
       external ran2
       double precision R,twgt
       double precision zero
-      integer izero 
+      integer izero
       parameter (zero=0.d0)
       parameter (izero=0)
       include 'nFKSconfigs.inc'
@@ -212,7 +212,7 @@ c --- write the event
  201  format(a9,1x,i1,4(1x,i2),2(1x,d14.8),2x,i2,2(1x,i2),5(1x,d14.8))
       end
 
-c This we can use for the event grouping!      
+c This we can use for the event grouping!
       subroutine HwU_add_points
       implicit none
       logical passed_unwgt

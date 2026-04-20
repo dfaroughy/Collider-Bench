@@ -6,7 +6,7 @@
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO = 1)
 
-C     return the color-linked borns if i_fks is a color octet, 
+C     return the color-linked borns if i_fks is a color octet,
 C     the charge-linked if it is a color singlet
       DOUBLE COMPLEX WGT_BORN(2,0:NSQAMPSO)
       DOUBLE PRECISION WGT_COL
@@ -36,7 +36,7 @@ C     the charge-linked if it is a color singlet
 C     check if need color or charge links, and include the gs/w**2
 C      term here
       IF (NEED_COLOR_LINKS) THEN
-C       link partons 1 and 2 
+C       link partons 1 and 2
         IF ((M.EQ.1 .AND. N.EQ.2).OR.(M.EQ.2 .AND. N.EQ.1)) THEN
           CALL SB_SF_001(P_BORN,WGT_COL)
         ENDIF
@@ -62,4 +62,3 @@ C       update the amp_split_soft, which is summed in sbornsoft
 
       RETURN
       END
-

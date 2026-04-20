@@ -1,7 +1,7 @@
       subroutine utscxx(tc1,sc,gt,xm,xw,jts)
 c
-c- by RF - Feb. 2006 
-c  CP3  Modified Nov. 2009 
+c- by RF - Feb. 2006
+c  CP3  Modified Nov. 2009
 c
 c This subroutine computes an off-shell tensor current from the tts coupling.
 c
@@ -25,13 +25,13 @@ c      PARAMETER(DIM=18)
       include "dimension.inc"
       double complex tc1(DIM),jts(DIM),sc(DIM), gt(2),t1(6,4),t2(6,4)
       double precision xm, xw
-      integer m1,m3  
+      integer m1,m3
       double precision MT(4,4)
 
 c The outgoing tensor current is the same as the incoming multiplied by the
 c coupling constant and the scalar particle. Note that the diagonal tensor
-c terms are always zero because the tensor particle is anti-symmetric. The 
-c tensor particle does not propagate, thus no multiplication with the tensor 
+c terms are always zero because the tensor particle is anti-symmetric. The
+c tensor particle does not propagate, thus no multiplication with the tensor
 c propagator.
 
       jts(17) = sc(2) + tc1(17)
@@ -59,44 +59,44 @@ c propagator.
       do m1=1,4
          do m3=1,4
             MT(m1,m3) = 0.0d0
-         enddo 
+         enddo
       enddo
       MT(1,1) =  1.0d0
       MT(2,2) = -1.0d0
       MT(3,3) = -1.0d0
       MT(4,4) = -1.0d0
 
- 
+
       if (gt(1).NE.(0D0,0D0)) then
 
        do  m1=1,4
          do m3=1,4
-        T1(m1,m3)=gt(1)*(-(MT(1,m3)*MT(2,m1)*SC(1)*T2(1,2)) + 
-     -  MT(1,m1)*MT(2,m3)*SC(1)*T2(1,2) - 
-     -  MT(1,m3)*MT(3,m1)*SC(1)*T2(1,3) + 
-     -  MT(1,m1)*MT(3,m3)*SC(1)*T2(1,3) - 
-     -  MT(1,m3)*MT(4,m1)*SC(1)*T2(1,4) + 
-     -  MT(1,m1)*MT(4,m3)*SC(1)*T2(1,4) + 
-     -  MT(1,m3)*MT(2,m1)*SC(1)*T2(2,1) - 
-     -  MT(1,m1)*MT(2,m3)*SC(1)*T2(2,1) + 
-     -  MT(2,m3)*MT(3,m1)*SC(1)*T2(2,3) - 
-     -  MT(2,m1)*MT(3,m3)*SC(1)*T2(2,3) + 
-     -  MT(2,m3)*MT(4,m1)*SC(1)*T2(2,4) - 
-     -  MT(2,m1)*MT(4,m3)*SC(1)*T2(2,4) + 
-     -  MT(1,m3)*MT(3,m1)*SC(1)*T2(3,1) - 
-     -  MT(1,m1)*MT(3,m3)*SC(1)*T2(3,1) - 
-     -  MT(2,m3)*MT(3,m1)*SC(1)*T2(3,2) + 
-     -  MT(2,m1)*MT(3,m3)*SC(1)*T2(3,2) + 
-     -  MT(3,m3)*MT(4,m1)*SC(1)*T2(3,4) - 
-     -  MT(3,m1)*MT(4,m3)*SC(1)*T2(3,4) + 
-     -  MT(1,m3)*MT(4,m1)*SC(1)*T2(4,1) - 
-     -  MT(1,m1)*MT(4,m3)*SC(1)*T2(4,1) - 
-     -  MT(2,m3)*MT(4,m1)*SC(1)*T2(4,2) + 
-     -  MT(2,m1)*MT(4,m3)*SC(1)*T2(4,2) - 
-     -  MT(3,m3)*MT(4,m1)*SC(1)*T2(4,3) + 
+        T1(m1,m3)=gt(1)*(-(MT(1,m3)*MT(2,m1)*SC(1)*T2(1,2)) +
+     -  MT(1,m1)*MT(2,m3)*SC(1)*T2(1,2) -
+     -  MT(1,m3)*MT(3,m1)*SC(1)*T2(1,3) +
+     -  MT(1,m1)*MT(3,m3)*SC(1)*T2(1,3) -
+     -  MT(1,m3)*MT(4,m1)*SC(1)*T2(1,4) +
+     -  MT(1,m1)*MT(4,m3)*SC(1)*T2(1,4) +
+     -  MT(1,m3)*MT(2,m1)*SC(1)*T2(2,1) -
+     -  MT(1,m1)*MT(2,m3)*SC(1)*T2(2,1) +
+     -  MT(2,m3)*MT(3,m1)*SC(1)*T2(2,3) -
+     -  MT(2,m1)*MT(3,m3)*SC(1)*T2(2,3) +
+     -  MT(2,m3)*MT(4,m1)*SC(1)*T2(2,4) -
+     -  MT(2,m1)*MT(4,m3)*SC(1)*T2(2,4) +
+     -  MT(1,m3)*MT(3,m1)*SC(1)*T2(3,1) -
+     -  MT(1,m1)*MT(3,m3)*SC(1)*T2(3,1) -
+     -  MT(2,m3)*MT(3,m1)*SC(1)*T2(3,2) +
+     -  MT(2,m1)*MT(3,m3)*SC(1)*T2(3,2) +
+     -  MT(3,m3)*MT(4,m1)*SC(1)*T2(3,4) -
+     -  MT(3,m1)*MT(4,m3)*SC(1)*T2(3,4) +
+     -  MT(1,m3)*MT(4,m1)*SC(1)*T2(4,1) -
+     -  MT(1,m1)*MT(4,m3)*SC(1)*T2(4,1) -
+     -  MT(2,m3)*MT(4,m1)*SC(1)*T2(4,2) +
+     -  MT(2,m1)*MT(4,m3)*SC(1)*T2(4,2) -
+     -  MT(3,m3)*MT(4,m1)*SC(1)*T2(4,3) +
      -  MT(3,m1)*MT(4,m3)*SC(1)*T2(4,3))
        enddo
-       enddo  
+       enddo
 
        jts(1) = T1(1,1)
        jts(2) = T1(1,2)

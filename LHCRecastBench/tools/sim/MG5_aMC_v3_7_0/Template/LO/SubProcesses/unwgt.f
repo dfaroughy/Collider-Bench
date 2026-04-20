@@ -23,7 +23,7 @@ c
       double precision trunc_wgt, xsum, wstore,pstore(0:3,nexternal)
       integer ix, i,j
 
-C     
+C
 C     GLOBAL
 C
       double precision twgt, maxwgt,swgt(maxevents)
@@ -123,7 +123,7 @@ c
 c     Global
 c
       integer iseed, nover, nstore
-C     
+C
 C     GLOBAL
 C
       double precision twgt, maxwgt,swgt(maxevents)
@@ -206,7 +206,7 @@ c     Local
 c
       integer idum, i,j
       double precision uwgt,yran,fudge, p(0:3,nexternal), xwgt
-C     
+C
 C     GLOBAL
 C
       double precision twgt, maxwgt,swgt(maxevents)
@@ -215,7 +215,7 @@ C
 
       double precision twgt_it, local_twgt
       common/to_unwgt_it/twgt_it
-      
+
       double precision    matrix
       common/to_maxmatrix/matrix
 
@@ -286,7 +286,7 @@ c
 c
 c     Arguments
 c
-      double precision force_max_wgt 
+      double precision force_max_wgt
       logical scale_to_xsec
 c
 c     Local
@@ -308,7 +308,7 @@ c
       character*(s_bufflen) s_buff(7)
       integer nclus
       character*(clus_bufflen) buffclus(nexternal)
-C     
+C
 C     GLOBAL
 C
       double precision twgt, maxwgt,swgt(maxevents)
@@ -317,7 +317,7 @@ C
 
       integer                   neventswritten
       common /to_eventswritten/ neventswritten
-      
+
       integer th_nunwgt
       double precision th_maxwgt
       common/theoretical_unwgt_max/th_maxwgt, th_nunwgt
@@ -379,7 +379,7 @@ c
       nstore = 0
       th_nunwgt = 0
       rewind(lun)
-      done = .false. 
+      done = .false.
       do i=1,nw
          if (.not. done) then
             call read_event(lun,P,wgt,n,ic,ievent,scale,aqcd,aqed,buff,
@@ -415,7 +415,7 @@ c      endif
       lunw = 25
       open(unit = lunw, file='events.lhe', status='unknown')
       done = .false.
-      i=0      
+      i=0
       xtot = 0
       xover = 0
       nover = 0
@@ -456,7 +456,7 @@ c      endif
       endif
 
  99   close(lunw)
-      
+
 c      close(lun)
       end
 
@@ -480,7 +480,7 @@ c     include 'vector.inc' ! defines VECSIZE_MEMMAX
       include 'run_config.inc'
 
 
-      
+
 c
 c     Arguments
 c
@@ -503,7 +503,7 @@ c
       double precision ebi(0:3), ebo(0:3)
       double precision ptcltmp(nexternal), pdum(0:3)
       integer beam_number
-      
+
       integer idup(nexternal,maxproc,maxsproc)
       integer mothup(2,nexternal)
       integer icolup(2,nexternal,maxflow,maxsproc)
@@ -517,12 +517,12 @@ c
       external ran1
 
       character*40 cfmt
-C     
+C
 C     GLOBAL
 C
       logical init_mode
       common/to_determine_zero_hel/init_mode
-      
+
       double precision twgt, maxwgt,swgt(maxevents)
       integer                             lun, nw, itmin
       common/to_unwgt/twgt, maxwgt, swgt, lun, nw, itmin
@@ -562,12 +562,12 @@ c      data ncolalt/maxamps*0/
       data AlreadySetInBiasModule/.False./
 
       include 'symswap.inc'
-c     
+c
       integer nhel(nexternal)
 C-----
 C  BEGIN CODE
 C-----
-      
+
       if ((nw .ge. maxevents).and.do_write_events) return
       if (init_mode) return
 C     if all the necessary inputs to write the events have already been
@@ -609,7 +609,7 @@ c     write(*,*) 'ihel',jpart(7,1),jpart(7,2)
          jpart(7,isym(i, jsym)) = nhel(i)
       enddo
 
-      
+
 c   Fix ordering of ptclus
       do i=1,nexternal
         ptcltmp(isym(i,jsym)) = ptclus(i)
@@ -644,7 +644,7 @@ c
                     beam_mass = pmass(1)
                 else
                     beam_mass = m1
-                endif   
+                endif
                ebi(0) = p(0,1)/xbk(1) ! this assumes that particle 1 is massless or mass equal to beam
                ebi(1) = 0
                ebi(2) = 0
@@ -672,7 +672,7 @@ c
                     beam_mass = pmass(2)
                 else
                     beam_mass = m2
-                endif   
+                endif
                ebi(0) = p(0,2)/xbk(2) ! this assumes that particle 2 is massless or mass equal to beam
                ebi(1) = 0
                ebi(2) = 0
@@ -707,7 +707,7 @@ c
 
          ! check for numerical_accuracy
          if (pb(0,1).gt.ebeam(1).or.pb(0,2).gt.ebeam(2))then
-            ! go back to old method --more accurate when boosting with xbk close  to one-- 
+            ! go back to old method --more accurate when boosting with xbk close  to one--
             eta = sqrt(xbk(1)*ebeam(1)/(xbk(2)*ebeam(2)))
             pboost(0)=p(0,1)*(eta + 1d0/eta)
             pboost(3)=p(0,1)*(eta - 1d0/eta)
@@ -726,14 +726,14 @@ c
 
 
       if (IMIRROR.eq.2.and.pmass(1).ne.pmass(2)) then
-c        Note that in this context isym(1,jsym) should never be "2" since the mass differ 
+c        Note that in this context isym(1,jsym) should never be "2" since the mass differ
          pb(4,isym(1,jsym))=pmass(2)
          pb(4,isym(2,jsym))=pmass(1)
       endif
 
 c
 c     Add info on resonant mothers
-c     recall onbw since that might have configured onBW for the wrong config (check tt~a ,t >... for checking impact 
+c     recall onbw since that might have configured onBW for the wrong config (check tt~a ,t >... for checking impact
       call cut_bw(p)
       call addmothers(ipsel,jpart,pb,isym,jsym,sscale,aaqcd,aaqed,buff,
      $                npart,numproc,flip, icol, ivec)
@@ -763,14 +763,14 @@ c
       if (btest(mlevel,3)) then
         write(*,*)' write_leshouche: SCALUP to: ',sscale
       endif
-      
+
 c     Write out buffer for systematics studies
       ifin=1
       if(use_syst)then
 c         print *,'Systematics:'
 c         print *,'s_scale: ',s_scale
 c         print *,'n_qcd,n_alpsem: ',n_qcd,n_alpsem
-c         print *,'s_qalps: ',(s_qalps(I),I=1,n_alpsem) 
+c         print *,'s_qalps: ',(s_qalps(I),I=1,n_alpsem)
 c         print *,'n_pdfrw: ',n_pdfrw
 c         print *,'i_pdgpdf: ',((i_pdgpdf(i,j),i=1,n_pdfrw(j)),j=1,2)
 c         print *,'s_xpdf: ',((s_xpdf(i,j),i=1,n_pdfrw(j)),j=1,2)
@@ -789,7 +789,7 @@ c         print *,'s_qpdf: ',((s_qpdf(i,j),i=1,n_pdfrw(j)),j=1,2)
          if (flip) then
             beam_number =2
          endif
-         
+
          if(n_pdfrw(1,ivec).gt.0.and.abs(lpp(1)).ne.2)then
             if(2*n_pdfrw(1,ivec).lt.10) then
                write(cfmt,'(a,I1,a,I1,a)') '(a,I1,a,I3,',
@@ -798,7 +798,7 @@ c         print *,'s_qpdf: ',((s_qpdf(i,j),i=1,n_pdfrw(j)),j=1,2)
                write(cfmt,'(a,I1,a,I2,a)') '(a,I1,a,I3,',
      $              n_pdfrw(1,ivec),'I9,',2*n_pdfrw(1,ivec),'E15.8,a)'
             endif
-            
+
             write(s_buff(4), cfmt) '<pdfrwt beam="', beam_number, '">',
      $           n_pdfrw(1,ivec),(i_pdgpdf(i,1,ivec),i=1,n_pdfrw(1,ivec)),
      $           (s_xpdf(i,1,ivec),i=1,n_pdfrw(1,ivec)),
@@ -865,7 +865,7 @@ c     Store weight for event
      &   sscale,aaqcd,aaqed,buff,use_syst,s_buff,nclus,buffclus)
 
       end
-      
+
       integer function n_unwgted()
 c************************************************************************
 c     Determines the number of unweighted events which have been written
@@ -881,7 +881,7 @@ c     Local
 c
       integer i
       double precision xtot, sum
-C     
+C
 C     GLOBAL
 C
       double precision twgt, maxwgt,swgt(maxevents)

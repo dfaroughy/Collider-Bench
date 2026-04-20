@@ -19,7 +19,7 @@ C
       common/to_heavyion_pdg/ nb_proton, nb_neutron
       integer nb_hadron
 
-C      
+C
       double precision get_ion_pdf
       integer i,j,ihlast(20),ipart,iporg,ireuse,imemlast(20),iset,imem
      &     ,i_replace,ii,ipartlast(20)
@@ -76,9 +76,9 @@ c     For EVA,  group_subprocesses is false and IH=LPP and ipdg are passed, inst
 c     If group_subprocesses is false, the following sets ipdg=ipdg*sgn(IH) if not in EVA
       if(pdsublabel(iabs(beamid)).eq.'eva') then
          ipart=ipdg
-      else 
+      else
          ipart=ipdg*ih/iabs(ih)
-      endif    
+      endif
 
       if(iabs(ipart).eq.21) then ! g
          ipart=0
@@ -89,7 +89,7 @@ c         ipart=-12
 c      else if(ipart.eq.14) then ! vm
 c         ipart=14
 c      else if(ipart.eq.-14) then ! vm~
-c         ipart=-14   
+c         ipart=-14
       else if(ipart.eq.24) then  ! w+
          ipart=24
       else if(ipart.eq.-24) then ! w-
@@ -104,16 +104,16 @@ c     This will be called for any PDG code. We only support (for now) 0-7, and 2
 c      else if(iabs(ipart).gt.7)then
 c         write(*,*) 'PDF not supported for pdg ',ipdg
 c         write(*,*) 'For lepton colliders, please set the lpp* '//
-c     $    'variables to 0 in the run_card'  
+c     $    'variables to 0 in the run_card'
 c         open(unit=26,file='../../../error',status='unknown')
 c         write(26,*) 'Error: PDF not supported for pdg ',ipdg
 c         stop 1
       endif
-      
+
       if(pdsublabel(iabs(beamid)).eq.'eva') then
          if(iabs(ipart).ne.7.and.
 c     &      iabs(ipart).ne.12.and.
-c     &      iabs(ipart).ne.14.and.     
+c     &      iabs(ipart).ne.14.and.
      &      iabs(ipart).ne.23.and.
      &      iabs(ipart).ne.24 ) then
             write(*,*) 'ERROR: EVA PDF only supported for A/Z/W, not for pdg = ',ipart
@@ -145,7 +145,7 @@ c         write(*,*) 'running eva'
          if(iabs(ipart).eq.24.or.iabs(ipart).eq.23) then  ! w/z
             write(*,*) 'LHAPDF not supported for pdg ',ipdg
             write(*,*) 'For EVA, check if pdlabel and pdsublabel* '//
-     $    'are set correctly in the run_card'  
+     $    'are set correctly in the run_card'
             open(unit=26,file='../../../error',status='unknown')
             write(26,*) 'Error: PDF not supported for pdg ',ipdg
             stop 1
@@ -193,7 +193,7 @@ c     Reuse previous result, if possible
       if (ireuse.gt.0.and.abs(ipart).le.7) then
          if (pdflast(ipart,ireuse).ne.-99d9) then
             pdg2pdf = get_ion_pdf(pdflast(-7,ireuse), ipart, nb_proton(iabs(beamid)), nb_neutron(iabs(beamid)))/x
-            return 
+            return
          endif
       endif
 
@@ -220,7 +220,7 @@ c     be saved
             else
                call evolvepart(ipart,x*nb_hadron
      &                         ,xmu,pdflast(ipart, i_replace))
-            endif 
+            endif
             pdg2pdf = get_ion_pdf(pdflast(-7, i_replace), ipart, nb_proton(iabs(beamid)), nb_neutron(iabs(beamid)))
          endif
          pdg2pdf=pdg2pdf/x

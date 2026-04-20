@@ -25,8 +25,8 @@ extern "C" {
 }
 #define cevwgt cevwgt_
 
-extern "C" { 
-  //void foranalysis_(); 
+extern "C" {
+  //void foranalysis_();
   void hwabeg_();
   void hwaend_();
   void hwanal_();
@@ -38,18 +38,18 @@ void HepMCFortran::analyze(tEventPtr event, long ieve, int loop, int state) {
 
   //define the IO_HEPEVT
   _hepevtio = new HepMC::IO_HEPEVT;
-  
+
   //choose units to be GeV and MM
   Energy eUnit; Length lUnit;
   eUnit = GeV; lUnit = millimeter;
- 
+
   //convert the event from the Herwig++ format to the HepMC format and write it to the common block
   HepMC::GenEvent * hepevtf = HepMCConverter<HepMC::GenEvent>::convert(*event, false,eUnit, lUnit);
-  _hepevtio->write_event(hepevtf); 
+  _hepevtio->write_event(hepevtf);
   //event weight
   cevwgt.EVWGT=hepevtf->weights()[0];
-  
-  
+
+
   //call the FORTRAN analysis for this event (see example file foranalysis.f)
   //foranalysis_();
   hwanal_();
@@ -57,7 +57,7 @@ void HepMCFortran::analyze(tEventPtr event, long ieve, int loop, int state) {
   delete hepevtf;
 
   return;
-  
+
 }
 
 IBPtr HepMCFortran::clone() const {

@@ -10,7 +10,7 @@ include ../arch_mcfio
 
 FINC = -I$(SRCDIR) -I$(STDHEP_DIR)/src/inc
 CINC = -I$(SRCDIR)
-               
+
 #--------------------------
 
 all: t1 t2 t3
@@ -32,32 +32,32 @@ t1:  t1.o $(LIBDIR)/libFmcfio.a
 	$(F77) $(FFLAGS) -o $@  t1.o \
 		$(LIBDIR)/libFmcfio.a \
 		$(LIBDIR)/libstdhep.a
-	       
+
 t2:  t2.o $(LIBDIR)/libFmcfio.a
 	$(F77) $(FFLAGS) -o $@ t2.o \
 		$(LIBDIR)/libFmcfio.a \
 		$(LIBDIR)/libstdhep.a
-	       
+
 t3:  t3.o $(LIBDIR)/libFmcfio.a
 	$(F77) $(FFLAGS) -o $@ t3.o \
 		$(LIBDIR)/libFmcfio.a \
 		$(LIBDIR)/libstdhep.a
-	       
+
 t4:  t4.o $(LIBDIR)/libFmcfio.a
 	$(F77) $(FFLAGS) -o $@ t4.o \
 		$(LIBDIR)/libFmcfio.a \
 		$(LIBDIR)/libstdhep.a
-	       
+
 t5:  t5.o $(LIBDIR)/libFmcfio.a
 	$(F77) $(FFLAGS) -o $@ t5.o \
 		$(LIBDIR)/libFmcfio.a \
 		$(LIBDIR)/libstdhep.a
-	       
+
 t6:  t6.o $(LIBDIR)/libFmcfio.a
 	$(F77) $(FFLAGS) -o $@ t6.o \
 		$(LIBDIR)/libFmcfio.a \
 		$(LIBDIR)/libstdhep.a
-	       
+
 t7:  t7.o $(LIBDIR)/libFmcfio.a
 	$(F77) $(FFLAGS) -o $@ t7.o \
 		$(LIBDIR)/libFmcfio.a \
@@ -65,7 +65,7 @@ t7:  t7.o $(LIBDIR)/libFmcfio.a
 
 clean:
 	rm -f *.o
-	       
+
 realclean:
 	rm -f *.o
 	rm -f tN1
@@ -101,4 +101,3 @@ tN2: mcfio.inc glob22.inc glo23.inc
 
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-

@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -84,7 +84,7 @@ contains
   aa = '(i'//trim(aa)//')'
   write(cc,aa) ii ;cc=adjustl(cc)
   if (cc(1:1).ne.'-') then ;rslt=' '//cc
-  else                     ;rslt=cc 
+  else                     ;rslt=cc
   endif
   end function
 

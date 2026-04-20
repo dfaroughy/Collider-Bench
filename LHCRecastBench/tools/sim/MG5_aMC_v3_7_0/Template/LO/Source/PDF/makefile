@@ -24,7 +24,7 @@ ifneq (,$(filter eva, $(pdlabel1) $(pdlabel2)))
 else
 #  go through here if NEITHER pdlabel1 or pdlabel2 is on "eva"
   PDF += ElectroweakFlux_dummy.o
-  TOREMOVE += ElectroweakFluxDriver.o ElectroweakFlux.o 
+  TOREMOVE += ElectroweakFluxDriver.o ElectroweakFlux.o
 endif
 
 # check if we need to link to gammaUPC
@@ -52,7 +52,7 @@ ifdef lhapdf
         CXXFLAGS+=-std=c++11
 	PDF  += pdf_lhapdf62.o
 	TOREMOVE += pdf_lhapdf6.o
-    endif    
+    endif
   endif
 else
   TOREMOVE += pdfwrap_lhapdf.o
@@ -62,7 +62,7 @@ endif
 
 all: reset $(LIBDIR)$(LIBRARY) $(TOCOMPILE)
 
-reset: 
+reset:
 	echo "remove previous compilation $(TOREMOVE)"
 	echo "need to compile $(PDF)"
 	rm -rf $(TOREMOVE)

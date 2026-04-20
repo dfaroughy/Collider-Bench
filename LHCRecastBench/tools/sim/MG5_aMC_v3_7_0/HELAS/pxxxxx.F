@@ -13,7 +13,7 @@ c       integer nst  = -1 or 1 : +1 for final, -1 for initial
 c
 c output:
 c       complex tc(18)         : PSEUDOR  wavefunction    epsilon^mu^nu(t)
-c     
+c
       implicit none
       double precision p(0:3), tmass
       integer nhel, nst

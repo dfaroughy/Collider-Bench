@@ -11,7 +11,7 @@ c       integer nsv  = -1 or 1 : +1 for final, -1 for initial
 c
 c output:
 c       complex vc(6)          : vector wavefunction       epsilon^mu(v)
-c     
+c
       implicit none
       double complex vc(6)
       double precision p(0:3),vmass,hel,hel0,pt,pt2,pp,pzpt,emp,sqh
@@ -20,7 +20,7 @@ c
       double precision rZero, rHalf, rOne, rTwo
       parameter( rZero = 0.0d0, rHalf = 0.5d0 )
       parameter( rOne = 1.0d0, rTwo = 2.0d0 )
-      
+
 #ifdef HELAS_CHECK
       double precision p2
       double precision epsi
@@ -38,7 +38,7 @@ c
       if ( p(0).le.rZero ) then
          write(stdo,*)
      &        ' helas-error : p(0:3) in vxxxxx has non-positive energy'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : p(0) = ',p(0)
       endif
       p2 = (p(0)+pp)*(p(0)-pp)
@@ -111,9 +111,9 @@ c nhel=4 option for scalar polarization
             vc(4) = dcmplx( hel0*p(3)*emp+hel*pt/pp*sqh )
             if ( pt.ne.rZero ) then
                pzpt = p(3)/(pp*pt)*sqh*hel
-               vc(2) = dcmplx( hel0*p(1)*emp-p(1)*pzpt , 
+               vc(2) = dcmplx( hel0*p(1)*emp-p(1)*pzpt ,
      &                         -nsvahl*p(2)/pt*sqh       )
-               vc(3) = dcmplx( hel0*p(2)*emp-p(2)*pzpt ,  
+               vc(3) = dcmplx( hel0*p(2)*emp-p(2)*pzpt ,
      &                          nsvahl*p(1)/pt*sqh       )
             else
                vc(2) = dcmplx( -hel*sqh )

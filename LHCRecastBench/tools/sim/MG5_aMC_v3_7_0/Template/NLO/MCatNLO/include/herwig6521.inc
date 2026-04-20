@@ -51,7 +51,7 @@ C control flags introduced since version 6.1, so that
 C other common blocks become identical to version 6.1
 C
 C New parameters added for version 6.2:
-C              VIPWID,DXRCYL,DXZMAX,DXRSPH,LRSUSY  see HWIGIN	
+C              VIPWID,DXRCYL,DXZMAX,DXRSPH,LRSUSY  see HWIGIN
 C              GRVLAM,EMGRV,GAMGRV                 see HWHGRV
 C
 C New control flags added for version 6.2:
@@ -293,7 +293,7 @@ C--common block for X --> X gauge boson
       INTEGER IDBPRT(NMODEB),IBMODE(NMODEB),IBDRTP(NMODEB),NBMODE
       COMMON /HWDSPB/ABMODE,BBMODE,PBMODE,WTBMAX,IDBPRT,IBDRTP,IBMODE,
      & NBMODE
-C--common block for two body decays	
+C--common block for two body decays
       DOUBLE PRECISION A2MODE(2,NMODE2),P2MODE(NMODE2),WT2MAX(NMODE2)
       INTEGER ID2PRT(NMODE2),I2DRTP(NMODE2),N2MODE
       COMMON /HWDSP2/A2MODE,P2MODE,WT2MAX,ID2PRT,I2DRTP,N2MODE
@@ -359,5 +359,3 @@ C  truncated shower needed for powheg
 C--Rescale factor for PDFs in initial-state showers ONLY
       DOUBLE PRECISION FSHWR
       COMMON /HW6521/FSHWR
-
-

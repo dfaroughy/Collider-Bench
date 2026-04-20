@@ -39,7 +39,7 @@ fi
 
 
 dirbin=$main/bin/internal
-bin=$main/bin 
+bin=$main/bin
 
 # Local versions to work on the cluster
 tag=''
@@ -58,11 +58,11 @@ gen_card=$dirbin/gen_cardhtml-pl
 gen_info=$dirbin/gen_infohtml-pl
 
 # Check if we have to use MG4 proc_card.dat or MG5 proc_card.dat
-if [[ -e ./Cards/proc_card_mg5.dat ]]; then 
+if [[ -e ./Cards/proc_card_mg5.dat ]]; then
    if [[ -e ./Cards/proc_card.dat ]]; then
       if [[ $tag != '--web' ]]; then
           echo "both mg4 and mg5 proc_card.dat are detected. Which one do you want to use? [4/5]"
-      	  read card_use 
+      	  read card_use
       else
            card_use='5'
       fi
@@ -72,7 +72,7 @@ if [[ -e ./Cards/proc_card_mg5.dat ]]; then
 elif [[ -e ./Cards/proc_card.dat ]]; then
      card_use='4'
 else
-    echo "neither proc_card.dat or proc_card_mg5.dat" 
+    echo "neither proc_card.dat or proc_card_mg5.dat"
     echo "are present in directory Cards"
     echo "Prepare a card (see examples on the web) and"
     echo "copy it there, or run directly ../bin/mg5_aMC."

@@ -35,5 +35,5 @@ shared:  $(LIBDIR)$(LIBRARY_SHARED)
 
 clean:
 	$(RM) *.o $(LIBDIR)$(LIBRARY)
-	
+
 all: $(LIBDIR)$(LIBRARY)

@@ -1,6 +1,6 @@
       logical function pass_point(p)
 c************************************************************************
-c     This function is called from sample to see if it needs to 
+c     This function is called from sample to see if it needs to
 c     bother calculating the weight from all the different conficurations
 c     You can either just return true, or have it call passcuts
 c************************************************************************
@@ -20,7 +20,7 @@ c-----
       pass_point = .true.
 c      pass_point = passcuts(p)
       end
-C 
+C
       LOGICAL FUNCTION PASSCUTS(P)
 C**************************************************************************
 C     INPUT:
@@ -209,14 +209,14 @@ c         call set_ren_scale(P,scale)
 c
 cc     Check that the user funtions for setting the scales
 cc     have been edited if the choice of an event-by-event
-cc     scale choice has been made 
+cc     scale choice has been made
 c
 c         if(.not.fixed_ren_scale) then
 c            if(scale.eq.0d0) then
-c               write(6,*) 
+c               write(6,*)
 c               write(6,*) '* >>>>>>>>>ERROR<<<<<<<<<<<<<<<<<<<<<<<*'
 c               write(6,*) ' Dynamical renormalization scale choice '
-c               write(6,*) ' selected but user subroutine' 
+c               write(6,*) ' selected but user subroutine'
 c               write(6,*) ' set_ren_scale not edited in file:setpara.f'
 c               write(6,*) ' Switching to a fixed_ren_scale choice'
 c               write(6,*) ' with scale=zmass'
@@ -226,14 +226,14 @@ c               fixed_ren_scale=.true.
 c               call set_ren_scale(P,scale)
 c            endif
 c         endif
-         
+
 c         if(.not.fixed_fac_scale) then
 c            call set_fac_scale(P,q2fact)
 c            if(q2fact(1).eq.0d0.or.q2fact(2).eq.0d0) then
-c               write(6,*) 
+c               write(6,*)
 c               write(6,*) '* >>>>>>>>>ERROR<<<<<<<<<<<<<<<<<<<<<<<*'
 c               write(6,*) ' Dynamical renormalization scale choice '
-c               write(6,*) ' selected but user subroutine' 
+c               write(6,*) ' selected but user subroutine'
 c               write(6,*) ' set_fac_scale not edited in file:setpara.f'
 c               write(6,*) ' Switching to a fixed_fac_scale choice'
 c               write(6,*) ' with q2fact(i)=zmass**2'
@@ -255,7 +255,7 @@ c     Put momenta in the common block to zero to start
                pp(i,j) = 0d0
             enddo
          enddo
-         
+
       ENDIF ! IF FIRSTTIME
 
       IF (CUTSDONE) THEN
@@ -282,7 +282,7 @@ c     Also make sure there's no INF or NAN
             endif
          enddo
       enddo
-      
+
 c
 c     Limit S_hat
 c
@@ -296,9 +296,9 @@ C $B$ DESACTIVATE_CUT $E$ !This is a tag for MadWeight
       if(debug) write (*,*) '============================='
       if(debug) write (*,*) ' EVENT STARTS TO BE CHECKED  '
       if(debug) write (*,*) '============================='
-c     
+c
 c     p_t min & max cuts
-c     
+c
       do i=nincoming+1,nexternal
          if(debug) write (*,*) 'pt(',i,')=',pt(p(0,i)),'   ',etmin(i),
      $        ':',etmax(i)
@@ -311,7 +311,7 @@ c
          endif
       enddo
 c
-c    missing ET min & max cut + Invariant mass of leptons and neutrino 
+c    missing ET min & max cut + Invariant mass of leptons and neutrino
 c    nb: missing Et defined as the vector sum over the neutrino's pt
 c
 c-- reset ptemp(0:3)
@@ -321,12 +321,12 @@ c-- reset ptemp(0:3)
       enddo
 c-  sum over the momenta
       do i=nincoming+1,nexternal
-         if(is_a_nu(i)) then            
+         if(is_a_nu(i)) then
          if(debug) write (*,*) i,' -> neutrino '
             do j=0,3
                ptemp(j)=ptemp(j)+p(j,i)
             enddo
-         elseif(is_a_l(i)) then            
+         elseif(is_a_l(i)) then
          if(debug) write (*,*) i,' -> lepton '
             do j=0,3
                ptemp2(j)=ptemp2(j)+p(j,i)
@@ -363,13 +363,13 @@ c
          passcuts=.false.
          foundheavy=.false.
          do i=nincoming+1,nexternal
-            if(is_heavy(i)) then            
+            if(is_heavy(i)) then
                if(debug) write (*,*) i,' -> heavy '
                foundheavy=.true.
                if(pt(p(0,i)).gt.ptheavy) passcuts=.true.
             endif
          enddo
-         
+
          if(.not.passcuts.and.foundheavy)then
             if(debug) write (*,*) ' heavy particle cut -> fails'
             return
@@ -377,9 +377,9 @@ c
             passcuts=.true.
          endif
       endif
-c     
+c
 c     E min & max cuts
-c     
+c
       do i=nincoming+1,nexternal
          if(debug) write (*,*) 'p(0,',i,')=',p(0,i),'   ',emin(i),':',emax(i)
          notgood=(p(0,i) .le. emin(i)).or.
@@ -390,9 +390,9 @@ c
             return
          endif
       enddo
-c     
+c
 c     Rapidity  min & max cuts
-c     
+c
       do i=nincoming+1,nexternal
          if(debug) write (*,*) 'abs(rap(',i,'))=',abs(rap(p(0,i))),'   ',etamin(i),':',etamax(i)
          notgood=(etamax(i).ge.0.and.abs(rap(p(0,i))) .gt. etamax(i)).or.
@@ -403,9 +403,9 @@ c
             return
          endif
       enddo
-c     
+c
 c     DeltaR min & max cuts
-c     
+c
       do i=nincoming+1,nexternal-1
          do j=i+1,nexternal
             if(debug) write (*,*) 'r2(',i, ',' ,j,')=',dsqrt(r2(p(0,i),p(0,j)))
@@ -425,7 +425,7 @@ c
 
 
 c     s-channel min & max pt of sum of 4-momenta
-c     
+c
       do i=nincoming+1,nexternal-1
          do j=i+1,nexternal
             if(debug)write (*,*) 'ptll(',i,',',j,')=',PtDot(p(0,i),p(0,j))
@@ -446,9 +446,9 @@ c
 
 
 
-c     
+c
 c     s-channel min & max invariant mass cuts
-c     
+c
       do i=nincoming+1,nexternal-1
          do j=i+1,nexternal
             if(debug) write (*,*) 's(',i,',',j,')=',Sumdot(p(0,i),p(0,j),+1d0)
@@ -457,14 +457,14 @@ c
                tmp=SumDot(p(0,i),p(0,j),+1d0)
                if(s_min(j,i).le.s_max(j,i) .or. s_max(j,i).lt.0d0)then
                   notgood=(tmp .lt. s_min(j,i).or.
-     $                 s_max(j,i).ge.0d0 .and. tmp .gt. s_max(j,i)) 
+     $                 s_max(j,i).ge.0d0 .and. tmp .gt. s_max(j,i))
                   if (notgood) then
                      if(debug) write (*,*) i,j,' -> fails'
                      passcuts=.false.
                      return
                   endif
                else
-                  notgood=(tmp .lt. s_min(j,i).and.tmp .gt. s_max(j,i)) 
+                  notgood=(tmp .lt. s_min(j,i).and.tmp .gt. s_max(j,i))
                   if (notgood) then
                      if(debug) write (*,*) i,j,' -> fails'
                      passcuts=.false.
@@ -475,9 +475,9 @@ c
          enddo
       enddo
 C     $B$DESACTIVATE_BW_CUT$B$ This is a Tag for MadWeight
-c     
+c
 c     B.W. phase space cuts
-c     
+c
       pass_bw=cut_bw(p)
 c     JA 4/8/11 always check pass_bw
       if ( pass_bw.and..not.CUTSPASSED) then
@@ -487,9 +487,9 @@ c     JA 4/8/11 always check pass_bw
       endif
 C     $E$DESACTIVATE_BW_CUT$E$ This is a Tag for MadWeight
         CUTSPASSED=.FALSE.
-C     
+C
 C     maximal and minimal pt of the jets sorted by pt
-c     
+c
       njets=0
       nheavyjets=0
 
@@ -608,31 +608,31 @@ c - sort jet pts
       enddo
       if(debug) write (*,*) 'ordered ',njets,'   ',ptjet
 c
-c     Use "and" or "or" prescriptions 
-c     
+c     Use "and" or "or" prescriptions
+c
       inclht=0
 
       if(njets.gt.0) then
 
        notgood=.not.jetor
-       if(debug) write (*,*) 'jetor :',jetor  
-       if(debug) write (*,*) '0',notgood   
-      
+       if(debug) write (*,*) 'jetor :',jetor
+       if(debug) write (*,*) '0',notgood
+
       do i=1,min(njets,4)
             if(debug) write (*,*) i,ptjet(i), '   ',ptjmin4(i),
      $        ':',ptjmax4(i)
-         if(jetor) then     
+         if(jetor) then
 c---  if one of the jets does not pass, the event is rejected
             notgood=notgood.or.(ptjmax4(i).ge.0d0 .and.
      $           ptjet(i).gt.ptjmax4(i)) .or.
      $           (ptjet(i).lt.ptjmin4(i))
-            if(debug) write (*,*) i,' notgood total:', notgood   
+            if(debug) write (*,*) i,' notgood total:', notgood
          else
 c---  all cuts must fail to reject the event
             notgood=notgood.and.(ptjmax4(i).ge.0d0 .and.
      $              ptjet(i).gt.ptjmax4(i) .or.
      $              (ptjet(i).lt.ptjmin4(i)))
-            if(debug) write (*,*) i,' notgood total:', notgood   
+            if(debug) write (*,*) i,' notgood total:', notgood
          endif
       enddo
 
@@ -670,7 +670,7 @@ C---------------------------
 
       inclht=htj
 
-      endif !if there are jets 
+      endif !if there are jets
 
       if(nheavyjets.gt.0) then
          do i=1,nheavyjets
@@ -685,9 +685,9 @@ C---------------------------
          return
       endif
 
-C     
+C
 C     maximal and minimal pt of the leptons sorted by pt
-c     
+c
       nleptons=0
 
       if(ptl1min.gt.0.or.ptl2min.gt.0.or.ptl3min.gt.0.or.ptl4min.gt.0.or.
@@ -734,7 +734,7 @@ c---  if one of the leptons does not pass, the event is rejected
                notgood=notgood.or.
      $              (ptlmax4(i).ge.0d0.and.ptlepton(i).gt.ptlmax4(i)).or.
      $              (ptlepton(i).lt.ptlmin4(i))
-               if(debug) write (*,*) i,' notgood total:', notgood   
+               if(debug) write (*,*) i,' notgood total:', notgood
             enddo
 
 
@@ -745,12 +745,12 @@ c---  if one of the leptons does not pass, the event is rejected
             endif
          endif
       endif
-C>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
+C>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 C     SPECIAL CUTS
 C<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 C     REQUIRE AT LEAST ONE JET WITH PT>XPTJ
-         
+
          IF(xptj.gt.0d0) THEN
             xvar=0
             do i=nincoming+1,nexternal
@@ -763,7 +763,7 @@ C     REQUIRE AT LEAST ONE JET WITH PT>XPTJ
          ENDIF
 
 C     REQUIRE AT LEAST ONE PHOTON WITH PT>XPTA
-         
+
          IF(xpta.gt.0d0) THEN
             xvar=0
             do i=nincoming+1,nexternal
@@ -776,7 +776,7 @@ C     REQUIRE AT LEAST ONE PHOTON WITH PT>XPTA
          ENDIF
 
 C     REQUIRE AT LEAST ONE B  WITH PT>XPTB
-         
+
          IF(xptb.gt.0d0) THEN
             xvar=0
             do i=nincoming+1,nexternal
@@ -789,7 +789,7 @@ C     REQUIRE AT LEAST ONE B  WITH PT>XPTB
          ENDIF
 
 C     REQUIRE AT LEAST ONE LEPTON  WITH PT>XPTL
-         
+
          IF(xptl.gt.0d0) THEN
             xvar=0
             do i=nincoming+1,nexternal
@@ -803,7 +803,7 @@ C     REQUIRE AT LEAST ONE LEPTON  WITH PT>XPTL
          ENDIF
 C
 C     WBF CUTS: TWO TYPES
-C    
+C
 C     FIRST TYPE:  implemented by FM
 C
 C     1. FIND THE 2 HARDEST JETS
@@ -823,9 +823,9 @@ C
          ptmax2=0d0
 
 C-- START IF AT LEAST ONE OF THE CUTS IS ACTIVATED
-         
+
          IF(XETAMIN.GT.0D0.OR.DELTAETA.GT.0D0) THEN
-            
+
 C-- FIND THE HARDEST JETS
 
             do i=nincoming+1,nexternal
@@ -843,10 +843,10 @@ c                  write (*,*) i,pt(p(0,i))
 c                  write (*,*) hardj1,hardj2,ptmax1,ptmax2
                endif
             enddo
-            
+
             if (hardj2.eq.0) goto 21 ! bypass vbf cut since not enough jets
 
-C-- NOW APPLY THE CUT I            
+C-- NOW APPLY THE CUT I
 
             if (abs(rap(p(0,hardj1))) .lt. xetamin
      &       .or.abs(rap(p(0,hardj2))) .lt. xetamin
@@ -855,16 +855,16 @@ C-- NOW APPLY THE CUT I
              return
             endif
 
-            
+
 C-- NOW APPLY THE CUT II
-            
+
             if (abs(rap(p(0,hardj1))-rap(p(0,hardj2))) .lt. deltaeta) then
              passcuts=.false.
              return
             endif
-         
+
 c            write (*,*) hardj1,hardj2,rap(p(0,hardj1)),rap(p(0,hardj2))
-         
+
          ENDIF
 
 c Begin photon isolation
@@ -1307,4 +1307,3 @@ C     ICMPCH=+1 IF HEX VALUES OF IC1 IS GREATER THAN IC2
       endif
       return
       end
-        

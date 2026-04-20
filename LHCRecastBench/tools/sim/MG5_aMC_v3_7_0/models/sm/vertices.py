@@ -926,4 +926,3 @@ V_153 = Vertex(name = 'V_153',
                color = [ '1' ],
                lorentz = [ L.FFV2 ],
                couplings = {(0,0):C.GC_62})
-

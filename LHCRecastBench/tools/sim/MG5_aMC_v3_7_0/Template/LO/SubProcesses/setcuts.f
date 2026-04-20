@@ -1,6 +1,6 @@
       SUBROUTINE SETCUTS
 C**************************************************************************
-C     SET THE CUTS 
+C     SET THE CUTS
 C**************************************************************************
       IMPLICIT NONE
 c
@@ -29,7 +29,7 @@ c
       integer ncheck
       logical done,fopened
       logical from_decay(-(nexternal+3):nexternal)
-C     
+C
 C     GLOBAL
 C
 c--masses and poles
@@ -81,7 +81,7 @@ C
       LOGICAL  IS_A_NU(NEXTERNAL),IS_HEAVY(NEXTERNAL)
       logical  do_cuts(nexternal)
       COMMON /TO_SPECISA/IS_A_J,IS_A_A,IS_A_L,IS_A_B,IS_A_NU,IS_HEAVY,
-     . IS_A_ONIUM, do_cuts 
+     . IS_A_ONIUM, do_cuts
 
 c     Store which external particles undergo the ktdurham and ptlund cuts.
       LOGICAL  is_pdg_for_merging_cut(NEXTERNAL)
@@ -144,7 +144,7 @@ c
                fixed_ren_scale=.true.
             endif
             fixed_fac_scale1=.true.
-            fixed_fac_scale2=.true.            
+            fixed_fac_scale2=.true.
             use_syst=.false.
          endif
 
@@ -378,11 +378,11 @@ c
      &           (is_a_l(i).and.is_a_b(j))) r2max(j,i)=drblmax
                if((is_a_l(i).and.is_a_a(j)).or.
      &           (is_a_a(i).and.is_a_l(j))) r2max(j,i)=dralmax
- 
+
             endif
          enddo
       enddo
-c     
+c
 c     smin cut
 c
       do i=nincoming+1,nexternal-1
@@ -390,30 +390,30 @@ c
             s_min(j,i)=0.0d0**2
             s_max(j,i)=-1
             if(do_cuts(i).and.do_cuts(j)) then
-               if(is_a_j(i).and.is_a_j(j)) s_min(j,i)=mmjj*dabs(mmjj)   
-               if(is_a_a(i).and.is_a_a(j)) s_min(j,i)=mmaa*dabs(mmaa)  
-               if( is_a_b(i).and.is_a_b(j) ) s_min(j,i)=mmbb*dabs(mmbb)     
+               if(is_a_j(i).and.is_a_j(j)) s_min(j,i)=mmjj*dabs(mmjj)
+               if(is_a_a(i).and.is_a_a(j)) s_min(j,i)=mmaa*dabs(mmaa)
+               if( is_a_b(i).and.is_a_b(j) ) s_min(j,i)=mmbb*dabs(mmbb)
                if((is_a_l(i).and.is_a_l(j)).and.
      &            (abs(idup(i,1,iproc)).eq.abs(idup(j,1,iproc))).and.
-     &            (idup(i,1,iproc)*idup(j,1,iproc).lt.0)) 
-     &            s_min(j,i)=mmll*dabs(mmll)  !only on l+l- pairs (same flavour) 
+     &            (idup(i,1,iproc)*idup(j,1,iproc).lt.0))
+     &            s_min(j,i)=mmll*dabs(mmll)  !only on l+l- pairs (same flavour)
 
-               if(is_a_j(i).and.is_a_j(j)) s_max(j,i)=mmjjmax*dabs(mmjjmax)   
-               if(is_a_a(i).and.is_a_a(j)) s_max(j,i)=mmaamax*dabs(mmaamax)  
-               if( is_a_b(i).and.is_a_b(j) ) s_max(j,i)=mmbbmax*dabs(mmbbmax)     
+               if(is_a_j(i).and.is_a_j(j)) s_max(j,i)=mmjjmax*dabs(mmjjmax)
+               if(is_a_a(i).and.is_a_a(j)) s_max(j,i)=mmaamax*dabs(mmaamax)
+               if( is_a_b(i).and.is_a_b(j) ) s_max(j,i)=mmbbmax*dabs(mmbbmax)
                if((is_a_l(i).and.is_a_l(j)).and.
      &            (abs(idup(i,1,iproc)).eq.abs(idup(j,1,iproc))).and.
-     &            (idup(i,1,iproc)*idup(j,1,iproc).lt.0)) 
+     &            (idup(i,1,iproc)*idup(j,1,iproc).lt.0))
      &            s_max(j,i)=mmllmax*dabs(mmllmax)  !only on l+l- pairs (same flavour)
             endif
          enddo
-      enddo 
-c     detect if mmnl is used for exactly 2 lepton      
+      enddo
+c     detect if mmnl is used for exactly 2 lepton
       if (mmnl.ne.0.or.mmnlmax.ne.-1)then
           ncheck = 0
           do i=nincoming+1,nexternal
             if (is_a_l(i).or.is_a_nu(i)) ncheck = ncheck +1
-          enddo 
+          enddo
           ! exactly two lepton/neutrino put constrain on the invariant
           ! mass of the associated particles
           if (ncheck.eq.2) then
@@ -427,13 +427,13 @@ c     detect if mmnl is used for exactly 2 lepton
                         endif
                      enddo
                      exit
-                 endif  
-              enddo  
+                 endif
+              enddo
           endif
-      endif 
+      endif
 
 c
-c     smin cut from PDG cut 
+c     smin cut from PDG cut
 c
       if (pdg_cut(1).ne.0)then
          do k=1,pdg_cut(0)
@@ -460,9 +460,9 @@ c
                enddo
             enddo
          enddo
-      endif      
+      endif
 
-c     
+c
 c     ptll cut (min and max)
 c
 
@@ -475,7 +475,7 @@ c
      &           (idup(i,1,iproc)*idup(j,1,iproc).lt.0)) ! Leptons from same flavor but different charge
      &           .or.(is_a_nu(i).and.is_a_l(j))
      &           .or.(is_a_l(i).and.is_a_nu(j)) !a lepton and a neutrino
-     &           .or.(is_a_nu(i).and.is_a_nu(j))) then ! two neutrinos 
+     &           .or.(is_a_nu(i).and.is_a_nu(j))) then ! two neutrinos
                ptll_min(j,i)=ptllmin*dabs(ptllmin)
                ptll_max(j,i)=ptllmax*dabs(ptllmax)
             endif
@@ -502,7 +502,7 @@ c
       htjmax4(2)=ht2max
       htjmax4(3)=ht3max
       htjmax4(4)=ht4max
-   
+
       inclHtmin=ihtmin
       inclHtmax=ihtmax
 
@@ -640,7 +640,7 @@ c     check for lepton
          if (is_a_l(i))then
             nb_l = nb_l + 1
             smin_m = smin_m - pmass(i)**2
-            if (do_cuts(i))then 
+            if (do_cuts(i))then
                if (nb_l.eq.1) then
                   smin_p = smin_p + max(el,ptl,xptl,0d0,
      &                 max(ptl1min,ptl2min,ptl3min,ptl4min))
@@ -718,7 +718,7 @@ c Check that results are consistent among all the grouped subprocesses
             is_a_a_save(i)=is_a_a(i)
             is_a_nu_save(i)=is_a_nu(i)
             is_a_onium_save(i)=is_a_onium(i)
-            is_heavy_save(i)=is_heavy(i) 
+            is_heavy_save(i)=is_heavy(i)
             etmin_save(i)=etmin(i)
             etmax_save(i)=etmax(i)
             emin_save(i)=emin(i)
@@ -740,60 +740,60 @@ c Check that results are consistent among all the grouped subprocesses
          do i=nincoming+1,nexternal
             if (do_cuts_save(i).neqv.do_cuts(i)) fail_reason = 'do_cuts'
             if (is_a_j_save(i).neqv.is_a_j(i)) then
-               if (ptjmin4(1).gt.0d0 .or. ptjmax4(1).ge.0d0) fail_reason = 'ptjmin4(1)' 
-               if (ptjmin4(2).gt.0d0 .or. ptjmax4(2).ge.0d0) fail_reason = 'ptjmin4(2)' 
-               if (ptjmin4(3).gt.0d0 .or. ptjmax4(3).ge.0d0) fail_reason = 'ptjmin4(3)' 
-               if (ptjmin4(4).gt.0d0 .or. ptjmax4(4).ge.0d0) fail_reason = 'ptjmin4(4)' 
-               if (Htjmin4(2).gt.0d0 .or. Htjmax4(2).ge.0d0) fail_reason = 'Htjmin4(2)' 
-               if (Htjmin4(3).gt.0d0 .or. Htjmax4(3).ge.0d0) fail_reason = 'Htjmin4(3)' 
-               if (Htjmin4(4).gt.0d0 .or. Htjmax4(4).ge.0d0) fail_reason = 'Htjmin4(4)' 
-               if (inclHtmin.gt.0d0 .or. inclHtmax.ge.0d0) fail_reason = 'inclHT' 
-               if (htjmin.gt.0d0 .or. htjmax.ge.0d0) fail_reason = 'htj' 
-               if (xptj.gt.0d0) fail_reason = 'xptj' 
-               if (xetamin.gt.0d0 .or. deltaeta.gt.0d0) 
-     &              fail_reason = 'xetamin' 
-               if (ptgmin.ne.0d0) fail_reason = 'ptgmin' 
-               if (kt_durham.gt.0d0) fail_reason = 'ktdurham' 
+               if (ptjmin4(1).gt.0d0 .or. ptjmax4(1).ge.0d0) fail_reason = 'ptjmin4(1)'
+               if (ptjmin4(2).gt.0d0 .or. ptjmax4(2).ge.0d0) fail_reason = 'ptjmin4(2)'
+               if (ptjmin4(3).gt.0d0 .or. ptjmax4(3).ge.0d0) fail_reason = 'ptjmin4(3)'
+               if (ptjmin4(4).gt.0d0 .or. ptjmax4(4).ge.0d0) fail_reason = 'ptjmin4(4)'
+               if (Htjmin4(2).gt.0d0 .or. Htjmax4(2).ge.0d0) fail_reason = 'Htjmin4(2)'
+               if (Htjmin4(3).gt.0d0 .or. Htjmax4(3).ge.0d0) fail_reason = 'Htjmin4(3)'
+               if (Htjmin4(4).gt.0d0 .or. Htjmax4(4).ge.0d0) fail_reason = 'Htjmin4(4)'
+               if (inclHtmin.gt.0d0 .or. inclHtmax.ge.0d0) fail_reason = 'inclHT'
+               if (htjmin.gt.0d0 .or. htjmax.ge.0d0) fail_reason = 'htj'
+               if (xptj.gt.0d0) fail_reason = 'xptj'
+               if (xetamin.gt.0d0 .or. deltaeta.gt.0d0)
+     &              fail_reason = 'xetamin'
+               if (ptgmin.ne.0d0) fail_reason = 'ptgmin'
+               if (kt_durham.gt.0d0) fail_reason = 'ktdurham'
             endif
             if (is_a_b_save(i).neqv.is_a_b(i)) then
                if (inclHtmin.gt.0d0 .or. inclHtmax.ge.0d0) fail_reason = 'Htmin'
-               if (xptb.gt.0d0) fail_reason = 'xptb' 
+               if (xptb.gt.0d0) fail_reason = 'xptb'
             endif
             if (is_a_a_save(i).neqv.is_a_a(i)) then
-               if (xpta.gt.0d0) fail_reason = 'xpta' 
+               if (xpta.gt.0d0) fail_reason = 'xpta'
                if (ptgmin.ne.0d0) fail_reason = 'ptgmin'
             endif
             if (is_a_l_save(i).neqv.is_a_l(i)) then
-               if (ptlmin4(1).gt.0d0 .or. ptlmax4(1).ge.0d0) fail_reason = 'ptlmin4(1)' 
-               if (ptlmin4(2).gt.0d0 .or. ptlmax4(2).ge.0d0) fail_reason = 'ptlmin4(2)' 
-               if (ptlmin4(3).gt.0d0 .or. ptlmax4(3).ge.0d0) fail_reason = 'ptlmin4(3)' 
-               if (ptlmin4(4).gt.0d0 .or. ptlmax4(4).ge.0d0) fail_reason = 'ptlmin4(4)' 
-               if (mmnl.gt.0d0 .or. mmnlmax.ge.0d0) fail_reason = 'mmnl' 
-               if (xptl.gt.0d0) fail_reason = 'xptl' 
-               if (ptgmin.ne.0d0 .and. isoEM) fail_reason = 'ptgmin+iso' 
+               if (ptlmin4(1).gt.0d0 .or. ptlmax4(1).ge.0d0) fail_reason = 'ptlmin4(1)'
+               if (ptlmin4(2).gt.0d0 .or. ptlmax4(2).ge.0d0) fail_reason = 'ptlmin4(2)'
+               if (ptlmin4(3).gt.0d0 .or. ptlmax4(3).ge.0d0) fail_reason = 'ptlmin4(3)'
+               if (ptlmin4(4).gt.0d0 .or. ptlmax4(4).ge.0d0) fail_reason = 'ptlmin4(4)'
+               if (mmnl.gt.0d0 .or. mmnlmax.ge.0d0) fail_reason = 'mmnl'
+               if (xptl.gt.0d0) fail_reason = 'xptl'
+               if (ptgmin.ne.0d0 .and. isoEM) fail_reason = 'ptgmin+iso'
             endif
             if (is_a_nu_save(i).neqv.is_a_nu(i)) then
-               if (misset.gt.0d0 .or. missetmax.ge.0d0) 
-     &              fail_reason = 'misset' 
-               if (mmnl.gt.0d0 .or. mmnlmax.ge.0d0) fail_reason = 'mmnl' 
+               if (misset.gt.0d0 .or. missetmax.ge.0d0)
+     &              fail_reason = 'misset'
+               if (mmnl.gt.0d0 .or. mmnlmax.ge.0d0) fail_reason = 'mmnl'
             endif
             if (is_heavy_save(i).neqv.is_heavy(i)) then
-               if (ptheavy.gt.0d0) fail_reason = 'ptheavy' 
+               if (ptheavy.gt.0d0) fail_reason = 'ptheavy'
             endif
-            if (etmin_save(i).ne.etmin(i)) fail_reason = 'etmin' 
-            if (etmax_save(i).ne.etmax(i)) fail_reason = 'etmax' 
-            if (emin_save(i).ne.emin(i)) fail_reason = 'emin' 
-            if (emax_save(i).ne.emax(i)) fail_reason = 'emax' 
-            if (etamin_save(i).ne.etamin(i)) fail_reason = 'etamin' 
-            if (etamax_save(i).ne.etamax(i)) fail_reason = 'etamax' 
+            if (etmin_save(i).ne.etmin(i)) fail_reason = 'etmin'
+            if (etmax_save(i).ne.etmax(i)) fail_reason = 'etmax'
+            if (emin_save(i).ne.emin(i)) fail_reason = 'emin'
+            if (emax_save(i).ne.emax(i)) fail_reason = 'emax'
+            if (etamin_save(i).ne.etamin(i)) fail_reason = 'etamin'
+            if (etamax_save(i).ne.etamax(i)) fail_reason = 'etamax'
             if (i.eq.nexternal) cycle
             do j=i+1,nexternal
                if (r2min_save(j,i).ne.r2min(j,i)) fail_reason = 'r2min'
                if (r2max_save(j,i).ne.r2max(j,i)) fail_reason = 'r2max'
                if (s_min_save(j,i).ne.s_min(j,i)) fail_reason = 's_min'
                if (s_max_save(j,i).ne.s_max(j,i)) fail_reason = 's_max'
-               if (ptll_min_save(j,i).ne.ptll_min(j,i)) fail_reason = 'ptll_min' 
-               if (ptll_max_save(j,i).ne.ptll_max(j,i)) fail_reason = 'ptll_max' 
+               if (ptll_min_save(j,i).ne.ptll_min(j,i)) fail_reason = 'ptll_min'
+               if (ptll_max_save(j,i).ne.ptll_max(j,i)) fail_reason = 'ptll_max'
             enddo
          enddo
          if (fail_reason.ne.'') then
@@ -814,7 +814,7 @@ c Check that results are consistent among all the grouped subprocesses
 
 
 c
-c    ERROR TRAPS 
+c    ERROR TRAPS
 c
         do i=nincoming+1,nexternal
            if(is_a_j(i).and.etmin(i).eq.0.and.emin(i).eq.0) then
@@ -913,7 +913,7 @@ c**************************************************
       double precision xqcutij(nexternal,nexternal),xqcuti(nexternal)
       common/to_xqcuts/xqcutij,xqcuti
 
-      
+
       integer i,j,k
       logical foundpartner
       include 'maxamps.inc'

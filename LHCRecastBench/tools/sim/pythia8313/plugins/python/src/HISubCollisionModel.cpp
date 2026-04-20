@@ -50,7 +50,7 @@ struct PyCallBack_Pythia8_BlackSubCollisionModel : public Pythia8::BlackSubColli
 	using Pythia8::BlackSubCollisionModel::BlackSubCollisionModel;
 
 	using _binder_ret_0 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_0 minParm() const override { 
+	_binder_ret_0 minParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BlackSubCollisionModel *>(this), "minParm");
 		if (overload) {
@@ -64,7 +64,7 @@ struct PyCallBack_Pythia8_BlackSubCollisionModel : public Pythia8::BlackSubColli
 		return BlackSubCollisionModel::minParm();
 	}
 	using _binder_ret_1 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_1 defParm() const override { 
+	_binder_ret_1 defParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BlackSubCollisionModel *>(this), "defParm");
 		if (overload) {
@@ -78,7 +78,7 @@ struct PyCallBack_Pythia8_BlackSubCollisionModel : public Pythia8::BlackSubColli
 		return BlackSubCollisionModel::defParm();
 	}
 	using _binder_ret_2 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_2 maxParm() const override { 
+	_binder_ret_2 maxParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BlackSubCollisionModel *>(this), "maxParm");
 		if (overload) {
@@ -91,7 +91,7 @@ struct PyCallBack_Pythia8_BlackSubCollisionModel : public Pythia8::BlackSubColli
 		}
 		return BlackSubCollisionModel::maxParm();
 	}
-	struct Pythia8::SubCollisionModel::SigEst getSig() const override { 
+	struct Pythia8::SubCollisionModel::SigEst getSig() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BlackSubCollisionModel *>(this), "getSig");
 		if (overload) {
@@ -104,7 +104,7 @@ struct PyCallBack_Pythia8_BlackSubCollisionModel : public Pythia8::BlackSubColli
 		}
 		return BlackSubCollisionModel::getSig();
 	}
-	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override { 
+	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BlackSubCollisionModel *>(this), "getCollisions");
 		if (overload) {
@@ -117,7 +117,7 @@ struct PyCallBack_Pythia8_BlackSubCollisionModel : public Pythia8::BlackSubColli
 		}
 		return BlackSubCollisionModel::getCollisions(a0, a1);
 	}
-	bool init(int a0, int a1, double a2) override { 
+	bool init(int a0, int a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BlackSubCollisionModel *>(this), "init");
 		if (overload) {
@@ -137,7 +137,7 @@ struct PyCallBack_Pythia8_NaiveSubCollisionModel : public Pythia8::NaiveSubColli
 	using Pythia8::NaiveSubCollisionModel::NaiveSubCollisionModel;
 
 	using _binder_ret_0 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_0 minParm() const override { 
+	_binder_ret_0 minParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NaiveSubCollisionModel *>(this), "minParm");
 		if (overload) {
@@ -151,7 +151,7 @@ struct PyCallBack_Pythia8_NaiveSubCollisionModel : public Pythia8::NaiveSubColli
 		return NaiveSubCollisionModel::minParm();
 	}
 	using _binder_ret_1 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_1 defParm() const override { 
+	_binder_ret_1 defParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NaiveSubCollisionModel *>(this), "defParm");
 		if (overload) {
@@ -165,7 +165,7 @@ struct PyCallBack_Pythia8_NaiveSubCollisionModel : public Pythia8::NaiveSubColli
 		return NaiveSubCollisionModel::defParm();
 	}
 	using _binder_ret_2 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_2 maxParm() const override { 
+	_binder_ret_2 maxParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NaiveSubCollisionModel *>(this), "maxParm");
 		if (overload) {
@@ -178,7 +178,7 @@ struct PyCallBack_Pythia8_NaiveSubCollisionModel : public Pythia8::NaiveSubColli
 		}
 		return NaiveSubCollisionModel::maxParm();
 	}
-	struct Pythia8::SubCollisionModel::SigEst getSig() const override { 
+	struct Pythia8::SubCollisionModel::SigEst getSig() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NaiveSubCollisionModel *>(this), "getSig");
 		if (overload) {
@@ -191,7 +191,7 @@ struct PyCallBack_Pythia8_NaiveSubCollisionModel : public Pythia8::NaiveSubColli
 		}
 		return NaiveSubCollisionModel::getSig();
 	}
-	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override { 
+	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NaiveSubCollisionModel *>(this), "getCollisions");
 		if (overload) {
@@ -204,7 +204,7 @@ struct PyCallBack_Pythia8_NaiveSubCollisionModel : public Pythia8::NaiveSubColli
 		}
 		return NaiveSubCollisionModel::getCollisions(a0, a1);
 	}
-	bool init(int a0, int a1, double a2) override { 
+	bool init(int a0, int a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NaiveSubCollisionModel *>(this), "init");
 		if (overload) {
@@ -223,7 +223,7 @@ struct PyCallBack_Pythia8_NaiveSubCollisionModel : public Pythia8::NaiveSubColli
 struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::FluctuatingSubCollisionModel {
 	using Pythia8::FluctuatingSubCollisionModel::FluctuatingSubCollisionModel;
 
-	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override { 
+	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "getCollisions");
 		if (overload) {
@@ -236,7 +236,7 @@ struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::Fluctua
 		}
 		return FluctuatingSubCollisionModel::getCollisions(a0, a1);
 	}
-	struct Pythia8::SubCollisionModel::SigEst getSig() const override { 
+	struct Pythia8::SubCollisionModel::SigEst getSig() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "getSig");
 		if (overload) {
@@ -249,7 +249,7 @@ struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::Fluctua
 		}
 		return FluctuatingSubCollisionModel::getSig();
 	}
-	double pickRadiusProj() const override { 
+	double pickRadiusProj() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "pickRadiusProj");
 		if (overload) {
@@ -262,7 +262,7 @@ struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::Fluctua
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"FluctuatingSubCollisionModel::pickRadiusProj\"");
 	}
-	double pickRadiusTarg() const override { 
+	double pickRadiusTarg() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "pickRadiusTarg");
 		if (overload) {
@@ -275,7 +275,7 @@ struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::Fluctua
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"FluctuatingSubCollisionModel::pickRadiusTarg\"");
 	}
-	bool init(int a0, int a1, double a2) override { 
+	bool init(int a0, int a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "init");
 		if (overload) {
@@ -289,7 +289,7 @@ struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::Fluctua
 		return SubCollisionModel::init(a0, a1, a2);
 	}
 	using _binder_ret_0 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_0 minParm() const override { 
+	_binder_ret_0 minParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "minParm");
 		if (overload) {
@@ -303,7 +303,7 @@ struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::Fluctua
 		pybind11::pybind11_fail("Tried to call pure virtual function \"SubCollisionModel::minParm\"");
 	}
 	using _binder_ret_1 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_1 defParm() const override { 
+	_binder_ret_1 defParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "defParm");
 		if (overload) {
@@ -317,7 +317,7 @@ struct PyCallBack_Pythia8_FluctuatingSubCollisionModel : public Pythia8::Fluctua
 		pybind11::pybind11_fail("Tried to call pure virtual function \"SubCollisionModel::defParm\"");
 	}
 	using _binder_ret_2 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_2 maxParm() const override { 
+	_binder_ret_2 maxParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FluctuatingSubCollisionModel *>(this), "maxParm");
 		if (overload) {
@@ -337,7 +337,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 	using Pythia8::DoubleStrikmanSubCollisionModel::DoubleStrikmanSubCollisionModel;
 
 	using _binder_ret_0 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_0 minParm() const override { 
+	_binder_ret_0 minParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "minParm");
 		if (overload) {
@@ -351,7 +351,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 		return DoubleStrikmanSubCollisionModel::minParm();
 	}
 	using _binder_ret_1 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_1 defParm() const override { 
+	_binder_ret_1 defParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "defParm");
 		if (overload) {
@@ -365,7 +365,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 		return DoubleStrikmanSubCollisionModel::defParm();
 	}
 	using _binder_ret_2 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_2 maxParm() const override { 
+	_binder_ret_2 maxParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "maxParm");
 		if (overload) {
@@ -378,7 +378,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 		}
 		return DoubleStrikmanSubCollisionModel::maxParm();
 	}
-	double pickRadiusProj() const override { 
+	double pickRadiusProj() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "pickRadiusProj");
 		if (overload) {
@@ -391,7 +391,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 		}
 		return DoubleStrikmanSubCollisionModel::pickRadiusProj();
 	}
-	double pickRadiusTarg() const override { 
+	double pickRadiusTarg() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "pickRadiusTarg");
 		if (overload) {
@@ -404,7 +404,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 		}
 		return DoubleStrikmanSubCollisionModel::pickRadiusTarg();
 	}
-	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override { 
+	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "getCollisions");
 		if (overload) {
@@ -417,7 +417,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 		}
 		return FluctuatingSubCollisionModel::getCollisions(a0, a1);
 	}
-	struct Pythia8::SubCollisionModel::SigEst getSig() const override { 
+	struct Pythia8::SubCollisionModel::SigEst getSig() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "getSig");
 		if (overload) {
@@ -430,7 +430,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 		}
 		return FluctuatingSubCollisionModel::getSig();
 	}
-	bool init(int a0, int a1, double a2) override { 
+	bool init(int a0, int a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DoubleStrikmanSubCollisionModel *>(this), "init");
 		if (overload) {
@@ -449,7 +449,7 @@ struct PyCallBack_Pythia8_DoubleStrikmanSubCollisionModel : public Pythia8::Doub
 struct PyCallBack_Pythia8_ImpactParameterGenerator : public Pythia8::ImpactParameterGenerator {
 	using Pythia8::ImpactParameterGenerator::ImpactParameterGenerator;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ImpactParameterGenerator *>(this), "init");
 		if (overload) {
@@ -462,7 +462,7 @@ struct PyCallBack_Pythia8_ImpactParameterGenerator : public Pythia8::ImpactParam
 		}
 		return ImpactParameterGenerator::init();
 	}
-	class Pythia8::Vec4 generate(double & a0) const override { 
+	class Pythia8::Vec4 generate(double & a0) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ImpactParameterGenerator *>(this), "generate");
 		if (overload) {
@@ -475,7 +475,7 @@ struct PyCallBack_Pythia8_ImpactParameterGenerator : public Pythia8::ImpactParam
 		}
 		return ImpactParameterGenerator::generate(a0);
 	}
-	double xSecScale() const override { 
+	double xSecScale() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ImpactParameterGenerator *>(this), "xSecScale");
 		if (overload) {
@@ -495,7 +495,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 	using Pythia8::LogNormalSubCollisionModel::LogNormalSubCollisionModel;
 
 	using _binder_ret_0 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_0 minParm() const override { 
+	_binder_ret_0 minParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "minParm");
 		if (overload) {
@@ -509,7 +509,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 		return LogNormalSubCollisionModel::minParm();
 	}
 	using _binder_ret_1 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_1 defParm() const override { 
+	_binder_ret_1 defParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "defParm");
 		if (overload) {
@@ -523,7 +523,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 		return LogNormalSubCollisionModel::defParm();
 	}
 	using _binder_ret_2 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_2 maxParm() const override { 
+	_binder_ret_2 maxParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "maxParm");
 		if (overload) {
@@ -536,7 +536,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 		}
 		return LogNormalSubCollisionModel::maxParm();
 	}
-	double pickRadiusProj() const override { 
+	double pickRadiusProj() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "pickRadiusProj");
 		if (overload) {
@@ -549,7 +549,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 		}
 		return LogNormalSubCollisionModel::pickRadiusProj();
 	}
-	double pickRadiusTarg() const override { 
+	double pickRadiusTarg() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "pickRadiusTarg");
 		if (overload) {
@@ -562,7 +562,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 		}
 		return LogNormalSubCollisionModel::pickRadiusTarg();
 	}
-	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override { 
+	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "getCollisions");
 		if (overload) {
@@ -575,7 +575,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 		}
 		return FluctuatingSubCollisionModel::getCollisions(a0, a1);
 	}
-	struct Pythia8::SubCollisionModel::SigEst getSig() const override { 
+	struct Pythia8::SubCollisionModel::SigEst getSig() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "getSig");
 		if (overload) {
@@ -588,7 +588,7 @@ struct PyCallBack_Pythia8_LogNormalSubCollisionModel : public Pythia8::LogNormal
 		}
 		return FluctuatingSubCollisionModel::getSig();
 	}
-	bool init(int a0, int a1, double a2) override { 
+	bool init(int a0, int a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LogNormalSubCollisionModel *>(this), "init");
 		if (overload) {

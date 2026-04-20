@@ -1,4 +1,4 @@
-diff testdir/out66_ccc testdir/out66_ref 
+diff testdir/out66_ccc testdir/out66_ref
 diff testdir/out65_ccc testdir/out65_ref
 diff testdir/out64_ccc testdir/out64_ref
 diff testdir/out63_ccc testdir/out63_ref

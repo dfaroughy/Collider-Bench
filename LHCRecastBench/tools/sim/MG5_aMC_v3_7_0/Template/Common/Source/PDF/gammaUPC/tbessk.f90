@@ -29,7 +29,7 @@
 !*                      F90 Version By J-P Moreau, Paris.  *
 !*                          (all variables declared)       *
 !*                              www.jpmoreau.fr            *
-!***********************************************************     
+!***********************************************************
 
       FUNCTION BESSK(N,X)
       IMPLICIT NONE
@@ -43,7 +43,7 @@
 !     THIS ROUTINE CALCULATES THE MODIFIED BESSEL FUNCTION OF THE THIRD
 !     KIND OF INTEGER ORDER, N FOR ANY POSITIVE REAL ARGUMENT, X. THE
 !     CLASSICAL RECURSION FORMULA IS USED, STARTING FROM BESSK0 AND BESSK1.
-! ------------------------------------------------------------------------ 
+! ------------------------------------------------------------------------
 !     REFERENCE:
 !     C.W.CLENSHAW, CHEBYSHEV SERIES FOR MATHEMATICAL FUNCTIONS,
 !     MATHEMATICAL TABLES, VOL.5, 1962.
@@ -76,7 +76,7 @@
 !     CALCUL DE LA FONCTION BESSEL MODIFIEE DU 3EME ESPECE D'ORDRE 0
 !     POUR TOUT X REEL NON NUL.
 !
-!     CALCULATES THE THE MODIFIED BESSEL FUNCTION OF THE THIRD KIND OF 
+!     CALCULATES THE THE MODIFIED BESSEL FUNCTION OF THE THIRD KIND OF
 !     ORDER ZERO FOR ANY POSITIVE REAL ARGUMENT, X.
 ! ----------------------------------------------------------------------
       IMPLICIT NONE
@@ -84,7 +84,7 @@
       BESSI0
       DATA P1,P2,P3,P4,P5,P6,P7/-0.57721566D0,0.42278420D0,0.23069756D0, &
       0.3488590D-1,0.262698D-2,0.10750D-3,0.74D-5/
-      DATA Q1,Q2,Q3,Q4,Q5,Q6,Q7/1.25331414D0,-0.7832358D-1,0.2189568D-1, & 
+      DATA Q1,Q2,Q3,Q4,Q5,Q6,Q7/1.25331414D0,-0.7832358D-1,0.2189568D-1, &
       -0.1062446D-1,0.587872D-2,-0.251540D-2,0.53208D-3/
       IF(X.EQ.0.D0) THEN
       BESSK0=1.D30
@@ -106,7 +106,7 @@
 !     CALCUL DE LA FONCTION BESSEL MODIFIEE DE 3EME ESPECE D'ORDRE 1
 !     POUR TOUT X REEL POSITF NON NUL.
 !
-!     CALCULATES THE THE MODIFIED BESSEL FUNCTION OF THE THIRD KIND OF 
+!     CALCULATES THE THE MODIFIED BESSEL FUNCTION OF THE THIRD KIND OF
 !     ORDER ONE FOR ANY POSITIVE REAL ARGUMENT, X.
 ! ----------------------------------------------------------------------
       IMPLICIT NONE

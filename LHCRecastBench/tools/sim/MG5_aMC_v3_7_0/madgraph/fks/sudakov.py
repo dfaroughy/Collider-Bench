@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Definitions of the objects needed both for MadFKS from real 
+"""Definitions of the objects needed both for MadFKS from real
 and MadFKS from born"""
 
 from __future__ import absolute_import
@@ -28,9 +28,9 @@ import madgraph.core.color_algebra as color_algebra
 
 
 logger = logging.getLogger('madgraph.sudakov')
-    
-    
-    
+
+
+
 class SudakovError(Exception):
     """Exception for the Sudakov module"""
     pass
@@ -47,9 +47,9 @@ def get_isospin_partners_diffcharge(pid, model):
                 -1: [-2], -2: [-1], -3: [-4], -4: [-3], -5: [-6], -6: [-5],
                 11: [12], 12: [11], 13: [14], 14: [13], 15: [16], 16: [15],
                 -11: [-12], -12: [-11], -13: [-14], -14: [-13], -15: [-16], -16: [-15],
-                22: [24, -24], 23: [24, -24], 24: [22, 23], -24: [22, 23], 
+                22: [24, -24], 23: [24, -24], 24: [22, 23], -24: [22, 23],
                 21: [],
-                25: [251, -251], 250: [251, -251], 251: [25, 250], -251: [25, 250]} 
+                25: [251, -251], 250: [251, -251], 251: [25, 250], -251: [25, 250]}
 
     partners = iso_dict[pid]
 
@@ -69,8 +69,8 @@ def get_isospin_partners_samecharge_cew(pid, model):
 
     # iso dict should eventually become an attribute of the model, here we code
     # the case of the SM with goldsones
-    iso_dict = {22: [23], 23: [22]} 
-    ##iso_dict = {22: [23], 23: [22]} 
+    iso_dict = {22: [23], 23: [22]}
+    ##iso_dict = {22: [23], 23: [22]}
 
     try:
         return iso_dict[pid]
@@ -85,8 +85,8 @@ def get_isospin_partners_samecharge_iz(pid, model):
 
     # iso dict should eventually become an attribute of the model, here we code
     # the case of the SM with goldsones
-    iso_dict = {25: [250], 250: [25]} 
-    ##iso_dict = {22: [23], 23: [22]} 
+    iso_dict = {25: [250], 250: [25]}
+    ##iso_dict = {22: [23], 23: [22]}
 
     try:
         return iso_dict[pid]
@@ -95,7 +95,7 @@ def get_isospin_partners_samecharge_iz(pid, model):
 
 
 def get_goldstone(pid, model):
-    """returns the goldstone boson correspoinding to the longitudinal polarisation 
+    """returns the goldstone boson correspoinding to the longitudinal polarisation
     of particlle pid
     """
     gold_dict = {23: 250, 24: 251, -24: -251}
@@ -124,7 +124,7 @@ def is_charge_conserved(proc):
 
 
 def get_sudakov_amps(born_amp):
-    """returns all the amplitudes needed to compute EW 
+    """returns all the amplitudes needed to compute EW
     corrections to born_amp in the sudakov approximation
     """
 
@@ -135,12 +135,12 @@ def get_sudakov_amps(born_amp):
     # first, find all the legs that have a corresponding Goldstone
     goldstone_legs = []
     for leg in born_amp['process']['legs']:
-        goldstone = get_goldstone(leg['id'], model) 
+        goldstone = get_goldstone(leg['id'], model)
         # skip if no goldstone exist
         if goldstone is None: continue
         goldstone_legs.append(leg)
 
-    # 0) find all amplitudes that can be obtained from the born, replacing any 
+    # 0) find all amplitudes that can be obtained from the born, replacing any
     # possible combination of goldstone_legs with goldstones
     # (labeled by 'Goldstone : True')
     # the "reversed" function is needed for the output
@@ -150,7 +150,7 @@ def get_sudakov_amps(born_amp):
         ####born_proc = copy.deepcopy(born_amp['process'])
         # MZ: NEVER deepcopy a process!!!
         born_proc = copy.copy(born_amp['process'])
-        # copy the legs as a LegList (not FKSLegList) in order 
+        # copy the legs as a LegList (not FKSLegList) in order
         # not to have them re-ordered
         born_proc['legs'] = MG.LegList(copy.deepcopy(born_amp['process']['legs']))
         pdgs = [[],[]] # old and new pdgs
@@ -172,7 +172,7 @@ def get_sudakov_amps(born_amp):
         # for these amplitudes, keep track in a separate list
         goldstone_amplitudes.append(amp)
 
-    # 1) single loop over the born legs to find amplitudes needed for the 
+    # 1) single loop over the born legs to find amplitudes needed for the
     # LSC part, proportional to C_EW
     # (in the SM, this is relevant only for a <-> z)
     # Note that one has to loop on the base amplitude and on those with the
@@ -187,7 +187,7 @@ def get_sudakov_amps(born_amp):
 
             for part in iso_part_list:
                 born_proc = copy.copy(base_amp['process'])
-                # copy the legs as a LegList (not FKSLegList) in order 
+                # copy the legs as a LegList (not FKSLegList) in order
                 # not to have them re-ordered
                 born_proc['legs'] = MG.LegList(copy.deepcopy(base_amp['process']['legs']))
                 newleg = copy.copy(leg)
@@ -201,7 +201,7 @@ def get_sudakov_amps(born_amp):
                 logger.info('   Found Sudakov amplitude (isospin same-charge, C_EW) for %s' % born_proc.nice_string())
                 amplitudes.append({'type': 'cew', 'legs': [leg], 'base_amp': iamp, 'amplitude': amp, 'pdgs': pdgs})
 
-    # 2) single loop over the born legs to find amplitudes needed for the 
+    # 2) single loop over the born legs to find amplitudes needed for the
     # SSC part, proportional to I_Z
     # (in the SM, this is relevant only for chi <-> h)
     # Note that one has to loop on the base amplitude and on those with the
@@ -216,7 +216,7 @@ def get_sudakov_amps(born_amp):
 
             for part in iso_part_list:
                 born_proc = copy.copy(base_amp['process'])
-                # copy the legs as a LegList (not FKSLegList) in order 
+                # copy the legs as a LegList (not FKSLegList) in order
                 # not to have them re-ordered
                 born_proc['legs'] = MG.LegList(copy.deepcopy(base_amp['process']['legs']))
                 newleg = copy.copy(leg)
@@ -230,7 +230,7 @@ def get_sudakov_amps(born_amp):
                 logger.info('   Found Sudakov amplitude (isospin same-charge, I_Z) for %s' % born_proc.nice_string())
                 amplitudes.append({'type': 'iz1', 'legs': [leg], 'base_amp': iamp, 'amplitude': amp, 'pdgs': pdgs})
 
-    # 3) double loop over the born legs to find amplitudes needed for the SSC 
+    # 3) double loop over the born legs to find amplitudes needed for the SSC
     # part, proportional to I_z, where
     # two particles are switched for their isospin partner(s), in the case
     # the charge is unchanged
@@ -255,7 +255,7 @@ def get_sudakov_amps(born_amp):
                 for part1 in iso_part_list1:
                     for part2 in iso_part_list2:
                         born_proc = copy.copy(base_amp['process'])
-                        # copy the legs as a LegList (not FKSLegList) in order 
+                        # copy the legs as a LegList (not FKSLegList) in order
                         # not to have them re-ordered
                         born_proc['legs'] = MG.LegList(copy.deepcopy(base_amp['process']['legs']))
                         # replace leg1
@@ -275,7 +275,7 @@ def get_sudakov_amps(born_amp):
                         logger.info('   Found Sudakov amplitude (isospin same-charge, I_Z x I_Z) for %s' % born_proc.nice_string())
                         amplitudes.append({'type': 'iz2', 'legs': [leg1, leg2], 'base_amp': iamp, 'amplitude': amp, 'pdgs': pdgs})
 
-    # 4) double loop over the born legs to find amplitudes needed for the SSC 
+    # 4) double loop over the born legs to find amplitudes needed for the SSC
     # part, proportional to I_pm, where
     # two particles are switched for their isospin partner(s), in the case
     # the charge is changed
@@ -300,7 +300,7 @@ def get_sudakov_amps(born_amp):
                 for part1 in iso_part_list1:
                     for part2 in iso_part_list2:
                         born_proc = copy.copy(base_amp['process'])
-                        # copy the legs as a LegList (not FKSLegList) in order 
+                        # copy the legs as a LegList (not FKSLegList) in order
                         # not to have them re-ordered
                         born_proc['legs'] = MG.LegList(copy.deepcopy(base_amp['process']['legs']))
                         # replace leg1

@@ -441,4 +441,3 @@ h__plus____plus__ = Particle(pdg_code = 9000005,
                              Y = 0)
 
 h__minus____minus__ = h__plus____plus__.anti()
-

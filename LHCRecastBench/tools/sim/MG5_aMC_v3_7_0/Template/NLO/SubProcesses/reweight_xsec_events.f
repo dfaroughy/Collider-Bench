@@ -1,7 +1,7 @@
       program reweight_xsec_events
-c Given a LH file that contains an <rwgt> part, computes the scale 
+c Given a LH file that contains an <rwgt> part, computes the scale
 c and/or PDF dependence through reweighting. A new file is created,
-c which does not contain the <rwgt> part, but retains only the 
+c which does not contain the <rwgt> part, but retains only the
 c information on the maximum and minimum weights due to scale
 c and PDF variations
 c Compile with makefile_rwgt
@@ -263,7 +263,7 @@ C  the entry inclusive on the various orderstag
                      do jj=1,nint(scalevarR(0))
                         xsecScale_acc(jj,ii,kk)=xsecScale_acc(jj,ii,kk)
      $                       +wgtxsecmu(0,jj,ii,kk)
-                        
+
                      enddo
                   enddo
                else
@@ -288,7 +288,7 @@ c Write event to disk:
          call write_lhef_event(ofile,
      &        NUP,IDPRUP,XWGTUP,SCALUP,AQEDUP,AQCDUP,
      &        IDUP,ISTUP,MOTHUP,ICOLUP,PUP,VTIMUP,SPINUP,buff,SCALUP_a)
-         
+
       enddo
       call deallocate_weight_lines
 
@@ -367,7 +367,7 @@ c This is the rapidity that enters in the arguments of the sinh() and
 c cosh() of the boost, in such a way that
 c       y(k)_lab = y(k)_tilde - ybst_til_tolab
 c where y(k)_lab and y(k)_tilde are the rapidities computed with a generic
-c four-momentum k, in the lab frame and in the \tilde{k}_1+\tilde{k}_2 
+c four-momentum k, in the lab frame and in the \tilde{k}_1+\tilde{k}_2
 c c.m. frame respectively
       ybst_til_tolab=-ycm_cnt(0)-0.5d0*log(ebeam(1)/ebeam(2))
       if(icountevts.eq.-100)then
@@ -378,7 +378,7 @@ c shat=2*k1.k2 -- consistency of this assignment with momenta checked
 c in phspncheck_nocms
         shat=shat_ev
         sqrtshat=sqrtshat_ev
-c rapidity of boost from \tilde{k}_1+\tilde{k}_2 c.m. frame to 
+c rapidity of boost from \tilde{k}_1+\tilde{k}_2 c.m. frame to
 c k_1+k_2 c.m. frame
         ybst_til_tocm=ycm_ev-ycm_cnt(0)
       else
@@ -423,7 +423,7 @@ c do the same as above for the counterevents
          enddo
       enddo
       end
-      
+
       subroutine reweight_scale_ext
       use weight_lines
       use extra_weights
@@ -503,7 +503,7 @@ c add the weights to the array
       return
       end
 
-      
+
       subroutine reweight_pdf_ext
       use weight_lines
       use extra_weights
@@ -557,7 +557,7 @@ c reset to the 0th member of the 1st set
       call InitPDFm(1,0)
       return
       end
-      
+
 
       subroutine fill_rwgt_arrays
       use weight_lines
@@ -632,7 +632,7 @@ c reset to the 0th member of the 1st set
       return
       end
 
-      
+
       subroutine set_mu_central(ic,dd,c_mu2_r,c_mu2_f)
       use weight_lines
       use extra_weights

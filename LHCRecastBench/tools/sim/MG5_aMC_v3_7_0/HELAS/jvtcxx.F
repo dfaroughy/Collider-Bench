@@ -1,7 +1,7 @@
       subroutine jvtcxx(vc,tc,gt,vmass,vwidth , jvt)
 c-------------------CP3  2009.10-----------------
 c
-c This subroutine computes an off-shell vector current from 
+c This subroutine computes an off-shell vector current from
 c the coupling of two gauge bosons and a non-propagating tensor boson.
 c
 c input:
@@ -47,7 +47,7 @@ c
       ft(4,4) = tc(16)
       ft(5,1) = tc(17)
       ft(6,1) = tc(18)
- 
+
       jvt(5) = vc(5)+ft(5,1)
       jvt(6) = vc(6)+ft(6,1)
       pv2(1) = dreal(jvt(5))
@@ -58,12 +58,12 @@ c
 
 
         do i=1,4
-            jvt(i)=-(ft(1,i)*vc(1)) + ft(2,i)*vc(2) + ft(3,i)*vc(3) 
-     & + ft(4,i)*vc(4) 
+            jvt(i)=-(ft(1,i)*vc(1)) + ft(2,i)*vc(2) + ft(3,i)*vc(3)
+     & + ft(4,i)*vc(4)
             jvt(i)=jvt(i)*gt/dcmplx(pp2, 0.0d0)
          enddo
 
-         
+
 
       return
       end

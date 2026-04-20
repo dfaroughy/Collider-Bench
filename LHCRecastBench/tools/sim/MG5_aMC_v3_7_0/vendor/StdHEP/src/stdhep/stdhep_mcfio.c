@@ -32,7 +32,7 @@
 #ifndef TRUE
 #define TRUE 1
 #endif
-/* 
+/*
 *   mcfio/StdHep definitions and include files
 */
 #include "mcfio_Dict.h"
@@ -69,7 +69,7 @@ extern int xdr_heprup_();
 int StdHepXdrReadInit(char *filename, int ntries, int ist)
 {
     int ierr;
-    
+
     mcfioC_Init();
     ierr = StdHepXdrReadOpen(filename, ntries, ist);
     return ierr;
@@ -92,7 +92,7 @@ int StdHepXdrReadOpen(char *filename, int ntries, int ist)
     mcfioC_InfoStreamInt(istream, MCFIO_NUMBLOCKS, &numblocks);
     mcfioC_InfoStreamInt(istream, MCFIO_BLOCKIDS, blkids);
 
-    stdhd2_.numblocks = numblocks; 
+    stdhd2_.numblocks = numblocks;
     for ( iblk=0; iblk < numblocks; ++iblk ) {
         stdhd2_.blkids[iblk] = blkids[iblk];
     }
@@ -315,7 +315,7 @@ int StdHepXdrWriteOpen(char *filename, char *title, int ntries, int ist)
     for ( iblk=0; iblk < numblocks; ++iblk ) {
         stdhd2_.blkids[iblk] = blkids[iblk];
     }
- 
+
     istream =  mcfioC_OpenWriteDirect(filename, title, comment,
                     ntries, blkids, numblocks);
     stdstr_.ixdrstr[ist] = istream;
@@ -334,7 +334,7 @@ int StdHepXdrWrite(int ilbl, int ist)
         iret = StdHepXdrWriteEvent(ilbl, ist);
     else if ((ilbl == 4) || (ilbl == 5))
         iret = StdHepXdrWriteEventLH(ilbl, ist);
-    else if (ilbl == 11) 
+    else if (ilbl == 11)
         iret = StdHepXdrWriteEventEUP(ilbl, ist);
     else if (ilbl == 12)
         iret = StdHepXdrWriteEventRUP(ilbl, ist);

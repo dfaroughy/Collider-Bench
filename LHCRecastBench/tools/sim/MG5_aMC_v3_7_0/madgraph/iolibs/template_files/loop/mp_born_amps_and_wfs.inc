@@ -1,16 +1,16 @@
       SUBROUTINE %(proc_prefix)sMP_BORN_AMPS_AND_WFS(P)
-C  
+C
 %(info_lines)s
 C
-C Computes all the AMP and WFS in quadruple precision for the 
+C Computes all the AMP and WFS in quadruple precision for the
 C phase space point P(0:3,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C     
+C
       %(nbornamps_decl)s
 	  INTEGER    NLOOPAMPS, NCTAMPS
       PARAMETER (NLOOPAMPS=%(nloopamps)d, NCTAMPS=%(nctamps)d)
@@ -25,13 +25,13 @@ C
 	  %(complex_mp_format)s IMAG1
       PARAMETER (IMAG1=(0E0_16,1E0_16))
 
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(real_mp_format)s P(0:3,NEXTERNAL)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,H
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
 	  DATA IC/NEXTERNAL*1/
@@ -39,9 +39,9 @@ C
 C FUNCTIONS
 C
       LOGICAL %(proc_prefix)sIS_HEL_SELECTED
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       include 'mp_coupl_same_name.inc'
 
 	  INTEGER NTRY
@@ -117,7 +117,7 @@ C  Same for the counterterms amplitudes
 	ENDDO
   ENDDO
   %(copy_mp_to_dp_born_amps)s
-  ENDIF  
+  ENDIF
 ENDDO
 
 END

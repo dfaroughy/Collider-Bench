@@ -1,8 +1,8 @@
 #!/bin/csh
 # run the standard isajet translation test executable
 # the environment variables must be defined as below:
-#   setup cern 
-#   setup stdhep 
+#   setup cern
+#   setup stdhep
 #   setup isajet
 set echo
 

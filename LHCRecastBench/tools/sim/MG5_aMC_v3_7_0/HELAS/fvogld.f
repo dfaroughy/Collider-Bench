@@ -100,5 +100,5 @@ c
          fvo(4) = d*(-dconjg(fvo(6))*sl1 + (pf(0)+pf(3))*sl2)
       end if
 c
-      return          
+      return
       end

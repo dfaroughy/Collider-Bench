@@ -14,5 +14,5 @@ Widget mcfioC_CreateBrWindow(Display *display);
 void mcfioC_OpenNewFile();
 int mcfioC_OpenInitialFile(char *filename);
 void mcfioC_CloseBrowser();
-int mcfioC_SelectedNTuBrListPos(); 
+int mcfioC_SelectedNTuBrListPos();
 int mcfioC_SetSpecificNTupleBr(nTuBrowserInfo *nTuBr);

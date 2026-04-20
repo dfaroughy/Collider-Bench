@@ -77,7 +77,7 @@
          systems this is ".so" and for OS X this is ".dylib". Note
          that all plugin libraries, including the Python interface,
          are always built with the ".so" suffix.
-     --obj-common="FLAGS" : add a common compiler flag to object 
+     --obj-common="FLAGS" : add a common compiler flag to object
          compilation only (ie. .o files and not linking).
 
 1.2) All of the options listed above are formatted into
@@ -254,7 +254,7 @@
     MPICH) Enable multi-threading support via the MPICH implementation of
        MPI. Needed for HDF5 Les Houches event reader.
     HDF5) High-performance data management libraries and file format used for
-       reading HDF5 Les Houches files. 
+       reading HDF5 Les Houches files.
     HighFive) HighFive headers, also needed for reading HDF5 Les Houches
        files. Currently, v2.2 is supported and is available at
        https://github.com/BlueBrain/HighFive/tree/v2.2. This can be
@@ -262,7 +262,7 @@
          curl -OL https://github.com/BlueBrain/HighFive/archive/v2.2.zip \
            && unzip v2.2.zip && mv HighFive-2.2/include/highfive . \
            && rm -r HighFive-2.2/ && rm v2.2.zip
-    
+
 ----------------------------------------------------------------------
 
    COMPILING PROGRAMS AGAINST PYTHIA 8

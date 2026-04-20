@@ -79,4 +79,3 @@ Decay_mu__minus__ = Decay(name = 'Decay_mu__minus__',
 Decay_ta__minus__ = Decay(name = 'Decay_ta__minus__',
                           particle = P.ta__minus__,
                           partial_widths = {(P.W__minus__,P.vt):'((MTA**2 - MW**2)*((ee**2*MTA**2)/(2.*sw**2) + (ee**2*MTA**4)/(2.*MW**2*sw**2) - (ee**2*MW**2)/sw**2))/(32.*cmath.pi*abs(MTA)**3)'})
-

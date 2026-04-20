@@ -1,13 +1,13 @@
       SUBROUTINE COEF_CONSTRUCTION_1(P,NHEL,H,IC)
-C     
+C
 C     Modules
-C     
+C
       USE POLYNOMIAL_CONSTANTS
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    NCOMB
@@ -27,23 +27,23 @@ C
 C     These are constants related to the split orders
       INTEGER    NSO, NSQUAREDSO, NAMPSO
       PARAMETER (NSO=2, NSQUAREDSO=1, NAMPSO=2)
-C     
+C
 C     ARGUMENTS
-C     
+C
       REAL*8 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
       INTEGER H
-C     
+C
 C     LOCAL VARIABLES
-C     
+C
       INTEGER I,J,K
       COMPLEX*16 COEFS(MAXLWFSIZE,0:VERTEXMAXCOEFS-1,MAXLWFSIZE)
 
       LOGICAL DUMMYFALSE
       DATA DUMMYFALSE/.FALSE./
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 
       INCLUDE 'coupl.inc'
       INCLUDE 'mp_coupl.inc'
@@ -85,7 +85,7 @@ C
       COMPLEX*16 AMPL(3,NCTAMPS)
       COMMON/AMPL/AMPL
 
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -365,4 +365,3 @@ C      i.e. of split order ID=1, are computed.
       LOOP_REQ_SO_DONE=.TRUE.
  1001 CONTINUE
       END
-

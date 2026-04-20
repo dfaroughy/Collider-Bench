@@ -66,7 +66,7 @@ C---initialise elementary process
       call hweini
 C          Fill Stdhep common block 1
         call stdflhwxsec
-C          Write Stdhep begin-run record   
+C          Write Stdhep begin-run record
         call stdxwrt(100,istr,lok)
         if(lok.ne.0) write(lnhout,*)
      1        ' Problem writing stdhep begin run record'
@@ -112,7 +112,7 @@ C---user's terminal calculations
       call hwaend
 C          Fill Stdhep common block 1
         call stdflhwxsec
-C          Write Stdhep end-run record   
+C          Write Stdhep end-run record
         call stdxwrt(200,istr,lok)
         if(lok.ne.0) write(lnhout,*)
      1        ' Problem writing StdHep end run record'
@@ -157,7 +157,7 @@ c
 	   if(ist.le.200 .and. ist.gt.0) icnt(ist) = icnt(ist) + 1
 	 enddo
       elseif(ii.eq.3)then
-         write(lnhout,1001) 
+         write(lnhout,1001)
 	 do i=1,200
             write(lnhout,1002) i,icnt(i)
 	 enddo
@@ -168,4 +168,3 @@ c
  1001 format(10x,'List of used isthep values')
  1002 format(' isthep ',i3,2x,i10)
       end
-

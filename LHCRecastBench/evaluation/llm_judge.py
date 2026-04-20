@@ -51,7 +51,9 @@ def _reference_dir(arxiv_id: str) -> Path:
 
 
 def _write_corrected_hepdata(
-    provenance: dict, original_dir: Path, corrected_dir: Path,
+    provenance: dict,
+    original_dir: Path,
+    corrected_dir: Path,
 ) -> None:
     """Write corrected HEPRecastData using judge's provenance verification.
 
@@ -119,6 +121,7 @@ def _write_corrected_hepdata(
         except Exception:
             pass
 
+
 JUDGE_PROMPT_TEMPLATE = """\
 {rubric}
 
@@ -137,6 +140,7 @@ JUDGE_PROMPT_TEMPLATE = """\
 
 
 # ── Session log extraction ──────────────────────────────────────────────────
+
 
 def extract_session_summary(session_path: Path, max_chars: int = 50000) -> str:
     """Extract key reasoning moments from a session log.
@@ -221,7 +225,8 @@ def _extract_claude_stream_json(session_path: Path, max_chars: int) -> str:
                             if not isinstance(rc, str):
                                 continue
                             is_error = (
-                                rc.startswith("Error") or rc.startswith("ERROR")
+                                rc.startswith("Error")
+                                or rc.startswith("ERROR")
                                 or "Traceback (most recent" in rc
                                 or "exit code 1" in rc.lower()
                                 or "command not found" in rc.lower()
@@ -239,6 +244,7 @@ def _extract_claude_stream_json(session_path: Path, max_chars: int) -> str:
 
 
 # ── Load HEPData for context ────────────────────────────────────────────────
+
 
 def _load_hepdata_summary(directory: Path, max_chars: int = 5000) -> str:
     """Load HEPData YAML files as text for the judge."""
@@ -259,6 +265,7 @@ def _load_hepdata_summary(directory: Path, max_chars: int = 5000) -> str:
 
 
 # ── Run the judge ───────────────────────────────────────────────────────────
+
 
 def run_judge(
     session_logs: list[Path],
@@ -295,7 +302,7 @@ def run_judge(
 
     # Load additional artifacts
     artifacts_parts = []
-    for art_path in (artifacts or []):
+    for art_path in artifacts or []:
         if art_path.exists():
             text = art_path.read_text()
             if len(text) > 10000:
@@ -323,11 +330,13 @@ def run_judge(
         flush=True,
     )
     import time as _time
+
     t0 = _time.time()
     proc = subprocess.Popen(
-        ["claude", "-p", prompt, "--model", model,
-         "--output-format", "stream-json", "--verbose"],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        ["claude", "-p", prompt, "--model", model, "--output-format", "stream-json", "--verbose"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
     )
     text_parts: list[str] = []
     final_result_text: str | None = None
@@ -374,7 +383,10 @@ def run_judge(
         return {"error": f"Judge CLI failed (rc={rc}): {stderr}"}
 
     elapsed = int(_time.time() - t0)
-    print(f"  [llm_judge] completed in {elapsed}s ({n_turns} turns, {n_tool_calls} tool calls)", flush=True)
+    print(
+        f"  [llm_judge] completed in {elapsed}s ({n_turns} turns, {n_tool_calls} tool calls)",
+        flush=True,
+    )
 
     # The judge produced one final JSON blob in its text response. The stream
     # may split it across multiple text blocks; prefer the last-message text
@@ -421,6 +433,7 @@ def run_judge(
         if arxiv_id:
             try:
                 from LHCRecastBench.evaluation.score import score_recast
+
                 corrected_scores = score_recast(arxiv_id, str(corrected_dir))
                 scores["corrected_score"] = corrected_scores
                 (output_dir / "score_corrected.json").write_text(
@@ -431,9 +444,13 @@ def run_judge(
 
                 sub_pct = submitted_scores.get("overall_score", 0)
                 cor_pct = corrected_scores.get("overall_score", 0)
-                print(f"\n  Provenance correction applied:")
-                print(f"    Submitted score: {sub_pct:.0%} ({submitted_scores.get('n_pass', 0)}/{submitted_scores.get('n_filled', 0)} bins)")
-                print(f"    Corrected score: {cor_pct:.0%} ({corrected_scores.get('n_pass', 0)}/{corrected_scores.get('n_filled', 0)} bins)")
+                print("\n  Provenance correction applied:")
+                print(
+                    f"    Submitted score: {sub_pct:.0%} ({submitted_scores.get('n_pass', 0)}/{submitted_scores.get('n_filled', 0)} bins)"
+                )
+                print(
+                    f"    Corrected score: {cor_pct:.0%} ({corrected_scores.get('n_pass', 0)}/{corrected_scores.get('n_filled', 0)} bins)"
+                )
             except Exception as e:
                 scores["corrected_score_error"] = str(e)
 
@@ -442,6 +459,7 @@ def run_judge(
 
 # ── Display ─────────────────────────────────────────────────────────────────
 
+
 def print_scores(scores: dict) -> None:
     if "error" in scores:
         print(f"  ERROR: {scores['error']}")
@@ -449,7 +467,7 @@ def print_scores(scores: dict) -> None:
             print(f"  Raw: {scores['raw'][:500]}")
         return
 
-    print(f"\n  LLM Judge Evaluation")
+    print("\n  LLM Judge Evaluation")
     print(f"  Judge model: {scores.get('judge_model', '?')}")
     print(f"  {'=' * 60}")
 
@@ -483,7 +501,11 @@ def print_scores(scores: dict) -> None:
     print(f"\n  {'─' * 60}")
     print(f"  Overall Reasoning Score: {overall}/5")
 
-    for label, key in [("Strengths", "key_strengths"), ("Weaknesses", "key_weaknesses"), ("Missed opportunities", "missed_opportunities")]:
+    for label, key in [
+        ("Strengths", "key_strengths"),
+        ("Weaknesses", "key_weaknesses"),
+        ("Missed opportunities", "missed_opportunities"),
+    ]:
         items = scores.get(key, [])
         if items:
             prefix = {"Strengths": "+", "Weaknesses": "-", "Missed opportunities": "*"}[label]
@@ -495,7 +517,7 @@ def print_scores(scores: dict) -> None:
     if failure_report:
         print(f"\n  {'─' * 60}")
         lines = failure_report.strip().split("\n")
-        n_failures = len([l for l in lines if l.startswith("### F")])
+        n_failures = len([ln for ln in lines if ln.startswith("### F")])
         print(f"  Failure Report ({n_failures} failures):")
         for line in lines[:20]:
             print(f"    {line}")
@@ -510,6 +532,7 @@ def print_scores(scores: dict) -> None:
 
 # ── CLI ─────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="LLM-as-a-Judge evaluation of agent reasoning quality.",
@@ -517,14 +540,23 @@ def main():
         epilog=__doc__,
     )
     # Generic interface
-    parser.add_argument("--session-logs", nargs="+", type=Path, help="Session log files (any readable format)")
+    parser.add_argument(
+        "--session-logs", nargs="+", type=Path, help="Session log files (any readable format)"
+    )
     parser.add_argument("--recast-dir", type=Path, help="Path to filled HEPRecastData/ directory")
     parser.add_argument("--arxiv", help="arXiv ID (for loading reference HEPData)")
-    parser.add_argument("--artifacts", nargs="*", type=Path, help="Additional artifact files (audit.json, report.md, etc.)")
+    parser.add_argument(
+        "--artifacts",
+        nargs="*",
+        type=Path,
+        help="Additional artifact files (audit.json, report.md, etc.)",
+    )
     parser.add_argument("--output-dir", type=Path, help="Where to save the failure report")
 
     # Shortcut for our baseline layout
-    parser.add_argument("--agent-dir", type=Path, help="Agent directory (auto-discovers session logs and artifacts)")
+    parser.add_argument(
+        "--agent-dir", type=Path, help="Agent directory (auto-discovers session logs and artifacts)"
+    )
 
     parser.add_argument("--model", default="claude-opus-4-6", help="Judge model")
     parser.add_argument("--json", action="store_true", help="Output raw JSON")
@@ -566,7 +598,7 @@ def main():
             args.output_dir.mkdir(parents=True, exist_ok=True)
 
     if args.extract_only:
-        for log_path in (args.session_logs or []):
+        for log_path in args.session_logs or []:
             print(f"--- {log_path.name} ---")
             print(extract_session_summary(log_path))
         return

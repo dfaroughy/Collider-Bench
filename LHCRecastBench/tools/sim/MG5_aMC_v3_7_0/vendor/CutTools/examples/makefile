@@ -1,10 +1,10 @@
-all: testmp$(EXE) example0$(EXE) example1$(EXE) 
+all: testmp$(EXE) example0$(EXE) example1$(EXE)
 
 include ../makefile
 
-NUMS0= numerators.o mpnumerators.o 
+NUMS0= numerators.o mpnumerators.o
 
-NUMS = numerators.o mpnumerators.o rambo.o random.o 
+NUMS = numerators.o mpnumerators.o rambo.o random.o
 
 mpcheck:
 	./testmp
@@ -21,7 +21,7 @@ example0$(EXE): $(NUMS0) libcts.a example0.o
 	$(FC) $(FFLAGS) -Iincludects -o example0$(EXE) \
  example0.f $(NUMS0) libcts.a
 
-example1$(EXE): $(NUMS) libcts.a example1.o 
+example1$(EXE): $(NUMS) libcts.a example1.o
 	$(FC) $(FFLAGS) -Iincludects -o example1$(EXE) \
  example1.f $(NUMS) libcts.a
 
@@ -35,4 +35,3 @@ libcts.a:
 
 clean:
 	$(RM) testmp$(EXE) example0$(EXE) example1$(EXE)  *.o testoutput
-

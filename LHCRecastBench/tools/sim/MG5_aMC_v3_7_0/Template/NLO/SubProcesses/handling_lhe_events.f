@@ -11,7 +11,7 @@ c Utility routines for LHEF. Originally taken from collect_events.f
 
       subroutine write_lhef_header(ifile,nevents,MonteCarlo)
       use extra_weights
-      implicit none 
+      implicit none
       include 'run.inc'
       integer idwgt,kk,ii,jj,nn,n
       integer ifile,nevents
@@ -40,7 +40,7 @@ c
                    tag = orderstags_glob(oo)
                endif
                do kk=1,dyn_scale(0)
-                  write(ifile,'(a,i15,i4,a)') 
+                  write(ifile,'(a,i15,i4,a)')
      &                 "    <weightgroup name='scale_variation ",
      &                 tag, dyn_scale(kk),"' combine='envelope'>"
                   if (lscalevar(kk)) then
@@ -118,10 +118,10 @@ c
 
       subroutine write_lhef_header_banner(ifile,nevents,MonteCarlo,path)
       use extra_weights
-      implicit none 
+      implicit none
       integer ifile, i, idwgt, nevents,iseed,ii,jj,kk,nn,n
       double precision mcmass(-16:21)
-c     parameter to allow to include run_card.inc 
+c     parameter to allow to include run_card.inc
       include './run.inc'
       include './cuts.inc'
       integer lhaid,pdfscheme
@@ -169,7 +169,7 @@ c
  88   close(92)
       write(ifile,'(a)') '  </slha>'
       write(ifile,'(a)') '  <MGRunCard>'
-c     import the parameter from the run_card 
+c     import the parameter from the run_card
       nevents_old = nevents
       include './run_card.inc'
       nevents = nevents_old
@@ -238,7 +238,7 @@ c Write here the reweight information if need be
                    tag = orderstags_glob(oo)
                endif
                do kk=1,dyn_scale(0)
-                  write(ifile,'(a,i15,i4,a)') 
+                  write(ifile,'(a,i15,i4,a)')
      &                 "    <weightgroup name='scale_variation ",
      &                 tag, dyn_scale(kk),"' combine='envelope'>"
                   if (lscalevar(kk)) then
@@ -314,7 +314,7 @@ c Write here the reweight information if need be
 
       subroutine read_lhef_header(ifile,nevents,MonteCarlo)
       use extra_weights
-      implicit none 
+      implicit none
       include './run.inc'
       logical already_found
       integer ifile,nevents,i,ii,ii2,iistr,itemp
@@ -407,7 +407,7 @@ c     find the start of a weightgroup
                  do_rwgt_pdf=.true.
                  lhaPDFid(0)=lhaPDFid(0)+1
                  nmemPDF(lhaPDFid(0))=-1
-                 do 
+                 do
                     read(ifile,'(a)')string
                     if (index(string,'</weightgroup>').ne.0) exit
                     nmemPDF(lhaPDFid(0))=nmemPDF(lhaPDFid(0))+1
@@ -440,7 +440,7 @@ c of headers
         string0=string
         read(ifile,'(a)')string
       enddo
-c if the file is a partial file the header is non-standard   
+c if the file is a partial file the header is non-standard
       if (MonteCarlo .ne. '')read(string0,250) nevents
  250  format(1x,i8)
       return
@@ -469,7 +469,7 @@ c Scales
       integer mg_rwgt_count
       common/rwgt_count/mg_rwgt_count
       mg_rwgt_count=0
-        
+
       ipart=-1000000
       nevents = -1
       MonteCarlo = ''
@@ -575,7 +575,7 @@ c     find the start of a weightgroup
                  do_rwgt_pdf=.true.
                  lhaPDFid(0)=lhaPDFid(0)+1
                  nmemPDF(lhaPDFid(0))=-1
-                 do 
+                 do
                     read(ifile,'(a)')string
                     if (index(string,'</weightgroup>').ne.0) exit
                     nmemPDF(lhaPDFid(0))=nmemPDF(lhaPDFid(0))+1
@@ -622,7 +622,7 @@ c of headers
         string0=string
         read(ifile,'(a)')string
       enddo
-c if the file is a partial file the header is non-standard   
+c if the file is a partial file the header is non-standard
       if (MonteCarlo .ne. '') read(string0,250) nevents
  250  format(1x,i8)
       return
@@ -830,7 +830,7 @@ c
                            do i=1,nint(scalevarF(0))
                               do j=1,nint(scalevarR(0))
                                  idwgt=idwgt+1
-                                 write(ifile,601) 
+                                 write(ifile,601)
      $                                "   <wgt id='",idwgt,"'>"
      $                                ,wgtxsecmu(oo,j,i,kk)," </wgt>"
                               enddo
@@ -1395,13 +1395,13 @@ c
 
 
       subroutine case_trap3(ilength,name)
-c**********************************************************    
+c**********************************************************
 c change the string to lowercase if the input is not
 c**********************************************************
       implicit none
 c
 c     ARGUMENT
-c      
+c
       character*(*) name
 c
 c     LOCAL
@@ -1411,8 +1411,8 @@ c
       do i=1,ilength
          k=ichar(name(i:i))
          if(k.ge.65.and.k.le.90) then  !upper case A-Z
-            k=ichar(name(i:i))+32   
-            name(i:i)=char(k)        
+            k=ichar(name(i:i))+32
+            name(i:i)=char(k)
          endif
       enddo
 
@@ -1421,13 +1421,13 @@ c
 
 
       subroutine case_trap4(ilength,name)
-c**********************************************************    
+c**********************************************************
 c change the string to uppercase if the input is not
 c**********************************************************
       implicit none
 c
 c     ARGUMENT
-c      
+c
       character*(*) name
 c
 c     LOCAL
@@ -1437,8 +1437,8 @@ c
       do i=1,ilength
          k=ichar(name(i:i))
          if(k.ge.97.and.k.le.122) then  !lower case A-Z
-            k=ichar(name(i:i))-32   
-            name(i:i)=char(k)        
+            k=ichar(name(i:i))-32
+            name(i:i)=char(k)
          endif
       enddo
 
@@ -1463,4 +1463,3 @@ c independent (char(62)=">", char(61)="=", char(39)="'")
       read (buff(wgt_start:100),*) wgt
       return
       end
-

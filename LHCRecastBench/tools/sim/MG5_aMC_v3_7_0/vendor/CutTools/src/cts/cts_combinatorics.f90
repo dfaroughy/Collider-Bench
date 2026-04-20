@@ -6,11 +6,11 @@
   private
 !                                       !
 ! the maximum number of denominators    !
-! (it can be changed by the user)       ! 
+! (it can be changed by the user)       !
 !                                       !
   integer, public, parameter :: maxden= 10
  end module maxnumden
-! 
+!
  module mbnvalues
   implicit none
   private
@@ -22,7 +22,7 @@
 !
  module maxsolutions
   implicit none
-  private 
+  private
   integer, public :: max_solutions= 18
  end module maxsolutions
 !
@@ -149,7 +149,7 @@
 !
   integer function comb(no,ko)
   integer, intent(in) :: no,ko
-  integer, dimension(1:4), parameter :: ifact= (/1,2,6,24/) 
+  integer, dimension(1:4), parameter :: ifact= (/1,2,6,24/)
   integer :: k,kf
   if ((ko.le.0).or.(ko.gt.4)) then
    stop 'error in function comb'
@@ -170,7 +170,7 @@
 ! D sector:
 !
   print*,'          '
-  print*,' D-sector:'   
+  print*,' D-sector:'
   print*,'          '
   do ib= 1,nbn4(np)
     print*,'         ib=',ib
@@ -182,7 +182,7 @@
 ! C sector:
 !
   print*,'          '
-  print*,' C-sector:'   
+  print*,' C-sector:'
   print*,'          '
   do ib= 1,nbn3(np)
     print*,'         ib=',ib
@@ -194,7 +194,7 @@
 ! B sector:
 !
   print*,'          '
-  print*,' B-sector:'   
+  print*,' B-sector:'
   print*,'          '
   do ib= 1,nbn2(np)
     print*,'         ib=',ib
@@ -206,7 +206,7 @@
 ! A sector:
 !
   print*,'          '
-  print*,' A-sector:'   
+  print*,' A-sector:'
   print*,'          '
   do ib= 1,nbn1(np)
     print*,'         ib=',ib
@@ -214,13 +214,13 @@
       print*,'bn1(np,',j,',ib)=',bn1(np,j,ib)
     enddo
   enddo
-  end subroutine testcomb 
+  end subroutine testcomb
  end module combinatorics
 !
- module dimensions 
+ module dimensions
   use combinatorics
   use mbnvalues
-  implicit none                    
+  implicit none
   private
   integer, public :: dmns,dmns_d,dmns_c,dmns_b,dmns_a
   integer, public :: dmns_4,dmns_3,dmns_2,dmns_1
@@ -230,7 +230,7 @@
   integer, public, dimension(:,:), allocatable :: bbn4
   public load_dimensions
   contains
-! 
+!
   subroutine load_dimensions
   use maxnumden
   dmns  = maxden
@@ -239,4 +239,4 @@
   dmns_c= nbn3(dmns)
   dmns_d= nbn4(dmns)
   end subroutine
- end module dimensions 
+ end module dimensions

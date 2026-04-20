@@ -1,17 +1,17 @@
       SUBROUTINE SBORN_HEL(P1,ANS)
-C  
+C
 %(info_lines)s
 C
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C AND HELICITIES
 C FOR THE POINT IN PHASE SPACE P1(0:3,NEXTERNAL-1)
-C  
+C
 %(process_lines)s
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       include "nexternal.inc"
       include "born_nhel.inc"
       INTEGER     NCOMB
@@ -20,19 +20,19 @@ C
       PARAMETER (THEL=NCOMB*%(nconfs)d)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS = %(ngraphs)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P1(0:3,NEXTERNAL-1),ANS
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER IHEL,IDEN,J
       REAL*8 BORN_HEL
 %(den_factor_lines)s
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       LOGICAL GOODHEL(NCOMB,%(nconfs)d)
       common /c_goodhel/ goodhel
       double precision savemom(nexternal-1,2)
@@ -69,53 +69,53 @@ C ----------
          ENDIF
       ENDDO
       END
-       
-       
+
+
       REAL*8 FUNCTION born_hel(P,HELL)
-C  
+C
 %(info_lines)s
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER     NGRAPHS
-      PARAMETER ( NGRAPHS = %(ngraphs)d ) 
+      PARAMETER ( NGRAPHS = %(ngraphs)d )
       INTEGER    NCOLOR
-      PARAMETER (NCOLOR=%(ncolor)d) 
+      PARAMETER (NCOLOR=%(ncolor)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       complex*16 imag1
       parameter (imag1 = (0d0,1d0))
       include "nexternal.inc"
       include "born_nhel.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1)
       INTEGER HELL
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J
       INTEGER CF(NCOLOR*(NCOLOR+1)/2)
       INTEGER DENOM, CF_INDEX
       COMPLEX*16 ZTEMP, AMP(NGRAPHS), JAMP(NCOLOR)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       double complex saveamp(ngraphs,max_bhel)
       common/to_saveamp/saveamp
       logical calculatedBorn
       common/ccalculatedBorn/calculatedBorn
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -129,7 +129,7 @@ C ----------
          enddo
       endif
   %(jamp_lines)s
-      born_hel = 0.D0 
+      born_hel = 0.D0
       CF_INDEX=0
       DO I = 1, NCOLOR
           ZTEMP = (0.D0,0.D0)

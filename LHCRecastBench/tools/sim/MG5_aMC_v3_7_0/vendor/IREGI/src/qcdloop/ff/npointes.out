@@ -4,7 +4,7 @@
  ====================================================
  for the algorithms used see preprint NIKHEF-H 89/17,
  'New Algorithms for One-loop Integrals', by G.J. van
- Oldenborgh and J.A.M. Vermaseren, published in 
+ Oldenborgh and J.A.M. Vermaseren, published in
  Zeitschrift fuer Physik C46(1990)425.
  ====================================================
  ffini: precx =   4.44089209E-16
@@ -20,16 +20,15 @@
    .0000000000000E+00  .4952559280190E-18  .0000000000000E+00 -.4571732002955E-18
  ALIJ: error: not implemented
    .0000000000000E+00
- 
+
 total number of errors and warnings
 ===================================
 fferr: no errors
-ffwarn:        1 times  18: ffxb0p: warning: cancellations in equal masses, complex roots, can be avoided.  
+ffwarn:        1 times  18: ffxb0p: warning: cancellations in equal masses, complex roots, can be avoided.
      (lost at most a factor     8.20    )
-ffwarn:        1 times 129: zxfflg: warning: taking log of number close to 1, must be cured.                
+ffwarn:        1 times 129: zxfflg: warning: taking log of number close to 1, must be cured.
      (lost at most a factor     9.75    )
-ffwarn:       10 times 163: ffxc1:  warning: cancellations in cc1.                                          
+ffwarn:       10 times 163: ffxc1:  warning: cancellations in cc1.
      (lost at most a factor     244.    )
-ffwarn:        1 times 164: ffxd1:  warning: cancellations in cd1.                                          
+ffwarn:        1 times 164: ffxd1:  warning: cancellations in cd1.
      (lost at most a factor     8.33    )
- 

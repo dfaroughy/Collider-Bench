@@ -1,6 +1,6 @@
       subroutine httxxx(tc1,tc2,gc,mass,width,jsc)
 c
-c- by RF - Mar. 2006 
+c- by RF - Mar. 2006
 c
 c This subroutine computes an off-shell scalar from the tts coupling.
 c
@@ -26,7 +26,7 @@ c      PARAMETER(DIM=18)
       double complex vertex,dj,gc(2)
       double precision mass,width,q2,q(4)
 
-c Take the inner product between the tensor particles. The 
+c Take the inner product between the tensor particles. The
 c Note that the tensor particle is antisymmetric, thus all diagonal terms
 c are zero.
 

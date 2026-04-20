@@ -12,10 +12,10 @@ C
 C     Include
 C
       include 'pdf.inc'
-C      
+C
       call fdist(ih,x, q, pdf)
-      
-      return	
+
+      return
       end
 
       subroutine fdist(ih,x,xmu,fx)
@@ -126,7 +126,7 @@ C---  set to zero if x out of range
              call mrs98(x,xmu,mode,u_val,d_val,u_sea,d_sea,
      &                          s_sea,c_sea,b_sea,gluon)
              elseif (pdlabel .eq. 'mrs98z2') then
-             mode=2 
+             mode=2
              call mrs98(x,xmu,mode,u_val,d_val,u_sea,d_sea,
      &                          s_sea,c_sea,b_sea,gluon)
              elseif (pdlabel .eq. 'mrs98z3') then
@@ -146,7 +146,7 @@ C---  set to zero if x out of range
              call mrs98lo(x,xmu,mode,u_val,d_val,u_sea,d_sea,
      &                          s_sea,c_sea,b_sea,gluon)
              elseif (pdlabel .eq. 'mrs98l2') then
-             mode=2 
+             mode=2
              call mrs98lo(x,xmu,mode,u_val,d_val,u_sea,d_sea,
      &                          s_sea,c_sea,b_sea,gluon)
              elseif (pdlabel .eq. 'mrs98l3') then
@@ -180,7 +180,7 @@ c-----assign mrs to standard grid
                fx(-2)=u_sea/x
 C
       elseif (pdlabel(1:5) .eq. 'cteq3') then
-C     
+C
          if (pdlabel .eq. 'cteq3_m') then
             mode=1
          elseif (pdlabel .eq. 'cteq3_l') then
@@ -191,9 +191,9 @@ C
          fx(-5)=Ctq3df(mode,-5,x,xmu,Irt)/x
          fx(-4)=Ctq3df(mode,-4,x,xmu,Irt)/x
          fx(-3)=Ctq3df(mode,-3,x,xmu,Irt)/x
-         
+
          fx(0)=Ctq3df(mode,0,x,xmu,Irt)/x
-         
+
          fx(+3)=Ctq3df(mode,+3,x,xmu,Irt)/x
          fx(+4)=Ctq3df(mode,+4,x,xmu,Irt)/x
          fx(+5)=Ctq3df(mode,+5,x,xmu,Irt)/x
@@ -201,9 +201,9 @@ C
             fx(-2)=Ctq3df(mode,-1,x,xmu,Irt)/x
             fx(1)=Ctq3df(mode,+2,x,xmu,Irt)/x+fx(-1)
             fx(2)=Ctq3df(mode,+1,x,xmu,Irt)/x+fx(-2)
-C     
+C
       elseif (pdlabel(1:5) .eq. 'cteq4') then
-C     
+C
          if (pdlabel .eq. 'cteq4_m') then
             mode=1
          elseif (pdlabel .eq. 'cteq4_d') then
@@ -225,13 +225,13 @@ C
          elseif (pdlabel .eq. 'cteq4lq') then
             mode=10
          endif
-         
+
          fx(-5)=Ctq4Fn(mode,-5,x,xmu)
          fx(-4)=Ctq4Fn(mode,-4,x,xmu)
          fx(-3)=Ctq4Fn(mode,-3,x,xmu)
-         
+
          fx(0)=Ctq4Fn(mode,0,x,xmu)
-         
+
          fx(+3)=Ctq4Fn(mode,+3,x,xmu)
          fx(+4)=Ctq4Fn(mode,+4,x,xmu)
          fx(+5)=Ctq4Fn(mode,+5,x,xmu)
@@ -245,56 +245,56 @@ C
          fx(-5)=Ctq5L(-5,x,xmu)
          fx(-4)=Ctq5L(-4,x,xmu)
          fx(-3)=Ctq5L(-3,x,xmu)
-         
+
          fx(0)=Ctq5L(0,x,xmu)
-         
+
          fx(+3)=Ctq5L(+3,x,xmu)
          fx(+4)=Ctq5L(+4,x,xmu)
          fx(+5)=Ctq5L(+5,x,xmu)
-         
+
             fx(1)=Ctq5L(+2,x,xmu)
             fx(2)=Ctq5L(+1,x,xmu)
             fx(-1)=Ctq5L(-2,x,xmu)
             fx(-2)=Ctq5L(-1,x,xmu)
-C         
-      elseif ((pdlabel(1:5) .eq. 'cteq5') .or. 
+C
+      elseif ((pdlabel(1:5) .eq. 'cteq5') .or.
      .        (pdlabel(1:4) .eq. 'ctq5')) then
-C         
+C
          fx(-5)=Ctq5Pdf(-5,x,xmu)
          fx(-4)=Ctq5Pdf(-4,x,xmu)
          fx(-3)=Ctq5Pdf(-3,x,xmu)
-         
+
          fx(0)=Ctq5Pdf(0,x,xmu)
-         
+
          fx(+3)=Ctq5Pdf(+3,x,xmu)
          fx(+4)=Ctq5Pdf(+4,x,xmu)
          fx(+5)=Ctq5Pdf(+5,x,xmu)
-         
+
             fx(1)=Ctq5Pdf(+2,x,xmu)
             fx(2)=Ctq5Pdf(+1,x,xmu)
             fx(-1)=Ctq5Pdf(-2,x,xmu)
             fx(-2)=Ctq5Pdf(-1,x,xmu)
-C                  
+C
       elseif (pdlabel(1:5) .eq. 'cteq6') then
-C         
+C
          fx(-5)=Ctq6Pdf(-5,x,xmu)
          fx(-4)=Ctq6Pdf(-4,x,xmu)
          fx(-3)=Ctq6Pdf(-3,x,xmu)
-         
+
          fx(0)=Ctq6Pdf(0,x,xmu)
-         
+
          fx(+3)=Ctq6Pdf(+3,x,xmu)
          fx(+4)=Ctq6Pdf(+4,x,xmu)
          fx(+5)=Ctq6Pdf(+5,x,xmu)
-         
+
             fx(1)=Ctq6Pdf(+2,x,xmu)
             fx(2)=Ctq6Pdf(+1,x,xmu)
             fx(-1)=Ctq6Pdf(-2,x,xmu)
             fx(-2)=Ctq6Pdf(-1,x,xmu)
 
-C                  
+C
       elseif (pdlabel(1:5) .eq. 'ct14q') then
-C      
+C
          fx(-5)=CT14Pdf(-5,x,xmu)
          fx(-4)=CT14Pdf(-4,x,xmu)
          fx(-3)=CT14Pdf(-3,x,xmu)
@@ -311,25 +311,22 @@ C
             fx(-2)=CT14Pdf(-1,x,xmu)
 
             fx(7)=CT14Pdf(10,x,xmu)
-      
+
       else
 
       print*, "PDFs are not wrapped for real in pdf.f"
 
 
-      endif      
+      endif
 c
 c  a "diffractive" photon
-c      
+c
       q2max=xmu*xmu
       if(ih .eq. 3) then  !from the electron
           fx(7)=epa_electron(x,q2max)
       elseif(ih .eq. 2) then  !from a proton without breaking
           fx(7)=epa_proton(x,q2max)
-      endif      
-      
+      endif
+
       return
       end
-      
-  
-

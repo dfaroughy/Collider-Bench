@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # For support of LHAPATH in cluster mode
-if [ $CLUSTER_LHAPATH ]; then 
+if [ $CLUSTER_LHAPATH ]; then
   export LHAPATH=$CLUSTER_LHAPATH;
 fi
 
@@ -10,7 +10,7 @@ tar -xzf MadLoop5_resources.tar.gz;
 fi
 
 k=run1_app.log;
-script=ajob1;                      
+script=ajob1;
 offset=$1;
 shift;
 subdir=$offset;
@@ -19,7 +19,7 @@ for i in $@ ; do
      if [[ $offset == *.* ]];then
 	 subdir=${offset%.*};
 	 offset=${offset##*.};
-	 j=G${i}_${subdir};     
+	 j=G${i}_${subdir};
      elif [[ $offset -gt 0 ]]; then
 	 j=G${i}_${subdir};
      fi
@@ -46,7 +46,7 @@ for i in $@ ; do
      fi
      echo $i >> input_app.txt;
 
-     for((try=1;try<=10;try+=1)); 
+     for((try=1;try<=10;try+=1));
      do
      ../madevent 2>&1 >> $k <input_app.txt | tee -a $k;
      status_code=${PIPESTATUS[0]};
@@ -69,17 +69,14 @@ for i in $@ ; do
          rm -f *.log &> /dev/null
 	 rm -f moffset.dat &> /dev/null
      fi
-     if [[ $status_code -ne 0 ]]; then 
+     if [[ $status_code -ne 0 ]]; then
 	 rm results.dat
 	 echo "ERROR DETECTED"
 	 echo "end code not correct $status_code" > results.dat
      fi
      cd ../;
 
- 
+
 done;
 
-# Cleaning 
-
-
-
+# Cleaning

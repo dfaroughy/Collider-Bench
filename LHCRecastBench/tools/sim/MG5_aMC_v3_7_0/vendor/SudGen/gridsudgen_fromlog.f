@@ -9,14 +9,14 @@ c 1=II, 2=FF, 3=IF, 4=FI
 c values of grid nodes: Q(j), 1<=j<=jmax, Q being either st or xm
 c (or their squares if need be). They are defined as follows:
 c   Q(j) = b^[ Q0*(j/jmax)^k - alpha ]
-c and by imposing 
+c and by imposing
 c   Q(1)    = Qmin
 c   Q(jmax) = Qmax
 c with Qmin and Qmax given. These imply the following consistency relations:
 c   alpha*log(b)*(jmax^k-1) = log(Qmax) - jmax^k*log(Qmin)
 c   Q0 = alpha + log(Qmax)/log(b)
 c These are best exploited by choosing k, jmax, and b, and thus solving
-c for alpha and Q0. 
+c for alpha and Q0.
 c At given k and jmax, the values of the grid nodes are independent
 c of b. Thus, we can just choose b=10 or b=e. Consider that:
 c  - more points towards Qmin -> increase k
@@ -123,7 +123,7 @@ c$$$            if (inxm .le. 15) cycle
                open(unit=iunit3,file=filelog,status='unknown')
                read(iunit3,'(a)') buff
                read(iunit3,'(a)') buff
-               
+
                do inst=1,nnst
 c$$$            if (inst .le. 20) cycle
                   st(inst)=qnodeval(inst,nnst,xkst,base,alst,q0st)
@@ -584,4 +584,3 @@ c
       iseedtopy=itmp
       return
       end
-

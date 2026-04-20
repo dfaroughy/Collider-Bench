@@ -15,4 +15,3 @@ c                       1/3                     -3/4              -11/12
       data m_qmass/4*0d0,4.8d0,173d0,14*0d0,0d0/ ! 1d-2,5d-3,0.2d0,1.42d0,
       data m_as_factor,m_kfac/1d0,0d0/
       data m_pca/28*0,6*1,0,6*1,15*0/
-

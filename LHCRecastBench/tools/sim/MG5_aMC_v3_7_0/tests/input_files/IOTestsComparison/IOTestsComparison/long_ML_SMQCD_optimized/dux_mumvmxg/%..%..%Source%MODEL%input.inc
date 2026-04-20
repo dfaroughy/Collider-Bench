@@ -38,5 +38,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       COMMON/PARAMS_C/ MDL_COMPLEXI,MDL_I1X33,MDL_I2X33,MDL_I3X33
      $ ,MDL_I4X33,MDL_VECTOR_TBGP,MDL_AXIAL_TBGP,MDL_VECTOR_TBGM
      $ ,MDL_AXIAL_TBGM
-
-

@@ -112,7 +112,7 @@ C... adjust pointers for "multiple interaction" events
           jmulti(nhep+i) = nmulti
           do k=1,2
 c... make sure 0 pointers remain 0
-            if(jmohep(k,i+nhep).ne.0) 
+            if(jmohep(k,i+nhep).ne.0)
      1	           jmohep(k,i+nhep) = jmohep(k,i+nhep) + nhep
             if(jdahep(k,i+nhep).ne.0)
      1	           jdahep(k,i+nhep) = jdahep(k,i+nhep) + nhep
@@ -127,7 +127,7 @@ c... make sure 0 pointers remain 0
       return
   900 continue
       write (lnhout,901) nevhept
-      lok = 5 
+      lok = 5
       return
   801 format(/5X,'STDTCOPY: improper calling flag')
   901 format(/5X,'STDTCOPY: event would overflow HEPEVT array size'/

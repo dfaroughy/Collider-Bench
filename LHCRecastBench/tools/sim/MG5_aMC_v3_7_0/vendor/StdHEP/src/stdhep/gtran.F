@@ -23,7 +23,7 @@ c
 #include "stdlun.inc"
 
       integer id, mconv
-      integer    nwhine 
+      integer    nwhine
       integer    nwhine_max
       parameter( nwhine_max = 10 )
       integer    IDMAX
@@ -81,8 +81,8 @@ c    +       0   ! geantino
 c    +  1003002001    ! He3
 
       integer IDG2H(IDMAX)
-      data IDG2H / 22, -11, 11, 12, -13, 13, 
-     +     111, 211, -211, 130, 321, -321, 2112, 2212, -2212, 
+      data IDG2H / 22, -11, 11, 12, -13, 13,
+     +     111, 211, -211, 130, 321, -321, 2112, 2212, -2212,
      +     310, 221, 3122, 3222, 3212, 3112, 3322, 3312, 3334,
      +   -2112, -3122, -3112, -3212, -3222, -3322, -3312, -3334,
      +     -15, 15, 411, -411, 421, -421, 431, -431,
@@ -112,7 +112,7 @@ c    +  1003002001    ! He3
         endif
       elseif(mconv.eq.2)then
 *...........first check if its an e, mu or tau neutrino
-        if( abs(id) .eq. 12 .or. abs(id) .eq. 14 .or. 
+        if( abs(id) .eq. 12 .or. abs(id) .eq. 14 .or.
      +          abs(id) .eq. 16 ) then
            gtran = 4
         else

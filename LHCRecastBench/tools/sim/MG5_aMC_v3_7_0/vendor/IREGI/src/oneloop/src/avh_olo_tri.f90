@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -96,7 +96,7 @@ contains
 !
 ! with  p2=k2^2, p3=(k1+k2)^2.
 ! mm should NOT be identically 0d0,
-! and p2 NOR p3 should be identical to mm. 
+! and p2 NOR p3 should be identical to mm.
 !*******************************************************************
    include 'avh_olo_complex.h90'
      ,intent(out) :: rslt(0:2)
@@ -132,7 +132,7 @@ contains
 !
 ! with  k1^2 = 0 , k2^2 = m3  and  (k1+k2)^2 = p3.
 ! mm should NOT be identically 0d0,
-! and pp should NOT be identical to mm. 
+! and pp should NOT be identical to mm.
 !*******************************************************************
    include 'avh_olo_complex.h90'
      ,intent(out) :: rslt(0:2)
@@ -150,7 +150,7 @@ contains
    qm3 = qonv(cm3,-1)
    logm = logc( qm3/rmu2 )
    qxx = qm3/q13
-   z2 = 1 
+   z2 = 1
    z2 = z2/2
    z1 = logc(qxx)
    z0 = PISQo24 + z1*z1/2 - li2c(qxx)
@@ -321,7 +321,7 @@ contains
    include 'avh_olo_complex.h90'
      ,intent(out) :: rslt(0:2)
    include 'avh_olo_complex.h90'
-     ,intent(in)  :: p1i,p2i,p3i ,m3i 
+     ,intent(in)  :: p1i,p2i,p3i ,m3i
    type(qmplx_type) :: q23,q24,q34,qm4,qx1,qx2,qss
    include 'avh_olo_complex.h90'
      :: p2,p3,p4,p12,p23,m4,sm2,sm3,sm4 &
@@ -475,7 +475,7 @@ contains
 !
    rslt(0) = li2c2( qy1*qm2 ,qy2*qm2 )/r24*sm2
 !
-   if (x2.ne.CZRO) then ! better to put a threshold on cc 
+   if (x2.ne.CZRO) then ! better to put a threshold on cc
      rslt(0) = rslt(0) + ( logc2( qy1/qy2 )*logc( qy1*qy2/(qm2*qm2) ) &
                           -logc2( qx1/qx2 )*logc( qx1*qx2/(qm4*qm4) ) )/(x2*2)
    endif
@@ -510,7 +510,7 @@ contains
    type(qmplx_type) :: q12,q13,q23,qm1,qm2,qm3,qx1,qx2,qz1,qz2,qtt
    include 'avh_olo_complex.h90'
      :: p1,p2,p3,m1,m2,m3,sm1,sm2,sm3,aa,bb,cc,dd,x1,x2 &
-                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23 
+                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23
    include 'avh_olo_real.h90'
      :: h1,h2,h3
 ![CALLINGME  write(*,*) 'MESSAGE from OneLOop trif3: you are calling me'
@@ -587,7 +587,7 @@ contains
 !
    rslt(0) = rslt(0)/(aa*sm1*sm2*sm3)
    end subroutine
-   
+
 
    subroutine trif3HV( rslt ,pp,mm ,ap ,smax ,lam )
 !*******************************************************************
@@ -651,7 +651,7 @@ contains
    m1 = m1 - abs(areal(m1))*IEPS
    m2 = m2 - abs(areal(m2))*IEPS
    m3 = m3 - abs(areal(m3))*IEPS
-!       
+!
    if (a1.gt.thrs) then ! 3 non-zero squared momenta
      if (present(lam)) then ;slam=lam
                        else ;slam=kallen(p1,p2,p3)

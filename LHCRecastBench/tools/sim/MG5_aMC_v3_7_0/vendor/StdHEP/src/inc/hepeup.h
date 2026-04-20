@@ -18,4 +18,3 @@ extern struct hepeup {
   double vtimup[MAXNUP];
   double spinup[MAXNUP];
 } hepeup_;
-

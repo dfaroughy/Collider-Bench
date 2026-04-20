@@ -18,7 +18,7 @@ c timing statistics
          return
 
       end
-      
+
       double precision function pdg2pdf(ih,ipdg,x,xmu)
 c***************************************************************************
 c     Based on pdf.f, wrapper for calling the pdf of MCFM
@@ -33,7 +33,7 @@ C
 C     Include
 C
       include 'pdf.inc'
-C      
+C
       double precision Ctq3df,Ctq4Fn,Ctq5Pdf,Ctq6Pdf,Ctq5L
       integer mode,Irt,i,j,i_replace,ii
       double precision xlast(20),xmulast(20),pdflast(-7:7,20),q2max
@@ -55,7 +55,7 @@ C dressed lepton stuff
       double precision tolerance
       parameter (tolerance=1.d-2)
       if (ih.eq.0) then
-c     Lepton collisions (no PDF). 
+c     Lepton collisions (no PDF).
          pdg2pdf=1d0
          return
       endif
@@ -79,14 +79,14 @@ c     instead of stopping the code, as this might accidentally happen.
 
 C     dressed leptons
       if (abs(ih).eq.4) then
-        ! change e/mu/tau = 8/9/10 to 11/13/15 
+        ! change e/mu/tau = 8/9/10 to 11/13/15
         if (abs(ipdg).eq.8) then
           ipart = sign(1,ipdg) * 11
         else if (abs(ipdg).eq.9) then
           ipart = sign(1,ipdg) * 13
         else if (abs(ipdg).eq.10) then
           ipart = sign(1,ipdg) * 15
-        else 
+        else
           ipart = ipdg
         endif
 
@@ -98,7 +98,7 @@ C     dressed leptons
         endif
 
         pdg2pdf = 0d0
-        do i_ee = 1, n_ee 
+        do i_ee = 1, n_ee
           ee_components(i_ee) = call_epdf(x,xmu,i_ee,ipart,ee_ibeam)
         enddo
         return
@@ -146,7 +146,7 @@ C ePDF specific parameters
       integer id_epdf, idbeam_epdf
 
       base = 0 ! physical base: e-, gamma, e+
-      sol = 0 ! 0: numerical+matching, 1: only numerical                   
+      sol = 0 ! 0: numerical+matching, 1: only numerical
       use_grid = .true.
 
       if (id.eq.7) then
@@ -173,7 +173,7 @@ C ePDF specific parameters
       ! the pdfq will return the pdf without the singular factor
       !  1/(1-x)^ps_expo, which is taken into account by the
       !  phase-space parameterization
-      call pdfq(id_epdf,x,omx_ee,xmu,1d0-ps_expo,idbeam_epdf,base,sol,use_grid,call_epdf) 
+      call pdfq(id_epdf,x,omx_ee,xmu,1d0-ps_expo,idbeam_epdf,base,sol,use_grid,call_epdf)
 
 
       return
@@ -200,7 +200,7 @@ C ePDF specific parameters
 
       subroutine store_ibeam_ee(ibeam)
       implicit none
-      ! just store the identity of beam ibeam 
+      ! just store the identity of beam ibeam
       ! in the common to_ee_ibeam using the information
       ! from initial_states_map
       integer ibeam
@@ -234,5 +234,3 @@ C ePDF specific parameters
 
       return
       end
-
-

@@ -2,7 +2,7 @@ C--------------------------------------------
 C
 C		Routine to dump histogram data to a file
 C
-	subroutine hcurve(id,filename)	
+	subroutine hcurve(id,filename)
 C
 C		Dumps current histogram number id to file 'filename' and
 C		clears histogram id.
@@ -45,7 +45,7 @@ C
                    fixed y =  ymin + (n-.5)*ybinsize
                    write (69,500) (xmin+(m-.5)*xbinsize,fixed y,
      $                  data(k+m),m=1,nx)
-		   write(69,*) 
+		   write(69,*)
                    k = k + nx
                 end do
 		end if

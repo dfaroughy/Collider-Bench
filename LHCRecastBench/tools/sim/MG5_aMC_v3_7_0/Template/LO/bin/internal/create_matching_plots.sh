@@ -43,4 +43,3 @@ for file in DJR?.ps ; do
   echo ">> Converting file $file" >> log.convert
   $MAdir/epstosmth --gsopt='-r60x60 -dGraphicsAlphaBits=4' --gsdev=jpeg $file
 done
-

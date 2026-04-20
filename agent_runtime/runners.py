@@ -19,6 +19,7 @@ from pathlib import Path
 
 # ── Process-group cleanup ──────────────────────────────────────────────────
 
+
 def _kill_process_group(pgid: int, grace_seconds: float = 2.0) -> None:
     """SIGTERM the process group, wait briefly, then SIGKILL survivors.
 
@@ -36,7 +37,7 @@ def _kill_process_group(pgid: int, grace_seconds: float = 2.0) -> None:
     deadline = time.monotonic() + grace_seconds
     while time.monotonic() < deadline:
         try:
-            os.killpg(pgid, 0)   # 0 = probe existence
+            os.killpg(pgid, 0)  # 0 = probe existence
         except (ProcessLookupError, OSError):
             return
         time.sleep(0.1)
@@ -47,6 +48,7 @@ def _kill_process_group(pgid: int, grace_seconds: float = 2.0) -> None:
 
 
 # ── Binary discovery ────────────────────────────────────────────────────────
+
 
 def _find_binary(name: str, env_var: str | None = None) -> str:
     """Locate a CLI binary by name, env var override, or VS Code extension path."""
@@ -77,8 +79,8 @@ def _find_binary(name: str, env_var: str | None = None) -> str:
     )
 
 
-
 # ── Base class ──────────────────────────────────────────────────────────────
+
 
 class Runner(ABC):
     """Base class for agent runners.
@@ -127,6 +129,7 @@ class Runner(ABC):
 
 # ── Built-in runners ───────────────────────────────────────────────────────
 
+
 class ClaudeRunner(Runner):
     """Anthropic Claude Code CLI."""
 
@@ -137,15 +140,19 @@ class ClaudeRunner(Runner):
     def build_command(self, prompt, sandbox, model, allowlist, max_thinking_tokens=None):
         binary = _find_binary("claude", "CLAUDE_BIN")
         cmd = [
-            binary, "-p", prompt,
-            "--output-format", "stream-json",
+            binary,
+            "-p",
+            prompt,
+            "--output-format",
+            "stream-json",
             "--verbose",
             "--dangerously-skip-permissions",
             # ScheduleWakeup is an interactive-Code tool; in `-p` one-shot
             # mode there is no harness to fire the wake-up, so calls to it
             # just strand the session. Disallow to prevent the agent from
             # backgrounding bin/run-analysis and "scheduling" a resume.
-            "--disallowedTools", "ScheduleWakeup",
+            "--disallowedTools",
+            "ScheduleWakeup",
         ]
         if model:
             cmd.extend(["--model", model])
@@ -163,15 +170,21 @@ class ClaudeRunner(Runner):
         # (MCP servers, IDE hooks, file watchers) that would otherwise keep
         # the stdout pipe open and hang our wait().
         agent = subprocess.Popen(
-            cmd, cwd=sandbox, env=env, stdout=subprocess.PIPE,
+            cmd,
+            cwd=sandbox,
+            env=env,
+            stdout=subprocess.PIPE,
             start_new_session=True,
         )
         pgid = os.getpgid(agent.pid)
         tee = subprocess.Popen(
-            ["tee", str(output_file)], stdin=agent.stdout, stdout=subprocess.PIPE,
+            ["tee", str(output_file)],
+            stdin=agent.stdout,
+            stdout=subprocess.PIPE,
         )
         display = subprocess.Popen(
-            [sys.executable, display_script], stdin=tee.stdout,
+            [sys.executable, display_script],
+            stdin=tee.stdout,
         )
         agent.stdout.close()
         tee.stdout.close()
@@ -200,13 +213,21 @@ class CodexRunner(Runner):
         cmd = [binary]
         if model:
             cmd.extend(["-m", model])
-        cmd.extend([
-            "-a", "never", "exec", "--skip-git-repo-check",
-            "-C", str(sandbox),
-            "-s", "danger-full-access",
-            "-o", str(sandbox / "session_log.txt"),
-            "-",
-        ])
+        cmd.extend(
+            [
+                "-a",
+                "never",
+                "exec",
+                "--skip-git-repo-check",
+                "-C",
+                str(sandbox),
+                "-s",
+                "danger-full-access",
+                "-o",
+                str(sandbox / "session_log.txt"),
+                "-",
+            ]
+        )
         return cmd
 
     def run(self, cmd, prompt, sandbox, env, output_file):
@@ -230,7 +251,11 @@ class CodexRunner(Runner):
         env["CODEX_HOME"] = str(codex_home)
 
         proc = subprocess.Popen(
-            cmd, cwd=sandbox, env=env, stdin=subprocess.PIPE, text=True,
+            cmd,
+            cwd=sandbox,
+            env=env,
+            stdin=subprocess.PIPE,
+            text=True,
             start_new_session=True,
         )
         pgid = os.getpgid(proc.pid)
@@ -240,8 +265,7 @@ class CodexRunner(Runner):
             _kill_process_group(pgid)
             # Codex may leave large plugin caches / arg0 temp dirs behind; we
             # keep auth.json for post-run inspection but drop the bulk.
-            for sub in ("tmp", "cache", "logs_2.sqlite", "logs_2.sqlite-shm",
-                        "logs_2.sqlite-wal"):
+            for sub in ("tmp", "cache", "logs_2.sqlite", "logs_2.sqlite-shm", "logs_2.sqlite-wal"):
                 p = codex_home / sub
                 if p.is_dir():
                     shutil.rmtree(p, ignore_errors=True)
@@ -270,10 +294,11 @@ class AiderRunner(Runner):
         binary = _find_binary("aider", "AIDER_BIN")
         cmd = [
             binary,
-            "--message", prompt,
-            "--yes-always",         # auto-approve all edits and commands
-            "--no-git",             # sandbox has no git repo
-            "--no-auto-commits",    # we manage artifacts, not git
+            "--message",
+            prompt,
+            "--yes-always",  # auto-approve all edits and commands
+            "--no-git",  # sandbox has no git repo
+            "--no-auto-commits",  # we manage artifacts, not git
             "--no-suggest-shell-commands",  # just run them
         ]
         if model:
@@ -282,8 +307,12 @@ class AiderRunner(Runner):
 
     def run(self, cmd, prompt, sandbox, env, output_file):
         proc = subprocess.Popen(
-            cmd, cwd=sandbox, env=env,
-            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+            cmd,
+            cwd=sandbox,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
             start_new_session=True,
         )
         pgid = os.getpgid(proc.pid)

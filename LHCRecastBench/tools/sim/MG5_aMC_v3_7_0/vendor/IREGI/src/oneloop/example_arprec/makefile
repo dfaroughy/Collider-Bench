@@ -18,7 +18,7 @@ f_test.exe: avh_olo.f90 avh_olo.o f_test.o
 %.o: %.f90
 	$(FC) -c -I$(MPHOME) $(FCFLAGS) $<
 
-avh_olo.f90: 
+avh_olo.f90:
 	$(OLODIR)/avh_olo.py -dpkind="kind(1d0)" -mptype="arprec"
 
 clean:

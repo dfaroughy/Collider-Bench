@@ -50,32 +50,32 @@
   end subroutine allocate_loopfun
 !
   subroutine allocate_loopfuna
-   ierr= -1 
+   ierr= -1
    allocate (aloopfun(0:2,dmns_a), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_loopfuna"
    aloopfun= 0.d0
   end subroutine allocate_loopfuna
 !
   subroutine allocate_loopfunb
-   ierr= -1 
+   ierr= -1
    allocate (  bloopfun(0:2,dmns_b), stat=ierr)
    allocate ( b1loopfun(0:2,dmns_b), stat=ierr)
    allocate (b11loopfun(0:2,dmns_b), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_loopfunb"
-     bloopfun= 0.d0 
+     bloopfun= 0.d0
     b1loopfun= 0.d0
    b11loopfun= 0.d0
   end subroutine allocate_loopfunb
 !
   subroutine allocate_loopfunc
-   ierr= -1 
+   ierr= -1
    allocate (cloopfun(0:2,dmns_c), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_loopfunc"
    cloopfun= 0.d0
   end subroutine allocate_loopfunc
 !
   subroutine allocate_loopfund
-   ierr= -1 
+   ierr= -1
    allocate (dloopfun(0:2,dmns_d), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_loopfund"
    dloopfun= 0.d0
@@ -96,11 +96,11 @@
    integer :: ib
    include 'cts_dpc.h'
     , dimension(0:2) :: value
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: m12
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: cm12
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: a0,qlI1
    do ib= 1,dmns_1
     if     (scaloop.eq.1) then
@@ -109,12 +109,12 @@
     elseif (scaloop.eq.2) then
      cm12= den(bbn1(1,ib))%m2
      call olo(value,cm12)
-     aloopfun(:,ib)= value(:) 
+     aloopfun(:,ib)= value(:)
     elseif (scaloop.eq.3) then
      m12= dreal(den(bbn1(1,ib))%m2)
-     aloopfun(2,ib)= qlI1(m12,musq,-2)     
-     aloopfun(1,ib)= qlI1(m12,musq,-1)     
-     aloopfun(0,ib)= qlI1(m12,musq,0)     
+     aloopfun(2,ib)= qlI1(m12,musq,-2)
+     aloopfun(1,ib)= qlI1(m12,musq,-1)
+     aloopfun(0,ib)= qlI1(m12,musq,0)
     else
      stop 'value of scaloop not implemented'
     endif
@@ -125,9 +125,9 @@
 !
 !  B,B1 and B11 1-loop scalar functions
 !
-   use tensor_operations  
+   use tensor_operations
    integer :: ib
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: k12
    include 'cts_dpr.h'
     , dimension(0:3) :: k1
@@ -135,11 +135,11 @@
     , dimension(0:2) :: value
    include 'cts_dpc.h'
     , dimension(0:2) :: valb11,valb00,valb1,valb0
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: m12,m22
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: cm12,cm22
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: b0,b1,b11,qlI2
    do ib= 1,dmns_2
     k1= den(bbn2(2,ib))%p-den(bbn2(1,ib))%p
@@ -160,13 +160,13 @@
     elseif (scaloop.eq.3) then
      m12= dreal(den(bbn2(1,ib))%m2)
      m22= dreal(den(bbn2(2,ib))%m2)
-     bloopfun(2,ib)= qlI2(k12,m12,m22,musq,-2)     
-     bloopfun(1,ib)= qlI2(k12,m12,m22,musq,-1)     
-     bloopfun(0,ib)= qlI2(k12,m12,m22,musq,0)     
+     bloopfun(2,ib)= qlI2(k12,m12,m22,musq,-2)
+     bloopfun(1,ib)= qlI2(k12,m12,m22,musq,-1)
+     bloopfun(0,ib)= qlI2(k12,m12,m22,musq,0)
      call olo(valb11,valb00,valb1,valb0,k12,m12,m22)
      b1loopfun(:,ib) =  valb1(:)
      b11loopfun(:,ib)=  valb11(:)
-    else 
+    else
      stop 'value of scaloop not implemented'
     endif
    enddo
@@ -176,19 +176,19 @@
 !
 !  C 1-loop scalar function
 !
-   use tensor_operations  
+   use tensor_operations
    integer :: ib
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: k12,k22,k32
    include 'cts_dpr.h'
     , dimension(0:3) :: k1,k2,k3
    include 'cts_dpc.h'
     , dimension(0:2) :: value
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: m12,m22,m32
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: cm12,cm22,cm32
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: c0,qlI3
    do ib= 1,dmns_3
     k1= den(bbn3(2,ib))%p-den(bbn3(1,ib))%p
@@ -201,22 +201,22 @@
 !!    if (dabs(k22/roots/roots).lt.1.d-8) k22= 0.d0
 !!    if (dabs(k32/roots/roots).lt.1.d-8) k32= 0.d0
     if     (scaloop.eq.1) then
-!     cloopfun(0,ib)  =  c0(k12,k22,k32,m12,m22,m32) 
+!     cloopfun(0,ib)  =  c0(k12,k22,k32,m12,m22,m32)
      stop 'value of scaloop not implemented'
     elseif (scaloop.eq.2) then
      cm12= den(bbn3(1,ib))%m2
      cm22= den(bbn3(2,ib))%m2
      cm32= den(bbn3(3,ib))%m2
      call olo(value,k12,k22,k32,cm12,cm22,cm32)
-     cloopfun(:,ib)  =        value(:) 
+     cloopfun(:,ib)  =        value(:)
     elseif (scaloop.eq.3) then
      m12= dreal(den(bbn3(1,ib))%m2)
      m22= dreal(den(bbn3(2,ib))%m2)
      m32= dreal(den(bbn3(3,ib))%m2)
-     cloopfun(2,ib)= qlI3(k12,k22,k32,m12,m22,m32,musq,-2)     
-     cloopfun(1,ib)= qlI3(k12,k22,k32,m12,m22,m32,musq,-1)     
-     cloopfun(0,ib)= qlI3(k12,k22,k32,m12,m22,m32,musq,0)     
-    else 
+     cloopfun(2,ib)= qlI3(k12,k22,k32,m12,m22,m32,musq,-2)
+     cloopfun(1,ib)= qlI3(k12,k22,k32,m12,m22,m32,musq,-1)
+     cloopfun(0,ib)= qlI3(k12,k22,k32,m12,m22,m32,musq,0)
+    else
      stop 'value of scaloop not implemented'
     endif
    enddo
@@ -226,19 +226,19 @@
 !
 !  D 1-loop scalar function
 !
-   use tensor_operations  
+   use tensor_operations
    integer :: ib
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: k12,k22,k32,k42,k122,k232
    include 'cts_dpr.h'
     , dimension(0:3) :: k1,k2,k3,k4,p12,p23
    include 'cts_dpc.h'
     , dimension(0:2) :: value
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: m12,m22,m32,m42
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: cm12,cm22,cm32,cm42
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: d0,qlI4
    do ib= 1,dmns_4
     k1 = den(bbn4(2,ib))%p-den(bbn4(1,ib))%p
@@ -268,16 +268,16 @@
      cm32= den(bbn4(3,ib))%m2
      cm42= den(bbn4(4,ib))%m2
      call olo(value,k12,k22,k32,k42,k122,k232,cm12,cm22,cm32,cm42)
-     dloopfun(:,ib)  =        value(:) 
+     dloopfun(:,ib)  =        value(:)
     elseif (scaloop.eq.3) then
      m12= dreal(den(bbn4(1,ib))%m2)
      m22= dreal(den(bbn4(2,ib))%m2)
      m32= dreal(den(bbn4(3,ib))%m2)
      m42= dreal(den(bbn4(4,ib))%m2)
-     dloopfun(2,ib)= qlI4(k12,k22,k32,k42,k122,k232,m12,m22,m32,m42,musq,-2)   
-     dloopfun(1,ib)= qlI4(k12,k22,k32,k42,k122,k232,m12,m22,m32,m42,musq,-1)   
-     dloopfun(0,ib)= qlI4(k12,k22,k32,k42,k122,k232,m12,m22,m32,m42,musq,0)   
-    else 
+     dloopfun(2,ib)= qlI4(k12,k22,k32,k42,k122,k232,m12,m22,m32,m42,musq,-2)
+     dloopfun(1,ib)= qlI4(k12,k22,k32,k42,k122,k232,m12,m22,m32,m42,musq,-1)
+     dloopfun(0,ib)= qlI4(k12,k22,k32,k42,k122,k232,m12,m22,m32,m42,musq,0)
+    else
      stop 'value of scaloop not implemented'
     endif
    enddo
@@ -342,32 +342,32 @@
   end subroutine allocate_mp_loopfun
 !
   subroutine allocate_mp_loopfuna
-   ierr= -1 
+   ierr= -1
    allocate (mp_aloopfun(0:2,dmns_a), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_mp_loopfuna"
    mp_aloopfun= mp_czero
   end subroutine allocate_mp_loopfuna
 !
   subroutine allocate_mp_loopfunb
-   ierr= -1 
+   ierr= -1
    allocate (  mp_bloopfun(0:2,dmns_b), stat=ierr)
    allocate ( mp_b1loopfun(0:2,dmns_b), stat=ierr)
    allocate (mp_b11loopfun(0:2,dmns_b), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_mp_loopfunb"
-     mp_bloopfun= mp_czero 
+     mp_bloopfun= mp_czero
     mp_b1loopfun= mp_czero
    mp_b11loopfun= mp_czero
   end subroutine allocate_mp_loopfunb
 !
   subroutine allocate_mp_loopfunc
-   ierr= -1 
+   ierr= -1
    allocate (mp_cloopfun(0:2,dmns_c), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_mp_loopfunc"
    mp_cloopfun= mp_czero
   end subroutine allocate_mp_loopfunc
 !
   subroutine allocate_mp_loopfund
-   ierr= -1 
+   ierr= -1
    allocate (mp_dloopfun(0:2,dmns_d), stat=ierr)
    if (ierr.ne.0) STOP "Allocation error in allocate_mp_loopfund"
    mp_dloopfun= mp_czero
@@ -388,24 +388,24 @@
    integer :: ib
    include 'cts_mpc.h'
     , dimension(0:2) :: value
-   include 'cts_mpr.h'    
+   include 'cts_mpr.h'
     :: m12
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: cm12
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: qlI1
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: dm12
    do ib= 1,dmns_1
     if     (scaloop.eq.2) then
      cm12= mp_den(bbn1(1,ib))%m2
      call olo(value,cm12)
-     mp_aloopfun(:,ib)= value(:) 
+     mp_aloopfun(:,ib)= value(:)
     elseif (scaloop.eq.3) then
      dm12= mp_den(bbn1(1,ib))%m2
-     mp_aloopfun(2,ib)= qlI1(dm12,musq,-2)     
-     mp_aloopfun(1,ib)= qlI1(dm12,musq,-1)     
-     mp_aloopfun(0,ib)= qlI1(dm12,musq,0)     
+     mp_aloopfun(2,ib)= qlI1(dm12,musq,-2)
+     mp_aloopfun(1,ib)= qlI1(dm12,musq,-1)
+     mp_aloopfun(0,ib)= qlI1(dm12,musq,0)
     else
      stop 'value of scaloop not implemented'
     endif
@@ -416,9 +416,9 @@
 !
 !  B,B1 and B11 1-loop scalar functions
 !
-   use tensor_operations  
+   use tensor_operations
    integer :: ib
-   include 'cts_mpr.h' 
+   include 'cts_mpr.h'
     :: k12
    include 'cts_mpr.h'
     , dimension(0:3) :: k1
@@ -426,17 +426,17 @@
     , dimension(0:2) :: value
    include 'cts_mpc.h'
     , dimension(0:2) :: valb11,valb00,valb1,valb0
-   include 'cts_mpr.h'    
+   include 'cts_mpr.h'
     :: m12,m22
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: cm12,cm22
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: qlI2
    include 'cts_dpc.h'
     , dimension(0:2) :: dvalb11,dvalb00,dvalb1,dvalb0
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: dm12,dm22
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: dk12
    do ib= 1,dmns_2
     do ic= 0,3
@@ -455,10 +455,10 @@
     elseif (scaloop.eq.3) then
      dm12= mp_den(bbn2(1,ib))%m2
      dm22= mp_den(bbn2(2,ib))%m2
-     dk12= k12 
-     mp_bloopfun(2,ib)= qlI2(dk12,dm12,dm22,musq,-2)     
-     mp_bloopfun(1,ib)= qlI2(dk12,dm12,dm22,musq,-1)     
-     mp_bloopfun(0,ib)= qlI2(dk12,dm12,dm22,musq,0)     
+     dk12= k12
+     mp_bloopfun(2,ib)= qlI2(dk12,dm12,dm22,musq,-2)
+     mp_bloopfun(1,ib)= qlI2(dk12,dm12,dm22,musq,-1)
+     mp_bloopfun(0,ib)= qlI2(dk12,dm12,dm22,musq,0)
      call olo(dvalb11,dvalb00,dvalb1,dvalb0,dk12,dm12,dm22)
      mp_b1loopfun(0,ib) =  dvalb1(0)
      mp_b11loopfun(0,ib)=  dvalb11(0)
@@ -476,23 +476,23 @@
 !
 !  C 1-loop scalar function
 !
-   use tensor_operations  
+   use tensor_operations
    integer :: ib
-   include 'cts_mpr.h' 
+   include 'cts_mpr.h'
     :: k12,k22,k32
    include 'cts_mpr.h'
     , dimension(0:3) :: k1,k2,k3
    include 'cts_mpc.h'
     , dimension(0:2) :: value
-   include 'cts_mpr.h'    
+   include 'cts_mpr.h'
     :: m12,m22,m32
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: cm12,cm22,cm32
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: qlI3
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: dm12,dm22,dm32
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: dk12,dk22,dk32
    do ib= 1,dmns_3
     do ic= 0,3
@@ -514,7 +514,7 @@
      cm22= mp_den(bbn3(2,ib))%m2
      cm32= mp_den(bbn3(3,ib))%m2
      call olo(value,k12,k22,k32,cm12,cm22,cm32)
-     mp_cloopfun(:,ib)  =        value(:) 
+     mp_cloopfun(:,ib)  =        value(:)
     elseif (scaloop.eq.3) then
      dm12= mp_den(bbn3(1,ib))%m2
      dm22= mp_den(bbn3(2,ib))%m2
@@ -522,9 +522,9 @@
      dk12= k12
      dk22= k22
      dk32= k32
-     mp_cloopfun(2,ib)= qlI3(dk12,dk22,dk32,dm12,dm22,dm32,musq,-2)     
-     mp_cloopfun(1,ib)= qlI3(dk12,dk22,dk32,dm12,dm22,dm32,musq,-1)     
-     mp_cloopfun(0,ib)= qlI3(dk12,dk22,dk32,dm12,dm22,dm32,musq,0)     
+     mp_cloopfun(2,ib)= qlI3(dk12,dk22,dk32,dm12,dm22,dm32,musq,-2)
+     mp_cloopfun(1,ib)= qlI3(dk12,dk22,dk32,dm12,dm22,dm32,musq,-1)
+     mp_cloopfun(0,ib)= qlI3(dk12,dk22,dk32,dm12,dm22,dm32,musq,0)
     else
      stop 'value of scaloop not implemented'
     endif
@@ -535,23 +535,23 @@
 !
 !  D 1-loop scalar function
 !
-   use tensor_operations  
+   use tensor_operations
    integer :: ib
-   include 'cts_mpr.h' 
+   include 'cts_mpr.h'
     :: k12,k22,k32,k42,k122,k232
    include 'cts_mpr.h'
     , dimension(0:3) :: k1,k2,k3,k4,p12,p23
    include 'cts_mpc.h'
     , dimension(0:2) :: value
-   include 'cts_mpr.h'    
+   include 'cts_mpr.h'
     :: m12,m22,m32,m42
-   include 'cts_mpc.h' 
+   include 'cts_mpc.h'
     :: cm12,cm22,cm32,cm42
-   include 'cts_dpc.h' 
+   include 'cts_dpc.h'
     :: qlI4
-   include 'cts_dpr.h'    
+   include 'cts_dpr.h'
     :: dm12,dm22,dm32,dm42
-   include 'cts_dpr.h' 
+   include 'cts_dpr.h'
     :: dk12,dk22,dk32,dk42,dk122,dk232
    do ib= 1,dmns_4
     do ic= 0,3
@@ -586,7 +586,7 @@
      cm32= mp_den(bbn4(3,ib))%m2
      cm42= mp_den(bbn4(4,ib))%m2
      call olo(value,k12,k22,k32,k42,k122,k232,cm12,cm22,cm32,cm42)
-     mp_dloopfun(:,ib)  =        value(:) 
+     mp_dloopfun(:,ib)  =        value(:)
     elseif (scaloop.eq.3) then
      dm12= mp_den(bbn4(1,ib))%m2
      dm22= mp_den(bbn4(2,ib))%m2
@@ -598,9 +598,9 @@
      dk42 = k42
      dk122= k122
      dk232= k232
-     mp_dloopfun(2,ib)= qlI4(dk12,dk22,dk32,dk42,dk122,dk232,dm12,dm22,dm32,dm42,musq,-2)   
-     mp_dloopfun(1,ib)= qlI4(dk12,dk22,dk32,dk42,dk122,dk232,dm12,dm22,dm32,dm42,musq,-1)   
-     mp_dloopfun(0,ib)= qlI4(dk12,dk22,dk32,dk42,dk122,dk232,dm12,dm22,dm32,dm42,musq,0)   
+     mp_dloopfun(2,ib)= qlI4(dk12,dk22,dk32,dk42,dk122,dk232,dm12,dm22,dm32,dm42,musq,-2)
+     mp_dloopfun(1,ib)= qlI4(dk12,dk22,dk32,dk42,dk122,dk232,dm12,dm22,dm32,dm42,musq,-1)
+     mp_dloopfun(0,ib)= qlI4(dk12,dk22,dk32,dk42,dk122,dk232,dm12,dm22,dm32,dm42,musq,0)
     else
      stop 'value of scaloop not implemented'
     endif
@@ -608,8 +608,3 @@
   end subroutine get_mp_dloop
 !
  end module mp_loopfunctions
-
-
-
-
-

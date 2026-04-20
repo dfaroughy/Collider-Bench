@@ -22,7 +22,7 @@ def combine_plots_HwU(jobs,out,normalisation=None):
     command.append("--no_open")
 
     p = subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
-        
+
     while p.poll() is None:
         line = p.stdout.readline()
         if any(t in line for t in ['INFO:','WARNING:','CRITICAL:','ERROR:','KEEP:']):

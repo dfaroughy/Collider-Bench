@@ -13,7 +13,7 @@ c       real    swidth         : width of OUTPUT scalar s'
 c
 c output:
 c       complex hvvs(3)        : scalar current            j(s':v1,v2,s)
-c     
+c
       implicit none
       double complex v1(6),v2(6),sc(3),gc,hvvs(3),dg
       double precision q(0:3),smass,swidth,q2

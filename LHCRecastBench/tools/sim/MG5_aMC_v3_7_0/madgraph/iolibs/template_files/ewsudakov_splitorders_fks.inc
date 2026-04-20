@@ -1,26 +1,26 @@
       SUBROUTINE EWSDK_ME_%(ime)d(P,NHEL,ANS_SUMMED)
-C  
+C
 %(info_lines)s
 C
 C
-C     Return the sum of the split orders which are required in orders.inc 
+C     Return the sum of the split orders which are required in orders.inc
 C     With respect to those at the born, the QED power is increased by 2
 C     Note that helicities must be passed as an input argument.
 C
-C  
+C
 %(process_lines)s
 C
-C  
+C
 C CONSTANTS
-C 
+C
 implicit none
       include 'nexternal.inc'
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
-      REAL*8 P(0:3,NEXTERNAL-1) 
+C
+C ARGUMENTS
+C
+      REAL*8 P(0:3,NEXTERNAL-1)
       double complex ANS_SUMMED
       integer nhel(nexternal-1)
 C
@@ -57,7 +57,7 @@ C this is for the orders of the born to integrate
   do j = 1, nsplitorders
    if(GETORDPOWFROMINDEX_B(j, i) .gt. born_orders(j)) then
     keep_order(i) = .false.
-    EXIT 
+    EXIT
    endif
   enddo
 
@@ -94,17 +94,17 @@ enddo
         endif
       enddo
 
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
 if (abs(ans_summed).lt.max_val*tiny) ans_summed=0d0
 
 return
 END
 
 
-       
-       
+
+
       SUBROUTINE EWSUDAKOV_ME_%(ime)d_SPLITORDERS(p,NHEL,ANS)
-C  
+C
 %(info_lines)s
 C RETURNS THE INTERFERENCE OF THE BORN DIAGRAMS WITH THOSE
 C NEEDED FOR THE EVALUATION OF THE EW CORRECTIONS IN THE
@@ -112,17 +112,17 @@ C SUDAKOV APPROCIMATION,
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       INTEGER     NGRAPHS1, NGRAPHS2 ! graphs for the Born and Sudakov amplitude
-      PARAMETER ( NGRAPHS1=%(ngraphs1)d, NGRAPHS2=%(ngraphs2)d) 
+      PARAMETER ( NGRAPHS1=%(ngraphs1)d, NGRAPHS2=%(ngraphs2)d)
       INTEGER NCOLOR1, NCOLOR2
-      PARAMETER (NCOLOR1=%(ncolor1)d, NCOLOR2=%(ncolor2)d) 
+      PARAMETER (NCOLOR1=%(ncolor1)d, NCOLOR2=%(ncolor2)d)
       INTEGER NWAVEFUNCS
       PARAMETER (NWAVEFUNCS=%(nwavefuncs)d)
       REAL*8     ZERO
@@ -132,15 +132,15 @@ C
       include "nexternal.inc"
       include "born_nhel.inc"
       INCLUDE "coupl.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1)
       INTEGER NHEL(NEXTERNAL-1)
       double complex ANS(NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       INTEGER IC(NEXTERNAL-1),NMO
       PARAMETER (NMO=NEXTERNAL-1)
@@ -154,21 +154,21 @@ C
       logical pass_reshuffle
 C CCC THIS IS PROBABLY UNNECESSARY, KEEP COMMENTED FOR THE TIME BEING
 C  Imag power takes into account the I factor when a longitudinal Z
-C   boson is replaced by its goldstone (Chi). 
+C   boson is replaced by its goldstone (Chi).
 C   It is the difference of the number of Chi's in the first and second amplitude which are interferred together
 C       integer imag_power
 C       data imag_power / %(imag_power)d /
 
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
 C
 C FUNCTION
 C
       INTEGER SQSOINDEXB
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -205,9 +205,7 @@ C Finally interfere the two sets of color-stripped amplitudes
     ANS(:) = ANS(:) /DENOM
 C C NOT NEEDED
 C  include the imaginary factor if needed
-C     if (imag_power.ne.0) ans(:) = ans(:) * imag1**imag_power 
+C     if (imag_power.ne.0) ans(:) = ans(:) * imag1**imag_power
 
     p(:,:) = p_save(:,:)
     END
-       
-       

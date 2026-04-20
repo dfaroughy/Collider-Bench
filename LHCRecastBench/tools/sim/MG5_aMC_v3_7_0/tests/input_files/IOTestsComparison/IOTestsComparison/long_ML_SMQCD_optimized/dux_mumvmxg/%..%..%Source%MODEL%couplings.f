@@ -22,9 +22,9 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       INCLUDE 'mp_intparam_definition.inc'
 
       CALL COUP1()
-C     
+C
 C     couplings needed to be evaluated points by points
-C     
+C
       CALL COUP2()
       CALL MP_COUP2()
 
@@ -45,9 +45,9 @@ C
       INCLUDE 'intparam_definition.inc'
 
 
-C     
+C
 C     couplings needed to be evaluated points by points
-C     
+C
       CALL COUP2()
 
       RETURN
@@ -70,11 +70,10 @@ C
       INCLUDE 'mp_intparam_definition.inc'
 
 
-C     
+C
 C     couplings needed to be evaluated points by points
-C     
+C
       CALL MP_COUP2()
 
       RETURN
       END
-

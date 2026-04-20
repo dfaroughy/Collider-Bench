@@ -8,7 +8,7 @@
 delphesdir=$1
 run=$2
 tag=$3
-cross=$4 
+cross=$4
 
 main=`pwd`
 

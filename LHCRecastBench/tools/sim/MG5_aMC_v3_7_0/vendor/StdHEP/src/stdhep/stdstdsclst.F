@@ -5,7 +5,7 @@ c herwig.  This version works on all of herwig, pythia and isajet.
 c
 c Make a list of all stable descendants of j.
 c If the particle j is stable, then the list has a length of 0.
-c 
+c
 c j     - input  - particle to start at
 c n     - output - number of stable descendants
 c maxn  - input  - maximum size of list
@@ -17,11 +17,11 @@ c  b) all daughters of a given particle are continguous in the stdhep list.
 c Sometimes b) may not be statisfied in stdhep; however it does seem to
 c hold for all weak and strongs decays of hadrons.
 c
-c 
+c
 c The algorithm is recursive and at each level 1 of 3 things can happen.
-c 1) We have stepped past the last daughter of this mother 
+c 1) We have stepped past the last daughter of this mother
 c    - or perhaps off the end of the list entirely.
-c    Go up a level on the recursion stack and check the next daughter 
+c    Go up a level on the recursion stack and check the next daughter
 c    of the previous mother.
 c 2) The particle is stable.
 c    Add this particle to the list and chekc the next daughter of this mother.
@@ -101,4 +101,3 @@ c     ! Particle is unstable.  Drop down a level.
 1001  format(' Too many stable descendants of stdhep particle ', I4)
       return
       end
-

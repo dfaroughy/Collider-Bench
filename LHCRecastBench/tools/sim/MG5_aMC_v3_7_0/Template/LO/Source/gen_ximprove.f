@@ -1,6 +1,6 @@
       program gen_ximprove
 c*****************************************************************************
-c     Program to combine results from all of the different sub amplitudes 
+c     Program to combine results from all of the different sub amplitudes
 c     and given total  cross section and error.
 c*****************************************************************************
       implicit none
@@ -69,11 +69,11 @@ c     If different card options set for nhel_refine and nhel_survey:
          if (err_goal .lt. 1) then
             write(*,'(a,f8.2,a)') 'Running for accuracy of ',
      $           err_goal*100,'%'
-            gen_events=.false.         
+            gen_events=.false.
          elseif (err_goal .gt. 1) then
             write(*,'(a,f9.0,a)') 'Generating ',err_goal,
      &           ' unweighted events.'
-            gen_events=.true.         
+            gen_events=.true.
             err_goal = err_goal * 1.2 !Extra factor to ensure works
          else
             write(*,*) 'Error, need non_zero goal'
@@ -100,8 +100,8 @@ c     JA 11/2/2011: Check for ioffset, as in ntuple (ranmar.f)
 c     TJS  20/6/2012 changed mod value to 30081 to avoid duplicate sequences
 c
          call get_offset(ioffset)
-         iseed = iseed * 31300       
-         ij=1802 + mod(iseed,30081)      
+         iseed = iseed * 31300
+         ij=1802 + mod(iseed,30081)
          kl=9373 + (iseed/30081) + ioffset
          write(*,'($a,i6,a3,i6)') 'Using random seed offset: ',ioffset
          write(*,*) ' with seed', iseed
@@ -155,7 +155,7 @@ c
             read(25,*,err=94,end=94) xsec(i),xerru(i),xerrc(i),nevents(i),nw(i),maxit,
      &           nunwgt(i),xlum(i)
             if (xsec(i) .eq. 0d0) xlum(i)=1d99     !zero cross section
-            xlum(i) = xlum(i)/1000   !convert to fb^-1 
+            xlum(i) = xlum(i)/1000   !convert to fb^-1
             xerr(i)=sqrt(xerru(i)**2+xerrc(i)**2)
             if (.false.) then
 c            maxit = 2
@@ -277,7 +277,7 @@ c
 c     Let's redetermine err_goal based on luminosity
 c
       write(*,*) 'Cross section pb',xtot
-      write(*,*) 'Desired Goal',err_goal      
+      write(*,*) 'Desired Goal',err_goal
       write(*,*) 'Total Error',err_goal
 c      elimit = err_goal*xtot/sqrt(real(k)) !Equal contributions from each
       elimit = err_goal*xtot/real(k) !Equal contributions from each
@@ -301,7 +301,7 @@ c     Now readjust because most don't contribute
 c
       elimit = sqrt((err_goal*xtot)**2 - rerr)/sqrt(real(k))
 
-      
+
       np = max_np
       do i=1,k
 
@@ -338,7 +338,7 @@ c
 
 c
 c     Now write the commands
-c      
+c
          write(26,20) 'if [[ ! -e $j ]]; then'
          write(26,25) 'mkdir $j'
          write(26,20) 'fi'
@@ -347,13 +347,13 @@ c
 c         write(26,20) 'rm -f moffset.dat'
 
          write(26,'(5x,a,3i8,a)') 'echo "',npoints,max_iter,min_iter,
-     $        '" >& input_sg.txt' 
+     $        '" >& input_sg.txt'
          write(26,'(5x,a,f8.3,a)') 'echo "',max(elimit/ysec,0.001d0),
      $        '" >> input_sg.txt'
          write(26,'(5x,a)') 'echo "2" >> input_sg.txt'  !Grid
          write(26,'(5x,a)') 'echo "1" >> input_sg.txt'  !Suppress
          write(26,'(5x,a,i4,a)') 'echo "',nhel_refine,
-     &        '"  >> input_sg.txt' !Helicity 
+     &        '"  >> input_sg.txt' !Helicity
          write(26,'(5x,3a)')'echo "',gn(io(i))(2:ip-1),
      $        '" >>input_sg.txt'
       write(26,20) 'for((try=1;try<=16;try+=1)); '
@@ -422,7 +422,7 @@ c     Write ic with correct number of digits
 c      write(26,15) '#PBS -q ' // PBS_QUE
 c      write(26,15) '#PBS -o /dev/null'
 c      write(26,15) '#PBS -e /dev/null'
-c      write(26,15) 'if [[ "$PBS_O_WORKDIR" != "" ]]; then' 
+c      write(26,15) 'if [[ "$PBS_O_WORKDIR" != "" ]]; then'
 c      write(26,15) '    cd $PBS_O_WORKDIR'
 c      write(26,15) 'fi'
       write(26,15) 'if [[ -e MadLoop5_resources.tar.gz && ! -e MadLoop5_resources ]]; then'
@@ -462,7 +462,7 @@ c-----
 c      write(lun,'(a)') ')'
 c
 c     Now write the commands
-c      
+c
 c      write(lun,20) 'j=G$i'
 c      write(lun,20) 'if (! -e $j) then'
 c      write(lun,25) 'mkdir $j'
@@ -572,7 +572,7 @@ c
          k=k+1
       enddo
       kk=k
-c     Check error for the rest of the channels - rerun if 
+c     Check error for the rest of the channels - rerun if
 c     bigger than channel xsec and bigger than 1% of largest channel
       do while( kk .le. ng)
          if (xerr(io(kk)).gt.max(xsec(io(kk)),0.01*xsec(io(1)))) then
@@ -601,7 +601,7 @@ c
       ifile  = 0
       npfile = 0
       np = 1
-      
+
 
       do i=1,k
          yerr = xt(np)
@@ -624,7 +624,7 @@ c         write(*,*) "Working on Channel ",i,io(np),xt(np), goal_lum*xsec(io(np)
          endif
          if (mjobs .lt. 1 .or. .not. split_channels)  mjobs=1
 c
-c        write multijob.dat file for combine_runs.f 
+c        write multijob.dat file for combine_runs.f
 c
          jc = index(gn(io(np)),"/")
          fname = gn(io(np))(1:jc)// "multijob.dat"
@@ -677,7 +677,7 @@ c            if (ijob .eq. 1)  np = ifile !Only increment once / source channel
          endif
 c
 c     Now write the commands
-c      
+c
          write(26,20) 'if [[ ! -e $j ]]; then'
          write(26,25) 'mkdir $j'
          write(26,20) 'fi'
@@ -687,7 +687,7 @@ c
          write(26,*) '     echo ',ijob, ' > moffset.dat'
 
 c
-c     
+c
 c
 c
 c     Now I'll add a check to make sure the grid has been
@@ -701,7 +701,7 @@ c
 
 
          write(26,'(9x,a,3i8,a)') 'echo "',npoints,max_iter,min_iter,
-     $        '" >& input_sg.txt' 
+     $        '" >& input_sg.txt'
 c
 c     tjs 8/7/2007-JA 8/17/11 Allow stop when have enough luminocity
 c
@@ -734,7 +734,7 @@ c
          write(26,25) 'rm -f $k'
 
          write(26,'(9x,a,3i8,a)') 'echo "',npoints,max_iter,min_iter,
-     $        '" >& input_sg.txt' 
+     $        '" >& input_sg.txt'
 c
 c tjs 8/7/2007-JA 8/17/11    Change to request luminocity not accuracy
 c
@@ -776,9 +776,9 @@ c         write(26,20) 'qsub -N $1$j public_sg.sh >> ../../running_jobs'
          write(26,20) 'fi'
          write(26,20) 'cd ../'
 c------
-c  tjs  end loop over split process   
+c  tjs  end loop over split process
 c------
-      enddo  !(ijob, split channel)         
+      enddo  !(ijob, split channel)
 
       enddo !(k  each channel)
       if (fopened) then
@@ -871,7 +871,7 @@ c      kl = 4321
             write(26,'(2a)') 'j=',gn(i)(1:ip-1)
 c
 c           Now write the commands
-c      
+c
             write(26,20) 'if [[ ! -e $j ]]; then'
             write(26,25) 'mkdir $j'
             write(26,20) 'fi'
@@ -889,7 +889,7 @@ c
 
 
             write(26,'(9x,a,3i8,a)') 'echo "',max(npoints,min_events),
-     $           max_iter,min_iter,'" >& input_sg.txt' 
+     $           max_iter,min_iter,'" >& input_sg.txt'
 c
 c     tjs 8/7/2007  Allow stop when have enough events
 c
@@ -920,9 +920,9 @@ c
             write(26,20) 'else'
 
             write(26,25) 'rm -f $k'
-            
+
             write(26,'(9x,a,3i8,a)') 'echo "',max(npoints,min_events),
-     $           max_iter,min_iter,'" >& input_sg.txt' 
+     $           max_iter,min_iter,'" >& input_sg.txt'
 c
 c tjs 8/7/2007    Change to request events not accuracy
 c
@@ -999,7 +999,7 @@ c
          end do
          if (done) return
       end do
-      end 
+      end
 
 
       subroutine get_xsec_log(xsec,xerr,eff,xmax)
@@ -1014,7 +1014,7 @@ c
       double precision xsec(2),xerr(2),eff(2),xmax(2)
 c
 c     Local
-c     
+c
       character*78 buff
       integer i
 c-----
@@ -1039,13 +1039,9 @@ c               read(buff(48:59),*) xmax(i)
             if (i .eq. 1 .or. i .eq. 2) then
                read(buff(6:17),*) xsec(i)
                read(buff(20:31),*) xerr(i)
-               read(buff(34:40),*) eff(i)               
+               read(buff(34:40),*) eff(i)
             endif
             write(*,'(i4,4f12.3)') i,xsec(i),xerr(i),eff(i),xmax(i)
          endif
       enddo
  99   end
-
-
-
-

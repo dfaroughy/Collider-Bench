@@ -27,19 +27,19 @@
 #define MCF_DEFAULT_TABLE_SIZE 100
 #define MCF_XDR_VERSION_LENGTH 4
 #define MCF_XDR_STDCM2_LENGTH 20
-#define XDR_MCFIOCODE 1025 /* Private code to be passed to the encoding  
+#define XDR_MCFIOCODE 1025 /* Private code to be passed to the encoding
 				filter to estimate the length prior to encode
-				in memory */ 
+				in memory */
 
-typedef enum _mcfxdrBlockType { 
-	GENERIC, FILEHEADER, EVENTTABLE, SEQUENTIALHEADER, 
+typedef enum _mcfxdrBlockType {
+	GENERIC, FILEHEADER, EVENTTABLE, SEQUENTIALHEADER,
 	EVENTHEADER, NOTHING
 } mcfxdrBlockType;
 
 
 typedef struct _mcfxdrGeneric{
 	int id;		/* Identifier for this item =  FILEHEADER */
-	int length;     /* The length of data body, byte count, excluding 
+	int length;     /* The length of data body, byte count, excluding
 				the id and version, and this word */
 	char version[MCF_XDR_VERSION_LENGTH+1];
 	                /* The version of this particular block */
@@ -48,7 +48,7 @@ typedef struct _mcfxdrGeneric{
 
 typedef struct _mcfxdrFileHeader{
 	int id;		/* Identifier for this item =  FILEHEADER */
-	int length;     /* The length of data body, byte count, excluding 
+	int length;     /* The length of data body, byte count, excluding
 				the id and version, and this word */
 	char version[MCF_XDR_VERSION_LENGTH+1];
 	                /* The version of this particular block */
@@ -60,23 +60,23 @@ typedef struct _mcfxdrFileHeader{
 	unsigned int numevts_expect;    /* The number of event expected */
 	unsigned int numevts;    /* The number of evts really written on tape */
 	off_t firstTable; /* The XDR locator for the first table */
-	unsigned int dimTable; /* The number of events listed in the fixed-sized 
+	unsigned int dimTable; /* The number of events listed in the fixed-sized
 	                           event table */
-	unsigned int nBlocks;		
+	unsigned int nBlocks;
 			/* The maximum number of Block types in the file
 				( excluding File headers and Event Tables) */
 	int *blockIds;     /* The list of Block identifiers */
-	
+
 	char **blockNames; /* The list of names ( Titles) for these blocks */
 	unsigned int nNTuples;
-	                /* The maximum number of Ntuples defined for this 
+	                /* The maximum number of Ntuples defined for this
 	                	stream */
-	
+
 } mcfxdrFileHeader;
 
 typedef struct _mcfxdrEventTable{
 	int id;		/* Identifier for this item =  EVENTTABLE */
-	int length;     /* The length of data body, byte count, excluding 
+	int length;     /* The length of data body, byte count, excluding
 				the id and version, and this word */
 	char version[MCF_XDR_VERSION_LENGTH+1];
 	                 /* The version of this particular block */
@@ -90,22 +90,22 @@ typedef struct _mcfxdrEventTable{
 	int *runnums;   /* The list of run numbers */
 	int *trigMasks; /* The list of user-defined Trigger masks */
 	off_t *ptrEvents;
-			/* The list of XDR pointers for these events */ 
+			/* The list of XDR pointers for these events */
 } mcfxdrEventTable;
 
 typedef struct _mcfxdrSequentialHeader{
 	int id;		/* Identifier for this item =  SEQUENTIALHEADER */
-	int length;     /* The length of data body, byte count, excluding 
+	int length;     /* The length of data body, byte count, excluding
 				the id and version, and this word */
 	char version[MCF_XDR_VERSION_LENGTH+1];
 	               /* The version of this particular block */
-	unsigned int nRecords; /* The number of records (including this one) 
-				in the logical event */			
+	unsigned int nRecords; /* The number of records (including this one)
+				in the logical event */
 } mcfxdrSequentialHeader;
- 
+
 typedef struct _mcfxdrEventHeader{
 	int id;		/* Identifier for this item =  CHUNKHEADER */
-	int length;     /* The length of data body, byte count, excluding 
+	int length;     /* The length of data body, byte count, excluding
 				the id and version, and this word */
 	char version[MCF_XDR_VERSION_LENGTH+1];
 	               /* The version of this particular block */
@@ -118,29 +118,29 @@ typedef struct _mcfxdrEventHeader{
 	unsigned int dimBlocks; /* The dimension of the two following arrays */
 	int *blockIds;     /* The list of Block identifiers */
 	off_t *ptrBlocks;
-			/* The list of XDR pointers for these blocks */ 
+			/* The list of XDR pointers for these blocks */
 	unsigned int nNTuples;
 	                /* The number of Ntuples defined for this event */
-	                
+
 	unsigned int dimNTuples; /* The dimension of the two following arrays */
-	int *nTupleIds; /* The list of Ntuple identifiers, pointing to the 
-				global list array */                				
+	int *nTupleIds; /* The list of Ntuple identifiers, pointing to the
+				global list array */
 	off_t *ptrNTuples;
-			/* The list of XDR pointers for these NTuples */ 
-	
+			/* The list of XDR pointers for these NTuples */
+
 } mcfxdrEventHeader;
 
 typedef struct _mcfStream{
 	int id; 	/* Id of the Stream */
 	int row;	/* Read or Write */
 	int dos;	/* Direct, Memory Mapped I/O or Sequential */
-	int status;     /* The Stream status, either at BOF, RUNNING, EOF 
-	                   or simply declared, and needs to be opened 
+	int status;     /* The Stream status, either at BOF, RUNNING, EOF
+	                   or simply declared, and needs to be opened
 	                   (NTuple usage) */
 	int numWordsC;  /* The number of words read or written, Content */
 	int numWordsT;  /* The number of words read or written, Total */
 	mcfxdrFileHeader *fhead; /* The File header */
-	mcfxdrEventHeader *ehead; /* The current Event Header */  
+	mcfxdrEventHeader *ehead; /* The current Event Header */
 	off_t currentPos; /* The XDR current position */
 	off_t evtPos;     /* The XDR position for the begingin of evt */
 	off_t tablePos;   /* The XDR position for the table */
@@ -157,17 +157,17 @@ typedef struct _mcfStream{
 	int filenumber; /* The sequential file number, if any */
 	int minlrec;    /* The minimum record length for this stream */
 	int maxlrec;    /* The maximum record length for this stream */
-	int bufferSize; /* The current size of the primary buffer */	
+	int bufferSize; /* The current size of the primary buffer */
 	mcfxdrSequentialHeader *shead; /* The Sequential header */
-	char *buffer;   /*  A pointer to a generic data buffer, to get the 
+	char *buffer;   /*  A pointer to a generic data buffer, to get the
 				data from tape and then decode it */
-	char *buffer2; /* A secondary buffer, to hold the event 
+	char *buffer2; /* A secondary buffer, to hold the event
 				as the event grows */
 } mcfStream;
 
 extern mcfStream **McfStreamPtrList;
 extern char **McfGenericVersion;
-extern unsigned int McfNumOfStreamActive;	 
+extern unsigned int McfNumOfStreamActive;
 extern bool_t McfNTuPleSaveDecoding;
 
 bool_t xdr_mcfast_generic(XDR *xdrs, int *blockid,
@@ -175,7 +175,7 @@ bool_t xdr_mcfast_generic(XDR *xdrs, int *blockid,
 bool_t xdr_mcfast_headerBlock(XDR *xdrs, int *blockid,
  				 int *ntot, char** version);
 bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
- 		 int *ntot, char** version, mcfxdrFileHeader **mcf, 
+ 		 int *ntot, char** version, mcfxdrFileHeader **mcf,
  		 int streamId);
 bool_t xdr_mcfast_eventtable(XDR *xdrs, int *blockid,
  		 int *ntot, char** version, mcfxdrEventTable **mcf);

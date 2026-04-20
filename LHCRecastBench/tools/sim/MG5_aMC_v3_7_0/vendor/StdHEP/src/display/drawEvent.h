@@ -29,7 +29,7 @@ int ParticleToSegment(PhaseWindow *window, PhaseParticle *p,
 		      SpinSegment *seg, double *length);
 int TrackToSegment(SpaceWindow *window,  PhaseParticle *p, SpaceVertex *v,
 		      SpinSegment *seg, double *length);
-void VertexToSegment(SpaceWindow *window, SpaceVertex *v, 
+void VertexToSegment(SpaceWindow *window, SpaceVertex *v,
 		      SpinSegment **seg);
 void SetDisplayMode(PhaseWindow *window, int newMode);
 void DrawScale(StdHepWindow *window);

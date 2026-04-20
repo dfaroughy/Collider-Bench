@@ -37,7 +37,7 @@ c
          stop
       endif
 c
-      write (*,*) 
+      write (*,*)
      $   'Type 1 for PDF variations (Hessian), 2 for MC (NNPDF), 0 not'
       read (*,*) iPDFvar
       if(iPDFvar.lt.0.or.iPDFvar.gt.2)then
@@ -293,7 +293,7 @@ c
       if(verbose) write (*,*) var
       stop
       end
-      
+
 
 
       subroutine get_data(uin,x,y)
@@ -301,7 +301,7 @@ c
       integer uin
       double precision x(0:1000),y(1000),dy(1000)
       character*100 buff
-      do 
+      do
          read(uin,'(a)')buff
          if(index(buff,'HIST').eq.0) then
             x(0)=x(0)+1d0
@@ -384,7 +384,7 @@ c
 
 C Here's a hybrid QuickSort I wrote a number of years ago.  It's
 C based on suggestions in Knuth, Volume 3, and performs much better
-C than a pure QuickSort on short or partially ordered input arrays.  
+C than a pure QuickSort on short or partially ordered input arrays.
 
       SUBROUTINE SORTRX(N,DATA,INDEX)
 C===================================================================
@@ -424,36 +424,36 @@ C
 C Created:  15 Jul 1986  Len Moss
 C
 C===================================================================
- 
+
       INTEGER   N,INDEX(N)
       REAL*8      DATA(N)
- 
+
       INTEGER   LSTK(31),RSTK(31),ISTK
       INTEGER   L,R,I,J,P,INDEXP,INDEXT
       REAL*8      DATAP
- 
+
 C     QuickSort Cutoff
 C
 C     Quit QuickSort-ing when a subsequence contains M or fewer
 C     elements and finish off at end with straight insertion sort.
 C     According to Knuth, V.3, the optimum value of M is around 9.
- 
+
       INTEGER   M
       PARAMETER (M=9)
- 
+
 C===================================================================
 C
 C     Make initial guess for INDEX
- 
+
       DO 50 I=1,N
          INDEX(I)=I
    50    CONTINUE
- 
+
 C     If array is short, skip QuickSort and go directly to
 C     the straight insertion sort.
- 
+
       IF (N.LE.M) GOTO 900
- 
+
 C===================================================================
 C
 C     QuickSort
@@ -464,41 +464,41 @@ C     of the first, last, and middle elements as the "pivot
 C     key" (in Knuth's notation, "K").  Also modified to leave
 C     data in place and produce an INDEX array.  To simplify
 C     comments, let DATA[I]=DATA(INDEX(I)).
- 
+
 C Q1: Initialize
       ISTK=0
       L=1
       R=N
- 
+
   200 CONTINUE
- 
+
 C Q2: Sort the subsequence DATA[L]..DATA[R].
 C
 C     At this point, DATA[l] <= DATA[m] <= DATA[r] for all l < L,
 C     r > R, and L <= m <= R.  (First time through, there is no
 C     DATA for l < L or r > R.)
- 
+
       I=L
       J=R
- 
+
 C Q2.5: Select pivot key
 C
 C     Let the pivot, P, be the midpoint of this subsequence,
 C     P=(L+R)/2; then rearrange INDEX(L), INDEX(P), and INDEX(R)
 C     so the corresponding DATA values are in increasing order.
 C     The pivot key, DATAP, is then DATA[P].
- 
+
       P=(L+R)/2
       INDEXP=INDEX(P)
       DATAP=DATA(INDEXP)
- 
+
       IF (DATA(INDEX(L)) .GT. DATAP) THEN
          INDEX(P)=INDEX(L)
          INDEX(L)=INDEXP
          INDEXP=INDEX(P)
          DATAP=DATA(INDEXP)
       ENDIF
- 
+
       IF (DATAP .GT. DATA(INDEX(R))) THEN
          IF (DATA(INDEX(L)) .GT. DATA(INDEX(R))) THEN
             INDEX(P)=INDEX(L)
@@ -510,49 +510,49 @@ C     The pivot key, DATAP, is then DATA[P].
          INDEXP=INDEX(P)
          DATAP=DATA(INDEXP)
       ENDIF
- 
+
 C     Now we swap values between the right and left sides and/or
 C     move DATAP until all smaller values are on the left and all
 C     larger values are on the right.  Neither the left or right
 C     side will be internally ordered yet; however, DATAP will be
 C     in its final position.
- 
+
   300 CONTINUE
- 
+
 C Q3: Search for datum on left >= DATAP
 C
 C     At this point, DATA[L] <= DATAP.  We can therefore start scanning
 C     up from L, looking for a value >= DATAP (this scan is guaranteed
 C     to terminate since we initially placed DATAP near the middle of
 C     the subsequence).
- 
+
          I=I+1
          IF (DATA(INDEX(I)).LT.DATAP) GOTO 300
- 
+
   400 CONTINUE
- 
+
 C Q4: Search for datum on right <= DATAP
 C
 C     At this point, DATA[R] >= DATAP.  We can therefore start scanning
 C     down from R, looking for a value <= DATAP (this scan is guaranteed
 C     to terminate since we initially placed DATAP near the middle of
 C     the subsequence).
- 
+
          J=J-1
          IF (DATA(INDEX(J)).GT.DATAP) GOTO 400
- 
+
 C Q5: Have the two scans collided?
- 
+
       IF (I.LT.J) THEN
- 
+
 C Q6: No, interchange DATA[I] <--> DATA[J] and continue
- 
+
          INDEXT=INDEX(I)
          INDEX(I)=INDEX(J)
          INDEX(J)=INDEXT
          GOTO 300
       ELSE
- 
+
 C Q7: Yes, select next subsequence to sort
 C
 C     At this point, I >= J and DATA[l] <= DATA[I] == DATAP <= DATA[r],
@@ -561,7 +561,7 @@ C     more than M elements long, push the longer one on the stack and
 C     go back to QuickSort the shorter; if only one is more than M
 C     elements long, go back and QuickSort it; otherwise, pop a
 C     subsequence off the stack and QuickSort it.
- 
+
          IF (R-J .GE. I-L .AND. I-L .GT. M) THEN
             ISTK=ISTK+1
             LSTK(ISTK)=J+1
@@ -585,13 +585,13 @@ C Q8: Pop the stack, or terminate QuickSort if empty
          ENDIF
          GOTO 200
       ENDIF
- 
+
   900 CONTINUE
- 
+
 C===================================================================
 C
 C Q9: Straight Insertion sort
- 
+
       DO 950 I=2,N
          IF (DATA(INDEX(I-1)) .GT. DATA(INDEX(I))) THEN
             INDEXP=INDEX(I)
@@ -606,9 +606,9 @@ C Q9: Straight Insertion sort
             INDEX(P+1) = INDEXP
          ENDIF
   950    CONTINUE
- 
+
 C===================================================================
 C
 C     All done
- 
+
       END

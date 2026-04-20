@@ -114,7 +114,7 @@
 *  #] declarations:
 *  #[ init:
 *
-*	initialize to something ridiculous so that one immediately 
+*	initialize to something ridiculous so that one immediately
 *	notices when it is accidentally used...
 *
 	big = 1/(1d20*xclogm)
@@ -588,11 +588,11 @@ C     +		xpi,fpij5, del3ij,del4i,fdel4, ier)
 	      return
 	   endif
  16	continue
-*	
+*
 *	check against FF
-*	
+*
 	do 17 i=16,35
-	    if ( xloss*10d0**(-mod(ier,50))*absc(cexi(i)-cexj(i)) .gt. 
+	    if ( xloss*10d0**(-mod(ier,50))*absc(cexi(i)-cexj(i)) .gt.
      +	    		precc*absc(cexi(i)) ) then
 	    	print *,'ffxexp: error: FF disagrees with PV: ',i,
      +	    		cexi(i),cexj(i),cexi(i)-cexj(i),ier

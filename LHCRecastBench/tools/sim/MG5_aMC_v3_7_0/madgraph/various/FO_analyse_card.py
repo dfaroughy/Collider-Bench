@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2011 The MadGraph Development team and Contributors
 #
-# This file is a part of the MadGraph 5 project, an application which 
+# This file is a part of the MadGraph 5 project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph license which should accompany this 
+# It is subject to the MadGraph license which should accompany this
 # distribution.
 #
 # For more information, please visit: http://madgraph.phys.ucl.ac.be
@@ -29,22 +29,22 @@ class FOAnalyseCardError(Exception):
 class FOAnalyseCard(dict):
     """A simple handler for the fixed-order analyse card """
 
-    string_vars = ['fo_extralibs', 'fo_extrapaths', 'fo_includepaths', 
+    string_vars = ['fo_extralibs', 'fo_extrapaths', 'fo_includepaths',
                    'fo_analyse', 'fo_analysis_format', 'fo_lhe_min_weight',
                    'fo_lhe_weight_ratio',
                    'fo_lhe_postprocessing']
 
-    
+
     def __init__(self, card=None, testing=False):
         """ if testing, card is the content"""
         self.testing = testing
         dict.__init__(self)
         self.keylist = list(self.keys())
-            
+
         if card:
             self.read_card(card)
 
-    
+
     def read_card(self, card_path):
         """read the FO_analyse_card, if testing card_path is the content"""
         fo_analysis_formats = ['topdrawer','hwu','root','none', 'lhe']
@@ -53,13 +53,13 @@ class FOAnalyseCard(dict):
         else:
             content = card_path
         lines = [l for l in content.split('\n') \
-                    if '=' in l and not l.startswith('#')] 
+                    if '=' in l and not l.startswith('#')]
         for l in lines:
             args =  l.split('#')[0].split('=')
             key = args[0].strip().lower()
             value = args[1].strip()
             if key in self.string_vars:
-                # special treatment for libs: remove lib and .a 
+                # special treatment for libs: remove lib and .a
                 # (i.e. libfastjet.a -> fastjet)
                 if key == 'fo_extralibs':
                     value = value.replace('lib', '').replace('.a', '')
@@ -87,7 +87,7 @@ class FOAnalyseCard(dict):
                 data = line
                 comment = ''
             print(data, comment)
-            args =  data.split('=')    
+            args =  data.split('=')
             key = args[0].strip().lower()
             value = self[key]
             if comment:
@@ -95,12 +95,12 @@ class FOAnalyseCard(dict):
                 ff.write('%s = %s # %s' % (key.upper(), value, comment))
             else:
                 print('NEW: %s = %s ' % (key.upper(), value))
-                ff.write('%s = %s ' % (key.upper(), value)) 
+                ff.write('%s = %s ' % (key.upper(), value))
 
 
 
     def write_card(self, card_path):
-        """write the parsed FO_analyse.dat (to be included in the Makefile) 
+        """write the parsed FO_analyse.dat (to be included in the Makefile)
         in side card_path.
         if self.testing, the function returns its content"""
 
@@ -125,7 +125,7 @@ class FOAnalyseCard(dict):
                         to_add = 'analysis_lhe.o open_output_files_dummy.o'
                     else:
                         to_add = 'analysis_dummy.o dbook.o open_output_files_dummy.o HwU_dummy.o'
-                        
+
 
 
         for key in self.keylist:
@@ -133,15 +133,15 @@ class FOAnalyseCard(dict):
             if key in self.string_vars:
                 if key == 'fo_extrapaths':
                     # add the -L flag
-                    line = '%s=%s' % (key.upper(), 
+                    line = '%s=%s' % (key.upper(),
                             ' '.join(['-Wl,-rpath,' + path for path in value.split()])+' '+' '.join(['-L' + path for path in value.split()]))
                 elif key == 'fo_includepaths':
                     # add the -I flag
-                    line = '%s=%s' % (key.upper(), 
+                    line = '%s=%s' % (key.upper(),
                             ' '.join(['-I' + path for path in value.split()]))
                 elif key == 'fo_extralibs':
                     # add the -l flag
-                    line = '%s=%s' % (key.upper(), 
+                    line = '%s=%s' % (key.upper(),
                             ' '.join(['-l' + lib for lib in value.split()]))
                 elif key == 'fo_analyse':
                     line = '%s=%s '% (key.upper(), value)
@@ -175,5 +175,3 @@ class FOAnalyseCard(dict):
         ajob_out = open(ajob_path, 'w')
         ajob_out.write(ajob_new)
         ajob_out.close()
-
-

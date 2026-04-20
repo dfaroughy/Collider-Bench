@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -29,27 +29,27 @@ pjoin = os.path.join
 class UFOError(Exception): pass
 
 def load_model(name, decay=False):
-    
+
     # avoid final '/' in the path
     if name.endswith('/'):
         name = name[:-1]
-    
+
     # sanity check that model name not yet in path
-    internal_files = ['function_library', 
-                      'parameters', 
-                      'particles', 
-                      'couplings', 
-                      'lorentz', 
+    internal_files = ['function_library',
+                      'parameters',
+                      'particles',
+                      'couplings',
+                      'lorentz',
                       'object_library',
                       'vertices',
                       'build_restrict',
-                      'function_library', 
+                      'function_library',
                       'coupling_orders',
                       'decays',
                       'CT_couplings',
                       'CT_parameters',
                       'CT_vertices',
-                      'write_param_card'] 
+                      'write_param_card']
 
 
     for path in internal_files:
@@ -58,12 +58,12 @@ def load_model(name, decay=False):
             modelname = os.path.basename(os.path.dirname(old.__file__))
             if modelname != name:
                 del sys.modules[path]
- 
+
 
     path_split = name.split(os.sep)
     if len(path_split) == 1:
         try:
-            with misc.TMP_variable(sys, 'path', [pjoin(MG5DIR, 'models'), pjoin(MG5DIR, 'models', name), MG5DIR]):  
+            with misc.TMP_variable(sys, 'path', [pjoin(MG5DIR, 'models'), pjoin(MG5DIR, 'models', name), MG5DIR]):
                 model_pos = 'models.%s' % name
                 __import__(model_pos)
             return sys.modules[model_pos]
@@ -85,7 +85,7 @@ def load_model(name, decay=False):
         sys_path = os.path.realpath(os.path.dirname(sys.modules[path_split[-1]].__file__))
         if sys_path != model_path:
             raise Exception('name %s already consider as a python library cann\'t be reassigned(%s!=%s)' % \
-                (path_split[-1], model_path, sys_path)) 
+                (path_split[-1], model_path, sys_path))
 
     # remove any link to previous model
     for name in ['particles', 'object_library', 'couplings', 'function_library', 'lorentz', 'parameters', 'vertices', 'coupling_orders', 'write_param_card',
@@ -109,5 +109,5 @@ def load_model(name, decay=False):
             pass
         else:
             output.all_decays = sys.modules[dec_name].all_decays
-        
+
     return sys.modules[path_split[-1]]

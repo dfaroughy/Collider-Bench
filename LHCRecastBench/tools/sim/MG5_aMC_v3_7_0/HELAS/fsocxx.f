@@ -3,17 +3,17 @@ c ----------------------------------------------------------------------
 c
       subroutine fsocxx(foc,sc,gc,fmass,fwidth , fsoc)
 c
-c this subroutine computes an off-shell antifermion wavefunction from a 
-c flowing-out external antifermion and a vector boson.                  
-c                                                                       
-c input:                                                                
+c this subroutine computes an off-shell antifermion wavefunction from a
+c flowing-out external antifermion and a vector boson.
+c
+c input:
 c       complex foc(6)         : flow-out fermion               <foc|
-c       complex sc(6)          : input    scalar                   s 
+c       complex sc(6)          : input    scalar                   s
 c       complex gc(2)          : coupling constants              gchf
-c       real     fmass         : mass  of output antifermion fc'     
-c       real     fwidth        : width of output antifermion fc'     
-c                                                                       
-c output:                                                               
+c       real     fmass         : mass  of output antifermion fc'
+c       real     fwidth        : width of output antifermion fc'
+c
+c output:
 c       complex fsoc(6)        : off-shell fermion         <fo,s,fc'|
 c
       implicit none

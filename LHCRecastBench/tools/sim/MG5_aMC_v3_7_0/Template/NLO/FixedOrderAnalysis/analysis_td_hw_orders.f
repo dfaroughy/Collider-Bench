@@ -11,7 +11,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine analysis_begin(nwgt,weights_info)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c This subroutine is called once at the start of each run. Here the
-c histograms should be declared. 
+c histograms should be declared.
 c
 c Declare the histograms using 'bookup'.
 c     o) The first argument is an integer that labels the histogram. In
@@ -72,7 +72,7 @@ c integration channel separately. There is an external script that will
 c read the top drawer files in each of the integration channels and
 c combines them by summing all the bins in a final single top-drawer
 c file to be put in the Events/run_XX directory.
-c      
+c
 c The histograms are put in a format to be written to file. Use the
 c multitop() subroutine.
 c     o) The first argument is the histogram label
@@ -182,7 +182,7 @@ c always fill the total rate
          call mfill(l+1,var,wgt)
 c only fill the total rate for the Born when ibody=3
          if (ibody.eq.3) call mfill(l+2,var,wgt)
-C fill the different partonic subchannels         
+C fill the different partonic subchannels
          if (orders_tag_plot.eq.402) call mfill(l+3,var,wgt)
          if (orders_tag_plot.eq.600) call mfill(l+4,var,wgt)
       enddo

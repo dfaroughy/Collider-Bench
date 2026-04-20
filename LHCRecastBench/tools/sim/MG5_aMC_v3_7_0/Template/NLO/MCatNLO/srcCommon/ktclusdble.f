@@ -889,7 +889,7 @@ C
 C   NOTE THAT ALL MOMENTA ARE DOUBLE PRECISION
 C
 C   NOTE THAT IT IS SAFE TO CALL WITH P=Q
-C   
+C
       INTEGER IOPT,I,N
       DOUBLE PRECISION CMF(4),SIGN,Z(4),XZ(4),P(4,N),Q(4,N),
      &  R(4,4),NEW(4),OLD(4)
@@ -951,7 +951,7 @@ C
 C   NOTE THAT ALL MOMENTA ARE DOUBLE PRECISION
 C
 C   NOTE THAT IT IS SAFE TO CALL WITH P=Q
-C   
+C
       INTEGER IOPT,N
       DOUBLE PRECISION PLEP,PHAD,POUT(4),P(4,N),Q(4,N),
      &  CMF(4),Z(4),XZ(4),DOT,QDQ
@@ -992,7 +992,7 @@ C
 C   NOTE THAT ALL MOMENTA ARE DOUBLE PRECISION
 C
 C   NOTE THAT IT IS SAFE TO CALL WITH P=Q
-C   
+C
       INTEGER IOPT,N
       DOUBLE PRECISION PLEP,PHAD,POUT(4),P(4,N),Q(4,N),
      &  CMF(4),Z(4),XZ(4)
@@ -1556,4 +1556,3 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
-

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -26,7 +26,7 @@ import unittest
 import subprocess
 import pydoc
 import tempfile
-from functools import wraps 
+from functools import wraps
 
 import aloha
 import aloha.aloha_lib as aloha_lib
@@ -97,14 +97,14 @@ class IOTest(object):
 
     # Handy definitions
     proc_files = [r'[^.+\.(f|dat|inc)$]',r'MadLoop5_resources/[^ML5_.*\.dat]']
-    # Some model files are veto because they are sourced by dictionaries whose 
+    # Some model files are veto because they are sourced by dictionaries whose
     # order is random.
     model_files = [r'../../Source/MODEL/[^.+\.(f|inc)$]',
                    '-../../Source/MODEL/lha_read.f',
                    '-../../Source/MODEL/param_read.inc',
-                   '-../../Source/MODEL/param_write.inc']            
+                   '-../../Source/MODEL/param_write.inc']
     helas_files = [r'../../Source/DHELAS/[^.+\.(f|inc)$]']
-    
+
     # We also exclude the helas_files because they are sourced from unordered
     # dictionaries.
     all_files = proc_files+model_files
@@ -117,17 +117,17 @@ class IOTest(object):
                        outputPath=None):
         """ Can be overloaded to add more options if necessary.
         The format above is typically useful because we don't aim at
-        testing all processes for all exporters and all model, but we 
+        testing all processes for all exporters and all model, but we
         choose certain combinations which spans most possibilities.
-        Notice that the process and model can anyway be recovered from the 
+        Notice that the process and model can anyway be recovered from the
         LoopAmplitude object, so it does not have to be specified here."""
 
         if testedFiles is None:
             raise MadGraph5Error("TestedFiles must be specified in IOTest.")
-        
+
         if outputPath is None:
             raise MadGraph5Error("outputPath must be specified in IOTest.")
-        
+
         self.testedFiles = testedFiles
         self.test_instance = test_instance
         self.procdef = procdef
@@ -137,13 +137,13 @@ class IOTest(object):
         if not str(path.dirname(_file_path)) in str(outputPath) and \
                                         not str(outputPath).startswith('/tmp/'):
             raise MadGraph5Error("OutputPath must be within MG directory or"+\
-                                                                     " in /tmp/")            
+                                                                     " in /tmp/")
         else:
             self.outputPath = outputPath
 
-    @set_global() 
+    @set_global()
     def run(self, IOTestManagerInstance=None):
-        """ Run the test and returns the path where the files have been 
+        """ Run the test and returns the path where the files have been
         produced and relative to which the paths in TestedFiles are specified. """
         self.clean_output()
 
@@ -152,20 +152,20 @@ class IOTest(object):
                                                             self.exporter_name)
         myloopamp = loop_diagram_generation.LoopAmplitude(self.procdef)
         isOptimized = isinstance(self.exporter, \
-                           loop_exporters.LoopProcessOptimizedExporterFortranSA) 
+                           loop_exporters.LoopProcessOptimizedExporterFortranSA)
         hel_amp=loop_helas_objects.LoopHelasMatrixElement(\
                                         myloopamp,optimized_output=isOptimized)
 
         self.exporter.copy_template(model)
         self.exporter.generate_loop_subprocess(hel_amp, self.helasModel, unique_id=1)
-        
+
         wanted_lorentz = hel_amp.get_used_lorentz()
         wanted_couplings = list(set(sum(hel_amp.get_used_couplings(),[])))
         self.exporter.convert_model(model,wanted_lorentz,wanted_couplings)
-            
+
         proc_name='P'+hel_amp.get('processes')[0].shell_string()
         return pjoin(self.outputPath,'SubProcesses',proc_name)
-    
+
     def clean_output(self,IOTestManagerInstance=None):
         """ Remove the output_path if existing. Careful!"""
         if not str(path.dirname(_file_path)) in str(self.outputPath) and \
@@ -174,11 +174,11 @@ class IOTest(object):
         else:
             if path.isdir(self.outputPath):
                 shutil.rmtree(self.outputPath)
-                
+
     @staticmethod
     def remove_f77_function_from_file(path, function=[]):
         """remove a subroutine/function of a file. (usefull to restric the IOTest)"""
-        
+
         if not isinstance(function, list):
             function= [function.lower()]
         else:
@@ -198,13 +198,13 @@ class IOTest(object):
                     skip = False
             if not skip:
                 new_text.append(line)
-        
+
         if one_mod:
                 open(path,'w').writelines(new_text)
-        return one_mod 
-                
-            
-            
+        return one_mod
+
+
+
 
 # The decorator below allows for easily creating a new CustomIOTest by just
 # wrapping a test function whose name starts with testIO which generates files
@@ -215,7 +215,7 @@ def createIOTest(groupName=None, testName=None):
 
     def createIOTest_decorator(GenerateFilefunc):
         """Decorator easing the creation of a new IOTest"""
-        
+
         filesToCheck = []
         prevent_cleanUp = False
         pathsToErase = []
@@ -229,19 +229,19 @@ def createIOTest(groupName=None, testName=None):
                 else:
                     pathsToErase.append(target.group('file'))
 
-        def pathsToClean():                
+        def pathsToClean():
             return pathsToErase, prevent_cleanUp
-        
+
         @wraps(GenerateFilefunc)
         def __wrapper(*args, **kwargs):
-            
+
             if testName==None:
                 # We know that the function must start with "testIO_"
                 newTestName = GenerateFilefunc.__name__[7:]
             else:
                 newTestName=testName
 
-            MyCustomTest = CustomIOTest(filesToCheck,GenerateFilefunc, 
+            MyCustomTest = CustomIOTest(filesToCheck,GenerateFilefunc,
                                                                   pathsToClean)
             # The first argument should be self
             if groupName==None:
@@ -249,29 +249,29 @@ def createIOTest(groupName=None, testName=None):
             else:
                 testGroup=groupName
             args[0].addIOTest(testGroup,newTestName,MyCustomTest)
-    
+
             if 'load_only' in kwargs and kwargs['load_only']:
                 return
-    
+
             # Feel free to change the arguments here to modify how the IOTest are
             # run when launched with directly from the test_manager without -i.
-            args[0].runIOTests(update=False, force=10, verbose=False, 
+            args[0].runIOTests(update=False, force=10, verbose=False,
                                             testKeys=[(testGroup, newTestName)])
-    
+
         return __wrapper
     return createIOTest_decorator
 
 class CustomIOTest(IOTest):
     """ Allow to simply implement individual IOTests"""
-    
+
     # One must provide here the list of paths of the files to check relative
     # to the absolute path returned by run()
     testedFiles = []
-    
+
     run_function = None
     clean_function = None
-    temporary_folder = None    
-    
+    temporary_folder = None
+
     def __init__(self, files, run_f, clean_f = None):
         """ Initialize the custom IOTest with the three necessary components"""
 
@@ -285,18 +285,18 @@ class CustomIOTest(IOTest):
         the absolute path from which the paths in the variable all_files are
         defined. Also stores here the temporary folder in which files are
         created."""
-        
+
         args[0].IOpath = tempfile.mkdtemp('', 'TMPIOTest', None)
         self.temporary_folder = args[0].IOpath
         custom_path = self.run_function(*args, **kwargs)
         if custom_path is None:
             return args[0].IOpath
         else:
-            return custom_path        
-    
+            return custom_path
+
     def clean_output(self, *args, **kwargs):
         """Clean up the file created. Called at the end of the test run."""
-        
+
         pathsToClean = [self.temporary_folder]
 
         if not self.clean_function is None:
@@ -310,7 +310,7 @@ class CustomIOTest(IOTest):
                     "Clean up of the following of temporary folders prevented:"))
                 for path in pathsToClean:
                     print(colored%(31,"  > %s"%str(path)))
-       
+
         try:
             for path in pathsToClean:
                 if os.path.isdir(path):
@@ -318,18 +318,18 @@ class CustomIOTest(IOTest):
                 else:
                     os.remove(path)
         except OSError as error:
-            pass               
+            pass
 
 #===============================================================================
 # IOTestManager
 #===============================================================================
 class IOTestManager(unittest.TestCase):
-    """ A helper class to perform tests based on the comparison of files output 
+    """ A helper class to perform tests based on the comparison of files output
     by exporters against hardcoded ones. """
-    
+
     # Global variable to decide if the reference folder has to be compressed or not
     _compress_ref_fodler = False
-    
+
     # Define a bunch of paths useful
     _input_file_path = path.abspath(os.path.join(_file_path,'input_files'))
     _mgme_file_path = path.abspath(os.path.join(_file_path, *([os.path.pardir]*1)))
@@ -339,9 +339,9 @@ class IOTestManager(unittest.TestCase):
 
     # The tests loaded are stored here
     # Each test is stored in a dictionary with entries of the format:
-    # {(folder_name, test_name) : IOTest}      
+    # {(folder_name, test_name) : IOTest}
     all_tests = {}
-    
+
     # filesChecked_filter allows to filter files which are checked.
     # These filenames should be the path relative to the
     # position SubProcess/<P0_proc_name>/ in the output. Notice that you can
@@ -357,22 +357,22 @@ class IOTestManager(unittest.TestCase):
     # selecting it. Typically, ['-longTest'] considers all tests but the
     # longTest one (synthax not available for filenames)
     testFolders_filter = ['ALL']
-    testNames_filter = ['ALL'] 
-    
+    testNames_filter = ['ALL']
+
     def __init__(self,*args,**opts):
         """ Add the object attribute my_local_tests."""
         # Lists the keys for the tests of this particular instance
         self.instance_tests = []
-        super(IOTestManager,self).__init__(*args,**opts)    
-    
+        super(IOTestManager,self).__init__(*args,**opts)
+
     def setUp(self):
         """ Dummy function possibly overloaded by the daughters """
         pass
-    
+
     def runTest(self,*args,**opts):
         """ This method is added so that one can instantiate this class """
         raise MadGraph5Error('runTest in IOTestManager not supposed to be called.')
-    
+
     def assertFileContains(self, source, solution):
         """ Check the content of a file """
         list_cur=source.read().split('\n')
@@ -386,7 +386,7 @@ class IOTestManager(unittest.TestCase):
             if '' in list_cur:
                 list_cur.remove('')
             else:
-                break            
+                break
         for a, b in zip(list_sol, list_cur):
             try:
                 self.assertEqual(a,b)
@@ -412,10 +412,10 @@ class IOTestManager(unittest.TestCase):
         """ Returns True if the selected filters do not exclude the testName
         and folderName given in argument. Specify None to disregard the filters
         corresponding to this category."""
-        
+
         if testName is None and folderName is None:
             return True
-        
+
         if not testName is None:
             pattern = [f[1:] for f in cls.testNames_filter if f.startswith('+')]
             chosen = [f for f in cls.testNames_filter if \
@@ -437,7 +437,7 @@ class IOTestManager(unittest.TestCase):
             if chosen!=['ALL'] and not folderName in chosen:
                 if not any(folderName.startswith(pat) for pat in pattern):
                     return False
-        
+
         if not folderName is None and not testName is None:
             if (folderName,testName) in list(cls.all_tests.keys()) and \
                (folderName,testName) in cls.instance_tests:
@@ -454,37 +454,37 @@ class IOTestManager(unittest.TestCase):
             fpath=str(fpath)
         if '/' not in fpath:
             return fpath
-        
+
         return '%'+'%'.join(file_path.split('/'))
 
-    @classmethod        
+    @classmethod
     def toFilePath(cls, file_name):
         """ transforms a file name specification like %..%..%Source%MODEL%myfile
         to ../../Source/MODEL/myfile"""
-        
+
         if not file_name.startswith('%'):
             return file_name
-        
+
         return pjoin(file_name[1:].split('%'))
-    
+
 #    def test_IOTests(self):
 #        """ A test function in the mother so that all childs automatically run
 #        their tests when scanned with the test_manager. """
-#        
+#
 #        # Set it to True if you want info during the regular test_manager.py runs
 #        self.runIOTests(verbose=False)
-    
+
     def addIOTest(self, folderName, testName, IOtest):
         """ Add the test (folderName, testName) to class attribute all_tests. """
-        
+
         if not self.need(testName=testName, folderName=folderName):
             return
 
         # Add this to the instance test_list
         if (folderName, testName) not in self.instance_tests:
             self.instance_tests.append((folderName, testName))
-            
-        # Add this to the global test_list            
+
+        # Add this to the global test_list
         if (folderName, testName) in list(self.all_tests.keys()) and \
                           self.all_tests[(folderName, testName)]!=(IOtest,self):
             raise MadGraph5Error("Test (%s,%s) already defined."%(folderName, testName))
@@ -502,21 +502,21 @@ class IOTestManager(unittest.TestCase):
             an error in the comparison and you are sure that the newest output
             is correct (i.e. you understand that this modification is meant to
             be so). Then feel free to automatically regenerate this file with
-            the newest version by doing 
-            
+            the newest version by doing
+
               ./test_manager -i U folderName/testName/fileName
-                
+
             If update is True (meant to be used by __main__ only) then
             it will create/update/remove the files instead of testing them.
             The argument tests can be a list of tuple-keys describing the tests
             to cover. Otherwise it is the instance_test list.
-            The force argument must be 10 if you do not want to monitor the 
+            The force argument must be 10 if you do not want to monitor the
             modifications on the updated files. If it is 0 you will monitor
             all modified file and if 1 you will monitor each modified file of
             a given name only once.
         """
         # First make sure that the tarball need not be untarred
-        # Extract the tarball for hardcoded in all cases to make sure the 
+        # Extract the tarball for hardcoded in all cases to make sure the
         # IOTestComparison folder is synchronized with it.
         if IOTestManager._compress_ref_fodler:
             if path.isdir(_hc_comparison_files):
@@ -534,21 +534,21 @@ class IOTestManager(unittest.TestCase):
             if not path.isdir(_hc_comparison_files):
                 raise MadGraph5Error("Could not find the comparison tarball %s."%_hc_comparison_tarball)
 
-        # In update = True mode, we keep track of the modification to 
+        # In update = True mode, we keep track of the modification to
         # provide summary information
         modifications={'updated':[],'created':[], 'removed':[], 'missing':[]}
-        
+
         # List all the names of the files for which modifications have been
         # reviewed at least once.The approach taken here is different than
         # with the list refusedFolder and refusedTest.
         # The key of the dictionary are the filenames and the value are string
         # determining the user answer for that file.
         reviewed_file_names = {}
-        
+
         # Chose what test to cover
         if testKeys == 'instanceList':
             testKeys = self.instance_tests
-        
+
         if verbose: print("\n== "+colored%(32,"Operational mode")+\
             " : file %s ==\n"%(colored%(34,('UPDATE' if update else 'TESTING'))))
         for (folder_name, test_name) in testKeys:
@@ -559,12 +559,12 @@ class IOTestManager(unittest.TestCase):
                                                        %(folder_name, test_name))
             if verbose: print("Processing %s in %s"%(
                                 colored%(32,test_name),colored%(34,folder_name)))
-            
+
             files_path = iotest.run(iotestManager)
             try:
                 pass
 #                files_path = iotest.run(iotestManager)
-            except Exception as e: 
+            except Exception as e:
                 iotest.clean_output()
                 if not verbose:
                     raise e
@@ -650,9 +650,9 @@ class IOTestManager(unittest.TestCase):
                             answer = 'Y'
                         else:
                             answer = 'Y'
-                            
+
                         if answer not in ['Y','y','']:
-                            if verbose: 
+                            if verbose:
                                 print("    > [ %s ] "%(colored%(31,"IGNORED"))+\
                           "file deletion %s/%s/%s"%(folder_name,test_name,
                                                             path.basename(file)))
@@ -664,7 +664,7 @@ class IOTestManager(unittest.TestCase):
                         modifications['removed'].append(
                                             '/'.join(str(file).split('/')[-3:]))
 
-                    
+
             # Make sure it is not filtered out by the user-filter
             if self.filesChecked_filter!=['ALL']:
                 new_filesToCheck = []
@@ -681,13 +681,13 @@ class IOTestManager(unittest.TestCase):
                             search = re.compile('['.join(split[1:]))
                             if not search.match(path.basename(file)) is None:
                                 new_filesToCheck.append(file)
-                                break    
+                                break
                         # Just the exact filename
                         elif filter==file:
                             new_filesToCheck.append(file)
                             break
                 filesToCheck = new_filesToCheck
-            
+
             # Now we can scan them and process them one at a time
             # Keep track of the folders and testNames the user did not want to
             # create
@@ -719,10 +719,10 @@ class IOTestManager(unittest.TestCase):
                         try:
                             self.assertFileContains(open(file_path), goal)
                         except AssertionError:
-                            if verbose: 
+                            if verbose:
                                 print("    > %s differs from the reference."%fname)
-                            
-                else:                        
+
+                else:
                     if not path.isdir(pjoin(_hc_comparison_files,folder_name)):
                         if force==0:
                             if folder_name in refused_Folders:
@@ -736,7 +736,7 @@ class IOTestManager(unittest.TestCase):
                                            %(colored%(31,"IGNORED"),folder_name))
                                 continue
                         if verbose: print("    > [ %s ] folder %s"%\
-                                            (colored%(32,"CREATED"),folder_name))                        
+                                            (colored%(32,"CREATED"),folder_name))
                         os.makedirs(pjoin(_hc_comparison_files,folder_name))
                     if not path.isdir(pjoin(_hc_comparison_files,folder_name,
                                                                     test_name)):
@@ -812,11 +812,11 @@ class IOTestManager(unittest.TestCase):
                                         else:
                                             print("reference path: %s" % comparison_path)
                                             print("code returns: %s" % tmp_path)
-                                
-                                
+
+
                                 os.remove(tmp_path)
                                 reviewed_file_names[path.basename(\
-                                                      comparison_path)] = answer        
+                                                      comparison_path)] = answer
                             elif ((force==1 or force==2) and path.basename(\
                                 comparison_path) in list(reviewed_file_names.keys())):
                                 answer = reviewed_file_names[path.basename(\
@@ -827,7 +827,7 @@ class IOTestManager(unittest.TestCase):
                                 if verbose: print("    > [ %s ] %s"%\
                                                   (colored%(31,"IGNORED"),fname))
                                 continue
-                            
+
                             # Copying the existing reference as a backup
                             back_up_path = pjoin(_hc_comparison_files,folder_name,\
                                          test_name,self.toFileName(fname)+'.BackUp')
@@ -876,4 +876,3 @@ class IOTestManager(unittest.TestCase):
             return modifications
         else:
             return 'test_over'
- 

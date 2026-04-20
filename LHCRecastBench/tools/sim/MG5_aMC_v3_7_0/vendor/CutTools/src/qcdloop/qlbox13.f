@@ -91,7 +91,7 @@ C---  setup gammas for qlzero p3sq
       if (qlzero(dimag(root))) then
       ln43p=qllnrat(x43p,x43pm1)
       ln43m=qllnrat(x43m,x43mm1)
-      
+
       dilog(2)=qlLi2omx2(m3sqbar,x34p,tabar,x34pm1)
       dilog(3)=qlLi2omx2(m3sqbar,x34m,tabar,x34mm1)
       dilog(5)=qlLi2omx2(m4sqbar,x43p,sibar,x43pm1)
@@ -99,11 +99,11 @@ C---  setup gammas for qlzero p3sq
 
       else
 
-      call qlratreal(m3sqbar,tabar,rat3t,ieps3t)      
-      call qlratreal(m4sqbar,sibar,rat4s,ieps4s)      
+      call qlratreal(m3sqbar,tabar,rat3t,ieps3t)
+      call qlratreal(m4sqbar,sibar,rat4s,ieps4s)
 
-      call qlratgam(rat34p,rat34m,ieps34,p3sq,m3sq,m4sq)      
-      call qlratgam(rat43p,rat43m,ieps43,p3sq,m4sq,m3sq)      
+      call qlratgam(rat34p,rat34m,ieps34,p3sq,m3sq,m4sq)
+      call qlratgam(rat43p,rat43m,ieps43,p3sq,m4sq,m3sq)
 
       zrat3t=dcmplx(rat3t)
       zrat4s=dcmplx(rat4s)
@@ -127,7 +127,7 @@ C---  setup gammas for qlzero p3sq
      . +2d0*wlogsmu*wlogtmu-wlog3mu**2-wlog4mu**2
      . +(wlog3mu-wlogtmu)*log(m3sq/musq)
      . +(wlog4mu-wlogsmu)*log(m4sq/musq)
-     . -0.5d0*(ln43p**2+ln43m**2)      
+     . -0.5d0*(ln43p**2+ln43m**2)
 
       do iep=-2,0
       Ires(iep)=Ires(iep)/dcmplx(fac)
@@ -135,6 +135,3 @@ C---  setup gammas for qlzero p3sq
 
       return
       end
-
-
-

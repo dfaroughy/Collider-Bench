@@ -112,7 +112,7 @@ c form factor and renormalisation and factorisation scales.
      $     ,need_matching(1))
       return
       end
-      
+
       subroutine set_array_indices(iproc,iconf,il_list,il_pdg)
 c Given 'iproc' and 'iconf', returns the corresponding location in the
 c cluster_list and cluster_pdg arrays ('il_list' and 'il_pdg',
@@ -152,7 +152,7 @@ c respectively)
       return
       end
 
-      
+
 CCCCCCCCCCCCCCC-- INITIALISATION -- CCCCCCCCCCCCCCCC
 
       subroutine iforest_to_list(next,nincoming,nbr,iforest,sprop
@@ -191,7 +191,7 @@ c codes for particles in the cluster_list as well as their daughters.
       do j=-1,-nbr,-1
          cluster_tmp(j)=cluster_tmp(iforest(1,j))
      $                 +cluster_tmp(iforest(2,j))
-         if ( btest(cluster_tmp(j),0) .or. 
+         if ( btest(cluster_tmp(j),0) .or.
      $        btest(cluster_tmp(j),1) ) s_chan=.false.
          if (s_chan) then
             cluster_pdg(0,-j)=sprop(j)
@@ -226,7 +226,7 @@ c daughters correctly.
          if (ibr.le.nbr-n_tchan) then ! s-channel
             ! This is not relevant, since the reverse ordering is
             ! never a valid clustering. Fill it anyway.
-            do i=1,2 
+            do i=1,2
                cluster_pdg(i,ibr+nbr)=cluster_pdg(i,ibr)
             enddo
          else
@@ -269,7 +269,7 @@ c clustering scale in 'cluster_one_step'.
          imo=cluster_pdg(0,ibr)
          ico=get_color(imo)
          mass=get_mass_from_id(imo)
-         call set_particle_type(cluster_type(iclus),ico,mass,.false.) 
+         call set_particle_type(cluster_type(iclus),ico,mass,.false.)
       enddo
       return
       end
@@ -283,23 +283,23 @@ c massive, except when they are external particles (ie., ext=.true.).
       double precision mass
       logical ext
       if (ico.eq.8 .and. mass.eq.0d0) then
-         if (.not.btest(itype,0)) 
+         if (.not.btest(itype,0))
      $        itype = itype+1
       elseif (abs(ico).eq.3 .and. mass.eq.0d0 ) then
-         if (.not.btest(itype,1)) 
+         if (.not.btest(itype,1))
      $        itype = itype+2
       elseif (abs(ico).eq.3 .and. mass.ne.0d0 ) then
-         if (.not.btest(itype,2)) 
+         if (.not.btest(itype,2))
      $        itype = itype+4
       elseif (abs(ico).eq.1 .and. mass.eq.0d0 .and. ext) then
-         if (.not.btest(itype,3)) 
+         if (.not.btest(itype,3))
      $        itype = itype+8
       elseif (abs(ico).eq.1) then
 !        for intermediate colour singlets, we do not care if it is
 !        massive or not (they should always be far enough
 !        off-shell). Treat them always as massive to avoid issues with
 !        Z/gamma^* interference.
-         if (.not.btest(itype,4)) 
+         if (.not.btest(itype,4))
      $        itype = itype+16
       else
 c Stop if a particle type not implemented
@@ -308,7 +308,7 @@ c Stop if a particle type not implemented
          stop 1
       endif
       end
-      
+
 
 CCCCCCCCCCCCCCC-- MAIN CLUSTER ROUTINE -- CCCCCCCCCCCCCCCC
 
@@ -350,7 +350,7 @@ c fill the type for the external particles
       enddo
 c Set all diagrams (according to which we cluster) as valid
       call reset_valid_confs(nconf,nvalid,valid_conf)
-      if (cluster_according_to_iconfig) 
+      if (cluster_according_to_iconfig)
      $     call limit_cluster_iconfig(nconf,iconfig,nvalid,valid_conf)
 c Remove diagrams (according to which we cluster) that are not
 c compatible with the resonance structure of the current phase-space
@@ -392,7 +392,7 @@ c Set the cluster_conf to (one of) the diagram(s) compatible with the
 c clustering found just above
       call set_cluster_conf(nconf,nvalid,valid_conf,iconfig
      $     ,cluster_conf)
-c Set the cluster_scale of the final 2->1 process.      
+c Set the cluster_scale of the final 2->1 process.
       if (.not.(btest(win_id,0).or. btest(win_id,1))) then
          ! s-channel 2->2 process. Use m_T^2 of final state particle in
          ! 2->1 process (which is equal to its invariant mass, since
@@ -475,7 +475,7 @@ c     the renormalisation scale.
 c Determine which particles need clustering and which do not
       call matching_particles(next,nbr,ipdg,cluster_pdg,cluster_ij,iord
      $     ,need_matching)
-      
+
       nqcdrenscale=0       ! number of alpha-s needing reweighting
       nqcdrenscalecentral=0
       hard_qcd_scale=0d0   ! hardest scale in all clusterings so far.
@@ -615,7 +615,7 @@ c factorisation scale if need be)
       end
 
 
-      
+
 CCCCCCCCCCCCCCC -- INTERNAL SUBROUTINES AND FUNCTIONS -- CCCCCCCCCCCCCCC
       subroutine reset_valid_confs(nconf,nvalid,valid_conf)
 c Sets all configurations as valid configurations.
@@ -653,7 +653,7 @@ c iconfig
          stop 1
       endif
       end
-      
+
       subroutine IsBreitWigner(next,nbr,p,itree,prwidth,prmass,ipdg
      $     ,sprop,iBWlist)
 c Loop over all the s-channel propagators of the current configuration
@@ -739,7 +739,7 @@ c information.
       return
       end
 
-      
+
       subroutine remove_confs_BW(nconf,nbr,nvalid,valid_conf,iBWlist
      $     ,cluster_list,cluster_pdg)
 c Given the required s-channels in iBWlist for this phase-space point,
@@ -785,7 +785,7 @@ c s-channel is not in iconf. Set it as a invalid configuration
       enddo
       return
       end
-      
+
       subroutine cluster_one_step(next,p,imap,nbr,nconf,valid_conf
      $     ,cluster_list,iBWlist,iwin,jwin,win_id,min_scale,is_bw
      $     ,cluster_type,particle_type)
@@ -844,7 +844,7 @@ c that list.
       logical in_conf,valid_conf(nconf)
 c Loop over all diagram topologies
       do iconf=1,nconf
-c if current topology was already invalid, go to the next         
+c if current topology was already invalid, go to the next
          if (.not. valid_conf(iconf)) cycle
 c Check if the id_ij is in the cluster_list of current configuration
          in_conf=.false.
@@ -890,7 +890,7 @@ c initial state clustering
             pcmsp(i)=-pcl(i,jwin)-pcl(i,3-jwin)
          enddo
          pcmsp(0)=-pcmsp(0)
-         if( (pcl(4,jwin).gt.0.or.pcl(4,iwin).gt.0) .and. 
+         if( (pcl(4,jwin).gt.0.or.pcl(4,iwin).gt.0) .and.
      $       .not.(pcl(4,jwin).gt.0.and.pcl(4,iwin).gt.0)) then
             pcl(4,jwin)=max(pcl(4,jwin),pcl(4,iwin))
          else
@@ -961,7 +961,7 @@ c final state clustering
          endif
       enddo
       end
-      
+
       subroutine update_imap(nleft,imap,iwin,jwin,win_id)
 c Updates the mapping list between the external particle labels to the
 c binary labeling when particles iwin and jwin are combined to win_id;
@@ -1090,8 +1090,8 @@ c particles, and the mother [cluster_pdg(0,0)] is the outgoing one.
          stop 1
       endif
       end
-      
-      
+
+
       logical function in_list(id_ij,nbr,nconf,valid_conf,cluster_list)
 c Checks if the id_ij particle is somewhere in the list of valid
 c configurations.
@@ -1154,8 +1154,8 @@ c     pick one at "random"
          endif
       endif
       end
-      
-      
+
+
       double precision function cluster_scale(iBWlist,nbr,j,id_ij,pi,pj
      $     ,cl,is_bw)
 c Determines the cluster scale for the clustering of momenta pi and pj
@@ -1220,7 +1220,7 @@ c Different scale depending on itype:
       integer cl(0:2),itype
       if ( (btest(cl(0),0).or.btest(cl(0),1).or.btest(cl(0),3)) .and.
      $     (btest(cl(1),0).or.btest(cl(1),1).or.btest(cl(1),3)) .and.
-     $     (btest(cl(2),0).or.btest(cl(2),1).or.btest(cl(2),3))) then 
+     $     (btest(cl(2),0).or.btest(cl(2),1).or.btest(cl(2),3))) then
          ! three massless particles
          itype=1
       elseif ((btest(cl(0),2).or.btest(cl(0),4)) .and.
@@ -1263,7 +1263,7 @@ c Different scale depending on itype:
          stop
       endif
       end
-      
+
       subroutine fill_type(next,ipdg,type,mass)
 c Loops over all external particles and sets up 'type' using the
 c get_type() subroutine. 'type' will just be a list of what's there as
@@ -1286,7 +1286,7 @@ c should be used.
       enddo
       end
 
-      
+
       subroutine get_type(ipdg,itype,imass)
 c Defines the type of a particle 'type':
 c     0 : colour singlet
@@ -1391,7 +1391,7 @@ c 'cij'.
       return
       end
 
-      
+
       logical function QCDchangeline(iclus,nbr,cluster_pdg,iord)
 c Checks if a vertex changes a QCD line. This means that 2 out of the
 c three particles are QCD charged.
@@ -1407,7 +1407,7 @@ c three particles are QCD charged.
       endif
       end
 
-      
+
       logical function QCDvertex(iclus,nbr,cluster_pdg,iord)
 c Checks if all three particles involved are QCD particles.
       implicit none
@@ -1422,7 +1422,7 @@ c Checks if all three particles involved are QCD particles.
       endif
       end
 
-      
+
       logical function startQCDvertex(iclus,first,cij,nbr,cluster_pdg
      $     ,iord,next,need_matching)
 c Checks if cluster is associated with a valid starting vertex. For
@@ -1530,7 +1530,7 @@ c        flavour
          endif
       endif
       end
-      
+
 
       subroutine matching_particles(next,nbr,ipdg,cluster_pdg
      $     ,cluster_ij,iord,need_matching)
@@ -1601,7 +1601,7 @@ c Color is 1,3,8 for singlet(no QCD),triplet(quark),octet(gluon)
                need_matching(i)=-1
             else
                need_matching(i)=1 ! ! gluons always need to be matched
-            endif 
+            endif
             cycle
          else
 c Stop if a particle passed all the previous statements
@@ -1839,7 +1839,7 @@ c Check if we can re-use any of the last 'nc' calls
 c Re-use previous result
       if (ireuse.gt.0) then
          sudakov_exp=sudlast(ireuse)
-         return 
+         return
       endif
 c Cannot reuse anything. Compute a new value
       Q1=Q11
@@ -1858,7 +1858,7 @@ c ago with the newly computed one
       return
       end
 
-      
+
       double precision function expanded_sudakov_exp(q0,Q11,itype,imass)
 c Wrapper code for computation of the expanded exponent of the Sudakov
 c Form Factor numerically using Gaussian integration. It also saves the
@@ -1911,7 +1911,7 @@ c Check if we can re-use any of the last 'nc' calls
 c Re-use previous result
       if (ireuse.gt.0) then
          expanded_sudakov_exp=sudlast(ireuse)
-         return 
+         return
       endif
 c Cannot reuse anything. Compute a new value
       Q1=Q11
@@ -1930,7 +1930,7 @@ c ago with the newly computed one
       return
       end
 
-      
+
       double precision function Gamma(q0)
 c Calculates the argument of the integral of the exponent of the Sudakov
 c Form Factor. (Type, mass, Q^2, etc, given in the to_sud_exp common
@@ -2002,7 +2002,7 @@ c$$$            Gamma=Gamma*(1d0+alphasq0*kappa/(2d0*pi)) ! A2
             Gamma=Gamma+CF*alphasq0*log(Q1/q0)/pi*alphasq0*kappa/(2d0*pi) ! A2
          endif
       elseif (type.eq.3) then !  massless vector, colour octet
-c Gluon sudakov         
+c Gluon sudakov
 c     g->g+g contribution
          Gamma=CA*alphasq0*(log(Q1/q0)-11d0/12d0)/pi ! A1+B1
 c     g->q+qbar contribution
@@ -2062,7 +2062,7 @@ c**************************************************************************
       p(2)=p1(3)*p2(1)-p1(1)*p2(3)
       p(3)=p1(1)*p2(2)-p1(2)*p2(1)
 
-      return 
+      return
       end
 
 
@@ -2072,7 +2072,7 @@ c     input:
 c            p1        vector to be rotated
 c            n         vector perpendicular to plane of rotation
 c            nn2       squared norm of n to improve numerics
-c            ct, st    cos/sin theta of rotation in plane 
+c            ct, st    cos/sin theta of rotation in plane
 c            d         direction: 1 there / -1 back
 c     output:
 c            p2        p1 rotated using defined rotation
@@ -2085,7 +2085,7 @@ c**************************************************************************
       if (nn2.eq.0d0) then
          do i=0,3
             p2(i)=p1(i)
-         enddo   
+         enddo
          return
       endif
       nn=dsqrt(nn2)
@@ -2099,12 +2099,12 @@ c**************************************************************************
       do i=1,3
          if (d.ge.0) then
             p2(i)=at(i)+ct*ap(i)+st/nn*cr(i)
-         else 
+         else
             p2(i)=at(i)+ct*ap(i)-st/nn*cr(i)
          endif
       enddo
-      
-      return 
+
+      return
       end
 
 
@@ -2115,7 +2115,7 @@ c            p1, p2    p1 rotated onto p2 defines plane of rotation
 c     output:
 c            n         vector perpendicular to plane of rotation
 c            nn2       squared norm of n to improve numerics
-c            ct, st    cos/sin theta of rotation in plane 
+c            ct, st    cos/sin theta of rotation in plane
 c**************************************************************************
       implicit none
       real*8 p1(0:3), p2(0:3), n(0:3), tr(0:3)
@@ -2135,9 +2135,9 @@ c     don't rotate if nothing to rotate
          nn2=0d0
          return
       endif
-      return 
+      return
       end
-      
+
 
 
 
@@ -2196,8 +2196,8 @@ c***************************************************************************
         endif
       endif
       end
-      
-      
+
+
       double precision function DJB_clus(p1)
 c***************************************************************************
 c     Uses kt algorythm to calculate the y value for one parton

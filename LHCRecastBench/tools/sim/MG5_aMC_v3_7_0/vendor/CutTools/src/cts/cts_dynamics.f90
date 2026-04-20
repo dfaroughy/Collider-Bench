@@ -1,7 +1,7 @@
 !
  module inout
   include 'cts_mprec.h'
-  implicit none 
+  implicit none
   private
   logical, public :: mprec
   include 'cts_mpc.h'
@@ -20,7 +20,7 @@
 !
   use inout
   include 'cts_mprec.h'
-  implicit none 
+  implicit none
   external numdummy
   if (.not.mprec) then
     call numdummy(dpq,dpres)

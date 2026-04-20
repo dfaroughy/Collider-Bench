@@ -32,5 +32,3 @@ V2 = Propagator(name = "V2",
                 numerator = "complex(0,-1) * Metric(l1, l2)",
                 denominator =  "P('mu', id) * P('mu', id)"
                )
-
-

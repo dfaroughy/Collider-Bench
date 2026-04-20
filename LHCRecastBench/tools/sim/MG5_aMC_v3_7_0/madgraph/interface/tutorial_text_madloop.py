@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -15,20 +15,20 @@
 
 tutorial_MadLoop = """
 You have entered tutorial mode. This will introduce you to the main
-syntax options for MadLoop which are mostly similar to the MadGraph5_aMC@NLO one. 
-If you have not done so already, please follow MadGraph5_aMC@NLO tutorial before 
-this one.  
+syntax options for MadLoop which are mostly similar to the MadGraph5_aMC@NLO one.
+If you have not done so already, please follow MadGraph5_aMC@NLO tutorial before
+this one.
 
-Remember that exactly as in MadGraph5, you can learn more about the different 
+Remember that exactly as in MadGraph5, you can learn more about the different
 options for any command by typing
 MG5_aMC> help A_CMD
 And to see a list of all commands, use
-MG5_aMC> help 
+MG5_aMC> help
 
 MadLoop is the part of MadGraph5_aMC@NLO used to generate the code for
 evaluating the loop diagrams. This tutorial teaches you how to use MadLoop
 as standalone tool for studying loops within particular processes.
-Therefore in this mode, you can only consider definite processes, meaning 
+Therefore in this mode, you can only consider definite processes, meaning
 without multiparticle labels.
 
 This tutorial has three parts:
@@ -42,10 +42,10 @@ are generated.
 
 MG5_aMC>generate g g > d d~ [virt=QCD]
 
-Note that a space is mandatory between the particle names and that '[virt=QCD]' 
+Note that a space is mandatory between the particle names and that '[virt=QCD]'
 specifies that you want to consider QCD NLO corrections. The keyword option
 'virt' before '=' within the squared brackets precisely specifies you are only
-interested in the virtual contribution.  
+interested in the virtual contribution.
 """
 
 tutorial = tutorial_MadLoop
@@ -57,14 +57,14 @@ MG5_aMC>help generate
 To list all defined processes, type
 MG5_aMC>display processes
 
-You can display a pictorial representation of the diagrams with 
+You can display a pictorial representation of the diagrams with
 MG5_aMC> display diagrams
 Notice you can add the option 'loop' or 'born' if you only want those diagrams
 to be displayed.
 
 If you want to add a second process, you can use the add process command:
 MG5_aMC>add process e+ e- > d d~ [virt=QCD]
-But keep in mind that you must still consider only virtual corrections and 
+But keep in mind that you must still consider only virtual corrections and
 cannot employ multiparticle labels. Also decay chains are not available for
 loops.
 
@@ -80,7 +80,7 @@ available for MadLoop standalone runs.
 display_processes = """
 You have seen a list of the already defined processes.
 
-At this stage you can export your processes to different formats. 
+At this stage you can export your processes to different formats.
 To create a MadLoop standalone output for these, simply type:
 
 MG5_aMC>output MY_FIRST_MADLOOP_RUN
@@ -91,7 +91,7 @@ You have displayed the diagrams.
 Notice you can add the 'born' or 'loop' option to this command to specify the
 class of diagrams to be displayed.
 
-At this stage you can export your processes to different formats. 
+At this stage you can export your processes to different formats.
 To create a MadLoop standalone output for these, simply type:
 
 MG5_aMC>output MY_FIRST_MADLOOP_RUN
@@ -110,8 +110,8 @@ output = """
 If you are following the tutorial, a directory MY_FIRST_MADLOOP_RUN has
 been created under your MadGraph5_aMC@NLO installation directory.
 
-The code for the evaluation of the squared loop matrix element is in 
-'SubProcesses/P0_<shell_proc_name>/'. There, you can compile and edit 
+The code for the evaluation of the squared loop matrix element is in
+'SubProcesses/P0_<shell_proc_name>/'. There, you can compile and edit
 running parameters from 'MadloopParams.dat' and then run the code with './check'
 Alternatively, for a simple quick run, type:
 
@@ -135,7 +135,7 @@ Start by typing:
 
 MG5_aMC>check g g > d d~ [virt=QCD]
 
-This will test lorentz and crossing invariance as well as of the gauge 
+This will test lorentz and crossing invariance as well as of the gauge
 invariance check from the ward identity for the initial state gluon.
 You can add an option after check to specify to perform only one definite check.
 Notice that the check functionality is only available for MadLoop standalone
@@ -161,7 +161,7 @@ of a given process including loop.
 Keep in mind that these check functionalities are only available for MadLoop
 standalone runs.
 
-You just learned the basic commands for the MadLoop runs (i.e. with the 
+You just learned the basic commands for the MadLoop runs (i.e. with the
 'virt=' option). You can close this tutorial by typing
 MG5_aMC>tutorial stop
 Or exit MG5 with

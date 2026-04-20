@@ -4,13 +4,13 @@
 ! in the domain of ee tunes.
 ! Previously set by "Tune:pp = 28".
 PDF:pSet                            = 13       ! NNPDF23_lo_as_0130_qed
-SigmaProcess:alphaSvalue            = 0.140 
-TimeShower:alphaSvalue              = 0.114 
-SpaceShower:alphaSvalue             = 0.129 
-SpaceShower:pT0Ref                  = 1.56  
-SpaceShower:pTmaxFudge              = 1.00  
-SpaceShower:pTdampFudge             = 1.04  
+SigmaProcess:alphaSvalue            = 0.140
+TimeShower:alphaSvalue              = 0.114
+SpaceShower:alphaSvalue             = 0.129
+SpaceShower:pT0Ref                  = 1.56
+SpaceShower:pTmaxFudge              = 1.00
+SpaceShower:pTdampFudge             = 1.04
 MultipartonInteractions:alphaSvalue = 0.126
-MultipartonInteractions:pT0Ref      = 2.09  
-BeamRemnants:primordialKThard       = 1.88  
-ColourReconnection:range            = 1.71  
+MultipartonInteractions:pT0Ref      = 2.09
+BeamRemnants:primordialKThard       = 1.88
+ColourReconnection:range            = 1.71

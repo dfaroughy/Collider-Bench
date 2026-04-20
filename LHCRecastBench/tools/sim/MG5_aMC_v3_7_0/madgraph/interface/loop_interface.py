@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -55,13 +55,13 @@ class CheckLoop(mg_interface.CheckValidForCmd):
     def check_display(self, args):
         """ Check the arguments of the display diagrams command in the context
         of the Loop interface."""
-        
+
         mg_interface.MadGraphCmd.check_display(self,args)
-        
+
         if all([not amp['process']['has_born'] for amp in self._curr_amps]):
             if args[0]=='diagrams' and len(args)>=2 and args[1]=='born':
                 raise self.InvalidCmd("Processes generated do not have born diagrams.")
-        
+
         if args[0]=='diagrams' and len(args)>=3 and args[1] not in ['born','loop']:
             raise self.InvalidCmd("Can only display born or loop diagrams, not %s."%args[1])
 
@@ -75,7 +75,7 @@ class CheckLoop(mg_interface.CheckValidForCmd):
 
     def check_add(self, args):
         """ If no model is defined yet, make sure to load the right loop one """
-        
+
         if not self._curr_model:
             pert_coupl_finder = re.compile(r"^(?P<proc>.+)\s*\[\s*((?P<option>\w+)"+
                         r"\s*\=)?\s*(?P<pertOrders>(\w+\s*)*)\s*\]\s*(?P<rest>.*)$")
@@ -86,38 +86,38 @@ class CheckLoop(mg_interface.CheckValidForCmd):
                 if "QED" in pert_coupls:
                     model_name = 'loop_qcd_qed_sm'
             self.do_import('model %s'%model_name)
-        
+
         mg_interface.MadGraphCmd.check_add(self,args)
-    
+
     def check_output(self, args, default='standalone'):
         """ Check the arguments of the output command in the context
         of the Loop interface."""
-       
+
         mg_interface.MadGraphCmd.check_output(self,args, default=default)
 
         if self._export_format not in self.supported_ML_format:
             raise self.InvalidCmd("not supported format %s" % self._export_format)
 
-        
+
     def check_launch(self, args, options):
         """ Further check that only valid options are given to the MadLoop
         default launcher."""
-        
+
         mg_interface.MadGraphCmd.check_launch(self,args,options)
         if int(options.cluster) != 0 :
             return self.InvalidCmd, 'MadLoop standalone runs cannot be '+\
                                     'performed on a cluster.'
-        
+
         if int(options.multicore) != 0 :
             logger.warning('MadLoop standalone can only run on a single core,'+\
                                                 ' so the -m option is ignored.')
             options.multicore = '0'
-        
+
         if options.laststep != '' :
             logger.warning('The -laststep option is only used for Madevent.'+\
                            'Ignoring this option')
             options.multicore = ''
-        
+
         if options.interactive :
             logger.warning('No interactive mode for MadLoop standalone runs.')
             options.interactive = False
@@ -126,7 +126,7 @@ class CheckLoopWeb(mg_interface.CheckValidForCmdWeb, CheckLoop):
     pass
 
 class CompleteLoop(mg_interface.CompleteForCmd):
-    
+
     def complete_display(self, text, line, begidx, endidx):
         "Complete the display command in the context of the Loop interface"
 
@@ -140,7 +140,7 @@ class CompleteLoop(mg_interface.CompleteForCmd):
 
 class HelpLoop(mg_interface.HelpToCmd):
 
-    def help_display(self):   
+    def help_display(self):
         mg_interface.MadGraphCmd.help_display(self)
         logger.info("   In ML5, after display diagrams, the user can add the option")
         logger.info("   \"born\" or \"loop\" to display only the corresponding diagrams.")
@@ -152,9 +152,9 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
 
     def rate_proc_difficulty(self, proc, mode):
         """ Gives an integer more or less representing the difficulty of the process.
-        For now it is very basic and such that "difficult" processes start at 
+        For now it is very basic and such that "difficult" processes start at
         a value of about 35."""
-        
+
         def pdg_difficulty(pdg):
             """ Gives a score from the pdg of a leg to state how it increases the
             difficulty of the process """
@@ -179,7 +179,7 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
                     score += 1
             else:
                 score += pdg_difficulty(leg.get('id'))
-        
+
         # No integration planned right away if only virtual, remove 6
         if proc['NLO_mode']=='virt':
             score = score - 6
@@ -197,7 +197,7 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
         """
 
         mg_interface.MadGraphCmd.do_set(self,line,log)
-        
+
         args = self.split_arg(line)
         self.check_set(args)
 
@@ -209,7 +209,7 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
                                            ' corrections in the unitary gauge.')
 
     def proc_validity(self, proc, mode):
-        """ Check that the process or processDefinition describes a process that 
+        """ Check that the process or processDefinition describes a process that
         ML5 can handle. Mode specifies who called the function,
         typically ML5, ML5_check or aMCatNLO. This allows to relieve some limitation
         depending on the functionality."""
@@ -218,22 +218,22 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
         # The threshold for the triggering of the 'Warning difficult process'
         # message.
         difficulty_threshold = 100
-        # Check that we have something    
+        # Check that we have something
         if not proc:
             raise self.InvalidCmd("Empty or wrong format process, please try again.")
-        
+
         # Check that we have the same number of initial states as
         # existing processes
         if self._curr_amps and self._curr_amps[0].get_ninitial() != \
             proc.get_ninitial():
-            raise self.InvalidCmd("Can not mix processes with different number of initial states.")               
+            raise self.InvalidCmd("Can not mix processes with different number of initial states.")
 
 #        It is partially supported for now if the initial state is not charged
 #        under the gauge group perturbed.
-#        if proc.get_ninitial()==1 and tool=='aMC@NLO':            
+#        if proc.get_ninitial()==1 and tool=='aMC@NLO':
 #            raise self.InvalidCmd("At this stage %s cannot handle decay process."%tool+\
 #                                  "\nIt is however a straight-forward extension which "+\
-#                                  "will come out with the next release.")                           
+#                                  "will come out with the next release.")
 
 #        Now all checks should support multi-particle label for loops as well.
         if isinstance(proc, base_objects.ProcessDefinition) and mode=='ML5':
@@ -241,16 +241,16 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
                 raise self.InvalidCmd(
                   "When running ML5 standalone, multiparticle labels cannot be"+\
                   " employed.")
-        
+
         if proc['decay_chains']:
             raise self.InvalidCmd(
                   "ML5 cannot yet decay a core process including loop corrections.")
-        
+
         if proc.are_decays_perturbed():
             raise self.InvalidCmd(
                   "The processes defining the decay of the core process cannot"+\
                   " include loop corrections.")
-        
+
         if not proc['perturbation_couplings'] and mode.startswith('ML5'):
             raise self.InvalidCmd(
                 "Please perform tree-level generations within default MG5 interface.")
@@ -259,21 +259,21 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
                                              not proc['perturbation_couplings']:
                 raise self.InvalidCmd(
                 "The current model does not allow for loop computations.")
-        
+
             miss_order = [ p_order for p_order in proc['perturbation_couplings'] \
                 if p_order not in self._curr_model.get('perturbation_couplings')]
             if len(miss_order)>0 and not 'real' in mode:
                 raise self.InvalidCmd(
                     "Perturbation orders %s not among"%str(miss_order) + \
                     " the perturbation orders allowed for by the loop model.")
-                
+
             if proc['perturbation_couplings'] not in [[],['QCD']]:
                 raise self.InvalidCmd(
                     "The process perturbation coupling orders %s are beyond "+\
                     "tree level or only QCD corrections. MadLoop can only work"+\
                     " in the Feynman gauge for these. Please set the gauge to "+\
                                                       " Feynman and try again.")
-                
+
         proc_diff = self.rate_proc_difficulty(proc, mode)
         logger.debug('Process difficulty estimation: %d'%proc_diff)
         if proc_diff >= difficulty_threshold:
@@ -297,7 +297,7 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
     def validate_model(self, loop_type='virtual',coupling_type=['QCD'], stop=True):
         """ Upgrade the model sm to loop_sm if needed """
 
-        # Allow to call this function with a string instead of a list of 
+        # Allow to call this function with a string instead of a list of
         # perturbation orders.
         if isinstance(coupling_type,str):
             coupling_type = [coupling_type,]
@@ -305,7 +305,7 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
 ##        if coupling_type!= ['QCD'] and loop_type not in ['virtual','noborn']:
 ##            c = ' '.join(coupling_type)
 ##            raise self.InvalidCmd('MG5aMC can only handle QCD at NLO accuracy.\n We can however compute loop with [virt=%s].\n We can also compute cross-section for loop-induced processes with [noborn=%s]' % (c,c))
-        
+
 
         if not isinstance(self._curr_model,loop_base_objects.LoopModel) or \
            self._curr_model['perturbation_couplings']==[] or \
@@ -353,8 +353,8 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
                     self.history.append(last_command)
                 elif stop:
                     raise self.InvalidCmd(
-                      "The model %s cannot handle loop processes"%model_name)    
-                    
+                      "The model %s cannot handle loop processes"%model_name)
+
         if loop_type and not loop_type.startswith('real') and \
                  not self.options['gauge']=='Feynman' and \
                  not self._curr_model['perturbation_couplings'] in [[],['QCD']]:
@@ -367,15 +367,15 @@ class CommonLoopInterface(mg_interface.MadGraphCmd):
       " corrections with this model because it does not support Feynman gauge.")
 
 class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
-          
-    supported_ML_format = ['standalone', 'standalone_rw', 'matchbox'] 
-    
+
+    supported_ML_format = ['standalone', 'standalone_rw', 'matchbox']
+
     def __init__(self, mgme_dir = '', *completekey, **stdin):
         """ Special init tasks for the Loop Interface """
 
         mg_interface.MadGraphCmd.__init__(self, mgme_dir = '', *completekey, **stdin)
         self.setup()
-    
+
     def setup(self):
         """ Special tasks when switching to this interface """
 
@@ -410,15 +410,15 @@ class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
                             'Using default IREGI instead.')%\
                            self._iregi_dir)
             self._iregi_dir=str(os.path.join(self._mgme_dir,'vendor','IREGI','src'))
-    
+
     def do_display(self,line, *argss, **opt):
         """ Display born or loop diagrams, otherwise refer to the default display
         command """
-        
+
         args = self.split_arg(line)
         #check the validity of the arguments
         self.check_display(args)
-        
+
         if args[0]=='diagrams':
             if len(args)>=2 and args[1] in ['loop','born']:
                 self.draw(' '.join(args[2:]),args[1])
@@ -429,13 +429,13 @@ class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
 
     def do_output(self, line):
         """Main commands:Initialize a new Template or reinitialize one"""
-        
+
         args = self.split_arg(line)
         # Check Argument validity
         self.check_output(args)
-        
+
         noclean = '-noclean' in args
-        force = '-f' in args 
+        force = '-f' in args
         nojpeg = '-nojpeg' in args
         main_file_name = ""
         try:
@@ -497,7 +497,7 @@ class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
 
         # Automatically run finalize
         self.ML5finalize(nojpeg)
-            
+
         # Remember that we have done export
         self._done_export = (self._export_dir, self._export_format)
 
@@ -510,11 +510,11 @@ class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
 
     def install_reduction_library(self, force=False):
         """Code to install the reduction library if needed"""
-        
+
         opt = self.options
-                
+
         # Check if first time:
-        if not force and ((opt['ninja'] is None) or (os.path.isfile(pjoin(MG5DIR, opt['ninja'],'libninja.a')))): 
+        if not force and ((opt['ninja'] is None) or (os.path.isfile(pjoin(MG5DIR, opt['ninja'],'libninja.a')))):
             return
 
         # do not trigger the question for tests
@@ -522,11 +522,11 @@ class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
             from unittest.case import SkipTest
             return
             #raise SkipTest
-        
+
         logger.info("First output using loop matrix-elements has been detected. Now asking for loop reduction:", '$MG:BOLD')
-        to_install = self.ask('install', '0',  ask_class=AskLoopInstaller, timeout=300, 
+        to_install = self.ask('install', '0',  ask_class=AskLoopInstaller, timeout=300,
                               path_msg=' ')
-        
+
 
         for key, value in to_install.items():
             if key in ['cuttools', 'iregi']:
@@ -543,7 +543,7 @@ class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
                     else:
                         logger.warning('invalid path for cuttools import')
                         continue
-                    
+
                     target = pjoin(MG5DIR,'vendor','CutTools','includects')
                     if not os.path.exists(target):
                         os.mkdir(target)
@@ -561,8 +561,8 @@ class LoopInterface(CheckLoop, CompleteLoop, HelpLoop, CommonLoopInterface):
                         path = pjoin(value, 'vendor', 'IREGI', 'src')
                     else:
                         logger.warning('invalid path for IREGI import')
-                        continue    
-                                         
+                        continue
+
                     target = pjoin(MG5DIR,'vendor','IREGI','src')
                     files.cp(pjoin(path,'libiregi.a'), target, log=True)
             elif value == 'local':
@@ -574,7 +574,7 @@ This installation can take some time but only needs to be performed once.""" %{'
                     additional_options = ['--ninja_tarball=%s'%pjoin(MG5DIR,'vendor','%s.tar.gz' % key)]
                     if key == 'ninja':
                         additional_options.append('--oneloop_tarball=%s'%pjoin(MG5DIR,'vendor','oneloop.tar.gz'))
-                    
+
                     try:
                         self.do_install(key,paths={'HEPToolsInstaller':
                                 pjoin(MG5DIR,'vendor','OfflineHEPToolsInstaller.tar.gz')},
@@ -587,7 +587,7 @@ its online installation with the command 'install %(p)s' or install it on your
 own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key})
                             self.exec_cmd("set %s ''" % key)
                             self.exec_cmd('save options %s' % key)
-            
+
             # ONLINE INSTALLATION
             elif value == 'install':
                 prog = {'golem': 'Golem95'}
@@ -601,10 +601,10 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
                 self.exec_cmd('save options %s' % key)
             else:
                 self.exec_cmd("set %s %s" % (key,value))
-                self.exec_cmd('save options %s' % key)                
-        
-        
-    
+                self.exec_cmd('save options %s' % key)
+
+
+
     # Export a matrix element
     def ML5export(self, nojpeg = False, main_file_name = ""):
         """Export a generated amplitude to file"""
@@ -617,7 +617,7 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
             # Sort amplitudes according to number of diagrams,
             # to get most efficient multichannel output
             self._curr_amps.sort(key=lambda x: x.get_number_of_diagrams())
-                
+
 
 
             cpu_time1 = time.time()
@@ -629,12 +629,12 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
                 ndiags = sum([len(me.get('diagrams')) for \
                               me in self._curr_matrix_elements.\
                               get_matrix_elements()])
-                
+
                 # assign a unique id number to all process
                 uid = 0
-                id_list = set() # the id needs also to be different to ensure that 
-                                # all the prefix are different which allows to have 
-                                # a unique library  
+                id_list = set() # the id needs also to be different to ensure that
+                                # all the prefix are different which allows to have
+                                # a unique library
                 for me in self._curr_matrix_elements.get_matrix_elements():
                     uid += 1 # update the identification number
                     me.get('processes')[0].set('uid', uid)
@@ -653,13 +653,13 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
         path = self._export_dir
         if self._export_format in self.supported_ML_format:
             path = pjoin(path, 'SubProcesses')
-            
+
         cpu_time1 = time.time()
 
         # Pick out the matrix elements in a list
         matrix_elements = \
                         self._curr_matrix_elements.get_matrix_elements()
-        
+
         # Fortran MadGraph5_aMC@NLO Standalone
         if self._export_format in self.supported_ML_format:
             for unique_id, me in enumerate(matrix_elements):
@@ -691,7 +691,7 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
                 calls = calls + self._curr_exporter.write_matrix_element_v4(\
                     writers.FortranWriter(filename),\
                     me, self._curr_helas_model)
-                
+
         cpu_time2 = time.time() - cpu_time1
 
         logger.info(("Generated helas calls for %d subprocesses " + \
@@ -715,7 +715,7 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
                 matrix_elements])
 
     def ML5finalize(self, nojpeg, online = False):
-        """Copy necessary sources and output the ps representation of 
+        """Copy necessary sources and output the ps representation of
         the diagrams, if needed"""
 
         if self._export_format in self.supported_ML_format:
@@ -732,18 +732,18 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
                 wanted_couplings = misc.make_unique(self.previous_couplings + wanted_couplings)
                 del self.previous_lorentz
                 del self.previous_couplings
-            
+
             self._curr_exporter.convert_model(self._curr_model,
                                            wanted_lorentz,
                                            wanted_couplings)
-        
+
         if self._export_format in self.supported_ML_format:
             flags = []
             if nojpeg:
                 flags.append('nojpeg')
             if online:
                 flags.append('online')
-                
+
             self._curr_exporter.finalize( \
                                            self._curr_matrix_elements,
                                            self.history,
@@ -756,7 +756,7 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
     def do_launch(self, line, *args,**opt):
         """Main commands: Check that the type of launch is fine before proceeding with the
         mother function. """
-                
+
         args = self.split_arg(line)
         # check argument validity and normalise argument
         (options, args) = mg_interface._launch_parser.parse_args(args)
@@ -769,12 +769,12 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
         start_cwd = os.getcwd()
         options = options.__dict__
         # args is now MODE PATH
-        
+
         ext_program = launch_ext.MadLoopLauncher(self, args[1], \
                                                 options=self.options, **options)
         ext_program.run()
         os.chdir(start_cwd) #ensure to go to the initial path
-        
+
     def do_check(self, line, *args,**opt):
         """Check a given process or set of processes"""
 
@@ -791,9 +791,9 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
             self.validate_model(coupling_type='QED')
         else:
             self.validate_model()
-        
+
         param_card = self.check_check(argss)
-        reuse = argss[1]=="-reuse"   
+        reuse = argss[1]=="-reuse"
         argss = argss[:1]+argss[2:]
         # For the stability check the user can specify the statistics (i.e
         # number of trial PS points) as a second argument
@@ -809,9 +809,9 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
         myprocdef = self.extract_process(proc)
         self.proc_validity(myprocdef,'ML5_check_cms' if argss[0]=='cms' else \
                                                                     'ML5_check')
-        
+
         return mg_interface.MadGraphCmd.do_check(self, line, *args,**opt)
-    
+
     def do_add(self, line, *args,**opt):
         """Generate an amplitude for a given process and add to
         existing amplitudes
@@ -835,7 +835,7 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
         loop_filter=None
         if args[0] == 'process':
 
-            # Extract potential loop_filter          
+            # Extract potential loop_filter
             for arg in args:
                 if arg.startswith('--loop_filter='):
                     start = arg[14]
@@ -850,14 +850,14 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
 
             # Rejoin line
             line = ' '.join(args[1:])
-            
+
             # store the first process (for the perl script)
             if not self._generate_info:
                 self._generate_info = line
-                
+
             # Reset Helas matrix elements
             self._curr_matrix_elements = helas_objects.HelasMultiProcess()
-            
+
         # Extract process from process definition
         myprocdef = self.extract_process(line)
         # hack for multiprocess:
@@ -878,9 +878,9 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
                 raise
             else:
                 return
-             
-             
-        # If it is a process for MadLoop standalone, make sure it has a 
+
+
+        # If it is a process for MadLoop standalone, make sure it has a
         # unique ID. It is important for building a BLHA library which
         # contains unique entry point for each process generated.
         #all_ids = [amp.get('process').get('id') for amp in self._curr_amps]
@@ -888,7 +888,7 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
         #        myprocdef.set('id',max(all_ids)+1)
         #This is ensure at the output stage! by checking that every output have
         # a different id => No need here.
-             
+
         self.proc_validity(myprocdef,'ML5')
 
         cpu_time1 = time.time()
@@ -903,7 +903,7 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
         myproc = multiprocessclass(myprocdef, collect_mirror_procs = False,
                                             ignore_six_quark_processes = False,
                                             loop_filter = loop_filter)
-        
+
         for amp in myproc.get('amplitudes'):
             if amp not in self._curr_amps:
                 self._curr_amps.append(amp)
@@ -914,21 +914,21 @@ own and set the path to its library in the MG5aMC option '%(p)s'.""" % {'p': key
 
             # Reset _done_export, since we have new process
             self._done_export = False
-            
+
             cpu_time2 = time.time()
-            
+
             ndiags = sum([len(amp.get('loop_diagrams')) for \
                       amp in myproc.get('amplitudes')])
             logger.info("Process generated in %0.3f s" % \
             (cpu_time2 - cpu_time1))
-            
+
 
 class LoopInterfaceWeb(mg_interface.CheckValidForCmdWeb, LoopInterface):
     pass
 
 
 class AskLoopInstaller(cmd.OneLinePathCompletion):
-    
+
     local_installer = ['ninja', 'collier']
     required = ['cuttools', 'iregi']
     order = ['cuttools', 'iregi', 'ninja', 'collier', 'golem']
@@ -937,17 +937,17 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
     @property
     def answer(self):
         return self.code
-    
-    
+
+
     def __init__(self, question, *args, **opts):
 
         import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
         try:
             response=six.moves.urllib.request.urlopen('http://madgraph.phys.ucl.ac.be/F1.html', timeout=3)
             self.online=True
-        except six.moves.urllib.error.URLError as err: 
-            self.online=False        
-        
+        except six.moves.urllib.error.URLError as err:
+            self.online=False
+
         self.code = {'ninja': 'install',
                      'collier': 'install',
                      'golem': 'off',
@@ -959,34 +959,34 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
             self.code['golem'] = 'fail'
         if not misc.which('cmake'):
             self.code['collier'] = 'off'
-        
-        #check if some partial installation is already done.  
+
+        #check if some partial installation is already done.
         if 'mother_interface' in opts:
             mother = opts['mother_interface']
             if  'heptools_install_dir' in mother.options:
-                install_dir1 = mother.options['heptools_install_dir'] 
+                install_dir1 = mother.options['heptools_install_dir']
                 install_dir2 = mother.options['heptools_install_dir']
                 if os.path.exists(pjoin(install_dir1, 'CutTools')):
-                    self.code['cuttools'] =  mother.options['heptools_install_dir']           
+                    self.code['cuttools'] =  mother.options['heptools_install_dir']
                 if os.path.exists(pjoin(install_dir1, 'IREGI')):
                     self.code['iregi'] =  mother.options['heptools_install_dir']
             else:
                 install_dir1 = pjoin(MG5DIR, 'HEPTools')
-                install_dir2 = MG5DIR     
+                install_dir2 = MG5DIR
             if os.path.exists(pjoin(install_dir1, 'collier')):
                 self.code['collier'] =  pjoin(install_dir1, 'collier')
             if os.path.exists(pjoin(install_dir2, 'golem95')):
                 self.code['golem'] =  pjoin(install_dir2, 'golem95')
             if os.path.exists(pjoin(install_dir1, 'ninja')):
                 self.code['ninja'] =  pjoin(install_dir2, 'ninja','lib')
-        
+
         # 1. create the question
         question, allowed_answer = self.create_question(first=True)
-        
+
         opts['allow_arg'] = allowed_answer
-        
+
         cmd.OneLinePathCompletion.__init__(self, question, *args, **opts)
-        
+
 
     def create_question(self, first = False):
         """ """
@@ -994,22 +994,22 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
         question = "For loop computations, MadLoop requires dedicated tools to"+\
         " perform the reduction of loop Feynman diagrams using OPP-based and/or TIR approaches.\n"+\
         "\nWhich one do you want to install? (this needs to be done only once)\n"
-        
+
         allowed_answer = set(['0','done'])
-        
+
         descript =  {'cuttools': ['cuttools','(OPP)','[0711.3596]'],
                      'iregi': ['iregi','(TIR)','[1405.0301]'],
                      'ninja': ['ninja','(OPP)','[1403.1229]'],
                      'golem': ['golem','(TIR)','[0807.0605]'],
-                     'collier': ['collier','(TIR)','[1604.06792]']} 
+                     'collier': ['collier','(TIR)','[1604.06792]']}
 
-        
+
         status = {'off': '%(start_red)sdo not install%(stop)s',
                   'install': '%(start_green)swill be installed %(stop)s',
                   'local': '%(start_green)swill be installed %(stop)s(offline installation from local repository)',
                   'fail': 'not available without internet connection',
                   'required': 'will be installed (required)'}
-        
+
         for i,key in enumerate(self.order,1):
             if key in self.bypassed and self.code[key] == 'off':
                 continue
@@ -1026,7 +1026,7 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
                 allowed_answer.update(['key=local','key=off'])
             if self.online:
                 allowed_answer.update(['key=on','key=install', 'key=off'])
-                
+
         question += "You can:\n -> hit 'enter' to proceed\n -> type a number to cycle its options\n -> enter the following command:\n"+\
           '    %(start_blue)s{tool_name}%(stop)s [%(start_blue)sinstall%(stop)s|%(start_blue)snoinstall%(stop)s|'+\
           '%(start_blue)s{prefixed_installation_path}%(stop)s]\n'
@@ -1037,20 +1037,20 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
                                'start_red' : '\033[91m',
                                'start_blue' : '\033[34m',
      'stop':  '\033[0m',
-     'start_bold':'\033[1m', 
+     'start_bold':'\033[1m',
      }
         return question, allowed_answer
-        
+
     def default(self, line):
         """Default action if line is not recognized"""
-        
+
         line = line.strip()
         args = line.split()
 
         if line in ['0', 'done','','EOF']:
             self.value = 'done'
             return self.answer
-        self.value = 'repeat'        
+        self.value = 'repeat'
         if args:
             if len(args) ==1 and '=' in args[0]:
                 args = args[0].split('=')
@@ -1060,7 +1060,7 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
                 if args[0].isdigit():
                     if len(self.order) < int(args[0]):
                         logger.warning('Invalid integer %s. Please Retry' % args[0])
-                        return 
+                        return
                     args[0] = self.order[int(args[0])-1]
                 key = args[0]
                 if key in self.code:
@@ -1076,14 +1076,14 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
                             self.code[key] = 'off'
                     elif self.code[key] == 'local':
                         self.code[key] = 'off'
-                else: 
+                else:
                     logger.warning('Unknown entry \'%s\'. Please retry' % key)
-                    return 
+                    return
             elif len(args) == 2:
                 key = args[0]
                 if key not in self.code:
                     logger.warning('unknown %s type of entry. Bypass command.')
-                    return                     
+                    return
                 if os.path.sep not in args[1]:
                     value = args[1].lower()
                     if value in ['off', 'not','noinstall']:
@@ -1121,10 +1121,10 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
     do_golem = lambda self,line : self.apply_name('golem', line)
     do_cuttools = lambda self,line : self.apply_name('cuttools', line)
     do_iregi =  lambda self,line : self.apply_name('iregi', line)
-    
- 
+
+
     def complete_prog(self, text, line, begidx, endidx, formatting=True):
-        
+
         if os.path.sep in line:
             args = line[0:begidx].split()
             if args[-1].endswith(os.path.sep):
@@ -1135,13 +1135,9 @@ class AskLoopInstaller(cmd.OneLinePathCompletion):
                 return self.path_completion(text, '.', only_dirs = True)
         else:
             return self.list_completion(text, ['install', 'noinstall', 'local'], line)
-    
-    complete_ninja = complete_prog 
+
+    complete_ninja = complete_prog
     complete_collier = complete_prog
     complete_golem = complete_prog
     complete_cuttools = complete_prog
     complete_iregi = complete_prog
-    
-    
-               
-   

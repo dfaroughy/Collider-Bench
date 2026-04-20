@@ -13,9 +13,9 @@
 #include "Pythia8/SigmaProcess.h"
 #include "Parameters_sm.h"
 
-using namespace std; 
+using namespace std;
 
-namespace Pythia8 
+namespace Pythia8
 {
 //==========================================================================
 // A class for calculating the matrix elements for
@@ -57,7 +57,7 @@ namespace Pythia8
 // *   Decay: z > u u~ WEIGHTED<=2
 //--------------------------------------------------------------------------
 
-class Sigma_sm_gd_ddxd : public Sigma3Process 
+class Sigma_sm_gd_ddxd : public Sigma3Process
 {
   public:
 
@@ -65,19 +65,19 @@ class Sigma_sm_gd_ddxd : public Sigma3Process
     Sigma_sm_gd_ddxd() {}
 
     // Initialize process.
-    virtual void initProc(); 
+    virtual void initProc();
 
     // Calculate flavour-independent parts of cross section.
-    virtual void sigmaKin(); 
+    virtual void sigmaKin();
 
     // Evaluate sigmaHat(sHat).
-    virtual double sigmaHat(); 
+    virtual double sigmaHat();
 
     // Select flavour, colour and anticolour.
-    virtual void setIdColAcol(); 
+    virtual void setIdColAcol();
 
     // Evaluate weight for decay angles.
-    virtual double weightDecay(Event& process, int iResBeg, int iResEnd); 
+    virtual double weightDecay(Event& process, int iResBeg, int iResEnd);
 
     // Info on the subprocess.
     virtual string name() const {return "g d > d d~ d (sm)";}
@@ -94,38 +94,37 @@ class Sigma_sm_gd_ddxd : public Sigma3Process
 
     // Private functions to calculate the matrix element for all subprocesses
     // Calculate wavefunctions
-    void calculate_wavefunctions(const int perm[], const int hel[]); 
-    static const int nwavefuncs = 13; 
-    std::complex<double> w[nwavefuncs][18]; 
-    static const int namplitudes = 18; 
-    std::complex<double> amp[namplitudes]; 
-    double matrix_gd_zd_z_ddx(); 
-    double matrix_gd_zd_z_uux(); 
-    double matrix_gd_zd_z_ssx(); 
-    double matrix_gu_zu_z_ddx(); 
-    double matrix_gu_zu_z_uux(); 
-    double matrix_gdx_zdx_z_ddx(); 
-    double matrix_gdx_zdx_z_uux(); 
-    double matrix_gdx_zdx_z_ssx(); 
-    double matrix_gux_zux_z_ddx(); 
-    double matrix_gux_zux_z_uux(); 
+    void calculate_wavefunctions(const int perm[], const int hel[]);
+    static const int nwavefuncs = 13;
+    std::complex<double> w[nwavefuncs][18];
+    static const int namplitudes = 18;
+    std::complex<double> amp[namplitudes];
+    double matrix_gd_zd_z_ddx();
+    double matrix_gd_zd_z_uux();
+    double matrix_gd_zd_z_ssx();
+    double matrix_gu_zu_z_ddx();
+    double matrix_gu_zu_z_uux();
+    double matrix_gdx_zdx_z_ddx();
+    double matrix_gdx_zdx_z_uux();
+    double matrix_gdx_zdx_z_ssx();
+    double matrix_gux_zux_z_ddx();
+    double matrix_gux_zux_z_uux();
 
     // Constants for array limits
-    static const int nexternal = 5; 
-    static const int nprocesses = 20; 
+    static const int nexternal = 5;
+    static const int nprocesses = 20;
 
     // Store the matrix element value from sigmaKin
-    double matrix_element[nprocesses]; 
+    double matrix_element[nprocesses];
 
     // Color flows, used when selecting color
-    double * jamp2[nprocesses]; 
+    double * jamp2[nprocesses];
 
     // Pointer to the model parameters
-    Parameters_sm * pars; 
+    Parameters_sm * pars;
 
-}; 
+};
 
 }  // end namespace Pythia8
 
 #endif // Pythia8_Sigma_sm_gd_ddxd_H
-

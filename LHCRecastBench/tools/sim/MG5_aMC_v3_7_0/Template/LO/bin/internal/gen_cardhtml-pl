@@ -17,8 +17,8 @@ $server = $ENV{'SERVER_NAME'};
       else{
 	  print "Error gen_indexhtml-pl must be run from main or bin directory \n";
 	  exit;
-      }	  
-  }  
+      }
+  }
 #
 #  get the name of the directory
 #
@@ -88,10 +88,10 @@ until($listpos>$#incard){
 #   chomp($qcdOrder);
 #   chomp($qedOrder);
    chomp($model);
-   
+
 
   $htfile =  "index"."\.html"; #name the file
-  open(PAGE,"> $htfile" )|| die "Error writing $htfile"; 
+  open(PAGE,"> $htfile" )|| die "Error writing $htfile";
   print PAGE "\<HTML\> \n";
   print PAGE "\<HEAD\> \n";
   print PAGE "\<TITLE\>MadEvent Card for $interaction \<\/TITLE\> \n";
@@ -115,7 +115,7 @@ until($listpos>$#incard){
   print PAGE "<body text=\"\#000000\" bgcolor=\"\#FFFFFF\" link=\"#007BF0\" vlink=\"\#309372\"> \n";
   print PAGE "<center> \n";
   print PAGE "<h3> <font color=\"#008080\"> <a href=\"index.html\" target=\"_top\">MadEvent Card for $interaction</a> </font></h3> \n ";
-  
+
   print PAGE "<b><font size=-1> Created: </b> ";
   my ($created) = "Unknown";
   if (open FILE, "CREATED") {
@@ -144,7 +144,7 @@ until($listpos>$#incard){
   print PAGE "<table  CELLPADDING=5 WIDTH=\"100%\" BGCOLOR=\"#F0FFFF\"> \n";
 
   print PAGE "<td align=center> <font color=\"#000000\"><font size=+1> Links  </font></font> \n";
-  print PAGE "<td align=center> <font color=\"#000000\"><font size=+1> Status </font></font> \n";  
+  print PAGE "<td align=center> <font color=\"#000000\"><font size=+1> Status </font></font> \n";
   print PAGE "<tr> \n";
 #
 #   Process information
@@ -168,7 +168,7 @@ until($listpos>$#incard){
       print  PAGE "<INPUT TYPE=SUBMIT VALUE=\"Stop Process Generation\">  \n";
       print  PAGE "</FORM> \n";
   }
-  }else { 
+  }else {
          if (-e "SubProcesses/subproc.mg") {
 	     print PAGE "Generation Complete </td> \n";
 	 }else {
@@ -184,7 +184,7 @@ until($listpos>$#incard){
       print PAGE "<td ALIGN=center>";
       print PAGE  "Code Download </a> </td>\n";
       print PAGE "<td ALIGN=center> Not Available </td> \n";
-  }else { 
+  }else {
       print PAGE "<td ALIGN=center><a href=madevent.tar.gz>";
       print PAGE  "Code Download </a> </td>\n";
       print PAGE "<td ALIGN=center> Available </td> \n";
@@ -203,7 +203,7 @@ until($listpos>$#incard){
 
     if (!-e "./RunWeb") {
       print PAGE "Available (access restricted)</td> \n";
-    }else { 
+    }else {
       print PAGE "Running </td> \n";
     }
   }
@@ -212,11 +212,11 @@ until($listpos>$#incard){
     print PAGE  "On-line Event Generation\n";
     print PAGE "<td ALIGN=center> ";
     print PAGE "<a href=\"README\">Only available from the web</a></td> \n";
-  }     
+  }
 
 #
 #   Results and Event Data base
-# 
+#
   print PAGE "</tr><tr> \n";
 
   print PAGE "<td ALIGN=center><a href=\"crossx.html\"> \n ";
@@ -230,16 +230,16 @@ until($listpos>$#incard){
   if (-d $file) {
     $nfound = $nfound + 1;
   }
-  } 
+  }
   if ($nfound == "0") {
 	  print PAGE "No runs available </td> \n";
-  }else { 
-	  print PAGE "$nfound "; 
+  }else {
+	  print PAGE "$nfound ";
 	  print PAGE " runs available </td> \n";
   }
   }
   print PAGE "</tr> \n";
-  
+
 #  my @keywords =  &GetKeyInfo( $interaction, $model) ;
 #   my @keywords = {};
   print PAGE "</table> \n";
@@ -250,31 +250,31 @@ until($listpos>$#incard){
   print PAGE "</font> \n </td> \n </table> \n <p> \n";
   my($today) = `date`;
   print PAGE "<b> Last Update: </b> $today";
-  
+
   print PAGE "</center> \n </body> \n </html> \n";
   close PAGE;
 
 sub GetKeyInfo {
     my($process, $model)= @_;
-    
+
 #-------------------------------------------
 # start keyword generation
 # result is an array of keywords (@keywords)
 #-------------------------------------------
 
 #get rid of spaces
-    $process =~ s/\s+//g; 
+    $process =~ s/\s+//g;
 
 #set everything to lowercase
     $process =~ s/(.)/\L$1/g;
 
 # divide it into initial, intermediate and final state
     ($process, my $forbid) = split /\//, $process;
-    my @splitprocess = split />/, $process; 
+    my @splitprocess = split />/, $process;
     my $k= @splitprocess;
 
-    my $in= $splitprocess[0]; 
-    my $out=$splitprocess[$k-1]; 
+    my $in= $splitprocess[0];
+    my $out=$splitprocess[$k-1];
 
     if ($k > 2) {
 	my $inter=$splitprocess[$k-2];
@@ -309,7 +309,7 @@ sub GetKeyInfo {
 # count the number of final-state particles
 
     my @entries= split /\s+/, $out;
-    my $nfinal= @entries; 
+    my $nfinal= @entries;
 
     print " final state particles: @entries\n";
     push @keywords, "2->$nfinal";
@@ -330,7 +330,7 @@ sub GetKeyInfo {
 	};
 	if (substr($_,0,1) eq "e"  ||
 	    substr($_,0,2) eq "mu" ||
-	    substr($_,0,2) eq "ta" || 
+	    substr($_,0,2) eq "ta" ||
             substr($_,0,1) eq "l" ) {
 	    $cleptons=1;
 	};

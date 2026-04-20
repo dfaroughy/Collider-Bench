@@ -1,6 +1,6 @@
       SUBROUTINE SETCUTS
 C**************************************************************************
-C     SET THE CUTS 
+C     SET THE CUTS
 C**************************************************************************
       IMPLICIT NONE
 c
@@ -20,7 +20,7 @@ c
 c     LOCAL
 c
       integer i,j,k
-C     
+C
 C     GLOBAL
 C
 c--masses and poles
@@ -36,7 +36,7 @@ C
       LOGICAL  IS_A_J(NEXTERNAL),IS_A_LP(NEXTERNAL),IS_A_LM(NEXTERNAL)
       LOGICAL  IS_A_PH(NEXTERNAL)
       COMMON /TO_SPECISA/IS_A_J,IS_A_LP,IS_A_LM,IS_A_PH
-c 
+c
       double precision etmin(nincoming+1:nexternal-1)
       double precision etmax(nincoming+1:nexternal-1)
       double precision mxxmin(nincoming+1:nexternal-1,nincoming+1:nexternal-1)
@@ -74,7 +74,7 @@ c specified in coupl.inc
          is_a_lp(i)=.false.
          is_a_lm(i)=.false.
          is_a_ph(i)=.false.
-         
+
 c     -light-jets
          if (abs(idup(i,1)).le.maxjetflavor) then
               is_a_j(i)=.true.
@@ -151,7 +151,7 @@ c     fully ensure that this is not a jet/lepton/photon
 
       subroutine set_tau_min()
 c Sets the lower bound for tau=x1*x2, using information on particle
-c masses and on the jet minimum pt, as entered in run_card.dat, 
+c masses and on the jet minimum pt, as entered in run_card.dat,
 c variable ptj
       use mint_module
       implicit none
@@ -238,7 +238,7 @@ c
       include "born_props.inc"
 
 c The following assumes that light QCD particles are at the end of the
-c list. Exclude one of them (i_fks) to set tau bound at the Born level 
+c list. Exclude one of them (i_fks) to set tau bound at the Born level
 c This sets a hard cut in the minimal shat of the Born phase-space
 c generation.
 c
@@ -403,7 +403,7 @@ c                    assume smin apply always on the same set of particle
                      else
                         smin_update = dsqrt(smin_update)/nb_iden_pdg ! share over N particle, and change dimension
                      endif
-                     ! update in sqrt(s) so take the 
+                     ! update in sqrt(s) so take the
                      if  (j_fks.gt.nincoming) then
                         taumin(iFKS,ichan)=taumin(iFKS,ichan) + smin_update
                      else
@@ -419,7 +419,7 @@ c                    assume smin apply always on the same set of particle
             stot = 4d0*ebeam(1)*ebeam(2)
             tau_Born_lower_bound=taumin(iFKS,ichan)**2/stot
             tau_lower_bound=taumin_j(iFKS,ichan)**2/stot
-c         
+c
 c Also find the minimum lower bound if all internal s-channel particles
 c were on-shell
             tsign=-1
@@ -469,13 +469,13 @@ c the previous iteration of the loop
                   xm(i)=min(xm1,xm2)
                endif
             enddo
-      
+
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c Determine the "minimal" s-channel invariant masses
             do i=nincoming+1,nexternal-1
                s_mass_FKS(iFKS,i,ichan)=xm(i)**2
             enddo
-            do i=-1,-(nexternal-3),-1 ! All propagators 
+            do i=-1,-(nexternal-3),-1 ! All propagators
                s_mass_FKS(iFKS,i,ichan)=xm(i)**2
             enddo
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -679,5 +679,3 @@ c
       new_point=.false.
       return
       end
-
-

@@ -2,33 +2,33 @@
 
       CHARACTER(128) path
 CF2PY intent(in)::path
- 
+
 C     INCLUDE FILES
-C     
-C     the include file with the values of the parameters and masses   
-C        
+C
+C     the include file with the values of the parameters and masses
+C
       INCLUDE 'coupl.inc'
       CALL SETPARA(path)
-      return 
+      return
       end
 
       SUBROUTINE %(prefix_routine)sGET_ME(P, ALPHAS, SCALE2, NHEL , ANS,RETURNCODE)
       IMPLICIT NONE
-C     
-C     CONSTANTS  
-C     
+C
+C     CONSTANTS
+C
       REAL*8 ZERO
       PARAMETER (ZERO=0D0)
 
 C     integer nexternal C number particles (incoming+outgoing) in the
-C      me 
+C      me
       include 'nexternal.inc'
 
 C      CHARACTER(512) MADLOOPRESOURCEPATH
-C     
+C
 C     INCLUDE FILES
-C     
-C     the include file with the values of the parameters and masses   
+C
+C     the include file with the values of the parameters and masses
 C
       INCLUDE 'coupl.inc'
 C     particle masses
@@ -38,7 +38,7 @@ C     integer    n_max_cg
       INCLUDE 'nsquaredSO.inc'
 
 C     LOCAL
-C     
+C
       INTEGER I
 C     four momenta. Energy is the zeroth component.
       REAL*8 P(0:3,NEXTERNAL)
@@ -53,8 +53,8 @@ C     four momenta. Energy is the zeroth component.
       DOUBLE PRECISION ALPHAS, SCALE2
 CF2PY INTENT(OUT) :: ANS
 CF2PY INTENT(OUT) :: RETURNCODE
-CF2PY INTENT(IN) :: NHEL   
-CF2PY INTENT(IN) :: P(0:3,NEXTERNAL) 
+CF2PY INTENT(IN) :: NHEL
+CF2PY INTENT(IN) :: P(0:3,NEXTERNAL)
 CF2PY INTENT(IN) :: ALPHAS
 CF2PY INTENT(IN) :: SCALE2
 c
@@ -73,12 +73,12 @@ c
 	data buffer_position /1/
 	save old_ALPHAS, old_scale2, old_nhel, old_p, buffer_position
 	save old_me, old_return
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     This is from ML code for the list of split orders selected by
 C     the process definition
-C     
+C
       INTEGER NLOOPCHOSEN
       CHARACTER*20 CHOSEN_LOOP_SO_INDICES(NSQUAREDSO)
       LOGICAL CHOSEN_LOOP_SO_CONFIGS(NSQUAREDSO)
@@ -97,9 +97,9 @@ C
 	  endif
 	  endif
     enddo
-C     
+C
 C     BEGIN CODE
-C     
+C
       CALL %(proc_prefix)sFORCE_STABILITY_CHECK(.True.)
       CALL %(proc_prefix)sGET_ANSWER_DIMENSION(MATELEM_ARRAY_DIM)
       ALLOCATE(MATELEM(0:3,0:MATELEM_ARRAY_DIM))
@@ -120,16 +120,16 @@ C      chosen
 C       Update the couplings with the new ALPHAS
         CALL UPDATE_AS_PARAM2(SCALE2, ALPHAS)
 
-C       
+C
 C       Now we can call the matrix element
-C       
+C
         if (NHEL.eq.0) then
           CALL %(proc_prefix)sSLOOPMATRIX_THRES(P,MATELEM,-1.0D0, PREC_FOUND, RETURNCODE)
        else
        CALL %(proc_prefix)sSLOOPMATRIXHEL_THRES(P,NHEL, MATELEM,-1.0D0, PREC_FOUND, RETURNCODE)
        endif
-       
-c      loop induce -> only finite part 
+
+c      loop induce -> only finite part
        ANS =  MATELEM(1,0)
 
 c
@@ -140,10 +140,3 @@ c
 	  buffer_position = MOD(buffer_position, buffer_size) +1
 
       END
-
-
-
-
-
-
-

@@ -1,0 +1,51 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install package + test deps
+        run: |
+          python -m pip install --upgrade pip
+          # Smoke-test deps only — the HEP stack (numpy, uproot, awkward, etc.)
+          # is needed for end-to-end scoring, not for the offline test suite.
+          pip install pyyaml pytest
+
+      - name: Run tests
+        env:
+          # CI runners don't have claude/codex/bwrap — tests self-skip when absent.
+          # Set PYTHONPATH so package imports work without an install step.
+          PYTHONPATH: ${{ github.workspace }}
+        run: python -m pytest -v
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Install pre-commit
+        run: pip install pre-commit
+      - name: Run pre-commit on all files
+        # This runs the same hooks a developer runs locally — trailing-whitespace,
+        # ruff lint+format, secrets scan, etc. Fails the job if any hook makes a
+        # change or reports an error.
+        run: pre-commit run --all-files --show-diff-on-failure

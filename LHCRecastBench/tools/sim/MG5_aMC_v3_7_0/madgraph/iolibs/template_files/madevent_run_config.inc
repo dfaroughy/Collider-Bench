@@ -7,7 +7,7 @@ c
 c     The following parameters are used by symmetry.f in setting up the survey
 c
       integer    icomp
-      parameter (icomp = 3)   !BW + Symmetry compression  0 == none	
+      parameter (icomp = 3)   !BW + Symmetry compression  0 == none
 c     The following sets the maximum number of parameters in the run_card.dat
       integer maxpara
       parameter (maxpara=1000)
@@ -21,7 +21,7 @@ c
       integer    max_iter                   !Maximum number of iterations
       parameter (max_iter = 9)              !during refinement
       integer    MaxEventsPerJob            !Maximum number of events requested from a single job
-      parameter (MaxEventsPerJob=1000)	
+      parameter (MaxEventsPerJob=1000)
 c
 c     The following are used for parallel running
 c

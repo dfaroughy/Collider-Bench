@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Classes, methods and functions required to write QCD color information 
+"""Classes, methods and functions required to write QCD color information
 for a loop diagram and build a color basis, and to square a QCD color string for
 squared diagrams and interference terms."""
 
@@ -42,15 +42,15 @@ class LoopColorBasis(color_amp.ColorBasis):
         """ Defines the instance attribute compute_loop_nc.
         The compute_loop_nc sets wheter independent tracking of Nc power coming
         from the color loop trace is necessary or not (it is time consuming)."""
-        
+
         self.compute_loop_nc = compute_loop_nc
 
     def closeColorLoop(self, colorize_dict, lcut_charge, lcut_numbers):
-        """ Add a color delta in the right representation (depending on the 
+        """ Add a color delta in the right representation (depending on the
         color charge carried by the L-cut particle whose number are given in
         the loop_numbers argument) to close the loop color trace."""
-        
-        # But for T3 and T6 for example, we must make sure to add a delta with 
+
+        # But for T3 and T6 for example, we must make sure to add a delta with
         # the first index in the fundamental representation.
         if lcut_charge<0:
             lcut_numbers.reverse()
@@ -82,8 +82,8 @@ class LoopColorBasis(color_amp.ColorBasis):
             # We add here the closing color structure.
             CS.product(closingCS)
             if self.compute_loop_nc:
-                # Now compute the Nc power *after* the loop color flow is sewed 
-                # together and again compute the overall maximum power of Nc 
+                # Now compute the Nc power *after* the loop color flow is sewed
+                # together and again compute the overall maximum power of Nc
                 # appearing in this simplified sewed structure.
                 simplified_cs = color_algebra.ColorFactor([CS]).full_simplify()
                 if not simplified_cs:
@@ -108,7 +108,7 @@ class LoopColorBasis(color_amp.ColorBasis):
         Also update the _list_color_dict object accordingly."""
 
         list_color_dict = []
-        
+
         if not isinstance(amplitude,loop_diagram_generation.LoopAmplitude):
             raise color_amp.ColorBasis.ColorBasisError('LoopColorBasis is used with an amplitude which is not a LoopAmplitude')
         for diagram in amplitude.get('loop_diagrams'):
@@ -128,7 +128,7 @@ class LoopColorBasis(color_amp.ColorBasis):
                 self.closeColorLoop(colorize_dict,lcut_charge,lcut_numbers)
 
             list_color_dict.append(colorize_dict)
-            
+
         # Now let's treat the UVCT diagrams as well
         for diagram in amplitude.get('loop_UVCT_diagrams'):
             colorize_dict = self.colorize(diagram,
@@ -156,19 +156,19 @@ class LoopColorBasis(color_amp.ColorBasis):
         self._list_color_dict = list_color_dict
 
         return list_color_dict
-            
+
     def build_born(self, amplitude):
         """Build the a color basis object using information contained in
-        amplitude (otherwise use info from _list_color_dict). 
+        amplitude (otherwise use info from _list_color_dict).
         Returns a list of color """
 
         self.create_born_color_dict_list(amplitude)
         for index, color_dict in enumerate(self._list_color_dict):
             self.update_color_basis(color_dict, index)
-            
+
     def build_loop(self, amplitude):
         """Build the loop color basis object using information contained in
-        amplitude (otherwise use info from _list_color_dict). 
+        amplitude (otherwise use info from _list_color_dict).
         Returns a list of color."""
 
         self.create_loop_color_dict_list(amplitude)

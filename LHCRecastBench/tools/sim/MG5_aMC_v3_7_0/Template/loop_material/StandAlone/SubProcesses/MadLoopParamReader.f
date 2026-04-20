@@ -1,4 +1,4 @@
-      subroutine MadLoopParamReader(filename, printParam) 
+      subroutine MadLoopParamReader(filename, printParam)
 
       implicit none
 
@@ -25,13 +25,13 @@
      &           CTModeInit .gt. 6 ) then
                stop 'CTModeInit must be >= 0 and <=6.'
              endif
-           
+
            else if (buff .eq. '#CTModeRun') then
              read(666,*,end=999) CTModeRun
              if (CTModeRun .lt. -1 .or.
      &           CTModeRun .gt. 6 ) then
                stop 'CTModeRun must be >= -1 and <=6.'
-             endif 
+             endif
 
            else if (buff .eq. '#COLLIERGlobalCache') then
              read(666,*,end=999) COLLIERGlobalCache
@@ -225,12 +225,12 @@
       enddo
   999 continue
       couldRead=.True.
-      goto 998      
+      goto 998
 
   676 continue
       write(*,*) '##E00 Error:: MadLoop parameter file ',fileName,
      &' could not be found or is malformed. Please specify it.'
-      stop 
+      stop
 C     Below is the code if one desires to let the code continue with
 C     a non existing or malformed parameter file
       write(*,*) '##I01 INFO :: The file ',fileName,' could not be ',
@@ -244,7 +244,7 @@ C     a non existing or malformed parameter file
       if(printParam.and..not.paramPrinted) then
       write(*,*)
      & '==============================================================='
-      if (couldRead) then      
+      if (couldRead) then
         write(*,*) 'INFO: MadLoop read these parameters from '
      &,filename
       else
@@ -299,10 +299,10 @@ C     a non existing or malformed parameter file
 
       end
 
-      subroutine DefaultParam() 
+      subroutine DefaultParam()
 
       implicit none
-      
+
       include "MadLoopParams.inc"
 
       MLReductionLib(1)=6

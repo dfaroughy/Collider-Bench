@@ -1,5 +1,5 @@
 c**************************************************************
-c    run.inc 
+c    run.inc
 c**************************************************************
 c
 c     Scales
@@ -9,9 +9,9 @@ c
       logical         fixed_extra_scale
       integer         ickkw,nhmult,asrwgtflavor, dynamical_scale_choice
 
-c     EVA      
+c     EVA
       integer ievo_eva,evaorder,eva_xcut
-      
+
       common/to_scale/scale,scalefact,alpsfact, mue_ref_fixed, mue_over_ref,
      $                fixed_ren_scale,fixed_fac_scale1, fixed_fac_scale2,
      $                fixed_couplings, fixed_extra_scale,ickkw,nhmult,hmult,asrwgtflavor,
@@ -32,7 +32,7 @@ c
       integer nevents, gevents
 c
 c     BW treatment
-c      
+c
       double precision bwcutoff
       common/to_bwcutoff/ bwcutoff
 c
@@ -61,14 +61,14 @@ c     Common block for systematics variations
       COMMON/TO_SYST/use_syst,n_qcd,n_alpsem,n_pdfrw,i_pdgpdf,
      $               s_scale,s_qalps,s_xpdf,s_qpdf,s_rwfact
 c
-c     Flag on how to write the LHE events 
+c     Flag on how to write the LHE events
 c     Include <clustering> tag for Pythia 8 CKKW-L matching
 c
       logical clusinfo
       double precision lhe_version
       COMMON/TO_LHEFORMAT/lhe_version,clusinfo
 
-c     
+c
 C     Controls wheter to perform Monte-Carlo sampling over grouped subprocesses
 C
       logical MC_grouped_subproc
@@ -92,13 +92,13 @@ c
 c
 c
       integer pdg_cut(0:25)
-      double precision ptmin4pdg(0:25) 
-      double precision ptmax4pdg(0:25) 
-      double precision Emin4pdg(0:25) 
-      double precision Emax4pdg(0:25) 
-      double precision etamin4pdg(0:25) 
-      double precision etamax4pdg(0:25) 
-      double precision mxxmin4pdg(0:25) 
+      double precision ptmin4pdg(0:25)
+      double precision ptmax4pdg(0:25)
+      double precision Emin4pdg(0:25)
+      double precision Emax4pdg(0:25)
+      double precision etamin4pdg(0:25)
+      double precision etamax4pdg(0:25)
+      double precision mxxmin4pdg(0:25)
       logical mxxpart_antipart(1:25)
       common/TO_PDG_SPECIFIC_CUT/pdg_cut, ptmin4pdg,ptmax4pdg, Emin4pdg, Emax4pdg, etamin4pdg,
      &etamax4pdg, mxxmin4pdg,mxxpart_antipart

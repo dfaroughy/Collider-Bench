@@ -44,7 +44,7 @@
 struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower {
 	using Pythia8::SimpleSpaceShower::SimpleSpaceShower;
 
-	void init(class Pythia8::BeamParticle * a0, class Pythia8::BeamParticle * a1) override { 
+	void init(class Pythia8::BeamParticle * a0, class Pythia8::BeamParticle * a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "init");
 		if (overload) {
@@ -57,7 +57,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::init(a0, a1);
 	}
-	bool limitPTmax(class Pythia8::Event & a0, double a1, double a2) override { 
+	bool limitPTmax(class Pythia8::Event & a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "limitPTmax");
 		if (overload) {
@@ -70,7 +70,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::limitPTmax(a0, a1, a2);
 	}
-	void prepare(int a0, class Pythia8::Event & a1, bool a2) override { 
+	void prepare(int a0, class Pythia8::Event & a1, bool a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "prepare");
 		if (overload) {
@@ -83,7 +83,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::prepare(a0, a1, a2);
 	}
-	void update(int a0, class Pythia8::Event & a1, bool a2) override { 
+	void update(int a0, class Pythia8::Event & a1, bool a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "update");
 		if (overload) {
@@ -96,7 +96,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::update(a0, a1, a2);
 	}
-	double pTnext(class Pythia8::Event & a0, double a1, double a2, int a3, bool a4) override { 
+	double pTnext(class Pythia8::Event & a0, double a1, double a2, int a3, bool a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "pTnext");
 		if (overload) {
@@ -109,7 +109,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::pTnext(a0, a1, a2, a3, a4);
 	}
-	bool branch(class Pythia8::Event & a0) override { 
+	bool branch(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "branch");
 		if (overload) {
@@ -122,7 +122,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::branch(a0);
 	}
-	void list() const override { 
+	void list() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "list");
 		if (overload) {
@@ -135,7 +135,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::list();
 	}
-	bool initUncertainties() override { 
+	bool initUncertainties() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "initUncertainties");
 		if (overload) {
@@ -148,7 +148,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::initUncertainties();
 	}
-	bool initEnhancements() override { 
+	bool initEnhancements() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "initEnhancements");
 		if (overload) {
@@ -161,7 +161,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::initEnhancements();
 	}
-	bool doRestart() const override { 
+	bool doRestart() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "doRestart");
 		if (overload) {
@@ -174,7 +174,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::doRestart();
 	}
-	bool wasGamma2qqbar() override { 
+	bool wasGamma2qqbar() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "wasGamma2qqbar");
 		if (overload) {
@@ -187,7 +187,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::wasGamma2qqbar();
 	}
-	bool getHasWeaklyRadiated() override { 
+	bool getHasWeaklyRadiated() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "getHasWeaklyRadiated");
 		if (overload) {
@@ -200,7 +200,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::getHasWeaklyRadiated();
 	}
-	int system() const override { 
+	int system() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "system");
 		if (overload) {
@@ -213,7 +213,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::system();
 	}
-	double enhancePTmax() const override { 
+	double enhancePTmax() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "enhancePTmax");
 		if (overload) {
@@ -226,7 +226,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::enhancePTmax();
 	}
-	double noEmissionProbability(double a0, double a1, double a2, int a3, int a4, double a5, double a6) override { 
+	double noEmissionProbability(double a0, double a1, double a2, int a3, int a4, double a5, double a6) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "noEmissionProbability");
 		if (overload) {
@@ -239,7 +239,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SimpleSpaceShower::noEmissionProbability(a0, a1, a2, a3, a4, a5, a6);
 	}
-	class Pythia8::Event clustered(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	class Pythia8::Event clustered(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "clustered");
 		if (overload) {
@@ -253,7 +253,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		return SpaceShower::clustered(a0, a1, a2, a3, a4);
 	}
 	using _binder_ret_0 = class std::map<class std::basic_string<char>, double, struct std::less<class std::basic_string<char> >, class std::allocator<struct std::pair<const class std::basic_string<char>, double> > >;
-	_binder_ret_0 getStateVariables(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	_binder_ret_0 getStateVariables(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "getStateVariables");
 		if (overload) {
@@ -266,7 +266,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SpaceShower::getStateVariables(a0, a1, a2, a3, a4);
 	}
-	bool isSpacelike(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	bool isSpacelike(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "isSpacelike");
 		if (overload) {
@@ -280,7 +280,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		return SpaceShower::isSpacelike(a0, a1, a2, a3, a4);
 	}
 	using _binder_ret_1 = class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > >;
-	_binder_ret_1 getSplittingName(const class Pythia8::Event & a0, int a1, int a2, int a3) override { 
+	_binder_ret_1 getSplittingName(const class Pythia8::Event & a0, int a1, int a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "getSplittingName");
 		if (overload) {
@@ -293,7 +293,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SpaceShower::getSplittingName(a0, a1, a2, a3);
 	}
-	double getSplittingProb(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	double getSplittingProb(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "getSplittingProb");
 		if (overload) {
@@ -306,7 +306,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SpaceShower::getSplittingProb(a0, a1, a2, a3, a4);
 	}
-	bool allowedSplitting(const class Pythia8::Event & a0, int a1, int a2) override { 
+	bool allowedSplitting(const class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "allowedSplitting");
 		if (overload) {
@@ -320,7 +320,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		return SpaceShower::allowedSplitting(a0, a1, a2);
 	}
 	using _binder_ret_2 = class std::vector<int, class std::allocator<int> >;
-	_binder_ret_2 getRecoilers(const class Pythia8::Event & a0, int a1, int a2, class std::basic_string<char> a3) override { 
+	_binder_ret_2 getRecoilers(const class Pythia8::Event & a0, int a1, int a2, class std::basic_string<char> a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "getRecoilers");
 		if (overload) {
@@ -333,7 +333,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SpaceShower::getRecoilers(a0, a1, a2, a3);
 	}
-	double enhanceFactor(const class std::basic_string<char> & a0) override { 
+	double enhanceFactor(const class std::basic_string<char> & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "enhanceFactor");
 		if (overload) {
@@ -346,7 +346,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return SpaceShower::enhanceFactor(a0);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -359,7 +359,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "onBeginEvent");
 		if (overload) {
@@ -372,7 +372,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "onEndEvent");
 		if (overload) {
@@ -385,7 +385,7 @@ struct PyCallBack_Pythia8_SimpleSpaceShower : public Pythia8::SimpleSpaceShower 
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleSpaceShower *>(this), "onStat");
 		if (overload) {

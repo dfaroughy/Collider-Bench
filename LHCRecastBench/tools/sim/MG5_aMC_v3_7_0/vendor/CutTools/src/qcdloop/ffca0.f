@@ -39,9 +39,9 @@
 *
 *  #] declarations:
 *  #[ the real case:
-*	
+*
 *	adapted to log-and-pole scheme 25-mar-1992
-*	
+*
 	if ( DIMAG(cm) .eq. 0 .or. nschem .lt. 7 ) then
 	    xm = DBLE(cm)
 	    call ffxa0(ca0,d0,xmm,xm,ier)
@@ -107,7 +107,7 @@
 *
 *	common blocks etc
 *
-	
+
 	include 'ff.h'
 *  #] declarations:
 *  #[ "calculations":
@@ -173,7 +173,7 @@
 *  #] declarations:
 *  #[ preliminaries:
 *
-*	as the A0 cannot contain any on-shell singularities, return 
+*	as the A0 cannot contain any on-shell singularities, return
 *	zero when one asks for one.
 *
 	if ( onshel .and. ndiv .gt. 0 ) then
@@ -191,4 +191,3 @@
 *  #] "work":
 *###] ffza0:
 	end
-

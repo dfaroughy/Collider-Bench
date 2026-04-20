@@ -1,7 +1,7 @@
 /**********************************************************************************
  * Tree.h: Public header file for the Tree widget
   *         From:
-  *                   The X Window System, 
+  *                   The X Window System,
   *            Programming and Applications with Xt
   *                   OSF/Motif Edition
   *         by
@@ -16,17 +16,17 @@
   *
   * This code is based on the OSF/Motif widget set and the X Window System
   *
-  * Permission to use, copy, modify, and distribute this software for 
+  * Permission to use, copy, modify, and distribute this software for
   * any purpose and without fee is hereby granted, provided that the above
   * copyright notice appear in all copies and that both the copyright notice
   * and this permission notice appear in supporting documentation.
   *
-  * Prentice Hall and the author disclaim all warranties with regard to 
+  * Prentice Hall and the author disclaim all warranties with regard to
   * this software, including all implied warranties of merchantability and fitness.
   * In no event shall Prentice Hall or the author be liable for any special,
-  * indirect or cosequential damages or any damages whatsoever resulting from 
-  * loss of use, data or profits, whether in an action of contract, negligence 
-  * or other tortious action, arising out of or in connection with the use 
+  * indirect or cosequential damages or any damages whatsoever resulting from
+  * loss of use, data or profits, whether in an action of contract, negligence
+  * or other tortious action, arising out of or in connection with the use
   * or performance of this software.
   *
   * Open Software Foundation is a trademark of The Open Software Foundation, Inc.
@@ -50,4 +50,3 @@ typedef struct _XsTreeRec      *XsTreeWidget;
 #define XtCPad                "Pad"
 #define XtNsuperNode          "superNode"
 #define XtCSuperNode          "SuperNode"
-

@@ -41,11 +41,11 @@ import math
 from six.moves import range
 from six.moves import input
 
-try: 
+try:
     import madgraph.madweight.diagram_class as diagram_class
     import madgraph.madweight.substructure_class as substructure_class
     import madgraph.madweight.MW_info as MW_param
-    
+
 except ImportError:
     import internal.madweight.diagram_class as diagram_class
     import internal.madweight.substructure_class as substructure_class
@@ -74,7 +74,7 @@ def verif_event(MWparam):
 
 def restrict_event_passing_cut(MWparam):
     """ return the number of events in a (previous) run which pass the 'new' cut """
-    
+
     # 0 ##############
     ####  go to main directory and copy file
     go_to_main_dir()
@@ -88,19 +88,19 @@ def restrict_event_passing_cut(MWparam):
     MW_dir=MWparam.MW_listdir[0]
     filter=Lhco_filter(MW_dir,MWparam=MWparam,auto=0)
     return filter.verif_event(MWparam.name+'/verif.lhco',output=1) #output 1:return which event pass the cut
-    
-    
+
+
 
 #1 ###############################################################################################################
 class Lhco_filter:
 
     class Lepton_Without_Charge_Error(Exception): pass
-    
+
     #2 ###############################################################################################################
     def __init__(self,directory,lhco_file='',MWparam='',auto=1,write_mode=1):
         """ input is either a file containing particule number info or a SubProcesses directory """
 
-        start=time.time()        
+        start=time.time()
         if MWparam:
             self.MWparam=MWparam
         else:
@@ -132,11 +132,11 @@ class Lhco_filter:
         if not self.MWparam.info['mw_perm']['bjet_is_jet_for_selection']:
             partdef.use_bjet()
         if 'eventselection' in self.MWparam.info:
-            partdef.update_hlt_cut(self.MWparam.info['eventselection'])	
+            partdef.update_hlt_cut(self.MWparam.info['eventselection'])
 
         return partdef
-    
-    #2 ###############################################################################################################        
+
+    #2 ###############################################################################################################
     def load_particle_number(self,directory):
         """ extract the number of particule from the iconfigs """
 
@@ -144,14 +144,14 @@ class Lhco_filter:
 
         olist=['jet','bjet','electron','positron','muon','amuon','tau','atau', 'miss','photon']#,'miss']
         content=diag.output_type_info()
-        
+
         total=0
         data={}
         for i in range(0,len(olist)):
             data[olist[i]]=content[i]
             total+=content[i]
         #data['n_out']=total
-        
+
         #check status of the b-jet
         if not self.MWparam.info['mw_perm']['bjet_is_jet_for_selection']:
             self.use_bjet=1
@@ -202,7 +202,7 @@ class Lhco_filter:
 
     #2 ###############################################################################################################
     def define_particle_number(self,particle,number):
-        
+
         list=['jet','bjet','electron','positron','muon','amuon','tau','atau','miss']
         if particle not in list:
             print('unknown type of particle')
@@ -217,7 +217,7 @@ class Lhco_filter:
             output defines what returns the routine
                  0: write the file + returns how many events pass
                  1: returns the list of events passing cuts
-        """ 
+        """
         start=time.time()
 
         #control input
@@ -231,14 +231,14 @@ class Lhco_filter:
         elif os.path.isfile('./Events/'+file):  f_in=open('./Events/'+file,'r')
         else: sys.exit('FATAL ERROR: No experimental file \"'+file+'\" in Events directory.')
 
-            
+
         #supress first X valid events:
         if '21' in self.MWparam.info['mw_run']:
             self.start=int(self.MWparam.info['mw_run']['21'])
             print('start', self.start)
         else:
             self.start=0
-            
+
         #define the output file
         if output==0:
             os.system('mkdir '+self.directory+'/'+self.MWparam.name+' &>/dev/null')
@@ -248,7 +248,7 @@ class Lhco_filter:
 
         #print 'time  begin verif event Lhco_filter',time.time()-start
         #end init
-        
+
         #initialize variable for the loop on events
         list_part=[] #store the different particle of the events
         nb_part={}   #dictionary saying with type of particles are expected
@@ -276,7 +276,7 @@ class Lhco_filter:
                     #reinit with new block
                     list_part=[part]
                     nb_part={'begin':1,'unknow':0}
-                    self.event_position+=1                    
+                    self.event_position+=1
                 else:
                     list_part.append(part)
                     if identity in nb_part:
@@ -289,19 +289,19 @@ class Lhco_filter:
                 #    self.write(list_part)
                #reinit for next step
                 list_part=[]
-                nb_part={}			
+                nb_part={}
 
         #check last data to be sure that we don't forget the last event
         if self.check_valid(nb_part):
             if nb_accepted < self.MWparam.info['mw_run']['nb_exp_events']:
-                self.write(list_part)	
+                self.write(list_part)
         print('time  verif event Lhco_filter',time.time()-start)
         print(self.write_events-self.start,'selected  events for ',self.directory,' subprocess')
         # Comment this for multi-output run
         if self.write_events-self.start<self.MWparam.nb_event:
             name = self.directory.split('/')[-1]
             self.MWparam.nb_event_MW[name] = self.write_events-self.start
-        if output==0:    
+        if output==0:
             return self.write_events
         elif output==1:
             return self.accepted_list
@@ -320,10 +320,10 @@ class Lhco_filter:
                         continue
                     else:
                         return 0
-                    
+
                 if key not in nb_part:
                     return 0
-                
+
                 if type(self.nb_part[key])==list:
                     if nb_part[key] not in self.nb_part[key] :
                         return 0
@@ -344,14 +344,14 @@ class Lhco_filter:
 
         if hasattr(self, 'f_out') and self.write_events and \
         self.write_events % (self.MWparam['mw_run']['nb_event_by_node'] * self.MWparam['mw_run']['event_packing']) == 0:
-            
+
             i = self.write_events // (self.MWparam['mw_run']['nb_event_by_node'] * self.MWparam['mw_run']['event_packing'])
             name = self.f_out.name
             base, name = os.path.split(name)
             name = os.path.join(base, name.replace('_%i' % (i-1), '_%i' % i ))
-            self.f_out = open(name,'w')    
-        
-        
+            self.f_out = open(name,'w')
+
+
         self.write_events+=1
         if self.write_mode==0:
             return
@@ -360,45 +360,45 @@ class Lhco_filter:
 
         #check wich output to update
         if hasattr(self,'f_out'): #output file is defined:
-            
+
             write_order = self.write_order
 
             for i in range(0,len(write_order)):
                 for j in range(0,len(list_part)):
                     if list_part[j].name==write_order[i]:
                         self.f_out.write(list_part[j].line)
-                        
+
         if hasattr(self,'accepted_list'): #output which event passing cut
             self.accepted_list.append(self.event_position-1) #the first should be zero and this number is already updated
 
-#1 ########################################################################	
+#1 ########################################################################
 class lhco_all_particles_def(dict):
         """
                 a class containing all the particles definition
         """
-        
-        #2 ########################################################################	
+
+        #2 ########################################################################
         class lhco_id:
                 """ a class containing the LHCO definition-restriction of on each lhco particles
-                        this defines rules to know of wich type a particle is	
+                        this defines rules to know of wich type a particle is
                 """
                 eta_max=1e2
                 pt_max=1e6
                 ntrk_max=1e3
-                
-                #3 ########################################################################	
+
+                #3 ########################################################################
                 class bound_limit:
                         """ set a minimum and a maximum value for a parameter """
-                        #4 ########################################################################	
+                        #4 ########################################################################
                         def __init__(self,vmin,vmax):
                                 self.vmin=vmin
                                 self.vmax=vmax
-                                
-                        #4 ########################################################################	
+
+                        #4 ########################################################################
                         def redefine(self,min,max):
-                                self.__init__(min,max)		
-                                
-                        #4 ########################################################################	
+                                self.__init__(min,max)
+
+                        #4 ########################################################################
                         def inlimit(self,value):
                                 """ check if value is between min and max """
                                 value=float(value)
@@ -407,26 +407,26 @@ class lhco_all_particles_def(dict):
                                 else:
 #                                    print 'failed check',value,self.vmin ,self.vmax
                                     return 0
-                                
-                #3 ########################################################################	
+
+                #3 ########################################################################
                 def __init__(self,name,type,pid):
-                        """ initialize the object. 
+                        """ initialize the object.
                                         name is the name of the particle described
                                         type is the type value in the lhco file
                         """
-                                        
+
                         self.name=name
                         self.lhcoid=str(type)
                         self.init_default()
                         self.pid=pid
-                
-                #3 ########################################################################		
+
+                #3 ########################################################################
                 def init_default(self):
                     """ put the zero cut on the particle """
-                        
+
                     self.eta=self.bound_limit(-self.eta_max,self.eta_max)
                     self.phi=self.bound_limit(-math.pi,2*math.pi)
-                    self.pt=self.bound_limit(0,self.pt_max)		
+                    self.pt=self.bound_limit(0,self.pt_max)
                     self.jmass=self.bound_limit(-1e-5,self.pt_max)
                     self.ntrk=self.bound_limit(-self.ntrk_max,self.ntrk_max)
                     self.btag=self.bound_limit(-100,100)
@@ -435,14 +435,14 @@ class lhco_all_particles_def(dict):
                     self.dum2=self.bound_limit(-1e99,1e99)
                     #special variable (not line of the lhco file)
                     self.E=self.bound_limit(0,1e99)
-                    
-                #3 ########################################################################		
+
+                #3 ########################################################################
                 def restrict(self,tag,min_val,max_val):
                         """ add a restriction on a parameter """
-                        
+
                         eval('self.'+tag+'.redefine('+str(min_val)+','+str(max_val)+')')
-                        
-                #3 ########################################################################		
+
+                #3 ########################################################################
                 def check(self,particle):
                         """ check if a particle is of this type or not """
 
@@ -498,14 +498,14 @@ class lhco_all_particles_def(dict):
                            self.dum2.inlimit(particle.dum2) and
                            self.E.inlimit(particle.E)):
                                 return 1
-                        else: 
+                        else:
                                 return 0
-                                
-                
-                
-        #2 ########################################################################		
+
+
+
+        #2 ########################################################################
         def __init__(self):
-        
+
                 #lepton definition
                 self['electron']=self.lhco_id('electron',1,11)
                 self.electron=self['electron']
@@ -529,7 +529,7 @@ class lhco_all_particles_def(dict):
                 #photon definition
                 self['photon']=self.lhco_id('photon',0,22)
                 self.photon=self['photon']
-                
+
                 #hadronic definition
                 #default no distinction between jet and b jet
                 self['jet']=self.lhco_id('light_jet',4,1)
@@ -546,28 +546,28 @@ class lhco_all_particles_def(dict):
 
                 #avoid to many warning
                 self.nb_warning = 0
-        
-        #2 ########################################################################		
+
+        #2 ########################################################################
         def use_bjet(self):
                 """ separate the class jet between jet and bjet """
                 self['jet'].restrict('btag',0,0)
                 self['bjet']=self.lhco_id('bjet',4,5)
                 self['bjet'].restrict('btag',1,4)
                 self.bjet=self['bjet']
-                
+
         #2 ########################################################################
         def update_hlt_cut(self,hltcut):
             """ take the hlt cut from the Madweight card """
 
             print('update cut :',hltcut)
             for key in hltcut:
-                name,param=key.split('_')	
-                if(type(hltcut[key])==list):			
+                name,param=key.split('_')
+                if(type(hltcut[key])==list):
                     self[name].restrict(param,hltcut[key][0],hltcut[key][1])
-                else:				
+                else:
                     self[name].restrict(param,hltcut[key],9e99)
 
-#2 ########################################################################				
+#2 ########################################################################
         def identify_particle(self,particle):
             """ find in wich category the particles belongs """
 
@@ -576,16 +576,16 @@ class lhco_all_particles_def(dict):
                 if self[name].check(particle):
                     #print name
                     return name
-                
+
             for name in [name for name in self.keys() if name not in ['begin','jet','miss','electron','photon']]:
                 if self[name].check(particle):
                     #print name
                     return name
-                
+
             if not self.nb_warning:
                 print('Some particles are not identified to any types. This could occur if you specify some cuts.')
                 print('Following lines shows  a sample of those unidentified lines:')
-                
+
             if self.nb_warning<10:
                 self.nb_warning+=1
                 print(particle.line[:-1])
@@ -607,23 +607,23 @@ pat_lhco_line=re.compile(r'''^\s*(?P<card>\d*)\s+               #cardinal
                                (?P<dum1>[+-\.\de]+)\s+   # user free at this stage
                                (?P<dum2>[+-\.\de]+)\s+$  # user free at this stage
                         ''',re.I+re.VERBOSE) # 80= VERBOSE +ignore case
-                        
-                        
+
+
 pat_new_block=re.compile(r'''^\s*0\s+               #cardinal
                                (?P<type>\S*)                # type: 0 = photon,1 = elec,2 = muon,3 = hadronic tau,4 = jet,6 =MTE
                                \s+(?P<eta>[+-\.\de]+)\s+
                                ''',re.I+re.VERBOSE)
-    
 
 
-                                
-#1 ########################################################################		
+
+
+#1 ########################################################################
 class lhco_part(dict):
     """ a class for a particle from the lhco line """
-        
+
     class ErrorNotLHCOformat(Exception): pass
 
-        
+
     #2 ########################################################################
     def __init__(self,line):
         """ charge a particle """
@@ -631,16 +631,16 @@ class lhco_part(dict):
         reobj=pat_lhco_line.search(line)
         if not reobj:
             if not self.beginblok(line):
-                raise self.ErrorNotLHCOformat	
+                raise self.ErrorNotLHCOformat
             else:
                 return
         self.card=reobj.group('card')
         self.lhcoid=reobj.group('type')
-        self.eta=reobj.group('eta')				
-        self.phi=reobj.group('phi')		
-        self.pt=reobj.group('pt')	
-        self.jmass=reobj.group('jmass')	
-        self.ntrk=reobj.group('ntrk')	
+        self.eta=reobj.group('eta')
+        self.phi=reobj.group('phi')
+        self.pt=reobj.group('pt')
+        self.jmass=reobj.group('jmass')
+        self.ntrk=reobj.group('ntrk')
         self.btag=reobj.group('btag')
         self.hadem=reobj.group('hadem')
         self.dum1=reobj.group('dum1')
@@ -654,15 +654,15 @@ class lhco_part(dict):
     #2 ########################################################################
     def beginblok(self,line):
         """ charge a particle """
-                
-        reobj=pat_new_block.search(line)	
+
+        reobj=pat_new_block.search(line)
         if not reobj:
             return 0
-                        
+
         self.card=0
         self.lhcoid='99'
         self.eta='0'
-        self.phi='0'		
+        self.phi='0'
         self.pt='0'
         self.jmass='0'
         self.ntrk='0'
@@ -706,10 +706,10 @@ class Test_one_file(Lhco_filter):
             partdef.update_hlt_cut(self.MWparam.info['eventselection'])
         self.partdef=partdef
         #define internal variable
-        self.write_events=0    
+        self.write_events=0
         self.verif_event(self.lhco_file,self.partdef,output=1)
 
-                
+
 #########################################################################
 #########################################################################
 if(__name__=="__main__"):

@@ -19,9 +19,9 @@
 ##      		 rule associated to each file                   ##
 ##	third column   = position to write the modified file            ##
 ##									##
-########################################################################## 
+##########################################################################
 main_dir=../../../
-#    position_file                  modif_rule  	write_position	
+#    position_file                  modif_rule  	write_position
 #    -------------             	    ----------		--------------
      ./bin/put_banner     	    mod_putbanner	./bin/put_banner_MW
 #     ./bin/setup_model-pl	    mod_setup_model     ./bin/setup_model-pl

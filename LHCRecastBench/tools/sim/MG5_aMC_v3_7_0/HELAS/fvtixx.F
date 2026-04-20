@@ -25,13 +25,13 @@ c
       double complex d, T00, T12, T13, T14, T23, T24, T34
       double precision po(4), po2
       integer i
-      
+
       double precision rZero, rTwo
       parameter( rZero = 0.0d0, rTwo = 2.0d0 )
       double complex cone
       parameter( cone = ( 0.0d0, 1.0d0 ))
 
-      
+
       ft(1,1) = tc(1)
       ft(1,2) = tc(2)
       ft(1,3) = tc(3)
@@ -58,9 +58,9 @@ c
       po(2) = dreal(fvti(6))
       po(3) = dimag(fvti(6))
       po(4) = dimag(fvti(5))
- 
+
       po2=po(1)**2-po(2)**2-po(3)**2-po(4)**2
-     
+
       T00 = ft(1,1)-ft(2,2)-ft(3,3)-ft(4,4)
       T12 = ft(1,2) + ft(2,1)
       T13 = ft(1,3) + ft(3,1)
@@ -68,7 +68,7 @@ c
       T23 = ft(2,3) + ft(3,2)
       T24 = ft(2,4) + ft(4,2)
       T34 = ft(3,4) + ft(4,3)
-   
+
       if ( fmass.gt.rZero ) then
          d =  -1.0d0/dcmplx( po2-fmass**2, fmass*fwidth )
       else
@@ -79,119 +79,119 @@ c
      & - T23*(-(cone*vc(2)) + vc(3)) + 2.d0*T00*(-vc(2) + cone*vc(3))
      & - T24*vc(4) + cone*T34*vc(4)) + fmass*fi(3)*gc(2)*
      &     (T12*vc(2) - T24*vc(2) + T13*vc(3) - T34*vc(3)
-     &+ 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))) + 
+     &+ 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))) +
      &    fi(1)*gc(1)*((-po(2) + cone*po(3))*(-(T12*vc(1))
-     & - cone*T13*vc(1) - T23*(-(cone*vc(2)) - vc(3)) + 
-     &          2.d0*T00*(vc(2) + cone*vc(3)) + T24*vc(4) 
-     &+ cone*T34*vc(4)) + 
-     &       (po(1) - po(4))*(T12*vc(2) + T24*vc(2) 
-     &+ T13*vc(3) + T34*vc(3) + T14*(-vc(1) + vc(4)) 
-     &+ 2.d0*T00*(vc(1) + vc(4)))) + 
+     & - cone*T13*vc(1) - T23*(-(cone*vc(2)) - vc(3)) +
+     &          2.d0*T00*(vc(2) + cone*vc(3)) + T24*vc(4)
+     &+ cone*T34*vc(4)) +
+     &       (po(1) - po(4))*(T12*vc(2) + T24*vc(2)
+     &+ T13*vc(3) + T34*vc(3) + T14*(-vc(1) + vc(4))
+     &+ 2.d0*T00*(vc(1) + vc(4)))) +
      &    fi(2)*gc(1)*((po(1) - po(4))*(-(T12*vc(1))
-     & + cone*T13*vc(1) - T23*(cone*vc(2) - vc(3)) 
-     &+ 2.d0*T00*(vc(2) - cone*vc(3)) + 
-     &          T24*vc(4) - cone*T34*vc(4)) 
+     & + cone*T13*vc(1) - T23*(cone*vc(2) - vc(3))
+     &+ 2.d0*T00*(vc(2) - cone*vc(3)) +
+     &          T24*vc(4) - cone*T34*vc(4))
      &+ (-po(2) + cone*po(3))*
-     &        (T12*vc(2) - T24*vc(2) + T13*vc(3) 
+     &        (T12*vc(2) - T24*vc(2) + T13*vc(3)
      &- T34*vc(3) + 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))))
 
-      fvti(2) = fmass*fi(3)*gc(2)*(T12*vc(1) 
+      fvti(2) = fmass*fi(3)*gc(2)*(T12*vc(1)
      &+ cone*T13*vc(1) - T23*(cone*vc(2) + vc(3))
-     & + 2.d0*T00*(-vc(2) - cone*vc(3)) - 
+     & + 2.d0*T00*(-vc(2) - cone*vc(3)) -
      &       T24*vc(4) - cone*T34*vc(4)) + fmass*fi(4)*gc(2)*
      &     (T12*vc(2) + T24*vc(2) + T13*vc(3) + T34*vc(3)
-     & + T14*(-vc(1) + vc(4)) + 2.d0*T00*(vc(1) + vc(4))) + 
+     & + T14*(-vc(1) + vc(4)) + 2.d0*T00*(vc(1) + vc(4))) +
      &    fi(1)*gc(1)*((po(1) + po(4))*(-(T12*vc(1)) - cone*T13*vc(1)
-     & - T23*(-(cone*vc(2)) - vc(3)) + 
+     & - T23*(-(cone*vc(2)) - vc(3)) +
      &          2.d0*T00*(vc(2) + cone*vc(3))
-     & + T24*vc(4) + cone*T34*vc(4)) + 
+     & + T24*vc(4) + cone*T34*vc(4)) +
      &       (-po(2) - cone*po(3))*(T12*vc(2) + T24*vc(2)
-     & + T13*vc(3) + T34*vc(3) + T14*(-vc(1) + vc(4)) + 
+     & + T13*vc(3) + T34*vc(3) + T14*(-vc(1) + vc(4)) +
      &          2.d0*T00*(vc(1) + vc(4)))) + fi(2)*gc(1)*
      &     ((-po(2) - cone*po(3))*(-(T12*vc(1)) + cone*T13*vc(1)
-     & - T23*(cone*vc(2) - vc(3)) + 2.d0*T00*(vc(2) - cone*vc(3)) + 
+     & - T23*(cone*vc(2) - vc(3)) + 2.d0*T00*(vc(2) - cone*vc(3)) +
      &          T24*vc(4) - cone*T34*vc(4)) + (po(1) + po(4))*
-     &        (T12*vc(2) - T24*vc(2) + T13*vc(3) - T34*vc(3) 
+     &        (T12*vc(2) - T24*vc(2) + T13*vc(3) - T34*vc(3)
      &+ 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))))
 
       fvti(3) = fmass*fi(2)*gc(1)*(-(T12*vc(1)) + cone*T13*vc(1)
-     & - T23*(cone*vc(2) - vc(3)) + 2.d0*T00*(vc(2) - cone*vc(3)) + 
+     & - T23*(cone*vc(2) - vc(3)) + 2.d0*T00*(vc(2) - cone*vc(3)) +
      &       T24*vc(4) - cone*T34*vc(4)) + fmass*fi(1)*gc(1)*
      &     (T12*vc(2) + T24*vc(2) + T13*vc(3) + T34*vc(3)
-     & + T14*(-vc(1) + vc(4)) + 2.d0*T00*(vc(1) + vc(4))) + 
+     & + T14*(-vc(1) + vc(4)) + 2.d0*T00*(vc(1) + vc(4))) +
      &    fi(4)*gc(2)*((po(1) + po(4))*(T12*vc(1) - cone*T13*vc(1)
-     & - T23*(-(cone*vc(2)) + vc(3)) + 2.d0*T00*(-vc(2) + cone*vc(3))  
+     & - T23*(-(cone*vc(2)) + vc(3)) + 2.d0*T00*(-vc(2) + cone*vc(3))
      &       -T24*vc(4) + cone*T34*vc(4)) + (po(2) - cone*po(3))*
      &        (T12*vc(2) + T24*vc(2) + T13*vc(3) + T34*vc(3)
-     & + T14*(-vc(1) + vc(4)) + 2.d0*T00*(vc(1) + vc(4)))) + 
+     & + T14*(-vc(1) + vc(4)) + 2.d0*T00*(vc(1) + vc(4)))) +
      &    fi(3)*gc(2)*((po(2) - cone*po(3))*(T12*vc(1)
-     & + cone*T13*vc(1) - T23*(cone*vc(2) + vc(3)) + 
+     & + cone*T13*vc(1) - T23*(cone*vc(2) + vc(3)) +
      &          2.d0*T00*(-vc(2) - cone*vc(3))
-     & - T24*vc(4) - cone*T34*vc(4)) + 
+     & - T24*vc(4) - cone*T34*vc(4)) +
      &       (po(1) + po(4))*(T12*vc(2) - T24*vc(2)
-     & + T13*vc(3) - T34*vc(3) + 2.d0*T00*(vc(1) - vc(4)) 
+     & + T13*vc(3) - T34*vc(3) + 2.d0*T00*(vc(1) - vc(4))
      & + T14*(vc(1) + vc(4))))
 
       fvti(4) = fmass*fi(1)*gc(1)*(-(T12*vc(1)) - cone*T13*vc(1)
-     &	 - T23*(-(cone*vc(2)) - vc(3)) 
-     & + 2.d0*T00*(vc(2) + cone*vc(3)) + 
+     &	 - T23*(-(cone*vc(2)) - vc(3))
+     & + 2.d0*T00*(vc(2) + cone*vc(3)) +
      &       T24*vc(4) + cone*T34*vc(4)) + fmass*fi(2)*gc(1)*
      &     (T12*vc(2) - T24*vc(2) + T13*vc(3) - T34*vc(3)
-     & + 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))) + 
-     &    fi(4)*gc(2)*((po(2) + cone*po(3))*(T12*vc(1) 
-     & - cone*T13*vc(1) - T23*(-(cone*vc(2)) + vc(3)) + 
+     & + 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))) +
+     &    fi(4)*gc(2)*((po(2) + cone*po(3))*(T12*vc(1)
+     & - cone*T13*vc(1) - T23*(-(cone*vc(2)) + vc(3)) +
      &          2.d0*T00*(-vc(2) + cone*vc(3)) - T24*vc(4)
-     & + cone*T34*vc(4)) + 
+     & + cone*T34*vc(4)) +
      &       (po(1) - po(4))*(T12*vc(2) + T24*vc(2)
      & + T13*vc(3) + T34*vc(3) + T14*(-vc(1) + vc(4))
-     & + 2.d0*T00*(vc(1) + vc(4)))) + 
-     &    fi(3)*gc(2)*((po(1) - po(4))*(T12*vc(1) 
+     & + 2.d0*T00*(vc(1) + vc(4)))) +
+     &    fi(3)*gc(2)*((po(1) - po(4))*(T12*vc(1)
      &+ cone*T13*vc(1) - T23*(cone*vc(2) + vc(3))
-     & + 2.d0*T00*(-vc(2) - cone*vc(3)) - 
+     & + 2.d0*T00*(-vc(2) - cone*vc(3)) -
      &          T24*vc(4) - cone*T34*vc(4))
      & + (po(2) + cone*po(3))*
-     &        (T12*vc(2) - T24*vc(2) + T13*vc(3) 
-     &- T34*vc(3) + 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))))  
+     &        (T12*vc(2) - T24*vc(2) + T13*vc(3)
+     &- T34*vc(3) + 2.d0*T00*(vc(1) - vc(4)) + T14*(vc(1) + vc(4))))
 
       fvti(1) = fvti(1)
      &	-2*fmass*fi(4)*gc(2)*(ft(2,2)*vc(2) - cone*ft(3,3)*vc(3))
-     & - 2*fmass*fi(3)*gc(2)*(ft(1,1)*vc(1) + ft(4,4)*vc(4)) + 
+     & - 2*fmass*fi(3)*gc(2)*(ft(1,1)*vc(1) + ft(4,4)*vc(4)) +
      &    fi(1)*gc(1)*(-2*(-po(2) + cone*po(3))*(-(ft(2,2)*vc(2))
-     & - cone*ft(3,3)*vc(3)) - 
-     &       2*(po(1) - po(4))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) + 
-     &    fi(2)*gc(1)*(-2*(po(1) - po(4))*(-(ft(2,2)*vc(2)) 
-     &+ cone*ft(3,3)*vc(3)) - 
+     & - cone*ft(3,3)*vc(3)) -
+     &       2*(po(1) - po(4))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) +
+     &    fi(2)*gc(1)*(-2*(po(1) - po(4))*(-(ft(2,2)*vc(2))
+     &+ cone*ft(3,3)*vc(3)) -
      &       2*(-po(2) + cone*po(3))*(ft(1,1)*vc(1) + ft(4,4)*vc(4)))
 
       fvti(2) = fvti(2)
      &-2*fmass*fi(3)*gc(2)*(ft(2,2)*vc(2) + cone*ft(3,3)*vc(3))
-     & - 2*fmass*fi(4)*gc(2)*(ft(1,1)*vc(1) - ft(4,4)*vc(4)) + 
+     & - 2*fmass*fi(4)*gc(2)*(ft(1,1)*vc(1) - ft(4,4)*vc(4)) +
      &   fi(1)*gc(1)*(-2*(po(1) + po(4))*(-(ft(2,2)*vc(2))
-     & - cone*ft(3,3)*vc(3)) - 
-     &       2*(-po(2) - cone*po(3))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) + 
+     & - cone*ft(3,3)*vc(3)) -
+     &       2*(-po(2) - cone*po(3))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) +
      &    fi(2)*gc(1)*(-2*(-po(2) - cone*po(3))*(-(ft(2,2)*vc(2))
-     & + cone*ft(3,3)*vc(3)) - 
+     & + cone*ft(3,3)*vc(3)) -
      &       2*(po(1) + po(4))*(ft(1,1)*vc(1) + ft(4,4)*vc(4)))
-     	
+
       fvti(3) = fvti(3)
      &-2*fmass*fi(2)*gc(1)*(-(ft(2,2)*vc(2)) + cone*ft(3,3)*vc(3))
-     & - 2*fmass*fi(1)*gc(1)*(ft(1,1)*vc(1) - ft(4,4)*vc(4)) + 
-     &    fi(4)*gc(2)*(-2*(po(1) + po(4))*(ft(2,2)*vc(2) 
-     &- cone*ft(3,3)*vc(3)) - 
-     &       2*(po(2) - cone*po(3))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) + 
-     &    fi(3)*gc(2)*(-2*(po(2) - cone*po(3))*(ft(2,2)*vc(2) 
-     &+ cone*ft(3,3)*vc(3)) - 
-     &       2*(po(1) + po(4))*(ft(1,1)*vc(1) + ft(4,4)*vc(4)))	
-	
+     & - 2*fmass*fi(1)*gc(1)*(ft(1,1)*vc(1) - ft(4,4)*vc(4)) +
+     &    fi(4)*gc(2)*(-2*(po(1) + po(4))*(ft(2,2)*vc(2)
+     &- cone*ft(3,3)*vc(3)) -
+     &       2*(po(2) - cone*po(3))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) +
+     &    fi(3)*gc(2)*(-2*(po(2) - cone*po(3))*(ft(2,2)*vc(2)
+     &+ cone*ft(3,3)*vc(3)) -
+     &       2*(po(1) + po(4))*(ft(1,1)*vc(1) + ft(4,4)*vc(4)))
+
       fvti(4) = fvti(4)
      &-2*fmass*fi(1)*gc(1)*(-(ft(2,2)*vc(2)) - cone*ft(3,3)*vc(3))
-     & - 2*fmass*fi(2)*gc(1)*(ft(1,1)*vc(1) + ft(4,4)*vc(4)) + 
+     & - 2*fmass*fi(2)*gc(1)*(ft(1,1)*vc(1) + ft(4,4)*vc(4)) +
      &    fi(4)*gc(2)*(-2*(po(2) + cone*po(3))*(ft(2,2)*vc(2)
-     & - cone*ft(3,3)*vc(3)) - 
-     &       2*(po(1) - po(4))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) + 
+     & - cone*ft(3,3)*vc(3)) -
+     &       2*(po(1) - po(4))*(ft(1,1)*vc(1) - ft(4,4)*vc(4))) +
      &    fi(3)*gc(2)*(-2*(po(1) - po(4))*(ft(2,2)*vc(2)
-     & + cone*ft(3,3)*vc(3)) - 
-     &       2*(po(2) + cone*po(3))*(ft(1,1)*vc(1) + ft(4,4)*vc(4)))	
+     & + cone*ft(3,3)*vc(3)) -
+     &       2*(po(2) + cone*po(3))*(ft(1,1)*vc(1) + ft(4,4)*vc(4)))
 
       do i = 1,4
          fvti(i) = -fvti(i)*d*gt

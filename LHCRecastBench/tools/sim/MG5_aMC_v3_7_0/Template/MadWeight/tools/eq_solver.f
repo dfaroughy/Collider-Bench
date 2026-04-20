@@ -80,7 +80,7 @@ c      write(*,*) 'y ', y
 c      write(*,*) 'p ', p
 c      write(*,*) 'p+2d0*y ', p+2d0*y
 
-      if ((p+2d0*y).gt.0d0) then 
+      if ((p+2d0*y).gt.0d0) then
 c      write(*,*) 'p+2d0*y0 ', p+2d0*y
       g2=1d0
       g1=-dsqrt(p+2d0*y)
@@ -142,10 +142,10 @@ c
 c
 c
       if(b.eq.0d0.and.c.eq.0d0.and.d.eq.0d0) then
-      x1=dcmplx(0d0) 
-      x2=dcmplx(0d0) 
+      x1=dcmplx(0d0)
+      x2=dcmplx(0d0)
       x3=dcmplx(0d0)
-      return 
+      return
       elseif (b.eq.0d0.and.c.eq.0d0.and.d.ne.0d0) then
       if (d.lt.0d0) then
       x1=dcmplx( (-d)**(1d0/3d0)  )
@@ -163,10 +163,10 @@ c
       return
       endif
       endif
-      
+
 
       p=-b**2/(3d0*a**2)+c/a
-      q=b/(27d0*a)*(2d0*b**2/a**2-9d0*c/a)+d/a      
+      q=b/(27d0*a)*(2d0*b**2/a**2-9d0*c/a)+d/a
       delta=q**2+4d0*p**3/27d0
 
 c       write(*,*) 'p: ',p
@@ -174,7 +174,7 @@ c       write(*,*) 'q: ',q
 
       if (delta.gt.0d0) then
 c
-      if ((-q+dsqrt(delta)).ge.0d0 ) then 
+      if ((-q+dsqrt(delta)).ge.0d0 ) then
       u=((-q+dsqrt(delta))/2d0)**(1d0/3d0)
       elseif ((-q+dsqrt(delta)).le.0d0) then
       u=-((q-dsqrt(delta))/2d0)**(1d0/3d0)
@@ -182,7 +182,7 @@ c
 c
       if ((-q-dsqrt(delta)).ge.0d0) then
       v=(-(q+dsqrt(delta))/2d0)**(1d0/3d0)
-      
+
       elseif((q+dsqrt(delta)).ge.0d0) then
       v=-((q+dsqrt(delta))/2d0)**(1d0/3d0)
       endif
@@ -196,7 +196,7 @@ c
       x1=3d0*q/p
       x2=-3d0*q/2d0*p
       x3=-3d0*q/2d0*p
-      
+
       elseif (delta.lt.0d0) then
       x1=2d0*dsqrt(-p/3d0)*dcos(1d0/3d0*
      & (dacos(-q*dsqrt(27d0/(-p**3))/2d0)))
@@ -209,14 +209,14 @@ c
       x1=x1-dcmplx(b/(3d0*a))
       x2=x2-dcmplx(b/(3d0*a))
       x3=x3-dcmplx(b/(3d0*a))
-     
+
 
       return
       end
 
       subroutine degree2_real(a,b,c,x1,x2)
 c
-c     this program compute the roots x1, x2 
+c     this program compute the roots x1, x2
 c     of the equation aX^2+bX+C=0
 c
       implicit none
@@ -234,7 +234,7 @@ c
       if (rho.ge.0d0) then
       x1=dcmplx((-b+sqrt(rho))/(2d0*a))
       x2=dcmplx((-b-sqrt(rho))/(2d0*a))
-      elseif (rho.lt.0d0) then 
+      elseif (rho.lt.0d0) then
       x1=dcmplx(-b/(2d0*a),sqrt(-rho)/(2d0*a))
       x2=dcmplx(-b/(2d0*a),-sqrt(-rho)/(2d0*a))
       endif

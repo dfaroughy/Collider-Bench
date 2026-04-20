@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # idea have 2 script
-# madweight.py -> direct submission 
+# madweight.py -> direct submission
 # madweight_cmd.py -> interface
 
 
@@ -50,13 +50,13 @@ def Launch_all_SubProcess(MWparam):
     if MWparam.run_opt['compilation']:
         print('starting program compilation')
         compile_SubProcesses(MW_proclist)
-            
+
     if MWparam.run_opt['event']:
         verif_event(MWparam)
 
     if MWparam.run_opt['refine']:
         print("collecting data to find data with a precision less than",MWparam.run_opt['refine'])
-        collect_schedular(MWparam)          
+        collect_schedular(MWparam)
 
 
     #all cluster operation
@@ -65,7 +65,7 @@ def Launch_all_SubProcess(MWparam):
 
     if MWparam.run_opt['collect']:
         print("collecting data")
-        collect_schedular(MWparam)          
+        collect_schedular(MWparam)
 
 
 #########################################################################
@@ -94,7 +94,7 @@ def   compile_SubProcesses(process_list):
         else:
             print("fortran compilation error")
             sys.exit()
-    os.chdir("..")   
+    os.chdir("..")
     return
 
 ##############################################################################
@@ -113,8 +113,8 @@ def     compile_P_SubProcesses(process_list):
         else:
             print("fortran compilation error")
             sys.exit()
-    os.chdir("..")   
-    return  
+    os.chdir("..")
+    return
 ##############################################################################
 def  make_symb_link(P_proclist):
     os.chdir("./SubProcesses")
@@ -126,7 +126,7 @@ def  make_symb_link(P_proclist):
         os.system('ln -s ../madevent_param')
         os.system('ln -s ../../Source/pdf.inc')
         os.chdir('..')
-    os.chdir("..")   
+    os.chdir("..")
     return
 
 
@@ -143,7 +143,7 @@ if(__name__=='__main__'):
     MWparam.set_run_opt(sys.argv)
 
     for dir in MWparam.MW_listdir:
-      if not os.path.exists("SubProcesses/"+dir+"/call_TF.f"): 
+      if not os.path.exists("SubProcesses/"+dir+"/call_TF.f"):
         print("Currently no transfer function loaded ...")
         listdir=os.listdir('./Source/MadWeight/transfer_function/data')
         print('Available transfer functions:\n   ', end=' ')
@@ -165,14 +165,14 @@ if(__name__=='__main__'):
 
     if MWparam.run_opt['analyzer']:
         write_MadWeight.create_all_fortran_code(MWparam)
-    if MWparam.run_opt['madweight_main']:    
+    if MWparam.run_opt['madweight_main']:
         Launch_all_SubProcess(MWparam)
 
     if MWparam.run_opt['plot']:
         import plot
         plot.Likelihood(mw_param=MWparam,auto=1)
         if MWparam['mw_run']['histo']:
-            plot.Differential_Graph(MWparam,auto=1)        
+            plot.Differential_Graph(MWparam,auto=1)
 
     if MWparam.run_opt['clean']:
         print('cleaning in progress ....')

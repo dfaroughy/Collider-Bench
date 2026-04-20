@@ -162,8 +162,8 @@ else
 endif
 
 
-liball$(ROOTNAME)_$(MENUM)me.$(dylibext): all_matrix.o libMadLoop.$(dylibext) $(WRAPPER_OBJS) $(LIBS)  $(OLP) 
-	$(CXX) $(DYNLIBFLAG)  $(LIBALLME_DYNFLAG)  $(STDLIB_FLAG)  -o liball$(ROOTNAME)_$(MENUM)me.$(dylibext) all_matrix.o */f2py_wrapper.o ../Source/DHELAS/*.o ../Source/MODEL/*.o $(STAT_LIB) $(RPATH_LIBS) $(LINK_LOOP_LIBS) $(ALL_DOTO) $(STDLIB) $(LINK_LOOP_LIBS) 
+liball$(ROOTNAME)_$(MENUM)me.$(dylibext): all_matrix.o libMadLoop.$(dylibext) $(WRAPPER_OBJS) $(LIBS)  $(OLP)
+	$(CXX) $(DYNLIBFLAG)  $(LIBALLME_DYNFLAG)  $(STDLIB_FLAG)  -o liball$(ROOTNAME)_$(MENUM)me.$(dylibext) all_matrix.o */f2py_wrapper.o ../Source/DHELAS/*.o ../Source/MODEL/*.o $(STAT_LIB) $(RPATH_LIBS) $(LINK_LOOP_LIBS) $(ALL_DOTO) $(STDLIB) $(LINK_LOOP_LIBS)
 
 
 
@@ -179,17 +179,17 @@ endif
 
 
 
-matrix$(MENUM)py.so: ../$(OLP)_static f2py_wrapper.f 
+matrix$(MENUM)py.so: ../$(OLP)_static f2py_wrapper.f
 	touch __init__.py
 	$(F2PY) $(MADLOOP_LIB) -m matrix$(MENUM)py -c f2py_wrapper.f --f77exec=$(FC)   -L../../lib/ -ldhelas -lmodel $(LINK_LOOP_LIBS) $(STDLIB)
 
 allmatrix$(MENUM)py.so: $(OLP)_static all_matrix.f $(LIBS) $(WRAPPER)
 	touch __init__.py
-	$(F2PY) $(MADLOOP_LIB)  -m allmatrix$(MENUM)py -c all_matrix.f $(wildcard $(LOOP_PREFIX)*/f2py_wrapper.f) --f77exec=$(FC)   -L../lib/ -ldhelas -lmodel $(LINK_LOOP_LIBS) $(STDLIB) 
+	$(F2PY) $(MADLOOP_LIB)  -m allmatrix$(MENUM)py -c all_matrix.f $(wildcard $(LOOP_PREFIX)*/f2py_wrapper.f) --f77exec=$(FC)   -L../lib/ -ldhelas -lmodel $(LINK_LOOP_LIBS) $(STDLIB)
 
 
 all_matrix$(MENUM)py.so:  liball$(ROOTNAME)_$(MENUM)me.$(dylibext) f2py_wrapper.f makefile
-	LDFLAGS="-Wl,-rpath,$(HERE) -L$(HERE) $(RPATH_LIBS)  $(LINK_LOOP_LIBS) $(LD_F2PY)" $(F2PY)  -c f2py_wrapper.f -L$(HERE) -lall$(ROOTNAME)_$(MENUM)me -m all_matrix$(MENUM)py  
+	LDFLAGS="-Wl,-rpath,$(HERE) -L$(HERE) $(RPATH_LIBS)  $(LINK_LOOP_LIBS) $(LD_F2PY)" $(F2PY)  -c f2py_wrapper.f -L$(HERE) -lall$(ROOTNAME)_$(MENUM)me -m all_matrix$(MENUM)py
 	touch all_matrix$(MENUM)py.so
 	touch __init__.py
 

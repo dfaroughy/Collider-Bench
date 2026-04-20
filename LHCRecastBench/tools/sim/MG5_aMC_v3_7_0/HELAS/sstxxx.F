@@ -14,7 +14,7 @@ c output:
 c       complex vertex         : amplitude                gamma(s1,s2,T)
 c
 c- by Q.Li - OCT. 2006
-c     
+c
       implicit none
       double complex s1(3), s2(3), tc(18), vertex
       double complex gt
@@ -69,7 +69,7 @@ c
 
 
       TKK   = cZero
-    
+
       do i = 1,4
          TKK=TKK+ft(i,i)*ps1(i)*ps2(i)
       end do

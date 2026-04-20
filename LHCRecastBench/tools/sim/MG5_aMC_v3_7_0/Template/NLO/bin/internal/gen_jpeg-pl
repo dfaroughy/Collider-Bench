@@ -63,7 +63,7 @@ while ( -e "matrix_$imatrix.ps"){
 #  Now create jpeg file for card
 #
     system ("/bin/bash -c \"head -352 matrix_$imatrix.ps >& junk.ps\" ");
-    open(JUNK,">> junk.ps") || die "Error opening junk.ps";  
+    open(JUNK,">> junk.ps") || die "Error opening junk.ps";
 
     print JUNK "-30 -380 translate \n";
     print JUNK "0.7 0.7 scale \n";

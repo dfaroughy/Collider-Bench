@@ -92,7 +92,7 @@ R2RGA_VVVV5 = Lorentz(name = 'R2RGA_VVVV5',
 
 R2_GGZ = Lorentz(name = 'R2_GGZ',
                  spins = [ 3, 3, 3 ],
-                 structure = 'Epsilon(3,1,2,-1)*P(-1,2)-Epsilon(3,1,2,-1)*P(-1,1)') 
+                 structure = 'Epsilon(3,1,2,-1)*P(-1,2)-Epsilon(3,1,2,-1)*P(-1,1)')
 
 R2_GGVV = Lorentz(name = 'R2_GGVV',
                  spins = [ 3, 3, 3, 3 ],
@@ -222,7 +222,7 @@ VVVV5 = Lorentz(name = 'VVVV5',
 
 ##############################################
 # UV CounterTerms Lorentz structures for QED #
-# Generate by WriteUFO automatically         # 
+# Generate by WriteUFO automatically         #
 ##############################################
 
 l_WmWpMass1 = Lorentz(name = 'l_WmWpMass1',
@@ -358,5 +358,3 @@ l_umumxA26 = Lorentz(name = 'l_umumxA26',
 l_HuZuZx27 = Lorentz(name = 'l_HuZuZx27',
                      spins = [ 1, -1, -1 ],
                      structure = '1')
-
-

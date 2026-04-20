@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -76,38 +76,38 @@ contains
   use avh_olo_forIREGI_units
   use avh_olo_forIREGI_arrays
   logical ,intent(out) :: newprc
-  integer ,intent(in) :: ndec                     
-  integer :: i0,i1,ii                             
-  if (allocated(ndecim)) then                     
-    i0 = 0                                        
-    i1 = 1+ubound(ndecim,1)                       
-    do ;if (i0+1.eq.i1) exit                      
-      ii = (i0+i1)/2                              
-      if     (ndecim(ii).gt.ndec) then            
-        i1 = ii                                   
-      elseif (ndecim(ii).lt.ndec) then            
-        i0 = ii                                   
-      else                                        
-        i1 = ii                                   
-        exit                                      
-      endif                                       
-    enddo                                         
-    if (ndecim(i0).eq.ndec) i0=i1                 
-    prcpar = i1                                   
-    newprc = (ndecim(prcpar).ne.ndec)             
-    if (newprc) then                              
-      call shift1( ndecim ,prcpar )               
-      call shift1( epsilo ,prcpar )               
-      call shift1( neglig ,prcpar )               
-      call set_epsn         
-    else                                          
-      EPSN = epsilo(prcpar)                       
-    endif                                         
-  else                                            
-    allocate(ndecim(1:1),epsilo(1:1),neglig(1:1)) 
-    call set_epsn            
-    newprc = .true.                               
-  endif                                           
+  integer ,intent(in) :: ndec
+  integer :: i0,i1,ii
+  if (allocated(ndecim)) then
+    i0 = 0
+    i1 = 1+ubound(ndecim,1)
+    do ;if (i0+1.eq.i1) exit
+      ii = (i0+i1)/2
+      if     (ndecim(ii).gt.ndec) then
+        i1 = ii
+      elseif (ndecim(ii).lt.ndec) then
+        i0 = ii
+      else
+        i1 = ii
+        exit
+      endif
+    enddo
+    if (ndecim(i0).eq.ndec) i0=i1
+    prcpar = i1
+    newprc = (ndecim(prcpar).ne.ndec)
+    if (newprc) then
+      call shift1( ndecim ,prcpar )
+      call shift1( epsilo ,prcpar )
+      call shift1( neglig ,prcpar )
+      call set_epsn
+    else
+      EPSN = epsilo(prcpar)
+    endif
+  else
+    allocate(ndecim(1:1),epsilo(1:1),neglig(1:1))
+    call set_epsn
+    newprc = .true.
+  endif
   if (prcpar.eq.ubound(ndecim,1)) then
     RZRO=mpreal(0)
     RONE=mpreal(1)
@@ -127,11 +127,11 @@ contains
   subroutine set_epsn
   type(mp_real) &
     :: ten
-  ten = 10                                       
-  EPSN = ten**(-ndec)                            
-  ndecim(prcpar) = ndec                         
-  epsilo(prcpar) = EPSN                         
-  neglig(prcpar) = EPSN*ten**(ndec/7)            
+  ten = 10
+  EPSN = ten**(-ndec)
+  ndecim(prcpar) = ndec
+  epsilo(prcpar) = EPSN
+  neglig(prcpar) = EPSN*ten**(ndec/7)
   end subroutine
 !
   end subroutine
@@ -176,7 +176,7 @@ contains
     :: rslt
   rslt = xx
   end function
-  
+
   function acmplx_rr(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn two reals into one complex
@@ -187,7 +187,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_ri(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn a real and an integer into one complex
@@ -199,7 +199,7 @@ contains
     :: rslt
   rslt = xx + mpreal(yy)*IMAG
   end function
-  
+
   function acmplx_ir(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn an integer and a real into one complex
@@ -211,7 +211,7 @@ contains
     :: rslt
   rslt = mpreal(xx) + yy*IMAG
   end function
-  
+
   function acmplx_c(zz) result(rslt)
 !***********************************************************************
 ! Replaces the real part of zz by its absolute value
@@ -227,8 +227,8 @@ contains
   yy = aimag(zz)
   rslt = xx + yy*IMAG
   end function
- 
-  
+
+
   subroutine qrFROMqc(xx,zz)
   intent(out) :: xx
   intent(in ) :: zz
@@ -244,10 +244,10 @@ contains
   intent(in ) :: ii
   type(mp_real) &
     ::xx
-  integer :: ii 
+  integer :: ii
   xx = mpreal(ii)
   end subroutine
 
-  include 'avh_olo_intrf.h90'  
- 
+  include 'avh_olo_intrf.h90'
+
 end module

@@ -11,7 +11,7 @@ c       complex gc             : coupling constant                 ghhhh
 c
 c output:
 c       complex vertex         : amplitude            gamma(s1,s2,s3,s4)
-c     
+c
       implicit none
       double complex s1(3),s2(3),s3(3),s4(3),gc,vertex
 

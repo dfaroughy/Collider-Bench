@@ -43,4 +43,3 @@ C	lok = 0 if no problems were encountered
      1       ,i4)
   901 format(/5X,'STDXWCM1: error writing stdhep cm1 block ')
       end
-

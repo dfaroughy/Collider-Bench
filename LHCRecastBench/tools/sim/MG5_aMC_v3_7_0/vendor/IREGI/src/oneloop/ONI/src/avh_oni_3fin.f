@@ -58,8 +58,8 @@ c      write(6,*) 'MESSAGE from avh_oni_cam: you are calling me' !DEBUG
       double complex z0,z1,zero
       parameter( zero=(0d0,0d0) )
       if (m1.eq.zero.and.m2.eq.zero.and.pp.eq.zero) then
-        rslt(1) = zero     
-        rslt(0) = zero     
+        rslt(1) = zero
+        rslt(0) = zero
         return
       endif
       if (cdabs(m2).gt.cdabs(m1)) then !CDABSyes
@@ -132,7 +132,7 @@ c      write(6,*) 'MESSAGE from avh_oni_cam: you are calling me' !DEBUG
       endif
       avh_oni_cbm_i = vv
       end
-        
+
 
       subroutine avh_oni_cfam( rslt ,p1,p2,p3 ,m1,m2,m3 ,smax )
 *  ********************************************************************
@@ -148,7 +148,7 @@ c      write(6,*) 'MESSAGE from avh_oni_cam: you are calling me' !DEBUG
 *  *         uunit: if you put  uunit>0  then estimated integration
 *  *         errors and the number of integrand evaluations will be
 *  *         send to  unit=uunit
-*  *          
+*  *
 *  * output: rslt(0) = value
 *  *         rslt(1) = 0
 *  *         rslt(2) = 0

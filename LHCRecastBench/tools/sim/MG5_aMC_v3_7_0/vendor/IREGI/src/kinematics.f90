@@ -29,7 +29,7 @@ CONTAINS
 !    IF(ABS(scalarprod/max).LT.EPS2)scalarprod=0d0
   END FUNCTION scalarprod
 
- ! this is the ad-hoc function only for testing 
+ ! this is the ad-hoc function only for testing
   SUBROUTINE makeonshell(n,mt2,ma)
     IMPLICIT NONE
     INTEGER,INTENT(IN)::n

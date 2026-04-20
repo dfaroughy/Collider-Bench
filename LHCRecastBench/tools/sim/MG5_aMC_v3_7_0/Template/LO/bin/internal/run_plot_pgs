@@ -44,4 +44,3 @@ if [[ (-x $MAdir/plot_events) && (-e pgs_events.lhco) && (-e ../Cards/plot_card.
     $dirbin/plot_page-pl ${run}_pgs PGS
     mv plots.html ${run}_plots_pgs.html
 fi
-

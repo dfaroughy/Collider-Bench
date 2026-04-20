@@ -1233,4 +1233,3 @@
 *  #] calculations:
 *###] ffxe0r:
 	end
-

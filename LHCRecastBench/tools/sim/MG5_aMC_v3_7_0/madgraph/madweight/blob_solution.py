@@ -22,7 +22,7 @@ class Level_generation:
         """init  generic variable """
         self.num_fuse=0
         self.sol_tag=tag
-        
+
         if def_step:
             if type(def_step)==list:
                 self.step=def_step
@@ -61,20 +61,20 @@ class Level_generation:
                     unaligned.append(part1.mother)
                 self.num_fuse+=1
                 fuse_list_.append(fuse_particle)
-                
+
                 if(self.sol_tag=='blob'):
-                    Block_B(self,'3',[part1,part2],fuse_particle)                   
+                    Block_B(self,'3',[part1,part2],fuse_particle)
                 else:
                     Block_sector(self,'3',[part1,part2],fuse_particle)
 
-        if output_mode==1:     
+        if output_mode==1:
             return fuse_list_[0]   #if we are out of the loop this means that the fuse is complete and fuse has only one element
-        else: 
-            return fuse_list_[0],unaligned            
+        else:
+            return fuse_list_[0],unaligned
 
     def order_block(self,main_sec):
         """ (re)ordrer so that the new order follow the generation order """
-        
+
         new_order=[]
         #ready: particle who can enter in change of variable
         ready=[]
@@ -82,12 +82,12 @@ class Level_generation:
         control=0 #to avoid infinite loop
         #print 'enter in ordering block routine'
         while 1:
-            if len(self.step)==0:#  or self.step==[blob_sec.main]: 
+            if len(self.step)==0:#  or self.step==[blob_sec.main]:
                 #print 'reordering complete'
                 break
             control+=1
             if control>len(self.step)+1: #check if we have looked at all possibility without finding solution
-                sys.exit('ERROR: infinite loop detected in Level_generation.order_block()')   
+                sys.exit('ERROR: infinite loop detected in Level_generation.order_block()')
             #print 'ready status:',
             #for particle in ready:
             #    print particle.MG,
@@ -115,11 +115,11 @@ class Level_generation:
                 ready.append(particle)
             for particle in block.in_part:
                 ready.remove(particle) #to speed the search in ready
-        
+
         self.step=new_order
 
 
-        
+
 
 class Blob_solution(Level_generation):
     """ store the information of how to generate a blob """
@@ -136,7 +136,7 @@ class Blob_solution(Level_generation):
         blob_sec.solution.append(self)
         #global option
         self.opt=blob_sec.opt
-        
+
         self.unaligned=[]
 
         #look if we have an original copy
@@ -146,24 +146,24 @@ class Blob_solution(Level_generation):
             self.how_gen={}
             for part in blob_sec.content:
                 self.how_gen[part]='' #normaly block
-                
 
 
-                
-            
+
+
+
     def copy_solution(self,solution):
         """ duplicate solution (no alias use) in order to modify it later """
-        
-        
+
+
         self.num_fuse=solution.num_fuse
         self.how_gen={}
         self.ready_to_enter=list(solution.ready_to_enter)
-        
-        self.num_fuse=solution.num_fuse        
+
+        self.num_fuse=solution.num_fuse
         self.step=list(solution.step)
         self.how_gen=dict(solution.how_gen)
         self.unaligned=list(solution.unaligned)
-        
+
         a=self.step.pop(0)
         if self.step==solution.step:
             sys.exit('stop same object in step')
@@ -174,8 +174,8 @@ class Blob_solution(Level_generation):
         del self.how_gen[1]
 
 
-        
-        
+
+
 
     def find_all_solutions(self,blob_sec):
         """ (blob)->None : complete blob_sec.sol
@@ -190,7 +190,7 @@ class Blob_solution(Level_generation):
                 The first solution will be the first one with improvment in 'A' case and will restore 'E'(and extend E) case
                 the second one will change all 'D','E' in '1', with little modification in 'A' case
                 The third solution will be essentially the beta without 'E' (only D for visible case)"""
-        
+
         #start with beta solution
         self.find_beta_solution(blob_sec)
         self.order_block(blob_sec)
@@ -206,7 +206,7 @@ class Blob_solution(Level_generation):
                       #  (in this case beta -self- stay a solution)
         if self.opt.use_sol_type_1:
             sol1.pass_in_solution(1)
-        if self.opt.use_sol_type_2:            
+        if self.opt.use_sol_type_2:
             sol2.pass_in_solution(2)
         if self.opt.use_sol_type_3:
             sol3.pass_in_solution(3)      # update 'self' solution after the other solution,
@@ -215,10 +215,10 @@ class Blob_solution(Level_generation):
 
         if not (self.opt.use_sol_type_1 or self.opt.use_sol_type_2 or self.opt.use_sol_type_3):
             sys.exit('FATAL ERROR: At least one solution for Blob generation must be authorized')
-           
+
         ##########################################################################################
         ##                              HOW FIND BETA SOLUTION                                  ##
-        ##########################################################################################        
+        ##########################################################################################
 
     def find_beta_solution(self,blob_sec):
         """ find a first solution to resolve the blob.
@@ -226,8 +226,8 @@ class Blob_solution(Level_generation):
             this is perhaps not the best solution but it's only the beginning of the resolution
             Secondly we will not defined 'final' block but some more generic one (like E*: restriction at one level of E)
             """
-        
-        self.ready_to_enter=list(blob_sec.ext_content) 
+
+        self.ready_to_enter=list(blob_sec.ext_content)
         self.ready_to_enter.reverse()
         step=0 #security to supress infinite program
         while 1:
@@ -244,35 +244,35 @@ class Blob_solution(Level_generation):
             part1=self.ready_to_enter.pop(0)
             #print 'test on :',part1.MG, '(value:',self.how_gen[part1],')',
             part2=part1.twin
-            #print 'with :',part2.MG, 
+            #print 'with :',part2.MG,
             if part2 not in self.ready_to_enter:
-                #print 'failed'                
+                #print 'failed'
                 self.ready_to_enter.append(part1)
                 continue
             #print 'suceed',
             solution=self.resolve_piece(blob_sec,[part1,part2])
             #print solution.chgt_var
-            
+
         #treat one particle case
         if self.how_gen[blob_sec.main]=='':
             #print 'main not defined-> pass in 0'
             Block_B(self,'0',[blob_sec.main],[])
-        
-        
+
+
     def resolve_piece(self,blob_sec,in_part):
         "find the 'first' solution for this piece"
-        
+
         #usefull particle:
         mother1=in_part[0].mother
         mother_twin=mother1.twin
-        
+
         #print  'resolve piece',in_part[0].MG,in_part[1].MG
         #check case 2
         if  not( in_part[0].external or in_part[1].external):
             #two propagator already generated =>sum them=>block '2'
             result=Block_B(self,'2',in_part,mother1) #take care of all dependencies
             return result
-        
+
         #print 'pass step 1'
         self.sol_type=''
         #check neutrino case (A,B,C)
@@ -322,7 +322,7 @@ class Blob_solution(Level_generation):
                 elif len(mother_list)==3:
                     block=Block_B(self,'A',[particle,twin,mother_list[0].twin,mother_list[1].twin],[mother_list[-1]])
                 return block #end neutrino case
-            
+
         #print 'pass step 2'
         #check for one visible particle and a propagator case (1,D)
         if (not (in_part[0].external and in_part[1].external)):
@@ -339,7 +339,7 @@ class Blob_solution(Level_generation):
                 #transfert are authorized
                 result=Block_B(self,'D',in_part,[mother1])
             return result#end visible+propa case
-        
+
         #check for  double visible case (1,D,E)
         #check if the width of the two visible particle autorize E/D
         #print 'pass double visible case'
@@ -365,9 +365,9 @@ class Blob_solution(Level_generation):
     def treat_conflicting_block(self,block):
         """ if a 'C' block is block by a 'A' block it's sometimes more powerful to degrade the 'A' in 'B'
             if the 'C' can be upgrated to 'A'"""
-        
+
         #CHECK IF WE CAN DO SOMETHING
-        if block.stop!='A': 
+        if block.stop!='A':
             return
         #block was stop by another change of variable ->try to improve that
 
@@ -395,9 +395,9 @@ class Blob_solution(Level_generation):
         ##                          BETA UPGRATING FUNCTION                                     ##
         ##########################################################################################
 
-        
+
     def pass_in_solution(self,tag):
-        """ tag -> upgrate solution in order to fullfill taged criteria 
+        """ tag -> upgrate solution in order to fullfill taged criteria
                 upgrate 'beta' solution following some criteria(tagged with tag)"""
 
         #print 'input', self
@@ -412,12 +412,12 @@ class Blob_solution(Level_generation):
             self.convert_DE_in_1()
             if self.opt.blob_fuse:
                 self.extend_block('A')
-            
+
         elif tag==3:
             self.sol_type=3
             self.convert_E_in_D()
         #print 'ouput',self
-        #print 'pass in solution ',tag    
+        #print 'pass in solution ',tag
         #be sure that the order is still uptodate
         self.order_block(self.blob_sec)
         for block in self.step:
@@ -425,24 +425,24 @@ class Blob_solution(Level_generation):
 
     def convert_DE_in_1(self):
         """ convert all 'E*' and all 'D' in '1' block """
-        
+
         #find  blok 'E*,D-> pass to '1'
         all_block=list(self.step)
         for block in all_block:
             if self.blob_sec.content[0].width < self.opt.force_nwa:
                 continue
-                    
+
             if block.chgt_var in ['E*','D']:
                 block.change_chgt_var(self,'1')
-                
+
 
     def convert_E_in_D(self):
         """ convert all 'E*' in 'D' """
-        
+
         # find  blok 'E*-> pass to 'D'
         for block in self.step:
             if block.chgt_var in ['E*']:
-                block.change_chgt_var(self,'D')    
+                block.change_chgt_var(self,'D')
 
 
     def extend_block(self,chgt_var):
@@ -452,9 +452,9 @@ class Blob_solution(Level_generation):
         num_propa=num_propa[chgt_var]
         new_chgt_var={'A':'A','D':'D','E*':'E'}
         new_chgt_var=new_chgt_var[chgt_var]
-        
+
         #print '*** check how gen',self.sol_type,'for change',chgt_var,' *** number of block in step',len(self.step)
-        
+
         #step 1: find a blok 'chgt_var'
         #step 2: find the area where we have freedom
         #           * define a list of delta-thin width associated to external particle
@@ -463,8 +463,8 @@ class Blob_solution(Level_generation):
         #           * We will limit (for the moment) to move up to one propagator.
         #           * We move only propagator before a large tf (of course) and the one (if many) with largest width
         #               for the propagator
-        
-        #step 1: find  blok 
+
+        #step 1: find  blok
         step2=0
         all_block=list(self.step)
         for block in all_block:
@@ -478,7 +478,7 @@ class Blob_solution(Level_generation):
         #step2:find the area where we have freedom
             #initialisation of vector for width category
             thin=[] #for the three particle associated to the thiner width
-            
+
             #look for area before 'A'/'D'/'E*-E':
             try:
                 motherX=block.neut_content[0] #for 'A' like case
@@ -490,14 +490,14 @@ class Blob_solution(Level_generation):
                     break
                 if not( self.how_gen[motherX].chgt_var in ['0','1','2','D'] or self.how_gen[motherX]==block):
                     break
-                
+
                 #print 'create thin'
                 for i in range(0,len(thin)+1):
                     #print 'thin content: [',
                     #for particle in thin:
                     #    print particle.MG,',',
-                    #print '] step:',i, 'num_enter',num_propa 
-                    
+                    #print '] step:',i, 'num_enter',num_propa
+
                     if i==len(thin) and i<num_propa:
                         thin.append(motherX)
                     elif(motherX.width<thin[i].width and motherX.channel=='S'):
@@ -509,8 +509,8 @@ class Blob_solution(Level_generation):
                 #print 'particle selected in step2',
                 #for particle in thin:
                 #    print [particle.MG],
-                #print '|'                     
-                        
+                #print '|'
+
             #change order of thin to be in the correct order (anti-level) for the generation
             propa_in=[thin[0]]
             for i in range(1,len(thin)):#lent(thin) can be lower than num_propa in some E* case
@@ -525,7 +525,7 @@ class Blob_solution(Level_generation):
             if (block.chgt_var=='E*' and (not self.opt.blob_fuse) and len(propa_in)==2):
                 #CASE A/D with not blob_fuse cann't pass in the full routine if blob_fuse=0
                 propa_in=[block.in_part[0].mother,block.in_part[0].mother.mother]
-            
+
             #print 'propa selected in step2.2',
             #for particle in propa_in:
             #    print particle.MG,
@@ -539,18 +539,18 @@ class Blob_solution(Level_generation):
             except:
                 motherX=block.in_part[0] #for 'E*' like case
 
-            part_in=[motherX]               
+            part_in=[motherX]
             while 1:
                 motherXbut1=motherX
                 motherX=motherX.mother
-                       
+
                 if step==len(propa_in):
                     break
                 if self.blob_sec.contains_particle(motherX)==0:
                         sys.exit('ERROR: unusual error in Blob_solution.expand_block: debug this routine (error type 1)')
-                if not( self.how_gen[motherX].chgt_var in ['0','1','2','D'] or self.how_gen[motherX]==block):                  
+                if not( self.how_gen[motherX].chgt_var in ['0','1','2','D'] or self.how_gen[motherX]==block):
                         sys.exit('ERROR: unusual error in Blob_solution.expand_block: debug this routine (error type 2)')
-         
+
                 if motherX in propa_in:
                     step+=1
                     if self.how_gen[motherX]!=block:
@@ -567,9 +567,9 @@ class Blob_solution(Level_generation):
                 else:
                     self.how_gen[motherX].del_from_sol(self)
                     fuse_list=[motherXbut1.twin,motherX.twin]
-                    
+
             #redifine this block
-            #print 'redefine_block', num_propa, len(part_in)-1           
+            #print 'redefine_block', num_propa, len(part_in)-1
             if num_propa==len(part_in)-1:
                 block.redefine_block(self,new_chgt_var,part_in,propa_in[0])
             elif chgt_var=='E*':
@@ -580,7 +580,7 @@ class Blob_solution(Level_generation):
 
 
 
-    def del_ext1_in(self,particle_list):    
+    def del_ext1_in(self,particle_list):
         """ delete blok  '1' but only if the particle is an external one!"""
 
         for particle in particle_list:
@@ -589,7 +589,7 @@ class Blob_solution(Level_generation):
 
 
 
-            
+
         ##########################################################################################
         ##                                    OTHER FUNCTION                                    ##
         ##########################################################################################
@@ -614,7 +614,7 @@ class Blob_solution(Level_generation):
                 text+=str(particle.MG)+' '
             text+=':'
             for particle in block.out_part:
-                text+=str(particle.MG)+' '           
+                text+=str(particle.MG)+' '
             text+='] '
             #if block.stop:
             #    print block.stop,
@@ -626,19 +626,19 @@ class Block_sector:
        This is a simple version of block dedicated for ECS
        This is the basis for the blob dedicated
     """
-    
+
     def __init__(self,sol_sec,chgt_var,input_propa,output_propa):
 
-        self.sol_sec=sol_sec    
+        self.sol_sec=sol_sec
         self.chgt_var=chgt_var
-        self.in_part=input_propa                   
+        self.in_part=input_propa
         if type(output_propa)==list: #output_propa must be a list, but sometimes it's forgotten
             self.out_part=output_propa
         else:
             self.out_part=[output_propa]
         self.opt=sol_sec.opt
         self.unaligned=[]
-            
+
         #neutrino stuff
         self.neut_content=[]
         self.num_neut=0
@@ -646,7 +646,7 @@ class Block_sector:
             if particle.neutrino:
                 self.neut_content.append(particle)
                 self.num_neut+=1
-                
+
         #stop reason
         self.stop=''
 
@@ -665,11 +665,11 @@ class Block_sector:
         """
 
         #normaly self.in_part are ordering in decreasing order (respected to level)
-        
+
         if self.chgt_var=='3': #define a fuse particle
             self.order_content=self.in_part+self.out_part
             self.chgt_var='2'
-            
+
 
 
     def __str__(self):
@@ -681,10 +681,10 @@ class Block_sector:
         text=text[:-1]+' :'
         for particle in self.out_part:
             text+=str(particle.MG)+','
-        
+
         return text[:-1]+']'
 
-        
+
 class Block_ECS(Block_sector):
     """ Define a Block dedicated to be an ECS central part"""
 
@@ -714,12 +714,12 @@ class Block_ECS(Block_sector):
             if particle.neutrino:
                 neut_content.append(particle)
                 continue
-        
-            propa_content.append(particle.mother)       
+
+            propa_content.append(particle.mother)
             ext_content.append(particle)
-                
+
         self.order_content=neut_content+ext_content+propa_content
-        
+
         #special case: E class -> add the fisrt propa in S channel
         if self.chgt_var=='e':
             neut_in_ecs=neut_content[0]
@@ -729,9 +729,9 @@ class Block_ECS(Block_sector):
         #for particle in self.order_content:
         #    print particle.MG,
         #print
-     
+
     def def_unaligned(self):
-        
+
         if self.chgt_var=='a':
             unaligned=self.in_part[0].all_mother()
             for part in self.in_part[1].all_mother():
@@ -739,23 +739,23 @@ class Block_ECS(Block_sector):
                     unaligned.append(part)
             self.unaligned=unaligned+self.in_part
             return
-        
-        
+
+
         aligned=[part.mother for part in self.in_part if part.neutrino==0]
         if self.chgt_var=='a':
             aligned.append(self.order_content[-1]) # add the first propagator
-        
-        unaligned=[]    
+
+        unaligned=[]
         for i in range(0,self.num_neut):
             for part in self.order_content[i].all_mother():
                 if part not in aligned+unaligned:
-                    unaligned.append(part)    
+                    unaligned.append(part)
 
         self.unaligned=unaligned
-        
+
 class Block_B(Block_sector):
     """ Define a Block dedicated to be in a blob"""
-    
+
     def __init__(self,sol_sec,chgt_var,input_propa,output_propa,unaligned=[]):
 
         Block_sector.__init__(self,sol_sec,chgt_var,input_propa,output_propa)
@@ -763,10 +763,10 @@ class Block_B(Block_sector):
         self.put_B_sol_uptodate(sol_sec) #maintain tool for beta solution and future update
         self.def_unaligned()
 
-            
+
     def put_B_sol_uptodate(self,sol_sec):
         """ put the solution status uptodate with this block definition """
-        
+
         for particle in self.in_part:
             try: #we can generate some 'not ready' variable with block A,B,E
                 sol_sec.ready_to_enter.remove(particle)
@@ -776,10 +776,10 @@ class Block_B(Block_sector):
                 sol_sec.how_gen[particle]=self
             if particle.mother and particle.mother not in self.out_part and self.chgt_var!='0':
                 if sol_sec.blob_sec.contains_particle(particle.mother):
-                    sol_sec.how_gen[particle.mother]=self    
+                    sol_sec.how_gen[particle.mother]=self
         for particle in self.out_part:
             #check that the output particle isn't already consider like an input particle somewhere else
-            
+
             if sol_sec.blob_sec.contains_particle(particle.mother): #consider fuse case
                 if sol_sec.how_gen[particle.mother]=='':
                     sol_sec.ready_to_enter.append(particle)
@@ -791,7 +791,7 @@ class Block_B(Block_sector):
 
         propa_content=[]
         #normaly self.in_part are ordering in decreasing order (respected to level)
-        
+
         if self.chgt_var=='3': #define a fuse particle
             self.order_content=self.in_part+self.out_part
             self.chgt_var='2'
@@ -820,7 +820,7 @@ class Block_B(Block_sector):
                 if particle.mother not in propa_content:
                     propa_content.append(particle.mother)
             self.order_content=self.in_part+propa_content
-            
+
 
     def change_chgt_var(self,sol_sec,new_chgt_var):
         """ change the changement of variable associated """
@@ -838,7 +838,7 @@ class Block_B(Block_sector):
                 pass
             obj=Block_B(sol_sec,self.chgt_var,self.in_part,self.out_part)
             obj.def_unaligned()
-                   
+
         for i in range(0,len(equivalent_class)):
             if obj.chgt_var in equivalent_class[i]:
                 if new_chgt_var in equivalent_class[i]:
@@ -848,11 +848,11 @@ class Block_B(Block_sector):
             print('WARNING: unexpected modification:')
             print('         pass from',[obj.chgt_var],'to',[new_chgt_var])
             print('         there are strictly non equivalent: but we go on anyway')
-            obj.chgt_var=new_chgt_var               
+            obj.chgt_var=new_chgt_var
 
     def def_unaligned(self):
         """ associate in self.unaligned the particle with unaligned peaks """
-        
+
         if self.chgt_var in ['1','2']:
             self.unaligned=self.out_part[0]
         elif self.chgt_var=='E':
@@ -892,23 +892,20 @@ class Block_B(Block_sector):
         """ supress corectly the block of the solutions """
 
         sol_sec.step.remove(self)
-                
+
         #update the solution-link
         for particle in self.in_part:
             if particle.external:
                 sol_sec.how_gen[particle]=''
             sol_sec.ready_to_enter.append(particle) #normaly useless but if we are in a new type of generation in the future
-            
+
         for particle in self.out_part:
             sol_sec.how_gen[particle]=''
-            try: 
+            try:
                 sol_sec.ready_to_enter.remove(particle) #idem,but normaly particle is not there.
             except:
                 pass
-        
+
         if self.sol_sec==sol_sec:
             #in this case supress the object:
             del self
-        
-
-

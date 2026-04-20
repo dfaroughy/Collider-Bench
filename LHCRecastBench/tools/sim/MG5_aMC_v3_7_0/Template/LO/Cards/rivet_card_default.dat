@@ -29,20 +29,20 @@ run_rivet_later = True
   #   Runs Rivet after one parameter is scanned
   #   MadEvent->Pythia->Rivet->MadEvent->Pythia->Rivet->...
   # ! When "True"
-  #   Runs Rivet after all parameters are scanned 
+  #   Runs Rivet after all parameters are scanned
   #   MadEvent->Pythia->MadEvent->Pythia->...->Rivet(altogether)
   #
 # -------------------------------------------------------------- #
 # Contur settigns ---------------------------------------------- #
 # -------------------------------------------------------------- #
-# 
+#
 run_contur = False
   # Flag to decide Contur runs
   #
 draw_contur_heatmap = True
   # !! Meaningful only when using scan mode for >=2 parameters !!
   # Draw heatmap using Contur
-  # 
+  #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -#
 xaxis_var = x
   # ! type = string
@@ -56,10 +56,10 @@ xaxis_relvar = default
   #  Necessary when one wants to draw heatmap's xaxis with relative variable
   #  e.g. xaxis_relvar = math.log(mzp, 10) # python library works!
   #
-xaxis_label = default 
+xaxis_label = default
   # ! type = string
   #  When "default" : Same as xaxis_var
-  #  xaxis label of the heatmap 
+  #  xaxis label of the heatmap
   #  e.g. xaxis_label = "mass_{Z'}" # latex format works!
   #
 xaxis_log = False
@@ -67,13 +67,12 @@ xaxis_log = False
   #  Flag to decide drawing heatmap with log scale xaxis
   #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -#
-yaxis_var = y 
+yaxis_var = y
   # Same as xaxis_var (second scanning parameter)
 yaxis_relvar = default
   # Same as xaxis_relvar
-yaxis_label = default 
+yaxis_label = default
   # Same as xaxis_label
 yaxis_log = False
-  # Same as xaxisl_log  
+  # Same as xaxisl_log
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -#
-

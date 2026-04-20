@@ -40,7 +40,7 @@
           call DS_write_grid('grids.dsg')
           call DS_clear()
           write(*,*) 'Before grid load'
-          call DS_print_global_info()          
+          call DS_print_global_info()
           call DS_load_grid('grids.dsg')
           write(*,*) 'after grid load'
           call DS_print_global_info()

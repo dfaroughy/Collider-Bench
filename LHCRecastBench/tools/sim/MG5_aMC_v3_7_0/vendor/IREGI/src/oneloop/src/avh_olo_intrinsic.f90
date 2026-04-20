@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -51,14 +51,14 @@ contains
 !***********************************************************************
   use avh_olo_forIREGI_units
   logical ,intent(out) :: newprc
-  integer :: ndec                                  
-  if (prcpar.eq.1) then                    
-    newprc = .false.                             
-    return                                       
+  integer :: ndec
+  if (prcpar.eq.1) then
+    newprc = .false.
+    return
   endif
-  prcpar = 1                                   
+  prcpar = 1
   call set_epsn
-  newprc = .true.                              
+  newprc = .true.
   RZRO=0
   RONE=1
   IMAG=cmplx(0,1,kind=kind(IMAG))
@@ -74,11 +74,11 @@ contains
   contains
 !
   subroutine set_epsn
-  EPSN = epsilon(EPSN)                         
-  ndec = -log10(EPSN)                            
-  ndecim(prcpar) = ndec                          
-  epsilo(prcpar) = EPSN                        
-  neglig(prcpar) = EPSN*10**(ndec/7)       
+  EPSN = epsilon(EPSN)
+  ndec = -log10(EPSN)
+  ndecim(prcpar) = ndec
+  epsilo(prcpar) = EPSN
+  neglig(prcpar) = EPSN*10**(ndec/7)
   end subroutine
 !
   end subroutine
@@ -123,7 +123,7 @@ contains
     :: rslt
   rslt = xx
   end function
-  
+
   function acmplx_rr(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn two reals into one complex
@@ -134,7 +134,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_ri(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn a real and an integer into one complex
@@ -146,7 +146,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_ir(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn an integer and a real into one complex
@@ -158,7 +158,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_c(zz) result(rslt)
 !***********************************************************************
 ! Replaces the real part of zz by its absolute value
@@ -174,5 +174,5 @@ contains
   yy = aimag(zz)
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
 end module

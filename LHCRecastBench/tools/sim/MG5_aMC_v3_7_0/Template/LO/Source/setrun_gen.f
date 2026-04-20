@@ -5,7 +5,7 @@ c
 c 1. PDF set
 c 2. Collider parameters
 c 3. cuts
-c---------------------------------------------------------------------- 
+c----------------------------------------------------------------------
       implicit none
 c
 c     include
@@ -45,9 +45,9 @@ c*********************************************************************
 
       call get_real   (npara,param,value," xqcut ",xqcut,0d0)
 
-c************************************************************************     
+c************************************************************************
 c    Collider energy and type                                           *
-c************************************************************************     
+c************************************************************************
 c     lpp  = -1 (antiproton), 0 (no pdf), 1 (proton)
 c     lpp  =  2 (proton emitting a photon without breaking)
 c     lpp  =  3 (electron emitting a photon)
@@ -57,15 +57,15 @@ c     ebeam= energy of each beam in GeV
       call get_integer(npara,param,value," lpp2 "   ,lp2,1  )
       call get_real   (npara,param,value," ebeam1 " ,eb1,7d3)
       call get_real   (npara,param,value," ebeam2 " ,eb2,7d3)
-     
+
       lpp(1)=lp1
       lpp(2)=lp2
       ebeam(1)=eb1
       ebeam(2)=eb2
 
-c************************************************************************     
+c************************************************************************
 c    Collider pdf                                                       *
-c************************************************************************     
+c************************************************************************
 
       call get_string (npara,param,value," pdlabel ",pdlabel,'cteq6l1')
 c
@@ -80,4 +80,3 @@ c
  99   write(*,*) 'error in reading'
       return
       end
-

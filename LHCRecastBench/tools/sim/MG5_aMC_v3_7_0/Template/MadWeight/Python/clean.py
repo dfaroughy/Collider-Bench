@@ -49,11 +49,11 @@ def Clean_run(run_name):
         if os.path.isdir(element) and (element[0]=='P' or element[:4]=='MW_P'):
             status,mess=clean.suppress_dir(os.path.join(element,run_name))
             if not status:
-                print('supress ',element,' failed:') 
+                print('supress ',element,' failed:')
                 print(mess)
 
     os.chdir(os.pardir)
-    
+
 #1 #########################################################################
 def Clean_event(run_name,mode='short'):
     """ supress one complete MW_run (except Event file) """
@@ -73,7 +73,7 @@ def Clean_event(run_name,mode='short'):
         if os.path.isdir(element) and element[0]=='P':
             status,mess=clean.suppress_dir(os.path.join(element,run_name))
             #if not status:
-            #    print 'supress ',element,' failed:' 
+            #    print 'supress ',element,' failed:'
             #    print mess
 #            print '\n\n\n'
 #            print mess
@@ -96,12 +96,12 @@ def Clean_weight(run_name,mode='short'):
         if os.path.isdir(element) and len(element)>4 and element[:4]=='MW_P':
             status,mess=clean.suppress_dir(os.path.join(element,run_name))
             #if not status:
-            #    print 'supress ',element,' failed:' 
+            #    print 'supress ',element,' failed:'
             #    print mess
 #            print '\n\n\n'
 #            print mess
     os.chdir(os.pardir)
-    
+
 
 #1 #########################################################################
 class Clean:
@@ -120,7 +120,7 @@ class Clean:
 ##      |     +  supress_file                                           ##
 ##      |     +  supress_dir                                            ##
 ##########################################################################
-    
+
     #2 #########################################################################
     def __init__(self,opt=''):
 
@@ -135,20 +135,20 @@ class Clean:
             self.protected+=name
         else:
             self.protected.append(name)
-            
+
     #3 #########################################################################
     def protect_ext(self,name):
         if type(name)==list:
             self.ext_protected+=name
         else:
             self.ext_protected.append(name)
-            
+
     #3 #########################################################################
     def protect_all_but(self,list=[]):
         self.protect_all=1
         self.authorized=list
 
-    
+
 
 
     #2 #########################################################################
@@ -178,7 +178,7 @@ class Clean:
 
     #3 #########################################################################
     def check_suppresion(self,pos):
-        
+
         name=pos.split(os.sep)[-1]
         if name in self.protected:
             return 0,'error: file protected '+str(name)
@@ -187,22 +187,22 @@ class Clean:
             return 0,'error: extension protected '+pos
         if self.protect_all and name not in self.authorized:
             return 0,'error: not in authorized_file'
-        else:                                                     
+        else:
             return 1, ''
-        
+
     #2 #########################################################################
     def suppress_dir(self,pos,opt=''):
 
         if opt=='':
             opt=self.opt
-        
+
         supress=1
         message=''
         try:
             content=os.listdir(pos)
         except:
             return 0, 'no directory'
-                    
+
         if 'f' not in opt:
             supress,message=self.check_suppresion(pos)
 
@@ -225,7 +225,7 @@ class Clean:
                     print('delete dir',pos)
             else:
                 print('schedulle removing directory',pos)
-                
+
             return 1,''
         else:
             return 0,message

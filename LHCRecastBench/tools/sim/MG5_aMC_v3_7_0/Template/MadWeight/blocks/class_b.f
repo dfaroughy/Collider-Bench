@@ -56,7 +56,7 @@ c
       REAL XRAN1
       EXTERNAL XRAN1
 c--------
-c Begin code 
+c Begin code
 c--------
       IDUM=0
       sqrts=dsqrt(s)
@@ -65,7 +65,7 @@ c--------
       return
       endif
 
-c      write(*,*) "mom p2", (momenta(i,p2),i=0,3) 
+c      write(*,*) "mom p2", (momenta(i,p2),i=0,3)
 c      write(*,*) "mvir2",r1, mvir2(r1)
 c      write(*,*) "mvir2",p1, mvir2(p1)
 c      write(*,*) "mvir2",p2, mvir2(p2)
@@ -90,7 +90,7 @@ c
 c
 c     the mass-shell equation reads (1-p1z_ti^2)*E1^2 -2 p1z_ti*p1z_E1*E1-p1z_ti**2-p1x^2-p1y^2 -m1^2
 c
-     
+
       jac_factor=1d0
       index_sol=1
       dem=1d0-p1z_E1**2
@@ -98,7 +98,7 @@ c
       if (dabs(dem).lt.0.0001d0) then
         momenta(0,p1)=-(P1z_ti**2+misspx**2+misspy**2+mvir2(p1))/
      &  (2d0*P1z_ti*P1z_E1)
- 
+
         if  (momenta(0,p1).le.0d0) then
           jac_loc=-1d0
           jac=-1d0
@@ -126,13 +126,13 @@ c
 
 c          write(*,*) 'E 1',sol(1)
 c          write(*,*) 'E 2',sol(2)
-         
+
 c          write(*,*) 'x1,x2',x1s1,x2s1
 c          write(*,*) 'x1,x2',x1s2,x2s2
 
       if(dabs(x1s1-0.5d0).lt.0.5d0.and.dabs(x2s1-0.5d0).lt.0.5d0.and. ! analyse bjk fractions
      & dabs(x1s2-0.5d0).lt.0.5d0.and.dabs(x2s2-0.5d0).lt.0.5d0) then
-           
+
             index_sol=1
 c            call ntuple(rand,0.0,1.0,p1)
             rand=xran1(IDUM)
@@ -147,7 +147,7 @@ c            endif
       elseif(dabs(x1s1-0.5d0).gt.0.5d0.or.dabs(x2s1-0.5d0).gt.0.5d0)then
       if (dabs(x1s2-0.5d0).lt.0.5d0.and.dabs(x2s2-0.5d0).lt.0.5d0) then
               momenta(0,p1)=sol(2)
-          else 
+          else
             jac_loc=-1d0
             jac=-1d0
             return
@@ -156,13 +156,13 @@ c            endif
       elseif(dabs(x1s2-0.5d0).gt.0.5d0.or.dabs(x2s2-0.5d0).gt.0.5d0)then
       if (dabs(x1s1-0.5d0).lt.0.5d0.and.dabs(x2s1-0.5d0).lt.0.5d0) then
               momenta(0,p1)=sol(1)
-          else 
+          else
             jac_loc=-1d0
             jac=-1d0
             return
           endif
       endif
-        else 
+        else
         jac_loc=-1d0
         jac=-1d0
         return
@@ -217,7 +217,7 @@ c     First evaluated the total momentum in the LAB frame
         enddo
       pboost(j)=Ptot(j)
       enddo
- 
+
 c     Then calculate the momenta in the CMS frame
       pboost(1)=-pboost(1)
       pboost(2)=-pboost(2)
@@ -256,7 +256,7 @@ c     Evaluate the initial momenta in the LAB frame
       call boostx(CMS_mom(0,2),pboost,momenta(0,2))
 
 c     correction from the measure to translate the weight to the CM frame
-c     ONLY if isr = 2 
+c     ONLY if isr = 2
 
       if (isr_mode.eq.2) then
       measureLAB=1d0

@@ -12,7 +12,7 @@ c       real    fmass          : fermion mass                        m_f
 c
 c output:
 c       complex vertex         : amplitude                     <fo|T|fi>
-c     
+c
 c- by Q.Li - OCT. 2006
 c
       implicit none

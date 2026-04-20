@@ -11,26 +11,26 @@ c
 	character *255 answer
 	integer numblocks, blkids(3)
 	integer i, ifile, ievt, istore, irun
-	
+
 c
 c	Initialization phase.
 c
 	call mcfio_Init
-	
-	
+
+
 	do ifile = 1,4
 	 print *, ' =================== New File ================='
 	 print *, ' '
-	 if (ifile .eq. 1) then 
+	 if (ifile .eq. 1) then
 	   filename = 'test6_offl_even.dat'
 c	   filename = 'test6_offl_odd.dat'
-	 else if (ifile .eq. 2) then 
+	 else if (ifile .eq. 2) then
 	   filename = 'test6_offl_odd.dat'
-	 else if (ifile .eq. 3) then 
+	 else if (ifile .eq. 3) then
 	   filename = 'test6_stdhep_even.dat'
-	 else if (ifile .eq. 4) then 
+	 else if (ifile .eq. 4) then
 	   filename = 'test6_stdhep_odd.dat'
-	 end if 
+	 end if
 	 print *, ' File  ', filename
 	 istr_old = mcfio_OpenReadDirect(filename)
 	 print *, ' Stream index is now ', istr_old
@@ -43,7 +43,7 @@ c
 	call mcfio_InfoStreamInt(istr_old, MCFIO_NUMEVTS, nevts)
 	print *, ' Number of events in this file ', nevts
         do i = 1, nevts
-          if (mcfio_NextEvent(istr_old) .eq. -1) then 
+          if (mcfio_NextEvent(istr_old) .eq. -1) then
              print *,'  Error reading next event, Stop '
              stop
           end if

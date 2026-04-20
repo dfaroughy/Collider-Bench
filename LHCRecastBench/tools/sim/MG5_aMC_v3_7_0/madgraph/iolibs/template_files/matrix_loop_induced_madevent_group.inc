@@ -1,23 +1,23 @@
 SUBROUTINE SMATRIX%(proc_id)s(P,RHEL, RCOL, channel, proc_id, ANS, hel_selected, icol)
-C  
+C
 %(info_lines)s
-C 
+C
 C MadGraph5_aMC@NLO for Madevent Version
-C 
+C
 C Returns amplitude squared summed/avg over colors
 c and helicities
 c for the point in phase space P(0:3,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C 
+C
     use DiscreteSampler
     IMPLICIT NONE
     double precision RHEL
     double precision RCOL
     integer channel, proc_id, hel_selected, icol
-C  
+C
 C CONSTANTS
-C  
+C
     Include 'genps.inc'
     Include 'maxconfigs.inc'
     Include 'nexternal.inc'
@@ -27,37 +27,37 @@ C
 C   Below is the maximum config ID for multichannels which is always less than
 C   the number of loop diagrams, so we use the latter.
     INTEGER    NLOOPDIAGRAMS
-    PARAMETER (NLOOPDIAGRAMS=%(nloopdiags)d)  
+    PARAMETER (NLOOPDIAGRAMS=%(nloopdiags)d)
 C   Below is the number of multi-channel actually contributing to this process
 	INTEGER    NMULTICHANNELS
     PARAMETER (NMULTICHANNELS=%(nmultichannels)d)
     INTEGER    NLOOPFLOWS
-    PARAMETER (NLoopFlows=%(nLoopFlows)d) 
-    INTEGER                 NCOMB         
+    PARAMETER (NLoopFlows=%(nLoopFlows)d)
+    INTEGER                 NCOMB
     PARAMETER (             NCOMB=%(ncomb)d)
     INTEGER    THEL
     PARAMETER (THEL=2*NCOMB)
     INTEGER Hel_Average_Factor
     PARAMETER (Hel_Average_Factor=%(hel_avg_factor)d)
 C   It can be that all '|A_i|^2' are zero, in which case one wants to effectively set multichannel factors to be flat.
-C   This behavior will occur when  Sum_i(|A_i|^2)/Full_ME < MULTICHANNEL_THRES. 
+C   This behavior will occur when  Sum_i(|A_i|^2)/Full_ME < MULTICHANNEL_THRES.
 C   When set negative, the security above is removed
 	DOUBLE PRECISION MULTICHANNEL_THRES
 	PARAMETER (MULTICHANNEL_THRES=1.0d-5)
 
 c
-c global (due to reading writting) 
+c global (due to reading writting)
 c
         LOGICAL GOODHEL(NCOMB,MAXSPROC)
 	INTEGER NTRY(MAXSPROC)
         common/BLOCK_GOODHEL/NTRY,GOODHEL
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
     REAL*8 P(0:3,NEXTERNAL),ANS
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
         INTEGER NHEL(NEXTERNAL,NCOMB)
 		INTEGER I, II, J ,JJ
         INTEGER ISHEL
@@ -84,11 +84,11 @@ C Prec_found ans ans_ml are saved so that they don't have to be re-allocated eve
 
 		LOGICAL INIT_MADLOOP
 		DATA INIT_MADLOOP/.FALSE./
-C  
+C
 C GLOBAL VARIABLES
-C  
-    LOGICAL FORCE_ML_HELICITY_SUM 
-    common/to_ML_control/FORCE_ML_HELICITY_SUM 
+C
+    LOGICAL FORCE_ML_HELICITY_SUM
+    common/to_ML_control/FORCE_ML_HELICITY_SUM
 
 
     DOUBLE PRECISION AMP2(MAXAMPS), JAMP2(0:MAXFLOW)
@@ -101,13 +101,13 @@ C
     %(real_dp_format)s ML_AMP2(NLOOPDIAGRAMS)
     common/%(ml_prefix)sAMP2/ML_AMP2
 
-    
+
     INTEGER IMIRROR
     COMMON/TO_MIRROR/ IMIRROR
- 
+
     REAL*8 POL(2)
     COMMON/TO_POLARIZATION/ POL
-    
+
     INTEGER          ISUM_HEL
     LOGICAL                    MULTI_CHANNEL
     COMMON/TO_MATRIX/ISUM_HEL, MULTI_CHANNEL
@@ -139,7 +139,7 @@ C We don't use the poles, so let's not compute them with COLLIER
       CALL %(ml_prefix)sCOLLIER_COMPUTE_UV_POLES(.False.)
       CALL %(ml_prefix)sCOLLIER_COMPUTE_IR_POLES(.False.)
 C Unless this is the first iteration, make sure to never double check the helicity filter again
-      IF (read_grid_file) THEN 
+      IF (read_grid_file) THEN
         CALL SET_FORBID_HEL_DOUBLECHECK(.True.)
 	  ELSE
 C       The double check is turned off here even for the first iteration because the further iteration would anyway be wrong since the new HelFilter is not output. We keep it here as it can be used for diagnostics, for example by triggering a crash if the double-check fails instead of trying to recompute the filter.
@@ -187,12 +187,12 @@ C     This is of course only necessary if the automatic TIR Cache clearing was t
 C Of course this option can also not be used for polarized beams.
       do JJ=1,NINCOMING
 	    if (POL(JJ).NE.1d0) FORCE_ML_Helicity_Sum = .false.
-	  enddo	       
-    endif	       
+	  enddo
+    endif
 
 
     IF(Force_ML_Helicity_Sum )THEN
-        
+
 	    call cpu_time(t_before)
 	    CALL %(ml_prefix)sSLOOPMATRIX_THRES(P,ANS_ML,-1.0d0,PREC_FOUND,ML_RET_CODE)
 		CALL PROCESS_MADLOOP_OUTPUT%(proc_id)s(P,t_before,ANS,ANS_ML(1,0),ANS_ML(2,0),ANS_ML(3,0),PREC_FOUND(0),ML_RET_CODE)
@@ -203,11 +203,11 @@ C Of course this option can also not be used for polarized beams.
     IF ((ISHEL.EQ.0.and.ISUM_HEL.eq.0).or.(DS_get_dim_status('Helicity').eq.0).or.(HEL_PICKED.eq.-1)) THEN
       	 DO I=1,NCOMB
          IF (GOODHEL(I,%(proc_id)s) .OR. NTRY(%(proc_id)s).LE.MAXTRIES.OR.ISUM_HEL.ne.0) THEN
-	        
+
 		    call cpu_time(t_before)
 			CALL %(ml_prefix)sSLOOPMATRIXHEL_THRES(P,I,ANS_ML,-1.0d0,PREC_FOUND,ML_RET_CODE)
 			CALL PROCESS_MADLOOP_OUTPUT%(proc_id)s(P,t_before,T,ANS_ML(1,0),ANS_ML(2,0),ANS_ML(3,0),PREC_FOUND(0),ML_RET_CODE)
-            
+
 			DO JJ=1,JAMP2(0)
               JAMP2(JJ) = JAMP2(JJ) + ML_JAMP2(JJ)
             ENDDO
@@ -237,7 +237,7 @@ C Of course this option can also not be used for polarized beams.
 		  hel_jacobian   = 1.0d0
 !         We don't want to re-update the helicity grid if it was already updated by another matrix<i>, so we make sure that the reference grid is empty.
           ref_helicity_grid = DS_get_dimension(ref_grid,'Helicity')
-		  IF((DS_get_dim_status('Helicity').eq.1).and.(ref_helicity_grid%%n_tot_entries.eq.0)) then 
+		  IF((DS_get_dim_status('Helicity').eq.1).and.(ref_helicity_grid%%n_tot_entries.eq.0)) then
 !           If we finished the initialization we can update the grid so as to start sampling over it.
 !           However the grid will now be filled by dsample with different kind of weights (including pdf, flux, etc...) so by setting the grid_mode of the reference grid to 'initialization' we make sure it will be overwritten (as opposed to 'combined') by the running grid at the next update.
             CALL DS_UPDATE_GRID('Helicity')
@@ -265,11 +265,11 @@ C Of course this option can also not be used for polarized beams.
       ELSE ! random helicity
 C           The helicity configuration was chosen already by genps and put in a common block defined in genps.inc.
             I = HEL_PICKED
-	        HEL_SELECTED= HEL_PICKED 
-			call cpu_time(t_before)            
+	        HEL_SELECTED= HEL_PICKED
+			call cpu_time(t_before)
 			CALL %(ml_prefix)sSLOOPMATRIXHEL_THRES(P,I,ANS_ML,-1.0d0,PREC_FOUND,ML_RET_CODE)
 			CALL PROCESS_MADLOOP_OUTPUT%(proc_id)s(P,t_before,T,ANS_ML(1,0),ANS_ML(2,0),ANS_ML(3,0),PREC_FOUND(0),ML_RET_CODE)
-	
+
             DO JJ=1,JAMP2(0)
               JAMP2(JJ) = JAMP2(JJ) + ML_JAMP2(JJ)
             ENDDO
@@ -303,7 +303,7 @@ c         Set right sign for ANS, based on sign of chosen helicity
                GOTO 10
             ENDIF
          ENDDO
- 10      CONTINUE   
+ 10      CONTINUE
       ENDIF
     ENDIF
 
@@ -329,11 +329,11 @@ c         Set right sign for ANS, based on sign of chosen helicity
         ENDIF
     ENDIF
     IF(.not.Force_ML_Helicity_Sum )THEN
-      ANS = ANS/ Hel_Average_Factor    			
+      ANS = ANS/ Hel_Average_Factor
     ENDIF
 
 C Amplitude(s) for diagram number %(n_tot_diags)d
-C This last line is a tag do not remove it. 
+C This last line is a tag do not remove it.
 	END
 
 	SUBROUTINE PROCESS_MADLOOP_OUTPUT%(proc_id)s(P,time_before, me_answer, finite, OneEps, TwoEps, prec, return_code)
@@ -366,7 +366,7 @@ c   To monitor MadLoop computational aspects.
     INTEGER T_RETURN_CODES(0:9)
     INTEGER H_RETURN_CODES(0:9)
     DOUBLE PRECISION AVG_TIMING
-    DOUBLE PRECISION MAX_PREC, MIN_PREC	
+    DOUBLE PRECISION MAX_PREC, MIN_PREC
     INTEGER N_EVALS
     COMMON/MADLOOPSTATS/AVG_TIMING,MAX_PREC,MIN_PREC,N_EVALS,U_RETURN_CODES,T_RETURN_CODES,H_RETURN_CODES
 
@@ -384,7 +384,7 @@ c   ----
 	U = mod(RETURN_CODE,10)
 	U_RETURN_CODES(U) = U_RETURN_CODES(U)+1
 	T = (mod(RETURN_CODE,100)-U)/10
-	T_RETURN_CODES(T) = T_RETURN_CODES(T)+1	
+	T_RETURN_CODES(T) = T_RETURN_CODES(T)+1
 	H = (mod(RETURN_CODE,1000)-10*T-U)/100
 	H_RETURN_CODES(H) = H_RETURN_CODES(H)+1
 
@@ -404,7 +404,7 @@ c   ----
 	ENDIF
 
 	me_answer = FINITE
-    
+
 	if (finite.eq.0.0d0) then
 	  return
 	endif
@@ -415,7 +415,7 @@ c   ----
 	    WRITE(*,*) "WARNING : The residue of the single and double pole of the loop matrix element being integrated does not seem to vanish."
 		WRITE(*,*) "          Its contribution relative to the finite part is : ",((OneEps+TwoEps)/finite)
 		WRITE(*,*) "          while the estimated numerical accuracy is       : ",PREC
-		WRITE(*,*) "          MadLoop results (fin, 1eps, 2eps)               : ",finite, OneEps, TwoEps		
+		WRITE(*,*) "          MadLoop results (fin, 1eps, 2eps)               : ",finite, OneEps, TwoEps
 		WRITE(*,*) " The warning above was triggered when processing the following phase space point:"
         CALL %(ml_prefix)sWRITE_MOM(P)
 	  ENDIF
@@ -424,7 +424,7 @@ c   ----
 	  ENDIF
 	ENDIF
 
-    END 
+    END
 
     SUBROUTINE print_zero_amp_%(proc_id)s()
     END

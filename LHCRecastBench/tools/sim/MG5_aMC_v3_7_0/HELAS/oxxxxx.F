@@ -11,7 +11,7 @@ c       integer nsf  = -1 or 1 : +1 for particle, -1 for anti-particle
 c
 c output:
 c       complex fo(6)          : fermion wavefunction               <fo|
-c     
+c
       implicit none
       double complex fo(6),chi(2)
       double precision p(0:3),sf(2),sfomeg(2),omega(2),fmass,
@@ -68,19 +68,19 @@ c
          pp = min(p(0),dsqrt(p(1)**2+p(2)**2+p(3)**2))
 
          if ( pp.eq.rZero ) then
-            
+
             sqm(0) = dsqrt(abs(fmass)) ! possibility of negative fermion masses
             sqm(1) = sign(sqm(0),fmass) ! possibility of negative fermion masses
             ip = -((1+nh)/2)
             im =  (1-nh)/2
-            
+
             fo(1) = im     * sqm(im)
             fo(2) = ip*nsf * sqm(im)
             fo(3) = im*nsf * sqm(-ip)
             fo(4) = ip     * sqm(-ip)
-            
+
          else
-            
+
             sf(1) = dble(1+nsf+(1-nsf)*nh)*rHalf
             sf(2) = dble(1+nsf-(1-nsf)*nh)*rHalf
             omega(1) = dsqrt(p(0)+pp)
@@ -96,16 +96,16 @@ c
             else
                chi(2) = dcmplx( nh*p(1) , -p(2) )/dsqrt(rTwo*pp*pp3)
             endif
-            
+
             fo(1) = sfomeg(2)*chi(im)
             fo(2) = sfomeg(2)*chi(ip)
             fo(3) = sfomeg(1)*chi(im)
             fo(4) = sfomeg(1)*chi(ip)
 
          endif
-         
+
       else
-         
+
          if(p(1).eq.0d0.and.p(2).eq.0d0.and.p(3).lt.0d0) then
             sqp0p3 = 0d0
          else
@@ -128,7 +128,7 @@ c
             fo(3) = chi(2)
             fo(4) = chi(1)
          endif
-         
+
       endif
 c
       return

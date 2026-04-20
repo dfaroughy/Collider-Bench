@@ -23,7 +23,7 @@ File structure:
 
 2.dfint.f and kerset.f: auxiliary files to perform interpolation based on the values in the grid
 
-3.dgauss.f: the one-dimensional integrator based on Gaussian quadrature 
+3.dgauss.f: the one-dimensional integrator based on Gaussian quadrature
 
 4.calcpdf_{collider}.f: the calcuculation of the \bar\phi quantity for each collider
 

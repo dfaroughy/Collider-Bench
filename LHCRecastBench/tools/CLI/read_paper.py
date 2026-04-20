@@ -105,9 +105,19 @@ def main():
         epilog=__doc__,
     )
     parser.add_argument("pdf", help="Path to the PDF file")
-    parser.add_argument("--pages", default=None, help="Page range, e.g. '3-5' or '1,4-6' (1-indexed)")
-    parser.add_argument("--figures", action="store_true", help="Render pages as PNG images instead of extracting text")
-    parser.add_argument("--output-dir", default=None, help="Output directory for figures (default: <pdf_dir>/figures/)")
+    parser.add_argument(
+        "--pages", default=None, help="Page range, e.g. '3-5' or '1,4-6' (1-indexed)"
+    )
+    parser.add_argument(
+        "--figures",
+        action="store_true",
+        help="Render pages as PNG images instead of extracting text",
+    )
+    parser.add_argument(
+        "--output-dir",
+        default=None,
+        help="Output directory for figures (default: <pdf_dir>/figures/)",
+    )
     args = parser.parse_args()
 
     doc = _open_doc(args.pdf)

@@ -23,4 +23,3 @@ endif
 #   mptype  : the program providing the multi-precision type
 #   tlevel  : should be "yes" if you need the non-module routines
 #   cppintf : should be "yes" if you want to use OneLOop in C++ programs
-

@@ -33,7 +33,6 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -44,6 +43,7 @@ PAPERS_DIR = Path(__file__).resolve().parent.parent / "papers"
 
 
 # ── Loading ─────────────────────────────────────────────────────────────────
+
 
 def _reference_dir(arxiv_id: str) -> Path:
     return PAPERS_DIR / arxiv_id / "artifacts" / "HEPRecastData"
@@ -103,6 +103,7 @@ def _extract_bins(data: dict) -> list[dict]:
 
 # ── Shape & normalization ───────────────────────────────────────────────────
 
+
 def shape_chi2(
     observed: np.ndarray,
     reference: np.ndarray,
@@ -157,6 +158,7 @@ def normalization_ratio(observed: np.ndarray, reference: np.ndarray) -> tuple[fl
 
 
 # ── Scoring ─────────────────────────────────────────────────────────────────
+
 
 def _as_float(x) -> float | None:
     """Coerce to float, returning None for non-numeric values (e.g. LaTeX upper-limit strings)."""
@@ -235,7 +237,7 @@ def _score_series(
         rel_diff = abs(rec_val - ref_val) / abs(ref_val)
         passes = abs(pull) < 2.0 or rel_diff < 0.5
 
-        chi2 += pull ** 2
+        chi2 += pull**2
         n_scored += 1
         if passes:
             series["n_pass"] += 1
@@ -308,18 +310,24 @@ def _score_table(ref_data: dict, recast_data: dict, table_name: str) -> dict:
     for ref_s in ref_series:
         rec_s = next((r for r in recast_series if r["name"] == ref_s["name"]), None)
         if rec_s is None:
-            result["series"].append({
-                "name": ref_s["name"],
-                "error": f"Series '{ref_s['name']}' not found in recast",
-            })
+            result["series"].append(
+                {
+                    "name": ref_s["name"],
+                    "error": f"Series '{ref_s['name']}' not found in recast",
+                }
+            )
             continue
         series = _score_series(
-            ref_s["name"], ref_s["values"], rec_s["values"], ref_s["errors"], bins,
+            ref_s["name"],
+            ref_s["values"],
+            rec_s["values"],
+            ref_s["errors"],
+            bins,
         )
         result["series"].append(series)
-        result["n_total"]  += series["n_bins"]
+        result["n_total"] += series["n_bins"]
         result["n_filled"] += series["n_filled"]
-        result["n_pass"]   += series["n_pass"]
+        result["n_pass"] += series["n_pass"]
 
     result["overall_score"] = (
         round(result["n_pass"] / result["n_filled"], 3) if result["n_filled"] else 0.0
@@ -348,23 +356,25 @@ def score_recast(arxiv_id: str, recast_dir: str) -> dict:
     }
 
     shape_scores: list[float] = []
-    norm_scores:  list[float] = []
+    norm_scores: list[float] = []
 
     for ref_file in sorted(ref_dir.glob("*.yaml")):
         if ref_file.name in ("submission.yaml", "description.yaml"):
             continue
         recast_file = recast_path / ref_file.name
         if not recast_file.exists():
-            output["tables"].append({
-                "table": ref_file.stem,
-                "error": f"Not found in recast: {ref_file.name}",
-            })
+            output["tables"].append(
+                {
+                    "table": ref_file.stem,
+                    "error": f"Not found in recast: {ref_file.name}",
+                }
+            )
             continue
         table = _score_table(_load_yaml(ref_file), _load_yaml(recast_file), ref_file.stem)
         output["tables"].append(table)
-        output["n_total"]  += table["n_total"]
+        output["n_total"] += table["n_total"]
         output["n_filled"] += table["n_filled"]
-        output["n_pass"]   += table["n_pass"]
+        output["n_pass"] += table["n_pass"]
         for s in table["series"]:
             if "shape" in s:
                 shape_scores.append(s["shape"]["score"])
@@ -389,6 +399,7 @@ def score_recast(arxiv_id: str, recast_dir: str) -> dict:
 
 # ── Display ─────────────────────────────────────────────────────────────────
 
+
 def print_scores(result: dict) -> None:
     if "error" in result:
         print(f"  ERROR: {result['error']}")
@@ -408,16 +419,24 @@ def print_scores(result: dict) -> None:
                 print(f"    {s['name']}: {s['error']}")
                 continue
 
-            n_pass = s["n_pass"]; n_filled = s["n_filled"]
-            score = s.get("score", 0); chi2 = s.get("chi2_per_bin", "—")
+            n_pass = s["n_pass"]
+            n_filled = s["n_filled"]
+            score = s.get("score", 0)
+            chi2 = s.get("chi2_per_bin", "—")
             extra = ""
             if "shape" in s:
-                extra = (f"  shape={s['shape']['score']:.2f}  "
-                         f"norm={s['normalization']['score']:.2f}  [{s['diagnosis']}]")
-            print(f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%}), "
-                  f"chi2/bin={chi2}{extra}")
+                extra = (
+                    f"  shape={s['shape']['score']:.2f}  "
+                    f"norm={s['normalization']['score']:.2f}  [{s['diagnosis']}]"
+                )
+            print(
+                f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%}), "
+                f"chi2/bin={chi2}{extra}"
+            )
             print(f"    {'─' * 62}")
-            print(f"    {'Bin':<20s} {'Recast':>10s} {'CMS':>10s} {'Pull':>7s} {'Rel%':>6s} {'':>5s}")
+            print(
+                f"    {'Bin':<20s} {'Recast':>10s} {'CMS':>10s} {'Pull':>7s} {'Rel%':>6s} {'':>5s}"
+            )
             print(f"    {'─' * 62}")
             for b in s["bins"]:
                 rec = f"{b['recast']:.2f}" if b["recast"] is not None else "null"
@@ -425,16 +444,22 @@ def print_scores(result: dict) -> None:
                 pull = f"{b['pull']:+.2f}" if b.get("pull") is not None else "—"
                 rel = f"{b['rel_diff']:.0%}" if b.get("rel_diff") is not None else "—"
                 status = b.get("status", "?")
-                print(f"    {b['bin']:<20s} {rec:>10s} {ref:>10s} {pull:>7s} {rel:>6s} {status:>5s}")
+                print(
+                    f"    {b['bin']:<20s} {rec:>10s} {ref:>10s} {pull:>7s} {rel:>6s} {status:>5s}"
+                )
 
     print(f"\n  {'=' * 68}")
-    print(f"  Bins: {result['n_pass']}/{result['n_filled']} pass "
-          f"({result['overall_score']:.0%})   status: "
-          f"{'PASS' if result['overall_pass'] else 'FAIL'}")
+    print(
+        f"  Bins: {result['n_pass']}/{result['n_filled']} pass "
+        f"({result['overall_score']:.0%})   status: "
+        f"{'PASS' if result['overall_pass'] else 'FAIL'}"
+    )
     if "overall_shape" in result:
-        print(f"  Shape: {result['overall_shape']:.2f}   "
-              f"Norm: {result['overall_normalization']:.2f}   "
-              f"Combined: {result['overall_combined']:.2f}")
+        print(
+            f"  Shape: {result['overall_shape']:.2f}   "
+            f"Norm: {result['overall_normalization']:.2f}   "
+            f"Combined: {result['overall_combined']:.2f}"
+        )
     print()
 
 
@@ -448,11 +473,13 @@ def print_comparison(results: list[dict]) -> None:
             continue
         parts = Path(r.get("recast_dir", "")).parts
         run_name = ("/".join(parts[-4:-1]) if len(parts) >= 4 else r.get("recast_dir", ""))[:45]
-        print(f"  {run_name:<45s} "
-              f"{r.get('overall_score', 0):>7.2f} "
-              f"{r.get('overall_shape', 0):>7.2f} "
-              f"{r.get('overall_normalization', 0):>7.2f} "
-              f"{r.get('overall_combined', 0):>7.2f}")
+        print(
+            f"  {run_name:<45s} "
+            f"{r.get('overall_score', 0):>7.2f} "
+            f"{r.get('overall_shape', 0):>7.2f} "
+            f"{r.get('overall_normalization', 0):>7.2f} "
+            f"{r.get('overall_combined', 0):>7.2f}"
+        )
     print()
 
 
@@ -489,7 +516,7 @@ def main():
             print(json.dumps(results, indent=2))
         else:
             print_comparison(results)
-        for d, r in zip(args.compare, results):
+        for d, r in zip(args.compare, results, strict=False):
             _save_to_eval_dir(d, r)
     elif args.recast_dir:
         result = score_recast(args.arxiv_id, args.recast_dir)

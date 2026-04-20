@@ -1,11 +1,11 @@
-//Sums root histograms produced by MadGraph5_aMC@NLO and saves 
-//the results in a single root file. 
+//Sums root histograms produced by MadGraph5_aMC@NLO and saves
+//the results in a single root file.
 //
 //This code is steered by combine_root.sh, but can be executed directly
 //from a shell with the command:
 //   root -l -b combine_root.C
 //
-//It has beed tested on SLC6 machines with root v5.34.11. 
+//It has beed tested on SLC6 machines with root v5.34.11.
 //It may not work with older versions
 
 #include <TCanvas.h>
@@ -107,10 +107,10 @@ void combine_root(){
 	std::cout << "File is not open" << i << " " << filenames[i] << std::endl;
 	return ;
       }
-      
+
       HistoContents.clear();
       KeyList=HistoFiles.GetListOfKeys();
-      
+
       for(int j = 0; j <  KeyList->GetEntries(); j++){
 	//Check class name. If not TH1D, skip and continue
 	TKey *currentKey  = (TKey *)KeyList->At(j);
@@ -119,7 +119,7 @@ void combine_root(){
 	TH1D *thishist = (TH1D*)currentKey->ReadObj();
 	HistoContents.push_back(thishist);
       }
-      
+
       int llength = HistoContents.size();
       if(myverbose)cout << "Total number of histograms: " << llength << endl;
 
@@ -162,7 +162,7 @@ void combine_root(){
 	  }
         }
       }
-      
+
        HistoFiles.Close();
     }
 
@@ -175,7 +175,7 @@ void combine_root(){
     std::cout << "Target file is not open" << std::endl;
     return ;
   }
-  
+
   if(myverbose)cout << " "  << endl;
   for(vector<TH1D*>::iterator it = CombinedHistos.begin();it != CombinedHistos.end();++it){
     if(myverbose){
@@ -183,14 +183,14 @@ void combine_root(){
       cout << "Result in first bin: " << (*it)->GetBinContent(1) << endl;
     }
     (*it)->Write();
-  }  
+  }
   if(myverbose){
     cout << " " << endl;
     cout << "List of final histograms " << endl;
     FinalFile.GetListOfKeys()->Print();
   }
   FinalFile.Close();
-  
+
   std::cout << "  " << std::endl;
   std::cout << "All done. Final result in:" << std::endl;
   std::cout << tempstring << std::endl;

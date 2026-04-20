@@ -457,7 +457,7 @@ CONTAINS
     NULLIFY( item%left )
     NULLIFY( item%right )
 !
-!  In the case of an empty tree.  
+!  In the case of an empty tree.
 !
     IF(.NOT.ASSOCIATED( head ))THEN
        head => item
@@ -564,7 +564,7 @@ CONTAINS
        n=head%NLOOPLINE
        WRITE(*,*)n,head%indices(0:n)
        WRITE(*,*)head%M2L(1:n)
-       DO i=1,n          
+       DO i=1,n
           WRITE(*,*)head%PijMatrix(i,1:n)
        ENDDO
        WRITE(*,*)"value=",head%value(1:4)
@@ -1118,11 +1118,11 @@ CONTAINS
     leaf=leaf_ibppave_node2(head)
     IF(leaf.EQ.0)RETURN
     IF(leaf.EQ.1)THEN
-       ! it is a leaf 
+       ! it is a leaf
        DEALLOCATE(head)
        RETURN
     ENDIF
-    ! it is not a leaf 
+    ! it is not a leaf
     IF(ASSOCIATED(head%left))THEN
        CALL free_ibppave_bt2(head%left)
     ENDIF
@@ -1170,7 +1170,7 @@ CONTAINS
   END FUNCTION leaf_cibppave_node
 
   FUNCTION leaf_xyzmatrices_node(head)
-    ! 0: it is not associated 
+    ! 0: it is not associated
     ! 1: it is associated and a leaf
     ! -1: it is associated and not a leaf
     IMPLICIT NONE

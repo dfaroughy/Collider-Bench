@@ -56,7 +56,7 @@
 #define INITIAL_LIST_HEIGHT 14	/* number of rows in the category list */
 #define OPT_MENU_PAD 4		/* added to align other widgets with option
 				   menus to compensate for space on left */
-#define SLIDER_MAX 1000 
+#define SLIDER_MAX 1000
 #define TIME_BETWEEN_STATUS 2000
 
 extern nTuDDL **NTuDDLList;
@@ -104,14 +104,14 @@ static struct timeval TimeAtPreviousItteration;
 static void createContents(Widget parent);
 void redisplayNTupleList(int resetCurrentCategory);
 static void closeCB(Widget w, caddr_t clientData, caddr_t callData);
-static void categoryListCB(Widget w, caddr_t clientData, caddr_t callData); 
-static void categoryMenuCB(Widget w, int catNum, caddr_t callData); 
+static void categoryListCB(Widget w, caddr_t clientData, caddr_t callData);
+static void categoryMenuCB(Widget w, int catNum, caddr_t callData);
 static void nTupleListCB(Widget w, caddr_t clientData, caddr_t callData);
 static void nTupleBrowseListCB(Widget w, caddr_t clientData, caddr_t callData);
 static void openCB(Widget w, caddr_t clientData, caddr_t callData);
 static void viewTemplateCB(Widget w, caddr_t clientData, caddr_t callData);
 static void viewDumpCB(Widget w, caddr_t clientData, caddr_t callData);
-static void showIdCB(Widget w, caddr_t clientData, caddr_t callData); 
+static void showIdCB(Widget w, caddr_t clientData, caddr_t callData);
 static void sliderTuneCB(Widget w, caddr_t clientData, caddr_t callData);
 static void resetTopCategory(void);
 static void redisplayItems(void);
@@ -134,19 +134,19 @@ static void sliderTuneCB(Widget w, caddr_t clientData, caddr_t callData);
 static Boolean anyUpper(char *string);
 static void updateStatusLabel(float speed);
 static int decodeNTuples();
-#ifdef HISTO         
+#ifdef HISTO
 static void fillOneDHists(nTuBrowserInfo *nTuBr);
 static void fillOneDHistValue(int hs_id, long *lDat, int nskip, int type);
 #endif
 /*
-** Create the NTuple Browser Main Panel. 
+** Create the NTuple Browser Main Panel.
 */
 Widget mcfioC_CreateBrWindow(Display *display)
 {
     Widget appShell, menuBar;
     Arg al[30];
     int ac;
-    
+
     /* Create an toplevel shell to hold the window */
     ac = 0;
     XtSetArg(al[ac], XmNtitle, "Mcfio Data Browser"); ac++;
@@ -154,7 +154,7 @@ Widget mcfioC_CreateBrWindow(Display *display)
     XtSetArg(al[ac], XmNiconName, "McfioBrowser"); ac++;
     appShell = XtAppCreateShell("mcfio_Browse", "MCFIO_Browse",
 		applicationShellWidgetClass, display, al, ac);
-    	    
+
     /* Create a main window holding a menu bar and a form with the rest of
        the window contents. */
     McfioMainPanelW = XmCreateMainWindow(appShell, "main", NULL, 0);
@@ -163,14 +163,14 @@ Widget mcfioC_CreateBrWindow(Display *display)
     XtManageChild(menuBar);
     createContents(McfioMainPanelW);
     setMainPanelState(NO_FILE_OPEN, "Mcfio Browser");
-    
+
     /* realize all of the widgets in the new window */
     XtRealizeWidget(appShell);
 
     /* set up closeCB to be called when the user selects close from the
        window frame menu */
     AddMotifCloseCallback(appShell,(XtCallbackProc) closeCB, NULL);
-   HistoIsBrowserNtuInit = 0; 
+   HistoIsBrowserNtuInit = 0;
     return McfioMainPanelW;
 }
 /*
@@ -195,10 +195,10 @@ static void createContents(Widget parent)
     XtSetArg(args[ac], XmNshadowType, XmSHADOW_ETCHED_OUT); ac++;
     frame = XmCreateFrame(MainContentsW, "titleFrame", args, ac);
     XtManageChild(frame);
-    
-    
+
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple(
      "Stream Title: Blank                                          "))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
@@ -206,7 +206,7 @@ static void createContents(Widget parent)
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_FORM); ac++;
     XtSetArg(args[ac], XmNrecomputeSize, False); ac++;
     XtSetArg(args[ac], XmNtopOffset,1); ac++;
-    StreamTitleLabelW = 
+    StreamTitleLabelW =
        XmCreateLabelGadget(frame, "streamTitleLabel", args,ac);
     XmStringFree(s1);
     XtManageChild(StreamTitleLabelW);
@@ -225,8 +225,8 @@ static void createContents(Widget parent)
     XtAddCallback(RewindBtnW, XmNactivateCallback,
     	    (XtCallbackProc)rewindCB, NULL);
     XtSetSensitive(RewindBtnW, False);
-    
-         
+
+
    NextEventBtnW = XtVaCreateManagedWidget("nextEvtBtn",
     	    xmPushButtonGadgetClass, MainContentsW ,
     	    XmNlabelString, s1=XmStringCreateSimple("Next Event ->"),
@@ -255,7 +255,7 @@ static void createContents(Widget parent)
     XtAddCallback(SelectEvtBtnW, XmNactivateCallback,
     	    (XtCallbackProc)selectEvtCB, NULL);
     XtSetSensitive(SelectEvtBtnW, False);
-    
+
    RunBtnW = XtVaCreateManagedWidget("RunBtn",
     	    xmPushButtonGadgetClass, MainContentsW ,
     	    XmNlabelString, s1=XmStringCreateSimple("  Run ->>"),
@@ -269,7 +269,7 @@ static void createContents(Widget parent)
     XtAddCallback(RunBtnW, XmNactivateCallback,
     	    (XtCallbackProc)runCB, NULL);
     XtSetSensitive(RunBtnW, False);
-    
+
    StopBtnW = XtVaCreateManagedWidget("StopBtn",
     	    xmPushButtonGadgetClass, MainContentsW ,
     	    XmNlabelString, s1=XmStringCreateSimple("Stop"),
@@ -283,7 +283,7 @@ static void createContents(Widget parent)
     XtAddCallback(StopBtnW, XmNactivateCallback,
     	    (XtCallbackProc)stopCB, NULL);
     XtSetSensitive(StopBtnW, False);
-    
+
 #ifdef HISTO
    McfioHsResetBtnW = XtVaCreateManagedWidget("HsRestBtn",
     	    xmPushButtonGadgetClass, MainContentsW ,
@@ -301,10 +301,10 @@ static void createContents(Widget parent)
 /*
 ** A label, taking 2lines, the entire length, almost, stating the evt count:
 ** At event xxxxxx, Run yyyy, Spill yyyy, Event Size = xx kB
-** Scanning at yyy Kb/sec, expecting to complete in xx minutes  
+** Scanning at yyy Kb/sec, expecting to complete in xx minutes
 */
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateLtoR(
 "Stream is uninitialized...                                                  \n\
 Idle....                                                                  ",
@@ -315,7 +315,7 @@ Idle....                                                                  ",
     XtSetArg(args[ac], XmNtopWidget, StopBtnW); ac++;
     XtSetArg(args[ac], XmNrecomputeSize, False); ac++;
     XtSetArg(args[ac], XmNtopOffset,5); ac++;
-    InputRateLabelW = 
+    InputRateLabelW =
        XmCreateLabelGadget(MainContentsW, "statusLabel", args,ac);
     XmStringFree(s1);
     XtManageChild(InputRateLabelW);
@@ -332,16 +332,16 @@ Idle....                                                                  ",
     		 XmNleftAttachment, XmATTACH_FORM,
     		 XmNtopAttachment,  XmATTACH_WIDGET,
     		 XmNrightPosition, 99,
-    		 XmNtopWidget,InputRateLabelW , 
+    		 XmNtopWidget,InputRateLabelW ,
     		 XmNleftOffset, 1,
     		 XmNtopOffset, 1, 0);
 	XtAddCallback(InputRateSliderW , XmNdragCallback,
 	    	    (XtCallbackProc)stopCB, NULL);
 	XtAddCallback(InputRateSliderW, XmNvalueChangedCallback,
 	    	    (XtCallbackProc)sliderTuneCB, NULL);
-    XtSetSensitive(InputRateSliderW, False);	    	    
-	    	    
-         
+    XtSetSensitive(InputRateSliderW, False);
+
+
     /* Create a form to hold the first column of information (category list) */
     ac = 0;
     XtSetArg(args[ac], XmNmarginHeight, 0); ac++;
@@ -362,7 +362,7 @@ Idle....                                                                  ",
     categoryLabel = XmCreateLabelGadget(categoryForm, "categoryLabel", args,ac);
     XmStringFree(s1);
     XtManageChild(categoryLabel);
- 
+
     ac = 0;
     CategoryMenuW = XmCreatePulldownMenu(categoryForm, "category", args, ac);
 
@@ -378,7 +378,7 @@ Idle....                                                                  ",
     CategoryOptMenuW = XmCreateOptionMenu(categoryForm, "categoryMenu",
     					  args, ac);
     XtManageChild(CategoryOptMenuW);
- 
+
     /* Option menus have several serious problems, particularly in the version
        of Motif on SGI. Two separate methods are used to keep the option
        menu at a constant width.  For the current SGI version, we create a
@@ -387,9 +387,9 @@ Idle....                                                                  ",
        option menu (and of course the font) determines the width for both the
        category menu and for the sub-category list. */
     /*
-    **  This was the original comment from Mark, from HistoScope. 
+    **  This was the original comment from Mark, from HistoScope.
     **  It might not be really relevant with Motif 1.2, but we keep it..
-    */  
+    */
     fakeBtn = XtVaCreateManagedWidget("fakeCategory", xmPushButtonWidgetClass,
     	    CategoryMenuW,
     	    XmNlabelString, s1=XmStringCreateSimple(CurrentCategory),
@@ -404,10 +404,10 @@ Idle....                                                                  ",
     /* On systems other than the SGI, just displaying the "   Uncategorized   "
        initial category item and setting XmNrecomputeSize to false is enough */
     redisplayCategoryMenu();
-    XmStringFree(s1);				
+    XmStringFree(s1);
     XtVaSetValues(XmOptionButtonGadget(CategoryOptMenuW),
     	    XmNrecomputeSize, False, 0);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Sub Categories"))); ac++;
@@ -430,7 +430,7 @@ Idle....                                                                  ",
                   (XtCallbackProc)  openCB, NULL);
     XmStringFree(s1);
     XtManageChild(OpenBtnW);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("View Template"))); ac++;
@@ -446,7 +446,7 @@ Idle....                                                                  ",
                   (XtCallbackProc)  viewTemplateCB, NULL);
     XmStringFree(s1);
     XtManageChild(ViewTemplateBtnW);
-  
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("View Data"))); ac++;
@@ -463,7 +463,7 @@ Idle....                                                                  ",
     XmStringFree(s1);
     XtManageChild(ViewDumpBtnW);
     XtSetSensitive(ViewDumpBtnW, False);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNitems, (st1=StringTable(1, " "))); ac++;
     XtSetArg(args[ac], XmNitemCount, 1); ac++;
@@ -485,7 +485,7 @@ Idle....                                                                  ",
     XtAddCallback(CategoryListW, XmNdefaultActionCallback,
                   (XtCallbackProc)  categoryListCB,NULL);
     XtManageChild(CategoryListW);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString,
     (s1=XmStringCreateSimple("Ntuple List"))); ac++;
@@ -500,7 +500,7 @@ Idle....                                                                  ",
     					 args, ac);
     XmStringFree(s1);
     XtManageChild(nTupleLabel);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString,
     	     (s1=XmStringCreateSimple("Show User Id Numbers"))); ac++;
@@ -536,16 +536,16 @@ Idle....                                                                  ",
     XtSetArg(args[ac], XmNbottomOffset, 4); ac++;
     XtSetArg(args[ac], XmNleftOffset, 10); ac++;
     XtSetArg(args[ac], XmNrightOffset, 10); ac++;
-    NTupleListW = XmCreateScrolledList(MainContentsW, "NTupleList", 
+    NTupleListW = XmCreateScrolledList(MainContentsW, "NTupleList",
     					  args, ac);
     XtAddCallback(NTupleListW, XmNdefaultActionCallback,
                   (XtCallbackProc)  nTupleListCB, NULL);
-                  
+
     XtAddCallback(NTupleListW, XmNbrowseSelectionCallback,
                   (XtCallbackProc)  nTupleBrowseListCB, NULL);
     FreeStringTable(st1);
     XtManageChild(NTupleListW);
-    
+
     /* The panel is set insensitive (dimmed) after being created, rather
        than being created that way, because option menus stick permanently
        insensitive if they are created with an insensitive parent! */
@@ -557,10 +557,10 @@ void mcfioC_OpenNewFile()
 {
    char *ffname, title[80];
    int istat;
-   
+
   ffname = (char *) malloc(FILENAME_MAX*sizeof(char));
   if (McfioPanelState != NO_FILE_OPEN) {
-	if (DialogF(DF_QUES, MainContentsW , 2, 
+	if (DialogF(DF_QUES, MainContentsW , 2,
 "Opening a new file implies Closing the current one \n\
 Do you wish to open this new file ? ",
 		"Open", "Cancel") == 2) {
@@ -570,40 +570,40 @@ Do you wish to open this new file ? ",
          mcfioC_Close(1);
          mcfioC_DestroyBrowserAnalysis();
          mcfioC_Init(); TotalNumberOfEvts =0;
-         setMainPanelState(NO_FILE_OPEN, "nTuple Browser"); 
-    }            
+         setMainPanelState(NO_FILE_OPEN, "nTuple Browser");
+    }
   if (GetExistingFilename (MainContentsW,
-                       "Mcfio File Name:",ffname ) 
+                       "Mcfio File Name:",ffname )
                          == GFN_CANCEL) {
                             free(ffname);
                             return;
                          }
    if (McfioSetMemoryMappedIO) istat = mcfioC_OpenReadMapped(ffname);
-      else  istat = mcfioC_OpenReadDirect(ffname);           
+      else  istat = mcfioC_OpenReadDirect(ffname);
    if (istat == 1) {
-         mcfioC_InfoStreamInt(1, MCFIO_NUMWORDS, &CurrentWordCount);	
-         InitialWordCount = CurrentWordCount;	
+         mcfioC_InfoStreamInt(1, MCFIO_NUMWORDS, &CurrentWordCount);
+         InitialWordCount = CurrentWordCount;
          setMainPanelState(FILE_OPEN, ffname);
-   }        
+   }
    free(ffname);
-   return;	
+   return;
 }
-	
+
 int mcfioC_OpenInitialFile(char *filename)
 {
       int istat;
-      
+
       strcpy(McfioFilename, filename);
       if (McfioSetMemoryMappedIO) istat = mcfioC_OpenReadMapped(filename);
-      else  istat = mcfioC_OpenReadDirect(filename);           
+      else  istat = mcfioC_OpenReadDirect(filename);
       if (istat != 1) return FALSE;
       mcfioC_InfoStreamInt(1, MCFIO_NUMWORDS, &CurrentWordCount);
-      InitialWordCount = CurrentWordCount;	
+      InitialWordCount = CurrentWordCount;
       setMainPanelState(FILE_OPEN, filename);
       return True;
 }
- 
-void mcfioC_CloseBrowser() 
+
+void mcfioC_CloseBrowser()
 {
     if (McfioPanelState == NO_FILE_OPEN) return;
     mcfioC_Close(1); TotalNumberOfEvts =0;
@@ -628,21 +628,21 @@ void redisplayNTupleList(int resetCurrentCategory)
 /*
 ** Callback procedures for the widgets on the Histoscope main panel
 */
-static void closeCB(Widget w, caddr_t clientData, caddr_t callData) 
+static void closeCB(Widget w, caddr_t clientData, caddr_t callData)
 {
     mcfioC_CloseBrowser();
 }
-static void categoryListCB(Widget w, caddr_t clientData, caddr_t callData) 
+static void categoryListCB(Widget w, caddr_t clientData, caddr_t callData)
 {
     SimulateButtonPress(OpenBtnW);
 }
 
- 
-static void categoryMenuCB(Widget w, int catNum, caddr_t callData) 
+
+static void categoryMenuCB(Widget w, int catNum, caddr_t callData)
 {
     char *cats, cat[NTU_MAX_CATEGORY_LENGTH];
     int i;
-    
+
     /* Move upwards in the category hierarchy by truncating the
        CurrentCategory string with a null after catNum categories */
     cats = CurrentCategory;
@@ -672,12 +672,12 @@ static void nTupleListCB(Widget w, caddr_t clientData, caddr_t callData)
 static void nTupleBrowseListCB(Widget w, caddr_t clientData, caddr_t callData)
 {
     int i, *posList, count, id;
-    
+
     XmListGetSelectedPos(NTupleListW, &posList, &count);
     if (count < 1) return;
     id = ListedIDs[(*posList) -1];
     CurrentNTupleBrowserSelected = NTupleBrowserList[id-1];
-#ifdef HISTO    
+#ifdef HISTO
     mcfioC_OneDHistUpdateNTupleContent();
 #endif
 }
@@ -687,7 +687,7 @@ static void openCB(Widget w, caddr_t clientData, caddr_t callData)
     int *posList, posCount;
     XmString *selectedItems;
     char *category, *lastSlash;
-    
+
     /* Make sure a category is selected */
     posList = NULL;
     posCount =0;
@@ -699,7 +699,7 @@ static void openCB(Widget w, caddr_t clientData, caddr_t callData)
     XtVaGetValues(CategoryListW, XmNselectedItems, &selectedItems, 0);
     category = NULL;
     XmStringGetLtoR(*selectedItems, XmSTRING_DEFAULT_CHARSET, &category);
-    
+
     /* Change the current category to the category selected */
     if (!strncmp(category, "<-- ", 4)) {
     	/* move up in the category hierarchy */
@@ -716,7 +716,7 @@ static void openCB(Widget w, caddr_t clientData, caddr_t callData)
     }
     redisplayNTupleList(False);
     XtFree((char *) posList);
-    XtFree(category);			
+    XtFree(category);
 }
 
 static void showIdCB(Widget w, caddr_t clientData, caddr_t callData)
@@ -728,17 +728,17 @@ static void viewTemplateCB(Widget w, caddr_t clientData, caddr_t callData)
       int id;
       nTuDDL *ddl;
       descrGenNtuple *dNTu;
-      nTuBuildWindow *window;      
-      
+      nTuBuildWindow *window;
+
       int listPos = mcfioC_SelectedNtuBrListPos();
       if (listPos == 0) return;
       id = ListedIDs[listPos -1];
       if (NTupleBrowserList[id-1]->templateW == NULL) {
          ddl = mcf_GetNTuByPtrID(id);
-         window = 
+         window =
             CreateNTuBuildWindow(XtDisplay(McfioMainPanelW), ddl->title,
-	    					 True); 
-         NTupleBrowserList[id-1]->templateW = window; 
+	    					 True);
+         NTupleBrowserList[id-1]->templateW = window;
 	 if (ddl->descrNtu == NULL) dNTu = ddl->reference->descrNtu;
 	    else dNTu = ddl->descrNtu;
 	 window->descrNtu = dNTu;
@@ -746,19 +746,19 @@ static void viewTemplateCB(Widget w, caddr_t clientData, caddr_t callData)
          XmTextSetString(window->titleW, dNTu->title);
          XmTextSetString(window->versionW, dNTu->version);
          XmTextSetString(window->nameIndexW, dNTu->nameIndex);
-         if (dNTu->maxMultiplicity > 0) 
+         if (dNTu->maxMultiplicity > 0)
          SetIntText(window->multiplicityW, dNTu->maxMultiplicity);
          UpdateVariableList(window, 1);
          UpdateDialogVFields(window);
-         if (VerifyStruct(window) == True) 
+         if (VerifyStruct(window) == True)
              XtSetSensitive(window->saveAsItem, True);
       }
       else { /* Assume the thing is managed at this point */
          XMapRaised(
-             XtDisplay(NTupleBrowserList[id-1]->templateW->shell), 
+             XtDisplay(NTupleBrowserList[id-1]->templateW->shell),
                        XtWindow(NTupleBrowserList[id-1]->templateW->shell));
-      }                 
-      
+      }
+
 }
 static void viewDumpCB(Widget w, caddr_t clientData, caddr_t callData)
 {
@@ -769,10 +769,10 @@ static void viewDumpCB(Widget w, caddr_t clientData, caddr_t callData)
       id = ListedIDs[listPos -1];
       ddl = mcf_GetNTuByPtrID(CurrentNTupleBrowserSelected->id);
       /*
-      ** If first time around, we need to create and managed the Text 
-      ** widget... 
+      ** If first time around, we need to create and managed the Text
+      ** widget...
       */
-      if (NTupleBrowserList[id-1]->dumpDataShellW == NULL) 
+      if (NTupleBrowserList[id-1]->dumpDataShellW == NULL)
         mcfioC_ShowBrowserDataDump(NTupleBrowserList[id-1]);
       if (decodeNTuples() == False) {
 	DialogF(DF_ERR, w, 1, "Can not decode request NTuple",
@@ -788,7 +788,7 @@ int mcfioC_SelectedNtuBrListPos()
     int *posList = NULL, posCount = 0;
 
     if (!XmListGetSelectedPos(NTupleListW, &posList, &posCount)) {
-        DialogF(DF_WARN, MainContentsW, 1,  
+        DialogF(DF_WARN, MainContentsW, 1,
                 "Please Select an NTuple from the List in Main Panel\n\
  Histograms are based on Ntuple Descriptors ",
                 "Acknowledged");
@@ -798,24 +798,24 @@ int mcfioC_SelectedNtuBrListPos()
     if (listPos != 0) {
       id = ListedIDs[listPos -1];
        CurrentNTupleBrowserSelected = NTupleBrowserList[id-1];
-#ifdef HISTO       
+#ifdef HISTO
        mcfioC_OneDHistUpdateNTupleContent();
-#endif       
+#endif
     } else  CurrentNTupleBrowserSelected = NULL;
     XtFree((char *)posList);
     return listPos;
 }
-int  mcfioC_SetSpecificNTupleBr(nTuBrowserInfo *nTuBr) 
+int  mcfioC_SetSpecificNTupleBr(nTuBrowserInfo *nTuBr)
 {
 /*
-** Because the user can defined HistoScope items from other panel, 
-** for consistency, we may have to set the Ntuple List from 
+** Because the user can defined HistoScope items from other panel,
+** for consistency, we may have to set the Ntuple List from
 ** outside this Module. This routines attemps to do this
 */
    int i, iPos, nItems;
    nTuDDL *ddl;
    Arg args[2];
-   
+
    ddl = mcf_GetNTuByPtrID(nTuBr->id);
    if (itemInCategory(ddl, CurrentCategory) != True) {
        resetTopCategory();
@@ -826,9 +826,9 @@ int  mcfioC_SetSpecificNTupleBr(nTuBrowserInfo *nTuBr)
        return False;
    }
    redisplayItems();
-   XtSetArg (args[0], XmNitemCount, &nItems); 
+   XtSetArg (args[0], XmNitemCount, &nItems);
    XtGetValues(NTupleListW, args, 1);
-   for (i=0, iPos=-1; i<nItems; i++) 
+   for (i=0, iPos=-1; i<nItems; i++)
       if(ListedIDs[i] == ddl->id) iPos = i+1;
    if (iPos == -1) {
        DialogF(DF_WARN, MainContentsW, 1,
@@ -843,15 +843,15 @@ int  mcfioC_SetSpecificNTupleBr(nTuBrowserInfo *nTuBr)
 static void sliderTuneCB(Widget w, caddr_t clientData, caddr_t callData)
 {
      int requestedEvt, sliderValue ;
-     
+
      if(McfioPanelState == NO_FILE_OPEN) return;
      if (McfioPanelState == SCANNING) SimulateButtonPress(StopBtnW);
      XtVaGetValues(w, XmNvalue, &sliderValue, 0);
      requestedEvt = sliderValue/SLIDER_MAX * TotalNumberOfEvts;
-     CurrentEventNumber = requestedEvt; 
+     CurrentEventNumber = requestedEvt;
      mcfioC_SpecificEvent(1,  CurrentEventNumber, CurrentStoreNumber,
                               CurrentRunNumber,  CurrentTriggerMask);
-     
+
 }
 static void resetTopCategory(void)
 {
@@ -875,7 +875,7 @@ static void resetTopCategory(void)
     	    return;
 	}
     }
-    
+
     /* Top category for all items is the same, use it as the new top category */
     strcpy(TopCategory, firstTopCategory);
 
@@ -911,7 +911,7 @@ static void redisplayItems(void)
     } else {
        XtSetSensitive(ViewTemplateBtnW, True);
        XtSetSensitive(OpenBtnW, True);
-    }   
+    }
 
     /* Count the number of matching items on the histogram list */
     for (i=0; i<NumOfNTuples; i++)
@@ -927,7 +927,7 @@ static void redisplayItems(void)
     else
     	ListedIDs = (int *)XtMalloc(sizeof(int) * nItems);
     stringTable = (XmString *)XtMalloc((nItems+1) * sizeof(XmString));
-       
+
     /* Build the id table and the string table */
     nItems = 0;
     for (i=0; i<NumOfNTuples; i++) {
@@ -943,7 +943,7 @@ static void redisplayItems(void)
     	}
     }
     stringTable[nItems] = (XmString)0; /* end of table is marked with a 0 */
-    
+
     /* Display the items in the histogram list widget */
     setListItems(NTupleListW, stringTable, nItems);
 
@@ -959,12 +959,12 @@ static void redisplaySubcategories(void)
     char subCat[NTU_MAX_CATEGORY_LENGTH];
     XmString mSubCat, subCategories[NTU_MAX_CATEGORY_DEPTH+2];
     nTuDDL *ddl;
-    
+
     /* Make the entry for moving up in the category hierarchy */
     if (strcmp(CurrentCategory, TopCategory))
     	subCategories[nCategories++] =
     	      XmStringCreateSimple("<-- Up One Level");
-    
+
     /* Fill in the sub-categories from the histogram list */
     for (i=0; i<NumOfNTuples; i++) {
         ddl = NTuDDLList[i];
@@ -985,7 +985,7 @@ static void redisplaySubcategories(void)
     	}
     }
     subCategories[nCategories] = NULL;
-    
+
     /* Display the list of categories in the category list widget */
     setListItems(CategoryListW, subCategories, nCategories);
 
@@ -1014,7 +1014,7 @@ static void redisplayCategoryMenu(void)
     	oldBtns[i] = categoryBtns[i];
     oldNBtns = nBtns;
     nBtns = 0;
-    
+
     /* If the top category is "", add a fake one called "Uncategorized",
        start the category numbers: 0 == "" 1 == "cat1" 2 == "cat1/cat2" */
     if (!strcmp(TopCategory, "")) {
@@ -1044,7 +1044,7 @@ static void redisplayCategoryMenu(void)
     /* Safety check, stuff below will bomb if no categories were processed */
     if (nCats == 0)
     	fprintf(stderr, "Internal Error, unreadable current category\n");
-    
+
     /* Set the option menu to show the last category in the list.  Use
        the button widget and same argument list used in the last iteration
        of the loop above to change the position of the option menu and to
@@ -1059,7 +1059,7 @@ static void redisplayCategoryMenu(void)
     /* destroy all of the old buttons */
     for (i=0; i<oldNBtns; i++)
     	XtDestroyWidget(oldBtns[i]);
-}    
+}
 
 static int itemInCategory(nTuDDL *ddl, char *category)
 {
@@ -1069,7 +1069,7 @@ static int itemInCategory(nTuDDL *ddl, char *category)
 static char *nextCategory(char *toString, char *fromString)
 {
     char *to = toString, *from = fromString;
-    
+
     while (TRUE) {
         if (*from =='\0') {
             *to = '\0';
@@ -1092,7 +1092,7 @@ static char *nextCategory(char *toString, char *fromString)
 static int subCategory(char *category, char *categories, char *subCategory)
 {
     int catLen;
-    
+
     catLen = strlen(category);
     if (!strncmp(category, categories, catLen))
     	if (nextCategory(subCategory, &categories[catLen]) != NULL)
@@ -1104,10 +1104,10 @@ static void setMainPanelState(int state, char * title)
     char streamTitle[MCF_XDR_F_TITLE_LENGTH+1];
     int nn, lt;
     XmString s1;
-    
+
     McfioPanelState = state;
     if (state == NO_FILE_OPEN) {
-        XtVaSetValues(StreamTitleLabelW, XmNlabelString, 
+        XtVaSetValues(StreamTitleLabelW, XmNlabelString,
            s1 = XmStringCreateSimple("No stream Open"), 0);
         XmStringFree(s1);
        resetTopCategory ();
@@ -1115,8 +1115,8 @@ static void setMainPanelState(int state, char * title)
        updateStatusLabel(0.);
         XtSetSensitive(McfioMenuShowHeaderW, False);
         XtSetSensitive(McfioMenuShowEvtHeaderW, False);
-    }     
-    
+    }
+
     XtSetSensitive(MainContentsW, state!=NO_FILE_OPEN);
     if (state == FILE_OPEN) {
         XtSetSensitive(StopBtnW, False);
@@ -1126,19 +1126,19 @@ static void setMainPanelState(int state, char * title)
         XtSetSensitive(RunBtnW, True);
         XtSetSensitive(McfioMenuShowHeaderW, True);
         mcfioC_InfoStreamChar(1, MCFIO_TITLE, streamTitle, &lt);
-        XtVaSetValues(StreamTitleLabelW, XmNlabelString, 
+        XtVaSetValues(StreamTitleLabelW, XmNlabelString,
            s1 = XmStringCreateSimple(streamTitle), 0);
         XmStringFree(s1);
        resetTopCategory ();
        mcfioC_InfoStreamInt(1, MCFIO_NUMNTUPLES, &nn);
-#ifdef HISTO      
+#ifdef HISTO
        if (nn > 0) XtSetSensitive(McfioMenuShowOneDHistMainW, True);
-#endif       
+#endif
        redisplayNTupleList(True);
        updateStatusLabel(0.);
        XtSetSensitive(ViewDumpBtnW, False);
        mcfioC_CreateBrowserAnalysis();
-    }     
+    }
     XtVaSetValues(XtParent(McfioMainPanelW), XmNtitle, title, 0);
 }
 /*
@@ -1150,7 +1150,7 @@ static void setMainPanelState(int state, char * title)
 static void setListItems(Widget w, XmString *strings, int nStrings)
 {
     XmString *st1;
-    
+
     /* Motif doesn't reset the selection when items are changed */
     XmListDeselectAllItems(w);
 
@@ -1174,7 +1174,7 @@ static void rewindCB(Widget w, caddr_t clientData, caddr_t callData)
       XtSetSensitive(McfioMenuShowEvtHeaderW, False);
       CurrentSeqEvtNum = 0;
       updateStatusLabel(0.);
-      
+
 }
 static void nextEventCB(Widget w, caddr_t clientData, caddr_t callData)
 {
@@ -1189,23 +1189,23 @@ Please Rewind the stream, or open an other file", "Acknowledged");
          McfioPanelState = STEPPING;
          CurrentSeqEvtNum++;
          updateStatusLabel(0.);
-         for (i=0; i<NumOfNTuples; i++) 
-             NTupleBrowserList[i]->currentData = False; 
+         for (i=0; i<NumOfNTuples; i++)
+             NTupleBrowserList[i]->currentData = False;
          XtSetSensitive(ViewDumpBtnW, True);
          XtSetSensitive(McfioMenuShowEvtHeaderW, True);
          if (decodeNTuples() == FALSE)  McfioPanelState = STOPPED_FILE_OPEN;
-     } 
+     }
 }
 
 static void selectEvtCB(Widget w, caddr_t clientData, caddr_t callData)
 {
      int i, evt, iNum[3];
      char str1[255], *endPtr, *t1;
-     
+
      if (McfioPanelState == NO_FILE_OPEN) return;
      PreviousWordCount = CurrentWordCount;
      McfioPanelState = STEPPING;
-     DialogF(DF_PROMPT, McfioMainPanelW, 0, 
+     DialogF(DF_PROMPT, McfioMainPanelW, 0,
  " Please type the event #, store #, run #, trigger Mask # \n\
  You can ommit any of these quantity, but you must type at least the event #\n\
  0 means any, e.g. to get the first event run # 5, type: \n\
@@ -1227,19 +1227,19 @@ static void selectEvtCB(Widget w, caddr_t clientData, caddr_t callData)
          }
          t1++;
          iNum[i] = strtol(t1, &endPtr, 10);
-         t1 = endPtr; i++; 
-     }     
+         t1 = endPtr; i++;
+     }
      if (mcfioC_NextSpecificEvent(1,  evt, iNum[0],iNum[1], iNum[2]) !=
-           MCFIO_RUNNING) { 
+           MCFIO_RUNNING) {
 	   DialogF(DF_WARN,  McfioMainPanelW, 1,
 	    "The event %s  , is not found! ","Acknowledged", str1);
 	   SimulateButtonPress(RewindBtnW);
            return;
-     }      
+     }
      CurrentSeqEvtNum++;
      updateStatusLabel(0.);
-     for (i=0; i<NumOfNTuples; i++) 
-             NTupleBrowserList[i]->currentData = False; 
+     for (i=0; i<NumOfNTuples; i++)
+             NTupleBrowserList[i]->currentData = False;
      XtSetSensitive(ViewDumpBtnW, True);
      XtSetSensitive(McfioMenuShowEvtHeaderW, True);
      if (decodeNTuples() == FALSE)  McfioPanelState = STOPPED_FILE_OPEN;
@@ -1251,9 +1251,9 @@ static void runCB(Widget w, caddr_t clientData, caddr_t callData)
     float delta, speed;
     struct timeval timeNow;
     int numProcX, nn = 0;
-    XtAppContext context = 
+    XtAppContext context =
           XtWidgetToApplicationContext(McfioMainPanelW);
-    numProcX = 0;  
+    numProcX = 0;
     gettimeofday(&timeNow, NULL);
     if (McfioPanelState == NO_FILE_OPEN) return;
     McfioPanelState = SCANNING;
@@ -1270,7 +1270,7 @@ static void runCB(Widget w, caddr_t clientData, caddr_t callData)
             while (XtAppPending(context)) {
                 numProcX++;
     	        XtAppProcessEvent(context, XtIMAll);
-    	    }    
+    	    }
           PreviousWordCount = CurrentWordCount;
           if (mcfioC_NextEvent(1) != MCFIO_RUNNING) {
               DialogF(DF_WARN, McfioMainPanelW, 1, "Can Not reach Next Event\n\
@@ -1290,14 +1290,14 @@ Please Rewind the stream, or open an other file", "Acknowledged");
          delta = (float) nMuSecs/1000. + (float) nSecs * 1000.;
          TimeLeftBeforeNextUptade -= delta;
          if (TimeLeftBeforeNextUptade <= 0) {
-            speed = ((nn - EventCountAtLastUpdate) * 1000.)/ 
-                     TIME_BETWEEN_STATUS; 
+            speed = ((nn - EventCountAtLastUpdate) * 1000.)/
+                     TIME_BETWEEN_STATUS;
             updateStatusLabel(speed);
             EventCountAtLastUpdate = nn;
             TimeLeftBeforeNextUptade = TIME_BETWEEN_STATUS;
-         }   
-         for (i=0; i<NumOfNTuples; i++) 
-             NTupleBrowserList[i]->currentData = False; 
+         }
+         for (i=0; i<NumOfNTuples; i++)
+             NTupleBrowserList[i]->currentData = False;
          if (decodeNTuples() == FALSE)  McfioPanelState = STOPPED_FILE_OPEN;
          TimeAtPreviousItteration.tv_sec = timeNow.tv_sec;
          TimeAtPreviousItteration.tv_usec = timeNow.tv_usec;
@@ -1307,7 +1307,7 @@ Please Rewind the stream, or open an other file", "Acknowledged");
          hs_update();
          hs_update();
       }
-#endif            
+#endif
       XtSetSensitive(StopBtnW, False);
       XtSetSensitive(RewindBtnW, True);
       XtSetSensitive(NextEventBtnW, True);
@@ -1315,67 +1315,67 @@ Please Rewind the stream, or open an other file", "Acknowledged");
       XtSetSensitive(RunBtnW, True);
       XtSetSensitive(ViewDumpBtnW, False);
       updateStatusLabel(speed);
-}         
-      
+}
+
 static void updateStatusLabel(float speed)
 {
       char line[180], *tc;
       XmString s1;
       int nc, nn, l, k;
-     
-     
-      if (McfioPanelState == NO_FILE_OPEN) { 
+
+
+      if (McfioPanelState == NO_FILE_OPEN) {
           tc = line;
-          sprintf(tc, "------------------------------------ %n", &l); 
+          sprintf(tc, "------------------------------------ %n", &l);
       } else if (McfioPanelState == FILE_OPEN) {
           mcfioC_InfoStreamInt(1, MCFIO_NUMEVTS, &TotalNumberOfEvts);
           tc = line;
           sprintf(tc,
- "At Beginning of file.  Total number of Events = %d  %n", 
-      TotalNumberOfEvts, &l); 
+ "At Beginning of file.  Total number of Events = %d  %n",
+      TotalNumberOfEvts, &l);
       if (l < 76)  for (k=l; k<76; k++) line[k] = ' ';
       line[76] = '\n';
       sprintf(&line[77],
  "----------------------------------------------------------------------   ");
       CurrentEventNumber = 0;
       CurrentSeqEvtNum = 0;
-     } else {     
+     } else {
         mcfioC_InfoEventInt(1, MCFIO_EVENTNUMBER, &CurrentEventNumber);
         mcfioC_InfoEventInt(1, MCFIO_STORENUMBER, &CurrentStoreNumber);
         mcfioC_InfoEventInt(1, MCFIO_RUNNUMBER, &CurrentRunNumber);
         mcfioC_InfoEventInt(1, MCFIO_TRIGGERMASK, &CurrentTriggerMask);
         mcfioC_InfoStreamInt(1, MCFIO_NUMWORDS, &CurrentWordCount);
-        nn = (CurrentWordCount - PreviousWordCount)*4;	
+        nn = (CurrentWordCount - PreviousWordCount)*4;
 /*
 ** A label, taking 2lines, the entire length, almost, stating the evt count:
-** At event xxxxxx, Run yyyy, Spill yyyy, Trigger Mask = xx 
-** Scanning at yyy Kb/sec, expecting to complete in xx minutes  
+** At event xxxxxx, Run yyyy, Spill yyyy, Trigger Mask = xx
+** Scanning at yyy Kb/sec, expecting to complete in xx minutes
 */
         tc = line;
-        sprintf(tc, "At event %d, store  %d, run %d, Trigger Mask %d %n", 
+        sprintf(tc, "At event %d, store  %d, run %d, Trigger Mask %d %n",
          CurrentEventNumber, CurrentStoreNumber,
          CurrentRunNumber, CurrentTriggerMask , &l);
         if (l < 76)  for (k=l; k<76; k++) line[k] = ' ';
         line[76] = '\n';
         line[77] = '\0';
         if (McfioPanelState == SCANNING) {
-           if (speed < 1.)    sprintf(&line[77], 
+           if (speed < 1.)    sprintf(&line[77],
    "Read an additional  %d bytes. Crawling at %f evts/sec ",
     nn, speed );
-           else if (speed < 100.)    sprintf(&line[77], 
+           else if (speed < 100.)    sprintf(&line[77],
 "Read an additional  %d bytes. Grinding at %f evts/sec ",
     nn, speed );
-    
-           else if (speed < 1000.)    sprintf(&line[77], 
+
+           else if (speed < 1000.)    sprintf(&line[77],
 "Read an additional  %d bytes.  Moving at %f evts/sec ",
     nn, speed );
-    
-           else  sprintf(&line[77], 
+
+           else  sprintf(&line[77],
 "Read an additional  %d bytes.  Speeding at %f evts/sec. ",
     nn, speed );
-        } 
-        if (McfioPanelState == STEPPING) 
-              sprintf(&line[77], 
+        }
+        if (McfioPanelState == STEPPING)
+              sprintf(&line[77],
    "# Read an additional  %d. Byte count into stream = %d ",
     nn, (CurrentWordCount * 4));
      }
@@ -1388,19 +1388,19 @@ static void updateStatusLabel(float speed)
  	if (TotalNumberOfEvts > 0) {
  	   nn = (CurrentSeqEvtNum * SLIDER_MAX) / TotalNumberOfEvts;
  	   XmScaleSetValue(InputRateSliderW, nn);
- 	} else  XmScaleSetValue(InputRateSliderW, 0);  
-} 
+ 	} else  XmScaleSetValue(InputRateSliderW, 0);
+}
 static int decodeNTuples()
 {
       int i;
       for (i=0; i<NumOfNTuples; i++) {
            if (NTupleBrowserList[i]->currentData == False) {
-	     if (((NTupleBrowserList[i]->dumpDataW != NULL)  && 
+	     if (((NTupleBrowserList[i]->dumpDataW != NULL)  &&
 	         (XtIsManaged(NTupleBrowserList[i]->dumpDataFormW))) ||
 	         (NTupleBrowserList[i]->nHistoItems > 0)) {
 	           if (NTupleBrowserList[i]->data == NULL)
 	               mcfioC_createBrowserData(NTupleBrowserList[i]);
-	           if (mcfioC_NTuple(1, (i+1), 
+	           if (mcfioC_NTuple(1, (i+1),
 	              (char *) NTupleBrowserList[i]->data) == False)
 	                   return False;
 	           NTupleBrowserList[i]->currentData = True;
@@ -1408,18 +1408,18 @@ static int decodeNTuples()
 	              (XtIsManaged(NTupleBrowserList[i]->dumpDataFormW)))
 	              mcfioC_ShowBrowserDataDump(NTupleBrowserList[i]);
 	           /* Here comes the filling  */
-#ifdef HISTO	           
+#ifdef HISTO
 	           if(NTupleBrowserList[i]->nHisto1D > 0)
-	                 fillOneDHists(NTupleBrowserList[i]); 
-#endif	                         
+	                 fillOneDHists(NTupleBrowserList[i]);
+#endif
 	            }
 	      } /* Here comes partial decoding of an NTuple
-	           Skip for now, even if we are histogramming only 
+	           Skip for now, even if we are histogramming only
 	           onely one variable decode the whole block */
-      }                    
-	
+      }
+
 	return True;
-}	        
+}
 static void stopCB(Widget w, caddr_t clientData, caddr_t callData)
 {
       McfioPanelState = STOPPED_FILE_OPEN;
@@ -1428,7 +1428,7 @@ static void stopCB(Widget w, caddr_t clientData, caddr_t callData)
       XtSetSensitive(NextEventBtnW, True);
       XtSetSensitive(SelectEvtBtnW, False);
       XtSetSensitive(RunBtnW, True);
-} 
+}
 #ifdef HISTO
 static void fillOneDHists(nTuBrowserInfo *nTuBr)
 {
@@ -1443,8 +1443,8 @@ static void fillOneDHists(nTuBrowserInfo *nTuBr)
     float weight = 1;
     nTuBroHs1D *nTuH1;
 
-    
-    if (nTuBr->data == NULL) return;	
+
+    if (nTuBr->data == NULL) return;
     ddl = mcf_GetNTuByPtrID(nTuBr->id);
     if (ddl->descrNtu == NULL) dNTu = ddl->reference->descrNtu;
 	    else dNTu = ddl->descrNtu;
@@ -1463,22 +1463,22 @@ static void fillOneDHists(nTuBrowserInfo *nTuBr)
           hs_fill_1d_hist(id, val , weight);
           hs_update();
        } else {
-          ivar --;  
+          ivar --;
           var = dNTu->variables[ivar];
-          if (var->numDim < 1)  nskip=0; 
-          else { /* Assume C arrangement of arrays. 
+          if (var->numDim < 1)  nskip=0;
+          else { /* Assume C arrangement of arrays.
                        This is a semi-serious deficiency of the ddl */
-              indices =  nTuH1->varIndices;            
-              for (ln=0, nskip=0; ln <var->numDim; ln++) { 
-               for (lll=ln+1, nsk=1; lll<var->numDim; lll++) 
+              indices =  nTuH1->varIndices;
+              for (ln=0, nskip=0; ln <var->numDim; ln++) {
+               for (lll=ln+1, nsk=1; lll<var->numDim; lll++)
                             nsk = nsk*var->dimensions[lll];
                nskip += nsk * indices[ln];
-              } 
+              }
           }
-          if (ivar < lastFixed)  
+          if (ivar < lastFixed)
             fillOneDHistValue(id, nTuH1->lDat, nskip, var->type);
           else { /* A specific subVariable (leaf) */
-            cDat += dNTu->multOffset; 
+            cDat += dNTu->multOffset;
             lDat = (long *) cDat;
              nn = *lDat;
             if (nTuH1->subBlock < 0) {
@@ -1489,7 +1489,7 @@ static void fillOneDHists(nTuBrowserInfo *nTuBr)
                          fillOneDHistValue(id, lDat, nskip, var->type);
                          lDat += var->lengthW;
                   }
-	      } else  
+	      } else
                   for (j=0; j<nn; j++) {
                        pp = ((long) nTuBr->data) +  var->offset +
                                dNTu->subOffset[j];
@@ -1500,12 +1500,12 @@ static void fillOneDHists(nTuBrowserInfo *nTuBr)
                if (dNTu->orgStyle == PARALLEL_ARRAY_NTU) {
                   pp = ((long) nTuBr->data) +  var->offset;
                   lDat = (long *) pp; j=0;
-	          while(j <(nTuH1->subBlock - 1)) { 
+	          while(j <(nTuH1->subBlock - 1)) {
 	               lDat += var->lengthW; j++;
-	           } 
+	           }
 	       } else {
                     pp = ((long) nTuBr->data) +  var->offset +
-                               dNTu->subOffset[nTuH1->subBlock]; 
+                               dNTu->subOffset[nTuH1->subBlock];
                     lDat = (long *) pp;
 	        } /* End of specific organization */
                 fillOneDHistValue(id, lDat, nskip, var->type);
@@ -1520,7 +1520,7 @@ static void hsResetCB(Widget w, caddr_t clientData, caddr_t callData)
     int jn, i, id;
     nTuBrowserInfo *nTuBr;
     nTuBroHsGeneral *nTuHs;
-    
+
     for (jn=0; jn<NumOfNTuples; jn++) {
         nTuBr = NTupleBrowserList[jn];
         for (i=0; i<nTuBr->sizeOfLists; i++) {
@@ -1529,12 +1529,12 @@ static void hsResetCB(Widget w, caddr_t clientData, caddr_t callData)
            hs_update();
         }
     }
-}           
-    
+}
+
 static void fillOneDHistValue(int hs_id, long *lDat, int nskip, int type)
 {
    int *iDat;
-   float val, *fDat; 
+   float val, *fDat;
    double *gDat;
    char *cDat;
    short *sDat;
@@ -1573,11 +1573,11 @@ static void fillOneDHistValue(int hs_id, long *lDat, int nskip, int type)
     hs_update();
 
 }
-#endif     
+#endif
 static Boolean anyUpper(char *string)
 {
     int i, stringLen = strlen(string);
-    
+
     for (i = 0; i < stringLen; ++i)
     	if (isalpha(string[i]) && isupper(string[i]))
     	    return True;

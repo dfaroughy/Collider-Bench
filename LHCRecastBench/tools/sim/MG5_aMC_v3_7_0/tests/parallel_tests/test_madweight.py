@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph Development team and Contributors
 #
-# This file is a part of the MadGraph 5 project, an application which 
+# This file is a part of the MadGraph 5 project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph license which should accompany this 
+# It is subject to the MadGraph license which should accompany this
 # distribution.
 #
 # For more information, please visit: http://madgraph.phys.ucl.ac.be
@@ -32,7 +32,7 @@ import unittest
 from six.moves import map
 
 pjoin = os.path.join
-# Get the grand parent directory (mg5 root) of the module real path 
+# Get the grand parent directory (mg5 root) of the module real path
 # (tests/acceptance_tests) and add it to the current PYTHONPATH to allow
 # for easy import of MG5 tools
 
@@ -49,8 +49,8 @@ from . import me_comparator
 
 class TestMadWeight(unittest.TestCase):
     """A couple of points in order to ensure the MW is working fine."""
-    
-    
+
+
     def get_result(self, text):
         solution = {}
         for line in text.split('\n'):
@@ -63,7 +63,7 @@ class TestMadWeight(unittest.TestCase):
                 tf_set = 1.
             else:
                 event_nb, card_nb, tf_set, weight, error = list(map(float, split))
-            
+
             solution[(event_nb,card_nb,tf_set)] = (weight,error)
         return solution
 
@@ -74,7 +74,7 @@ class TestMadWeight(unittest.TestCase):
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_TT_prod'))
         except Exception as error:
             pass
-        
+
         cmd = """set automatic_html_opening False --no-save
                  set cluster_temp_path /tmp --no-save
                  generate p p > t t~, (t > w+ b, w+ > e+ ve), (t~ > w- b~, w- > e- ve~)
@@ -101,8 +101,8 @@ class TestMadWeight(unittest.TestCase):
             stderr=devnull
 
         start = time.time()
-        print('this mw test is expected to take 30s on two core. (MBP retina 2012) current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min)) 
-        subprocess.call([sys.executable,pjoin(MG5DIR,'bin','mg5_aMC'), 
+        print('this mw test is expected to take 30s on two core. (MBP retina 2012) current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min))
+        subprocess.call([sys.executable,pjoin(MG5DIR,'bin','mg5_aMC'),
                          '/tmp/mg5_cmd'],
                          cwd=pjoin(MG5DIR),
                         stdout=stdout, stderr=stderr)
@@ -113,11 +113,11 @@ class TestMadWeight(unittest.TestCase):
         solution = self.get_result(data)
         expected = """# Weight (un-normalize) for each card/event
 # format: LHCO_event_number card_id value integration_error
-24 1 7.13353274182e-22 3.48595541497e-24 
-24 2 4.48106063562e-22 2.23501639194e-24 
-28 1 1.22526200347e-23 5.8955444892e-26 
-28 2 5.53271960779e-23 2.59251688524e-25 
-"""   
+24 1 7.13353274182e-22 3.48595541497e-24
+24 2 4.48106063562e-22 2.23501639194e-24
+28 1 1.22526200347e-23 5.8955444892e-26
+28 2 5.53271960779e-23 2.59251688524e-25
+"""
         expected = self.get_result(expected)
         for key, (value,error) in expected.items():
             assert key in solution
@@ -129,7 +129,7 @@ class TestMadWeight(unittest.TestCase):
         #    shutil.rmtree(pjoin(MG5DIR,'TEST_MW_TT_prod_full'))
         #except Exception, error:
         #    pass
-            
+
     def test_short_mw_tt_semi(self):
         """checking that the weight for p p > t t~ semilept is working"""
 
@@ -137,7 +137,7 @@ class TestMadWeight(unittest.TestCase):
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_TT_prod'))
         except Exception as error:
             pass
-        
+
         cmd = """set automatic_html_opening False --no-save
                  set cluster_temp_path /tmp --no-save
                  generate p p > t t~, (t > w+ b, w+ > l+ vl), (t~ > w- b~, w- > j j)
@@ -159,7 +159,7 @@ class TestMadWeight(unittest.TestCase):
                  set pdlabel cteq6l1
                  """
         open('/tmp/mg5_cmd','w').write(cmd)
-        
+
         if logging.getLogger('madgraph').level <= 20:
             stdout=None
             stderr=None
@@ -167,10 +167,10 @@ class TestMadWeight(unittest.TestCase):
             devnull =open(os.devnull,'w')
             stdout=devnull
             stderr=devnull
-        
+
         start = time.time()
-        print('this mw test is expected to take 2 min on two core. (MBP retina 2012) current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min)) 
-        subprocess.call([sys.executable, pjoin(MG5DIR,'bin','mg5_aMC'), 
+        print('this mw test is expected to take 2 min on two core. (MBP retina 2012) current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min))
+        subprocess.call([sys.executable, pjoin(MG5DIR,'bin','mg5_aMC'),
                          '/tmp/mg5_cmd'],
                          cwd=pjoin(MG5DIR),
                         stdout=stdout, stderr=stderr)
@@ -188,7 +188,7 @@ class TestMadWeight(unittest.TestCase):
 9 2 6.79399430333e-25 7.38824630883e-27
 """
         expected = self.get_result(expected)
-        
+
         for key, (value,error) in expected.items():
             assert key in solution
             value2, error2 = solution[key]
@@ -208,7 +208,7 @@ class TestMadWeight(unittest.TestCase):
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_WA_prod'))
         except Exception as error:
             pass
-        
+
         cmd = """set automatic_html_opening False --no-save
                  set cluster_temp_path /tmp --no-save
                  generate p p > w- a , w- > e- ve~
@@ -232,7 +232,7 @@ class TestMadWeight(unittest.TestCase):
                  set mw_run MW_int_refine 10000
                  """
         open('/tmp/mg5_cmd','w').write(cmd)
-        
+
         if logging.getLogger('madgraph').level <= 20:
             stdout=None
             stderr=None
@@ -240,10 +240,10 @@ class TestMadWeight(unittest.TestCase):
             devnull =open(os.devnull,'w')
             stdout=devnull
             stderr=devnull
-        
+
         start = time.time()
-        print('this mw test is expected to take 15s on two core. (MBP retina 2012) current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min)) 
-        subprocess.call([sys.executable, pjoin(MG5DIR,'bin','mg5_aMC'), 
+        print('this mw test is expected to take 15s on two core. (MBP retina 2012) current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min))
+        subprocess.call([sys.executable, pjoin(MG5DIR,'bin','mg5_aMC'),
                          '/tmp/mg5_cmd'],
                          cwd=pjoin(MG5DIR),
                         stdout=stdout, stderr=stderr)
@@ -271,4 +271,3 @@ class TestMadWeight(unittest.TestCase):
             shutil.rmtree(pjoin(MG5DIR,'TEST_MW_WA_prod'))
         except Exception as error:
             pass
-  

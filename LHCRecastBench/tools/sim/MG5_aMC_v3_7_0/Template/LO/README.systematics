@@ -29,7 +29,7 @@ line 702: scale (asref = alphas(scale))
 
 Event weight given by:
 ----------------------
-alpha_s weight: alphas(scale)^N where 
+alpha_s weight: alphas(scale)^N where
                 N=#(QCD vertices) - #(emission alpha_s vertices below)
 
 *********************************************
@@ -53,7 +53,7 @@ Event weight given by:
 initial pdf(pdgini,xini,q2ini)
 *pdf(pdgint,xint,q2int)/pdf(pdgint,xint,q2ini)
 ... etc.
-Note: Central fact scale variation corresponds to reweighting the last 
+Note: Central fact scale variation corresponds to reweighting the last
       scale only on each side
 
 =============================================
@@ -77,10 +77,10 @@ line 1145: If not clustered, fail
 line 1176: Y(2) (> YCUT)
 
 So, just need three number for systematic variation of QCUT:
-SMIN. Fail if < QCUT: 
+SMIN. Fail if < QCUT:
    For SHOWERKT: PTSORT(1)
    For kT-MLM: Y(NLJETS)
-SCOMP. Comparison number: 
+SCOMP. Comparison number:
    For highest mult: max(QCUT,PTSORT(1))
    Otherwise QCUT
    Perhaps use minimum safe QCUT or 0 instead of QCUT for systematics studies

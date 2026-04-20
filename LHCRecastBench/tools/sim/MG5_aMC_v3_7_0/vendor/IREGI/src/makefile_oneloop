@@ -3,9 +3,8 @@ HERE   = $(PWD)/oneloop
 all: olodir
 
 olodir:
-	(cd $(HERE); ./create.py) 
+	(cd $(HERE); ./create.py)
 
 clean:
 	- rm -f *.o *.s *.prj *~ core test
 	@(cd $(HERE); sh clean.sh)
-

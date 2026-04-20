@@ -39,5 +39,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $ ,MP__R2_QQQ,MP__R2_QQT,MP__UV_3GG_1EPS,MP__UV_3GB_1EPS
      $ ,MP__UV_GQQG_1EPS,MP__UV_GQQQ_1EPS,MP__UV_TMASS_1EPS,MP__UVWFCT_
      $ B_0_1EPS,MP__UVWFCT_G_2_1EPS
-
-

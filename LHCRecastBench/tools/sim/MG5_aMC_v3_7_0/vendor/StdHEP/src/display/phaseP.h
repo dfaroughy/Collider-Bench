@@ -29,12 +29,12 @@
 
 enum DisplayMode {BY_MOMENTUM, BY_PT, BY_RAPIDITY,
 		  BY_PSEUDORAPIDITY, BY_USER_ROUTINE};
-		  
+
 enum StdHepWindowType {STDHEP_PHASE, STDHEP_SPACE, STDHEP_PARA};
 
 enum HighlightTracksMode{TRACK_NODE, TRACK_DAUGHTERS, TRACK_DESCENDANTS,
 			 TRACK_MOTHER, TRACK_ANCESTORS};
-		  
+
 #define NATIVE_STDHEP 0 /* Std Hep file, native binary format */
 #define ZEBRA_STDHEP 1 /* Std Hep file, Zebra FZ, exchange format */
 #define XDR_STDHEP 2 /* Std Hep file, xdr binary format */
@@ -43,13 +43,13 @@ enum HighlightTracksMode{TRACK_NODE, TRACK_DAUGHTERS, TRACK_DESCENDANTS,
 
 #define MKSTRING(string) \
 	XmStringCreateLtoR(string, XmSTRING_DEFAULT_CHARSET)
-	
+
 #define SET_ONE_RSRC(widget, name, newValue) \
 { \
     static Arg args[1] = {{name, (XtArgVal)0}}; \
     args[0].value = (XtArgVal)newValue; \
     XtSetValues(widget, args, 1); \
-}	
+}
 
 #define GET_ONE_RSRC(widget, name, valueAddr) \
 { \

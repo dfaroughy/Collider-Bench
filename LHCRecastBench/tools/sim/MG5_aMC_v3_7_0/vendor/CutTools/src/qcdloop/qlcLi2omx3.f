@@ -1,8 +1,8 @@
       double complex function qlcLi2omx3(z1,z2,z3,ieps1,ieps2,ieps3)
-C     Calculate Li[2](1-(z1+ieps1)*(z2+ieps2)*(z3+ieps3)) 
-C     Using +cLi2(1-z1*z2*z3)                           
+C     Calculate Li[2](1-(z1+ieps1)*(z2+ieps2)*(z3+ieps3))
+C     Using +cLi2(1-z1*z2*z3)
 C --- for |z1*z2*z3|<1
-C     and   -cLi2(1-1/(z1*z2*z3))-1/2*(ln(z1)+ln(z2)+ln(z3))^2 
+C     and   -cLi2(1-1/(z1*z2*z3))-1/2*(ln(z1)+ln(z2)+ln(z3))^2
 C---- for |z1*z2*z3|>1
       implicit none
       include 'qlconstants.f'

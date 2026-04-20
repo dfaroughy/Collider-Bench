@@ -40,7 +40,7 @@ until($listpos>$#incard){
       $qcdOrder = "";
       $qedOrder = "";
       $model    = "";
-  }      
+  }
 
 $extra = "";
 if ($#ARGV >= 1){
@@ -64,12 +64,12 @@ if ($#ARGV >= 1){
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">Ht     </td> <TD> scalar sum of pt of all particles + missing Et</td> ";
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">pt(i)  </td> <TD> transverse momentum</td> ";
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">y(i)   </td> <TD> rapidity in the lab</td> ";
-   print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">R(i,j) </td> <TD> distance in the (y,phi) plane</td>"; 
+   print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">R(i,j) </td> <TD> distance in the (y,phi) plane</td>";
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">m(i,j) </td> <TD> invariant mass     </td> ";
    print PAGE "<TR align=center><td bgcolor=\"#00FFFF\">cos(i,j) </td> <TD> angle between direction of i in the resframe of i+j<BR>and the direction of i+j in the labframe </td> ";
    print PAGE "</table><BR>";
 
-   foreach $f (<./$ARGV[0]/*.jpg>) { 
+   foreach $f (<./$ARGV[0]/*.jpg>) {
      print "$f\n";
      if ($f =~ /DJR/) {
        print PAGE "<font color=\"Dark Purple\">Differential jet rate (matching check plot)</font><br>\n";
@@ -77,14 +77,13 @@ if ($#ARGV >= 1){
      print PAGE "\<IMG SRC=\"$f\" BORDER\=1\> \<BR\> \n";
      $fps=substr($f,0,-3)."ps";
      ($junk, $fname)   =split("$ARGV[0]\/" , $fps);
-     print PAGE "\<A HREF\=\"$fps\"\>Download PS $fname\</A\> \<BR\> \<BR\> \<BR\>\n"; 
+     print PAGE "\<A HREF\=\"$fps\"\>Download PS $fname\</A\> \<BR\> \<BR\> \<BR\>\n";
    }
 
-   
-   print PAGE "\<A HREF\=./$ARGV[0]/plots.ps>Download all plots in one postscript file\</A\> \<BR\> \<BR\> \<BR\>\n"; 
-   print PAGE "\<A HREF\=./$ARGV[0]/plots.top>Download all plots in topdrawer format\</A\> \<BR\> \<BR\> \<BR\>\n"; 
+
+   print PAGE "\<A HREF\=./$ARGV[0]/plots.ps>Download all plots in one postscript file\</A\> \<BR\> \<BR\> \<BR\>\n";
+   print PAGE "\<A HREF\=./$ARGV[0]/plots.top>Download all plots in topdrawer format\</A\> \<BR\> \<BR\> \<BR\>\n";
    print PAGE "\<\/CENTER\>\n";
    print PAGE "\<\/BODY\> \n";
    print PAGE "\<\/HTML\> \n";
    close(PAGE)
-

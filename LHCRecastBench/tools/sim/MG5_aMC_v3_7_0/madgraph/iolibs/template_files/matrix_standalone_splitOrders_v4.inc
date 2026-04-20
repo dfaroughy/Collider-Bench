@@ -3,16 +3,16 @@ C
 C     Simple routine wrapper to provide the same interface for
 C     backward compatibility for usage without split orders.
 C
-C  
+C
 C CONSTANTS
-C 
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL), ANS_SUMMED
 C
 C VARIABLES
@@ -34,11 +34,11 @@ C CONSTANT
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-      INTEGER                 NCOMB         
+      INTEGER                 NCOMB
       PARAMETER (             NCOMB=%(ncomb)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS
 	  INTEGER HEL
 C
@@ -56,28 +56,28 @@ C ----------
 	  END
 
       SUBROUTINE %(proc_prefix)sSMATRIX_SPLITORDERS(P,ANS)
-C  
+C
 %(info_lines)s
-C 
+C
 C MadGraph StandAlone Version
-C 
+C
 C Returns amplitude squared summed/avg over colors
 c and helicities
 c for the point in phase space P(0:3,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-	  INTEGER    NINITIAL 
+	  INTEGER    NINITIAL
       PARAMETER (NINITIAL=%(nincoming)d)
       INTEGER NPOLENTRIES
       PARAMETER (NPOLENTRIES=(NEXTERNAL+1)*6)
-      INTEGER                 NCOMB         
+      INTEGER                 NCOMB
       PARAMETER (             NCOMB=%(ncomb)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
@@ -86,12 +86,12 @@ C
 	  LOGICAL CHOSEN_SO_CONFIGS(NSQAMPSO)
 	  DATA CHOSEN_SO_CONFIGS/%(chosen_so_configs)s/
 	  COMMON/%(proc_prefix)sCHOSEN_BORN_SQSO/CHOSEN_SO_CONFIGS
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS(0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       INTEGER NTRY
       REAL*8 T(NSQAMPSO), BUFF
@@ -110,11 +110,11 @@ C
       INTEGER NHEL(NEXTERNAL,NCOMB)
 %(helicity_lines)s
       COMMON/%(proc_prefix)sPROCESS_NHEL/NHEL
-      
+
       INTEGER USERHEL
-	  DATA USERHEL/-1/	  	  
+	  DATA USERHEL/-1/
 	  COMMON/%(proc_prefix)sHELUSERCHOICE/USERHEL
-      
+
 	  INTEGER POLARIZATIONS(0:NEXTERNAL,0:5)
       COMMON/%(proc_prefix)sBORN_BEAM_POL/POLARIZATIONS
       DATA ((POLARIZATIONS(I,J),I=0,NEXTERNAL),J=0,5)/NPOLENTRIES*-1/
@@ -132,7 +132,7 @@ C ----------
          JC(IHEL) = +1
       ENDDO
 	  DO I=1,NSQAMPSO
-      	ANS(I) = 0D0	  
+      	ANS(I) = 0D0
 	  ENDDO
 C     When spin-2 particles are involved, the Helicity filtering is dangerous for the 2->1 topology.
 C     This is because depending on the MC setup the initial PS points have back-to-back initial states
@@ -195,13 +195,13 @@ C CONSTANT
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-      INTEGER                 NCOMB         
+      INTEGER                 NCOMB
       PARAMETER (             NCOMB=%(ncomb)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS(0:NSQAMPSO)
 	  INTEGER HEL
 C
@@ -217,41 +217,41 @@ C ----------
 	  USERHEL=-1
 
 	  END
- 
+
       SUBROUTINE %(proc_prefix)sMATRIX(P,NHEL,IC,RES)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c for the point with external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER    NGRAPHS
-      PARAMETER (NGRAPHS=%(ngraphs)d) 
+      PARAMETER (NGRAPHS=%(ngraphs)d)
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       COMPLEX*16 IMAG1
       PARAMETER (IMAG1=(0D0,1D0))
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
 	  REAL*8 RES(NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       COMPLEX*16 ZTEMP
       INTEGER DENOM
@@ -267,13 +267,13 @@ C
 C FUNCTION
 C
       INTEGER %(proc_prefix)sSQSOINDEX
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       include 'coupl.inc'
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -281,7 +281,7 @@ C ----------
 %(helas_calls)s
 %(jamp_lines)s
 
-      RES(:) = 0.D0 
+      RES(:) = 0.D0
 	  DO M = 1, NAMPSO
         CF_INDEX= 0
         DO I = 1, NCOLOR
@@ -299,27 +299,27 @@ C ----------
       END
 
       SUBROUTINE %(proc_prefix)sGET_value(P, ALPHAS, NHEL ,ANS)
-      IMPLICIT NONE   
+      IMPLICIT NONE
 C
 C CONSTANT
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS
       INTEGER NHEL
-      DOUBLE PRECISION ALPHAS 
-      real*8 pi     
-CF2PY INTENT(OUT) :: ANS  
-CF2PY INTENT(IN) :: NHEL   
-CF2PY INTENT(IN) :: P(0:3,NEXTERNAL) 
+      DOUBLE PRECISION ALPHAS
+      real*8 pi
+CF2PY INTENT(OUT) :: ANS
+CF2PY INTENT(IN) :: NHEL
+CF2PY INTENT(IN) :: P(0:3,NEXTERNAL)
 CF2PY INTENT(IN) :: ALPHAS
-C     ROUTINE FOR F2PY to read the benchmark point.    
-C     the include file with the values of the parameters and masses 
+C     ROUTINE FOR F2PY to read the benchmark point.
+C     the include file with the values of the parameters and masses
       include "coupl.inc"
-      
+
       pi = 3.141592653589793d0
       G = 2* DSQRT(ALPHAS*pi)
       call UPDATE_AS_PARAM()
@@ -328,23 +328,23 @@ C     the include file with the values of the parameters and masses
       else
         CALL %(proc_prefix)sSMATRIX(P, ANS)
       endif
-      return 
+      return
       end
 
       SUBROUTINE %(proc_prefix)sINITIALISEMODEL(PATH)
-C     ROUTINE FOR F2PY to read the benchmark point.    
-      IMPLICIT NONE   
+C     ROUTINE FOR F2PY to read the benchmark point.
+      IMPLICIT NONE
       CHARACTER*512 PATH
-CF2PY INTENT(IN) :: PATH 
-      call setpara(PATH)  !first call to setup the paramaters    
-      return 
+CF2PY INTENT(IN) :: PATH
+      call setpara(PATH)  !first call to setup the paramaters
+      return
       end
 
       LOGICAL FUNCTION %(proc_prefix)sIS_BORN_HEL_SELECTED(HELID)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NCOMB
@@ -369,7 +369,7 @@ C
 C     ----------
 C     BEGIN CODE
 C     ----------
-      
+
       %(proc_prefix)sIS_BORN_HEL_SELECTED = .True.
       if (POLARIZATIONS(0,0).eq.-1) THEN
         RETURN

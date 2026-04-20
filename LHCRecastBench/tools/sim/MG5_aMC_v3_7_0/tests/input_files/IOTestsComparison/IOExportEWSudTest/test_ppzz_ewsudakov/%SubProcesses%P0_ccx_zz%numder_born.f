@@ -121,7 +121,7 @@ C       vary the parameter down
      $   /(2*XSAVE*XDELTA)
 
 
-C       reset the parameter 
+C       reset the parameter
         IF (I.EQ.1) THEN
           MDL_GF = XSAVE
         ELSE IF (I.EQ.2) THEN
@@ -145,8 +145,3 @@ C       reset the parameter
 
       RETURN
       END
-
-
-
-
-

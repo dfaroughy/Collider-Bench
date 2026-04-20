@@ -6,7 +6,7 @@
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO = 3)
 
-C     return the color-linked borns if i_fks is a color octet, 
+C     return the color-linked borns if i_fks is a color octet,
 C     the charge-linked if it is a color singlet
       DOUBLE COMPLEX WGT_BORN(2,0:NSQAMPSO)
       DOUBLE PRECISION WGT_COL
@@ -36,28 +36,28 @@ C     the charge-linked if it is a color singlet
 C     check if need color or charge links, and include the gs/w**2
 C      term here
       IF (NEED_COLOR_LINKS) THEN
-C       link partons 1 and 2 
+C       link partons 1 and 2
         IF ((M.EQ.1 .AND. N.EQ.2).OR.(M.EQ.2 .AND. N.EQ.1)) THEN
           CALL SB_SF_001(P_BORN,WGT_COL)
-C         link partons 1 and 3 
+C         link partons 1 and 3
         ELSEIF ((M.EQ.1 .AND. N.EQ.3).OR.(M.EQ.3 .AND. N.EQ.1)) THEN
           CALL SB_SF_002(P_BORN,WGT_COL)
-C         link partons 1 and 4 
+C         link partons 1 and 4
         ELSEIF ((M.EQ.1 .AND. N.EQ.4).OR.(M.EQ.4 .AND. N.EQ.1)) THEN
           CALL SB_SF_003(P_BORN,WGT_COL)
-C         link partons 2 and 3 
+C         link partons 2 and 3
         ELSEIF ((M.EQ.2 .AND. N.EQ.3).OR.(M.EQ.3 .AND. N.EQ.2)) THEN
           CALL SB_SF_004(P_BORN,WGT_COL)
-C         link partons 2 and 4 
+C         link partons 2 and 4
         ELSEIF ((M.EQ.2 .AND. N.EQ.4).OR.(M.EQ.4 .AND. N.EQ.2)) THEN
           CALL SB_SF_005(P_BORN,WGT_COL)
-C         link partons 3 and 3 
+C         link partons 3 and 3
         ELSEIF (M.EQ.3 .AND. N.EQ.3) THEN
           CALL SB_SF_006(P_BORN,WGT_COL)
-C         link partons 3 and 4 
+C         link partons 3 and 4
         ELSEIF ((M.EQ.3 .AND. N.EQ.4).OR.(M.EQ.4 .AND. N.EQ.3)) THEN
           CALL SB_SF_007(P_BORN,WGT_COL)
-C         link partons 4 and 4 
+C         link partons 4 and 4
         ELSEIF (M.EQ.4 .AND. N.EQ.4) THEN
           CALL SB_SF_008(P_BORN,WGT_COL)
         ENDIF
@@ -83,4 +83,3 @@ C       update the amp_split_soft, which is summed in sbornsoft
 
       RETURN
       END
-

@@ -79,7 +79,7 @@ done               # this tells MG there are no more procs
 # Model information                                                  *
 #*********************************************************************
 # Begin MODEL  # This is TAG. Do not modify this line
-sm           
+sm
 # End   MODEL  # This is TAG. Do not modify this line
 #*********************************************************************
 # Start multiparticle definitions                                    *

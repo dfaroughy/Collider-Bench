@@ -1,33 +1,33 @@
 SUBROUTINE SMATRIX%(proc_id)s(P, RHEL, RCOL, channel, IVEC, ANS, IHEL, ICOL)
-C 
+C
 %(info_lines)s
-C 
+C
 C MadGraph5_aMC@NLO for Madevent Version
-C 
+C
 C Returns amplitude squared summed/avg over colors
 c and helicities
 c for the point in phase space P(0:3,NEXTERNAL)
 c  potentially times multi-channel weight
-C  
+C
 %(process_lines)s
-C 
+C
     IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
     Include 'genps.inc'
     Include 'maxconfigs.inc'
     Include 'nexternal.inc'
     Include 'maxamps.inc'
-    INTEGER                 NCOMB         
+    INTEGER                 NCOMB
     PARAMETER (             NCOMB=${ncomb})
     INTEGER    NGRAPHS
-    PARAMETER (NGRAPHS=%(ngraphs)d) 
+    PARAMETER (NGRAPHS=%(ngraphs)d)
     INTEGER    NDIAGS
-    PARAMETER (NDIAGS=%(ndiags)d) 
-C  
-C ARGUMENTS 
-C  
+    PARAMETER (NDIAGS=%(ndiags)d)
+C
+C ARGUMENTS
+C
     REAL*8 P(0:3,NEXTERNAL)
     double precision RHEL ! random number for selecting helicity
     double precision RCOL ! random number for selecting helicity
@@ -37,10 +37,10 @@ c
 c   output argument
 c
     integer ihel, icol ! selected helicity/color
-    double precision ans 
-C  
-C LOCAL VARIABLES 
-C  
+    double precision ans
+C
+C LOCAL VARIABLES
+C
         INTEGER CONFSUB(MAXSPROC,LMAXCONFIGS)
         INCLUDE 'config_subproc_map.inc'
         INTEGER NHEL(0:NEXTERNAL,NCOMB)
@@ -53,7 +53,7 @@ C
       double precision get_channel_cut
       external get_channel_cut
 
-C  
+C
 C GLOBAL VARIABLES
 C
     include '../../Source/vector.inc' ! defines VECSIZE_MEMMAX
@@ -62,18 +62,18 @@ C
 
 C
 C   INFORMATION TO WRITE THE HELICITY IN THE EVENT --not memory efficient--
-C   
+C
     INTEGER NB_SPIN_STATE_in(2)
     common /nb_hel_state/ nb_spin_state_in
-    
+
     REAL*8 POL(2)
-    
+
     COMMON/TO_POLARIZATION/ POL
        double precision tmin_for_channel
        integer sde_strat ! 1 means standard single diagram enhancement strategy,
 c      	      	      	   2 means approximation by the	denominator of the propagator
        common/TO_CHANNEL_STRAT/tmin_for_channel,	sde_strat
-       
+
     INTEGER          ISUM_HEL
     LOGICAL                    MULTI_CHANNEL
     COMMON/TO_MATRIX/ISUM_HEL, MULTI_CHANNEL
@@ -88,7 +88,7 @@ C ----------
     DO I=1,NEXTERNAL
        JC(I) = +1
     ENDDO
-     
+
     IF (multi_channel) THEN
         DO I=1,NDIAGS
             AMP2(I)=0D0
@@ -105,8 +105,8 @@ C ----------
     TS(:) = 0d0
 
     call MATRIX%(proc_id)s(P ,JC(1), TS, AMP2, JAMP2, IVEC)
-    DO I=1,NCOMB     
-       T=TS(I)  
+    DO I=1,NCOMB
+       T=TS(I)
        DO JJ=1,nincoming
           IF(POL(JJ).NE.1d0.AND.NHEL(JJ,I).EQ.INT(SIGN(1d0,POL(JJ)))) THEN
              T=T*ABS(POL(JJ))*NB_SPIN_STATE_IN(JJ)/2d0 ! NB_SPIN_STATE(JJ)/2d0 is added for polarised beam
@@ -130,7 +130,7 @@ c         Set right sign for ANS, based on sign of chosen helicity
                 GOTO 10
             ENDIF
         ENDDO
- 10     CONTINUE   
+ 10     CONTINUE
     ENDIF
     IF (MULTI_CHANNEL) THEN
         XTOT=0D0
@@ -158,28 +158,28 @@ c         Set right sign for ANS, based on sign of chosen helicity
     call select_color(rcol, jamp2, iconfig,%(proc_id)s,  icol)
 
     END
- 
- 
+
+
 Subroutine  MATRIX%(proc_id)s(P,IC, TS, AMP2, JAMP2, IVEC)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c for the point with external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
     IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
     INTEGER    NGRAPHS
-    PARAMETER (NGRAPHS=%(ngraphs)d) 
+    PARAMETER (NGRAPHS=%(ngraphs)d)
     include 'genps.inc'
     include 'nexternal.inc'
     include 'maxamps.inc'
     INTEGER    NWAVEFUNCS,     NCOLOR
-    PARAMETER (NWAVEFUNCS=${nwavefuncs}, NCOLOR=%(ncolor)d) 
+    PARAMETER (NWAVEFUNCS=${nwavefuncs}, NCOLOR=%(ncolor)d)
     REAL*8     ZERO
     PARAMETER (ZERO=0D0)
     COMPLEX*16 IMAG1
@@ -189,18 +189,18 @@ C
 	LOGICAL CHOSEN_SO_CONFIGS(NSQAMPSO)
 	DATA CHOSEN_SO_CONFIGS/%(chosen_so_configs)s/
 	SAVE CHOSEN_SO_CONFIGS
-    INTEGER                 NCOMB         
+    INTEGER                 NCOMB
     PARAMETER (             NCOMB=${ncomb})
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
     REAL*8 P(0:3,NEXTERNAL)
     INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
     REAL*8 TS(NCOMB)
     INTEGER IVEC
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
     INTEGER I,J,M,N,K
     COMPLEX*16 ZTEMP,TMP_JAMP(%(nb_temp_jamp)i)
     COMPLEX*16 TMP(%(wavefunctionsize)d)
@@ -221,7 +221,7 @@ C FUNCTION
 C
       INTEGER SQSOINDEX%(proc_id)s
 
-C  
+C
 C GLOBAL VARIABLES
 C
     include '../../Source/vector.inc' ! defines VECSIZE_MEMMAX
@@ -235,9 +235,9 @@ c      	      	      	   2 means approximation by the	denominator of the propaga
 
 	double precision small_width_treatment
 	common/narrow_width/small_width_treatment
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -252,7 +252,7 @@ ${helas_calls}
     JAMP(:,:)  = (0d0,0d0)
     DO K = 1, NCOMB
 ${jamp_lines}
-        TS(K) = 0.D0 
+        TS(K) = 0.D0
     	DO M = 1, NAMPSO
           CF_INDEX = 0
           DO I = 1, NCOLOR

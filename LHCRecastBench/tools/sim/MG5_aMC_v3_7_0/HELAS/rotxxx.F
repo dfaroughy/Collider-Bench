@@ -11,7 +11,7 @@ c       real    q(0:3)         : four-momentum q in the rotated frame
 c
 c output:
 c       real    prot(0:3)      : four-momentum p in the rotated frame
-c     
+c
       implicit none
       double precision p(0:3),q(0:3),prot(0:3),qt2,qt,psgn,qq,p1
 

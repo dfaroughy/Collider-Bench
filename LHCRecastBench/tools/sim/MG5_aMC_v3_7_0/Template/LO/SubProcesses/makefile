@@ -24,13 +24,13 @@ else
     MADLOOP_LIB =
 endif
 
-LINKLIBS = $(LINK_MADLOOP_LIB) $(LINK_LOOP_LIBS) -L../../lib/ -ldhelas -ldsample -lmodel -lgeneric -lpdf -lgammaUPC -lcernlib $(llhapdf) -lbias 
+LINKLIBS = $(LINK_MADLOOP_LIB) $(LINK_LOOP_LIBS) -L../../lib/ -ldhelas -ldsample -lmodel -lgeneric -lpdf -lgammaUPC -lcernlib $(llhapdf) -lbias
 
 LIBS = $(LIBDIR)libbias.$(libext) $(LIBDIR)libdhelas.$(libext) $(LIBDIR)libdsample.$(libext) $(LIBDIR)libgeneric.$(libext) $(LIBDIR)libpdf.$(libext) $(LIBDIR)libgammaUPC.$(libext) $(LIBDIR)libmodel.$(libext) $(LIBDIR)libcernlib.$(libext) $(MADLOOP_LIB) $(LOOP_LIBS)
 
 ifneq ("$(wildcard ../../Source/RUNNING)","")
     LINKLIBS += -lrunning
-    LIBS += $(LIBDIR)librunning.$(libext) 
+    LIBS += $(LIBDIR)librunning.$(libext)
 endif
 
 
@@ -48,7 +48,7 @@ PROCESS= driver.o myamp.o genps.o unwgt.o setcuts.o get_color.o \
 	 idenparts.o dummy_fct.o \
          $(patsubst %.f,%.o,$(wildcard auto_dsig*.f)) \
 
-SYMMETRY = symmetry.o idenparts.o 
+SYMMETRY = symmetry.o idenparts.o
 
 # Binaries
 
@@ -67,7 +67,7 @@ $(LIBDIR)libmodel.$(libext): ../../Cards/param_card.dat
 $(LIBDIR)libgeneric.$(libext): ../../Cards/run_card.dat
 	cd ../../Source; make
 
-$(LIBDIR)libpdf.$(libext): 
+$(LIBDIR)libpdf.$(libext):
 	cd ../../Source/PDF; make
 
 $(LIBDIR)libgammaUPC.$(libext):

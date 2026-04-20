@@ -1,7 +1,7 @@
 ---
 additional_resources:
 - {location: "http://cms-results.web.cern.ch/cms-results/public-results/publications/SMP-17-006/", description: "web page with auxiliary material"}
-  
+
 comment: "CERN LHC. A measurement of vector boson scattering and constraints on anomalous quartic gauge couplings from events with two Z bosons and two jets are presented. The analysis is based on a data sample of proton-proton collisions at √s= 13 TeV collected with the CMS detector and corresponding to an integrated luminosity of 35.9 fb−1. The measurement is performed in the decay channel where each Z boson decays to either a pair of electrons or a pair of muons. The fiducial region is defined as: ptLepton > 5 GeV, |etaLepton|< 2.5,pTj1 > 30 GeV, |etaj1| < 4.7, pTj2 > 30 GeV, |etaj2|< 4.7, mjj > 100 GeV."
 ---
 name: "Table 1"

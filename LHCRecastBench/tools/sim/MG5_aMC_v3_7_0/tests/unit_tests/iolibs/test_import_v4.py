@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -237,7 +237,7 @@ class IOImportV4Test(unittest.TestCase):
                                      'lorentz':[''],
                                      'couplings':{(0, 0):'MGVX4'},
                                      'orders':{'QED':1}})])
-        
+
         result = import_v4.read_interactions_v4(fsock_inter, myparts)
         self.assertEqual(len(result), len(goal_inter_list))
         for i in range(len(result)):
@@ -254,7 +254,7 @@ class IOImportV4Test(unittest.TestCase):
         self.assertEqual(model.get('expansion_order'),
                          {'QCD': -1, 'QED': -1})
 
-        
+
 class ProcCardV4ReaderTest(unittest.TestCase):
     """Test class for the proc_card v4 module"""
 
@@ -262,9 +262,9 @@ class ProcCardV4ReaderTest(unittest.TestCase):
         """ open the proc_card and initialize the object"""
         v4proccard_file = open(os.path.join(_file_path, os.path.pardir, 'input_files', \
                                        'v4_proc_card.dat'))
-        
+
         self.proccard = import_v4.ProcCardv4Reader(v4proccard_file)
-        
+
         # First define a valid model for Standard Model
         model = base_objects.Model()
         # Import Particles information
@@ -277,11 +277,11 @@ class ProcCardV4ReaderTest(unittest.TestCase):
                                                import_v4.read_interactions_v4, \
                                                model.get('particles')))
         self.model = model
-        
+
     def test_check_init(self):
         """ check the initialization of the reader"""
         #the initialization is done in the setUp subroutine
-        
+
         proccard = self.proccard
         self.assertEqual(len(proccard.process), 8)
         self.assertEqual(proccard.model, 'sm')
@@ -290,27 +290,27 @@ class ProcCardV4ReaderTest(unittest.TestCase):
         self.assertEqual(proccard.particles_name, set(
                                            ['l-', 'j', 'vl', 'l+', 'p', 'vl~']))
         self.assertEqual(proccard.couplings_name, set())
-        
+
     def test_line_creation(self):
         lines = self.proccard.extract_command_lines(self.model)
         solution =['# Define multiparticle labels',
                    'define p u u~ c c~ d d~ s s~ g',
-                   'define j u u~ c c~ d d~ s s~ g', 
-                   'define l+ e+ mu+', 
-                   'define l- e- mu-', 
-                   'define vl ve vm', 
-                   'define vl~ ve~ vm~', 
+                   'define j u u~ c c~ d d~ s s~ g',
+                   'define l+ e+ mu+',
+                   'define l- e- mu-',
+                   'define vl ve vm',
+                   'define vl~ ve~ vm~',
                    '# Specify process(es) to run',
-                   'generate p p > ve~ e- @1 QCD=99 QED=2', 
+                   'generate p p > ve~ e- @1 QCD=99 QED=2',
                    'add process p p > z, (z > w+ w-, w- > mu- vm) @2 QCD=2 QED=4',
                    'add process p p > t t~ $ a @3 QED=0 QCD=99',
-                   'add process p p > t t~ $ g / a @2 QED=0 QCD=99', 
+                   'add process p p > t t~ $ g / a @2 QED=0 QCD=99',
                    'add process p p > z $ a / g, (z > w+ w- $ a / g, w- > mu- vm $ a / g) @4 QCD=99 QED=4 ',
                    'add process p p > z z $ a / g, (z > w+ w- $ a / g, w- > mu- vm $ a / g), z > w+ w- $ a / g @4 QCD=99 QED=1',
                    'add process p p > Z Z, Z > W+ W- $a /g @4',
                    'add process p p > Z Z QCD=2 @4',
                    '# Output processes to MadEvent directory',
-                   'output -f'] 
+                   'output -f']
         self.assertEqual(len(lines),len(solution))
         for i,command in enumerate(lines):
             try:
@@ -318,9 +318,6 @@ class ProcCardV4ReaderTest(unittest.TestCase):
             except:
                 if re.match(r'QCD=\d+ QED=\d+', command):
                     qcd, qed =re.findall(r'QCD=(\d+) QED=(\d+)')
-                    sol = solution[i].replace('QCD=%s QED=%s' % (qcd,qed), 
+                    sol = solution[i].replace('QCD=%s QED=%s' % (qcd,qed),
                                               'QED=%s QCD=%s' % (qed,qcd))
                     self.assertEqual(command,sol)
-                
-                
-                

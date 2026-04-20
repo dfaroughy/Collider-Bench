@@ -52,7 +52,7 @@ c
 
       s1 = -idecay*gc(1)*fi(1)*smass**2
       s2 = -idecay*gc(1)*fi(2)*smass**2
-      s3 = gc(1)*mNLSP*( fi(1)*p14p + fi(2)*p23m ) 
+      s3 = gc(1)*mNLSP*( fi(1)*p14p + fi(2)*p23m )
       s4 = gc(1)*mNLSP*( fi(1)*p23p + fi(2)*p14m )
 
       if ( gc(2).ne.cZero ) then
@@ -67,5 +67,5 @@ c
       fsi(3) = ( (pf(0)+pf(3))*s1 + dconjg(fsi(6))*s2 + fmass*s3 )*ds
       fsi(4) = (        fsi(6)*s1 +  (pf(0)-pf(3))*s2 + fmass*s4 )*ds
 c
-      return          
+      return
       end

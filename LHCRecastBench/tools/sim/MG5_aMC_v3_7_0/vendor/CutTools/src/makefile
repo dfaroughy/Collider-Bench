@@ -1,7 +1,7 @@
 default: lib
 
 #lib: libcts.a ltcut
-lib: libcts.a 
+lib: libcts.a
 
 MPFUN = mpfun90.o mpmod90.o mpmodm90.o mpmodx90.o
 
@@ -10,7 +10,7 @@ CTS = cts_type.o cts_tensors.o cts_constants.o cts_combinatorics.o \
   cts_loopfunctions.o cts_cuttools.o \
   cts_cutroutines.o
 
-AVH =   avh_olo.o 
+AVH =   avh_olo.o
 
 QCDLOOP = aaxbx.o aaxcx.o aaxdx.o aaxex.o aaxinv.o aacbc.o \
           aaccc.o aacinv.o spence.o \
@@ -102,4 +102,3 @@ libcts.a: $(ALL)
 	ranlib libcts.a
 
 .SUFFIXES: .f90
-

@@ -5,7 +5,7 @@ c
 c 1. PDF set
 c 2. Collider parameters
 c 3. cuts
-c---------------------------------------------------------------------- 
+c----------------------------------------------------------------------
       implicit none
 c
 c     include
@@ -27,7 +27,7 @@ c
       common/to_param_card_name/param_card_name
 c
 c     local
-c     
+c
       integer npara
       character*20 param(maxpara),value(maxpara)
       character*20 ctemp
@@ -289,7 +289,7 @@ c*********************************************************************
       call get_logical   (npara,param,value," gridpack ",gridpack,.false.)
       if (gridrun.and.gridpack)then
          call get_integer   (npara,param,value," gseed ",iseed,0)
-      else 
+      else
          call get_integer (npara,param,value," iseed ",iseed,0)
       endif
 c
@@ -300,23 +300,23 @@ c
       nb_neutron(1) = 0
       nb_neutron(2) = 0
 
-c************************************************************************     
+c************************************************************************
 c     Renormalization and factorization scales                          *
-c************************************************************************     
+c************************************************************************
 c
 c     If the following flags to .false. then event-by-event
-c     scale choice is requested. In this case edit the 
+c     scale choice is requested. In this case edit the
 c     user subroutines set_ren_scale and set_fac_scale in setpara.f
 
       call get_logical(npara,param,value," fixed_ren_scale ",fixed_ren_scale,.true.)
       call get_logical(npara,param,value," fixed_fac_scale1 ",fixed_fac_scale1,.true.)
-      call get_logical(npara,param,value," fixed_fac_scale2 ",fixed_fac_scale2,.true.)      
+      call get_logical(npara,param,value," fixed_fac_scale2 ",fixed_fac_scale2,.true.)
       call get_real   (npara,param,value," scale "          ,scale,91.188d0)
       call get_real   (npara,param,value," dsqrt_q2fact1 "  ,sf1  ,91.188d0)
       call get_real   (npara,param,value," dsqrt_q2fact2 "  ,sf2  ,91.188d0)
 
       q2fact(1) = sf1**2      ! fact scale**2 for pdf1
-      q2fact(2) = sf2**2      ! fact scale**2 for pdf2     
+      q2fact(2) = sf2**2      ! fact scale**2 for pdf2
 
       call get_real   (npara,param,value," scalefact "      ,scalefact, 1d0)
       call get_logical(npara,param,value," fixed_couplings ",fixed_couplings,.true.)
@@ -334,9 +334,9 @@ c     ktscheme for xqcut: 1: pT/Durham kT; 2: pythia pTE/Durham kT
         call get_string (npara,param,value," issgridfile ",issgridfile,'issudgrid.dat')
       endif
 
-c************************************************************************     
+c************************************************************************
 c    Collider energy and type                                           *
-c************************************************************************     
+c************************************************************************
 c     lpp  = -1 (antiproton), 0 (no pdf), 1 (proton)
 c     lpp  =  2 (proton emitting a photon without breaking)
 c     lpp  =  3 (electron emitting a photon)
@@ -346,15 +346,15 @@ c     ebeam= energy of each beam in GeV
       call get_integer(npara,param,value," lpp2 "   ,lp2,1  )
       call get_real   (npara,param,value," ebeam1 " ,eb1,7d3)
       call get_real   (npara,param,value," ebeam2 " ,eb2,7d3)
-     
+
       lpp(1)=lp1
       lpp(2)=lp2
       ebeam(1)=eb1
       ebeam(2)=eb2
 
-c************************************************************************     
+c************************************************************************
 c    Beam polarization
-c************************************************************************     
+c************************************************************************
       call get_real   (npara,param,value," polbeam1 " ,pb1,0d0)
       call get_real   (npara,param,value," polbeam2 " ,pb2,0d0)
 
@@ -365,14 +365,14 @@ c************************************************************************
      $     sign((abs(pol(1))-1)*100,pol(1)),
      $     sign((abs(pol(2))-1)*100,pol(2))
 
-c************************************************************************     
+c************************************************************************
 c    BW cutoff (M+/-bwcutoff*Gamma)
-c************************************************************************     
+c************************************************************************
       call get_real   (npara,param,value," bwcutoff " ,bwcutoff,15d0)
 
-c************************************************************************     
+c************************************************************************
 c    Collider pdf                                                       *
-c************************************************************************     
+c************************************************************************
 
       call get_string (npara,param,value," pdlabel ",pdlabel,'cteq6l1')
 c
@@ -480,7 +480,7 @@ C-------------------------------------------------
         return
       endif
 
-      
+
       mpdf=-1
       do i=1,npdfs
         if(pdfin(1:len_trim(pdfin)) .eq. pdflabs(i))then
@@ -510,5 +510,5 @@ C-------------------------------------------------
       integer hel
       integer ipart
       get_nhel = 99
-      return 
+      return
       end

@@ -9,7 +9,7 @@ from object_library import all_couplings, Coupling
 from function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
 
 if configuration.bottomYukawa:
-    
+
     GC_1842_bot = Coupling(name = 'GC_1842_bot',
                        value = '(c3pl1*complex(0,1)*vev0*ymb)/(2.*Lambda**2) + (c3pl2*complex(0,1)*vev0*ymb)/(2.*Lambda**2) - (cdp*complex(0,1)*vev0*ymb)/Lambda**2 - (cll1221*complex(0,1)*vev0*ymb)/(2.*Lambda**2) + (cpDC*complex(0,1)*vev0*ymb)/(4.*Lambda**2) + (ctp*complex(0,1)*vev0**2)/(Lambda**2*cmath.sqrt(2))',
                        order = {'NP':2,'QED':1})
@@ -2765,4 +2765,3 @@ GC_98 = Coupling(name = 'GC_98',
 GC_99 = Coupling(name = 'GC_99',
                  value = '-(ctlT3*complex(0,1))/(2.*Lambda**2)',
                  order = {'NP':2})
-

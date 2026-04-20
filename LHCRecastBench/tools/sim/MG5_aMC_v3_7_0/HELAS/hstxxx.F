@@ -11,8 +11,8 @@ c       real    smass          : mass  of output scalar s'
 c       real    swidth         : width of output scalar s'
 c
 c output:
-c       complex hst(3)         : scalar current                j(s':T,s)     
-c     
+c       complex hst(3)         : scalar current                j(s':T,s)
+c
 c- by Q.Li - OCT. 2006
 c
       implicit none
@@ -64,7 +64,7 @@ c
       ps2(4) = dimag(hst(2))
 
       pf2 = ps2(1)**2 - ps2(2)**2 - ps2(3)**2 - ps2(4)**2
-      
+
       if ( smass.gt.rZero ) then
          d = - gt/dcmplx( pf2-smass**2, smass*swidth )
       else
@@ -79,13 +79,13 @@ c
       T34 = ft(3,4) + ft(4,3)
 
       TKK   = cZero
-    
+
       do i = 1,4
          TKK=TKK+ft(i,i)*ps1(i)*ps2(i)
       end do
 
       TKK   = rTwo*TKK
-    
+
       TKK = TKK - T12*(ps1(1)*ps2(2) + ps1(2)*ps2(1))
      &          - T13*(ps1(1)*ps2(3) + ps1(3)*ps2(1))
      &          - T14*(ps1(1)*ps2(4) + ps1(4)*ps2(1))

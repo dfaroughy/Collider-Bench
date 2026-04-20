@@ -21,7 +21,7 @@ stdmain.ps: $(TEX_SOURCE)
 stdmain.pdf: stdmain.ps
 	ps2pdf stdmain.ps
 
-stdtab.ps:  stdtab.tex elem.tex meson.tex baryon.tex 
+stdtab.ps:  stdtab.tex elem.tex meson.tex baryon.tex
 	latex stdtab
 	latex stdtab
 	latex stdtab
@@ -38,4 +38,3 @@ realclean:
 	rm -f stdmain.ps stdmain.pdf
 	rm -f stdtab.ps stdtab.pdf
 	rm -f *.aux *.log *.dvi *.toc
-

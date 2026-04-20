@@ -12,7 +12,7 @@ c       real    g(2)           : fermion mass                        m_f
 c
 c output:
 c       complex vertex         : amplitude                        <fo|t|fi>
-c     
+c
       implicit none
       double complex fi(18), fo(18), tc(18), vertex,g(2)
       double precision fmass
@@ -85,7 +85,7 @@ c      write (*,*) k
      &                             + fo(3)*fi(3) + fo(4)*fi(4) )
       end if
 
-      vertex = vertex * g(1) 
+      vertex = vertex * g(1)
 c
       return
       end

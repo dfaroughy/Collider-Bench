@@ -12,36 +12,36 @@ c
 	PARAMETER (NUMTRIES = 50)
 	integer xdr_stdhep_multi
 	external xdr_stdhep_multi
-	
+
 c
 c	Initialization phase.
 c
 	call mcfio_Init
 	istr_old = mcfio_OpenReadDirect('test1.dat')
-	
+
 	irun = 0
 	istore = 0
 	ievt = 0
 	itrig = 255
  	if (
      &    mcfio_SpecificEvent(istr_old, ievt, istore, irun, itrig)
-     &      .eq. -1) then 
+     &      .eq. -1) then
           print *, ' Magic event not found, stop '
           stop
         end if
         call mcfio_InfoEventInt(istr_old, MCFIO_EVENTNUMBER, inum)
         print *, ' Event number for magic trigger ', inum
         if (mcfio_block(istr_old, MCFIO_STDHEPM, xdr_stdhep_multi)
-     &        .eq. -1) then 
+     &        .eq. -1) then
              print *, ' Error reading STDHEP block '
              STOP
           end if
         call study_stdhep
-        itrig = 0 
+        itrig = 0
         istore = 3
  	if (
      &    mcfio_NextSpecificEvent(istr_old, ievt, istore, irun, itrig)
-     &      .eq. -1) then 
+     &      .eq. -1) then
           print *, ' First event of magic spill not found, stop '
           stop
         end if
@@ -55,7 +55,7 @@ c
 	implicit none
 	integer i, io, nn
 #include "stdhep.inc"
-	
+
 	print  *, ' Number of tracks ', nhep
 	nn = nhep
 	if (nn .gt. 3 ) nn = 3
@@ -65,4 +65,4 @@ c
 	 print *, ' Y position, Z position ', vhep(2,i), vhep(3,i)
 	end do
 	return
-	end 	
+	end

@@ -1,6 +1,6 @@
 C ************************************************************
-C Source for the library implementing a bias function that 
-C populates the large pt tale of the leading jet. 
+C Source for the library implementing a bias function that
+C populates the large pt tale of the leading jet.
 C
 C The two options of this subroutine, that can be set in
 C the run card are:
@@ -11,7 +11,7 @@ C Schematically, the functional form of the enhancement is
 C    bias_wgt = [ptj(evt)/mean_ptj]^enhancement_power
 C ************************************************************
 C
-C The following lines are read by MG5aMC to set what are the 
+C The following lines are read by MG5aMC to set what are the
 C relevant parameters for this bias module.
 C
 C  parameters = {'ptj_bias_target_ptj': 1000.0,
@@ -23,7 +23,7 @@ C
 C
 C Parameters
 C
-          include '../../maxparticles.inc'          
+          include '../../maxparticles.inc'
           include '../../nexternal.inc'
 
 C
@@ -49,13 +49,13 @@ C
 C Mandatory common block to be defined in bias modules
 C
           double precision stored_bias_weight
-          data stored_bias_weight/1.0d0/          
+          data stored_bias_weight/1.0d0/
           logical impact_xsec, requires_full_event_info
-C         We only want to bias distributions, but not impact the xsec. 
+C         We only want to bias distributions, but not impact the xsec.
           data impact_xsec/.False./
 C         Of course this module does not require the full event
 C         information (color, resonances, helicities, etc..)
-          data requires_full_event_info/.False./ 
+          data requires_full_event_info/.False./
           common/bias/stored_bias_weight,impact_xsec,
      &                requires_full_event_info
 C
@@ -69,14 +69,14 @@ C
      &                      is_heavy,is_a_onium,do_cuts
 
 C
-C    Setup the value of the parameters from the run_card    
+C    Setup the value of the parameters from the run_card
 C
       include '../bias.inc'
 
 C --------------------
 C BEGIN IMPLEMENTATION
 C --------------------
-          
+
           do i=1,nexternal
             ptj(i)=-1.0d0
             if (is_a_j(i)) then

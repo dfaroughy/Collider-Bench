@@ -1,13 +1,13 @@
 ## if(not AmplitudeReduction){
-C THE SUBROUTINE TO CREATE THE COEFFICIENTS FROM LAST LOOP WF AND 
+C THE SUBROUTINE TO CREATE THE COEFFICIENTS FROM LAST LOOP WF AND
 C MULTIPLY BY THE BORN
 
       SUBROUTINE %(mp_prefix)s%(proc_prefix)sCREATE_LOOP_COEFS(LOOP_WF,RANK,LCUT_SIZE,LOOP_GROUP_NUMBER,SYMFACT,MULTIPLIER,COLOR_ID,HELCONFIG)
-	  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS	  
+	  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS
 	  implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 ## if (not LoopInduced) {
 	  INTEGER NBORNAMPS
       PARAMETER (NBORNAMPS=%(nbornamps)d)
@@ -27,18 +27,18 @@ C
 C     These are constants related to the split orders
       INTEGER    NSO, NSQUAREDSO, NAMPSO
 	  PARAMETER (NSO=%(nSO)d, NSQUAREDSO=%(nSquaredSO)d, NAMPSO=%(nAmpSO)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(complex_format)s LOOP_WF(MAXLWFSIZE,0:LOOPMAXCOEFS-1,MAXLWFSIZE)
 	  INTEGER RANK, COLOR_ID, SYMFACT, MULTIPLIER, LCUT_SIZE, HELCONFIG, LOOP_GROUP_NUMBER
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_format)s CFTOT
       %(complex_format)s CONST(NAMPSO)
       INTEGER I,J
-C  
+C
 C FUNCTIONS
 C
       INTEGER %(proc_prefix)sML5SOINDEX_FOR_BORN_AMP, %(proc_prefix)sML5SOINDEX_FOR_LOOP_AMP, %(proc_prefix)sML5SQSOINDEX
@@ -63,12 +63,12 @@ C
 
 	  INTEGER HELPICKED
 	  common/%(proc_prefix)sHELCHOICE/HELPICKED
-      
+
 ## if(not LoopInduced) {
 	  %(complex_format)s AMP(NBORNAMPS)
 	  common/%(proc_prefix)s%(mp_prefix)sAMPS/AMP
 ## }
-      
+
 	  DO I=1,NAMPSO
 	    CONST(I)=CMPLX_ZERO
       ENDDO
@@ -78,7 +78,7 @@ C
 	    IF(CF_D(COLOR_ID,I).LT.0) CFTOT=CFTOT*IMAG1
 	    CONST(%(proc_prefix)sML5SOINDEX_FOR_BORN_AMP(I))=CONST(%(proc_prefix)sML5SOINDEX_FOR_BORN_AMP(I))+CFTOT*CONJG(AMP(I))
 	  ENDDO
-	  
+
       DO I=1,NAMPSO
 	    IF (CONST(I).NE.CMPLX_ZERO) THEN
 	      CONST(I)=(CONST(I)*MULTIPLIER)/SYMFACT
@@ -96,11 +96,11 @@ C In this case of loop-induced process, the reduction is performed at the loop
 C amplitude level so that no multiplication is performed.
 
       SUBROUTINE %(mp_prefix)s%(proc_prefix)sCREATE_LOOP_COEFS(LOOP_WF,RANK,LCUT_SIZE,LOOP_GROUP_NUMBER,SYMFACT,MULTIPLIER)
-	  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS	  
+	  USE %(proc_prefix)sPOLYNOMIAL_CONSTANTS
 	  implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  %(real_format)s ZERO,ONE
 	  PARAMETER (ZERO=%(zero_def)s,ONE=%(one_def)s)
 	  %(complex_format)s IMAG1
@@ -111,13 +111,13 @@ C
       PARAMETER (NLOOPGROUPS=%(nloop_groups)d)
 	  INTEGER    NCOMB
       PARAMETER (NCOMB=%(ncomb)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(complex_format)s LOOP_WF(MAXLWFSIZE,0:LOOPMAXCOEFS-1,MAXLWFSIZE)
 	  INTEGER RANK, SYMFACT, LCUT_SIZE, LOOP_GROUP_NUMBER, MULTIPLIER
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_format)s CONST
       INTEGER I,J
@@ -158,4 +158,3 @@ C       It is only used for the NINJA interface
 ## }
 
 C Now the routines to update the wavefunctions
-

@@ -24,7 +24,7 @@ c      enddo
          call increment_array(iarray,imax,ibase,done)
       enddo
       end
-      
+
 
       subroutine EnCode(icode,iarray,ibase,imax)
 c******************************************************************************
@@ -42,14 +42,14 @@ c
 
 c
 c     Local
-c     
+c
       integer i
 c-----
 c  Begin Code
 c-----
       icode = 0
       do i = 1, imax
-         if (iarray(i) .ge. 0 .and. iarray(i) .lt. ibase) then 
+         if (iarray(i) .ge. 0 .and. iarray(i) .lt. ibase) then
             icode = icode + iarray(i)*ibase**(i-1)
          else
             write(*,*) 'Error invalid number to be encoded',i,iarray(i)
@@ -73,7 +73,7 @@ c
 
 c
 c     Local
-c     
+c
       integer i, jcode
 c-----
 c  Begin Code
@@ -90,7 +90,7 @@ c-----
 
       subroutine increment_array(iarray,imax,ibase,done)
 c************************************************************************
-c     Increments iarray     
+c     Increments iarray
 c************************************************************************
       implicit none
 c
@@ -123,5 +123,3 @@ c-----
       enddo
       done = .not. found
       end
-
-

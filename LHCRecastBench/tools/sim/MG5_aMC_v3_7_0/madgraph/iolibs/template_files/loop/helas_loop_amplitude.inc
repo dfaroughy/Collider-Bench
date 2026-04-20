@@ -11,20 +11,20 @@
 	  INTEGER    NCOMB
       PARAMETER (NCOMB=%(ncomb)d)
 C
-C ARGUMENTS 
+C ARGUMENTS
 C
       INTEGER %(wfsargsdecl)s
       %(mass_dp_format)s %(margsdecl)s
-      %(mass_mp_format)s %(mp_margsdecl)s	  
+      %(mass_mp_format)s %(mp_margsdecl)s
       %(complex_dp_format)s %(cplsdecl)s
-      %(complex_mp_format)s %(mp_cplsdecl)s	  
+      %(complex_mp_format)s %(mp_cplsdecl)s
       %(pairingdecl)s
       %(complex_dp_format)s RES(3)
       INTEGER LID, RANK, LSYMFACT, LMULTIPLIER
 	  INTEGER AMPLN
 	  LOGICAL STABLE
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       %(real_dp_format)s PL(0:3,NLOOPLINE)
       %(mass_dp_format)s M2L(NLOOPLINE)
@@ -33,12 +33,12 @@ C
 C
 C GLOBAL VARIABLES
 C
-      INTEGER WE(NEXTERNAL)  
-      INTEGER ID, SYMFACT, MULTIPLIER, AMPLNUM 
+      INTEGER WE(NEXTERNAL)
+      INTEGER ID, SYMFACT, MULTIPLIER, AMPLNUM
       common/%(proc_prefix)sLOOP/WE,ID, SYMFACT, MULTIPLIER,AMPLNUM
 
-	  %(complex_dp_format)s LC(MAXLCOUPLINGS)	  
-      %(mass_dp_format)s ML(NEXTERNAL+2)	
+	  %(complex_dp_format)s LC(MAXLCOUPLINGS)
+      %(mass_dp_format)s ML(NEXTERNAL+2)
       common/%(proc_prefix)sDP_LOOP/LC,ML
 
 	  %(complex_mp_format)s MP_LC(MAXLCOUPLINGS)
@@ -47,7 +47,7 @@ C
 
 	  %(complex_dp_format)s W(20,NWAVEFUNCS%(ncomb_helas_objs)s)
 	  INTEGER VALIDH
-	  common/%(proc_prefix)sWFCTS/W  
+	  common/%(proc_prefix)sWFCTS/W
 	  common/%(proc_prefix)sVALIDH/VALIDH
 
 C ----------
@@ -56,7 +56,7 @@ C ----------
 
       %(weset)s
       %(mset)s
-	  %(mset2)s	  
+	  %(mset2)s
       %(pairingset)s
       %(cplset)s
 	  AMPLNUM=AMPLN

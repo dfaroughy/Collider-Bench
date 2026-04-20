@@ -3,7 +3,7 @@ c      written by the UFO converter
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 C     Parameters that should not be recomputed event by event.
-C     
+C
       IF(READLHA) THEN
 
         G = 2 * DSQRT(AS*PI)  ! for the first init
@@ -145,9 +145,9 @@ C
         MDL_YT__EXP__2 = MDL_YT**2
 
       ENDIF
-C     
+C
 C     Parameters that should be recomputed at an event by even basis.
-C     
+C
       AS = G**2/4/PI
 
       MDL_MU_R__EXP__2 = MU_R**2
@@ -160,9 +160,8 @@ C
 
       MDL_G__EXP__4 = G**4
 
-C     
+C
 C     Definition of the EW coupling used in the write out of aqed
-C     
+C
       GAL(1) = 3.5449077018110318 / DSQRT(AEWM1)
       GAL(2) = 1D0
-

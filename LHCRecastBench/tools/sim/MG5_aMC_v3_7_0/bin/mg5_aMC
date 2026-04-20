@@ -7,11 +7,11 @@ start = time.time()
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -27,7 +27,7 @@ if sys.version_info < (3, 7):
 if sys.version_info[1] < 10:
     logging.warning("\033[91mSupport for Python3.9 (and below) has been dropped since end of 2025. Please consider update your version of Python. Continue at your own risk \033[0m")
 
-    
+
 try:
     import six
 except ImportError:
@@ -61,7 +61,7 @@ parser.add_option("","--debug", action="store_true", default=False, dest='debug'
 parser.add_option("-m", "--mode", dest="plugin",
                   help="Define some additional command provide by a PLUGIN")
 parser.add_option("-s", "--nocaffeinate", action="store_false", default=True, dest='nosleep',
-                  help='For mac user, forbids to use caffeinate when running with a script')                               
+                  help='For mac user, forbids to use caffeinate when running with a script')
 (options, args) = parser.parse_args()
 if len(args) == 0:
     args = ''
@@ -90,7 +90,7 @@ if ' ' in os.getcwd():
 if sys.version_info[0] == 3 and sys.version_info[1] >= 12:
     logging.warning("\033[91mpython3.12+ support: For reweighting feature, please use 3.6.X release.\033[0m")
 
-try: 
+try:
     import readline
 except ImportError:
     try:
@@ -102,8 +102,8 @@ else:
 
     if 'r261:67515' in sys.version and  'GCC 4.2.1 (Apple Inc. build 5646)' in sys.version:
         readline.parse_and_bind("bind ^I rl_complete")
-        readline.__doc__ = 'libedit'  
-    
+        readline.__doc__ = 'libedit'
+
     elif hasattr(readline, '__doc__'):
         if 'libedit' not in readline.__doc__:
             readline.parse_and_bind("tab: complete")
@@ -112,7 +112,7 @@ else:
     else:
         readline.__doc__ = 'GNU'
         readline.parse_and_bind("tab: complete")
-        
+
     # charge history file
     try:
         legacy_state_dir = os.path.join(os.environ['HOME'], '.mg5')
@@ -140,7 +140,7 @@ if __debug__:
 #logging.basicConfig(level=vars(logging)[options.logging])
 try:
     if __debug__ and options.logging == 'INFO':
-        options.logging = 'DEBUG'    
+        options.logging = 'DEBUG'
     if options.logging.isdigit():
         level = int(options.logging)
     else:
@@ -186,7 +186,7 @@ if options.plugin:
     cmd_line.plugin=options.plugin
 elif options.web:
     cmd_line = interface.MasterCmdWeb()
-else: 
+else:
     cmd_line = interface.MasterCmd(mgme_dir = options.mgme_dir)
 
 
@@ -198,7 +198,7 @@ try:
             logging.getLogger('madgraph').warning("launching caffeinate to prevent idle sleep when MG5aMC is running. Run './bin/mg5_aMC -s' to prevent this.")
             pid = os.getpid()
             subprocess.Popen(['caffeinate', '-i', '-w', str(pid)])
-        # They are an input file 
+        # They are an input file
         if args:
             input_file = os.path.realpath(args[0])
         else:
@@ -225,7 +225,7 @@ try:
         else:
             cmd_line.cmdloop()
 except KeyboardInterrupt:
-    print('writting history and quit on KeyboardInterrupt') 
+    print('writting history and quit on KeyboardInterrupt')
     pass
 
 try:
@@ -236,6 +236,3 @@ try:
     readline.write_history_file(history_file)
 except Exception as error:
     pass
-
-
-    

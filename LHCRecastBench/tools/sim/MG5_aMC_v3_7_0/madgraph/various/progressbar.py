@@ -3,17 +3,17 @@
 #
 # progressbar  - Text progressbar library for python.
 # Copyright (c) 2005 Nilton Volpato
-# 
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
 # version 2.1 of the License, or (at your option) any later version.
-# 
+#
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Lesser General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -325,12 +325,12 @@ class progbar(ProgressBar):
             self.actual_step+=1
         else:
             self.actual_step=value
-            
+
         if self.maxval:
             ProgressBar.update(self,self.actual_step)
 
     def finish(self):
-        
+
         if self.maxval:
             ProgressBar.finish(self)
 
@@ -343,7 +343,7 @@ if __name__=='__main__':
         widgets = ['ValTest', Percentage(), ' ', Bar(),' ', ETA(), ' ']
         pbar = ProgressBar(widgets=widgets, maxval=100).start()
         for i in range(100):
-            time.sleep(0.02)            
+            time.sleep(0.02)
             # do something
             pbar.update(1*i+1)
         pbar.finish()
@@ -404,4 +404,3 @@ if __name__=='__main__':
     example2()
     example3()
     example4()
-

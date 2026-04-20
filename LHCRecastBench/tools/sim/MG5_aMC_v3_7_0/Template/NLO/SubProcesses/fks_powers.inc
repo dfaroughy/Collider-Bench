@@ -26,4 +26,3 @@
       parameter (alphaY=2.0d0)
       parameter (skewY=10d0)
       parameter (deltaminY=0.95d0)
-

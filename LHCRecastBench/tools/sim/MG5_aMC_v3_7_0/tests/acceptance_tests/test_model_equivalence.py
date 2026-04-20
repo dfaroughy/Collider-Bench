@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -35,7 +35,7 @@ import madgraph.iolibs.ufo_expression_parsers as ufo_expression_parsers
 import madgraph.various.misc as misc
 from madgraph.iolibs import save_load_object
 
-import  models.check_param_card as check_param_card 
+import  models.check_param_card as check_param_card
 
 logger = logging.getLogger('madgraph.test.model')
 pjoin = os.path.join
@@ -54,10 +54,10 @@ class CheckFileCreate():
                 shutil.rmtree(self.output_path)
                 import time
                 time.sleep(1)
-            os.mkdir(self.output_path) 
+            os.mkdir(self.output_path)
         else:
             self._output_path = tempfile.mkdtemp(prefix='test_mg5')
-        
+
     def tearDown(self):
         os.system('rm -rf %s ' % self.output_path)
 
@@ -79,27 +79,27 @@ class CheckFileCreate():
 
     def clean_files(self):
         """ suppress all the files linked to this test """
-        
+
         for filename in self.created_files:
             try:
                 os.remove(self.give_pos(filename))
             except OSError:
                 pass
-    
+
 
 
 class CompareMG4WithUFOModel(unit_tests.TestCase):
     """checking if the MG4 model and the UFO model are coherent when they should"""
-    
-    
+
+
     def test_sm_equivalence(self):
         """Test the UFO and MG4 SM model correspond to the same model """
-        
+
         # import UFO model
         sm_path = import_ufo.find_ufo_path('sm')
         ufo_model = import_ufo.import_model(sm_path)
         ufo_model.pass_particles_name_in_mg_default()
-        
+
         # import MG4 model
         model = base_objects.Model()
         v4_path = os.path.join(MG4DIR, 'models', 'sm_v4')
@@ -116,12 +116,12 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
             import_v4.read_interactions_v4,
             model['particles']))
         model.pass_particles_name_in_mg_default()
-        
+
         # Checking the particles
         for particle in model['particles']:
             ufo_particle = ufo_model.get("particle_dict")[particle['pdg_code']]
             self.check_particles(particle, ufo_particle)
-        
+
         # Checking the interactions
         nb_vertex = 0
         ufo_vertices = []
@@ -142,27 +142,27 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
                 mg4_vertices.append(pdg_code_mg4)
 
         self.assertEqual(ufo_vertices, [[25,25,25,25]])
-        self.assertEqual(mg4_vertices, [])  
+        self.assertEqual(mg4_vertices, [])
 
     def test_mssm_equivalence(self):
         """Test the UFO and MG4 MSSM model correspond to the same model """
-        
+
         # import UFO model
         mssm_path = import_ufo.find_ufo_path('MSSM_SLHA2')
         ufo_model = import_ufo.import_model(mssm_path)
         #converter = import_ufo.UFOMG5Converter(model)
         #ufo_model = converter.load_model()
         ufo_model.pass_particles_name_in_mg_default()
-        
+
         # import MG4 model
-        
+
         model = base_objects.Model()
         if not MG4DIR:
             raise MadGraph5Error("Please provide a valid MG/ME path with -d")
         v4_path = os.path.join(MG4DIR, 'models', 'mssm_v4')
         if not os.path.isdir(v4_path):
             import_ufo.import_model_from_db('mssm_v4', local_dir=True)
-                
+
 
         model.set('particles', files.read_from_file(
                os.path.join(v4_path,'particles.dat'),
@@ -171,7 +171,7 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
             os.path.join(v4_path,'interactions.dat'),
             import_v4.read_interactions_v4,
             model['particles']))
-        
+
         #model.pass_particles_name_in_mg_default()
         # Checking the particles
         for particle in model['particles']:
@@ -181,7 +181,7 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
         # Skip test below until equivalence has been created by Benj and Claude
         return
 
-        
+
         # Checking the interactions
         nb_vertex = 0
         ufo_vertices = []
@@ -201,18 +201,18 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
             except ValueError:
                 mg4_vertices.append(pdg_code_mg4)
 
-        self.assertEqual(ufo_vertices, [])  
-        self.assertEqual(mg4_vertices, [])  
-  
-            
-    
+        self.assertEqual(ufo_vertices, [])
+        self.assertEqual(mg4_vertices, [])
+
+
+
     def check_particles(self, mg4_part, ufo_part):
         """ check that the internal definition for a particle comming from mg4 or
         comming from the UFO are the same """
-        
+
         not_equiv = ['charge', 'mass','width',
                         'texname','antitexname','line']
-        
+
         if abs(mg4_part['pdg_code']) != abs(ufo_part['pdg_code']):
             print('%s non equivalent particle' % mg4_part['name'])
             return
@@ -223,9 +223,9 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
             not_equiv.append('name')
             not_equiv.append('antiname')
             self.assertEqual(mg4_part.get('name'), ufo_part.get('antiname'))
-            
-            
-        
+
+
+
         for name in mg4_part.sorted_keys:
             if name in not_equiv:
                 continue
@@ -235,26 +235,26 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
                         continue
             if mg4_part['name'] == 'h1' and name in ['name','antiname']:
                 continue
-            self.assertEqual(mg4_part.get(name), ufo_part.get(name), 
+            self.assertEqual(mg4_part.get(name), ufo_part.get(name),
                     'fail for particle %s different property for %s, %s != %s' %
                     (mg4_part['name'], name, mg4_part.get(name), \
                                                             ufo_part.get(name)))
-        
-        
+
+
     def check_interactions(self, mg4_vertex, ufo_vertex, vname):
         """ check that the internal definition for a particle comming from mg4 or
         comming from the UFO are the same """
-                
+
         # Checking only the color
         mg4_color = mg4_vertex.get('color')
         mg5_color = ufo_vertex.get('color')
         try:
-            self.assertEqual(mg4_color, mg5_color) 
+            self.assertEqual(mg4_color, mg5_color)
         except AssertionError:
             part_name =[part.get('name') for part in mg4_vertex.get('particles')]
             log = 'Potential different color structure for %s.\n' % part_name
             log += '    mg4 color : %s\n' % mg4_color
-            log += '    mg5 color : %s\n' % mg5_color 
+            log += '    mg5 color : %s\n' % mg5_color
             logger.info(log)
             if part_name == ['g', 'g', 'g', 'g']:
                 pass #too complex
@@ -265,7 +265,7 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
                     logger.info('and too complex to be tested')
                     pass # too complex
                 else:
-                    raise 
+                    raise
             else:
                 mg5_color = copy.copy(mg5_color)
                 for i,col in enumerate(mg5_color):
@@ -281,15 +281,15 @@ class CompareMG4WithUFOModel(unit_tests.TestCase):
                 self.assertEqual(str(mg4_color), str(mg5_color))
 
 
-        
-    
-        
+
+
+
 class TestModelCreation(unit_tests.TestCase, CheckFileCreate):
 
-    created_files = ['couplings.f', 'couplings1.f', 'couplings2.f', 'couplings3.f', 
+    created_files = ['couplings.f', 'couplings1.f', 'couplings2.f', 'couplings3.f',
                      'couplings4.f', 'coupl.inc', 'intparam_definition.inc',
-                     'input.inc', 'param_read.f', 'makefile', 'tesprog.f', 
-                     'testprog', 'rw_para.f', 'lha_read.f', 'printout.f', 
+                     'input.inc', 'param_read.f', 'makefile', 'tesprog.f',
+                     'testprog', 'rw_para.f', 'lha_read.f', 'printout.f',
                      'formats.inc', 'makeinc.inc', 'ident_card.dat', 'libmodel.a',
                      'param_write.inc','coupl_write.inc','param_read.inc',
                      'testprog.f','param_card.dat']
@@ -300,26 +300,26 @@ class TestModelCreation(unit_tests.TestCase, CheckFileCreate):
         CheckFileCreate.setUp(self)
         os.system('cp %s %s' % (pjoin(MG5DIR,'Template', 'LO','Source',
                                       'make_opts'), '/tmp'))
-        
+
         CheckFileCreate.clean_files(self)
-        
-        #picklefile = os.path.join(MG5DIR,'models','sm','model.pkl') 
+
+        #picklefile = os.path.join(MG5DIR,'models','sm','model.pkl')
         #if not files.is_uptodate(picklefile):
         #    sm_path = import_ufo.find_ufo_path('sm')
         model = import_ufo.import_model('sm')
         #else:
         #    model = save_load_object.load_from_file(picklefile)
-            
+
         export_v4.UFO_model_to_mg4(model, self.output_path,opt = {'export_format': 'standalone', 'mp':False}).build()
-        
+
 #    tearDown = CheckFileCreate.clean_files
 
     def test_all(self):
         """ test all the files"""
         self.check_intparam_definition_creation()
         self.check_compilation()
-        
-        
+
+
     def check_compilation(self):
         """check that the model compile return correct output"""
         #Check the cleaning
@@ -336,17 +336,17 @@ class TestModelCreation(unit_tests.TestCase, CheckFileCreate):
         self.assertEqual(returncode, 0)
         files.cp(os.path.join(MG5DIR,'models','sm','param_card.dat'),
                  join('param_card.dat'))
-        
+
         text = open(join('makefile')).read().replace('../../Cards/param_card.dat','param_card.dat')
         open(join('makefile'),'w').write(text)
-        #make ../param_card.inc 
+        #make ../param_card.inc
         param_card = check_param_card.ParamCard(join('param_card.dat'))
         param_card.write_inc_file(join('../param_card.inc'), join('ident_card.dat'),
-                                   join('param_card.dat')) 
+                                   join('param_card.dat'))
         subprocess.call(['make', 'testprog'], cwd=self.output_path,
                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.assertTrue(os.path.exists(self.give_pos('testprog')))
-        
+
         os.chmod(os.path.join(self.output_path, 'testprog'), 0o777)
         testprog = subprocess.Popen("./testprog", stdout=subprocess.PIPE,
                             cwd=self.output_path,
@@ -391,8 +391,8 @@ class TestModelCreation(unit_tests.TestCase, CheckFileCreate):
         # before merging with py3 it was [27,67,54,38,78,15,79,96,73,9,74,4,50]
         self.assertEqual(set(checked_solutions), set(['GC_%s ' % i for i in [4, 9, 27, 30, 39, 51, 56, 67, 73, 75, 78, 79, 97]]))
 
-        
-        
+
+
 
     def check_intparam_definition_creation(self):
         """ test the creation of a valid intparam_definition"""
@@ -412,7 +412,3 @@ class TestModelCreation(unit_tests.TestCase, CheckFileCreate):
         alreadydefine.sort()
         solution = ['as ', 'g ', 'gal(1) ', 'gal(2) ', 'mdl_aew ', 'mdl_ckm3x3 ', 'mdl_complexi ', 'mdl_conjg__ckm1x1 ', 'mdl_conjg__ckm3x3 ', 'mdl_cw ', 'mdl_cw__exp__2 ', 'mdl_ee ', 'mdl_ee__exp__2 ', 'mdl_g1 ', 'mdl_g__exp__2 ', 'mdl_gw ', 'mdl_i1x33 ', 'mdl_i2x33 ', 'mdl_i3x33 ', 'mdl_i4x33 ', 'mdl_lam ', 'mdl_mh__exp__2 ', 'mdl_muh ', 'mdl_mw ', 'mdl_mw__exp__2 ', 'mdl_mz__exp__2 ', 'mdl_mz__exp__4 ', 'mdl_sqrt__2 ', 'mdl_sqrt__aew ', 'mdl_sqrt__as ', 'mdl_sqrt__sw2 ', 'mdl_sw ', 'mdl_sw2 ', 'mdl_sw__exp__2 ', 'mdl_vev ', 'mdl_vev__exp__2 ', 'mdl_yb ', 'mdl_yt ', 'mdl_ytau ']
         self.assertEqual(alreadydefine, solution)
-        
-
-
-      

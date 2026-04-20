@@ -32,7 +32,9 @@ def test_sandbox_command_roundtrip(repo_root, tmp_path):
     workspace.mkdir()
     inner = ["/bin/true"]
     cmd, cleanup = sandbox_command(
-        workspace, repo_root, inner,
+        workspace,
+        repo_root,
+        inner,
         sandbox="bwrap" if shutil.which("bwrap") else "none",
     )
     assert isinstance(cmd, list)

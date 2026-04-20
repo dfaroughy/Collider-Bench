@@ -15,16 +15,16 @@ namespace PY8MEs_namespace
 // Constructors
 PY8MEs::PY8MEs(string card_path)
 {
-  model = new Parameters_heft_ckm(); 
+  model = new Parameters_heft_ckm();
   if (card_path != string())
-    initModelFromSLHACard(card_path); 
-  releaseModelOnExit = true; 
-  load_processes(); 
+    initModelFromSLHACard(card_path);
+  releaseModelOnExit = true;
+  load_processes();
 }
 PY8MEs::PY8MEs(Parameters_heft_ckm * model_input) : model(model_input)
 {
-  releaseModelOnExit = false; 
-  load_processes(); 
+  releaseModelOnExit = false;
+  load_processes();
 }
 
 // Destructor
@@ -33,39 +33,39 @@ PY8MEs::~PY8MEs()
   // Release all process instances
   for(unsigned int i = 0; i < loaded_processes.size(); i++ )
   {
-    delete loaded_processes[i]; 
-    loaded_processes[i] = NULL; 
+    delete loaded_processes[i];
+    loaded_processes[i] = NULL;
   }
 
   // Also release the model instance if it was instantiated here
   if (releaseModelOnExit)
   {
-    releaseModel(); 
+    releaseModel();
   }
 }
 
 // Function to instantiate a model. The user can do that himself, but
 // when using the function below he will not need to know the class name of the
 // model.
-Parameters_heft_ckm * PY8MEs::instantiateModel(string param_card_path) 
+Parameters_heft_ckm * PY8MEs::instantiateModel(string param_card_path)
 {
-  Parameters_heft_ckm * new_model = new Parameters_heft_ckm(); 
+  Parameters_heft_ckm * new_model = new Parameters_heft_ckm();
   if (param_card_path != string())
   {
-    SLHAReader slha(param_card_path); 
-    new_model->setIndependentParameters(slha); 
-    new_model->setIndependentCouplings(); 
-    new_model->printIndependentParameters(); 
-    new_model->printIndependentCouplings(); 
+    SLHAReader slha(param_card_path);
+    new_model->setIndependentParameters(slha);
+    new_model->setIndependentCouplings();
+    new_model->printIndependentParameters();
+    new_model->printIndependentCouplings();
   }
-  return new_model; 
+  return new_model;
 }
 
 //--------------------------------------------------------------------------
 // Preload processes
-void PY8MEs::load_processes() 
+void PY8MEs::load_processes()
 {
-  loaded_processes = vector < PY8ME * > (); 
+  loaded_processes = vector < PY8ME * > ();
   #include "all_processes_loading.inc"
 }
 
@@ -81,13 +81,13 @@ PY8ME * PY8MEs::getProcess(vec_int in_pdgs, vec_int out_pdgs, set_int
   if (proc.first)
   {
     // Make sure to initialize the instance properly
-    proc.first->setPermutation(proc.second.first); 
-    proc.first->setProcID(proc.second.second); 
-    return proc.first; 
+    proc.first->setPermutation(proc.second.first);
+    proc.first->setProcID(proc.second.second);
+    return proc.first;
   }
   else
   {
-    return proc.first; 
+    return proc.first;
   }
 }
 
@@ -106,19 +106,19 @@ pair < double, bool > PY8MEs::calculateME(vec_int in_pdgs, vec_int out_pdgs,
 
   // Return right away if unavailable
   if (proc_handle.second.second < 0)
-    return make_pair(0.0, false); 
+    return make_pair(0.0, false);
 
-  PY8ME * proc_ptr = proc_handle.first; 
-  vec_int perms = proc_handle.second.first; 
-  int proc_ID = proc_handle.second.second; 
+  PY8ME * proc_ptr = proc_handle.first;
+  vec_int perms = proc_handle.second.first;
+  int proc_ID = proc_handle.second.second;
 
-  proc_ptr->setMomenta(momenta); 
-  proc_ptr->setProcID(proc_ID); 
-  proc_ptr->setPermutation(perms); 
-  proc_ptr->setColors(colors); 
-  proc_ptr->setHelicities(helicities); 
+  proc_ptr->setMomenta(momenta);
+  proc_ptr->setProcID(proc_ID);
+  proc_ptr->setPermutation(perms);
+  proc_ptr->setColors(colors);
+  proc_ptr->setHelicities(helicities);
 
-  return make_pair(proc_ptr->sigmaKin(), true); 
+  return make_pair(proc_ptr->sigmaKin(), true);
 }
 
 //--------------------------------------------------------------------------
@@ -126,11 +126,11 @@ pair < double, bool > PY8MEs::calculateME(vec_int in_pdgs, vec_int out_pdgs,
 struct process_specifier PY8MEs::getProcessSpecifier(vec_int in_pdgs, vec_int
     out_pdgs, set_int schannels)
 {
-  struct process_specifier proc_characteristics; 
-  proc_characteristics.in_pdgs = in_pdgs; 
-  proc_characteristics.out_pdgs = out_pdgs; 
-  proc_characteristics.required_s_channels = schannels; 
-  return proc_characteristics; 
+  struct process_specifier proc_characteristics;
+  proc_characteristics.in_pdgs = in_pdgs;
+  proc_characteristics.out_pdgs = out_pdgs;
+  proc_characteristics.required_s_channels = schannels;
+  return proc_characteristics;
 }
 
 //--------------------------------------------------------------------------
@@ -150,12 +150,12 @@ process_accessor PY8MEs::getProcess(struct process_specifier proc, bool
   map < process_specifier, process_accessor > ::iterator it =
       processes_map.find(proc);
   if (it != processes_map.end())
-    return it->second; 
+    return it->second;
 
   // Check if available
-  vec_int in_pdgs = proc.in_pdgs; 
-  vec_int out_pdgs = proc.out_pdgs; 
-  set_int schannels = proc.required_s_channels; 
+  vec_int in_pdgs = proc.in_pdgs;
+  vec_int out_pdgs = proc.out_pdgs;
+  set_int schannels = proc.required_s_channels;
 
   // Loop over loaded processes to try and find the required process
   for (unsigned int i = 0; i < loaded_processes.size(); i++ )
@@ -167,14 +167,14 @@ process_accessor PY8MEs::getProcess(struct process_specifier proc, bool
       process_accessor returned_process_accessor =
           make_pair(loaded_processes[i], proc_handle);
       if (create_entry)
-        processes_map[proc] = returned_process_accessor; 
-      return returned_process_accessor; 
+        processes_map[proc] = returned_process_accessor;
+      return returned_process_accessor;
     }
   }
 
   // Process not found
-  perm_and_id not_found = make_pair(vec_int(), -1); 
-  return make_pair((PY8ME * ) NULL, not_found); 
+  perm_and_id not_found = make_pair(vec_int(), -1);
+  return make_pair((PY8ME * ) NULL, not_found);
 }
 
 //--------------------------------------------------------------------------
@@ -184,7 +184,7 @@ void PY8MEs::syncProcessesWithModel()
   // Loop over loaded processes to broadcast the synchronization
   for (unsigned int i = 0; i < loaded_processes.size(); i++ )
   {
-    loaded_processes[i]->syncProcModelParams(); 
+    loaded_processes[i]->syncProcModelParams();
   }
 }
 
@@ -198,31 +198,31 @@ void PY8MEs::setProcessesExternalMassesMode(int mode)
   // Loop over loaded processes to broadcast the chosen mode
   for (unsigned int i = 0; i < loaded_processes.size(); i++ )
   {
-    loaded_processes[i]->setExternalMassesMode(mode); 
+    loaded_processes[i]->setExternalMassesMode(mode);
   }
 }
 
 //--------------------------------------------------------------------------
 // Broadcast settings to all processes
-void PY8MEs::seProcessesIncludeSymmetryFactors(bool OnOff) 
+void PY8MEs::seProcessesIncludeSymmetryFactors(bool OnOff)
 {
   for (unsigned int i = 0; i < loaded_processes.size(); i++ )
   {
-    loaded_processes[i]->setIncludeSymmetryFactors(OnOff); 
+    loaded_processes[i]->setIncludeSymmetryFactors(OnOff);
   }
 }
-void PY8MEs::seProcessesIncludeHelicityAveragingFactors(bool OnOff) 
+void PY8MEs::seProcessesIncludeHelicityAveragingFactors(bool OnOff)
 {
   for (unsigned int i = 0; i < loaded_processes.size(); i++ )
   {
-    loaded_processes[i]->setIncludeHelicityAveragingFactors(OnOff); 
+    loaded_processes[i]->setIncludeHelicityAveragingFactors(OnOff);
   }
 }
-void PY8MEs::seProcessesIncludeColorAveragingFactors(bool OnOff) 
+void PY8MEs::seProcessesIncludeColorAveragingFactors(bool OnOff)
 {
   for (unsigned int i = 0; i < loaded_processes.size(); i++ )
   {
-    loaded_processes[i]->setIncludeColorAveragingFactors(OnOff); 
+    loaded_processes[i]->setIncludeColorAveragingFactors(OnOff);
   }
 }
 
@@ -230,24 +230,24 @@ void PY8MEs::seProcessesIncludeColorAveragingFactors(bool OnOff)
 // Function to initialize the model
 void PY8MEs::initModelFromSLHACard(string card_path)
 {
-  SLHAReader slha(card_path); 
-  model->setIndependentParameters(slha); 
-  model->setIndependentCouplings(); 
-  model->printIndependentParameters(); 
-  model->printIndependentCouplings(); 
-  syncProcessesWithModel(); 
+  SLHAReader slha(card_path);
+  model->setIndependentParameters(slha);
+  model->setIndependentCouplings();
+  model->printIndependentParameters();
+  model->printIndependentCouplings();
+  syncProcessesWithModel();
 }
 
 //--------------------------------------------------------------------------
 // Function to update the alpha_S dependent couplings each event.
 void PY8MEs::updateModelDependentCouplings(double alpS)
 {
-  model->aS = alpS; 
-  model->setDependentParameters(); 
-  model->setDependentCouplings(); 
+  model->aS = alpS;
+  model->setDependentParameters();
+  model->setDependentCouplings();
 }
 
-// 
+//
 // void PY8MEs::initModelWithPY8(ParticleData * & pd, Couplings * & csm,
 // SusyLesHouches * & slhaPtr)
 // {
@@ -263,8 +263,7 @@ void PY8MEs::updateModelDependentCouplings(double alpS)
 // model->setDependentParameters(particleDataPtr, couplingsPtr, slhaPtr, alpS);
 // model->setDependentCouplings();
 // }
-// 
+//
 
 
 }  // End namespace PY8MEs_namespace
-

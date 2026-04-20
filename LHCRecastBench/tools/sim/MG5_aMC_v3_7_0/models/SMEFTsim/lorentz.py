@@ -7,7 +7,7 @@ from object_library import all_lorentz, Lorentz
 
 from function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
 try:
-   import form_factors as ForFac 
+   import form_factors as ForFac
 except ImportError:
    pass
 
@@ -1107,4 +1107,3 @@ VVVVVV61 = Lorentz(name = 'VVVVVV61',
 VVVVVV62 = Lorentz(name = 'VVVVVV62',
                    spins = [ 3, 3, 3, 3, 3, 3 ],
                    structure = 'Metric(1,6)*Metric(2,5)*Metric(3,4) - (Metric(1,5)*Metric(2,6)*Metric(3,4))/2. + Metric(1,6)*Metric(2,4)*Metric(3,5) - (Metric(1,4)*Metric(2,6)*Metric(3,5))/2. - (Metric(1,5)*Metric(2,4)*Metric(3,6))/2. - (Metric(1,4)*Metric(2,5)*Metric(3,6))/2. - 2*Metric(1,6)*Metric(2,3)*Metric(4,5) + Metric(1,3)*Metric(2,6)*Metric(4,5) + Metric(1,2)*Metric(3,6)*Metric(4,5) + Metric(1,5)*Metric(2,3)*Metric(4,6) - (Metric(1,3)*Metric(2,5)*Metric(4,6))/2. - (Metric(1,2)*Metric(3,5)*Metric(4,6))/2. + Metric(1,4)*Metric(2,3)*Metric(5,6) - (Metric(1,3)*Metric(2,4)*Metric(5,6))/2. - (Metric(1,2)*Metric(3,4)*Metric(5,6))/2.')
-

@@ -3,16 +3,16 @@ C
 C     Simple routine wrapper to provide the same interface for
 C     backward compatibility for usage without split orders.
 C
-C  
+C
 C CONSTANTS
-C 
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL), ANS_SUMMED
 C
 C VARIABLES
@@ -34,11 +34,11 @@ C CONSTANT
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-      INTEGER                 NCOMB         
+      INTEGER                 NCOMB
       PARAMETER (             NCOMB=%(ncomb)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS
 	  INTEGER HEL
 C
@@ -56,24 +56,24 @@ C ----------
 	  END
 
       SUBROUTINE %(proc_prefix)sSMATRIX_SPLITORDERS(P,ANS)
-C  
+C
 %(info_lines)s
-C 
+C
 C MadGraph StandAlone Version
-C 
+C
 C Returns amplitude squared summed/avg over colors
 c and helicities
 c for the point in phase space P(0:3,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-      INTEGER                 NCOMB         
+      INTEGER                 NCOMB
       PARAMETER (             NCOMB=%(ncomb)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
@@ -82,13 +82,13 @@ C
 	  LOGICAL CHOSEN_SO_CONFIGS(NSQAMPSO)
 	  DATA CHOSEN_SO_CONFIGS/%(chosen_so_configs)s/
 	  COMMON/%(proc_prefix)sCHOSEN_BORN_SQSO/CHOSEN_SO_CONFIGS
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS(0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER NHEL(NEXTERNAL,NCOMB),NTRY
       REAL*8 T(NSQAMPSO), BUFF
       INTEGER IHEL,IDEN, I
@@ -102,7 +102,7 @@ C
 C GLOBAL VARIABLES
 C
       INTEGER USERHEL
-	  DATA USERHEL/-1/	  	  
+	  DATA USERHEL/-1/
 	  COMMON/%(proc_prefix)sHELUSERCHOICE/USERHEL
 
 C ----------
@@ -113,14 +113,14 @@ C ----------
          JC(IHEL) = +1
       ENDDO
 	  DO I=1,NSQAMPSO
-      	ANS(I) = 0D0	  
+      	ANS(I) = 0D0
 	  ENDDO
       DO IHEL=1,NCOMB
 	     IF (USERHEL.EQ.-1.OR.USERHEL.EQ.IHEL) THEN
            IF (GOODHEL(IHEL) .OR. NTRY .LT. 2) THEN
               CALL %(proc_prefix)sMATRIX(P ,NHEL(1,IHEL),JC(1), T)
 	 	      BUFF=0D0
-			  DO I=1,NSQAMPSO			
+			  DO I=1,NSQAMPSO
                 ANS(I)=ANS(I)+T(I)
 			    BUFF=BUFF+T(I)
 		      ENDDO
@@ -152,13 +152,13 @@ C CONSTANT
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-      INTEGER                 NCOMB         
+      INTEGER                 NCOMB
       PARAMETER (             NCOMB=%(ncomb)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS(0:NSQAMPSO)
 	  INTEGER HEL
 C
@@ -174,41 +174,41 @@ C ----------
 	  USERHEL=-1
 
 	  END
- 
+
       SUBROUTINE %(proc_prefix)sMATRIX(P,NHEL,IC,RES)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c for the point with external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER    NGRAPHS
-      PARAMETER (NGRAPHS=%(ngraphs)d) 
+      PARAMETER (NGRAPHS=%(ngraphs)d)
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       COMPLEX*16 IMAG1
       PARAMETER (IMAG1=(0D0,1D0))
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
 	  REAL*8 RES(NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       COMPLEX*16 ZTEMP
       INTEGER CF(NCOLOR*(NCOLOR+1))
@@ -216,7 +216,7 @@ C
       COMPLEX*16 AMP(NGRAPHS)
       COMPLEX*16 JAMP(NCOLOR,NAMPSO), LNJAMP(NCOLOR,NAMPSO)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-      COMMON/%(proc_prefix)sJAMP/JAMP,LNJAMP  
+      COMMON/%(proc_prefix)sJAMP/JAMP,LNJAMP
       COMPLEX*16 W(18,NWAVEFUNCS)
       COMPLEX*16 DUM0,DUM1
       DATA DUM0, DUM1/(0d0, 0d0), (1d0, 0d0)/
@@ -224,13 +224,13 @@ C
 C FUNCTION
 C
       INTEGER %(proc_prefix)sSQSOINDEX
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       include 'coupl.inc'
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -238,7 +238,7 @@ C ----------
 %(helas_calls)s
 %(jamp_lines)s
 
-      RES(:) = 0.D0 
+      RES(:) = 0.D0
 	  DO M = 1, NAMPSO
         CF_INDEX = 0
         DO I = 1, NCOLOR
@@ -255,57 +255,57 @@ C ----------
       RES(:) = RES(:)/DENOM
       END
 
-      
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
        SUBROUTINE %(proc_prefix)sBORN(P,NHEL)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c for the point with external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
 
       INTEGER    NGRAPHS
-      PARAMETER (NGRAPHS=%(ngraphs)d) 
+      PARAMETER (NGRAPHS=%(ngraphs)d)
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       REAL*8     ZERO
@@ -313,14 +313,14 @@ C
       COMPLEX*16 IMAG1
       PARAMETER (IMAG1=(0D0,1D0))
 
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       COMPLEX*16 ZTEMP
 c      REAL*8 CF(NCOLOR,NCOLOR)
@@ -331,20 +331,20 @@ c      REAL*8 CF(NCOLOR,NCOLOR)
       COMPLEX*16 DUM0,DUM1
       DATA DUM0, DUM1/(0d0, 0d0), (1d0, 0d0)/
 
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       include 'coupl.inc'
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
 C ----------
-      DO I=1,NEXTERNAL	
+      DO I=1,NEXTERNAL
 	IC(I) = 1
-      ENDDO	
+      ENDDO
 
 
 %(helas_calls)s
@@ -355,30 +355,30 @@ C ----------
       SUBROUTINE %(proc_prefix)sGET_JAMP(njamp, ONEJAMP)
 
       INTEGER     NCOLOR, NJAMP
-      PARAMETER (NCOLOR=%(ncolor)d) 
+      PARAMETER (NCOLOR=%(ncolor)d)
       INTEGER NAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d)
       COMPLEX*16  JAMP(NCOLOR,NAMPSO), ONEJAMP
       COMMON/%(proc_prefix)sJAMP/JAMP,LNJAMP
-	
+
 	ONEJAMP = JAMP(njamp+1,1) ! +1 since njamp start at zero (c convention)
 	END
 
        SUBROUTINE %(proc_prefix)sGET_LNJAMP(njamp, ONEJAMP)
 
       INTEGER     NCOLOR, NJAMP
-      PARAMETER (NCOLOR=%(ncolor)d) 
+      PARAMETER (NCOLOR=%(ncolor)d)
       INTEGER NAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d)
       COMPLEX*16  JAMP(NCOLOR,NAMPSO), LNJAMP(NCOLOR,NAMPSO), ONEJAMP
       COMMON/%(proc_prefix)sJAMP/JAMP,LNJAMP
-	
+
 	ONEJAMP = LNJAMP(njamp+1,1) ! +1 since njamp start at zero (c convention)
 	END
-	
-	
-	
-	
+
+
+
+
      SUBROUTINE %(proc_prefix)sGET_NCOLOR(in1, in2, out)
 
 	integer in1, in2, out
@@ -389,39 +389,4 @@ C ----------
 	integer ncol
 	ncol = %(ncolor)d
 	return
-	end      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+	end

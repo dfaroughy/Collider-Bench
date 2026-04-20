@@ -6,54 +6,57 @@
 # Keywords: userhooks; jet finding; anti-kT; process veto; python;
 
 # Example how you can use UserHooks to trace pT spectrum through
-# program, and veto undesirable jet multiplicities. 
+# program, and veto undesirable jet multiplicities.
 # It is based on main242.cc.
-# To set the path to the Pythia 8 Python interface do either 
+# To set the path to the Pythia 8 Python interface do either
 # (in a shell prompt):
 #      export PYTHONPATH=$(PREFIX_LIB):$PYTHONPATH
 # or the following which sets the path from within Python.
 import sys
+
 cfg = open("Makefile.inc")
 lib = "../lib"
 for line in cfg:
-    if line.startswith("PREFIX_LIB="): lib = line[11:-1]; break
+    if line.startswith("PREFIX_LIB="):
+        lib = line[11:-1]
+        break
 sys.path.insert(0, lib)
 import pythia8
 
-#==========================================================================
+# ==========================================================================
 
 # Put histograms here to make them global, so they can be used both
 # in MyUserHooks and in the main program.
 
-pTtrial   = pythia8.Hist("trial pT spectrum", 100, 0., 400.)
-pTselect  = pythia8.Hist("selected pT spectrum (before veto)", 100, 0., 400.)
-pTaccept  = pythia8.Hist("accepted pT spectrum (after veto)", 100, 0., 400.)
+pTtrial = pythia8.Hist("trial pT spectrum", 100, 0.0, 400.0)
+pTselect = pythia8.Hist("selected pT spectrum (before veto)", 100, 0.0, 400.0)
+pTaccept = pythia8.Hist("accepted pT spectrum (after veto)", 100, 0.0, 400.0)
 nPartonsB = pythia8.Hist("number of partons before veto", 20, -0.5, 19.5)
-nJets     = pythia8.Hist("number of jets before veto", 20, -0.5, 19.5)
+nJets = pythia8.Hist("number of jets before veto", 20, -0.5, 19.5)
 nPartonsA = pythia8.Hist("number of partons after veto", 20, -0.5, 19.5)
-nFSRatISR = pythia8.Hist("number of FSR emissions at first ISR emission",
-                         20, -0.5, 19.5)
+nFSRatISR = pythia8.Hist("number of FSR emissions at first ISR emission", 20, -0.5, 19.5)
 
-#==========================================================================
+# ==========================================================================
 
 # Write own derived UserHooks class.
 
-class MyUserHooks(pythia8.UserHooks):
 
+class MyUserHooks(pythia8.UserHooks):
     # Constructor creates anti-kT jet finder with (-1, R, pTmin, etaMax).
     def __init__(self):
         pythia8.UserHooks.__init__(self)
-        self.slowJet = pythia8.SlowJet(-1, 0.7, 10., 5.)
-        self.pTHat   = 0.
+        self.slowJet = pythia8.SlowJet(-1, 0.7, 10.0, 5.0)
+        self.pTHat = 0.0
 
     # Allow process cross section to be modified...
-    def canModifySigma(self): return True
+    def canModifySigma(self):
+        return True
 
     # ...which gives access to the event at the trial level, before selection.
     def multiplySigmaBy(self, sigmaProcessPtr, phaseSpacePtr, inEvent):
-
         # All events should be 2 -> 2, but kill them if not.
-        if sigmaProcessPtr.nFinal() != 2: return 0.
+        if sigmaProcessPtr.nFinal() != 2:
+            return 0.0
 
         # Extract the pT for 2 -> 2 processes in the event generation chain
         # (inEvent = false for initialization).
@@ -63,19 +66,21 @@ class MyUserHooks(pythia8.UserHooks):
             pTtrial.fill(self.pTHat)
 
         # Here we do not modify 2 -> 2 cross sections.
-        return 1.
+        return 1.0
 
     # Allow a veto for the interleaved evolution in pT.
-    def canVetoPT(self): return True
+    def canVetoPT(self):
+        return True
 
     # Do the veto test at a pT scale of 5 GeV.
-    def scaleVetoPT(self): return 5.
+    def scaleVetoPT(self):
+        return 5.0
 
     # Access the event in the interleaved evolution.
     def doVetoPT(self, iPos, event):
-
         # iPos <= 3 for interleaved evolution; skip others.
-        if iPos > 3: return False
+        if iPos > 3:
+            return False
 
         # Fill histogram of pT spectrum at this stage.
         pTselect.fill(self.pTHat)
@@ -85,12 +90,13 @@ class MyUserHooks(pythia8.UserHooks):
         nPartonsB.fill(self.workEvent.size())
 
         # Find number of jets with given conditions.
-        self.slowJet.analyze(event);
+        self.slowJet.analyze(event)
         nJet = self.slowJet.sizeJet()
         nJets.fill(nJet)
 
         # Veto events which do not have exactly three jets.
-        if nJet != 3: return True
+        if nJet != 3:
+            return True
 
         # Statistics of survivors.
         nPartonsA.fill(self.workEvent.size())
@@ -100,18 +106,20 @@ class MyUserHooks(pythia8.UserHooks):
         return False
 
     # Allow a veto after (by default) first step.
-    def canVetoStep(self): return True
+    def canVetoStep(self):
+        return True
 
     # Access the event in the interleaved evolution after first step.
     def doVetoStep(self, iPos, nISR, nFSR, event):
-
         # Only want to study what happens at first ISR emission
-        if iPos == 2 and nISR == 1: nFSRatISR.fill(nFSR)
+        if iPos == 2 and nISR == 1:
+            nFSRatISR.fill(nFSR)
 
         # Not intending to veto any events here.
         return False
 
-#==========================================================================
+
+# ==========================================================================
 
 # Generator.
 pythia = pythia8.Pythia()
@@ -131,7 +139,8 @@ pythia.readString("Beams:eCM = 1960.")
 pythia.init()
 
 # Generate events.
-for iEvent in range(0, 1000): pythia.next();
+for iEvent in range(0, 1000):
+    pythia.next()
 
 # Statistics. Histograms.
 pythia.stat()

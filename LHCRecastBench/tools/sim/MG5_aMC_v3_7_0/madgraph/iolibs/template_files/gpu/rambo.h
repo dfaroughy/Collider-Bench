@@ -70,10 +70,10 @@ namespace rambo2toNm0
   void createGenerator( curandGenerator_t* pgen );
 
   //--------------------------------------------------------------------------
-  
+
   // Seed a curand generator
   void seedGenerator( curandGenerator_t gen, unsigned long long seed );
-  
+
   //--------------------------------------------------------------------------
 
   // Destroy a curand generator

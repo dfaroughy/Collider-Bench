@@ -38,7 +38,7 @@ logging.getLogger('madgraph.model').setLevel(logging.CRITICAL)
 # Helper functions
 # ==============================================
 
-# Particle PDG to shell name mapping 
+# Particle PDG to shell name mapping
 def PDGToShellName(PDG):
     """Returns the shell name of particle identified by PDG"""
     partName=user_model.get('particle_dict')[PDG].get_name()
@@ -52,7 +52,7 @@ def PDGToShellName(PDG):
     partName = partName.replace(' ', '')
     return partName
 
-# Process identified by list of PDGs to shell name mapping 
+# Process identified by list of PDGs to shell name mapping
 def channelToShellName(in_pdgs,out_pdgs):
     return ''.join([PDGToShellName(in_pdg) for in_pdg in in_pdgs])+'_'+\
            ''.join([PDGToShellName(out_pdg) for out_pdg in out_pdgs])
@@ -63,7 +63,7 @@ def channelToAlternativeShellNames(in_pdgs,out_pdgs):
     mapping={-3:-1,-4:-2,3:1,4:2,-5:-1,5:1}
     new_in_pdgs=[]
     new_out_pdgs=[]
-    
+
     for pdg in in_pdgs:
         try:
             new_in_pdgs.append(mapping[pdg])
@@ -80,7 +80,7 @@ def channelToAlternativeShellNames(in_pdgs,out_pdgs):
     return [channelToShellName(new_in_pdgs,new_out_pdgs)]
 
 def setup_channel(channelPath):
-    """ Copies and compile the MadLoop fortran steering 
+    """ Copies and compile the MadLoop fortran steering
     code and returns the corresponding process."""
 
     logging.info('Setting up virtual runner in\n   %s'%channelPath)
@@ -90,8 +90,8 @@ def setup_channel(channelPath):
     if os.path.isfile(os.path.join(channelPath,'born_matrix.f')):
         checkerName = 'StabilityCheckDriver.f'
     else:
-        checkerName = 'StabilityCheckDriver_loop_induced.f'                
-    # First create the stability check fortran driver executable if not 
+        checkerName = 'StabilityCheckDriver_loop_induced.f'
+    # First create the stability check fortran driver executable if not
     # already present.
     if not os.path.isfile(pjoin(channelPath,'StabilityCheckDriver.f')):
         with open(pjoin(MGRootPath,'Template','loop_material','Checks',
@@ -101,7 +101,7 @@ def setup_channel(channelPath):
                                                      proc_prefix.read()}
         checkerFile = open(pjoin(channelPath,'StabilityCheckDriver.f'),'w')
         checkerFile.write(checkerToWrite)
-        checkerFile.close()                
+        checkerFile.close()
     # Append the compilation of the StabilityCheckDriver to the makefile
         with open (pjoin(channelPath,'makefile'),'a') as makefile:
             makefile.write("\nStabilityCheckDriver:  StabilityCheckDriver.o $(PROCESS)\n\t$(FC) $(FFLAGS) -o StabilityCheckDriver StabilityCheckDriver.o $(PROCESS) $(LINKLIBS) $(STDLIB)")
@@ -111,11 +111,11 @@ def setup_channel(channelPath):
     except:
         logging.error("Could not compile %s/%s"%(channelPath,StabilityCheckDriver))
         raise
-    
+
     logging.info('  ... Done.')
-    
-    return subprocess.Popen([os.path.join(channelPath,'StabilityCheckDriver')], 
-          stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
+
+    return subprocess.Popen([os.path.join(channelPath,'StabilityCheckDriver')],
+          stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                                                    cwd=channelPath)
 
 def kill_processes(encountered_channels):
@@ -149,14 +149,14 @@ except:
 
 i=0
 while os.path.exists(outPath):
-    i=i+1    
+    i=i+1
     if outSpecified and i==1:
         logging.warning("The chosen filename %s for the output already exists."%os.path.basename(outPath))
     outPath=pjoin(os.path.dirname(os.path.realpath(eventFile)),
                   '%s_rwgt_%i.%s'%(evtFileName,i,evtFileExt))
 
 try:
-    evtBanner = banner.Banner(eventFile)    
+    evtBanner = banner.Banner(eventFile)
     evtFile = lhe_parser.EventFile(eventFile)
 except:
     logging.error("Could not read event file %s."%eventFile)
@@ -199,7 +199,7 @@ max_wgt = 0.0
 n_percent_monitor=1
 for event in evtFile:
     i_evt = i_evt+1
-    t_evt_start = time.time()    
+    t_evt_start = time.time()
     # The channel Folder
     chanFolder=""
     # The channel name of the particular event
@@ -237,7 +237,7 @@ for event in evtFile:
                       %len(match_channels)+\
                       "for %s (related to %s found in the event file) in \n => %s"\
                       %(chanName,EvtChannelName,str(pjoin(proc_path, 'SubProcesses'))))
-                    kill_processes(encountered_channels)                    
+                    kill_processes(encountered_channels)
                     exit()
                 elif len(match_channels)==1:
                     chanFolder=match_channels[0]
@@ -249,7 +249,7 @@ for event in evtFile:
             if chanFolder=="":
                 logging.error("No matching channel for %s in %s."\
                 %(EvtChannelName,str(pjoin(proc_path, 'SubProcesses'))))
-                kill_processes(encountered_channels)                
+                kill_processes(encountered_channels)
                 exit()
             else:
                 try:
@@ -258,11 +258,11 @@ for event in evtFile:
                             encountered_channels[RelatedChannelName]
                 except:
                     ChannelNameToSetup=RelatedChannelName
- 
+
         elif len(match_channels)>1:
             logging.error("There are %i (more than one!) channels matching for %s in \n => %s."\
                 %(len(match_channels),channelName,str(pjoin(proc_path, 'SubProcesses'))))
-            kill_processes(encountered_channels)            
+            kill_processes(encountered_channels)
             exit()
         else:
             chanFolder=match_channels[0]
@@ -288,7 +288,7 @@ for event in evtFile:
                 logging.error("Could not setup virtual runner %s"%virtFolderPath)
                 kill_processes(encountered_channels)
                 exit()
-    
+
             # Save the runners just created for ChannelNameToSetup and possibly related to
             # EvtChannelName as well.
             encountered_channels[ChannelNameToSetup]=(runner,virtFolderPath)
@@ -302,7 +302,7 @@ for event in evtFile:
 
     momenta=[[p.E,p.px,p.py,p.pz] for p in event if p.status==-1]+\
             [[p.E,p.px,p.py,p.pz] for p in event if p.status==1]
-   
+
     trial  = 0
     max_trial = 50
     worked = False
@@ -330,11 +330,11 @@ for event in evtFile:
                 pass
             time.sleep(0.5)
             virtPath=encountered_channels[EvtChannelName][1]
-            runner = subprocess.Popen([pjoin(virtPath,'StabilityCheckDriver')], 
-                stdin=subprocess.PIPE, stdout=subprocess.PIPE, 
+            runner = subprocess.Popen([pjoin(virtPath,'StabilityCheckDriver')],
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE, cwd=virtPath)
             encountered_channels[EvtChannelName]=(runner,virtPath)
-    
+
     if not worked:
         logging.error('The python fortran cross-talk failed %i times consecutively. Aborting run'%max_trial)
         kill_processes(encountered_channels)

@@ -55,7 +55,7 @@ class ParticleData:
         self.anti = antiName if antiName else None
         self.n = tuple([(self.id/pow(10, i)) % 10 for i in range(10)])
         if self.mMax == 0: self.mMax = float(&quot;inf&quot;)
-        
+
     #----------------------------------------------------------------------
     def isQuark(self): return 0 &lt; abs(self.id) &lt; 10
     def isDiquark(self): return 1000 &lt; abs(self.id) &lt; 10000
@@ -73,7 +73,7 @@ class ParticleData:
             self.n[0] == 0 or self.n[1] == 0 or self.n[2] == 0 or
             self.n[3] != 0)
     def isNucleus(self): return abs(self.id) &gt; 1000000000
-        
+
     #----------------------------------------------------------------------
     def __str__(self):
         &quot;&quot;&quot;
@@ -84,7 +84,7 @@ class ParticleData:
             &quot;tau0&quot;, self.tau0, &quot;spinType&quot;, self.spinType, &quot;chargeType&quot;,
             self.chargeType, &quot;colType&quot;, self.colType, &quot;mWidth&quot;, self.mWidth,
             &quot;mMin&quot;, self.mMin, &quot;mMax&quot;, self.mMax)
-    
+
 #==========================================================================
 
 class ParticleDatabase(dict):
@@ -111,7 +111,7 @@ class ParticleDatabase(dict):
                 xmlfile = os.path.dirname(os.path.abspath(__file__))
                 xmlfile += &quot;/../share/Pythia8&quot;
             xmlfile += &quot;/xmldoc/ParticleData.xml&quot;
-        
+
         # Instantiate the base class and open the XML file.
         dict.__init__(self)
         xml = open(xmlfile)
@@ -153,7 +153,7 @@ class ParticleDatabase(dict):
 
 from sys import argv
 if __name__== &quot;__main__&quot;:
-    
+
     # Parse particle request.
     if len(argv) &lt; 2:
         print(&quot;Usage:\n  python main294.py &lt;particle id/name&gt;&quot;)

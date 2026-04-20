@@ -99,7 +99,7 @@
       endif
       avh_oni_c0m4_i = vv
       end
-        
+
 
       subroutine avh_oni_c0m3(rslt ,p2,p3,m3 ,zmu ,smax)
 *  ********************************************************************
@@ -110,7 +110,7 @@
 *  *
 *  * with  p2=k2^2, p3=(k1+k2)^2.
 *  * mm should NOT be identically 0d0,
-*  * and p2 NOR p3 should be identical to mm. 
+*  * and p2 NOR p3 should be identical to mm.
 *  ********************************************************************
       implicit none
       double complex rslt(0:2) ,p2,p3,m3,zmu
@@ -208,7 +208,7 @@
       det =  dcmplx(1d0,-dreal(bb))
 * Deformed contour
       zz = dcmplx(xx,yy)
-* Integrand 
+* Integrand
       vv = (bb*zz+cc)*(one+zz)
       if (order.eq.0) then
         vv = dcmplx(ww)*det/vv
@@ -228,7 +228,7 @@
 *  *
 *  * with  k1^2 = 0 , k2^2 = m3  and  (k1+k2)^2 = p3.
 *  * mm should NOT be identically 0d0,
-*  * and pp should NOT be identical to mm. 
+*  * and pp should NOT be identical to mm.
 *  ********************************************************************
       implicit none
       double complex rslt(0:2) ,p3,m3,zmu
@@ -282,7 +282,7 @@
       det =  dcmplx(1d0,-dreal(aa))
 * Deformed contour
       zz = dcmplx(xx,yy)
-* Integrand 
+* Integrand
       if (order.eq.0) then
         vv = (bb-aa)/( bb*(one+zz)*(aa*zz+bb) )
         vv = dcmplx(ww)*det*vv
@@ -432,7 +432,7 @@ c      write(6,*) 'MESSAGE from avh_oni_c0m1: you are calling me'
 *  *
 *  *   mass: 123    mass: 123    mass: 123
 *  * icase=1 001  icase=3 011  icase=0 000 icase->0
-*  * icase=2 010  icase=6 110  icase=7 111 icase->3 
+*  * icase=2 010  icase=6 110  icase=7 111 icase->3
 *  * icase=4 100  icase=5 101
 *  *   icase->1     icase->2
 *  ********************************************************************

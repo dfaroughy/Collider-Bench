@@ -1,5 +1,5 @@
 c Compile with:
-c  gfortran -ffixed-line-length-132 -o readfort90n readfort90n.for 
+c  gfortran -ffixed-line-length-132 -o readfort90n readfort90n.for
 c                                       mcatnlo_hbook_gfortran.f
       implicit real*8(a-h,o-z)
       include 'nexternal.inc'
@@ -324,9 +324,9 @@ c
       data cc/' sdk',' prb'/
       data dd/' sc0',' sc1'/
       data ee/' PDF'/
-c 
+c
       pi=acos(-1.d0)
-      call inihist 
+      call inihist
 c
       k=0
       call mbook(k+ 1,'pt'//' #ev',2.e0,0.e0,200.e0)
@@ -518,7 +518,7 @@ c
       call multitop(k+ 2,99,2,2,'log10[energy]',' ','LOG')
       call multitop(k+ 3,99,2,2,'log10[theta1]',' ','LOG')
       call multitop(k+ 4,99,2,2,'log10[theta2]',' ','LOG')
-      enddo                
+      enddo
 c
       do j=1,2
       k=208+(j-1)*8+(i-1)*16
@@ -534,7 +534,7 @@ c
       call multitop(k+ 2,99,2,2,'log10[energy]',' ','LOG')
       call multitop(k+ 3,99,2,2,'log10[theta1]',' ','LOG')
       call multitop(k+ 4,99,2,2,'log10[theta2]',' ','LOG')
-      enddo                
+      enddo
 c
       k=500
       call multitop(k+ 1,99,2,2,'mu',' ','LOG')
@@ -573,7 +573,7 @@ c
       call multitop(k+ 2,99,2,2,'log10[energy]',' ','LOG')
       call multitop(k+ 3,99,2,2,'log10[theta1]',' ','LOG')
       call multitop(k+ 4,99,2,2,'log10[theta2]',' ','LOG')
-      enddo                
+      enddo
 c
       do j=1,1
       k=708+(j-1)*8+(i-1)*16

@@ -23,7 +23,7 @@ C           ID = particle identification number
       elseif(mconv.LT.1 .OR. mconv.GT.2)then
         dpmtran=0
         write(lnhout,*) ' DPMTRAN 2: unallowed conversion option'
-C...mesons 
+C...mesons
       elseif(i1.ne.0 .and. i2.ne.0 .and. i3.eq.0)then
         if(mconv.eq.1)then
           if(ida.eq.30323) dpmtran=isign(100323,id)

@@ -1,5 +1,5 @@
 #include <iostream>
-#include <iomanip> 
+#include <iomanip>
 
 #include "CPPProcess.h"
 #include "rambo.h"
@@ -16,7 +16,7 @@ int main(int argc, char** argv){
   double weight;
 
   // Get phase space point
-  vector<double*> p = get_momenta(process.ninitial, energy, 
+  vector<double*> p = get_momenta(process.ninitial, energy,
 				 process.getMasses(), weight);
 
   // Set momenta for this event
@@ -29,7 +29,7 @@ int main(int argc, char** argv){
 
   cout << "Momenta:" << endl;
   for(int i=0;i < process.nexternal; i++)
-    cout << setw(4) << i+1 
+    cout << setw(4) << i+1
 	 << setiosflags(ios::scientific) << setw(14) << p[i][0]
 	 << setiosflags(ios::scientific) << setw(14) << p[i][1]
 	 << setiosflags(ios::scientific) << setw(14) << p[i][2]
@@ -38,7 +38,7 @@ int main(int argc, char** argv){
 
   // Display matrix elements
   for(int i=0; i<process.nprocesses;i++)
-    cout << " Matrix element = " 
+    cout << " Matrix element = "
 //	 << setiosflags(ios::fixed) << setprecision(17)
 	 << matrix_elements[i]
 	 << " GeV^" << -(2*process.nexternal-8) << endl;

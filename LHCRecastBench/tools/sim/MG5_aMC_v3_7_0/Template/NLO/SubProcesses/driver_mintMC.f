@@ -61,7 +61,7 @@ c Vegas stuff
       common /c_unwgt/evtsgn,unwgt
       double precision ran2,x(ndimmax)
       external ran2
-      
+
       integer ifile,ievents
       double precision inter,absint,uncer
       common /to_write_header_init/inter,absint,uncer,ifile,ievents
@@ -71,7 +71,7 @@ c Vegas stuff
       common/SHevents/Hevents
       character*10 dum
       integer iFKS_picked
-c statistics for MadLoop      
+c statistics for MadLoop
       integer ntot,nsun,nsps,nups,neps,n100,nddp,nqdp,nini,n10,n1(0:9)
       common/ups_stats/ntot,nsun,nsps,nups,neps,n100,nddp,nqdp,nini,n10,n1
 
@@ -91,7 +91,7 @@ c general MadFKS parameters
       common/counter_subt_diverge/n_MC_subt_diverge
 C-----
 C  BEGIN CODE
-C-----  
+C-----
 c Write the process PID in the log.txt files (i.e., to the screen)
       write (*,*) getpid()
 
@@ -119,7 +119,7 @@ c
       do i=0,6
          ncase(i)=0
       enddo
-      
+
       ntot=0
       nsun=0
       nsps=0
@@ -140,8 +140,8 @@ c
       call printout              !Prints out a summary of paramaters
       call run_printout          !Prints out a summary of the run settings
       call fill_configurations_common
-      call check_amp_split 
-c     
+      call check_amp_split
+c
 c     Get user input
 c
       write(*,*) "getting user params"
@@ -218,7 +218,7 @@ c*************************************************************
          call deallocate_weight_lines
          open(unit=58,file='results.dat',status='unknown')
          write(58,*) ans(1,1)+ans(5,1),unc(2,1),0d0,0,0,0,0,0d0,0d0
-     $        ,ans(2,1) 
+     $        ,ans(2,1)
          close(58)
 c*************************************************************
 c     event generation
@@ -378,7 +378,7 @@ c Randomly pick the contribution that will be written in the event file
       write(*,*) 'Time spent in MCsubtraction : ',t_MC_subt
       write(*,*) 'Time spent in Counter_terms : ',tCount
       write(*,*) 'Time spent in Integrated_CT : ',tIS-tOLP
-      write(*,*) 'Time spent in Virtuals : ',tOLP      
+      write(*,*) 'Time spent in Virtuals : ',tOLP
       write(*,*) 'Time spent in FxFx_cluster : ',tFxFx
       write(*,*) 'Time spent in Nbody_prefactor : ',tf_nb
       write(*,*) 'Time spent in N1body_prefactor : ',tf_all
@@ -502,7 +502,7 @@ c alsf and besf are the parameters that control gfunsoft
 c alazi and beazi are the parameters that control gfunazi
       double precision alazi,beazi
       common/cgfunazi/alazi,beazi
-      
+
       logical SHsep
       logical Hevents
       common/SHevents/Hevents
@@ -525,7 +525,7 @@ c-----
       write(*,*)'Enter alpha, beta for G_soft'
       write(*,*)'  Enter alpha<0 to set G_soft=1 (no ME soft)'
       read(*,*)alsf,besf
-      write (*,*) 'for G_soft: alpha=',alsf,', beta=',besf 
+      write (*,*) 'for G_soft: alpha=',alsf,', beta=',besf
 
       write(*,*)'Enter alpha, beta for G_azi'
       write(*,*)'  Enter alpha>0 to set G_azi=0 (no azi corr)'
@@ -546,7 +546,7 @@ c-----
          SHsep=.false.
       endif
 
-c These should be ignored (but kept for 'historical reasons')      
+c These should be ignored (but kept for 'historical reasons')
       use_cut=2
 
 
@@ -803,8 +803,8 @@ c the nFKSprocess is the same.
          call include_shape_in_shower_scale(p,nFKS_picked_nbody
      $        ,ifold_counter)
          call set_colour_connections(nFKS_picked_nbody,ifold_counter)
-            
-         
+
+
  11      continue
 c The n+1-body contributions (including counter terms)
          if (abrv.eq.'born'.or.abrv(1:2).eq.'vi') goto 12
@@ -830,7 +830,7 @@ c counter-event momenta do not exist).
             if (p_born(0,1).lt.0d0) cycle
 c Compute the n1-body prefactors
             call compute_prefactors_n1body(vegas_wgt,jac)
-c Set the shower scales            
+c Set the shower scales
             if (ickkw.eq.3) then
                call set_FxFx_scale(0,p) ! reset the FxFx scales
             endif
@@ -845,7 +845,7 @@ c Set the shower scales
                if (p(0,1).gt.0d0) then
                   call set_FxFx_scale(3,p)
                endif
-            endif              
+            endif
 c check if event or counter-event passes cuts
             call set_cms_stuff(izero)
             if (ickkw.eq.3) call set_FxFx_scale(-2,p1_cnt(0,1,0))
@@ -1228,7 +1228,7 @@ c
          firsttime=.false.
          do iFKS=1,fks_configs
             nFKSprocessBorn(iFKS)=0
-            if ( need_color_links_D(iFKS) .or. 
+            if ( need_color_links_D(iFKS) .or.
      &           need_charge_links_D(iFKS) )then
                nFKSprocessBorn(iFKS)=iFKS
             endif
@@ -1319,4 +1319,3 @@ c     if there are no soft singularities at all, just do something trivial
       endif
       return
       end
-

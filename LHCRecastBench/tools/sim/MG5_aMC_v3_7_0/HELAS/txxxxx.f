@@ -11,7 +11,7 @@ c       integer nst  = -1 or 1 : +1 for final, -1 for initial
 c
 c output:
 c       complex tc(18)         : tensor wavefunction    epsilon^mu^nu(t)
-c     
+c
       implicit none
       double precision p(0:3), tmass
       integer nhel, nst
@@ -38,7 +38,7 @@ c
       ft(5,1) = dcmplx(p(0),p(3))*nst
       ft(6,1) = dcmplx(p(1),p(2))*nst
 
-      if ( nhel.ge.0 ) then 
+      if ( nhel.ge.0 ) then
 c construct eps+
          if ( pp.eq.rZero ) then
             ep(1) = dcmplx( rZero )
@@ -59,7 +59,7 @@ c construct eps+
          endif
       end if
 
-      if ( nhel.le.0 ) then 
+      if ( nhel.le.0 ) then
 c construct eps-
          if ( pp.eq.rZero ) then
             em(1) = dcmplx( rZero )
@@ -80,7 +80,7 @@ c construct eps-
          endif
       end if
 
-      if ( abs(nhel).le.1 ) then  
+      if ( abs(nhel).le.1 ) then
 c construct eps0
          if ( pp.eq.rZero ) then
             e0(1) = dcmplx( rZero )

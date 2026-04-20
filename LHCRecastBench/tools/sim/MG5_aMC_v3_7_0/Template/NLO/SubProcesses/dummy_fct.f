@@ -61,7 +61,7 @@ c     allow to define your own dynamical scale, need to set dynamical_scale_choi
 c This include file contains common blocks filled with the cuts defined
 c     in the run_card.dat (including custom set entry)
       include 'run.inc'
-      
+
       character*80 temp_scale_id
       common/ctemp_scale_id/temp_scale_id
 
@@ -72,7 +72,7 @@ c     default behavior: fixed scale (for retro compatibility)
       end
 
 
-      
+
       subroutine bias_weight_function(p,ipdg,bias_wgt)
 c This is a user-defined function to which to bias the event generation.
 c A non-flat distribution will generate events with a certain weight
@@ -89,10 +89,10 @@ c identical for all events, the statistical uncertainty on this total
 c cross section can be much larger than without including the bias.
 c
 c The 'bias_wgt' should be a IR-safe function of the momenta.
-c      
+c
 c For this to be used, the 'event_norm' option in the run_card should be
 c set to
-c      'bias' = event_norm      
+c      'bias' = event_norm
 c
       implicit none
       include 'nexternal.inc'
@@ -108,7 +108,7 @@ c         if (ipdg(i).eq.6) then
 c            bias_wgt=sqrt(p(1,i)**2+p(2,i)**2)**3
 c         endif
 c      enddo
-c Or to use H_T^2 one does     
+c Or to use H_T^2 one does
 c      H_T=0d0
 c      do i=3,nexternal
 c         H_T=H_T+sqrt(max(0d0,(p(0,i)+p(3,i))*(p(0,i)-p(3,i))))
@@ -116,4 +116,3 @@ c      enddo
 c      bias_wgt=H_T**2
       return
       end
-

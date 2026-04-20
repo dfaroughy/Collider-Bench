@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Unit test library for the various properties of objects in 
+"""Unit test library for the various properties of objects in
    loop_diagram_generaiton"""
 
 from __future__ import absolute_import
@@ -57,7 +57,7 @@ _color_one = color.ColorString()
 
 def loadLoopModel():
     """Setup the NLO model"""
-    
+
     mypartlist = base_objects.ParticleList()
     myinterlist = base_objects.InteractionList()
     myloopmodel = loop_base_objects.LoopModel()
@@ -78,7 +78,7 @@ def loadLoopModel():
                   'is_part':True,
                   'self_antipart':True,
                   'counterterm':{('QCD',((),)):{-1:'GWfct'}}}))
-    
+
     # A quark U and its antiparticle
     mypartlist.append(base_objects.Particle({'name':'u',
                   'antiname':'u~',
@@ -276,7 +276,7 @@ def loadLoopModel():
                   'loop_particles':[[]],
                   'perturbation_type':'QCD',
                   'type':'R2'}))
-        
+
     myinterlist.append(base_objects.Interaction({
                   'id': 11,
                   'particles': base_objects.ParticleList(\
@@ -593,7 +593,7 @@ def loadLoopModel():
                   'couplings':{(0, 0):'G'},
                   'orders':{'QED':1,'QCD':3},
                   'loop_particles':[[]],
-                  'type':'R2'})) 
+                  'type':'R2'}))
 
     # Finally the UV interactions Counter-Terms
 
@@ -637,7 +637,7 @@ def loadLoopModel():
                   'loop_particles':[[]],
                   'perturbation_type':'QCD',
                   'type':'UVtree1eps'}))
-    
+
     # this is the CT for the renormalization of the QED corrections to alpha_QCD
     myinterlist.append(base_objects.Interaction({
                   'id': 36,
@@ -736,7 +736,7 @@ def loadLoopModel():
                   'loop_particles':[[]],
                   'perturbation_type':'QED',
                   'type':'UVtree1eps'}))
-    
+
     # alpha_QED to electron CT
 
     myinterlist.append(base_objects.Interaction({
@@ -752,7 +752,7 @@ def loadLoopModel():
                   'loop_particles':[[]],
                   'perturbation_type':'QED',
                   'type':'UVtree1eps'}))
-      
+
     # The mass renormalization of the up and down quark granted
     # a mass for the occasion
 
@@ -815,12 +815,12 @@ def loadLoopModel():
 
 
     myloopmodel.set('particles', mypartlist)
-    myloopmodel.set('couplings', ['QCD','QED'])        
+    myloopmodel.set('couplings', ['QCD','QED'])
     myloopmodel.set('interactions', myinterlist)
     myloopmodel.set('perturbation_couplings', ['QCD','QED'])
     myloopmodel.set('order_hierarchy', {'QCD':1,'QED':2})
 
-    return myloopmodel    
+    return myloopmodel
 
 
 #===============================================================================
@@ -833,7 +833,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
     mypartlist = base_objects.ParticleList()
     myinterlist = base_objects.InteractionList()
     myloopmodel = loop_base_objects.LoopModel()
-    
+
     ref_dict_to0 = {}
     ref_dict_to1 = {}
 
@@ -841,17 +841,17 @@ class LoopDiagramGenerationTest(unittest.TestCase):
 
     def setUp(self):
         """Load different objects for the tests."""
-        
+
         #self.myloopmodel = models.import_full_model(os.path.join(\
         #    _model_file_path,'loop_sm'))
         #self.myloopmodel.actualize_dictionaries()
         self.myloopmodel = loadLoopModel()
-        
+
         self.mypartlist = self.myloopmodel['particles']
         self.myinterlist = self.myloopmodel['interactions']
         self.ref_dict_to0 = self.myinterlist.generate_ref_dict(['QCD','QED'])[0]
         self.ref_dict_to1 = self.myinterlist.generate_ref_dict(['QCD','QED'])[1]
-        
+
     def test_NLOAmplitude(self):
         """test different features of the NLOAmplitude class"""
         ampNLOlist=[]
@@ -871,13 +871,13 @@ class LoopDiagramGenerationTest(unittest.TestCase):
 
         ampdefaultlist.append(diagram_generation.Amplitude())
         ampdefaultlist.append(diagram_generation.Amplitude(dummyproc))
-        ampdefaultlist.append(diagram_generation.Amplitude({'process':dummyproc}))        
+        ampdefaultlist.append(diagram_generation.Amplitude({'process':dummyproc}))
         ampdefaultlist.append(diagram_generation.DecayChainAmplitude(dummyproc,False))
 
         dummyproc.set("perturbation_couplings",['QCD','QED'])
-        ampNLOlist.append(loop_diagram_generation.LoopAmplitude({'process':dummyproc}))                
-        ampNLOlist.append(loop_diagram_generation.LoopAmplitude())        
-        ampNLOlist.append(loop_diagram_generation.LoopAmplitude(dummyproc))        
+        ampNLOlist.append(loop_diagram_generation.LoopAmplitude({'process':dummyproc}))
+        ampNLOlist.append(loop_diagram_generation.LoopAmplitude())
+        ampNLOlist.append(loop_diagram_generation.LoopAmplitude(dummyproc))
 
         # Test the __new__ constructor of NLOAmplitude
         for ampdefault in ampdefaultlist:
@@ -898,23 +898,23 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                                              loop_base_objects.LoopDiagram({'type':2}),\
                                              loop_base_objects.LoopDiagram({'type':3}),\
                                              loop_base_objects.LoopDiagram({'type':4}),\
-                                             loop_base_objects.LoopUVCTDiagram()])        
+                                             loop_base_objects.LoopUVCTDiagram()])
         ampNLO.set('diagrams',mydiaglist)
         self.assertEqual(len(ampNLO.get('diagrams')),11)
         self.assertEqual(len(ampNLO.get('born_diagrams')),6)
-        self.assertEqual(len(ampNLO.get('loop_diagrams')),4)  
-        self.assertEqual(len(ampNLO.get('loop_UVCT_diagrams')),1)              
+        self.assertEqual(len(ampNLO.get('loop_diagrams')),4)
+        self.assertEqual(len(ampNLO.get('loop_UVCT_diagrams')),1)
         mydiaglist=base_objects.DiagramList([loop_base_objects.LoopDiagram({'type':0}),\
                                              loop_base_objects.LoopDiagram({'type':0}),\
                                              loop_base_objects.LoopDiagram({'type':0})])
         ampNLO.set('born_diagrams',mydiaglist)
-        self.assertEqual(len(ampNLO.get('born_diagrams')),3)        
+        self.assertEqual(len(ampNLO.get('born_diagrams')),3)
 
     def test_diagram_generation_epem_ddx(self):
         """Test the number of loop diagrams generated for e+e->dd~ (s channel)
            with different choices for the perturbation couplings and squared orders.
         """
-        
+
         myleglist = base_objects.LegList()
         myleglist.append(base_objects.Leg({'id':-11,
                                          'state':False}))
@@ -936,12 +936,12 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
             self.assertEqual(len(myloopamplitude.get('loop_diagrams')),nDiagGoal)
-            
+
             #self.assertEqual(len([1 for diag in \
             #  myloopamplitude.get('loop_diagrams') if not isinstance(diag,
             #  loop_base_objects.LoopWavefunctionCTDiagram)]),nDiagGoal)
@@ -963,7 +963,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
 
             ### This is to display some informations
             #mydiag1=myloopamplitude.get('loop_diagrams')[0]
-            #mydiag2=myloopamplitude.get('loop_diagrams')[5]      
+            #mydiag2=myloopamplitude.get('loop_diagrams')[5]
             #print "I got tag for diag 1=",mydiag1['canonical_tag']
             #print "I got tag for diag 2=",mydiag2['canonical_tag']
             #print "I got vertices for diag 1=",mydiag1['vertices']
@@ -972,7 +972,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
             #mydiag1.tag(trial,5,6,self.myloopmodel)
             #print "I got tag=",mydiag['tag']
             #print "I got struct[0]=\n",myloopamplitude['structure_repository'][0].nice_string()
-            #print "I got struct[2]=\n",myloopamplitude['structure_repository'][2].nice_string()   
+            #print "I got struct[2]=\n",myloopamplitude['structure_repository'][2].nice_string()
             #print "I got struct[3]=\n",myloopamplitude['structure_repository'][3].nice_string()
 
     def test_diagram_generation_uux_ga(self):
@@ -991,21 +991,21 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                                          'state':True}))
 
         ordersChoices=[
-                       ({},['QCD','QED'],{},19,10,4,18), 
+                       ({},['QCD','QED'],{},19,10,4,18),
                        ({},['QCD'],{},11,4,2,10)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nDiagGoal,nR2Goal,nUVmassGoal,nUVCTGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -1016,7 +1016,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -1033,8 +1033,8 @@ class LoopDiagramGenerationTest(unittest.TestCase):
     def test_diagram_generation_gg_ng(self):
         """Test the number of loop diagrams generated for gg>ng. n being in [1,2,3]
         """
-        
-        # For quick test 
+
+        # For quick test
         nGluons = [(1,8,0,1,4),(2,81,0,10,23)]
         # For a longer one
         # (still 4 need to be re-tested)
@@ -1046,7 +1046,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                                               'loop_line':False}) \
                                               for num in range(1, (n+3))])
             myleglist[0].set('state',False)
-            myleglist[1].set('state',False)        
+            myleglist[1].set('state',False)
 
             myproc=base_objects.Process({'legs':myleglist,
                                        'model':self.myloopmodel,
@@ -1067,8 +1067,8 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                 sumUVCT+=len(loop_UVCT_diag.get('UVCT_couplings'))
             self.assertEqual(len(myloopamplitude.get('loop_diagrams')), nDiagGoal)
             self.assertEqual(sumR2, nR2Goal)
-            self.assertEqual(sumUV, nUVmassGoal)   
-            self.assertEqual(sumUVCT, nUVCTGoal)                        
+            self.assertEqual(sumUV, nUVmassGoal)
+            self.assertEqual(sumUVCT, nUVCTGoal)
 
     def test_diagram_generation_uux_ddx(self):
         """Test the number of loop diagrams generated for uu~>dd~ for different choices
@@ -1095,7 +1095,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD','QED'],{'QCD':-1},7,3,2,4),\
                        ({},['QCD','QED'],{'QED':-2},17,7,6,12),\
                        ({},['QCD','QED'],{'QED':-3},24,10,8,16)]
-        
+
         for (bornOrders,pert,sqOrders,nDiagGoal,nR2Goal,nUVGoal,nUVWfctGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
@@ -1110,7 +1110,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
                 sumR2+=len(diag.get_CT(self.myloopmodel,'R2'))
                 sumUV+=len(diag.get_CT(self.myloopmodel,'UV'))
-            
+
             sumUVwfct=0
             for loop_UVCT_diag in myloopamplitude.get('loop_UVCT_diagrams'):
                 for coupl in loop_UVCT_diag.get('UVCT_couplings'):
@@ -1118,11 +1118,11 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                         sumUV+=1
                     else:
                         sumUVwfct+=1
-                    
+
             self.assertEqual(len(myloopamplitude.get('loop_diagrams')), nDiagGoal)
             self.assertEqual(sumR2, nR2Goal)
-            self.assertEqual(sumUV, nUVGoal)  
-            self.assertEqual(sumUVwfct, nUVWfctGoal)          
+            self.assertEqual(sumUV, nUVGoal)
+            self.assertEqual(sumUVwfct, nUVWfctGoal)
 
     def test_diagram_generation_ddx_ddx(self):
         """Test the number of loop diagrams generated for dd~>dd~ for different choices
@@ -1147,14 +1147,14 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                        ({'QCD':0},['QED'],{},14,6,0,12),\
                        ({},['QCD','QED'],{'QED':-1},18,6,0,12),\
                        ({},['QCD','QED'],{'QCD':-1},14,6,0,12)]
-        
+
         for (bornOrders,pert,sqOrders,nDiagGoal,nR2Goal,nUVmassGoal,nUVCTGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
@@ -1174,19 +1174,19 @@ class LoopDiagramGenerationTest(unittest.TestCase):
             for loop_UVCT_diag in myloopamplitude.get('loop_UVCT_diagrams'):
                 sumUVCT+=len(loop_UVCT_diag.get('UVCT_couplings'))
             self.assertEqual(sumUVCT,nUVCTGoal)
-            
+
     def test_CT_vertices_generation_gg_gg(self):
         """ test that the Counter Term vertices are correctly
             generated by adding some new CT interactions to the model and
-            comparing how many CT vertices are generated on the 
+            comparing how many CT vertices are generated on the
             process gg_gg for different R2 specifications. """
-            
+
         newLoopModel=copy.deepcopy(self.myloopmodel)
         newInteractionList=base_objects.InteractionList()
         for inter in newLoopModel['interactions']:
             if inter['type']=='base':
                 newInteractionList.append(inter)
-        
+
         myleglist = base_objects.LegList()
         myleglist.append(base_objects.Leg({'id':21,
                                          'state':False}))
@@ -1196,7 +1196,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                                          'state':True}))
         myleglist.append(base_objects.Leg({'id':21,
                                          'state':True}))
-                
+
         newInteractionList.append(base_objects.Interaction({
                       'id': 666,
                       # a dd~d~ R2
@@ -1209,7 +1209,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                       # We don't specify the loop content here
                       'loop_particles':[[]],
                       'type':'R2'}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                        'model':newLoopModel,
                                        'orders':{},
@@ -1219,24 +1219,24 @@ class LoopDiagramGenerationTest(unittest.TestCase):
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myproc)
         myloopamplitude.generate_diagrams()
-        
+
         CTChoice=[([[]],{'QCD':4},1),
                   ([[21,]],{'QCD':4},1),
                   ([[1,]],{'QCD':4},1),
                   ([[2,]],{'QCD':4},1),
-                  ([[2,],[21,],[1,]],{'QCD':4},3), 
-                  ([[2,],[21,2],[1,],[22,21,1]],{'QCD':4},2),                 
+                  ([[2,],[21,],[1,]],{'QCD':4},3),
+                  ([[2,],[21,2],[1,],[22,21,1]],{'QCD':4},2),
                   ([[21,]],{'QCD':4,'QED':1},0),
                   ([[1,2]],{'QCD':4},0)]
-        
+
         for (parts,orders,nCTGoal) in CTChoice:
             newInteractionList[-1]['loop_particles']=parts
-            newInteractionList[-1]['orders']=orders            
+            newInteractionList[-1]['orders']=orders
             newLoopModel.set('interactions',newInteractionList)
             myloopamplitude['process']['model']=newLoopModel
             for diag in myloopamplitude.get('loop_diagrams'):
                 diag['CT_vertices']=base_objects.VertexList()
-            myloopamplitude.set_LoopCT_vertices()            
+            myloopamplitude.set_LoopCT_vertices()
             sumR2=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
                 sumR2+=len(diag.get_CT(newLoopModel,'R2'))
@@ -1245,7 +1245,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
     def test_diagram_generation_ddxuux_split_orders(self):
         """ Test the implementation of the various way of specifying the squared
         order constraints at NLO, using the process  d d~ > u u~ as reference. """
-        
+
         myleglist = base_objects.LegList()
         myleglist.append(base_objects.Leg({'id':1,'state':False}))
         myleglist.append(base_objects.Leg({'id':-1,'state':False}))
@@ -1274,7 +1274,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
           ({'QCD':0,'QED':0},['QCD','QED'],{},{},8,4,0,0,
            [],[],[(4,4,12)],[]),
         ]
-        
+
         for (bornOrders,pert,sqOrders,sqOrders_types,nDiagGoal,nR2Goal, nUVmassGoal,
               nUVCTGoal,bo_kept,bo_extra,loop_kept,loop_extra) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
@@ -1283,10 +1283,10 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders,
                                            'sqorders_types':sqOrders_types})
-            
+
 #            print " testing ",(bornOrders,pert,sqOrders,sqOrders_types,nDiagGoal,
 #              nR2Goal, nUVmassGoal,nUVCTGoal,bo_kept,bo_extra,loop_kept,loop_extra)
-            
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
@@ -1305,10 +1305,10 @@ class LoopDiagramGenerationTest(unittest.TestCase):
             for loop_UVCT_diag in myloopamplitude.get('loop_UVCT_diagrams'):
                 sumUVCT+=len(loop_UVCT_diag.get('UVCT_couplings'))
             self.assertEqual(sumUVCT,nUVCTGoal)
-            
-            (born_orders_kept, born_orders_extra, loop_orders_kept, 
+
+            (born_orders_kept, born_orders_extra, loop_orders_kept,
                   loop_orders_extra) = myloopamplitude.print_split_order_infos()
-            
+
             self.assertEqual(born_orders_kept,bo_kept)
             self.assertEqual(born_orders_extra,bo_extra)
             self.assertEqual(loop_orders_kept,loop_kept)
@@ -1317,9 +1317,9 @@ class LoopDiagramGenerationTest(unittest.TestCase):
     def test_CT_vertices_generation_ddx_ddx(self):
         """ test that the Counter Term vertices are correctly
             generated by adding some new CT interactions to the model and
-            comparing how many CT vertices are generated on the 
+            comparing how many CT vertices are generated on the
             process ddx_ddx for different R2 specifications. """
-            
+
         newLoopModel=copy.deepcopy(self.myloopmodel)
         newInteractionList=base_objects.InteractionList()
         for inter in newLoopModel['interactions']:
@@ -1335,7 +1335,7 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                                          'state':True}))
         myleglist.append(base_objects.Leg({'id':-1,
                                          'state':True}))
-                
+
         antid=copy.copy(self.mypartlist[2])
         antid.set('is_part',False)
         newInteractionList.append(base_objects.Interaction({
@@ -1353,17 +1353,17 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                       # We don't specify the loop content here
                       'loop_particles':[[]],
                       'type':'R2'}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                        'model':newLoopModel,
                                        'orders':{},
                                        'perturbation_couplings':['QCD','QED'],
                                        'squared_orders':{'WEIGHTED':99}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myproc)
         myloopamplitude.generate_diagrams()
-        
+
         CTChoice=[([[]],{'QCD':4},1),
                   ([[1,21]],{'QCD':4},1),
                   ([[1,22]],{'QED':4},1),
@@ -1371,20 +1371,20 @@ class LoopDiagramGenerationTest(unittest.TestCase):
                   ([[1,21]],{'QED':4},0),
                   ([[1,22]],{'QCD':4},0),
                   ([[21,]],{'QCD':4},0)]
-        
+
         for (parts,orders,nCTGoal) in CTChoice:
             newInteractionList[-1]['loop_particles']=parts
-            newInteractionList[-1]['orders']=orders            
+            newInteractionList[-1]['orders']=orders
             newLoopModel.set('interactions',newInteractionList)
             myloopamplitude['process']['model']=newLoopModel
             for diag in myloopamplitude.get('loop_diagrams'):
                 diag['CT_vertices']=base_objects.VertexList()
-            myloopamplitude.set_LoopCT_vertices()            
+            myloopamplitude.set_LoopCT_vertices()
             sumR2=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
                 sumR2+=len(diag.get_CT(newLoopModel,'R2'))
             self.assertEqual(sumR2, nCTGoal)
-            
+
 #===============================================================================
 # LoopDiagramFDStruct Test
 #===============================================================================
@@ -1496,7 +1496,7 @@ class LoopDiagramFDStructTest(unittest.TestCase):
 
         l67 = base_objects.Leg({'id':21,'number':6,'loop_line':False})
         l56 = base_objects.Leg({'id':21,'number':5,'loop_line':False})
-        l235 = base_objects.Leg({'id':21,'number':2,'loop_line':False}) 
+        l235 = base_objects.Leg({'id':21,'number':2,'loop_line':False})
         l24 = base_objects.Leg({'id':21,'number':2,'loop_line':False})
         l28 = base_objects.Leg({'id':21,'number':2,'loop_line':True})
         l128 = base_objects.Leg({'id':21,'number':1,'loop_line':True})
@@ -1522,7 +1522,7 @@ class LoopDiagramFDStructTest(unittest.TestCase):
         goal_canonicalStruct=(((2, 3, 4, 5, 6, 7), 1), ((2, 3, 5, 6, 7), 2), ((5, 6, 7), 1), ((6, 7), 1))
         canonicalStruct=myBubbleDiag.construct_FDStructure(5, 0, 2, myStruct)
         self.assertEqual(canonicalStruct, goal_canonicalStruct)
-        
+
         goal_vxList=base_objects.VertexList([vx67,vx56,vx235,vx24])
         myStruct.set('canonical',canonicalStruct)
         myStruct.generate_vertices(self.myproc)
@@ -1546,7 +1546,7 @@ class LoopDiagramFDStructTest(unittest.TestCase):
                                               'loop_line':False}) \
                                               for num in range(1, 7)])
         myleglist.append(base_objects.Leg({'id':1,'number':7,'loop_line':True}))
-        myleglist.append(base_objects.Leg({'id':-1,'number':8,'loop_line':True}))                         
+        myleglist.append(base_objects.Leg({'id':-1,'number':8,'loop_line':True}))
         l1=myleglist[0]
         l2=myleglist[1]
         l3=myleglist[2]
@@ -1561,7 +1561,7 @@ class LoopDiagramFDStructTest(unittest.TestCase):
         # One way of constructing this diagram, with a three-point amplitude
         l17 = base_objects.Leg({'id':1,'number':1,'loop_line':True})
         l12 = base_objects.Leg({'id':1,'number':1,'loop_line':True})
-        l68 = base_objects.Leg({'id':-1,'number':6,'loop_line':True}) 
+        l68 = base_objects.Leg({'id':-1,'number':6,'loop_line':True})
         l56 = base_objects.Leg({'id':-1,'number':5,'loop_line':True})
         l34 = base_objects.Leg({'id':21,'number':3,'loop_line':False})
         l617 = base_objects.Leg({'id':1,'number':1,'loop_line':True})
@@ -1579,7 +1579,7 @@ class LoopDiagramFDStructTest(unittest.TestCase):
 
         myStructRep=loop_base_objects.FDStructureList()
         myStruct=loop_base_objects.FDStructure()
-        
+
         goal_tag=[[1, [0], 3], [1, [1], 3], [1, [2], 3], [1, [3], 3], [1, [4], 3]]
         myPentaDiag1.tag(myStructRep, self.myproc['model'], 7, 8)
         self.assertEqual(myPentaDiag1.get('canonical_tag'), goal_tag)
@@ -1588,8 +1588,8 @@ class LoopDiagramFDStructTest(unittest.TestCase):
         vx12_tag=base_objects.Vertex({'legs':base_objects.LegList([l2, l17, l12]), 'id': 3})
         vx13_tag=base_objects.Vertex({'legs':base_objects.LegList([l34, l12, l17]), 'id': 3})
         vx15_tag=base_objects.Vertex({'legs':base_objects.LegList([l5, l17, l17]), 'id': 3})
-        vx168_tag=base_objects.Vertex({'legs':base_objects.LegList([l6, l17, l617]), 'id': 3})  
-        closing_vx=base_objects.Vertex({'legs':base_objects.LegList([l617, l8]), 'id': -1})              
+        vx168_tag=base_objects.Vertex({'legs':base_objects.LegList([l6, l17, l617]), 'id': 3})
+        closing_vx=base_objects.Vertex({'legs':base_objects.LegList([l617, l8]), 'id': -1})
         goal_vertices=base_objects.VertexList([vx17_tag,vx12_tag,vx13_tag,vx15_tag,vx168_tag,closing_vx])
         self.assertEqual(myPentaDiag1.get('vertices'), goal_vertices)
 
@@ -1599,7 +1599,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
     mypartlist = base_objects.ParticleList()
     myinterlist = base_objects.InteractionList()
     myloopmodel = loop_base_objects.LoopModel()
-    
+
     ref_dict_to0 = {}
     ref_dict_to1 = {}
 
@@ -1608,23 +1608,23 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
     @IOTests.set_global(unitary=False)
     def setUp(self):
         """Load different objects for the tests."""
-        
+
         # Make sure to only load the model once
         if len(self.myloopmodel['particles'])==0:
             self.myloopmodel = models.import_model(os.path.join(\
             _input_file_path,'LoopSMEWTest'))
         self.myloopmodel.actualize_dictionaries()
-        
+
         self.mypartlist = self.myloopmodel['particles']
         self.myinterlist = self.myloopmodel['interactions']
         self.ref_dict_to0 = self.myloopmodel['ref_dict_to0']
         self.ref_dict_to1 = self.myloopmodel['ref_dict_to1']
-        
+
     def test_diagram_generation_aa_ttx_EW(self):
         """Test the number of loop diagrams generated for a a > t t~
            with different choices for the perturbation couplings and squared orders.
         """
-        
+
         myleglist = base_objects.LegList()
         myleglist.append(base_objects.Leg({'id':22,
                                          'state':False}))
@@ -1644,12 +1644,12 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
             self.assertEqual(len(myloopamplitude.get('loop_diagrams')),nDiagGoal)
-            
+
 
             ### This is to plot the diagrams obtained
             #diaglist=[diag for diag in \
@@ -1665,7 +1665,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
     def test_diagram_generation_gg_ttxh_EW(self):
         """Test the number of loop diagrams generated for g g > t t~ h
            with different choices for the perturbation couplings and squared orders.
@@ -1687,19 +1687,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD','QED'],{},625,171,260),
                        ({},['QCD'],{},140,71,188),
                        ({},['QED'],{},485,100,72)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -1710,7 +1710,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -1743,19 +1743,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD','QED'],{},941,256,154),
                        ({},['QCD'],{},20,16,40),
                        ({},['QED'],{},921,240,114)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -1766,7 +1766,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -1799,19 +1799,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD','QED'],{},363,136,108),
                        ({},['QCD'],{},28,18,52),
                        ({},['QED'],{},335,118,56)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -1822,7 +1822,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -1855,19 +1855,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD','QED'],{},978,413,535),
                        ({},['QCD'],{},384,234,431),
                        ({},['QED'],{},594,179,104)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -1878,7 +1878,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -1909,19 +1909,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD','QED'],{},409,77,50),
                        ({},['QCD'],{},7,6,18),
                        ({},['QED'],{},402,71,32)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -1932,7 +1932,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -1943,7 +1943,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             for loop_UVCT_diag in myloopamplitude.get('loop_UVCT_diagrams'):
                 sumUV+=len(loop_UVCT_diag.get('UVCT_couplings'))
             self.assertEqual(sumUV,nUVGoal)
-            
+
     def test_diagram_generation_aa_wpwm_EW(self):
         """Test the number of loop diagrams generated for a a > w+ w-
            with different choices for the perturbation couplings and squared orders.
@@ -1961,19 +1961,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
 
         ordersChoices=[
                        ({},['QED'],{},553,63,34)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -1984,7 +1984,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -1995,7 +1995,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             for loop_UVCT_diag in myloopamplitude.get('loop_UVCT_diagrams'):
                 sumUV+=len(loop_UVCT_diag.get('UVCT_couplings'))
             self.assertEqual(sumUV,nUVGoal)
-            
+
     def test_diagram_generation_uux_epem_EW(self):
         """Test the number of loop diagrams generated for u u~>e+ e-
            with different choices for the perturbation couplings and squared orders.
@@ -2015,19 +2015,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD','QED'],{},79,53,16),
                        ({},['QCD'],{},2,2,0),
                        ({},['QED'],{},77,51,16)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -2038,7 +2038,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -2049,7 +2049,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             for loop_UVCT_diag in myloopamplitude.get('loop_UVCT_diagrams'):
                 sumUV+=len(loop_UVCT_diag.get('UVCT_couplings'))
             self.assertEqual(sumUV,nUVGoal)
-                        
+
     def test_diagram_generation_uux_ga_EW(self):
         """Test the number of loop diagrams generated for uu~>g a
            with different choices for the perturbation couplings and squared orders.
@@ -2069,19 +2069,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
                        ({},['QCD'],{},11,6,14),
                        ({},['QED'],{},27,12,12),
                        ({},['QCD','QED'],{},38,18,26)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -2092,7 +2092,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -2121,19 +2121,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
 
         ordersChoices=[
                        ({},['QED'],{},582,20,20)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -2144,7 +2144,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -2175,19 +2175,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
 
         ordersChoices=[
                        ({},['QED'],{},7841,210,210)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -2198,7 +2198,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):
@@ -2208,8 +2208,8 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             self.assertEqual(sumR2, nR2Goal)
             for loop_UVCT_diag in myloopamplitude.get('loop_UVCT_diagrams'):
                 sumUV+=len(loop_UVCT_diag.get('UVCT_couplings'))
-            self.assertEqual(sumUV,nUVGoal)        
-            
+            self.assertEqual(sumUV,nUVGoal)
+
     def test_diagram_generation_gg_ggg_EW(self):
         """Test the number of loop diagrams generated for g g>g g g
            with different choices for the perturbation couplings and squared orders.
@@ -2229,19 +2229,19 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
 
         ordersChoices=[
                        ({},['QCD'],{},1139,735,575)]
-        
-                
+
+
         for (bornOrders,pert,sqOrders,nLoopGoal,nR2Goal,nUVGoal) in ordersChoices:
             myproc = base_objects.Process({'legs':copy.copy(myleglist),
                                            'model':self.myloopmodel,
                                            'orders':bornOrders,
                                            'perturbation_couplings':pert,
                                            'squared_orders':sqOrders})
-    
+
             myloopamplitude = loop_diagram_generation.LoopAmplitude()
             myloopamplitude.set('process', myproc)
             myloopamplitude.generate_diagrams()
-            
+
             ### This is to plot the diagrams obtained
             #options = draw_lib.DrawOption()
             #filename = os.path.join('/Users/erdissshaw/Works', 'diagramsVall1_' + \
@@ -2252,7 +2252,7 @@ class LoopEWDiagramGenerationTest(unittest.TestCase):
             #                                  amplitude=myloopamplitude,
             #                                  legend=myloopamplitude.get('process').input_string())
             #plot.draw(opt=options)
-            
+
             sumR2=0
             sumUV=0
             for i, diag in enumerate(myloopamplitude.get('loop_diagrams')):

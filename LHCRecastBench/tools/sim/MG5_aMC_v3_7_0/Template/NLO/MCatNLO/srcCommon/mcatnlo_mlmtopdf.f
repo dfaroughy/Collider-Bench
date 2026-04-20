@@ -32,7 +32,7 @@ c incoming particle is not an electron: use PDFLIB
         if(ini.or.imode.ne.mode) then
           ini = .false.
           imode = mode
-c pass from our conventions to PDFLIB conventions for parameter settings. 
+c pass from our conventions to PDFLIB conventions for parameter settings.
 c See subroutine newmode for comments on the conventions adopted
           call newmode(ih,mode)
           parm(1) = 'NPTYPE'
@@ -52,9 +52,9 @@ c in the following lines, deals with particles only (no antiparticles)
 c proton(ih=1) ==> f(1)<-->f(2)
 c neutron(ih=2) ==> no action (f(1)<-->f(2) for PDFLIB convention and
 c    f(1)<-->f(2) for isospin symmetry (u_proton=d_neutron....)
-c pion+(ih=3) ==> f(2)<-->f(-2), since PDFLIB has d=u=q_v+q_sea, 
+c pion+(ih=3) ==> f(2)<-->f(-2), since PDFLIB has d=u=q_v+q_sea,
 c    ubar=dbar=q_sea
-c photon(ih=4) ==> f(-1)<-->f(-2) and f(i)=f(-i)/2, i=1,2 since PDFLIB 
+c photon(ih=4) ==> f(-1)<-->f(-2) and f(i)=f(-i)/2, i=1,2 since PDFLIB
 c    has f(i)=2*f(-i), and f(1)<-->f(2)
 c Notice that in the jet package pions and neutrons are not used. If
 c selected, they are rejected by the routine pdfpar. This routine
@@ -201,7 +201,7 @@ c incoming particle is an electron
       subroutine prntsf
 c     prints details of the structure function sets
 c
-      write(*,100)                             
+      write(*,100)
      #  '  For nucleons, pions and photons, enter the set number'
      # ,'  '
      # ,'              Set # = 1000*NGROUP+NSET'
@@ -210,14 +210,14 @@ c
      # ,'  version you are using (please read the user manual of'
      # ,'  your version of PDFLIB to check the listing)'
      # ,'  '
-      write(*,100)                             
+      write(*,100)
      #  '  PDFLIB is not maintained by CERN any longer, and the last'
      # ,'  release (version 8.04) included up to MRST99 and CTEQ5 sets'
      # ,'  For more recent sets, we use the following labellings'
      # ,'  '
      # ,'Group #   Set #        Set'
      # ,'  '
-      write(*,100)                             
+      write(*,100)
      #  '  3        101      MRST 2001 NNLO average'
      # ,'  3        102      MRST 2001 NNLO fast'
      # ,'  3        103      MRST 2001 NNLO slow'
@@ -231,35 +231,35 @@ c
      # ,'  3        111      MRST 2002 NNLO'
      # ,'  3      112-142    MRST 2002 error sets'
      # ,'  '
-      write(*,100)                             
+      write(*,100)
      #  '  4         55      CTEQ5M1 parametrized version'
      # ,'  4         56      CTEQ6M'
      # ,'  4         57      CTEQ6D'
      # ,'  4         58      CTEQ6L'
      # ,'  4       59-98     CTEQ6 error sets'
      # ,'  '
-      write(*,100)                             
+      write(*,100)
      #  ' 10          1      Alekhin LO   nominal ffn'
      #, ' 10          2      Alekhin LO   nominal vfn'
      #, ' 10          3      Alekhin LO   mc=1.75 ffn'
-     #, ' 10          4      Alekhin LO   mc=1.75 vfn'   
-     #, ' 10          5      Alekhin LO   ss      ffn'   
-     #, ' 10          6      Alekhin LO   ss      vfn'   
+     #, ' 10          4      Alekhin LO   mc=1.75 vfn'
+     #, ' 10          5      Alekhin LO   ss      ffn'
+     #, ' 10          6      Alekhin LO   ss      vfn'
      #, ' 10          7      Alekhin NL   nominal ffn'
      #, ' 10          8      Alekhin NL   nominal vfn'
      #, ' 10          9      Alekhin NL   mc=1.75 ffn'
-     #, ' 10         10      Alekhin NL   mc=1.75 vfn'   
-     #, ' 10         11      Alekhin NL   ss      ffn'   
-     #, ' 10         12      Alekhin NL   ss      vfn'   
+     #, ' 10         10      Alekhin NL   mc=1.75 vfn'
+     #, ' 10         11      Alekhin NL   ss      ffn'
+     #, ' 10         12      Alekhin NL   ss      vfn'
      #, ' 10         13      Alekhin NNL  nominal ffn'
      #, ' 10         14      Alekhin NNL  nominal vfn'
      #, ' 10         15      Alekhin NNL  mc=1.75 ffn'
-     #, ' 10         16      Alekhin NNL  mc=1.75 vfn'   
-     #, ' 10         17      Alekhin NNL  ss      ffn'   
-     #, ' 10         18      Alekhin NNL  ss      vfn'   
-     #, ' 10         19      Alekhin NNL  slow ev ffn'   
-     #, ' 10         20      Alekhin NNL  slow ev vfn'   
-      write(*,100)                             
+     #, ' 10         16      Alekhin NNL  mc=1.75 vfn'
+     #, ' 10         17      Alekhin NNL  ss      ffn'
+     #, ' 10         18      Alekhin NNL  ss      vfn'
+     #, ' 10         19      Alekhin NNL  slow ev ffn'
+     #, ' 10         20      Alekhin NNL  slow ev vfn'
+      write(*,100)
      #  '  For electrons, use'
      # ,'  '
      # ,'Set #        Set'
@@ -277,13 +277,13 @@ c This subroutine converts our conventions for the identification
 c of a set of PDFs into PDFLIB conventions. We use
 c
 c                     JET PACKAGE             PDFLIB
-c 
-c Particle type 
+c
+c Particle type
 c
 c  nucleons           -2,-1,0,1,2                1
 c  pions                  -3,3                   2
 c  photons                  4                    3
-c 
+c
 c Given the particle type, our package uses a single number (MODE)
 c to identify to PDF set, while PDFLIB uses two numbers (NGROUP and NSET).
 c The value of MODE which corresponds to the values (NGROUP,NSET)

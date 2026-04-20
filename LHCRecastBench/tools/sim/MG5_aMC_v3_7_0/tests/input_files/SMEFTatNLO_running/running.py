@@ -3,7 +3,7 @@ from object_library import all_running_elements, Running
 
 
 # ordering: {cQQ1, cQQ8, cQt1, cQt8, ctt1, cQq11, cQq13, cQq81, cQq83, ctu1, ctu8, ctd1, ctd8, ctq1, cQu1, cQd1, ctq8, cQu8, cQd8}
-#              1     2     3     4     5     6      7       8     9     10     11   12    13    14    15    16    17    18     19   
+#              1     2     3     4     5     6      7       8     9     10     11   12    13    14    15    16    17    18     19
 
 
 RGE12 = Running(name        = 'RGE_12',
@@ -188,20 +188,20 @@ RGE79 = Running(name        = 'RGE_79',
                                [P.cQq13, P.cQq83, P.aS]
                            ],
                value       = '(8./3.)/(4.*cmath.pi)')
-   
+
 RGE81 = Running(name        = 'RGE_81',
                run_objects = [
                                [P.cQq81, P.cQQ1, P.aS]
                            ],
                value       = '(2./3.)/(4.*cmath.pi)')
-   
+
 RGE82 = Running(name        = 'RGE_82',
                run_objects = [
                                [P.cQq81, P.cQQ8, P.aS]
                            ],
                value       = '(5./9.)/(4.*cmath.pi)')
 
-   
+
 RGE84 = Running(name        = 'RGE_84',
                run_objects = [
                                [P.cQq81, P.cQt8, P.aS]

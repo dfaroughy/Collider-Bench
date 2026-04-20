@@ -3,7 +3,7 @@ C----Calculate Y from xpi
 C----Assumes, if we have 1 internal mass it is position 4
 C----Assumes, if we have 2 internal masses they are positions 3,4 or 2,4
       implicit none
-      include 'qlconstants.f' 
+      include 'qlconstants.f'
       double precision xpi(13),Y(4,4),Yalt(4,4)
       logical opposite,qlnonzero,qlzero
       integer j,k,massive
@@ -19,7 +19,7 @@ C----Assumes, if we have 2 internal masses they are positions 3,4 or 2,4
       else
       opposite=.false.
       endif
-      
+
       Y(1,1)=xpi(1)
       Y(2,2)=xpi(2)
       Y(3,3)=xpi(3)
@@ -86,7 +86,7 @@ C---exchange (1<-->2)and(3<-->4)
       Yalt(2,3)=Y(1,4)
       Yalt(2,4)=Y(1,3)
       endif
-        
+
 C----symmetrize Y
       do j=1,4
       do k=j+1,4

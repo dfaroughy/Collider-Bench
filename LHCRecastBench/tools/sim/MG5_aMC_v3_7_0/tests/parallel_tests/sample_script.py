@@ -3,11 +3,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -15,7 +15,7 @@
 ################################################################################
 
 """A sample script running a comparison between different ME generators using
-objects and routines defined in me_comparator. To define your own test case, 
+objects and routines defined in me_comparator. To define your own test case,
 simply modify this script. Support for new ME generator is achieved through
 inheritance of the MERunner class.
 """
@@ -37,14 +37,14 @@ mg4_path = os.getcwd()
 
 
 
-if '__main__' == __name__: 
+if '__main__' == __name__:
     # Get full logging info
     logging.config.fileConfig(os.path.join(mg5_path, 'tests', '.mg5_logging.conf'))
     logging.root.setLevel(logging.INFO)
     logging.getLogger('madgraph').setLevel(logging.INFO)
     logging.getLogger('cmdprint').setLevel(logging.INFO)
     logging.getLogger('tutorial').setLevel(logging.ERROR)
-        
+
     logging.basicConfig(level=logging.INFO)
     #my_proc_list=['g g > h g', 'g g > h g g', 'g g > h g g g', 'g g > h g g g g']
     my_proc_list = me_comparator.create_proc_list(['u', 'u~','t','t~','g','z','a', 'h'],
@@ -92,4 +92,3 @@ if '__main__' == __name__:
 
     # Print a list of non zero processes
     #print my_comp.get_non_zero_processes()
-

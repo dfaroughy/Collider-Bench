@@ -15,7 +15,7 @@ c       real    vwidth         : width of output vector v'
 c
 c output:
 c       complex jvss(6)        : vector current         j^mu(v':v,s1,s2)
-c     
+c
       implicit none
       double complex vc(6),s1(3),s2(3),gc,jvss(6),dg
       double complex cm2        ! mass**2- I Gamma mass (Fabio)

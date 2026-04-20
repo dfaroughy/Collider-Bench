@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -37,8 +37,8 @@ class MGerror(Exception): pass
 
 class TestMadEventCmd(unittest.TestCase):
     """ check if the ValidCmd works correctly """
-    
-        
+
+
     def test_v31_syntax_crash(self):
         """Check that process with ambiguous syntax correctly crashes if the flag is not set correctly
         """
@@ -49,7 +49,7 @@ class TestMadEventCmd(unittest.TestCase):
         interface = master_cmd.MasterCmd()
         interface.no_notification()
         interface.do_import('model loop_qcd_qed_sm')
-        
+
         #run_cmd('import model %s' % model)
 
         stream = StringIO()
@@ -57,18 +57,18 @@ class TestMadEventCmd(unittest.TestCase):
         log = logging.getLogger('cmdprint')
         log.setLevel(logging.CRITICAL)
 
-        for handler in log.handlers: 
+        for handler in log.handlers:
             log.removeHandler(handler)
         log.addHandler(handler_stream)
 
 
         def check_message(line):
             """return False if not warning is raised, return True is a warning is raised"""
-            
+
             stream.seek(0)
             stream.truncate(0)
             myprocdef = interface.extract_process(line)
-            try: 
+            try:
                 interface.proc_validity(myprocdef,'aMCatNLO_all')
             except Exception as error:
                 if '1804.10017' in str(error):
@@ -100,7 +100,7 @@ class TestMadEventCmd(unittest.TestCase):
         self.assertFalse(check_message("p p > w+ w- j j $ h QED<=99 [QCD]"))
 
         # force the option to not  be by bypassed
-        interface.options['acknowledged_v3.1_syntax'] = True 
+        interface.options['acknowledged_v3.1_syntax'] = True
         # and check that no crash/warning is raised anymore
         self.assertFalse(check_message( "p p > t t~ QED=1 [QED]"))
         self.assertFalse(check_message( "p p > t t~ QCD=1 [QED QCD]"))

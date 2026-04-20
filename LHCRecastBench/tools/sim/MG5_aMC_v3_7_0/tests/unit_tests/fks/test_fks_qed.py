@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph Development team and Contributors
 #
-# This file is a part of the MadGraph 5 project, an application which 
+# This file is a part of the MadGraph 5 project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph license which should accompany this 
+# It is subject to the MadGraph license which should accompany this
 # distribution.
 #
 # For more information, please visit: http://madgraph.phys.ucl.ac.be
@@ -60,7 +60,7 @@ class TestFKSQED(unittest.TestCase):
             leglist.append(MG.MultiLeg({'ids': [2], 'state': True}))
             leglist.append(MG.MultiLeg({'ids': [-2], 'state': True}))
 
-            procdef_dict = {'legs': leglist, 
+            procdef_dict = {'legs': leglist,
                            'orders':{},
                            'squared_orders':{'QCD':4, 'QED':2},
                            'model': self.mymodel,
@@ -85,7 +85,7 @@ class TestFKSQED(unittest.TestCase):
             j = MG.MultiLeg({'ids': multi_ids, 'state': True})
             leglist = MG.MultiLegList([p, p, j, j])
 
-            procdef_dict = {'legs': leglist, 
+            procdef_dict = {'legs': leglist,
                            'orders':{},
                            'model': self.mymodel,
                            'id': 1,
@@ -99,11 +99,11 @@ class TestFKSQED(unittest.TestCase):
                            'overall_orders': {},
                            'squared_orders': {'QCD':4, 'QED':2},
                            'born_sq_orders':{'QCD':4, 'QED':0}}
-             
+
             TestFKSQED.fksmultiproc_ppjj = \
                     fks_base.FKSMultiProcess(MG.ProcessDefinition(procdef_dict))
 
-        #quark/electron production, to test the init_lep_split flag 
+        #quark/electron production, to test the init_lep_split flag
         if not hasattr(self, 'fksmultiproc_uuee_wlepotns') or \
            not hasattr(self, 'fksmultiproc_uuee_nolepotns'):
             multi_ids = [1, -1, 11, -11]
@@ -111,7 +111,7 @@ class TestFKSQED(unittest.TestCase):
             j = MG.MultiLeg({'ids': multi_ids, 'state': True})
             leglist = MG.MultiLegList([p, p, j, j])
 
-            procdef_dict = {'legs': leglist, 
+            procdef_dict = {'legs': leglist,
                            'orders':{},
                            'model': self.mymodel,
                            'id': 1,
@@ -125,7 +125,7 @@ class TestFKSQED(unittest.TestCase):
                            'overall_orders': {},
                            'squared_orders': {'QCD':0, 'QED':6},
                            'born_sq_orders':{'QCD':0, 'QED':4}}
-             
+
             TestFKSQED.fksmultiproc_uuee_wlepotns = \
                     fks_base.FKSMultiProcess(MG.ProcessDefinition(procdef_dict), {'init_lep_split': True})
             TestFKSQED.fksmultiproc_uuee_nolepotns = \
@@ -151,7 +151,7 @@ class TestFKSQED(unittest.TestCase):
         # check real emissions:
         # from the first and second leg, one can have the final and initial
         # state photon splitting,
-        # as well as the final and initial state gluon splittng 
+        # as well as the final and initial state gluon splittng
         # (for order consistency)
         self.assertEqual(len(fksproc.reals[0]), 4)
         self.assertEqual(len(fksproc.reals[1]), 4)
@@ -168,7 +168,7 @@ class TestFKSQED(unittest.TestCase):
         fksmultiproc_nolep = self.fksmultiproc_uuee_nolepotns
         #check that the correct orders are set for the real amplitudes
 
-        #there should be 16 born processes with leptons and 12 without 
+        #there should be 16 born processes with leptons and 12 without
         # (remeber, without leptons means no born process with BOTH initial-
         # state leptons, so things like u e- > u e- are kept)
         self.assertEqual(len(fksmultiproc_wlep['born_processes']), 20)
@@ -193,7 +193,7 @@ class TestFKSQED(unittest.TestCase):
 
         # there should be 8 processes with one initial state lepton in fksmultiproc_nolep
         self.assertEqual(checked_nolep, 8)
-        
+
 
     def test_pptojj_2flav(self):
         """test QED corrections for dijet production"""
@@ -211,7 +211,7 @@ class TestFKSQED(unittest.TestCase):
                 self.assertEqual(len(real.missing_borns), 0)
                 # check that reals with 3 or more external gluons,
                 # with 2 or more photons or with any external lepton
-                # have 0 diagrams, 
+                # have 0 diagrams,
                 # because they are not NLO QED corrections as requested,
                 # while other reals should have diagrams
                 if real.pdgs.tolist().count(21) >= 3 or \
@@ -236,5 +236,3 @@ class TestFKSQED(unittest.TestCase):
         helasproc = helasmultiproc['matrix_elements'][0]
         # there should be 6 color_links
         self.assertEqual(len(helasproc.color_links), 6)
-
-

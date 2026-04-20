@@ -273,4 +273,3 @@ NPcW = CouplingOrder(name = 'NPcW',
 NPcWtil = CouplingOrder(name = 'NPcWtil',
                         expansion_order = 99,
                         hierarchy = 1)
-

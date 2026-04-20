@@ -1,32 +1,32 @@
   SUBROUTINE %(proc_prefix)sCTLOOP(NLOOPLINE,PL,M2L,RANK,RES,STABLE)
-C  
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and CutTools.
-C  
+C
 %(process_lines)s
-C  
-C  
-C CONSTANTS 
-C  
+C
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       LOGICAL checkPConservation
       PARAMETER (checkPConservation=.TRUE.)
       %(real_dp_format)s NORMALIZATION
       PARAMETER (NORMALIZATION = 1.D0/(16.D0*3.14159265358979323846D0**2))
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       INTEGER NLOOPLINE, RANK
       %(real_dp_format)s PL(0:3,NLOOPLINE)
       %(real_dp_format)s PCT(0:3,0:NLOOPLINE-1)
       %(mass_dp_format)s M2L(NLOOPLINE)
-      %(complex_dp_format)s M2LCT(0:NLOOPLINE-1)	  
+      %(complex_dp_format)s M2LCT(0:NLOOPLINE-1)
       %(complex_dp_format)s RES(3)
-	  LOGICAL STABLE	  
-C  
-C LOCAL VARIABLES 
+	  LOGICAL STABLE
+C
+C LOCAL VARIABLES
 C
 	  %(complex_dp_format)s R1, ACC
 	  INTEGER I, J, K
@@ -45,7 +45,7 @@ C
 	  %(real_dp_format)s LSCALE
       common/%(proc_prefix)sCT/LSCALE,CTMODE
 
-      INTEGER WE(NEXTERNAL)  
+      INTEGER WE(NEXTERNAL)
       INTEGER ID, SYMFACT, MULTIPLIER, AMPLNUM
       common/%(proc_prefix)sLOOP/WE,ID,SYMFACT, MULTIPLIER, AMPLNUM
 
@@ -106,15 +106,15 @@ C     WRITE(*,*) 'Loop AMPLNUM',AMPLNUM,' =',RES(1),RES(2),RES(3)
       END
 
 	  SUBROUTINE %(proc_prefix)sINITCT()
-C 
+C
 C INITIALISATION OF CUTTOOLS
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 	  %(real_dp_format)s THRS
 	  LOGICAL EXT_NUM_FOR_R1
-C  
-C GLOBAL VARIABLES 
+C
+C GLOBAL VARIABLES
 C
 	  include 'MadLoopParams.inc'
 C ----------
@@ -122,7 +122,7 @@ C BEGIN CODE
 C ----------
 
 C DEFAULT PARAMETERS FOR CUTTOOLS
-C -------------------------------  
+C -------------------------------
 C THRS1 IS THE PRECISION LIMIT BELOW WHICH THE MP ROUTINES ACTIVATES
 	  THRS=CTSTABTHRES
 C LOOPLIB SET WHAT LIBRARY CT USES
@@ -132,7 +132,7 @@ C 3 -> QCDLOOP
       LOOPLIB=CTLOOPLIBRARY
 C MADLOOP'S NUMERATOR IN THE DEFAULT OUTPUT IS SLOWER THAN THE RECONSTRUCTED ONE IN CT. SO WE BETTER USE CT ONE IN THIS CASE.
       EXT_NUM_FOR_R1=.TRUE.
-C -------------------------------	  
+C -------------------------------
 
 C The initialization below is for CT v1.8.+
       CALL CTSINIT(THRS,LOOPLIB,EXT_NUM_FOR_R1)

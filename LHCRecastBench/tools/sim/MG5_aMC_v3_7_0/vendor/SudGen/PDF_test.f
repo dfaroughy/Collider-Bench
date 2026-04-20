@@ -77,7 +77,7 @@ c$$$      xmu=stlow2
          fx(i)=nnfx(i)/x
       enddo
       fx(7)=nnfx(7)/x
-      
+
       tmp2PDF=fx(mod(id,21))
 
       write (*,*) 'id=', id, 'x=', x, 'Pi=',

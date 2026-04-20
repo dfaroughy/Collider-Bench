@@ -91,17 +91,16 @@ if __name__=='__main__':
     else:
         ban=banner(name)
         pos='/'.join([part for part in name.split('/')[:-1]])
-        
+
     ban.split()
     print('done')
-    
+
     if len(opt)==3:
         import_lhco=opt[2]
     else:
         import_lhco=input('Do you want import the input.lhco file? (1/0)\n')
 
-    
+
     if int(import_lhco):
         os.system('cp '+pos+'/input.lhco ./Events')
         print('replace Events/input.lhco by '+pos+'/input.lhco')
-

@@ -1,6 +1,6 @@
       SUBROUTINE %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS)
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NEXTERNAL
@@ -8,9 +8,9 @@ C
 
       INCLUDE "nsquaredSO.inc"
 
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P(0:3,NEXTERNAL)
       %(real_dp_format)s ANS(0:3,0:NSQUAREDSO)
 	  INTEGER HEL, USERHEL
@@ -24,9 +24,9 @@ C ----------
 
       LOGICAL FUNCTION %(proc_prefix)sIS_HEL_SELECTED(HELID)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NCOMB
@@ -51,12 +51,12 @@ C
 C     ----------
 C     BEGIN CODE
 C     ----------
-      
+
       %(proc_prefix)sIS_HEL_SELECTED = .True.
       if (POLARIZATIONS(0,0).eq.-1) THEN
         RETURN
       ENDIF
-      
+
       DO I=1,NEXTERNAL
         IF (POLARIZATIONS(I,0).eq.-1) THEN
           CYCLE
@@ -79,18 +79,18 @@ C     ----------
 
 	  logical function %(proc_prefix)sIsZero(toTest, reference_value, ampLn)
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NLOOPAMPS
 	  PARAMETER (NLOOPAMPS=%(nloopamps)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
 	  %(real_dp_format)s toTest, reference_value
 	  integer ampLn
-C  
-C GLOBAL 
+C
+C GLOBAL
 C
 	  include 'MadLoopParams.inc'
 
@@ -107,26 +107,26 @@ C ----------
 	  else
 	    %(proc_prefix)sIsZero=((abs(toTest)/abs(reference_value)).lt.ZeroThres)
 	  endif
-      IF(AMPLN.NE.-1) THEN 
+      IF(AMPLN.NE.-1) THEN
 	    IF((.NOT.%(proc_prefix)sISZERO).AND.(.NOT.S(AMPLN))) THEN
-	      write(*,*) '##W01 WARNING Contribution ',ampLn,' is detected as contributing with CR=',(abs(toTest)/abs(reference_value)),' but is unstable.' 
+	      write(*,*) '##W01 WARNING Contribution ',ampLn,' is detected as contributing with CR=',(abs(toTest)/abs(reference_value)),' but is unstable.'
 	    ENDIF
 	  ENDIF
 
 	  end
 
       SUBROUTINE %(proc_prefix)sSLOOPMATRIX(P_USER,ANSRETURNED)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c and helicities for the point in phase space P(0:3,NEXTERNAL)
 c and external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       CHARACTER*512 paramFName,HelConfigFName,LoopFilterFName
@@ -142,7 +142,7 @@ C
 
 	  %(nbornamps_decl)s
       INTEGER    NLOOPAMPS, NCTAMPS
-      PARAMETER (NLOOPAMPS=%(nloopamps)d, NCTAMPS=%(nctamps)d) 
+      PARAMETER (NLOOPAMPS=%(nloopamps)d, NCTAMPS=%(nctamps)d)
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER NINITIAL
@@ -167,15 +167,15 @@ C     This parameter is designed for the check timing command of MG5
 	  PARAMETER (NSQUAREDSOP1=NSQUAREDSO+1)
 	  INTEGER MAXSTABILITYLENGTH
 	  DATA MAXSTABILITYLENGTH/20/
-	  common/%(proc_prefix)sstability_tests/maxstabilitylength	  
-C  
-C ARGUMENTS 
-C  
+	  common/%(proc_prefix)sstability_tests/maxstabilitylength
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P_USER(0:3,NEXTERNAL)
       %(real_dp_format)s ANSRETURNED(0:3,0:NSQUAREDSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       %(real_dp_format)s ANS(0:3)
       INTEGER I,J,K,H
 
@@ -191,7 +191,7 @@ C
 	  INTEGER HELPICKED_BU, CTMODEINIT_BU
 	  %(real_dp_format)s MLSTABTHRES_BU
 C P is the actual PS POINT used for the computation, and can be rotated for the stability test purposes.
-	  %(real_dp_format)s P(0:3,NEXTERNAL) 
+	  %(real_dp_format)s P(0:3,NEXTERNAL)
 C DP_RES STORES THE DOUBLE PRECISION RESULT OBTAINED FROM DIFFERENT EVALUATION METHODS IN ORDER TO ASSESS STABILITY.
 C THE STAB_STAGE COUNTER I CORRESPONDANCE GOES AS FOLLOWS
 C  I=1 -> ORIGINAL PS, CTMODE=1
@@ -236,7 +236,7 @@ C     For a 1>N process, them BEAMTWO_HELAVGFACTOR would be set to 1.
       INTEGER BEAMS_HELAVGFACTOR(2)
 	  DATA (BEAMS_HELAVGFACTOR(I),I=1,2)/%(beamone_helavgfactor)d,%(beamtwo_helavgfactor)d/
       LOGICAL DONEHELDOUBLECHECK
-      DATA DONEHELDOUBLECHECK/.FALSE./	  
+      DATA DONEHELDOUBLECHECK/.FALSE./
 	  INTEGER NEPS
 	  DATA NEPS/0/
 C     Below are variables to bypass the checkphase and insure stability check to take place
@@ -245,15 +245,15 @@ C     Below are variables to bypass the checkphase and insure stability check to
 	  LOGICAL OLD_GOODAMP(NLOOPAMPS,NCOMB)
 
 	  LOGICAL BYPASS_CHECK, ALWAYS_TEST_STABILITY
-	  COMMON/%(proc_prefix)sBYPASS_CHECK/BYPASS_CHECK, ALWAYS_TEST_STABILITY 
+	  COMMON/%(proc_prefix)sBYPASS_CHECK/BYPASS_CHECK, ALWAYS_TEST_STABILITY
 C
 C FUNCTIONS
 C
       LOGICAL %(proc_prefix)sISZERO
       LOGICAL %(proc_prefix)sIS_HEL_SELECTED
-C  
+C
 C GLOBAL VARIABLES
-C 
+C
       include 'process_info.inc'
       include 'coupl.inc'
 	  include 'mp_coupl.inc'
@@ -277,7 +277,7 @@ C     THE LOGICAL BELOWS ARE JUST TO KEEP TRACK OF WHETHER THE MP_PS HAS BEEN SE
 	  DATA MP_PS_SET/.FALSE./
 	  common/%(proc_prefix)sMP_PS_SET/MP_PS_SET
 
-C     PS CAN POSSIBILY BE PASSED THROUGH IMPROVE_PS BUT IS NOT MODIFIED FOR THE PURPOSE OF THE STABILITY TEST	  
+C     PS CAN POSSIBILY BE PASSED THROUGH IMPROVE_PS BUT IS NOT MODIFIED FOR THE PURPOSE OF THE STABILITY TEST
 C     EVEN THOUGH THEY ARE PUT IN COMMON BLOCK, FOR NOW THEY ARE NOT USED ANYWHERE ELSE
 	  %(real_dp_format)s PS(0:3,NEXTERNAL)
 	  common/%(proc_prefix)sPSPOINT/PS
@@ -287,7 +287,7 @@ C     EVEN THOUGH THEY ARE PUT IN COMMON BLOCK, FOR NOW THEY ARE NOT USED ANYWHE
 	  common/%(proc_prefix)sMP_PSPOINT/MP_PS,MP_P
 
 	  %(real_dp_format)s LSCALE
-	  INTEGER CTMODE	  
+	  INTEGER CTMODE
       common/%(proc_prefix)sCT/LSCALE,CTMODE
 
 	  LOGICAL GOODHEL(NCOMB)
@@ -301,10 +301,10 @@ C     EVEN THOUGH THEY ARE PUT IN COMMON BLOCK, FOR NOW THEY ARE NOT USED ANYWHE
 	  DATA USERHEL/-1/
 	  common/%(proc_prefix)sUSERCHOICE/USERHEL
 
-      %(dp_born_amps_decl)s	  
+      %(dp_born_amps_decl)s
 	  %(complex_dp_format)s W(20,NWAVEFUNCS%(ncomb_helas_objs)s)
 	  INTEGER VALIDH
-	  common/%(proc_prefix)sWFCTS/W  
+	  common/%(proc_prefix)sWFCTS/W
 	  common/%(proc_prefix)sVALIDH/VALIDH
 
       %(complex_dp_format)s AMPL(3,NLOOPAMPS)
@@ -319,13 +319,13 @@ C     EVEN THOUGH THEY ARE PUT IN COMMON BLOCK, FOR NOW THEY ARE NOT USED ANYWHE
 	  common/%(proc_prefix)sHELCONFIGS/HELC
 
 	  %(real_dp_format)s PREC,USER_STAB_PREC
-	  DATA USER_STAB_PREC/-1.0d0/	  
+	  DATA USER_STAB_PREC/-1.0d0/
 	  common/%(proc_prefix)sUSER_STAB_PREC/USER_STAB_PREC
 
 C     Return codes H,T,U correspond to the hundreds, tens and units
 C     building returncode, i.e.
 C     RETURNCODE=100*RET_CODE_H+10*RET_CODE_T+RET_CODE_U
-	  
+
       INTEGER RET_CODE_H,RET_CODE_T,RET_CODE_U
 	  %(real_dp_format)s ACCURACY(0:NSQUAREDSO)
 	  DATA (ACCURACY(I),I=0,NSQUAREDSO)/NSQUAREDSOP1*1.0d0/
@@ -373,7 +373,7 @@ IF(ML_INIT) THEN
   CALL JOINPATH(MLPATH,PARAMFNAME,PARAMFN)
   CALL MADLOOPPARAMREADER(PARAMFN,.TRUE.)
   IF (FORBID_HEL_DOUBLECHECK) THEN
-    DoubleCheckHelicityFilter = .False. 
+    DoubleCheckHelicityFilter = .False.
   ENDIF
   ML_INIT = .FALSE.
 C For now only CutTools is interfaced in the default mode. Samurai could follow.
@@ -401,11 +401,11 @@ C Setup the file paths
 C Make sure that the loop filter is disabled when there is spin-2 particles for 2>1 or 1>2 processes
   if(MAX_SPIN_EXTERNAL_PARTICLE.gt.3.AND.(NEXTERNAL.LE.3.AND.HelicityFilterLevel.NE.0)) THEN
     WRITE(*,*) '##INFO: Helicity filter deactivated for 2>1 processes involving spin 2 particles.'
-    HelicityFilterLevel = 0	
+    HelicityFilterLevel = 0
 C   We write a dummy filter for structural reasons here
     OPEN(1, FILE=HelFilterFN, err=6116, status='NEW',action='WRITE')
     DO I=1,NCOMB
-      WRITE(1,*) 'T' 
+      WRITE(1,*) 'T'
     ENDDO
 6116  CONTINUE
     CLOSE(1)
@@ -417,7 +417,7 @@ OPEN(1, FILE=ColorNumFN, err=104, status='OLD',           action='READ')
   ENDDO
   GOTO 105
 104  CONTINUE
-  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorNumFactors.dat. File not found' 
+  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorNumFactors.dat. File not found'
 105  CONTINUE
 CLOSE(1)
 OPEN(1, FILE=ColorDenomFN, err=106, status='OLD',           action='READ')
@@ -426,7 +426,7 @@ OPEN(1, FILE=ColorDenomFN, err=106, status='OLD',           action='READ')
   ENDDO
   GOTO 107
 106  CONTINUE
-  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorDenomFactors.dat. File not found' 
+  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorDenomFactors.dat. File not found'
 107  CONTINUE
 CLOSE(1)
 OPEN(1, FILE=HelConfigFN, err=108, status='OLD',                  action='READ')
@@ -435,7 +435,7 @@ OPEN(1, FILE=HelConfigFN, err=108, status='OLD',                  action='READ')
   ENDDO
   GOTO 109
 108  CONTINUE
-  STOP 'Color helictiy configurations could not be initialized from file %(proc_prefix)sHelConfigs.dat. File not found' 
+  STOP 'Color helictiy configurations could not be initialized from file %(proc_prefix)sHelConfigs.dat. File not found'
 109  CONTINUE
 CLOSE(1)
 IF(BOOTANDSTOP) THEN
@@ -453,7 +453,7 @@ if(MAX_SPIN_EXTERNAL_PARTICLE.gt.3.AND.USERHEL.NE.-1) THEN
      WRITE(*,*) '##WARNING: Evaluation of a specific helicity was asked for this PS point, and there is a spin-2 (or higher) particle in the external states.'
 	 WRITE(*,*) '##WARNING: As a result, MadLoop disabled the Lorentz rotation test for this phase-space point only.'
 	 WRITE(*,*) '##WARNING: Further warning of that type suppressed.'
-     WARNED_LORENTZ_STAB_TEST_OFF = .FALSE. 
+     WARNED_LORENTZ_STAB_TEST_OFF = .FALSE.
    ENDIF
    NROTATIONS_QP=0
    NROTATIONS_DP=0
@@ -584,7 +584,7 @@ ELSE
       goto 9999
     ENDIF
   ENDIF
-  HELPICKED=USERHEL      
+  HELPICKED=USERHEL
   IF (CTMODERUN.GT.-1) THEN
     CTMODE=CTMODERUN
   ELSE
@@ -638,17 +638,17 @@ ENDDO
 VALIDH=-1
 DO H=1,NCOMB
   IF ((HELPICKED.EQ.H).OR.((HELPICKED.EQ.-1).AND.(CHECKPHASE.OR.(.NOT.HELDOUBLECHECKED).OR.GOODHEL(H)))) THEN
-  
+
 C  Handle the possible requirement of specific polarizations
   IF ((.NOT.CHECKPHASE).AND.HELDOUBLECHECKED.AND.POLARIZATIONS(0,0).eq.0.AND.(.NOT.%(proc_prefix)sIS_HEL_SELECTED(H))) THEN
     CYCLE
   ENDIF
-  
+
   IF (VALIDH.EQ.-1) VALIDH=H
   DO I=1,NEXTERNAL
     NHEL(I)=HELC(I,H)
   ENDDO
-C Check if we are in multiple precision and compute wfs and amps accordingly if needed   
+C Check if we are in multiple precision and compute wfs and amps accordingly if needed
   IF (CTMODE.GE.4) THEN
 C   Force that only current helicity is used in the routine below
 C   This should always be done, even if MP_DONE is True
@@ -659,11 +659,11 @@ C   (This is not optimal unlike what is done int the loop optimized output)
     HELPICKED = H
     CALL %(proc_prefix)sMP_BORN_AMPS_AND_WFS(MP_P)
     HELPICKED = HELPICKED_BU
-    GOTO 300	
+    GOTO 300
   ENDIF
   %(born_ct_helas_calls)s
 300 continue
-  %(loop_induced_setup)s  
+  %(loop_induced_setup)s
   %(loop_induced_helas_calls)s
   %(loop_induced_finalize)s
   DO I=1,%(nctamps_or_nloopamps)s
@@ -798,7 +798,7 @@ DO K=1,3
 ENDDO
 
 IF(.NOT.CHECKPHASE.AND.HELDOUBLECHECKED.AND.(CTMODERUN.LE.-1)) THEN
-  STAB_INDEX=STAB_INDEX+1  
+  STAB_INDEX=STAB_INDEX+1
   IF(DOING_QP_EVALS) THEN
     QP_RES(1,STAB_INDEX)=ANS(1)
     QP_RES(2,STAB_INDEX)=ANS(2)
@@ -809,7 +809,7 @@ IF(.NOT.CHECKPHASE.AND.HELDOUBLECHECKED.AND.(CTMODERUN.LE.-1)) THEN
     DP_RES(3,STAB_INDEX)=ANS(3)
   ENDIF
 
-  IF(DOING_QP_EVALS) THEN	
+  IF(DOING_QP_EVALS) THEN
       BASIC_CT_MODE=4
   ELSE
       BASIC_CT_MODE=1
@@ -818,13 +818,13 @@ IF(.NOT.CHECKPHASE.AND.HELDOUBLECHECKED.AND.(CTMODERUN.LE.-1)) THEN
 C BEGINNING OF THE DEFINITIONS OF THE DIFFERENT EVALUATION METHODS
 
   IF(.NOT.EVAL_DONE(2)) THEN
-	EVAL_DONE(2)=.TRUE. 
+	EVAL_DONE(2)=.TRUE.
 	CTMODE=BASIC_CT_MODE+1
 	goto 200
   ENDIF
 
   CTMODE=BASIC_CT_MODE
-  
+
   IF(.NOT.EVAL_DONE(3).AND. ((DOING_QP_EVALS.AND.NRotations_QP.GE.1).OR.((.NOT.DOING_QP_EVALS).AND.NRotations_DP.GE.1)) ) THEN
 	EVAL_DONE(3)=.TRUE.
 	CALL %(proc_prefix)sROTATE_PS(PS,P,1)
@@ -835,33 +835,33 @@ C BEGINNING OF THE DEFINITIONS OF THE DIFFERENT EVALUATION METHODS
   IF(.NOT.EVAL_DONE(4).AND. ((DOING_QP_EVALS.AND.NRotations_QP.GE.2).OR.((.NOT.DOING_QP_EVALS).AND.NRotations_DP.GE.2)) ) THEN
 	EVAL_DONE(4)=.TRUE.
 	CALL %(proc_prefix)sROTATE_PS(PS,P,2)
-	IF (DOING_QP_EVALS) CALL %(proc_prefix)sMP_ROTATE_PS(MP_PS,MP_P,2)	
+	IF (DOING_QP_EVALS) CALL %(proc_prefix)sMP_ROTATE_PS(MP_PS,MP_P,2)
 	goto 200
   ENDIF
 
   CALL %(proc_prefix)sROTATE_PS(PS,P,0)
-  IF (DOING_QP_EVALS) CALL %(proc_prefix)sMP_ROTATE_PS(MP_PS,MP_P,0)  
+  IF (DOING_QP_EVALS) CALL %(proc_prefix)sMP_ROTATE_PS(MP_PS,MP_P,0)
 
 C END OF THE DEFINITIONS OF THE DIFFERENT EVALUATION METHODS
 
   IF(DOING_QP_EVALS) THEN
     CALL %(proc_prefix)sCOMPUTE_ACCURACY(QP_RES,N_QP_EVAL,ACC,ANS(1))
 	ACCURACY(0)=ACC
-	RET_CODE_H=3	
+	RET_CODE_H=3
 	IF(ACC.GE.MLSTABTHRES) THEN
 	  RET_CODE_H=4
 	  NEPS=NEPS+1
-      CALL %(proc_prefix)sCOMPUTE_ACCURACY(DP_RES,N_DP_EVAL,TEMP1,TEMP)	  
+      CALL %(proc_prefix)sCOMPUTE_ACCURACY(DP_RES,N_DP_EVAL,TEMP1,TEMP)
       WRITE(*,*) '##W03 WARNING An unstable PS point was',       ' detected.'
 	  WRITE(*,*) '##(DP,QP) accuracies : (',TEMP1,',',ACC,')'
 	  WRITE(*,*) '##Best estimate (fin,1eps,2eps) :',(ANS(I),I=1,3)
 	  IF(NEPS.LE.10) THEN
 	    WRITE(*,*) '##Double precision evaluations :',(DP_RES(1,I),I=1,N_DP_EVAL)
-	    WRITE(*,*) '##Quad   precision evaluations :',(QP_RES(1,I),I=1,N_QP_EVAL)		 
+	    WRITE(*,*) '##Quad   precision evaluations :',(QP_RES(1,I),I=1,N_QP_EVAL)
 	    WRITE(*,*) '##PS point specification :'
-	    WRITE(*,*) '##Renormalization scale MU_R=',MU_R	
+	    WRITE(*,*) '##Renormalization scale MU_R=',MU_R
 	    DO I=1,NEXTERNAL
-          WRITE (*,'(i2,1x,4e27.17)') i, P(0,i),P(1,i),P(2,i),P(3,i) 
+          WRITE (*,'(i2,1x,4e27.17)') i, P(0,i),P(1,i),P(2,i),P(3,i)
         ENDDO
 	  ENDIF
 	  IF(NEPS.EQ.10) THEN
@@ -881,7 +881,7 @@ C END OF THE DEFINITIONS OF THE DIFFERENT EVALUATION METHODS
 	  goto 200
     ELSE
 	  ACCURACY(0)=ACC
-      RET_CODE_H=2	
+      RET_CODE_H=2
 	ENDIF
   ENDIF
 ELSE
@@ -911,7 +911,7 @@ ENDIF
 C Reinitialize the default threshold if it was specified by the user
 IF (USER_STAB_PREC.GT.0.0d0) THEN
   MLSTABTHRES=MLSTABTHRES_BU
-  CTMODEINIT=CTMODEINIT_BU  
+  CTMODEINIT=CTMODEINIT_BU
 ENDIF
 
 C Reinitialize the Lorentz test if it had been disabled because spin-2 particles are in the external states.
@@ -942,19 +942,19 @@ END
 
       SUBROUTINE %(proc_prefix)scompute_accuracy(fulllist, length, acc, estimate)
       implicit none
-C  
-C PARAMETERS 
+C
+C PARAMETERS
 C
       integer maxstabilitylength
 	  common/%(proc_prefix)sstability_tests/maxstabilitylength
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       real*8 fulllist(3,maxstabilitylength)
       integer length
       real*8 acc, estimate(3)
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       logical mask(maxstabilitylength)
 	  logical mask3(3)
@@ -972,7 +972,7 @@ C ----------
         mask(i)=.TRUE.
       enddo
       do i=length+1,maxstabilitylength
-        mask(i)=.FALSE.      
+        mask(i)=.FALSE.
       enddo
 
 	  do i=1,3
@@ -1013,7 +1013,7 @@ c     If NaN are present in the evaluation, automatically set the accuracy to 1.
       end
 
       SUBROUTINE %(proc_prefix)sSET_N_EVALS(N_DP_EVALS,N_QP_EVALS)
- 
+
 	  IMPLICIT NONE
 	  INTEGER N_DP_EVALS, N_QP_EVALS
 
@@ -1046,13 +1046,13 @@ C THIS SUBROUTINE SIMPLY SET THE GLOBAL PS CONFIGURATION GLOBAL VARIABLES FROM A
 
 	    DO I=1,NEXTERNAL
 	      DO J=0,3
-    	    MP_PS(J,I)=P(J,I) 
+    	    MP_PS(J,I)=P(J,I)
     	  ENDDO
   	    ENDDO
   	    CALL %(proc_prefix)sMP_IMPROVE_PS_POINT_PRECISION(MP_PS)
   	    DO I=1,NEXTERNAL
     	  DO J=0,3
-      	  	MP_P(J,I)=MP_PS(J,I) 
+      	  	MP_P(J,I)=MP_PS(J,I)
     	  ENDDO
   	  	ENDDO
 
@@ -1062,7 +1062,7 @@ C THIS SUBROUTINE SIMPLY SET THE GLOBAL PS CONFIGURATION GLOBAL VARIABLES FROM A
 	  IMPLICIT NONE
 C
 C     This routine can be accessed by an external user to set the squared split order target.
-C     This functionality is only available in the optimized mode, but for compatibility 
+C     This functionality is only available in the optimized mode, but for compatibility
 C     purposes, a dummy version is also put in this default output.
 C
 C
@@ -1108,7 +1108,7 @@ C
       SUBROUTINE %(proc_prefix)sGET_NSQSO_LOOP(NSQSO)
 C
 C     Simple subroutine returning the number of squared split order
-C     contributions returned in ANS when calling sloopmatrix 
+C     contributions returned in ANS when calling sloopmatrix
 C
       INCLUDE "nsquaredSO.inc"
 
@@ -1138,7 +1138,7 @@ C     ----------
         LEG_POLARIZATIONS(0)=-1
         DO I=1,5
           LEG_POLARIZATIONS(I)=-10000
-        ENDDO      
+        ENDDO
       ELSE
         LEG_POLARIZATIONS(0)=1
         LEG_POLARIZATIONS(1)=LEG_POLARIZATION
@@ -1152,9 +1152,9 @@ C     ----------
 
       SUBROUTINE %(proc_prefix)sSET_LEG_POLARIZATIONS(LEG_ID, LEG_POLARIZATIONS)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER NPOLENTRIES
@@ -1198,7 +1198,7 @@ C     ----------
           POLARIZATIONS(LEG_ID,I)=LEG_POLARIZATIONS(I)
         ENDDO
         DO I=LEG_POLARIZATIONS(0)+1,5
-          POLARIZATIONS(LEG_ID,I)=-10000        
+          POLARIZATIONS(LEG_ID,I)=-10000
         ENDDO
       ENDIF
 
@@ -1232,15 +1232,15 @@ C     ----------
 
       SUBROUTINE %(proc_prefix)sSLOOPMATRIXHEL_THRES(P,HEL,ANS,PREC_ASKED,PREC_FOUND,RET_CODE)
 	  IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INCLUDE "nsquaredSO.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P(0:3,NEXTERNAL)
       %(real_dp_format)s ANS(0:3,0:NSQUAREDSO)
 	  INTEGER HEL,RET_CODE
@@ -1267,15 +1267,15 @@ C ----------
       CALL %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS)
 	  IF(ALWAYS_TEST_STABILITY.AND.(H.eq.1.OR.ACCURACY(0).lt.0.0d0)) THEN
 	    BYPASS_CHECK = .TRUE.
-        CALL %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS) 
+        CALL %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS)
 	    BYPASS_CHECK = .FALSE.
 C     Make sure we correctly return an initialization-type T code
 		IF (T.eq.2) T=4
 		IF (T.eq.1) T=3
 	  ENDIF
-	  
+
 C Reset it to default value not to affect next runs
-	  USER_STAB_PREC = -1.0d0	  
+	  USER_STAB_PREC = -1.0d0
       DO I=0,NSQUAREDSO
 	    PREC_FOUND(I)=ACCURACY(I)
 	  ENDDO
@@ -1290,7 +1290,7 @@ C     P(0:3, Nexternal)  double  :: Kinematic configuration (E,px,py,pz)
 C     PEC_ASKED          double  :: Target relative accuracy, -1 for default
 C
 C     Outputs are:
-C     ANS(3)             double  :: Result (finite, single pole, double pole) 
+C     ANS(3)             double  :: Result (finite, single pole, double pole)
 C     PREC_FOUND         double  :: Relative accuracy estimated for the result
 C                                   Returns -1 if no stab test could be performed.
 C	  RET_CODE			 integer :: Return code. See below for details
@@ -1322,15 +1322,15 @@ C     U is a number left for future use (always set to 0 for now).
 C     example: TIR vs OPP usage.
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-      INCLUDE "nsquaredSO.inc"	  
-C  
-C ARGUMENTS 
-C  
+      INCLUDE "nsquaredSO.inc"
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P(0:3,NEXTERNAL)
       %(real_dp_format)s ANS(0:3,0:NSQUAREDSO)
 	  %(real_dp_format)s PREC_ASKED,PREC_FOUND(0:NSQUAREDSO)
@@ -1369,6 +1369,6 @@ C Reset it to default value not to affect next runs
 	  DO I=0,NSQUAREDSO
 	    PREC_FOUND(I)=ACCURACY(I)
 	  ENDDO
-	  RET_CODE=100*H+10*T+U		 
-	  
+	  RET_CODE=100*H+10*T+U
+
 	  END

@@ -23,9 +23,9 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
 bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
  		 int *ntot, int nTupleId,  char* version);
 bool_t xdr_mcfast_NTupleMult(mcfStream *str,
-                             descrGenNtuple *dNTu, char* version); 		 
+                             descrGenNtuple *dNTu, char* version);
 bool_t xdr_mcfast_NTupleVar(mcfStream *str,
-                           descrGenNtuple *dNTu, int ivar, char* version); 		 
+                           descrGenNtuple *dNTu, int ivar, char* version);
 bool_t xdr_mcfast_NTupleSubVar(mcfStream *str,
              descrGenNtuple *dNTu, int ivar, int multIndex, char* version);
 bool_t xdr_mcfast_NTupleSubStruct(mcfStream *str,

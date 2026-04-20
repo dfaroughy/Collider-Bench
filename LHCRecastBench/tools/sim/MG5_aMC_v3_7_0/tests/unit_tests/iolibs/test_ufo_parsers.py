@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -31,7 +31,7 @@ class UFOParserTest(unittest.TestCase):
             self.cmd = Cmd.MasterCmd()
             self.cmd.exec_cmd("import model loop_qcd_qed_sm")
             UFOParserTest.model = self.cmd._curr_model
-            
+
         if not hasattr(self, 'calc'):
             self.calc = parsers.UFOExpressionParserFortran(UFOParserTest.model)
         if not hasattr(self, 'mp_calc'):
@@ -42,7 +42,7 @@ class UFOParserTest(unittest.TestCase):
 
     def test_parse_fortran_IfElseStruct(self):
         "Test that structures like ( 1 if 2==3 else 4)"
-        
+
         tests = [
                  ('(1 if a==0 else 1/a)',
          '(CONDIF(a.EQ.0.000000d+00,DCMPLX(1.000000d+00),DCMPLX(1.000000d+00/a)))'),
@@ -93,7 +93,7 @@ class UFOParserTest(unittest.TestCase):
     def test_UFOExpressionParserPythonIF(self):
         """ Tests that the UFO parsers for conditional 'if' statement replacement
         works properly."""
-        
+
         # Make sure the constructor works properly
         wrong_arguments = ["{'a':1,'b':2",
                            [('a',1),('b',2)],
@@ -102,7 +102,7 @@ class UFOParserTest(unittest.TestCase):
         for arg in wrong_arguments:
             self.assertRaises(parsers.ModelError,
                                        parsers.UFOExpressionParserPythonIF, arg)
-        
+
         right_arguments = [{'a':1,'b':2},
                           "{'a':1.0,'b':2}",
                           {'a':1.0j,'b':2},
@@ -111,8 +111,8 @@ class UFOParserTest(unittest.TestCase):
                           {'a':1.0,'b':2,'c':'po'}
                           ]
         for arg in right_arguments:
-            parsers.UFOExpressionParserPythonIF(arg)  
-        
+            parsers.UFOExpressionParserPythonIF(arg)
+
         # Use the following parser for tests
         # With all definitions
         calc = parsers.UFOExpressionParserPythonIF(
@@ -127,7 +127,7 @@ class UFOParserTest(unittest.TestCase):
           ]
         for test in tests:
             self.assertEqual(calc.parse(test[0]),test[1])
-            
+
         calc = parsers.UFOExpressionParserPythonIF({'a':0j,'b':1.0})
         # With only partial definitions
         tests = [
@@ -182,7 +182,7 @@ class UFOParserTest(unittest.TestCase):
     def test_parse_fortran_fct(self):
         """Test that we can parse a series of expression including
         1j and .real"""
-        
+
         tests = [('1j', 'DCMPLX(0d0, 1.000000d+00)'),
                  ('3+3j', '3.000000d+00+DCMPLX(0d0, 3.000000d+00)'),
                  ('re1j', 're1j'),
@@ -201,14 +201,14 @@ class UFOParserTest(unittest.TestCase):
                   ('complexconjugate(z)', 'conjg(DCMPLX(z))'),
                   ('z.conjugate()', 'conjg(DCMPLX(z))')
                  ]
-        
+
         for toParse, sol in tests:
-            self.assertEqual(self.calc.parse(toParse), sol)  
+            self.assertEqual(self.calc.parse(toParse), sol)
 
     def test_parse_fortran_fct_MP(self):
         """Test that we can parse a series of expression including
         1j and .real"""
-        
+
         tests = [('1j', 'CMPLX(0.000000e+00_16, 1.000000e+00_16 ,KIND=16)'),
                  ('3+3j', '3.000000e+00_16+CMPLX(0.000000e+00_16, 3.000000e+00_16 ,KIND=16)'),
                  ('re1j', 'mp__re1j'),
@@ -220,9 +220,9 @@ class UFOParserTest(unittest.TestCase):
                   ('(x*y.real)', '(mp__x*real(mp__y))'),
 
                  ]
-        
+
         for toParse, sol in tests:
-            self.assertEqual(self.mp_calc.parse(toParse), sol)  
+            self.assertEqual(self.mp_calc.parse(toParse), sol)
 
 
     def test_parse_special_fortran_fct(self):
@@ -242,7 +242,7 @@ class UFOParserTest(unittest.TestCase):
                  ('abs(float(1))' , 'ABS(REAL(1.000000d+00))'),
                  ('abs(int(1))' , 'ABS(INTEGER(1.000000d+00))')
                  ]
-        
+
 
         for toParse, sol in tests:
  #           print(toParse, sol)

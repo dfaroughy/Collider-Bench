@@ -7,4 +7,3 @@ generate l+ l- > t t~  @600
 
 # Top quark pair production in pp.
 add process p p > t t~ @600
-

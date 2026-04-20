@@ -1,15 +1,15 @@
       subroutine jgggtx(va,vb,vc,tc,gc,gt , jgggt)
 c
 c This subroutine computes an off-shell vector boson current from
-c the 4 gluons-tensor boson coupling, corresponding 
-c to the color structure f^{x,a,e} f{b,c,e}. 
+c the 4 gluons-tensor boson coupling, corresponding
+c to the color structure f^{x,a,e} f{b,c,e}.
 c
 c To obtain the complete amplitude, this subroutine must be called three
 c times (once for each color structure) with the following permutations:
 c     call jgggtx(va,vb,vc,tc,gc,gt , jgggt1)
 c     call jgggtx(vb,vc,va,tc,gc,gt , jgggt2)
 c     call jgggtx(vc,va,vb,tc,gc,gt , jgggt3)
-c corresponding to 
+c corresponding to
 c	f^{x,a,e} f^{b,c,e}
 c	f^{x,b,e} f^{c,a,e}
 c	f^{x,c,e} f^{a,b,e}
@@ -26,7 +26,7 @@ c output:
 c       complex jgggt(6)       : gluon current        j^mu(v:va,vb,vc,T)
 c
 c- by Q.Li - JAN. 2008
-c     
+c
       implicit none
       double complex va(6), vb(6), vc(6), tc(18), gt,  jgggt(6)
       double precision gc
@@ -88,11 +88,11 @@ c
       pd(3) = dimag(vc(6))
       pd(4) = dimag(vc(5))
 
-     
+
       do i=1,4
          do j=1,4
             MET(i,j)=0.0d0
-         enddo 
+         enddo
       enddo
 
       MET(1,1)=1.0d0
@@ -103,9 +103,9 @@ c
       px2 = px(1)**2-px(2)**2-px(3)**2-px(4)**2
       EBEC = va(1)*vb(1)-va(2)*vb(2)-va(3)*vb(3)-va(4)*vb(4)
       EBED = va(1)*vc(1)-va(2)*vc(2)-va(3)*vc(3)-va(4)*vc(4)
-      
+
       d = 1.0d0/dcmplx( px2, 0.0d0 )
-      
+
       T00 = ft(1,1)-ft(2,2)-ft(3,3)-ft(4,4)
       T12 = ft(1,2) + ft(2,1)
       T13 = ft(1,3) + ft(3,1)
@@ -155,7 +155,7 @@ c
      &-ft(3,3)*vc(3)-ft(3,4)*vc(4))
      &-MET(j,4)*(ft(4,1)*vc(1)-ft(4,2)*vc(2)
      &-ft(4,3)*vc(3)-ft(4,4)*vc(4))
-	
+
 	TVCM(j)=
      &MET(j,1)*(ft(1,1)*vb(1)-ft(2,1)*vb(2)
      &-ft(3,1)*vb(3)-ft(4,1)*vb(4))
@@ -176,16 +176,16 @@ c
      &-ft(4,3)*vb(3)-ft(4,4)*vb(4))
 
       enddo
-	    
+
       do a=1,4
-	
+
          jgggt(a)=vc(a)*TVBVC-vb(a)*TVBVD
      &        -T00*vc(a)*EBEC+T00*vb(a)*EBED
      &        +EBEC*TVDM(a)-EBED*TVCM(a)
-	 
+
          jgggt(a)=-jgggt(a)*d*gc*gc*gt
-         
-      enddo 
- 
+
+      enddo
+
       return
       end

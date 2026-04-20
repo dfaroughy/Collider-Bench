@@ -1,4 +1,4 @@
-* This is file ffperm5.dat and it contains the permutations for the determinant 
+* This is file ffperm5.dat and it contains the permutations for the determinant
 * \delta^{s1 s2 s3 s4 s5}_{s1 s2 s3 s4 s5} (327 lines).  The first two lines are skipped.
  1, 2, 3, 4, 5,  1, 2, 3, 4, 9,  1, 2, 3,10, 4,  1, 2, 3, 4,13,
  1, 2, 3,15, 4,  1, 2, 3, 8, 5,  1, 2, 3, 5, 9,  1, 2, 3,12, 5,

@@ -1,7 +1,7 @@
 
       subroutine HEP2GEANT
 ************************************************************************
-*     
+*
 *     Put all undecayed STDHEP particles in GEANT KINE stack.
 *
 *     The first user word in the KINE structure is

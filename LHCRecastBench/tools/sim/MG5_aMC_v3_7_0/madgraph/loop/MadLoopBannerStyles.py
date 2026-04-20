@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -38,90 +38,90 @@ class MadLoopBannerStyles(object):
     styles = {}
     styles['classic'] = \
 r"""
-  __  __           _ _                       
- |  \/  |         | | |                      
- | \  / | __ _  __| | |     ___   ___  _ __  
- | |\/| |/ _` |/ _` | |    / _ \ / _ \| '_ \ 
+  __  __           _ _
+ |  \/  |         | | |
+ | \  / | __ _  __| | |     ___   ___  _ __
+ | |\/| |/ _` |/ _` | |    / _ \ / _ \| '_ \
  | |  | | (_| | (_| | |___| (_) | (_) | |_) |
- |_|  |_|\__,_|\__,_|______\___/ \___/| .__/ 
-                                      | |    
-                                      |_|   
+ |_|  |_|\__,_|\__,_|______\___/ \___/| .__/
+                                      | |
+                                      |_|
    %(version)s
    %(ref)s
 """
 
     styles['classic2'] = \
-r"""                                                                 
-                               ,,                                           
-`7MMM.     ,MMF'             `7MM  `7MMF'                                   
-  MMMb    dPMM                 MM    MM                                     
-  M YM   ,M MM   ,6"Yb.   ,M""bMM    MM         ,pW"Wq.   ,pW"Wq.`7MMpdMAo. 
-  M  Mb  M' MM  8)   MM ,AP    MM    MM        6W'   `Wb 6W'   `Wb MM   `Wb 
-  M  YM.P'  MM   ,pm9MM 8MI    MM    MM      , 8M     M8 8M     M8 MM    M8 
-  M  `YM'   MM  8M   MM `Mb    MM    MM     ,M YA.   ,A9 YA.   ,A9 MM   ,AP 
-.JML. `'  .JMML.`Moo9^Yo.`Wbmd"MML..JMMmmmmMMM  `Ybmd9'   `Ybmd9'  MMbmmd'  
-                                                                   MM       
+r"""
+                               ,,
+`7MMM.     ,MMF'             `7MM  `7MMF'
+  MMMb    dPMM                 MM    MM
+  M YM   ,M MM   ,6"Yb.   ,M""bMM    MM         ,pW"Wq.   ,pW"Wq.`7MMpdMAo.
+  M  Mb  M' MM  8)   MM ,AP    MM    MM        6W'   `Wb 6W'   `Wb MM   `Wb
+  M  YM.P'  MM   ,pm9MM 8MI    MM    MM      , 8M     M8 8M     M8 MM    M8
+  M  `YM'   MM  8M   MM `Mb    MM    MM     ,M YA.   ,A9 YA.   ,A9 MM   ,AP
+.JML. `'  .JMML.`Moo9^Yo.`Wbmd"MML..JMMmmmmMMM  `Ybmd9'   `Ybmd9'  MMbmmd'
+                                                                   MM
                                                                  .JMML.
 %(versionref)s
 """
 
     styles['classic3'] = \
 r"""
-  __  __           _ _                      
- |  \/  | __ _  __| | |    ___   ___  _ __  
- | |\/| |/ _` |/ _` | |   / _ \ / _ \| '_ \ 
+  __  __           _ _
+ |  \/  | __ _  __| | |    ___   ___  _ __
+ | |\/| |/ _` |/ _` | |   / _ \ / _ \| '_ \
  | |  | | (_| | (_| | |__| (_) | (_) | |_) |
- |_|  |_|\__,_|\__,_|_____\___/ \___/| .__/ 
-                                     |_|    
-        
+ |_|  |_|\__,_|\__,_|_____\___/ \___/| .__/
+                                     |_|
+
 %(version)s
 %(ref)s
 """
 
     styles['big'] = \
 r"""
-88b           d88                       88  88                                                  
-888b         d888                       88  88                                                  
-88`8b       d8'88                       88  88                                                  
-88 `8b     d8' 88  ,adPPYYba,   ,adPPYb,88  88            ,adPPYba,    ,adPPYba,   8b,dPPYba,   
-88  `8b   d8'  88  ""     `Y8  a8"    `Y88  88           a8"     "8a  a8"     "8a  88P'    "8a  
-88   `8b d8'   88  ,adPPPPP88  8b       88  88           8b       d8  8b       d8  88       d8  
-88    `888'    88  88,    ,88  "8a,   ,d88  88           "8a,   ,a8"  "8a,   ,a8"  88b,   ,a8"  
-88     `8'     88  `"8bbdP"Y8   `"8bbdP"Y8  88888888888   `"YbbdP"'    `"YbbdP"'   88`YbbdP"'   
-                                                                                   88           
+88b           d88                       88  88
+888b         d888                       88  88
+88`8b       d8'88                       88  88
+88 `8b     d8' 88  ,adPPYYba,   ,adPPYb,88  88            ,adPPYba,    ,adPPYba,   8b,dPPYba,
+88  `8b   d8'  88  ""     `Y8  a8"    `Y88  88           a8"     "8a  a8"     "8a  88P'    "8a
+88   `8b d8'   88  ,adPPPPP88  8b       88  88           8b       d8  8b       d8  88       d8
+88    `888'    88  88,    ,88  "8a,   ,d88  88           "8a,   ,a8"  "8a,   ,a8"  88b,   ,a8"
+88     `8'     88  `"8bbdP"Y8   `"8bbdP"Y8  88888888888   `"YbbdP"'    `"YbbdP"'   88`YbbdP"'
+                                                                                   88
                                                                                    88
         %(versionref)s
 """
 
     styles['funky'] = \
 r"""
-                                                .-'''-.        .-'''-.                           
-                          _______      .---.   '   _    \     '   _    \                         
- __  __   ___             \  ___ `'.   |   | /   /` '.   \  /   /` '.   \_________   _...._      
-|  |/  `.'   `.            ' |--.\  \  |   |.   |     \  ' .   |     \  '\        |.'      '-.   
-|   .-.  .-.   '           | |    \  ' |   ||   '      |  '|   '      |  '\        .'```'.    '. 
-|  |  |  |  |  |    __     | |     |  '|   |\    \     / / \    \     / /  \      |       \     \ 
+                                                .-'''-.        .-'''-.
+                          _______      .---.   '   _    \     '   _    \
+ __  __   ___             \  ___ `'.   |   | /   /` '.   \  /   /` '.   \_________   _...._
+|  |/  `.'   `.            ' |--.\  \  |   |.   |     \  ' .   |     \  '\        |.'      '-.
+|   .-.  .-.   '           | |    \  ' |   ||   '      |  '|   '      |  '\        .'```'.    '.
+|  |  |  |  |  |    __     | |     |  '|   |\    \     / / \    \     / /  \      |       \     \
 |  |  |  |  |  | .:--.'.   | |     |  ||   | `.   ` ..' /   `.   ` ..' /    |     |        |    |
-|  |  |  |  |  |/ |   \ |  | |     ' .'|   |    '-...-'`       '-...-'`     |      \      /    ; 
+|  |  |  |  |  |/ |   \ |  | |     ' .'|   |    '-...-'`       '-...-'`     |      \      /    ;
 |  |  |  |  |  |`" __ | |  | |___.' /' |   |                                |     |\`----'   .'
-|__|  |__|  |__| .'.''| | /_______.'/  |   |                                |     | '-....-'`    
-                / /   | |_\_______|/   '---'                               .'     '.             
-                \ \._,\ '/                                               '-----------'           
-                 `--'  `"                                                                        
+|__|  |__|  |__| .'.''| | /_______.'/  |   |                                |     | '-....-'`
+                / /   | |_\_______|/   '---'                               .'     '.
+                \ \._,\ '/                                               '-----------'
+                 `--'  `"
 
 
   %(versionref)s
 """
-        
+
     styles['curly'] = \
 r"""
-   __     __)              _           
-  (, /|  /|        /)  ___/__)         
-    / | / |  _   _(/  (, /   ________  
+   __     __)              _
+  (, /|  /|        /)  ___/__)
+    / | / |  _   _(/  (, /   ________
  ) /  |/  |_(_(_(_(_    /   (_)(_) /_)_
-(_/   '                (_____   .-/    
-                              )(_/    
-   
+(_/   '                (_____   .-/
+                              )(_/
+
 %(version)s
 %(ref)s
 """
@@ -129,78 +129,78 @@ r"""
 
     styles['keyboard'] = \
 r"""
- ____ ____ ____ ____ ____ ____ ____ 
+ ____ ____ ____ ____ ____ ____ ____
 ||M |||a |||d |||L |||o |||o |||p ||
 ||__|||__|||__|||__|||__|||__|||__||
 |/__\|/__\|/__\|/__\|/__\|/__\|/__\|
-        
+
 %(version)s
 %(ref)s
 """
 
     styles['bubbles'] = \
 r"""
-Oo      oO             o  o                        
-O O    o o            O  O                         
-o  o  O  O            o  o                         
-O   Oo   O            o  o                         
-O        o .oOoO' .oOoO  O       .oOo. .oOo. .oOo. 
-o        O O   o  o   O  O       O   o O   o O   o 
-o        O o   O  O   o  o     . o   O o   O o   O 
-O        o `OoO'o `OoO'o OOoOooO `OoO' `OoO' oOoO' 
-                                             O     
-                                             o'    
+Oo      oO             o  o
+O O    o o            O  O
+o  o  O  O            o  o
+O   Oo   O            o  o
+O        o .oOoO' .oOoO  O       .oOo. .oOo. .oOo.
+o        O O   o  o   O  O       O   o O   o O   o
+o        O o   O  O   o  o     . o   O o   O o   O
+O        o `OoO'o `OoO'o OOoOooO `OoO' `OoO' oOoO'
+                                             O
+                                             o'
 %(version)s
 %(ref)s
 """
 
     styles['mario'] = \
 r"""
-                  _   __                   
-  /\/\   __ _  __| | / /  ___   ___  _ __  
- /    \ / _` |/ _` |/ /  / _ \ / _ \| '_ \ 
+                  _   __
+  /\/\   __ _  __| | / /  ___   ___  _ __
+ /    \ / _` |/ _` |/ /  / _ \ / _ \| '_ \
 / /\/\ \ (_| | (_| / /__| (_) | (_) | |_) |
-\/    \/\__,_|\__,_\____/\___/ \___/| .__/ 
-                                    |_|   
+\/    \/\__,_|\__,_\____/\___/ \___/| .__/
+                                    |_|
 %(version)s
 %(ref)s
 """
 
     styles['wiggly'] = \
 r"""
-   __    __       ____     ______     _____         ____       ____     _____   
-   \ \  / /      (    )   (_  __ \   (_   _)       / __ \     / __ \   (  __ \  
-   () \/ ()      / /\ \     ) ) \ \    | |        / /  \ \   / /  \ \   ) )_) ) 
-   / _  _ \     ( (__) )   ( (   ) )   | |       ( ()  () ) ( ()  () ) (  ___/  
-  / / \/ \ \     )    (     ) )  ) )   | |   __  ( ()  () ) ( ()  () )  ) )     
- /_/      \_\   /  /\  \   / /__/ /  __| |___) )  \ \__/ /   \ \__/ /  ( (      
-(/          \) /__(  )__\ (______/   \________/    \____/     \____/   /__\     
-                                                                        
+   __    __       ____     ______     _____         ____       ____     _____
+   \ \  / /      (    )   (_  __ \   (_   _)       / __ \     / __ \   (  __ \
+   () \/ ()      / /\ \     ) ) \ \    | |        / /  \ \   / /  \ \   ) )_) )
+   / _  _ \     ( (__) )   ( (   ) )   | |       ( ()  () ) ( ()  () ) (  ___/
+  / / \/ \ \     )    (     ) )  ) )   | |   __  ( ()  () ) ( ()  () )  ) )
+ /_/      \_\   /  /\  \   / /__/ /  __| |___) )  \ \__/ /   \ \__/ /  ( (
+(/          \) /__(  )__\ (______/   \________/    \____/     \____/   /__\
+
 %(versionref)s
 """
 
     styles['printed'] = \
 r"""
-__/\\\\____________/\\\\________________________/\\\___/\\\_______________________________________________________        
- _\/\\\\\\________/\\\\\\_______________________\/\\\__\/\\\_______________________________________________________       
-  _\/\\\//\\\____/\\\//\\\_______________________\/\\\__\/\\\___________________________________________/\\\\\\\\\__      
-   _\/\\\\///\\\/\\\/_\/\\\__/\\\\\\\\\___________\/\\\__\/\\\_________________/\\\\\________/\\\\\_____/\\\/////\\\_     
-    _\/\\\__\///\\\/___\/\\\_\////////\\\_____/\\\\\\\\\__\/\\\_______________/\\\///\\\____/\\\///\\\__\/\\\\\\\\\\__    
-     _\/\\\____\///_____\/\\\___/\\\\\\\\\\___/\\\////\\\__\/\\\______________/\\\__\//\\\__/\\\__\//\\\_\/\\\//////___   
-      _\/\\\_____________\/\\\__/\\\/////\\\__\/\\\__\/\\\__\/\\\_____________\//\\\__/\\\__\//\\\__/\\\__\/\\\_________  
-       _\/\\\_____________\/\\\_\//\\\\\\\\/\\_\//\\\\\\\/\\_\/\\\\\\\\\\\\\\\__\///\\\\\/____\///\\\\\/___\/\\\_________ 
+__/\\\\____________/\\\\________________________/\\\___/\\\_______________________________________________________
+ _\/\\\\\\________/\\\\\\_______________________\/\\\__\/\\\_______________________________________________________
+  _\/\\\//\\\____/\\\//\\\_______________________\/\\\__\/\\\___________________________________________/\\\\\\\\\__
+   _\/\\\\///\\\/\\\/_\/\\\__/\\\\\\\\\___________\/\\\__\/\\\_________________/\\\\\________/\\\\\_____/\\\/////\\\_
+    _\/\\\__\///\\\/___\/\\\_\////////\\\_____/\\\\\\\\\__\/\\\_______________/\\\///\\\____/\\\///\\\__\/\\\\\\\\\\__
+     _\/\\\____\///_____\/\\\___/\\\\\\\\\\___/\\\////\\\__\/\\\______________/\\\__\//\\\__/\\\__\//\\\_\/\\\//////___
+      _\/\\\_____________\/\\\__/\\\/////\\\__\/\\\__\/\\\__\/\\\_____________\//\\\__/\\\__\//\\\__/\\\__\/\\\_________
+       _\/\\\_____________\/\\\_\//\\\\\\\\/\\_\//\\\\\\\/\\_\/\\\\\\\\\\\\\\\__\///\\\\\/____\///\\\\\/___\/\\\_________
         _\///______________\///___\////////\//___\///////\//__\///////////////_____\/////________\/////_____\///__________
-        
+
    %(versionref)s
 """
 
     styles['fast'] = \
 r"""
-    __  ___          ____                    
-   /  |/  /___ _____/ / /   ____  ____  ____ 
+    __  ___          ____
+   /  |/  /___ _____/ / /   ____  ____  ____
   / /|_/ / __ `/ __  / /   / __ \/ __ \/ __ \
  / /  / / /_/ / /_/ / /___/ /_/ / /_/ / /_/ /
-/_/  /_/\__,_/\__,_/_____/\____/\____/ .___/ 
+/_/  /_/\__,_/\__,_/_____/\____/\____/ .___/
                                     /_/
 %(version)s
 %(ref)s
@@ -208,17 +208,17 @@ r"""
 
     styles['isometric'] = \
 r"""
-      ___           ___          _____                        ___           ___           ___   
-     /__/\         /  /\        /  /::\                      /  /\         /  /\         /  /\  
-    |  |::\       /  /::\      /  /:/\:\                    /  /::\       /  /::\       /  /::\ 
+      ___           ___          _____                        ___           ___           ___
+     /__/\         /  /\        /  /::\                      /  /\         /  /\         /  /\
+    |  |::\       /  /::\      /  /:/\:\                    /  /::\       /  /::\       /  /::\
     |  |:|:\     /  /:/\:\    /  /:/  \:\   ___     ___    /  /:/\:\     /  /:/\:\     /  /:/\:\
   __|__|:|\:\   /  /:/~/::\  /__/:/ \__\:| /__/\   /  /\  /  /:/  \:\   /  /:/  \:\   /  /:/~/:/
- /__/::::| \:\ /__/:/ /:/\:\ \  \:\ /  /:/ \  \:\ /  /:/ /__/:/ \__\:\ /__/:/ \__\:\ /__/:/ /:/ 
- \  \:\~~\__\/ \  \:\/:/__\/  \  \:\  /:/   \  \:\  /:/  \  \:\ /  /:/ \  \:\ /  /:/ \  \:\/:/  
-  \  \:\        \  \::/        \  \:\/:/     \  \:\/:/    \  \:\  /:/   \  \:\  /:/   \  \::/   
-   \  \:\        \  \:\         \  \::/       \  \::/      \  \:\/:/     \  \:\/:/     \  \:\   
-    \  \:\        \  \:\         \__\/         \__\/        \  \::/       \  \::/       \  \:\  
-     \__\/         \__\/                                     \__\/         \__\/         \__\/  
+ /__/::::| \:\ /__/:/ /:/\:\ \  \:\ /  /:/ \  \:\ /  /:/ /__/:/ \__\:\ /__/:/ \__\:\ /__/:/ /:/
+ \  \:\~~\__\/ \  \:\/:/__\/  \  \:\  /:/   \  \:\  /:/  \  \:\ /  /:/ \  \:\ /  /:/ \  \:\/:/
+  \  \:\        \  \::/        \  \:\/:/     \  \:\/:/    \  \:\  /:/   \  \:\  /:/   \  \::/
+   \  \:\        \  \:\         \  \::/       \  \::/      \  \:\/:/     \  \:\/:/     \  \:\
+    \  \:\        \  \:\         \__\/         \__\/        \  \::/       \  \::/       \  \:\
+     \__\/         \__\/                                     \__\/         \__\/         \__\/
 
       %(versionref)s
 """
@@ -236,20 +236,20 @@ r"""
         return cls.ordered_style_keys
 
     @classmethod
-    def get_MadLoop_Banner(cls, style='classic', color='blue', 
+    def get_MadLoop_Banner(cls, style='classic', color='blue',
                top_frame_char = '=', bottom_frame_char = '=',
                left_frame_char = '{',right_frame_char = '}',
                print_frame=True, side_margin = 7, up_margin = 1):
         """ Writes out MadLoop banner."""
-        
+
         colors = {'black':30,'red':31,'green':32,'yellow':33,
           'blue':34,'magenta':35,'cyan':36,'lightred':91,'lightgreen':92,
           'lightyellow':93,'lightblue':94,'lightmagenta':95,'lightcyan':96,
                                                            'white':97,'none':-1}
-        
+
         if style.lower()=='random':
             color = random.choice(['blue','green','red'])
-        
+
         reference = "Ref: arXiv:1103.0621v2, arXiv:1405.0301"
         version = "v%(version)s (%(date)s)"%misc.get_pkg_info()
         versionref = "%s, %s"%(version,reference)
@@ -266,14 +266,14 @@ r"""
                 color_end = ""
             else:
                 color_start ="char(27)//'[%im"%colors[color.lower()]
-                color_end = "char(27)//'[0m"                    
+                color_end = "char(27)//'[0m"
         else:
             raise MadGraph5Error('Incorrect color in MadLoopBanner. Must be and'+\
               ' intenger or one of the following: %s'%str(list(colors.keys())))
 
         def format_banner(banner):
-            """ Format the raw banner text to give it a frame, colors and a 
-            margin.""" 
+            """ Format the raw banner text to give it a frame, colors and a
+            margin."""
 
             def fw(*args):
                 """Fortran write line"""
@@ -289,7 +289,7 @@ r"""
                     if len(arg)>0:
                         elems.append("'%s'"%arg)
                 return "write(*,*) %s"%("//".join(elems))
-            
+
             banner_lines = banner.split('\n')
             formatted_lines = []
 
@@ -297,22 +297,22 @@ r"""
             width = side_margin*2 + max(len(line) for line in banner_lines)
             if print_frame:
                 width += 2
-                
+
             # Print the upper frame
             if print_frame:
                 formatted_lines.append(fw(" %s "%(top_frame_char*(width-2))))
-            
+
             # Print the upper margin
             for i in range(up_margin):
                 formatted_lines.append(fw("%(lside)s%(width)s%(rside)s"%
                   {'lside':left_frame_char if print_frame else '',
                    'rside':right_frame_char if print_frame else '',
                                                 'width':' '*(width-2)}))
-            
-            # Now print the banner 
+
+            # Now print the banner
             for line in banner_lines:
                 line_elements = []
-                line_elements.append((left_frame_char if 
+                line_elements.append((left_frame_char if
                                            print_frame else '')+' '*side_margin)
                 # Colorize the logo
                 line_elements.append(color_start)
@@ -330,8 +330,8 @@ r"""
                     line_elements.append(line+
                                  ' '*(width-2*(side_margin+1)-len(line)))
                 line_elements.append(color_end)
-                line_elements.append(' '*side_margin+(right_frame_char 
-                                                        if print_frame else ''))    
+                line_elements.append(' '*side_margin+(right_frame_char
+                                                        if print_frame else ''))
                 formatted_lines.append(fw(*line_elements))
 
             # Print the lower margin (of height equal to up margin)
@@ -340,15 +340,15 @@ r"""
                   {'lside':left_frame_char if print_frame else '',
                    'rside':right_frame_char if print_frame else '',
                                                         'width':' '*(width-2)}))
-                                
+
             # Print the lower frame
             if print_frame:
                 formatted_lines.append(fw(" %s "%(bottom_frame_char*(width-2))))
-            
+
             return '\n'.join(formatted_lines)
-            
+
         # Now we define the raw banner text for each style:
-        
+
         return format_banner(
                  cls.get_raw_banner(style.lower())
                  %{'versionref':versionref, 'ref':reference, 'version':version})
@@ -363,13 +363,13 @@ if __name__=='__main__':
 
     styles = copy.copy(MadLoopBannerStyles.get_style_keys())
     styles.append('random')
-    # Edit the line above and select here a subset of the available styles to 
+    # Edit the line above and select here a subset of the available styles to
     # show. Possibilities are:
     # ['classic','classic2','classic3','big','funky',
     # 'curly','keyboard','bubbles','mario','wiggly',
     # 'printed','fast','isometric','random']
     # styles = ['funky']
-    
+
     f_code = ""
     for style in styles:
         f_code += "\nwrite(*,*) ''\nwrite(*,*) 'Style %s with default options.'\n"%style
@@ -386,7 +386,7 @@ if __name__=='__main__':
     for style in styles:
         f_code += "\nwrite(*,*) ''\nwrite(*,*) 'Style %s without frame.'\n"%style
         f_code += MadLoopBannerStyles.get_MadLoop_Banner(style=style, print_frame=False)
-    
+
     for style in styles:
         f_code += "\nwrite(*,*) ''\nwrite(*,*) 'Style %s with a different frame.'\n"%style
         f_code += MadLoopBannerStyles.get_MadLoop_Banner(
@@ -396,7 +396,7 @@ if __name__=='__main__':
             left_frame_char = '*',
             right_frame_char = '*',
             style=style)
-    
+
     writer.writelines("program testMLBanner\n%s\nend\n"%f_code)
     writer.close()
     # Now compile and run the code

@@ -7,9 +7,9 @@ randomseed 942 ! uncomment to set the random seed to a value of your choice.
                   ! THIS MAY ONLY AFFECTS THE GENERATION OF POWHEG EVENTS!
                   ! If POWHEG is interfaced to a shower MC, refer to the shower MC
                   ! documentation to set its seed.
- 
+
 !Heavy flavour production parameters
- 
+
 maxev 100       ! number of events to be generated
 !maxev 1000000  ! number of events to be generated
 ih1   1        ! hadron 1
@@ -22,11 +22,11 @@ qmass  171     ! mass of heavy quark in GeV
 facscfact 1    ! factorization scale factor: mufact=muref*facscfact
 renscfact 1    ! renormalization scale factor: muren=muref*renscfact
 bbscalevar 1    ! use variable re. and fct. scales
- 
+
 ! Parameters to allow-disallow use of stored data
 use-old-grid 0    ! if 0 use old grid if file pwggrids.dat is present (# 0: regenerate)
 use-old-ubound 0  ! if 0 use norm of upper bounding function stored in pwgubound.dat, if present; #
- 
+
 !ncall1 10000   ! number of calls for initializing the integration grid
 !itmx1 5        ! number of iterations for initializing the integration grid
 !ncall2 100000  ! number of calls for computing the integral and finding upper bound
@@ -38,7 +38,7 @@ use-old-ubound 0  ! if 0 use norm of upper bounding function stored in pwgubound
 !iymax 1        ! <= 10, normalization of upper bounding function in iunorm X iunorm square in y, lo
 !ixmax 1        ! <= 10, normalization of upper bounding function in iunorm X iunorm square in y, lo
 !xupbound 2      ! increase upper bound for radiation generation
- 
+
 ncall1 20000   ! number of calls for initializing the integration grid
 itmx1 5        ! number of iterations for initializing the integration grid
 ncall2 200000  ! number of calls for computing the integral and finding upper bound

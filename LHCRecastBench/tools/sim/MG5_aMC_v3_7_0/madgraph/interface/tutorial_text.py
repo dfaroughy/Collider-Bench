@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2018 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -20,7 +20,7 @@ syntax options of MadGraph5_aMC@NLO.
 To learn more about the different options for a command, you can use
 MG5_aMC>help A_CMD
 To see a list of all commands, use
-MG5_aMC>help 
+MG5_aMC>help
 
 The goal of this tutorial is to learn how to generate a process and to
 produce the output for MadEvent. In this part we will learn
@@ -102,7 +102,7 @@ MG5_aMC>exit
 But you can also continue the tutorial to learn some other useful
 commands:
 d) How to load a model
-e) How to define a multi-particle label 
+e) How to define a multi-particle label
 f) How to store a history of the commands in a session
 g) How to call shell commands from MG5_aMC
 h) How to draw the diagrams for your processes without generating
@@ -116,9 +116,9 @@ import_model ="""
 You have successfully imported a model. If you followed the tutorial
 this is the MSSM.
 
-MadGraph can auto-download a large class of model (and more can be used). 
+MadGraph can auto-download a large class of model (and more can be used).
 To see the full list of model, write:
-MG5_aMC>display modellist 
+MG5_aMC>display modellist
 
 If you want to know more information about this model you can use the
 following commands:
@@ -131,7 +131,7 @@ or presently defined multiparticle labels.
 Some of the model (including mssm) allow to modify the model (setting some
 mass to zero, put some matrices diagonal, remove some interaction, ...). You can
 see the possibility for each model by using the following command:
-MG5_aMC> customize_model 
+MG5_aMC> customize_model
 
 To define a multiparticle label, i.e. a label corresponding to a set
 of particles, write:
@@ -194,7 +194,7 @@ The final command of the tutorial is display diagrams. This allows you to draw a
 look at the diagrams for your processes (in eps format) before
 creating an output for a given format. This can be useful for a fast
 check of your process. For this last command, we will also show how combine
-different command in a single line: 
+different command in a single line:
 MG5_aMC>generate p p > go go; display diagrams
 
 Note that when you run output [madevent], the diagrams are
@@ -203,13 +203,9 @@ directory.
 """
 
 display_diagrams = """
-This command was the last step of the tutorial. 
+This command was the last step of the tutorial.
 Quit the tutorial by typing:
 MG5_aMC>tutorial stop
 
 Thanks for using MadGraph5_aMC@NLO.
 """
-
-
-
-

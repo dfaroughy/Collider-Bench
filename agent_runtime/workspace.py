@@ -31,11 +31,11 @@ def build_workspace(
     Raises FileNotFoundError if LHCRecastBench/papers/<paper_ref>/for_agent/ is missing.
     Returns the workspace Path.
     """
-    agent_dir     = repo_root / "agents" / agent_name
+    agent_dir = repo_root / "agents" / agent_name
     benchmark_dir = repo_root / "LHCRecastBench"
     # All runs live under runs/ so they're isolated from source and
     # already gitignored as a single tree.
-    workspace     = repo_root / "runs" / run_name / "workspace"
+    workspace = repo_root / "runs" / run_name / "workspace"
 
     if workspace.exists():
         shutil.rmtree(workspace)

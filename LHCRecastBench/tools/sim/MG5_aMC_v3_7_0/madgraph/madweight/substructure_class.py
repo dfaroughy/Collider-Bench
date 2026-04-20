@@ -7,9 +7,9 @@ try:
     import madgraph.madweight.blob_solution as blob_solution
 except ImportError:
     import internal.madweight.blob_solution as blob_solution
-    
+
 Level_generation = blob_solution.Level_generation
-Blob_solution = blob_solution.Blob_solution  
+Blob_solution = blob_solution.Blob_solution
 Block_ECS =blob_solution.Block_ECS
 Block_sector =blob_solution.Block_sector
 Block_B =blob_solution.Block_B
@@ -34,14 +34,14 @@ class diagram:
     def add_content(self,MG_id,object):
         "add a element in the diagram"
         self.content[int(MG_id)]=object
-        
+
         if object.external and int(MG_id) > 2:
             self.ext_content.append(object)
             self.ext_part+=1
         elif not object.external:
             self.prop_content.append(object)
             self.num_propa+=1
-        
+
 
     def define_neut_content(self):
         "define neutrino content"
@@ -59,11 +59,11 @@ class diagram:
         #level of a propagator
         for i in range(1,self.num_propa+1):
             propa=self.prop_content[-i]
-            
+
             if(propa.mother in self.prop_content and propa.channel=='S'):
                 propa.level=propa.mother.level+1
             elif(propa.channel=='T'):
-                propa.level=0   
+                propa.level=0
             else:
                 propa.level=1
             #print propa.MG, propa.level
@@ -101,7 +101,7 @@ class diagram:
     def contains_particle(self,particle):
         """ check if tha particle is in the diagram """
         #note that content is a dict or list depending of the object
-        if type(self.content)== dict: 
+        if type(self.content)== dict:
             if particle.MG in self.content:
                 return 1
             else:
@@ -126,14 +126,14 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
         """
         neut_in_class={'a':0,'b':1,'c':1,'d':2,'e':2,'f':2,'g':2}
         intrinsec_in_class={'a':2,'b':1,'c':1,'d':2,'e':2,'f':2,'g':2}#number of particles used to restore E-p conservation
-        
+
         #initialization
         diagram.__init__(self)
         Level_generation.__init__(self,'ecs')
         self.fuse=0
         #store initial input
         self.MG_sec=diag
-        self.chgt_var=chgt_var  
+        self.chgt_var=chgt_var
         if type(neut_in_ecs)==list:
             self.main_content=neut_in_ecs
         else:
@@ -151,23 +151,23 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
             propa_in_ecs=self.main_content
 
         self.blob_content=[]
-        
+
         #define blob from the black box
-        
+
 
         #define all the mother of the one/two central particle of the ecs
         for i in range(0,self.intrinsec):
 
             #define a list of combine all mother
             if i==0:
-               combine_all_mother=[] 
+               combine_all_mother=[]
                combine_all_mother+=propa_in_ecs[i].all_mother() #not in one line (we doesn't want to have a pointer)
                continue
             #i>0
             for mother in  propa_in_ecs[i].all_mother():
                 if mother not in combine_all_mother:
                     combine_all_mother.append(mother)
-                    
+
         #define blob
         for particle in combine_all_mother:
             #print 'mother',particle.MG, len(combine_all_mother)
@@ -194,14 +194,14 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                 if particle not in combine_all_mother and particle not in propa_in_ecs:
                     blob_sector(particle,diag,ECS_sec=self)
 
-    
+
 
     def equivalent_ECS(self):
         """ 1) define completely the change of variable for the enlarged ECS
                 -find which propagator aligned,...
             2) define equivalent solution if any (B->C)
         """
-      
+
         if self.num_neut==0:
             #option: authorize a!
             if self.opt.use_ecs_a:
@@ -223,7 +223,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                 output=self.equivalent_ECS_2neut()
                 return output
             else:
-               return [] 
+               return []
 
 
 
@@ -244,7 +244,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
             motherX=motherX.mother
             if motherX==0:
                 break
-            
+
             if motherX.width<thiner and motherX.channel=='S':
                 thiner=motherX.width
                 part_thin=motherX
@@ -253,13 +253,13 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
             try:
                 if motherX.twin.external and motherX.twin.mass==0:
                     if motherX.twin.tf_level>1 and motherX.channel=='S':
-                        madeC=1        
+                        madeC=1
                         if motherX.mother.width<thiner_m0:
                            thiner_m0=motherX.mother.width
                            if thiner<thiner_bef_m0:
-                               thiner_bef_m0=thiner    
+                               thiner_bef_m0=thiner
             except:
-                    pass    
+                    pass
 
         #1.2) ->create block and new ECS first for C change of variable secondly for B
         if madeC:
@@ -274,11 +274,11 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
             while motherX.width!=thiner_m0:
                 fuse_list.append(motherX.twin)
                 motherX=motherX.mother
-            fuse_particle2=New_sol.define_fuse_region(fuse_list)   
-            Block_ECS(New_sol,'c',self.main_content+[fuse_particle1,fuse_particle2])                
+            fuse_particle2=New_sol.define_fuse_region(fuse_list)
+            Block_ECS(New_sol,'c',self.main_content+[fuse_particle1,fuse_particle2])
             New_sol.order_block(New_sol)
-            
-            
+
+
         # define B change of variable
         fuse_list=[]
         motherX=self.main_content[0]
@@ -288,16 +288,16 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
         fuse_particle=self.define_fuse_region(fuse_list)
         Block_ECS(self,'b',self.main_content+[fuse_particle])
         self.order_block(self)
-        
+
         #2) Check definition from option
         sol=[]
         if self.opt.use_ecs_b:
             sol.append(self)
         if madeC and self.opt.use_ecs_c:
             sol.append(New_sol)
-        
+
         return sol
-            
+
 
 
     def equivalent_ECS_2neut(self):
@@ -318,7 +318,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
             #find the two thiner propagator for each neutrino
             for i in [0,1]:
                 thiner=500
-                thiner2=600               
+                thiner2=600
                 #search thiner propa if option authorized
                 if self.opt.ecs_fuse:
                     motherX=self.main_content[i]
@@ -340,7 +340,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                         thiner2=self.main_content[i].mother.mother.width
                     else:
                         thiner2=self.main_content[i].mother.mother.width
-                
+
                 #define fuse particle
                 motherX=self.main_content[i]
                 fuse_list=[]
@@ -386,14 +386,14 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                     if motherX.width==thiner:
                         fuse=self.define_fuse_region(fuse_list)
                         fuse_particle.append(fuse)
-                        break               
+                        break
             a=Block_ECS(self,'e',self.main_content+fuse_particle)
             self.order_block(self)
             #print 'ECS E content: ',
             #for particle in self.main_content+fuse_particle:#a.order_content:
             #    print particle.MG,
             #print
-            return [self]           
+            return [self]
         #
         #     Enlarged constraint Sector F
         #
@@ -404,7 +404,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
             #F change of variable can't have freedom to move those propagator
             twin_part=[]
             twin_part.append(self.main_content[0].twin)
-            twin_part.append(self.main_content[1].twin)                       
+            twin_part.append(self.main_content[1].twin)
             Block_ECS(self,self.chgt_var,self.main_content+twin_part)
             self.order_block(self)
             return [self]
@@ -433,7 +433,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                 motherX=motherX.mother
                 if motherX==0:
                     break
-                
+
                 try:
                     neutrino2,step=motherX.twin.detect_neut_in_decay()
                 except:
@@ -448,7 +448,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                         continue
                 if step<3:
                     self.unaligned+=3-step
-    
+
 
     def order_block(self,main_sec=''):
 
@@ -460,7 +460,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                 break
             if step>20:
                 sys.exit('''ERROR: infinite loop detected in ECS_sector.order_block ''')
-            
+
             block=self.step.pop(0)
             #print block
             if block.chgt_var not in ['2','3']:
@@ -471,13 +471,13 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
         self.step=new_order
 
 
-      
 
-    
+
+
     def info(self):
         """ return some information about the ECS and the associated blob """
         num_in_part={'a':2,'b':2,'c':3,'d':6,'e':4,'f':4,'g':4}
-        
+
         text='\t** Enlarged Contraint Sector global information **\n\n'
         text+= 'Class: '+self.chgt_var.upper()+'\n'
         text+='particle in ECS : '
@@ -494,7 +494,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
                 text+=str(part.MG)+'(fuse)\t'
             else:
                 text+=str(part.MG)+'(propagator)\t'
-                
+
         text+='\nblob linked are generated by :'
         for blob in self.blob_content:
             if blob.main.MG<0:
@@ -524,7 +524,7 @@ class ECS_sector_no_multi_channel(diagram,Level_generation):
 
 class blob_sector(diagram):
     """ blob structure """
-    
+
     def __init__(self,particle,diag,ECS_sec=''):
         """create completly a blob if he is not defined already """
 
@@ -537,7 +537,7 @@ class blob_sector(diagram):
             return None
         elif not particle.external:
             if not particle.channel.startswith('S'): #remove T channel from creating a blob
-                    return None    
+                    return None
 
         #creation of a new blob
         diagram.__init__(self)
@@ -588,7 +588,7 @@ class blob_sector(diagram):
 
     def supress_identical_solution(self):
         """ supress identical solution """
-        
+
         del_sol=[]
         for i in range(0,len(self.solution)):
             for j in range(i+1,len(self.solution)):
@@ -597,7 +597,7 @@ class blob_sector(diagram):
                     break
         for i in range(0,len(del_sol)):
              del self.solution[del_sol[i]-i]
-             
+
 
     def __str__(self):
         text= 'Blob details: main '+str(self.main.MG)+'\n'
@@ -607,20 +607,20 @@ class blob_sector(diagram):
 
 
 class ECS_sector(ECS_sector_no_multi_channel):
-    """ modify version of ECS sector, returning the different 
-        possibility of unalignment in the black box 
-        (usefull for multichannel mode) 
+    """ modify version of ECS sector, returning the different
+        possibility of unalignment in the black box
+        (usefull for multichannel mode)
     """
-    
+
     def equivalent_ECS_1neut(self,use_noresonant=0):
         """
             define completely the change of variable for the enlarged ECS
             - return all the possible ECS changing the particles entering in the B case
             - define equivalent soltution if any (B->C)
         """
-        
-        sol=[]    
-        fuse_list=[self.main_content[0].twin]       #define the blob fuse 
+
+        sol=[]
+        fuse_list=[self.main_content[0].twin]       #define the blob fuse
         for propagator in self.main_content[0].all_mother():
             if propagator.channel.startswith('T'):
                 break
@@ -631,24 +631,24 @@ class ECS_sector(ECS_sector_no_multi_channel):
                 Block_ECS(New_sol,'b',self.main_content+[fuse_particle])
                 New_sol.order_block(New_sol)
                 sol.append(New_sol)
-                
+
             #look for class C
             if self.opt.use_ecs_c:
                 sol+=self.equivalent_ECS_passinC(propagator,fuse_list)
-                
+
             #update fuse for next level
             fuse_list.append(propagator.twin)
-            
-            
+
+
         return sol
-        
-    
+
+
     def equivalent_ECS_passinC(self,propa1,fuse1):
         """ check if those information can create a C block and define it
             propa1: first propagator than should enter in the C block
-            fuse1: list of particles following this propa and should be fuse 
+            fuse1: list of particles following this propa and should be fuse
         """
-        
+
         particle2=propa1.twin
         if not particle2 or particle2.mass:
             return [] #the mass should be 0
@@ -657,30 +657,30 @@ class ECS_sector(ECS_sector_no_multi_channel):
         propa2=propa1.mother
         if propa2 == 0 or propa2.channel.startswith('T'):
             return [] #not enough propa remaining
-        
+
         New_sol=ECS_sector(self.MG_sec,'c',self.main_content,self.unaligned)
         fuse=self.define_fuse_region(fuse1)
-        Block_ECS(New_sol,'c',self.main_content+[fuse,particle2])                
+        Block_ECS(New_sol,'c',self.main_content+[fuse,particle2])
         New_sol.order_block(New_sol)
-        
+
         return [New_sol]
-        
+
     def equivalent_ECS_2neut(self):
         """ 1) define completely the change of variable for the enlarged ECS
                 -find which propagator aligned,...
             Each change of variable are factorized!!!
-        """       
+        """
 
         if self.chgt_var!='d':
              return ECS_sector_no_multi_channel.equivalent_ECS_2neut(self)
-        
+
         if not self.opt.use_ecs_d:
             return []
-        
+
         sol=[]
 
 
-        
+
         possible_propa_1=[propa for propa in self.main_content[0].all_mother() \
                           if propa not in self.main_content[1].all_mother() ]
         possible_propa_2=[propa for propa in self.main_content[1].all_mother() \
@@ -699,19 +699,19 @@ class ECS_sector(ECS_sector_no_multi_channel):
                         if propagator2_2 not in possible_propa_2 or propagator2_2.channel.startswith('T'):
                             break
                         propagator=[propagator1_1,propagator1_2,propagator2_1,propagator2_2]
-                        fuse=[fuse_list1_1,fuse_list1_2,fuse_list2_1,fuse_list2_2]          
+                        fuse=[fuse_list1_1,fuse_list1_2,fuse_list2_1,fuse_list2_2]
                         sol+=self.define_new_ecs_d(propagator,fuse)
 
                         fuse_list2_2.append(propagator2_2.twin)
                     fuse_list2_1.append(propagator2_1.twin)
                 fuse_list1_2.append(propagator1_2.twin)
             fuse_list1_1.append(propagator1_1.twin)
-            
+
         return sol
-               
+
     def define_new_ecs_d(self,propagator,fuse):
         """ return a valid object for this change of variable """
-        
+
         for propa in propagator:
             if propa.channel.startswith('T'):
                 return []
@@ -722,14 +722,9 @@ class ECS_sector(ECS_sector_no_multi_channel):
         for particule in fuse_particle:
             if particule.MG in [1,2]:
                 return []
-        
-            
+
+
         New_sol=ECS_sector(self.MG_sec,'d',self.main_content,self.unaligned)
         Block_ECS(New_sol,'d',self.main_content+fuse_particle)
         New_sol.order_block(New_sol)
         return [New_sol]
-        
-        
-        
-        
-

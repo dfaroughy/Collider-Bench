@@ -6,7 +6,7 @@ C     *****************************************************************
 C     ***
 
       LOGICAL EX
-C     
+C
       DO 10 N = 10, 300
       INQUIRE (UNIT=N, OPENED=EX)
       IF (.NOT. EX) THEN
@@ -28,7 +28,7 @@ C      directories
 C     *****************************************************************
 C     ***
       IMPLICIT NONE
-C     
+C
       CHARACTER TABLEFILE*(*),UP*3,LIB*4,DIR*8,TEMPNAME*100
       DATA UP,LIB,DIR/'../','lib/','Pdfdata/'/
       INTEGER IU,NEXTUNOPEN,I
@@ -37,9 +37,9 @@ C
       CHARACTER*300 TEMPNAME2, PATH
       CHARACTER*25 UPBUFF
       INTEGER POS, FINE2
-C     
+C
 C     --   start
-C     
+C
       IU=NEXTUNOPEN()
 
 C     First try system wide (for cluster if define)
@@ -70,7 +70,7 @@ C     then try PdfData directory
       ENDDO
 
 C     try to find the path from the executable
-C     
+C
       CALL GETARG(0,PATH)  !path is the PATH to the madevent executable (either global or from launching directory)
       POS = INDEX(PATH,'/', .TRUE.)
       PATH = PATH(:POS)
@@ -95,5 +95,3 @@ C
 
       RETURN
       END
-
-

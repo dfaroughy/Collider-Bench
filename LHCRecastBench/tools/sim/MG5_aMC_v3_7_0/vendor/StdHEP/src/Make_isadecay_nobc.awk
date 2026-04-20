@@ -24,10 +24,10 @@ $1 == "3140," {keep = 0}   # \Xi_c^0
 $1 == "3240," {keep = 0}   # \Xi_c^-
 $1 == "3340," {keep = 0}   # \Omega_c
 
-# Should also consider removing these. 
+# Should also consider removing these.
 # But I do not know if qq knows how to decay
 # these particles.
-# 
+#
 #$1 == "3440," {keep = 0}   # \Omega_cc
 #$1 == "4441," {keep = 0}   # \Omega_ccc
 #$1 == "3550," {keep = 0}   # \Omega_bb
@@ -38,4 +38,3 @@ $1 == "3340," {keep = 0}   # \Omega_c
 #$1 == "4550," {keep = 0}   # \Omega_bbc
 
 keep == 1 {print}
-

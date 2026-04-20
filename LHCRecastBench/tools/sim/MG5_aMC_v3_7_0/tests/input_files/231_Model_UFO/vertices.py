@@ -4586,4 +4586,3 @@ V_763 = Vertex(name = 'V_763',
                color = [ '1' ],
                lorentz = [ L.FFV2, L.FFV4 ],
                couplings = {(0,0):C.GC_37,(0,1):C.GC_43})
-

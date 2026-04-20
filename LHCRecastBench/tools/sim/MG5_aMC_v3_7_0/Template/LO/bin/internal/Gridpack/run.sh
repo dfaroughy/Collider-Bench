@@ -46,7 +46,7 @@ export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${PWD}/madevent/lib:${PWD}/HELAS/l
 
 pos_args=()
 nprocs=1
-maxevts=2500 
+maxevts=2500
 
 while [[ $# -gt 0 ]]; do
   case $1 in

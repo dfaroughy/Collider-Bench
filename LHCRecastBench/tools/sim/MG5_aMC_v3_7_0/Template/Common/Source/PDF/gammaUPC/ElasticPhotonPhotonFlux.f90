@@ -46,7 +46,7 @@ MODULE ElasticPhotonPhotonFlux
   INTEGER,PARAMETER,PRIVATE::SUB_FACTOR=2
   LOGICAL,PRIVATE,SAVE::print_banner=.FALSE.
   LOGICAL,PUBLIC::use_MC_Glauber=.FALSE.
-  LOGICAL,PUBLIC::proton_FF_correction=.FALSE. ! when USE_CHARGEFORMFACTOR4PHOTON=.TRUE., 
+  LOGICAL,PUBLIC::proton_FF_correction=.FALSE. ! when USE_CHARGEFORMFACTOR4PHOTON=.TRUE.,
                                                ! it will include the correction beyond proton dipole form factor
                                                ! when proton_FF_correction=.TRUE.
                                                ! it will impact both pp and pA UPCs
@@ -471,7 +471,7 @@ CONTAINS
     ELSE
        XI(1)=b
        YI(1)=DLOG10(xga)
-       
+
        db=MIN(b/rescaling_bmax_save,1d0)
        N=-FLOOR(DLOG10(db))-1 ! b is from 10**(-n-1)*bmax to 10**(-n)*bmax
        IF(N.LT.0)THEN
@@ -612,7 +612,7 @@ CONTAINS
   END FUNCTION PND_ChargeFormFactor_proton_corr_fxn
 
   FUNCTION PhotonNumberDensity_ChargeFormFactor_WS(b,Ega,gamma,RR,w,aa,bcut,btilcut,ibeam,integ_method)
-    ! It gives us the photon number density with Z=1 and alpha=1 
+    ! It gives us the photon number density with Z=1 and alpha=1
     ! b,RR,aa should be written in unit of GeV-1
     ! Ega should be in unit of GeV
     ! 1 GeV^-1 = 0.1973e-15 m = 0.1973 fm
@@ -620,7 +620,7 @@ CONTAINS
     INTEGER::ibeam
     REAL(KIND(1d0))::PhotonNumberDensity_ChargeFormFactor_WS
     REAL(KIND(1d0)),INTENT(IN)::b,Ega,gamma,RR,w,aa
-    REAL(KIND(1d0)),INTENT(IN)::bcut ! if bcut > 0, when b > bcut*RR, it will simply use PhotonNumberDensity (not from form factor). 
+    REAL(KIND(1d0)),INTENT(IN)::bcut ! if bcut > 0, when b > bcut*RR, it will simply use PhotonNumberDensity (not from form factor).
                                      ! This might be necessary in order to improve the numerical efficiency
                                      ! A nominal value is 2-3.
     REAL(KIND(1d0)),INTENT(IN)::btilcut ! if btilcut > 0, when b*Ega/gamma > btilcut*RR, it will simply use  PhotonNumberDensity (necessary for numerical stability)
@@ -648,7 +648,7 @@ CONTAINS
     ! 0 to 10**(-nbmax)*bmax
     ! 10**(-n-1)*bmax to 10**(-n)*bmax
     INTEGER,PARAMETER::NBSEG=12
-    ! NXSEG for x_gamma from 10**(-n-1) to 10**(-n) 
+    ! NXSEG for x_gamma from 10**(-n-1) to 10**(-n)
     INTEGER,PARAMETER::NXSEG=8
     INTEGER::log10xmin,log10xmin_before,ilog10x
     REAL(KIND(1d0))::XMIN=1D-8
@@ -1032,7 +1032,7 @@ CONTAINS
           ilog10x=FLOOR(YI(1))
        ENDIF
        L=NXSEG*(-ilog10x-1)
-       
+
        DO I=1,n_interp
           XD2_1D(I)=XA(ibeam,K+I)
        ENDDO
@@ -1096,7 +1096,7 @@ CONTAINS
     !ENDIF
     RETURN
   END FUNCTION PND_ChargeFormFactor_WS_fxn
-  
+
   SUBROUTINE mWT_integrate_PND_ChargeFormFactor_WS(integral)
     IMPLICIT NONE
     REAL(KIND(1d0)),INTENT(OUT)::integral
@@ -1229,7 +1229,7 @@ CONTAINS
     ! 10 means including the series 10 terms
     !CFF=ChargeFormFactor_WoodsSaxon(Q,R_common,w_common,aa_common,10)
     ! Let us exclude the series terms, which can be integrated fully analytically
-    ! This is rescaling invariant by Egamma/gamma=x_gamma*mN 
+    ! This is rescaling invariant by Egamma/gamma=x_gamma*mN
     CFF=ChargeFormFactor_WoodsSaxon(Qtil,Rtil,w_common,atil,0)
     IF(ISNAN(CFF))THEN
        PRINT *, "ChargeFormFactor is NaN with ",Qtil, Rtil, w_common, atil
@@ -1442,7 +1442,7 @@ CONTAINS
           STOP
        ENDIF
        XD_1D(MX+1)=DBLE(log10xmin)
-       bupper=bmaxoR*Rproton/GeVm12fm ! the hard cut in the grid of PhotonNumberDensity_ChargeFormFactor_proton_correction 
+       bupper=bmaxoR*Rproton/GeVm12fm ! the hard cut in the grid of PhotonNumberDensity_ChargeFormFactor_proton_correction
        DO I=1,MX+1
           IF(MX_save.GT.0.AND.I.LE.MX_save+1)THEN
              ZD(I)=ZD_save(I)
@@ -2597,7 +2597,7 @@ CONTAINS
     IMPLICIT NONE
     REAL(KIND(1d0))::PhotonPhotonFlux_pp_fxn
     INTEGER,INTENT(IN)::dim_num ! should be 3 or 2
-    ! 1/0.1973d0 from fm to GeV-1 for b 
+    ! 1/0.1973d0 from fm to GeV-1 for b
     ! x1*b1*mproton=Exp(bA(1))
     ! x2*b2*mproton=Exp(bA(2))
     ! bA(3) = theta_{12}
@@ -3053,7 +3053,7 @@ CONTAINS
     REAL(KIND(1d0))::E1_common,E2_common      ! energies of two photons
     REAL(KIND(1d0))::x1_common,x2_common      ! x1 and x2 of two photons
     REAL(KIND(1d0))::sigNN_inel_common        ! NN inelastic cross section
-    REAL(KIND(1d0))::RA_common, A_common      ! radius of nuclei and atom number of nuclei 
+    REAL(KIND(1d0))::RA_common, A_common      ! radius of nuclei and atom number of nuclei
     COMMON/PhotonPhoton_pA_HS/gamma1_common,gamma2_common,E1_common,E2_common,x1_common,x2_common,&
          sigNN_inel_common,RA_common,A_common
     REAL(KIND(1d0)),PARAMETER::mproton=0.938272081d0 ! the mass of proton (GeV)
@@ -4421,7 +4421,7 @@ CONTAINS
     ENDIF
     costh=DCOS(bA(3))
     ! in unit of GeV-1
-    ! x1*b1*mN=Exp(bA(1))                                                                                                         
+    ! x1*b1*mN=Exp(bA(1))
     b1=DEXP(bA(1))/x1_common/mN
     ! x2*b2*mN=Exp(bA(2))
     b2=DEXP(bA(2))/x2_common/mN
@@ -5476,7 +5476,7 @@ CONTAINS
     ENDIF
     RETURN
   END FUNCTION Lgammagamma_UPC_fxn
-  
+
   ! dL/dW at W=scale
   ! dL/dW=Lgammagamma*2W/s
   ! it is used in hep-ph/0112211
@@ -5697,7 +5697,7 @@ CONTAINS
     REAL(KIND(1d0))::PXn_LO_proj2,P1n_LO_proj2,P2n_LO_proj2,P3n_LO_proj2,P4n_LO_proj2
     REAL(KIND(1d0))::PXn_proj1,P0n_proj1,P1n_proj1,P2n_proj1,P3n_proj1,P4n_proj1
     REAL(KIND(1d0))::PXn_proj2,P0n_proj2,P1n_proj2,P2n_proj2,P3n_proj2,P4n_proj2
-    
+
     IF(in1.LT.-2.OR.in1.GT.4)THEN
        WRITE(*,*)"ERROR: only the following options for in1: -2 (0n+Xn), -1 (Xn), 0 (0n), 1 (1n), 2 (2n), 3 (3n), 4 (4n)"
        STOP
@@ -5711,13 +5711,13 @@ CONTAINS
        Pbreak_AB_WoodsSaxon=1d0
        RETURN
     ENDIF
-    
+
     conj_sum=.FALSE.
     IF(PRESENT(CONJUGATESUM))THEN
        conj_sum=CONJUGATESUM
     ENDIF
     IF(in1.EQ.in2)conj_sum=.FALSE.
-    
+
     IF(init.EQ.0)THEN
        IF(nb_proton(1).EQ.1.AND.nb_neutron(1).EQ.0)THEN
           nuclearA_beam1=0
@@ -5775,7 +5775,7 @@ CONTAINS
           RA_save(i)=RA_save(i)/GeVm12fm
           aaVal_save(i)=aaVal_save(i)/GeVm12fm
        ENDDO
-       
+
        init=1
     ENDIF
 
@@ -5980,7 +5980,7 @@ CONTAINS
     IF(conj_sum)THEN
        Pbreak_AB_WoodsSaxon=Pbreak_AB_WoodsSaxon+Pbreak_conj
     ENDIF
-    
+
     RETURN
   END FUNCTION Pbreak_AB_WoodsSaxon
 
@@ -6018,7 +6018,7 @@ CONTAINS
        Pbreak_pA_WoodsSaxon=1d0
        RETURN
     ENDIF
-    
+
     IF(init.EQ.0)THEN
        IF(nb_proton(1).EQ.1.AND.nb_neutron(1).EQ.0)THEN
           nuclearA_beam1=0
@@ -6143,7 +6143,7 @@ CONTAINS
     REAL(KIND(1d0)),INTENT(IN)::gamma_proj ! Lorentz gamma for projectile in lab frame
     REAL(KIND(1d0)),INTENT(IN)::gamma_target ! Lorentz gamma for target in lab frame
     REAL(KIND(1d0)),INTENT(IN)::RR_proj,w_proj,aa_proj ! nucleu parameters for projectile
-    
+
     REAL(KIND(1d0)),INTENT(IN)::Egamma_min_target ! Minimal Egamma in the target frame in unit of GeV
                                                   ! A nominal value is 1 MeV (0.001 GeV).
     REAL(KIND(1d0)),INTENT(IN)::Egamma_max_target ! Maximal Egamma in the target frame in unit of GeV
@@ -6187,12 +6187,12 @@ CONTAINS
     SAVE R_proj_save,w_proj_save,aa_proj_save
     SAVE gamma_proj_save,gamma_target_save
     SAVE A_target_save, Z_target_save
-    
+
     INTEGER,PARAMETER::n_interp=10
     INTEGER::npoints
     REAL(KIND(1d0)),DIMENSION(n_interp)::XD2_1D
     REAL(KIND(1d0)),DIMENSION(n_interp)::YD2_1D
-    
+
     IF(ibeam_proj.GT.2.OR.ibeam_proj.LT.1)THEN
        WRITE(*,*)"Error: ibeam_proj=/=1,2 in PbreakXn_LO_AB_WS"
        STOP
@@ -6212,7 +6212,7 @@ CONTAINS
     Egamma_min_lab=MAX(Egamma_min_target,0d0)/(gamma_target+dsqrt(gamma_target**2-one))
     xgamma_min_lab=Egamma_min_lab/(gamma_proj*mN)
     log1oxgamma_max=DLOG(1d0/xgamma_min_lab)
-    
+
     IF(Egamma_max_target.GT.0d0)THEN
        IF(Egamma_max_target.LE.Egamma_min_target)THEN
           WRITE(*,*)"Error: Egamma_max_target <= Egamma_min_target"
@@ -6234,7 +6234,7 @@ CONTAINS
     R_proj_common=RR_proj
     w_proj_common=w_proj
     aa_proj_common=aa_proj
-  
+
     integ_method6=1
     IF(PRESENT(integ_method))THEN
        integ_method6=integ_method
@@ -6268,24 +6268,24 @@ CONTAINS
                      log1oxgamma_max,integral)
              ELSE
                 CALL simpson(PbreakXn_LO_AB_WS_fxn,log1oxgamma_min,&
-                     log1oxgamma_max,integral,npoints) 
+                     log1oxgamma_max,integral,npoints)
              ENDIF
              PbreakXn_LO_AB_WS=integral
              RETURN
           ENDIF
        ENDIF
-       
+
        rescaling_bmax_save(ibeam_proj)=MAX(db,bmaxoR*RR_proj)
-       
+
        NXA=NBSEG*(nbmax+1)+1
        IF(.NOT.ALLOCATED(XA))THEN
           ALLOCATE(XA(2,NXA))
        ENDIF
-       
+
        IF(.NOT.ALLOCATED(YA))THEN
           ALLOCATE(YA(2,NXA))
        ENDIF
-       
+
        dbb=9d0/DBLE(NBSEG)
        IF(init(3-ibeam_proj).EQ.1.AND.&
             rescaling_bmax_save(ibeam_proj).EQ.rescaling_bmax_save(3-ibeam_proj).AND.&
@@ -6350,7 +6350,7 @@ CONTAINS
        ENDIF
        init(ibeam_proj)=1
     ENDIF
-  
+
     IF(R_proj_save(ibeam_proj).NE.RR_proj&
          .OR.w_proj_save(ibeam_proj).NE.w_proj&
          .OR.aa_proj_save(ibeam_proj).NE.aa_proj)THEN
@@ -6379,11 +6379,11 @@ CONTAINS
        WRITE(*,*)"INFO: New ones (A_target,Z_target)=",A_target,Z_target
        STOP
     ENDIF
-  
+
     IF(db.GT.rescaling_bmax_save(ibeam_proj).OR.db.LE.0d0)THEN
        PbreakXn_LO_AB_WS=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save(ibeam_proj),1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -6424,7 +6424,7 @@ CONTAINS
 
        CALL SPLINE_INTERPOLATE(XD2_1D,YD2_1D,n_interp,db,integral)
        PbreakXn_LO_AB_WS=integral
-       
+
     ENDIF
     RETURN
   END FUNCTION PbreakXn_LO_AB_WS
@@ -6444,7 +6444,7 @@ CONTAINS
     REAL(KIND(1d0))::b_proj_common,R_proj_common,w_proj_common,aa_proj_common
     COMMON/PbreakXn_AB_CFF_WS_REAL/gamma_target_common,gamma_proj_common,b_proj_common,&
          R_proj_common,w_proj_common,aa_proj_common
-    
+
     xgamma=DEXP(-log1oxgamma)
     IF(xgamma.GE.1d0.OR.xgamma.LE.0d0)THEN
        PbreakXn_LO_AB_WS_fxn=0d0
@@ -6471,7 +6471,7 @@ CONTAINS
          A_target_common,Z_target_common)*0.1d0/GeVm12fm**2
 
     PbreakXn_LO_AB_WS_fxn=PbreakXn_LO_AB_WS_fxn*CFF
-    
+
     RETURN
   END FUNCTION PbreakXn_LO_AB_WS_fxn
 
@@ -6505,7 +6505,7 @@ CONTAINS
     REAL(KIND(1d0))::xgamma_min_lab,xgamma_max_lab
     REAL(KIND(1d0))::log1oxgamma_max, log1oxgamma_min
     REAL(KIND(1d0))::integral
-    
+
     INTEGER::A_target_common,Z_target_common
     COMMON/PbreakXn_pA_CFF_INT/A_target_common,Z_target_common
     REAL(KIND(1d0))::gamma_proj_common,gamma_target_common
@@ -6651,7 +6651,7 @@ CONTAINS
           npoints=30000
           b_proj_common=XA(I)
           IF(Egamma_max_target.LT.0d0)THEN
-             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0       
+             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0
              Egamma_max_lab=DABS(Egamma_max_target)*gamma_proj_target/b_proj_common
              Egamma_max_lab=Egamma_max_lab/(gamma_target+dsqrt(gamma_target**2-one))
              xgamma_max_lab=MIN(Egamma_max_lab/(gamma_proj*mproton),1d0)
@@ -6689,7 +6689,7 @@ CONTAINS
     IF(db.GT.rescaling_bmax_save.OR.db.LE.0d0)THEN
        PbreakXn_LO_pA=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save,1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -6736,8 +6736,8 @@ CONTAINS
   END FUNCTION PbreakXn_LO_pA
 
   FUNCTION PbreakXn_LO_pA_fxn(log1oxgamma)
-    ! log1oxgamma = log(1/xgamma)                                                            
-    ! where xgamma is the momentum fraction in the lab frame                                 
+    ! log1oxgamma = log(1/xgamma)
+    ! where xgamma is the momentum fraction in the lab frame
     USE photoabsorption
     IMPLICIT NONE
     REAL(KIND(1d0))::PbreakXn_LO_pA_fxn
@@ -6796,7 +6796,7 @@ CONTAINS
     REAL(KIND(1d0)),INTENT(IN)::gamma_proj ! Lorentz gamma for projectile in lab frame
     REAL(KIND(1d0)),INTENT(IN)::gamma_target ! Lorentz gamma for target in lab frame
     REAL(KIND(1d0)),INTENT(IN)::RR_proj,w_proj,aa_proj ! nucleu parameters for projectile
-    
+
     REAL(KIND(1d0)),INTENT(IN)::Egamma_min_target ! Minimal Egamma in the target frame in unit of GeV
                                                   ! A nominal value is 1 MeV (0.001 GeV).
     REAL(KIND(1d0)),INTENT(IN)::Egamma_max_target ! Maximal Egamma in the target frame in unit of GeV
@@ -6841,12 +6841,12 @@ CONTAINS
     SAVE R_proj_save,w_proj_save,aa_proj_save
     SAVE gamma_proj_save,gamma_target_save
     SAVE A_target_save, Z_target_save
-    
+
     INTEGER,PARAMETER::n_interp=10
     INTEGER::npoints
     REAL(KIND(1d0)),DIMENSION(n_interp)::XD2_1D
     REAL(KIND(1d0)),DIMENSION(n_interp)::YD2_1D
-    
+
     IF(ibeam_proj.GT.2.OR.ibeam_proj.LT.1)THEN
        WRITE(*,*)"Error: ibeam_proj=/=1,2 in Pbreak1n_LO_AB_WS"
        STOP
@@ -6866,7 +6866,7 @@ CONTAINS
     Egamma_min_lab=MAX(Egamma_min_target,0d0)/(gamma_target+dsqrt(gamma_target**2-one))
     xgamma_min_lab=Egamma_min_lab/(gamma_proj*mN)
     log1oxgamma_max=DLOG(1d0/xgamma_min_lab)
-    
+
     IF(Egamma_max_target.GT.0d0)THEN
        IF(Egamma_max_target.LE.Egamma_min_target)THEN
           WRITE(*,*)"Error: Egamma_max_target <= Egamma_min_target"
@@ -6888,7 +6888,7 @@ CONTAINS
     R_proj_common=RR_proj
     w_proj_common=w_proj
     aa_proj_common=aa_proj
-  
+
     integ_method6=1
     IF(PRESENT(integ_method))THEN
        integ_method6=integ_method
@@ -6922,24 +6922,24 @@ CONTAINS
                      log1oxgamma_max,integral)
              ELSE
                 CALL simpson(Pbreak1n_LO_AB_WS_fxn,log1oxgamma_min,&
-                     log1oxgamma_max,integral,npoints) 
+                     log1oxgamma_max,integral,npoints)
              ENDIF
              Pbreak1n_LO_AB_WS=integral
              RETURN
           ENDIF
        ENDIF
-       
+
        rescaling_bmax_save(ibeam_proj)=MAX(db,bmaxoR*RR_proj)
-       
+
        NXA=NBSEG*(nbmax+1)+1
        IF(.NOT.ALLOCATED(XA))THEN
           ALLOCATE(XA(2,NXA))
        ENDIF
-       
+
        IF(.NOT.ALLOCATED(YA))THEN
           ALLOCATE(YA(2,NXA))
        ENDIF
-       
+
        dbb=9d0/DBLE(NBSEG)
        IF(init(3-ibeam_proj).EQ.1.AND.&
             rescaling_bmax_save(ibeam_proj).EQ.rescaling_bmax_save(3-ibeam_proj).AND.&
@@ -7004,7 +7004,7 @@ CONTAINS
        ENDIF
        init(ibeam_proj)=1
     ENDIF
-  
+
     IF(R_proj_save(ibeam_proj).NE.RR_proj&
          .OR.w_proj_save(ibeam_proj).NE.w_proj&
          .OR.aa_proj_save(ibeam_proj).NE.aa_proj)THEN
@@ -7033,11 +7033,11 @@ CONTAINS
        WRITE(*,*)"INFO: New ones (A_target,Z_target)=",A_target,Z_target
        STOP
     ENDIF
-  
+
     IF(db.GT.rescaling_bmax_save(ibeam_proj).OR.db.LE.0d0)THEN
        Pbreak1n_LO_AB_WS=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save(ibeam_proj),1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -7078,7 +7078,7 @@ CONTAINS
 
        CALL SPLINE_INTERPOLATE(XD2_1D,YD2_1D,n_interp,db,integral)
        Pbreak1n_LO_AB_WS=integral
-       
+
     ENDIF
     RETURN
   END FUNCTION Pbreak1n_LO_AB_WS
@@ -7098,7 +7098,7 @@ CONTAINS
     REAL(KIND(1d0))::b_proj_common,R_proj_common,w_proj_common,aa_proj_common
     COMMON/Pbreak1n_AB_CFF_WS_REAL/gamma_target_common,gamma_proj_common,b_proj_common,&
          R_proj_common,w_proj_common,aa_proj_common
-    
+
     xgamma=DEXP(-log1oxgamma)
     IF(xgamma.GE.1d0.OR.xgamma.LE.0d0)THEN
        Pbreak1n_LO_AB_WS_fxn=0d0
@@ -7125,7 +7125,7 @@ CONTAINS
          A_target_common,Z_target_common)*0.1d0/GeVm12fm**2
 
     Pbreak1n_LO_AB_WS_fxn=Pbreak1n_LO_AB_WS_fxn*CFF
-    
+
     RETURN
   END FUNCTION Pbreak1n_LO_AB_WS_fxn
 
@@ -7160,7 +7160,7 @@ CONTAINS
     REAL(KIND(1d0))::xgamma_min_lab,xgamma_max_lab
     REAL(KIND(1d0))::log1oxgamma_max, log1oxgamma_min
     REAL(KIND(1d0))::integral
-    
+
     INTEGER::A_target_common,Z_target_common
     COMMON/Pbreak1n_pA_CFF_INT/A_target_common,Z_target_common
     REAL(KIND(1d0))::gamma_proj_common,gamma_target_common
@@ -7306,7 +7306,7 @@ CONTAINS
           npoints=30000
           b_proj_common=XA(I)
           IF(Egamma_max_target.LT.0d0)THEN
-             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0       
+             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0
              Egamma_max_lab=DABS(Egamma_max_target)*gamma_proj_target/b_proj_common
              Egamma_max_lab=Egamma_max_lab/(gamma_target+dsqrt(gamma_target**2-one))
              xgamma_max_lab=MIN(Egamma_max_lab/(gamma_proj*mproton),1d0)
@@ -7344,7 +7344,7 @@ CONTAINS
     IF(db.GT.rescaling_bmax_save.OR.db.LE.0d0)THEN
        Pbreak1n_LO_pA=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save,1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -7451,7 +7451,7 @@ CONTAINS
     REAL(KIND(1d0)),INTENT(IN)::gamma_proj ! Lorentz gamma for projectile in lab frame
     REAL(KIND(1d0)),INTENT(IN)::gamma_target ! Lorentz gamma for target in lab frame
     REAL(KIND(1d0)),INTENT(IN)::RR_proj,w_proj,aa_proj ! nucleu parameters for projectile
-    
+
     REAL(KIND(1d0)),INTENT(IN)::Egamma_min_target ! Minimal Egamma in the target frame in unit of GeV
                                                   ! A nominal value is 13 MeV (0.013 GeV).
     REAL(KIND(1d0)),INTENT(IN)::Egamma_max_target ! Maximal Egamma in the target frame in unit of GeV
@@ -7496,12 +7496,12 @@ CONTAINS
     SAVE R_proj_save,w_proj_save,aa_proj_save
     SAVE gamma_proj_save,gamma_target_save
     SAVE A_target_save, Z_target_save
-    
+
     INTEGER,PARAMETER::n_interp=10
     INTEGER::npoints
     REAL(KIND(1d0)),DIMENSION(n_interp)::XD2_1D
     REAL(KIND(1d0)),DIMENSION(n_interp)::YD2_1D
-    
+
     IF(ibeam_proj.GT.2.OR.ibeam_proj.LT.1)THEN
        WRITE(*,*)"Error: ibeam_proj=/=1,2 in Pbreak2n_LO_AB_WS"
        STOP
@@ -7521,7 +7521,7 @@ CONTAINS
     Egamma_min_lab=MAX(Egamma_min_target,0d0)/(gamma_target+dsqrt(gamma_target**2-one))
     xgamma_min_lab=Egamma_min_lab/(gamma_proj*mN)
     log1oxgamma_max=DLOG(1d0/xgamma_min_lab)
-    
+
     IF(Egamma_max_target.GT.0d0)THEN
        IF(Egamma_max_target.LE.Egamma_min_target)THEN
           WRITE(*,*)"Error: Egamma_max_target <= Egamma_min_target"
@@ -7543,7 +7543,7 @@ CONTAINS
     R_proj_common=RR_proj
     w_proj_common=w_proj
     aa_proj_common=aa_proj
-  
+
     integ_method6=1
     IF(PRESENT(integ_method))THEN
        integ_method6=integ_method
@@ -7577,24 +7577,24 @@ CONTAINS
                      log1oxgamma_max,integral)
              ELSE
                 CALL simpson(Pbreak2n_LO_AB_WS_fxn,log1oxgamma_min,&
-                     log1oxgamma_max,integral,npoints) 
+                     log1oxgamma_max,integral,npoints)
              ENDIF
              Pbreak2n_LO_AB_WS=integral
              RETURN
           ENDIF
        ENDIF
-       
+
        rescaling_bmax_save(ibeam_proj)=MAX(db,bmaxoR*RR_proj)
-       
+
        NXA=NBSEG*(nbmax+1)+1
        IF(.NOT.ALLOCATED(XA))THEN
           ALLOCATE(XA(2,NXA))
        ENDIF
-       
+
        IF(.NOT.ALLOCATED(YA))THEN
           ALLOCATE(YA(2,NXA))
        ENDIF
-       
+
        dbb=9d0/DBLE(NBSEG)
        IF(init(3-ibeam_proj).EQ.1.AND.&
             rescaling_bmax_save(ibeam_proj).EQ.rescaling_bmax_save(3-ibeam_proj).AND.&
@@ -7659,7 +7659,7 @@ CONTAINS
        ENDIF
        init(ibeam_proj)=1
     ENDIF
-  
+
     IF(R_proj_save(ibeam_proj).NE.RR_proj&
          .OR.w_proj_save(ibeam_proj).NE.w_proj&
          .OR.aa_proj_save(ibeam_proj).NE.aa_proj)THEN
@@ -7688,11 +7688,11 @@ CONTAINS
        WRITE(*,*)"INFO: New ones (A_target,Z_target)=",A_target,Z_target
        STOP
     ENDIF
-  
+
     IF(db.GT.rescaling_bmax_save(ibeam_proj).OR.db.LE.0d0)THEN
        Pbreak2n_LO_AB_WS=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save(ibeam_proj),1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -7733,7 +7733,7 @@ CONTAINS
 
        CALL SPLINE_INTERPOLATE(XD2_1D,YD2_1D,n_interp,db,integral)
        Pbreak2n_LO_AB_WS=integral
-       
+
     ENDIF
     RETURN
   END FUNCTION Pbreak2n_LO_AB_WS
@@ -7753,7 +7753,7 @@ CONTAINS
     REAL(KIND(1d0))::b_proj_common,R_proj_common,w_proj_common,aa_proj_common
     COMMON/Pbreak2n_AB_CFF_WS_REAL/gamma_target_common,gamma_proj_common,b_proj_common,&
          R_proj_common,w_proj_common,aa_proj_common
-    
+
     xgamma=DEXP(-log1oxgamma)
     IF(xgamma.GE.1d0.OR.xgamma.LE.0d0)THEN
        Pbreak2n_LO_AB_WS_fxn=0d0
@@ -7780,7 +7780,7 @@ CONTAINS
          A_target_common,Z_target_common)*0.1d0/GeVm12fm**2
 
     Pbreak2n_LO_AB_WS_fxn=Pbreak2n_LO_AB_WS_fxn*CFF
-    
+
     RETURN
   END FUNCTION Pbreak2n_LO_AB_WS_fxn
 
@@ -7815,7 +7815,7 @@ CONTAINS
     REAL(KIND(1d0))::xgamma_min_lab,xgamma_max_lab
     REAL(KIND(1d0))::log1oxgamma_max, log1oxgamma_min
     REAL(KIND(1d0))::integral
-    
+
     INTEGER::A_target_common,Z_target_common
     COMMON/Pbreak2n_pA_CFF_INT/A_target_common,Z_target_common
     REAL(KIND(1d0))::gamma_proj_common,gamma_target_common
@@ -7961,7 +7961,7 @@ CONTAINS
           npoints=30000
           b_proj_common=XA(I)
           IF(Egamma_max_target.LT.0d0)THEN
-             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0       
+             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0
              Egamma_max_lab=DABS(Egamma_max_target)*gamma_proj_target/b_proj_common
              Egamma_max_lab=Egamma_max_lab/(gamma_target+dsqrt(gamma_target**2-one))
              xgamma_max_lab=MIN(Egamma_max_lab/(gamma_proj*mproton),1d0)
@@ -7999,7 +7999,7 @@ CONTAINS
     IF(db.GT.rescaling_bmax_save.OR.db.LE.0d0)THEN
        Pbreak2n_LO_pA=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save,1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -8106,7 +8106,7 @@ CONTAINS
     REAL(KIND(1d0)),INTENT(IN)::gamma_proj ! Lorentz gamma for projectile in lab frame
     REAL(KIND(1d0)),INTENT(IN)::gamma_target ! Lorentz gamma for target in lab frame
     REAL(KIND(1d0)),INTENT(IN)::RR_proj,w_proj,aa_proj ! nucleu parameters for projectile
-    
+
     REAL(KIND(1d0)),INTENT(IN)::Egamma_min_target ! Minimal Egamma in the target frame in unit of GeV
                                                   ! A nominal value is 22 MeV (0.022 GeV).
     REAL(KIND(1d0)),INTENT(IN)::Egamma_max_target ! Maximal Egamma in the target frame in unit of GeV
@@ -8151,12 +8151,12 @@ CONTAINS
     SAVE R_proj_save,w_proj_save,aa_proj_save
     SAVE gamma_proj_save,gamma_target_save
     SAVE A_target_save, Z_target_save
-    
+
     INTEGER,PARAMETER::n_interp=10
     INTEGER::npoints
     REAL(KIND(1d0)),DIMENSION(n_interp)::XD2_1D
     REAL(KIND(1d0)),DIMENSION(n_interp)::YD2_1D
-    
+
     IF(ibeam_proj.GT.2.OR.ibeam_proj.LT.1)THEN
        WRITE(*,*)"Error: ibeam_proj=/=1,2 in Pbreak3n_LO_AB_WS"
        STOP
@@ -8176,7 +8176,7 @@ CONTAINS
     Egamma_min_lab=MAX(Egamma_min_target,0d0)/(gamma_target+dsqrt(gamma_target**2-one))
     xgamma_min_lab=Egamma_min_lab/(gamma_proj*mN)
     log1oxgamma_max=DLOG(1d0/xgamma_min_lab)
-    
+
     IF(Egamma_max_target.GT.0d0)THEN
        IF(Egamma_max_target.LE.Egamma_min_target)THEN
           WRITE(*,*)"Error: Egamma_max_target <= Egamma_min_target"
@@ -8198,7 +8198,7 @@ CONTAINS
     R_proj_common=RR_proj
     w_proj_common=w_proj
     aa_proj_common=aa_proj
-  
+
     integ_method6=1
     IF(PRESENT(integ_method))THEN
        integ_method6=integ_method
@@ -8232,24 +8232,24 @@ CONTAINS
                      log1oxgamma_max,integral)
              ELSE
                 CALL simpson(Pbreak3n_LO_AB_WS_fxn,log1oxgamma_min,&
-                     log1oxgamma_max,integral,npoints) 
+                     log1oxgamma_max,integral,npoints)
              ENDIF
              Pbreak3n_LO_AB_WS=integral
              RETURN
           ENDIF
        ENDIF
-       
+
        rescaling_bmax_save(ibeam_proj)=MAX(db,bmaxoR*RR_proj)
-       
+
        NXA=NBSEG*(nbmax+1)+1
        IF(.NOT.ALLOCATED(XA))THEN
           ALLOCATE(XA(2,NXA))
        ENDIF
-       
+
        IF(.NOT.ALLOCATED(YA))THEN
           ALLOCATE(YA(2,NXA))
        ENDIF
-       
+
        dbb=9d0/DBLE(NBSEG)
        IF(init(3-ibeam_proj).EQ.1.AND.&
             rescaling_bmax_save(ibeam_proj).EQ.rescaling_bmax_save(3-ibeam_proj).AND.&
@@ -8314,7 +8314,7 @@ CONTAINS
        ENDIF
        init(ibeam_proj)=1
     ENDIF
-  
+
     IF(R_proj_save(ibeam_proj).NE.RR_proj&
          .OR.w_proj_save(ibeam_proj).NE.w_proj&
          .OR.aa_proj_save(ibeam_proj).NE.aa_proj)THEN
@@ -8343,11 +8343,11 @@ CONTAINS
        WRITE(*,*)"INFO: New ones (A_target,Z_target)=",A_target,Z_target
        STOP
     ENDIF
-  
+
     IF(db.GT.rescaling_bmax_save(ibeam_proj).OR.db.LE.0d0)THEN
        Pbreak3n_LO_AB_WS=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save(ibeam_proj),1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -8388,7 +8388,7 @@ CONTAINS
 
        CALL SPLINE_INTERPOLATE(XD2_1D,YD2_1D,n_interp,db,integral)
        Pbreak3n_LO_AB_WS=integral
-       
+
     ENDIF
     RETURN
   END FUNCTION Pbreak3n_LO_AB_WS
@@ -8408,7 +8408,7 @@ CONTAINS
     REAL(KIND(1d0))::b_proj_common,R_proj_common,w_proj_common,aa_proj_common
     COMMON/Pbreak3n_AB_CFF_WS_REAL/gamma_target_common,gamma_proj_common,b_proj_common,&
          R_proj_common,w_proj_common,aa_proj_common
-    
+
     xgamma=DEXP(-log1oxgamma)
     IF(xgamma.GE.1d0.OR.xgamma.LE.0d0)THEN
        Pbreak3n_LO_AB_WS_fxn=0d0
@@ -8435,7 +8435,7 @@ CONTAINS
          A_target_common,Z_target_common)*0.1d0/GeVm12fm**2
 
     Pbreak3n_LO_AB_WS_fxn=Pbreak3n_LO_AB_WS_fxn*CFF
-    
+
     RETURN
   END FUNCTION Pbreak3n_LO_AB_WS_fxn
 
@@ -8470,7 +8470,7 @@ CONTAINS
     REAL(KIND(1d0))::xgamma_min_lab,xgamma_max_lab
     REAL(KIND(1d0))::log1oxgamma_max, log1oxgamma_min
     REAL(KIND(1d0))::integral
-    
+
     INTEGER::A_target_common,Z_target_common
     COMMON/Pbreak3n_pA_CFF_INT/A_target_common,Z_target_common
     REAL(KIND(1d0))::gamma_proj_common,gamma_target_common
@@ -8616,7 +8616,7 @@ CONTAINS
           npoints=30000
           b_proj_common=XA(I)
           IF(Egamma_max_target.LT.0d0)THEN
-             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0       
+             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0
              Egamma_max_lab=DABS(Egamma_max_target)*gamma_proj_target/b_proj_common
              Egamma_max_lab=Egamma_max_lab/(gamma_target+dsqrt(gamma_target**2-one))
              xgamma_max_lab=MIN(Egamma_max_lab/(gamma_proj*mproton),1d0)
@@ -8654,7 +8654,7 @@ CONTAINS
     IF(db.GT.rescaling_bmax_save.OR.db.LE.0d0)THEN
        Pbreak3n_LO_pA=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save,1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -8761,7 +8761,7 @@ CONTAINS
     REAL(KIND(1d0)),INTENT(IN)::gamma_proj ! Lorentz gamma for projectile in lab frame
     REAL(KIND(1d0)),INTENT(IN)::gamma_target ! Lorentz gamma for target in lab frame
     REAL(KIND(1d0)),INTENT(IN)::RR_proj,w_proj,aa_proj ! nucleu parameters for projectile
-    
+
     REAL(KIND(1d0)),INTENT(IN)::Egamma_min_target ! Minimal Egamma in the target frame in unit of GeV
                                                   ! A nominal value is 32 MeV (0.032 GeV).
     REAL(KIND(1d0)),INTENT(IN)::Egamma_max_target ! Maximal Egamma in the target frame in unit of GeV
@@ -8806,12 +8806,12 @@ CONTAINS
     SAVE R_proj_save,w_proj_save,aa_proj_save
     SAVE gamma_proj_save,gamma_target_save
     SAVE A_target_save, Z_target_save
-    
+
     INTEGER,PARAMETER::n_interp=10
     INTEGER::npoints
     REAL(KIND(1d0)),DIMENSION(n_interp)::XD2_1D
     REAL(KIND(1d0)),DIMENSION(n_interp)::YD2_1D
-    
+
     IF(ibeam_proj.GT.2.OR.ibeam_proj.LT.1)THEN
        WRITE(*,*)"Error: ibeam_proj=/=1,2 in Pbreak4n_LO_AB_WS"
        STOP
@@ -8831,7 +8831,7 @@ CONTAINS
     Egamma_min_lab=MAX(Egamma_min_target,0d0)/(gamma_target+dsqrt(gamma_target**2-one))
     xgamma_min_lab=Egamma_min_lab/(gamma_proj*mN)
     log1oxgamma_max=DLOG(1d0/xgamma_min_lab)
-    
+
     IF(Egamma_max_target.GT.0d0)THEN
        IF(Egamma_max_target.LE.Egamma_min_target)THEN
           WRITE(*,*)"Error: Egamma_max_target <= Egamma_min_target"
@@ -8853,7 +8853,7 @@ CONTAINS
     R_proj_common=RR_proj
     w_proj_common=w_proj
     aa_proj_common=aa_proj
-  
+
     integ_method6=1
     IF(PRESENT(integ_method))THEN
        integ_method6=integ_method
@@ -8887,24 +8887,24 @@ CONTAINS
                      log1oxgamma_max,integral)
              ELSE
                 CALL simpson(Pbreak4n_LO_AB_WS_fxn,log1oxgamma_min,&
-                     log1oxgamma_max,integral,npoints) 
+                     log1oxgamma_max,integral,npoints)
              ENDIF
              Pbreak4n_LO_AB_WS=integral
              RETURN
           ENDIF
        ENDIF
-       
+
        rescaling_bmax_save(ibeam_proj)=MAX(db,bmaxoR*RR_proj)
-       
+
        NXA=NBSEG*(nbmax+1)+1
        IF(.NOT.ALLOCATED(XA))THEN
           ALLOCATE(XA(2,NXA))
        ENDIF
-       
+
        IF(.NOT.ALLOCATED(YA))THEN
           ALLOCATE(YA(2,NXA))
        ENDIF
-       
+
        dbb=9d0/DBLE(NBSEG)
        IF(init(3-ibeam_proj).EQ.1.AND.&
             rescaling_bmax_save(ibeam_proj).EQ.rescaling_bmax_save(3-ibeam_proj).AND.&
@@ -8969,7 +8969,7 @@ CONTAINS
        ENDIF
        init(ibeam_proj)=1
     ENDIF
-  
+
     IF(R_proj_save(ibeam_proj).NE.RR_proj&
          .OR.w_proj_save(ibeam_proj).NE.w_proj&
          .OR.aa_proj_save(ibeam_proj).NE.aa_proj)THEN
@@ -8998,11 +8998,11 @@ CONTAINS
        WRITE(*,*)"INFO: New ones (A_target,Z_target)=",A_target,Z_target
        STOP
     ENDIF
-  
+
     IF(db.GT.rescaling_bmax_save(ibeam_proj).OR.db.LE.0d0)THEN
        Pbreak4n_LO_AB_WS=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save(ibeam_proj),1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -9043,7 +9043,7 @@ CONTAINS
 
        CALL SPLINE_INTERPOLATE(XD2_1D,YD2_1D,n_interp,db,integral)
        Pbreak4n_LO_AB_WS=integral
-       
+
     ENDIF
     RETURN
   END FUNCTION Pbreak4n_LO_AB_WS
@@ -9063,7 +9063,7 @@ CONTAINS
     REAL(KIND(1d0))::b_proj_common,R_proj_common,w_proj_common,aa_proj_common
     COMMON/Pbreak4n_AB_CFF_WS_REAL/gamma_target_common,gamma_proj_common,b_proj_common,&
          R_proj_common,w_proj_common,aa_proj_common
-    
+
     xgamma=DEXP(-log1oxgamma)
     IF(xgamma.GE.1d0.OR.xgamma.LE.0d0)THEN
        Pbreak4n_LO_AB_WS_fxn=0d0
@@ -9090,7 +9090,7 @@ CONTAINS
          A_target_common,Z_target_common)*0.1d0/GeVm12fm**2
 
     Pbreak4n_LO_AB_WS_fxn=Pbreak4n_LO_AB_WS_fxn*CFF
-    
+
     RETURN
   END FUNCTION Pbreak4n_LO_AB_WS_fxn
 
@@ -9125,7 +9125,7 @@ CONTAINS
     REAL(KIND(1d0))::xgamma_min_lab,xgamma_max_lab
     REAL(KIND(1d0))::log1oxgamma_max, log1oxgamma_min
     REAL(KIND(1d0))::integral
-    
+
     INTEGER::A_target_common,Z_target_common
     COMMON/Pbreak4n_pA_CFF_INT/A_target_common,Z_target_common
     REAL(KIND(1d0))::gamma_proj_common,gamma_target_common
@@ -9271,7 +9271,7 @@ CONTAINS
           npoints=30000
           b_proj_common=XA(I)
           IF(Egamma_max_target.LT.0d0)THEN
-             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0       
+             ! highest gamma energy [GeV] in the lab frame if Egamma_max_target < 0
              Egamma_max_lab=DABS(Egamma_max_target)*gamma_proj_target/b_proj_common
              Egamma_max_lab=Egamma_max_lab/(gamma_target+dsqrt(gamma_target**2-one))
              xgamma_max_lab=MIN(Egamma_max_lab/(gamma_proj*mproton),1d0)
@@ -9309,7 +9309,7 @@ CONTAINS
     IF(db.GT.rescaling_bmax_save.OR.db.LE.0d0)THEN
        Pbreak4n_LO_pA=0d0
     ELSE
-       
+
        dbb=MIN(db/rescaling_bmax_save,1d0)
        N=-FLOOR(DLOG10(dbb))-1 ! db is in 10**(-n-1) to 10**(-n)
        IF(N.LT.0)THEN
@@ -9398,7 +9398,7 @@ CONTAINS
 
     RETURN
   END FUNCTION Pbreak4n_LO_pA_fxn
-  
+
   subroutine progress(j,nmax,forceinit)
     implicit none
     integer,intent(in)::j,nmax
@@ -9528,7 +9528,7 @@ CONTAINS
 
     logQ2oQ02max=dlog(Q2max/Q02)
     logQ2oQ02min=dlog(Q2min/Q02)
-    
+
     if(Q2max_save.ne.Q2max)then
        ! we need to generate the grid first
        Q2max_save=Q2max
@@ -9616,7 +9616,7 @@ CONTAINS
 
     RAA=RA/GeVm12fm ! from fm to GeV-1
     aAA=aA/GeVm12fm ! from fm to GeV-1
-      
+
 
     xmax=xmaxvalue(mn2,Q2max)
 
@@ -9702,7 +9702,7 @@ CONTAINS
     real(kind(1d0)),intent(in)::logQ2oQ02
     real(kind(1d0))::x
     common/proton_iWW_dist/x
-      
+
     proton_iWW_mdistfun_min=proton_iWW_distfun(x,logQ2oQ02)
     proton_iWW_mdistfun_min=-proton_iWW_mdistfun_min
     return

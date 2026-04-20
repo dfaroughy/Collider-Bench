@@ -53,4 +53,3 @@ void Parameters_%(model_name)s::printDependentCouplings(){
 cout << "%(model_name)s model couplings dependent on event kinematics:" << endl;
 %(print_dependent_couplings)s
 }
-

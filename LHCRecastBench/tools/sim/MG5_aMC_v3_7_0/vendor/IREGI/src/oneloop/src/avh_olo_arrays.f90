@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -185,7 +185,7 @@ contains
   deallocate(tt)
   end subroutine
 
- 
+
   subroutine resize1_r( xx ,l1,u1 )
   include 'avh_olo_real.h90'
     ,allocatable ,intent(inout) :: xx(:)
@@ -205,7 +205,7 @@ contains
   lb(1)=max(l1,lb(1)) ;ub(1)=min(u1,ub(1))
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine resize2_r( xx ,l1,u1 ,l2,u2 )
   include 'avh_olo_real.h90'
@@ -228,7 +228,7 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 
   subroutine enlarge1_r( xx ,l1,u1 )
@@ -255,7 +255,7 @@ contains
   allocate( xx(min(l1,lb(1)):max(u1,ub(1))) )
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine enlarge2_r( xx ,l1,u1 ,l2,u2 )
   include 'avh_olo_real.h90'
@@ -285,6 +285,6 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 end module

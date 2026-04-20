@@ -1,7 +1,7 @@
 
 include ../../make_opts
 
-all: dummy 
+all: dummy
 
 clean:
 	$(RM) *.o $(BIASLIBDIR)$(BIASLIBRARY)
@@ -17,5 +17,5 @@ dummy: dummy.o
 # List of the requirements for this module.
 # 'VALID' is the keyword that *must* be returned if everything is in order.
 #
-requirements:	
+requirements:
 	@echo "VALID"

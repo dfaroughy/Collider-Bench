@@ -6,9 +6,9 @@
 *									       *
 *******************************************************************************/
 /*
-** This is a simple GUI front end to create or modify, read, save.. a 
+** This is a simple GUI front end to create or modify, read, save.. a
 ** generalized Ntuple Descriptor. The NFit Parameter panel has been
-** inspirational in building this one. 
+** inspirational in building this one.
 */
 #include <stdio.h>
 #include <limits.h>
@@ -29,7 +29,7 @@
 Widget McfioMainPanelW = NULL; /* Not use in this context, but linked in */
 
 static char *fallbackResources[] = {
-    "*background:  white", 
+    "*background:  white",
     "*foreground: black",
     "*fileMenu.tearOffModel: XmTEAR_OFF_ENABLED",
     "*preferencesMenu.tearOffModel: XmTEAR_OFF_ENABLED",
@@ -37,8 +37,8 @@ static char *fallbackResources[] = {
     "*XmList.fontList:-adobe-courier-bold-r-normal-*-14-*-*-*-*-*-*-*",
     0};
 /*
-** Global, to be use throughout this application, 
-**        to pick up available NTuBuildWindows... 
+** Global, to be use throughout this application,
+**        to pick up available NTuBuildWindows...
 */
 extern nTuBuildWindow *NTuBuildWindowList;
 
@@ -50,7 +50,7 @@ main(int argc, char **argv)
     char *fileName, *env, *line;
     XrmDatabase prefDB;
     FILE *Ffp;
-    
+
     env = NULL;
     env = getenv("MCFIO_DIR");
     /*
@@ -62,7 +62,7 @@ main(int argc, char **argv)
     Ffp = fopen(line, "r");
     if (Ffp == NULL) {
        printf ("The file %s could not be opened. \n", line);
-       printf (" Please check MCFIO installation. \n"); 
+       printf (" Please check MCFIO installation. \n");
        exit(0);
     }
     fclose(Ffp);
@@ -72,22 +72,22 @@ main(int argc, char **argv)
     ** Initialize mcfio
     */
     mcfioC_Init();
-     
+
     /* Initialize toolkit and create the obligatory application context */
     XtToolkitInitialize();
     context = XtCreateApplicationContext();
-    
+
     /* Motif still has problems with releasing non-existent passive grabs */
     SuppressPassiveGrabWarnings();
 
     /* Set up default resources */
     XtAppSetFallbackResources(context, fallbackResources);
-    
+
 #if !AIX
     /* Allow users to change tear off menus with X resources */
     XmRepTypeInstallTearOffModelConverter();
 #endif
-  
+
    /* Open the Display */
     display = XtOpenDisplay(context, NULL, APP_NAME, APP_CLASS, NULL,
             0, &argc, argv);
@@ -95,23 +95,23 @@ main(int argc, char **argv)
         fprintf(stderr,"NtuBuild: Can't open display\n");
         exit(0);
     }
-    
+
     /* Open an empty fit window to give users a menu bar */
     CreateNTuBuildWindow(display, "NTuple Builder, first window", False);
-    
+
     /* Process inline arguments.  For now, only implement file Read */
-    
+
     if (argc > 1) {
        fileName = argv[1];
        GetFileNTuBuildWindow(NTuBuildWindowList, fileName);
        XtVaSetValues(NTuBuildWindowList->shell, XmNtitle, fileName, 0);
-    }    
+    }
     /* Process events */
     XtAppMainLoop (context);
 }
 /*
-** A bunch of dummy function that are never called from this program, 
-** but neede to complete the link of the executable (one panel beeing 
+** A bunch of dummy function that are never called from this program,
+** but neede to complete the link of the executable (one panel beeing
 ** shared between the Browser and the Builder modules. )
 */
 void mcfioC_ShowBrowserOneDHist()

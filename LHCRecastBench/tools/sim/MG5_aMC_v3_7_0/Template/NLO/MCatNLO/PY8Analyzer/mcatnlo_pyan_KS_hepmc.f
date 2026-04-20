@@ -19,7 +19,7 @@ C----------------------------------------------------------------------
       common/c_analysis/nwgt_analysis
       character*50 weights_info(max_weight_shower),wwwi(max_weight_shower)
       include 'process.inc'
-c      
+c
       call inihist
       weights_info(1)="central value  "
       do i=1,nnn+1
@@ -59,7 +59,7 @@ C----------------------------------------------------------------------
       include 'process.inc'
       OPEN(UNIT=99,FILE='KS.top',STATUS='UNKNOWN')
 c
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=IEVTTOT/DFLOAT(NEVHEP)
       DO I=1,NPL
@@ -228,7 +228,7 @@ c define observables
             enddo
             inv_m(ii,jj)=getinvmv4(p_ij)
             DeltaR(ii,jj)=getdrv4(p_part(1,ii),p_part(1,jj))
-         enddo 
+         enddo
       enddo
 c
 c fill histograms
@@ -614,4 +614,3 @@ c
 
       return
       end
-

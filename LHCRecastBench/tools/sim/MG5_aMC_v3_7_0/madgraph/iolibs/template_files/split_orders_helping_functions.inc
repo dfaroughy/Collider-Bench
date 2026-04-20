@@ -3,13 +3,13 @@ C Set of functions to handle the array indices of the split orders
 
       INTEGER FUNCTION %(proc_prefix)sSQSOINDEX%(proc_id)s(ORDERINDEXA, ORDERINDEXB)
 C
-C This functions plays the role of the interference matrix. It can be hardcoded or 
+C This functions plays the role of the interference matrix. It can be hardcoded or
 C made more elegant using hashtables if its execution speed ever becomes a relevant
-C factor. From two split order indices, it return the corresponding index in the squared 
+C factor. From two split order indices, it return the corresponding index in the squared
 c order canonical ordering.
 C
 C CONSTANTS
-C      
+C
 
       INTEGER    NSO, NSQUAREDSO, NAMPSO
 	  PARAMETER (NSO=%(nSplitOrders)d, NSQUAREDSO=%(nSqAmpSplitOrders)d, NAMPSO=%(nAmpSplitOrders)d)
@@ -69,7 +69,7 @@ C
 1009    CONTINUE
 	  ENDDO
 
-	  WRITE(*,*) 'ERROR:: Stopping in function' 
+	  WRITE(*,*) 'ERROR:: Stopping in function'
 	  WRITE(*,*) '%(proc_prefix)sSOINDEX_FOR_SQUARED_ORDERS%(proc_id)s'
 	  WRITE(*,*) 'Could not find squared orders ',(ORDERS(I),I=1,NSO)
 	  STOP
@@ -79,7 +79,7 @@ C
       SUBROUTINE %(proc_prefix)sGET_NSQSO_BORN%(proc_id)s(NSQSO)
 C
 C     Simple subroutine returning the number of squared split order
-C     contributions returned when calling smatrix_split_orders 
+C     contributions returned when calling smatrix_split_orders
 C
 
       INTEGER    NSQUAREDSO
@@ -110,7 +110,7 @@ C LOCAL VARIABLES
 C
       INTEGER I
 	  INTEGER SQPLITORDERS(NSQSO,NSO)
-	  COMMON/%(proc_prefix)sSQPLITORDERS%(proc_id)s/SQPLITORDERS	  
+	  COMMON/%(proc_prefix)sSQPLITORDERS%(proc_id)s/SQPLITORDERS
 C
 C BEGIN CODE
 C

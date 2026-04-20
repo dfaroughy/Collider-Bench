@@ -6,7 +6,7 @@ c*****************************************************************************
       implicit none
 c
 c     Constants
-c     
+c
       include 'genps.inc'
       include 'maxconfigs.inc'
       include 'nexternal.inc'
@@ -52,7 +52,7 @@ c
 
       logical             OnBW(-nexternal:0)     !Set if event is on B.W.
       common/to_BWEvents/ OnBW
-      
+
 c      include 'vector.inc' ! defines VECSIZE_MEMMAX
       include 'coupl.inc' ! needs VECSIZE_MEMMAX (defined in vector.inc)
 
@@ -72,7 +72,7 @@ c
       data first_time /.true./
 c-----
 c  Begin Code
-c-----      
+c-----
       cut_bw = .false.    !Default is we passed the cut
       iconfig = this_config
 
@@ -141,7 +141,7 @@ c
 c     Remove on-shell forbidden s-channels (gForceBW=2) (JA 2/10/11)
               if(gForceBW(i,iconfig).eq.2) then
                  cut_bw = .true.
-                 return               
+                 return
               endif
 c           Only allow OnBW if no "decay" to identical particle
               OnBW(i) = .true.
@@ -211,7 +211,7 @@ c*****************************************************************************
       implicit none
 c
 c     Constants
-c     
+c
       include 'genps.inc'
       include 'maxconfigs.inc'
       include 'nexternal.inc'
@@ -309,7 +309,7 @@ c
 
 c-----
 c  Begin Code
-c-----     
+c-----
       if (dsqrt_shatmax.ne.-1)then
         stot = min(real_stot, dsqrt_shatmax**2)
       else
@@ -321,7 +321,7 @@ c     needs to be initialise to avoid segfault
       do i = -nexternal,-1
          prwidth(i,iconfig) = 0
          prmass(i,iconfig) =0
-      enddo 
+      enddo
       include 'props.inc'
 c      etmin = 10
       nt = 0
@@ -348,7 +348,7 @@ c-JA 1/2009: Set grid also based on xqcut
          xe(i)=max(xe(i),xqfact*xqcuti(i))
          xk(i)= 0d0
          etot = etot+xe(i)
-         mtot=mtot+xm(i)         
+         mtot=mtot+xm(i)
       enddo
       spmass=mtot
       tsgn    = +1d0
@@ -479,11 +479,11 @@ c     OM 7/27/2013 use MMJJ in order to set the mass in a appropriate way
                  endif
               endif
               if (xo.eq.0d0) xo=MIN(10d0/stot, stot/50d0, 0.5)
-c              if (prwidth_tmp(i, iconfig) .eq. 0d0.or.iden_part(i).gt.0) then 
+c              if (prwidth_tmp(i, iconfig) .eq. 0d0.or.iden_part(i).gt.0) then
               if (tsgn .ne. 1d0.or.i .ne. -(nexternal-(nincoming+1))) then !s channel for shat
                   call setgrid(-i,xo,a,1)
               endif
-c              else 
+c              else
 c                 write(*,*) 'Using flat grid for BW',i,nbw,
 c     $                prmass(i,iconfig)
 c              endif
@@ -497,7 +497,7 @@ c     Check closest to p1
 c
             nt = nt+1
             l2 = iforest(2,i,iconfig) !need dr cut
-            x1 = 0            
+            x1 = 0
 c-fax
 c-JA 1/2009: Set grid also based on xqcut
             if (l2 .gt. 0) x1 = max(etmin(l2),max(xqfact*xqcuti(l2),0d0))
@@ -517,7 +517,7 @@ c-JA 1/2009: Set grid also based on xqcut
 c            if (l2 .gt. 0) x2 = max(etmin(l2),0d0)
             x2 = max(x2, xe(l2)/1d0)
 c            if (nt .gt. 1) x2 = max(x2,xk(nt-1))
-            
+
 c            write(*,*) 'Using 2',l2,x2
 
             xo = min(x1,x2)
@@ -560,23 +560,23 @@ c-----------------------
             swidth(i) = xo
             spole(i)= -2.0d0    ! 1/s pole
             write(*,*) "Transforming s_hat 1/s ",i,xo, smin, stot
-        else if(smin/stot.gt.spole(i)+bwcutoff*max(swidth(i),  spole(i)*small_width_treatment)) then 
+        else if(smin/stot.gt.spole(i)+bwcutoff*max(swidth(i),  spole(i)*small_width_treatment)) then
             swidth(i) = smin/stot
             spole(i) = -2d0
             write(*,*) "Transforming s_hat 1/s ",i,xo, smin, stot
-        else    
+        else
             write(*,*) "Transforming s_hat BW ",spole(i), max(swidth(i), spole(i)*small_width_treatment)
          endif
       endif
 
       i=-8
 c      write(*,*) 'Enter minimum for ',-i, xo
-c      read(*,*) xo      
+c      read(*,*) xo
 c      if (xo .gt. 0)      call setgrid(-i,xo,a,1)
 
       i=-10
 c      write(*,*) 'Enter minimum for ',-i, xo
-c      read(*,*) xo      
+c      read(*,*) xo
 c      if (xo .gt. 0) call setgrid(-i,xo,a,1)
 
       end

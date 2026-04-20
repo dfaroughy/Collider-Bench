@@ -56,4 +56,3 @@ T1 =  Propagator(name = "T1",
                 numerator = "-" +  numF + "* complex(0,1) * Mass(id) * dWT",
                 denominator = denominatorSq
                )
-

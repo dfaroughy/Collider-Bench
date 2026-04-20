@@ -1,6 +1,6 @@
       subroutine class_g(x,p1,p2,p3,p4,r1,r2)
 c********************************************************************
-c     This subroutine gets the two missing momenta for 
+c     This subroutine gets the two missing momenta for
 c     the following topology:
 c
 c                          ________ missing    p1
@@ -110,7 +110,7 @@ C     FROM HERE ON SAME WITH OR WITHOUT POLE
       X2 = SQRT(TAU)*EXP(-ETA)
 c
 c     initialization
-c 
+c
       momenta(0,1)=sqrts*x1/2d0
       momenta(1,1)=0d0
       momenta(2,1)=0d0
@@ -121,21 +121,21 @@ c
       momenta(3,2)=-sqrts*x2/2d0
 
 c     Here we need to boost the initial momenta in case of ISR:
-c     the momentum associated with the boost can be obtained from 
-c     the momentum of resonance r3, with 
+c     the momentum associated with the boost can be obtained from
+c     the momentum of resonance r3, with
 c         m_inv(r3)^2 =   shat
 c         pt_inv(r3)  = - pt(ISR)
 c
 c      =>  pboost = ( sqrt( pt(ISR)**2 + m_inv(r3)^2 ), -pxISR, -pyISR )
 c
 c     apply the boost to lab frame
-      pboost(0)=dsqrt( x1*x2*S + pxISR**2 + pyISR**2)*dcosh(ETA) 
+      pboost(0)=dsqrt( x1*x2*S + pxISR**2 + pyISR**2)*dcosh(ETA)
       pboost(1)=-pxISR
       pboost(2)=-pyISR
       pboost(3)=0d0
 
       call boostx(momenta(0,1),pboost,momenta(0,1))
-      call boostx(momenta(0,2),pboost,momenta(0,2)) 
+      call boostx(momenta(0,2),pboost,momenta(0,2))
 c
       E3=momenta(0,p3)
       E4=momenta(0,p4)
@@ -208,10 +208,10 @@ c
       p2z_p2y=-p1z_p2y
 
 c
-c     mass shell conditions:     
-c    
+c     mass shell conditions:
+c
 c     E1^2-p1x^2-p1y^2-p1z^2=m1^2   (1)
-c     E2^2-p2x^2-p2y^2-p2z^2=m2^2   (2) 
+c     E2^2-p2x^2-p2y^2-p2z^2=m2^2   (2)
 c
 c     equivalent to
 c
@@ -226,7 +226,7 @@ c
      & p1z_E2*p1z_p2y)
 c
       g10=2d0*(E1_E2*E1_ti-p1x_E2*p1x_ti-p1y_E2*p1y_ti-p1z_E2*p1z_ti)
-c 
+c
       g20=2d0*(E1_ti*E1_p2y-p1x_ti*p1x_p2y-p1y_ti*p1y_p2y-
      & p1z_ti*p1z_p2y)
 c
@@ -255,9 +255,9 @@ c     (g10-h10) E2 + (g20-h20) p2y + g00-h00 = 0
 c
 c      <=>   p2y = alpha + beta E2
 c
-c      write(*,*) 'g20,h20',g20,h20 
-c      write(*,*) 'g10,h10',g10,h10 
-c      write(*,*) 'g00,h00',g00,h00 
+c      write(*,*) 'g20,h20',g20,h20
+c      write(*,*) 'g10,h10',g10,h10
+c      write(*,*) 'g00,h00',g00,h00
       if (dabs(g20-h20).gt.1d-5) then
       alpha=-(g00-h00)/(g20-h20)
       beta=-(g10-h10)/(g20-h20)
@@ -280,7 +280,7 @@ c            call ntuple(rand,0.0,1.0,p1)
             if (rand.gt.0.5) index_sol=2
             p2y=sol(index_sol)
             jac_factor=2d0
-            goto 13 
+            goto 13
           else
             jac_loc=-1d0
             jac=-1d0
@@ -316,7 +316,7 @@ c       c0=g22*alpha**2+g20*alpha+g00
         rho=b**2-4d0*c
 
 c        write(*,*) 'b,c,rho',b,c,rho
-        
+
         if (rho.eq.0d0.and.b.lt.0d0) then   ! max 1 sol
           E2=-b/2d0
         elseif (rho.gt.b**2)then ! max 1 sol
@@ -359,10 +359,10 @@ c            call ntuple(rand,0.0,1.0,p1)
             E2=sol(index_sol)
             jac_factor=2d0
 
-      elseif(dabs(x1s1-0.5d0).gt.0.5d0.or.dabs(x2s1-0.5d0).gt.0.5d0) 
+      elseif(dabs(x1s1-0.5d0).gt.0.5d0.or.dabs(x2s1-0.5d0).gt.0.5d0)
      & then
 
-          if (dabs(x1s2-0.5d0).lt.0.5d0.and.dabs(x2s2-0.5d0).lt.0.5d0) 
+          if (dabs(x1s2-0.5d0).lt.0.5d0.and.dabs(x2s2-0.5d0).lt.0.5d0)
      & then
               E2=sol(2)
           else
@@ -371,9 +371,9 @@ c            call ntuple(rand,0.0,1.0,p1)
             return
           endif
 
-      elseif(dabs(x1s2-0.5d0).gt.0.5d0.or.dabs(x2s2-0.5d0).gt.0.5d0) 
+      elseif(dabs(x1s2-0.5d0).gt.0.5d0.or.dabs(x2s2-0.5d0).gt.0.5d0)
      & then
-          if (dabs(x1s1-0.5d0).lt.0.5d0.and.dabs(x2s1-0.5d0).lt.0.5d0) 
+          if (dabs(x1s1-0.5d0).lt.0.5d0.and.dabs(x2s1-0.5d0).lt.0.5d0)
      & then
               E2=sol(1)
           else
@@ -382,7 +382,7 @@ c            call ntuple(rand,0.0,1.0,p1)
             return
           endif
       endif
-      else 
+      else
       jac_loc=-1d0
       jac=-1d0
       return
@@ -428,13 +428,13 @@ c      fill intermediate momenta
 c
 c     inverse jacobian from mathematica: [inv_jac]=
 c
-      inv_jac=16d0*(E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + 
-     -        p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) + 
-     -     E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + 
-     -     E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y + 
-     -     E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + 
-     -     (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + 
-     -     E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - 
+      inv_jac=16d0*(E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y +
+     -        p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +
+     -     E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x +
+     -     E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +
+     -     E2*p1x*p3z*p4y - E1*p2x*p3z*p4y +
+     -     (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z +
+     -     E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y -
      -        p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z))
 
 
@@ -454,7 +454,7 @@ c      write(*,*) 'jac_factor',jac_factor
       jac=jac*jac_loc
 
 c     correction from the measure to translate the weight to the CM frame
-c     ONLY if isr = 2 
+c     ONLY if isr = 2
 
       if (isr_mode.eq.2) then
 
@@ -483,4 +483,3 @@ c         write(*,*) "p",j,momenta(0,j), momenta(1,j),momenta(2,j),momenta(3,j)
 
       return
       end
-

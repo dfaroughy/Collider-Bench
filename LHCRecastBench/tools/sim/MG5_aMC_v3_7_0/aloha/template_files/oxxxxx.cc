@@ -13,7 +13,7 @@ void oxxxxx(double p[4],double fmass,int nhel,int nsf, complex<double> fo[6]){
     pp = min(p[0],sqrt((p[1]*p[1])+(p[2]*p[2])+(p[3]*p[3])));
     if (pp == 0.000){
       sqm[0] = sqrt(std::abs(fmass));
-      sqm[1] = Sgn(sqm[0],fmass); 
+      sqm[1] = Sgn(sqm[0],fmass);
       ip = -((1-nh)/2) * nhel ;
       im = (1+nh)/2 * nhel;
       fo[2] = im *sqm[std::abs(ip)];
@@ -33,7 +33,7 @@ void oxxxxx(double p[4],double fmass,int nhel,int nsf, complex<double> fo[6]){
       sfomeg[1] = sf[1]*omega[im];
       pp3 = max(pp+p[3],0.00);
       chi[0] = complex<double>(sqrt(pp3*0.5/pp),0.00);
-      if (pp3 == 0.00){ 
+      if (pp3 == 0.00){
 	chi[1] = complex<double>(-nh,0.00);
       }
       else{
@@ -53,7 +53,7 @@ void oxxxxx(double p[4],double fmass,int nhel,int nsf, complex<double> fo[6]){
       sqp0p3 = sqrt(max(p[0]+p[3],0.00))*nsf;
     }
     chi[0] = complex<double>(sqp0p3,0.00);
-    if(sqp0p3 == 0.000){ 
+    if(sqp0p3 == 0.000){
       chi[1] = complex<double>(-nhel,0.00)*sqrt(2.0*p[0]);
     }
     else{
@@ -65,7 +65,7 @@ void oxxxxx(double p[4],double fmass,int nhel,int nsf, complex<double> fo[6]){
       fo[4] = complex<double>(0.00,0.00);
       fo[5] = complex<double>(0.00,0.00);
     }
-    else{      
+    else{
       fo[2] = complex<double>(0.00,0.00);
       fo[3] = complex<double>(0.00,0.00);
       fo[4] = chi[1];

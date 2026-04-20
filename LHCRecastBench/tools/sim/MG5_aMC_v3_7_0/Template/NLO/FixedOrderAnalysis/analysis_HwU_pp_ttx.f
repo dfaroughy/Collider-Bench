@@ -47,7 +47,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 
@@ -179,7 +179,7 @@ c
          if(ptq1.gt.0) call HwU_fill(l+9,log10(ptq1),WGTS)
       endif
       if(ptq1.gt.ptcut)call HwU_fill(l+16,yq1,WGTS)
- 999  return      
+ 999  return
       end
 
 
@@ -196,7 +196,7 @@ c
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

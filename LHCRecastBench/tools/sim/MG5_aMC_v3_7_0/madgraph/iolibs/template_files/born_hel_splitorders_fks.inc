@@ -3,16 +3,16 @@ C
 C     Return the sum of the split orders which are required in orders.inc (BORN_ORDERS)
 C     Also the values needed for the counterterms are stored in the C_BORN_CNT common block
 C
-C  
+C
 C CONSTANTS
-C 
+C
 implicit none
       include 'nexternal.inc'
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1), ANS_SUMMED
 C
 C VARIABLES
@@ -36,7 +36,7 @@ C Store all the orders that come from the diagrams, regardless
 C of the fact that they satisfy or not the squared-orders constraints
 
 
-C look for orders which match the born order constraint 
+C look for orders which match the born order constraint
 	  CALL SBORN_HEL_SPLITORDERS(P,ANS)
 ans_summed = 0d0
   DO J = 1, MAX_BHEL
@@ -54,19 +54,19 @@ END
 
 
     SUBROUTINE SBORN_HEL_SPLITORDERS(P1,ANS)
-C  
+C
 %(info_lines)s
 C
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C AND HELICITIES
 C FOR THE POINT IN PHASE SPACE P1(0:3,NEXTERNAL-1)
-C  
+C
 %(process_lines)s
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       Include "nexternal.inc"
       include "born_nhel.inc"
       INTEGER     NCOMB
@@ -77,19 +77,19 @@ C
       PARAMETER (THEL=NCOMB*%(nconfs)d)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS=   %(ngraphs)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P1(0:3,NEXTERNAL-1),ANS(0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER IHEL,IDEN,i,j
       double precision T(NSQAMPSO)
 %(den_factor_lines)s
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       LOGICAL GOODHEL(NCOMB,%(nconfs)d)
       common /c_goodhel/ goodhel
       double precision savemom(nexternal-1,2)
@@ -133,49 +133,49 @@ C ----------
         ANS(0)=ANS(0)+ANS(I)
       ENDDO
       END
-       
-       
+
+
       SUBROUTINE BORN_HEL_SPLITORDERS(P,HELL,ANS)
-C  
+C
 %(info_lines)s
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       INTEGER     NGRAPHS
-      PARAMETER ( NGRAPHS = %(ngraphs)d ) 
+      PARAMETER ( NGRAPHS = %(ngraphs)d )
       INTEGER NCOLOR
-      PARAMETER (NCOLOR=%(ncolor)d) 
+      PARAMETER (NCOLOR=%(ncolor)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       complex*16 imag1
       parameter (imag1 = (0d0,1d0))
       include "nexternal.inc"
       include "born_nhel.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1)
       INTEGER HELL
       REAL*8 ANS(NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       INTEGER CF(NCOLOR*(NCOLOR+1)/2)
       INTEGER DENOM, CF_INDEX
       COMPLEX*16 ZTEMP, AMP(NGRAPHS), JAMP(NCOLOR,NAMPSO)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       double complex saveamp(ngraphs,max_bhel)
       common/to_saveamp/saveamp
       logical calculatedBorn
@@ -184,9 +184,9 @@ C
 C FUNCTION
 C
       INTEGER SQSOINDEXB
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -202,7 +202,7 @@ C ----------
 %(jamp_lines)s
     ANS(:) = 0d0
     DO M = 1, NAMPSO
-      CF_INDEX = 0 
+      CF_INDEX = 0
       DO I = 1, NCOLOR
           ZTEMP = (0.D0,0.D0)
           DO J = I, NCOLOR
@@ -214,8 +214,8 @@ C ----------
     ENDDO
     ANS(:) = ANS(:)/DENOM
     END
-       
-       
+
+
 
 
 subroutine PickHelicityMC(p,goodhel,hel,ihel_out,vol)
@@ -236,7 +236,7 @@ integer i, ihel
 
 integer n_nonzero_ord
 double precision sum_all
-double precision accum, target 
+double precision accum, target
 double precision born_wgt_recomp_direct
 
 double precision ran2
@@ -271,7 +271,7 @@ if (sum_hel(i).eq.0d0) cycle
 accum=accum+wgt_hel(i,hel(ihel))/sum_hel(i)*dble(goodhel(ihel))/n_nonzero_ord
 enddo
 
-do while (accum.lt.target) 
+do while (accum.lt.target)
 ihel=ihel+1
 do i = 1, nsqampso
 if (sum_hel(i).eq.0d0) cycle
@@ -290,5 +290,3 @@ ihel_out=ihel
 
 return
 end
-
-

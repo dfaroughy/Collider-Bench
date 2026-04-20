@@ -49,6 +49,7 @@ class IterationResult:
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 
+
 def _write_text(path: Path, text: str) -> None:
     path.write_text(text)
 
@@ -65,6 +66,7 @@ def _score_iteration(iter_dir: Path, paper_ref: str) -> tuple[bool | None, dict]
     """Score the archived iteration. Writes score.json into the iteration dir."""
     try:
         from LHCRecastBench.evaluation.score import score_recast
+
         recast_dir = iter_dir / "HEPRecastData"
         if not recast_dir.exists():
             return None, {}
@@ -89,6 +91,7 @@ def _has_analysis_code(sandbox: Path) -> bool:
 def _has_filled_hepdata(sandbox: Path) -> bool:
     """Did the agent fill at least one HEPRecastData value?"""
     import yaml
+
     recast = sandbox / "HEPRecastData"
     if not recast.is_dir():
         return False
@@ -108,16 +111,14 @@ def _has_filled_hepdata(sandbox: Path) -> bool:
 
 # ── Sandbox setup ──────────────────────────────────────────────────────────
 
+
 def _next_agent_name(recast_path: Path) -> str:
     validation_dir = recast_path / "validation"
     workspace = recast_path / "workspace"
     names: list[str] = []
     for d in (recast_path, validation_dir, workspace):
         if d.exists():
-            names.extend(
-                p.name for p in d.iterdir()
-                if p.is_dir() and p.name.startswith("agent_")
-            )
+            names.extend(p.name for p in d.iterdir() if p.is_dir() and p.name.startswith("agent_"))
     if names:
         last = max(int(n.split("_")[-1]) for n in names)
         return f"agent_{last + 1:03d}"
@@ -130,7 +131,6 @@ def _init_sandbox(repo_root: Path, recast_path: Path) -> tuple[Path, str]:
     Returns (sandbox_path, iter_name). iter_name is where this workspace will
     be archived after the iteration completes.
     """
-    simple_dir = repo_root / "agents" / "simple"
     iter_name = _next_agent_name(recast_path)
     sandbox = recast_path / "workspace"
     if sandbox.exists():
@@ -240,6 +240,7 @@ def _seed_workspace(
 
 # ── Prompt ──────────────────────────────────────────────────────────────────
 
+
 def _build_prompt(paper_ref: str | None, iter_index: int, has_prior: bool) -> str:
     parts = [
         f"You are recasting CMS paper {paper_ref or '<unknown>'} using public CMS Open Data.",
@@ -281,6 +282,7 @@ def _build_prompt(paper_ref: str | None, iter_index: int, has_prior: bool) -> st
 
 # ── Agent execution ─────────────────────────────────────────────────────────
 
+
 def _run_agent(
     repo_root: Path,
     prompt: str,
@@ -292,7 +294,10 @@ def _run_agent(
 ) -> None:
     ws = output_file.parent
     inner_cmd = runner.build_command(
-        prompt, ws, model, allowlist=None,
+        prompt,
+        ws,
+        model,
+        allowlist=None,
         max_thinking_tokens=max_thinking_tokens,
     )
 
@@ -302,11 +307,14 @@ def _run_agent(
     env["REPO_ROOT"] = str(repo_root)
 
     from agent_runtime.sandbox import sandbox_command
-    iter_runtime   = repo_root / "agents" / "iterative" / "runtime"
+
+    iter_runtime = repo_root / "agents" / "iterative" / "runtime"
     simple_runtime = repo_root / "agents" / "simple" / "runtime"
     shared_runtime = repo_root / "agent_runtime"
     cmd, cleanup = sandbox_command(
-        ws, repo_root, inner_cmd,
+        ws,
+        repo_root,
+        inner_cmd,
         extra_ro_binds=[iter_runtime, simple_runtime, shared_runtime],
         sandbox=sandbox,
     )
@@ -319,32 +327,51 @@ def _run_agent(
 
 # ── Main loop ──────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Iterate the simple agent until score_recast passes or max_iters is reached.",
     )
-    parser.add_argument("--config", default="",
-                        help="YAML config file (CLI flags override; see configs/)")
-    parser.add_argument("--paper-ref", default=None,
-                        help="arXiv ID, e.g. 1707.06193 (required unless set by --config)")
+    parser.add_argument(
+        "--config", default="", help="YAML config file (CLI flags override; see configs/)"
+    )
+    parser.add_argument(
+        "--paper-ref",
+        default=None,
+        help="arXiv ID, e.g. 1707.06193 (required unless set by --config)",
+    )
     parser.add_argument("--max-iters", type=int, default=None)
-    parser.add_argument("--min-iters", type=int, default=None,
-                        help="Minimum iterations before an agent's STOP is honored")
+    parser.add_argument(
+        "--min-iters",
+        type=int,
+        default=None,
+        help="Minimum iterations before an agent's STOP is honored",
+    )
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Model override")
-    parser.add_argument("--effort", default=None,
-                        help="Reasoning effort: low | medium | high | <int tokens>")
-    parser.add_argument("--sandbox", default=None, choices=["auto", "bwrap", "none"],
-                        help="Filesystem isolation backend (default: auto)")
+    parser.add_argument(
+        "--effort", default=None, help="Reasoning effort: low | medium | high | <int tokens>"
+    )
+    parser.add_argument(
+        "--sandbox",
+        default=None,
+        choices=["auto", "bwrap", "none"],
+        help="Filesystem isolation backend (default: auto)",
+    )
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parents[4]
 
     # Run metadata (agent_id, run_dir, effort)
     from agent_runtime.naming import (
-        generate_run_info, resolve_effort, write_run_info, load_config,
-        validate_launch_inputs, finalize_run_info,
+        generate_run_info,
+        resolve_effort,
+        write_run_info,
+        load_config,
+        validate_launch_inputs,
+        finalize_run_info,
     )
+
     try:
         cfg = load_config(args.config)
     except ValueError as exc:
@@ -356,10 +383,10 @@ def main() -> int:
         validate_launch_inputs(repo_root, args.paper_ref)
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
-    args.runner    = args.runner    or cfg.get("runner") or "claude"
-    args.model     = args.model     or cfg.get("model")  or ""
-    args.effort    = args.effort    or cfg.get("effort") or "medium"
-    args.sandbox   = args.sandbox   or cfg.get("sandbox")
+    args.runner = args.runner or cfg.get("runner") or "claude"
+    args.model = args.model or cfg.get("model") or ""
+    args.effort = args.effort or cfg.get("effort") or "medium"
+    args.sandbox = args.sandbox or cfg.get("sandbox")
     args.max_iters = args.max_iters if args.max_iters is not None else int(cfg.get("max_iters", 5))
     args.min_iters = args.min_iters if args.min_iters is not None else int(cfg.get("min_iters", 1))
     paper_ref = args.paper_ref
@@ -383,8 +410,10 @@ def main() -> int:
     validation_dir.mkdir(exist_ok=True)
     write_run_info(recast_path, run_info)
     print(f"Recast directory: {recast_dir}")
-    print(f"Agent ID: {run_info['agent_id']}   (effort={effort_label}, "
-          f"max_thinking_tokens={max_thinking})")
+    print(
+        f"Agent ID: {run_info['agent_id']}   (effort={effort_label}, "
+        f"max_thinking_tokens={max_thinking})"
+    )
 
     # Paper PDF — mirrors simple/run.py's behavior
     papers_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref / "for_agent" / "papers"
@@ -403,7 +432,6 @@ def main() -> int:
     iter_name: str | None = None
     started_at = time.time()
     final_scores: dict | None = None
-    rc = 0
 
     def _collect_session_logs() -> list[Path]:
         logs: list[Path] = []
@@ -432,7 +460,9 @@ def main() -> int:
         _archive_lock[0] = True
         try:
             if sandbox and sandbox.exists() and iter_name:
-                (sandbox / "controller_interrupt.log").write_text(f"Interrupted by signal={signum}\n")
+                (sandbox / "controller_interrupt.log").write_text(
+                    f"Interrupted by signal={signum}\n"
+                )
                 dest = validation_dir / iter_name
                 if dest.exists():
                     shutil.rmtree(dest)
@@ -446,6 +476,7 @@ def main() -> int:
             _archive_lock[0] = False
 
     import atexit
+
     signal.signal(signal.SIGINT, _emergency_archive)
     signal.signal(signal.SIGTERM, _emergency_archive)
     atexit.register(_emergency_archive)
@@ -454,7 +485,8 @@ def main() -> int:
         try:
             sandbox, iter_name = _init_sandbox(repo_root, recast_path)
             _seed_workspace(
-                repo_root, sandbox,
+                repo_root,
+                sandbox,
                 previous_iter=previous_iter,
                 paper_ref=paper_ref,
                 iter_index=iter_index,
@@ -501,12 +533,14 @@ def main() -> int:
             status = _parse_status(iter_dir / "report.md")
             print(f"  {iter_name}: score={overall_score:.0%}, pass={overall_pass}, status={status}")
 
-            history.append(IterationResult(
-                directory=iter_dir,
-                status=status,
-                score=overall_score,
-                overall_pass=overall_pass,
-            ))
+            history.append(
+                IterationResult(
+                    directory=iter_dir,
+                    status=status,
+                    score=overall_score,
+                    overall_pass=overall_pass,
+                )
+            )
 
             # Summary after every iteration
             summary = {
@@ -517,8 +551,12 @@ def main() -> int:
                 "last_score": overall_score,
                 "last_overall_pass": overall_pass,
                 "history": [
-                    {"agent": h.directory.name, "status": h.status,
-                     "score": h.score, "overall_pass": h.overall_pass}
+                    {
+                        "agent": h.directory.name,
+                        "status": h.status,
+                        "score": h.score,
+                        "overall_pass": h.overall_pass,
+                    }
                     for h in history
                 ],
             }
@@ -560,8 +598,12 @@ def main() -> int:
         "agents_run": len(history),
         "status": "MAX_ITERS_REACHED",
         "history": [
-            {"agent": h.directory.name, "status": h.status,
-             "score": h.score, "overall_pass": h.overall_pass}
+            {
+                "agent": h.directory.name,
+                "status": h.status,
+                "score": h.score,
+                "overall_pass": h.overall_pass,
+            }
             for h in history
         ],
     }

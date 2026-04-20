@@ -13,7 +13,7 @@
           call DS_add_bin('Dimension2',DS_binID(300))
           call DS_add_bin('Dimension1',11)
           call DS_remove_bin('Dimension4',40)
-          call DS_remove_dimension('Dimension3')          
+          call DS_remove_dimension('Dimension3')
           mValue=0.0d0
           do i=1,10
             mValue=mValue+1.0d0

@@ -1,7 +1,7 @@
 
       subroutine HEPTREE
 
-C...Purpose: to write the tree structure of an event 
+C...Purpose: to write the tree structure of an event
 C...         from the standard common block.
 C
 

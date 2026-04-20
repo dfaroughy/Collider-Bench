@@ -1,6 +1,6 @@
 import importlib
 import sys, os
-import numpy as np 
+import numpy as np
 
 # update the python path
 sys.path.insert(0, '%(path)s')
@@ -28,13 +28,13 @@ def import_lib(name):
 pdg2ewsud_dict = {%(pdg2sud)s}
 
 # a dictionary which maps pdgs, in the format ((initial), (sorted final))
-# and the unsorted version (corresponding to the ordering in the Pdirs) 
+# and the unsorted version (corresponding to the ordering in the Pdirs)
 original_pdg_list_dict = {%(pdgsorted)s}
 
 
 def ewsudakov(pdgs, p, g):
-    """wraps the call to the ewsudakov function of a 
-    given directory. The momenta are also transposed 
+    """wraps the call to the ewsudakov function of a
+    given directory. The momenta are also transposed
     to match the fortran<>python convention"""
 
     p_transp =np.array([[pp[i] for pp in p] for i in range(4)], order='F')
@@ -43,4 +43,3 @@ def ewsudakov(pdgs, p, g):
     res = pdg2ewsud_dict[pdgs].ewsudakov_py(p_transp,  g)
 
     return res
-

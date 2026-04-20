@@ -12,7 +12,7 @@ LIBS_SHARED = $(LIBDIR)/libdhelas.$(dylibext) $(LIBDIR)/libmodel.$(dylibext)
 PROCESS=  matrix.o
 CHECK_SA=  check_sa.o
 CHECK_SA_SPLITORDERS=  check_sa_born_splitOrders.o
- 
+
 $(PROG): $(PROCESS) $(CHECK_SA) makefile $(LIBS)
 	$(FC) $(FFLAGS) -o $(PROG) $(PROCESS) $(CHECK_SA) $(LINKLIBS)
 
@@ -35,10 +35,8 @@ $(LIBDIR)/libdhelas.$(dylibext):
 $(LIBDIR)/libmodel.$(dylibext):
 	$(MAKE) -C "$(LIBDIR)/../Source/MODEL" shared
 
-matrix$(MENUM)py.so: f2py_matrix_wrapper.f libme$(PDIR).$(dylibext)  makefile 
+matrix$(MENUM)py.so: f2py_matrix_wrapper.f libme$(PDIR).$(dylibext)  makefile
 	touch __init__.py
-	LDFLAGS="-Wl,-rpath,$(HERE)" $(F2PY)  -c f2py_matrix_wrapper.f -L$(HERE) -lme$(PDIR) $(LINKLIBS) -m matrix$(MENUM)py 
+	LDFLAGS="-Wl,-rpath,$(HERE)" $(F2PY)  -c f2py_matrix_wrapper.f -L$(HERE) -lme$(PDIR) $(LINKLIBS) -m matrix$(MENUM)py
 	touch matrix$(MENUM)py.so
 	cp $(LIBDIR)/*$(dylibext) .
-
-

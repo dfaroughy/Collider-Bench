@@ -3,16 +3,16 @@ c ----------------------------------------------------------------------
 c
       subroutine iovcxx(fic,foc,vc,gc , vertex)
 c
-c this subroutine computes an amplitude of the antifermion-antifermion- 
-c vector coupling.                                                      
-c                                                                       
-c input:                                                                
+c this subroutine computes an amplitude of the antifermion-antifermion-
+c vector coupling.
+c
+c input:
 c       complex fic(6)         : flow-in  antifermion              |fic>
 c       complex foc(6)         : flow-out antifermion              <foc|
-c       complex vc(6)          : input    vector                      v 
+c       complex vc(6)          : input    vector                      v
 c       complex gc(2)          : coupling constants                  gvf
-c                                                                       
-c output:                                                               
+c
+c output:
 c       complex vertex         : amplitude                   <foc|v|fic>
 c
       implicit none

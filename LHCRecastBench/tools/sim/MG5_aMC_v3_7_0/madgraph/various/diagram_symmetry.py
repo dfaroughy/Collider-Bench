@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -75,7 +75,7 @@ def find_symmetry(matrix_element):
     for all the diagrams in the process. Identical diagram tags
     correspond to different external particle permutations of the same
     diagram.
-    
+
     Return list of positive number corresponding to number of
     symmetric diagrams and negative numbers corresponding to the
     equivalent diagram (for e+e->3a, get [6, -1, -1, -1, -1, -1]),
@@ -96,13 +96,13 @@ def find_symmetry(matrix_element):
     ident_perms = []
     process = matrix_element.get('processes')[0]
     base_model = process.get('model')
-    
+
     if isinstance(matrix_element, loop_helas_objects.LoopHelasMatrixElement):
         # For loop induced processes we consider only the loops (no R2) and
         # the shrunk diagram instead of the lcut one.
         FDStructRepo = loop_base_objects.FDStructureList([])
         base_diagrams = base_objects.DiagramList(
-                   [(d.get_contracted_loop_diagram(base_model,FDStructRepo) if  
+                   [(d.get_contracted_loop_diagram(base_model,FDStructRepo) if
                    isinstance(d,loop_base_objects.LoopDiagram) else d) for d in
                matrix_element.get('base_amplitude').get('loop_diagrams') \
                                                             if d.get('type')>0])
@@ -114,7 +114,7 @@ def find_symmetry(matrix_element):
     vert_list = [max(diag.get_vertex_leg_numbers()) for diag in diagrams if \
                                         diag.get_vertex_leg_numbers()!=[]]
     min_vert = min(vert_list) if vert_list!=[] else 0
-    
+
     for diag in diagrams:
         diagram_numbers.append(diag.get('number'))
         permutations.append(list(range(nexternal)))
@@ -146,7 +146,7 @@ def find_symmetry(matrix_element):
                 diag.get_vertex_leg_numbers()]):
             # Only 3-vertices allowed in configs.inc
             continue
-        
+
         tag = diagram_generation.DiagramTag(base_diagram)
         try:
             ind = diagram_tags.index(tag)
@@ -182,7 +182,7 @@ def find_symmetry(matrix_element):
 def find_symmetry_by_evaluation(matrix_element, evaluator, max_time = 600):
     """Find symmetries between amplitudes by comparing the squared
     amplitudes for all permutations of identical particles.
-    
+
     Return list of positive number corresponding to number of
     symmetric diagrams and negative numbers corresponding to the
     equivalent diagram (for e+e->3a, get [6, -1, -1, -1, -1, -1]),
@@ -239,7 +239,7 @@ def find_symmetry_by_evaluation(matrix_element, evaluator, max_time = 600):
 
     # Get phase space point
     p, w_rambo = evaluator.get_momenta(equivalent_process)
-    
+
     # Check matrix element value for all permutations
     amp2start = []
     final_states = [l.get('id') for l in \
@@ -301,7 +301,7 @@ def find_symmetry_by_evaluation(matrix_element, evaluator, max_time = 600):
                        (symmetry[i] > 0 or \
                         symmetry[i] < 0 and -symmetry[i] > ind + 1):
                         symmetry[i] = -(ind+1)
-                        perms[i] = [0, 1] + list(perm) 
+                        perms[i] = [0, 1] + list(perm)
                         symmetry[ind] += 1
     except TimeOutError:
         # Symmetry canceled due to time limit
@@ -319,7 +319,7 @@ def find_symmetry_by_evaluation(matrix_element, evaluator, max_time = 600):
 class IdentifySGConfigTag(diagram_generation.DiagramTag):
     """DiagramTag daughter class to identify diagrams giving the same
     config. Need to compare state, spin, mass, width, and color.
-    Warning: If changing this tag, then also CanonicalConfigTag in 
+    Warning: If changing this tag, then also CanonicalConfigTag in
              helas_objects.py must be changed!
     """
 
@@ -340,18 +340,18 @@ class IdentifySGConfigTag(diagram_generation.DiagramTag):
             charge = 0
         else:
             charge = abs(part.get('charge'))
-        
+
         return [((state, part.get('spin'), part.get('color'), charge,
                   part.get('mass'), part.get('width')),
                  leg.get('number'))]
-        
+
     @staticmethod
     def vertex_id_from_vertex(vertex, last_vertex, model, ninitial):
         """Returns the info needed to identify symmetric configs:
         interaction color, mass, width."""
 
         inter = model.get_interaction(vertex.get('id'))
-            
+
         if last_vertex:
             return (0,)
         else:
@@ -443,7 +443,7 @@ def find_symmetry_subproc_group(subproc_group):
         permutations[inum] = diagram_generation.DiagramTag.reorder_permutation(perms[idx1][idx2],
                                                             perms[idx1][0])
     return (symmetry, permutations, [permutations[0]])
-    
+
 
 def old_find_symmetry_subproc_group(subproc_group):
     """Find symmetries between the configs in the subprocess group.
@@ -510,7 +510,7 @@ def old_find_symmetry_subproc_group(subproc_group):
     perms = [all_perms[key] for key in sorted(all_perms.keys())]
 
     return symmetry, perms, [perms[0]]
-        
+
 
 def find_matrix_elements_for_configs(subproc_group):
     """For each config, find all matrix elements with maximum identical
@@ -565,4 +565,4 @@ def find_matrix_elements_for_configs(subproc_group):
         sorted_mes = sorted([me for me in me_config_dict], me_sort)
         latest_me += 1
 
-    return sorted_mes, me_config_dict    
+    return sorted_mes, me_config_dict

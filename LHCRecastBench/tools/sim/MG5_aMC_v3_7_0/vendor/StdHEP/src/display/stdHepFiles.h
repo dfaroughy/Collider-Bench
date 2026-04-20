@@ -1,7 +1,7 @@
 /*******************************************************************************
 *									       *
 * stdHepFiles.h -- Nirvana Phase Space Event Display, Accessing the StdHep     *
-*                  files and records					       *   
+*                  files and records					       *
 *									       *
 * Copyright (c) 1991 Universities Research Association, Inc.		       *
 * All rights reserved.							       *

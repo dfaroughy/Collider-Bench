@@ -6,7 +6,7 @@ c
 c               * P2 (visible)
 c              *
 c     *********
-c      MV_r1   * 
+c      MV_r1   *
 c               * P1 (visible)
 c
 c

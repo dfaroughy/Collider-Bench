@@ -16,7 +16,7 @@ c     In Gmu scheme
       data res/0d0/
 
       PI=4.D0*DATAN(1.D0)
-      
+
       beta = alphaem/PI * (dlog(Qsquare/me/me)-1)
 
 c     electron beam
@@ -44,7 +44,7 @@ c     other partons are zero
       endif
       eepdf_tilde = res
       end
-      
+
 c     https://arxiv.org/pdf/hep-ph/0302198.pdf, eq.(2.44)
 c     note that beta_e in eq.(2.45) is twice our beta
 c     so eq.(2.44) needs to be corrected by some factor of 2
@@ -86,7 +86,7 @@ c     ----------------------------
       isr_tilde_racoon=res
       end
 
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc      
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       function dlgam(xx)
 c real logarithm of gamma function
       implicit real * 8 (a-h,o-z)
@@ -107,7 +107,6 @@ c real logarithm of gamma function
       r10 = log(s0)
       dlgam = xmp5*(log(xpgt)-1) + r10 - cst
       return
-      end      
+      end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-      

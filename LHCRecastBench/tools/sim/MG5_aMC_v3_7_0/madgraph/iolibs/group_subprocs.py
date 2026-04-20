@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -61,7 +61,7 @@ class IdentifyConfigTag(diagram_generation.DiagramTag):
 
     @staticmethod
     def link_from_leg(leg, model):
-        """Returns the end link for a leg needed to identify configs: 
+        """Returns the end link for a leg needed to identify configs:
         ((leg numer, spin, mass, width, color), number)."""
 
         part = model.get_particle(leg.get('id'))
@@ -79,14 +79,14 @@ class IdentifyConfigTag(diagram_generation.DiagramTag):
                   mass, width, part.get('color')),
                  leg.get('number'))]
 
-    
+
     @staticmethod
     def vertex_id_from_vertex(vertex, last_vertex, model, ninitial):
         """Returns the info needed to identify configs:
         interaction color, mass, width."""
 
         inter = model.get_interaction(vertex.get('id'))
-                   
+
         if last_vertex:
             return ((0,),)
         else:
@@ -99,7 +99,7 @@ class IdentifyConfigTag(diagram_generation.DiagramTag):
             else:
                 mass = part.get('mass')
                 width = part.get('width')
-            
+
             return ((part.get('color'),
                      mass, width),
                     0)
@@ -109,14 +109,14 @@ class IdentifyConfigTag(diagram_generation.DiagramTag):
         """Move the wavefunction part of propagator id appropriately"""
 
         if len(new_vertex[0]) == 1 and len(old_vertex[0]) > 1:
-            # We go from a last link to next-to-last link - 
+            # We go from a last link to next-to-last link -
             return (old_vertex[0], new_vertex[0][0])
         elif len(new_vertex[0]) > 1 and len(old_vertex[0]) == 1:
             # We go from next-to-last link to last link - remove propagator info
             return (old_vertex[0],)
         # We should not get here
         raise diagram_generation.DiagramTag.DiagramTagError("Error in IdentifyConfigTag, wrong setup of vertices in link.")
-        
+
 #===============================================================================
 # SubProcessGroup
 #===============================================================================
@@ -182,13 +182,13 @@ class SubProcessGroup(base_objects.PhysicsObject):
 
         if name == 'matrix_elements' and not self[name]:
             self.generate_matrix_elements()
-        
+
         if name in ['mapping_diagrams', 'diagram_maps'] and not self[name]:
             self.set_mapping_diagrams()
-        
+
         if name in ['diagrams_for_configs'] and not self[name]:
             self.set_diagrams_for_configs()
-        
+
         return super(SubProcessGroup, self).get(name)
 
     def set_mapping_diagrams(self):
@@ -214,12 +214,12 @@ class SubProcessGroup(base_objects.PhysicsObject):
 
         amplitudes = copy.copy(self.get('amplitudes'))
 
-        # The conditional statement tests whether we are dealing with a 
+        # The conditional statement tests whether we are dealing with a
         # loop induced process. We must set compute_loop_nc to True here
-        # since the knowledge of the power of Nc coming from potential 
+        # since the knowledge of the power of Nc coming from potential
         # loop color trace is necessary for the loop induced output with MadEvent
         if isinstance(amplitudes[0], loop_diagram_generation.LoopAmplitude):
-            self.set('matrix_elements', 
+            self.set('matrix_elements',
               loop_helas_objects.LoopHelasProcess.generate_matrix_elements(
               amplitudes, compute_loop_nc=True,
               matrix_element_opts = self['matrix_element_opts']))
@@ -286,9 +286,9 @@ class SubProcessGroup(base_objects.PhysicsObject):
                 elif leg.get('polarization') == [1]:
                     name += 'R'
                 else:
-                    name += '%s' %''.join([str(p).replace('-','m') for p in leg.get('polarization')])   
+                    name += '%s' %''.join([str(p).replace('-','m') for p in leg.get('polarization')])
 
-        
+
         for dc in process.get('decay_chains'):
             name += "_" + self.generate_name(dc, criteria)
 
@@ -308,10 +308,10 @@ class SubProcessGroup(base_objects.PhysicsObject):
 
         model = self.get('matrix_elements')[0].get('processes')[0].\
                 get('model')
-        
+
         next, nini = self.get_nexternal_ninitial()
-        
-        return sum([md.get_num_configs(model, nini) for md in 
+
+        return sum([md.get_num_configs(model, nini) for md in
                     self.get('mapping_diagrams')])
 
     def find_mapping_diagrams(self, max_tpropa=0):
@@ -324,7 +324,7 @@ class SubProcessGroup(base_objects.PhysicsObject):
 
         if max_tpropa == 0:
             max_tpropa = int(base_objects.Vertex.max_tpropa)
-        
+
         matrix_elements = self.get('matrix_elements')
         model = matrix_elements[0].get('processes')[0].get('model')
         # mapping_diagrams: The configurations for the non-reducable
@@ -339,27 +339,27 @@ class SubProcessGroup(base_objects.PhysicsObject):
         diagram_maps = {}
 
         for ime, me in enumerate(matrix_elements):
-            # Define here a FDStructure repository which will be used for the 
+            # Define here a FDStructure repository which will be used for the
             # tagging all the diagrams in get_contracted_loop_diagram. Remember
             # the the tagging of each loop updates the FDStructre repository
             # with the new structures identified.
-                                    
+
             if isinstance(me, loop_helas_objects.LoopHelasMatrixElement):
                 FDStructRepo = loop_base_objects.FDStructureList([])
-                diagrams = [(d.get_contracted_loop_diagram(model,FDStructRepo) if  
+                diagrams = [(d.get_contracted_loop_diagram(model,FDStructRepo) if
                    isinstance(d,loop_base_objects.LoopDiagram) else d) for d in
                me.get('base_amplitude').get('loop_diagrams') if d.get('type')>0]
             else:
                 diagrams = me.get('base_amplitude').get('diagrams')
-            
+
             # Check the minimal number of legs we need to include in order
             # to make sure we'll have some valid configurations
             vert_list = [max(diag.get_vertex_leg_numbers()) for diag in \
                                   diagrams if diag.get_vertex_leg_numbers()!=[]]
             minvert = min(vert_list) if vert_list!=[] else 0
-            
+
             diagram_maps[ime] = []
-            
+
             for diagram in diagrams:
                 # Only use diagrams with all vertices == min_legs, but do not
                 # consider artificial vertices, such as those coming from a
@@ -415,7 +415,7 @@ class SubProcessGroup(base_objects.PhysicsObject):
                   self.get_subproc_diagrams_for_config(iconf))
 
         self['diagrams_for_configs'] = subproc_diagrams_for_config
-    
+
     #===========================================================================
     # group_amplitudes
     #===========================================================================
@@ -484,22 +484,22 @@ class SubProcessGroup(base_objects.PhysicsObject):
             if (criteria=="madevent"):
               proc_class = [ [(p.is_fermion(), ) \
                             for p in is_parts], # p.get('is_part')
-                           [(p.get('mass'), p.get('spin'), 
+                           [(p.get('mass'), p.get('spin'),
                              p.get('pdg_code') % 2 if p.get('color') == 1 else 0,
                              abs(p.get('color')),l.get('onshell')) for (p, l) \
                              in zip(is_parts + fs_parts, process.get('legs'))],
                            amplitude.get('process').get('id'),
                            process.get('id')]
             if (criteria=="madweight"):
-              proc_class = [ [(abs(p.get('pdg_code'))==5, abs(p.get('pdg_code'))==11, 
+              proc_class = [ [(abs(p.get('pdg_code'))==5, abs(p.get('pdg_code'))==11,
                            abs(p.get('pdg_code'))==13, abs(p.get('pdg_code'))==15) for p in \
                             fs_parts],
                            amplitude.get('process').get('id')]
-            
+
             if (criteria == "gpu"):
               proc_class = [ [(p.is_fermion(),) \
                             for p in is_parts], # p.get('is_part')
-                           [(p.get('mass'), p.get('spin'), p.get('pdg_code'), 
+                           [(p.get('mass'), p.get('spin'), p.get('pdg_code'),
                              p.get('pdg_code') % 2 if p.get('color') == 1 else 0,
                              abs(p.get('color')),l.get('onshell')) for (p, l) \
                              in zip(is_parts + fs_parts, process.get('legs'))],
@@ -533,19 +533,19 @@ class SubProcessGroupList(base_objects.PhysicsObjectList):
 
     def get_used_lorentz(self):
         """Return the list of ALOHA routines used in these matrix elements"""
-        
+
         return helas_objects.HelasMultiProcess(
             {'matrix_elements': self.get_matrix_elements()}).get_used_lorentz()
-    
+
     def get_used_couplings(self):
         """Return the list of ALOHA routines used in these matrix elements"""
-        
+
         return helas_objects.HelasMultiProcess(
             {'matrix_elements': self.get_matrix_elements()}).get_used_couplings()
-            
+
     def split_lepton_grouping(self):
         """Return a list of grouping where they are no groupoing over the leptons."""
-        
+
         output = SubProcessGroupList()
         for group in self:
             new_mes = {}
@@ -571,10 +571,10 @@ class SubProcessGroupList(base_objects.PhysicsObjectList):
                                     criteria='madweight'))
                 output.append(new_group)
         return output
-        
+
     def split_nonidentical_grouping(self):
         """Return a list of grouping where they are no groupoing over the leptons."""
-        
+
         output = SubProcessGroupList()
         for group in self:
             for me in group['matrix_elements']:
@@ -585,10 +585,10 @@ class SubProcessGroupList(base_objects.PhysicsObjectList):
                                     new_me['processes'][0],
                                     criteria='gpu'))
                 output.append(new_group)
-                
-        return output        
-        
-    
+
+        return output
+
+
 #===============================================================================
 # DecayChainSubProcessGroup
 #===============================================================================
@@ -603,7 +603,7 @@ class DecayChainSubProcessGroup(SubProcessGroup):
         self['decay_groups'] = DecayChainSubProcessGroupList()
         # decay_chain_amplitudes is the original DecayChainAmplitudeList
         self['decay_chain_amplitudes'] = diagram_generation.DecayChainAmplitudeList()
-        
+
     def filter(self, name, value):
         """Filter for valid property values."""
 
@@ -680,7 +680,7 @@ class DecayChainSubProcessGroup(SubProcessGroup):
                               group.get('matrix_elements')[0].\
                                     get('processes')[0]))
             subproc_groups.append(group)
-        
+
         return subproc_groups
 
     def assign_group_to_decay_process(self, process):
@@ -692,7 +692,7 @@ class DecayChainSubProcessGroup(SubProcessGroup):
         #  diagram_map (updated), len(mapping_diagrams)]
 
         group_assignments = []
-        
+
         for decay in process.get('decay_chains'):
             # Find decay group that has this decay in it
             ids = [l.get('id') for l in decay.get('legs')]
@@ -727,9 +727,9 @@ class DecayChainSubProcessGroup(SubProcessGroup):
 
         if not core_groups:
             return None
-        
+
         assert len(core_groups) == 1
-        
+
         core_group = core_groups[0]
         # This is the first return argument - the chain of group indices
         group_assignment = (core_group[0],
@@ -740,7 +740,7 @@ class DecayChainSubProcessGroup(SubProcessGroup):
             return group_assignment
 
         return group_assignment
-    
+
     #===========================================================================
     # group_amplitudes
     #===========================================================================
@@ -755,7 +755,7 @@ class DecayChainSubProcessGroup(SubProcessGroup):
         if criteria in ['matrix', 'standalone','pythia8','standalone_cpp', False]:
             criteria = 'madevent'
         assert criteria in ['madevent', 'madweight']
-        
+
         # Collect all amplitudes
         amplitudes = diagram_generation.AmplitudeList()
         for amp in decay_chain_amps:
@@ -773,7 +773,7 @@ class DecayChainSubProcessGroup(SubProcessGroup):
         # Recursively determine decay chain groups
         for decay_chain_amp in decay_chain_amps:
             decays.extend(decay_chain_amp.get('decay_chains'))
-                          
+
         if decays:
             dc_subproc_group.get('decay_groups').append(\
                 DecayChainSubProcessGroup.group_amplitudes(decays, criteria))
@@ -793,4 +793,3 @@ class DecayChainSubProcessGroupList(base_objects.PhysicsObjectList):
         """Test if object obj is a valid element."""
 
         return isinstance(obj, DecayChainSubProcessGroup)
-    

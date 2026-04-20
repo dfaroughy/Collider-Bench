@@ -81,7 +81,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
       enddo
       call close_topdrawer_file
-      return                
+      return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -159,9 +159,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             call mfill(l+8,cphi,www)
          enddo
       enddo
- 999  return      
+ 999  return
       end
-      
+
       function getrapidity(en,pl)
       implicit none
       real*8 getrapidity,en,pl,tiny,xplus,xminus,y
@@ -174,7 +174,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

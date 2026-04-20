@@ -47,7 +47,7 @@ c    Offline reconstructed charged tracks.
 
       common /trk_off2/
      *  trk_off(trk_off_max)
- 
+
 -
 -
 -
@@ -66,32 +66,32 @@ c    Offline reconstructed charged tracks.
 -
 -
 -
- 
+
  typedef struct _wtrack_struct {
-        double px;      
-        double py;      
-        double pz;      
-        double E;       
-        double x;       
-        double y;       
-        double z;       
-        double pt;      
-        double p;      
-        double q;       
+        double px;
+        double py;
+        double pz;
+        double E;
+        double x;
+        double y;
+        double z;
+        double pt;
+        double p;
+        double q;
 } wtrack_struct;
- 
+
 typedef struct _offline_track_struct {
         wtrack_struct w;
-        double mass;        
-        double cov[7][7];   
-        int icov;       
-        int hep;        
-        int origin;      
-        int pos;        
-}offline_track_struct; 
+        double mass;
+        double cov[7][7];
+        int icov;
+        int hep;
+        int origin;
+        int pos;
+}offline_track_struct;
 
 
-#define TRK_OFF_MAX 400 
+#define TRK_OFF_MAX 400
 extern struct trk_off1 {
   int trk_off_num;
 }trk_off1_;
@@ -99,22 +99,3 @@ extern struct trk_off1 {
 extern struct trk_off2 {
    offline_track_struct trk_off[TRK_OFF_MAX];
 }trk_off2_;
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    

@@ -36,7 +36,7 @@ export LD_LIBRARY_PATH=$FO_EXTRAPATHS:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$FO_EXTRAPATHS:$DYLD_LIBRARY_PATH
 
 TAGTAGTAGTAGTAGTAGTAG for i in 1 ; do
-    
+
     if [[ $run_mode == 'all' || $run_mode == 'born' ]] ; then
 	if [[ $runnumber == '0' ]] ; then
 	    j=$run_mode\_G$i
@@ -57,7 +57,7 @@ TAGTAGTAGTAGTAGTAGTAG for i in 1 ; do
         cd $j
         LEVEL_UP=1
     fi
-    
+
     if  [[ -e res.dat ]] ; then
 	rm -f res.dat
     fi
@@ -85,7 +85,7 @@ TAGTAGTAGTAGTAGTAGTAG for i in 1 ; do
     	if [[  -e ../symfact.dat ]] ; then
 	    ln -sf ../symfact.dat .
 	else
-	    ln -sf ../../symfact.dat .    
+	    ln -sf ../../symfact.dat .
 	fi
     fi
 
@@ -95,8 +95,8 @@ TAGTAGTAGTAGTAGTAGTAG for i in 1 ; do
     link1up OLE_order.olc
     link1up param_card.dat
     link1up initial_states_map.dat
-    
-    
+
+
     T="$(date +%s)"
     if [[ $run_mode == 'all' || $run_mode == 'born' ]]; then
         ../madevent_mintFO > log.txt <input_app.txt 2>&1

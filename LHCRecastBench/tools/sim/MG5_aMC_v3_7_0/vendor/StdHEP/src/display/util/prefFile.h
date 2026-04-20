@@ -36,7 +36,7 @@ typedef struct _PrefDescripRec {
     int save;
 } PrefDescripRec;
 
-XrmDatabase CreatePreferencesDatabase(char *fileName, char *appName, 
+XrmDatabase CreatePreferencesDatabase(char *fileName, char *appName,
 	 XrmOptionDescList opTable, int nOptions, unsigned int *argcInOut,
 	 char **argvInOut);
 void RestorePreferences(XrmDatabase prefDB, XrmDatabase appDB,

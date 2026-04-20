@@ -12,7 +12,7 @@ c       real    swidth         : width of OUTPUT scalar s'
 c
 c output:
 c       complex hss(3)         : scalar current              j(s':s1,s2)
-c     
+c
       implicit none
       double complex s1(3),s2(3),gc,hss(3),dg
       double precision q(0:3),smass,swidth,q2
@@ -71,7 +71,7 @@ c
       if ( swidth.eq.rZero .and. q2.eq.smass**2 ) then
          write(stdo,*)
      &        ' helas-error : hss in hssxxx is on smass pole'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : q     = ',q(0),q(1),q(2),q(3)
          write(stdo,*)
      &        '             : abs(q)= ',sqrt(abs(q2))

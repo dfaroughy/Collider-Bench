@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -77,14 +77,14 @@ contains
 !***********************************************************************
   use avh_olo_forIREGI_units
   logical ,intent(out) :: newprc
-  integer :: ndec                                  
-  if (prcpar.eq.1) then                    
-    newprc = .false.                             
-    return                                       
+  integer :: ndec
+  if (prcpar.eq.1) then
+    newprc = .false.
+    return
   endif
-  prcpar = 1                                   
+  prcpar = 1
   call set_epsn
-  newprc = .true.                              
+  newprc = .true.
   RZRO=0
   RONE=1
   IMAG=cmplx(0d0,1d0,kind=kind(1d0))
@@ -103,13 +103,13 @@ contains
   type(dd_real) & !|RCTYPE=ddtype
 !#  type(qd_real) & !|RCTYPE=qdtype
     :: ten
-  ten = 10                                       
+  ten = 10
   ndec = 32 !|RCTYPE=ddtype
 !#  ndec = 64 !|RCTYPE=qdtype
-  EPSN = ten**(-ndec)                            
-  ndecim(prcpar) = ndec                         
-  epsilo(prcpar) = EPSN                         
-  neglig(prcpar) = EPSN*ten**(ndec/7)            
+  EPSN = ten**(-ndec)
+  ndecim(prcpar) = ndec
+  epsilo(prcpar) = EPSN
+  neglig(prcpar) = EPSN*ten**(ndec/7)
   end subroutine
 !
   end subroutine
@@ -162,7 +162,7 @@ contains
     :: rslt
   rslt = xx
   end function
-  
+
   function acmplx_rr(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn two reals into one complex
@@ -175,7 +175,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_ri(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn a real and an integer into one complex
@@ -190,7 +190,7 @@ contains
   rslt = xx + ddreal(yy)*IMAG !|RCTYPE=ddtype
 !#  rslt = xx + qdreal(yy)*IMAG !|RCTYPE=qdtype
   end function
-  
+
   function acmplx_ir(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn an integer and a real into one complex
@@ -205,7 +205,7 @@ contains
   rslt = ddreal(xx) + yy*IMAG !|RCTYPE=ddtype
 !#  rslt = qdreal(xx) + yy*IMAG !|RCTYPE=qdtype
   end function
-  
+
   function acmplx_c(zz) result(rslt)
 !***********************************************************************
 ! Replaces the real part of zz by its absolute value
@@ -255,8 +255,8 @@ contains
   cc = sqrt(bb/2)
   rslt = cc + IMAG*yy/(cc*2)
   end function
- 
-  
-  include 'avh_olo_intrf.h90'  
+
+
+  include 'avh_olo_intrf.h90'
 
 end module

@@ -54,9 +54,9 @@ c Ellis-Sexton scale)
       ao2pi= alpha_S/(2d0*PI)
 
 c======================================================================
-c Replace the following line with the call to the one-loop code you 
+c Replace the following line with the call to the one-loop code you
 c wish to use. virt_wgts contains finite part, single and double pole
-c      
+c
 c      call sloopmatrix(p, virt_wgts)
 c      virt_wgt= virt_wgts(1)
 c      single  = virt_wgts(2)
@@ -198,7 +198,7 @@ c Particle types (=color) of i_fks, j_fks and fks_mother
       write (*,*) 'From DR to CDR conversion: ',octet,' octets and ',
      &     triplet,' triplets in Born (both massless), sum =',conversion
       return
-      
+
       end
 
 
@@ -250,4 +250,3 @@ c               endif
  889  write (*,*) 'Error in contract file'
       stop
       end
-

@@ -3,11 +3,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -16,7 +16,7 @@
 """Example code to plot custom curves based on djrs.dat with matplotlib"""
 from __future__ import absolute_import
 import os
-import sys 
+import sys
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.pylab as pylab
@@ -39,7 +39,7 @@ except ImportError:
     try:
         import internal
     except ImportError:
-        print("You need to specify the path to the MG5_aMC directory")    
+        print("You need to specify the path to the MG5_aMC directory")
         sys.exit(1)
     else:
         from internal.histograms import *
@@ -54,14 +54,14 @@ if len(sys.argv) >1:
     input_file = sys.argv[1]
 else:
     #take the default path
-    input_file = './Events/run_01/tag_1_djrs.dat'    
+    input_file = './Events/run_01/tag_1_djrs.dat'
 print("Reading information from: ", input_file)
 
 
 ################################################################################
 #  PARSING THE FILE AND ACCESS TO BASIC PROPERTY OF THE OBJECT
 ################################################################################
-#parsing the data and create the object instance 
+#parsing the data and create the object instance
 hwu_list = HwUList(input_file, raw_labels=True)
 # raw label prevent modification of the weight label. They will stay at their inputfile value
 
@@ -79,17 +79,17 @@ selected_hist = [hwu_list.get(n) for n in names if 'd01' in n]
 ################################################################################
 # define a multi-plot frame for the plot
 gs1 = gridspec.GridSpec(2, 1, height_ratios=[5,1])
-gs1.update(wspace=0, hspace=0) # set the spacing between axes. 
+gs1.update(wspace=0, hspace=0) # set the spacing between axes.
 main_frame = plt.subplot(gs1[0]) # main frame/plot
 ratio_frame = plt.subplot(gs1[1]) # ratio frame/plot
 
 main_frame.set_yscale('log')
-#main_frame.yaxis.set_label_coords(-0.07, 0.90) 
+#main_frame.yaxis.set_label_coords(-0.07, 0.90)
 main_frame.set_ylabel(r'$\frac{d\sigma_{LO}}{dDJR1} [pb]$')
 main_frame.set_title('Differential Jet Rate')
 main_frame.set_xticklabels([]) #remove x-axis in the main frame (due to the ratio frame)
 
-#ratio_frame.xaxis.set_label_coords(0.90, -0.20) 
+#ratio_frame.xaxis.set_label_coords(0.90, -0.20)
 ratio_frame.set_xlabel(r'$log(DJR1/1[GeV])$')
 ratio_frame.set_ylabel(r'$ME/PS$')
 
@@ -108,9 +108,9 @@ h_0j = [h for h in selected_hist if 'Jet sample 0' in h.get_HwU_histogram_name()
 h_1j = [h for h in selected_hist if 'Jet sample 1' in h.get_HwU_histogram_name()][0]
 
 y_0j = h_0j.get(min_qcut)
-y_1j = h_1j.get(max_qcut) 
-l_0j, = main_frame.plot(h_0j.get('bins'), y_0j, label='0j', linestyle='steps') 
-l_1j, = main_frame.plot(h_1j.get('bins'), y_1j, label='1j', linestyle='steps') 
+y_1j = h_1j.get(max_qcut)
+l_0j, = main_frame.plot(h_0j.get('bins'), y_0j, label='0j', linestyle='steps')
+l_1j, = main_frame.plot(h_1j.get('bins'), y_1j, label='1j', linestyle='steps')
 
 
 ################################################################################
@@ -157,9 +157,3 @@ ax_c.set_yticklabels([])
 #  WRITE THE OUTPUT FILE
 ################################################################################
 plt.savefig("DJR1.pdf") # many extension possible (jpg/png/...)
-
-
-
-
-
-

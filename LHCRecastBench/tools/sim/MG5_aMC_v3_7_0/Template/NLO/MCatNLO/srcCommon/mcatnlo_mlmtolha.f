@@ -1,4 +1,4 @@
-c Interface to LHAPDF, v4.1 onwards. The inclusion of LHAGLUE allows the 
+c Interface to LHAPDF, v4.1 onwards. The inclusion of LHAGLUE allows the
 c use of PDFLIB format. This file has been derived from mcatnlo_mlmtopdf.f.
 c Calls to newmode and pdftomlm are trivial here, but are kept for easier
 c future changes
@@ -34,7 +34,7 @@ c incoming particle is not an electron: use PDFLIB
         if(ini.or.imode.ne.mode) then
           ini = .false.
           imode = mode
-c pass from our conventions to PDFLIB conventions for parameter settings. 
+c pass from our conventions to PDFLIB conventions for parameter settings.
 c See subroutine newmode for comments on the conventions adopted. Proper
 c settings of /LHAPDFC/ and /LHACONTROL/ must have been adopted before
 c runtime (and before the call to PDFSET)
@@ -87,9 +87,9 @@ c in the following lines, deals with particles only (no antiparticles)
 c proton(ih=1) ==> f(1)<-->f(2)
 c neutron(ih=2) ==> no action (f(1)<-->f(2) for PDFLIB convention and
 c    f(1)<-->f(2) for isospin symmetry (u_proton=d_neutron....)
-c pion+(ih=3) ==> f(2)<-->f(-2), since PDFLIB has d=u=q_v+q_sea, 
+c pion+(ih=3) ==> f(2)<-->f(-2), since PDFLIB has d=u=q_v+q_sea,
 c    ubar=dbar=q_sea
-c photon(ih=4) ==> f(-1)<-->f(-2) and f(i)=f(-i)/2, i=1,2 since PDFLIB 
+c photon(ih=4) ==> f(-1)<-->f(-2) and f(i)=f(-i)/2, i=1,2 since PDFLIB
 c    has f(i)=2*f(-i), and f(1)<-->f(2)
 c Notice that in the jet package pions and neutrons are not used. If
 c selected, they are rejected by the routine pdfpar. This routine
@@ -197,7 +197,7 @@ c Set it by hand in the main program
 c set the parameters
         call pdfset(parm,val)
         if(ilam.eq.0)then
-c Lambda_QCD_5, as given by LHAPDF common blocks; this may be wrong, 
+c Lambda_QCD_5, as given by LHAPDF common blocks; this may be wrong,
 c so be careful
           xlam = qcdl5
         elseif(ilam.eq.1)then
@@ -248,7 +248,7 @@ c
       endif
 c
       if(ilam.eq.0)then
-c Lambda_QCD_5, as given by LHAPDF common blocks; this may be wrong, 
+c Lambda_QCD_5, as given by LHAPDF common blocks; this may be wrong,
 c so be careful
         xlam = xlamlha
       elseif(ilam.eq.1)then
@@ -266,7 +266,7 @@ c
       subroutine prntsf
 c     prints details of the structure function sets
 c
-      write(*,100)                             
+      write(*,100)
      #  '  Refer to LHAPDF on-line manual to see'
      # ,'  PDFLIB-compatible labeling conventions'
  100  format(1x,a,100(/,1x,a))
@@ -282,11 +282,11 @@ c doesn't seem to have a particle type classification -- retain here
 c that of PDFLIB, to allow more flexibility for the future).
 c
 c                        MC@NLO               PDFLIB
-c 
+c
 c  nucleons           -2,-1,0,1,2                1
 c  pions                  -3,3                   2
 c  photons                  4                    3
-c 
+c
       implicit real * 8 (a-h,o-z)
       common/trans/nptype,ngroup,nset
 c
@@ -308,7 +308,7 @@ c
 
       subroutine pdftomlm(ipdfih,ipdfgroup,ipdfndns,ihmlm,ndnsmlm)
 c Performs the inverse operation of newmode. From LHAPDFv4.0, proton,
-c pions, and photons are included; the common block w50511 is not 
+c pions, and photons are included; the common block w50511 is not
 c filled by LHAGLUE, and thus the information on particle type is not
 c available in versions up to v4.1; keep the following for more flexibility
       implicit real * 8 (a-h,o-z)
@@ -330,7 +330,7 @@ c
 
       subroutine setlhacblk(strin)
 c Must be called BEFORE SETPAR. It sets the variables that control LHAPDF,
-c stored in the common block /LHACONTROL/, taken from LHAGLUE. /LHAPDFC/ 
+c stored in the common block /LHACONTROL/, taken from LHAGLUE. /LHAPDFC/
 c can also be set here if needed (in this version, use the default and
 c define logical link at runtime instead)
       implicit none

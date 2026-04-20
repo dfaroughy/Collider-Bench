@@ -488,4 +488,3 @@ Y1 = Particle(pdg_code = 9000009,
               GhostNumber = 0,
               LeptonNumber = 0,
               Y = 0)
-

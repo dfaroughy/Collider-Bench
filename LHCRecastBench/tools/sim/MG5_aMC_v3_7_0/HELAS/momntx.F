@@ -10,7 +10,7 @@ c       real    phi            : azimuthal angle
 c
 c output:
 c       real    p(0:3)         : four-momentum
-c     
+c
       implicit none
       double precision p(0:3),energy,mass,costh,phi,pp,sinth
 
@@ -28,7 +28,7 @@ c
       if (energy.lt.mass) then
          write(stdo,*)
      &        ' helas-error : energy in momntx is less than mass'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : energy = ',energy,' : mass = ',mass
       endif
       if (mass.lt.rZero) then
@@ -42,7 +42,7 @@ c
       if (phi.lt.rZero .or. phi.gt.rTwo*rPi) then
          write(stdo,*)
      &   ' helas-warn  : phi in momntx does not lie on 0.0 thru 2.0*pi'
-         write(stdo,*) 
+         write(stdo,*)
      &   '             : phi = ',phi
       endif
 #endif

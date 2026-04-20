@@ -32,12 +32,12 @@ C dressed lepton stuff
       double precision tolerance
       parameter (tolerance=1.d-2)
 c
-      
+
       double precision tmp1, tmp2
-      integer nb_proton(2), nb_neutron(2) 
+      integer nb_proton(2), nb_neutron(2)
       common/to_heavyion_pdg/ nb_proton, nb_neutron
       integer nb_hadron
-C      
+C
 
       double precision Ctq6Pdf, get_ion_pdf
       integer mode,Irt,i,j
@@ -125,7 +125,7 @@ c       change e/mu/tau = 8/9/10 to 11/13/15
 c        write(*,*), x, beamid ,omx_ee(iabs(beamid)),xmu,1,ipart,ih_local,pdg2pdf
         return
       endif
-      
+
 
 c     If group_subprocesses is true, then IH=abs(lpp) and ipdg=ipdg*sgn(lpp) in export_v4.
 c     For EVA,  group_subprocesses is false and IH=LPP and ipdg are passed, instead.
@@ -134,9 +134,9 @@ c     If group_subprocesses is false, the following sets ipdg=ipdg*sgn(IH) if no
          ipart=ipdg
       else
          ipart=sign(1,ih)*ipdg
-      endif      
+      endif
 
-      if(iabs(ipart).eq.21) then ! g      
+      if(iabs(ipart).eq.21) then ! g
          ipart=0
 c      else if(ipart.eq.12) then ! ve
 c         ipart=12
@@ -160,7 +160,7 @@ c     This will be called for any PDG code. We only support (for now) 0-7, and 2
       else if(iabs(ipart).gt.7)then
          write(*,*) 'PDF not supported for pdg ',ipdg
          write(*,*) 'For lepton colliders, please set the lpp* '//
-     $    'variables to 0 in the run_card current is' , ih  
+     $    'variables to 0 in the run_card current is' , ih
          open(unit=26,file='../../../error',status='unknown')
          write(26,*) 'Error: PDF not supported for pdg ',ipdg
          stop 1
@@ -181,7 +181,7 @@ c     Reuse previous result, if possible
          if (pdflast(iporg,ireuse).ne.-99d9) then
             pdg2pdf = get_ion_pdf(pdflast(-7, ireuse), iporg, nb_proton(iabs(beamid)),
      $                         nb_neutron(iabs(beamid)))
-            return 
+            return
          endif
       endif
 
@@ -224,7 +224,7 @@ c     saved. 'pdflast' is filled below.
       if(pdlabel.eq.'eva'.or.pdsublabel(iabs(beamid)).eq.'eva') then
          if(iabs(ipart).ne.7.and.
 c     &      iabs(ipart).ne.12.and.
-c     &      iabs(ipart).ne.14.and.     
+c     &      iabs(ipart).ne.14.and.
      &      iabs(ipart).ne.23.and.
      &      iabs(ipart).ne.24 ) then
             write(*,*) 'ERROR: EVA PDF only supported for A/Z/W, not for pdg = ',ipart
@@ -259,15 +259,15 @@ c         write(*,*) 'running eva'
                pdg2pdf=epa_lepton(x,q2max, iabs(ih))
             elseif(iabs(ih) .eq. 2) then !from a proton without breaking
                pdg2pdf=epa_proton(x,q2max,beamid)
-            endif 
+            endif
             pdflast(iporg,ireuse)=pdg2pdf
             return
-         endif         
+         endif
       endif
 
 
 
-      
+
       if (pdlabel(1:5) .eq. 'cteq6') then
 C        Be carefull u and d are flipped inside cteq6
          if (nb_proton(iabs(beamid)).gt.1.or.nb_neutron(iabs(beamid)).ne.0)then
@@ -282,7 +282,7 @@ C        Be carefull u and d are flipped inside cteq6
             else
                pdflast(ipart,ireuse)=Ctq6Pdf(ipart,x*nb_hadron,xmu)
                pdg2pdf = get_ion_pdf(pdflast(-7,ireuse), ipart, nb_proton(iabs(beamid)), nb_neutron(iabs(beamid)))
-            endif 
+            endif
          else
             if(iabs(ipart).ge.1.and.iabs(ipart).le.2)
      $           ipart=sign(3-iabs(ipart),ipart)
@@ -293,7 +293,7 @@ C        Be carefull u and d are flipped inside cteq6
          call pftopdg(iabs(ih),x*nb_hadron,xmu,pdflast(-7,ireuse))
          pdg2pdf = get_ion_pdf(pdflast(-7, ireuse), iporg, nb_proton(iabs(beamid)),
      $                         nb_neutron(iabs(beamid)))
-      endif      
+      endif
 
       return
       end
@@ -334,7 +334,7 @@ C        Be carefull u and d are flipped inside cteq6
 
       xmu2=xmu**2
 
-      compute_eepdf = eepdf_tilde(x,xmu2,n_ee,id,idbeam) 
+      compute_eepdf = eepdf_tilde(x,xmu2,n_ee,id,idbeam)
       ! this does not include a factor (1-x)^(-kappa)
       ! where k is given by
       k_exp = eepdf_tilde_power(xmu2,n_ee,id,idbeam)
@@ -365,7 +365,3 @@ C        Be carefull u and d are flipped inside cteq6
       enddo
       return
       end
-
-
-
-     

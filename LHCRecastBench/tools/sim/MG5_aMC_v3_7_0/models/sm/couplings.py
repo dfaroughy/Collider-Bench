@@ -440,4 +440,3 @@ GC_107 = Coupling(name = 'GC_107',
 GC_108 = Coupling(name = 'GC_108',
                   value = '(ee*complex(0,1)*complexconjugate(CKM3x3))/(sw*cmath.sqrt(2))',
                   order = {'QED':1})
-

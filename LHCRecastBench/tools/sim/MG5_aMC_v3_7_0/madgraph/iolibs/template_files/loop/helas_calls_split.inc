@@ -1,9 +1,9 @@
       SUBROUTINE %(proc_prefix)s%(bunch_name)s_%(bunch_number)d(P,NHEL,H,IC)
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER    NLOOPAMPS
       PARAMETER (NLOOPAMPS=%(nloopamps)d)
 	  %(nbornamps_decl)s
@@ -19,20 +19,20 @@ C
       PARAMETER (MP__ZERO=0.0e0_16)
       %(complex_dp_format)s IMAG1
       PARAMETER (IMAG1=(0D0,1D0))
-C  
+C
 C ARGUMENTS
 C
       %(real_dp_format)s P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
 	  INTEGER H
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       include 'coupl.inc'
 	  include 'mp_coupl.inc'
       %(dp_born_amps_decl)s
 	  %(complex_dp_format)s W(20,NWAVEFUNCS%(ncomb_helas_objs)s)
-	  common/%(proc_prefix)sWFCTS/W  
+	  common/%(proc_prefix)sWFCTS/W
 
 	  LOGICAL S(NLOOPAMPS)
       %(complex_dp_format)s AMPL(3,NLOOPAMPS)

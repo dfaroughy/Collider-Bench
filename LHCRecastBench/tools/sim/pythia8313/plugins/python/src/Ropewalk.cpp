@@ -63,7 +63,7 @@
 struct PyCallBack_Pythia8_RopeFragPars : public Pythia8::RopeFragPars {
 	using Pythia8::RopeFragPars::RopeFragPars;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopeFragPars *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -76,7 +76,7 @@ struct PyCallBack_Pythia8_RopeFragPars : public Pythia8::RopeFragPars {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopeFragPars *>(this), "onBeginEvent");
 		if (overload) {
@@ -89,7 +89,7 @@ struct PyCallBack_Pythia8_RopeFragPars : public Pythia8::RopeFragPars {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopeFragPars *>(this), "onEndEvent");
 		if (overload) {
@@ -102,7 +102,7 @@ struct PyCallBack_Pythia8_RopeFragPars : public Pythia8::RopeFragPars {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopeFragPars *>(this), "onStat");
 		if (overload) {
@@ -121,7 +121,7 @@ struct PyCallBack_Pythia8_RopeFragPars : public Pythia8::RopeFragPars {
 struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 	using Pythia8::FlavourRope::FlavourRope;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FlavourRope *>(this), "init");
 		if (overload) {
@@ -134,7 +134,7 @@ struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 		}
 		return FlavourRope::init();
 	}
-	bool doChangeFragPar(class Pythia8::StringFlav * a0, class Pythia8::StringZ * a1, class Pythia8::StringPT * a2, double a3, class std::vector<int, class std::allocator<int> > a4, int a5) override { 
+	bool doChangeFragPar(class Pythia8::StringFlav * a0, class Pythia8::StringZ * a1, class Pythia8::StringPT * a2, double a3, class std::vector<int, class std::allocator<int> > a4, int a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FlavourRope *>(this), "doChangeFragPar");
 		if (overload) {
@@ -147,7 +147,7 @@ struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 		}
 		return FlavourRope::doChangeFragPar(a0, a1, a2, a3, a4, a5);
 	}
-	bool initEvent(class Pythia8::Event & a0, class Pythia8::ColConfig & a1) override { 
+	bool initEvent(class Pythia8::Event & a0, class Pythia8::ColConfig & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FlavourRope *>(this), "initEvent");
 		if (overload) {
@@ -160,7 +160,7 @@ struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 		}
 		return FlavourRope::initEvent(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FlavourRope *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -173,7 +173,7 @@ struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 		}
 		return FlavourRope::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FlavourRope *>(this), "onBeginEvent");
 		if (overload) {
@@ -186,7 +186,7 @@ struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FlavourRope *>(this), "onEndEvent");
 		if (overload) {
@@ -199,7 +199,7 @@ struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::FlavourRope *>(this), "onStat");
 		if (overload) {
@@ -218,7 +218,7 @@ struct PyCallBack_Pythia8_FlavourRope : public Pythia8::FlavourRope {
 struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 	using Pythia8::RopewalkShover::RopewalkShover;
 
-	bool stringRepulsion(class Pythia8::Event & a0, class Pythia8::ColConfig & a1) override { 
+	bool stringRepulsion(class Pythia8::Event & a0, class Pythia8::ColConfig & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopewalkShover *>(this), "stringRepulsion");
 		if (overload) {
@@ -231,7 +231,7 @@ struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 		}
 		return RopewalkShover::stringRepulsion(a0, a1);
 	}
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopewalkShover *>(this), "init");
 		if (overload) {
@@ -244,7 +244,7 @@ struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 		}
 		return StringRepulsionBase::init();
 	}
-	bool hadronRepulsion(class Pythia8::Event & a0) override { 
+	bool hadronRepulsion(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopewalkShover *>(this), "hadronRepulsion");
 		if (overload) {
@@ -257,7 +257,7 @@ struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 		}
 		return StringRepulsionBase::hadronRepulsion(a0);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopewalkShover *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -270,7 +270,7 @@ struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopewalkShover *>(this), "onBeginEvent");
 		if (overload) {
@@ -283,7 +283,7 @@ struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopewalkShover *>(this), "onEndEvent");
 		if (overload) {
@@ -296,7 +296,7 @@ struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RopewalkShover *>(this), "onStat");
 		if (overload) {
@@ -315,7 +315,7 @@ struct PyCallBack_Pythia8_RopewalkShover : public Pythia8::RopewalkShover {
 struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 	using Pythia8::ShowerModel::ShowerModel;
 
-	bool init(class std::shared_ptr<class Pythia8::Merging> a0, class std::shared_ptr<class Pythia8::MergingHooks> a1, class std::shared_ptr<class Pythia8::PartonVertex> a2, class Pythia8::WeightContainer * a3) override { 
+	bool init(class std::shared_ptr<class Pythia8::Merging> a0, class std::shared_ptr<class Pythia8::MergingHooks> a1, class std::shared_ptr<class Pythia8::PartonVertex> a2, class Pythia8::WeightContainer * a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "init");
 		if (overload) {
@@ -328,7 +328,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"ShowerModel::init\"");
 	}
-	bool initAfterBeams() override { 
+	bool initAfterBeams() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "initAfterBeams");
 		if (overload) {
@@ -341,7 +341,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"ShowerModel::initAfterBeams\"");
 	}
-	class std::shared_ptr<class Pythia8::TimeShower> getTimeShower() const override { 
+	class std::shared_ptr<class Pythia8::TimeShower> getTimeShower() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "getTimeShower");
 		if (overload) {
@@ -354,7 +354,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return ShowerModel::getTimeShower();
 	}
-	class std::shared_ptr<class Pythia8::TimeShower> getTimeDecShower() const override { 
+	class std::shared_ptr<class Pythia8::TimeShower> getTimeDecShower() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "getTimeDecShower");
 		if (overload) {
@@ -367,7 +367,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return ShowerModel::getTimeDecShower();
 	}
-	class std::shared_ptr<class Pythia8::SpaceShower> getSpaceShower() const override { 
+	class std::shared_ptr<class Pythia8::SpaceShower> getSpaceShower() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "getSpaceShower");
 		if (overload) {
@@ -380,7 +380,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return ShowerModel::getSpaceShower();
 	}
-	class std::shared_ptr<class Pythia8::Merging> getMerging() const override { 
+	class std::shared_ptr<class Pythia8::Merging> getMerging() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "getMerging");
 		if (overload) {
@@ -393,7 +393,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return ShowerModel::getMerging();
 	}
-	class std::shared_ptr<class Pythia8::MergingHooks> getMergingHooks() const override { 
+	class std::shared_ptr<class Pythia8::MergingHooks> getMergingHooks() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "getMergingHooks");
 		if (overload) {
@@ -406,7 +406,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return ShowerModel::getMergingHooks();
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -419,7 +419,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "onBeginEvent");
 		if (overload) {
@@ -432,7 +432,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "onEndEvent");
 		if (overload) {
@@ -445,7 +445,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ShowerModel *>(this), "onStat");
 		if (overload) {
@@ -464,7 +464,7 @@ struct PyCallBack_Pythia8_ShowerModel : public Pythia8::ShowerModel {
 struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel {
 	using Pythia8::SimpleShowerModel::SimpleShowerModel;
 
-	bool init(class std::shared_ptr<class Pythia8::Merging> a0, class std::shared_ptr<class Pythia8::MergingHooks> a1, class std::shared_ptr<class Pythia8::PartonVertex> a2, class Pythia8::WeightContainer * a3) override { 
+	bool init(class std::shared_ptr<class Pythia8::Merging> a0, class std::shared_ptr<class Pythia8::MergingHooks> a1, class std::shared_ptr<class Pythia8::PartonVertex> a2, class Pythia8::WeightContainer * a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "init");
 		if (overload) {
@@ -477,7 +477,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return SimpleShowerModel::init(a0, a1, a2, a3);
 	}
-	bool initAfterBeams() override { 
+	bool initAfterBeams() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "initAfterBeams");
 		if (overload) {
@@ -490,7 +490,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return SimpleShowerModel::initAfterBeams();
 	}
-	class std::shared_ptr<class Pythia8::TimeShower> getTimeShower() const override { 
+	class std::shared_ptr<class Pythia8::TimeShower> getTimeShower() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "getTimeShower");
 		if (overload) {
@@ -503,7 +503,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return ShowerModel::getTimeShower();
 	}
-	class std::shared_ptr<class Pythia8::TimeShower> getTimeDecShower() const override { 
+	class std::shared_ptr<class Pythia8::TimeShower> getTimeDecShower() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "getTimeDecShower");
 		if (overload) {
@@ -516,7 +516,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return ShowerModel::getTimeDecShower();
 	}
-	class std::shared_ptr<class Pythia8::SpaceShower> getSpaceShower() const override { 
+	class std::shared_ptr<class Pythia8::SpaceShower> getSpaceShower() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "getSpaceShower");
 		if (overload) {
@@ -529,7 +529,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return ShowerModel::getSpaceShower();
 	}
-	class std::shared_ptr<class Pythia8::Merging> getMerging() const override { 
+	class std::shared_ptr<class Pythia8::Merging> getMerging() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "getMerging");
 		if (overload) {
@@ -542,7 +542,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return ShowerModel::getMerging();
 	}
-	class std::shared_ptr<class Pythia8::MergingHooks> getMergingHooks() const override { 
+	class std::shared_ptr<class Pythia8::MergingHooks> getMergingHooks() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "getMergingHooks");
 		if (overload) {
@@ -555,7 +555,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return ShowerModel::getMergingHooks();
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -568,7 +568,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "onBeginEvent");
 		if (overload) {
@@ -581,7 +581,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "onEndEvent");
 		if (overload) {
@@ -594,7 +594,7 @@ struct PyCallBack_Pythia8_SimpleShowerModel : public Pythia8::SimpleShowerModel 
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleShowerModel *>(this), "onStat");
 		if (overload) {

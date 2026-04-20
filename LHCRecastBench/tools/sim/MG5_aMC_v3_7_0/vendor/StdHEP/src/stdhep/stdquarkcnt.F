@@ -3,7 +3,7 @@
 
 C...Find out if particle IT or any of it's parents contain quark IQ
 C...    IT = index to HEPEVT common block
-C...    IQ = quark type 
+C...    IQ = quark type
 C
 C...	IRET = 0	no match
 C...	IRET = 1	this particle contains quark IQ
@@ -14,7 +14,7 @@ C...	IPAR = 0 unless IRET = 2
 
       integer iq,iret,ipar,npr,lsz,i
       integer it,kqx,kq3,kq2,kq1,kqj,kql,kqr
-      
+
       parameter (lsz=500)
       integer lpr(lsz)
 

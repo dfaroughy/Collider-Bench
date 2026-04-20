@@ -6437,4 +6437,3 @@ GC_998 = Coupling(name = 'GC_998',
 GC_999 = Coupling(name = 'GC_999',
                   value = '-(ee**2*complex(0,1)*Rd1x1*complexconjugate(Rd1x1)*cmath.cos(2*alp))/(6.*(-1 + sw**2)) + (ee**2*complex(0,1)*Rd1x1*complexconjugate(Rd1x1)*cmath.cos(2*alp))/(4.*sw**2*(-1 + sw**2))',
                   order = {'QED':2})
-

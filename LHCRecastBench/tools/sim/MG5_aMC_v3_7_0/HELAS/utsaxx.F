@@ -1,6 +1,6 @@
       subroutine utsaxx(tc1,sc,gt,xm,xw,jts)
 c
-c- by RF - Feb. 2006 
+c- by RF - Feb. 2006
 c
 c This subroutine computes an off-shell tensor current from the tts coupling.
 c
@@ -27,14 +27,14 @@ c      include "dimension.inc"
 
 c The outgoing tensor current is the same as the incoming multiplied by the
 c coupling constant and the scalar particle. Note that the diagonal tensor
-c terms are always zero because the tensor particle is anti-symmetric. The 
-c tensor particle does not propagate, thus no multiplication with the tensor 
+c terms are always zero because the tensor particle is anti-symmetric. The
+c tensor particle does not propagate, thus no multiplication with the tensor
 c propagator.
 
       jts(17) = sc(2) + tc1(17)
       jts(18) = sc(3) + tc1(18)
 
- 
+
       if (gt(1).NE.(0D0,0D0)) then
 
          jts( 1) = (0D0,0D0)        !-gt(1) * sc(1) * tc1( 1)
@@ -51,7 +51,7 @@ c propagator.
          jts(10) =  -gt(1) * sc(1) * tc1(10)
          jts(11) = (0D0,0D0)        !-gt(1) * sc(1) * tc1(11)
          jts(12) =  -gt(1) * sc(1) * tc1(12)
-         
+
          jts(13) =  -gt(1) * sc(1) * tc1(13)
          jts(14) =  -gt(1) * sc(1) * tc1(14)
          jts(15) =  -gt(1) * sc(1) * tc1(15)

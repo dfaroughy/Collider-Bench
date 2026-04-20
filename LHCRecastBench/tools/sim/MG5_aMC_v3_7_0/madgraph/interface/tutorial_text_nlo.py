@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -22,7 +22,7 @@ NLO corrections.
 To learn more about the different options for a command, you can use
 MG_aMC>help A_CMD
 To see a list of all commands, use
-MG_aMC>help 
+MG_aMC>help
 
 The goal of this tutorial is to learn how to generate a process and to
 produce an output for MadGraph5_aMC@NLO. In this part we will learn
@@ -39,8 +39,8 @@ with MadGraph5_aMC@NLO) will be used.
 
 Let's start with the first point, how to generate a process at NLO:
 MG5_aMC>generate p p > e+ ve [QCD]
-Note that a space is mandatory between the particle names and that '[QCD]' 
-specifies that you want to consider QCD NLO corrections. 
+Note that a space is mandatory between the particle names and that '[QCD]'
+specifies that you want to consider QCD NLO corrections.
 Couplings different than QCD cannot be perturbed yet.
 """
 
@@ -86,29 +86,29 @@ output = """
 If you are following the tutorial, a directory MY_FIRST_AMCATNLO_RUN has
 been created which can be used in order to run simulation including NLO corrections.
 
-Additionally to the commands in the bin directory (see 
-MY_FIRST_AMCATNLO_RUN/README), you can also generate your events/compute the 
-cross-section from this interface. 
+Additionally to the commands in the bin directory (see
+MY_FIRST_AMCATNLO_RUN/README), you can also generate your events/compute the
+cross-section from this interface.
 You will generate events to be showered a la MC@NLO, compute the theoretical
-and PDF error on the fly (if asked for in the run_card.dat) and shower the 
-events with the parton_shower MonteCarlo specified in the run_card.dat, 
-generating a file in the StdHEP format. 
+and PDF error on the fly (if asked for in the run_card.dat) and shower the
+events with the parton_shower MonteCarlo specified in the run_card.dat,
+generating a file in the StdHEP format.
 Please note that, since shower-specific counterterms have to be included in the
 calculation, the parton level sample you will obtain can only be showered
-with the selected MonteCarlo. 
+with the selected MonteCarlo.
 Note also that, because of the way they have been generated, the parton-level
-events in the .lhe file are UNPHYSICAL. 
+events in the .lhe file are UNPHYSICAL.
 In order to obtain physical results, please use the .hep file
 
 Please enter
-MG_aMC> launch 
+MG_aMC> launch
 
 If you just want to generate the parton level .lhe file, please enter
 MG_aMC> launch -p
 
 (you can interrupt the computation to continue the tutorial by pressing Ctrl-C)
 
-At any time, you can access more commands/options for running the output by 
+At any time, you can access more commands/options for running the output by
 switching to an interactive interface for a given output folder 'MyFolder'.
 You can do so by typing:
 MG_aMC> launch -i MyFolder

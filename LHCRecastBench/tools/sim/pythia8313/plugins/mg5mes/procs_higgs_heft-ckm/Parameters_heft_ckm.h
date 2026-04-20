@@ -15,17 +15,17 @@
 #include "Pythia8/ParticleData.h"
 #include "Pythia8/StandardModel.h"
 #include "Pythia8/SusyLesHouches.h"
-#endif 
+#endif
 
 #include "read_slha.h"
-using namespace std; 
+using namespace std;
 
 class Parameters_heft_ckm
 {
   public:
 
     // Define "zero"
-    double zero, ZERO; 
+    double zero, ZERO;
     // Model parameters independent of aS
     double mdl_WH1, mdl_WH, mdl_WW, mdl_WZ, mdl_WT, mdl_ymtau, mdl_ymt,
         mdl_ymb, mdl_etaWS, mdl_rhoWS, mdl_AWS, mdl_lamWS, aS, mdl_Gf, aEWM1,
@@ -45,7 +45,7 @@ class Parameters_heft_ckm
         mdl_conjg__CKM2x1, mdl_conjg__CKM2x2, mdl_conjg__CKM2x3,
         mdl_conjg__CKM3x1, mdl_conjg__CKM3x2;
     // Model parameters dependent on aS
-    double mdl_sqrt__aS, G, mdl_G__exp__2, mdl_GH, mdl_Gphi; 
+    double mdl_sqrt__aS, G, mdl_G__exp__2, mdl_GH, mdl_Gphi;
     // Model couplings independent of aS
     Complex<double> GC_1, GC_2, GC_3, GC_4, GC_6, GC_7, GC_8, GC_9, GC_19,
         GC_20, GC_21, GC_22, GC_23, GC_24, GC_25, GC_26, GC_27, GC_28, GC_29,
@@ -57,7 +57,7 @@ class Parameters_heft_ckm
         GC_85, GC_86, GC_87, GC_90, GC_91, GC_95, GC_96, GC_97, GC_99, GC_100,
         GC_101, GC_102;
     // Model couplings dependent on aS
-    Complex<double> GC_17, GC_16, GC_15, GC_14, GC_13, GC_12, GC_11, GC_10; 
+    Complex<double> GC_17, GC_16, GC_15, GC_14, GC_13, GC_12, GC_11, GC_10;
 
     // Further initialization functions if plugin is used from within Pythia8.
     #ifdef PYTHIA8
@@ -71,24 +71,23 @@ class Parameters_heft_ckm
     #endif
 
     // Set parameters that are unchanged during the run
-    void setIndependentParameters(SLHAReader& slha); 
+    void setIndependentParameters(SLHAReader& slha);
     // Set couplings that are unchanged during the run
-    void setIndependentCouplings(); 
+    void setIndependentCouplings();
     // Set parameters that are changed event by event
-    void setDependentParameters(); 
+    void setDependentParameters();
     // Set couplings that are changed event by event
-    void setDependentCouplings(); 
+    void setDependentCouplings();
 
     // Print parameters that are unchanged during the run
-    void printIndependentParameters(); 
+    void printIndependentParameters();
     // Print couplings that are unchanged during the run
-    void printIndependentCouplings(); 
+    void printIndependentCouplings();
     // Print parameters that are changed event by event
-    void printDependentParameters(); 
+    void printDependentParameters();
     // Print couplings that are changed event by event
-    void printDependentCouplings(); 
+    void printDependentCouplings();
 
-}; 
+};
 
 #endif  // Parameters_heft_ckm_H
-

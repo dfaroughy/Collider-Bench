@@ -2,7 +2,7 @@
 // RBOOK -- A simple fortran interface to ROOT histogramming
 //
 // This file implements the C++ back-end functions that call the appropriate ROOT code
-// 
+//
 //
 // (C) 31/08/2006 NIKHEF / Wouter Verkerke
 // -------------------------------------------------------------------
@@ -33,7 +33,7 @@ TROOT* _theRoot = 0 ;
 
 // Declare all functions as 'extern C' so that we don't have to worry about C++ name
 // mangling conventions in fortran side of code
-extern "C" 
+extern "C"
 {
   int rinit_be__(char* , int*) ;
   void rbook_be__(int*, char*, int*, int*, double*, double*);
@@ -129,7 +129,7 @@ void rbook_be__(int* id, char* fname, int* nfname, int* nbins, double* xlo, doub
 
   // Create a TH1D object
   TH1D* h = new TH1D(Form("h%d",*id),cname,*nbins,*xlo,*xhi) ;
-  
+
   // Tell TH1 to keep track of weights for sum(w2) errors
   //UNCOMMENT WHAT FOLLOWS TO REINSTATE ERRORS
   //h->Sumw2() ;
@@ -143,7 +143,7 @@ void rbook_be__(int* id, char* fname, int* nfname, int* nbins, double* xlo, doub
 // ---------------------------------------
 // RBOOK2 back end -- Create 2D histogram
 // ---------------------------------------
-void rbook2_be__(int* id, char* fname, int* nfname, int* xbins, double* xlo, double* xhi, 
+void rbook2_be__(int* id, char* fname, int* nfname, int* xbins, double* xlo, double* xhi,
 		int* ybins, double* ylo, double* yhi)
 {
   // Convert fortran name to C++ string
@@ -151,12 +151,12 @@ void rbook2_be__(int* id, char* fname, int* nfname, int* xbins, double* xlo, dou
   memcpy(cname,fname,*nfname) ; cname[*nfname]=0 ;
 
   // Print message
-  cout << "RBOOK2 -- Creating TH2D " << Form("h%d",*id) << "[" << *xlo << "-" << *xhi << ":" << *xbins << "," 
+  cout << "RBOOK2 -- Creating TH2D " << Form("h%d",*id) << "[" << *xlo << "-" << *xhi << ":" << *xbins << ","
        << *ylo << "-" << *yhi << ":" << *ybins << "] : " << cname << endl ;
 
   // Create a TH1D object
   TH2D* h = new TH2D(Form("h%d",*id),cname,*xbins,*xlo,*xhi,*ybins,*ylo,*yhi) ;
-  
+
   // Tell TH1 to keep track of weights for sum(w2) errors
   //UNCOMMENT WHAT FOLLOWS TO REINSTATE ERRORS
   //h->Sumw2() ;
@@ -170,11 +170,11 @@ void rbook2_be__(int* id, char* fname, int* nfname, int* xbins, double* xlo, dou
 // ------------------------------------
 // RFILL back end -- Fill 1D histogram
 // ------------------------------------
-void rfill_be__(int* h, double* x, double* wgt) 
+void rfill_be__(int* h, double* x, double* wgt)
 {
   // Pull the request histogram from the master list
   TH1D* hh = (TH1D*) _theList[*h] ;
-  
+
   // Check if a histogram has been created for given ID
   if (hh) {
     // Fill the histogram
@@ -189,11 +189,11 @@ void rfill_be__(int* h, double* x, double* wgt)
 // ------------------------------------
 // RFILL2 back end -- Fill 2D histogram
 // ------------------------------------
-void rfill2_be__(int* h, double* x, double* y, double* wgt) 
+void rfill2_be__(int* h, double* x, double* y, double* wgt)
 {
   // Pull the request histogram from the master list
   TH2D* hh = (TH2D*) _theList[*h] ;
-  
+
   // Check if a histogram has been created for given ID
   if (hh) {
     // Fill the histogram
@@ -246,7 +246,7 @@ void ropera_be__(int* ih1, char* oper, int* operlen, int* ih2, int* ih3, double*
     _theList[*ih3] = h3 ;
 
     return ;
-  }  
+  }
 
 //  +  : sums       X*(hist I) with Y*(hist J) and puts the result in hist K;
 //  -  : subtracts  X*(hist I) with Y*(hist J) and puts the result in hist K;
@@ -260,36 +260,36 @@ void ropera_be__(int* ih1, char* oper, int* operlen, int* ih2, int* ih3, double*
 //       value at a given bin is less than or equal to 0, puts 0 in K
 
   switch(op[0]) {
-  case '+': 
+  case '+':
     h3->Add(h1,h2,*x,*y) ;
     break ;
-  case '-': 
+  case '-':
     h3->Add(h1,h2,*x,-1*(*y)) ;
     break ;
-  case '*': 
+  case '*':
     h3->Multiply(h1,h2,*x,*y) ;
     break ;
-  case '/': 
+  case '/':
     h3->Divide(h1,h2,*x,*y) ;
     break ;
-  case 'F': 
+  case 'F':
     for (Int_t i=1 ; i<=h1->GetNbinsX() ; i++) {
       h3->SetBinContent(i, *x *  h1->GetBinContent(i)) ;
     }
     break ;
-  case 'R': 
+  case 'R':
     for (Int_t i=1 ; i<=h1->GetNbinsX() ; i++) {
       Double_t v = h1->GetBinContent(i) ;
       h3->SetBinContent(i, v>0?sqrt(v):0.) ;
     }
     break ;
-  case 'S': 
+  case 'S':
     for (Int_t i=1 ; i<=h1->GetNbinsX() ; i++) {
       Double_t v = h1->GetBinContent(i) ;
       h3->SetBinContent(i, v*v) ;
     }
     break ;
-  case 'L': 
+  case 'L':
     for (Int_t i=1 ; i<=h1->GetNbinsX() ; i++) {
       Double_t v = h1->GetBinContent(i) ;
       h3->SetBinContent(i, v>0?log10(v):0.) ;
@@ -300,7 +300,7 @@ void ropera_be__(int* ih1, char* oper, int* operlen, int* ih2, int* ih3, double*
     cout << "ROPERA -- ERROR: options 'M' and 'V' not implemented" << endl ;
     break ;
   default:
-    cout << "ROPERA -- ERROR: unknown option '" << op << "'" << endl ;  
+    cout << "ROPERA -- ERROR: unknown option '" << op << "'" << endl ;
     break ;
   }
 
@@ -311,7 +311,7 @@ void ropera_be__(int* ih1, char* oper, int* operlen, int* ih2, int* ih3, double*
 // -------------------------------------------
 // RCOPY back end -- Copy histograms
 // ------------------------------------------
-void rcopy_be__(int* ih1, int* ih2) 
+void rcopy_be__(int* ih1, int* ih2)
 {
   // Pull the request histogram from the master list
   TH1D* h1 = (TH1D*) _theList[*ih1] ;
@@ -328,6 +328,5 @@ void rcopy_be__(int* ih1, int* ih2)
   // Delete ih2, clone ih1 and use it as replacement for ih2
   h2 = (TH1D*) h1->Clone(Form("h%d",*ih2)) ;
   _theList[*ih2] = h2 ;
-  
-}
 
+}

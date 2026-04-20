@@ -5,13 +5,13 @@ C CONSTANTS
 C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-C  
-C ARGUMENTS 
 C
-      DOUBLE PRECISION P(0:3,NEXTERNAL) 
-      %(real_format)s QP_P(0:3,NEXTERNAL) 
+C ARGUMENTS
 C
-C LOCAL VARIABLES 
+      DOUBLE PRECISION P(0:3,NEXTERNAL)
+      %(real_format)s QP_P(0:3,NEXTERNAL)
+C
+C LOCAL VARIABLES
 C
       INTEGER I,J
 
@@ -43,17 +43,17 @@ C CONSTANTS
 C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s P(0:3,NEXTERNAL)
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       INTEGER I,J
 	  INTEGER ERRCODE,ERRCODETMP
 	  %(real_format)s NEWP(0:3,NEXTERNAL)
-C  
+C
 C FUNCTIONS
 C
       LOGICAL %(proc_prefix)s%(mp_prefix)sIS_PHYSICAL
@@ -97,7 +97,7 @@ C Check the sanity of the original PS point
 
 C Now restore the precision
       IF (ImprovePSPoint.eq.1) THEN
-        CALL %(proc_prefix)s%(mp_prefix)sPSMC_IMPROVE_PS_POINT_PRECISION(NEWP,ERRCODE,WARNED)	    
+        CALL %(proc_prefix)s%(mp_prefix)sPSMC_IMPROVE_PS_POINT_PRECISION(NEWP,ERRCODE,WARNED)
 	  ELSEIF((ImprovePSPoint.eq.2).or.(ImprovePSPoint.le.0)) THEN
 	    CALL %(proc_prefix)s%(mp_prefix)sORIG_IMPROVE_PS_POINT_PRECISION(NEWP,ERRCODE,WARNED)
 	  ENDIF
@@ -109,7 +109,7 @@ C Now restore the precision
 	    IF (ImprovePSPoint.eq.1) THEN
 	       CALL %(proc_prefix)s%(mp_prefix)sORIG_IMPROVE_PS_POINT_PRECISION(NEWP,ERRCODETMP,WARNED)
 	  	ELSEIF((ImprovePSPoint.eq.2).or.(ImprovePSPoint.le.0)) THEN
-           CALL %(proc_prefix)s%(mp_prefix)sPSMC_IMPROVE_PS_POINT_PRECISION(NEWP,ERRCODETMP,WARNED)		  
+           CALL %(proc_prefix)s%(mp_prefix)sPSMC_IMPROVE_PS_POINT_PRECISION(NEWP,ERRCODETMP,WARNED)
         ENDIF
 		IF (ERRCODETMP.NE.0) GOTO 100
 	  ENDIF
@@ -121,7 +121,7 @@ C Report to the user or update the PS point.
       IF (WARNED.LT.20) THEN
 	    WRITE(*,*) 'WARNING:: This PS point could not be improved. Error code = ',ERRCODE,ERRCODETMP
 		CALL %(proc_prefix)s%(mp_prefix)sWRITE_MOM(P)
-	    WARNED = WARNED +1 
+	    WARNED = WARNED +1
 	  ENDIF
 	  GOTO 102
 101   CONTINUE
@@ -138,7 +138,7 @@ C Report to the user or update the PS point.
       ENDIF
 
 	  END
-      
+
 
       FUNCTION %(proc_prefix)s%(mp_prefix)sIS_CLOSE(P,NEWP,WARNED)
 	  IMPLICIT NONE
@@ -151,14 +151,14 @@ C
 	  PARAMETER (ZERO=0.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s THRS_CLOSE
 	  PARAMETER (THRS_CLOSE=1.0%(exp_letter)s-02%(mp_specifier)s)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s P(0:3,NEXTERNAL), NEWP(0:3,NEXTERNAL)
 	  LOGICAL %(proc_prefix)s%(mp_prefix)sIS_CLOSE
 	  INTEGER WARNED
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       INTEGER I,J
 	  %(real_format)s REF,REF2
@@ -170,8 +170,8 @@ C NOW MAKE SURE THE SHIFTED POINT IS NOT TOO FAR FROM THE ORIGINAL ONE
 	 REF2 = ZERO
 	 DO J=1,NEXTERNAL
 	   DO I=0,3
-	     REF2 = REF2 + ABS(P(I,J))	   
-	     REF = REF + ABS(P(I,J)-NEWP(I,J)) 
+	     REF2 = REF2 + ABS(P(I,J))
+	     REF = REF + ABS(P(I,J)-NEWP(I,J))
 	   ENDDO
 	 ENDDO
 
@@ -198,7 +198,7 @@ C
 	  %(real_format)s ZERO
 	  PARAMETER (ZERO=0.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s MP__ZERO
-	  PARAMETER (MP__ZERO=ZERO)	  
+	  PARAMETER (MP__ZERO=ZERO)
 	  %(real_format)s ONE
 	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s TWO
@@ -207,20 +207,20 @@ C
 	  PARAMETER (THRES_ONSHELL=1.0%(exp_letter)s-02%(mp_specifier)s)
 	  %(real_format)s THRES_FOURMOM
 	  PARAMETER (THRES_FOURMOM=1.0%(exp_letter)s-06%(mp_specifier)s)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s P(0:3,NEXTERNAL)
 	  LOGICAL %(proc_prefix)s%(mp_prefix)sIS_PHYSICAL
 	  INTEGER WARNED
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       INTEGER I,J
 	  %(real_format)s BUFF,REF
 	  %(real_format)s MASSES(NEXTERNAL)
 	  double precision BUFFDPA,BUFFDPB
-C  
+C
 C GLOBAL VARIABLES
 C
       %(include_vector)s
@@ -242,10 +242,10 @@ C FOR THAT WE NEED A REFERENCE SCALE
 	  ENDDO
 	  DO I=0,3
 		BUFF=ZERO
-        DO J=1,NINITIAL	
+        DO J=1,NINITIAL
 		  BUFF=BUFF-P(I,J)
 		ENDDO
-        DO J=NINITIAL+1,NEXTERNAL	
+        DO J=NINITIAL+1,NEXTERNAL
 		  BUFF=BUFF+P(I,J)
 		ENDDO
 		IF ((BUFF/REF).GT.THRES_FOURMOM) THEN
@@ -268,7 +268,7 @@ C FOR THAT WE NEED A REFERENCE SCALE
 		    WRITE(*,*) 'ERROR:: Onshellness of the momentum of particle ',I,' of mass ',BUFFDPA,' is not accurate enough, ',BUFFDPB
 		    CALL %(proc_prefix)s%(mp_prefix)sWRITE_MOM(P)
 			WARNED=WARNED+1
-		  ENDIF		  
+		  ENDIF
 		  %(proc_prefix)s%(mp_prefix)sIS_PHYSICAL = .FALSE.
 		ENDIF
 	  ENDDO
@@ -287,11 +287,11 @@ C FOR THAT WE NEED A REFERENCE SCALE
 
 	  INTEGER I,J
 
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       DOUBLE PRECISION P(0:3,NEXTERNAL),PSUM(0:3)
-	  DO I=0,3  
+	  DO I=0,3
         PSUM(I)=ZERO
         DO J=1,NINITIAL
           PSUM(I)=PSUM(I)+P(I,J)
@@ -330,13 +330,13 @@ C
 
 	  INTEGER I,J
 
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s P(0:3,NEXTERNAL),PSUM(0:3),DOT
       DOUBLE PRECISION DP_P(0:3,NEXTERNAL),DP_PSUM(0:3),DP_DOT
 
-	  DO I=0,3  
+	  DO I=0,3
         PSUM(I)=ZERO
         DO J=1,NINITIAL
           PSUM(I)=PSUM(I)+P(I,J)
@@ -345,7 +345,7 @@ C
           PSUM(I)=PSUM(I)-P(I,J)
         ENDDO
       ENDDO
-	  
+
 C The GCC4.7 compiler on SLC machines has trouble to write out quadruple precision variable with the write(*,*) statement. I therefore perform the cast by hand
 	  DO I=0,3
 		DP_PSUM(I)=PSUM(I)
@@ -375,24 +375,24 @@ C The GCC4.7 compiler on SLC machines has trouble to write out quadruple precisi
       end
 
 C Rotate_PS rotates the PS point PS (without modifying it)
-C stores the result in P and for the quadruple precision 
+C stores the result in P and for the quadruple precision
 c version , it also modifies the global variables
 C PS and MP_DONE accordingly.
 
 	  SUBROUTINE %(proc_prefix)sROTATE_PS(P_IN,P,ROTATION)
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       DOUBLE PRECISION P_IN(0:3,NEXTERNAL),P(0:3,NEXTERNAL)
 	  INTEGER ROTATION
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       INTEGER I,J
 
@@ -426,23 +426,23 @@ C rotation=2 => (xp=-z,yp=y,zp=x)
 
 	  SUBROUTINE %(proc_prefix)s%(mp_prefix)sROTATE_PS(P_IN,P,ROTATION)
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s P_IN(0:3,NEXTERNAL),P(0:3,NEXTERNAL)
 	  INTEGER ROTATION
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       INTEGER I,J
-C  
+C
 C GLOBAL VARIABLES
-C 
+C
 	  LOGICAL MP_DONE
 	  common/%(proc_prefix)sMP_DONE/MP_DONE
 
@@ -481,9 +481,9 @@ C *****************************************************************
 
       SUBROUTINE %(proc_prefix)s%(mp_prefix)sORIG_IMPROVE_PS_POINT_PRECISION(P,ERRCODE,WARNED)
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    NINITIAL
@@ -491,34 +491,34 @@ C
 	  %(real_format)s ZERO
 	  PARAMETER (ZERO=0.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s MP__ZERO
-	  PARAMETER (MP__ZERO=ZERO)	  
+	  PARAMETER (MP__ZERO=ZERO)
 	  %(real_format)s ONE
-	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)	  
-	  %(real_format)s TWO	  
+	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)
+	  %(real_format)s TWO
 	  PARAMETER (TWO=2.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s THRS_TEST
-	  PARAMETER (THRS_TEST=1.0%(exp_letter)s-15%(mp_specifier)s)	  
-C  
-C ARGUMENTS 
+	  PARAMETER (THRS_TEST=1.0%(exp_letter)s-15%(mp_specifier)s)
+C
+C ARGUMENTS
 C
       %(real_format)s P(0:3,NEXTERNAL)
 	  INTEGER ERRCODE, WARNED
-C  
+C
 C FUNCTIONS
 C
-      LOGICAL %(proc_prefix)s%(mp_prefix)sIS_CLOSE 
+      LOGICAL %(proc_prefix)s%(mp_prefix)sIS_CLOSE
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
-      INTEGER I,J, P1, P2 
+      INTEGER I,J, P1, P2
 C     PT STANDS FOR PTOT
       %(real_format)s PT(0:3), NEWP(0:3,NEXTERNAL)
 	  %(real_format)s BUFF,REF,REF2,DISCR
 	  %(real_format)s MASSES(NEXTERNAL)
 	  %(real_format)s SHIFTE(2),SHIFTZ(2)
-C  
+C
 C GLOBAL VARIABLES
-C 
+C
       %(include_vector)s
       include '%(coupl_inc_name)s'
 
@@ -536,11 +536,11 @@ C NOW WE MAKE SURE THAT THE PS POINT CAN BE IMPROVED BY THE ALGORITHM
 	  ENDDO
 
      IF (NINITIAL.NE.2) ERRCODE = 100
-	 
+
 	 IF (ABS(P(1,1)/REF).GT.THRS_TEST.OR.ABS(P(2,1)/REF).GT.THRS_TEST.OR.ABS(P(1,2)/REF).GT.THRS_TEST.OR.ABS(P(2,2)/REF).GT.THRS_TEST) ERRCODE = 200
-	   
+
 	 IF (MASSES(1).NE.ZERO.OR.MASSES(2).NE.ZERO) ERRCODE = 300
-	 
+
 	 DO I=1,NEXTERNAL
 	   IF (P(0,I).LT.ZERO) ERRCODE = 400 + I
      ENDDO
@@ -580,7 +580,7 @@ C Mathematica gives
 C ptotC = {ptotE, ptotX, ptotY, ptotZ};
 C pm1C = {pm1E + sm1E, pm1X, pm1Y, pm1Z + sm1Z};
 C {pm0E + sm0E, ptotX - pm1X, ptotY - pm1Y, pm0Z + sm0Z};
-C sol = Solve[{ptotC[[1]] - pm1C[[1]] - pm0C[[1]] == 0,  
+C sol = Solve[{ptotC[[1]] - pm1C[[1]] - pm0C[[1]] == 0,
 C  ptotC[[4]] - pm1C[[4]] - pm0C[[4]] == 0,
 C  pm1C[[1]]^2 - pm1C[[2]]^2 - pm1C[[3]]^2 - pm1C[[4]]^2 == m1M^2,
 C  pm0C[[1]]^2 - pm0C[[2]]^2 - pm0C[[3]]^2 - pm0C[[4]]^2 == m2M^2},
@@ -591,7 +591,7 @@ C
      DISCR = -PT(0)**2 + PT(1)**2 + PT(2)**2 + PT(3)**2
 	 IF (DISCR.LT.ZERO) DISCR = -DISCR
 
-	 SHIFTE(1) = (PT(0)*(-TWO*P(0,P1)*PT(0) + PT(0)**2 + PT(1)**2 + PT(2)**2) + (TWO*P(0,P1) - PT(0))*PT(3)**2 + PT(3)*DISCR)/(TWO*(PT(0) - PT(3))*(PT(0) + PT(3))) 
+	 SHIFTE(1) = (PT(0)*(-TWO*P(0,P1)*PT(0) + PT(0)**2 + PT(1)**2 + PT(2)**2) + (TWO*P(0,P1) - PT(0))*PT(3)**2 + PT(3)*DISCR)/(TWO*(PT(0) - PT(3))*(PT(0) + PT(3)))
 	 SHIFTE(2) = -(PT(0)*(TWO*P(0,P2)*PT(0) - PT(0)**2 + PT(1)**2 + PT(2)**2) + (-TWO*P(0,P2) + PT(0))*PT(3)**2 + PT(3)*DISCR)/(TWO*(PT(0) - PT(3))*(PT(0) + PT(3)))
 	 SHIFTZ(1) = (-TWO*P(3,P1)*(PT(0)**2 - PT(3)**2) + PT(3)*(PT(0)**2 + PT(1)**2 + PT(2)**2 - PT(3)**2) + PT(0)*DISCR)/(TWO*(PT(0)**2 - PT(3)**2))
 	 SHIFTZ(2) = -(TWO*P(3,P2)*(PT(0)**2 - PT(3)**2) + PT(3)*(-PT(0)**2 + PT(1)**2 + PT(2)**2 + PT(3)**2) + PT(0)*DISCR)/(TWO*(PT(0)**2 - PT(3)**2))
@@ -609,7 +609,7 @@ C
 	   REF = REF - P(J,P2)
 	   NEWP(J,P1) = REF
 	 ENDDO
- 
+
       IF (.NOT.%(proc_prefix)s%(mp_prefix)sIS_CLOSE(P,NEWP,WARNED)) THEN
 	    ERRCODE=999
 		GOTO 100
@@ -620,7 +620,7 @@ C
 		  P(I,J)=NEWP(I,J)
 		ENDDO
 	  ENDDO
-	 
+
  100  CONTINUE
 
 	  END
@@ -631,9 +631,9 @@ C *****************************************************************
 
       SUBROUTINE %(proc_prefix)s%(mp_prefix)sPSMC_IMPROVE_PS_POINT_PRECISION(P,ERRCODE,WARNED)
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    NINITIAL
@@ -641,36 +641,36 @@ C
 	  %(real_format)s ZERO
 	  PARAMETER (ZERO=0.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s MP__ZERO
-	  PARAMETER (MP__ZERO=ZERO)	  
+	  PARAMETER (MP__ZERO=ZERO)
 	  %(real_format)s ONE
-	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)	  
-	  %(real_format)s TWO	  
+	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)
+	  %(real_format)s TWO
 	  PARAMETER (TWO=2.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s CONSISTENCY_THRES
-	  PARAMETER (CONSISTENCY_THRES=1.0%(exp_letter)s-25%(mp_specifier)s)	
+	  PARAMETER (CONSISTENCY_THRES=1.0%(exp_letter)s-25%(mp_specifier)s)
 
 	  INTEGER    NAPPROXZEROS
       PARAMETER (NAPPROXZEROS=3)
 
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s P(0:3,NEXTERNAL)
 	  INTEGER ERRCODE,ERROR,WARNED
-C  
+C
 C FUNCTIONS
 C
       LOGICAL %(proc_prefix)s%(mp_prefix)sIS_CLOSE
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
-      INTEGER I,J, P1, P2 
+      INTEGER I,J, P1, P2
       %(real_format)s NEWP(0:3,NEXTERNAL), PBUFF(0:3)
 	  %(real_format)s BUFF, BUFF2, XSCALE, APPROX_ZEROS(NAPPROXZEROS)
 	  %(real_format)s MASSES(NEXTERNAL)
 C
 C GLOBAL VARIABLES
-C 
+C
       %(include_vector)s
       include '%(coupl_inc_name)s'
 
@@ -691,14 +691,14 @@ C     Define the seeds which should be tried
 C     Start by copying the momenta
       DO I=1,NEXTERNAL
 	    DO J=0,3
-		  NEWP(J,I)=P(J,I)		   
+		  NEWP(J,I)=P(J,I)
 		ENDDO
 	  ENDDO
 
 C     First make sur that the space like momentum is exactly conserved
       DO J=0,3
 	    PBUFF(J)=ZERO
-	  ENDDO  
+	  ENDDO
       DO I=1,NINITIAL
 	    DO J=1,3
 		  PBUFF(J)=PBUFF(J)+NEWP(J,I)
@@ -742,7 +742,7 @@ C         derivative in the case that all particle are massless.
 		  IF (I.eq.1) THEN
 		    NEWP(J,I)=NEWP(J,I)*XSCALE**2
 	      ELSE
-		    NEWP(J,I)=NEWP(J,I)*XSCALE		  
+		    NEWP(J,I)=NEWP(J,I)*XSCALE
 		  ENDIF
 		ENDDO
 	  ENDDO
@@ -786,7 +786,7 @@ C     Consistency check
 		  P(I,J)=NEWP(I,J)
 		ENDDO
 	  ENDDO
-	 
+
  1000  CONTINUE
 
       END
@@ -794,9 +794,9 @@ C     Consistency check
 
 	  SUBROUTINE %(proc_prefix)sFINDX(P,SEED,XSCALE,ERROR)
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    NINITIAL
@@ -804,22 +804,22 @@ C
 	  %(real_format)s ZERO
 	  PARAMETER (ZERO=0.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s MP__ZERO
-	  PARAMETER (MP__ZERO=ZERO)	  
+	  PARAMETER (MP__ZERO=ZERO)
 	  %(real_format)s ONE
-	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)	  
-	  %(real_format)s TWO	  
+	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)
+	  %(real_format)s TWO
 	  PARAMETER (TWO=2.0%(exp_letter)s+00%(mp_specifier)s)
 	  INTEGER MAXITERATIONS
       PARAMETER (MAXITERATIONS=8)
 	  %(real_format)s CONVERGED
 	  PARAMETER (CONVERGED=1.0%(exp_letter)s-26%(mp_specifier)s)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s P(0:3,NEXTERNAL),SEED,XSCALE
 	  INTEGER ERROR
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       INTEGER I,J,ERR
       %(real_format)s PVECSQ(NEXTERNAL)
@@ -871,7 +871,7 @@ C     For good measure, we iterate one last time
 	    ERROR=ERR
 		GOTO 710
       ENDIF
-      
+
 	  XSCALE=XN-(FVAL/DVAL)
 
   710 CONTINUE
@@ -880,9 +880,9 @@ C     For good measure, we iterate one last time
 
 	  SUBROUTINE %(proc_prefix)sFUNCT(PVECSQ,X,DERIVATIVE,ERROR,RES)
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    NINITIAL
@@ -890,26 +890,26 @@ C
 	  %(real_format)s ZERO
 	  PARAMETER (ZERO=0.0%(exp_letter)s+00%(mp_specifier)s)
 	  %(real_format)s MP__ZERO
-	  PARAMETER (MP__ZERO=ZERO)	  
+	  PARAMETER (MP__ZERO=ZERO)
 	  %(real_format)s ONE
-	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)	  
-	  %(real_format)s TWO	  
+	  PARAMETER (ONE=1.0%(exp_letter)s+00%(mp_specifier)s)
+	  %(real_format)s TWO
 	  PARAMETER (TWO=2.0%(exp_letter)s+00%(mp_specifier)s)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       %(real_format)s PVECSQ(NEXTERNAL),X,RES
 	  INTEGER ERROR
 	  LOGICAL DERIVATIVE
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
-      INTEGER I,J 
+      INTEGER I,J
 	  %(real_format)s BUFF,FACTOR
 	  %(real_format)s MASSES(NEXTERNAL)
 C
 C GLOBAL VARIABLES
-C 
+C
       %(include_vector)s
       include '%(coupl_inc_name)s'
 
@@ -950,7 +950,7 @@ C     derivative in the case that all particle are massless.
 		    RES=RES + FACTOR*((X*PVECSQ(I))/SQRT(BUFF))
 		  ENDIF
 		ELSE
-		  RES=RES + FACTOR*SQRT(BUFF)		  
+		  RES=RES + FACTOR*SQRT(BUFF)
 		ENDIF
 	  ENDDO
 

@@ -7,7 +7,7 @@
       REAL*8 PARTICLE_CHARGE_D(%(nconfs)d, NEXTERNAL)
       LOGICAL SPLIT_TYPE_D(%(nconfs)d, %(nsplitorders)d)
       LOGICAL NEED_COLOR_LINKS_D(%(nconfs)d), NEED_CHARGE_LINKS_D(%(nconfs)d)
-      
+
 data fks_i_D / %(fks_i_values)s /
 data fks_j_D / %(fks_j_values)s /
 
@@ -21,20 +21,20 @@ C     Split type: the order of elements is %(splitorders_name)s
 
 C     Extra cnt: if the real emission needs an extra cnt (g/a > qqbar), then
 C     this is the id of the extra cnt. Otherwise it should be set to 0.
-C     If not 0, store also the position in the splitorders array of the 
+C     If not 0, store also the position in the splitorders array of the
 C     coupling corresponding to the splitting type
 data extra_cnt_D / %(extra_cnt_values)s /
 data isplitorder_born_D / %(isplitorder_born_values)s /
 data isplitorder_cnt_D / %(isplitorder_cnt_values)s /
 
-C     
+C
 C     Particle type:
 C     octet = 8, triplet = 3, singlet = 1
 %(col_lines)s
 
-C     
+C
 C     Particle type according to PDG:
-C     
+C
 %(pdg_lines)s
 
 C
@@ -42,8 +42,7 @@ C     Particle charge:
 C     charge is set 0. with QCD corrections, which is irrelevant
 %(charge_lines)s
 
-C     
+C
 C     Tagged particles:
-C     
+C
 %(tag_lines)s
-

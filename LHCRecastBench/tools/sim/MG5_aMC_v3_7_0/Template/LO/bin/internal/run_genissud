@@ -49,7 +49,7 @@ main=`pwd`
 rm -f myprocid running_jobs
 echo $$ >> myprocid
 
-if [ "$p" = "1" ]; then 
+if [ "$p" = "1" ]; then
   for i in -2 -1 0 1 2 3 4 5;do
     rm -f donegen$i rungen$i waitgen$i gensudgrid$i.log gensudgrid$i.pbs gen$i.log
     echo '#!/bin/bash' > gensudgrid$i.pbs
@@ -64,7 +64,7 @@ if [ "$p" = "1" ]; then
   d=`find ./ -name "donegen*" -maxdepth 1 |wc -l`
   echo "waiting while finishing jobs on cluster"
   echo $w $r $d $t
-  while [[  $d -lt $t  ]]; do    
+  while [[  $d -lt $t  ]]; do
       sleep 10
       t=`find ./ -name "gensudgrid*.pbs" -maxdepth 1 |wc -l`
       r=`find ./ -name "rungen*" -maxdepth 1 |wc -l`

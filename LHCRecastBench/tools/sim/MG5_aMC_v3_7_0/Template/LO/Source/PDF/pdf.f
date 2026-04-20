@@ -12,10 +12,10 @@ C
 C     Include
 C
       include 'pdf.inc'
-C      
+C
       call fdist(ih,x, q, pdf)
 
-      return	
+      return
       end
 
 
@@ -127,7 +127,7 @@ c             mode=1
 c             call mrs98(x,xmu,mode,u_val,d_val,u_sea,d_sea,
 c     &                          s_sea,c_sea,b_sea,gluon)
 c             elseif (pdlabel .eq. 'mrs98z2') then
-c             mode=2 
+c             mode=2
 c             call mrs98(x,xmu,mode,u_val,d_val,u_sea,d_sea,
 c     &                          s_sea,c_sea,b_sea,gluon)
 c             elseif (pdlabel .eq. 'mrs98z3') then
@@ -147,7 +147,7 @@ c             mode=1
 c             call mrs98lo(x,xmu,mode,u_val,d_val,u_sea,d_sea,
 c     &                          s_sea,c_sea,b_sea,gluon)
 c             elseif (pdlabel .eq. 'mrs98l2') then
-c             mode=2 
+c             mode=2
 c             call mrs98lo(x,xmu,mode,u_val,d_val,u_sea,d_sea,
 c     &                          s_sea,c_sea,b_sea,gluon)
 c             elseif (pdlabel .eq. 'mrs98l3') then
@@ -181,7 +181,7 @@ c               fx(-1)=d_sea/x
 c               fx(-2)=u_sea/x
 C
 c      elseif (pdlabel(1:5) .eq. 'cteq3') then
-C     
+C
 c         if (pdlabel .eq. 'cteq3_m') then
 c            mode=1
 c         elseif (pdlabel .eq. 'cteq3_l') then
@@ -192,9 +192,9 @@ c         endif
 c         fx(-5)=Ctq3df(mode,-5,x,xmu,Irt)/x
 c         fx(-4)=Ctq3df(mode,-4,x,xmu,Irt)/x
 c         fx(-3)=Ctq3df(mode,-3,x,xmu,Irt)/x
-c         
+c
 c         fx(0)=Ctq3df(mode,0,x,xmu,Irt)/x
-c         
+c
 c         fx(+3)=Ctq3df(mode,+3,x,xmu,Irt)/x
 c         fx(+4)=Ctq3df(mode,+4,x,xmu,Irt)/x
 c         fx(+5)=Ctq3df(mode,+5,x,xmu,Irt)/x
@@ -202,9 +202,9 @@ c            fx(-1)=Ctq3df(mode,-2,x,xmu,Irt)/x
 c            fx(-2)=Ctq3df(mode,-1,x,xmu,Irt)/x
 c            fx(1)=Ctq3df(mode,+2,x,xmu,Irt)/x+fx(-1)
 c            fx(2)=Ctq3df(mode,+1,x,xmu,Irt)/x+fx(-2)
-C     
+C
 c      elseif (pdlabel(1:5) .eq. 'cteq4') then
-C     
+C
 c         if (pdlabel .eq. 'cteq4_m') then
 c            mode=1
 c         elseif (pdlabel .eq. 'cteq4_d') then
@@ -226,13 +226,13 @@ c            mode=9
 c         elseif (pdlabel .eq. 'cteq4lq') then
 c            mode=10
 c         endif
-c         
+c
 c         fx(-5)=Ctq4Fn(mode,-5,x,xmu)
 c         fx(-4)=Ctq4Fn(mode,-4,x,xmu)
 c         fx(-3)=Ctq4Fn(mode,-3,x,xmu)
-c         
+c
 c         fx(0)=Ctq4Fn(mode,0,x,xmu)
-c         
+c
 c         fx(+3)=Ctq4Fn(mode,+3,x,xmu)
 c         fx(+4)=Ctq4Fn(mode,+4,x,xmu)
 c         fx(+5)=Ctq4Fn(mode,+5,x,xmu)
@@ -246,56 +246,56 @@ C
 c         fx(-5)=Ctq5L(-5,x,xmu)
 c         fx(-4)=Ctq5L(-4,x,xmu)
 c         fx(-3)=Ctq5L(-3,x,xmu)
-c         
+c
 c         fx(0)=Ctq5L(0,x,xmu)
-c         
+c
 c         fx(+3)=Ctq5L(+3,x,xmu)
 c         fx(+4)=Ctq5L(+4,x,xmu)
 c         fx(+5)=Ctq5L(+5,x,xmu)
-c         
+c
 c            fx(1)=Ctq5L(+2,x,xmu)
 c            fx(2)=Ctq5L(+1,x,xmu)
 c            fx(-1)=Ctq5L(-2,x,xmu)
 c            fx(-2)=Ctq5L(-1,x,xmu)
-C         
-c      elseif ((pdlabel(1:5) .eq. 'cteq5') .or. 
+C
+c      elseif ((pdlabel(1:5) .eq. 'cteq5') .or.
 c     .        (pdlabel(1:4) .eq. 'ctq5')) then
-C         
+C
 c         fx(-5)=Ctq5Pdf(-5,x,xmu)
 c         fx(-4)=Ctq5Pdf(-4,x,xmu)
 c         fx(-3)=Ctq5Pdf(-3,x,xmu)
-c         
+c
 c         fx(0)=Ctq5Pdf(0,x,xmu)
-c         
+c
 c         fx(+3)=Ctq5Pdf(+3,x,xmu)
 c         fx(+4)=Ctq5Pdf(+4,x,xmu)
 c         fx(+5)=Ctq5Pdf(+5,x,xmu)
-c         
+c
 c            fx(1)=Ctq5Pdf(+2,x,xmu)
 c            fx(2)=Ctq5Pdf(+1,x,xmu)
 c            fx(-1)=Ctq5Pdf(-2,x,xmu)
 c            fx(-2)=Ctq5Pdf(-1,x,xmu)
-C                  
+C
       elseif (pdlabel(1:5) .eq. 'cteq6') then
-C         
+C
          fx(-5)=Ctq6Pdf(-5,x,xmu)
          fx(-4)=Ctq6Pdf(-4,x,xmu)
          fx(-3)=Ctq6Pdf(-3,x,xmu)
-         
+
          fx(0)=Ctq6Pdf(0,x,xmu)
-         
+
          fx(+3)=Ctq6Pdf(+3,x,xmu)
          fx(+4)=Ctq6Pdf(+4,x,xmu)
          fx(+5)=Ctq6Pdf(+5,x,xmu)
-         
+
             fx(1)=Ctq6Pdf(+2,x,xmu)
             fx(2)=Ctq6Pdf(+1,x,xmu)
             fx(-1)=Ctq6Pdf(-2,x,xmu)
             fx(-2)=Ctq6Pdf(-1,x,xmu)
-      endif      
+      endif
 c
 c  a "diffractive" photon
-c      
+c
       q2max=xmu*xmu
       if(abs(ih) .eq. 3.or.abs(ih) .eq. 4) then !from the electron
          write(*,*) 'impossible call (or was it) to pdf-> please reporrt'
@@ -306,10 +306,7 @@ c
          stop 23
          ! isssue with next call since this function takes now a third argument (beamid not define here)
           fx(7)=epa_proton(x,q2max)
-      endif      
-      
+      endif
+
       return
       end
-      
-  
-

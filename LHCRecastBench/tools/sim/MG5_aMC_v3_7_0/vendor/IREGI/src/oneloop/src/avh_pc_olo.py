@@ -53,55 +53,53 @@ def full( srcdir_in ,dpkind,qpkind,kindmod ,ddtype,qdtype,mptype ,tlevel,cppintf
     if dpkind+qpkind+ddtype+qdtype+mptype == '':
         avh_pc.prnt('avh_pc_olo.py: no kind/type provided, putting -dpkind="kind(1d0)"')
         dpkind = 'kind(1d0)'
-    
+
     lines = open(srcdir+'avh_olo_version.f90').readlines()
     lines.extend(open(srcdir+'avh_olo_units.f90').readlines())
     comblines = open(srcdir+'avh_olo_comb.f90').readlines()
-    
+
     if dpkind != '':
         lines.extend( xprec(srcdir,'intrinsic','dp',dpkind,kindmod) )
         avh_pc.case('dp','yes',comblines)
     else:
         avh_pc.case('dp','no',comblines)
-    
+
     if qpkind != '':
         lines.extend( xprec(srcdir,'intrinsic','qp',qpkind,kindmod) )
         avh_pc.case('qp','yes',comblines)
     else:
         avh_pc.case('qp','no',comblines)
-    
+
     if ddtype != '':
         lines.extend( xprec(srcdir,ddtype,'dd','','') )
         avh_pc.case('dd','yes',comblines)
     else:
         avh_pc.case('dd','no',comblines)
-    
+
     if qdtype != '':
         lines.extend( xprec(srcdir,qdtype,'qd','','') )
         avh_pc.case('qd','yes',comblines)
     else:
         avh_pc.case('qd','no',comblines)
-    
+
     if mptype != '':
         lines.extend( xprec(srcdir,mptype,'mp','','') )
         avh_pc.case('mp','yes',comblines)
     else:
         avh_pc.case('mp','no',comblines)
-    
+
     lines.extend(comblines)
-    
+
     if tlevel == 'yes':
         lines.extend(open(srcdir+'avh_olo_wrp01.f90').readlines())
-    
+
     avh_pc.case('cppINTERFACE',cppintf,lines)
     avh_pc.dich('CALLINGME',callingme,lines)
     avh_pc.dich('PROTECTED',protected,lines)
     avh_pc.clean(lines)
-    
+
     iofile = open(filename,'w')
     iofile.writelines(lines)
     iofile.close()
 
     return filename
-
-

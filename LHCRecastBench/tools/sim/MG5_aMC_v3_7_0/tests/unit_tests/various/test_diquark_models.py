@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -43,7 +43,7 @@ class TestColorSextetModel(unittest.TestCase):
     def setUp(self):
         m_path = import_ufo.find_ufo_path('sextet_diquarks')
         self.base_model = import_ufo.import_model(m_path)
-    
+
     def test_uu_to_six_g(self):
         """Test the process u u > six g against literature expression"""
 
@@ -67,7 +67,7 @@ class TestColorSextetModel(unittest.TestCase):
 
         evaluator = process_checks.MatrixElementEvaluator(self.base_model,
                                                           reuse = False)
-        
+
         p, w_rambo = evaluator.get_momenta(myproc)
 
         amplitude = diagram_generation.Amplitude(myproc)
@@ -129,7 +129,7 @@ class TestColorSextetModel(unittest.TestCase):
 
         evaluator = process_checks.MatrixElementEvaluator(self.base_model,
                                                           reuse = False)
-        
+
         p, w_rambo = evaluator.get_momenta(myproc)
 
         amplitude = diagram_generation.Amplitude(myproc)
@@ -168,7 +168,7 @@ class TestColorSextetModel(unittest.TestCase):
 
         myamp = diagram_generation.Amplitude(myproc)
         matrix_element = helas_objects.HelasMatrixElement(myamp)
-        
+
         # First build a color representation dictionnary
         repr_dict = {}
         for l in myleglist:
@@ -182,19 +182,19 @@ class TestColorSextetModel(unittest.TestCase):
         self.assertEqual(len(col_flow), len(matrix_element.get('color_basis')))
         try: #this was the color ordering when sum index where positive
             self.assertEqual(col_flow,
-                         [{1: [503, 0], 2: [0, 501], 
-                           3: [502, -503], 4: [-501, 502]}, 
-                          {1: [502, 0], 2: [0, 501], 
-                           3: [502, -503], 4: [-503, 501]}, 
-                          {1: [501, 0], 2: [0, 501], 
+                         [{1: [503, 0], 2: [0, 501],
+                           3: [502, -503], 4: [-501, 502]},
+                          {1: [502, 0], 2: [0, 501],
+                           3: [502, -503], 4: [-503, 501]},
+                          {1: [501, 0], 2: [0, 501],
                            3: [502, -503], 4: [-502, 503]}])
         except:
             self.assertEqual(col_flow,
-                         [{1: [503, 0], 2: [0, 501], 
-                           3: [502, -503], 4: [-501, 502]}, 
-                          {1: [503, 0], 2: [0, 501], 
-                           3: [502, -503], 4: [-501, 502]}, 
-                           {1: [501, 0], 2: [0, 501], 
+                         [{1: [503, 0], 2: [0, 501],
+                           3: [502, -503], 4: [-501, 502]},
+                          {1: [503, 0], 2: [0, 501],
+                           3: [502, -503], 4: [-501, 502]},
+                           {1: [501, 0], 2: [0, 501],
                             3: [502, -503], 4: [-502, 503]}])
 
 
@@ -220,7 +220,7 @@ class TestColorSextetModel(unittest.TestCase):
 
         myamp = diagram_generation.Amplitude(myproc)
         matrix_element = helas_objects.HelasMatrixElement(myamp)
-        
+
         # First build a color representation dictionnary
         repr_dict = {}
         for l in myleglist:
@@ -234,23 +234,23 @@ class TestColorSextetModel(unittest.TestCase):
         self.assertEqual(len(col_flow), len(matrix_element.get('color_basis')))
         try: #this was the color ordering when sum index where positive
             self.assertEqual(col_flow,
-                         [{1: [503, 0], 2: [502, 0], 
-                           3: [501, -503], 4: [502, 501]}, 
-                          {1: [502, 0], 2: [503, 0], 
-                           3: [501, -503], 4: [502, 501]}, 
-                          {1: [501, 0], 2: [502, 0], 
-                           3: [501, -503], 4: [502, 503]}, 
-                          {1: [502, 0], 2: [501, 0], 
+                         [{1: [503, 0], 2: [502, 0],
+                           3: [501, -503], 4: [502, 501]},
+                          {1: [502, 0], 2: [503, 0],
+                           3: [501, -503], 4: [502, 501]},
+                          {1: [501, 0], 2: [502, 0],
+                           3: [501, -503], 4: [502, 503]},
+                          {1: [502, 0], 2: [501, 0],
                            3: [501, -503], 4: [502, 503]}])
         except:
             self.assertEqual(col_flow,
-                          [{1: [503, 0], 2: [502, 0], 
+                          [{1: [503, 0], 2: [502, 0],
                             3: [501, -503], 4: [502, 501]},
-                           {1: [503, 0], 2: [502, 0], 
-                            3: [501, -503], 4: [502, 501]}, 
-                            {1: [502, 0], 2: [503, 0], 
-                            3: [501, -503], 4: [502, 501]}, 
-                            {1: [502, 0], 2: [503, 0], 
+                           {1: [503, 0], 2: [502, 0],
+                            3: [501, -503], 4: [502, 501]},
+                            {1: [502, 0], 2: [503, 0],
+                            3: [501, -503], 4: [502, 501]},
+                            {1: [502, 0], 2: [503, 0],
                             3: [501, -503], 4: [502, 501]}])
 
         # Test u u > six > u u g
@@ -275,7 +275,7 @@ class TestColorSextetModel(unittest.TestCase):
         myamp = diagram_generation.Amplitude(myproc)
         self.assertEqual(len(myamp.get('diagrams')), 5)
         matrix_element = helas_objects.HelasMatrixElement(myamp)
-        
+
         # First build a color representation dictionnary
         repr_dict = {}
         for l in myleglist:
@@ -288,13 +288,13 @@ class TestColorSextetModel(unittest.TestCase):
                                                                       2)
         self.assertEqual(len(col_flow), len(matrix_element.get('color_basis')))
         self.assertEqual(col_flow,
-                          [{1: [501, 0], 2: [503, 0], 3: [501, 0], 
-                            4: [502, 0], 5: [503, 502]}, 
-                           {1: [503, 0], 2: [501, 0], 3: [501, 0], 
-                            4: [502, 0], 5: [503, 502]}, 
-                           {1: [502, 0], 2: [503, 0], 3: [501, 0], 
-                            4: [502, 0], 5: [503, 501]}, {1: [503, 0], 
-                            2: [502, 0], 3: [501, 0], 
+                          [{1: [501, 0], 2: [503, 0], 3: [501, 0],
+                            4: [502, 0], 5: [503, 502]},
+                           {1: [503, 0], 2: [501, 0], 3: [501, 0],
+                            4: [502, 0], 5: [503, 502]},
+                           {1: [502, 0], 2: [503, 0], 3: [501, 0],
+                            4: [502, 0], 5: [503, 501]}, {1: [503, 0],
+                            2: [502, 0], 3: [501, 0],
                             4: [502, 0], 5: [503, 501]}])
 
         # Test six > u u
@@ -311,7 +311,7 @@ class TestColorSextetModel(unittest.TestCase):
 
         myamp = diagram_generation.Amplitude(myproc)
         matrix_element = helas_objects.HelasMatrixElement(myamp)
-        
+
         # First build a color representation dictionnary
         repr_dict = {}
         for l in myleglist:
@@ -327,7 +327,7 @@ class TestColorSextetModel(unittest.TestCase):
         self.assertEqual(col_flow,
                           [{1: [501, -502], 2: [0, 501], 3: [502, 0]}])
 
-        # Test the size of the color basis in g g  > g six six 
+        # Test the size of the color basis in g g  > g six six
 
         myleglist = base_objects.LegList()
 
@@ -367,7 +367,7 @@ class TestColorTripletModel(unittest.TestCase):
         self.full_model.get('parameter_dict')['mdl_MT'] = 0.
         self.full_model.get('parameter_dict')['mdl_WT'] = 0.
 
-    
+
     def test_ut_to_antitrip_g(self):
         """Test the process u t > antitrip g against literature expression"""
 
@@ -392,7 +392,7 @@ class TestColorTripletModel(unittest.TestCase):
         evaluator = process_checks.MatrixElementEvaluator(self.base_model,
                                                           reuse = False)
         evaluator.full_model = self.full_model
-        
+
         p, w_rambo = evaluator.get_momenta(myproc)
 
         amplitude = diagram_generation.Amplitude(myproc)
@@ -459,7 +459,7 @@ class TestColorTripletModel(unittest.TestCase):
 
         myamp = diagram_generation.Amplitude(myproc)
         matrix_element = helas_objects.HelasMatrixElement(myamp)
-        
+
         # First build a color representation dictionnary
         repr_dict = {}
         for l in myleglist:
@@ -501,7 +501,7 @@ class TestColorTripletModel(unittest.TestCase):
         myamp = diagram_generation.Amplitude(myproc)
         self.assertEqual(len(myamp.get('diagrams')), 5)
         matrix_element = helas_objects.HelasMatrixElement(myamp)
-        
+
         # First build a color representation dictionnary
         repr_dict = {}
         for l in myleglist:
@@ -512,7 +512,7 @@ class TestColorTripletModel(unittest.TestCase):
         col_flow = \
            matrix_element.get('color_basis').color_flow_decomposition(repr_dict,
                                                                     2)
-        
+
         try: #this was the color ordering when sum index where positive
             self.assertEqual(col_flow,
                          [{1: [501, 0], 2: [502, 0], 3: [504, 0],
@@ -543,8 +543,8 @@ def uu_Dg(P, color_rep, full_model):
        From 0909.2666, Eq. (B.8)
        |Mqq|^2 = 16 lambda^2 g_s^2 N_D (2\tau/(1-\tau)^2 + 1) *
                  (C_F*4/(sin\theta)^2 - C_D)
-       lambda^2=|GC_24|^2, g_s^2=GC_4^2, N_D=6, N_C=3, C_F=4/3, C_D=10/3, 
-       (for antitriplet diquark, N_D=3, C_D=4/3) 
+       lambda^2=|GC_24|^2, g_s^2=GC_4^2, N_D=6, N_C=3, C_F=4/3, C_D=10/3,
+       (for antitriplet diquark, N_D=3, C_D=4/3)
        \tau=m_D^2/shat, \\cos\theta=p1p4/|p1||p4|"""
 
     if color_rep == 6:
@@ -571,7 +571,7 @@ def uu_Dg(P, color_rep, full_model):
 
     #   Divide by color and spin factors for final state
     ANS = ANS/N_D/8./3.
-      
+
     return ANS
 
 def gu_uxD(P, color_rep, full_model):
@@ -579,10 +579,10 @@ def gu_uxD(P, color_rep, full_model):
        From 0909.2666, Eq. (B.23)
        |Mqq|^2 = 8 lambda^2 g_s^2 N_D (C_F(4/(1-cos\theta)*(1/(1-\tau) - 2\tau)
                                        -(3+cos\theta)(1-\tau)) +
-                 2C_D(1-4\tau/((1+\tau)(1+\beta\\cos\theta)) + 
+                 2C_D(1-4\tau/((1+\tau)(1+\beta\\cos\theta)) +
                       8\tau^2/((1+\tau)^2(1+\beta\\cos\theta)^2)))
-       lambda^2=|GC_24|^2, g_s^2=GC_4^2, N_D=6, N_C=3, C_F=4/3, C_D=10/3, 
-       (for antitriplet diquark, N_D=3, C_D=4/3) 
+       lambda^2=|GC_24|^2, g_s^2=GC_4^2, N_D=6, N_C=3, C_F=4/3, C_D=10/3,
+       (for antitriplet diquark, N_D=3, C_D=4/3)
        \tau=m_D^2/shat, \\cos\theta=p1p3/|p1||p3|, \beta = (1-\tau)/(1+\tau)"""
 
     if color_rep == 6:
@@ -597,7 +597,7 @@ def gu_uxD(P, color_rep, full_model):
     if color_rep == 6:
         tau=full_model.get('parameter_dict')['mdl_MSIX']**2/shat
     else:
-        tau=full_model.get('parameter_dict')['mdl_MANTI3']**2/shat        
+        tau=full_model.get('parameter_dict')['mdl_MANTI3']**2/shat
     costheta=dot3(P[0],P[2])/math.sqrt(dot3(P[0],P[0])*dot3(P[2],P[2]))
     beta=(1-tau)/(1+tau)
 
@@ -611,7 +611,7 @@ def gu_uxD(P, color_rep, full_model):
 
     #   Divide by color and spin factors for final state
     ANS = ANS/N_D/3./2.
-      
+
     return ANS
 
 def dot(P1, P2):
@@ -622,6 +622,6 @@ def dot3(P1, P2):
     """Scalar product of 3-components of two 4-vectors"""
     return P1[1]*P2[1]+P1[2]*P2[2]+P1[3]*P2[3]
 
-        
+
 if __name__ == '__main__':
     unittest.unittest.main()

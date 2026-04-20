@@ -42,7 +42,7 @@ c$$$         if (iseed .eq. 0) call get_base(iseed)
          call get_base(iseed)
 c
 c     TJS 3/13/2008
-c     Modified to allow for more sequences 
+c     Modified to allow for more sequences
 c     iseed can be between 0 and 30081*30081
 c     before pattern repeats
 c
@@ -57,7 +57,7 @@ c     different iseed, if have exactly compensating joffset, ioffset, jconfig
 c
          call get_moffset(joffset)
          joffset = joffset * 3157
-         iseed = iseed * 31300       
+         iseed = iseed * 31300
          ij=1802+jconfig + mod(iseed,30081)
          kl=9373+(iseed/30081)+ioffset + joffset     !Switched to 30081
                                                      !20/6/12 to avoid
@@ -72,7 +72,7 @@ c
          do while (kl .gt. 30081)
             kl = kl - 30081
          enddo
-        call rmarin(ij,kl)         
+        call rmarin(ij,kl)
       endif
       call ranmar(x)
       do while (x .lt. 1d-16)
@@ -218,7 +218,7 @@ c-----
       if(uni .lt. 0d0) uni = uni + 1d0
       rvec = uni
       end
- 
+
       subroutine rmarin(ij,kl)
 *     -----------------
 * initializing routine for ranmar, must be called before generating
@@ -237,7 +237,7 @@ c-----
       write(*,*) "Ranmar initialization seeds",ij,kl
 c
 c    18/6/2012 TJS  Added check to ensure ij and kl are in range
-c      
+c
       if (ij .lt. 0 .or. ij .gt. 31328 .or.
      $     kl .lt. 0 .or. kl .gt. 30081) then
          filename='../../error'
@@ -278,4 +278,3 @@ c
       iranmr = 97
       jranmr = 33
       end
-

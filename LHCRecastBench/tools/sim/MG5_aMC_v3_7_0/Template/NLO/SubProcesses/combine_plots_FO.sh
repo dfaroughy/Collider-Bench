@@ -8,7 +8,7 @@ if [ 0 = $rc ]
 then
 :
 else
-echo $*, exit status=$rc 
+echo $*, exit status=$rc
 exit $rc
 fi
 }
@@ -28,7 +28,7 @@ for plot_file in "${@:2}" ; do
         teststatus Failure in step 1
 	rm -f dir
 	rm -f dir2
-	mv fort.88 $1_$i\.top 
+	mv fort.88 $1_$i\.top
 	mv read40.out "S1read40_"$1_$i\.out
 	i=$(($i + 1))
 	echo -n "" > dir
@@ -41,7 +41,7 @@ if [[ $(($counter % 40)) != 0 ]] ; then
     teststatus Failure in step 2
     rm -f dir
     rm -f dir2
-    mv fort.88 $1_$i\.top 
+    mv fort.88 $1_$i\.top
     mv read40.out "S2read40_"$1_$i\.out
 fi
 }

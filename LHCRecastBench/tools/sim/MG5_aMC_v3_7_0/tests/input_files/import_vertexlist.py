@@ -87,7 +87,7 @@ def make_vertexlist(model):
                     base_objects.VertexList([temp_vertex])
 
             # new index list made for testing find_vertexlist
-            try:                    
+            try:
                 full_vertexlist_newindex[(pid, partnum,
                                           ini_mass > (total_mass - ini_mass))].append(temp_vertex)
 
@@ -95,8 +95,8 @@ def make_vertexlist(model):
                 full_vertexlist_newindex[(pid, partnum,
                                           ini_mass > (total_mass - ini_mass))]=\
                                           base_objects.VertexList([temp_vertex])
-                
-            
+
+
             #Reset the leg to normal state and normal id
             temp_legs[num].set('state', True)
             temp_legs[num].set('id', part.get_pdg_code())
@@ -107,9 +107,9 @@ def make_vertexlist(model):
     fdata = open(os.path.join(path_2, 'vertices_decaycondition.dat'), 'w')
     fdata.write(str(full_vertexlist_newindex))
     fdata.close()
-    
+
     fdata2 = open(os.path.join(path_2, 'vertices_sort.dat'), 'w')
     fdata2.write(str(full_vertexlist))
     fdata2.close()
-    
+
 """

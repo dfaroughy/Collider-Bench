@@ -11,7 +11,7 @@ from six.moves import range
 
 logger = logging.getLogger('madweight.diagram_class')
 
-try: 
+try:
     import madgraph.madweight.Cards as Cards
     import madgraph.madweight.particle_class as particle_class
     import madgraph.madweight.substructure_class as substructure_class
@@ -26,8 +26,8 @@ except ImportError:
     import internal.madweight.substructure_class as substructure_class
     import internal.madweight.blob_solution as blob_solution
     import internal.madweight.proc_info as proc_info
-    import internal.madweight.MW_fct as MW_fct   
-    import internal.madweight.MW_info as MW_param 
+    import internal.madweight.MW_fct as MW_fct
+    import internal.madweight.MW_info as MW_param
     import internal.misc as misc
 Particle = particle_class.Particle
 propagator = particle_class.propagator
@@ -39,8 +39,8 @@ Block_sector = blob_solution.Block_sector
 Decay_info = proc_info.Decay_info
 Multi_list = MW_fct.Multi_list
 
-           
-            
+
+
 class MG_diagram(diagram):
 
     def __init__(self,dir_file,config,opt='default'):
@@ -56,10 +56,10 @@ class MG_diagram(diagram):
         self.import_ext_part(dir_file)
         self.set_option(opt)
         self.config=config
-        
+
     def organize_particle_content(self,param_card,tf_file):
         """ define production area and organize all the needed information """
-                
+
         #Charge Proc_card information+ update information for production part.
         self.import_process(self.directory,self.config)
         process_tag=re.compile(r'''P(?P<tag>\d*)''')
@@ -93,13 +93,13 @@ class MG_diagram(diagram):
         #create the particle object and put them in the content of the diag
         #add the mass corresponding to the card
         for i in range(1,len(pid_list)+1):#MG start at one
-            a=external_part(i,pid_list[i-1]) 
+            a=external_part(i,pid_list[i-1])
             self.add_content(i,a)
 
     def import_process(self,dir_file,config):
         "definis le diagramme soit via un fichier, soit via un autre diagram"
         self.config=config
-      
+
         #
         #    import propagator content
         #
@@ -113,7 +113,7 @@ class MG_diagram(diagram):
                             (?P<mass>\w*)\s*          #text for the mass ot the part
                             (?P<width>\w*)\s*         #text for the width ot the part
                             (?P<channel>[ST]*)\s*         # S or T propagator
-                            (?P<pid>-?\d*)              # pid of the propa                                
+                            (?P<pid>-?\d*)              # pid of the propa
                             ''',re.VERBOSE)
 
         ff=open(dir_file+'/configs.inc','r')
@@ -136,7 +136,7 @@ class MG_diagram(diagram):
                     read=1
             elif(not read):
                 continue
-            
+
 
             pattern=propa_des.search(line)
             if not pattern:
@@ -165,7 +165,7 @@ class MG_diagram(diagram):
 
         if not hasattr(self,'ParticlesFile'):
             self.ParticlesFile=Cards.Particles_file('./Source/MODEL/particles.dat')
-        dico_pid_to_label=self.ParticlesFile.give_pid_to_label()           
+        dico_pid_to_label=self.ParticlesFile.give_pid_to_label()
 
         dico_type_to_tflevel={}
         has_theta_tf, has_phi_tf  = [] , []
@@ -196,7 +196,7 @@ class MG_diagram(diagram):
                     list=re_obj.group('type').split(',')
                     for tag in list:
                         has_phi_tf.append(tag)
-                    continue                
+                    continue
                 else:
                     tf_level=2
                 list=re_obj.group('type').split(',')
@@ -214,14 +214,14 @@ class MG_diagram(diagram):
                 if label in dico_type_to_tflevel:
                     part.tf_level=dico_type_to_tflevel[label]
                 else:
-                    part.tf_level=0  #delta is the default            
+                    part.tf_level=0  #delta is the default
             else:
                 part.tf_level=3
             if label in has_theta_tf:
                 part.has_theta_tf = True
             if label in has_phi_tf:
-                part.has_phi_tf = True            
-                
+                part.has_phi_tf = True
+
     def define_neutrino_stuff(self):
         """ put all neutrino dependent variable """
 
@@ -233,7 +233,7 @@ class MG_diagram(diagram):
 
         #check for invisible propagator(propagator decaying only in invisible particle)
         self.detect_invisible_propa()
-        
+
 
     def find_num_neut_decay(self):
         "find the number of neutrino in the decay chain for each propa"
@@ -327,7 +327,7 @@ class MG_diagram(diagram):
         if not init_propa:
             return
             raise Exception('No matching between process information and feynman diagram information')
-        
+
         #print 'firt available propa (MG:PID) : ',
         for particle in init_propa:
             #print '(',particle.MG,':',particle.pid,') ',
@@ -338,7 +338,7 @@ class MG_diagram(diagram):
                     break
                 motherX.channel='T'
         #print
-        
+
 
     def check_decay(self,particle_list,decay_list):
         """ check if the Particle_list is equivalent to the Decay_list if not return the list of correct Particle
@@ -363,7 +363,7 @@ class MG_diagram(diagram):
             #no config found
             print("no config found")
             return 0
-        
+
         #step 2:
 
         particle_list_pid=[]
@@ -379,7 +379,7 @@ class MG_diagram(diagram):
         for pid in particle_list_pid:
             if pid not in decay_list_pid:
                 return 0
-            
+
         #print 'pass in step 3 '
         #step 3
         all_order_particle=decay_Mlist_pid.give_list_possiblity(particle_list,'pid')
@@ -413,7 +413,7 @@ class MG_diagram(diagram):
             if value<0:
                 detect.append([particle]+particle.des)
 
-                
+
         #verify possible choice, and put in output unaligned particle
         nb_sigma=3
         nb2_sigma=5
@@ -424,7 +424,7 @@ class MG_diagram(diagram):
                 value=0
                 if ambiguous_area[i].external:
                     continue
-                
+
 
                 for j in range(0,len(ambiguous_area)):
                     if i!=j and j!=0:
@@ -447,7 +447,7 @@ class MG_diagram(diagram):
             for sigma in deviation.keys():       #search for the minimal sigma
                 if sigma<minimal_sigma:
                     minimal_sigma=sigma
-            
+
             if minimal_sigma<nb2_sigma:
                 gap=2
             else:
@@ -458,7 +458,7 @@ class MG_diagram(diagram):
                     unaligned_here+=deviation[sigma]
 
             unaligned.append(unaligned_here)
-                
+
         return unaligned
 
 
@@ -486,10 +486,10 @@ class MG_diagram(diagram):
     #                      FUNCTION POUR LA DEFINITION DES ECS                          #
     #####################################################################################
 
-    
+
     def define_Constraint_sector(self):
         "define the constraint sector and the different blob"
-        
+
         #Case 0 neutrino
         if len(self.neut_content)==0:
             ECS=self.find_ECS_0neut(force=1) #return is a list!
@@ -515,7 +515,7 @@ class MG_diagram(diagram):
         #update the blob needed for this diagram
         for ECS in ECS_list:
             ECS.define_blob(self)
-        
+
 
     def select_ECS(self,ECS_list,define_solution=1):
         """ select the best(s) ECS (minimizing unfactorized propagator \
@@ -558,7 +558,7 @@ class MG_diagram(diagram):
                     at_least_one_sol=1
                 if define_solution:
                     num_sol+=1
-                    self.define_ECS_as_solution(ECS_equi_list)                   
+                    self.define_ECS_as_solution(ECS_equi_list)
                 else:
                     num_sol+=1
                     solution+=ECS_equi_list
@@ -587,14 +587,14 @@ class MG_diagram(diagram):
             min_tf_level=1
         elif force==3:
             min_tf_level=0
-        
+
         select=[]
         for part in self.ext_content:
             # part.tf_level,min_tf_level,force,part.tf_level>=min_tf_level
             if part.tf_level>=min_tf_level:
                 select.append(part)
                 level=part.level
-                
+
         if len(select)<2 and force:
             force+=force
             if force>3:
@@ -609,7 +609,7 @@ class MG_diagram(diagram):
             part1=select[i]
             if part1.level>limit/2+1:
                 break
-            for j in range(i+1,len(select)):           
+            for j in range(i+1,len(select)):
                 part2=select[j]
                 if part2.level>limit:
                     break
@@ -619,14 +619,14 @@ class MG_diagram(diagram):
                     sol=[[part1,part2]]
                 elif part1.unaligned_propa(part2)==limit:
                     sol.append([part1,part2])
-                    
+
         ECS_list=[]
         for soluce in sol:
             ECS_sol=ECS_sector(self,'a',soluce,limit+2)
             ECS_list.append(ECS_sol)
         return ECS_list
-        
-        
+
+
 
     def find_ECS_1neut(self):
         """ find the lowest(s) neutrino and define ECS """
@@ -636,8 +636,8 @@ class MG_diagram(diagram):
         for neut in lowest_neut:
             ECS_sol=ECS_sector(self,'b',neut,neut.level-1)
             ECS_list.append(ECS_sol)
-        return ECS_list       
-        
+        return ECS_list
+
 
     def find_ECS_2neut(self):
         """ return best 2 neutrino ECS
@@ -670,7 +670,7 @@ class MG_diagram(diagram):
         for i in range(0,len(lowest_neutrino)):
             for j in range(i+1,len(lowest_neutrino)):
                 total_propa,free1,free2=lowest_neutrino[i].unaligned_propa(lowest_neutrino[j],0)
-                if free1>1 and free2>1:                   
+                if free1>1 and free2>1:
                     ECS_sol=ECS_sector(self,'d',[lowest_neutrino[i],lowest_neutrino[j]],total_propa-4)
                     ECS_list.append(ECS_sol)
                 #step D: check for E case
@@ -679,13 +679,13 @@ class MG_diagram(diagram):
                     if free1 != 0 and free2 != 0:
                         #this condition check that the two neutrino are independant
                         ECS_sol=ECS_sector(self,'e',[lowest_neutrino[i],lowest_neutrino[j]],total_propa-3)
-                        ECS_list.append(ECS_sol)                   
-        
-        
+                        ECS_list.append(ECS_sol)
+
+
         return ECS_list
 
-         
-    
+
+
     def find_lowest_particle(self,neutrino=1,lowest_level=0,out_num=2):
         "find the one/two lowest (lower level) neutrino/particle, if the are ambiguity return more than two"
 
@@ -713,8 +713,8 @@ class MG_diagram(diagram):
                 lowest.append(neut)
 
         return lowest
-            
-        
+
+
 
 
     #####################################################################################
@@ -730,10 +730,10 @@ class MG_diagram(diagram):
 
     def set_option(self,info='default'):
         """ store the different option linked to the generation of this MG_diagram """
-        
+
         self.opt=Option(info)
 
-        
+
     def __str__(self):
        try:
         text='structure of the configuration '+str(self.config)+':\n'
@@ -742,7 +742,7 @@ class MG_diagram(diagram):
         for i in self.prop_content:
             text+=str(i)+'\n'
         text+=str(len(self.ECS_sol))+' ECS(\'s) '+str(self.num_propa)+' propagator(s) '+str(self.num_neut)+' missing particles(s)\n'
-        
+
         text+='detail :\n'
         for ECS in self.ECS_sol:
             text+=str(ECS.chgt_var)+'('+str(len(ECS.blob_content))+')'+'\t'
@@ -754,9 +754,9 @@ class MG_diagram(diagram):
        except:
                text='not supportted string in not full mode: organize_particle_content is needed fisrt'
                return text
-       
-       
-       
+
+
+
     def output_type_info(self):
         """ return output containing the number of muon/electron/jet/bjet/invisible_part """
 
@@ -770,23 +770,23 @@ class MG_diagram(diagram):
 
         jet_list=[1,2,3,4,21]
         bjet_list=[5]
-        inv_list=[12,14,16,18] #sm 
+        inv_list=[12,14,16,18] #sm
         inv_list+=[1000012,1000014,100016,1000022,1000023,1000024,1000025,1000035,1000037] #susy
-        
+
         content=[0    ,0        ,0        ,0        ,0        ,0        ,0        ,0        ,0       ,0]
         list=[jet_list,bjet_list,el_m_list,el_p_list,mu_m_list,mu_p_list,ta_m_list,ta_p_list,inv_list,photon_list]
-        auth_sign=[1  ,1        ,0        ,0        ,0        ,0        ,0        ,0        ,1       ,0] 
+        auth_sign=[1  ,1        ,0        ,0        ,0        ,0        ,0        ,0        ,1       ,0]
 
         for i in range(0,len(list)):
             for particle in self.ext_content:
                 if auth_sign[i] and abs(particle.pid) in list[i]:
                     content[i]+=1
                 elif particle.pid in list[i]:
-                    content[i]+=1  
+                    content[i]+=1
         return content
 
-                
-                
+
+
 
 class Option:
 
@@ -811,7 +811,7 @@ class Option:
 
        if info=='default':
            return
-       
+
        tag_to_genvar={'1':'self.ecs_fuse',
                       '2':'self.blob_fuse',
                       '3':'self.max_sol',
@@ -836,7 +836,7 @@ class Option:
            cond='self.use_ecs_'+letter
            if eval(cond):
                self.ecs_on.append(letter)
-               
+
        #
        self.force_nwa = max(self.force_nwa, float(info['mw_run']['nwa']))
 
@@ -860,7 +860,7 @@ class Option:
 
         return text
 
-                
+
 
 if(__name__=="__main__"):
     """test"""
@@ -870,8 +870,3 @@ if(__name__=="__main__"):
         diag.define_Constraint_sector()
         diag.solve_blob_sector()
         print(diag)
-
-            
-
-
-    

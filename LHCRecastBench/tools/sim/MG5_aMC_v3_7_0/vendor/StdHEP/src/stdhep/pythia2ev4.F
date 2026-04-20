@@ -22,7 +22,7 @@ C...print version number if this is the first call
       endif
 
 c
-C.....running estimate of total cross section ... normalize by 
+C.....running estimate of total cross section ... normalize by
 C......number of generated events?
 C      eventweightlh = pari(1)/ngen(0,3)
       eventweightlh = xsec(idruplh,3)
@@ -52,6 +52,3 @@ C.....pt2
 
       return
       end
-
-
-

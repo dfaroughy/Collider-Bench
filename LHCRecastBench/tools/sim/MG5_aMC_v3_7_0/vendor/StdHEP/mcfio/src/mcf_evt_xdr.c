@@ -60,54 +60,54 @@ extern int NumOfNTuples;
 bool_t xdr_mcfast_generic(XDR *xdrs, int *blockid,
  				 int *ntot, char** version, char** data)
 {
-/*  Translate a Generic mcfFast block. This module will allocate memory 
+/*  Translate a Generic mcfFast block. This module will allocate memory
     for the data. */
-        
+
     unsigned int nn;
-    
+
     if (xdrs->x_op == XDR_ENCODE) {
-      nn = strlen(*data);  
+      nn = strlen(*data);
       *ntot = 12+nn;
        strcpy(*version, "0.00");
        } else if (xdrs->x_op == XDR_FREE) {
           free(*data);
           return 1;
        }
-      
-     if (( xdr_int(xdrs, blockid) && 
+
+     if (( xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
-     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH)) 
+     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH))
      	         == FALSE) return FALSE;
-     nn = *ntot - 12;	      
-     if (xdrs->x_op == XDR_DECODE) *data = NULL; 
-     return (xdr_string(xdrs, data, nn));     	
-}   
+     nn = *ntot - 12;
+     if (xdrs->x_op == XDR_DECODE) *data = NULL;
+     return (xdr_string(xdrs, data, nn));
+}
 
 
 bool_t xdr_mcfast_headerBlock(XDR *xdrs, int *blockid,
  				 int *ntot, char** version)
 {
-/*  Translate a Generic mcfFast block. This module will allocate memory 
+/*  Translate a Generic mcfFast block. This module will allocate memory
     for the data. */
-        
+
     unsigned int nn;
-    
+
     if (xdrs->x_op == XDR_ENCODE) {
        printf ("xdr_mcfast_headerBlock: Internal error \n");
        return FALSE;
        }
-      
-     return ( xdr_int(xdrs, blockid) && 
+
+     return ( xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH));
-}   
+}
 bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
  		 int *ntot, char** version, mcfxdrFileHeader **mcf,
  		  int streamId)
 {
 /*  Translate a mcf FileHeader block.  This subroutine will allocate
 	the memory needed if the stream is DECODE */
-        
+
     int i;
     unsigned int nn, oldNumOfNTuples;
     char **ctmp;
@@ -117,17 +117,17 @@ bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
     mcfxdrFileHeader *mcftmp;
     nTuDDL *ddl;
     float fv;
-    
-    
+
+
     mcftmp = *mcf;
     if (xdrs->x_op == XDR_ENCODE) {
-      *ntot = sizeof(mcfxdrFileHeader) - sizeof(int *) - sizeof(char **) 
-              + 2 * sizeof(int) * mcftmp->nBlocks 
+      *ntot = sizeof(mcfxdrFileHeader) - sizeof(int *) - sizeof(char **)
+              + 2 * sizeof(int) * mcftmp->nBlocks
               - sizeof(char) * MCF_XDR_F_TITLE_LENGTH
-              + sizeof(char) * strlen(mcftmp->title) + 
+              + sizeof(char) * strlen(mcftmp->title) +
               + sizeof(char) * strlen(mcftmp->comment) ;
-      for (i=0, ctmp = mcftmp->blockNames; 
-             i< mcftmp->nBlocks; i++, ctmp++) *ntot += strlen(*ctmp);  
+      for (i=0, ctmp = mcftmp->blockNames;
+             i< mcftmp->nBlocks; i++, ctmp++) *ntot += strlen(*ctmp);
        strcpy(*version, "2.01");
      }  else if (xdrs->x_op == XDR_FREE) {
           mcfioC_Free_FileHeader(mcf);
@@ -135,15 +135,15 @@ bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
      } else if((xdrs->x_op == XDR_DECODE) && (*mcf == NULL)) {
           mcftmp = (mcfxdrFileHeader *) malloc(sizeof(mcfxdrFileHeader));
           *mcf = mcftmp;
-     } 
-        
+     }
 
-       
-     if (( xdr_int(xdrs, blockid) && 
+
+
+     if (( xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH))
      	                  == FALSE) return FALSE;
-     
+
      /*
      ** Code valid for version 1.00
      */
@@ -151,11 +151,11 @@ bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
          atmp = &(mcftmp->title[0]);
          btmp = &(mcftmp->comment[0]);
          dtmp = &(mcftmp->date[0]);
-     	      
+
         if ((xdr_string(xdrs, &atmp, MCF_XDR_F_TITLE_LENGTH) &&
              xdr_string(xdrs,&btmp, MCF_XDR_F_TITLE_LENGTH) &&
              xdr_string(xdrs,&dtmp, 30)) == FALSE) return FALSE;
-	
+
         if ((xdr_u_int(xdrs,&(mcftmp->numevts_expect)) &&
              xdr_u_int(xdrs,&(mcftmp->numevts)) &&
              xdr_u_int(xdrs,&(mcftmp->firstTable)) &&
@@ -163,22 +163,22 @@ bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
              xdr_u_int(xdrs,&(mcftmp->nBlocks))) == FALSE) return FALSE;
         if(xdrs->x_op == XDR_DECODE) {
            mcftmp->blockIds = (int *) malloc(sizeof(int) * mcftmp->nBlocks);
-           mcftmp->blockNames = 
+           mcftmp->blockNames =
            	(char**) malloc(sizeof(char *) * mcftmp->nBlocks);
-           for (i=0; i<mcftmp->nBlocks; i++) 
+           for (i=0; i<mcftmp->nBlocks; i++)
                 mcftmp->blockNames[i] =
                   (char *) malloc(sizeof(char) * (MCF_XDR_B_TITLE_LENGTH +1));
         }
         itmp = mcftmp->blockIds;
         if (xdrs->x_op == XDR_ENCODE) nn = mcftmp->nBlocks;
-	if (xdr_array(xdrs, (char **) &itmp, &nn, 
-	             mcftmp->nBlocks, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &itmp, &nn,
+	             mcftmp->nBlocks, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
 	for (i=0; i<mcftmp->nBlocks; i++) {
-	       if (xdr_string(xdrs, &(mcftmp->blockNames[i]), 
-	               MCF_XDR_B_TITLE_LENGTH) == FALSE) return FALSE; 
-	    }	              
-	 mcftmp->nNTuples = 0;  
+	       if (xdr_string(xdrs, &(mcftmp->blockNames[i]),
+	               MCF_XDR_B_TITLE_LENGTH) == FALSE) return FALSE;
+	    }
+	 mcftmp->nNTuples = 0;
      } else if (strncmp(*version, "2.",2) == 0){
          sscanf(*version, "%f", &fv);
      /*
@@ -187,16 +187,16 @@ bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
          atmp = &(mcftmp->title[0]);
          btmp = &(mcftmp->comment[0]);
          dtmp = &(mcftmp->date[0]);
-     	      
+
         if ((xdr_string(xdrs, &atmp, MCF_XDR_F_TITLE_LENGTH) &&
              xdr_string(xdrs,&btmp, MCF_XDR_F_TITLE_LENGTH) &&
              xdr_string(xdrs,&dtmp, 30)) == FALSE) return FALSE;
-             
+
          if (fv == 2.) strcpy(mcftmp->closingDate, mcftmp->date);
          else {
              atmp = &(mcftmp->closingDate[0]);
-            if (xdr_string(xdrs, &atmp, 30) == FALSE) return FALSE; 
-     	}      
+            if (xdr_string(xdrs, &atmp, 30) == FALSE) return FALSE;
+     	}
         if ((xdr_u_int(xdrs,&(mcftmp->numevts_expect)) &&
              xdr_u_int(xdrs,&(mcftmp->numevts)) &&
              xdr_u_int(xdrs,&(mcftmp->firstTable)) &&
@@ -205,21 +205,21 @@ bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
              xdr_u_int(xdrs,&(mcftmp->nNTuples))) == FALSE) return FALSE;
         if((xdrs->x_op == XDR_DECODE) && (mcftmp->nBlocks > 0)) {
            mcftmp->blockIds = (int *) malloc(sizeof(int) * mcftmp->nBlocks);
-           mcftmp->blockNames = 
+           mcftmp->blockNames =
            	(char**) malloc(sizeof(char *) * mcftmp->nBlocks);
-           for (i=0; i<mcftmp->nBlocks; i++) 
+           for (i=0; i<mcftmp->nBlocks; i++)
                 mcftmp->blockNames[i] =
                   (char *) malloc(sizeof(char) * (MCF_XDR_B_TITLE_LENGTH +1));
         }
         itmp = mcftmp->blockIds;
         if (xdrs->x_op == XDR_ENCODE) nn = mcftmp->nBlocks;
         if (mcftmp->nBlocks > 0) {
-	    if (xdr_array(xdrs, (char **) &itmp, &nn, 
-	             mcftmp->nBlocks, sizeof(int), xdr_int) == FALSE) 
+	    if (xdr_array(xdrs, (char **) &itmp, &nn,
+	             mcftmp->nBlocks, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
 	    for (i=0; i<mcftmp->nBlocks; i++) {
-	          if (xdr_string(xdrs, &(mcftmp->blockNames[i]), 
-	               MCF_XDR_B_TITLE_LENGTH) == FALSE) return FALSE; 
+	          if (xdr_string(xdrs, &(mcftmp->blockNames[i]),
+	               MCF_XDR_B_TITLE_LENGTH) == FALSE) return FALSE;
 	    }
 	  } else {
 	   mcftmp->blockNames = NULL;
@@ -233,36 +233,36 @@ bool_t xdr_mcfast_fileheader(XDR *xdrs, int *blockid,
            for (i=0; i<mcftmp->nNTuples; i++) {
                 ddl = (nTuDDL * ) malloc(sizeof(nTuDDL));
                 AddNTuDDLtoList(ddl);
-                if (xdr_mcfast_NTuDDL(xdrs, *version, ddl) == FALSE) 
+                if (xdr_mcfast_NTuDDL(xdrs, *version, ddl) == FALSE)
                                                         return FALSE;
            }
-        }  else if ((xdrs->x_op == XDR_ENCODE)  && (mcftmp->nNTuples > 0)) {  
+        }  else if ((xdrs->x_op == XDR_ENCODE)  && (mcftmp->nNTuples > 0)) {
             for (i=0; i<NumOfNTuples; i++) {
                 ddl =mcf_GetNTuByPtrID(i+1);
-                if ((ddl->streamId == streamId) &&  
-                    (xdr_mcfast_NTuDDL(xdrs, *version, ddl) == FALSE)) 
+                if ((ddl->streamId == streamId) &&
+                    (xdr_mcfast_NTuDDL(xdrs, *version, ddl) == FALSE))
                                                         return FALSE;
-           }                                             
-       }                                                  
-		              
+           }
+       }
+
      } else return FALSE; /* Other Futur version encoded here. */
      return TRUE;
-     	      
-}   
+
+}
 
 bool_t xdr_mcfast_eventtable(XDR *xdrs, int *blockid,
  		 int *ntot, char** version, mcfxdrEventTable **mcf)
 {
 /*  Translate a mcf EventTable block.  This subroutine will allocate
 	the memory needed if the stream is DECODE */
-        
+
     int i, itmp, *idat;
     unsigned int nn, nnold, uitmp, *uidat;
     off_t otmp, *odat;
     char **ctmp;
     mcfxdrEventTable *mcftmp;
-    
-    
+
+
     mcftmp = *mcf;
     if (xdrs->x_op == XDR_ENCODE) {
       *ntot = sizeof(mcfxdrEventTable) + 4 * sizeof(int)* mcftmp->dim
@@ -275,20 +275,20 @@ bool_t xdr_mcfast_eventtable(XDR *xdrs, int *blockid,
      } else if((xdrs->x_op == XDR_DECODE) && ( mcftmp == NULL)) {
           mcftmp = (mcfxdrEventTable *) malloc(sizeof(mcfxdrEventTable));
           *mcf = mcftmp;
-     } 
-        
+     }
 
-       
-     if (( xdr_int(xdrs, blockid) && 
+
+
+     if (( xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
-     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH)) 
+     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH))
      	                 == FALSE) return FALSE;
-     
+
      /*
      ** Code valid for version 1.00
      */
      if (strcmp(*version, "1.00") == 0) {
-     	      
+
         if((xdrs->x_op == XDR_DECODE) && (mcftmp->evtnums != NULL))
              nnold = mcftmp->previousnumevts;
           else nnold = 0;
@@ -296,49 +296,49 @@ bool_t xdr_mcfast_eventtable(XDR *xdrs, int *blockid,
         uitmp = mcftmp->numevts;
         if ((xdr_int(xdrs,&itmp) && xdr_u_int(xdrs,&uitmp)) == FALSE) return FALSE;
         mcftmp->nextLocator = itmp;
-        mcftmp->numevts = uitmp; 
+        mcftmp->numevts = uitmp;
         if(xdrs->x_op == XDR_DECODE) {
            if ((mcftmp->evtnums == NULL) || (mcftmp->numevts > nnold)) {
            if (mcftmp->evtnums != NULL) {
             /*
-            ** I don't trust realloc.. just alloc again.. 
+            ** I don't trust realloc.. just alloc again..
             */
-            free(mcftmp->evtnums); free(mcftmp->storenums); 
+            free(mcftmp->evtnums); free(mcftmp->storenums);
             free(mcftmp->runnums); free(mcftmp->trigMasks);
             free(mcftmp->ptrEvents);
-            }  
+            }
            mcftmp->evtnums = (int *) malloc(sizeof(int) * mcftmp->dim);
            mcftmp->storenums = (int *) malloc(sizeof(int) * mcftmp->dim);
            mcftmp->runnums = (int *) malloc(sizeof(int) * mcftmp->dim);
            mcftmp->trigMasks = (int *) malloc(sizeof(int) * mcftmp->dim);
-           mcftmp->ptrEvents = 
+           mcftmp->ptrEvents =
             (off_t *) calloc(mcftmp->dim, sizeof(off_t));
             mcftmp->previousnumevts = mcftmp->dim;
            }
         }
         if (xdrs->x_op == XDR_ENCODE) nn = mcftmp->dim;
         idat = mcftmp->evtnums;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         idat = mcftmp->storenums;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         idat = mcftmp->runnums;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         idat = mcftmp->trigMasks;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         odat = mcftmp->ptrEvents;
-	if (xdr_array(xdrs, (char **) &odat, &nn, 
-	              mcftmp->dim, sizeof(off_t), xdr_u_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &odat, &nn,
+	              mcftmp->dim, sizeof(off_t), xdr_u_int) == FALSE)
 	              return FALSE;
       } else if (strcmp(*version, "2.00") == 0) {
-     	      
+
         if((xdrs->x_op == XDR_DECODE) && (mcftmp->evtnums != NULL))
              nnold = mcftmp->previousnumevts;
           else nnold = 0;
@@ -346,64 +346,64 @@ bool_t xdr_mcfast_eventtable(XDR *xdrs, int *blockid,
         uitmp = mcftmp->numevts;
          if ((xdr_hyper(xdrs,&otmp) && xdr_u_int(xdrs,&uitmp)) == FALSE) return FALSE;
         mcftmp->nextLocator = otmp;
-        mcftmp->numevts = uitmp; 
+        mcftmp->numevts = uitmp;
         if(xdrs->x_op == XDR_DECODE) {
            if ((mcftmp->evtnums == NULL) || (mcftmp->numevts > nnold)) {
            if (mcftmp->evtnums != NULL) {
             /*
-            ** I don't trust realloc.. just alloc again.. 
+            ** I don't trust realloc.. just alloc again..
             */
-            free(mcftmp->evtnums); free(mcftmp->storenums); 
+            free(mcftmp->evtnums); free(mcftmp->storenums);
             free(mcftmp->runnums); free(mcftmp->trigMasks);
             free(mcftmp->ptrEvents);
-            }  
+            }
            mcftmp->evtnums = (int *) malloc(sizeof(int) * mcftmp->dim);
            mcftmp->storenums = (int *) malloc(sizeof(int) * mcftmp->dim);
            mcftmp->runnums = (int *) malloc(sizeof(int) * mcftmp->dim);
            mcftmp->trigMasks = (int *) malloc(sizeof(int) * mcftmp->dim);
-           mcftmp->ptrEvents = 
+           mcftmp->ptrEvents =
             (off_t *) calloc(mcftmp->dim, sizeof(off_t));
             mcftmp->previousnumevts = mcftmp->dim;
            }
         }
         if (xdrs->x_op == XDR_ENCODE) nn = mcftmp->dim;
         idat = mcftmp->evtnums;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         idat = mcftmp->storenums;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         idat = mcftmp->runnums;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         idat = mcftmp->trigMasks;
-	if (xdr_array(xdrs, (char **) &idat, &nn, 
-	              mcftmp->dim, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &idat, &nn,
+	              mcftmp->dim, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
         odat = mcftmp->ptrEvents;
-	if (xdr_array(xdrs, (char **) &odat, &nn, 
-	              mcftmp->dim, sizeof(off_t), xdr_hyper) == FALSE) 
+	if (xdr_array(xdrs, (char **) &odat, &nn,
+	              mcftmp->dim, sizeof(off_t), xdr_hyper) == FALSE)
 	              return FALSE;
      } else return FALSE; /* Future version encoded here. */
      return TRUE;
-     	      
+
 }
-   
+
 bool_t xdr_mcfast_seqheader(XDR *xdrs, int *blockid,
  		 int *ntot, char** version, mcfxdrSequentialHeader **mcf)
 {
 /*  Translate a mcf EventTable block.  This subroutine will allocate
 	the memory needed if the stream is DECODE */
-        
+
     int i;
     unsigned int nn;
     char **ctmp;
     mcfxdrSequentialHeader *mcftmp;
-    
-    
+
+
     if (xdrs->x_op == XDR_ENCODE) {
       mcftmp = *mcf;
       *ntot = sizeof(mcfxdrSequentialHeader);
@@ -413,33 +413,33 @@ bool_t xdr_mcfast_seqheader(XDR *xdrs, int *blockid,
           return 1;
      } else if(xdrs->x_op == XDR_DECODE) {
           if (*mcf == NULL) {
-              mcftmp = (mcfxdrSequentialHeader *) 
+              mcftmp = (mcfxdrSequentialHeader *)
                         malloc(sizeof(mcfxdrSequentialHeader));
               *mcf = mcftmp;
           } else mcftmp = *mcf;
-          
-     } 
-        
 
-       
-/*     if (( xdr_int(xdrs, blockid) && 
+     }
+
+
+
+/*     if (( xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
-     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH)) 
+     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH))
      	                 == FALSE) return FALSE;
 */
       if (xdr_int(xdrs,blockid) == FALSE) return FALSE;
-      if (xdr_int(xdrs,ntot) == FALSE) return FALSE; 
-      if (xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) 
-     	                 == FALSE) return FALSE;    
+      if (xdr_int(xdrs,ntot) == FALSE) return FALSE;
+      if (xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH)
+     	                 == FALSE) return FALSE;
      /*
      ** Code valid for version 1.00
      */
      if (strcmp(*version, "1.00") == 0) {
-     	      
-        if (xdr_u_int(xdrs,&(mcftmp->nRecords)) == FALSE) return FALSE; 
+
+        if (xdr_u_int(xdrs,&(mcftmp->nRecords)) == FALSE) return FALSE;
      } else return FALSE; /* Futur version encoded here. */
      return TRUE;
-     	      
+
 }
 
 bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
@@ -447,19 +447,19 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
 {
 /*  Translate a mcf Event header block.  This subroutine will allocate
 	the memory needed if the stream is DECODE */
-        
+
     int i, *itmp;
     unsigned int nn, nnold, nNTuOld;
     off_t *otmp;
     char **ctmp;
     mcfxdrEventHeader *mcftmp;
-    
-    
+
+
     mcftmp = *mcf;
     if (xdrs->x_op == XDR_ENCODE) {
       *ntot = sizeof(mcfxdrEventHeader)
               + sizeof(unsigned int)* mcftmp->nBlocks
-              + sizeof(int ) * mcftmp->nBlocks 
+              + sizeof(int ) * mcftmp->nBlocks
               - sizeof(int *)  - sizeof(u_int *) ;
        strcpy(*version, "3.00");
      }  else if (xdrs->x_op == XDR_FREE) {
@@ -471,36 +471,36 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
           *mcf = mcftmp;
           mcftmp->blockIds = NULL;
           mcftmp->ptrBlocks = NULL;
-     } 
-        
+     }
 
-       
-     if (( xdr_int(xdrs, blockid) && 
+
+
+     if (( xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
-     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH)) 
+     	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH))
      	                  == FALSE) return FALSE;
-     
+
      /*
      ** Code valid for version 1.00
      */
      if (strcmp(*version, "1.00") == 0) {
         if((xdrs->x_op == XDR_DECODE) && (mcftmp->blockIds != NULL))
-             nnold = mcftmp->dimBlocks;  
-     	else nnold = 0;      
+             nnold = mcftmp->dimBlocks;
+     	else nnold = 0;
         if ((xdr_int(xdrs,&(mcftmp->evtnum)) &&
              xdr_int(xdrs,&(mcftmp->storenum)) &&
              xdr_int(xdrs,&(mcftmp->runnum)) &&
              xdr_int(xdrs,&(mcftmp->trigMask)) &&
              xdr_u_int(xdrs,&(mcftmp->nBlocks)) &&
-             xdr_u_int(xdrs,&(mcftmp->dimBlocks))) == FALSE) return FALSE; 
+             xdr_u_int(xdrs,&(mcftmp->dimBlocks))) == FALSE) return FALSE;
         if(xdrs->x_op == XDR_DECODE) {
            if ((mcftmp->blockIds == NULL) || (mcftmp->dimBlocks > nnold)) {
            if (mcftmp->blockIds != NULL) {
             /*
-            ** I don't trust realloc.. just alloc again.. 
+            ** I don't trust realloc.. just alloc again..
             */
-            free(mcftmp->blockIds); free(mcftmp->ptrBlocks); 
-            }  
+            free(mcftmp->blockIds); free(mcftmp->ptrBlocks);
+            }
            mcftmp->blockIds =
              (int *) malloc(sizeof(unsigned int) * mcftmp->dimBlocks);
            mcftmp->ptrBlocks =
@@ -509,12 +509,12 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
         }
         if (xdrs->x_op == XDR_ENCODE)  nn = mcftmp->dimBlocks;
         itmp = mcftmp->blockIds;
-	if (xdr_array(xdrs, (char **) &itmp, &nn, 
-	              mcftmp->dimBlocks, sizeof(int), xdr_int) == FALSE) 
+	if (xdr_array(xdrs, (char **) &itmp, &nn,
+	              mcftmp->dimBlocks, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
-	otmp = mcftmp->ptrBlocks;              
-	if (xdr_array(xdrs, (char **) &otmp, &nn, 
-	              mcftmp->dimBlocks, sizeof(off_t), xdr_u_int) == FALSE) 
+	otmp = mcftmp->ptrBlocks;
+	if (xdr_array(xdrs, (char **) &otmp, &nn,
+	              mcftmp->dimBlocks, sizeof(off_t), xdr_u_int) == FALSE)
 	              return FALSE;
      } else if (strcmp(*version, "2.00") == 0) {
         if (xdrs->x_op == XDR_DECODE) {
@@ -522,7 +522,7 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
            if (mcftmp->blockIds != NULL)  nnold = mcftmp->dimBlocks;
            nNTuOld = 0;
            if (mcftmp->nTupleIds != NULL)  nNTuOld = mcftmp->dimNTuples;
-        }  
+        }
         if ((xdr_int(xdrs,&(mcftmp->evtnum)) &&
              xdr_int(xdrs,&(mcftmp->storenum)) &&
              xdr_int(xdrs,&(mcftmp->runnum)) &&
@@ -533,20 +533,20 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
              xdr_u_int(xdrs,&(mcftmp->dimNTuples))) == FALSE) return FALSE;
         if(xdrs->x_op == XDR_DECODE) {
            if ((mcftmp->blockIds == NULL) || (mcftmp->dimBlocks > nnold)) {
-           if (mcftmp->blockIds != NULL) { 
+           if (mcftmp->blockIds != NULL) {
                free(mcftmp->blockIds);
                free(mcftmp->ptrBlocks);
-           }     
+           }
            mcftmp->blockIds =
              (int *) malloc(sizeof(unsigned int) * mcftmp->dimBlocks);
            mcftmp->ptrBlocks =
              (off_t *) calloc(mcftmp->dimBlocks, sizeof(off_t));
            }
            if ((mcftmp->nTupleIds == NULL) || (mcftmp->dimNTuples > nNTuOld)) {
-           if (mcftmp->nTupleIds != NULL) { 
+           if (mcftmp->nTupleIds != NULL) {
                free(mcftmp->nTupleIds);
                free(mcftmp->ptrNTuples);
-           }     
+           }
            mcftmp->nTupleIds =
              (int *) malloc(sizeof(unsigned int) * mcftmp->dimNTuples);
            mcftmp->ptrNTuples =
@@ -556,32 +556,32 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
         if (mcftmp->dimBlocks > 0) {
             if (xdrs->x_op == XDR_ENCODE)  nn = mcftmp->dimBlocks;
             itmp = mcftmp->blockIds;
-	    if (xdr_array(xdrs, (char **) &itmp, &nn, 
-	              mcftmp->dimBlocks, sizeof(int), xdr_int) == FALSE) 
+	    if (xdr_array(xdrs, (char **) &itmp, &nn,
+	              mcftmp->dimBlocks, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
-	    otmp = mcftmp->ptrBlocks;              
-	    if (xdr_array(xdrs, (char **) &otmp, &nn, 
-	              mcftmp->dimBlocks, sizeof(off_t), xdr_u_int) == FALSE) 
+	    otmp = mcftmp->ptrBlocks;
+	    if (xdr_array(xdrs, (char **) &otmp, &nn,
+	              mcftmp->dimBlocks, sizeof(off_t), xdr_u_int) == FALSE)
 	              return FALSE;
         }
         if (mcftmp->dimNTuples > 0) {
             if (xdrs->x_op == XDR_ENCODE)  nn = mcftmp->dimNTuples;
             itmp = mcftmp->nTupleIds;
-	    if (xdr_array(xdrs, (char **) &itmp, &nn, 
-	              mcftmp->dimNTuples, sizeof(int), xdr_int) == FALSE) 
+	    if (xdr_array(xdrs, (char **) &itmp, &nn,
+	              mcftmp->dimNTuples, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
-	    otmp = mcftmp->ptrNTuples;              
-	    if (xdr_array(xdrs, (char **) &otmp, &nn, 
-	              mcftmp->dimNTuples, sizeof(off_t), xdr_u_int) == FALSE) 
+	    otmp = mcftmp->ptrNTuples;
+	    if (xdr_array(xdrs, (char **) &otmp, &nn,
+	              mcftmp->dimNTuples, sizeof(off_t), xdr_u_int) == FALSE)
 	              return FALSE;
-	}              
+	}
      } else if (strcmp(*version, "3.00") == 0) {
         if (xdrs->x_op == XDR_DECODE) {
            nnold = 0;
            if (mcftmp->blockIds != NULL)  nnold = mcftmp->dimBlocks;
            nNTuOld = 0;
            if (mcftmp->nTupleIds != NULL)  nNTuOld = mcftmp->dimNTuples;
-        }  
+        }
         if ((xdr_int(xdrs,&(mcftmp->evtnum)) &&
              xdr_int(xdrs,&(mcftmp->storenum)) &&
              xdr_int(xdrs,&(mcftmp->runnum)) &&
@@ -592,20 +592,20 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
              xdr_u_int(xdrs,&(mcftmp->dimNTuples))) == FALSE) return FALSE;
         if(xdrs->x_op == XDR_DECODE) {
            if ((mcftmp->blockIds == NULL) || (mcftmp->dimBlocks > nnold)) {
-           if (mcftmp->blockIds != NULL) { 
+           if (mcftmp->blockIds != NULL) {
                free(mcftmp->blockIds);
                free(mcftmp->ptrBlocks);
-           }     
+           }
            mcftmp->blockIds =
              (int *) malloc(sizeof(unsigned int) * mcftmp->dimBlocks);
            mcftmp->ptrBlocks =
              (off_t *) calloc(mcftmp->dimBlocks, sizeof(off_t));
            }
            if ((mcftmp->nTupleIds == NULL) || (mcftmp->dimNTuples > nNTuOld)) {
-           if (mcftmp->nTupleIds != NULL) { 
+           if (mcftmp->nTupleIds != NULL) {
                free(mcftmp->nTupleIds);
                free(mcftmp->ptrNTuples);
-           }     
+           }
            mcftmp->nTupleIds =
              (int *) malloc(sizeof(unsigned int) * mcftmp->dimNTuples);
            mcftmp->ptrNTuples =
@@ -615,37 +615,37 @@ bool_t xdr_mcfast_eventheader(XDR *xdrs, int *blockid,
         if (mcftmp->dimBlocks > 0) {
             if (xdrs->x_op == XDR_ENCODE)  nn = mcftmp->dimBlocks;
             itmp = mcftmp->blockIds;
-	    if (xdr_array(xdrs, (char **) &itmp, &nn, 
-	              mcftmp->dimBlocks, sizeof(int), xdr_int) == FALSE) 
+	    if (xdr_array(xdrs, (char **) &itmp, &nn,
+	              mcftmp->dimBlocks, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
-	    otmp = mcftmp->ptrBlocks;              
-	    if (xdr_array(xdrs, (char **) &otmp, &nn, 
-	              mcftmp->dimBlocks, sizeof(off_t), xdr_hyper) == FALSE) 
+	    otmp = mcftmp->ptrBlocks;
+	    if (xdr_array(xdrs, (char **) &otmp, &nn,
+	              mcftmp->dimBlocks, sizeof(off_t), xdr_hyper) == FALSE)
 	              return FALSE;
         }
         if (mcftmp->dimNTuples > 0) {
             if (xdrs->x_op == XDR_ENCODE)  nn = mcftmp->dimNTuples;
             itmp = mcftmp->nTupleIds;
-	    if (xdr_array(xdrs, (char **) &itmp, &nn, 
-	              mcftmp->dimNTuples, sizeof(int), xdr_int) == FALSE) 
+	    if (xdr_array(xdrs, (char **) &itmp, &nn,
+	              mcftmp->dimNTuples, sizeof(int), xdr_int) == FALSE)
 	              return FALSE;
-	    otmp = mcftmp->ptrNTuples;              
-	    if (xdr_array(xdrs, (char **) &otmp, &nn, 
-	              mcftmp->dimNTuples, sizeof(off_t), xdr_hyper) == FALSE) 
+	    otmp = mcftmp->ptrNTuples;
+	    if (xdr_array(xdrs, (char **) &otmp, &nn,
+	              mcftmp->dimNTuples, sizeof(off_t), xdr_hyper) == FALSE)
 	              return FALSE;
-	}              
-     } else 
+	}
+     } else
       return FALSE; /* Futur version encoded here. */
      return TRUE;
-     	      
+
 }
 
 static bool_t xdr_mcfast_NTuDDL(XDR *xdrs, char *version, nTuDDL *ddl)
 {
     int i, nc_title, nc_category, idRef;
     descrGenNtuple *dNTu;
-    
-    
+
+
     /*
     ** This is the first version, let us not get too compilcated..
     */
@@ -656,19 +656,19 @@ static bool_t xdr_mcfast_NTuDDL(XDR *xdrs, char *version, nTuDDL *ddl)
            /*
            ** Cross reference is only valid within the same stream.
            */
-           if ((ddl->reference != NULL) && 
-               (ddl->streamId == ddl->reference->streamId )) { 
+           if ((ddl->reference != NULL) &&
+               (ddl->streamId == ddl->reference->streamId )) {
                /*
-               ** compute the rerefence token. This is the sequential 
+               ** compute the rerefence token. This is the sequential
                ** number of the reference Ntuple for this stream.
                */
-               for (i=0, idRef=0; i<NumOfNTuples; i++) { 
+               for (i=0, idRef=0; i<NumOfNTuples; i++) {
                    if (NTuDDLList[i]->streamId == ddl->reference->streamId)
                        idRef++;
                    if (NTuDDLList[i]->id == ddl->reference->id) break;
-               }    
+               }
           }
-    }      
+    }
     if (xdr_int(xdrs, &nc_title) == FALSE) return FALSE;
     if (xdr_int(xdrs, &nc_category) == FALSE) return FALSE;
     if (xdr_int(xdrs, &idRef) == FALSE) return FALSE;
@@ -677,28 +677,28 @@ static bool_t xdr_mcfast_NTuDDL(XDR *xdrs, char *version, nTuDDL *ddl)
        ddl->category = (char *) malloc(sizeof(char) * (nc_category +1));
        ddl->dbinFileName = NULL;
        ddl->streamId = -1;
-    }   
+    }
     if (xdr_int(xdrs,&(ddl->uid)) == FALSE) return FALSE;
     if (xdr_string(xdrs, &(ddl->title), nc_title) == FALSE) return FALSE;
-    if (xdr_string(xdrs, &(ddl->category), 
+    if (xdr_string(xdrs, &(ddl->category),
                       nc_category) == FALSE) return FALSE;
-    if (idRef == -1) {                  
-        if (xdrs->x_op == XDR_DECODE) 
+    if (idRef == -1) {
+        if (xdrs->x_op == XDR_DECODE)
            ddl->descrNtu = (descrGenNtuple *) malloc (sizeof(descrGenNtuple));
          if (ddl->descrNtu == NULL) dNTu = ddl->reference->descrNtu;
-           else dNTu = ddl->descrNtu; 
-        if (xdr_mcfast_descrNTU(xdrs, version, dNTu) == FALSE) 
+           else dNTu = ddl->descrNtu;
+        if (xdr_mcfast_descrNTU(xdrs, version, dNTu) == FALSE)
             return FALSE;
-        if (xdrs->x_op == XDR_DECODE) ddl->reference = NULL; 
+        if (xdrs->x_op == XDR_DECODE) ddl->reference = NULL;
     } else {
         if (xdrs->x_op == XDR_DECODE) {
               ddl->descrNtu = NULL;
               ddl->referenceId = idRef;
               /* we will set the reference pointer in mcfio_Direct */
         }
-    }        
-    return TRUE; 
-    	      
+    }
+    return TRUE;
+
 }
 
 static bool_t xdr_mcfast_descrNTU(XDR *xdrs, char *version,
@@ -710,7 +710,7 @@ static bool_t xdr_mcfast_descrNTU(XDR *xdrs, char *version,
     /*
     ** This is the first version, let us not get too compilcated..
     */
-    
+
     if (xdr_int(xdrs,&(dNTu->numVariables)) == FALSE) return FALSE;
     dNTu->numAvailable = dNTu->numVariables;
     if (xdr_int(xdrs,&(dNTu->maxMultiplicity)) == FALSE) return FALSE;
@@ -728,35 +728,35 @@ static bool_t xdr_mcfast_descrNTU(XDR *xdrs, char *version,
         for (i=0; i<dNTu->numVariables; i++) dNTu->varOrdering[i] = i;
         if (dNTu->orgStyle == PARALLEL_ARRAY_NTU) {
            dNTu->subXDROffset = NULL;
-           dNTu->subOffset = NULL;  
+           dNTu->subOffset = NULL;
         } else {
-           dNTu->subOffset = 
+           dNTu->subOffset =
           (long *) malloc(sizeof(long) * dNTu->maxMultiplicity);
-           dNTu->subXDROffset = 
+           dNTu->subXDROffset =
           (u_int *) malloc(sizeof(long) * dNTu->maxMultiplicity);
-        }  
+        }
         dNTu->variables =
-        (varGenNtuple **) malloc(sizeof(varGenNtuple *) * dNTu->numVariables);  
+        (varGenNtuple **) malloc(sizeof(varGenNtuple *) * dNTu->numVariables);
         for (i=0; i<dNTu->numVariables; i++)
             dNTu->variables[i] = (varGenNtuple *) malloc(sizeof(varGenNtuple));
      }
      tc = dNTu->nameIndex;
      if (xdr_string(xdrs, &tc, 31) == FALSE) return FALSE;
-     if (xdr_string(xdrs, 
+     if (xdr_string(xdrs,
         (char **) &(dNTu->title), nc_title) == FALSE) return FALSE;
      if (xdr_string(xdrs,
            &(dNTu->description), nc_desc) == FALSE) return FALSE;
-     tc =  dNTu->version;     
+     tc =  dNTu->version;
      if (xdr_string(xdrs,  &tc, 7) == FALSE) return FALSE;
      if (xdr_long(xdrs,  &(dNTu->multOffset)) == FALSE) return FALSE;
      if (xdr_long(xdrs,  &(dNTu->fenceOffset)) == FALSE) return FALSE;
      nn = dNTu->maxMultiplicity;
-     if (dNTu->orgStyle != PARALLEL_ARRAY_NTU) { 
-        if (xdr_array(xdrs, 
-      (char **) &(dNTu->subOffset), &nn, nn, sizeof(long), xdr_long) == FALSE) 
+     if (dNTu->orgStyle != PARALLEL_ARRAY_NTU) {
+        if (xdr_array(xdrs,
+      (char **) &(dNTu->subOffset), &nn, nn, sizeof(long), xdr_long) == FALSE)
            return FALSE;
-     }      
-     for (i=0; i<dNTu->numVariables; i++) 
+     }
+     for (i=0; i<dNTu->numVariables; i++)
 	if (xdr_mcfast_varDescrNTU(xdrs, version, dNTu->variables[i]) == FALSE)
 	        return FALSE;
      return TRUE;
@@ -766,42 +766,42 @@ static bool_t xdr_mcfast_varDescrNTU(XDR *xdrs, char *version,
 {
     int i, nc_name, nc_desc, *pdim;
     u_int nn;
-    
-    
-    
+
+
+
     if (xdrs->x_op == XDR_ENCODE)  nc_name = strlen(var->name);
     if (xdr_int(xdrs, &nc_name) == FALSE) return FALSE;
     if (xdrs->x_op == XDR_ENCODE) {
          if (var->description == NULL) nc_desc = 0;
              else nc_desc = strlen(var->description);
-    }     
+    }
     if (xdr_int(xdrs, &nc_desc) == FALSE) return FALSE;
     if (xdrs->x_op == XDR_DECODE) {
         var->name = (char *) malloc(sizeof(char) * (nc_name+1));
-        if (nc_desc>0) 
+        if (nc_desc>0)
            var->description = (char *) malloc(sizeof(char) * (nc_desc+1));
         else    var->description = NULL;
         var->nameBlank = FALSE;
      }
-  
+
      if (xdr_string(xdrs, &(var->name), nc_name) == FALSE) return FALSE;
-     if (nc_desc > 0) 
-        if (xdr_string(xdrs, &(var->description), nc_desc) == FALSE) 
+     if (nc_desc > 0)
+        if (xdr_string(xdrs, &(var->description), nc_desc) == FALSE)
              return FALSE;
      if (xdr_int(xdrs,&(var->type)) == FALSE) return FALSE;
      if (xdr_char(xdrs,&(var->isFixedSize)) == FALSE) return FALSE;
      if (xdr_int(xdrs,&(var->numDim)) == FALSE) return FALSE;
      nn = var->numDim;
      pdim = var->dimensions;
-     if ((nn > 0) && (xdr_array(xdrs, 
-        (char **) &pdim, &nn, nn, sizeof(int), xdr_int)) == FALSE) 
+     if ((nn > 0) && (xdr_array(xdrs,
+        (char **) &pdim, &nn, nn, sizeof(int), xdr_int)) == FALSE)
            return FALSE;
-     if (xdrs->x_op == XDR_ENCODE) nn = (u_int) var->lengthB;  
+     if (xdrs->x_op == XDR_ENCODE) nn = (u_int) var->lengthB;
      if (xdr_u_int(xdrs,&(nn)) == FALSE) return FALSE;
      if (xdrs->x_op == XDR_DECODE) var->lengthB = (size_t) nn;
-     if (xdrs->x_op == XDR_ENCODE) nn = (u_int) var->lengthW;  
+     if (xdrs->x_op == XDR_ENCODE) nn = (u_int) var->lengthW;
      if (xdr_u_int(xdrs,&(nn)) == FALSE) return FALSE;
-     if (xdrs->x_op == XDR_DECODE) var->lengthW = (size_t) nn;  
+     if (xdrs->x_op == XDR_DECODE) var->lengthW = (size_t) nn;
      if (xdr_long(xdrs,&(var->offset)) == FALSE) return FALSE;
      return TRUE;
 }
@@ -820,8 +820,8 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
     void *end, *pt;
     bool_t ok;
 /*
-** Upon write, check that the version token is identical to the one stored 
-** in the ddl. 
+** Upon write, check that the version token is identical to the one stored
+** in the ddl.
 */
      start = version;
      if(dNTu->firstIndexed == -1) lastFixed = dNTu->numVariables;
@@ -836,17 +836,17 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
          }
          id = nTupleId;
 /*
-**   Compute the total length 
+**   Compute the total length
 */
          cDat = start; cDat +=  dNTu->multOffset;
          pnMult = (int *) cDat;
          nm = *pnMult;
          for (i=0, nn=0; i<lastFixed; i++)
                nn += dNTu->variables[i]->lengthB;
-         if(dNTu->firstIndexed != -1) 
-             for(i=dNTu->firstIndexed; i<dNTu->numVariables; i++) 
+         if(dNTu->firstIndexed != -1)
+             for(i=dNTu->firstIndexed; i<dNTu->numVariables; i++)
                 nn += (dNTu->variables[i]->lengthB * nm);
-         *pnTot = 6 + nn/4;      
+         *pnTot = 6 + nn/4;
      }
      if (xdr_int(xdrs, &id) == FALSE) return FALSE;
      if (xdr_int(xdrs, pnTot) == FALSE) return FALSE;
@@ -867,7 +867,7 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
           return FALSE;
           }
      }
-         
+
      cDat = start; cDat +=  dNTu->multOffset;
      pnMult = (int *) cDat;
      if (xdr_int(xdrs, pnMult) == FALSE) return FALSE;
@@ -894,19 +894,19 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_int(xdrs, (int *) pt);
                       break;
                    case REAL_NTU:
-                      ok = xdr_float(xdrs, (float *) pt); 
+                      ok = xdr_float(xdrs, (float *) pt);
                       break;
                    case DBL_PRECISION_NTU:
                       ok = xdr_double(xdrs, (double *) pt);
                       break;
                    case COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
@@ -914,11 +914,11 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-        }      
+        }
         else if (dNTu->variables[i]->lengthW > 0) {
            cDat = start; cDat +=  dNTu->variables[i]->offset;
            pt = (void *) cDat;
@@ -928,42 +928,42 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_bytes(xdrs, (char **) &pt, &nn, nn);
                       break;
                    case INTEGER2_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                       break;
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                       break;
                    case REAL_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_PRECISION_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-          if (ok == FALSE) return FALSE;    
+          if (ok == FALSE) return FALSE;
          }
       }
       if (dNTu->firstIndexed != -1) {
@@ -978,47 +978,47 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_bytes(xdrs, (char **) &pt, &nn, nn);
                       break;
                    case INTEGER2_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                       break;
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                       break;
                    case REAL_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_PRECISION_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-          if (ok == FALSE) return FALSE;    
+          if (ok == FALSE) return FALSE;
         }
      } else { /*dump the substructures one a time */
      for (j=0; j<nm; j++) {
        for (i=dNTu->firstIndexed; i<dNTu->numVariables; i++) {
-        cDat = start; 
+        cDat = start;
         cDat += (dNTu->subOffset[j] + dNTu->variables[i]->offset);
         pt = (void *) cDat;
         if (dNTu->variables[i]->lengthW == 1) {
@@ -1033,19 +1033,19 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_int(xdrs, (int *) pt);
                       break;
                    case REAL_NTU:
-                      ok = xdr_float(xdrs, (float *) pt); 
+                      ok = xdr_float(xdrs, (float *) pt);
                       break;
                    case DBL_PRECISION_NTU:
                       ok = xdr_double(xdrs, (double *) pt);
                       break;
                    case COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
@@ -1053,11 +1053,11 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-        }      
+        }
         else if (dNTu->variables[i]->lengthW > 0) {
            nn = dNTu->variables[i]->lengthW;
            switch (dNTu->variables[i]->type) {
@@ -1065,49 +1065,49 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_bytes(xdrs, (char **) &pt, &nn, nn);
                       break;
                    case INTEGER2_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                       break;
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                       break;
                    case REAL_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_PRECISION_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-          if (ok == FALSE) return FALSE;    
+          if (ok == FALSE) return FALSE;
          }
         } /*end of i loop */
        } /*end of j loop */
       } /* End of orgStyle clause */
       } /* End of firstIndexed clause */
       /*
-      ** Check the fence.. 
+      ** Check the fence..
       */
       ipnFence = (int *) pnFence;
       if ((xdrs->x_op == XDR_DECODE) && (*ipnFence != *pnTot)) {
@@ -1120,7 +1120,7 @@ bool_t xdr_mcfast_NTuple(XDR *xdrs, descrGenNtuple *dNTu,
 }
 
 /*
-** Generalized NTuple XDR filter, for DECODE only, used exclusively 
+** Generalized NTuple XDR filter, for DECODE only, used exclusively
 ** to establish the relative XDR pointers.
 */
 bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
@@ -1132,15 +1132,15 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
     int *pnMult, *pnFence;
     void *start, *end, *pt;
     bool_t ok;
-    
+
     /*
     ** Allocate memory for supointer array if need be.
     */
      if(dNTu->firstIndexed == -1) lastFixed = dNTu->numVariables;
         else lastFixed = dNTu->firstIndexed;
-        
+
      if (dNTu->subXDROffset != NULL) free(dNTu->subXDROffset);
-     dNTu->subXDROffset = 
+     dNTu->subXDROffset =
           (u_int *) malloc (sizeof(u_int) * dNTu->maxMultiplicity);
      start = (void *) version;
      startXDR = xdr_getpos(xdrs);
@@ -1182,19 +1182,19 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_int(xdrs, (int *) pt);
                       break;
                    case REAL_NTU:
-                      ok = xdr_float(xdrs, (float *) pt); 
+                      ok = xdr_float(xdrs, (float *) pt);
                       break;
                    case DBL_PRECISION_NTU:
                       ok = xdr_double(xdrs, (double *) pt);
                       break;
                    case COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
@@ -1202,11 +1202,11 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-        }      
+        }
         else if (dNTu->variables[i]->lengthW > 0) {
            cDat = start;  cDat += dNTu->variables[i]->offset;
            pt = (void *) cDat;
@@ -1217,42 +1217,42 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_bytes(xdrs, (char **) &pt, &nn, nn);
                       break;
                    case INTEGER2_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                       break;
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                       break;
                    case REAL_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_PRECISION_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-          if (ok == FALSE) return FALSE;    
+          if (ok == FALSE) return FALSE;
          }
       }
       if (dNTu->firstIndexed != -1) {
@@ -1268,48 +1268,48 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_bytes(xdrs, (char **) &pt, &nn, nn);
                       break;
                    case INTEGER2_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                       break;
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                       break;
                    case REAL_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_PRECISION_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-          if (ok == FALSE) return FALSE;    
+          if (ok == FALSE) return FALSE;
         }
      } else { /*dump the substructure one a time */
      for (j=0; j<nm; j++) {
        dNTu->subXDROffset[j] = xdr_getpos(xdrs) - startXDR;
        for (i=dNTu->firstIndexed; i<dNTu->numVariables; i++) {
-        cDat = start; 
+        cDat = start;
         cDat += (dNTu->subOffset[j] + dNTu->variables[i]->offset);
         pt = (void *) cDat;
         if (j == 0) dNTu->variables[i]->offsetXDR = 0;
@@ -1327,19 +1327,19 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_int(xdrs, (int *) pt);
                       break;
                    case REAL_NTU:
-                      ok = xdr_float(xdrs, (float *) pt); 
+                      ok = xdr_float(xdrs, (float *) pt);
                       break;
                    case DBL_PRECISION_NTU:
                       ok = xdr_double(xdrs, (double *) pt);
                       break;
                    case COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
@@ -1347,11 +1347,11 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-        }      
+        }
         else if (dNTu->variables[i]->lengthW > 0) {
            nn = dNTu->variables[i]->lengthW;
            if (j == 0) dNTu->variables[i]->offsetXDR =
@@ -1361,49 +1361,49 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
                       ok = xdr_bytes(xdrs, (char **) &pt, &nn, nn);
                       break;
                    case INTEGER2_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                       break;
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                       break;
                    case REAL_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_PRECISION_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
-                      ok = xdr_array(xdrs, 
+                      ok = xdr_array(xdrs,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                       break;
                    default :
                        fprintf (stderr, "mcfio_NTuple: internal error! \n\
-          Unexpected variables type %d on NTuple \n", 
+          Unexpected variables type %d on NTuple \n",
                        dNTu->variables[i]->type, nTupleId);
                        break;
               }
-          if (ok == FALSE) return FALSE;    
+          if (ok == FALSE) return FALSE;
          }
         } /*end of i loop */
        } /*end of j loop */
       } /* End of orgStyle clause */
       } /* End of firstIndexed clause */
       /*
-      ** Check the fence.. 
+      ** Check the fence..
       */
       if (*pnFence != *pnTot) {
               fprintf (stderr, "mcfio_NTuple: Suspected Data Overwrite! \n\
@@ -1414,24 +1414,24 @@ bool_t xdr_mcfast_NTupleXDRPtr(XDR *xdrs, descrGenNtuple *dNTu,
       return TRUE;
 }
 /*
-** Generalized NTuple XDR filter, used for Decode only. 
+** Generalized NTuple XDR filter, used for Decode only.
 ** Simply decode the multiplicty value. No checks whatsoever!
 */
 bool_t xdr_mcfast_NTupleMult(mcfStream *str, descrGenNtuple *dNTu,
  		char* version)
 {
     char *cDat;
-    
+
      cDat = version;
-     cDat +=  dNTu->multOffset;     
+     cDat +=  dNTu->multOffset;
      xdr_setpos(str->xdr, (str->currentPos + dNTu->multXDROffset) );
      return  (xdr_int(str->xdr, ((int *) cDat)));
 }
 
 /*
-** Generalized NTuple XDR filter, used for Decode only. 
+** Generalized NTuple XDR filter, used for Decode only.
 ** Simply decode one variable (scalar) or array value. No checks whatsoever!
-** Not applicable if the structure organization style is VAX FORTRAN d/s 
+** Not applicable if the structure organization style is VAX FORTRAN d/s
 ** and the index corresponds to an indexed variable.
 */
 bool_t xdr_mcfast_NTupleVar(mcfStream *str, descrGenNtuple *dNTu,
@@ -1441,13 +1441,13 @@ bool_t xdr_mcfast_NTupleVar(mcfStream *str, descrGenNtuple *dNTu,
     u_int nn;
     void *pt;
     int ivarP;
-    
+
      ivarP = ivar;
      while (dNTu->variables[ivarP]->lengthW == 0) ivarP--;
      cDat = version;
      cDat += dNTu->variables[ivarP]->offset;
-     pt = (void *) cDat;     
-     xdr_setpos(str->xdr, 
+     pt = (void *) cDat;
+     xdr_setpos(str->xdr,
               (str->currentPos + dNTu->variables[ivarP]->offsetXDR));
      if ((dNTu->variables[ivarP]->lengthW == 1) &&
          (ivarP < dNTu->firstIndexed)) {
@@ -1459,16 +1459,16 @@ bool_t xdr_mcfast_NTupleVar(mcfStream *str, descrGenNtuple *dNTu,
                    case LOGICAL_NTU: case INTEGER_NTU:
                       return  xdr_int(str->xdr, (int *) pt);
                    case REAL_NTU:
-                      return  xdr_float(str->xdr, (float *) pt); 
+                      return  xdr_float(str->xdr, (float *) pt);
                    case DBL_PRECISION_NTU:
                       return  xdr_double(str->xdr, (double *) pt);
                    case COMPLEX_NTU:
                       nn =2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                    case DBL_COMPLEX_NTU:
                       nn =2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                    case POINTER_NTU:
                       return  xdr_long(str->xdr, (long *) pt);
@@ -1481,27 +1481,27 @@ bool_t xdr_mcfast_NTupleVar(mcfStream *str, descrGenNtuple *dNTu,
                    case BYTE_NTU: case CHARACTER_NTU:
                       return  xdr_bytes(str->xdr, (char **) &pt, &nn, nn);
                    case INTEGER2_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                    case REAL_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                    case DBL_PRECISION_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                    case POINTER_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                    default :
                        return FALSE;
@@ -1509,7 +1509,7 @@ bool_t xdr_mcfast_NTupleVar(mcfStream *str, descrGenNtuple *dNTu,
          }
 }
 /*
-** Generalized NTuple XDR filter, used for Decode only. 
+** Generalized NTuple XDR filter, used for Decode only.
 ** Simply decode one variable (scalar) or array value. No checks whatsoever!
 ** Not applicable if the structure organization style is parallel array
 ** or the index corresponds to a fixed size variable.
@@ -1521,17 +1521,17 @@ bool_t xdr_mcfast_NTupleSubVar(mcfStream *str, descrGenNtuple *dNTu,
     u_int nn;
     void *pt;
     int ivarP;
-    
+
      ivarP = ivar;
      while (dNTu->variables[ivarP]->lengthW == 0) ivarP--;
      cDat = version;
      cDat += dNTu->subOffset[multIndex];
      cDat += dNTu->variables[ivarP]->offset;
-     pt = (void *) cDat;     
-     xdr_setpos(str->xdr, 
+     pt = (void *) cDat;
+     xdr_setpos(str->xdr,
               (str->currentPos +  dNTu->subXDROffset[multIndex] +
               dNTu->variables[ivarP]->offsetXDR));
-     if (dNTu->variables[ivarP]->lengthW == 1) { 
+     if (dNTu->variables[ivarP]->lengthW == 1) {
           switch (dNTu->variables[ivarP]->type) {
                    case BYTE_NTU: case CHARACTER_NTU:
                       return  xdr_char(str->xdr, (char *) pt);
@@ -1540,16 +1540,16 @@ bool_t xdr_mcfast_NTupleSubVar(mcfStream *str, descrGenNtuple *dNTu,
                    case LOGICAL_NTU: case INTEGER_NTU:
                       return  xdr_int(str->xdr, (int *) pt);
                    case REAL_NTU:
-                      return  xdr_float(str->xdr, (float *) pt); 
+                      return  xdr_float(str->xdr, (float *) pt);
                    case DBL_PRECISION_NTU:
                       return  xdr_double(str->xdr, (double *) pt);
                    case COMPLEX_NTU:
                       nn =2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                    case DBL_COMPLEX_NTU:
                       nn =2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                    case POINTER_NTU:
                       return  xdr_long(str->xdr, (long *) pt);
@@ -1562,27 +1562,27 @@ bool_t xdr_mcfast_NTupleSubVar(mcfStream *str, descrGenNtuple *dNTu,
                    case BYTE_NTU: case CHARACTER_NTU:
                       return  xdr_bytes(str->xdr, (char **) &pt, &nn, nn);
                    case INTEGER2_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                    case REAL_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                    case DBL_PRECISION_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                    case POINTER_NTU:
-                      return  xdr_array(str->xdr, 
+                      return  xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                    default :
                        return FALSE;
@@ -1590,7 +1590,7 @@ bool_t xdr_mcfast_NTupleSubVar(mcfStream *str, descrGenNtuple *dNTu,
          }
 }
 /*
-** Generalized NTuple XDR filter, used for Decode only. 
+** Generalized NTuple XDR filter, used for Decode only.
 ** Simply decode a sub-structure given a value for the multiplicity index.
 ** Not applicable if the structure organization style is parallel array.
 ** No check whatsover!
@@ -1603,12 +1603,12 @@ bool_t xdr_mcfast_NTupleSubStruct(mcfStream *str, descrGenNtuple *dNTu,
     void *pt;
     int iv;
     bool_t ok;
-    
-     xdr_setpos(str->xdr, 
+
+     xdr_setpos(str->xdr,
               (str->currentPos +  dNTu->subXDROffset[multIndex]));
-     for (iv=dNTu->firstIndexed; iv<dNTu->numVariables; iv++) {          
+     for (iv=dNTu->firstIndexed; iv<dNTu->numVariables; iv++) {
         cDat = version;
-        cDat += 
+        cDat +=
              dNTu->subOffset[multIndex] + dNTu->variables[iv]->offset;
         pt = (void *) cDat;
         if (dNTu->variables[iv]->lengthW == 1) {
@@ -1623,19 +1623,19 @@ bool_t xdr_mcfast_NTupleSubStruct(mcfStream *str, descrGenNtuple *dNTu,
                       ok = xdr_int(str->xdr, (int *) pt);
                       break;
                    case REAL_NTU:
-                      ok = xdr_float(str->xdr, (float *) pt); 
+                      ok = xdr_float(str->xdr, (float *) pt);
                       break;
                    case DBL_PRECISION_NTU:
                       ok = xdr_double(str->xdr, (double *) pt);
                       break;
                    case COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn =2;
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
@@ -1650,33 +1650,33 @@ bool_t xdr_mcfast_NTupleSubStruct(mcfStream *str, descrGenNtuple *dNTu,
                       ok = xdr_bytes(str->xdr, (char **) &pt, &nn, nn);
                       break;
                    case INTEGER2_NTU:
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(short), xdr_short);
                       break;
                    case LOGICAL_NTU: case INTEGER_NTU:
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(int), xdr_int);
                       break;
                    case REAL_NTU:
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_PRECISION_NTU:
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(float), xdr_float);
                       break;
                    case DBL_COMPLEX_NTU:
                       nn = nn*2;
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(double), xdr_double);
                       break;
                    case POINTER_NTU:
-                      ok = xdr_array(str->xdr, 
+                      ok = xdr_array(str->xdr,
                          (char **) &pt, &nn, nn, sizeof(long), xdr_long);
                       break;
                    default :

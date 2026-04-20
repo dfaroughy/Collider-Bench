@@ -17,13 +17,13 @@ tlevel = ''
 cppintf = ''
 for option in sysargv:
     if   re.match(r'kindmod',option): kindmod = re.sub(r'kindmod=','',option)
-    elif re.match(r'dpkind' ,option): dpkind  = re.sub(r'dpkind=' ,'',option) 
-    elif re.match(r'qpkind' ,option): qpkind  = re.sub(r'qpkind=' ,'',option) 
-    elif re.match(r'ddtype' ,option): ddtype  = re.sub(r'ddtype=' ,'',option) 
-    elif re.match(r'qdtype' ,option): qdtype  = re.sub(r'qdtype=' ,'',option) 
-    elif re.match(r'mptype' ,option): mptype  = re.sub(r'mptype=' ,'',option) 
-    elif re.match(r'tlevel' ,option): tlevel  = re.sub(r'tlevel=' ,'',option) 
-    elif re.match(r'cppintf',option): cppintf = re.sub(r'cppintf=','',option) 
+    elif re.match(r'dpkind' ,option): dpkind  = re.sub(r'dpkind=' ,'',option)
+    elif re.match(r'qpkind' ,option): qpkind  = re.sub(r'qpkind=' ,'',option)
+    elif re.match(r'ddtype' ,option): ddtype  = re.sub(r'ddtype=' ,'',option)
+    elif re.match(r'qdtype' ,option): qdtype  = re.sub(r'qdtype=' ,'',option)
+    elif re.match(r'mptype' ,option): mptype  = re.sub(r'mptype=' ,'',option)
+    elif re.match(r'tlevel' ,option): tlevel  = re.sub(r'tlevel=' ,'',option)
+    elif re.match(r'cppintf',option): cppintf = re.sub(r'cppintf=','',option)
     else:
         avh_pc.prnt('')
         avh_pc.prnt('usage: python avh_pc_olo.py [dpkind="kind"]')

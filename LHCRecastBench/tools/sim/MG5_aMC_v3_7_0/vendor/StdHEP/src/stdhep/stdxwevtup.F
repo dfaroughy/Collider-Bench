@@ -36,13 +36,13 @@ C	   lok  = 0     if no problems were encountered
 
       return
 
-  700 write (lnhout,701) 
+  700 write (lnhout,701)
       lok=2
       stop
-  800 write (lnhout,801) 
+  800 write (lnhout,801)
       lok=2
       stop
-  900 write (lnhout,901) 
+  900 write (lnhout,901)
       lok=1
       stop
   101 format(/5X,'stdxwevtup: no particles to write for HEPEUP block')

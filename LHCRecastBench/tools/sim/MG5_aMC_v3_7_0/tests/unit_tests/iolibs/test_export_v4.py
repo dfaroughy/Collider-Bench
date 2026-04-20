@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -20,7 +20,7 @@ import six
 StringIO = six
 import copy
 import fractions
-import os 
+import os
 import sys
 from six.moves import range
 
@@ -36,7 +36,7 @@ import madgraph.iolibs.file_writers as writers
 import madgraph.iolibs.files as files
 import madgraph.iolibs.group_subprocs as group_subprocs
 import madgraph.iolibs.helas_call_writers as helas_call_writers
-import madgraph.iolibs.save_load_object as save_load_object        
+import madgraph.iolibs.save_load_object as save_load_object
 import madgraph.core.base_objects as base_objects
 import madgraph.core.helas_objects as helas_objects
 import madgraph.core.diagram_generation as diagram_generation
@@ -155,8 +155,8 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         self.myfortranmodel.downcase = False
 
     tearDown = test_file_writers.CheckFileCreate.clean_files
- 
-    @IOTests.createIOTest() 
+
+    @IOTests.createIOTest()
     def testIO_export_matrix_element_v4_standalone(self):
         """target: matrix.f
         """
@@ -168,10 +168,10 @@ class IOExportV4IOTest(IOTests.IOTestManager,
             writers.FortranWriter(pjoin(self.IOpath, 'matrix.f')),
             self.mymatrixelement,
             self.myfortranmodel)
-    
+
     @IOTests.createIOTest()
     def testIO_export_matrix_element_v4_madevent_group(self):
-        """target: amp2lines.txt 
+        """target: amp2lines.txt
            target: configs.inc
            target: nqcd_list.inc
            target: config_subproc_map.inc
@@ -182,7 +182,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
            target: matrix1.f
            target: auto_dsig.f
            target: super_auto_dsig.f
-           
+
            """
 
         # Setup a model
@@ -337,7 +337,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
                       'orders':{'QCD':1}}))
 
         # Coupling of Z to quarks
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 6,
                       'particles': base_objects.ParticleList(\
@@ -362,7 +362,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
 
         # Set parameters
@@ -381,7 +381,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         mymodel.set('parameters', {('external',): external_parameters})
         mymodel.set('couplings', {(): couplings})
         mymodel.set('functions', [])
-                    
+
 
 
         procs = [[2,-2,21,21], [2,-2,2,-2], [2,-2,1,-1]]
@@ -415,18 +415,18 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         for me in matrix_elements:
             maxflows = max(maxflows,
                            len(me.get('color_basis')))
-        
+
         self.assertEqual(maxflows, 2)
 
         exporter = export_v4.ProcessExporterFortranMEGroup()
 
         # Test amp2 lines
-        
+
         amp2_lines = \
                  exporter.get_amp2_lines(matrix_elements[0],
                                           subprocess_group.get('diagram_maps')[0])
 
-        
+
         open(pjoin(self.IOpath,'amp2lines.txt'),'w').write('\n'.join(amp2_lines))
 
         # Test configs.inc
@@ -441,7 +441,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         exporter.write_config_nqcd_file(\
             writers.FortranWriter(pjoin(self.IOpath,'nqcd_list.inc')),
             nqcd_list)
-    
+
         # Test config_subproc_map.inc
 
         exporter.write_config_subproc_map_file(\
@@ -451,7 +451,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         #open(pjoin(self.IOpath,"config_subproc_map.inc"),'w').write(goal_confsub)
 
         # Test coloramps.inc
-        
+
         exporter.write_coloramps_file(\
             writers.FortranWriter(pjoin(self.IOpath,'coloramps.inc')),
             subprocess_group.get('diagrams_for_configs'),
@@ -475,7 +475,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
                          [[0,1,2,3]])
 
         # Test symfact.dat
-        
+
         exporter.write_symfact_file(\
             writers.FortranWriter(pjoin(self.IOpath,'symfact.dat')),
             symmetry)
@@ -514,7 +514,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         exporter.write_super_auto_dsig_file(\
             writers.FortranWriter(pjoin(self.IOpath, "super_auto_dsig.f")),
             subprocess_group)
-   
+
 
 
 #===============================================================================
@@ -682,7 +682,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
                       'orders':{'QCD':1}}))
 
         # Coupling of Z to quarks
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 6,
                       'particles': base_objects.ParticleList(\
@@ -707,7 +707,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
 
         # Set parameters
@@ -726,7 +726,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         mymodel.set('parameters', {('external',): external_parameters})
         mymodel.set('couplings', {(): couplings})
         mymodel.set('functions', [])
-                    
+
 
 
         procs = [[2,-2,21,21], [2,-2,2,-2], [2,-2,1,-1]]
@@ -755,19 +755,19 @@ class IOExportV4IOTest(IOTests.IOTestManager,
         for me in matrix_elements:
             maxflows = max(maxflows,
                            len(me.get('color_basis')))
-        
+
         self.assertEqual(maxflows, 2)
 
         exporter = export_v4.ProcessExporterFortranME()
 
         # Test amp2 lines
-        
+
         amp2_lines = \
                  exporter.get_amp2_lines(matrix_element)
-        
+
         self.assertEqual(amp2_lines,
-                         ['AMP2(1)=AMP2(1)+AMP(1)*dconjg(AMP(1))', 
-                          'AMP2(2)=AMP2(2)+AMP(2)*dconjg(AMP(2))', 
+                         ['AMP2(1)=AMP2(1)+AMP(1)*dconjg(AMP(1))',
+                          'AMP2(2)=AMP2(2)+AMP(2)*dconjg(AMP(2))',
                           'AMP2(3)=AMP2(3)+AMP(3)*dconjg(AMP(3))'])
         # Test configs.inc
 
@@ -778,7 +778,7 @@ class IOExportV4IOTest(IOTests.IOTestManager,
 
 
         # Test coloramps.inc
-        
+
         exporter.write_coloramps_file(\
             writers.FortranWriter(pjoin(self.IOpath,'coloramps.inc')),
             mapconfigs,
@@ -795,14 +795,14 @@ class IOExportV4IOTest(IOTests.IOTestManager,
                          [[0, 1, 2, 3], [0, 1, 3, 2]])
 
         # Test symswap.inc
-        
+
         exporter.write_symswap_file(\
             writers.FortranWriter(pjoin(self.IOpath,'symswap.inc')),
             ident_perms)
 
 
         # Test symfact.dat
-        
+
         exporter.write_symfact_file(\
             writers.FortranWriter(pjoin(self.IOpath,'symfact.inc')),
             symmetry)
@@ -913,8 +913,8 @@ class ExportV4IOTest(unittest.TestCase,
         self.myfortranmodel.downcase = False
 
     tearDown = test_file_writers.CheckFileCreate.clean_files
-    
-     
+
+
     def test_coeff_string(self):
         """Test the coeff string for JAMP lines"""
 
@@ -1051,7 +1051,7 @@ class ExportV4IOTest(unittest.TestCase,
                       'orders':{'QCD':1}}))
 
         # Coupling of Z to quarks
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 6,
                       'particles': base_objects.ParticleList(\
@@ -1090,7 +1090,7 @@ class ExportV4IOTest(unittest.TestCase,
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
 
         # Set parameters
@@ -1110,7 +1110,7 @@ class ExportV4IOTest(unittest.TestCase,
         mymodel.set('parameters', {('external',): external_parameters})
         mymodel.set('couplings', {(): couplings})
         mymodel.set('functions', [])
-                    
+
         procs = [[2,-2,23,23], [1,-1,23,23]]
         decays = [[23,1,-1,21], [23,2,-2]]
         coreamplitudes = diagram_generation.AmplitudeList()
@@ -1174,7 +1174,7 @@ class ExportV4IOTest(unittest.TestCase,
         exporter = export_v4.ProcessExporterFortranMEGroup()
 
         # Test amp2 lines
-        
+
         amp2_lines = \
                  exporter.get_amp2_lines(matrix_elements[1],
                                           subprocess_group.get('diagram_maps')[1])
@@ -1189,7 +1189,7 @@ AMP2(9)=AMP2(9)+AMP(9)*dconjg(AMP(9))
 AMP2(10)=AMP2(10)+AMP(10)*dconjg(AMP(10))
 AMP2(11)=AMP2(11)+AMP(11)*dconjg(AMP(11))
 AMP2(12)=AMP2(12)+AMP(12)*dconjg(AMP(12))""")
-        
+
         # Test configs.inc
 
         exporter.write_configs_file(\
@@ -1392,14 +1392,14 @@ C     used fake id
 """)
 
         # Test symfact.dat
-        
+
         symmetry, perms, ident_perms = \
                   diagram_symmetry.find_symmetry(subprocess_group)
 
         exporter.write_symfact_file(\
             writers.FortranWriter(self.give_pos('test')),
             symmetry)
-        
+
         #print open(self.give_pos('test')).read()
         goal_symfact_dat = """ 1   1
  2  -1
@@ -1413,7 +1413,7 @@ C     used fake id
         self.assertFileContains('test', goal_symfact_dat)
 
         # Test symperms.inc
-        
+
         exporter.write_symperms_file(\
             writers.FortranWriter(self.give_pos('test')),
             perms)
@@ -1441,7 +1441,7 @@ C     used fake id
 mirror  u~ u > d d~ g d d~ g
 2       d d~ > d d~ g d d~ g
 mirror  d~ d > d d~ g d d~ g"""
-        
+
         self.assertFileContains('test', goal_processes)
 
     def test_export_group_multidiagram_decay_chains(self):
@@ -1449,7 +1449,7 @@ mirror  d~ d > d d~ g d d~ g"""
 
         mypartlist = base_objects.ParticleList()
         myinterlist = base_objects.InteractionList()
-        
+
         # A gluon
         mypartlist.append(base_objects.Particle({'name':'g',
                       'antiname':'g',
@@ -1584,7 +1584,7 @@ mirror  d~ d > d d~ g d d~ g"""
         antid = mymodel.get_particle(-1)
         u = mymodel.get_particle(2)
         antiu = mymodel.get_particle(-2)
-        
+
         # Gluon couplings to quarks
         myinterlist.append(base_objects.Interaction({
                       'id': 1,
@@ -1720,7 +1720,7 @@ mirror  d~ d > d d~ g d d~ g"""
         decayprocs = base_objects.ProcessList()
         proc_diags = [1,1]
         decay_diags = [2,2]
-        
+
         for iproc, proc in enumerate(procs):
             # Define the multiprocess
             my_leglist = base_objects.LegList([\
@@ -2055,20 +2055,20 @@ C     used fake id
             self.assertIn('DEFAULT_F_COMPILER=gfortran', LO_text)
 #            NLO_text = open(pjoin(MG5DIR, 'Template','NLO','Source','make_opts.inc')).read()
 #            self.assertTrue('DEFAULT_F2PY_COMPILER=f2py' in NLO_text)
-#            self.assertTrue('FC=gfortran' in NLO_text)            
-            
-            
-            
-            
-            
-        
-        
-        
-        
-        
-        
-        
-        
+#            self.assertTrue('FC=gfortran' in NLO_text)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def test_different_order_process_symmetry(self):
@@ -2190,7 +2190,7 @@ C     used fake id
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
 
         proc = [21,2,23,23,2]
@@ -2212,7 +2212,7 @@ C     used fake id
         my_decay_proc = base_objects.Process({'legs':my_decaylegs,
                                               'model':mymodel,
                                               'is_decay_chain': True})
-        my_process.set('decay_chains', 
+        my_process.set('decay_chains',
                        base_objects.ProcessList([my_decay_proc]))
 
         my_decay = diagram_generation.DecayChainAmplitude(my_process)
@@ -2342,7 +2342,7 @@ C     used fake id
                   diagram_symmetry.find_symmetry(matrix_element)
 
         # Test symfact.dat
-        
+
         exporter.write_symfact_file(\
             writers.FortranWriter(self.give_pos('test')),
             symmetry)
@@ -2357,7 +2357,7 @@ C     used fake id
         self.assertFileContains('test', goal_symfact_dat)
 
         # Test symperms.inc
-        
+
         exporter.write_symperms_file(\
             writers.FortranWriter(self.give_pos('test')),
             perms)
@@ -2372,7 +2372,7 @@ C     used fake id
         self.assertFileContains('test', goal_symperms_dat)
 
         # Test symswap.inc
-        
+
         exporter.write_symswap_file(\
             writers.FortranWriter(self.give_pos('test')),
             ident_perms)
@@ -2391,7 +2391,7 @@ class FullHelasOutputIOTest(IOTests.IOTestManager,
 
     def setUp(self):
         """Generate a simple model for the IOTests to use"""
-        
+
         if hasattr(self,'IOTestModel'):
             return
 
@@ -2464,14 +2464,14 @@ class FullHelasOutputIOTest(IOTests.IOTestManager,
 
         self.IOTestModel.set('particles', mypartlist)
         self.IOTestModel.set('interactions', myinterlist)
-        self.IOTestModel.set('couplings', ['QCD','QED'])        
+        self.IOTestModel.set('couplings', ['QCD','QED'])
         self.IOTestModel.set('order_hierarchy', {'QCD':1,'QED':2})
 
     @IOTests.createIOTest(groupName='SquaredOrder_IOTest')
     def testIO_sqso_uux_uuxuuxx(self):
         r""" target: [matrix(.*)\.f]
         """
-    
+
         myleglist = base_objects.LegList()
         myleglist.append(base_objects.Leg({'id':2,'state':False}))
         myleglist.append(base_objects.Leg({'id':-2,'state':False}))
@@ -2482,15 +2482,15 @@ class FullHelasOutputIOTest(IOTests.IOTestManager,
 
         fortran_model = helas_call_writers.FortranHelasCallWriter(self.IOTestModel)
         process_exporter = export_v4.ProcessExporterFortranSA()
-        
+
         SO_tests = [({},{},{},[],'NoSQSO'),
                     ({},{'QCD':6},{'QCD':'=='},['QCD'],'QCDsq_eq_6'),
                     ({},{'QED':4},{'QED':'>'},['QCD'],'QEDsq_gt_4'),
                     ({},{'QED':6},{'QED':'<='},['QCD','QED'],'QCDsq_le_6'),
-                    ({'QED':2},{'WEIGHTED':14,'QCD':2}, 
+                    ({'QED':2},{'WEIGHTED':14,'QCD':2},
                      {'WEIGHTED':'<=','QCD':'>'},['WEIGHTED','QCD'],
                                     'ampOrderQED2_eq_2_WGTsq_le_14_QCDsq_gt_4')]
-        
+
         for orders, sq_orders, sq_orders_type, split_orders, name in SO_tests:
             myproc = base_objects.Process({'legs':myleglist,
                                            'model':self.IOTestModel,
@@ -2504,7 +2504,7 @@ class FullHelasOutputIOTest(IOTests.IOTestManager,
             writer = writers.FortranWriter(pjoin(self.IOpath,'matrix_%s.f'%name))
             process_exporter.write_matrix_element_v4(
                                            writer,matrix_element,fortran_model)
-        
+
 #===============================================================================
 # FullHelasOutputTest
 #===============================================================================
@@ -2518,11 +2518,11 @@ class FullHelasOutputTest(test_helas_call_writers.HelasModelTestSetup,
 
 
     def setUp(self):
-        
+
         super(FullHelasOutputTest, self).setUp()
         helas_call_writers.HelasCallWriter.customize_argument_for_all_other_helas_object =\
             staticmethod(helas_call_writers.HelasCallWriter.default_customize_argument_for_all_other_helas_object)
-        
+
     tearDown = test_file_writers.CheckFileCreate.clean_files
 
 
@@ -2856,26 +2856,26 @@ CALL IOVXXX(W(1,14),W(1,2),W(1,12),GG,AMP(42))""".split('\n'))
                 continue
             if 'denom' in data.lower():
                 _, data, _ = data.split('/')
-                self.assertEqual(int(data), denom) 
-                continue 
-            else:   
-                _, data, _ = data.split('/') 
+                self.assertEqual(int(data), denom)
+                continue
+            else:
+                _, data, _ = data.split('/')
                 number = [int(n) for n in data.split(',') ]
             for j,val in enumerate(number):
                 coeff = 1 if j ==0 else 2 # symmetry factor
                 self.assertAlmostEqual((coeff*numerator[i][i+j]), val)
-            i+=1 
+            i+=1
 
 
 
-        out, nb = exporter.get_JAMP_lines(matrix_element)    
+        out, nb = exporter.get_JAMP_lines(matrix_element)
         self.assertEqual(nb,55)
 
         # Test JAMP (color amplitude) output
         if six.PY3:
             self.assertEqual(out, [' TMP_JAMP(39) = AMP(39) +  AMP(40) ! used 3 times', ' TMP_JAMP(38) = AMP(37) +  AMP(38) ! used 3 times', ' TMP_JAMP(37) = AMP(35) +  AMP(36) ! used 3 times', ' TMP_JAMP(36) = AMP(29) +  AMP(37) ! used 3 times', ' TMP_JAMP(35) = AMP(29) +  AMP(30) ! used 3 times', ' TMP_JAMP(34) = AMP(28) +  AMP(36) ! used 3 times', ' TMP_JAMP(33) = AMP(27) +  AMP(35) ! used 3 times', ' TMP_JAMP(32) = AMP(27) +  AMP(28) ! used 3 times', ' TMP_JAMP(31) = AMP(25) +  AMP(35) ! used 3 times', ' TMP_JAMP(30) = AMP(25) +  AMP(27) ! used 3 times', ' TMP_JAMP(29) = AMP(24) +  AMP(25) ! used 3 times', ' TMP_JAMP(28) = AMP(21) +  AMP(22) ! used 3 times', ' TMP_JAMP(27) = AMP(20) +  AMP(34) ! used 3 times', ' TMP_JAMP(26) = AMP(14) +  AMP(22) ! used 3 times', ' TMP_JAMP(25) = AMP(14) +  AMP(15) ! used 3 times', ' TMP_JAMP(24) = AMP(11) +  AMP(34) ! used 3 times', ' TMP_JAMP(23) = AMP(11) +  AMP(20) ! used 3 times', ' TMP_JAMP(22) = AMP(5) +  AMP(8) ! used 3 times', ' TMP_JAMP(21) = AMP(1) +  AMP(2) ! used 3 times', ' TMP_JAMP(20) = AMP(41) +  AMP(42) ! used 3 times', ' TMP_JAMP(19) = AMP(30) +  AMP(32) ! used 3 times', ' TMP_JAMP(18) = AMP(24) +  AMP(41) ! used 3 times', ' TMP_JAMP(17) = AMP(21) +  AMP(32) ! used 3 times', ' TMP_JAMP(16) = AMP(19) +  AMP(20) ! used 3 times', ' TMP_JAMP(15) = AMP(18) +  AMP(38) ! used 3 times', ' TMP_JAMP(14) = AMP(15) +  AMP(18) ! used 3 times', ' TMP_JAMP(13) = AMP(14) +  AMP(17) ! used 3 times', ' TMP_JAMP(12) = AMP(12) +  AMP(25) ! used 3 times', ' TMP_JAMP(11) = AMP(11) +  AMP(12) ! used 3 times', ' TMP_JAMP(10) = AMP(7) +  AMP(8) ! used 3 times', ' TMP_JAMP(9) = AMP(2) +  AMP(9) ! used 3 times', ' TMP_JAMP(8) = AMP(22) +  AMP(31) ! used 3 times', ' TMP_JAMP(7) = AMP(12) +  AMP(33) ! used 3 times', ' TMP_JAMP(6) = AMP(4) +  AMP(5) ! used 3 times', ' TMP_JAMP(5) = AMP(1) +  AMP(10) ! used 3 times', ' TMP_JAMP(4) = AMP(19) +  AMP(33) ! used 3 times', ' TMP_JAMP(3) = AMP(17) +  AMP(31) ! used 3 times', ' TMP_JAMP(2) = AMP(9) +  AMP(10) ! used 3 times', ' TMP_JAMP(1) = AMP(4) +  AMP(7) ! used 3 times', ' TMP_JAMP(52) = TMP_JAMP(38) + (3.000000000000000d+00) * AMP(42) ! used 2 times', ' TMP_JAMP(51) = TMP_JAMP(37) +  TMP_JAMP(32) ! used 2 times', ' TMP_JAMP(50) = TMP_JAMP(36) + (3.333333333333333d-01) * TMP_JAMP(22) ! used 2 times', ' TMP_JAMP(49) = TMP_JAMP(35) + (3.000000000000000d+00) * AMP(42) ! used 2 times', ' TMP_JAMP(48) = TMP_JAMP(27) + (3.000000000000000d+00) * TMP_JAMP(26) ! used 2 times', ' TMP_JAMP(47) = TMP_JAMP(22) + (3.333333333333333d-01) * TMP_JAMP(21) ! used 2 times', ' TMP_JAMP(46) = TMP_JAMP(18) + (3.333333333333333d-01) * TMP_JAMP(14) ! used 2 times', ' TMP_JAMP(45) = TMP_JAMP(18) + (3.333333333333333d-01) * TMP_JAMP(17) ! used 2 times', ' TMP_JAMP(44) = TMP_JAMP(17) + (3.333333333333333d-01) * TMP_JAMP(11) ! used 2 times', ' TMP_JAMP(43) = TMP_JAMP(4) + (3.000000000000000d+00) * TMP_JAMP(3) ! used 2 times', ' TMP_JAMP(42) = TMP_JAMP(4) + (3.333333333333333d-01) * TMP_JAMP(2) ! used 2 times', ' TMP_JAMP(41) = TMP_JAMP(3) + (3.333333333333333d-01) * TMP_JAMP(1) ! used 2 times', ' TMP_JAMP(40) = TMP_JAMP(2) + (3.000000000000000d+00) * TMP_JAMP(1) ! used 2 times', ' TMP_JAMP(55) = TMP_JAMP(48) +  TMP_JAMP(43) ! used 2 times', ' TMP_JAMP(54) = TMP_JAMP(47) + (3.333333333333333d-01) * TMP_JAMP(39) ! used 2 times', ' TMP_JAMP(53) = TMP_JAMP(40) +  TMP_JAMP(39) ! used 2 times', ' JAMP(1) = (-2.500000000000000d-01)*AMP(16)+(-2.500000000000000d-01)*AMP(23)+(2.500000000000000d-01)*TMP_JAMP(36)+(8.333333333333333d-02)*TMP_JAMP(47)+(8.333333333333333d-02)*TMP_JAMP(51)+(2.777777777777778d-02)*TMP_JAMP(53)+(8.333333333333333d-02)*TMP_JAMP(55)', ' JAMP(2) = (2.500000000000000d-01)*AMP(13)+(2.500000000000000d-01)*AMP(26)+(-2.500000000000000d-01)*TMP_JAMP(12)+(-8.333333333333333d-02)*TMP_JAMP(15)+(-8.333333333333333d-02)*TMP_JAMP(19)+(-2.777777777777778d-02)*TMP_JAMP(20)+(-8.333333333333333d-02)*TMP_JAMP(21)+(-2.500000000000000d-01)*TMP_JAMP(33)+(-8.333333333333333d-02)*TMP_JAMP(41)+(-2.500000000000000d-01)*TMP_JAMP(42)+(-8.333333333333333d-02)*TMP_JAMP(50)', ' JAMP(3) = (2.500000000000000d-01)*AMP(6)+(-2.500000000000000d-01)*AMP(26)+(-2.500000000000000d-01)*TMP_JAMP(34)+(-8.333333333333333d-02)*TMP_JAMP(44)+(-2.500000000000000d-01)*TMP_JAMP(46)+(-8.333333333333333d-02)*TMP_JAMP(53)+(-2.777777777777778d-02)*TMP_JAMP(55)', ' JAMP(4) = (2.500000000000000d-01)*AMP(3)+(2.500000000000000d-01)*AMP(16)+(8.333333333333333d-02)*AMP(28)+(2.500000000000000d-01)*AMP(38)+(2.500000000000000d-01)*AMP(40)+(2.500000000000000d-01)*TMP_JAMP(5)+(8.333333333333333d-02)*TMP_JAMP(6)+(8.333333333333333d-02)*TMP_JAMP(7)+(2.777777777777778d-02)*TMP_JAMP(8)+(2.500000000000000d-01)*TMP_JAMP(14)+(8.333333333333333d-02)*TMP_JAMP(24)+(8.333333333333333d-02)*TMP_JAMP(30)+(8.333333333333333d-02)*TMP_JAMP(45)+(2.777777777777778d-02)*TMP_JAMP(49)', ' JAMP(5) = (-2.500000000000000d-01)*AMP(3)+(2.500000000000000d-01)*AMP(23)+(2.500000000000000d-01)*AMP(30)+(8.333333333333333d-02)*AMP(36)+(2.500000000000000d-01)*AMP(39)+(2.500000000000000d-01)*TMP_JAMP(9)+(8.333333333333333d-02)*TMP_JAMP(10)+(2.777777777777778d-02)*TMP_JAMP(13)+(8.333333333333333d-02)*TMP_JAMP(16)+(8.333333333333333d-02)*TMP_JAMP(31)+(2.500000000000000d-01)*TMP_JAMP(44)+(8.333333333333333d-02)*TMP_JAMP(46)+(2.777777777777778d-02)*TMP_JAMP(52)', ' JAMP(6) = (-2.500000000000000d-01)*AMP(6)+(-2.500000000000000d-01)*AMP(13)+(-2.500000000000000d-01)*AMP(34)+(-2.500000000000000d-01)*TMP_JAMP(23)+(-8.333333333333333d-02)*TMP_JAMP(25)+(-8.333333333333333d-02)*TMP_JAMP(28)+(-2.777777777777778d-02)*TMP_JAMP(29)+(-8.333333333333333d-02)*TMP_JAMP(38)+(-8.333333333333333d-02)*TMP_JAMP(49)+(-2.777777777777778d-02)*TMP_JAMP(51)+(-2.500000000000000d-01)*TMP_JAMP(54)']
             )
-            
+
 
         # Test configs.inc file
         writer = writers.FortranWriter(self.give_pos('test'))
@@ -3657,7 +3657,7 @@ C       This is dummy particle used in multiparticle vertices
         writer = writers.FortranWriter(self.give_pos('test'))
         exporter.write_mg_sym_file(writer, matrix_element)
         writer.close()
-        
+
         self.assertFileContains('test',
                          """      2
       2
@@ -3788,19 +3788,19 @@ CALL VVVXXX(W(1,2),W(1,3),W(1,5),GG,AMP(6))""")
             if 'DATA' not in data:
                 continue
             if 'denom' in data.lower():
-                _, data, _ = data.split('/') 
-                self.assertEqual(int(data), denom) 
+                _, data, _ = data.split('/')
+                self.assertEqual(int(data), denom)
                 continue
             else:
-                _, data, _ = data.split('/') 
+                _, data, _ = data.split('/')
                 number = [int(n) for n in data.split(',') ]
                 for j,val in enumerate(number):
-                    if j ==0: 
+                    if j ==0:
                         self.assertEqual((numerator[i][i+j]), val)
                     else:
                        # factor 2 due to symmetry
-                       self.assertEqual((2*numerator[i][i+j]), val) 
-                i+=1 
+                       self.assertEqual((2*numerator[i][i+j]), val)
+                i+=1
 
         # Test JAMP (color amplitude) output
         out, nb = exporter.get_JAMP_lines(matrix_element)
@@ -3808,16 +3808,16 @@ CALL VVVXXX(W(1,2),W(1,3),W(1,5),GG,AMP(6))""")
         self.assertEqual(out,
         [' TMP_JAMP(3) = AMP(3) - AMP(6) ! used 4 times', ' TMP_JAMP(2) = AMP(1) - AMP(4) ! used 4 times', ' TMP_JAMP(1) = AMP(2) +  AMP(5) ! used 4 times', ' TMP_JAMP(6) = TMP_JAMP(3) - TMP_JAMP(2) ! used 2 times', ' TMP_JAMP(5) = TMP_JAMP(3) - TMP_JAMP(1) ! used 2 times', ' TMP_JAMP(4) = TMP_JAMP(2) - TMP_JAMP(1) ! used 2 times', ' JAMP(1) = (2.000000000000000d+00)*TMP_JAMP(6)', ' JAMP(2) = (2.000000000000000d+00)*TMP_JAMP(4)', ' JAMP(3) = (-2.000000000000000d+00)*TMP_JAMP(5)', ' JAMP(4) = (2.000000000000000d+00)*TMP_JAMP(4)', ' JAMP(5) = (-2.000000000000000d+00)*TMP_JAMP(5)', ' JAMP(6) = (2.000000000000000d+00)*TMP_JAMP(6)']
         )
-        
 
-        # Test amp2 lines        
+
+        # Test amp2 lines
         amp2_lines = \
                  exporter.get_amp2_lines(matrix_element)
         self.assertEqual(amp2_lines,
                          ['AMP2(2)=AMP2(2)+AMP(4)*dconjg(AMP(4))',
                           'AMP2(3)=AMP2(3)+AMP(5)*dconjg(AMP(5))',
                           'AMP2(4)=AMP2(4)+AMP(6)*dconjg(AMP(6))'])
-        
+
         # Test configs.inc file
         writer = writers.FortranWriter(self.give_pos('test'))
         nconfig, (s_and_t_channels, nqcd_list) = \
@@ -3955,7 +3955,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
 
         mypartlist = base_objects.ParticleList()
         myinterlist = base_objects.InteractionList()
-        
+
         mypartlist.append(base_objects.Particle({
                     'name': 'g',
                     'antiname': 'g',
@@ -3973,7 +3973,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'self_antipart': True
                     }))
         p_g = mypartlist[-1]
-                        
+
         mypartlist.append(base_objects.Particle({
                     'name': 'b',
                     'antiname': 'b~',
@@ -3993,7 +3993,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
         p_b = mypartlist[-1]
         p_bx = copy.copy(p_b)
         p_bx.set('is_part', False)
-        
+
         mypartlist.append(base_objects.Particle({
                     'name': 't1',
                     'antiname': 't1~',
@@ -4013,7 +4013,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
         p_t1 = mypartlist[-1]
         p_t1x = copy.copy(p_t1)
         p_t1x.set('is_part', False)
-         
+
         mypartlist.append(base_objects.Particle({
                     'name': 'go',
                     'antiname': 'go',
@@ -4031,7 +4031,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'self_antipart': True
                 }))
         p_go = mypartlist[-1]
-                 
+
         mypartlist.append(base_objects.Particle({
                     'name': 't',
                     'antiname': 't~',
@@ -4050,8 +4050,8 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                 }))
         p_t = mypartlist[-1]
         p_tx = copy.copy(p_t)
-        p_tx.set('is_part', False) 
-        
+        p_tx.set('is_part', False)
+
         mypartlist.append(base_objects.Particle({
                     'name': 'n1',
                     'antiname': 'n1',
@@ -4067,7 +4067,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'propagating': True,
                     'is_part': True,
                     'self_antipart': True
-                })) 
+                }))
         p_n1 = mypartlist[-1]
 
         mypartlist.append(base_objects.Particle({
@@ -4088,8 +4088,8 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                 }))
         p_x1m = mypartlist[-1]
         p_x1p = copy.copy(p_x1m)
-        p_x1p.set('is_part', False) 
-        
+        p_x1p.set('is_part', False)
+
         mypartlist.append(base_objects.Particle({
                     'name': 'b1',
                     'antiname': 'b1~',
@@ -4118,14 +4118,14 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'lorentz': [''],
                     'couplings': {(0, 0): 'GG'},
                     'orders': {'QCD': 1}}))
-        
+
         myinterlist.append(base_objects.Interaction({'id': 362,
                     'particles': base_objects.ParticleList([p_bx, p_x1m, p_t1]),
                     'color': [],
                     'lorentz': [''],
                     'couplings': {(0, 0): 'GT1X1M'},
                     'orders': {'QED': 1}}))
-        
+
         myinterlist.append(base_objects.Interaction({
                     'id': 363,
                     'particles': base_objects.ParticleList([p_x1p, p_b, p_t1x]),
@@ -4133,7 +4133,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'lorentz': [''],
                     'couplings': {(0, 0): 'GT1X1P'},
                     'orders': {'QED': 1}}))
-        
+
         myinterlist.append(base_objects.Interaction({
                     'id': 109,
                     'particles': base_objects.ParticleList([p_go, p_t, p_t1x]),
@@ -4141,7 +4141,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'lorentz': [''],
                     'couplings': {(0, 0): 'GT1GOP'},
                     'orders': {'QCD': 1}}))
-        
+
         myinterlist.append(base_objects.Interaction({
                     'id': 108,
                     'particles': base_objects.ParticleList([p_tx, p_go, p_t1]),
@@ -4149,7 +4149,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'lorentz': [''],
                     'couplings': {(0, 0): 'GT1GOM'},
                     'orders': {'QCD': 1}}))
-        
+
         myinterlist.append(base_objects.Interaction({
                     'id': 250,
                     'particles': base_objects.ParticleList([p_tx, p_b1, p_t1]),
@@ -4157,7 +4157,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'lorentz': [''],
                     'couplings': {(0, 0): 'GT1N1M'},
                     'orders': {'QED': 1}}))
-        
+
         myinterlist.append(base_objects.Interaction({
                     'id': 251,
                     'particles': base_objects.ParticleList([p_n1, p_t, p_t1x]),
@@ -4193,7 +4193,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                     'lorentz': [''],
                     'couplings': {(0, 0): 'GB1X1P'},
                     'orders': {'QED': 1}}))
-        
+
         mybasemodel = base_objects.Model()
         mybasemodel.set('particles', mypartlist)
         mybasemodel.set('interactions', myinterlist)
@@ -4214,7 +4214,7 @@ CALL IOVXXX(W(1,5),W(1,3),W(1,2),GZN11,AMP(2))""")
                                          'state':True}))
         myleglist.append(base_objects.Leg({'id':-1000024,
                                          'state':True}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                        'model':mybasemodel})
 
@@ -4259,8 +4259,8 @@ CALL IOSCXX(W(1,6),W(1,7),W(1,12),GB1X1M,AMP(5))
 CALL FSIXXX(W(1,5),W(1,10),GT1GOM,MGO,WGO,W(1,6))
 # Amplitude(s) for diagram number 6
 CALL IOSXXX(W(1,6),W(1,3),W(1,9),GT1GOP,AMP(6))""".split('\n'))
-        
-    
+
+
     def test_generate_helas_diagrams_epem_elpelmepem(self):
         """Testing the helas diagram generation e+ e- > sl2+ sl2- e+ e-
         """
@@ -4437,12 +4437,12 @@ CALL IOSXXX(W(1,2),W(1,9),W(1,6),MGVX494,AMP(8))""".split('\n'))
             i += 1
         # Test get_used_lorentz
         # Wavefunctions
-        goal_lorentz_list = [(('',), (), 1), (('',), (), 2), (('',), (), 3), 
-                             (('',), ('C1',), 1), (('',), ('C1',), 2), (('',), (), 3), 
-                             (('',), (), 2), (('',), (), 3), (('',), ('C1',), 1), 
-                             (('',), (), 1), (('',), (), 3), (('',), ('C1',), 2), 
+        goal_lorentz_list = [(('',), (), 1), (('',), (), 2), (('',), (), 3),
+                             (('',), ('C1',), 1), (('',), ('C1',), 2), (('',), (), 3),
+                             (('',), (), 2), (('',), (), 3), (('',), ('C1',), 1),
+                             (('',), (), 1), (('',), (), 3), (('',), ('C1',), 2),
                              (('',), (), 3), (('',), (), 3)]
-        
+
         # Amplitudes
         goal_lorentz_list += [(('',), (), 0)] * 8
         self.assertEqual(matrix_element.get_used_lorentz(),
@@ -5403,7 +5403,7 @@ CALL VVVXXX(W(1,4),W(1,2),W(1,12),MGVX5,AMP(28))""".split('\n'))
                                                'is_decay_chain': True})
 
         core_proc.get('decay_chains').append(decay1_process)
-        
+
         myleglist = base_objects.LegList()
 
         myleglist.append(base_objects.Leg({'id':6,
@@ -5450,9 +5450,9 @@ CALL L1_2(W(1,4),W(1,1),-GQQ,MGO,WGO,W(1,5))
 CALL L1_0(W(1,5),W(1,3),W(1,2),GQQ,AMP(2))""".split('\n'))
 
         # Test get_used_lorentz
-        goal_lorentz_list = [(('FFV2',), (), 1), (('L1',), (), 1), 
-                             (('FFV2',), ('C1',), 2), (('L1',), ('C1',), 2), 
-                             (('L1',), (), 1), (('L1',), (), 2), 
+        goal_lorentz_list = [(('FFV2',), (), 1), (('L1',), (), 1),
+                             (('FFV2',), ('C1',), 2), (('L1',), ('C1',), 2),
+                             (('L1',), (), 1), (('L1',), (), 2),
                              (('L1',), (), 0), (('L1',), (), 0)]
 
         self.assertEqual(matrix_element.get_used_lorentz(),
@@ -5761,7 +5761,7 @@ CALL FFV5_0(W(1,7),W(1,6),W(1,3),GC_418,AMP(6))""".split('\n') #end 7, 11,3
 
         exporter = export_v4.ProcessExporterFortranME()
 
-        # Test amp2 lines        
+        # Test amp2 lines
         amp2_lines = \
                  exporter.get_amp2_lines(matrix_element)
         self.assertEqual(amp2_lines,
@@ -5926,7 +5926,7 @@ CALL FFV1_0(W(1,2),W(1,6),W(1,5),GG,AMP(4))""".split('\n')
 
         exporter = export_v4.ProcessExporterFortranME()
 
-        # Test amp2 lines        
+        # Test amp2 lines
         amp2_lines = \
                  exporter.get_amp2_lines(matrix_element)
         self.assertEqual(amp2_lines,
@@ -5939,7 +5939,7 @@ CALL FFV1_0(W(1,2),W(1,6),W(1,5),GG,AMP(4))""".split('\n')
         self.assertEqual([d.get('amplitudes')[0].get('fermionfactor') \
                           for d in matrix_element.get('diagrams')],
                          [1, 1, -1, 1])
-        
+
         writer = writers.FortranWriter(self.give_pos('test'))
         myfortranmodel = helas_call_writers.FortranHelasCallWriter(mybasemodel)
 
@@ -5949,7 +5949,7 @@ CALL FFV1_0(W(1,2),W(1,6),W(1,5),GG,AMP(4))""".split('\n')
         writer.close()
 
         #print( open(self.give_pos('test')).read())
-    
+
         self.assertFileContains('test',
 """C     Diagram 1
       DATA MAPCONFIG(1)/1/
@@ -6186,7 +6186,7 @@ CALL FFV1C1_0(W(1,6),W(1,2),W(1,5),GG,AMP(4))""".split('\n')
 
         exporter = export_v4.ProcessExporterFortranME()
 
-        # Test amp2 lines        
+        # Test amp2 lines
         amp2_lines = \
                  exporter.get_amp2_lines(matrix_element)
         self.assertEqual(amp2_lines,
@@ -6199,7 +6199,7 @@ CALL FFV1C1_0(W(1,6),W(1,2),W(1,5),GG,AMP(4))""".split('\n')
         self.assertEqual([d.get('amplitudes')[0].get('fermionfactor') \
                           for d in matrix_element.get('diagrams')],
                          [1, 1, 1, 1])
-        
+
     def test_multiple_lorentz_structures_with_decay_chain(self):
         """Testing process b~ t > wp+, wp+ > b~ t
         """
@@ -6492,7 +6492,7 @@ CALL FFS3_4C1_3(W(1,4),W(1,3),GC_108,GC_111,Msix1,Wsix1,W(1,5))
 # Amplitude(s) for diagram number 1
 CALL FFS3_4C1_0(W(1,2),W(1,1),W(1,5),GC_108,GC_111,AMP(1))""".split('\n')
 
-        
+
         self.assertEqual(result, goal)
 
     def test_matrix_multistage_decay_chain_process(self):
@@ -7670,7 +7670,7 @@ CALL IOSXXX(W(1,5),W(1,2),W(1,4),MGVX350,AMP(7))
 # Amplitude(s) for diagram number 8
 CALL IOSXXX(W(1,5),W(1,2),W(1,12),MGVX350,AMP(8))""".split('\n'))
 
-        # Test amp2 lines        
+        # Test amp2 lines
         amp2_lines = \
                  exporter.get_amp2_lines(me)
         self.assertEqual(amp2_lines,
@@ -7682,11 +7682,11 @@ CALL IOSXXX(W(1,5),W(1,2),W(1,12),MGVX350,AMP(8))""".split('\n'))
                           'AMP2(6)=AMP2(6)+AMP(6)*dconjg(AMP(6))',
                           'AMP2(7)=AMP2(7)+AMP(7)*dconjg(AMP(7))',
                           'AMP2(8)=AMP2(8)+AMP(8)*dconjg(AMP(8))'])
-        
-        # Test jamp lines        
+
+        # Test jamp lines
         self.assertEqual(exporter.get_JAMP_lines(me)[0][0],
                          " JAMP(1) = AMP(1)+AMP(2)+AMP(3)+AMP(4)+(-1.000000000000000d+00)*AMP(5)+(-1.000000000000000d+00)*AMP(6)+(-1.000000000000000d+00)*AMP(7)+(-1.000000000000000d+00)*AMP(8)")
-                         
+
 
         writer = writers.FortranWriter(self.give_pos('test'))
 
@@ -7695,7 +7695,7 @@ CALL IOSXXX(W(1,5),W(1,2),W(1,12),MGVX350,AMP(8))""".split('\n'))
                                      me)
         writer.close()
         #print( open(self.give_pos('test')).read())
-        
+
         self.assertFileContains('test',
                          """C     Diagram 1
       DATA MAPCONFIG(1)/1/
@@ -8476,7 +8476,7 @@ CALL IOSXXX(W(1,4),W(1,2),W(1,8),GELN2P,AMP(9))""".split('\n')
 
         self.assertEqual(exporter.get_JAMP_lines(me)[0][0],
                          " JAMP(1) = AMP(1)+(-1.000000000000000d+00)*AMP(2)+(-1.000000000000000d+00)*AMP(3)+AMP(4)+(-1.000000000000000d+00)*AMP(5)+(-1.000000000000000d+00)*AMP(6)+AMP(7)+(-1.000000000000000d+00)*AMP(8)+(-1.000000000000000d+00)*AMP(9)")
-                         
+
 
     def test_duplicate_lorentz_structures(self):
         """Test duplicate Lorentz structure with only one color structure.
@@ -8570,7 +8570,7 @@ CALL IOSXXX(W(1,4),W(1,2),W(1,8),GELN2P,AMP(9))""".split('\n')
 
 #        self.assertEqual(exporter.get_JAMP_lines(me),
 #                         ([' JAMP(1) = (-1.0)*AMP(1)', ' JAMP(2) = AMP(2)'], 0))
-        
+
 
     def test_generate_helas_diagrams_gg_gogo(self):
         """Testing the v4 helas diagram generation g g > go go,
@@ -9314,7 +9314,7 @@ C     Number of configs
 C     used fake id
       DATA FAKE_ID/1/
 """)
-        
+
         # Test maxconfigs.inc
         writer = writers.FortranWriter(self.give_pos('test'))
         exporter.write_maxconfigs_file(writer, [me])
@@ -9538,7 +9538,7 @@ C     Number of configs
 C     used fake id
       DATA FAKE_ID/1/
 """)
-        
+
     def test_configs_long_decay(self):
         """Test configs.inc which previously failed.
         """
@@ -9677,7 +9677,7 @@ C     used fake id
         myleglist.append(base_objects.Leg({'id':5}))
         myleglist.append(base_objects.Leg({'id':24}))
         myleglist.append(base_objects.Leg({'id':21}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                        'model':mymodel})
         myamplitude = diagram_generation.Amplitude({'process': myproc})
@@ -9795,7 +9795,7 @@ C     used fake id
                           [[1, 4, -5], [-5, -4, -6]],
                           [[1, 4, -2], [-2, 7, -3], [-3, 8, -4],
                            [-4, 3, -5], [-5, -1, -6]]]
-                          
+
 
         import models.import_ufo
         mymodel = models.import_ufo.import_model('sm')
@@ -9811,7 +9811,7 @@ C     used fake id
                              goal_schannels[idiag])
             self.assertEqual([[l.get('number') for l in v.get('legs')] for v \
                               in tchannels],
-                             goal_tchannels[idiag]) 
+                             goal_tchannels[idiag])
 
     def test_get_color_pdg_antipdg(self):
         """Testing that both pdg and antipdg are included in get_color
@@ -9979,7 +9979,7 @@ C     Number of configs
 C     used fake id
       DATA FAKE_ID/1/
 """)
-        
+
         # Test get_color.f output
         writer = writers.FortranWriter(self.give_pos('test'))
         exporter.write_colors_file(writer, matrix_element)
@@ -10026,29 +10026,29 @@ C       This is dummy particle used in multiparticle vertices
 
 class AlohaFortranWriterTest(unittest.TestCase):
     """ A basic test to see if the Aloha Fortran Writter is working """
-    
+
     def setUp(self):
         """ check that old file are remove """
         try:
             os.remove('/tmp/FFV1_1.f')
         except:
             pass
-    
+
     def test_header(self):
         """ test the header of a file """
-        
+
         with misc.TMP_variable(sys, 'path', sys.path+[pjoin(MG5DIR,'models','sm')]):
             from models.sm.object_library import Lorentz
         import aloha.create_aloha as create_aloha
-        
+
         FFV1 = Lorentz(name = 'FFV1',
                spins = [ 2, 2, 3 ],
                structure = 'Gamma(3,2,1)')
-        
-        solution="""C     This File is Automatically generated by ALOHA 
-C     The process calculated in this file is: 
+
+        solution="""C     This File is Automatically generated by ALOHA
+C     The process calculated in this file is:
 C     Gamma(3,2,1)
-C     
+C
       SUBROUTINE FFV1_1(F2, V3, COUP, M1, W1,F1)
       IMPLICIT NONE
       COMPLEX*16 CI
@@ -10075,7 +10075,7 @@ C
         abstract_M = create_aloha.AbstractRoutineBuilder(FFV1).compute_routine(1)
         abstract_M.add_symmetry(2)
         abstract_M.write('/tmp','Fortran')
-        
+
         self.assertTrue(os.path.exists('/tmp/FFV1_1.f'))
         textfile = open('/tmp/FFV1_1.f','r').read()
         split_sol = solution.split('\n')
@@ -10084,36 +10084,36 @@ C
 
 class UFO_model_to_mg4_Test(unittest.TestCase):
     """Check the conversion model from UFO to MG4"""
-    
+
     def setUp(self):
         import models.import_ufo
         self.mymodel = models.import_ufo.import_model('sm')
-    
-    
+
+
     def test_refactorize(self):
         """ test the separation of variable """
-        
+
         mg4_model = export_v4.UFO_model_to_mg4(self.mymodel,'/dev/null')
         mg4_model.refactorize()
-        
+
         # external parameters
         expected = ['aEWM1', 'mdl_Gf', 'aS', 'mdl_ymb', 'mdl_ymt', 'mdl_ymtau', 'mdl_MTA', 'mdl_MT', 'mdl_MB', 'mdl_MZ', 'mdl_MH', 'mdl_WT', 'mdl_WZ', 'mdl_WW', 'mdl_WH']
         expected.sort()
         solution = [param.name for param in mg4_model.params_ext]
         solution.sort()
         self.assertEqual(expected, solution)
-        
+
         #  internal params
         self.assertEqual(len(mg4_model.params_dep), 2)
         self.assertEqual(len(mg4_model.params_indep), 34)
-        
+
         # couplings
         self.assertEqual(len(mg4_model.coups_dep), 3)
         sol = ['GC_1', 'GC_2', 'GC_3', 'GC_5', 'GC_6', 'GC_7', 'GC_8', 'GC_15', 'GC_21', 'GC_31', 'GC_32', 'GC_33', 'GC_34', 'GC_35', 'GC_36', 'GC_37', 'GC_38', 'GC_50', 'GC_52', 'GC_53', 'GC_54', 'GC_55', 'GC_57', 'GC_58', 'GC_59', 'GC_60', 'GC_61', 'GC_62', 'GC_63', 'GC_64', 'GC_65', 'GC_66', 'GC_68', 'GC_69', 'GC_70', 'GC_71', 'GC_72', 'GC_74', 'GC_76', 'GC_77', 'GC_80', 'GC_81', 'GC_82', 'GC_83', 'GC_94', 'GC_95', 'GC_96', 'GC_98', 'GC_99', 'GC_100']
 
         self.assertEqual(sol, [ p.name for p in mg4_model.coups_indep])
 
-        
+
         # MG4 use G and not aS as it basic object for alphas related computation
         # G is out of any list!
         self.assertNotIn('G', [p.name for p in mg4_model.params_dep])
@@ -10121,16 +10121,16 @@ class UFO_model_to_mg4_Test(unittest.TestCase):
         # check that sqrt__aS is correctly set
         self.assertIn('mdl_sqrt__aS', [p.name for p in mg4_model.params_dep])
         self.assertNotIn('mdl_sqrt__aS', [p.name for p in mg4_model.params_indep])
-        
-        
+
+
     def test_case_sensitive(self):
-        """ test that the case clash are dealt correctly """  
-        
+        """ test that the case clash are dealt correctly """
+
         mg4_model = export_v4.UFO_model_to_mg4(self.mymodel,'/dev/null')
-        
+
         #check that they are no crash for normal model
         mg4_model.pass_parameter_to_case_insensitive()
-        
+
         # edit model in order to add new parameter with name: CW / Cw / Mz / Mz2
         CW = base_objects.ParamCardVariable('CW', 100, 'MASS', 40)
         CWc = base_objects.ModelVariable( 'CW', 'Mz**2 * Mz2' , 'real')
@@ -10139,7 +10139,7 @@ class UFO_model_to_mg4_Test(unittest.TestCase):
         Mzc = base_objects.ParamCardVariable('Mz', 100, 'MASS', 42)
         Mz2 = base_objects.ParamCardVariable('Mz2', 100, 'MASS', 43)
 
-        mg4_model.model['parameters'][('external',)].append(CW)        
+        mg4_model.model['parameters'][('external',)].append(CW)
         mg4_model.model['parameters'][()].append(CWc)
         mg4_model.model['parameters'][()].append(Cw)
         mg4_model.model['parameters'][('external',)].append(Mz)
@@ -10155,7 +10155,7 @@ class UFO_model_to_mg4_Test(unittest.TestCase):
         self.assertEqual(CW.name,'cw__3')
 
         self.assertEqual(Mzc.name,'mz__2')
-        
+
 
 
 if __name__ == '__main__':
@@ -10164,7 +10164,7 @@ if __name__ == '__main__':
 
         import models.import_ufo
         mymodel = models.import_ufo.import_model('sm')
-        
+
         myleglist = base_objects.LegList()
 
         myleglist.append(base_objects.Leg({'id':2,
@@ -10194,7 +10194,7 @@ if __name__ == '__main__':
                                                 amplitude='',
                                           legend=myamplitude.get('process').input_string())
 
-        plot.draw()  
+        plot.draw()
 
 
 
@@ -10202,4 +10202,3 @@ if __name__ == '__main__':
                        os.path.join(_input_file_path, 'test_8fs.pkl'),
                        [me.get('diagrams')[323], me.get('diagrams')[954],
                         me.get('diagrams')[1123], me.get('diagrams')[1139]])
-        

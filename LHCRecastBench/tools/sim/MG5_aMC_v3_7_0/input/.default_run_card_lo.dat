@@ -5,7 +5,7 @@
 #                                                                    *
 #  This file is used to set the parameters of the run.               *
 #                                                                    *
-#  Some notation/conventions:                                        *                                                  
+#  Some notation/conventions:                                        *
 #   - Lines starting with a '# ' are info or comments                *
 #   - format :  value    = variable     ! comment                    *
 #                                                                    *

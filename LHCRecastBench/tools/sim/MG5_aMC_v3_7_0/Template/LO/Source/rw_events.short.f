@@ -19,7 +19,7 @@ c
       parameter (pi = 3.1415926d0)
 c
 c     Arguments
-c      
+c
       integer lun
       integer nexternal, ic(7,MaxParticles)
       logical done
@@ -44,7 +44,7 @@ c      real*8          scale
       data banner_open/.false./
 c-----
 c  Begin Code
-c-----     
+c-----
       done=.false.
       if (.not. banner_open) then
          open (unit=lun_ban, status='scratch')
@@ -58,7 +58,7 @@ c-----
       read(buff,*,err=11, end=11) nexternal,k,wgt,scale,aqed,aqcd
       do j=1,7
          read(lun,*,err=99,end=99) (ic(j,i),i=1,nexternal)!This is info
-      enddo      
+      enddo
       do j=1,nexternal
          read(lun,55,err=99,end=99) k,(p(i,j),i=0,3)
       enddo
@@ -67,7 +67,7 @@ c      g      = sqrt(4d0*pi*aqcd)
       return
  99   done=.true.
       return
- 55   format(i3,4e19.11)         
+ 55   format(i3,4e19.11)
       end
 
       subroutine write_event(lun,P,wgt,nexternal,ic,ievent,scale,aqcd,aqed)
@@ -91,7 +91,7 @@ c
       parameter (pi = 3.1415926d0)
 c
 c     Arguments
-c      
+c
       integer lun, ievent
       integer nexternal, ic(7,MaxParticles)
       double precision P(0:3,MaxParticles),wgt
@@ -106,7 +106,7 @@ c
 
 c-----
 c  Begin Code
-c-----     
+c-----
 c      aqed= gal(1)*gal(1)/4d0/pi
 c      aqcd = g*g/4d0/pi
       write(lun,'(2i8,4e15.7)') nexternal,ievent,wgt,scale,aqed,aqcd
@@ -118,7 +118,7 @@ c      aqcd = g*g/4d0/pi
       enddo
       return
  51   format(19i5)
- 55   format(i3,4e19.11)         
+ 55   format(i3,4e19.11)
       end
 
       subroutine write_comments(lun)
@@ -144,11 +144,11 @@ c
 
 c-----
 c  Begin Code
-c-----     
+c-----
 c      write(*,*) 'Writing comments'
       if (banner_open) then
          rewind(lun_ban)
-         do while (.true.) 
+         do while (.true.)
             read(lun_ban,'(a79)',end=99,err=99) buff
             write(lun,'(a79)') buff
 c            write(*,*) buff
@@ -157,4 +157,3 @@ c            write(*,*) buff
          banner_open = .false.
       endif
       end
-

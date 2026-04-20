@@ -13,22 +13,22 @@ assigned at the start of each program to help categorize the examples.
 
    BASIC INSTRUCTIONS FOR RUNNING TEST PROGRAMS
 
-1) You are supposed to have already compiled PYTHIA 8, as described in 
+1) You are supposed to have already compiled PYTHIA 8, as described in
    the README file of the mother directory. For the moment we assume
    that you will NOT use external libraries.
 
 2) You are now ready to test run the first thirty of the mainNNN examples,
    see the manual page "Sample main program" for details.
-   Type "make mainNNN" to build an executable "mainNNN". 
-   Type "./mainNNN > mainNNN.log" to run this executable. 
+   Type "make mainNNN" to build an executable "mainNNN".
+   Type "./mainNNN > mainNNN.log" to run this executable.
    Then study the mainNNN.log output file.
 
 3) If you want to run your own programs from this directory you can edit
    the "Makefile", adding the name of your main program to the already
-   existing ones. Note that different cases exist, depending on which 
-   external libraries are to be linked. The mymainNN.cc name series have 
-   been predefined to link to PYTHIA 8 standalone and produce executables 
-   mymainNN, so programs with such names are free for you to create and 
+   existing ones. Note that different cases exist, depending on which
+   external libraries are to be linked. The mymainNN.cc name series have
+   been predefined to link to PYTHIA 8 standalone and produce executables
+   mymainNN, so programs with such names are free for you to create and
    use without having to modify the Makefile.
 
 4) With ./runmains all the example programs will be run,
@@ -75,7 +75,7 @@ assigned at the start of each program to help categorize the examples.
 
 4) If you want to change external package versions (other than
    LHAPDF), simply change the relevant paths in the "Makefile.inc"
-   file, or rerun "configure" and "make" in the mother directory. 
+   file, or rerun "configure" and "make" in the mother directory.
    For LHAPDF, "configure" and "make" must be rerun on the mother
    directory.
 

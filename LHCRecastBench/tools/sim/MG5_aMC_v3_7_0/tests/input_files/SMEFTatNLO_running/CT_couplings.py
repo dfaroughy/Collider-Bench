@@ -12248,4 +12248,3 @@ UVGC_2447_1020 = Coupling(name = 'UVGC_2447_1020',
 UVGC_2447_1021 = Coupling(name = 'UVGC_2447_1021',
                           value = {-1:'-(cQq13*complex(0,1)*G**2)/(6.*cmath.pi**2*Lambda**2) - (cQq83*complex(0,1)*G**2)/(288.*cmath.pi**2*Lambda**2)',0:'(cQq13*complex(0,1)*G**2*reglog(muprime**2/MU_R**2))/(6.*cmath.pi**2*Lambda**2) + (cQq83*complex(0,1)*G**2*reglog(muprime**2/MU_R**2))/(288.*cmath.pi**2*Lambda**2)'},
                           order = {'NP':2,'QCD':2})
-

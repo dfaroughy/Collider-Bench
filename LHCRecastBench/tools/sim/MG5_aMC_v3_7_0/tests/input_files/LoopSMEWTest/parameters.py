@@ -738,13 +738,13 @@ AxialZDown = Parameter(name = 'AxialZDown',
               texname = 'AxialZdown')
 
 VectorZUp = Parameter(name = 'VectorZUp',
-              nature = 'internal',                      
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*((cw*ee)/(2.*sw))+(5.0/2.0)*(-(ee*sw)/(6.*cw))',
               texname = 'AxialZUp')
 
 VectorZDown = Parameter(name = 'VectorZDown',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*(-(cw*ee)/(2.*sw))+(-1.0/2.0)*(-(ee*sw)/(6.*cw))',
               texname = 'AxialZdown')
@@ -822,253 +822,253 @@ VectorHDown3 = Parameter(name = 'VectorHDown3',
               texname = 'VectorHdown3')
 
 VectorAUp = Parameter(name = 'VectorAUp',
-              nature = 'internal',                      
+              nature = 'internal',
               type = 'real',
               value = '(2*ee)/3.',
               texname = 'VectorAUp')
 
 VectorADown = Parameter(name = 'VectorADown',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '-(ee)/3.',
               texname = 'VectorADown')
 
 VectorWmDxU = Parameter(name = 'VectorWmDxU',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'VectorWmDxU')
 
 AxialWmDxU = Parameter(name = 'AxialWmDxU',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(-1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'AxialWmDxU')
 
 VectorWpUxD = Parameter(name = 'VectorWpUxD',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'VectorWpUxD')
 
 AxialWpUxD = Parameter(name = 'AxialWpUxD',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '-(1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'AxialWpUxD')
 
 VectorGpUx1D1 = Parameter(name = 'VectorGpUx1D1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM11)*(yup-ydo)',
               texname = 'VectorGpUx1D1')
 
 AxialGpUx1D1 = Parameter(name = 'AxialGpUx1D1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM11)*(yup+ydo)',
               texname = 'AxialGpUx1D1')
 
 VectorGpUx1D2 = Parameter(name = 'VectorGpUx1D2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM12)*(yup-ys)',
               texname = 'VectorGpUx1D2')
 
 AxialGpUx1D2 = Parameter(name = 'AxialGpUx1D2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM12)*(yup+ys)',
               texname = 'AxialGpUx1D2')
 
 VectorGpUx1D3 = Parameter(name = 'VectorGpUx1D3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM13)*(yup-yb)',
               texname = 'VectorGpUx1D3')
 
 AxialGpUx1D3 = Parameter(name = 'AxialGpUx1D3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM13)*(yup+yb)',
               texname = 'AxialGpUx1D3')
 
 VectorGpUx2D1 = Parameter(name = 'VectorGpUx2D1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM21)*(yc-ydo)',
               texname = 'VectorGpUx2D1')
 
 AxialGpUx2D1 = Parameter(name = 'AxialGpUx2D1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM11)*(yc+ydo)',
               texname = 'AxialGpUx2D1')
 
 VectorGpUx2D2 = Parameter(name = 'VectorGpUx2D2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM22)*(yc-ys)',
               texname = 'VectorGpUx2D2')
 
 AxialGpUx2D2 = Parameter(name = 'AxialGpUx2D2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM22)*(yc+ys)',
               texname = 'AxialGpUx2D2')
 
 VectorGpUx2D3 = Parameter(name = 'VectorGpUx2D3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM23)*(yc-yb)',
               texname = 'VectorGpUx2D3')
 
 AxialGpUx2D3 = Parameter(name = 'AxialGpUx2D3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM23)*(yc+yb)',
               texname = 'AxialGpUx2D3')
 
 VectorGpUx3D1 = Parameter(name = 'VectorGpUx3D1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM31)*(yt-ydo)',
               texname = 'VectorGpUx3D1')
 
 AxialGpUx3D1 = Parameter(name = 'AxialGpUx3D1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM31)*(yt+ydo)',
               texname = 'AxialGpUx3D1')
 
 VectorGpUx3D2 = Parameter(name = 'VectorGpUx3D2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM32)*(yt-ys)',
               texname = 'VectorGpUx3D2')
 
 AxialGpUx3D2 = Parameter(name = 'AxialGpUx3D2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM32)*(yt+ys)',
               texname = 'AxialGpUx3D2')
 
 VectorGpUx3D3 = Parameter(name = 'VectorGpUx3D3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM33)*(yt-yb)',
               texname = 'VectorGpUx3D3')
 
 AxialGpUx3D3 = Parameter(name = 'AxialGpUx3D3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '((-1.)/2.)*complexconjugate(CKM33)*(yt+yb)',
               texname = 'AxialGpUx3D3')
 
 VectorGmDx1U1 = Parameter(name = 'VectorGmDx1U1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM11*(yup-ydo)',
               texname = 'VectorGmDx1U1')
 
 AxialGmDx1U1 = Parameter(name = 'AxialGmDx1U1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM11*(yup+ydo)',
               texname = 'AxialGmDx1U1')
 
 VectorGmDx2U1 = Parameter(name = 'VectorGmDx2U1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM12*(yup-ys)',
               texname = 'VectorGmDx2U1')
 
 AxialGmDx2U1 = Parameter(name = 'AxialGmDx2U1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM12*(yup+ys)',
               texname = 'AxialGmDx2U1')
 
 VectorGmDx3U1 = Parameter(name = 'VectorGmDx3U1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM13*(yup-yb)',
               texname = 'VectorGmDx3U1')
 
 AxialGmDx3U1 = Parameter(name = 'AxialGmDx3U1',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM13*(yup+yb)',
               texname = 'AxialGmDx3U1')
 
 VectorGmDx1U2 = Parameter(name = 'VectorGmDx1U2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM21*(yc-ydo)',
               texname = 'VectorGmDx1U2')
 
 AxialGmDx1U2 = Parameter(name = 'AxialGmDx1U2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM11*(yc+ydo)',
               texname = 'AxialGmDx1U2')
 
 VectorGmDx2U2 = Parameter(name = 'VectorGmDx2U2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM22*(yc-ys)',
               texname = 'VectorGmDx2U2')
 
 AxialGmDx2U2 = Parameter(name = 'AxialGmDx2U2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM22*(yc+ys)',
               texname = 'AxialGmDx2U2')
 
 VectorGmDx3U2 = Parameter(name = 'VectorGmDx3U2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM23*(yc-yb)',
               texname = 'VectorGmDx3U2')
 
 AxialGmDx3U2 = Parameter(name = 'AxialGmDx3U2',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM23*(yc+yb)',
               texname = 'AxialGmDx3U2')
 
 VectorGmDx1U3 = Parameter(name = 'VectorGmDx1U3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM31*(yt-ydo)',
               texname = 'VectorGmDx1U3')
 
 AxialGmDx1U3 = Parameter(name = 'AxialGmDx1U3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM31*(yt+ydo)',
               texname = 'AxialGmDx1U3')
 
 VectorGmDx2U3 = Parameter(name = 'VectorGmDx2U3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM32*(yt-ys)',
               texname = 'VectorGmDx2U3')
 
 AxialGmDx2U3 = Parameter(name = 'AxialGmDx2U3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM32*(yt+ys)',
               texname = 'AxialGmDx2U3')
 
 VectorGmDx3U3 = Parameter(name = 'VectorGmDx3U3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(1./2.)*CKM33*(yt-yb)',
               texname = 'VectorGmDx3U3')
 
 AxialGmDx3U3 = Parameter(name = 'AxialGmDx3U3',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'complex',
               value = '(-1./2.)*CKM33*(yt+yb)',
               texname = 'AxialGmDx3U3')

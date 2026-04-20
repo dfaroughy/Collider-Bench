@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -1170,12 +1170,12 @@ class DiagramGenerationTest(unittest.TestCase):
 
             self.myamplitude.generate_diagrams()
             self.assertEqual(len(self.myamplitude.get('diagrams')),
-                             goal_ndiags04[ngluons])               
-                
+                             goal_ndiags04[ngluons])
+
     def test_squared_orders_constraints_uux_ddxuux(self):
-        """ Tests that the various possible squared order constraints are 
+        """ Tests that the various possible squared order constraints are
         correctly treated at LO."""
-        
+
         myleglist = base_objects.LegList()
         myleglist.append(base_objects.Leg({'id':2,'state':False}))
         myleglist.append(base_objects.Leg({'id':-2,'state':False}))
@@ -1183,7 +1183,7 @@ class DiagramGenerationTest(unittest.TestCase):
         myleglist.append(base_objects.Leg({'id':-1,'state':True}))
         myleglist.append(base_objects.Leg({'id':2,'state':True}))
         myleglist.append(base_objects.Leg({'id':-2,'state':True}))
-        
+
         SO_tests = [({},{},{},50),
                     ({},{'QED':-1},{'QED':'=='},14),
                     ({},{'QED':-2},{'QED':'=='},38),
@@ -1195,7 +1195,7 @@ class DiagramGenerationTest(unittest.TestCase):
                     ({},{'QCD':2},{'QCD':'<='},36),
                     ({},{'QED':2,'QCD':4},{'QED':'==','QCD':'>'},38),
                     ({'QCD':2},{'QED':4,'QCD':4},{'QED':'<=','QCD':'<='},24)]
-        
+
         for orders, sq_orders, sq_orders_type, ndiagGoal in SO_tests:
             myproc = base_objects.Process({'legs':myleglist,
                                            'model':self.mymodel,
@@ -1204,10 +1204,10 @@ class DiagramGenerationTest(unittest.TestCase):
                                            'sqorders_types':sq_orders_type})
             self.myamplitude.set('process', myproc)
             self.myamplitude.generate_diagrams()
-            self.assertEqual(len(self.myamplitude.get('diagrams')),ndiagGoal) 
+            self.assertEqual(len(self.myamplitude.get('diagrams')),ndiagGoal)
 
     def test_forbidden_particles_uux_uuxng(self):
-        """Test the number of diagrams uu~>uu~+g with different 
+        """Test the number of diagrams uu~>uu~+g with different
         forbidden particles.
         """
 
@@ -1347,7 +1347,7 @@ class DiagramGenerationTest(unittest.TestCase):
                 else:
                     self.assertFalse(any([vert.get('legs')[-1].get('onshell') == False\
                                           for vert in diagrams[idiag].get('vertices')]))
-            
+
 
             myproc = base_objects.Process({'legs':myleglist,
                                            'model':self.mymodel,
@@ -1374,7 +1374,7 @@ class DiagramGenerationTest(unittest.TestCase):
                 else:
                     self.assertFalse(any([vert.get('legs')[-1].get('onshell') == False\
                                           for vert in diagrams[idiag].get('vertices')]))
-            
+
     def test_forbidden_s_channel_uux_uuxng(self):
         """Test diagram generation with forbidden s-channel particles.
         """
@@ -1448,7 +1448,7 @@ class DiagramGenerationTest(unittest.TestCase):
 
 
     def test_required_s_channel_uux_uuxng(self):
-        """Test the number of diagrams uu~>uu~+g with different 
+        """Test the number of diagrams uu~>uu~+g with different
         required s-channel particles.
         """
 
@@ -1932,7 +1932,7 @@ class DiagramGenerationTest(unittest.TestCase):
         myamplitude.set('process', myproc)
 
         self.assertEqual(len(myamplitude.get('diagrams')), 8)
-        
+
         goal_lastvx = set([21,2,-2])
         for diag in myamplitude.get('diagrams'):
             self.assertEqual(set([l.get('id') for l in \
@@ -2319,7 +2319,7 @@ class DecayChainAmplitudeTest(unittest.TestCase):
 
         self.assertEqual(self.my_decay_chain, myprocess2)
 
-        
+
     def test_setget_process_exceptions(self):
         "Test error raising in DecayChainAmplitude __init__, get and set"
 
@@ -2372,10 +2372,10 @@ class DecayChainAmplitudeTest(unittest.TestCase):
 
         # Define the multiprocess
         my_multi_leglist = base_objects.MultiLegList([copy.copy(leg) for leg in [my_multi_leg] * 4])
-        
+
         my_multi_leglist[0].set('state', False)
         my_multi_leglist[1].set('state', False)
-        
+
         my_process_definition = base_objects.ProcessDefinition({'legs':my_multi_leglist,
                                                                 'model':self.mymodel})
         my_decay_leglist = base_objects.MultiLegList([copy.copy(leg) for leg in [my_multi_leg] * 4])
@@ -2390,7 +2390,7 @@ class DecayChainAmplitudeTest(unittest.TestCase):
 
         my_decay_chain_amps = diagram_generation.DecayChainAmplitude(\
                                                    my_process_definition)
-        
+
         self.assertEqual(len(my_decay_chain_amps.get('amplitudes')), 35)
         self.assertEqual(len(my_decay_chain_amps.get('decay_chains')), 1)
         self.assertEqual(len(my_decay_chain_amps.get('decay_chains')[0].\
@@ -2406,7 +2406,7 @@ class DecayChainAmplitudeTest(unittest.TestCase):
                                         not l.get('onshell') and (not l.get('state') or \
                                         l.get('number') in external))
                         external.add(l.get('number'))
- 
+
     def test_unused_decays_in_decay_chain_pp_jj(self):
         """Test removal of unused decays in decay chain qq > qq, j > jj
         """
@@ -2418,10 +2418,10 @@ class DecayChainAmplitudeTest(unittest.TestCase):
 
         # Define the multiprocess
         my_multi_leglist = base_objects.MultiLegList([copy.copy(leg) for leg in [my_multi_leg] * 4])
-        
+
         my_multi_leglist[0].set('state', False)
         my_multi_leglist[1].set('state', False)
-        
+
         my_process_definition = base_objects.ProcessDefinition({'legs':my_multi_leglist,
                                                                 'model':self.mymodel})
         my_multi_leg = base_objects.MultiLeg({'ids': p, 'state': True});
@@ -2502,7 +2502,7 @@ class DecayChainAmplitudeTest(unittest.TestCase):
             else:
                 self.assertFalse(any([vert.get('legs')[-1].get('onshell') == False\
                                       for vert in diagrams[idiag].get('vertices')]))
-            
+
 
 #===============================================================================
 # MultiProcessTest
@@ -3011,7 +3011,7 @@ class MultiProcessTest(unittest.TestCase):
 
         mymodel.set('particles', mypartlist)
         mymodel.set('interactions',myinterlist)
-        
+
         max_fs = 2
 
         p = [1000006, 2000006, -1000006, -2000006]
@@ -3021,13 +3021,13 @@ class MultiProcessTest(unittest.TestCase):
         goal_number_processes = [8]
 
         goal_valid_procs = []
-        goal_valid_procs.append([([1000006, 1000006, 21], 1), 
-                                 ([1000006, 2000006, 21], 1), 
-                                 ([2000006, 1000006, 21], 1), 
-                                 ([2000006, 2000006, 21], 1), 
-                                 ([-1000006, -1000006, 21], 1), 
-                                 ([-1000006, -2000006, 21], 1), 
-                                 ([-2000006, -1000006, 21], 1), 
+        goal_valid_procs.append([([1000006, 1000006, 21], 1),
+                                 ([1000006, 2000006, 21], 1),
+                                 ([2000006, 1000006, 21], 1),
+                                 ([2000006, 2000006, 21], 1),
+                                 ([-1000006, -1000006, 21], 1),
+                                 ([-1000006, -2000006, 21], 1),
+                                 ([-2000006, -1000006, 21], 1),
                                  ([-2000006, -2000006, 21], 1)])
 
         for nfs in range(2, max_fs + 1):
@@ -3308,7 +3308,7 @@ class MultiProcessTest(unittest.TestCase):
             # Define the multiprocess
             my_multi_leglist = base_objects.MultiLegList([copy.copy(leg) for leg in [my_multi_leg] * (2 + nfs)])
             my_multi_leglist.append(base_objects.MultiLeg({'ids': [25]}))
-            
+
             my_multi_leglist[0].set('state', False)
             my_multi_leglist[1].set('state', False)
 
@@ -3328,7 +3328,7 @@ class MultiProcessTest(unittest.TestCase):
                              amplitude.get('process').get('legs')],
                             len(amplitude.get('diagrams'))) \
                            for amplitude in amplitudes]
-                            
+
             if nfs <= 3:
                 self.assertEqual(valid_procs, goal_valid_procs[nfs-1])
 
@@ -3424,7 +3424,7 @@ class MultiProcessTest(unittest.TestCase):
 
             my_multi_leglist[0].set('state', False)
             my_multi_leglist[1].set('state', False)
-            
+
             my_multi_leglist.append(base_objects.MultiLeg({'ids': [11],
                                                            'state': True}))
             my_multi_leglist.append(base_objects.MultiLeg({'ids': [-11],
@@ -3456,10 +3456,10 @@ class MultiProcessTest(unittest.TestCase):
             self.assertEqual(diagram_generation.MultiProcess.\
                              find_optimal_process_orders(my_process_definition),
                              {'WEIGHTED': orders[nfs-2]})
-        
+
         # Now check p p > a|g > p p
         max_fs = 3
-        
+
         orders = [2, 3]
         for nfs in range(2, max_fs + 1):
             # Define the multiprocess
@@ -3475,7 +3475,7 @@ class MultiProcessTest(unittest.TestCase):
             self.assertEqual(diagram_generation.MultiProcess.\
                              find_optimal_process_orders(my_process_definition),
                              {'WEIGHTED': orders[nfs-2]})
-        
+
 
         # Check that it works with multiple non-QCD orders.
 
@@ -3495,7 +3495,7 @@ class MultiProcessTest(unittest.TestCase):
         self.assertEqual(diagram_generation.MultiProcess.\
                          find_optimal_process_orders(my_process_definition),
                          {'WEIGHTED': orders[nfs-2]})
-        
+
         self.mymodel.set('interactions', myoldinterlist)
 
         # Now check decay process p > p (a|g)
@@ -3509,7 +3509,7 @@ class MultiProcessTest(unittest.TestCase):
             # Define the multiprocess
             my_multi_leglist = base_objects.MultiLegList([copy.copy(leg) for \
                                                leg in [my_multi_leg] * 2])
-            
+
             my_multi_leglist.extend([copy.copy(leg) for \
                                                leg in [my_ag_leg] * (nfs-1)])
             my_multi_leglist[0].set('state', False)
@@ -3520,12 +3520,12 @@ class MultiProcessTest(unittest.TestCase):
             self.assertEqual(diagram_generation.MultiProcess.\
                              find_optimal_process_orders(my_process_definition),
                              {})
-        
+
             my_process_definition.set('is_decay_chain', True)
             self.assertEqual(diagram_generation.MultiProcess.\
                              find_optimal_process_orders(my_process_definition),
                              {'WEIGHTED': orders[nfs-2]})
-        
+
 
     def test_multiparticle_pp_nj_with_required_s_channel(self):
         """Setting up and testing pp > nj with required photon s-channel
@@ -3607,7 +3607,7 @@ class MultiProcessTest(unittest.TestCase):
 
     def test_wrong_multiparticle(self):
         """Check that an exception is raised for empty multipart amplitudes"""
-        
+
         max_fs = 2 # 3
 
         p = [-1, -2]
@@ -3616,7 +3616,7 @@ class MultiProcessTest(unittest.TestCase):
         my_multi_init = base_objects.MultiLeg({'ids': p, 'state': False});
         my_multi_final = base_objects.MultiLeg({'ids': j, 'state': True});
         goal_number_processes = [0, 0]
-        
+
         for nfs in range(2, max_fs + 1):
             # Define the multiprocess
             my_multi_leglist = base_objects.MultiLegList(
@@ -3695,7 +3695,7 @@ class TestDiagramTag(unittest.TestCase):
 
     def setUp(self):
         self.base_model = import_ufo.import_model('sm')
-    
+
     def test_diagram_tag_gg_ggg(self):
         """Test the diagram tag for gg > ggg"""
 
@@ -3733,7 +3733,7 @@ class TestDiagramTag(unittest.TestCase):
                 permutations[ind].append(tag.get_external_numbers())
 
         permutations = [[diagram_generation.DiagramTag.reorder_permutation(p, perms[0])\
-                         for p in perms] for perms in permutations]        
+                         for p in perms] for perms in permutations]
 
         goal_classes =  [[1, 2, 3],
                          [4],
@@ -3794,7 +3794,7 @@ class TestDiagramTag(unittest.TestCase):
                 permutations[ind].append(tag.get_external_numbers())
 
         permutations = [[diagram_generation.DiagramTag.reorder_permutation(p, perms[0])\
-                         for p in perms] for perms in permutations]        
+                         for p in perms] for perms in permutations]
 
         goal_classes = [[1, 8], [2, 9], [3, 10], [4, 11], [5, 12], [6, 13],
                         [7, 14], [15, 18], [16, 19], [17, 20], [21, 24],
@@ -3854,7 +3854,7 @@ class TestDiagramTag(unittest.TestCase):
                             for d in diagrams]
 
             #print myamplitude.get('process').nice_string()
-            
+
             for i,(d,dtag) in enumerate(zip(diagrams, diagram_tags)):
                 #print '%3r: ' % (i+1),d.nice_string()
                 #print 'new: ',dtag.diagram_from_tag(self.base_model).nice_string()
@@ -3863,4 +3863,3 @@ class TestDiagramTag(unittest.TestCase):
                 self.assertEqual(dtag,
                                  diagram_generation.DiagramTag(\
                                      dtag.diagram_from_tag(self.base_model)))
-

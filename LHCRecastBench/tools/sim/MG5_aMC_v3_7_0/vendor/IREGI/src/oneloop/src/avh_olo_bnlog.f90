@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -20,9 +20,9 @@
 
 module avh_olo_forIREGI_bnlog
 !***********************************************************************
-!                      /1    
-!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x) 
-!                      /0 
+!                      /1
+!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x)
+!                      /0
 !***********************************************************************
   use avh_olo_forIREGI_units
   use avh_olo_forIREGI_prec
@@ -93,7 +93,7 @@ contains
     if (prcpar.gt.1) then ;nn=ntrm(nStp,irank,prcpar-1)-1
                      else ;nn=n1
     endif
-!  
+!
     do
       nn = nn+1
       if (highestSoFar.and.nn.gt.ubound(coeff,1)) call update_coeff( 2*nn )
@@ -103,7 +103,7 @@ contains
     enddo
 !
     if (nn.gt.nmax) nmax=nn
-!  
+!
     ntrm(nStp,irank,prcpar) = nn
     thrs(nStp,irank,prcpar) = tt
     nn = max(1,nint(nn*1d0/nStp))
@@ -112,7 +112,7 @@ contains
       if (ntrm(ii,irank,prcpar).le.n1) then
         do jj=1,ii
           ntrm(jj,irank,prcpar) = max(n1,ntrm(ii,irank,prcpar))
-          thrs(jj,irank,prcpar) = 0 
+          thrs(jj,irank,prcpar) = 0
         enddo
         exit
       endif
@@ -121,9 +121,9 @@ contains
       tt = (EPSN*abs(coeff(n1,irank)/coeff(jj,irank)))**(tt/(jj-n1))
       thrs(ii,irank,prcpar) = tt
     enddo
-!  
+!
   enddo!irank=1,nrank
-!  
+!
   if (highestSoFar) call resize( coeff ,2,nmax ,0,rank )
 !
 !  do ii=lbound(thrs,3),ubound(thrs,3)        !DEBUG
@@ -282,7 +282,7 @@ contains
 !
   yy = 1-1/xx
   y_lt_0 = (yy.lt.RZRO)
-  if (y_lt_0) then 
+  if (y_lt_0) then
     yy = log(-yy)
     aa = sqrt(yy*yy+ONEPI*ONEPI)
   else
@@ -329,7 +329,7 @@ contains
   enddo
   rslt = -(irank+1)*aa*yy*(yy*xx)**(irank+1)
   if (y_lt_0) rslt = rslt + sgn*omx*IPI
-!  
+!
   end function
 
 end module

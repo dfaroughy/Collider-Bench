@@ -24,12 +24,12 @@ c     18/6/2012 tjs promoted to integer*8 to avoid overflow for iseed > 60K
 c------
       integer*8       iseed
       common /to_seed/iseed
-      
+
       real*8 ranu(97),ranc,rancd,rancm
       integer iranmr,jranmr
       common/ raset1 / ranu,ranc,rancd,rancm
       common/ raset2 / iranmr,jranmr
-      
+
 c     Data
 c
       data init /1/
@@ -38,7 +38,7 @@ c-----
 c  Begin Code
 c-----
       INQUIRE(FILE='ranmar_state.dat', EXIST=ranmar_state_exists)
-      
+
       if (init .eq. 1 .and. ranmar_state_exists) then
          init = 0
          open(unit=58, file='ranmar_state.dat', status='old')
@@ -50,7 +50,7 @@ c-----
          if (iseed .eq. 0) call get_base(iseed)
 c
 c     TJS 3/13/2008
-c     Modified to allow for more sequences 
+c     Modified to allow for more sequences
 c     iseed can be between 0 and 30081*30081
 c     before pattern repeats
 c
@@ -67,7 +67,7 @@ c     different iseed, if have exactly compensating joffset, ioffset, jconfig
 c
          call get_moffset(joffset)
          joffset = joffset * 3157
-         iseed = iseed * 31300       
+         iseed = iseed * 31300
          ij=1802+jconfig + mod(iseed,30081)
          kl=9373+(iseed/30081)+ioffset + joffset     !Switched to 30081  20/6/12 to avoid dupes in range 30082-31328
 c         write(*,'(a,i6,a3,i6)') 'Using random seed offsets',jconfig,":",ioffset
@@ -78,7 +78,7 @@ c         write(*,*) ' with seed', iseed/31300
          do while (kl .gt. 30081)
             kl = kl - 30081
          enddo
-        call rmarin(ij,kl)         
+        call rmarin(ij,kl)
       endif
       call ranmar(x)
       do while (x .lt. 1d-16)
@@ -225,7 +225,7 @@ c         write(*,*) "Got moffset",iseed
       if(uni .lt. 0d0) uni = uni + 1d0
       rvec = uni
       end
- 
+
       subroutine rmarin(ij,kl)
 *     -----------------
 * initializing routine for ranmar, must be called before generating
@@ -244,7 +244,7 @@ c         write(*,*) "Got moffset",iseed
 c      write(*,*) "Ranmar initialization seeds",ij,kl
 c
 c    18/6/2012 TJS  Added check to ensure ij and kl are in range
-c      
+c
       if (ij .lt. 0 .or. ij .gt. 31328 .or.
      $     kl .lt. 0 .or. kl .gt. 30081) then
          filename='../../error'

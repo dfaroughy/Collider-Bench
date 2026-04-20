@@ -13,9 +13,9 @@ C     Output:
 C             Amplitude squared and summed
 C ****************************************************
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       include 'phasespace.inc'
       include 'nexternal.inc'
       include 'maxamps.inc'
@@ -24,14 +24,14 @@ C
       PARAMETER (CONV=1d0)  !NO CONV (GeV^n)
       REAL*8     PI
       PARAMETER (PI=3.1415926d0)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       DOUBLE PRECISION PP(0:3,NEXTERNAL), WGT
       INTEGER IMODE
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,ITYPE,LP
       DOUBLE PRECISION u1,ux1,d1,dx1,c1,cx1,s1,sx1,b1,bx1
       DOUBLE PRECISION u2,ux2,d2,dx2,c2,cx2,s2,sx2,b2,bx2
@@ -44,13 +44,13 @@ C
 C     STUFF FOR UPC
 C
       double precision photonpdfsquare
-C  
+C
 C EXTERNAL FUNCTIONS
-C  
+C
       DOUBLE PRECISION PDG2PDF
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       INTEGER              IPROC
       DOUBLE PRECISION PD(0:MAXPROC)
       COMMON /SubProc/ PD, IPROC
@@ -62,9 +62,9 @@ C     Common blocks
 C      CHARACTER*7         PDLABEL,EPA_LABEL
 C      INTEGER       LHAID
 C      COMMON/TO_PDF/LHAID,PDLABEL,EPA_LABEL
-C  
+C
 C DATA
-C  
+C
       DATA u1,ux1,d1,dx1,c1,cx1,s1,sx1,b1,bx1/10*1d0/
       DATA u2,ux2,d2,dx2,c2,cx2,s2,sx2,b2,bx2/10*1d0/
       DATA a1,g1/2*1d0/

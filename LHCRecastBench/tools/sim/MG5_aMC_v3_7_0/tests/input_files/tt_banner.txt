@@ -37,71 +37,71 @@
 ###################################
 ## INFORMATION FOR MASS
 ###################################
-Block mass 
-    5 4.700000e+00 # MB 
-    6 1.730000e+02 # MT 
-   15 1.777000e+00 # MTA 
-   23 9.118800e+01 # MZ 
-   25 1.200000e+02 # MH 
+Block mass
+    5 4.700000e+00 # MB
+    6 1.730000e+02 # MT
+   15 1.777000e+00 # MTA
+   23 9.118800e+01 # MZ
+   25 1.200000e+02 # MH
 ##  Not dependent paramater.
-## Those values should be edited following the 
-## analytical expression. MG5 ignore those values 
+## Those values should be edited following the
+## analytical expression. MG5 ignore those values
 ## but they are important for interfacing the output of MG5
 ## to external program such as Pythia.
-  12 0.000000 # ve : 0.0 
-  14 0.000000 # vm : 0.0 
-  16 0.000000 # vt : 0.0 
-  2 0.000000 # u : 0.0 
-  4 0.000000 # c : 0.0 
-  1 0.000000 # d : 0.0 
-  3 0.000000 # s : 0.0 
-  22 0.000000 # a : 0.0 
-  24 80.419002 # w+ : cmath.sqrt(MZ__exp__2/2. + cmath.sqrt(MZ__exp__4/4. - (aEW*cmath.pi*MZ__exp__2)/(Gf*sqrt__2))) 
-  21 0.000000 # g : 0.0 
-  11 0.000000 # e- : 0.0 
-  13 0.000000 # mu- : 0.0 
+  12 0.000000 # ve : 0.0
+  14 0.000000 # vm : 0.0
+  16 0.000000 # vt : 0.0
+  2 0.000000 # u : 0.0
+  4 0.000000 # c : 0.0
+  1 0.000000 # d : 0.0
+  3 0.000000 # s : 0.0
+  22 0.000000 # a : 0.0
+  24 80.419002 # w+ : cmath.sqrt(MZ__exp__2/2. + cmath.sqrt(MZ__exp__4/4. - (aEW*cmath.pi*MZ__exp__2)/(Gf*sqrt__2)))
+  21 0.000000 # g : 0.0
+  11 0.000000 # e- : 0.0
+  13 0.000000 # mu- : 0.0
 
 ###################################
 ## INFORMATION FOR SMINPUTS
 ###################################
-Block sminputs 
-    1 1.325070e+02 # aEWM1 
-    2 1.166390e-05 # Gf 
-    3 1.180000e-01 # aS 
+Block sminputs
+    1 1.325070e+02 # aEWM1
+    2 1.166390e-05 # Gf
+    3 1.180000e-01 # aS
 
 ###################################
 ## INFORMATION FOR YUKAWA
 ###################################
-Block yukawa 
-    5 4.200000e+00 # ymb 
-    6 1.645000e+02 # ymt 
-   15 1.777000e+00 # ymtau 
+Block yukawa
+    5 4.200000e+00 # ymb
+    6 1.645000e+02 # ymt
+   15 1.777000e+00 # ymtau
 
 ###################################
 ## INFORMATION FOR DECAY
 ###################################
-DECAY   6 1.491500e+00 # WT 
-DECAY  23 2.441404e+00 # WZ 
-DECAY  24 2.047600e+00 # WW 
-DECAY  25 5.753088e-03 # WH 
+DECAY   6 1.491500e+00 # WT
+DECAY  23 2.441404e+00 # WZ
+DECAY  24 2.047600e+00 # WW
+DECAY  25 5.753088e-03 # WH
 ##  Not dependent paramater.
-## Those values should be edited following the 
-## analytical expression. MG5 ignore those values 
+## Those values should be edited following the
+## analytical expression. MG5 ignore those values
 ## but they are important for interfacing the output of MG5
 ## to external program such as Pythia.
-DECAY  12 0.000000 # ve : 0.0 
-DECAY  14 0.000000 # vm : 0.0 
-DECAY  16 0.000000 # vt : 0.0 
-DECAY  2 0.000000 # u : 0.0 
-DECAY  4 0.000000 # c : 0.0 
-DECAY  1 0.000000 # d : 0.0 
-DECAY  3 0.000000 # s : 0.0 
-DECAY  5 0.000000 # b : 0.0 
-DECAY  22 0.000000 # a : 0.0 
-DECAY  21 0.000000 # g : 0.0 
-DECAY  11 0.000000 # e- : 0.0 
-DECAY  13 0.000000 # mu- : 0.0 
-DECAY  15 0.000000 # ta- : 0.0 
+DECAY  12 0.000000 # ve : 0.0
+DECAY  14 0.000000 # vm : 0.0
+DECAY  16 0.000000 # vt : 0.0
+DECAY  2 0.000000 # u : 0.0
+DECAY  4 0.000000 # c : 0.0
+DECAY  1 0.000000 # d : 0.0
+DECAY  3 0.000000 # s : 0.0
+DECAY  5 0.000000 # b : 0.0
+DECAY  22 0.000000 # a : 0.0
+DECAY  21 0.000000 # g : 0.0
+DECAY  11 0.000000 # e- : 0.0
+DECAY  13 0.000000 # mu- : 0.0
+DECAY  15 0.000000 # ta- : 0.0
 
 </slha>
 <MGProcCard>
@@ -125,7 +125,7 @@ DECAY  15 0.000000 # ta- : 0.0
 # Begin PROCESS # This is TAG. Do not modify this line
 p p > t t~ @1           #Process
 # Be carefull the coupling are here in MG5 convention
-          
+
 end_coup           # End the couplings input
 
 done               # this tells MG there are no more procs
@@ -160,14 +160,14 @@ sm
 #   mind the format:   value    = variable     ! comment             *
 #*********************************************************************
 #
-#*******************                                                 
+#*******************
 # Running parameters
-#*******************                                                 
-#                                                                    
+#*******************
+#
 #*********************************************************************
 # Tag name for the run (one word)                                    *
 #*********************************************************************
-  'tt'     = run_tag ! name of the run 
+  'tt'     = run_tag ! name of the run
 #*********************************************************************
 # Run to generate the grid pack                                      *
 #*********************************************************************
@@ -175,7 +175,7 @@ sm
 #*********************************************************************
 # Number of events and rnd seed                                      *
 #*********************************************************************
-    200       = nevents ! Number of unweighted events requested 
+    200       = nevents ! Number of unweighted events requested
       0       = iseed   ! rnd seed (0=assigned automatically=default))
 #*********************************************************************
 # Collider type and energy                                           *
@@ -192,7 +192,7 @@ sm
 #*********************************************************************
 # PDF CHOICE: this automatically fixes also alpha_s and its evol.    *
 #*********************************************************************
- 'cteq6l1'    = pdlabel     ! PDF set                                     
+ 'cteq6l1'    = pdlabel     ! PDF set
 #*********************************************************************
 # Renormalization and factorization scales                           *
 #*********************************************************************
@@ -212,24 +212,24 @@ sm
  F        = chcluster        ! cluster only according to channel diag
  F        = pdfwgt           ! for ickkw=1, perform pdf reweighting
 #*********************************************************************
-#                                                                    
+#
 #**********************************
 # BW cutoff (M+/-bwcutoff*Gamma)
 #**********************************
   15  = bwcutoff !
 
   F  = cut_decays ! Apply decays to products
-#*******************                                                 
+#*******************
 # Standard Cuts
-#*******************                                                 
-#                                                                    
+#*******************
+#
 #*********************************************************************
 # Minimum and maximum pt's                                           *
 #*********************************************************************
- 20  = ptj       ! minimum pt for the jets 
- 20  = ptb       ! minimum pt for the b 
-  0  = pta       ! minimum pt for the photons 
-  0  = ptl       ! minimum pt for the charged leptons 
+ 20  = ptj       ! minimum pt for the jets
+ 20  = ptb       ! minimum pt for the b
+  0  = pta       ! minimum pt for the photons
+  0  = ptl       ! minimum pt for the charged leptons
   0  = misset    ! minimum missing Et (sum of neutrino's momenta)
   0  = ptheavy   ! minimum pt for one heavy final state
  1d5 = ptjmax    ! maximum pt for the jets
@@ -240,10 +240,10 @@ sm
 #*********************************************************************
 # Minimum and maximum E's (in the lab frame)                         *
 #*********************************************************************
-  0  = ej     ! minimum E for the jets 
-  0  = eb     ! minimum E for the b 
-  0  = ea     ! minimum E for the photons 
-  0  = el     ! minimum E for the charged leptons 
+  0  = ej     ! minimum E for the jets
+  0  = eb     ! minimum E for the b
+  0  = ea     ! minimum E for the photons
+  0  = el     ! minimum E for the charged leptons
  1d5  = ejmax ! maximum E for the jets
  1d5  = ebmax ! maximum E for the b
  1d5  = eamax ! maximum E for the photons
@@ -251,10 +251,10 @@ sm
 #*********************************************************************
 # Maximum and minimum rapidity                                       *
 #*********************************************************************
- 5d0  = etaj    ! max rap for the jets 
- 5d0  = etab    ! max rap for the b 
- 2d5  = etaa    ! max rap for the photons 
- 2d5  = etal    ! max rap for the charged leptons 
+ 5d0  = etaj    ! max rap for the jets
+ 5d0  = etab    ! max rap for the b
+ 2d5  = etaa    ! max rap for the photons
+ 2d5  = etal    ! max rap for the charged leptons
  0d0  = etajmin ! min rap for the jets
  0d0  = etabmin ! min rap for the b
  0d0  = etaamin ! min rap for the photons
@@ -262,16 +262,16 @@ sm
 #*********************************************************************
 # Minimum and maximum DeltaR distance                                *
 #*********************************************************************
- 0.001 = drjj    ! min distance between jets 
- 0.001   = drbb    ! min distance between b's 
- 0   = drll    ! min distance between leptons 
- 0   = draa    ! min distance between gammas 
- 0.001   = drbj    ! min distance between b and jet 
- 0   = draj    ! min distance between gamma and jet 
- 0   = drjl    ! min distance between jet and lepton 
- 0   = drab    ! min distance between gamma and b 
- 0   = drbl    ! min distance between b and lepton 
- 0   = dral    ! min distance between gamma and lepton 
+ 0.001 = drjj    ! min distance between jets
+ 0.001   = drbb    ! min distance between b's
+ 0   = drll    ! min distance between leptons
+ 0   = draa    ! min distance between gammas
+ 0.001   = drbj    ! min distance between b and jet
+ 0   = draj    ! min distance between gamma and jet
+ 0   = drjl    ! min distance between jet and lepton
+ 0   = drab    ! min distance between gamma and b
+ 0   = drbl    ! min distance between b and lepton
+ 0   = dral    ! min distance between gamma and lepton
  1d2 = drjjmax ! max distance between jets
  1d2 = drbbmax ! max distance between b's
  1d2 = drllmax ! max distance between leptons
@@ -285,8 +285,8 @@ sm
 #*********************************************************************
 # Minimum and maximum invariant mass for pairs                       *
 #*********************************************************************
- 0   = mmjj    ! min invariant mass of a jet pair 
- 0   = mmbb    ! min invariant mass of a b pair 
+ 0   = mmjj    ! min invariant mass of a jet pair
+ 0   = mmbb    ! min invariant mass of a b pair
  0   = mmaa    ! min invariant mass of gamma gamma pair
  0   = mmll    ! min invariant mass of l+l- (same flavour) lepton pair
  1d5 = mmjjmax ! max invariant mass of a jet pair
@@ -296,15 +296,15 @@ sm
 #*********************************************************************
 # Minimum and maximum invariant mass for all letpons                 *
 #*********************************************************************
- 0   = mmnl    ! min invariant mass for all letpons (l+- and vl) 
- 1d5 = mmnlmax ! max invariant mass for all letpons (l+- and vl) 
+ 0   = mmnl    ! min invariant mass for all letpons (l+- and vl)
+ 1d5 = mmnlmax ! max invariant mass for all letpons (l+- and vl)
 #*********************************************************************
 # Inclusive cuts                                                     *
 #*********************************************************************
- 0  = xptj ! minimum pt for at least one jet  
- 0  = xptb ! minimum pt for at least one b 
- 0  = xpta ! minimum pt for at least one photon 
- 0  = xptl ! minimum pt for at least one charged lepton 
+ 0  = xptj ! minimum pt for at least one jet
+ 0  = xptb ! minimum pt for at least one b
+ 0  = xpta ! minimum pt for at least one photon
+ 0  = xptl ! minimum pt for at least one charged lepton
 #*********************************************************************
 # Control the pt's of the jets sorted by pt                          *
 #*********************************************************************
@@ -312,7 +312,7 @@ sm
  0   = ptj2min ! minimum pt for the second jet in pt
  0   = ptj3min ! minimum pt for the third jet in pt
  0   = ptj4min ! minimum pt for the fourth jet in pt
- 1d5 = ptj1max ! maximum pt for the leading jet in pt 
+ 1d5 = ptj1max ! maximum pt for the leading jet in pt
  1d5 = ptj2max ! maximum pt for the second jet in pt
  1d5 = ptj3max ! maximum pt for the third jet in pt
  1d5 = ptj4max ! maximum pt for the fourth jet in pt
@@ -331,8 +331,8 @@ sm
 #*********************************************************************
 # WBF cuts                                                           *
 #*********************************************************************
- 0   = xetamin ! minimum rapidity for two jets in the WBF case  
- 0   = deltaeta ! minimum rapidity for two jets in the WBF case 
+ 0   = xetamin ! minimum rapidity for two jets in the WBF case
+ 0   = deltaeta ! minimum rapidity for two jets in the WBF case
 #*********************************************************************
 # maximal pdg code for quark to be considered as a jet               *
 # otherwise b cuts are applied                                       *

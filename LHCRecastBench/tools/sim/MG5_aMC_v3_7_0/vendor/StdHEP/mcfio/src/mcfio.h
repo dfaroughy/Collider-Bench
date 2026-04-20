@@ -7,8 +7,8 @@
 *									       *
 *******************************************************************************/
 /*
-** 	This file is a summary of various other .h files, assembled for 
-** 	the ease of use of the yet undocumented C API for MCFIO. 
+** 	This file is a summary of various other .h files, assembled for
+** 	the ease of use of the yet undocumented C API for MCFIO.
 ** 	Please refer to detailed documentation from the the F77 API.
 **
 **	Rule : mcfio_*   ==> F77 API
@@ -62,12 +62,12 @@ void mcfioC_InfoBlockChar(int stream, int blk, int key,
                             char *answer, int *lret);
 void mcfioC_GetBlockName(int blkId, char *answer);
 int mcfioC_OpenReadSequential(char *device, char *label, int filenumber);
-int mcfioC_OpenWriteSequential(char *device, char *label, char *title, 
-                char *comment, int numevts_pred, 
+int mcfioC_OpenWriteSequential(char *device, char *label, char *title,
+                char *comment, int numevts_pred,
                 int *blkIds, unsigned int nBlocks);
 int mcfioC_OpenReadDirect(char *filename);
 int mcfioC_OpenReadMapped(char *filename);
-int mcfioC_OpenWriteDirect(char *filename, char *title, char *comment, 
+int mcfioC_OpenWriteDirect(char *filename, char *title, char *comment,
                            int numevts_pred, int *blkIds, u_int nBlocks);
 int mcfioC_NextEvent(int stream);
 int mcfioC_SpecificEvent(int stream, int ievt,
@@ -76,9 +76,9 @@ int mcfioC_NextSpecificEvent(int stream, int ievt,
                              int istore, int irun, int itrig);
 void mcfioC_CloseDirect(int jstr);
 void mcfioC_RewindDirect(int jstr);
-int mcfioC_Block(int stream, int blkid, 
+int mcfioC_Block(int stream, int blkid,
  bool_t xdr_filtercode(XDR *xdrs, int *blockid, int *ntot, char **version));
-int mcfioC_NTuple(int stream, int nTupleid, char * version); 
+int mcfioC_NTuple(int stream, int nTupleid, char * version);
 int mcfioC_NTupleMult(int stream, int nTupleid, char * version);
 int mcfioC_NTupleVar(int stream, int nTupleid, int ivar, char * version);
 int mcfioC_NTupleSubVar(int stream, int nTupleid, int ivar, int multIndex,
@@ -87,4 +87,3 @@ int mcfioC_NTupleSubStruct(int stream, int nTupleid, int multIndex,
                            char * version);
 void mcfioC_DefineUserBlock(int blkNum, char *descr);
 char *mcfioC_UserBlockDescript(int blkn);
-

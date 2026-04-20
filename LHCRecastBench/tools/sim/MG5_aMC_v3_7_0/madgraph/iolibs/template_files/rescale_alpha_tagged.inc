@@ -1,5 +1,5 @@
 double precision function get_rescale_alpha_factor(ntag,qed_pow)
-C returns the power of ratios of alpha needed to compensate 
+C returns the power of ratios of alpha needed to compensate
 C for the presence of external tagged photons
 C It is automatically written, and it detects whether the
 C starting model is in the Gmu or alpha0 scheme.
@@ -27,7 +27,7 @@ double precision born_wgt
 INCLUDE '../../Source/MODEL/input.inc'
 
 if (ivirt.eq.1) then
-! single 
+! single
 get_virtual_a0Gmu_conv = %(virtual_a0Gmu_conv_pole)s
 else if (ivirt.eq.0) then
 ! finite part

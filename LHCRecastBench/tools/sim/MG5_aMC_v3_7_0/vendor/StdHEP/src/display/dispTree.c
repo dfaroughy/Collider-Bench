@@ -25,7 +25,7 @@
 
 #include <stdio.h>
 #include <X11/StringDefs.h>
-#include <X11/Intrinsic.h> 
+#include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
 #include <Xm/PushB.h>
 #include <Xm/PushBG.h>
@@ -46,27 +46,27 @@
 
 
 #define MAXCHAR_HEPNAM 30  /* for use with hepnam_ */
-/*   #define DEBUG */		
+/*   #define DEBUG */
 /*
 * Function declarations
 */
 static nodehep *hepevt_tree(StdHepWindow *window);
 static nodehep *make_node(StdHepWindow *window, int *list, int nn  );
 static void drawNodehep(nodehep *ptr);
-static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData); 
+static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData);
 static void closeCB(Widget w, StdHepWindow *window);
 static void closecolorCB(Widget w, StdHepWindow *window);
-         
+
 void DispTree(Widget w, StdHepWindow *window)
 {
   Widget     treediag, sw,  tree;
   int        i, nn;
   int idum = 0;
   nodehep      *head = NULL;
-  int        ac,digit;  
+  int        ac,digit;
   Arg        wargs[10];
   char title[40];
-  
+
    if ((window->modetreedisp != TREEDISPREAL) &&
        (window->modetreedisp != TREEDISPCODE)) {
          printf (" Internal error, don't know which tree to set \n");
@@ -77,12 +77,12 @@ void DispTree(Widget w, StdHepWindow *window)
   */
    if (window->modetreedisp == TREEDISPREAL) {
      if (window->dtree == NULL) {
-       sprintf(title," Tree for StdHep event %d ",window->event.userData); 
+       sprintf(title," Tree for StdHep event %d ",window->event.userData);
        treediag = XmCreateDialogShell(w, title, wargs,0);
        AddMotifCloseCallback(treediag, closeCB, (void *) window);
        window->dtree = treediag;
        /*
-       * Put the tree in a scrolled window, to handle 
+       * Put the tree in a scrolled window, to handle
        * large trees.
        */
         ac = 0;
@@ -94,13 +94,13 @@ void DispTree(Widget w, StdHepWindow *window)
                               treediag, wargs, ac);
         window->stree = sw;
        } else {
-          sprintf(title," Tree for StdHep event %d ",window->event.userData); 
+          sprintf(title," Tree for StdHep event %d ",window->event.userData);
           XtVaSetValues(window->dtree, XmNtitle, title,
                  XmNiconName, "Tree", 0);
           treediag = window->dtree;
           sw = window->stree;
        }
-          
+
        /*
        * Always recreate the tree..
        */
@@ -108,9 +108,9 @@ void DispTree(Widget w, StdHepWindow *window)
        /*
         * Create the tree widget.
         */
-       tree = XtCreateManagedWidget("tree", XstreeWidgetClass, 
+       tree = XtCreateManagedWidget("tree", XstreeWidgetClass,
                                 sw, NULL, 0);
-       window->tree = tree; 
+       window->tree = tree;
        /*
        * Create the HEP tree from the STD HEP structure.
        */
@@ -118,9 +118,9 @@ void DispTree(Widget w, StdHepWindow *window)
           head = hepevt_tree(window);
           window->treehead = (int *) head;
          } else head = (nodehep *) window->treehead;
- 
+
        } else {
-       
+
 /* Color code.. Make it also scrollable window */
 
        if (window->dtreecolorcode == NULL) {
@@ -140,20 +140,20 @@ void DispTree(Widget w, StdHepWindow *window)
           treediag = window->dtreecolorcode;
           sw = window->streecolorcode;
        }
-       if (window->treecolorcode != NULL) 
+       if (window->treecolorcode != NULL)
            XtDestroyWidget(window->treecolorcode);
-       tree = XtCreateManagedWidget("tree", XstreeWidgetClass, 
+       tree = XtCreateManagedWidget("tree", XstreeWidgetClass,
                                 sw, NULL, 0);
        window->treecolorcode = tree;
        if (window->treeheadcolorcode == NULL) {
          head = hepevt_tree(window);
          window->treeheadcolorcode = (int *) head;
        } else head = (nodehep *) window->treeheadcolorcode;
-    } 
+    }
    /*
     * Create the widgets representing the tree.
     */
-   
+
    ShowTree(window, head, NULL);
    return;
 }
@@ -165,32 +165,32 @@ static nodehep *hepevt_tree(StdHepWindow *window)
    int   *nlist, *nl1;
    PhaseParticle *p1, *p2;
    PhaseEvent *evt;
-   
+
   nodehep *top, *cur, *mother, *backcur;
   /*
-   * At the top of the tree, we place a dummy key 
+   * At the top of the tree, we place a dummy key
    */
    nn = -1;
-  
+
   top = make_node(window, NULL,nn);
   top->stdid = window->event.eventNum;
   /*
-  * Now all the particles nodes. 
+  * Now all the particles nodes.
   */
   if (window->modetreedisp == TREEDISPREAL) evt = &(window->event);
   else evt = &(window->colorcode);
-   
+
   create= -1;
   while (create) {
    p1 = evt->particles;
    for(i=0; i < evt->nParticles ; i++, p1++){
     create = 0;
-    /* 
-    * Look if this node has been already defined... If not defined, do it 
+    /*
+    * Look if this node has been already defined... If not defined, do it
     * In addition, the mother better be created...
     */
     imo = p1->mother - 1;
-    if (p1->mother == 0) 
+    if (p1->mother == 0)
           mother = top;
        else {
           mother = SearchNodes(top, imo);
@@ -198,9 +198,9 @@ static nodehep *hepevt_tree(StdHepWindow *window)
           printf(" make tree... Part %d has mother %d , at node %x \n",
             i, imo, mother);
 #endif
-     }    
+     }
     if ((SearchNodes(top,i) == NULL) & (mother != NULL)) {
-      /* 
+      /*
        * We will create a node for this particle..
        * Collect all the particles belonging to this node.  Conditions
        * are (i) the particle is off the same type. (ii) the particle
@@ -235,24 +235,24 @@ static nodehep *hepevt_tree(StdHepWindow *window)
         cur->mother = mother;
         create = -1;
         if(mother->daughter != NULL) {
-#ifdef DEBUG 
-           printf(" make tree.. daughter %x becomes sister of %x \n", 
+#ifdef DEBUG
+           printf(" make tree.. daughter %x becomes sister of %x \n",
            mother->daughter, cur);
 #endif
            cur->sister = mother->daughter;
            backcur = cur->sister;
            backcur->backsister = cur;
-           
-       }   
+
+       }
        mother->daughter = cur;
 #ifdef DEBUG
-        printf(" make tree.. mother %x has daughter %x \n \n", 
+        printf(" make tree.. mother %x has daughter %x \n \n",
            mother, cur);
 #endif
 
      }
    }
-  }    
+  }
   return (top);
 }
 
@@ -264,14 +264,14 @@ static nodehep *make_node(StdHepWindow *window, int *list, int nn)
   PhaseParticle *p1;
   PhaseEvent *evt;
   nodehep  *ptr = (nodehep *) malloc(sizeof(nodehep));
-  
+
     if (window->modetreedisp == TREEDISPREAL) evt = &(window->event);
   else evt = & (window->colorcode);
 
   if (list != NULL) {
    index = *list;
-   p1 = evt->particles; 
-   for(k=0; k< index; k++, p1++); 
+   p1 = evt->particles;
+   for(k=0; k< index; k++, p1++);
    ptr->stdid = p1->id;
    ptr->stdIndex = list;
   } else ptr->stdIndex = NULL;
@@ -284,7 +284,7 @@ static nodehep *make_node(StdHepWindow *window, int *list, int nn)
    printf (" make_node... multiplicity \%d id. %d ",nn, ptr->stdid);
 #endif
    nnp = nn;
-  if (nnp > 10) nnp=10; 
+  if (nnp > 10) nnp=10;
    if (nnp >0 ) {
 #ifdef DEBUG
      printf(" Hepevt Indices..");
@@ -294,7 +294,7 @@ static nodehep *make_node(StdHepWindow *window, int *list, int nn)
      	index = *l;
 #ifdef DEBUG
    	printf ("  %d", index); l++;
-#endif 
+#endif
      }
 #ifdef DEBUG
      printf (" \n");
@@ -308,38 +308,38 @@ nodehep *SearchNodes(nodehep *node, int stdi)
 	int i, nn;
 	int *l;
 	nodehep *next;
-  /* 
-   * Generic search through a tree... 
+  /*
+   * Generic search through a tree...
    */
    if (node == NULL) return(NULL);
    nn = node->multiplicity;
    l = node->stdIndex;
-   for (i=0; i <nn; i++){ 
+   for (i=0; i <nn; i++){
    	if ( *l == stdi) return (node);
    	l++;
    }
-   if (node->daughter != NULL) { 
+   if (node->daughter != NULL) {
       next = SearchNodes(node->daughter,stdi);
       if (next != NULL) return(next);
     }
-   if (node->sister != NULL) { 
+   if (node->sister != NULL) {
       next = SearchNodes(node->sister,stdi);
       if (next != NULL) return(next);
     }
-    return(NULL);   
+    return(NULL);
 }
 
 void FreeTree(nodehep *node)
 {
 	nodehep *mother, *cur, *sister, *next;
 	int *l;
-	
+
 	/*
 	* If point to null, assume we are done...
 	*/
 	if (node == NULL) return;
 	/*
-	* Make sure node has no daughter, and if it has, move to 
+	* Make sure node has no daughter, and if it has, move to
 	* the last granddaughter in the family..
 	*/
 	cur = node;
@@ -348,12 +348,12 @@ void FreeTree(nodehep *node)
 	}
 	/*
 	* reassing the sister to be the first daughter ( if any),
-	* and set the next node to be free to that daughter.  if no 
+	* and set the next node to be free to that daughter.  if no
 	* such daughter, then set next to be the mother.
 	*/
 	mother = cur->mother;
 	sister = cur->sister;
-	if (sister == NULL) { 
+	if (sister == NULL) {
 	   if (mother != NULL) mother->daughter = NULL;
 	   next = mother;
 	  }
@@ -361,7 +361,7 @@ void FreeTree(nodehep *node)
 	    mother->daughter = sister;
 	    next = sister;
 	  }
-#ifdef DEBUG 
+#ifdef DEBUG
            printf(" freeing tree at  %x \n", cur);
 #endif
 	 /*
@@ -375,7 +375,7 @@ void FreeTree(nodehep *node)
 	 */
 	 FreeTree(next);
 }
- 
+
 void ShowTree(StdHepWindow *window,
                         nodehep *mother, Widget super_node)
 {
@@ -386,23 +386,23 @@ void ShowTree(StdHepWindow *window,
   int backup;
   nodehep *lastsister, *curtmp, *cursister, *newmother;
   Widget *mw;
-  
+
    if (window->modetreedisp == TREEDISPREAL) parent = window->tree;
    else parent = window->treecolorcode;
   /*
-   * We draw the daughter and her sisters of the mother nodehep 
+   * We draw the daughter and her sisters of the mother nodehep
    * We assume that the mother has already been drawn.. First ensure
    * we have a real mother...
    */
   if (!mother) return;
-  /* 
-  * first time around : if the super node is null, there is no mother 
+  /*
+  * first time around : if the super node is null, there is no mother
   * to mother, we assume that we have to draw the top of the tree...
   */
   if(!super_node){
   	n = 0;
   	XtSetArg(wargs[n], XtNsuperNode, super_node); n++;
- 	w  =  XtCreateManagedWidget("node", xmPushButtonWidgetClass, 
+ 	w  =  XtCreateManagedWidget("node", xmPushButtonWidgetClass,
                               parent, wargs, n);
   	mother->stwidget = (int *) w;
     	drawNodehep(mother);
@@ -411,12 +411,12 @@ void ShowTree(StdHepWindow *window,
     	else {
     	sw = super_node;
     	}
-    
+
   cursister = mother->daughter;
-  /* 
-  * Find the last sister... For esthetique reasons, we want to 
-  * to draw the tree backwards, since it was created backwards for 
-  * reason of convenience... 
+  /*
+  * Find the last sister... For esthetique reasons, we want to
+  * to draw the tree backwards, since it was created backwards for
+  * reason of convenience...
   */
   lastsister = cursister;
   if (cursister != NULL) {
@@ -431,7 +431,7 @@ void ShowTree(StdHepWindow *window,
        */
         n = 0;
   	XtSetArg(wargs[n], XtNsuperNode, sw); n++;
- 	w  =  XtCreateManagedWidget("node", xmPushButtonWidgetClass, 
+ 	w  =  XtCreateManagedWidget("node", xmPushButtonWidgetClass,
                               parent, wargs, n);
   	cursister->stwidget = (int *) w;
     	drawNodehep(cursister);
@@ -449,11 +449,11 @@ void ShowTree(StdHepWindow *window,
       curtmp = mother;
       while (backup == -1) {
         newmother = curtmp->backsister;
-        if (newmother != NULL) 
+        if (newmother != NULL)
           backup = 0;
         else {
           if (curtmp->mother == NULL) {
-               /* 
+               /*
                 * end backing up, we are at the top of the tree...
                 */
                 newmother = NULL;
@@ -465,20 +465,20 @@ void ShowTree(StdHepWindow *window,
                 */
                 curtmp = curtmp->mother;
                 }
-           } 
+           }
          }
        }
        else {
-         /* 
-         * Look for the most backward daughter 
+         /*
+         * Look for the most backward daughter
          */
          newmother = lastsister;
          }
-          
-      if ( newmother != NULL) 
+
+      if ( newmother != NULL)
       	sw =  ((Widget) newmother->stwidget);
       else
-        sw = NULL;  
+        sw = NULL;
      ShowTree(window,  newmother, sw);
 }
 
@@ -496,11 +496,11 @@ static void drawNodehep( nodehep *ptr){
         Screen *screen;
         XVisualInfo info;
         XmFontList fontList;
-        
-        
+
+
 	w = ( Widget) ptr->stwidget;
 	display = XtDisplay(w);
-	screen = XtScreen(w); 
+	screen = XtScreen(w);
 /*
 * Check that first if this is a selected node..
 */
@@ -512,16 +512,16 @@ static void drawNodehep( nodehep *ptr){
 	   for (i=0; i<ptr->multiplicity; i++, list++)
 	     if (*list == window->selectedTrack) {
 	       selected = 1;
-	       break; 
+	       break;
 	       }
 	   }
-	   
-	
+
+
 /*
-* Place the number of particles, first part the Label.. Then convert 
+* Place the number of particles, first part the Label.. Then convert
 * the particle id to a the multifont name, then to Xm muilt font string..
 * Complete the label
-*/	
+*/
 	if ( ptr->multiplicity == -1){
 	  sprintf(strnum, "Top");
 	  xminfo =  XmStringLtoRCreate(strnum, XmSTRING_DEFAULT_CHARSET);
@@ -530,7 +530,7 @@ static void drawNodehep( nodehep *ptr){
 	  }
 	else {
 	  sprintf(strnum, " %d ", ptr->multiplicity);
-  	  xstrnum =  XmStringLtoRCreate(strnum, XmSTRING_DEFAULT_CHARSET);  	
+  	  xstrnum =  XmStringLtoRCreate(strnum, XmSTRING_DEFAULT_CHARSET);
           hepnam_(&ptr->stdid,nampart, MAXCHAR_HEPNAM );
           /* If greek font is available, use greek letters in particle name */
              GET_ONE_RSRC(w, XmNfontList, &fontList);
@@ -542,35 +542,35 @@ static void drawNodehep( nodehep *ptr){
                     *(char *)strchr(nampart, ' ') = '\0';
     	         }
           xnampart = MultiFontString(nampart);
-          xminfo = XmStringConcat(xstrnum, xnampart);  
+          xminfo = XmStringConcat(xstrnum, xnampart);
 	  XmStringFree (xnampart);
 	  XmStringFree (xstrnum);
-/* 
+/*
 * Set the color of the button...
 */
-	  id = ptr->stdid;     
+	  id = ptr->stdid;
    	  icol = ParticleColorIndex(id);
    	  }
-/* 
+/*
 *  Load this crap...
-*/ 
+*/
         n = 0;
         if (selected == 1) {
           window->selectedNode = (int *) ptr;
           XtSetArg(wargs[n], XmNshadowThickness, 5); n++;
         }
-        
-  	XtSetArg(wargs[n], XmNlabelString, xminfo); n++; 
+
+  	XtSetArg(wargs[n], XmNlabelString, xminfo); n++;
         if (XMatchVisualInfo(display, XScreenNumberOfScreen(screen),
 	    DefaultDepthOfScreen(screen), PseudoColor, &info)) {
- 	     XtSetArg(wargs[n], XmNbackground, ParticleColors[icol] ); n++; 
+ 	     XtSetArg(wargs[n], XmNbackground, ParticleColors[icol] ); n++;
              black = BlackPixelOfScreen(screen);
              if (ParticleColors[icol] == black) {
 	       white = WhitePixelOfScreen(screen);
                XtSetArg(wargs[n], XmNforeground, white); n++;
             }
-         } 
-  	XtSetValues(w, wargs, n);  
+         }
+  	XtSetValues(w, wargs, n);
 	XmStringFree (xminfo);
 /*
 * Now add the pointer to the node to the argument forthe call back routine.
@@ -579,7 +579,7 @@ static void drawNodehep( nodehep *ptr){
 	              (XtCallbackProc)  listnodeCB, ptr);
 
 }
-   
+
 static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData)
 {
 	StdHepWindow *wim;
@@ -588,19 +588,19 @@ static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData)
 	int nn, takeit;
 
 /* Do nothin if the user click on the tree top.. */
-	
+
 	wim = ptr->window;
 	if ((nodehep *) wim->treehead == ptr) return;
-	
+
         if (wim->modetreedisp == TREEDISPREAL) {
 	  if (wim->selnodeTracks != NULL) XtFree((char *) wim->selnodeTracks);
-	  lp = ptr->stdIndex; 
-	  if (wim->highlightTrackMode == TRACK_NODE) { 
+	  lp = ptr->stdIndex;
+	  if (wim->highlightTrackMode == TRACK_NODE) {
 	    l = (int *) XtMalloc(sizeof(int) * ptr->multiplicity);
 	    wim->selnodeTracks = l;
 	    for (i=0; i < ptr->multiplicity; i++, l++, lp++)  *l = *lp;
 	    wim->selnodeNumTrack = ptr->multiplicity;
-	    
+
 	  } else if (wim->highlightTrackMode == TRACK_DESCENDANTS) {
 	    /* This is a bit wasteful in memory usage, but faster.. */
 	    l = (int *) XtMalloc(sizeof(int) * wim->event.nParticles);
@@ -614,15 +614,15 @@ static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData)
 	         if ((pm->mother - 1) == *lp) takeit = True;
 	         im = (pm->mother) - 1;
 	         pm = wim->event.particles; pm += im;
-	         } 
-	         if (takeit) { 
-	           nn++; 
+	         }
+	         if (takeit) {
+	           nn++;
 	           *l = i;
 	           l++;
 	         }
 	    }
 	    wim->selnodeNumTrack = nn;
-	    
+
 	  } else if (wim->highlightTrackMode == TRACK_DAUGHTERS) {
 	    /* This is a bit wasteful in memory usage, but faster.. */
 	    l = (int *) XtMalloc(sizeof(int) * wim->event.nParticles);
@@ -630,15 +630,15 @@ static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData)
 	    p = wim->event.particles;
 	    nn = 0;
 	    for (i=0; i < wim->event.nParticles; i++, p++) {
-	      if (( p->mother - 1) == *lp ) { 
-	         nn++; 
+	      if (( p->mother - 1) == *lp ) {
+	         nn++;
 	         *l = i;
 	         l++;
 	         }
 	    }
 	    wim->selnodeNumTrack = nn;
-	    
-	    
+
+
 	  } else if (wim->highlightTrackMode == TRACK_ANCESTORS) {
 	    /* This is a bit wasteful in memory usage, but faster.. */
 	    l = (int *) XtMalloc(sizeof(int) * wim->event.nParticles);
@@ -648,14 +648,14 @@ static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData)
 	    p += *lp;
 	    pm = p;
 	    while (pm->mother != NULL) {
-	           im = (pm->mother) - 1; 
+	           im = (pm->mother) - 1;
 	           pm = wim->event.particles; pm += im;
-	           nn++; 
+	           nn++;
 	           *l = im;
 	           l++;
 	    }
 	    wim->selnodeNumTrack = nn;
-	    
+
 	  } else if (wim->highlightTrackMode == TRACK_MOTHER) {
 	    p = wim->event.particles;
 	    p += *lp;
@@ -668,27 +668,27 @@ static void listnodeCB(Widget w, nodehep *ptr, caddr_t callData)
 	       *wim->selnodeTracks = im;
 	       wim->selnodeNumTrack = 1;
 	     }
-	  }   
+	  }
 	  DrawEvent(wim, FALSE);
-          ListNodeHep(wim->dtree, ptr); 
+          ListNodeHep(wim->dtree, ptr);
          } else ListNodeHep(wim->dtreecolorcode, ptr);
-} 
+}
 
 static void closeCB(Widget w, StdHepWindow *window)
 {
 	CloseHepTreeWindow(w, window);
-}	
+}
 
 void CloseHepTreeWindow(Widget w, StdHepWindow *window)
 {
 	nodehep *head;
 
-/* Set the selected Node to null and redraw the event to remore the 
+/* Set the selected Node to null and redraw the event to remore the
 	possible highlights..*/
-	
+
 	window->selectedNode = NULL;
 	window->selnodeNumTrack = 0;
-	if (window->selnodeTracks != NULL) 
+	if (window->selnodeTracks != NULL)
 	    XtFree((char *) window->selnodeTracks);
 	window->selnodeTracks = NULL;
 	DrawEvent(window, FALSE);
@@ -705,8 +705,8 @@ void CloseHepTreeWindow(Widget w, StdHepWindow *window)
 	window->stree = NULL;
 	window->tree = NULL;
 	return;
-} 
-	
+}
+
 static void closecolorCB(Widget w, StdHepWindow *window)
 {
 	XtDestroyWidget(window->dtreecolorcode);
@@ -714,5 +714,4 @@ static void closecolorCB(Widget w, StdHepWindow *window)
 	window->streecolorcode = NULL;
 	window->treecolorcode = NULL;
 	return;
-} 
-	
+}

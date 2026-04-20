@@ -52,7 +52,7 @@ c
       if ( abs(w3(5))+abs(w3(6)).eq.rZero ) then
          write(stdo,*)
      &        ' helas-error : w3 in jgggxx has zero momentum'
-      endif 
+      endif
       if ( g.eq.rZero ) then
          write(stdo,*) ' helas-error : g in jgggxx is zero coupling'
       endif

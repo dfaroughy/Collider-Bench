@@ -64,7 +64,7 @@ c Works with td and HwU for the moment
      &     IDBMUP,EBMUP,PDFGUP,PDFSUP,IDWTUP,NPRUP,
      &     XSECUP,XERRUP,XMAXUP,LPRUP)
 
-      itype=12      
+      itype=12
       sum_wgt=0d0
       do_rwgt_scale_loc=do_rwgt_scale
       do_rwgt_pdf_loc=do_rwgt_pdf
@@ -225,7 +225,7 @@ C****************************************************************************
       double precision p1(0:3),p2(0:3)
       dot=p1(0)*p2(0)-p1(1)*p2(1)-p1(2)*p2(2)-p1(3)*p2(3)
 
-      if(dabs(dot).lt.1d-6)then ! solve numerical problem 
+      if(dabs(dot).lt.1d-6)then ! solve numerical problem
          dot=0d0
       endif
 

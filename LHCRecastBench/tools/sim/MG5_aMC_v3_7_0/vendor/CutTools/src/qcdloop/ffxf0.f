@@ -23,7 +23,7 @@
 *		cd0ij(6,6)	(complex) D0 with s_i and s_j missing	*
 *		ier		(integer) no of digits lost, >50 error	*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -42,7 +42,7 @@
 *
 	include 'ff.h'
 *
-*  #] declarations: 
+*  #] declarations:
 *  #[ get differences:
 *
 *	simulate the differences in the masses etc..
@@ -79,11 +79,11 @@
    30		continue
    40	    continue
 	endif
-*  #] get differences: 
+*  #] get differences:
 *  #[ call ffxf0a:
 	call ffxf0a(cf0,ce0i,cd0ij,xpi,dpipj,ier)
-*  #] call ffxf0a: 
-*###] ffxf0: 
+*  #] call ffxf0a:
+*###] ffxf0:
 	end
 *###[ ffxf0a:
 	subroutine ffxf0a(cf0,ce0i,cd0ij,xpi,dpipj,ier)
@@ -109,7 +109,7 @@
 *		cd0ij(6,6)	  (complex) D0 with s_i,s_j missing	*
 *		ier		  (integer) <50:lost # digits 100=error	*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -128,7 +128,7 @@
 	DOUBLE PRECISION del6,xpi4(13),dpipj4(10,13),piDpj4(10,10),
      +		absc,xmax,piDpj(21,21),xqi4(13),dqiqj4(10,13),
      +		qiDqj4(10,10),del2s,xmx4(6,6),dl4rij(6,6),xpi5(20),
-     +		dpipj5(15,20),piDpj5(15,15),dl4ri(5),dl5ri(6),xlosn, 
+     +		dpipj5(15,20),piDpj5(15,15),dl4ri(5),dl5ri(6),xlosn,
      +		d5sp,dl4q(6),psum
 	save ii4
 *
@@ -144,7 +144,7 @@
 *
 	data ii4 /5,6,7,8,9,10/
 *
-*  #] declarations: 
+*  #] declarations:
 *  #[ initialisations:
 *
 	ndiv = 0
@@ -157,7 +157,7 @@
     1	    continue
     2	continue
 *
-*  #] initialisations: 
+*  #] initialisations:
 *  #[ get dot products:
 *
 	idsub = idsub + 1
@@ -180,7 +180,7 @@
 	endif
 	if ( lwrite ) print *,'After dotproducts ier = ',ier
 *
-*  #] get dot products: 
+*  #] get dot products:
 *  #[ five and four point stuff:
 *
 	ier2 = ier
@@ -337,7 +337,7 @@
 	ier = ier2
 	if ( lwrite ) print *,'after E0s ier = ',ier
 *
-*  #] five and four point stuff: 
+*  #] five and four point stuff:
 *  #[ six point stuff:
 *
 	ier1 = 0
@@ -416,7 +416,7 @@
 *									*
 *	Tries all 12 easy permutations of the 6pointfunction		*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 	integer ier,nrot
@@ -443,7 +443,7 @@
      +	 2,1,6,5,4,3, 7,12,11,10,9,8, 18,17,16,15,14,13, 20,19,21,
      +	 1,6,5,4,3,2, 12,11,10,9,8,7, 17,16,15,14,13,18, 19,21,20/
 	data init /0/
-*  #] declarations: 
+*  #] declarations:
 *  #[ open console for some activity on screen:
 	if ( init .eq. 0 ) then
 	    init = 1
@@ -456,7 +456,7 @@
 	    lcon = .FALSE.
    13	    continue
 	endif
-*  #] open console for some activity on screen: 
+*  #] open console for some activity on screen:
 *  #[ calculations:
 	cf0 = 0
 	ier = 999
@@ -503,6 +503,6 @@
 		    ier = ier1
 		endif
    20	    continue
-*  #] calculations: 
-*###] ffxf0r: 
+*  #] calculations:
+*###] ffxf0r:
 	end

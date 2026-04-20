@@ -37,7 +37,7 @@
 struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3PJ1q {
 	using Pythia8::Sigma2qg2QQbar3PJ1q::Sigma2qg2QQbar3PJ1q;
 
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "sigmaKin");
 		if (overload) {
@@ -50,7 +50,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2qg2QQbar3PJ1q::sigmaKin();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "setIdColAcol");
 		if (overload) {
@@ -63,7 +63,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2qg2QQbar3PJ1q::setIdColAcol();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "inFlux");
 		if (overload) {
@@ -76,7 +76,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2qg2QQbar3PJ1q::inFlux();
 	}
-	class std::basic_string<char> namePrefix() const override { 
+	class std::basic_string<char> namePrefix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "namePrefix");
 		if (overload) {
@@ -89,7 +89,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2qg2QQbar3PJ1q::namePrefix();
 	}
-	class std::basic_string<char> namePostfix() const override { 
+	class std::basic_string<char> namePostfix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "namePostfix");
 		if (overload) {
@@ -102,7 +102,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2qg2QQbar3PJ1q::namePostfix();
 	}
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "initProc");
 		if (overload) {
@@ -115,7 +115,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2gg2QQbar3PJ1g::initProc();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "sigmaHat");
 		if (overload) {
@@ -128,7 +128,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2gg2QQbar3PJ1g::sigmaHat();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "name");
 		if (overload) {
@@ -141,7 +141,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2gg2QQbar3PJ1g::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "code");
 		if (overload) {
@@ -154,7 +154,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2gg2QQbar3PJ1g::code();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "id3Mass");
 		if (overload) {
@@ -167,7 +167,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2gg2QQbar3PJ1g::id3Mass();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "nFinal");
 		if (overload) {
@@ -180,7 +180,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "set2Kin");
 		if (overload) {
@@ -193,7 +193,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "set2KinMPI");
 		if (overload) {
@@ -206,7 +206,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -219,7 +219,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "final2KinMPI");
 		if (overload) {
@@ -232,7 +232,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "store2Kin");
 		if (overload) {
@@ -245,7 +245,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "store2KinMPI");
 		if (overload) {
@@ -258,7 +258,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "setupForME");
 		if (overload) {
@@ -271,7 +271,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "initFlux");
 		if (overload) {
@@ -284,7 +284,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "set1Kin");
 		if (overload) {
@@ -297,7 +297,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "set3Kin");
 		if (overload) {
@@ -310,7 +310,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "sigmaPDF");
 		if (overload) {
@@ -323,7 +323,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "weightDecayFlav");
 		if (overload) {
@@ -336,7 +336,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "weightDecay");
 		if (overload) {
@@ -349,7 +349,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "setScale");
 		if (overload) {
@@ -362,7 +362,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "convert2mb");
 		if (overload) {
@@ -375,7 +375,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "convertM2");
 		if (overload) {
@@ -388,7 +388,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isLHA");
 		if (overload) {
@@ -401,7 +401,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isNonDiff");
 		if (overload) {
@@ -414,7 +414,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isResolved");
 		if (overload) {
@@ -427,7 +427,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isDiffA");
 		if (overload) {
@@ -440,7 +440,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isDiffB");
 		if (overload) {
@@ -453,7 +453,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isDiffC");
 		if (overload) {
@@ -466,7 +466,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isSUSY");
 		if (overload) {
@@ -479,7 +479,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -492,7 +492,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "id4Mass");
 		if (overload) {
@@ -505,7 +505,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::id4Mass();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "id5Mass");
 		if (overload) {
@@ -518,7 +518,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "resonanceA");
 		if (overload) {
@@ -531,7 +531,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "resonanceB");
 		if (overload) {
@@ -544,7 +544,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isSChannel");
 		if (overload) {
@@ -557,7 +557,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "idSChannel");
 		if (overload) {
@@ -570,7 +570,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "isQCD3body");
 		if (overload) {
@@ -583,7 +583,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "idTchan1");
 		if (overload) {
@@ -596,7 +596,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "idTchan2");
 		if (overload) {
@@ -609,7 +609,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "tChanFracPow1");
 		if (overload) {
@@ -622,7 +622,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "tChanFracPow2");
 		if (overload) {
@@ -635,7 +635,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "useMirrorWeight");
 		if (overload) {
@@ -648,7 +648,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "gmZmode");
 		if (overload) {
@@ -661,7 +661,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "setIdInDiff");
 		if (overload) {
@@ -674,7 +674,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -687,7 +687,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "onBeginEvent");
 		if (overload) {
@@ -700,7 +700,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "onEndEvent");
 		if (overload) {
@@ -713,7 +713,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbar3PJ1q *>(this), "onStat");
 		if (overload) {
@@ -732,7 +732,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbar3PJ1q : public Pythia8::Sigma2qg2QQbar3P
 struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2QQbar3PJ1g {
 	using Pythia8::Sigma2qqbar2QQbar3PJ1g::Sigma2qqbar2QQbar3PJ1g;
 
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "sigmaKin");
 		if (overload) {
@@ -745,7 +745,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2qqbar2QQbar3PJ1g::sigmaKin();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "setIdColAcol");
 		if (overload) {
@@ -758,7 +758,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2qqbar2QQbar3PJ1g::setIdColAcol();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "inFlux");
 		if (overload) {
@@ -771,7 +771,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2qqbar2QQbar3PJ1g::inFlux();
 	}
-	class std::basic_string<char> namePrefix() const override { 
+	class std::basic_string<char> namePrefix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "namePrefix");
 		if (overload) {
@@ -784,7 +784,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2qqbar2QQbar3PJ1g::namePrefix();
 	}
-	class std::basic_string<char> namePostfix() const override { 
+	class std::basic_string<char> namePostfix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "namePostfix");
 		if (overload) {
@@ -797,7 +797,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2qqbar2QQbar3PJ1g::namePostfix();
 	}
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "initProc");
 		if (overload) {
@@ -810,7 +810,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2gg2QQbar3PJ1g::initProc();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "sigmaHat");
 		if (overload) {
@@ -823,7 +823,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2gg2QQbar3PJ1g::sigmaHat();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "name");
 		if (overload) {
@@ -836,7 +836,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2gg2QQbar3PJ1g::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "code");
 		if (overload) {
@@ -849,7 +849,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2gg2QQbar3PJ1g::code();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "id3Mass");
 		if (overload) {
@@ -862,7 +862,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2gg2QQbar3PJ1g::id3Mass();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "nFinal");
 		if (overload) {
@@ -875,7 +875,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "set2Kin");
 		if (overload) {
@@ -888,7 +888,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "set2KinMPI");
 		if (overload) {
@@ -901,7 +901,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -914,7 +914,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "final2KinMPI");
 		if (overload) {
@@ -927,7 +927,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "store2Kin");
 		if (overload) {
@@ -940,7 +940,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "store2KinMPI");
 		if (overload) {
@@ -953,7 +953,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "setupForME");
 		if (overload) {
@@ -966,7 +966,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "initFlux");
 		if (overload) {
@@ -979,7 +979,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "set1Kin");
 		if (overload) {
@@ -992,7 +992,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "set3Kin");
 		if (overload) {
@@ -1005,7 +1005,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "sigmaPDF");
 		if (overload) {
@@ -1018,7 +1018,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "weightDecayFlav");
 		if (overload) {
@@ -1031,7 +1031,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "weightDecay");
 		if (overload) {
@@ -1044,7 +1044,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "setScale");
 		if (overload) {
@@ -1057,7 +1057,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "convert2mb");
 		if (overload) {
@@ -1070,7 +1070,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "convertM2");
 		if (overload) {
@@ -1083,7 +1083,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isLHA");
 		if (overload) {
@@ -1096,7 +1096,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isNonDiff");
 		if (overload) {
@@ -1109,7 +1109,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isResolved");
 		if (overload) {
@@ -1122,7 +1122,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isDiffA");
 		if (overload) {
@@ -1135,7 +1135,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isDiffB");
 		if (overload) {
@@ -1148,7 +1148,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isDiffC");
 		if (overload) {
@@ -1161,7 +1161,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isSUSY");
 		if (overload) {
@@ -1174,7 +1174,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -1187,7 +1187,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "id4Mass");
 		if (overload) {
@@ -1200,7 +1200,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::id4Mass();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "id5Mass");
 		if (overload) {
@@ -1213,7 +1213,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "resonanceA");
 		if (overload) {
@@ -1226,7 +1226,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "resonanceB");
 		if (overload) {
@@ -1239,7 +1239,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isSChannel");
 		if (overload) {
@@ -1252,7 +1252,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "idSChannel");
 		if (overload) {
@@ -1265,7 +1265,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "isQCD3body");
 		if (overload) {
@@ -1278,7 +1278,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "idTchan1");
 		if (overload) {
@@ -1291,7 +1291,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "idTchan2");
 		if (overload) {
@@ -1304,7 +1304,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "tChanFracPow1");
 		if (overload) {
@@ -1317,7 +1317,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "tChanFracPow2");
 		if (overload) {
@@ -1330,7 +1330,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "useMirrorWeight");
 		if (overload) {
@@ -1343,7 +1343,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "gmZmode");
 		if (overload) {
@@ -1356,7 +1356,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "setIdInDiff");
 		if (overload) {
@@ -1369,7 +1369,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -1382,7 +1382,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "onBeginEvent");
 		if (overload) {
@@ -1395,7 +1395,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "onEndEvent");
 		if (overload) {
@@ -1408,7 +1408,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3PJ1g *>(this), "onStat");
 		if (overload) {
@@ -1427,7 +1427,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3PJ1g : public Pythia8::Sigma2qqbar2Q
 struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3DJ1g {
 	using Pythia8::Sigma2gg2QQbar3DJ1g::Sigma2gg2QQbar3DJ1g;
 
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "initProc");
 		if (overload) {
@@ -1440,7 +1440,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3DJ1g::initProc();
 	}
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "sigmaKin");
 		if (overload) {
@@ -1453,7 +1453,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3DJ1g::sigmaKin();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "sigmaHat");
 		if (overload) {
@@ -1466,7 +1466,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::sigmaHat();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "setIdColAcol");
 		if (overload) {
@@ -1479,7 +1479,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::setIdColAcol();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "name");
 		if (overload) {
@@ -1492,7 +1492,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "code");
 		if (overload) {
@@ -1505,7 +1505,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::code();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "inFlux");
 		if (overload) {
@@ -1518,7 +1518,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::inFlux();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "id3Mass");
 		if (overload) {
@@ -1531,7 +1531,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::id3Mass();
 	}
-	class std::basic_string<char> namePrefix() const override { 
+	class std::basic_string<char> namePrefix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "namePrefix");
 		if (overload) {
@@ -1544,7 +1544,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::namePrefix();
 	}
-	class std::basic_string<char> namePostfix() const override { 
+	class std::basic_string<char> namePostfix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "namePostfix");
 		if (overload) {
@@ -1557,7 +1557,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2gg2QQbar3PJ1g::namePostfix();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "nFinal");
 		if (overload) {
@@ -1570,7 +1570,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "set2Kin");
 		if (overload) {
@@ -1583,7 +1583,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "set2KinMPI");
 		if (overload) {
@@ -1596,7 +1596,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -1609,7 +1609,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "final2KinMPI");
 		if (overload) {
@@ -1622,7 +1622,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "store2Kin");
 		if (overload) {
@@ -1635,7 +1635,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "store2KinMPI");
 		if (overload) {
@@ -1648,7 +1648,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "setupForME");
 		if (overload) {
@@ -1661,7 +1661,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "initFlux");
 		if (overload) {
@@ -1674,7 +1674,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "set1Kin");
 		if (overload) {
@@ -1687,7 +1687,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "set3Kin");
 		if (overload) {
@@ -1700,7 +1700,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "sigmaPDF");
 		if (overload) {
@@ -1713,7 +1713,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "weightDecayFlav");
 		if (overload) {
@@ -1726,7 +1726,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "weightDecay");
 		if (overload) {
@@ -1739,7 +1739,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "setScale");
 		if (overload) {
@@ -1752,7 +1752,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "convert2mb");
 		if (overload) {
@@ -1765,7 +1765,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "convertM2");
 		if (overload) {
@@ -1778,7 +1778,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isLHA");
 		if (overload) {
@@ -1791,7 +1791,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isNonDiff");
 		if (overload) {
@@ -1804,7 +1804,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isResolved");
 		if (overload) {
@@ -1817,7 +1817,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isDiffA");
 		if (overload) {
@@ -1830,7 +1830,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isDiffB");
 		if (overload) {
@@ -1843,7 +1843,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isDiffC");
 		if (overload) {
@@ -1856,7 +1856,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isSUSY");
 		if (overload) {
@@ -1869,7 +1869,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -1882,7 +1882,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "id4Mass");
 		if (overload) {
@@ -1895,7 +1895,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::id4Mass();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "id5Mass");
 		if (overload) {
@@ -1908,7 +1908,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "resonanceA");
 		if (overload) {
@@ -1921,7 +1921,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "resonanceB");
 		if (overload) {
@@ -1934,7 +1934,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isSChannel");
 		if (overload) {
@@ -1947,7 +1947,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "idSChannel");
 		if (overload) {
@@ -1960,7 +1960,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "isQCD3body");
 		if (overload) {
@@ -1973,7 +1973,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "idTchan1");
 		if (overload) {
@@ -1986,7 +1986,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "idTchan2");
 		if (overload) {
@@ -1999,7 +1999,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "tChanFracPow1");
 		if (overload) {
@@ -2012,7 +2012,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "tChanFracPow2");
 		if (overload) {
@@ -2025,7 +2025,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "useMirrorWeight");
 		if (overload) {
@@ -2038,7 +2038,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "gmZmode");
 		if (overload) {
@@ -2051,7 +2051,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "setIdInDiff");
 		if (overload) {
@@ -2064,7 +2064,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -2077,7 +2077,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "onBeginEvent");
 		if (overload) {
@@ -2090,7 +2090,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "onEndEvent");
 		if (overload) {
@@ -2103,7 +2103,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3DJ1g *>(this), "onStat");
 		if (overload) {
@@ -2122,7 +2122,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3DJ1g : public Pythia8::Sigma2gg2QQbar3D
 struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g {
 	using Pythia8::Sigma2gg2QQbarX8g::Sigma2gg2QQbarX8g;
 
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "initProc");
 		if (overload) {
@@ -2135,7 +2135,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::initProc();
 	}
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "sigmaKin");
 		if (overload) {
@@ -2148,7 +2148,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::sigmaKin();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "sigmaHat");
 		if (overload) {
@@ -2161,7 +2161,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::sigmaHat();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "setIdColAcol");
 		if (overload) {
@@ -2174,7 +2174,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::setIdColAcol();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "name");
 		if (overload) {
@@ -2187,7 +2187,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "code");
 		if (overload) {
@@ -2200,7 +2200,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::code();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "inFlux");
 		if (overload) {
@@ -2213,7 +2213,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::inFlux();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "id3Mass");
 		if (overload) {
@@ -2226,7 +2226,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::id3Mass();
 	}
-	class std::basic_string<char> namePrefix() const override { 
+	class std::basic_string<char> namePrefix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "namePrefix");
 		if (overload) {
@@ -2239,7 +2239,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::namePrefix();
 	}
-	class std::basic_string<char> namePostfix() const override { 
+	class std::basic_string<char> namePostfix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "namePostfix");
 		if (overload) {
@@ -2252,7 +2252,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2gg2QQbarX8g::namePostfix();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "nFinal");
 		if (overload) {
@@ -2265,7 +2265,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "set2Kin");
 		if (overload) {
@@ -2278,7 +2278,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "set2KinMPI");
 		if (overload) {
@@ -2291,7 +2291,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -2304,7 +2304,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "final2KinMPI");
 		if (overload) {
@@ -2317,7 +2317,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "store2Kin");
 		if (overload) {
@@ -2330,7 +2330,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "store2KinMPI");
 		if (overload) {
@@ -2343,7 +2343,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "setupForME");
 		if (overload) {
@@ -2356,7 +2356,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "initFlux");
 		if (overload) {
@@ -2369,7 +2369,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "set1Kin");
 		if (overload) {
@@ -2382,7 +2382,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "set3Kin");
 		if (overload) {
@@ -2395,7 +2395,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "sigmaPDF");
 		if (overload) {
@@ -2408,7 +2408,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "weightDecayFlav");
 		if (overload) {
@@ -2421,7 +2421,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "weightDecay");
 		if (overload) {
@@ -2434,7 +2434,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "setScale");
 		if (overload) {
@@ -2447,7 +2447,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "convert2mb");
 		if (overload) {
@@ -2460,7 +2460,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "convertM2");
 		if (overload) {
@@ -2473,7 +2473,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isLHA");
 		if (overload) {
@@ -2486,7 +2486,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isNonDiff");
 		if (overload) {
@@ -2499,7 +2499,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isResolved");
 		if (overload) {
@@ -2512,7 +2512,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isDiffA");
 		if (overload) {
@@ -2525,7 +2525,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isDiffB");
 		if (overload) {
@@ -2538,7 +2538,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isDiffC");
 		if (overload) {
@@ -2551,7 +2551,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isSUSY");
 		if (overload) {
@@ -2564,7 +2564,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -2577,7 +2577,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "id4Mass");
 		if (overload) {
@@ -2590,7 +2590,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::id4Mass();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "id5Mass");
 		if (overload) {
@@ -2603,7 +2603,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "resonanceA");
 		if (overload) {
@@ -2616,7 +2616,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "resonanceB");
 		if (overload) {
@@ -2629,7 +2629,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isSChannel");
 		if (overload) {
@@ -2642,7 +2642,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "idSChannel");
 		if (overload) {
@@ -2655,7 +2655,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "isQCD3body");
 		if (overload) {
@@ -2668,7 +2668,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "idTchan1");
 		if (overload) {
@@ -2681,7 +2681,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "idTchan2");
 		if (overload) {
@@ -2694,7 +2694,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "tChanFracPow1");
 		if (overload) {
@@ -2707,7 +2707,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "tChanFracPow2");
 		if (overload) {
@@ -2720,7 +2720,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "useMirrorWeight");
 		if (overload) {
@@ -2733,7 +2733,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "gmZmode");
 		if (overload) {
@@ -2746,7 +2746,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "setIdInDiff");
 		if (overload) {
@@ -2759,7 +2759,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -2772,7 +2772,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "onBeginEvent");
 		if (overload) {
@@ -2785,7 +2785,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "onEndEvent");
 		if (overload) {
@@ -2798,7 +2798,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbarX8g *>(this), "onStat");
 		if (overload) {
@@ -2817,7 +2817,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbarX8g : public Pythia8::Sigma2gg2QQbarX8g 
 struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q {
 	using Pythia8::Sigma2qg2QQbarX8q::Sigma2qg2QQbarX8q;
 
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "sigmaKin");
 		if (overload) {
@@ -2830,7 +2830,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2qg2QQbarX8q::sigmaKin();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "setIdColAcol");
 		if (overload) {
@@ -2843,7 +2843,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2qg2QQbarX8q::setIdColAcol();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "inFlux");
 		if (overload) {
@@ -2856,7 +2856,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2qg2QQbarX8q::inFlux();
 	}
-	class std::basic_string<char> namePrefix() const override { 
+	class std::basic_string<char> namePrefix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "namePrefix");
 		if (overload) {
@@ -2869,7 +2869,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2qg2QQbarX8q::namePrefix();
 	}
-	class std::basic_string<char> namePostfix() const override { 
+	class std::basic_string<char> namePostfix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "namePostfix");
 		if (overload) {
@@ -2882,7 +2882,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2qg2QQbarX8q::namePostfix();
 	}
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "initProc");
 		if (overload) {
@@ -2895,7 +2895,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2gg2QQbarX8g::initProc();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "sigmaHat");
 		if (overload) {
@@ -2908,7 +2908,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2gg2QQbarX8g::sigmaHat();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "name");
 		if (overload) {
@@ -2921,7 +2921,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2gg2QQbarX8g::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "code");
 		if (overload) {
@@ -2934,7 +2934,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2gg2QQbarX8g::code();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "id3Mass");
 		if (overload) {
@@ -2947,7 +2947,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2gg2QQbarX8g::id3Mass();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "nFinal");
 		if (overload) {
@@ -2960,7 +2960,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "set2Kin");
 		if (overload) {
@@ -2973,7 +2973,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "set2KinMPI");
 		if (overload) {
@@ -2986,7 +2986,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -2999,7 +2999,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "final2KinMPI");
 		if (overload) {
@@ -3012,7 +3012,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "store2Kin");
 		if (overload) {
@@ -3025,7 +3025,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "store2KinMPI");
 		if (overload) {
@@ -3038,7 +3038,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "setupForME");
 		if (overload) {
@@ -3051,7 +3051,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "initFlux");
 		if (overload) {
@@ -3064,7 +3064,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "set1Kin");
 		if (overload) {
@@ -3077,7 +3077,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "set3Kin");
 		if (overload) {
@@ -3090,7 +3090,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "sigmaPDF");
 		if (overload) {
@@ -3103,7 +3103,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "weightDecayFlav");
 		if (overload) {
@@ -3116,7 +3116,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "weightDecay");
 		if (overload) {
@@ -3129,7 +3129,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "setScale");
 		if (overload) {
@@ -3142,7 +3142,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "convert2mb");
 		if (overload) {
@@ -3155,7 +3155,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "convertM2");
 		if (overload) {
@@ -3168,7 +3168,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isLHA");
 		if (overload) {
@@ -3181,7 +3181,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isNonDiff");
 		if (overload) {
@@ -3194,7 +3194,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isResolved");
 		if (overload) {
@@ -3207,7 +3207,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isDiffA");
 		if (overload) {
@@ -3220,7 +3220,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isDiffB");
 		if (overload) {
@@ -3233,7 +3233,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isDiffC");
 		if (overload) {
@@ -3246,7 +3246,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isSUSY");
 		if (overload) {
@@ -3259,7 +3259,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -3272,7 +3272,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "id4Mass");
 		if (overload) {
@@ -3285,7 +3285,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::id4Mass();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "id5Mass");
 		if (overload) {
@@ -3298,7 +3298,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "resonanceA");
 		if (overload) {
@@ -3311,7 +3311,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "resonanceB");
 		if (overload) {
@@ -3324,7 +3324,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isSChannel");
 		if (overload) {
@@ -3337,7 +3337,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "idSChannel");
 		if (overload) {
@@ -3350,7 +3350,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "isQCD3body");
 		if (overload) {
@@ -3363,7 +3363,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "idTchan1");
 		if (overload) {
@@ -3376,7 +3376,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "idTchan2");
 		if (overload) {
@@ -3389,7 +3389,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "tChanFracPow1");
 		if (overload) {
@@ -3402,7 +3402,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "tChanFracPow2");
 		if (overload) {
@@ -3415,7 +3415,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "useMirrorWeight");
 		if (overload) {
@@ -3428,7 +3428,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "gmZmode");
 		if (overload) {
@@ -3441,7 +3441,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "setIdInDiff");
 		if (overload) {
@@ -3454,7 +3454,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -3467,7 +3467,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "onBeginEvent");
 		if (overload) {
@@ -3480,7 +3480,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "onEndEvent");
 		if (overload) {
@@ -3493,7 +3493,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qg2QQbarX8q *>(this), "onStat");
 		if (overload) {
@@ -3512,7 +3512,7 @@ struct PyCallBack_Pythia8_Sigma2qg2QQbarX8q : public Pythia8::Sigma2qg2QQbarX8q 
 struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQbarX8g {
 	using Pythia8::Sigma2qqbar2QQbarX8g::Sigma2qqbar2QQbarX8g;
 
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "sigmaKin");
 		if (overload) {
@@ -3525,7 +3525,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2qqbar2QQbarX8g::sigmaKin();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "setIdColAcol");
 		if (overload) {
@@ -3538,7 +3538,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2qqbar2QQbarX8g::setIdColAcol();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "inFlux");
 		if (overload) {
@@ -3551,7 +3551,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2qqbar2QQbarX8g::inFlux();
 	}
-	class std::basic_string<char> namePrefix() const override { 
+	class std::basic_string<char> namePrefix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "namePrefix");
 		if (overload) {
@@ -3564,7 +3564,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2qqbar2QQbarX8g::namePrefix();
 	}
-	class std::basic_string<char> namePostfix() const override { 
+	class std::basic_string<char> namePostfix() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "namePostfix");
 		if (overload) {
@@ -3577,7 +3577,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2qqbar2QQbarX8g::namePostfix();
 	}
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "initProc");
 		if (overload) {
@@ -3590,7 +3590,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2gg2QQbarX8g::initProc();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "sigmaHat");
 		if (overload) {
@@ -3603,7 +3603,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2gg2QQbarX8g::sigmaHat();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "name");
 		if (overload) {
@@ -3616,7 +3616,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2gg2QQbarX8g::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "code");
 		if (overload) {
@@ -3629,7 +3629,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2gg2QQbarX8g::code();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "id3Mass");
 		if (overload) {
@@ -3642,7 +3642,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2gg2QQbarX8g::id3Mass();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "nFinal");
 		if (overload) {
@@ -3655,7 +3655,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "set2Kin");
 		if (overload) {
@@ -3668,7 +3668,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "set2KinMPI");
 		if (overload) {
@@ -3681,7 +3681,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -3694,7 +3694,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "final2KinMPI");
 		if (overload) {
@@ -3707,7 +3707,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "store2Kin");
 		if (overload) {
@@ -3720,7 +3720,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "store2KinMPI");
 		if (overload) {
@@ -3733,7 +3733,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "setupForME");
 		if (overload) {
@@ -3746,7 +3746,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "initFlux");
 		if (overload) {
@@ -3759,7 +3759,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "set1Kin");
 		if (overload) {
@@ -3772,7 +3772,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "set3Kin");
 		if (overload) {
@@ -3785,7 +3785,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "sigmaPDF");
 		if (overload) {
@@ -3798,7 +3798,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "weightDecayFlav");
 		if (overload) {
@@ -3811,7 +3811,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "weightDecay");
 		if (overload) {
@@ -3824,7 +3824,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "setScale");
 		if (overload) {
@@ -3837,7 +3837,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "convert2mb");
 		if (overload) {
@@ -3850,7 +3850,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "convertM2");
 		if (overload) {
@@ -3863,7 +3863,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isLHA");
 		if (overload) {
@@ -3876,7 +3876,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isNonDiff");
 		if (overload) {
@@ -3889,7 +3889,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isResolved");
 		if (overload) {
@@ -3902,7 +3902,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isDiffA");
 		if (overload) {
@@ -3915,7 +3915,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isDiffB");
 		if (overload) {
@@ -3928,7 +3928,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isDiffC");
 		if (overload) {
@@ -3941,7 +3941,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isSUSY");
 		if (overload) {
@@ -3954,7 +3954,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -3967,7 +3967,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "id4Mass");
 		if (overload) {
@@ -3980,7 +3980,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::id4Mass();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "id5Mass");
 		if (overload) {
@@ -3993,7 +3993,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "resonanceA");
 		if (overload) {
@@ -4006,7 +4006,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "resonanceB");
 		if (overload) {
@@ -4019,7 +4019,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isSChannel");
 		if (overload) {
@@ -4032,7 +4032,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "idSChannel");
 		if (overload) {
@@ -4045,7 +4045,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "isQCD3body");
 		if (overload) {
@@ -4058,7 +4058,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "idTchan1");
 		if (overload) {
@@ -4071,7 +4071,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "idTchan2");
 		if (overload) {
@@ -4084,7 +4084,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "tChanFracPow1");
 		if (overload) {
@@ -4097,7 +4097,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "tChanFracPow2");
 		if (overload) {
@@ -4110,7 +4110,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "useMirrorWeight");
 		if (overload) {
@@ -4123,7 +4123,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "gmZmode");
 		if (overload) {
@@ -4136,7 +4136,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "setIdInDiff");
 		if (overload) {
@@ -4149,7 +4149,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -4162,7 +4162,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "onBeginEvent");
 		if (overload) {
@@ -4175,7 +4175,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "onEndEvent");
 		if (overload) {
@@ -4188,7 +4188,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbarX8g *>(this), "onStat");
 		if (overload) {
@@ -4207,7 +4207,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbarX8g : public Pythia8::Sigma2qqbar2QQb
 struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg2QQbar3S11QQbar3S11 {
 	using Pythia8::Sigma2gg2QQbar3S11QQbar3S11::Sigma2gg2QQbar3S11QQbar3S11;
 
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "initProc");
 		if (overload) {
@@ -4220,7 +4220,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::initProc();
 	}
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "sigmaKin");
 		if (overload) {
@@ -4233,7 +4233,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::sigmaKin();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "sigmaHat");
 		if (overload) {
@@ -4246,7 +4246,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::sigmaHat();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "setIdColAcol");
 		if (overload) {
@@ -4259,7 +4259,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::setIdColAcol();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "name");
 		if (overload) {
@@ -4272,7 +4272,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "code");
 		if (overload) {
@@ -4285,7 +4285,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::code();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "inFlux");
 		if (overload) {
@@ -4298,7 +4298,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::inFlux();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "id3Mass");
 		if (overload) {
@@ -4311,7 +4311,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::id3Mass();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "id4Mass");
 		if (overload) {
@@ -4324,7 +4324,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2gg2QQbar3S11QQbar3S11::id4Mass();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "nFinal");
 		if (overload) {
@@ -4337,7 +4337,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "set2Kin");
 		if (overload) {
@@ -4350,7 +4350,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "set2KinMPI");
 		if (overload) {
@@ -4363,7 +4363,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -4376,7 +4376,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "final2KinMPI");
 		if (overload) {
@@ -4389,7 +4389,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "store2Kin");
 		if (overload) {
@@ -4402,7 +4402,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "store2KinMPI");
 		if (overload) {
@@ -4415,7 +4415,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "setupForME");
 		if (overload) {
@@ -4428,7 +4428,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "initFlux");
 		if (overload) {
@@ -4441,7 +4441,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "set1Kin");
 		if (overload) {
@@ -4454,7 +4454,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "set3Kin");
 		if (overload) {
@@ -4467,7 +4467,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "sigmaPDF");
 		if (overload) {
@@ -4480,7 +4480,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "weightDecayFlav");
 		if (overload) {
@@ -4493,7 +4493,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "weightDecay");
 		if (overload) {
@@ -4506,7 +4506,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "setScale");
 		if (overload) {
@@ -4519,7 +4519,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "convert2mb");
 		if (overload) {
@@ -4532,7 +4532,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "convertM2");
 		if (overload) {
@@ -4545,7 +4545,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isLHA");
 		if (overload) {
@@ -4558,7 +4558,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isNonDiff");
 		if (overload) {
@@ -4571,7 +4571,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isResolved");
 		if (overload) {
@@ -4584,7 +4584,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isDiffA");
 		if (overload) {
@@ -4597,7 +4597,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isDiffB");
 		if (overload) {
@@ -4610,7 +4610,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isDiffC");
 		if (overload) {
@@ -4623,7 +4623,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isSUSY");
 		if (overload) {
@@ -4636,7 +4636,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -4649,7 +4649,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "id5Mass");
 		if (overload) {
@@ -4662,7 +4662,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "resonanceA");
 		if (overload) {
@@ -4675,7 +4675,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "resonanceB");
 		if (overload) {
@@ -4688,7 +4688,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isSChannel");
 		if (overload) {
@@ -4701,7 +4701,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "idSChannel");
 		if (overload) {
@@ -4714,7 +4714,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "isQCD3body");
 		if (overload) {
@@ -4727,7 +4727,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "idTchan1");
 		if (overload) {
@@ -4740,7 +4740,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "idTchan2");
 		if (overload) {
@@ -4753,7 +4753,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "tChanFracPow1");
 		if (overload) {
@@ -4766,7 +4766,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "tChanFracPow2");
 		if (overload) {
@@ -4779,7 +4779,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "useMirrorWeight");
 		if (overload) {
@@ -4792,7 +4792,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "gmZmode");
 		if (overload) {
@@ -4805,7 +4805,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "setIdInDiff");
 		if (overload) {
@@ -4818,7 +4818,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -4831,7 +4831,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "onBeginEvent");
 		if (overload) {
@@ -4844,7 +4844,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "onEndEvent");
 		if (overload) {
@@ -4857,7 +4857,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2gg2QQbar3S11QQbar3S11 *>(this), "onStat");
 		if (overload) {
@@ -4876,7 +4876,7 @@ struct PyCallBack_Pythia8_Sigma2gg2QQbar3S11QQbar3S11 : public Pythia8::Sigma2gg
 struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 {
 	using Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11::Sigma2qqbar2QQbar3S11QQbar3S11;
 
-	void initProc() override { 
+	void initProc() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "initProc");
 		if (overload) {
@@ -4889,7 +4889,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::initProc();
 	}
-	void sigmaKin() override { 
+	void sigmaKin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "sigmaKin");
 		if (overload) {
@@ -4902,7 +4902,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::sigmaKin();
 	}
-	double sigmaHat() override { 
+	double sigmaHat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "sigmaHat");
 		if (overload) {
@@ -4915,7 +4915,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::sigmaHat();
 	}
-	void setIdColAcol() override { 
+	void setIdColAcol() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "setIdColAcol");
 		if (overload) {
@@ -4928,7 +4928,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::setIdColAcol();
 	}
-	class std::basic_string<char> name() const override { 
+	class std::basic_string<char> name() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "name");
 		if (overload) {
@@ -4941,7 +4941,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::name();
 	}
-	int code() const override { 
+	int code() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "code");
 		if (overload) {
@@ -4954,7 +4954,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::code();
 	}
-	class std::basic_string<char> inFlux() const override { 
+	class std::basic_string<char> inFlux() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "inFlux");
 		if (overload) {
@@ -4967,7 +4967,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::inFlux();
 	}
-	int id3Mass() const override { 
+	int id3Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "id3Mass");
 		if (overload) {
@@ -4980,7 +4980,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::id3Mass();
 	}
-	int id4Mass() const override { 
+	int id4Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "id4Mass");
 		if (overload) {
@@ -4993,7 +4993,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2qqbar2QQbar3S11QQbar3S11::id4Mass();
 	}
-	int nFinal() const override { 
+	int nFinal() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "nFinal");
 		if (overload) {
@@ -5006,7 +5006,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::nFinal();
 	}
-	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void set2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "set2Kin");
 		if (overload) {
@@ -5019,7 +5019,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::set2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void set2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "set2KinMPI");
 		if (overload) {
@@ -5032,7 +5032,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::set2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	double sigmaHatWrap(int a0, int a1) override { 
+	double sigmaHatWrap(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "sigmaHatWrap");
 		if (overload) {
@@ -5045,7 +5045,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::sigmaHatWrap(a0, a1);
 	}
-	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override { 
+	bool final2KinMPI(int a0, int a1, class Pythia8::Vec4 a2, class Pythia8::Vec4 a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "final2KinMPI");
 		if (overload) {
@@ -5058,7 +5058,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::final2KinMPI(a0, a1, a2, a3, a4, a5);
 	}
-	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override { 
+	void store2Kin(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "store2Kin");
 		if (overload) {
@@ -5071,7 +5071,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::store2Kin(a0, a1, a2, a3, a4, a5, a6, a7);
 	}
-	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override { 
+	void store2KinMPI(double a0, double a1, double a2, double a3, double a4, double a5, double a6, bool a7, double a8, double a9) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "store2KinMPI");
 		if (overload) {
@@ -5084,7 +5084,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::store2KinMPI(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
-	bool setupForME() override { 
+	bool setupForME() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "setupForME");
 		if (overload) {
@@ -5097,7 +5097,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return Sigma2Process::setupForME();
 	}
-	bool initFlux() override { 
+	bool initFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "initFlux");
 		if (overload) {
@@ -5110,7 +5110,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::initFlux();
 	}
-	void set1Kin(double a0, double a1, double a2) override { 
+	void set1Kin(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "set1Kin");
 		if (overload) {
@@ -5123,7 +5123,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::set1Kin(a0, a1, a2);
 	}
-	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override { 
+	void set3Kin(double a0, double a1, double a2, class Pythia8::Vec4 a3, class Pythia8::Vec4 a4, class Pythia8::Vec4 a5, double a6, double a7, double a8, double a9, double a10, double a11) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "set3Kin");
 		if (overload) {
@@ -5136,7 +5136,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::set3Kin(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override { 
+	double sigmaPDF(bool a0, bool a1, bool a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "sigmaPDF");
 		if (overload) {
@@ -5149,7 +5149,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::sigmaPDF(a0, a1, a2, a3, a4);
 	}
-	double weightDecayFlav(class Pythia8::Event & a0) override { 
+	double weightDecayFlav(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "weightDecayFlav");
 		if (overload) {
@@ -5162,7 +5162,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::weightDecayFlav(a0);
 	}
-	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override { 
+	double weightDecay(class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "weightDecay");
 		if (overload) {
@@ -5175,7 +5175,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::weightDecay(a0, a1, a2);
 	}
-	void setScale() override { 
+	void setScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "setScale");
 		if (overload) {
@@ -5188,7 +5188,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::setScale();
 	}
-	bool convert2mb() const override { 
+	bool convert2mb() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "convert2mb");
 		if (overload) {
@@ -5201,7 +5201,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::convert2mb();
 	}
-	bool convertM2() const override { 
+	bool convertM2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "convertM2");
 		if (overload) {
@@ -5214,7 +5214,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::convertM2();
 	}
-	bool isLHA() const override { 
+	bool isLHA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isLHA");
 		if (overload) {
@@ -5227,7 +5227,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isLHA();
 	}
-	bool isNonDiff() const override { 
+	bool isNonDiff() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isNonDiff");
 		if (overload) {
@@ -5240,7 +5240,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isNonDiff();
 	}
-	bool isResolved() const override { 
+	bool isResolved() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isResolved");
 		if (overload) {
@@ -5253,7 +5253,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isResolved();
 	}
-	bool isDiffA() const override { 
+	bool isDiffA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isDiffA");
 		if (overload) {
@@ -5266,7 +5266,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isDiffA();
 	}
-	bool isDiffB() const override { 
+	bool isDiffB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isDiffB");
 		if (overload) {
@@ -5279,7 +5279,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isDiffB();
 	}
-	bool isDiffC() const override { 
+	bool isDiffC() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isDiffC");
 		if (overload) {
@@ -5292,7 +5292,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isDiffC();
 	}
-	bool isSUSY() const override { 
+	bool isSUSY() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isSUSY");
 		if (overload) {
@@ -5305,7 +5305,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isSUSY();
 	}
-	bool allowNegativeSigma() const override { 
+	bool allowNegativeSigma() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "allowNegativeSigma");
 		if (overload) {
@@ -5318,7 +5318,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::allowNegativeSigma();
 	}
-	int id5Mass() const override { 
+	int id5Mass() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "id5Mass");
 		if (overload) {
@@ -5331,7 +5331,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::id5Mass();
 	}
-	int resonanceA() const override { 
+	int resonanceA() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "resonanceA");
 		if (overload) {
@@ -5344,7 +5344,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::resonanceA();
 	}
-	int resonanceB() const override { 
+	int resonanceB() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "resonanceB");
 		if (overload) {
@@ -5357,7 +5357,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::resonanceB();
 	}
-	bool isSChannel() const override { 
+	bool isSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isSChannel");
 		if (overload) {
@@ -5370,7 +5370,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isSChannel();
 	}
-	int idSChannel() const override { 
+	int idSChannel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "idSChannel");
 		if (overload) {
@@ -5383,7 +5383,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::idSChannel();
 	}
-	bool isQCD3body() const override { 
+	bool isQCD3body() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "isQCD3body");
 		if (overload) {
@@ -5396,7 +5396,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::isQCD3body();
 	}
-	int idTchan1() const override { 
+	int idTchan1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "idTchan1");
 		if (overload) {
@@ -5409,7 +5409,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::idTchan1();
 	}
-	int idTchan2() const override { 
+	int idTchan2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "idTchan2");
 		if (overload) {
@@ -5422,7 +5422,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::idTchan2();
 	}
-	double tChanFracPow1() const override { 
+	double tChanFracPow1() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "tChanFracPow1");
 		if (overload) {
@@ -5435,7 +5435,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::tChanFracPow1();
 	}
-	double tChanFracPow2() const override { 
+	double tChanFracPow2() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "tChanFracPow2");
 		if (overload) {
@@ -5448,7 +5448,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::tChanFracPow2();
 	}
-	bool useMirrorWeight() const override { 
+	bool useMirrorWeight() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "useMirrorWeight");
 		if (overload) {
@@ -5461,7 +5461,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::useMirrorWeight();
 	}
-	int gmZmode() const override { 
+	int gmZmode() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "gmZmode");
 		if (overload) {
@@ -5474,7 +5474,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::gmZmode();
 	}
-	void setIdInDiff(int a0, int a1) override { 
+	void setIdInDiff(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "setIdInDiff");
 		if (overload) {
@@ -5487,7 +5487,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return SigmaProcess::setIdInDiff(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -5500,7 +5500,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "onBeginEvent");
 		if (overload) {
@@ -5513,7 +5513,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "onEndEvent");
 		if (overload) {
@@ -5526,7 +5526,7 @@ struct PyCallBack_Pythia8_Sigma2qqbar2QQbar3S11QQbar3S11 : public Pythia8::Sigma
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Sigma2qqbar2QQbar3S11QQbar3S11 *>(this), "onStat");
 		if (overload) {

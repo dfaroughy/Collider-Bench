@@ -1,26 +1,26 @@
       SUBROUTINE SBORN(P,ANS_SUMMED)
-C  
+C
 %(info_lines)s
 C
 C
 C     Return the sum of the split orders which are required in orders.inc (BORN_ORDERS)
 C     Also the values needed for the counterterms are stored in the C_BORN_CNT common block
-C  
-C  
+C
+C
 %(process_lines)s
 C
-C  
+C
 C CONSTANTS
-C 
+C
       implicit none
       include 'nexternal.inc'
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS=   %(ngraphs)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1)
       double precision ans_summed
 C
@@ -35,7 +35,7 @@ C
       data keep_order / NSQAMPSO * .TRUE. /
       logical keep_order_born(NSQAMPSO)
       common /c_keep_order_B/ keep_order_born
-      common /c_keep_order_cnt/ keep_order_cnt 
+      common /c_keep_order_cnt/ keep_order_cnt
       common /c_born_cnt/ ans_cnt
       integer ord_subtract
       data firsttime / .TRUE. /
@@ -62,7 +62,7 @@ C
 C
 C BEGIN CODE
 C
-C look for orders which match the born order constraint 
+C look for orders which match the born order constraint
 
 force_ijglu_zero = .false.
 
@@ -72,7 +72,7 @@ C this is for the orders of the born to integrate
   do j = 1, nsplitorders
    if(GETORDPOWFROMINDEX_B(j, i) .gt. born_orders(j)) then
     keep_order(i) = .false.
-    EXIT 
+    EXIT
    endif
   enddo
   keep_order_born = keep_order
@@ -88,7 +88,7 @@ C this is for the orders of the counterterms
     endif
     if(GETORDPOWFROMINDEX_B(k, i) .gt. nlo_orders(k)-ord_subtract) then
      keep_order_cnt(j,i) = .false.
-     EXIT 
+     EXIT
     endif
    enddo
   enddo
@@ -144,7 +144,7 @@ C   keep track of the separate pieces correspoinding to different coupling combi
     if(abs(ans(1,i)).gt.max_val*tiny) amp_split(orders_to_amp_split_pos(amp_orders)) = ans(1,i)
  endif
 enddo
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
 if (abs(ans_summed).lt.max_val*tiny) ans_summed=0d0
 
 wgt_me_born=ans_summed
@@ -166,7 +166,7 @@ do j = 1, nsplitorders
  ans_cnt(1:2,j) = (0d0, 0d0)
  if (.not.split_type_used(j)) cycle
  do i = 1, nsqampso
-  if (keep_order_cnt(j,i)) then 
+  if (keep_order_cnt(j,i)) then
    ANS_CNT(1,j) = ANS_CNT(1,J) + ANS(1,I)
    ANS_CNT(2,j) = ANS_CNT(2,J) + ANS(2,I)
 C   keep track of the separate pieces also for counterterms
@@ -176,12 +176,12 @@ C take into account the fact that the counterterm for a given split order
 C will be multiplied by the corresponding squared coupling
       if (k.eq.j) amp_orders(k) = amp_orders(k) + 2
    enddo
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
    if (abs(ans(1,I)).gt.max_val*tiny) amp_split_cnt(orders_to_amp_split_pos(amp_orders),1,j) = ans(1,I)
    if (abs(ans(2,I)).gt.max_val*tiny) amp_split_cnt(orders_to_amp_split_pos(amp_orders),2,j) = ans(2,I)
   endif
  enddo
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
  if (abs(ans_cnt(1,j)).lt.max_val*tiny) ans_cnt(1,j)=(0d0,0d0)
  if (abs(ans_cnt(2,j)).lt.max_val*tiny) ans_cnt(2,j)=(0d0,0d0)
 enddo
@@ -195,29 +195,29 @@ END
 
 
       SUBROUTINE SBORN_ONEHEL(P,NHEL,HELL,ANS_SUMMED)
-C  
+C
 %(info_lines)s
 C
 C
 C     Return the sum of the split orders which are required in orders.inc (BORN_ORDERS)
 C     It works for a single set of helicities, passed by NHEL
 C     Also the values needed for the counterterms are stored in the C_BORN_CNT common block
-C  
-C  
+C
+C
 %(process_lines)s
 C
-C  
+C
 C CONSTANTS
-C 
+C
       implicit none
       include 'nexternal.inc'
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS=   %(ngraphs)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1)
       INTEGER NHEL(NEXTERNAL-1)
       integer HELL
@@ -233,7 +233,7 @@ C
       common /c_keep_order_B/ keep_order
 
       LOGICAL KEEP_ORDER_CNT(NSPLITORDERS, NSQAMPSO)
-      common /c_keep_order_cnt/ keep_order_cnt 
+      common /c_keep_order_cnt/ keep_order_cnt
 
       integer amp_orders(nsplitorders)
       double precision tiny
@@ -263,7 +263,7 @@ C     stuff for the LO2
 C
 C BEGIN CODE
 C
-C look for orders which match the born order constraint 
+C look for orders which match the born order constraint
 
       iden=iden_values(nfksprocess)
 force_ijglu_zero = .true.
@@ -303,7 +303,7 @@ C the following is for the LO2
     endif
 enddo
 
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
 if (abs(ans_summed).lt.max_val*tiny) ans_summed=0d0
 
   return
@@ -313,19 +313,19 @@ END
 
 
 SUBROUTINE SBORN_SPLITORDERS(P1,ANS)
-C  
+C
 %(info_lines)s
 C
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C AND HELICITIES
 C FOR THE POINT IN PHASE SPACE P1(0:3,NEXTERNAL-1)
-C  
+C
 %(process_lines)s
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       include "nexternal.inc"
       include "born_nhel.inc"
       INTEGER     NCOMB
@@ -336,14 +336,14 @@ C
       PARAMETER (THEL=NCOMB*%(nconfs)d)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS=   %(ngraphs)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P1(0:3,NEXTERNAL-1)
       COMPLEX*16 ANS(2,0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER IHEL,IDEN,i,j,jj,glu_ij
       REAL*8 borns(2,0:NSQAMPSO)
       COMPLEX*16 BORNTILDE
@@ -354,12 +354,12 @@ C
 %(helicity_lines)s
 %(den_factor_lines)s
 %(ij_lines)s
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       Double Precision amp2(ngraphs), jamp2(0:%(ncolor)d,0:NAMPSO)
       common/to_amps_born/  amp2,       jamp2
-      DATA jamp2(0,0) /   %(ncolor)d/          
+      DATA jamp2(0,0) /   %(ncolor)d/
       LOGICAL GOODHEL(NCOMB,%(nconfs)d)
       common /c_goodhel/goodhel
       double complex saveamp(ngraphs,max_bhel)
@@ -384,7 +384,7 @@ C ----------
        if (glu_ij.eq.0) then
          skip(nfksprocess)=0
        else
-         skip(nFKSprocess)=1			 
+         skip(nFKSprocess)=1
          do while(nhel(glu_ij ,skip(nFKSprocess)).ne.-NHEL(GLU_IJ ,1))
             skip(nFKSprocess)=skip(nFKSprocess)+1
          enddo
@@ -431,7 +431,7 @@ C ----------
         !if (nhel(glu_ij,ihel).EQ.NHEL(GLU_IJ,1).or.skip(nfksprocess).eq.0) then
         if (cond_ij) then
           IF ((GOODHEL(IHEL,nFKSprocess) .OR. GOODHEL(IHEL+SKIP(nFKSprocess),nFKSprocess) .OR. NTRY(nFKSprocess) .LT. 2) ) THEN
-            
+
             CALL BORN(P1,NHEL(1,IHEL),IHEL,T,borns)
             DO I=1,NSQAMPSO
                 ANS(1,I)=ANS(1,I)+T(1,I)
@@ -454,26 +454,26 @@ C ----------
       ENDDO
       calculatedBorn=.true.
       END
-       
-       
+
+
       SUBROUTINE BORN(P,NHEL,HELL,ANS,borns)
-C  
+C
 %(info_lines)s
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
-      INTEGER    NGRAPHS,    NEIGEN 
-      PARAMETER (NGRAPHS=   %(ngraphs)d,NEIGEN=  1) 
+      INTEGER    NGRAPHS,    NEIGEN
+      PARAMETER (NGRAPHS=   %(ngraphs)d,NEIGEN=  1)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       complex*16 imag1
@@ -481,26 +481,26 @@ C
       include "nexternal.inc"
       include "born_nhel.inc"
       include "coupl.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1),borns(2,0:NSQAMPSO)
       INTEGER NHEL(NEXTERNAL-1), HELL
       COMPLEX*16 ANS(2,NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N,ihel,back_hel,glu_ij
       INTEGER IC(NEXTERNAL-1),nmo
       parameter (nmo=nexternal-1)
       data ic /nmo*1/
       INTEGER CF(NCOLOR*(NCOLOR+1)/2)
-      INTEGER CF_INDEX, DENOM   
+      INTEGER CF_INDEX, DENOM
       COMPLEX*16 ZTEMP, AMP(NGRAPHS), JAMP(NCOLOR,NAMPSO), W(%(wavefunctionsize)d,NWAVEFUNCS), jamph(2, ncolor,nampso)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       Double Precision amp2(%(ngraphs)d), jamp2(0:%(ncolor)d,0:nampso)
       common/to_amps_born/  amp2,       jamp2
       double complex saveamp(ngraphs,max_bhel)
@@ -523,9 +523,9 @@ C
       INTEGER SQSOINDEXB
 
 %(ij_lines)s
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -551,7 +551,7 @@ C ----------
         if (glu_ij.ne.0) then
           cond_ij=IHEL.EQ.back_hel.OR.NHEL(GLU_IJ).NE.0
         else
-          cond_ij=IHEL.EQ.back_hel 
+          cond_ij=IHEL.EQ.back_hel
         endif
         IF (cond_ij) THEN
         if (glu_ij.ne.0) then
@@ -591,7 +591,7 @@ C ----------
             ZTEMP = ZTEMP + CF(CF_INDEX)*JAMP(J,M)
           ENDDO
 	      DO N = 1, NAMPSO
-              BORNS(2-(1+back_hel*ihel)/2,SQSOINDEXB(M,N))=BORNS(2-(1+back_hel*ihel)/2,SQSOINDEXB(M,N))+ZTEMP*DCONJG(JAMP(I,N))   
+              BORNS(2-(1+back_hel*ihel)/2,SQSOINDEXB(M,N))=BORNS(2-(1+back_hel*ihel)/2,SQSOINDEXB(M,N))+ZTEMP*DCONJG(JAMP(I,N))
           ENDDO
         ENDDO
     ENDDO
@@ -628,7 +628,7 @@ C ----------
       ANS(2,:) = ANS(2,:)/(2d0*DENOM)
       if (glu_ij.ne.0) nhel(glu_ij) = back_hel
       END
-       
+
 
       BLOCK DATA GOODHELS
       INTEGER     NCOMB
@@ -648,13 +648,13 @@ C
 
       INTEGER FUNCTION SQSOINDEXB(AMPORDERA,AMPORDERB)
 C
-C This functions plays the role of the interference matrix. It can be hardcoded or 
+C This functions plays the role of the interference matrix. It can be hardcoded or
 C made more elegant using hashtables if its execution speed ever becomes a relevant
 C factor. From two split order indices of the jamps, it return the corresponding
 C index in the squared order canonical ordering.
 C
 C CONSTANTS
-C      
+C
       implicit none
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
@@ -777,5 +777,3 @@ C
 	  NSQSO=NSQAMPSO
 
       END
-
-

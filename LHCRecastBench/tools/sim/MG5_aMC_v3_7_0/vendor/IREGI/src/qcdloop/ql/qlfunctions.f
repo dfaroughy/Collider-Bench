@@ -42,7 +42,7 @@
      . /dcmplx(60d0)
       else
       qlL2=(qllnrat(x,y)-dcmplx(0.5d0*(r-1d0/r)))/dcmplx(denom)**3
-      endif  
+      endif
       return
       end
 
@@ -87,4 +87,3 @@
      . -half*qlLnrat(-s,-t)**2
       return
       end
-

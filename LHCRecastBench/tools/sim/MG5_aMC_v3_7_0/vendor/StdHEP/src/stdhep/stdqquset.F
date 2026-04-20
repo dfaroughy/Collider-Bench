@@ -15,7 +15,7 @@ C  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       logical LERROR,lfile
 C  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-C     Initialize variables 
+C     Initialize variables
       call QBINIT
 
 C     Initialize unit numbers

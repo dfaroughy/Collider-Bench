@@ -2,16 +2,16 @@
 C
 C     Return the counterterms which are different from the born. in particular this is needed
 C     for the g/a > qqbar splitting
-C  
+C
 C CONSTANTS
-C 
+C
       implicit none
       include 'nexternal.inc'
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1)
 C
 C VARIABLES
@@ -21,7 +21,7 @@ C
       include 'coupl.inc'
       COMPLEX*16 ANS(2,0:NSQAMPSO), ANS_CNT(2, NSPLITORDERS)
       LOGICAL  KEEP_ORDER_CNT(NSPLITORDERS, NSQAMPSO), FIRSTTIME
-      save keep_order_cnt 
+      save keep_order_cnt
       integer ord_subtract
       data firsttime / .TRUE. /
       integer amp_orders(nsplitorders)
@@ -36,7 +36,7 @@ C
 C
 C BEGIN CODE
 C
-C look for orders which match the born order constraint 
+C look for orders which match the born order constraint
 
 if (firsttime) then
  do i = 1, nsqampso
@@ -52,7 +52,7 @@ C this is for the orders of the counterterms
     endif
     if(GETORDPOWFROMINDEX_B_CNT%(proc_prefix)s(k, i) .gt. nlo_orders(k)-ord_subtract) then
      keep_order_cnt(j,i) = .false.
-     EXIT 
+     EXIT
     endif
    enddo
   enddo
@@ -74,19 +74,19 @@ endif
 CALL SBORN_CNT%(proc_prefix)s_SPLITORDERS(P,ANS)
 
 MAX_VAL = 0D0
- 
+
 C reset the amp_split array
 amp_split_cnt(1:amp_split_size,1:2,1:nsplitorders) = dcmplx(0d0,0d0)
 
 DO I = 1, NSQAMPSO
   MAX_VAL = MAX(MAX_VAL, ABS(ANS(1,I)))
 ENDDO
- 
+
 C quantities for the counterterms
 do j = 1, nsplitorders
  ans_cnt(1:2,j) = dcmplx(0d0, 0d0)
  do i = 1, nsqampso
-  if (keep_order_cnt(j,i)) then 
+  if (keep_order_cnt(j,i)) then
     IF(ABS(ANS(1,I)).GT.MAX_VAL*TINY) ANS_CNT(1,J) = ANS_CNT(1,J) + ANS(1,I)
     IF(ABS(ANS(1,I)).GT.MAX_VAL*TINY) ANS_CNT(2,J) = ANS_CNT(2,J) + ANS(2,I)
 C   keep track of the separate pieces also for counterterms
@@ -101,7 +101,7 @@ C this is to avoid fake non-zero contributions
    IF (ABS(ANS(2,I)).GT.MAX_VAL*TINY) AMP_SPLIT_CNT(ORDERS_TO_AMP_SPLIT_POS(AMP_ORDERS),2,J) = ANS(2,I)
   endif
  enddo
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
  IF (ABS(ANS_CNT(1,J)).LT.MAX_VAL*TINY) ANS_CNT(1,J)=(0D0,0D0)
  IF (ABS(ANS_CNT(2,J)).LT.MAX_VAL*TINY) ANS_CNT(2,J)=(0D0,0D0)
 enddo
@@ -112,19 +112,19 @@ END
 
 
 SUBROUTINE SBORN_CNT%(proc_prefix)s_SPLITORDERS(P1,ANS)
-C  
+C
 %(info_lines)s
 C
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C AND HELICITIES
 C FOR THE POINT IN PHASE SPACE P1(0:3,NEXTERNAL-1)
-C  
+C
 %(process_lines)s
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       include "nexternal.inc"
       include "born_nhel.inc"
       INTEGER     NCOMB
@@ -135,14 +135,14 @@ C
       PARAMETER (THEL=NCOMB)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS=   %(ngraphs)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P1(0:3,NEXTERNAL-1)
       COMPLEX*16 ANS(2,0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER IHEL,IDEN,i,glu_ij
       REAL*8 borns(2,NSQAMPSO)
       INTEGER NTRY
@@ -152,15 +152,15 @@ C
 %(helicity_lines)s
 %(den_factor_lines)s
 %(ij_lines)s
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
 C MZ uncomment and change these lines if we'll decide to
 C use also the amp from the counterterms for the multichannelling
 C      Double Precision amp2(%(ngraphs)d), jamp2(0:%(ncolor)d,0:NAMPSO)
 C      common/to_amps/  amp2,       jamp2
 C
-C MZ      DATA jamp2(0,0) /   %(ncolor)d/          
+C MZ      DATA jamp2(0,0) /   %(ncolor)d/
       LOGICAL GOODHEL(NCOMB)
       save goodhel
       double precision hel_fac
@@ -175,7 +175,7 @@ C ----------
       glu_ij = ij_values(nfksprocess)
       NTRY=NTRY+1
       if (NTRY.lt.2) then
-         skip=1			 
+         skip=1
          do while(nhel(glu_ij ,skip).ne.1)
             skip=skip+1
          enddo
@@ -197,7 +197,7 @@ c MZ      ENDDO
       DO IHEL=1,NCOMB
         if (nhel(glu_ij,ihel).le.0) then
           IF ((GOODHEL(IHEL) .OR. GOODHEL(IHEL+SKIP) .OR. NTRY .LT. 2) ) THEN
-            
+
             CALL BORN_CNT%(proc_prefix)s(P1,NHEL(1,IHEL),IHEL,T,borns)
             DO I=1,NSQAMPSO
                 ANS(1,I)=ANS(1,I)+T(1,I)
@@ -219,26 +219,26 @@ c MZ      ENDDO
       ANS(2,0)=ANS(2,0)+ANS(2,I)
       ENDDO
       END
-       
-       
+
+
       SUBROUTINE BORN_CNT%(proc_prefix)s(P,NHEL,HELL,ANS,borns)
-C  
+C
 %(info_lines)s
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
-      INTEGER    NGRAPHS,    NEIGEN 
-      PARAMETER (NGRAPHS=   %(ngraphs)d,NEIGEN=  1) 
+      INTEGER    NGRAPHS,    NEIGEN
+      PARAMETER (NGRAPHS=   %(ngraphs)d,NEIGEN=  1)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       complex*16 imag1
@@ -246,15 +246,15 @@ C
       include "nexternal.inc"
       include "born_nhel.inc"
       include "coupl.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1),borns(2,NSQAMPSO)
       INTEGER NHEL(NEXTERNAL-1), HELL
       COMPLEX*16 ANS(2,NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N,ihel,back_hel,glu_ij
       INTEGER IC(NEXTERNAL-1),nmo
       parameter (nmo=nexternal-1)
@@ -263,9 +263,9 @@ C
       INTEGER CF_INDEX, DENOM
       COMPLEX*16 ZTEMP, AMP(NGRAPHS), JAMP(NCOLOR,NAMPSO), W(%(wavefunctionsize)d,NWAVEFUNCS), jamph(2, ncolor,nampso)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
 
 C MZ uncomment and change these lines if we'll decide to
 C use also the amp from the counterterms for the multichannelling
@@ -285,9 +285,9 @@ C
       INTEGER SQSOINDEXB_CNT%(proc_prefix)s
 
 %(ij_lines)s
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -322,7 +322,7 @@ C don't chache for extra counterterms
             ZTEMP = ZTEMP + CF(CF_INDEX)*JAMP(J,M)
           ENDDO
 	      DO N = 1, NAMPSO
-              BORNS(2-(1-ihel)/2,SQSOINDEXB_CNT%(proc_prefix)s(M,N))=BORNS(2-(1-ihel)/2,SQSOINDEXB_CNT%(proc_prefix)s(M,N))+ZTEMP*DCONJG(JAMP(I,N))   
+              BORNS(2-(1-ihel)/2,SQSOINDEXB_CNT%(proc_prefix)s(M,N))=BORNS(2-(1-ihel)/2,SQSOINDEXB_CNT%(proc_prefix)s(M,N))+ZTEMP*DCONJG(JAMP(I,N))
           ENDDO
         ENDDO
         ENDDO
@@ -341,10 +341,10 @@ c          Jamp2(i,J)=Jamp2(i,J)+Jamp(i,J)*dconjg(Jamp(i,J))
       endif
       Enddo
       do i = 1, nsqampso
-      ans(1,i) = borns(1,i) + borns(2,i) 
+      ans(1,i) = borns(1,i) + borns(2,i)
       enddo
       DO M = 1, NAMPSO
-      CF_INDEX = 0 
+      CF_INDEX = 0
       DO I = 1, NCOLOR
         ZTEMP = (0.D0,0.D0)
         DO J = I, NCOLOR
@@ -358,7 +358,7 @@ c          Jamp2(i,J)=Jamp2(i,J)+Jamp(i,J)*dconjg(Jamp(i,J))
       ANS(2,:) = ANS(2,:) / (2d0*DENOM)
       nhel(glu_ij) = back_hel
       END
-       
+
 
 
 C
@@ -367,13 +367,13 @@ C
 
       INTEGER FUNCTION SQSOINDEXB_CNT%(proc_prefix)s(AMPORDERA,AMPORDERB)
 C
-C This functions plays the role of the interference matrix. It can be hardcoded or 
+C This functions plays the role of the interference matrix. It can be hardcoded or
 C made more elegant using hashtables if its execution speed ever becomes a relevant
 C factor. From two split order indices of the jamps, it return the corresponding
 C index in the squared order canonical ordering.
 C
 C CONSTANTS
-C      
+C
       implicit none
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
@@ -496,5 +496,3 @@ C
 	  NSQSO=NSQAMPSO
 
       END
-
-

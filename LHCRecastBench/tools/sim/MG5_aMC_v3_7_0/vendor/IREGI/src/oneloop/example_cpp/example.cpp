@@ -1,14 +1,14 @@
-#include <iostream> 
+#include <iostream>
 #include <cmath>
 #include <complex>
 using namespace std;
- 
+
 #include "cavh_olo.h"
 
 int main(){
-  
+
   complex<double> rslt[3];
-  
+
   double rmu = 1.0;
   OLO_SCALE( &rmu );
 

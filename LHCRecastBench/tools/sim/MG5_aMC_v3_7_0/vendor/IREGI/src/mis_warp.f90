@@ -28,7 +28,7 @@ CONTAINS
           p32=PijMatrix(3,3)+PijMatrix(1,1)-2d0*PijMatrix(1,3)
           I0C2(1:4)=C0C1(p12,p22,p32,M2L(1),M2L(2),M2L(3))
           RETURN
-       CASE(4)          
+       CASE(4)
           p12=PijMatrix(2,2)+PijMatrix(1,1)-2d0*PijMatrix(1,2)
           p22=PijMatrix(3,3)+PijMatrix(2,2)-2d0*PijMatrix(3,2)
           p32=PijMatrix(4,4)+PijMatrix(3,3)-2d0*PijMatrix(4,3)
@@ -82,7 +82,7 @@ CONTAINS
           p42=scalarprod(p4,p4)
           s12=scalarprod(p1p2,p1p2)
           s23=scalarprod(p2p3,p2p3)
-          !PRINT *,p12,p22,p32,p42,s12,s23,M2L(1),M2L(2),M2L(3),M2L(4) 
+          !PRINT *,p12,p22,p32,p42,s12,s23,M2L(1),M2L(2),M2L(3),M2L(4)
           I0C1(1:4)=D0C1(p12,p22,p32,p42,s12,s23,&
                M2L(1),M2L(2),M2L(3),M2L(4))
           RETURN
@@ -316,7 +316,7 @@ CONTAINS
     INTEGER::ep
     COMPLEX(KIND(1d0)),DIMENSION(-2:0)::temp
     COMPLEX(KIND(1d0)),DIMENSION(0:2)::zolo
-    COMPLEX(KIND(1d0)),PARAMETER::ipi2=DCMPLX(0d0,9.869604401089358d0) ! imag*pi**2 
+    COMPLEX(KIND(1d0)),PARAMETER::ipi2=DCMPLX(0d0,9.869604401089358d0) ! imag*pi**2
     COMPLEX(KIND(1d0)),PARAMETER::factor1=DCMPLX(0d0,-16.994921386127647d0)
     COMPLEX(KIND(1d0)),PARAMETER::factor2=DCMPLX(0d0,6.514740380268655d0)
     COMPLEX(KIND(1d0)),EXTERNAL::qlI3
@@ -472,7 +472,7 @@ CONTAINS
     INTEGER::ep,flag
     COMPLEX(KIND(1d0)),DIMENSION(-2:0)::temp
     COMPLEX(KIND(1d0)),DIMENSION(0:2)::zolo
-    COMPLEX(KIND(1d0)),PARAMETER::ipi2=DCMPLX(0d0,9.869604401089358d0) ! imag*pi**2 
+    COMPLEX(KIND(1d0)),PARAMETER::ipi2=DCMPLX(0d0,9.869604401089358d0) ! imag*pi**2
     COMPLEX(KIND(1d0)),PARAMETER::factor1=DCMPLX(0d0,-16.994921386127647d0)
     COMPLEX(KIND(1d0)),PARAMETER::factor2=DCMPLX(0d0,6.514740380268655d0)
     COMPLEX(KIND(1d0)),EXTERNAL::qlI4
@@ -526,7 +526,7 @@ CONTAINS
              flag=1
           ELSEIF(ABS(p12-m12).GE.EPS.AND.ABS(p12-m22).GE.EPS&
                .AND.ABS(p32-m32).GE.EPS.AND.ABS(p32-m42).GE.EPS)THEN
-             ! {s12, p22, s23, p42, p12, p32, m12, m32, m22, m42} 
+             ! {s12, p22, s23, p42, p12, p32, m12, m32, m22, m42}
              CALL olo(zolo, DCMPLX(s12),DCMPLX(p22),DCMPLX(s23),DCMPLX(p42),&
                   DCMPLX(p12),DCMPLX(p32),DCMPLX(m12),DCMPLX(m32),&
                   DCMPLX(m22),DCMPLX(m42))

@@ -75,7 +75,7 @@ static char SCCSID[] = "@(#)getfiles.c	1.33	2/5/96";
 #define MAX_ARGS 20			/* Maximum number of X arguments */
 #define PERMS 0666     			/* UNIX file permission, RW for owner,
 					   group, world */
-#define MAX_LIST_KEYSTROKES 100		/* Max # of keys user can type to 
+#define MAX_LIST_KEYSTROKES 100		/* Max # of keys user can type to
 					   a file list */
 #define MAX_LIST_KESTROKE_WAIT 2000	/* Allowable delay in milliseconds
 					   between characters typed to a list
@@ -87,7 +87,7 @@ static char SCCSID[] = "@(#)getfiles.c	1.33	2/5/96";
     static Arg args[1] = {{name, (XtArgVal)0}}; \
     args[0].value = (XtArgVal)newValue; \
     XtSetValues(widget, args, 1); \
-}	
+}
 
 enum yesNoValues {ynNone, ynYes, ynNo};
 
@@ -121,7 +121,7 @@ match.  When you leave off the file name or trailing \"/\", you won't see \
 any files to open in the list \
 because the filter specification matched the directory file itself, rather \
 than the files in the directory.";
-static char *HelpNew = 
+static char *HelpNew =
 "This dialog allows you to create a new file, or to save the current file \
 under a new name.  To specify a file \
 name in the current directory, complete the name displayed in the \"Save File \
@@ -151,7 +151,7 @@ To open a file outside of the current directory, click on the field labeled \
 \"Filter\", type in a directory specification, and press return, or \
 press the Filter button in the dialog.  The files in that directory will \
 then show up in the file list and you can select one as above.";
-static char *HelpNew = 
+static char *HelpNew =
 "The Save As... dialog allows you to save the file you are editing under a \
 new name, or to specify the name for an Untitled file.  To specify a file \
 name in the current directory, complete the name displayed in the \"Save File \
@@ -172,7 +172,7 @@ in the \"File Filter\" field and press the \
 
 static void newFileOKCB(Widget w, Boolean *client_data,
 	       XmFileSelectionBoxCallbackStruct *call_data);
-static void newFileCancelCB(Widget w, Boolean *client_data, caddr_t 
+static void newFileCancelCB(Widget w, Boolean *client_data, caddr_t
                call_data);
 static void newHelpCB(Widget w, Widget helpPanel, caddr_t call_data);
 static void createYesNoDialog(Widget parent);
@@ -206,7 +206,7 @@ static void (*OrigFileSearchProc)();
 #else
 static XmSearchProc OrigDirSearchProc;	/* Built in Motif directory search */
 static XmSearchProc OrigFileSearchProc;	/* Built in Motif file search proc */
-#endif		
+#endif
 
 /*  GetExistingFilename				  	                   */
 /*									   */
@@ -230,7 +230,7 @@ static XmSearchProc OrigFileSearchProc;	/* Built in Motif file search proc */
 /*  Returns:	GFN_OK	      - file was selected and OK button pressed	   */
 /*		GFN_CANCEL    - Cancel button pressed and no returned file */
 /*									   */
-int GetExistingFilename (Widget parent, char *promptString, char *filename) 
+int GetExistingFilename (Widget parent, char *promptString, char *filename)
 {
     int       n;                      /* number of arguments               */
     Arg	      args[MAX_ARGS];	      /* arg list	                   */
@@ -249,7 +249,7 @@ int GetExistingFilename (Widget parent, char *promptString, char *filename)
     XmStringFree(labelString);
     XmStringFree(titleString);
     if (RemoveRedundantTextField)
-    	XtUnmanageChild(XmFileSelectionBoxGetChild(existFileSB, XmDIALOG_TEXT)); 
+    	XtUnmanageChild(XmFileSelectionBoxGetChild(existFileSB, XmDIALOG_TEXT));
     XtUnmanageChild(XmFileSelectionBoxGetChild(existFileSB,
     	    XmDIALOG_SELECTION_LABEL));
     XtVaSetValues(XmFileSelectionBoxGetChild(existFileSB,
@@ -283,9 +283,9 @@ int GetExistingFilename (Widget parent, char *promptString, char *filename)
 **	Widget  existFileSB   - your custom file selection box widget id
 **	char *  filename      - a string to receive the selected filename
 **				(this string will not be altered if the
-**				user pressed the cancel button)	
+**				user pressed the cancel button)
 **
-**  Returns:	GFN_OK	      - file was selected and OK button pressed	
+**  Returns:	GFN_OK	      - file was selected and OK button pressed
 **		GFN_CANCEL    - Cancel button pressed and no returned file
 **
 */
@@ -318,7 +318,7 @@ int HandleCustomExistFileSB(Widget existFileSB, char *filename)
     	    XmFileSelectionBoxGetChild(existFileSB, XmDIALOG_LIST)), 0);
 #endif
     ManageDialogCenteredOnPointer(existFileSB);
-    
+
     /* Typing in the directory list is dependent on the list being in the
        same form of alphabetical order expected by the character processing
        routines.  As of about 1.2.3, some Motif libraries seem to have a
@@ -346,7 +346,7 @@ int HandleCustomExistFileSB(Widget existFileSB, char *filename)
 
     while (!done_with_dialog)
         XtAppProcessEvent(XtWidgetToApplicationContext(existFileSB), XtIMAll);
-    
+
     if (SelectResult == GFN_OK) {
 	XtVaGetValues(existFileSB, XmNdirSpec, &cFileString, XmNdirectory,
 		&cDir, XmNpattern, &cPattern, 0);
@@ -389,7 +389,7 @@ int HandleCustomExistFileSB(Widget existFileSB, char *filename)
 
 int GetNewFilename (Widget parent, char *promptString, char *filename)
 {
-    int       n;                      /* number of arguments               */ 
+    int       n;                      /* number of arguments               */
     Boolean   done_with_dialog=False; /* ok to destroy dialog flag	   */
     Arg       args[MAX_ARGS];	      /* arg list                          */
     Widget    newFileSB = NULL;       /* widget file select box for	   */
@@ -402,12 +402,12 @@ int GetNewFilename (Widget parent, char *promptString, char *filename)
     char      *fileString;            /* C string for file selected        */
     int i;
 
-    
+
     n = 0;
-    labelString = XmStringCreateLtoR (promptString, 
+    labelString = XmStringCreateLtoR (promptString,
                   XmSTRING_DEFAULT_CHARSET);
     titleString = XmStringCreateLtoR (" ", XmSTRING_DEFAULT_CHARSET);
-    XtSetArg(args[n], XmNselectionLabelString, labelString); n++;     
+    XtSetArg(args[n], XmNselectionLabelString, labelString); n++;
 #ifdef MOTIF10
     XtSetArg(args[n], XmNdialogStyle, XmDIALOG_APPLICATION_MODAL); n++;
 #else
@@ -444,12 +444,12 @@ int GetNewFilename (Widget parent, char *promptString, char *filename)
     help = createPanelHelp(newFileSB, HelpNew, "Saving a File");
     createYesNoDialog(newFileSB);
     createErrorDialog(newFileSB);
-    XtAddCallback(newFileSB, XmNhelpCallback, (XtCallbackProc)newHelpCB, 
+    XtAddCallback(newFileSB, XmNhelpCallback, (XtCallbackProc)newHelpCB,
     	    (char *)help);
     XmStringFree(labelString);
     XmStringFree(titleString);
 #if XmVersion >= 1002
-    XtVaSetValues(newFileSB, XmNinitialFocus, 
+    XtVaSetValues(newFileSB, XmNinitialFocus,
     	    XmFileSelectionBoxGetChild(newFileSB, XmDIALOG_TEXT), 0);
 #endif
     ManageDialogCenteredOnPointer(newFileSB);
@@ -465,7 +465,7 @@ int GetNewFilename (Widget parent, char *promptString, char *filename)
     	XmProcessTraversal(XmFileSelectionBoxGetChild(newFileSB, XmDIALOG_TEXT),
 	    XmTRAVERSE_CURRENT);
 #endif
-    
+
     /* Typing in the directory list is dependent on the list being in the
        same form of alphabetical order expected by the character processing
        routines.  As of about 1.2.3, some Motif libraries seem to have a
@@ -505,7 +505,7 @@ int GetNewFilename (Widget parent, char *promptString, char *filename)
 char *GetFileDialogDefaultDirectory(void)
 {
     char *string;
-    
+
     if (DefaultDirectory == NULL)
     	return NULL;
     XmStringGetLtoR(DefaultDirectory, XmSTRING_DEFAULT_CHARSET, &string);
@@ -521,7 +521,7 @@ char *GetFileDialogDefaultDirectory(void)
 char *GetFileDialogDefaultPattern(void)
 {
     char *string;
-    
+
     if (DefaultPattern == NULL)
     	return NULL;
     XmStringGetLtoR(DefaultPattern, XmSTRING_DEFAULT_CHARSET, &string);
@@ -571,7 +571,7 @@ void SetGetExistingFilenameTextFieldRemoval(int state)
 static void createYesNoDialog(Widget parent)
 {
     XmString  buttonString;	      /* compound string for dialog buttons */
-    int       n;                      /* number of arguments               */ 
+    int       n;                      /* number of arguments               */
     Arg       args[MAX_ARGS];	      /* arg list                          */
 
     n = 0;
@@ -597,7 +597,7 @@ static void createYesNoDialog(Widget parent)
 static void createErrorDialog(Widget parent)
 {
     XmString  buttonString;	      /* compound string for dialog button */
-    int       n;                      /* number of arguments               */ 
+    int       n;                      /* number of arguments               */
     Arg       args[MAX_ARGS];	      /* arg list                          */
 
     n = 0;
@@ -626,14 +626,14 @@ static int doYesNoDialog(char *filename)
 
     sprintf(string, "File %s already exists,\nOk to overwrite?", filename);
     mString = XmStringCreateLtoR(string, XmSTRING_DEFAULT_CHARSET);
-    
+
     SET_ONE_RSRC(YesNoDialog, XmNmessageString, mString);
     XmStringFree(mString);
     ManageDialogCenteredOnPointer(YesNoDialog);
 
     while (YesNoResult == ynNone)
 	XtAppProcessEvent(XtWidgetToApplicationContext(YesNoDialog), XtIMAll);
-    
+
     XtUnmanageChild(YesNoDialog);
 
     /* Nasty motif bug here, patched around by waiting for a ReparentNotify
@@ -657,18 +657,18 @@ static void doErrorDialog(char *errorString, char *filename)
 
     sprintf(string, errorString, filename);
     mString = XmStringCreateLtoR(string, XmSTRING_DEFAULT_CHARSET);
-    
+
     SET_ONE_RSRC(ErrorDialog, XmNmessageString, mString);
     XmStringFree(mString);
     ManageDialogCenteredOnPointer(ErrorDialog);
 
     while (!ErrorDone)
 	XtAppProcessEvent (XtWidgetToApplicationContext(ErrorDialog), XtIMAll);
-    
+
     XtUnmanageChild(ErrorDialog);
 }
 
-static void newFileOKCB(Widget	w, Boolean *client_data, 
+static void newFileOKCB(Widget	w, Boolean *client_data,
                  XmFileSelectionBoxCallbackStruct *call_data)
 
 {
@@ -677,7 +677,7 @@ static void newFileOKCB(Widget	w, Boolean *client_data,
     int  length;		      /* length of file name		 */
     int  response;		      /* response to dialog		 */
     struct stat buf;		      /* status from fstat		 */
-    
+
     XmStringGetLtoR(call_data->value, XmSTRING_DEFAULT_CHARSET, &filename);
     SelectResult = GFN_OK;
     length = strlen(filename);
@@ -741,7 +741,7 @@ static void existOkCB(Widget w, Boolean * client_data,
     char *filename;                   /* name of chosen file             */
     int  fd;                          /* file descriptor                 */
     int  length;		      /* length of file name		 */
-    
+
     XmStringGetLtoR(call_data->value, XmSTRING_DEFAULT_CHARSET, &filename);
     SelectResult = GFN_OK;
     length = strlen(filename);
@@ -756,7 +756,7 @@ static void existOkCB(Widget w, Boolean * client_data,
     } else
     	close(fd);
     XtFree(filename);
-    	
+
     *client_data = True;		/* done with dialog		*/
 }
 
@@ -793,7 +793,7 @@ static Widget createPanelHelp(Widget parent, char *helpText, char *title)
     int ac;
     Widget form, text, button;
     XmString st1;
-    
+
     ac = 0;
     form = XmCreateFormDialog(parent, "helpForm", al, ac);
 
@@ -801,7 +801,7 @@ static Widget createPanelHelp(Widget parent, char *helpText, char *title)
     ac = 0;
     XtSetArg (al[ac], XmNbottomAttachment, XmATTACH_FORM);  ac++;
     XtSetArg (al[ac], XmNtopAttachment, XmATTACH_NONE);  ac++;
-    XtSetArg(al[ac], XmNlabelString, st1=XmStringCreateLtoR ("Dismiss", 
+    XtSetArg(al[ac], XmNlabelString, st1=XmStringCreateLtoR ("Dismiss",
                       XmSTRING_DEFAULT_CHARSET)); ac++;
     button = XmCreatePushButtonGadget(form, "dismiss", al, ac);
     XtAddCallback(button, XmNactivateCallback, (XtCallbackProc)helpDismissCB,
@@ -810,7 +810,7 @@ static Widget createPanelHelp(Widget parent, char *helpText, char *title)
     XtManageChild(button);
     SET_ONE_RSRC(form, XmNdefaultButton, button);
 #endif
-    
+
     ac = 0;
     XtSetArg(al[ac], XmNrows, 15);  ac++;
     XtSetArg(al[ac], XmNcolumns, 60);  ac++;
@@ -830,9 +830,9 @@ static Widget createPanelHelp(Widget parent, char *helpText, char *title)
 #endif
     text = XmCreateScrolledText(form, "helpText", al, ac);
     XtManageChild(text);
-    
+
     SET_ONE_RSRC(XtParent(form), XmNtitle, title);
-    
+
     return form;
 }
 
@@ -856,7 +856,7 @@ static void makeListTypeable(Widget listW)
     	XtAppAddActions(XtWidgetToApplicationContext(listW), actionTable, 1);
     	translationTable = XtParseTranslationTable(translations);
     }
-    
+
     /* Add new translations to widget, leaving existing translations intact */
     XtAugmentTranslations(listW, translationTable);
 }
@@ -875,12 +875,12 @@ static void listCharCB(Widget w, XEvent *event, String *params, Cardinal n)
     static char keystrokes[MAX_LIST_KEYSTROKES];
     static int nKeystrokes = 0;
     static Time lastKeyTime = 0;
-    
+
     /* Get the ascii character code represented by the event */
     nChars = XLookupString((XKeyEvent *)event, charString, sizeof(charString),
     	    &kSym, NULL);
     c = charString[0];
-    
+
     /* Process selected control keys, but otherwise ignore the keystroke
        if it isn't a single printable ascii character */
     if (kSym==XK_BackSpace || kSym==XK_Delete) {
@@ -892,13 +892,13 @@ static void listCharCB(Widget w, XEvent *event, String *params, Cardinal n)
     	return;
     } else if (nChars!=1 || c<0x021 || c>0x07e)
     	return;
-   
-    /* Throw out keystrokes and start keystroke accumulation over from 
+
+    /* Throw out keystrokes and start keystroke accumulation over from
        scratch if user waits more than MAX_LIST_KESTROKE_WAIT milliseconds */
     if (((XKeyEvent *)event)->time - lastKeyTime > MAX_LIST_KESTROKE_WAIT)
     	nKeystrokes = 0;
     lastKeyTime = ((XKeyEvent *)event)->time;
-    	
+
     /* Accumulate the current keystroke, just beep if there are too many */
     if (nKeystrokes >= MAX_LIST_KEYSTROKES)
     	XBell(XtDisplay(w), 100);
@@ -908,10 +908,10 @@ static void listCharCB(Widget w, XEvent *event, String *params, Cardinal n)
 #else
     	keystrokes[nKeystrokes++] = c;
 #endif
-    
+
     /* Get the items (filenames) in the list widget */
     XtVaGetValues(w, XmNitems, &items, XmNitemCount, &nItems, 0);
-    
+
     /* compare them with the accumulated user keystrokes & decide the
        appropriate line in the list widget to select */
     selectPos = 0;
@@ -958,26 +958,26 @@ static void listCharCB(Widget w, XEvent *event, String *params, Cardinal n)
 static void replacementDirSearchProc(Widget w, XtPointer searchData)
 {
     Boolean updated;
-    
+
     /* Call the original search procedure to do the actual search */
     (*OrigDirSearchProc)(w, searchData);
     XtVaGetValues(w, XmNlistUpdated, &updated, 0);
     if (!updated)
     	return;
-    	
+
     /* Sort the items in the list */
     sortWidgetList(XmFileSelectionBoxGetChild(w, XmDIALOG_DIR_LIST));
 }
 static void replacementFileSearchProc(Widget w, XtPointer searchData)
 {
     Boolean updated;
-    
+
     /* Call the original search procedure to do the actual search */
     (*OrigFileSearchProc)(w, searchData);
     XtVaGetValues(w, XmNlistUpdated, &updated, 0);
     if (!updated)
     	return;
-    	
+
     /* Sort the items in the list */
     sortWidgetList(XmFileSelectionBoxGetChild(w, XmDIALOG_LIST));
 }
@@ -989,7 +989,7 @@ static void sortWidgetList(Widget listWidget)
 {
     XmString *items, *sortedItems;
     int nItems, i;
-    
+
     XtVaGetValues(listWidget, XmNitems, &items, XmNitemCount, &nItems, 0);
     sortedItems = (XmString *)XtMalloc(sizeof(XmString) * nItems);
     for (i=0; i<nItems; i++)
@@ -1005,7 +1005,7 @@ static int compareXmStrings(const void *string1, const void *string2)
 {
     char *s1, *s2;
     int result;
-    
+
     XmStringGetLtoR(*(XmString *)string1, XmSTRING_DEFAULT_CHARSET, &s1);
     XmStringGetLtoR(*(XmString *)string2, XmSTRING_DEFAULT_CHARSET, &s2);
     result = strcmp(s1, s2);

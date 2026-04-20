@@ -82,7 +82,7 @@ c process generation)
                read(eventfile(2:2),'(i1)') proc_id(numoffiles)
             elseif(eventfile(4:4).eq.'_') then
                read(eventfile(2:3),'(i2)') proc_id(numoffiles)
-            elseif(eventfile(5:5).eq.'_') then 
+            elseif(eventfile(5:5).eq.'_') then
                read(eventfile(2:4),'(i3)') proc_id(numoffiles)
             else
                write (*,*) 'ERROR in collect_events: '/
@@ -92,7 +92,7 @@ c process generation)
          else
             proc_id(numoffiles)=-1
          endif
-c store here the number of events per file         
+c store here the number of events per file
          nevents_file(numoffiles) = ievents
          xtotal=xtotal+absxsec
          junit(numoffiles)=numoffiles+10
@@ -279,7 +279,7 @@ c
             endif
          enddo
       endif
-         
+
       call read_lhef_header(junit(ione),maxevt,MonteCarlo)
       if (MonteCarlo .ne. '') MonteCarlo0 = MonteCarlo
       call read_lhef_init(junit(ione),
@@ -547,7 +547,7 @@ c
       proc_id_tot(0)=0
       get_xsec_from_res1=.true.
       xsecABS=0d0
-      do 
+      do
          read(unit10,'(120a)',end=22,err=22) string120
          eventfile=string120(2:index(string120,'   '))
          read(string120(index(string120,'   '):120),*)
@@ -557,7 +557,7 @@ c
                read(eventfile(2:2),'(i1)') proc_id_l
             elseif(eventfile(4:4).eq.'_') then
                read(eventfile(2:3),'(i2)') proc_id_l
-            elseif(eventfile(5:5).eq.'_') then 
+            elseif(eventfile(5:5).eq.'_') then
                read(eventfile(2:4),'(i3)') proc_id_l
             else
                write (*,*) 'ERROR in collect_events: '/

@@ -237,10 +237,10 @@ C     sudakov MEs so that they have the same identical-particle
 C     factor as the Born in the specific FKS configuration
       IMPLICIT NONE
       INTEGER IGOLD_ME
-C     
+C
       INTEGER SDK_IDENT_GOLDSTONE(1)
       DATA SDK_IDENT_GOLDSTONE / 0 /
-C     
+C
       INTEGER NFKSPROCESS
       COMMON/C_NFKSPROCESS/NFKSPROCESS
       INTEGER IDEN_VALUES(12)
@@ -253,5 +253,3 @@ C
 
       RETURN
       END
-
-

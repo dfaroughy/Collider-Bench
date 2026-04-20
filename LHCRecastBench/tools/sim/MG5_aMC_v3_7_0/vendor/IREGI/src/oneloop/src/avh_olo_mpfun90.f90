@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -51,37 +51,37 @@ contains
   use avh_olo_forIREGI_units
   use avh_olo_forIREGI_arrays
   logical ,intent(out) :: newprc
-  integer ,intent(in) :: ndec                     
-  integer :: i0,i1,ii                             
-  if (allocated(ndecim)) then                     
-    i0 = 0                                        
-    i1 = 1+ubound(ndecim,1)                       
-    do ;if (i0+1.eq.i1) exit                      
-      ii = (i0+i1)/2                              
-      if     (ndecim(ii).gt.ndec) then            
-        i1 = ii                                   
-      elseif (ndecim(ii).lt.ndec) then            
-        i0 = ii                                   
-      else                                        
-        exit                                      
-      endif                                       
-    enddo                                         
+  integer ,intent(in) :: ndec
+  integer :: i0,i1,ii
+  if (allocated(ndecim)) then
+    i0 = 0
+    i1 = 1+ubound(ndecim,1)
+    do ;if (i0+1.eq.i1) exit
+      ii = (i0+i1)/2
+      if     (ndecim(ii).gt.ndec) then
+        i1 = ii
+      elseif (ndecim(ii).lt.ndec) then
+        i0 = ii
+      else
+        exit
+      endif
+    enddo
     newprc = (ndecim(ii).ne.ndec)
     if (newprc) then
-      prcpar = i0+1                              
-      call shift1( ndecim ,prcpar )               
-      call shift1( epsilo ,prcpar )               
-      call shift1( neglig ,prcpar )               
-      call set_epsn          
-    else           
+      prcpar = i0+1
+      call shift1( ndecim ,prcpar )
+      call shift1( epsilo ,prcpar )
+      call shift1( neglig ,prcpar )
+      call set_epsn
+    else
       prcpar = ii
-      EPSN = epsilo(prcpar)                       
-    endif                                         
-  else                                            
-    allocate(ndecim(1:1),epsilo(1:1),neglig(1:1)) 
-    call set_epsn            
-    newprc = .true.                               
-  endif                                           
+      EPSN = epsilo(prcpar)
+    endif
+  else
+    allocate(ndecim(1:1),epsilo(1:1),neglig(1:1))
+    call set_epsn
+    newprc = .true.
+  endif
   if (prcpar.eq.ubound(ndecim,1)) then
     RZRO=0
     RONE=1
@@ -101,11 +101,11 @@ contains
   subroutine set_epsn
   type(mp_real) &
     :: ten
-  ten = 10                                       
-  EPSN = ten**(-ndec)                            
-  ndecim(prcpar) = ndec                         
-  epsilo(prcpar) = EPSN                         
-  neglig(prcpar) = EPSN*ten**(ndec/7)            
+  ten = 10
+  EPSN = ten**(-ndec)
+  ndecim(prcpar) = ndec
+  epsilo(prcpar) = EPSN
+  neglig(prcpar) = EPSN*ten**(ndec/7)
   end subroutine
 !
   end subroutine
@@ -150,7 +150,7 @@ contains
     :: rslt
   rslt = xx
   end function
-  
+
   function acmplx_rr(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn two reals into one complex
@@ -161,7 +161,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_ri(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn a real and an integer into one complex
@@ -173,7 +173,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_ir(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn an integer and a real into one complex
@@ -185,7 +185,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_c(zz) result(rslt)
 !***********************************************************************
 ! Replaces the real part of zz by its absolute value
@@ -201,5 +201,5 @@ contains
   yy = aimag(zz)
   rslt = xx + yy*IMAG
   end function
-  
+
 end module

@@ -24,7 +24,7 @@ c
       real*8 sf1,sf2,pb1,pb2,D
       integer lhaid
       character*7 pdlabel
-c     
+c
 c     Local
 c
       character*300 subname(maxsubprocesses)
@@ -145,7 +145,7 @@ c         write(*,*) 'Subprocess: ',subname(ns)
          pos3=index(subname(i),' ')
          pathsubname(i)=subname(i)(1:pos3-1)//down_path
          call read_channels(pathsubname(i),sum,kevent,revent,goal_wgt,maxwgt)
-      enddo 
+      enddo
 c
 c     Get Random order for events
 c
@@ -210,7 +210,7 @@ c
             read(sfnum,rec=iarray(i)) wgt,n,
      &           ((ic(m,j),j=1,maxexternal),m=1,7),ievent,
      &           ((p(m,j),m=0,4),j=1,maxexternal),sscale,aqcd,aqed,
-     &        buff       
+     &        buff
             if (dabs(wgt) .gt. goal_wgt*xran1(jseed)) then
                keep(i) = .true.
                if (wgt.lt.0d0) has_negative = .true.
@@ -225,7 +225,7 @@ c
          if (xtrunc .gt. 0.01d0*sum) then
             done=.false.
             min_goal = max(goal_wgt,min_goal)
-            goal_wgt = goal_wgt*1.3d0            
+            goal_wgt = goal_wgt*1.3d0
             write(*,*) 'Iteration ',ntry, ' too large truncation ',xtrunc/sum,nunwgt
 c            write(*,*) min_goal,goal_wgt,max_goal
          elseif (nunwgt .lt. nreq) then
@@ -292,9 +292,9 @@ c        Find nclus
       close(15)
       close(sfnum)
       goto 1000
- 98   write(*,*) 'Error writing events.dat' 
+ 98   write(*,*) 'Error writing events.dat'
       goto 1000
- 99   write(*,*) 'Error writing unweighted_events.dat' 
+ 99   write(*,*) 'Error writing unweighted_events.dat'
       goto 1000
  999  write(*,*) 'Error opening scratch file'
  1000 continue
@@ -308,7 +308,7 @@ c*******************************************************************************
       implicit none
 c
 c     Arguments
-c     
+c
       integer lunw,nevent
       double precision sum,maxwgt,wgt,xerr
 c
@@ -357,9 +357,9 @@ c      write(lunw,'(a70)') '##-------------------                               
 c      write(lunw,'(a70)') '## Run-time options                                                   '
 c      write(lunw,'(a70)') '##-------------------                                                 '
 c      write(lunw,'(a70)') '##                                                                    '
-c     write(lunw,'(a70)') '##********************************************************************'     
+c     write(lunw,'(a70)') '##********************************************************************'
 c     write(lunw,'(a70)') '## Standard Cuts                                                     *'
-c     write(lunw,'(a70)') '##********************************************************************'    
+c     write(lunw,'(a70)') '##********************************************************************'
 c      write(lunw,'(a13,8i8)')   '## Particle  ',(i,i=3,nexternal)
 c      write(lunw,'(a13,8f8.1)') '## Et       >',(etmin(i),i=3,nexternal)
 c      write(lunw,'(a13,8f8.1)') '## Eta      <',(etamax(i),i=3,nexternal)
@@ -374,7 +374,7 @@ c      do j=3,nexternal-1
 c         write(lunw,'(a,i2,a,8f8.1)') '## s min #',j,'>',
 c     &        (s_min(i,j),i=3,nexternal)
 c      enddo
-c      write(lunw,'(a70)') '#********************************************************************'    
+c      write(lunw,'(a70)') '#********************************************************************'
 c
 c     Now write out specific information on the event set
 c
@@ -386,8 +386,8 @@ c
       write(lunw,'(a30,e11.5)') '#  Average wgt             :  ',wgt
       write(lunw,'(a)') '</MGGenerationInfo>'
 
-   
-    
+
+
 
 C   Write out compulsory init info
       write(lunw,'(a)') '</header>'
@@ -419,7 +419,7 @@ c*******************************************************************************
       implicit none
 c
 c     Arguments
-c     
+c
       integer lunw,nevent
       double precision sum,maxwgt,wgt,xerr
       logical has_negative
@@ -472,9 +472,9 @@ c      write(lunw,'(a70)') '##-------------------                               
 c      write(lunw,'(a70)') '## Run-time options                                                   '
 c      write(lunw,'(a70)') '##-------------------                                                 '
 c      write(lunw,'(a70)') '##                                                                    '
-c     write(lunw,'(a70)') '##********************************************************************'     
+c     write(lunw,'(a70)') '##********************************************************************'
 c     write(lunw,'(a70)') '## Standard Cuts                                                     *'
-c     write(lunw,'(a70)') '##********************************************************************'    
+c     write(lunw,'(a70)') '##********************************************************************'
 c      write(lunw,'(a13,8i8)')   '## Particle  ',(i,i=3,nexternal)
 c      write(lunw,'(a13,8f8.1)') '## Et       >',(etmin(i),i=3,nexternal)
 c      write(lunw,'(a13,8f8.1)') '## Eta      <',(etamax(i),i=3,nexternal)
@@ -489,7 +489,7 @@ c      do j=3,nexternal-1
 c         write(lunw,'(a,i2,a,8f8.1)') '## s min #',j,'>',
 c     &        (s_min(i,j),i=3,nexternal)
 c      enddo
-c      write(lunw,'(a70)') '##********************************************************************'    
+c      write(lunw,'(a70)') '##********************************************************************'
 c
 c     Now write out specific information on the event set
 c
@@ -579,7 +579,7 @@ c              Write with correct number of digits
                write(formstr,'(a,i2,a,i1,a)') '(a,f',npos+ncode+1,
      $                 '.',ncode,',a)'
                write(dirname,formstr)  'G',xi,'/'
-            endif     
+            endif
             ip = index(dirname,'/')
             channame = dname(1:i-1)// "/" //dirname(1:ip)
             call read_dir_events(channame(1:i+ip),j,kevent,revent,sum,goal_wgt,maxwgt)
@@ -607,7 +607,7 @@ c********************************************************************
       implicit none
 c
 c     parameters
-c     
+c
       integer    sfnum
       parameter (sfnum=17)   !Unit number for scratch file
       character*(*) scaled_file
@@ -669,14 +669,14 @@ c
       data jseed/-1/
 c-----
 c  Begin Code
-c-----     
+c-----
       fullname = channame // "gscalefact.dat"
       gsfact = 1d0
       open (unit=15,file=fullname,status='old',err=12)
       read(15,*) gsfact    !Scale factor for grid runs that only use some channels
  12   close(15)
       if (gsfact .eq. 0d0) return
-      fullname = channame // scaled_file      
+      fullname = channame // scaled_file
       open(unit=15,file=fullname, status='old',err=999)
       done=.false.
 c
@@ -732,7 +732,7 @@ c
          endif
       enddo
  99   close(15)
- 55   format(i3,4e19.11)         
+ 55   format(i3,4e19.11)
 c      write(*,*) 'Found ',kevent,' events'
 c      write(*,*) 'Integrated weight',sum
       return
@@ -839,7 +839,7 @@ c-----
          end do
          if (done) return
       end do
-      end 
+      end
 
       subroutine sortO3(array,aux1,n)
 
@@ -868,7 +868,7 @@ c   http://www.geocities.com/oosterwal/computer/sortroutines.html
             aux1(i+step) = itemp !                      /
           end if
         enddo
-        
+
         SngFib = SngFib * SngPhi ! Decrease the Real step size
         Step = Int(SngFib)      ! Set the integer step value
 

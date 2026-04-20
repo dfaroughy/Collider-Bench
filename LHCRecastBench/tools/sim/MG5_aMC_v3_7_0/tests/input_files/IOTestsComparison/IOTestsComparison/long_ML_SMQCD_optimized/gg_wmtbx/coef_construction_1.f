@@ -1,9 +1,9 @@
       SUBROUTINE COEF_CONSTRUCTION_1(P,NHEL,H,IC)
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER NBORNAMPS
       PARAMETER (NBORNAMPS=8)
       INTEGER    NEXTERNAL
@@ -22,20 +22,20 @@ C
       PARAMETER (ZERO=0D0)
       REAL*16     MP__ZERO
       PARAMETER (MP__ZERO=0.0E0_16)
-C     
+C
 C     ARGUMENTS
-C     
+C
       REAL*8 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
       INTEGER H
-C     
+C
 C     LOCAL VARIABLES
-C     
+C
       INTEGER I,J,K
       COMPLEX*16 COEFS(MAXLWFSIZE,0:VERTEXMAXCOEFS-1,MAXLWFSIZE)
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       INCLUDE 'coupl.inc'
       INCLUDE 'mp_coupl.inc'
 
@@ -63,7 +63,7 @@ C
       COMPLEX*16 LOOPRES(3,NLOOPGROUPS)
       LOGICAL S(NLOOPGROUPS)
       COMMON/LOOPRES/LOOPRES,S
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -1111,4 +1111,3 @@ C     Coefficient construction for loop diagram with ID 152
      $ ,H)
 
       END
-

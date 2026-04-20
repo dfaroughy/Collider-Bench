@@ -8,7 +8,7 @@
       subroutine clear_block_stat(config,perm_pos)
       implicit none
       integer i,config,perm_pos
-      return 
+      return
       end
 
 c      integer good_points(max_blok,max_blok,max_perm),bad_points(max_blok,max_blok,max_perm)
@@ -21,6 +21,3 @@ c        bad_points(i,config,perm_pos)=bad_points(i,config,perm_pos)+1
 c      else
 c        good_points(i,config,perm_pos)=good_points(i,config,perm_pos)+1
 c      endif
-
-
-

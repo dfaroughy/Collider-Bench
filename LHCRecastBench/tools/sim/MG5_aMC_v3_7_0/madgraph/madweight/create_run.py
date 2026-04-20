@@ -6,7 +6,7 @@ import string,os,sys,re,time,stat,filecmp
 from six.moves import range
 from six.moves import input
 
-try: 
+try:
     import madgraph.madweight.mod_file as mod_file
     import madgraph.madweight.change_tf as change_tf
     #import madgraph.various.progressbar as progressbar
@@ -81,14 +81,14 @@ def update_cuts_status(MW_param):
         rule=['./Source/MadWeight/mod_file/suppress_BW_cuts']
         #modify file
         mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF']"""})
-        #check update 
+        #check update
         check_Subprocesses_update('cuts.f',MW_param.P_listdir,'./Source/MadWeight/mod_file/suppress_BW_cuts')
 
     #check cut status for Weight computation:
     if (MW_param.info['mw_run']['bw_cut']+bw_cut_is_active('cuts_MW.f'))%2: #pass if not coherent between asked and actual status
         file_to_mod=['./SubProcesses/cuts_MW.f']
         rule=['./Source/MadWeight/mod_file/suppress_BW_cuts']
-        #modify file               
+        #modify file
         mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','TO_SPECISA']"""})
         #check update
         check_Subprocesses_update('cuts_MW.f',MW_param.MW_listdir,'./Source/MadWeight/mod_file/suppress_BW_cuts')
@@ -100,7 +100,7 @@ def update_cuts_status(MW_param):
 def cut_is_active(filename):
     """ check is the cut is active or not """
 
-# Pierre: pass the fucntion 
+# Pierre: pass the fucntion
     pass
 
 #    for line in file('./SubProcesses/'+filename):
@@ -142,9 +142,9 @@ class check_Subprocesses_update:
     class ERROR_DifferenceInFile(Exception):pass
 
 
- 
+
     def __init__(self,filelist,listdir,modifrule='',warning=1,run=1):
-        
+
         #chek type input:
         if type(filelist)==str:
             self.filelist=[filelist]
@@ -156,12 +156,12 @@ class check_Subprocesses_update:
 
         self.modifrule=modifrule
 
-    
+
         #assign tag mode
         usewarning=0
         if int(warning) in [1,2,3,5]:
             self.usewarning=1
-        
+
         self.usemodif=0
         self.intmode=0
         self.raiseerror=0
@@ -171,11 +171,11 @@ class check_Subprocesses_update:
             self.intmode=1 #interactive mode
         elif int(warning)==5:
                 self.raiseerror==1 #raising error
-        
+
         if run:
             self.compare()
-    
-    
+
+
     def compare(self):
         #main loop
         for dirname in self.listdir:
@@ -188,8 +188,8 @@ class check_Subprocesses_update:
             #warning
             if self.usewarning:
                 self.printwarning('./SubProcesses/'+filename,'./SubProcesses/'+dirname+'/'+filename)
-                
-            #error   
+
+            #error
             if self.raiseerror:
                 raise self.ERROR_DifferenceInFile
 
@@ -203,7 +203,7 @@ class check_Subprocesses_update:
 
 
     def printwarning(self,filename1,filename2):
-        
+
                 print(""" WARNING: those file are supposed to be identical (symbolic link):\n\
                           ./SubProcesses/"""+filename1+"""\n./SubProcesses/"""+filename2)
                 print(""" define the tag MW_run/901 to change the rule for modification """)
@@ -222,7 +222,7 @@ class check_Subprocesses_update:
         else:
             a=self.printintmode(file)
             return a
-        
+
     def modiffile(self,file,rule):
         mod_file.mod_file(file,rule)
 
@@ -243,7 +243,7 @@ def activate_acceptance_run():
             os.path.isfile('./Cards/pgs_card.dat') and
             os.path.isdir('../MW_pythia-pgs')):
         raise AcceptanceError('Cards or MW_pythia-pgs missing... impossible to load acceptance module')
-        
+
     #1. test if the acc is already loaded
     if os.path.isfile('./Source/MadWeight_file/acc.in'):
         return
@@ -264,11 +264,11 @@ def activate_acceptance_run():
     #rule['def_file']=change_tf.put_in_fortran_format("""
     # write(*,*) 'enter input/output file for MW run'
     # read(*,*) input_file,output_file
-    #pythia_card='../Cards/pythia_card.dat'      
+    #pythia_card='../Cards/pythia_card.dat'
     # nfiles=1
     #""")
     #mod_file.mod_file('../pythia-pgs/src/pythia.f',rule)
-    
+
     #4. modify pythia-pgs/src/pgs.f
     #os.system('cp ../pythia-pgs/src/pgs.f ../pythia-pgs/src/pgs_default.f')
     #rule={}
@@ -287,19 +287,19 @@ def activate_acceptance_run():
 
 def desactivate_acceptance_run():
     """ check that the event are not written """
-    
+
     if os.path.isfile('./Source/MadWeight_file/acc.in'):
         import expand_MadWeight
         expand_MadWeight.expand_all(echap=['MadWeight_card.dat'])
         os.system('rm ./Source/MadWeight_file/acc.in')
-    
+
 
 def restore_pythia_pgs():
     pass
 #    os.system('cp ../pythia-pgs/src/pythia_default.f ../pythia-pgs/src/pythia.f')
 #    os.system('cp ../pythia-pgs/src/pgs_default.f ../pythia-pgs/src/pgs.f')
 #    os.system("cd ../pythia-pgs;make &>/dev/null")
-    
+
 
 ###########################################################################
 #########          CREATION DES DOSSIER/FICHIERS DE SORTIE      ###########
@@ -320,7 +320,7 @@ class create_dir:
 
     #2 ##############################################################################
     def all(self):
-        
+
         print('creating all directories')
 
 # Pierre
@@ -356,14 +356,14 @@ class create_dir:
             if self.MWparam['mw_run']['22']:
                 return
             self.create_P_dir()
-            
+
         print('created',self.created,'directories')
         self.created=0
 
     #2 ##############################################################################
     def update_card_status(self,cardref=-1,number_of_event=-1):
         """creates the directory for standard run
-           number_of_event[-1]:-1:automatic (number of event of cardref if !=-1, highest existing event in other case 
+           number_of_event[-1]:-1:automatic (number of event of cardref if !=-1, highest existing event in other case
         """
 
         #check if all card have a directory in P_
@@ -392,12 +392,12 @@ class create_dir:
             for card in self.MWparam.actif_param:
                 if self.find_exist_event(card)>=ref_num:
                     cardref=card
-                                            
+
         if cardref==-1 or number_of_event==-1:
             sys.exit('impossible to update card and/or number of event not defined')
         else:
             self.ref_card=cardref
-                                            
+
         #update events
         #progress bar
         list_card=self.MWparam.actif_param
@@ -414,11 +414,11 @@ class create_dir:
                     self.create_one_M_dir(card,event,remove_old=0)
                     pbar.update()
         pbar.finish()
-                                                                                                
-                                                                                                                                    
+
+
     #2 ##############################################################################
     def add_events(self):
-        
+
         self.file_event=open(self.Sdir_pos+'/'+self.MWparam.name+'/verif.lhco')
         self.line_event=self.file_event.readline()
 
@@ -431,8 +431,8 @@ class create_dir:
                 self.create_one_M_dir(card,event)
                 pbar.update()
         pbar.finish()
-                                                                
-        
+
+
 
     #2 ###############################################################################
     def find_exist_event(self,card_nb=-1):
@@ -468,7 +468,7 @@ class create_dir:
                     os.system('rm -rf %s' % self.Sdir_pos+'/'+self.MWparam.name+'/card_'+str(card))
                     self.MWparam.nb_event_MW[dirname] = event
                     break
-                
+
                 pbar.update()
         pbar.finish()
 
@@ -493,7 +493,7 @@ class create_dir:
         #check that upper level exist
         if not os.path.isdir(self.Sdir_pos+'/'+dir_name+'/card_'+str(card)):
             os.mkdir(self.Sdir_pos+'/'+dir_name+'/card_'+str(card))
-            
+
 #        if not os.path.isdir(pos):
 #            os.mkdir(pos)
 
@@ -504,8 +504,8 @@ class create_dir:
             os.system('rm '+pos+'/* >/dev/null')
 #          else:
 #            return
-            
-            
+
+
         ff=open(pos+'/param.dat','w')
         ff.writelines('param_card_'+str(card)+'.dat\n')
         ff.writelines(str(self.MWparam['mw_run']['MW_int_points'])+'\n')
@@ -549,9 +549,9 @@ class create_dir:
         for file in os.listdir(pos+'/../../'):
             if len(file)>4 and file[:4]=='ajob':
                 os.system('ln -s ../../'+file+' '+pos)
-        
+
         self.created+=1
-        
+
     Pattern=re.compile(r'''^\s*0\s+\d+\s+\d+\s*$''',re.I)
     #2 ##############################################################################
     def give_new_exp_point(self):
@@ -562,7 +562,7 @@ class create_dir:
                 line=self.file_event.readline()
             except ValueError:
                 raise NoMoreEvent
-                
+
             if line=='':
                 self.file_event.close()
                 if data == '':
@@ -573,11 +573,11 @@ class create_dir:
                 return data
             else:
                 data+=line
-            
+
     #2 ##############################################################################
     def del_old_dir(self):
         ''' delete old event directory '''
-        
+
         output=1
         #verification du format des dossiers
         list_dir=os.listdir(os.pardir)
@@ -594,16 +594,16 @@ class create_dir:
                 except:
                     print("WARNING: this directory ", os.getcwd()+'/'+self.Sdir_pos+'/'+self.MWparam.name," are not deleted")
                     output=0
-                    
 
-             
+
+
         return output
-                                                                                                                                                                                                                                                                                         
+
 ###### copy file
 def copy_file(list,i):
     pos=os.getcwd()
     init_dir=os.sep+pos.split(os.sep)[-1]
-    
+
     title=[]
     content=[]
 
@@ -612,7 +612,7 @@ def copy_file(list,i):
         ff=open(file,'r')
         content.append(ff.readlines())
         ff.close()
-        
+
 #    for i in range(0,nmax):
     os.chdir('../'+dir_name+str(i))
     for i in range(0,len(title)):
@@ -623,7 +623,7 @@ def copy_file(list,i):
 
 def restore_last_info_for_control(MW_param):
     """ restore run info for controlling """
-    
+
     pattern=re.compile(r'''condor_id/\s*(?P<run_list>.+)\s*/job/\s*(?P<job>\d*)''',re.DOTALL)
     launch_job=0
     run_job=[]
@@ -664,7 +664,7 @@ def restore_last_info_for_control(MW_param):
 ###########################################################################
 #def create_all_MWdir(dir,MW_param):
 #    """n: number of data , name : name_run"""
-#    
+#
 #    run_name=MW_param.name
 #    try:
 #        os.chdir('./SubProcesses/'+dir+'/schedular')
@@ -688,9 +688,9 @@ def restore_last_info_for_control(MW_param):
 #
 #    #re-init global parameter
 #    run_name=MW_param.name
-##    os.system(' mkdir ./SubProcesses/'+dir+'/schedular') 
+##    os.system(' mkdir ./SubProcesses/'+dir+'/schedular')
 #    os.chdir('./SubProcesses/'+dir+'/schedular')
-#    os.system(' mkdir ../'+run_name+'&>/dev/null') 
+#    os.system(' mkdir ../'+run_name+'&>/dev/null')
 #    dir_sche=create_dir(MW_param)
 #    dir_sche.all()
 #    os.chdir("../../../")
@@ -729,6 +729,3 @@ if __name__=='__main__':
 #    for dir in MWparam.MW_listdir:
 #        create_obj.Sdir_pos='./SubProcesses/'+dir
 #        print create_obj.find_exist_event(1)
-
-
-

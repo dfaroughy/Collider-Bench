@@ -19,13 +19,13 @@ except ImportError:
     import internal.madweight.diagram_class as diagram_class
     import internal.madweight.mod_file as mod_file
     import internal.madweight.Cards as Cards
-    import internal.misc as misc   
+    import internal.misc as misc
 
 
-pjoin = os.path.join 
+pjoin = os.path.join
 def create_all_fortran_code(MW_info, i=1):
     """goes  in each subprocess and creates the fortran code in each of them"""
-    # load template for file    
+    # load template for file
     template = mod_file.Mod_file(rule_file='./Source/MadWeight/mod_file/mod_main_code')
     # load MadWeight option
     for MW_dir in MW_info.MW_listdir:
@@ -67,7 +67,7 @@ class MG_diagram(diagram_class.MG_diagram):
             self.solve_blob_sector()
             print(self)
             num_sol = self.load_fortran_code(num_sol)
-            
+
         for unaligned in all_pos:
             self.clear_solution()
             self.tag_unaligned(unaligned)
@@ -76,7 +76,7 @@ class MG_diagram(diagram_class.MG_diagram):
             self.solve_blob_sector()
             print(self)
             num_sol = self.load_fortran_code(num_sol)
-            
+
         self.create_permutation_weight_functions_caller()
 
 
@@ -85,12 +85,12 @@ class MG_diagram(diagram_class.MG_diagram):
 
         #introduction for d_choices...
         self.init_d_choices_file()
-        
+
 ##        self.create_pmass2()
         self.create_output_type_info()
-        
+
         self.collect_unaligned_peaks() #defined self.full_sol
-        
+
         self.already_existing_solution = []
         num_sol = len(self.code)
         if num_sol == 0:
@@ -109,7 +109,7 @@ class MG_diagram(diagram_class.MG_diagram):
             else:
                 self.already_existing_solution.append(i)
                 num_sol -= 1
-                
+
         return num_sol
 
     def create_permutation_weight_functions_caller(self):
@@ -124,11 +124,11 @@ class MG_diagram(diagram_class.MG_diagram):
                 output = []
                 for child in mother.des:
                     output += get_all_child(child)
-                return output 
-        
+                return output
+
         fsock = open(pjoin(self.directory, 'permutation_weight.f'), 'w')
         if self.MWparam['mw_perm']['preselect'].lower() == 'none':
-            fsock.write(""" 
+            fsock.write("""
             subroutine GET_PERM_WEIGHT()
             return
             end
@@ -156,7 +156,7 @@ class MG_diagram(diagram_class.MG_diagram):
          call get_perm(perm, perm_id)
          call assign_perm(perm_id)
 
-        
+
         weight = weight_perm_global(perm,perm_id)
         %s
         perm_value(perm, 1) = weight
@@ -164,9 +164,9 @@ class MG_diagram(diagram_class.MG_diagram):
       return
       end
 """
-        
+
         data = []
-        
+
         for part in self.prop_content:
             if part.mass and part.level > 0:
                 mass = self.dict_Fmass[abs(part.pid)]
@@ -178,58 +178,58 @@ class MG_diagram(diagram_class.MG_diagram):
                 initcontent = "\n".join("""          content(%i) = %i""" % (a+1, b) for a,b in enumerate(content))
                 if mass.lower() == 'zero' or width.lower() == 'zero':
                     continue
-                dico = {'pid': part.pid, 
+                dico = {'pid': part.pid,
                              'mass': mass,
                              'width': width,
                              'initcontent': initcontent
                              }
-            
+
                 line = """%(initcontent)s
                 weight = weight * weight_perm_BW(perm, perm_id, %(mass)s, %(width)s, content, %(pid)i)
                 """ % dico
                 data.append(line)
-                
+
         text = template % '\n'.join(data)
         fsock.write(text)
-        
+
         if self.MWparam['mw_perm']['preselect'] == 'default':
             fsock.write(open(pjoin(self.directory, '../permutation_weight_default.dat')).read())
         else:
             fsock.write(open(pjoin(self.directory,'../..',self.MWparam['mw_perm']['preselect'])).read())
-        
+
 
 
 
 
 #    def create_MadWeight_code(self, level, num_sol):
-#        """ returns the code for the numerator linked to 'level' change of variable 
+#        """ returns the code for the numerator linked to 'level' change of variable
 #            level is the position in self.full_sol
 #        """
-#        
+#
 #        ECS=self.full_sol[level][0]
 #        write_text=''
 #        if num_sol == 1:
 #            write_text += '''       if (config.eq.1) then '''
 #        else:
-#           write_text += '       elseif (config.eq.' + str(num_sol) + ') then ' 
+#           write_text += '       elseif (config.eq.' + str(num_sol) + ') then '
 #        write_text += '\n$B$ S-COMMENT_C $B$\n'
 #        write_text += ECS.info()                    # -> write short ECS/BLOB information
-#        write_text += '\n$E$ S-COMMENT_C $E$\n\n'  
+#        write_text += '\n$E$ S-COMMENT_C $E$\n\n'
 #        write_text += self.write_channel_weight(self.unaligned_in_sol[level])
 
 
     def def_text_for_channel_weight(self,all_peak):
         """ return the text for the definition of external routine and
-            local variable needed for the multichannel routine 
+            local variable needed for the multichannel routine
         """
-            
+
         text=''
         i=0
         deal_with=[]
         for unaligned,nb in all_peak.items():
             if not nb:
                 continue
-            i+=1        
+            i+=1
             text+=' double precision local_%s \n' % (i)
             if isinstance(unaligned, six.string_types):
                 name = 'tf_E_for_part\n'
@@ -241,12 +241,12 @@ class MG_diagram(diagram_class.MG_diagram):
             if name not in deal_with:
                 deal_with.append(name)
                 text += ' double precision %s\n' %name
-                text += ' external %s \n' %name 
-        
+                text += ' external %s \n' %name
+
         return text
-    
+
     def write_channel_weight(self,peak_by_channel,all_peak,label):
-        """ all peak contains the list of the dictionary {peak:nb_of_appearance} each associated 
+        """ all peak contains the list of the dictionary {peak:nb_of_appearance} each associated
             to a specific channel.
             label is the tag for the channel under study
          returns the text defining, in fortran, the weight for this channel
@@ -255,7 +255,7 @@ class MG_diagram(diagram_class.MG_diagram):
 
         def write_call_for_peak(obj,peak):
             """ return the text on how to return the weight associted to this peak """
-            
+
             if isinstance(peak, six.string_types):
                 text = 'tf_E_for_part(%s)' % ( peak )
             elif peak.external:
@@ -263,36 +263,36 @@ class MG_diagram(diagram_class.MG_diagram):
             else:
                 pid=abs(peak.pid)
                 text = 'Breit_Wigner_for_part( %s, %s, %s)' % \
-                    (peak.MG,obj.dict_Fmass[pid],obj.dict_Fwidth[pid])            
+                    (peak.MG,obj.dict_Fmass[pid],obj.dict_Fwidth[pid])
             return text
-        
+
         def product_of_peak(unaligned_peak,all_peak,peak_to_prov):
             """ Return the product of local_XX associated to this set of
                 unaligned peak
             """
             text='1d0'
             for unaligned,nb in all_peak.items():
-                if nb == 0: 
+                if nb == 0:
                     continue
-                if unaligned not in list(unaligned_peak.keys()):                
+                if unaligned not in list(unaligned_peak.keys()):
                     text+=' * local_%s' %(peak_to_prov[unaligned])
-            return text 
-        
-         
+            return text
+
+
         text = ''
         den_text = ' den = 0d0'
         num_text = ' num = 1d0'
         i=0
         peak_to_prov={}
-        
+
         #definition of the local and the definition associated
         for unaligned,nb in all_peak.items():
-            if nb == 0: 
+            if nb == 0:
                 continue
             i+=1
             text += ' local_%s = %s \n' %(i,write_call_for_peak(self,unaligned))
             peak_to_prov[unaligned]=i
-        
+
 
         if 'restrict_channel' in self.MWparam['mw_gen']:
             if isinstance(self.MWparam['mw_gen']['restrict_channel'], list):
@@ -311,9 +311,9 @@ class MG_diagram(diagram_class.MG_diagram):
             elif j ==label:
                 if num_text.startswith(' num=0d0'):
                     num_text += ' * '+product_of_peak(peak_by_channel[j],all_peak,peak_to_prov)
-                else: 
+                else:
                     num_text = ' num=0d0 ! '+product_of_peak(peak_by_channel[j],all_peak,peak_to_prov)
-                
+
         #define the return value
         if not num_text.startswith(' num=0d0'):
             text+='\n' #make a break
@@ -332,34 +332,34 @@ class MG_diagram(diagram_class.MG_diagram):
             text = 'c'+text.replace('\n','\nc')
             text += '\n multi_channel_weight = 0d0\n'
         return text
-             
+
     def create_multi_channel_weight(self,label, num_sol):
         """ create the fortran code defining the weighting of each integration channel """
-        
-        
-#        ECS=self.full_sol[label][0]   
-#        blob_sol_list=self.full_sol[label][1]       
+
+
+#        ECS=self.full_sol[label][0]
+#        blob_sol_list=self.full_sol[label][1]
 
         write_text=''
-        
+
         if num_sol == 1:
             write_text += '''\n if (config.eq.1) then \n'''
         else:
-            write_text += '\n elseif (config.eq.' + str(num_sol) + ') then \n' 
+            write_text += '\n elseif (config.eq.' + str(num_sol) + ') then \n'
 #        write_text += '\n$B$ S-COMMENT_C $B$\n'
 #        write_text += ECS.info()                    # -> write short ECS/BLOB information
 #        write_text += '\n$E$ S-COMMENT_C $E$\n'
-        
+
         tmp_text = self.write_channel_weight(self.unaligned_in_sol,self.unaligned,label)
         write_text+=tmp_text
         return write_text
-        
+
     def create_MadWeight_main(self, full_sol_obj, num_sol):
         """ create the main_code_$i.inc for all solution
             and the associate d_choices(.f)(.inc)
         """
 
-        
+
         ECS=full_sol_obj[0]
         blob_sol_list=full_sol_obj[1]
         self.num_fuse=self.ext_part + 3 #+2 for initial particle +1 to be on the next one
@@ -374,10 +374,10 @@ class MG_diagram(diagram_class.MG_diagram):
         if num_sol == 1:
             write_text += '''       if (config_pos.eq.1) then '''
         else:
-           write_text += '       elseif (config_pos.eq.' + str(num_sol) + ') then ' 
+           write_text += '       elseif (config_pos.eq.' + str(num_sol) + ') then '
         write_text += '\n$B$ S-COMMENT_C $B$\n'
         write_text += full_sol_obj[0].info()                    # -> write short ECS/BLOB information
-        write_text += '\n$E$ S-COMMENT_C $E$\n'        
+        write_text += '\n$E$ S-COMMENT_C $E$\n'
         #
         #   BLOB
         #
@@ -393,7 +393,7 @@ class MG_diagram(diagram_class.MG_diagram):
                 step += 1
                 if block.chgt_var in ['1', '2', '3']:
                     block_name=' call fuse('
-                elif block.chgt_var == '0':                  
+                elif block.chgt_var == '0':
                     continue #this is already done by MadWeight
                 else:#if block.chgt_var in ['A']:
                     block_name=' call block_' + block.chgt_var.lower() + '(x,'
@@ -426,16 +426,16 @@ class MG_diagram(diagram_class.MG_diagram):
                     text=' if (jac.le.0d0) return\n'
                 else:
                     continue
-                write_text += put_in_fortran_format(text)     
-       
+                write_text += put_in_fortran_format(text)
+
         #
-        #   ECS 
+        #   ECS
         #
 #        write_text+='\n$B$ S-COMMENT_C $B$\n'
 #        write_text+=' ENLARGED CONTRAINT SECTOR \t CLASS '+str(ECS.chgt_var.upper())
-#        write_text+='\n$E$ S-COMMENT_C $E$\n'         
+#        write_text+='\n$E$ S-COMMENT_C $E$\n'
         for block in ECS.step:
-            step += 1           
+            step += 1
             if block.chgt_var == '2':
                 line=' call fuse('
 #            elif block.chgt_var in ['a', 'c', 'e', 'f', 'g']:
@@ -446,7 +446,7 @@ class MG_diagram(diagram_class.MG_diagram):
 
                 if type(particle.MG) == int:
                     if particle.MG < 0:
-                        self.use_propa.add(particle.MG)                    
+                        self.use_propa.add(particle.MG)
                     line += str(particle.MG) + ','
                 elif isinstance(particle.MG, six.string_types):
                     if particle.MG in self.fuse_dict:
@@ -456,7 +456,7 @@ class MG_diagram(diagram_class.MG_diagram):
                         line += str(self.num_fuse) + ','
                         self.fuse_dict[particle.MG]=self.num_fuse
                         self.num_fuse += 1
-                            
+
             line=line[:-1] + ')\n' #supress last , and add )
             line=put_in_fortran_format(line)
             write_text += line
@@ -472,7 +472,7 @@ class MG_diagram(diagram_class.MG_diagram):
         #
         out=self.check_invisible_decay()
         if out:
-            write_text += '\n' + out            
+            write_text += '\n' + out
         #
         #    PUT FUSE FOR OTHER PROPAGATOR
         #
@@ -484,14 +484,14 @@ class MG_diagram(diagram_class.MG_diagram):
                     if particle.channel.startswith('T'):
                         continue
                     if particle.MG == pos:
-                        text += ' call fuse(%s,%s,%s)\n' %(particle.des[0].MG, particle.des[1].MG, pos) 
+                        text += ' call fuse(%s,%s,%s)\n' %(particle.des[0].MG, particle.des[1].MG, pos)
                         break
 
         #add the call for the multichannel weight
         text+='\n jac=jac*multi_channel_weight(%s)\n'%(num_sol)
         write_text += put_in_fortran_format(text)
         return write_text
-        
+
     def create_MadWeight_data(self, full_sol_obj, num_sol):
         """ create the data_$i.inc for all solution """
         #
@@ -506,8 +506,8 @@ class MG_diagram(diagram_class.MG_diagram):
         var2mrandom = {'a':0,'b':1,'c':2,'d':4,'e':3,'f':2, 'g':2,
                        'A':3,'B':2,'C':1,'D':1,'E':2,
                        '0':0,'1':0,'2':0}
-        
-        
+
+
 #        template=self.template
         blob_sol=[]
         for b_sol in blob_sol_list:
@@ -518,7 +518,7 @@ class MG_diagram(diagram_class.MG_diagram):
         #
         write_text='\n$B$ S-COMMENT_C $B$\n'
         write_text += full_sol_obj[0].info()
-        write_text += '\n$E$ S-COMMENT_C $E$\n'                
+        write_text += '\n$E$ S-COMMENT_C $E$\n'
         num_vis=0
         vis_str=''
         vis_list=[]
@@ -536,26 +536,26 @@ class MG_diagram(diagram_class.MG_diagram):
                 continue
             else:
                 [part_treated.add(part.MG) for part in block.in_part]
-            
+
             if block.chgt_var == 'e':
                 mapping[0] = p_random+1
-                p_random += 1 
+                p_random += 1
             elif block.chgt_var in ['f','g']:
                 mapping[0] = p_random+1
-                mapping[1] = p_random+2            
+                mapping[1] = p_random+2
                 p_random += 2
-                 
+
             # treat ONLY NEUTRINO for block B/C
             if block.chgt_var == 'B':
                 neut = block.neut_content[0]
                 mapping[3*neut.MG-6] = p_random + 1
-                p_random +=1 
+                p_random +=1
             elif block.chgt_var == 'C':
                 neut = block.neut_content[0]
                 mapping[3*neut.MG-6] = p_random + 1
                 mapping[3*neut.MG-5] = p_random + 2
-                p_random += 2                
-                 
+                p_random += 2
+
             if block.chgt_var not in ['D', 'E', 'a', 'c']:
                 for particle in block.in_part:
                     if particle.external and not particle.neutrino:
@@ -589,9 +589,9 @@ class MG_diagram(diagram_class.MG_diagram):
                         mapping[3*p1.MG-7] = p_random+1
                     if mapping[3*p2.MG-7] == 0 and p2.tf_level:
                         mapping[3*p2.MG-7] = p_random+1
-                    p_random+=1                   
-               
-                
+                    p_random+=1
+
+
         for particle in ambiguous_external:
             if particle not in part_treated:
                 #part_treated.append(
@@ -610,7 +610,7 @@ class MG_diagram(diagram_class.MG_diagram):
             if hasattr(particle,'has_theta_tf') and particle.has_theta_tf:
                 mapping[3*particle.MG-5] = p_random+1
                 p_random += 1
-            if hasattr(particle,'has_phi_tf') and particle.has_phi_tf:    
+            if hasattr(particle,'has_phi_tf') and particle.has_phi_tf:
                 mapping[3*particle.MG-6] = p_random+1
                 p_random += 1
 
@@ -630,7 +630,7 @@ class MG_diagram(diagram_class.MG_diagram):
         # 2) write the code
         propa_list=self.collect_generated_propa(ECS, blob_sol_list)
         #text=' integer num_propa\n'
-        text=' data num_propa(' + str(num_sol) + ') /' + str(len(propa_list)) + '/ \n'        
+        text=' data num_propa(' + str(num_sol) + ') /' + str(len(propa_list)) + '/ \n'
         if propa_list:
             text += ' data (propa_cont(label,' + str(num_sol) + '),label=1,' + str(len(propa_list)) + ') /'
             for particle in propa_list:
@@ -648,7 +648,7 @@ class MG_diagram(diagram_class.MG_diagram):
 
 ##     def create_pmass2(self):
 ##         """ create the pmass2 for all solution """
-##         write_text="" 
+##         write_text=""
 ##         for particle in self.content.values():
 ##             text='       pmass('+str(particle.MG)+') = '+str(particle.mass)+'d0\n'
 ##             if not particle.external:
@@ -673,14 +673,14 @@ class MG_diagram(diagram_class.MG_diagram):
 
         self.close_d_choices_file(template)
         self.check_redondant_peak(self.unaligned, self.unaligned_in_sol)
-        
+
         write_main=template.dico['INTRO_FOR_MAIN']
         write_main += template.dico['START_ROUTINE']
 
         write_data=template.dico['INTRO_FOR_DATA']
         write_data += self.write_f77_parameter()
-        write_data += template.dico['COMMON_DEF'] 
-        
+        write_data += template.dico['COMMON_DEF']
+
         write_mchannel=template.dico['INTRO_FOR_MULTICHANNEL']
         write_mchannel+=self.def_text_for_channel_weight(self.unaligned)
         for i in range(0, len(self.code)):
@@ -690,12 +690,12 @@ class MG_diagram(diagram_class.MG_diagram):
         write_main += '        endif\n'
         write_main += '        return\n'
         write_main += '        end\n'
-                
+
  #       write_mchannel += template.dico['SECONDPART_FOR_MULTICHANNEL'] #contains endif,return+start of following routine
  #       self.unaligned_correct_for_identical_solution()
  #       write_mchannel += self.write_channel_weight(self.unaligned,'+')
-        write_mchannel += template.dico['END_FOR_MULTICHANNEL']  
-        write_mchannel= put_in_fortran_format(write_mchannel)      
+        write_mchannel += template.dico['END_FOR_MULTICHANNEL']
+        write_mchannel= put_in_fortran_format(write_mchannel)
 
         # Add to data.inc the ordering of the config.
         dico = {'nb_sol_config':len(self.code),
@@ -711,7 +711,7 @@ class MG_diagram(diagram_class.MG_diagram):
             dico['values'] = ','.join(map(str, full))
         else:
             dico['values'] = ','.join(map(str, list(range(1, len(self.code)+1))))
-            
+
         write_data += put_in_fortran_format("""
 C+-----------------------------------------------------------------------+
 C|                  ORDERING OF THE CONFIGURATION                        |
@@ -722,10 +722,10 @@ C+-----------------------------------------------------------------------+
         data (config_ordering(label),label=1,%(nb_sol_config)i) /%(values)s/
 C+-----------------------------------------------------------------------+
         """ % dico)
-        
-                    
+
+
         mod_file.mod_text(write_main, template.dico, self.directory + '/main_code.f')
-        mod_file.mod_text(write_data, template.dico, self.directory + '/data.inc')        
+        mod_file.mod_text(write_data, template.dico, self.directory + '/data.inc')
         mod_file.mod_text(write_mchannel, template.dico, self.directory + '/multi_channel.f')
 
         # create permutations.inc file
@@ -734,12 +734,12 @@ C+-----------------------------------------------------------------------+
 
     def write_f77_parameter(self):
         """ define the f77 parameter for the data file """
-        
-#        text=' integer nb_inv_part\n'                    
+
+#        text=' integer nb_inv_part\n'
 #        text+=' parameter (nb_inv_part='+str(self.num_neut)+')\n'
         text = ' integer nb_vis_part\n'
-        text += ' parameter (nb_vis_part=' + str(len(self.ext_content) - self.num_neut) + ')\n'        
-        text += ' integer nb_sol_config\n'                    
+        text += ' parameter (nb_vis_part=' + str(len(self.ext_content) - self.num_neut) + ')\n'
+        text += ' integer nb_sol_config\n'
         text += ' parameter (nb_sol_config=' + str(len(self.code)) + ')\n'
         text += ' integer dim_phase_space\n parameter (dim_phase_space=%i)\n' % ((3*len(self.ext_content))+2)
         text += ' integer nb_channel\n'
@@ -747,63 +747,63 @@ C+-----------------------------------------------------------------------+
             text += ' parameter (nb_channel=%i)\n' % len(self.code)
         else:
             text += ' parameter (nb_channel=%i)\n' % (len(self.code) * 48)
-            
+
         text+=" integer config_ordering(nb_sol_config)\n "
-#        text+=' integer max_branch\n'                    
-#        text+=' parameter (max_branch='+str(len(self.ext_content))+')\n'        
+#        text+=' integer max_branch\n'
+#        text+=' parameter (max_branch='+str(len(self.ext_content))+')\n'
         text = put_in_fortran_format(text)
         return text
-        
-        
+
+
     def write_d_choices(self, listpart):
         """ updates/creates the files d_choices.inc, d_choices.f
-            return the three particle tag needed to call the block d 
+            return the three particle tag needed to call the block d
         """
-        
+
         tag1 = listpart[0].MG
         tag2 = listpart[1].MG
         if tag1 > tag2:
-            tag1, tag2 = tag2, tag1  #this ensure convention order 
-            
+            tag1, tag2 = tag2, tag1  #this ensure convention order
+
         tag3 = listpart[2].MG  #tag for the invariant mass
-        if tag1 < 0: #tag2 is larger than tag1, so he cann't be negative 
+        if tag1 < 0: #tag2 is larger than tag1, so he cann't be negative
             return '%s, %s, %s' % (tag2, tag1, tag3)
 
-        
+
         if 'first_d_' + str(tag1) + '_' + str(tag2) not in self.d_block:
-            self.d_block.append('first_d_' + str(tag1) + '_' + str(tag2)) 
+            self.d_block.append('first_d_' + str(tag1) + '_' + str(tag2))
             self.d_block.append('second_d_' + str(tag1) + '_' + str(tag2))
         else:
             return 'first_d_' + str(tag1) + '_' + str(tag2) + ', second_d_' + str(tag1) + '_' + str(tag2) + ',' + str(tag3)
-         
+
         #write the definition in the inc file
         inc_text = '\n $B$ S-COMMENT_C $B$\n variable for block d containing:\n ' + \
                  str(tag1) + ' ' + str(tag2) + ' ' + str(tag3) + '\n$E$ S-COMMENT_C $E$\n'
         inc_text += '\n integer first_d_' + str(tag1) + '_' + str(tag2) + '\n'
         inc_text += '\n integer second_d_' + str(tag1) + '_' + str(tag2) + '\n'
         inc_text = put_in_fortran_format(inc_text)
-        self.D_inc_text += inc_text      
-        
+        self.D_inc_text += inc_text
+
         #write the call in the f file
         f_text = '\n $B$ S-COMMENT_C $B$\n variable for block d containing:\n ' + \
                  str(tag1) + ' ' + str(tag2) + ' ' + str(tag3) + '\n$E$ S-COMMENT_C $E$\n'
         f_text += '\n call init_block_d_alignment(' + str(tag1) + ',' + str(tag2) + ',' + \
                'first_d_' + str(tag1) + '_' + str(tag2) + ', second_d_' + str(tag1) + '_' + str(tag2) + ')\n'
         f_text = put_in_fortran_format(f_text)
-        self.D_f_text += f_text  
-        
+        self.D_f_text += f_text
+
         return 'first_d_' + str(tag1) + '_' + str(tag2) + ', second_d_' + str(tag1) + '_' + str(tag2) + ',' + str(tag3)
- 
- 
+
+
     def write_permutations_file(self):
         """ write the permutations.inc file """
 
-        
+
         pid_list = []
         for i in range(3, 100):
             if i not in self.content:
                 break
-            pid_list.append(self.content[i].pid)        
+            pid_list.append(self.content[i].pid)
 
         # assign each particles to a class of identical/equivalent particles
         permutations = get_perms_from_id(pid_list, self.MWparam['mw_perm']['bjet_is_jet'])
@@ -814,15 +814,15 @@ C+-----------------------------------------------------------------------+
         assert len(check) == len(permutations)
         if not self.MWparam['mw_perm']['permutation']:
             permutations = permutations[0:1]
-            
+
         text = open(self.directory + '/../permutation_template.f', 'r').read()
-        
+
         text += '\n      subroutine get_perm(nb, perm)\n'
         text += '      implicit none\n'
         text += '      integer i,j\n'
         text += '      include \'nexternal.inc\'\n'
         text += '      INTEGER    NB\n'
-        text += '      INTEGER    PERM(NEXTERNAL-2)\n'        
+        text += '      INTEGER    PERM(NEXTERNAL-2)\n'
         text += '      include \'permutation.inc\'\n'
         text += '      INTEGER PERMS(NPERM, NEXTERNAL-2)\n'
         for i, perm in enumerate(permutations):
@@ -830,13 +830,13 @@ C+-----------------------------------------------------------------------+
                                                ','.join([str(j) for j in perm]))
         text += '        do i=1, NEXTERNAL-2\n'
         text += '            perm(i) = PERMS(nb, i)\n'
-        text += '        enddo\n'   
-        text += '        return\n' 
+        text += '        enddo\n'
+        text += '        return\n'
         text += '        end\n\n'
         text = put_in_fortran_format(text)
         open(self.directory + '/permutation.f', 'w').write(text)
-        
-        
+
+
         text = '        INTEGER    NPERM\n'
         text += '       PARAMETER (NPERM=%s)\n' % len(permutations)
         text += '       include \'nb_tf.inc\'\n'
@@ -846,7 +846,7 @@ C+-----------------------------------------------------------------------+
             text += ' parameter (nb_channel2=%i)\n' % len(self.code)
         else:
             text += ' parameter (nb_channel2=%i)\n' % (len(self.code) * 48)
-        
+
         text += '''        double precision perm_value(NPERM, nb_tf)
         double precision perm_error(NPERM,nb_tf)
         double precision perm_value_it(NPERM, nb_tf)
@@ -854,14 +854,14 @@ C+-----------------------------------------------------------------------+
         double precision tf_value_it(nb_tf)
         double precision tf_error_it(nb_tf)
         integer curr_perm, nb_point_by_perm(NPERM), perm_order(NPERM,nb_channel2)
-        common/mw_perm_value/ perm_order,perm_value, perm_error, nb_point_by_perm, curr_perm, min_perm 
+        common/mw_perm_value/ perm_order,perm_value, perm_error, nb_point_by_perm, curr_perm, min_perm
         common/mc_value_error/perm_value_it, perm_error_it, tf_value_it,tf_error_it
         '''
         text = put_in_fortran_format(text)
         open(self.directory + '/permutation.inc', 'w').write(text)
 
         #Update main_code.f
-        template = """       
+        template = """
 C*********************************************************************
         double precision function fct(x,wgt)
         implicit none
@@ -908,8 +908,8 @@ c
         COMMON/BVEG1/XL,XU,ACC, NDIM,NCALL,ITMX,NPRN
         integer perm_id(nexternal-2) !permutation of 1,2,...,nexternal-2
 C
-C     Keep track of whether cuts already calculated for this event 
-C     
+C     Keep track of whether cuts already calculated for this event
+C
       LOGICAL CUTSDONE,CUTSPASSED
       COMMON/TO_CUTSDONE/CUTSDONE,CUTSPASSED
 c
@@ -936,17 +936,17 @@ c       choose the permutation (point by point in the ps)
            xbk(1)=X1
            xbk(2)=X2
            fct_before_tf=jac*dsig(momenta(0,1),wgt)
-           
+
            do curr_tf=1,nb_tf
                call transfer_fct(momenta(0,1),TWGT)
                if (curr_tf.eq.1)then
                    fct = fct_before_tf*twgt
-                   fct2 = fct 
+                   fct2 = fct
                else
                    fct2 = fct_before_tf*twgt
                endif
-               
-                
+
+
          %(histo)s
         perm_value(curr_perm, curr_tf) = perm_value(curr_perm, curr_tf) + fct2*wgt
         perm_error(curr_perm, curr_tf) = perm_error(curr_perm, curr_tf) + fct**2*wgt**2
@@ -955,13 +955,13 @@ c       choose the permutation (point by point in the ps)
            fct=0d0
          endif
         curr_tf = 1
-         
+
          end
          """
-        
+
         data = {'perm_init': '', 'perm_storing':'',
                 'histo':'', 'use_cuts':'', 'jac_scaling': ''}
-        
+
         if self.MWparam['mw_perm']['permutation'] and len(permutations) >1:
             data['perm_init'] = """
         new_perm = perm_order(min_perm(config_pos) + int(((NPERM - min_perm(config_pos) +1) * x(NDIM))), config_pos)
@@ -971,19 +971,19 @@ c       choose the permutation (point by point in the ps)
            curr_perm = new_perm
         endif
     """
-            data['jac_scaling'] = """    
+            data['jac_scaling'] = """
             jac = jac * (NPERM - min_perm(config_pos) +1)/NPERM
             """
         if not self.MWparam['mw_perm']['montecarlo'] and len(permutations) >1:
             data['perm_init'] = ""
-                
+
         if self.MWparam['mw_run']['histo']:
             data['histo'] = """
         if (histo)  then
            call FILL_plot(fct,wgt,perm_pos*nb_sol_config+config_pos,nexternal)
         endif
             """
-            
+
         if self.MWparam['mw_run']['use_cut']:
             data['use_cuts'] = """
         CUTSPASSED=.FALSE.
@@ -1004,11 +1004,11 @@ c       choose the permutation (point by point in the ps)
           call set_fac_scale(momenta(0,1),q2fact)
         endif
          """
-         
+
         text = put_in_fortran_format(template % data)
         open(self.directory + '/main_code.f', 'a').write(text)
-        
- 
+
+
     def init_d_choices_file(self):
         """ write banner in the fortran/inc file """
 
@@ -1016,27 +1016,27 @@ c       choose the permutation (point by point in the ps)
         self.D_f_text = '$B$ INTRO_FOR_D_SWITCH_F $E$\n'
         self.D_inc_text = '$B$ INTRO_FOR_D_SWITCH_INC $E$\n'
         self.D_f_text += '\n  subroutine init_d_assignement() \n include \'d_choices.inc\' \n'
-       
+
     def close_d_choices_file(self, template):
-        """write the end of the D block related files """   
+        """write the end of the D block related files """
         #ending f file
         text = '\n return \n end\n'
         text = put_in_fortran_format(text)
         self.D_f_text += text
-        
+
         #endind .inc file (add common)
         text = '\n$B$ S-COMMENT_C $B$\n Definition of the common\n$E$ S-COMMENT_C $E$\n'
         if self.d_block:
             text += '\n common/to_d_block/' + ','.join(self.d_block) + '\n'
         text = put_in_fortran_format(text)
         self.D_inc_text += text
-        
+
         #write text in file
         self.D_f_text = put_in_fortran_format(self.D_f_text)
         self.D_inc_text = put_in_fortran_format(self.D_inc_text)
         mod_file.mod_text(self.D_inc_text, template.dico, self.directory + '/d_choices.inc')
-        mod_file.mod_text(self.D_f_text, template.dico, self.directory + '/d_choices.f')       
-     
+        mod_file.mod_text(self.D_f_text, template.dico, self.directory + '/d_choices.f')
+
     def collect_generated_propa(self, ECS, blob_sol_list):
         """ return all the propagator that must be generated following BW distibution """
 
@@ -1066,7 +1066,7 @@ c       choose the permutation (point by point in the ps)
                 list2.append(propa)
             else:
                 list3.append(propa)
-                
+
 ##                 gen=1
 ##                 for i in range(0,len(propa.des)):
 ##                     if propa.des[i] in list:
@@ -1074,15 +1074,15 @@ c       choose the permutation (point by point in the ps)
 ##                         gen=0
 ##                         break
 ##                 if gen:
-##                    list2.append(propa)                 
+##                    list2.append(propa)
         return list2 + list3
-    
+
     def collect_unaligned_peaks(self):
         """ first create for each solution a list of all unaligned peaks
             secondly make a full list for the full set of solution
             check if a specific peak is never aligned
         """
-        
+
         def add_peaks(unaligned, peak):
             """ add a peak in obj.unaligned """
 
@@ -1090,7 +1090,7 @@ c       choose the permutation (point by point in the ps)
                 for one_peak in peak:
                     add_peaks(unaligned, one_peak)
                 return
-            
+
             if peak in unaligned:
                 unaligned[peak] += 1
             else:
@@ -1116,14 +1116,14 @@ c       choose the permutation (point by point in the ps)
                     text+=str(key)+':'+str(one_sol[key])+'\n'
                 text+='\n'
             return text
-            
-    
+
+
         if not hasattr(self,'unaligned'):
             self.unaligned = {}
             self.unaligned_in_sol = []
-            
-        self.full_sol = [] 
-                
+
+        self.full_sol = []
+
         for ECS in self.ECS_sol: # ALL ECS SECTOR
             full_solution_tag = [ECS, []]
             full_blob_sol = Multi_list()
@@ -1133,7 +1133,7 @@ c       choose the permutation (point by point in the ps)
             for one_full_solution in full_blob_sol:
                 self.full_sol.append([ECS,one_full_solution])
                 unaligned_in_this_sol = {}
-                for block in ECS.step: 
+                for block in ECS.step:
                         add_peaks(unaligned_in_this_sol, block.unaligned)
                         add_peaks(self.unaligned, block.unaligned)
                 for blob in one_full_solution:
@@ -1145,23 +1145,23 @@ c       choose the permutation (point by point in the ps)
                         add_peaks(unaligned_in_this_sol, particles)
                         add_peaks(self.unaligned, particles)
                 self.unaligned_in_sol.append(unaligned_in_this_sol)
-            
 
- 
+
+
     def unaligned_correct_for_identical_solution(self):
-        """ correct self.unaligned from the fact that some solution was take into 
-            account more than once 
+        """ correct self.unaligned from the fact that some solution was take into
+            account more than once
         """
-           
+
         for i in self.already_existing_solution:
             for peak in self.unaligned_in_sol[i]:
                 self.unaligned[peak] -= 1
-            
-            
+
+
     def return_propa_generation(self, list, pos, num_sol):
         """return the line for the definition of how to generate the mass
            typical output are:
-           data (propa_???($,label),label=1,$) /$,$,$,$,$,0/ 
+           data (propa_???($,label),label=1,$) /$,$,$,$,$,0/
         """
 
 
@@ -1173,7 +1173,7 @@ c       choose the permutation (point by point in the ps)
         generated_twin = []
         generated_son = []
         already_gen = list[:pos]
-        
+
         motherX = list[pos]
         #look for minimal value
         generated_son += self.already_generated_in_decay(motherX, already_gen)
@@ -1184,11 +1184,11 @@ c       choose the permutation (point by point in the ps)
             if motherX == 0:
                 break
             #look for maximal value
-            generated_twin += self.already_generated_in_decay(motherXbut1.twin, already_gen)                
+            generated_twin += self.already_generated_in_decay(motherXbut1.twin, already_gen)
             if motherX in already_gen:
                 generated_mother = [motherX.MG]
                 generated_twin.append(0)
-                break                               
+                break
         if not generated_mother:
              generated_mother = [0]
              generated_twin = []
@@ -1196,19 +1196,19 @@ c       choose the permutation (point by point in the ps)
         gen = generated_mother + generated_twin
         line1 += str(len(gen)) + ') / '
         line2 += str(len(generated_son)) + ') / '
-        
+
         for MG_num in gen:
             line1 += str(MG_num) + ','
         line1 = line1[:-1] + '/\n'
-        
+
         for MG_num in generated_son:
             line2 += str(MG_num) + ','
         line2 = line2[:-1] + '/\n'
-        
+
         return line1 + line2
-        
-            
-        
+
+
+
     def already_generated_in_decay(self, particle, generated_propa):
         """give (recurently) all the first particle already generated in the branchs of desintegration"""
 
@@ -1246,8 +1246,8 @@ c       choose the permutation (point by point in the ps)
         """ create output file containing the number of muon/electron/jet/bjet/invisible_part """
 
 
-        content = self.output_type_info()  
-                    
+        content = self.output_type_info()
+
         ff = open(self.directory + '/info_part.dat', 'w')
         text = ""
         for i in range(0, len(content)):
@@ -1256,9 +1256,9 @@ c       choose the permutation (point by point in the ps)
         ff.close()
 
     def check_redondant_peak(self,dict_all, list_local):
-        """  check that in each solution each peaks appears at most one times and 
+        """  check that in each solution each peaks appears at most one times and
              remove peaks present in all solution (if any)
-             check also conflicts D/E peaks occur  
+             check also conflicts D/E peaks occur
         """
         list_d=[]
         dict_mg_to_peak={}
@@ -1270,11 +1270,11 @@ c       choose the permutation (point by point in the ps)
                     list_d.append(value2)
                 else:
                     dict_mg_to_peak[peak.MG]=peak
-                        
+
                 if value != 1:
                     dict_all[peak] += 1 - value
                     one_sol[peak] = 1
-                        
+
         nb_sol = len(list_local)
         for peak, value in dict_all.items():
             if value == nb_sol:
@@ -1287,7 +1287,7 @@ c       choose the permutation (point by point in the ps)
                 dict_all[peak] = 0
                 for list_peak in list_local:
                     del list_peak[peak]
-                
+
         for peak1_MG,peak2_MG in list_d:
             try:
                 peak1,peak2= dict_mg_to_peak[int(peak1_MG)],dict_mg_to_peak[int(peak2_MG)]
@@ -1308,7 +1308,7 @@ c       choose the permutation (point by point in the ps)
                     else:
                         dict_all[name2] =1
         return
-        
+
 if(__name__ == "__main__"):
     """ launched the generation """
     import MW_param
@@ -1317,6 +1317,3 @@ if(__name__ == "__main__"):
     MW_opt = MW_param.MW_info('MadWeight_card.dat')
 
     create_all_fortran_code(MW_opt)
-    
-
-

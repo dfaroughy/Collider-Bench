@@ -22,5 +22,3 @@ transfer_function.o: nb_tf.inc
 
 clean:
 	$(RM) *.o $(LIBDIR)$(LIBRARY)
-
-

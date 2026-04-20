@@ -53,7 +53,7 @@ class ColorFormatter(logging.Formatter):
                 elems=arg.split(':')
                 if len(elems)>2:
                     if elems[1]=='color':
-                        color_specified = True                            
+                        color_specified = True
                         color_choice = COLORS[elems[2]]
                     if color_choice == 0:
                         color_choice = 30
@@ -61,7 +61,7 @@ class ColorFormatter(logging.Formatter):
                     bold_specified = True
             else:
                 new_args.append(arg)
-        
+
 
         record.args = tuple(new_args)
         if bold_specified:
@@ -74,7 +74,7 @@ class ColorFormatter(logging.Formatter):
             return message
         # if some need to be applied no matter what:
         message = message.replace('$_BOLD', BOLD_SEQ).replace('$_RESET', RESET_SEQ).replace('$BR','\n')
-        
+
         # for the conditional one
         if '$RESET' not in message:
             message +=  '$RESET'
@@ -82,18 +82,18 @@ class ColorFormatter(logging.Formatter):
             color_flag = COLOR_SEQ % (v+30)
             message = message.replace("$" + k, color_flag)\
                          .replace("$BG" + k,  COLOR_SEQ % (v+40))\
-                         .replace("$BG-" + k, COLOR_SEQ % (v+40))        
-        
+                         .replace("$BG-" + k, COLOR_SEQ % (v+40))
+
         if levelname == 'INFO':
             message   = message.replace("$RESET", '' if not color_specified else RESET_SEQ)\
                            .replace("$BOLD",  '')\
                            .replace("$COLOR", color if color_specified else '')
             return message
-        else:    
+        else:
             message   = message.replace("$RESET", RESET_SEQ)\
                            .replace("$BOLD",  BOLD_SEQ)\
                            .replace("$COLOR", color)
 
-        return message 
+        return message
 
 logging.ColorFormatter = ColorFormatter

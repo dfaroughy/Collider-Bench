@@ -6,5 +6,3 @@ FC, CXX, FCFLAGS, FCLIBS should correspond to the values presented
 to you when you built the arprec package.
 
 Then execute "make" followed by "./f_test.exe < input"
-
-

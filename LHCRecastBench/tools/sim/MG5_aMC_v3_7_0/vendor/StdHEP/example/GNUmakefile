@@ -51,15 +51,15 @@ testC: testCInOut
 
 listStdHep: listStdHep$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 	$(F77) $(FFLAGS) -o listStdHep listStdHep$(SFX).o \
-		$(STDHEP_DIR)/lib/libstdhep$(SFX).a 
+		$(STDHEP_DIR)/lib/libstdhep$(SFX).a
 
 listStdHepConv: listStdHepConv$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 	$(F77) $(FFLAGS) -o listStdHepConv listStdHepConv$(SFX).o \
-		$(STDHEP_DIR)/lib/libstdhep$(SFX).a 
+		$(STDHEP_DIR)/lib/libstdhep$(SFX).a
 
 readPDG: readPDG$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 	$(F77) $(FFLAGS) -o readPDG readPDG$(SFX).o \
-		$(STDHEP_DIR)/lib/libstdhep$(SFX).a 
+		$(STDHEP_DIR)/lib/libstdhep$(SFX).a
 
 herwigExample: herwigExample$(SFX).o testhst$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 	$(F77) $(FFLAGS) -o herwigExample herwigExample$(SFX).o testhst$(SFX).o \
@@ -131,16 +131,16 @@ pythiaMadGraph: pythiaMadGraph$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 		pythiaMadGraph$(SFX).o  \
 		$(STDHEP_DIR)/lib/libstdhep$(SFX).a \
 		$(PYLIB)/libpythia.a $(PYLIB)/libpydum.a \
-		$(MCFIO_DIR)/lib/libFmcfio$(SFX).a 
+		$(MCFIO_DIR)/lib/libFmcfio$(SFX).a
 
 madToXDR: madToXDR$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 	$(F77) $(FFLAGS) -o madToXDR madToXDR$(SFX).o  \
 		$(STDHEP_DIR)/lib/libstdhep$(SFX).a \
-		$(MCFIO_DIR)/lib/libFmcfio$(SFX).a 
+		$(MCFIO_DIR)/lib/libFmcfio$(SFX).a
 
 dumpMadGraph: dumpMadGraph$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 	$(F77) $(FFLAGS) -o dumpMadGraph dumpMadGraph$(SFX).o  \
-		$(STDHEP_DIR)/lib/libstdhep$(SFX).a 
+		$(STDHEP_DIR)/lib/libstdhep$(SFX).a
 
 readPythia: readPythia$(SFX).o testhst$(SFX).o $(STDHEP_DIR)/lib/libstdhep$(SFX).a
 	$(F77) $(FFLAGS) -o readPythia readPythia$(SFX).o testhst$(SFX).o \
@@ -194,7 +194,7 @@ run_standalone: listStdHep listStdHepConv readPDG \
 	./testCInOut.sh
 	./testpdgtran.sh
 	./readPDG.sh
-	
+
 run_broken: testcsvpdg
 	./testcsvpdg.sh
 
@@ -210,13 +210,13 @@ run_pythia:  listPythia pythiaExample  pythiaLHExample readPythiaLH readPythia
 	./readPythia.sh
 	./readPythiaLH.sh
 
-run_isajet:  isajetExample 
+run_isajet:  isajetExample
 	./isajetExample.sh
 
-run_herwig: herwigExample 
+run_herwig: herwigExample
 	./herwigExample.sh
 
-run_qq: qqExample 
+run_qq: qqExample
 	./qqExample.sh
 
 run_misc: testCInOut testpdg testcsvpdg

@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2012 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
-""" This part is not part of the UFO Model but only of MG5 suite. 
-This files defines how the restrict card can be build automatically """ 
+""" This part is not part of the UFO Model but only of MG5 suite.
+This files defines how the restrict card can be build automatically """
 
 import models.build_restriction_lib as build_restrict_lib
 all_categories = []
@@ -24,7 +24,7 @@ all_categories.append(first_category)
 
 first_category.add_options(name='light mass = 0 (e mu)', # name
                            default=True,        # default
-                           rules=[('MASS',[11], 0.0),                 
+                           rules=[('MASS',[11], 0.0),
                                   ('MASS',[13], 0.0)]
                            )
 

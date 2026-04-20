@@ -53,7 +53,7 @@ EventSpaceWindow *DisplayEventFileSp(Display *display, void (*exitProc)())
     static char title[] = "Event Real Space Display (Track-Vertices)";
     static char barText[] = "No file open";
     SpaceWindow *window;
-   
+
     if (ColorsAndBitmapsInitialized == False)
     	initColorsAndBitmaps(display);
 
@@ -67,19 +67,19 @@ EventSpaceWindow *DisplayEventFileSp(Display *display, void (*exitProc)())
 }
 
 static void initColorsAndBitmaps(Display *display)
-{   
+{
     /*
     ** Put the button bitmaps into the motif bitmap cache for later use
     ** in creating buttons with bitmap labels
     */
     RegisterPhaseBitmaps(DefaultScreenOfDisplay(display));
-    
+
     /*
     ** Allocate color cells for particle colors
     */
     AllocateColors(DefaultScreenOfDisplay(display));
     /*
-    ** Compute some sin and cos for Vertex display 
+    ** Compute some sin and cos for Vertex display
     */
     SetPinVertex();
     ColorsAndBitmapsInitialized = True;
@@ -112,4 +112,4 @@ static void initWindow(StdHepWindow *window)
       swindow->maxMomToSpace = 100.;
       swindow->currentMomToSpace = 1.;
     }
-}    
+}

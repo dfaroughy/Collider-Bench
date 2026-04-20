@@ -32,10 +32,10 @@ C-----m1sq<m2sq<m3sq
       psqtmp(j+1)=psq(j+1)
       enddo
 
-      msq(1)=msqtmp(2) 
-      msq(2)=msqtmp(1) 
-      psq(2)=psqtmp(3) 
-      psq(3)=psqtmp(2) 
+      msq(1)=msqtmp(2)
+      msq(2)=msqtmp(1)
+      psq(2)=psqtmp(3)
+      psq(3)=psqtmp(2)
       endif
 
       return

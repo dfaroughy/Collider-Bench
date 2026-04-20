@@ -31,7 +31,7 @@ c                [           2                ]
 
       si=two*Y(1,3)
       ta=two*Y(2,4)
-      fac=dcmplx(1d0/(si*ta))     
+      fac=dcmplx(1d0/(si*ta))
       Ires(-2)=fac*ctwo*ctwo
       Ires(-1)=fac*ctwo*(
      . -qllnrat(ta,musq)-qllnrat(si,musq))
@@ -39,4 +39,3 @@ c                [           2                ]
      . -qllnrat(ta,si)**2-dcmplx(pi**2))
       return
       end
-

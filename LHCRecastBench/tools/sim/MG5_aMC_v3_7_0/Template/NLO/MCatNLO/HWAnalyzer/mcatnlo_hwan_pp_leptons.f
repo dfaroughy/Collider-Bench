@@ -34,7 +34,7 @@ C----------------------------------------------------------------------
       real*8 cbin(100),cmin(100),cmax(100)
       integer i,kk,l,icuts
       integer l0,ilep1,ilep2,io,ipair
-c      
+c
       call inihist
       nwgt_analysis=nwgt
 c The analysis will consider:
@@ -51,7 +51,7 @@ c Set these variables here and only here
 c For each weight and cut configuration, there will be:
 c   nsingle single-inclusive plots (e.g., pt and y)
 c   ncorr correlation plots (e.g., invM, ptpair, dphi, Deltay)
-c to be repeated for each of the nlepton leptons and 
+c to be repeated for each of the nlepton leptons and
 c nlepton*(nlepton-1)/2 lepton pairs respectively
       ncuts=1
       if(ncuts.gt.maxcuts)then
@@ -141,7 +141,7 @@ C----------------------------------------------------------------------
       parameter(NPL=15000)
       common/c_analysis/nwgt_analysis
       OPEN(UNIT=99,FILE='HERWIG.top',STATUS='UNKNOWN')
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=1.D3/DFLOAT(NEVHEP)
       DO I=1,NPL
@@ -711,4 +711,3 @@ c
 
       return
       end
-

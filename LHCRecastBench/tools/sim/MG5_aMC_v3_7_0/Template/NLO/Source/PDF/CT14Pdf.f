@@ -3,25 +3,25 @@ C                CTEQ-TEA Parton Distribution Functions: version 2015
 C                       October 1, 2015
 C
 C   When using these PDFs, please cite the references below
-C   
+C
 C
 C   This package provides a standard interface for CT10, CT12
 C   (unpublished), and CT14 parton distribution functions,
 C   including CT14QED.
 C
-C   The following sets of CTEQ PDF table files can be computed 
-C    with this program: 
-C               PDF                             References         
+C   The following sets of CTEQ PDF table files can be computed
+C    with this program:
+C               PDF                             References
 C   (1) 1+50 sets of CT10 NNLO PDF's;             [1]
 C   (2' ) 1+52 sets of CT10 NLO PDF's;            [2]
 C   (2'') 1+52 sets of CT10W NLO PDF's;           [2]
 C   (3) 4 sets of CT10W NNLO and NLO PDF's        [2]
-C       with alternative alpha_s values; 
+C       with alternative alpha_s values;
 C   (4) 1+56 sets of CT14 NNLO PDF's;             [3]
 C   (5) 1+56 sets of CT14 NLO PDF's;              [3]
 C   (6) 2 sets of CT14 LO PDF's;                  [3]
 C   (7) 11 CT14 NNLO sets and 11 CT14 NLO sets    [3]
-C       with alternative alpha_s values         
+C       with alternative alpha_s values
 C   (8) 3 CT14 NNLO and 3 CT14 NLO sets           [3]
 C       with up to 3, 4, and 6 active quark flavors
 C   (9) 4 CT14 NNLO sets with intrinsic charm     [X]
@@ -29,17 +29,17 @@ C   (10) 6 CT14QED sets (LO QED, NLO QCD)         [4]
 C        3 each for proton and neutron
 
 C   References
-C   [1] J. Gao, M. Guzzi, J. Huston, H.-L. Lai, Z. Li, P. M. Nadolsky, 
+C   [1] J. Gao, M. Guzzi, J. Huston, H.-L. Lai, Z. Li, P. M. Nadolsky,
 C       J. Pumplin, D. Stump, C.-P. Yuan,  arXiv:1302.6246 [hep-ph]
 C   [2] H.-L. Lai, M. Guzzi, J. Huston, Z. Li, P. M. Nadolsky,
 C       J. Pumplin, and C.-P. Yuan, arXiv: 1007.2241 [hep-ph]
-C   [3] S. Dulat, T.-J. Hou, J. Gao, M. Guzzi, J. Huston, 
+C   [3] S. Dulat, T.-J. Hou, J. Gao, M. Guzzi, J. Huston,
 C       P. M. Nadolsky, J. Pumplin, C. Schmidt, D. Stump, and
 C       C.-P. Yuan, arXiv:1506.07443
 C   [4] C. Schmidt, J. Pumplin, D. Stump, C.-P. Yuan, arXiv:1509.02905
-C 
+C
 C ===========================================================================
-C   The table grids are generated for 
+C   The table grids are generated for
 C    *  10^-9 < x < 1 and 1.3 < Q < 10^5 (GeV).
 C
 C   PDF values outside of the above range are returned using extrapolation.
@@ -59,18 +59,18 @@ C     Iparton  is the parton label (5, 4, 3, 2, 1, 0, -1, ......, -5)
 C                              for (b, c, s, d, u, g, u_bar, ..., b_bar).
 C     Iparton=10 is the label for the photon, if it is available.
 C
-C   The function CT14Alphas (Q) 
+C   The function CT14Alphas (Q)
 C     returns the value of the QCD coupling strength alpha_s(Q) at
 C     an energy scale Q. The alpha_s value is obtained from the interpolation
-C     of a numerical table of alpha_s included in each .pds file. 
+C     of a numerical table of alpha_s included in each .pds file.
 C     In the PDF fit, the alpha_s values are obtained at each momentum
-c     scale by evolution in the HOPPET program at the respective QCD order 
+c     scale by evolution in the HOPPET program at the respective QCD order
 C     (NLO or NNLO). The table of alpha_s values at discrete Q values
 C     is included in the input .pds file. The function CT14Alphas
 c     estimates alpha_s at an arbitrary Q value, which agrees
 c     with the direct evolution by HOPPET within a fraction of percent
-c     point at typical Q. 
-C 
+c     point at typical Q.
+C
 C   The function CT14Mass(i)
 c     returns the value of the quark mass for the i-th flavor.
 c     The flavors are:
@@ -78,14 +78,14 @@ c     1  2  3  4  5  6
 c     u  d  s  c  b  t
 c
 C   Values of various PDF parameters assumed in the computation of the
-c    PDFs can be obtained by 
+c    PDFs can be obtained by
 C     Call CT14GetPars( xmin,Qini,Qmax,Nloops,Nfl,IHDN,Lpho),
 C   which returns
 c     xmin, the minimal value of x;
-c     Qmin,  the initial Q scale for the PDF evolution;  
+c     Qmin,  the initial Q scale for the PDF evolution;
 c     Qmax,  the maximal Q scale included in the PDF table;
 c     Nloop, the number of QCD loops (order of the PDF in the QCD coupling);
-c     Nfl,   the maximal number of quark flavors assumed in the PDF and 
+c     Nfl,   the maximal number of quark flavors assumed in the PDF and
 c            alpha_s evolution;
 C     IHDN,  Hadron (proton = 1,  neutron = 0)
 C     Lpho,  Logical variable, which returns .true. if LO QED evolution
@@ -114,7 +114,7 @@ C===========================================================================
       Data Qsml /.3d0/
       save Warn
 
-      if (ipdsset.ne.1) 
+      if (ipdsset.ne.1)
      >  STOP 'CT14Pdf: the PDF table was not initialized'
 
       If (X .lt. 0d0 .or. X .gt. 1D0) Then
@@ -172,8 +172,8 @@ C                             ********************
 
       subroutine CT14GetPars(xmin,Qini,Qmax,Nloops,Nfl,IHDN,Lphoton)
 c Get various parameters associated with the PDF grid
-c Output: xmin  is the minimal value of x 
-c         Qmin  is the initial Q scale  
+c Output: xmin  is the minimal value of x
+c         Qmin  is the initial Q scale
 c         Qmax  is the maximal Q scale
 c         Nloop is the number of QCD loops
 c         Nfl   is the maximal number of quark flavors
@@ -191,12 +191,12 @@ c               otherwise .false
       common / QCDtbl /  AlfaQ, Qalfa, Ipk, Iorder, Nfl0
       common / CtqPar2 / Nx, Nt, NfMx, MxVal, Ihadron
       common / Photon/ Lpho
-     
+
       Qini=Qini0; Qmax=Qmax0; Xmin=Xmin0
       Nloops=Iorder-1; Nfl=Nfl0; Lphoton=Lpho
       IHDN=Ihadron
 
-      return 
+      return
       end
 
 
@@ -208,7 +208,7 @@ Carl  The following match those in mEvlPac.F for v05t:
       PARAMETER (MXX = 204, MXQ = 50, MXF = 6, MaxVal=4)
 c      PARAMETER (MXPQX = (MXF+1+MaxVal) * MXQ * MXX)
       double precision Alsout
-      
+
       Common
      > / CtqPar1 / qBase,XV(0:MXX), TV(0:MXQ),AlsCTEQ(0:mxq)
      > / CtqPar2 / Nx, Nt, NfMx, MxVal, Ihadron
@@ -219,17 +219,17 @@ c      PARAMETER (MXPQX = (MXF+1+MaxVal) * MXQ * MXX)
       Data Q, JQ /-1D0, 0/
       save
 
-      if (ipdsset.ne.1) 
+      if (ipdsset.ne.1)
      >  STOP 'CT14Alphas: the PDF table was not initialized'
 
-      
+
       if (ipdsformat.lt.11) then
         print *
-        print *, 
+        print *,
      >    'STOP in CT14alphas: the PDF table file has an older format'
         print *,
      >    'and does not include the table of QCD coupling values.'
-        print *, 
+        print *,
      >    'You can still compute the PDFs, but do not call'
         print *,
      >    'the CT14alphas function for the interpolation of alpha_s.'
@@ -265,16 +265,16 @@ C                         JLq .GE. Nt-1 case:  Keep at least 4 points >= Jq.
       Endif
 C                                 This is the interpolation variable in Q
       Call Polint4F (TV(jq), AlsCTEQ(jq), tt, Alsout)
-      
+
       CT14Alphas = Alsout
-      
+
       Return
 C                                       ********************
       End
 
 
       function CT14Mass(i)
-c     Returns the value of the quark mass for the i-th flavor 
+c     Returns the value of the quark mass for the i-th flavor
 c     The flavors are:
 c     1  2  3  4  5  6
 c     u  d  s  c  b  t
@@ -285,12 +285,12 @@ c     u  d  s  c  b  t
      >  / Masstbl / Amass(6)
 
 
-      if (ipdsset.ne.1) 
+      if (ipdsset.ne.1)
      >  STOP 'CT14Mass: the PDF table was not initialized'
 
       CT14Mass = Amass(i)
 
-      return 
+      return
       end
 
 
@@ -324,8 +324,8 @@ Carl  Default is no photon
       if (Line(1:11) .eq. '  ipk, Ordr') then !post-CT10 .pds format;
 c Set alphas(MZ) at scale Zm, quark masses, and evolution type
         ipdsformat = 10           !Post-CT10 .pds format
-        Read (Nu, *) ipk, Dr, Qalfa, AlfaQ, (amass(i),i=1,6) 
-        Iorder = Nint(Dr)        
+        Read (Nu, *) ipk, Dr, Qalfa, AlfaQ, (amass(i),i=1,6)
+        Iorder = Nint(Dr)
         read (Nu, '(A)') Line
         if (Line(1:7) .eq. '  IMASS' ) then
           ipdsformat = 11         !CT12 .pds format
@@ -346,7 +346,7 @@ c Set alphas(MZ) at scale Zm, quark masses, and evolution type
         else                      !Pre-CT12 format
           Read  (Nu, *) N0, N0, N0, NfMx, MxVal
         endif                     !Line(1:7)
-        
+
       else                        !old .pds format;
         ipdsformat = 6            !CTEQ6.6 .pds format; alpha_s  is not specified
         Read (Nu, *) Dr, fl, Alambda, (amass(i),i=1,6)  !set Lambda_QCD
@@ -356,10 +356,10 @@ c Set alphas(MZ) at scale Zm, quark masses, and evolution type
         Read  (Nu, *) dummy,IHDN,dummy, NfMx, MxVal, N0
         Ihadron=IHDN
       endif                       !Line(1:11...
-      
+
       Read  (Nu, '(A)') Line
       Read  (Nu, *) NX,  NT, N0, NG, N0
-      
+
       if (ng.gt.0) Read  (Nu, '(A)') (Line, i=1,ng+1)
 
       Read  (Nu, '(A)') Line
@@ -383,7 +383,7 @@ c check that qBase is consistent with the definition of Tv(0:nQ) for 2 values of
       Read  (Nu, '(A)') Line
       Read  (Nu, *) XMIN, aa, (XV(I), I =1, NX)
       XV(0)=0D0
-      
+
 C                  Since quark = anti-quark for nfl>2 at this stage,
 C                  we Read  out only the non-redundent data points
 C                  No of flavors = NfMx sea + 1 gluon + Nfval valence+ipho
@@ -729,4 +729,3 @@ C
 C               *************************
       End
 C
-

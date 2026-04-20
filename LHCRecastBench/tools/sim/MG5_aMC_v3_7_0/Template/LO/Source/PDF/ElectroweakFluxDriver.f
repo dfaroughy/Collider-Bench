@@ -1,6 +1,6 @@
 c     /* ********************************************************* *
 c                 Effective Vector Boson Approximation
-c     /* ********************************************************* *      
+c     /* ********************************************************* *
 c     File: ElectroweakFluxDriver.f
 c     R. Ruiz (2021 February)
 c     R. Ruiz (2024 June -- update)
@@ -19,12 +19,12 @@ c     - call V_+,V_-,V_0 PDF by v polarization (vpol)
 c     - call PDF for f_L,f_R by fL polarization (fLpol; fLpol=0.5 = unpolarized)
 c     subroutine eva_get_mv2_by_PID
 c     - assign mass by vPID
-c     subroutine eva_get_mf2_by_PID      
+c     subroutine eva_get_mf2_by_PID
 c     - assign mass by fPID
 c     subroutine eva_get_gg2_by_PID
 c     - assign universal coupling strength by vPID
 c     subroutine eva_get_gR2_by_PID
-c     - assign right couplings of fermion by vPID and fPID      
+c     - assign right couplings of fermion by vPID and fPID
 c     subroutine eva_get_gL2_by_PID
 c     - assign left couplings of fermion by vPID and fPID
 c     /* ********************************************************* *
@@ -35,7 +35,7 @@ c     /* ********************************************************* *
       double precision eva_get_pdf_by_PID_evo
       double precision eva_get_pdf_photon_evo
       double precision eva_get_pdf_neutrino_evo
-   
+
       double precision tiny,mu2min
       double precision QW,Qf
 
@@ -45,10 +45,10 @@ c     /* ********************************************************* *
       common/to_eva/ievo_eva,evaorder,eva_xcut
 
       include 'ElectroweakFlux.inc'
-      
+
       tiny  = 1d-8
       mu2min = 1d2 ! (10 GeV)^2 reset mu2min by vPID
-      
+
 c     do the following checks before calling PDF:
 c     1. momentum fraction, x
 c     2. fermion polarization fraction, fLpol
@@ -84,7 +84,7 @@ c     also set lower bound on muf2 scale evolution by PID
       case (23) ! z
          xMin   = eva_mz*eva_xcut / ebeam ! if eva_xcut=0, then always pass cut
          mu2min = eva_mz2
-         if(x.lt.xMin) then 
+         if(x.lt.xMin) then
 c            write(*,*) 'eva: setting PDF to zero since x*Ebeam < MZ',x
             eva_get_pdf_by_PID = 0d0
             return
@@ -98,7 +98,7 @@ c            write(*,*) 'eva: setting PDF to zero since x*Ebeam < MZ',x
       case (24) ! w
          xMin   = eva_mw*eva_xcut / ebeam ! if eva_xcut=0, then always pass cut
          mu2min = eva_mw2
-         if(x.lt.xMin) then 
+         if(x.lt.xMin) then
 c            write(*,*) 'eva: setting PDF to zero since x*Ebeam < MW',x
             eva_get_pdf_by_PID = 0d0
             return
@@ -116,7 +116,7 @@ c            write(*,*) 'eva: setting PDF to zero since x*Ebeam < MW',x
             stop 25
             eva_get_pdf_by_PID = 0d0
             return
-         endif         
+         endif
 c      case (32) (eva for bsm)
 c         mu2min = eva_mx2
 c         if(iabs(vPol).ne.1.and.vPol.ne.0) then
@@ -125,7 +125,7 @@ c            stop 26
 c            eva_get_pdf_by_PID = 0d0
 c            return
 c         endif
-      case default         
+      case default
          write(*,*) 'vPID out of range',vPID
          stop 27
          eva_get_pdf_by_PID = 0d0
@@ -186,7 +186,7 @@ c     5. QED conservation check
          eva_get_pdf_by_PID = eva_get_pdf_by_PID_evo(vPID,fPID,vpol,fLpol,x,mu2,ebeam,ievo_eva,evaorder)
       end select
       return
-      end      
+      end
 c     /* ********************************************************* *
 c     /* ********************************************************* *
 c     /* ********************************************************* *
@@ -197,7 +197,7 @@ c     /* ********************************************************* *
       integer vPID,fPID,vpol,ievo_eva
       double precision fLpol,x,mu2,ebeam
       double precision eva_fX_to_vm,eva_fX_to_v0,eva_fX_to_vp
-      
+
       double precision gg2,gL2,gR2,mv2,tmpPDF
       call eva_get_mv2_by_PID(mv2,vPID)
       call eva_get_gg2_by_PID(gg2,vPID,fPID)
@@ -208,7 +208,7 @@ c     /* ********************************************************* *
          call eva_get_gR2_by_PID(gL2,vPID,fPID)
          call eva_get_gL2_by_PID(gR2,vPID,fPID)
       endif
-c      
+c
       select case (vpol)
       case (-1)
          tmpPDF = eva_fX_to_vm(gg2,gL2,gR2,fLpol,mv2,x,mu2,ebeam,ievo_eva,evaorder)
@@ -231,7 +231,7 @@ c     /* ********************************************************* *
       integer vPID,fPID,vpol,ievo_eva
       double precision fLpol,x,mu2,ebeam
       double precision eva_fX_to_vm,eva_fX_to_vp
-      
+
       double precision gg2,gL2,gR2,mf2,tmpPDF
       call eva_get_mf2_by_PID(mf2,fPID)
       call eva_get_gg2_by_PID(gg2,vPID,fPID)
@@ -243,7 +243,7 @@ c     /* ********************************************************* *
          call eva_get_gL2_by_PID(gR2,vPID,fPID)
       endif
       tmpevaorder = 0 ! always use LLA since m_photon = 0
-c      
+c
       select case (vpol)
       case (-1)
          tmpPDF = eva_fX_to_vm(gg2,gL2,gR2,fLpol,mf2,x,mu2,ebeam,ievo_eva,tmpevaorder)
@@ -252,12 +252,12 @@ c
       case default
          write(*,*) 'vPol out of range; should not be here',vPol
          stop
-         tmpPDF = 0d0         
+         tmpPDF = 0d0
       end select
       eva_get_pdf_photon_evo = tmpPDF
       return
-      end      
-c     /* ********************************************************* *   
+      end
+c     /* ********************************************************* *
 c     /* ********************************************************* *
       double precision function eva_get_pdf_neutrino_evo(vPID,fPID,vpol,fLpol,x,mu2,ebeam,ievo_eva,evaorder)
       implicit none
@@ -284,7 +284,7 @@ c
       case (-1)
          if(isAntiNu) then ! no LH antineutrinos
             tmpPDF = 0
-         else  
+         else
             tmpPDF = eva_fX_to_fL(gg2,gL2,gR2,fLpol,mv2,x,mu2,ebeam,ievo_eva,evaorder)
          endif
       case (+1)
@@ -296,22 +296,22 @@ c
       case default
          write(*,*) 'vPol out of range; should not be here',vPol
          stop
-         tmpPDF = 0d0         
+         tmpPDF = 0d0
       end select
       eva_get_pdf_neutrino_evo = tmpPDF
       return
-      end      
-c     /* ********************************************************* *         
+      end
 c     /* ********************************************************* *
 c     /* ********************************************************* *
 c     /* ********************************************************* *
-c     /* ********************************************************* *                  
+c     /* ********************************************************* *
+c     /* ********************************************************* *
       subroutine eva_get_mv2_by_PID(mv2,vPID)
       implicit none
       integer vPID
       double precision mv2
       include 'ElectroweakFlux.inc'
-      
+
       select case (iabs(vPID))
       case (7,22)
          mv2 = eva_zero
@@ -320,7 +320,7 @@ c     /* ********************************************************* *
       case (24)
          mv2 = eva_mw2
       case (12,14,16) ! l > vl splitting
-         mv2 = eva_mw2         
+         mv2 = eva_mw2
       case (25)
          mv2 = eva_mh2
 c      case (32)
@@ -332,13 +332,13 @@ c         mv2 = eva_mx2
       return
       end
 c     /* ********************************************************* *
-c     /* ********************************************************* *                  
+c     /* ********************************************************* *
       subroutine eva_get_mf2_by_PID(mf2,fPID)
       implicit none
       integer fPID
       double precision mf2
       include 'ElectroweakFlux.inc'
-      
+
       select case (iabs(fPID))
       case (1)
          mf2 = eva_md2
@@ -359,7 +359,7 @@ c     /* ********************************************************* *
       case (13)
          mf2 = eva_mm2
       case (15)
-         mf2 = eva_ml2  
+         mf2 = eva_ml2
       case default
          write(*,*) 'eva: asking for mass of unknown fPID: ', fPID
          stop 25
@@ -367,19 +367,19 @@ c     /* ********************************************************* *
       end select
       return
       end
-c     /* ********************************************************* *            
-c     /* ********************************************************* *      
+c     /* ********************************************************* *
+c     /* ********************************************************* *
       subroutine eva_get_gg2_by_PID(gg2,vPID,fPID)
       implicit none
       integer vPID,fPID
       double precision gg2
       include 'ElectroweakFlux.inc'
-      
+
       select case (iabs(vPID))
-c     ******************************                                       
+c     ******************************
       case (12,14) ! ve/vm/ve~/vm~
-         gg2 = eva_gw2/2.d0         
-c     ******************************                                                
+         gg2 = eva_gw2/2.d0
+c     ******************************
       case (7,22)  ! a
 c     ******************************
          select case (iabs(fPID)) ! nested select case
@@ -404,10 +404,10 @@ c            write(*,*) 'eva: nu has zero QED charge.'
             write(*,*) 'eva: setting QED coup to (e*Q_e). unknown fPID:', fPID
             gg2 = eva_ee2*eva_qee2
          end select
-c     ******************************                     
+c     ******************************
       case (23) ! z
          gg2 = eva_gz2
-c     ******************************                              
+c     ******************************
       case (24) ! w+/w-
          gg2 = eva_gw2/2.d0
          if(vPID.eq.24) then ! w+
@@ -426,16 +426,16 @@ c     ******************************
                write(*,*) 'eva: violation of QED conservation. setting w-ffbar coup to zero'
                gg2 = eva_zero
             end select
-         endif 
-c     ******************************                              
+         endif
+c     ******************************
       case default
          write(*,*) 'eva: setting coup to zero. unknown vPID:', vPID
          gg2 = eva_zero
       end select
       return
       end
-c     /* ********************************************************* * 
-c     /* ********************************************************* *      
+c     /* ********************************************************* *
+c     /* ********************************************************* *
       subroutine eva_get_qEM_by_PID(qEM,fPID)
       implicit none
       integer fPID
@@ -471,17 +471,17 @@ c     /* ********************************************************* *
          write(*,*) 'eva: setting QED charge to zero. unknown fPID:', fPID
          qEM = eva_zero
       end select
-c     ******************************                     
+c     ******************************
       return
       end
-c     /* ********************************************************* *      
-c     /* ********************************************************* *      
+c     /* ********************************************************* *
+c     /* ********************************************************* *
       subroutine eva_get_gR2_by_PID(gR2,vPID,fPID)
       implicit none
       integer vPID,fPID
       double precision gR2
       include 'ElectroweakFlux.inc'
-      
+
       select case (iabs(vPID))
       case (7,22)
          gR2 = eva_one
@@ -499,7 +499,7 @@ c     ******************************
          case (5)               ! bottom
             gR2 = eva_zRd**2
          case (6)               ! top
-            gR2 = eva_zRu**2            
+            gR2 = eva_zRu**2
          case (11)              ! electron
             gR2 = eva_zRe**2
          case (12)              ! electron-neutrino
@@ -511,11 +511,11 @@ c     ******************************
          case (15)              ! tau
             gR2 = eva_zRe**2
          case (16)              ! tau-neutrino
-            gR2 = eva_zRv**2                        
+            gR2 = eva_zRv**2
          case default
             gR2 = eva_one**2
          end select
-c     ******************************            
+c     ******************************
       case (24)
          gR2 = eva_zero
       case default
@@ -523,14 +523,14 @@ c     ******************************
       end select
       return
       end
-c     /* ********************************************************* *      
-c     /* ********************************************************* *      
+c     /* ********************************************************* *
+c     /* ********************************************************* *
       subroutine eva_get_gL2_by_PID(gL2,vPID,fPID)
       implicit none
       integer vPID,fPID
       double precision gL2
       include 'ElectroweakFlux.inc'
-      
+
       select case (iabs(vPID))
       case (7,22)
          gL2 = eva_one
@@ -548,7 +548,7 @@ c     ******************************
          case (5)               ! bottom
             gL2 = eva_zLd**2
          case (6)               ! top
-            gL2 = eva_zLu**2            
+            gL2 = eva_zLu**2
          case (11)              ! electron
             gL2 = eva_zLe**2
          case (12)              ! electron-neutrino
@@ -560,11 +560,11 @@ c     ******************************
          case (15)              ! tau
             gL2 = eva_zLe**2
          case (16)              ! tau-neutrino
-            gL2 = eva_zLv**2                        
+            gL2 = eva_zLv**2
          case default
             gL2 = eva_one**2
          end select
-c     ******************************            
+c     ******************************
       case (24)
          gL2 = eva_one
       case default
@@ -572,4 +572,4 @@ c     ******************************
       end select
       return
       end
-c     /* ********************************************************* *      
+c     /* ********************************************************* *

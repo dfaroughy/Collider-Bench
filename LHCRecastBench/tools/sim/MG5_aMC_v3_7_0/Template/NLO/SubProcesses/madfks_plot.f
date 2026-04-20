@@ -200,7 +200,7 @@ c Write the accumulated results to a file
       endif
       write (34,*) " "
       close(34)
-      return                
+      return
       end
 
 
@@ -338,5 +338,5 @@ c Fill the accumulated results
             endif
          enddo
       endif
- 999  return      
+ 999  return
       end

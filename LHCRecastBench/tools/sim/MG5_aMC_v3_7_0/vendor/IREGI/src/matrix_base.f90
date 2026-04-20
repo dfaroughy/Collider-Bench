@@ -3,12 +3,12 @@ CONTAINS
   FUNCTION M2X2DET(A) RESULT(DET)
     IMPLICIT NONE
     REAL(KIND(1d0)),DIMENSION(2,2),INTENT(IN)::A
-    REAL(KIND(1d0))::DET    
+    REAL(KIND(1d0))::DET
     DET = A(1,1)*A(2,2)-A(1,2)*A(2,1)
     RETURN
   END FUNCTION M2X2DET
 
-  FUNCTION M3X3DET(A) RESULT(DET)    
+  FUNCTION M3X3DET(A) RESULT(DET)
     IMPLICIT NONE
     REAL(KIND(1d0)),DIMENSION(3,3),INTENT(IN)::A
     REAL(KIND(1d0))::DET
@@ -21,7 +21,7 @@ CONTAINS
     RETURN
   END FUNCTION M3X3DET
 
-  FUNCTION M4X4DET(A) RESULT(DET)    
+  FUNCTION M4X4DET(A) RESULT(DET)
     IMPLICIT NONE
     REAL(KIND(1d0)),DIMENSION(4,4),INTENT(IN)::A
     REAL(KIND(1d0))::DET
@@ -29,7 +29,7 @@ CONTAINS
          A(3,3)*A(4,2)))-A(1,2)*(A(2,1)*(A(3,3)*A(4,4)-A(3,4)*A(4,3))+A(2,3)*(A(3,4)*A(4,1)-A(3,1)*A(4,4))+ &
          A(2,4)*(A(3,1)*A(4,3)-A(3,3)*A(4,1)))+A(1,3)*(A(2,1)*(A(3,2)*A(4,4)-A(3,4)*A(4,2))+A(2,2)*(A(3,4)*A(4,1)- &
          A(3,1)*A(4,4))+A(2,4)*(A(3,1)*A(4,2)-A(3,2)*A(4,1)))-A(1,4)*(A(2,1)*(A(3,2)*A(4,3)-A(3,3)*A(4,2))+ &
-         A(2,2)*(A(3,3)*A(4,1)-A(3,1)*A(4,3))+A(2,3)*(A(3,1)*A(4,2)-A(3,2)*A(4,1)))    
+         A(2,2)*(A(3,3)*A(4,1)-A(3,1)*A(4,3))+A(2,3)*(A(3,1)*A(4,2)-A(3,2)*A(4,1)))
     RETURN
   END FUNCTION M4X4DET
 
@@ -39,7 +39,7 @@ CONTAINS
     REAL(KIND(1d0))::DET, A11, A12, A13, A14, A15, A21, A22, A23, A24, &
          A25, A31, A32, A33, A34, A35, A41, A42, A43, A44, A45,   &
          A51, A52, A53, A54, A55
-    
+
     A11=A(1,1)
     A12=A(1,2)
     A13=A(1,3)
@@ -65,7 +65,7 @@ CONTAINS
     A53=A(5,3)
     A54=A(5,4)
     A55=A(5,5)
-    
+
     DET = A15*A24*A33*A42*A51-A14*A25*A33*A42*A51-A15*A23*A34*A42*A51+    &
          A13*A25*A34*A42*A51+A14*A23*A35*A42*A51-A13*A24*A35*A42*A51-       &
          A15*A24*A32*A43*A51+A14*A25*A32*A43*A51+A15*A22*A34*A43*A51-       &
@@ -117,7 +117,7 @@ CONTAINS
     REAL(KIND(1d0)):: DET, A11, A12, A13, A14, A15, A16, A21, A22, A23, A24, &
          A25, A26, A31, A32, A33, A34, A35, A36, A41, A42, A43, A44, A45, A46,   &
          A51, A52, A53, A54, A55, A56, A61, A62, A63, A64, A65, A66
-    
+
     A11=A(1,1); A12=A(1,2); A13=A(1,3); A14=A(1,4); A15=A(1,5); A16=A(1,6)
     A21=A(2,1); A22=A(2,2); A23=A(2,3); A24=A(2,4); A25=A(2,5); A26=A(2,6)
     A31=A(3,1); A32=A(3,2); A33=A(3,3); A34=A(3,4); A35=A(3,5); A36=A(3,6)
@@ -458,7 +458,7 @@ CONTAINS
       res=MNXNDET(n,Ai)
     END FUNCTION Y_MATRIX_COLUMN_N
 
-    SUBROUTINE M2X2INV(A,AINV,OK_FLAG) 
+    SUBROUTINE M2X2INV(A,AINV,OK_FLAG)
       IMPLICIT NONE
       REAL(KIND(1d0)),DIMENSION(2,2),INTENT(IN)::A
       REAL(KIND(1d0)),DIMENSION(2,2),INTENT(OUT)::AINV
@@ -507,7 +507,7 @@ CONTAINS
       COFACTOR(3,2) = -(A(1,1)*A(2,3)-A(1,3)*A(2,1))
       COFACTOR(3,3) = +(A(1,1)*A(2,2)-A(1,2)*A(2,1))
 
-      AINV = TRANSPOSE(COFACTOR) / DET      
+      AINV = TRANSPOSE(COFACTOR) / DET
       OK_FLAG = .TRUE.
       RETURN
     END SUBROUTINE M3X3INV
@@ -569,13 +569,13 @@ CONTAINS
       A51=A(5,1); A52=A(5,2); A53=A(5,3); A54=A(5,4); A55=A(5,5)
 
       DET=M5X5DET(A)
-      
+
       IF (ABS(DET).LE.EPS) THEN
          AINV = 0.0D0
          OK_FLAG = .FALSE.
          RETURN
       END IF
-      
+
       COFACTOR(1,1) = A25*A34*A43*A52-A24*A35*A43*A52-A25*A33*A44*A52+      &
            A23*A35*A44*A52+A24*A33*A45*A52-A23*A34*A45*A52-A25*A34*A42*A53+   &
            A24*A35*A42*A53+A25*A32*A44*A53-A22*A35*A44*A53-A24*A32*A45*A53+   &
@@ -591,7 +591,7 @@ CONTAINS
            A12*A35*A43*A54-A13*A32*A45*A54+A12*A33*A45*A54+A14*A33*A42*A55-   &
            A13*A34*A42*A55-A14*A32*A43*A55+A12*A34*A43*A55+A13*A32*A44*A55-   &
            A12*A33*A44*A55
-      
+
       COFACTOR(3,1) = A15*A24*A43*A52-A14*A25*A43*A52-A15*A23*A44*A52+      &
            A13*A25*A44*A52+A14*A23*A45*A52-A13*A24*A45*A52-A15*A24*A42*A53+   &
            A14*A25*A42*A53+A15*A22*A44*A53-A12*A25*A44*A53-A14*A22*A45*A53+   &
@@ -751,7 +751,7 @@ CONTAINS
            A11*A34*A42*A53-A12*A31*A44*A53+A11*A32*A44*A53+A13*A32*A41*A54-   &
            A12*A33*A41*A54-A13*A31*A42*A54+A11*A33*A42*A54+A12*A31*A43*A54-   &
            A11*A32*A43*A54
-      
+
       COFACTOR(3,5) = A14*A23*A42*A51-A13*A24*A42*A51-A14*A22*A43*A51+      &
            A12*A24*A43*A51+A13*A22*A44*A51-A12*A23*A44*A51-A14*A23*A41*A52+   &
            A13*A24*A41*A52+A14*A21*A43*A52-A11*A24*A43*A52-A13*A21*A44*A52+   &
@@ -798,7 +798,7 @@ CONTAINS
       A41=A(4,1); A42=A(4,2); A43=A(4,3); A44=A(4,4); A45=A(4,5); A46=A(4,6)
       A51=A(5,1); A52=A(5,2); A53=A(5,3); A54=A(5,4); A55=A(5,5); A56=A(5,6)
       A61=A(6,1); A62=A(6,2); A63=A(6,3); A64=A(6,4); A65=A(6,5); A66=A(6,6)
-      
+
       DET=M6X6DET(A)
 
       IF (ABS(DET) .LE. EPS) THEN
@@ -1277,7 +1277,7 @@ CONTAINS
            A42*A54*A66+A21*A35*A42*A54*A66+A22*A31*A45*A54*A66-A21*A32*A45*A54*                     &
            A66-A24*A32*A41*A55*A66+A22*A34*A41*A55*A66+A24*A31*A42*A55*A66-A21*A34*                 &
            A42*A55*A66-A22*A31*A44*A55*A66+A21*A32*A44*A55*A66
-      
+
       COFACTOR(2,3) = -A16*A35*A44*A52*                                                        &
            A61+A15*A36*A44*A52*A61+A16*A34*A45*A52*A61-A14*A36*A45*A52*A61-A15*A34*                 &
            A46*A52*A61+A14*A35*A46*A52*A61+A16*A35*A42*A54*A61-A15*A36*A42*A54*                     &
@@ -2076,7 +2076,7 @@ CONTAINS
            A65+A11*A22*A34*A43*A65+A13*A22*A31*A44*A65-A12*A23*A31*A44*A65-A13*A21*                 &
            A32*A44*A65+A11*A23*A32*A44*A65+A12*A21*A33*A44*A65-A11*A22*A33*A44*                     &
            A65
-      
+
       COFACTOR(6,6) = A15*A24*A33*A42*A51-A14*A25*A33*A42*A51-A15*A23*A34*A42*A51+A13*A25*     &
            A34*A42*A51+A14*A23*A35*A42*A51-A13*A24*A35*A42*A51-A15*A24*A32*A43*                     &
            A51+A14*A25*A32*A43*A51+A15*A22*A34*A43*A51-A12*A25*A34*A43*A51-A14*A22*                 &
@@ -2190,7 +2190,7 @@ CONTAINS
     END FUNCTION rdot
 
     FUNCTION ldot(N1,N2,A,b)
-      ! b.A 
+      ! b.A
       IMPLICIT NONE
       INTEGER,INTENT(IN)::N1,N2
       REAL(KIND(1d0)),DIMENSION(N1,N2),INTENT(IN)::A
@@ -2207,7 +2207,7 @@ CONTAINS
     END FUNCTION ldot
 
     FUNCTION crdot(N1,N2,A,b)
-      ! A.b, A is complex          
+      ! A.b, A is complex
       IMPLICIT NONE
       INTEGER,INTENT(IN)::N1,N2
       COMPLEX(KIND(1d0)),DIMENSION(N1,N2),INTENT(IN)::A
@@ -2224,7 +2224,7 @@ CONTAINS
     END FUNCTION crdot
 
     FUNCTION cldot(N1,N2,A,b)
-      ! b.A, A is complex          
+      ! b.A, A is complex
       IMPLICIT NONE
       INTEGER,INTENT(IN)::N1,N2
       COMPLEX(KIND(1d0)),DIMENSION(N1,N2),INTENT(IN)::A
@@ -2239,7 +2239,7 @@ CONTAINS
       ENDDO
       RETURN
     END FUNCTION cldot
-    
+
     FUNCTION YNi(i,n,A)
       IMPLICIT NONE
       INTEGER,INTENT(IN)::i,n
@@ -2251,7 +2251,7 @@ CONTAINS
       YNi=MNXNDET(n,At)
       RETURN
     END FUNCTION YNi
-    
+
     FUNCTION hdeltabar(n,x,j)
       IMPLICIT NONE
       INTEGER,INTENT(IN)::n,j

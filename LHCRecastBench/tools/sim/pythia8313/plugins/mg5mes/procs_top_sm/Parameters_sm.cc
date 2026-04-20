@@ -5,117 +5,117 @@
 // Visit launchpad.net/madgraph5 and amcatnlo.web.cern.ch
 //==========================================================================
 
-#include <iostream> 
-#include <iomanip> 
+#include <iostream>
+#include <iomanip>
 #include "Parameters_sm.h"
 
 void Parameters_sm::setIndependentParameters(SLHAReader& slha)
 {
   // Define "zero"
-  zero = 0; 
-  ZERO = 0; 
+  zero = 0;
+  ZERO = 0;
   // Prepare a vector for indices
-  vector<int> indices(2, 0); 
+  vector<int> indices(2, 0);
   if (slha.is_valid())
-    mdl_WH = slha.get_block_entry("decay", 25, 6.382339e-03); 
+    mdl_WH = slha.get_block_entry("decay", 25, 6.382339e-03);
   if (slha.is_valid())
-    mdl_WW = slha.get_block_entry("decay", 24, 2.047600e+00); 
+    mdl_WW = slha.get_block_entry("decay", 24, 2.047600e+00);
   if (slha.is_valid())
-    mdl_WZ = slha.get_block_entry("decay", 23, 2.441404e+00); 
+    mdl_WZ = slha.get_block_entry("decay", 23, 2.441404e+00);
   if (slha.is_valid())
-    mdl_WT = slha.get_block_entry("decay", 6, 1.491500e+00); 
+    mdl_WT = slha.get_block_entry("decay", 6, 1.491500e+00);
   if (slha.is_valid())
-    mdl_ymtau = slha.get_block_entry("yukawa", 15, 1.777000e+00); 
+    mdl_ymtau = slha.get_block_entry("yukawa", 15, 1.777000e+00);
   if (slha.is_valid())
-    mdl_ymt = slha.get_block_entry("yukawa", 6, 1.730000e+02); 
+    mdl_ymt = slha.get_block_entry("yukawa", 6, 1.730000e+02);
   if (slha.is_valid())
-    mdl_ymb = slha.get_block_entry("yukawa", 5, 4.700000e+00); 
+    mdl_ymb = slha.get_block_entry("yukawa", 5, 4.700000e+00);
   if (slha.is_valid())
-    aS = slha.get_block_entry("sminputs", 3, 1.180000e-01); 
+    aS = slha.get_block_entry("sminputs", 3, 1.180000e-01);
   if (slha.is_valid())
-    mdl_Gf = slha.get_block_entry("sminputs", 2, 1.166390e-05); 
+    mdl_Gf = slha.get_block_entry("sminputs", 2, 1.166390e-05);
   if (slha.is_valid())
-    aEWM1 = slha.get_block_entry("sminputs", 1, 1.325070e+02); 
+    aEWM1 = slha.get_block_entry("sminputs", 1, 1.325070e+02);
   if (slha.is_valid())
-    mdl_MH = slha.get_block_entry("mass", 25, 1.250000e+02); 
+    mdl_MH = slha.get_block_entry("mass", 25, 1.250000e+02);
   if (slha.is_valid())
-    mdl_MZ = slha.get_block_entry("mass", 23, 9.118800e+01); 
+    mdl_MZ = slha.get_block_entry("mass", 23, 9.118800e+01);
   if (slha.is_valid())
-    mdl_MTA = slha.get_block_entry("mass", 15, 1.777000e+00); 
+    mdl_MTA = slha.get_block_entry("mass", 15, 1.777000e+00);
   if (slha.is_valid())
-    mdl_MT = slha.get_block_entry("mass", 6, 1.730000e+02); 
+    mdl_MT = slha.get_block_entry("mass", 6, 1.730000e+02);
   if (slha.is_valid())
-    mdl_MB = slha.get_block_entry("mass", 5, 4.700000e+00); 
-  mdl_conjg__CKM3x3 = 1.; 
-  mdl_CKM3x3 = 1.; 
-  mdl_conjg__CKM1x1 = 1.; 
-  mdl_complexi = Complex<double> (0., 1.); 
-  mdl_MZ__exp__2 = ((mdl_MZ) * (mdl_MZ)); 
-  mdl_MZ__exp__4 = ((mdl_MZ) * (mdl_MZ) * (mdl_MZ) * (mdl_MZ)); 
-  mdl_sqrt__2 = sqrt(2.); 
-  mdl_MH__exp__2 = ((mdl_MH) * (mdl_MH)); 
-  mdl_aEW = 1./aEWM1; 
+    mdl_MB = slha.get_block_entry("mass", 5, 4.700000e+00);
+  mdl_conjg__CKM3x3 = 1.;
+  mdl_CKM3x3 = 1.;
+  mdl_conjg__CKM1x1 = 1.;
+  mdl_complexi = Complex<double> (0., 1.);
+  mdl_MZ__exp__2 = ((mdl_MZ) * (mdl_MZ));
+  mdl_MZ__exp__4 = ((mdl_MZ) * (mdl_MZ) * (mdl_MZ) * (mdl_MZ));
+  mdl_sqrt__2 = sqrt(2.);
+  mdl_MH__exp__2 = ((mdl_MH) * (mdl_MH));
+  mdl_aEW = 1./aEWM1;
   mdl_MW = sqrt(mdl_MZ__exp__2/2. + sqrt(mdl_MZ__exp__4/4. - (mdl_aEW * M_PI *
       mdl_MZ__exp__2)/(mdl_Gf * mdl_sqrt__2)));
-  mdl_sqrt__aEW = sqrt(mdl_aEW); 
-  mdl_ee = 2. * mdl_sqrt__aEW * sqrt(M_PI); 
-  mdl_MW__exp__2 = ((mdl_MW) * (mdl_MW)); 
-  mdl_sw2 = 1. - mdl_MW__exp__2/mdl_MZ__exp__2; 
-  mdl_cw = sqrt(1. - mdl_sw2); 
-  mdl_sqrt__sw2 = sqrt(mdl_sw2); 
-  mdl_sw = mdl_sqrt__sw2; 
-  mdl_g1 = mdl_ee/mdl_cw; 
-  mdl_gw = mdl_ee/mdl_sw; 
-  mdl_vev = (2. * mdl_MW * mdl_sw)/mdl_ee; 
-  mdl_vev__exp__2 = ((mdl_vev) * (mdl_vev)); 
-  mdl_lam = mdl_MH__exp__2/(2. * mdl_vev__exp__2); 
-  mdl_yb = (mdl_ymb * mdl_sqrt__2)/mdl_vev; 
-  mdl_yt = (mdl_ymt * mdl_sqrt__2)/mdl_vev; 
-  mdl_ytau = (mdl_ymtau * mdl_sqrt__2)/mdl_vev; 
-  mdl_muH = sqrt(mdl_lam * mdl_vev__exp__2); 
-  mdl_I1x33 = mdl_yb * mdl_conjg__CKM3x3; 
-  mdl_I2x33 = mdl_yt * mdl_conjg__CKM3x3; 
-  mdl_I3x33 = mdl_CKM3x3 * mdl_yt; 
-  mdl_I4x33 = mdl_CKM3x3 * mdl_yb; 
-  mdl_ee__exp__2 = ((mdl_ee) * (mdl_ee)); 
-  mdl_sw__exp__2 = ((mdl_sw) * (mdl_sw)); 
-  mdl_cw__exp__2 = ((mdl_cw) * (mdl_cw)); 
+  mdl_sqrt__aEW = sqrt(mdl_aEW);
+  mdl_ee = 2. * mdl_sqrt__aEW * sqrt(M_PI);
+  mdl_MW__exp__2 = ((mdl_MW) * (mdl_MW));
+  mdl_sw2 = 1. - mdl_MW__exp__2/mdl_MZ__exp__2;
+  mdl_cw = sqrt(1. - mdl_sw2);
+  mdl_sqrt__sw2 = sqrt(mdl_sw2);
+  mdl_sw = mdl_sqrt__sw2;
+  mdl_g1 = mdl_ee/mdl_cw;
+  mdl_gw = mdl_ee/mdl_sw;
+  mdl_vev = (2. * mdl_MW * mdl_sw)/mdl_ee;
+  mdl_vev__exp__2 = ((mdl_vev) * (mdl_vev));
+  mdl_lam = mdl_MH__exp__2/(2. * mdl_vev__exp__2);
+  mdl_yb = (mdl_ymb * mdl_sqrt__2)/mdl_vev;
+  mdl_yt = (mdl_ymt * mdl_sqrt__2)/mdl_vev;
+  mdl_ytau = (mdl_ymtau * mdl_sqrt__2)/mdl_vev;
+  mdl_muH = sqrt(mdl_lam * mdl_vev__exp__2);
+  mdl_I1x33 = mdl_yb * mdl_conjg__CKM3x3;
+  mdl_I2x33 = mdl_yt * mdl_conjg__CKM3x3;
+  mdl_I3x33 = mdl_CKM3x3 * mdl_yt;
+  mdl_I4x33 = mdl_CKM3x3 * mdl_yb;
+  mdl_ee__exp__2 = ((mdl_ee) * (mdl_ee));
+  mdl_sw__exp__2 = ((mdl_sw) * (mdl_sw));
+  mdl_cw__exp__2 = ((mdl_cw) * (mdl_cw));
 }
 void Parameters_sm::setIndependentCouplings()
 {
-  GC_1 = -(mdl_ee * mdl_complexi)/3.; 
-  GC_2 = (2. * mdl_ee * mdl_complexi)/3.; 
-  GC_3 = -(mdl_ee * mdl_complexi); 
-  GC_4 = mdl_ee * mdl_complexi; 
-  GC_5 = mdl_ee__exp__2 * mdl_complexi; 
-  GC_6 = 2. * mdl_ee__exp__2 * mdl_complexi; 
-  GC_7 = -mdl_ee__exp__2/(2. * mdl_cw); 
-  GC_8 = (mdl_ee__exp__2 * mdl_complexi)/(2. * mdl_cw); 
-  GC_9 = mdl_ee__exp__2/(2. * mdl_cw); 
-  GC_15 = mdl_I1x33; 
-  GC_21 = -mdl_I2x33; 
-  GC_27 = mdl_I3x33; 
-  GC_30 = -mdl_I4x33; 
-  GC_31 = -2. * mdl_complexi * mdl_lam; 
-  GC_32 = -4. * mdl_complexi * mdl_lam; 
-  GC_33 = -6. * mdl_complexi * mdl_lam; 
-  GC_34 = (mdl_ee__exp__2 * mdl_complexi)/(2. * mdl_sw__exp__2); 
-  GC_35 = -((mdl_ee__exp__2 * mdl_complexi)/mdl_sw__exp__2); 
-  GC_36 = (mdl_cw__exp__2 * mdl_ee__exp__2 * mdl_complexi)/mdl_sw__exp__2; 
-  GC_37 = -mdl_ee/(2. * mdl_sw); 
-  GC_38 = -(mdl_ee * mdl_complexi)/(2. * mdl_sw); 
-  GC_39 = (mdl_ee * mdl_complexi)/(2. * mdl_sw); 
-  GC_50 = -(mdl_cw * mdl_ee * mdl_complexi)/(2. * mdl_sw); 
-  GC_51 = (mdl_cw * mdl_ee * mdl_complexi)/(2. * mdl_sw); 
-  GC_52 = -((mdl_cw * mdl_ee * mdl_complexi)/mdl_sw); 
-  GC_53 = (mdl_cw * mdl_ee * mdl_complexi)/mdl_sw; 
-  GC_54 = -mdl_ee__exp__2/(2. * mdl_sw); 
-  GC_55 = -(mdl_ee__exp__2 * mdl_complexi)/(2. * mdl_sw); 
-  GC_56 = mdl_ee__exp__2/(2. * mdl_sw); 
-  GC_57 = (-2. * mdl_cw * mdl_ee__exp__2 * mdl_complexi)/mdl_sw; 
-  GC_58 = -(mdl_ee * mdl_complexi * mdl_sw)/(6. * mdl_cw); 
-  GC_59 = (mdl_ee * mdl_complexi * mdl_sw)/(2. * mdl_cw); 
-  GC_60 = -(mdl_cw * mdl_ee)/(2. * mdl_sw) - (mdl_ee * mdl_sw)/(2. * mdl_cw); 
+  GC_1 = -(mdl_ee * mdl_complexi)/3.;
+  GC_2 = (2. * mdl_ee * mdl_complexi)/3.;
+  GC_3 = -(mdl_ee * mdl_complexi);
+  GC_4 = mdl_ee * mdl_complexi;
+  GC_5 = mdl_ee__exp__2 * mdl_complexi;
+  GC_6 = 2. * mdl_ee__exp__2 * mdl_complexi;
+  GC_7 = -mdl_ee__exp__2/(2. * mdl_cw);
+  GC_8 = (mdl_ee__exp__2 * mdl_complexi)/(2. * mdl_cw);
+  GC_9 = mdl_ee__exp__2/(2. * mdl_cw);
+  GC_15 = mdl_I1x33;
+  GC_21 = -mdl_I2x33;
+  GC_27 = mdl_I3x33;
+  GC_30 = -mdl_I4x33;
+  GC_31 = -2. * mdl_complexi * mdl_lam;
+  GC_32 = -4. * mdl_complexi * mdl_lam;
+  GC_33 = -6. * mdl_complexi * mdl_lam;
+  GC_34 = (mdl_ee__exp__2 * mdl_complexi)/(2. * mdl_sw__exp__2);
+  GC_35 = -((mdl_ee__exp__2 * mdl_complexi)/mdl_sw__exp__2);
+  GC_36 = (mdl_cw__exp__2 * mdl_ee__exp__2 * mdl_complexi)/mdl_sw__exp__2;
+  GC_37 = -mdl_ee/(2. * mdl_sw);
+  GC_38 = -(mdl_ee * mdl_complexi)/(2. * mdl_sw);
+  GC_39 = (mdl_ee * mdl_complexi)/(2. * mdl_sw);
+  GC_50 = -(mdl_cw * mdl_ee * mdl_complexi)/(2. * mdl_sw);
+  GC_51 = (mdl_cw * mdl_ee * mdl_complexi)/(2. * mdl_sw);
+  GC_52 = -((mdl_cw * mdl_ee * mdl_complexi)/mdl_sw);
+  GC_53 = (mdl_cw * mdl_ee * mdl_complexi)/mdl_sw;
+  GC_54 = -mdl_ee__exp__2/(2. * mdl_sw);
+  GC_55 = -(mdl_ee__exp__2 * mdl_complexi)/(2. * mdl_sw);
+  GC_56 = mdl_ee__exp__2/(2. * mdl_sw);
+  GC_57 = (-2. * mdl_cw * mdl_ee__exp__2 * mdl_complexi)/mdl_sw;
+  GC_58 = -(mdl_ee * mdl_complexi * mdl_sw)/(6. * mdl_cw);
+  GC_59 = (mdl_ee * mdl_complexi * mdl_sw)/(2. * mdl_cw);
+  GC_60 = -(mdl_cw * mdl_ee)/(2. * mdl_sw) - (mdl_ee * mdl_sw)/(2. * mdl_cw);
   GC_61 = -(mdl_cw * mdl_ee * mdl_complexi)/(2. * mdl_sw) + (mdl_ee *
       mdl_complexi * mdl_sw)/(2. * mdl_cw);
   GC_62 = (mdl_cw * mdl_ee * mdl_complexi)/(2. * mdl_sw) + (mdl_ee *
@@ -128,16 +128,16 @@ void Parameters_sm::setIndependentCouplings()
   GC_65 = mdl_ee__exp__2 * mdl_complexi + (mdl_cw__exp__2 * mdl_ee__exp__2 *
       mdl_complexi)/(2. * mdl_sw__exp__2) + (mdl_ee__exp__2 * mdl_complexi *
       mdl_sw__exp__2)/(2. * mdl_cw__exp__2);
-  GC_66 = -(mdl_ee__exp__2 * mdl_vev)/(2. * mdl_cw); 
-  GC_67 = (mdl_ee__exp__2 * mdl_vev)/(2. * mdl_cw); 
-  GC_68 = -2. * mdl_complexi * mdl_lam * mdl_vev; 
-  GC_69 = -6. * mdl_complexi * mdl_lam * mdl_vev; 
-  GC_70 = -(mdl_ee__exp__2 * mdl_vev)/(4. * mdl_sw__exp__2); 
-  GC_71 = -(mdl_ee__exp__2 * mdl_complexi * mdl_vev)/(4. * mdl_sw__exp__2); 
-  GC_72 = (mdl_ee__exp__2 * mdl_complexi * mdl_vev)/(2. * mdl_sw__exp__2); 
-  GC_73 = (mdl_ee__exp__2 * mdl_vev)/(4. * mdl_sw__exp__2); 
-  GC_74 = -(mdl_ee__exp__2 * mdl_vev)/(2. * mdl_sw); 
-  GC_75 = (mdl_ee__exp__2 * mdl_vev)/(2. * mdl_sw); 
+  GC_66 = -(mdl_ee__exp__2 * mdl_vev)/(2. * mdl_cw);
+  GC_67 = (mdl_ee__exp__2 * mdl_vev)/(2. * mdl_cw);
+  GC_68 = -2. * mdl_complexi * mdl_lam * mdl_vev;
+  GC_69 = -6. * mdl_complexi * mdl_lam * mdl_vev;
+  GC_70 = -(mdl_ee__exp__2 * mdl_vev)/(4. * mdl_sw__exp__2);
+  GC_71 = -(mdl_ee__exp__2 * mdl_complexi * mdl_vev)/(4. * mdl_sw__exp__2);
+  GC_72 = (mdl_ee__exp__2 * mdl_complexi * mdl_vev)/(2. * mdl_sw__exp__2);
+  GC_73 = (mdl_ee__exp__2 * mdl_vev)/(4. * mdl_sw__exp__2);
+  GC_74 = -(mdl_ee__exp__2 * mdl_vev)/(2. * mdl_sw);
+  GC_75 = (mdl_ee__exp__2 * mdl_vev)/(2. * mdl_sw);
   GC_76 = -(mdl_ee__exp__2 * mdl_vev)/(4. * mdl_cw) - (mdl_cw * mdl_ee__exp__2
       * mdl_vev)/(4. * mdl_sw__exp__2);
   GC_77 = (mdl_ee__exp__2 * mdl_vev)/(4. * mdl_cw) - (mdl_cw * mdl_ee__exp__2 *
@@ -154,33 +154,33 @@ void Parameters_sm::setIndependentCouplings()
       mdl_ee__exp__2 * mdl_complexi * mdl_vev)/(2. * mdl_sw__exp__2) +
       (mdl_ee__exp__2 * mdl_complexi * mdl_sw__exp__2 * mdl_vev)/(2. *
       mdl_cw__exp__2);
-  GC_82 = -(mdl_yb/mdl_sqrt__2); 
-  GC_83 = -((mdl_complexi * mdl_yb)/mdl_sqrt__2); 
-  GC_94 = -((mdl_complexi * mdl_yt)/mdl_sqrt__2); 
-  GC_95 = mdl_yt/mdl_sqrt__2; 
-  GC_96 = -mdl_ytau; 
-  GC_97 = mdl_ytau; 
-  GC_98 = -(mdl_ytau/mdl_sqrt__2); 
-  GC_99 = -((mdl_complexi * mdl_ytau)/mdl_sqrt__2); 
-  GC_100 = (mdl_ee * mdl_complexi * mdl_conjg__CKM1x1)/(mdl_sw * mdl_sqrt__2); 
+  GC_82 = -(mdl_yb/mdl_sqrt__2);
+  GC_83 = -((mdl_complexi * mdl_yb)/mdl_sqrt__2);
+  GC_94 = -((mdl_complexi * mdl_yt)/mdl_sqrt__2);
+  GC_95 = mdl_yt/mdl_sqrt__2;
+  GC_96 = -mdl_ytau;
+  GC_97 = mdl_ytau;
+  GC_98 = -(mdl_ytau/mdl_sqrt__2);
+  GC_99 = -((mdl_complexi * mdl_ytau)/mdl_sqrt__2);
+  GC_100 = (mdl_ee * mdl_complexi * mdl_conjg__CKM1x1)/(mdl_sw * mdl_sqrt__2);
 }
 void Parameters_sm::setDependentParameters()
 {
-  mdl_sqrt__aS = sqrt(aS); 
-  G = 2. * mdl_sqrt__aS * sqrt(M_PI); 
-  mdl_G__exp__2 = ((G) * (G)); 
+  mdl_sqrt__aS = sqrt(aS);
+  G = 2. * mdl_sqrt__aS * sqrt(M_PI);
+  mdl_G__exp__2 = ((G) * (G));
 }
 void Parameters_sm::setDependentCouplings()
 {
-  GC_12 = mdl_complexi * mdl_G__exp__2; 
-  GC_11 = mdl_complexi * G; 
-  GC_10 = -G; 
+  GC_12 = mdl_complexi * mdl_G__exp__2;
+  GC_11 = mdl_complexi * G;
+  GC_10 = -G;
 }
 
 // Routines for printing out parameters
 void Parameters_sm::printIndependentParameters()
 {
-  cout <<  "sm model parameters independent of event kinematics:" << endl; 
+  cout <<  "sm model parameters independent of event kinematics:" << endl;
   cout << setprecision(20) <<  "mdl_WH " <<  "= " << setprecision(10) << mdl_WH
       << endl;
   cout << setprecision(20) <<  "mdl_WW " <<  "= " << setprecision(10) << mdl_WW
@@ -280,7 +280,7 @@ void Parameters_sm::printIndependentParameters()
 }
 void Parameters_sm::printIndependentCouplings()
 {
-  cout <<  "sm model couplings independent of event kinematics:" << endl; 
+  cout <<  "sm model couplings independent of event kinematics:" << endl;
   cout << setprecision(20) <<  "GC_1 " <<  "= " << setprecision(10) << GC_1 <<
       endl;
   cout << setprecision(20) <<  "GC_2 " <<  "= " << setprecision(10) << GC_2 <<
@@ -410,16 +410,16 @@ void Parameters_sm::printIndependentCouplings()
 }
 void Parameters_sm::printDependentParameters()
 {
-  cout <<  "sm model parameters dependent on event kinematics:" << endl; 
+  cout <<  "sm model parameters dependent on event kinematics:" << endl;
   cout << setprecision(20) <<  "mdl_sqrt__aS " <<  "= " << setprecision(10) <<
       mdl_sqrt__aS << endl;
-  cout << setprecision(20) <<  "G " <<  "= " << setprecision(10) << G << endl; 
+  cout << setprecision(20) <<  "G " <<  "= " << setprecision(10) << G << endl;
   cout << setprecision(20) <<  "mdl_G__exp__2 " <<  "= " << setprecision(10) <<
       mdl_G__exp__2 << endl;
 }
 void Parameters_sm::printDependentCouplings()
 {
-  cout <<  "sm model couplings dependent on event kinematics:" << endl; 
+  cout <<  "sm model couplings dependent on event kinematics:" << endl;
   cout << setprecision(20) <<  "GC_12 " <<  "= " << setprecision(10) << GC_12
       << endl;
   cout << setprecision(20) <<  "GC_11 " <<  "= " << setprecision(10) << GC_11
@@ -431,73 +431,72 @@ void Parameters_sm::printDependentCouplings()
 // Usage from inside Pythia8
 #ifdef PYTHIA8
 
-void Parameters_sm::setIndependentParameters(Pythia8::ParticleData * & pd, 
+void Parameters_sm::setIndependentParameters(Pythia8::ParticleData * & pd,
 Pythia8::Couplings * & csm, Pythia8::SusyLesHouches * & slhaPtr)
 {
   if (false)
-    cout << pd << csm << slhaPtr; 
-  mdl_WH = pd->mWidth(25); 
-  mdl_WW = pd->mWidth(24); 
-  mdl_WZ = pd->mWidth(23); 
-  mdl_WT = pd->mWidth(6); 
-  mdl_ymtau = pd->mRun(15, pd->m0(24)); 
-  mdl_ymt = pd->mRun(6, pd->m0(24)); 
-  mdl_ymb = pd->mRun(5, pd->m0(24)); 
+    cout << pd << csm << slhaPtr;
+  mdl_WH = pd->mWidth(25);
+  mdl_WW = pd->mWidth(24);
+  mdl_WZ = pd->mWidth(23);
+  mdl_WT = pd->mWidth(6);
+  mdl_ymtau = pd->mRun(15, pd->m0(24));
+  mdl_ymt = pd->mRun(6, pd->m0(24));
+  mdl_ymb = pd->mRun(5, pd->m0(24));
   mdl_Gf = M_PI * csm->alphaEM(((pd->m0(23)) * (pd->m0(23)))) * ((pd->m0(23)) *
       (pd->m0(23)))/(sqrt(2.) * ((pd->m0(24)) * (pd->m0(24))) * (((pd->m0(23))
       * (pd->m0(23))) - ((pd->m0(24)) * (pd->m0(24)))));
-  aEWM1 = 1./csm->alphaEM(((pd->m0(23)) * (pd->m0(23)))); 
-  mdl_MH = pd->m0(25); 
-  mdl_MZ = pd->m0(23); 
-  mdl_MTA = pd->m0(15); 
-  mdl_MT = pd->m0(6); 
-  mdl_MB = pd->m0(5); 
-  mdl_conjg__CKM3x3 = 1.; 
-  mdl_CKM3x3 = 1.; 
-  mdl_conjg__CKM1x1 = 1.; 
-  ZERO = 0.; 
-  mdl_complexi = Complex<double> (0., 1.); 
-  mdl_MZ__exp__2 = ((mdl_MZ) * (mdl_MZ)); 
-  mdl_MZ__exp__4 = ((mdl_MZ) * (mdl_MZ) * (mdl_MZ) * (mdl_MZ)); 
-  mdl_sqrt__2 = sqrt(2.); 
-  mdl_MH__exp__2 = ((mdl_MH) * (mdl_MH)); 
-  mdl_aEW = 1./aEWM1; 
+  aEWM1 = 1./csm->alphaEM(((pd->m0(23)) * (pd->m0(23))));
+  mdl_MH = pd->m0(25);
+  mdl_MZ = pd->m0(23);
+  mdl_MTA = pd->m0(15);
+  mdl_MT = pd->m0(6);
+  mdl_MB = pd->m0(5);
+  mdl_conjg__CKM3x3 = 1.;
+  mdl_CKM3x3 = 1.;
+  mdl_conjg__CKM1x1 = 1.;
+  ZERO = 0.;
+  mdl_complexi = Complex<double> (0., 1.);
+  mdl_MZ__exp__2 = ((mdl_MZ) * (mdl_MZ));
+  mdl_MZ__exp__4 = ((mdl_MZ) * (mdl_MZ) * (mdl_MZ) * (mdl_MZ));
+  mdl_sqrt__2 = sqrt(2.);
+  mdl_MH__exp__2 = ((mdl_MH) * (mdl_MH));
+  mdl_aEW = 1./aEWM1;
   mdl_MW = sqrt(mdl_MZ__exp__2/2. + sqrt(mdl_MZ__exp__4/4. - (mdl_aEW * M_PI *
       mdl_MZ__exp__2)/(mdl_Gf * mdl_sqrt__2)));
-  mdl_sqrt__aEW = sqrt(mdl_aEW); 
-  mdl_ee = 2. * mdl_sqrt__aEW * sqrt(M_PI); 
-  mdl_MW__exp__2 = ((mdl_MW) * (mdl_MW)); 
-  mdl_sw2 = 1. - mdl_MW__exp__2/mdl_MZ__exp__2; 
-  mdl_cw = sqrt(1. - mdl_sw2); 
-  mdl_sqrt__sw2 = sqrt(mdl_sw2); 
-  mdl_sw = mdl_sqrt__sw2; 
-  mdl_g1 = mdl_ee/mdl_cw; 
-  mdl_gw = mdl_ee/mdl_sw; 
-  mdl_vev = (2. * mdl_MW * mdl_sw)/mdl_ee; 
-  mdl_vev__exp__2 = ((mdl_vev) * (mdl_vev)); 
-  mdl_lam = mdl_MH__exp__2/(2. * mdl_vev__exp__2); 
-  mdl_yb = (mdl_ymb * mdl_sqrt__2)/mdl_vev; 
-  mdl_yt = (mdl_ymt * mdl_sqrt__2)/mdl_vev; 
-  mdl_ytau = (mdl_ymtau * mdl_sqrt__2)/mdl_vev; 
-  mdl_muH = sqrt(mdl_lam * mdl_vev__exp__2); 
-  mdl_I1x33 = mdl_yb * mdl_conjg__CKM3x3; 
-  mdl_I2x33 = mdl_yt * mdl_conjg__CKM3x3; 
-  mdl_I3x33 = mdl_CKM3x3 * mdl_yt; 
-  mdl_I4x33 = mdl_CKM3x3 * mdl_yb; 
-  mdl_ee__exp__2 = ((mdl_ee) * (mdl_ee)); 
-  mdl_sw__exp__2 = ((mdl_sw) * (mdl_sw)); 
-  mdl_cw__exp__2 = ((mdl_cw) * (mdl_cw)); 
+  mdl_sqrt__aEW = sqrt(mdl_aEW);
+  mdl_ee = 2. * mdl_sqrt__aEW * sqrt(M_PI);
+  mdl_MW__exp__2 = ((mdl_MW) * (mdl_MW));
+  mdl_sw2 = 1. - mdl_MW__exp__2/mdl_MZ__exp__2;
+  mdl_cw = sqrt(1. - mdl_sw2);
+  mdl_sqrt__sw2 = sqrt(mdl_sw2);
+  mdl_sw = mdl_sqrt__sw2;
+  mdl_g1 = mdl_ee/mdl_cw;
+  mdl_gw = mdl_ee/mdl_sw;
+  mdl_vev = (2. * mdl_MW * mdl_sw)/mdl_ee;
+  mdl_vev__exp__2 = ((mdl_vev) * (mdl_vev));
+  mdl_lam = mdl_MH__exp__2/(2. * mdl_vev__exp__2);
+  mdl_yb = (mdl_ymb * mdl_sqrt__2)/mdl_vev;
+  mdl_yt = (mdl_ymt * mdl_sqrt__2)/mdl_vev;
+  mdl_ytau = (mdl_ymtau * mdl_sqrt__2)/mdl_vev;
+  mdl_muH = sqrt(mdl_lam * mdl_vev__exp__2);
+  mdl_I1x33 = mdl_yb * mdl_conjg__CKM3x3;
+  mdl_I2x33 = mdl_yt * mdl_conjg__CKM3x3;
+  mdl_I3x33 = mdl_CKM3x3 * mdl_yt;
+  mdl_I4x33 = mdl_CKM3x3 * mdl_yb;
+  mdl_ee__exp__2 = ((mdl_ee) * (mdl_ee));
+  mdl_sw__exp__2 = ((mdl_sw) * (mdl_sw));
+  mdl_cw__exp__2 = ((mdl_cw) * (mdl_cw));
 }
-void Parameters_sm::setDependentParameters(Pythia8::ParticleData * & pd, 
+void Parameters_sm::setDependentParameters(Pythia8::ParticleData * & pd,
 Pythia8::Couplings * & csm, Pythia8::SusyLesHouches * & slhaPtr, double alpS)
 {
   if (false)
-    cout << pd << csm << slhaPtr << alpS; 
-  aS = alpS; 
-  mdl_sqrt__aS = sqrt(aS); 
-  G = 2. * mdl_sqrt__aS * sqrt(M_PI); 
-  mdl_G__exp__2 = ((G) * (G)); 
+    cout << pd << csm << slhaPtr << alpS;
+  aS = alpS;
+  mdl_sqrt__aS = sqrt(aS);
+  G = 2. * mdl_sqrt__aS * sqrt(M_PI);
+  mdl_G__exp__2 = ((G) * (G));
 }
 
 #endif
-

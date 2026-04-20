@@ -10,7 +10,7 @@ c----  Nucl.\ Phys.\ B {\bf 412}, 751 (1994)
 c----  [arXiv:hep-ph/9306240].
 c----  %%CITATION = HEP-PH 9306240;%%
 c----  Eqs. (I.15)
-C-----or from /hep-ph/0508308 v3 Eqn (A27) 
+C-----or from /hep-ph/0508308 v3 Eqn (A27)
 C-----v3 corrects previous versions.
 c                         [                   s12     p4sq ]
 c                         [   0       0     - ---   - ---- ]
@@ -33,20 +33,20 @@ c                         [    2       2       2           ]
       double complex Ires(-2:0),qllnrat,qlL0,qlL1,fac,Li2(6),
      . qlLi2omrat,qlLi2omx2
       logical landau
-      si=2d0*Y(1,3)  
-      ta=2d0*Y(2,4)  
-      mp2sq=2d0*Y(2,3)  
-      mp3sq=2d0*Y(3,4)  
-      mp4sq=2d0*Y(1,4)  
+      si=2d0*Y(1,3)
+      ta=2d0*Y(2,4)
+      mp2sq=2d0*Y(2,3)
+      mp3sq=2d0*Y(3,4)
+      mp4sq=2d0*Y(1,4)
 
       r=1d0-mp2sq*mp4sq/(si*ta)
 
 C     Use expansion only in cases where signs (si,ta,mp2sq,mp4sq) are not
-C     ++-- or --++      
-      landau=((sign(1d0,si) .eq. sign(1d0,ta)) 
-     . .and. (sign(1d0,mp2sq) .eq. sign(1d0,mp4sq))  
-     . .and. (sign(1d0,si) .ne. sign(1d0,mp2sq)))  
-      if ((abs(r) .lt. 1d-6) .and. (landau .eqv. .false.)) then         
+C     ++-- or --++
+      landau=((sign(1d0,si) .eq. sign(1d0,ta))
+     . .and. (sign(1d0,mp2sq) .eq. sign(1d0,mp4sq))
+     . .and. (sign(1d0,si) .ne. sign(1d0,mp2sq)))
+      if ((abs(r) .lt. 1d-6) .and. (landau .eqv. .false.)) then
 C---expanded case
       Ires(-2)=czip
       Ires(-1)=-dcmplx((1d0+0.5d0*r)/(si*ta))
@@ -71,8 +71,7 @@ C---General case
       Ires(iep)=fac*Ires(iep)
       enddo
 
-      endif 
+      endif
 
       return
       end
-

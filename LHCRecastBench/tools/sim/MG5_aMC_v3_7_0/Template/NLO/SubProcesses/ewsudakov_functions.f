@@ -2,15 +2,15 @@
 ! 0 = Dropping Lem and lem contributions (like Sherpa)
 ! 1 = totally excluding QED contribution
 ! 2 = including Lem and lem in DR ---> for MadLoop comparison
-       BLOCK DATA Sudakov_mode 
+       BLOCK DATA Sudakov_mode
        implicit none
        Integer sud_mod
        COMMON /to_sud_mod/ sud_mod
-       DATA sud_mod/ 2 / 
-       END    
+       DATA sud_mod/ 2 /
+       END
 
 C filter hel: if set to true, helicities which do not contribute
-C at the Born are skipped 
+C at the Born are skipped
        BLOCK DATA sud_filter_helicities
        implicit none
        logical sud_filter_hel
@@ -22,8 +22,8 @@ C at the Born are skipped
        implicit none
        logical sud_mc_hel
        COMMON /to_mc_hel/ sud_mc_hel
-       DATA sud_mc_hel / .true. / 
-       END    
+       DATA sud_mc_hel / .true. /
+       END
 
        BLOCK DATA Model_usual_or_FAV4
        implicit none
@@ -124,12 +124,12 @@ c it does not work if set to true, besides particular cases
       parameter (pi=3.14159265358979323846d0)
 
       get_imlog = dcmplx(0d0,0d0)
-      if (s.gt.0d0.and..not.force_imlog_to_zero) get_imlog = dcmplx(0d0,-1d0*pi) 
+      if (s.gt.0d0.and..not.force_imlog_to_zero) get_imlog = dcmplx(0d0,-1d0*pi)
 
       return
       end
 
-      
+
       double complex function get_lsc_diag(pdglist, hels, iflist, invariants)
       implicit none
       include 'nexternal.inc'
@@ -162,7 +162,7 @@ c      return
 
       do i = 1, nexternal-1
         mass = get_mass_from_id(pdglist(i))
-        get_lsc_diag = get_lsc_diag - 0.5d0 * 
+        get_lsc_diag = get_lsc_diag - 0.5d0 *
      %   (sdk_cew_diag(pdglist(i),hels(i),iflist(i)) * bigL(invariants(1,2))
      %    - 2d0*lzow*sdk_iz2_diag(pdglist(i),hels(i),iflist(i))*smallL(invariants(1,2))+
      %    sdk_chargesq(pdglist(i),hels(i),iflist(i))*bigLem(invariants(1,2),mass**2)
@@ -201,7 +201,7 @@ c      return
       get_lsc_nondiag = 0d0
 
       ! check that the polarisation is transverse
-      if (abs(hels(ileg)).ne.1) return 
+      if (abs(hels(ileg)).ne.1) return
 
 c exit and do nothing
 c      return
@@ -249,7 +249,7 @@ c      return
       double complex smallL_a_over_b_sing, bigL_a_over_b_sing
       external smallL_a_over_b_sing, bigL_a_over_b_sing
 
-      double complex smallL_rij_over_s, bigL_rij_over_s, get_imlog     
+      double complex smallL_rij_over_s, bigL_rij_over_s, get_imlog
 
       get_ssc_c = 0d0
 c exit and do nothing
@@ -262,7 +262,7 @@ c      return
 
       imlog = get_imlog(rij)
 
-      get_ssc_c = get_ssc_c + 2d0*smallL(s) * (dlog(dabs(rij)/s) + imlog) 
+      get_ssc_c = get_ssc_c + 2d0*smallL(s) * (dlog(dabs(rij)/s) + imlog)
      $    * sdk_tpm(pdglist(ileg1), hels(ileg1), iflist(ileg1), pdgp1)
      $    * sdk_tpm(pdglist(ileg2), hels(ileg2), iflist(ileg2), pdgp2)
 
@@ -270,15 +270,15 @@ c      return
         smallL_rij_over_s=smallL_a_over_b_sing(dabs(rij),s)
         bigL_rij_over_s=bigL_a_over_b_sing(dabs(rij),s)
 
-        get_ssc_c = get_ssc_c + 
-     $      (bigL_rij_over_s + 2d0 * smallL_rij_over_s * imlog) 
+        get_ssc_c = get_ssc_c +
+     $      (bigL_rij_over_s + 2d0 * smallL_rij_over_s * imlog)
      $    * sdk_tpm(pdglist(ileg1), hels(ileg1), iflist(ileg1), pdgp1)
      $    * sdk_tpm(pdglist(ileg2), hels(ileg2), iflist(ileg2), pdgp2)
       endif
 
       if (printinewsdkf) WRITE (72,*) , hels, ileg1, ileg2, pdgp1, pdgp2,
      $ dble(sdk_tpm(pdglist(ileg1), hels(ileg1), iflist(ileg1), pdgp1)*CMPLX(1d0,-1000d0)),
-     $ dble(sdk_tpm(pdglist(ileg2), hels(ileg2), iflist(ileg2), pdgp2)*CMPLX(1d0,-1000d0)) 
+     $ dble(sdk_tpm(pdglist(ileg2), hels(ileg2), iflist(ileg2), pdgp2)*CMPLX(1d0,-1000d0))
 
       if(deb_settozero.ne.0.and.deb_settozero.ne.1.and.deb_settozero.ne.111) get_ssc_c = 0d0
 
@@ -295,7 +295,7 @@ c      return
       double precision lzow
       double complex bigL, smallL, sdk_ia_diag, sdk_iz_diag, smallLem
       external smallLem
- 
+
       integer i,j
       double precision s, rij
 
@@ -333,14 +333,14 @@ c exit and do nothing
 
 c      2d0/3d0*smallLem(0d0) comes from l(MW2,0d0) in the formulas
 
-          get_ssc_n_diag = get_ssc_n_diag + 2d0*(smallL(s)+2d0/3d0*smallLem(0d0)) 
-     %      * (dlog(dabs(rij/s))+imlog) 
+          get_ssc_n_diag = get_ssc_n_diag + 2d0*(smallL(s)+2d0/3d0*smallLem(0d0))
+     %      * (dlog(dabs(rij/s))+imlog)
      %      * sdk_ia_diag(pdglist(i),hels(i),iflist(i))
      %      * sdk_ia_diag(pdglist(j),hels(j),iflist(j))
 
           ! Z
           get_ssc_n_diag = get_ssc_n_diag + 2d0*smallL(s)
-     %      * (dlog(dabs(rij/s))+imlog) 
+     %      * (dlog(dabs(rij/s))+imlog)
      %      * sdk_iz_diag(pdglist(i),hels(i),iflist(i))
      %      * sdk_iz_diag(pdglist(j),hels(j),iflist(j))
 
@@ -367,7 +367,7 @@ c      2d0/3d0*smallLem(0d0) comes from l(MW2,0d0) in the formulas
         enddo
       enddo
 
-      if(printinewsdkf) print*, "log(t/u)ls  SSCN diag -->  ", 
+      if(printinewsdkf) print*, "log(t/u)ls  SSCN diag -->  ",
      .       get_ssc_n_diag/(smallL(s)*dlog(dabs(invariants(1,3)/invariants(1,4))))
 
       if(deb_settozero.ne.0) get_ssc_n_diag = 0d0
@@ -422,7 +422,7 @@ c exit and do nothing
 
 c not work for H or Chi0 in initial state
           if (iflist(ileg).eq.-1) then
-            print*,"Error: sign imaginary part with longitudinally polarised 
+            print*,"Error: sign imaginary part with longitudinally polarised
      .          Z or H not implemented for the initial state"
             stop
           endif
@@ -505,7 +505,7 @@ c exit and do nothing
 
 c not work for H or Chi0 in initial state
       if (iflist(ileg1).eq.-1.or.iflist(ileg2).eq.-1) then
-         print*,"Error: sign imaginary part with longitudinally polarised 
+         print*,"Error: sign imaginary part with longitudinally polarised
      .        Z or H not implemented for the initial state"
          stop
       endif
@@ -524,7 +524,7 @@ c not work for H or Chi0 in initial state
      $   dble(sdk_iz_nondiag(pdg_new2,hels(ileg2),iflist(ileg2))*CMPLX(1d0,-1000d0))
 
         get_ssc_n_nondiag_2 = get_ssc_n_nondiag_2 +
-     $              sdk_iz_nondiag(pdg_new1,hels(ileg1),iflist(ileg1)) * 
+     $              sdk_iz_nondiag(pdg_new1,hels(ileg1),iflist(ileg1)) *
      $              sdk_iz_nondiag(pdg_new2,hels(ileg2),iflist(ileg2))
      $              * 2d0 * smallL(s) * (dlog(abs(invariants(ileg1,ileg2))/s)+imlog)
 
@@ -535,12 +535,12 @@ c not work for H or Chi0 in initial state
         !correct z
             get_ssc_n_nondiag_2 = get_ssc_n_nondiag_2 +
      $      (bigL_rij_over_s + 2d0 * smallL_rij_over_s * imlog) *
-     $      sdk_iz_nondiag(pdg_new1,hels(ileg1),iflist(ileg1)) * 
+     $      sdk_iz_nondiag(pdg_new1,hels(ileg1),iflist(ileg1)) *
      $      sdk_iz_nondiag(pdg_new2,hels(ileg2),iflist(ileg2))
 
             get_ssc_n_nondiag_2 = get_ssc_n_nondiag_2 +
      $      (2d0 * smallL_rij_over_s * dlog(mdl_mw**2/mdl_mz**2)) *
-     $      sdk_iz_nondiag(pdg_new1,hels(ileg1),iflist(ileg1)) *        
+     $      sdk_iz_nondiag(pdg_new1,hels(ileg1),iflist(ileg1)) *
      $      sdk_iz_nondiag(pdg_new2,hels(ileg2),iflist(ileg2))
           endif
       endif
@@ -582,7 +582,7 @@ c exit and do nothing
 
       cw2 = mdl_mw**2 / mdl_mz**2
       sw2 = 1d0 - cw2
-    
+
       tmp=0d0
 
       do i = 1, nexternal-1
@@ -590,23 +590,23 @@ c exit and do nothing
      %     (abs(pdglist(i)).ge.11.and.abs(pdglist(i)).le.16)) then
           ! fermions
 
-          get_xxc_diag = get_xxc_diag + 
+          get_xxc_diag = get_xxc_diag +
      %       1.5d0 * sdk_cew_diag(pdglist(i),hels(i),iflist(i)) * smallL(invariants(1,2))
 
           mass = get_mass_from_id(pdglist(i))
           isopart_mass = get_isopart_mass_from_id(pdglist(i))
 
-          get_xxc_diag = get_xxc_diag - 
+          get_xxc_diag = get_xxc_diag -
      %       1d0/8d0/sw2 * mass**2/mdl_mw**2 * smallL(invariants(1,2))
           if (pdglist(i)*hels(i).lt.0) then
 
             ! left-handed fermion
-            get_xxc_diag = get_xxc_diag - 
+            get_xxc_diag = get_xxc_diag -
      %         1d0/8d0/sw2 * isopart_mass**2/mdl_mw**2 * smallL(invariants(1,2))
           else
 
             ! right-handed fermion
-            get_xxc_diag = get_xxc_diag - 
+            get_xxc_diag = get_xxc_diag -
      %         1d0/8d0/sw2 * mass**2/mdl_mw**2 * smallL(invariants(1,2))
           endif
 
@@ -615,7 +615,7 @@ c exit and do nothing
         elseif (abs(pdglist(i)).ge.22.and.abs(pdglist(i)).le.24.and.hels(i).ne.0) then
 
           ! transverse W/Z/photons bosons
-          get_xxc_diag = get_xxc_diag + 
+          get_xxc_diag = get_xxc_diag +
      %     sdk_betaew_diag(pdglist(i))/2d0 * smallL(invariants(1,2))
 
           if (abs(pdglist(i)).eq.24) get_xxc_diag = get_xxc_diag + sdk_chargesq(pdglist(i),hels(i),iflist(i))*smallLem(mdl_mw**2)
@@ -625,8 +625,8 @@ c exit and do nothing
         elseif (abs(pdglist(i)).eq.250.or.abs(pdglist(i)).eq.251.or.pdglist(i).eq.25) then
 
           ! goldstones or Higgs
-          get_xxc_diag = get_xxc_diag + 
-     %     (2d0*sdk_cew_diag(pdglist(i),hels(i),iflist(i)) - 
+          get_xxc_diag = get_xxc_diag +
+     %     (2d0*sdk_cew_diag(pdglist(i),hels(i),iflist(i)) -
      %      3d0/4d0/sw2*mdl_mt**2/mdl_mw**2) * smallL(invariants(1,2))
 
           if (abs(pdglist(i)).eq.251) get_xxc_diag = get_xxc_diag + smallLem(mdl_mw**2)
@@ -653,33 +653,33 @@ c     .          pdglist(3).eq.23.or.
 c     .      abs(pdglist(3)).eq.24  ) then
 c
 c!!! MANUAL IMPLEMENTATION OF PR logs for Denner and Pozzorini
-c           
+c
 c             write(*,*) "sto mettendo PR logs a mano"
-c             if (abs(pdglist(3)).eq.5.and.hels(1).eq.1.and.hels(3).eq.-1) then 
-c                get_xxc_diag = get_xxc_diag -16.6d0 * smallL(invariants(1,2))  
-c             elseif (abs(pdglist(3)).eq.6.and.hels(1).eq.1.and.hels(3).eq.-1) then 
-c                 get_xxc_diag = get_xxc_diag -12.2d0 * smallL(invariants(1,2))  
-c             elseif (abs(pdglist(3)).eq.13.and.hels(1).eq.1.and.hels(3).eq.-1) then 
-c                 get_xxc_diag = get_xxc_diag -9.03d0 * smallL(invariants(1,2))  
+c             if (abs(pdglist(3)).eq.5.and.hels(1).eq.1.and.hels(3).eq.-1) then
+c                get_xxc_diag = get_xxc_diag -16.6d0 * smallL(invariants(1,2))
+c             elseif (abs(pdglist(3)).eq.6.and.hels(1).eq.1.and.hels(3).eq.-1) then
+c                 get_xxc_diag = get_xxc_diag -12.2d0 * smallL(invariants(1,2))
+c             elseif (abs(pdglist(3)).eq.13.and.hels(1).eq.1.and.hels(3).eq.-1) then
+c                 get_xxc_diag = get_xxc_diag -9.03d0 * smallL(invariants(1,2))
 c             elseif (abs(pdglist(3)).eq.22.and.hels(1).eq.-1.and.hels(2).eq.1) then
-c                 get_xxc_diag = get_xxc_diag +(3.67d0) * smallL(invariants(1,2)) 
+c                 get_xxc_diag = get_xxc_diag +(3.67d0) * smallL(invariants(1,2))
 c             elseif (abs(pdglist(3)).eq.22.and.hels(1).eq.1.and.hels(2).eq.-1) then
-c                 get_xxc_diag = get_xxc_diag +(3.67d0) * smallL(invariants(1,2)) 
+c                 get_xxc_diag = get_xxc_diag +(3.67d0) * smallL(invariants(1,2))
 c             elseif (abs(pdglist(3)).eq.23.and.hels(1).eq.-1 .and.
 c     .               abs(pdglist(4)).eq.22.and.hels(2).eq.1) then
-c                 get_xxc_diag = get_xxc_diag +(15.1d0) * smallL(invariants(1,2)) 
+c                 get_xxc_diag = get_xxc_diag +(15.1d0) * smallL(invariants(1,2))
 c             elseif (abs(pdglist(3)).eq.23.and.hels(1).eq.-1 .and.
 c     .               abs(pdglist(4)).eq.23.and.hels(2).eq.1) then
 c                 get_xxc_diag = get_xxc_diag +(26.6d0) * smallL(invariants(1,2))
 c             elseif (abs(pdglist(3)).eq.23.and.hels(1).eq.1 .and.
 c     .               abs(pdglist(4)).eq.22.and.hels(2).eq.-1) then
-c                 get_xxc_diag = get_xxc_diag +(-17.1d0) * smallL(invariants(1,2)) 
+c                 get_xxc_diag = get_xxc_diag +(-17.1d0) * smallL(invariants(1,2))
 c             elseif (abs(pdglist(3)).eq.23.and.hels(1).eq.1 .and.
 c     .               abs(pdglist(4)).eq.23.and.hels(2).eq.-1) then
-c                 get_xxc_diag = get_xxc_diag +(-37.9d0) * smallL(invariants(1,2)) 
+c                 get_xxc_diag = get_xxc_diag +(-37.9d0) * smallL(invariants(1,2))
 c             elseif (abs(pdglist(3)).eq.24.and.hels(1).eq.1.and.
 c     .               abs(hels(3)).eq.1.and.abs(hels(4)).eq.1) then
-c                 get_xxc_diag = get_xxc_diag +(-14.2d0) * smallL(invariants(1,2))  
+c                 get_xxc_diag = get_xxc_diag +(-14.2d0) * smallL(invariants(1,2))
 c             elseif (pdglist(3).ne.22.and.pdglist(3).ne.23.and.abs(pdglist(3)).ne.24) then
 c                get_xxc_diag = get_xxc_diag +8.80d0 * smallL(invariants(1,2))
 c             endif
@@ -721,7 +721,7 @@ c      return
 c exit and do nothing
 
       ! check that the polarisation is transverse
-      if (abs(hels(ileg)).ne.1) return 
+      if (abs(hels(ileg)).ne.1) return
 
       if ((pdg_old.eq.23.and.pdg_new.eq.22).or.
      $    (pdg_old.eq.22.and.pdg_new.eq.23)) then
@@ -730,7 +730,7 @@ c exit and do nothing
         !  pdg_old=22,  pdg_new=23, E_ZA = -1
         ! Given DP eq 4.22, the only !=0 case is with E_AZ
         if (pdg_old.eq.23) then
-          get_xxc_nondiag = get_xxc_nondiag + 
+          get_xxc_nondiag = get_xxc_nondiag +
      %    sdk_betaew_nondiag() * smallL(invariants(1,2))
         endif
       endif
@@ -755,7 +755,7 @@ c      get_qcd_lo2 =  CMPLX(0d0,0d0)
 c      return
 c      end
 
- 
+
       double complex function bigL(s)
       implicit none
       double precision s
@@ -781,7 +781,7 @@ c      end
       return
       end
 
-      
+
       double complex function log_a_over_b_sing(a,b)
       implicit none
       double precision a,b,aok,bok
@@ -790,7 +790,7 @@ c      end
 
       if ((dabs(a).lt.1d0.and.dabs(a).ne.0d0).or.
      .     (dabs(b).lt.1d0.and.dabs(b).ne.0d0)) then
-        print*,"Strange: in l_a_over_b_sin there is 
+        print*,"Strange: in l_a_over_b_sin there is
      .          a very small but not zero mass. a=",
      .  a," b=",b
         !stop
@@ -802,7 +802,7 @@ c      end
       if (b.eq.0d0) bok= QES2
 
 c      print*, "QES2=",QES2
-      
+
       log_a_over_b_sing = dlog(aok/bok)
 
       return
@@ -921,8 +921,8 @@ c      print*, "in bigL a over b", " a=", a, " b=", b
         dZemAA_logs= 0d0
         return
       elseif (sud_mod.eq.2) then
-c up and down quarks    
-       dZemAA_logs=3d0*(3d0*(1d0/3d0)**2+2d0*(2d0/3d0)**2) 
+c up and down quarks
+       dZemAA_logs=3d0*(3d0*(1d0/3d0)**2+2d0*(2d0/3d0)**2)
 c charged lep
        dZemAA_logs=dZemAA_logs+1d0*3d0*1d0
 c total factor
@@ -954,7 +954,7 @@ c 2d0/3d0*smallLem(0d0) comes from l(MW2,0d0) in the formulas
 
       sdk_chargesq = sdk_charge(pdg, hel, ifsign)**2
 
-      if(.not.FAV4.and.abs(pdg).eq.251) sdk_chargesq = sdk_chargesq *(-1d0) 
+      if(.not.FAV4.and.abs(pdg).eq.251) sdk_chargesq = sdk_chargesq *(-1d0)
 
       return
       end
@@ -973,14 +973,14 @@ c 2d0/3d0*smallLem(0d0) comes from l(MW2,0d0) in the formulas
 
       sdk_charge = 0d0
 
-C lepton 
+C lepton
       if (s_pdg.eq.11.or.s_pdg.eq.13.or.s_pdg.eq.15) sdk_charge = -1d0
 C antilepton
       if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_charge = 1d0
 
-C up quark 
+C up quark
       if (s_pdg.eq.2.or.s_pdg.eq.4.or.s_pdg.eq.6) sdk_charge = 2d0/3d0
-C anti up quark 
+C anti up quark
       if (s_pdg.eq.-2.or.s_pdg.eq.-4.or.s_pdg.eq.-6) sdk_charge = -2d0/3d0
 
 C down quark
@@ -1004,26 +1004,26 @@ C charged goldstones / W boson
       double complex function sdk_tpm(pdg, hel, ifsign, pdgp)
       implicit none
       integer pdg, hel, ifsign, pdgp
-      ! PDGP is the pdg of the born leg after its charge has been 
+      ! PDGP is the pdg of the born leg after its charge has been
       !  changed by ±1. It is only necessary for vector bosons, where
       !  one can have either w+ > w+ gamma or w+ > w+ z
-      integer s_pdg 
+      integer s_pdg
 
       include "coupl.inc"
       double precision sw2, cw2
 
       logical FAV4
       COMMON /to_FAV4/ FAV4
-C the product of pdg code * helicity  
-C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend 
+C the product of pdg code * helicity
+C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend
 C on "ifsign", since switching from final to initial changes both the pdg and the helicity
 
 C!!!!						ATTENTION						      !!!!
 C!!!! following the notation of Denner and Pozzorini, the prime index pdgp is the first and pdg is the second !!!!
-C!!!! It is not working for logitudinally polarised Z in the initial state (ifsign=-1), both as pdg or pdgp   !!!!                        
+C!!!! It is not working for logitudinally polarised Z in the initial state (ifsign=-1), both as pdg or pdgp   !!!!
 
       if (ifsign.eq.-1.and.(pdg.eq.250.or.pdgp.eq.250)) then
-        print*,"Error: Tpm invovling longitudinally polarised 
+        print*,"Error: Tpm invovling longitudinally polarised
      .          Z not implemented for the initial state"
       endif
 
@@ -1039,10 +1039,10 @@ C!!!! It is not working for logitudinally polarised Z in the initial state (ifsi
       sdk_tpm = 0d0
 
 C left handed neutrino / right handed antineutrino
-      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_tpm = sign(1d0,dble(ifsign*pdg)) 
+      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_tpm = sign(1d0,dble(ifsign*pdg))
 
 C left handed lepton / right handed antilepton
-      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_tpm = sign(1d0,dble(ifsign*pdg)) 
+      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_tpm = sign(1d0,dble(ifsign*pdg))
 
 C left handed up quark / right handed antiup quark
       if (s_pdg.eq.-2.or.s_pdg.eq.-4.or.s_pdg.eq.-6) sdk_tpm = sign(1d0,dble(ifsign*pdg))
@@ -1089,7 +1089,7 @@ c following last .and. conditions are not strictly necessary
 
          return
       endif
-      
+
 c vector bosons
       if (abs(pdg*ifsign).eq.24.and.pdgp.eq.22) sdk_tpm = sign(1d0,dble(pdg*ifsign))
       if (pdg.eq.22.and.abs(pdgp*ifsign).eq.24) sdk_tpm = sign(1d0,dble(pdgp*ifsign))
@@ -1106,15 +1106,15 @@ c vector bosons
       double complex function sdk_t3_diag(pdg, hel, ifsign)
       implicit none
       integer pdg, hel, ifsign
-      integer s_pdg 
+      integer s_pdg
 
       include "coupl.inc"
       double precision sw2, cw2
 
       logical FAV4
       COMMON /to_FAV4/ FAV4
-C the product of pdg code * helicity  
-C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend 
+C the product of pdg code * helicity
+C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend
 C on "ifsign", since switching from final to initial changes both the pdg and the helicity
       if (hel.ne.0) then
         s_pdg = pdg*hel
@@ -1128,10 +1128,10 @@ C on "ifsign", since switching from final to initial changes both the pdg and th
       sdk_t3_diag = 0d0
 
 C left handed neutrino / right handed antineutrino
-      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_t3_diag = sign(0.5d0,dble(ifsign*pdg)) 
+      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_t3_diag = sign(0.5d0,dble(ifsign*pdg))
 
 C left handed lepton / right handed antilepton
-      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_t3_diag = -sign(0.5d0,dble(ifsign*pdg)) 
+      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_t3_diag = -sign(0.5d0,dble(ifsign*pdg))
 
 C left handed up quark / right handed antiup quark
       if (s_pdg.eq.-2.or.s_pdg.eq.-4.or.s_pdg.eq.-6) sdk_t3_diag = sign(0.5d0,dble(ifsign*pdg))
@@ -1141,7 +1141,7 @@ C left handed down quark / right handed antidown quark
 
 C goldstones, they behave like left handed leptons (charged); neutrals
 C mix
-      if (abs(s_pdg).eq.251) sdk_t3_diag = sign(0.5d0,dble(s_pdg)) 
+      if (abs(s_pdg).eq.251) sdk_t3_diag = sign(0.5d0,dble(s_pdg))
 
 C transverse W boson
       if (abs(s_pdg).eq.24) sdk_t3_diag = sign(1d0,dble(ifsign*pdg))
@@ -1159,15 +1159,15 @@ C transverse W boson
       double complex function sdk_yo2_diag(pdg, hel, ifsign)
       implicit none
       integer pdg, hel, ifsign
-      integer s_pdg 
+      integer s_pdg
 
       include "coupl.inc"
       double precision sw2, cw2
 
       logical FAV4
       COMMON /to_FAV4/ FAV4
-C the product of pdg code * helicity  
-C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend 
+C the product of pdg code * helicity
+C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend
 C on "ifsign", since switching from final to initial changes both the pdg and the helicity
       if (hel.ne.0) then
           s_pdg = pdg*hel
@@ -1181,12 +1181,12 @@ C on "ifsign", since switching from final to initial changes both the pdg and th
       sdk_yo2_diag = 0d0
 
 C left handed neutrino / right handed antineutrino
-      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_yo2_diag = -sign(0.5d0,dble(ifsign*pdg)) 
+      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_yo2_diag = -sign(0.5d0,dble(ifsign*pdg))
 
 C right handed lepton / left handed antilepton
       if (s_pdg.eq.11.or.s_pdg.eq.13.or.s_pdg.eq.15) sdk_yo2_diag = -sign(1d0,dble(ifsign*pdg))
 C left handed lepton / right handed antilepton
-      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_yo2_diag = -sign(0.5d0,dble(ifsign*pdg)) 
+      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_yo2_diag = -sign(0.5d0,dble(ifsign*pdg))
 
 C right handed up quark / left handed antiup quark
       if (s_pdg.eq.2.or.s_pdg.eq.4.or.s_pdg.eq.6) sdk_yo2_diag = sign(2d0/3d0,dble(ifsign*pdg))
@@ -1206,7 +1206,7 @@ C goldstones, they behave like left handed leptons (charged); neutrals mix
       if (.not.FAV4) then
           print*,"it has never been checked"
           stop
-         
+
           sdk_yo2_diag=sdk_yo2_diag*-1
           if  (abs(s_pdg).eq.251) sdk_yo2_diag =  sdk_yo2_diag * CMPLX(0d0,1d0)
       endif
@@ -1233,7 +1233,7 @@ C goldstones, they behave like left handed leptons (charged); neutrals mix
 
       if (.not.FAV4) then
           sdk_iz_diag= sdk_iz_diag / (-1d0)
-          
+
           if (abs(pdg).eq.251) sdk_iz_diag= sdk_iz_diag / CMPLX(0d0,1d0)
 
       endif
@@ -1266,7 +1266,7 @@ C goldstones, they behave like left handed leptons (charged); neutrals mix
       if (.not.FAV4) then
           sdk_iz_nondiag = sdk_iz_nondiag * -1
       endif
-            
+
       return
       end
 
@@ -1298,13 +1298,13 @@ C goldstones, they behave like left handed leptons (charged); neutrals mix
       double complex function sdk_iz2_diag(pdg, hel, ifsign)
       implicit none
       integer pdg, hel, ifsign
-      integer s_pdg 
+      integer s_pdg
 
       include "coupl.inc"
       double precision sw2, cw2
 
-C the product of pdg code * helicity  
-C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend 
+C the product of pdg code * helicity
+C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend
 C on "ifsign", since switching from final to initial changes both the pdg and the helicity
       if (hel.ne.0) then
         s_pdg = pdg*hel
@@ -1318,27 +1318,27 @@ C on "ifsign", since switching from final to initial changes both the pdg and th
       sdk_iz2_diag = 0d0
 
 C left handed neutrino / right handed antineutrino
-      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_iz2_diag =1d0 / (4*sw2*cw2) 
+      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_iz2_diag =1d0 / (4*sw2*cw2)
 
 C right handed lepton / left handed antilepton
       if (s_pdg.eq.11.or.s_pdg.eq.13.or.s_pdg.eq.15) sdk_iz2_diag = sw2/cw2
 C left handed lepton / right handed antilepton
-      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_iz2_diag = (cw2-sw2)**2 / (4*sw2*cw2) 
+      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_iz2_diag = (cw2-sw2)**2 / (4*sw2*cw2)
 
 C right handed up quark / left handed antiup quark
       if (s_pdg.eq.2.or.s_pdg.eq.4.or.s_pdg.eq.6) sdk_iz2_diag = 4*sw2/(9*cw2)
 C left handed up quark / right handed antiup quark
-      if (s_pdg.eq.-2.or.s_pdg.eq.-4.or.s_pdg.eq.-6) sdk_iz2_diag =(3*cw2-sw2)**2 / (36*sw2*cw2) 
+      if (s_pdg.eq.-2.or.s_pdg.eq.-4.or.s_pdg.eq.-6) sdk_iz2_diag =(3*cw2-sw2)**2 / (36*sw2*cw2)
 
 C right handed down quark / left handed antidown quark
       if (s_pdg.eq.1.or.s_pdg.eq.3.or.s_pdg.eq.5) sdk_iz2_diag = sw2/(9*cw2)
 C left handed down quark / right handed antidown quark
-      if (s_pdg.eq.-1.or.s_pdg.eq.-3.or.s_pdg.eq.-5) sdk_iz2_diag = (3*cw2+sw2)**2 / (36*sw2*cw2) 
+      if (s_pdg.eq.-1.or.s_pdg.eq.-3.or.s_pdg.eq.-5) sdk_iz2_diag = (3*cw2+sw2)**2 / (36*sw2*cw2)
 
 C goldstones, they behave like left handed leptons (charged) or neutrinos (neutrals)
-      if (abs(s_pdg).eq.251) sdk_iz2_diag = (cw2-sw2)**2 / (4*sw2*cw2) 
+      if (abs(s_pdg).eq.251) sdk_iz2_diag = (cw2-sw2)**2 / (4*sw2*cw2)
       if (abs(s_pdg).eq.250) sdk_iz2_diag =1d0 / (4*sw2*cw2)
-      if (abs(s_pdg).eq.25)  sdk_iz2_diag =1d0 / (4*sw2*cw2)  
+      if (abs(s_pdg).eq.25)  sdk_iz2_diag =1d0 / (4*sw2*cw2)
 
 C transverse W boson
       if (abs(s_pdg).eq.24) sdk_iz2_diag = cw2 / sw2
@@ -1352,7 +1352,7 @@ C transverse W boson
       double complex function sdk_cew_diag(pdg, hel, ifsign)
       implicit none
       integer pdg, hel, ifsign
-      integer s_pdg 
+      integer s_pdg
 
       include "coupl.inc"
       double precision sw2, cw2
@@ -1363,8 +1363,8 @@ C transverse W boson
       Integer sud_mod
       COMMON /to_sud_mod/ sud_mod
 
-C the product of pdg code * helicity  
-C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend 
+C the product of pdg code * helicity
+C Hel=+1/-1 -> R/L. Note that for transverse polarisations it does not depend
 C on "ifsign", since switching from final to initial changes both the pdg and the helicity
 
       if (hel.ne.0) then
@@ -1379,22 +1379,22 @@ C on "ifsign", since switching from final to initial changes both the pdg and th
       sdk_cew_diag = 0d0
 
 C left handed neutrino / right handed antineutrino
-      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_cew_diag = (1+2*cw2) / (4*sw2*cw2) 
+      if (s_pdg.eq.-12.or.s_pdg.eq.-14.or.s_pdg.eq.-16) sdk_cew_diag = (1+2*cw2) / (4*sw2*cw2)
 
 C right handed lepton / left handed antilepton
       if (s_pdg.eq.11.or.s_pdg.eq.13.or.s_pdg.eq.15) sdk_cew_diag = 1d0/cw2
 C left handed lepton / right handed antilepton
-      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_cew_diag = (1+2*cw2) / (4*sw2*cw2) 
+      if (s_pdg.eq.-11.or.s_pdg.eq.-13.or.s_pdg.eq.-15) sdk_cew_diag = (1+2*cw2) / (4*sw2*cw2)
 
 C right handed up quark / left handed antiup quark
       if (s_pdg.eq.2.or.s_pdg.eq.4.or.s_pdg.eq.6) sdk_cew_diag = 4d0/(9*cw2)
 C left handed up quark / right handed antiup quark
-      if (s_pdg.eq.-2.or.s_pdg.eq.-4.or.s_pdg.eq.-6) sdk_cew_diag = (sw2+27*cw2) / (36*sw2*cw2) 
+      if (s_pdg.eq.-2.or.s_pdg.eq.-4.or.s_pdg.eq.-6) sdk_cew_diag = (sw2+27*cw2) / (36*sw2*cw2)
 
 C right handed down quark / left handed antidown quark
       if (s_pdg.eq.1.or.s_pdg.eq.3.or.s_pdg.eq.5) sdk_cew_diag = 1d0/(9*cw2)
 C left handed down quark / right handed antidown quark
-      if (s_pdg.eq.-1.or.s_pdg.eq.-3.or.s_pdg.eq.-5) sdk_cew_diag = (sw2+27*cw2) / (36*sw2*cw2) 
+      if (s_pdg.eq.-1.or.s_pdg.eq.-3.or.s_pdg.eq.-5) sdk_cew_diag = (sw2+27*cw2) / (36*sw2*cw2)
 
 C goldstones and Higgs, they behave like left handed leptons (charged) or neutrinos (neutrals)
       if (abs(s_pdg).eq.251) sdk_cew_diag = (1+2*cw2) / (4*sw2*cw2)
@@ -1408,7 +1408,7 @@ C transverse Z boson
       if (abs(s_pdg).eq.23) sdk_cew_diag = 2 * cw2 / sw2
 
 C (transverse) photon
-      if (abs(s_pdg).eq.22) sdk_cew_diag = 2d0 
+      if (abs(s_pdg).eq.22) sdk_cew_diag = 2d0
 
       if (sud_mod.eq.0.or.sud_mod.eq.2) then
         return
@@ -1417,7 +1417,7 @@ C (transverse) photon
         return
       else
         print*,"sud_mod=",sud_mod,". It is not defined."
-        stop 
+        stop
       endif
 
       return
@@ -1436,7 +1436,7 @@ C returns the gamma/z mixing of sdk_cew
       cw2 = mdl_mw**2 / mdl_mz**2
       sw2 = 1d0 - cw2
 
-      sdk_cew_nondiag = - 2 / sw2 * dsqrt(cw2*sw2) 
+      sdk_cew_nondiag = - 2 / sw2 * dsqrt(cw2*sw2)
 
       if (.not.FAV4) sdk_cew_nondiag = sdk_cew_nondiag * (-1d0)
 
@@ -1500,7 +1500,7 @@ C returns the gamma/z mixing of sdk_cew
 
       sdk_betaew_nondiag = -(19d0 + 22d0*sw2) / 6d0/dsqrt(sw2*cw2)
 
-      if(.not.FAV4) sdk_betaew_nondiag= sdk_betaew_nondiag *(-1d0)     
+      if(.not.FAV4) sdk_betaew_nondiag= sdk_betaew_nondiag *(-1d0)
 
       return
       end
@@ -1530,7 +1530,7 @@ C returns the gamma/z mixing of sdk_cew
         enddo
       enddo
 
-      return 
+      return
       end
 
 
@@ -1552,18 +1552,18 @@ C returns the gamma/z mixing of sdk_cew
       double precision sw2, cw2
 
       double complex sdk_charge, sdk_t3_diag, sdk_yo2_diag, sdk_iz2_diag
-      double complex q, t3, yo2, iz2 
+      double complex q, t3, yo2, iz2
 
       cw2 = mdl_mw**2 / mdl_mz**2
       sw2 = 1d0 - cw2
 
-      do ifsign = -1, 1, 2 
-        do ihel = -1, 1, 2 
+      do ifsign = -1, 1, 2
+        do ihel = -1, 1, 2
           do i = 1,npdgs
             ! t3-y-q relation
 c            write(*,*) 'Q=t3+yo2_diag'
             q = sdk_charge(pdg_list(i), ihel, ifsign)
-            t3 = sdk_t3_diag(pdg_list(i), ihel, ifsign) 
+            t3 = sdk_t3_diag(pdg_list(i), ihel, ifsign)
             yo2 = sdk_yo2_diag(pdg_list(i),ihel, ifsign)
             if (abs(q - (t3+yo2)).gt.1d-4) then
               write(*,*) 'Q=t3+yo2_diag'
@@ -1571,7 +1571,7 @@ c            write(*,*) 'Q=t3+yo2_diag'
      %                 q, t3, yo2
             stop
             endif
-            
+
             ! t3-q-iz2 relation
 c            write(*,*) 'IZ=t3-sw Q / sw cw'
             iz2 = sdk_iz2_diag(pdg_list(i),ihel, ifsign)
@@ -1613,7 +1613,7 @@ c            write(*,*) 'IZ=t3-sw Q / sw cw'
 
       return
       end
-      
+
 
 
       subroutine get_par_ren_alphamz(invariants)
@@ -1670,17 +1670,17 @@ C     ipara = 1->AEWm1; 2->MZ; 3->MW; 4->MT/YMT; 5->MH
       amp_split_ewsud(:) = (0d0,0d0)
 
       ls = smallL(invariants(1,2))
-      ls_o_mt = dble(gal(1))**2 / (4d0*pi)**2 * dlog(invariants(1,2)/mdl_mt**2) 
+      ls_o_mt = dble(gal(1))**2 / (4d0*pi)**2 * dlog(invariants(1,2)/mdl_mt**2)
 
       ! the parameter renormalisation in Denner-Pozzorini reads:
       !  dM/de de + dM/dcw dcw + dM/dht dht + dM/dhh dhh
 
       ! 1) dM/de de = dM/dalpha dalpha, with dalpha=2 Z_e / 4Pi
       !    remember, we derive wrt alpha^-1
-      dalpha = -sdk_betaew_diag(22) / aewm1 
+      dalpha = -sdk_betaew_diag(22) / aewm1
       dalpha = dalpha * ls
-c      amp_split_ewsud(:) = amp_split_ewsud_der(:,1) * ( - aewm1**2) * 
-c     $       dAlpha 
+c      amp_split_ewsud(:) = amp_split_ewsud_der(:,1) * ( - aewm1**2) *
+c     $       dAlpha
 
       ! 2) dM/dcw = dM/dmw dmw + dM/dmz dmz
       dmw2 = - (sdk_betaew_diag(24) - 4d0 * sdk_cew_diag(250,0,1))
@@ -1691,14 +1691,14 @@ c     $       dAlpha
      $      - 3d0*mdl_mt**2/2d0/mdl_mw**2/sw2
       dmz2 =  dmz2 * mdl_mz**2 * ls
 
-      dmt = 1d0/4d0/sw2 + 1d0/8d0/sw2/cw2 + 3d0/2d0/cw2*Qt - 3d0/cw2*Qt**2  
+      dmt = 1d0/4d0/sw2 + 1d0/8d0/sw2/cw2 + 3d0/2d0/cw2*Qt - 3d0/cw2*Qt**2
      $     + 3d0/8d0/sw2 * mdl_mt**2/mdl_mw**2
 
       dmt =  dmt * mdl_mt * ls
 
-      dmh2 = 1d0/2d0/sw2 
+      dmh2 = 1d0/2d0/sw2
      $ * (
-     $ 9d0*mdl_mw**2/mdl_mh**2 * (1d0 + 1d0/2d0/cw2**2) 
+     $ 9d0*mdl_mw**2/mdl_mh**2 * (1d0 + 1d0/2d0/cw2**2)
      $ - 3d0/2d0 * (1d0 + 1d0/2d0/cw2) + 15d0/4d0 * mdl_mh**2/mdl_mw**2
      $) + 3d0/2d0/sw2 * mdl_mt**2/mdl_mw**2 * (1d0-6d0*mdl_mt**2/mdl_mh**2 )
 
@@ -1707,12 +1707,12 @@ c     $       dAlpha
       dt=1d0/(mdl_ee*dsqrt(sw2)*mdl_mw)*
      .   (-3d0/2d0 * mdl_mw**2 * ( mdl_mz**2/cw2+2d0* mdl_mw**2)
      .    -mdl_mh**2/4d0 *( 2d0* mdl_mw**2 + mdl_mz**2 +3d0* mdl_mh**2) + 6d0 * mdl_mt**4)
-   
-      dt = dt * ls 
-      
+
+      dt = dt * ls
+
       dheff_o_heff = mdl_ee/(2d0*dsqrt(sw2))*dt/(mdl_mw*mdl_mh**2)
 
-      dmt_QCD =  - 3d0 * 4d0/3d0 
+      dmt_QCD =  - 3d0 * 4d0/3d0
 
       dmt_QCD =  dmt_QCD * mdl_mt * ls_o_mt  * (G/gal(1))**2
 
@@ -1721,26 +1721,26 @@ c     $       dAlpha
         amp_split_ewsud(:) = amp_split_ewsud_der(:,1) * ( - aewm1**2) *
      $       dAlpha
 
-        amp_split_ewsud(:) = amp_split_ewsud(:) + 
-     $      amp_split_ewsud_der(:,2)/(2d0*mdl_mz) * dmz2 + 
+        amp_split_ewsud(:) = amp_split_ewsud(:) +
+     $      amp_split_ewsud_der(:,2)/(2d0*mdl_mz) * dmz2 +
      $      amp_split_ewsud_der(:,3)/(2d0*mdl_mw) * dmw2 +
      $      amp_split_ewsud_der(:,4) * dmt +
      $      amp_split_ewsud_der(:,5)/(2d0*mdl_mh) * dmh2 +
-     $      amp_split_ewsud_der(:,6) * dheff_o_heff 
+     $      amp_split_ewsud_der(:,6) * dheff_o_heff
 
       endif
-    
+
       if(was_sud_mod_1) sud_mod=1
 
       if (has_lo2) then
         if (sud_mod.eq.2) then
          amp_split_ewsud(:) = amp_split_ewsud(:) +
-     $      amp_split_ewsud_der2(:,4) * dmt_QCD 
+     $      amp_split_ewsud_der2(:,4) * dmt_QCD
 
 c      print*,"from dmt_QCD", amp_split_ewsud_der2(:,4) * dmt_QCD
         endif
-      endif       
- 
+      endif
+
       ! LEAVE EMPTY FOR THE MOMENT
 !    correct by a factor 2 ok?
       amp_split_ewsud(:)=amp_split_ewsud(:)/2d0
@@ -1804,18 +1804,18 @@ C     ipara = 1->GF; 2->MZ; 3->MW; 4->MT/YMT; 5->MH
       amp_split_ewsud(:) = (0d0,0d0)
 
       ls = smallL(invariants(1,2))
-      ls_o_mt = dble(gal(1))**2 / (4d0*pi)**2 * dlog(invariants(1,2)/mdl_mt**2) 
+      ls_o_mt = dble(gal(1))**2 / (4d0*pi)**2 * dlog(invariants(1,2)/mdl_mt**2)
 
-CC DAVIDE CHANGE HERE      
+CC DAVIDE CHANGE HERE
       ! the parameter renormalisation in Denner-Pozzorini reads:
       !  dM/de de + dM/dcw dcw + dM/dht dht + dM/dhh dhh
 
       ! 1) dM/de de = dM/dalpha dalpha, with dalpha=2 Z_e / 4Pi
       !    remember, we derive wrt alpha^-1
-      dalpha = -sdk_betaew_diag(22) / aewm1 
+      dalpha = -sdk_betaew_diag(22) / aewm1
       dalpha = dalpha * ls
-c      amp_split_ewsud(:) = amp_split_ewsud_der(:,1) * ( - aewm1**2) * 
-c     $       dAlpha 
+c      amp_split_ewsud(:) = amp_split_ewsud_der(:,1) * ( - aewm1**2) *
+c     $       dAlpha
 
       ! 2) dM/dcw = dM/dmw dmw + dM/dmz dmz
       dmw2 = - (sdk_betaew_diag(24) - 4d0 * sdk_cew_diag(250,0,1))
@@ -1826,22 +1826,22 @@ c     $       dAlpha
      $      - 3d0*mdl_mt**2/2d0/mdl_mw**2/sw2
       dmz2 =  dmz2 * mdl_mz**2 * ls
 
-      dGmudalpha=  MDL_GF*aewm1 
-  
+      dGmudalpha=  MDL_GF*aewm1
+
       dGmudmz2= MDL_GF*(-mdl_mw**2/mdl_mz**4/(1d0-mdl_mw**2/mdl_mz**2))
 
       dGmudmw2=MDL_GF*(-1d0/mdl_mw**2+1d0/mdl_mz**2/(1d0-mdl_mw**2/mdl_mz**2))
 
       dGmu=dGmudalpha*dalpha+dGmudmz2*dmz2+dGmudmw2*dmw2
 
-      dmt = 1d0/4d0/sw2 + 1d0/8d0/sw2/cw2 + 3d0/2d0/cw2*Qt - 3d0/cw2*Qt**2  
+      dmt = 1d0/4d0/sw2 + 1d0/8d0/sw2/cw2 + 3d0/2d0/cw2*Qt - 3d0/cw2*Qt**2
      $     + 3d0/8d0/sw2 * mdl_mt**2/mdl_mw**2
 
       dmt =  dmt * mdl_mt * ls
 
-      dmh2 = 1d0/2d0/sw2 
+      dmh2 = 1d0/2d0/sw2
      $ * (
-     $ 9d0*mdl_mw**2/mdl_mh**2 * (1d0 + 1d0/2d0/cw2**2) 
+     $ 9d0*mdl_mw**2/mdl_mh**2 * (1d0 + 1d0/2d0/cw2**2)
      $ - 3d0/2d0 * (1d0 + 1d0/2d0/cw2) + 15d0/4d0 * mdl_mh**2/mdl_mw**2
      $) + 3d0/2d0/sw2 * mdl_mt**2/mdl_mw**2 * (1d0-6d0*mdl_mt**2/mdl_mh**2 )
 
@@ -1850,25 +1850,25 @@ c     $       dAlpha
       dt=1d0/(mdl_ee*dsqrt(sw2)*mdl_mw)*
      .   (-3d0/2d0 * mdl_mw**2 * ( mdl_mz**2/cw2+2d0* mdl_mw**2)
      .    -mdl_mh**2/4d0 *( 2d0* mdl_mw**2 + mdl_mz**2 +3d0* mdl_mh**2) + 6d0 * mdl_mt**4)
-   
-      dt = dt * ls 
-      
+
+      dt = dt * ls
+
       dheff_o_heff = mdl_ee/(2d0*dsqrt(sw2))*dt/(mdl_mw*mdl_mh**2)
 
-      dmt_QCD =  - 3d0 * 4d0/3d0 
+      dmt_QCD =  - 3d0 * 4d0/3d0
 
       dmt_QCD =  dmt_QCD * mdl_mt * ls_o_mt * (G/gal(1))**2
 
       if(has_lo1) then
-  
+
         amp_split_ewsud(:) = amp_split_ewsud_der(:,1) *dGmu
 
-        amp_split_ewsud(:) = amp_split_ewsud(:) + 
-     $      amp_split_ewsud_der(:,2)/(2d0*mdl_mz) * dmz2 + 
+        amp_split_ewsud(:) = amp_split_ewsud(:) +
+     $      amp_split_ewsud_der(:,2)/(2d0*mdl_mz) * dmz2 +
      $      amp_split_ewsud_der(:,3)/(2d0*mdl_mw) * dmw2 +
      $      amp_split_ewsud_der(:,4) * dmt +
      $      amp_split_ewsud_der(:,5)/(2d0*mdl_mh) * dmh2 +
-     $      amp_split_ewsud_der(:,6) * dheff_o_heff 
+     $      amp_split_ewsud_der(:,6) * dheff_o_heff
 
       endif
 
@@ -1877,11 +1877,11 @@ c     $       dAlpha
       if (has_lo2) then
         if (sud_mod.eq.2) then
          amp_split_ewsud(:) = amp_split_ewsud(:) +
-     $      amp_split_ewsud_der2(:,4) * dmt_QCD 
+     $      amp_split_ewsud_der2(:,4) * dmt_QCD
 
 c      print*,"from dmt_QCD", amp_split_ewsud_der2(:,4) * dmt_QCD
 
-        endif       
+        endif
       endif
       ! LEAVE EMPTY FOR THE MOMENT
 !    correct by a factor 2 ok?
@@ -1985,14 +1985,14 @@ c      double complex smallL_rij_over_s, bigL_rij_over_s
 
         get_qcd_lo2 = CMPLX(logfromLOip1,0d0)
 
-c      elseif (sud_mod.eq.0) then  
-c      TOBE modified 
+c      elseif (sud_mod.eq.0) then
+c      TOBE modified
 c
 c        print*,"sud_mod=0 and QCD not implemented.
 c     .  Switch to sud_mod=1 or turn this error off."
 c        stop
-c      
-      else 
+c
+      else
         print*,"sud_mod=",sud_mod,"is not possible"
         stop
       endif
@@ -2001,5 +2001,3 @@ c      get_qcd_lo2 =0d0
 
       return
       end
-
-

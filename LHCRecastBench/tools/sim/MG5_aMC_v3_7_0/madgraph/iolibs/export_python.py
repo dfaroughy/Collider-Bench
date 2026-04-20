@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -55,7 +55,7 @@ class ProcessExporterPython(object):
 
     class ProcessExporterPythonError(Exception):
         pass
-    
+
     def __init__(self, matrix_elements, python_helas_call_writer):
         """Initiate with matrix elements, helas call writer.
         Generate the process matrix element functions as strings."""
@@ -127,7 +127,7 @@ class ProcessExporterPython(object):
             # Extract process info lines for all processes
             process_lines = self.get_process_info_lines(matrix_element)
             replace_dict['process_lines'] = process_lines
-        
+
             # Extract ngraphs
             ngraphs = matrix_element.get_number_of_amplitudes()
             replace_dict['ngraphs'] = ngraphs
@@ -187,7 +187,7 @@ class ProcessExporterPython(object):
         for helicities in matrix_element.get_helicity_matrix():
             helicity_line_list.append("[" + ",".join(['%d'] * len(helicities)) % \
                                       tuple(helicities) + "]")
-            
+
         return helicity_line + ",\n        ".join(helicity_line_list) + "]"
 
 
@@ -267,7 +267,7 @@ class ProcessExporterPython(object):
 
         ret_lines = []
         # Get minimum legs in a vertex
-        
+
         vert_list = [max(diag.get_vertex_leg_numbers()) for diag in \
            matrix_element.get('diagrams') if diag.get_vertex_leg_numbers()!=[]]
         minvert = min(vert_list) if vert_list!=[] else 0
@@ -336,7 +336,7 @@ class ProcessExporterPython(object):
         else:
             info_lines = "        #  by MadGraph5_aMC@NLO\n" + \
                          "        #  By the MadGraph5_aMC@NLO Development Team\n" + \
-                         "        #  Visit launchpad.net/madgraph5 and amcatnlo.web.cern.ch"        
+                         "        #  Visit launchpad.net/madgraph5 and amcatnlo.web.cern.ch"
 
         return info_lines
 
@@ -353,8 +353,8 @@ class ProcessExporterPython(object):
 
         # Get all masses and widths used
         if aloha.complex_mass:
-            parameters = [(wf.get('mass') == 'ZERO' or wf.get('width')=='ZERO') 
-                          and wf.get('mass') or 'CMASS_%s' % wf.get('mass') 
+            parameters = [(wf.get('mass') == 'ZERO' or wf.get('width')=='ZERO')
+                          and wf.get('mass') or 'CMASS_%s' % wf.get('mass')
                           for wf in \
                           matrix_element.get_all_wavefunctions()]
             parameters += [wf.get('mass') for wf in \
@@ -370,12 +370,12 @@ class ProcessExporterPython(object):
 
         # Get all couplings used
 
-        
+
         couplings = misc.make_unique([c.replace('-', '') for func \
                               in matrix_element.get_all_wavefunctions() + \
                               matrix_element.get_all_amplitudes() for c in func.get('coupling')
                               if func.get('mothers') ])
-        
+
         return "\n        ".join([\
                          "%(param)s = model.get(\'parameter_dict\')[\"%(param)s\"]"\
                          % {"param": param} for param in sorted(parameters)]) + \
@@ -413,4 +413,3 @@ def coeff(ff_number, frac, is_imaginary, Nc_power, Nc_value=3):
         res_str = res_str + '*complex(0,1)'
 
     return res_str + '*'
-

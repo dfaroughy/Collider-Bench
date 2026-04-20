@@ -63,26 +63,26 @@ void ShowSelectedTrack(StdHepWindow *window)
     PhaseWindow *winp = (PhaseWindow *) window;
     SpaceWindow *wins = (SpaceWindow *) window;
     SpaceVertex *vert;
-     
-    
+
+
     /* Widget spin = window->spin; Causes Ultrix cc to "schain botch 3" */
     Display *display = XtDisplay(window->spin);
     Window spinWindow = XtWindow(window->spin);
-    
+
     if ((window->selectedTrack == NO_TRACK) &&
         (window->selnodeNumTrack <= 0)) return;
-    
+
     if (window->selectedTrack != NO_TRACK) {
       particle = &window->event.particles[window->selectedTrack];
       if (ParticleVisible(window, particle->id, particle->stable)) {
-	if (window->type == STDHEP_PHASE ) 
+	if (window->type == STDHEP_PHASE )
 	  ParticleToSegment(winp, particle, &seg, &length);
-	else if (window->type == STDHEP_PARA) { 
+	else if (window->type == STDHEP_PARA) {
 	  ParticleToParaSegment((ParaWindow *) wins, particle, &seg, &length);
 	   } else {
         vert = wins->vertices; vert += window->selectedTrack;
 	   TrackToSegment(wins, particle, vert, &seg, &length);
-	 }  
+	 }
 	SpinTransformPoint(window->spin, seg.x1, seg.y1, seg.z1, &x1, &y1);
 	SpinTransformPoint(window->spin, seg.x2, seg.y2, seg.z2, &x2, &y2);
 	XSetForeground(display, window->highlightGC, seg.pixel);
@@ -90,43 +90,43 @@ void ShowSelectedTrack(StdHepWindow *window)
      }
      if ((window->dtree != NULL) && (window->treehead !=NULL)) {
 	/* If previous select, set the node to normal shadow value */
-	
-	/* located the node, and heighlight it.. if different from 
+
+	/* located the node, and heighlight it.. if different from
 		the one already selected, to avoid flashing  */
             htop = (nodehep *) window->treehead;
 	    seln1 = SearchNodes(htop, window->selectedTrack);
 	    seln2 = NULL;
 	    if (window->selectedNode != NULL) {
 	     seln2 = (nodehep *)  window->selectedNode;
-	     if (seln1 !=seln2) { 
+	     if (seln1 !=seln2) {
 	       highnode = (Widget) *(seln2->stwidget);
                XtSetArg(wargs[0], XmNshadowThickness, 2);
 	       XtSetValues(highnode, wargs, 1);
 	      }
 	     }
-	  
+
 	   if ((seln1 != NULL) && (seln1 != seln2)) {
 	     window->selectedNode = (int *) seln1;
 	     highnode = (Widget)  *(seln1->stwidget);
              XtSetArg(wargs[0], XmNshadowThickness, 5);
 	     XtSetValues(highnode, wargs, 1);
-	   } 
+	   }
      }
-      
+
     }
     if ( window->selnodeNumTrack > 0) {
-     list = window->selnodeTracks; 
+     list = window->selnodeTracks;
       for (i=0; i < window->selnodeNumTrack; i++, list++) {
         particle = &window->event.particles[*list];
         if (ParticleVisible(window, particle->id, particle->stable)) {
-	 if (window->type == STDHEP_PHASE ) 
+	 if (window->type == STDHEP_PHASE )
 	   ParticleToSegment(winp, particle, &seg, &length);
 	 else if (window->type == STDHEP_PARA) {
 	   ParticleToParaSegment((ParaWindow *) wins, particle, &seg, &length);
 	   } else {
             vert = wins->vertices; vert += (*list);
 	   TrackToSegment(wins, particle, vert, &seg, &length);
-	  }  
+	  }
 	 SpinTransformPoint(window->spin, seg.x1, seg.y1, seg.z1, &x1, &y1);
 	 SpinTransformPoint(window->spin, seg.x2, seg.y2, seg.z2, &x2, &y2);
 	 XSetForeground(display, window->highlightGC, seg.pixel);
@@ -134,7 +134,7 @@ void ShowSelectedTrack(StdHepWindow *window)
       }
      }
     }
-          
+
 }
 
 /*
@@ -162,11 +162,11 @@ int FindTrack(StdHepWindow *window, int x, int y)
     double xpPrime, ypPrime;	/* pick pt translated and rotated */
     double dist;		/* distance of current segment from pick pt */
     double minDist = FLT_MAX;	/* distance of closest segment so far */
-    double l12a, lo1sq, lo2sq, l12, l12sq, dperpsq, dmidsq, xm12, ym12;		
+    double l12a, lo1sq, lo2sq, l12, l12sq, dperpsq, dmidsq, xm12, ym12;
     PhaseWindow *winp = (PhaseWindow *) window;
     SpaceWindow *wins = (SpaceWindow *) window;
     SpaceVertex *vert;
-    
+
     /*
     ** Loop through all of the particles, finding the one which displays
     ** closest to the pick point
@@ -176,14 +176,14 @@ int FindTrack(StdHepWindow *window, int x, int y)
          i++, p++) {
       if (ParticleVisible(window, p->id, p->stable)) {
     	/* get the line segment representing the particle in the spin widget */
-	 if (window->type == STDHEP_PHASE ) 
+	 if (window->type == STDHEP_PHASE )
 	   iok = ParticleToSegment(winp, p, &seg, &length);
 	   else if (window->type == STDHEP_PARA) {
-	   iok = 
+	   iok =
 	     ParticleToParaSegment((ParaWindow *) wins, p, &seg, &length);
 	   } else {
 	   iok = TrackToSegment(wins, p, vert, &seg, &length);
-	  }  
+	  }
     	if (iok) {
     	    /* translate it to window coordinates */
     	    SpinTransformPoint(window->spin, seg.x1,seg.y1,seg.z1 ,&xs1, &ys1);
@@ -193,7 +193,7 @@ int FindTrack(StdHepWindow *window, int x, int y)
     	    ** For Phase Display, work in Polar coordinates, ( Mark Edel),
     	    */
     	    if (window->type == STDHEP_PHASE) {
-    	    
+
     	    /* translate the pick point and the line segment into a new
     	       coordinate system centered on xs1, ys1 and rotated so the
     	       line segment lies along the x axis		     	  */
@@ -201,7 +201,7 @@ int FindTrack(StdHepWindow *window, int x, int y)
     	    CartToPolar((double)(xs2 - xs1), (double)(ys2 - ys1), &thetas, &rs);
     	    segLength = rs;
     	    PolarToCart(thetap - thetas, rp, &xpPrime, &ypPrime);
-    	    
+
     	    /* distance can now be figured as distance between point and
     	       the x axis (if the point is within the bounds of the segment),
     	       or the distance from the closer endpoint (if it is not within
@@ -213,13 +213,13 @@ int FindTrack(StdHepWindow *window, int x, int y)
     	    else
     	    	dist = fabs(ypPrime);
     	    } else {
-    	    /* 
-    	    ** Compute the distance at midpoint. Divide by five to 
+    	    /*
+    	    ** Compute the distance at midpoint. Divide by five to
     	    ** increase Pick probability..
     	    */
     	    xm12 = (xs1 + xs2)/2.; ym12 = (ys1 + ys2)/2.;
     	    dist = 0.2 *sqrt((x - xm12) * (x - xm12) + (y -ym12) * (y -ym12));
-    	    }	
+    	    }
     	    /* remember the particle of minimum distance from the pick point */
     	    if (dist < minDist) {
     	    	minDist = dist;
@@ -229,8 +229,8 @@ int FindTrack(StdHepWindow *window, int x, int y)
       }
       if (window->type == STDHEP_SPACE ) vert++;
     }
-    /* 
-    ** One now has to convert the Segment index to the track Index, 
+    /*
+    ** One now has to convert the Segment index to the track Index,
     ** which depends on the current visibility of the choosen particle.
     */
     if (minDist > MIN_PICK_DIST) return NO_TRACK;
@@ -250,32 +250,32 @@ void ShowTrackStats(StdHepWindow *window, int trackNum)
     XmFontList fontList;
     PhaseWindow *winp = (PhaseWindow *) window;
     SpaceWindow *wins = (SpaceWindow *) window;
-    
+
     if (trackNum == NO_TRACK) {
     	if (window->trackWindowShell)
     	    XtUnmapWidget(window->trackWindowShell);
     	return;
     }
-    
+
     p = &window->event.particles[trackNum];
     hepnam_(&p->id, nameText, MAXCHAR_HEPNAM);
     *(char *)strchr(nameText, ' ') = '\0';
-    sprintf(titleText, "%s (%d)", nameText, trackNum);  
+    sprintf(titleText, "%s (%d)", nameText, trackNum);
 
     /* If greek font is available, use greek letters in particle name */
     GET_ONE_RSRC(window->statsLabel, XmNfontList, &fontList);
     if (CharsetAvailable("greek", fontList))
     	hepnmg_(&p->id, nameText);
-    
+
     if (p->stable)
     	stabilityText = "stable";
     else
     	stabilityText = "unstable";
-    	
+
     momentum = ParticleMomentum(p->px, p->py, p->pz);
     pt = ParticlePT(p->px, p->py);
     rapidity = ParticleRapidity(p->px, p->py, p->pz, p->mass);
-    pseudorap = ParticlePseudorapidity(p->px, p->py, p->pz); 
+    pseudorap = ParticlePseudorapidity(p->px, p->py, p->pz);
 /*     if (window->userMapProc) {
 	(*window->userMapProc)(window->event, outVec, &outColor);
 	userValue = sqrt(pow(outVec[0],2)+pow(outVec[1],2)+pow(outVec[2],2));
@@ -283,14 +283,14 @@ void ShowTrackStats(StdHepWindow *window, int trackNum)
     } else {
     	sprintf(userValueText, "");
     } */
-    
+
     /* In this version, no User text.. */
     sprintf(userValueText, "");
     sprintf(statText, "Particle: %s\nPx = %f\nPy = %f\nPz = %f\n\
 Momentum = %f\nPt = %f\nRapidity = %f\nPseudoRapidity = %f%s",
 	nameText, p->px, p->py, p->pz, momentum, pt, rapidity,
 	pseudorap, userValueText);
-    if (window->type == STDHEP_SPACE) { 
+    if (window->type == STDHEP_SPACE) {
     /* Add one line to specify the vertex */
       vert = wins->vertices; vert += trackNum;
        sprintf(statText, "Particle: %s\nPx = %f\nPy = %f\nPz = %f\n\
@@ -298,7 +298,7 @@ Momentum = %f\nPt = %f\nRapidity = %f\nPseudoRapidity = %f\n\
 \n\Origin: \nX = %f\nY = %f\nZ = %f\nLife = %f",
 	nameText, p->px, p->py, p->pz, momentum, pt, rapidity,
 	pseudorap,vert->x, vert->y, vert->z, vert->time);
-    } 
+    }
     cStatText = MultiFontString(statText);
 
     if (window->trackWindowShell == NULL) {
@@ -326,7 +326,7 @@ static void createTrackInfoWindow(StdHepWindow *window, XmString contents,
     XtSetArg(args[ac], XmNwidth, &mainWidth); ac++;
     XtSetArg(args[ac], XmNheight, &mainHeight); ac++;
     XtGetValues(window->shell, args, ac);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNx, mainX + mainWidth - 150); ac++;
     XtSetArg(args[ac], XmNy, mainY + mainHeight - 150); ac++;
@@ -354,7 +354,7 @@ static void createTrackInfoWindow(StdHepWindow *window, XmString contents,
 
     window->trackWindowLabel = label;
     window->trackWindowShell = shell;
-}   
+}
 
 static void closeCB(Widget w, StdHepWindow *window, caddr_t call_data)
 {

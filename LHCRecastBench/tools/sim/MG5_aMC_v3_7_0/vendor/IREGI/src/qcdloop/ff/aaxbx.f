@@ -61,7 +61,7 @@
 *		acbxi(2)     complex	B0',B11'(not computed)		*
 *		mabxi(2)     real	maximal partial sum in B0'	*
 *									*
-***#] comment:*********************************************************** 
+***#] comment:***********************************************************
 *  #[ declarations :
 	implicit none
 *

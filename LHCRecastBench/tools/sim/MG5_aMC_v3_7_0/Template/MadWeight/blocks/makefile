@@ -22,4 +22,3 @@ $(LIBDIR)$(LIBRARY): $(OBJS)
 
 clean:
 	$(RM) *.o $(LIBDIR)$(LIBRARY)
-

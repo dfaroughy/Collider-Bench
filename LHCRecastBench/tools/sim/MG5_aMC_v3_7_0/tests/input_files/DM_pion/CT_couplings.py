@@ -1729,4 +1729,3 @@ UVGC_290_233 = Coupling(name = 'UVGC_290_233',
 UVGC_290_234 = Coupling(name = 'UVGC_290_234',
                         value = {-1:'(G**2*yup*complexconjugate(CKM1x2))/(3.*cmath.pi**2)'},
                         order = {'QCD':2,'QED':1})
-

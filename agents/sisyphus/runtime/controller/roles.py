@@ -21,8 +21,7 @@ def build_planner_prompt(paper_ref: str) -> str:
 
 def build_executor_prompt(paper_ref: str, iter_index: int, has_prior: bool) -> str:
     parts = [
-        f"You are the executor (iteration #{iter_index}) in a Sisyphus recast "
-        f"of {paper_ref}.",
+        f"You are the executor (iteration #{iter_index}) in a Sisyphus recast " f"of {paper_ref}.",
         "",
         "Read agent_context/AGENTS.md for your role. Before doing anything else:",
         "  1. Read agent_context/plan.md — the planner's breakdown of the task.",

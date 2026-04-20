@@ -8,28 +8,32 @@
 
 # Keywords: parallelism; charged multiplicity; python;
 
-# This is a simple test program to illustrate the usage of PythiaParallel 
-# in Python. The physics case is equivalent to main291, but in parallel. 
+# This is a simple test program to illustrate the usage of PythiaParallel
+# in Python. The physics case is equivalent to main291, but in parallel.
 # It is also equivalent to the C++ codes main101.cc and main222.cc.
-# This program contains detailed comments about how the code works. 
+# This program contains detailed comments about how the code works.
 
-# To set the path to the Pythia 8 Python interface do either 
+# To set the path to the Pythia 8 Python interface do either
 # (in a shell prompt):
 #      export PYTHONPATH=$(PREFIX_LIB):$PYTHONPATH
 # or the following which sets the path from within Python.
 import sys
+
 cfg = open("Makefile.inc")
 lib = "../lib"
 for line in cfg:
-    if line.startswith("PREFIX_LIB="): lib = line[11:-1]; break
+    if line.startswith("PREFIX_LIB="):
+        lib = line[11:-1]
+        break
 sys.path.insert(0, lib)
 
-#==========================================================================
+# ==========================================================================
 
 # Use the PythiaParallel class instead of Pythia for parallel generation.
 # It will create multiple underlying Pythia instances to do the actual
 # generation; one instance per thread.
 import pythia8
+
 pythia = pythia8.PythiaParallel()
 
 # PythiaParallel reads settings the same way as the normal Pythia does.
@@ -55,17 +59,22 @@ pythia.readString("Main:numberOfEvents = 10000")
 # Define the histogram to fill.
 mult = pythia8.Hist("charged multiplicity", 100, -0.5, 799.5)
 
+
 # This will create and initialize each underlying Pythia instance.
 def init(pythiaNow):
-    print("Initializing Pythia with index %i."
-          % pythiaNow.settings.mode("Parallelism:index"))
+    print("Initializing Pythia with index %i." % pythiaNow.settings.mode("Parallelism:index"))
     return pythiaNow.init()
+
+
 pythia.init(init)
+
 
 # Generate events. Note, any type of function can be passed to this method,
 # as long as the function takes an 'Pythia' object as the argument.
 def analyze(pythiaNow):
     mult.fill(pythiaNow.event.nFinal(True))
+
+
 pythia.run(analyze)
 
 # PythiaParallel::stat combines statistics for each Pythia instance.

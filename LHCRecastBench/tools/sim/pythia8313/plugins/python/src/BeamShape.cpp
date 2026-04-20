@@ -59,7 +59,7 @@
 struct PyCallBack_Pythia8_BeamShape : public Pythia8::BeamShape {
 	using Pythia8::BeamShape::BeamShape;
 
-	void init(class Pythia8::Settings & a0, class Pythia8::Rndm * a1) override { 
+	void init(class Pythia8::Settings & a0, class Pythia8::Rndm * a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BeamShape *>(this), "init");
 		if (overload) {
@@ -72,7 +72,7 @@ struct PyCallBack_Pythia8_BeamShape : public Pythia8::BeamShape {
 		}
 		return BeamShape::init(a0, a1);
 	}
-	void pick() override { 
+	void pick() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BeamShape *>(this), "pick");
 		if (overload) {
@@ -91,7 +91,7 @@ struct PyCallBack_Pythia8_BeamShape : public Pythia8::BeamShape {
 struct PyCallBack_Pythia8_BoseEinstein : public Pythia8::BoseEinstein {
 	using Pythia8::BoseEinstein::BoseEinstein;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BoseEinstein *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -104,7 +104,7 @@ struct PyCallBack_Pythia8_BoseEinstein : public Pythia8::BoseEinstein {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BoseEinstein *>(this), "onBeginEvent");
 		if (overload) {
@@ -117,7 +117,7 @@ struct PyCallBack_Pythia8_BoseEinstein : public Pythia8::BoseEinstein {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BoseEinstein *>(this), "onEndEvent");
 		if (overload) {
@@ -130,7 +130,7 @@ struct PyCallBack_Pythia8_BoseEinstein : public Pythia8::BoseEinstein {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::BoseEinstein *>(this), "onStat");
 		if (overload) {
@@ -149,7 +149,7 @@ struct PyCallBack_Pythia8_BoseEinstein : public Pythia8::BoseEinstein {
 struct PyCallBack_Pythia8_DeuteronProduction : public Pythia8::DeuteronProduction {
 	using Pythia8::DeuteronProduction::DeuteronProduction;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DeuteronProduction *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -162,7 +162,7 @@ struct PyCallBack_Pythia8_DeuteronProduction : public Pythia8::DeuteronProductio
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DeuteronProduction *>(this), "onBeginEvent");
 		if (overload) {
@@ -175,7 +175,7 @@ struct PyCallBack_Pythia8_DeuteronProduction : public Pythia8::DeuteronProductio
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DeuteronProduction *>(this), "onEndEvent");
 		if (overload) {
@@ -188,7 +188,7 @@ struct PyCallBack_Pythia8_DeuteronProduction : public Pythia8::DeuteronProductio
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::DeuteronProduction *>(this), "onStat");
 		if (overload) {

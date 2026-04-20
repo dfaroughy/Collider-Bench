@@ -15,7 +15,6 @@ import os
 import ssl
 import sys
 import tarfile
-from io import BytesIO
 from pathlib import Path
 from urllib.request import urlopen, Request
 
@@ -38,6 +37,7 @@ def _print_json(payload):
 
 def _api_get(url, retries=3, backoff=5):
     import time
+
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
@@ -62,7 +62,7 @@ def _parse_header_name_units(raw):
     if "[" in raw and raw.endswith("]"):
         idx = raw.index("[")
         name = raw[:idx].strip()
-        units = raw[idx + 1:-1].strip()
+        units = raw[idx + 1 : -1].strip()
         return name, units
     return raw, ""
 
@@ -77,8 +77,12 @@ def _convert_record_data_json(data):
     values = data["values"]
 
     # Separate x-headers and y-headers
-    x_headers = [h for h in headers if h.get("is_independent", h.get("type", "")) in (True, "independent")]
-    y_headers = [h for h in headers if h.get("is_independent", h.get("type", "")) in (False, "dependent")]
+    x_headers = [
+        h for h in headers if h.get("is_independent", h.get("type", "")) in (True, "independent")
+    ]
+    y_headers = [
+        h for h in headers if h.get("is_independent", h.get("type", "")) in (False, "dependent")
+    ]
 
     # Fallback: if type flags aren't present, infer from the first row
     if not x_headers and not y_headers and values:
@@ -86,7 +90,7 @@ def _convert_record_data_json(data):
         n_x = len(first_row.get("x", []))
         n_y = len(first_row.get("y", []))
         x_headers = headers[:n_x]
-        y_headers = headers[n_x:n_x + n_y]
+        y_headers = headers[n_x : n_x + n_y]
 
     # Build independent_variables
     independent_variables = []
@@ -107,7 +111,11 @@ def _convert_record_data_json(data):
     dependent_variables = []
     for j, hdr in enumerate(y_headers):
         name, units = _parse_header_name_units(hdr.get("name", f"y{j}"))
-        dv = {"header": {"name": name, "units": units}, "qualifiers": hdr.get("qualifiers", []), "values": []}
+        dv = {
+            "header": {"name": name, "units": units},
+            "qualifiers": hdr.get("qualifiers", []),
+            "values": [],
+        }
         for row in values:
             y_entries = row.get("y", [])
             if j < len(y_entries):
@@ -242,11 +250,13 @@ def cmd_find(args):
         enriched_results = results
 
     if args.json:
-        _print_json({
-            "query": query,
-            "total": total,
-            "results": enriched_results,
-        })
+        _print_json(
+            {
+                "query": query,
+                "total": total,
+                "results": enriched_results,
+            }
+        )
         return
 
     print(f"Found {total} records:\n")
@@ -283,11 +293,13 @@ def cmd_tables(args):
             if t.get("formats"):
                 entry["formats"] = t["formats"]
             table_entries.append(entry)
-        _print_json({
-            "inspire_id": args.inspire_id,
-            "table_count": len(tables),
-            "tables": table_entries,
-        })
+        _print_json(
+            {
+                "inspire_id": args.inspire_id,
+                "table_count": len(tables),
+                "tables": table_entries,
+            }
+        )
         return
 
     print(f"Record ins{args.inspire_id}: {len(tables)} tables\n")
@@ -307,7 +319,10 @@ def cmd_tables(args):
 def cmd_get(args):
     """Fetch a single table's data."""
     from urllib.parse import quote
-    url = f"https://www.hepdata.net/download/table/ins{args.inspire_id}/{quote(args.table_name)}/json"
+
+    url = (
+        f"https://www.hepdata.net/download/table/ins{args.inspire_id}/{quote(args.table_name)}/json"
+    )
     data = _api_get(url)
 
     # Detect and convert the new /record/data/ JSON format
@@ -370,7 +385,9 @@ def cmd_get(args):
                         err_strs = []
                         for e in errs:
                             if "asymerror" in e:
-                                err_strs.append(f"+{e['asymerror'].get('plus', '?')}/-{e['asymerror'].get('minus', '?')}")
+                                err_strs.append(
+                                    f"+{e['asymerror'].get('plus', '?')}/-{e['asymerror'].get('minus', '?')}"
+                                )
                             elif "symerror" in e:
                                 err_strs.append(f"+-{e['symerror']}")
                         val_str += " " + " ".join(err_strs)
@@ -415,9 +432,7 @@ def cmd_download(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        prog="hepdata",
-        description="CLI for HEPData (hepdata.net)")
+    parser = argparse.ArgumentParser(prog="hepdata", description="CLI for HEPData (hepdata.net)")
     sub = parser.add_subparsers(dest="cmd")
     sub.required = True
 

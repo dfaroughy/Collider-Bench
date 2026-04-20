@@ -1,20 +1,20 @@
 MODULE special_fun
 CONTAINS
   SUBROUTINE HYGFZ(A,B,C,Z,ZHF)
-!                                                                                                                                                                                                         
-!       ======================================================                                                                                                                                            
-!       Purpose: Compute the hypergeometric function for a                                                                                                                                                
-!                complex argument, F(a,b,c,z)                                                                                                                                                             
-!       Input :  a --- Parameter                                                                                                                                                                          
-!                b --- Parameter                                                                                                                                                                          
-!                c --- Parameter,  c <> 0,-1,-2,...                                                                                                                                                       
-!                z --- Complex argument                                                                                                                                                                   
-!       Output:  ZHF --- F(a,b,c,z)                                                                                                                                                                       
-!       Routines called:                                                                                                                                                                                  
-!            (1) GAMMA for computing gamma function                                                                                                                                                       
-!            (2) PSI for computing psi function                                                                                                                                                           
-!       ======================================================                                                                                                                                            
-!                                                                                                                                                                                                         
+!
+!       ======================================================
+!       Purpose: Compute the hypergeometric function for a
+!                complex argument, F(a,b,c,z)
+!       Input :  a --- Parameter
+!                b --- Parameter
+!                c --- Parameter,  c <> 0,-1,-2,...
+!                z --- Complex argument
+!       Output:  ZHF --- F(a,b,c,z)
+!       Routines called:
+!            (1) GAMMA for computing gamma function
+!            (2) PSI for computing psi function
+!       ======================================================
+!
     IMPLICIT NONE
     LOGICAL::L0,L1,L2,L3,L4,L5,L6
     REAL(KIND(1d0)),INTENT(INOUT)::A,B,C
@@ -315,18 +315,18 @@ CONTAINS
   END SUBROUTINE HYGFZ
 
   SUBROUTINE HYGFX(A,B,C,X,HF)
-! 
-!       ==================================================== 
-!       Purpose: Compute hypergeometric function F(a,b,c,x),2F1                                                                                                
-!       Input :  a --- Parameter 
-!                b --- Parameter  
-!                c --- Parameter, c <> 0,-1,-2,...      
-!                x --- Argument   ( x < 1 )     
-!       Output:  HF --- F(a,b,c,x) 
-!       Routines called: 
-!            (1) GAMMA for computing gamma function 
-!            (2) PSI for computing psi function 
-!       ==================================================== 
+!
+!       ====================================================
+!       Purpose: Compute hypergeometric function F(a,b,c,x),2F1
+!       Input :  a --- Parameter
+!                b --- Parameter
+!                c --- Parameter, c <> 0,-1,-2,...
+!                x --- Argument   ( x < 1 )
+!       Output:  HF --- F(a,b,c,x)
+!       Routines called:
+!            (1) GAMMA for computing gamma function
+!            (2) PSI for computing psi function
+!       ====================================================
 !
     IMPLICIT NONE
     REAL(KIND(1d0)),INTENT(INOUT)::A,B,C,X
@@ -530,13 +530,13 @@ CONTAINS
 
   SUBROUTINE GAMMA(X,GA)
 !
-!       ================================================== 
-!       Purpose: Compute gamma function â(x)  
-!       Input :  x  --- Argument of â(x)  
-!                       ( x is not equal to 0,-1,-2,úúú) 
+!       ==================================================
+!       Purpose: Compute gamma function â(x)
+!       Input :  x  --- Argument of â(x)
+!                       ( x is not equal to 0,-1,-2,úúú)
 !       Output:  GA --- â(x)
-!       ==================================================  
-!    
+!       ==================================================
+!
     IMPLICIT NONE
     REAL(KIND(1d0)),INTENT(IN)::X
     REAL(KIND(1d0)),INTENT(OUT)::GA
@@ -590,14 +590,14 @@ CONTAINS
     ENDIF
     RETURN
   END SUBROUTINE GAMMA
-  
+
   SUBROUTINE PSI(X,PS)
 !
-!  ====================================== 
+!  ======================================
 !      Purpose: Compute Psi function
-!      Input :  x  --- Argument of psi(x) 
-!      Output:  PS --- psi(x)                                                                                                                                                                              
-! ======================================                                                                                                                                                              
+!      Input :  x  --- Argument of psi(x)
+!      Output:  PS --- psi(x)
+! ======================================
 !
     IMPLICIT NONE
     REAL(KIND(1d0)),INTENT(IN)::X

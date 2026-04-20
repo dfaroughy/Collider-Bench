@@ -207,4 +207,3 @@ G = Parameter(name = 'G',
               type = 'real',
               value = '2*cmath.sqrt(aS)*cmath.sqrt(cmath.pi)',
               texname = 'G')
-

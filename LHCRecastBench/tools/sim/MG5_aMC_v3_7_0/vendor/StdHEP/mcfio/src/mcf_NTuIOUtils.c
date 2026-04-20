@@ -33,37 +33,37 @@ extern int NumOfNTuples;
 nTuDDL *mcf_GetNTuByPtrID(int id)
 {
     int **ip;
-    
+
     if ( (id < 1) || (id > NumOfNTuples)) return NULL;
     ip = (int **) NTuDDLList;
     ip += (id-1);
-    return (nTuDDL *) *ip; 
+    return (nTuDDL *) *ip;
 }
-     
+
 nTuDDL *mcf_GetNTuByStreamID(int stream, int id)
 {
      int i, num;
      nTuDDL *ddl;
-     
-     for (i=0, num=0; i<NumOfNTuples; i++) { 
+
+     for (i=0, num=0; i<NumOfNTuples; i++) {
           ddl = NTuDDLList[i];
           if ((ddl->streamId == stream) && (ddl->seqNTuId == id)) return ddl;
      }
      return NULL;
-}   
+}
 int mcf_NTuId(int uid, char *category)
-/* 
-	uid		Unique User id 
+/*
+	uid		Unique User id
 	category	Category name, must be an exact match
 
-	Returns:	Macfio_Ntuple id, or -1 if no items matched, or if 
+	Returns:	Macfio_Ntuple id, or -1 if no items matched, or if
 			Category is illegal..
 */
 {
 	int i, j, **ip;
 	nTuDDL *item;
 	char *cat;
-	
+
      if (!mcf_CheckValidCat(category, FALSE))  return -1;
      ip = (int **) NTuDDLList;
      cat = mcf_ValidStr(category, NTU_MAX_CATEGORY_LENGTH, "category");
@@ -71,13 +71,13 @@ int mcf_NTuId(int uid, char *category)
 	 item = (nTuDDL *) *ip;
 	 if (item->uid == uid) { /* Look first at uid, if match, */
 	         		    /* Confirm with Category */
-	    if ((category == NULL) && (item->category == NULL)) 
+	    if ((category == NULL) && (item->category == NULL))
 	      				return (item->id);
 	    if (strcmp(category, item->category) == 0)
 	    				return (item->id);
-            j = strspn(category, " ");	
+            j = strspn(category, " ");
 	    if (strcmp((category+j), item->category) == 0)
-	                                return (item->id); 
+	                                return (item->id);
 	 }
      }
      return -1;
@@ -87,8 +87,8 @@ int mcfioC_GetNTupleIds(int stream, int *ids, int max)
 {
      int i, num;
      nTuDDL *ddl;
-     
-     for (i=0, num=0; i<NumOfNTuples; i++) { 
+
+     for (i=0, num=0; i<NumOfNTuples; i++) {
           ddl = NTuDDLList[i];
           if (ddl->streamId == stream) {
               if (num < max ) ids[num] = ddl->id;
@@ -96,7 +96,7 @@ int mcfioC_GetNTupleIds(int stream, int *ids, int max)
           }
      }
      return num;
-}   
+}
 
 int mcfioC_GetNTupleUID(int stream, int id)
 {
@@ -109,7 +109,7 @@ void mcfioC_GetNTupleCategory(int stream, int id, char **answer)
    nTuDDL *ddl = mcf_GetNTuByStreamID(stream, id);
    *answer = ddl->category;
 }
- 
+
 void mcfioC_GetNTupleTitle(int stream, int id, char **answer)
 {
    nTuDDL *ddl = mcf_GetNTuByStreamID(stream, id);
@@ -119,16 +119,16 @@ void mcfioC_GetNTupleTitle(int stream, int id, char **answer)
 void mcfioC_GetNTupleName(int stream, int id, char **answer)
 {
    nTuDDL *ddl = mcf_GetNTuByStreamID(stream, id);
-   if (ddl->reference == NULL) 
+   if (ddl->reference == NULL)
        *answer = ddl->descrNtu->title;
-   else *answer = ddl->reference->descrNtu->title;    
+   else *answer = ddl->reference->descrNtu->title;
 }
 
 /*
 ** Copy utility routine for a General Ntuple Variable descriptor d/s
-** It is the responsability of the usr to allocate memory for the 
+** It is the responsability of the usr to allocate memory for the
 ** structure where data will be copied to.
-*/           
+*/
 void CopyVarGenNtuple(varGenNtuple *vFrom, varGenNtuple *vTo)
 {
     char *string, *tc, *tc2;
@@ -142,7 +142,7 @@ void CopyVarGenNtuple(varGenNtuple *vFrom, varGenNtuple *vTo)
     }
     if (vFrom->name != NULL) {
         ll = (1 + strlen(vFrom->name));
-        vTo->name = 
+        vTo->name =
            (char *) malloc(sizeof(char) * ll);
         strcpy(vTo->name, vFrom->name);
     }
@@ -151,7 +151,7 @@ void CopyVarGenNtuple(varGenNtuple *vFrom, varGenNtuple *vTo)
          vTo->description = NULL;
     }
     if (vFrom->description != NULL) {
-        vTo->description = 
+        vTo->description =
            (char *) malloc(sizeof(char) * (1 + strlen(vFrom->description)));
         strcpy(vTo->description, vFrom->description);
     }
@@ -160,19 +160,19 @@ void CopyVarGenNtuple(varGenNtuple *vFrom, varGenNtuple *vTo)
     vTo->numDim = vFrom->numDim;
     if (vFrom->numDim > 0)  {
            for (i=0; i<vFrom->numDim; i++)
-              vTo->dimensions[i] = vFrom->dimensions[i]; 
+              vTo->dimensions[i] = vFrom->dimensions[i];
     }
     vTo->offset = vFrom->offset;
     vTo->offsetXDR = vFrom->offsetXDR;
 }
 /*
 ** insert this ddl into the Global List, expand the list if need be.
-** Also increment the number of NTuples defined (don't do it twice!). 
+** Also increment the number of NTuples defined (don't do it twice!).
 */
 void AddNTuDDLtoList(nTuDDL *ddl)
 {
     int i, **ipo;
-    
+
     NumOfNTuples++;
     ddl->id = NumOfNTuples;
     /*
@@ -187,10 +187,10 @@ void AddNTuDDLtoList(nTuDDL *ddl)
     	    free (ipo);
     }
     NTuDDLList[NumOfNTuples-1] = ddl;
-            
+
 }
 /*
-** Free the memory for a Ntuple Data Descrp. Lang (DDL).  
+** Free the memory for a Ntuple Data Descrp. Lang (DDL).
 */
 void DestroyNTuDDL(nTuDDL *ddl)
 {
@@ -200,10 +200,10 @@ void DestroyNTuDDL(nTuDDL *ddl)
    if (ddl->dbinFileName != NULL) free(ddl->dbinFileName);
    DestroyGenNtuple(ddl->descrNtu);
    free(ddl);
-} 
+}
 /*
 ** Free the memory for a Description NTuple
-** Note : the pointer to adrresses are lost, the user will have to give 
+** Note : the pointer to adrresses are lost, the user will have to give
 ** them to this application back..
 */
 void DestroyGenNtuple(descrGenNtuple *dNTu)
@@ -219,8 +219,8 @@ void DestroyGenNtuple(descrGenNtuple *dNTu)
     for (i=0; i<dNTu->numAvailable; i++)
          DestroyVarGenNtuple(dNTu->variables[i]);
     free(dNTu->variables);
-    free(dNTu);     
-}    
+    free(dNTu);
+}
 
 
 void DestroyVarGenNtuple(varGenNtuple *var)
@@ -230,7 +230,7 @@ void DestroyVarGenNtuple(varGenNtuple *var)
     if (var->name != NULL) free(var->name);
     if (var->description != NULL) free(var->description);
     free(var);
-}    
+}
 /*
  * ValidStr - Validate strings supplied by user
  *
@@ -242,7 +242,7 @@ char *mcf_ValidStr(char *string, int max_length, char *strKind)
 {
     static char str[NTU_MAX_CATEGORY_LENGTH+1];	     /* make longest string */
     static char str1[1] = "";
-    
+
     if (string == NULL)
     	return str1;			   /* return empty string	    */
     if (strlen(string) <= max_length)
@@ -254,15 +254,15 @@ char *mcf_ValidStr(char *string, int max_length, char *strKind)
     return strncpy(str, string, max_length); /* return ptr to trunc. string */
 }
 /*
-** Based on the HistoScope Check Category 
-*/      
+** Based on the HistoScope Check Category
+*/
 int mcf_CheckValidCat(char *category, int dotDotDot)
 {
     static char validChars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\
 abcdefghijklmnopqrstuvwxyz1234567890/~!@#$%^&*()_+=-`\"\'\t?><,. ";
     char *strDots, *error = NULL;
     int len;
-    
+
     if (category == NULL)
     	return 1;
     len = strlen(category);
@@ -277,10 +277,10 @@ abcdefghijklmnopqrstuvwxyz1234567890/~!@#$%^&*()_+=-`\"\'\t?><,. ";
     	error = "contains leading slash";
     else if (category[len-1] == '/')
     	error = "contains trailing slash";
-    else if ((dotDotDot == 0 && strDots != NULL) 
+    else if ((dotDotDot == 0 && strDots != NULL)
     	  || (dotDotDot != 0 && strDots != NULL && strDots != category + len-3))
     	error = "contains invalid \"...\"";
-    	
+
     if (error != NULL) {
     	fprintf(stderr, "Error in declared category %s: %s\n",
     		error, category);
@@ -289,4 +289,3 @@ abcdefghijklmnopqrstuvwxyz1234567890/~!@#$%^&*()_+=-`\"\'\t?><,. ";
     	return (strDots == NULL ? 1 : -1);
     }
 }
-

@@ -7,16 +7,16 @@ import string
 from six.moves import range
 
 
-try: 
+try:
     from . import Cards
     import madgraph.various.misc as misc
 except ImportError:
     import internal.madweight.Cards as Cards
     import internal.misc as misc
-    
+
 class Decay_info:
     """ all routine linked to the reconaissance of the topology from the proc card
-        
+
         The proc-card has two information:
             1) the process decay pp>(t>blvl~)(t~>(W->l~vl)b)
             2) the MultiParticle content
@@ -39,7 +39,7 @@ class Decay_info:
         for index, pid in enumerate(mglabel2pid_list):
             mglabel2pid_dic[index+1]=pid
 
-       
+
         topology=self.read_config(current_dir+'/configs.inc', mglabel2pid_dic)
 
         #process_line,multi=self.read_proc_card(proc_card,cond)
@@ -58,10 +58,10 @@ class Decay_info:
         topo={}
         while 1:
             buff=trappe.readline()
-            if buff.find('*')>-1: 
+            if buff.find('*')>-1:
                 return topo
-            elif buff!="":        
-                if res_patern.search(buff): 
+            elif buff!="":
+                if res_patern.search(buff):
                     mg_id=res_patern.search(buff).group('mg_id')
                     pid_d1=int(res_patern.search(buff).group('pid_d1'))
 #             if pid_d1>0: pid_d1=mglabel2pid_dic[pid_d1]
@@ -77,7 +77,7 @@ class Decay_info:
                     topo[int(mg_id)]['width']=width
                     topo[int(mg_id)]['channel']=SorT
                     topo[int(mg_id)]['pid']=int(pid_m)
-                else: 
+                else:
                     print("error: unexpected format in configs.inc ")
 
 
@@ -92,16 +92,16 @@ class Decay_info:
            decay_item[res_label]=Proc_decay([topo[res_label]['pid']])
            for daughter_id in topo[res_label]['daughters']:
              if daughter_id>0 : decay_item[res_label].des.append(Proc_decay([int(mglabel2pid_dic[daughter_id])],res_label))
-             else: 
+             else:
                 decay_item[daughter_id].mother=res_label
                 decay_item[res_label].des.append(decay_item[daughter_id])
 
-#       now decay item is a dictionnary with 
+#       now decay item is a dictionnary with
 #                   each key = one of the legs in the diagrams
 #           associated value = decay chain initiated by this leg
 
 #       the list "decay_diag" should contains the values associated with the legs
-#       originating from the production part         
+#       originating from the production part
 
 #       here I use the criteria written by Olivier, so that "proc_list"="decay_list" later on in the code
 
@@ -126,21 +126,21 @@ class Decay_info:
             if  topo[leg]['mass']=='ZERO':
                 decay_item[leg].mother=0  # off-shell gluons/photons/quarks should not be part of the decay chain
                 decay_item[leg].des[0].mother=0
-                decay_item[leg].des[1].mother=0 
-                if topo[leg]['daughters'][0]>2 and topo[leg]['daughters'][0] not in particles_from_HI :particles_from_HI.append(topo[leg]['daughters'][0]) 
-                if topo[leg]['daughters'][1]>2 and topo[leg]['daughters'][1] not in particles_from_HI :particles_from_HI.append(topo[leg]['daughters'][1]) 
-                continue  
+                decay_item[leg].des[1].mother=0
+                if topo[leg]['daughters'][0]>2 and topo[leg]['daughters'][0] not in particles_from_HI :particles_from_HI.append(topo[leg]['daughters'][0])
+                if topo[leg]['daughters'][1]>2 and topo[leg]['daughters'][1] not in particles_from_HI :particles_from_HI.append(topo[leg]['daughters'][1])
+                continue
 
             # consider T-channel here
             if topo[leg]['channel']=='T':
                 if topo[leg]['daughters'][0]>2 and topo[leg]['daughters'][0] not in particles_from_HI  :particles_from_HI.append(topo[leg]['daughters'][0])
                 if topo[leg]['daughters'][1]>2 and topo[leg]['daughters'][1] not in particles_from_HI :particles_from_HI.append(topo[leg]['daughters'][1])
-            # I also need to check if we have A(virtual) > A(real) + B 
+            # I also need to check if we have A(virtual) > A(real) + B
             if decay_item[leg].pid[0]==decay_item[leg].des[0].pid[0] or decay_item[leg].pid[0]==decay_item[leg].des[1].pid[0]:
                 decay_item[leg].des[0].mother=0
                 decay_item[leg].des[1].mother=0
-                if topo[leg]['daughters'][0]>2 and topo[leg]['daughters'][0] not in particles_from_HI  :particles_from_HI.append(topo[leg]['daughters'][0]) 
-                if topo[leg]['daughters'][1]>2 and topo[leg]['daughters'][1] not in particles_from_HI  :particles_from_HI.append(topo[leg]['daughters'][1]) 
+                if topo[leg]['daughters'][0]>2 and topo[leg]['daughters'][0] not in particles_from_HI  :particles_from_HI.append(topo[leg]['daughters'][0])
+                if topo[leg]['daughters'][1]>2 and topo[leg]['daughters'][1] not in particles_from_HI  :particles_from_HI.append(topo[leg]['daughters'][1])
                 continue
             if decay_item[leg].mother==0 and topo[leg]['channel']=='S':
                 particles_from_HI.append(leg)
@@ -151,8 +151,8 @@ class Decay_info:
         # now check if all external particles have been scanned:
         for index in  mglabel2pid_dic.keys():
           if index >2 and index not in list_external:
-              particles_from_HI.append(index) 
-        
+              particles_from_HI.append(index)
+
 
         for leg in particles_from_HI:
           if leg<0:
@@ -162,16 +162,16 @@ class Decay_info:
             decay_diag.append(temp)
         return decay_diag
 
-            
+
     def pass_in_pid(self,process_line,multi):
         """ convert information in pid information """
-        
+
         if hasattr(self,'ParticlesFile'):
             ParticlesFile=self.ParticlesFile
         else:
             ParticlesFile=Cards.Particles_file('./Source/MODEL/particles.dat')
         pid=ParticlesFile.give_pid_dict()
-        
+
         #
         # Update information with multi_particle tag
         #
@@ -200,7 +200,7 @@ class Decay_info:
                 #break # only one such symbol to signify the end of the decay part
         process_line=process_line[process_line.index('>')+1:]
 
-        
+
         decay_diag=[]
         level_decay=0
         while process_line:
@@ -209,14 +209,14 @@ class Decay_info:
                 continue
             if process_line[0]=='>':
                 process_line=process_line[1:]
-                continue            
+                continue
 
             if process_line[0]=='(':
                 process_line=process_line[1:]
                 level_decay+=1
                 new_decay=1
                 continue
-            
+
             if process_line[0]==')':
                 level_decay-=1
                 current_part=current_part.mother
@@ -255,7 +255,7 @@ class Decay_info:
             if len_max==0:
                 sys.exit('error pid dico not complete or invalid input :'+str([text[:min(3,len(text))]])+'\
                           \n Complete proc_info.py')
-                
+
             if text[:num].lower() in key_list:
                 tag=text[:num].lower()
                 text=text[num:]
@@ -273,7 +273,7 @@ class Decay_info:
             text+='\n'
 
 
-        return text       
+        return text
 
 
 
@@ -308,4 +308,3 @@ class Proc_decay:
 if __name__=='__main__':
     "test"
     Decay_info('../Cards/proc_card_mg5.dat')
-    

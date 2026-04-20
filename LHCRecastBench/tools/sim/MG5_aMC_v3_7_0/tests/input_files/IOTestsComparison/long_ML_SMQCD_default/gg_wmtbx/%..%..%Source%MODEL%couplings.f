@@ -37,20 +37,20 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       ENDIF
 
-C     
+C
 couplings needed to be evaluated points by points
-C     
+C
       CALL COUP3()
-C     
+C
 couplings in multiple precision
-C     
+C
       IF (UPDATELOOP) THEN
 
         CALL MP_COUP1()
         CALL MP_COUP2()
-C       
+C
 couplings needed to be evaluated points by points
-C       
+C
         CALL MP_COUP3()
 
       ENDIF
@@ -79,7 +79,7 @@ C
 
 
       INCLUDE '../cuts.inc'
-      DATA MAXJETFLAVOR,FIXED_EXTRA_SCALE,MUE_OVER_REF,MUE_REF_FIXED 
+      DATA MAXJETFLAVOR,FIXED_EXTRA_SCALE,MUE_OVER_REF,MUE_REF_FIXED
      $ /5,.FALSE.,1D0,91.188/
       INCLUDE '../run.inc'
 
@@ -94,9 +94,9 @@ C
 
 
 
-C     
+C
 couplings needed to be evaluated points by points
-C     
+C
       CALL COUP3()
 
       RETURN
@@ -147,11 +147,10 @@ C
       INCLUDE 'mp_intparam_definition.inc'
 
 
-C     
+C
 couplings needed to be evaluated points by points
-C     
+C
       CALL MP_COUP3()
 
       RETURN
       END
-

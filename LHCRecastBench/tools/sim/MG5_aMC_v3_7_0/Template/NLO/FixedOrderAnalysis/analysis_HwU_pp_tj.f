@@ -55,7 +55,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 
@@ -133,7 +133,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          write(*,*)'not one b',nb
          stop
       endif
-            
+
 c Define jet clustering parameters (from cuts.inc via the run_card.dat)
       palg=JETALGO              ! jet algorithm: 1.0=kt, 0.0=C/A, -1.0 = anti-kt
       rfj=JETRADIUS             ! the radius parameter
@@ -248,7 +248,7 @@ c fill the histograms
             call HwU_fill(l+20,etabj2,wgts)
          endif
       enddo
- 999  return      
+ 999  return
       end
 
 
@@ -301,4 +301,3 @@ c
       getpt=dsqrt(p(1)**2+p(2)**2)
       return
       end
-

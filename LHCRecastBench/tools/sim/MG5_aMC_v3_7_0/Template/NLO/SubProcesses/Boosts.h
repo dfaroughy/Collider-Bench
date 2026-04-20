@@ -44,16 +44,16 @@ public:
   Vec4(double xIn = 0., double yIn = 0., double zIn = 0., double tIn = 0.)
     : xx(xIn), yy(yIn), zz(zIn), tt(tIn) { }
   Vec4(const Vec4& v) : xx(v.xx), yy(v.yy), zz(v.zz), tt(v.tt) { }
-  Vec4& operator=(const Vec4& v) { if (this != &v) { xx = v.xx; yy = v.yy; 
+  Vec4& operator=(const Vec4& v) { if (this != &v) { xx = v.xx; yy = v.yy;
     zz = v.zz; tt = v.tt; } return *this; }
-  Vec4& operator=(double value) { xx = value; yy = value; zz = value; 
+  Vec4& operator=(double value) { xx = value; yy = value; zz = value;
     tt = value; return *this; }
-      
+
   // Member functions for input.
   void reset() {xx = 0.; yy = 0.; zz = 0.; tt = 0.;}
-  void p(double xIn, double yIn, double zIn, double tIn) 
+  void p(double xIn, double yIn, double zIn, double tIn)
     {xx = xIn; yy = yIn; zz = zIn; tt = tIn;}
-  void p(Vec4 pIn) {xx = pIn.xx; yy = pIn.yy; zz = pIn.zz; tt = pIn.tt;} 
+  void p(Vec4 pIn) {xx = pIn.xx; yy = pIn.yy; zz = pIn.zz; tt = pIn.tt;}
   void px(double xIn) {xx = xIn;}
   void py(double yIn) {yy = yIn;}
   void pz(double zIn) {zz = zIn;}
@@ -78,25 +78,25 @@ public:
     return 0.5 * log( (xyz + zz) / (xyz - zz) );}
 
   // Member functions that perform operations.
-  void rot(double thetaIn, double phiIn); 
-  void bst(double betaX, double betaY, double betaZ); 
-  void bst(double betaX, double betaY, double betaZ, double gamma); 
-  void bst(const Vec4& pIn); 
-  void bst(const Vec4& pIn, double mIn); 
-  void bstback(const Vec4& pIn); 
-  void bstback(const Vec4& pIn, double mIn); 
-  void rotbst(const RotBstMatrix& M); 
+  void rot(double thetaIn, double phiIn);
+  void bst(double betaX, double betaY, double betaZ);
+  void bst(double betaX, double betaY, double betaZ, double gamma);
+  void bst(const Vec4& pIn);
+  void bst(const Vec4& pIn, double mIn);
+  void bstback(const Vec4& pIn);
+  void bstback(const Vec4& pIn, double mIn);
+  void rotbst(const RotBstMatrix& M);
 
   // Operator overloading with member functions
-  Vec4 operator-() {Vec4 tmp; tmp.xx = -xx; tmp.yy = -yy; tmp.zz = -zz; 
+  Vec4 operator-() {Vec4 tmp; tmp.xx = -xx; tmp.yy = -yy; tmp.zz = -zz;
     tmp.tt = -tt; return tmp;}
-  Vec4& operator+=(const Vec4& v) {xx += v.xx; yy += v.yy; zz += v.zz; 
+  Vec4& operator+=(const Vec4& v) {xx += v.xx; yy += v.yy; zz += v.zz;
     tt += v.tt; return *this;}
-  Vec4& operator-=(const Vec4& v) {xx -= v.xx; yy -= v.yy; zz -= v.zz; 
+  Vec4& operator-=(const Vec4& v) {xx -= v.xx; yy -= v.yy; zz -= v.zz;
     tt -= v.tt; return *this;}
-  Vec4& operator*=(double f) {xx *= f; yy *= f; zz *= f; 
+  Vec4& operator*=(double f) {xx *= f; yy *= f; zz *= f;
     tt *= f; return *this;}
-  Vec4& operator/=(double f) {xx /= f; yy /= f; zz /= f; 
+  Vec4& operator/=(double f) {xx /= f; yy /= f; zz /= f;
     tt /= f; return *this;}
 
   // Operator overloading with friends
@@ -127,23 +127,23 @@ private:
 
 // Implementation of operator overloading with friends.
 
-inline Vec4 operator+(const Vec4& v1, const Vec4& v2) 
+inline Vec4 operator+(const Vec4& v1, const Vec4& v2)
   {Vec4 v = v1 ; return v += v2;}
 
-inline Vec4 operator-(const Vec4& v1, const Vec4& v2) 
+inline Vec4 operator-(const Vec4& v1, const Vec4& v2)
   {Vec4 v = v1 ; return v -= v2;}
 
-inline Vec4 operator*(double f, const Vec4& v1) 
+inline Vec4 operator*(double f, const Vec4& v1)
   {Vec4 v = v1; return v *= f;}
 
-inline Vec4 operator*(const Vec4& v1, double f) 
+inline Vec4 operator*(const Vec4& v1, double f)
   {Vec4 v = v1; return v *= f;}
 
-inline Vec4 operator/(const Vec4& v1, double f) 
+inline Vec4 operator/(const Vec4& v1, double f)
   {Vec4 v = v1; return v /= f;}
 
 inline double operator*(const Vec4& v1, const Vec4& v2)
-  {return v1.tt*v2.tt - v1.xx*v2.xx - v1.yy*v2.yy - v1.zz*v2.zz;}  
+  {return v1.tt*v2.tt - v1.xx*v2.xx - v1.yy*v2.yy - v1.zz*v2.zz;}
 
 // Invariant mass of a pair and its square.
 double m(const Vec4& v1, const Vec4& v2);
@@ -160,8 +160,8 @@ class RotBstMatrix {
 public:
 
   // Constructors.
-  RotBstMatrix() {for (int i = 0; i < 4; ++i) { for (int j = 0; j < 4; ++j) 
-    { M[i][j] = (i==j) ? 1. : 0.; } } } 
+  RotBstMatrix() {for (int i = 0; i < 4; ++i) { for (int j = 0; j < 4; ++j)
+    { M[i][j] = (i==j) ? 1. : 0.; } } }
   RotBstMatrix(const RotBstMatrix& Min) {
     for (int i = 0; i < 4; ++i) { for (int j = 0; j < 4; ++j) {
     M[i][j] = Min.M[i][j]; } } }
@@ -180,7 +180,7 @@ public:
   void fromCMframe(const Vec4&, const Vec4&);
   void rotbst(const RotBstMatrix&);
 
-  // Private members to be accessible from Vec4. 
+  // Private members to be accessible from Vec4.
   friend class Vec4;
 
 private:
@@ -312,13 +312,13 @@ void Vec4::bstback(const Vec4& pIn, double mIn) {
 
 void Vec4::rotbst(const RotBstMatrix& M) {
 
-  double x = xx; double y = yy; double z = zz; double t = tt; 
+  double x = xx; double y = yy; double z = zz; double t = tt;
   tt = M.M[0][0] * t + M.M[0][1] * x + M.M[0][2] * y +  M.M[0][3] * z;
   xx = M.M[1][0] * t + M.M[1][1] * x + M.M[1][2] * y +  M.M[1][3] * z;
   yy = M.M[2][0] * t + M.M[2][1] * x + M.M[2][2] * y +  M.M[2][3] * z;
   zz = M.M[3][0] * t + M.M[3][1] * x + M.M[3][2] * y +  M.M[3][3] * z;
 
-} 
+}
 
 //--------------------------------------------------------------------------
 
@@ -327,7 +327,7 @@ void Vec4::rotbst(const RotBstMatrix& M) {
 double m(const Vec4& v1, const Vec4& v2) {
   double m2 = pow(v1.tt + v2.tt,2) - pow(v1.xx + v2.xx,2)
      - pow(v1.yy + v2.yy,2) - pow(v1.zz + v2.zz,2);
-  return (m2 > 0.) ? sqrt(m2) : 0.; 
+  return (m2 > 0.) ? sqrt(m2) : 0.;
 }
 
 //--------------------------------------------------------------------------
@@ -337,7 +337,7 @@ double m(const Vec4& v1, const Vec4& v2) {
 double m2(const Vec4& v1, const Vec4& v2) {
   double m2 = pow(v1.tt + v2.tt,2) - pow(v1.xx + v2.xx,2)
      - pow(v1.yy + v2.yy,2) - pow(v1.zz + v2.zz,2);
-  return m2; 
+  return m2;
 }
 
 //--------------------------------------------------------------------------
@@ -363,25 +363,25 @@ const double RotBstMatrix::TINY = 1e-20;
 void RotBstMatrix::rot(double theta, double phi) {
 
   // Set up rotation matrix.
-  double cthe = cos(theta); 
+  double cthe = cos(theta);
   double sthe = sin(theta);
-  double cphi = cos(phi); 
+  double cphi = cos(phi);
   double sphi = sin(phi);
-  double Mrot[4][4] = { 
-    {1.,           0.,         0.,          0.}, 
+  double Mrot[4][4] = {
+    {1.,           0.,         0.,          0.},
     {0.,  cthe * cphi,     - sphi, sthe * cphi},
     {0.,  cthe * sphi,       cphi, sthe * sphi},
     {0., -sthe,                0., cthe       } };
 
   // Rotate current matrix accordingly.
   double Mtmp[4][4];
-  for (int i = 0; i < 4; ++i)  
-  for (int j = 0; j < 4; ++j) 
-    Mtmp[i][j] = M[i][j];  
-  for (int i = 0; i < 4; ++i) 
-  for (int j = 0; j < 4; ++j) 
+  for (int i = 0; i < 4; ++i)
+  for (int j = 0; j < 4; ++j)
+    Mtmp[i][j] = M[i][j];
+  for (int i = 0; i < 4; ++i)
+  for (int j = 0; j < 4; ++j)
     M[i][j] = Mrot[i][0] * Mtmp[0][j] + Mrot[i][1] * Mtmp[1][j]
-            + Mrot[i][2] * Mtmp[2][j] + Mrot[i][3] * Mtmp[3][j]; 
+            + Mrot[i][2] * Mtmp[2][j] + Mrot[i][3] * Mtmp[3][j];
 
 }
 
@@ -404,11 +404,11 @@ void RotBstMatrix::rot(const Vec4& p) {
 
 void RotBstMatrix::bst(double betaX, double betaY, double betaZ) {
 
-  // Set up boost matrix.  
-  double gm = 1. / sqrt( max( TINY, 1. - betaX*betaX - betaY*betaY 
+  // Set up boost matrix.
+  double gm = 1. / sqrt( max( TINY, 1. - betaX*betaX - betaY*betaY
     - betaZ*betaZ ) );
   double gf = gm*gm / (1. + gm);
-  double Mbst[4][4] = { 
+  double Mbst[4][4] = {
     { gm,           gm*betaX,           gm*betaY,          gm*betaZ },
     { gm*betaX, 1. + gf*betaX*betaX, gf*betaX*betaY, gf*betaX*betaZ },
     { gm*betaY, gf*betaY*betaX, 1. + gf*betaY*betaY, gf*betaY*betaZ },
@@ -416,11 +416,11 @@ void RotBstMatrix::bst(double betaX, double betaY, double betaZ) {
 
   // Boost current matrix correspondingly.
   double Mtmp[4][4];
-  for (int i = 0; i < 4; ++i)  
-  for (int j = 0; j < 4; ++j) 
-    Mtmp[i][j] = M[i][j]; 
-  for (int i = 0; i < 4; ++i) 
-  for (int j = 0; j < 4; ++j) 
+  for (int i = 0; i < 4; ++i)
+  for (int j = 0; j < 4; ++j)
+    Mtmp[i][j] = M[i][j];
+  for (int i = 0; i < 4; ++i)
+  for (int j = 0; j < 4; ++j)
     M[i][j] = Mbst[i][0] * Mtmp[0][j] + Mbst[i][1] * Mtmp[1][j]
             + Mbst[i][2] * Mtmp[2][j] + Mbst[i][3] * Mtmp[3][j];
 
@@ -431,9 +431,9 @@ void RotBstMatrix::bst(double betaX, double betaY, double betaZ) {
 // Boost so that vector originally at rest obtains same velocity as p.
 
 void RotBstMatrix::bst(const Vec4& p) {
-  double betaX = p.px() / p.e();  
-  double betaY = p.py() / p.e();  
-  double betaZ = p.pz() / p.e();  
+  double betaX = p.px() / p.e();
+  double betaY = p.py() / p.e();
+  double betaZ = p.pz() / p.e();
   bst(betaX, betaY, betaZ);
 }
 
@@ -442,9 +442,9 @@ void RotBstMatrix::bst(const Vec4& p) {
 // Boost so vector originally with same velocity as p is brought to rest.
 
 void RotBstMatrix::bstback(const Vec4& p) {
-  double betaX = -p.px() / p.e();  
-  double betaY = -p.py() / p.e();  
-  double betaZ = -p.pz() / p.e();  
+  double betaX = -p.px() / p.e();
+  double betaY = -p.py() / p.e();
+  double betaZ = -p.pz() / p.e();
   bst(betaX, betaY, betaZ);
 }
 
@@ -464,11 +464,11 @@ void RotBstMatrix::bst(const Vec4& p1, const Vec4& p2) {
 
 //--------------------------------------------------------------------------
 
-// Boost and rotation that transforms from p1 and p2 
+// Boost and rotation that transforms from p1 and p2
 // to their rest frame with p1 along +z axis.
 
 void RotBstMatrix::toCMframe(const Vec4& p1, const Vec4& p2) {
-  Vec4 pSum = p1 + p2; 
+  Vec4 pSum = p1 + p2;
   Vec4 dir  = p1;
   dir.bstback(pSum);
   double theta = dir.theta();
@@ -500,13 +500,13 @@ void RotBstMatrix::fromCMframe(const Vec4& p1, const Vec4& p2) {
 
 void RotBstMatrix::rotbst(const RotBstMatrix& Mrb) {
   double Mtmp[4][4];
-  for (int i = 0; i < 4; ++i) 
-  for (int j = 0; j < 4; ++j) 
-    Mtmp[i][j] = M[i][j]; 
-  for (int i = 0; i < 4; ++i)  
-  for (int j = 0; j < 4; ++j) 
+  for (int i = 0; i < 4; ++i)
+  for (int j = 0; j < 4; ++j)
+    Mtmp[i][j] = M[i][j];
+  for (int i = 0; i < 4; ++i)
+  for (int j = 0; j < 4; ++j)
     M[i][j] = Mrb.M[i][0] * Mtmp[0][j] + Mrb.M[i][1] * Mtmp[1][j]
-            + Mrb.M[i][2] * Mtmp[2][j] + Mrb.M[i][3] * Mtmp[3][j]; 
+            + Mrb.M[i][2] * Mtmp[2][j] + Mrb.M[i][3] * Mtmp[3][j];
 }
 
 //==========================================================================

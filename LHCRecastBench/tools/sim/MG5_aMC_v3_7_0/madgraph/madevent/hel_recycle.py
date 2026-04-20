@@ -8,7 +8,7 @@ import collections
 from string import Template
 from copy import copy
 from itertools import product
-from functools import reduce 
+from functools import reduce
 
 try:
      import madgraph
@@ -22,7 +22,7 @@ try:
 except ImportError:
     tqdm = misc.tqdm
 
-    
+
 def get_num_lines(file_path):
     fp = open(file_path, 'r+')
     buf = mmap.mmap(fp.fileno(),0)
@@ -142,18 +142,18 @@ class MathsObject:
             if cls.ext_deps.issubset(set(comb)):
                 this_comb_good = True
                 break
-            
+
         if diag_number and this_comb_good and cls.ext_deps:
 
             helicity = dict([(a.get_id(), a.hel) for a in cls.ext_deps])
-            this_hel = [helicity[i] for i in range(1, len(helicity)+1)] 
+            this_hel = [helicity[i] for i in range(1, len(helicity)+1)]
             hel_number = 1 + all_hel.index(tuple(this_hel))
-            
-            if (hel_number,diag_number) in bad_hel_amp:        
-                this_comb_good = False
-            
 
-            
+            if (hel_number,diag_number) in bad_hel_amp:
+                this_comb_good = False
+
+
+
         return this_comb_good and cls.ext_deps
 
     @staticmethod
@@ -177,7 +177,7 @@ class MathsObject:
         old_name = get_arguments(line)[-1].replace(' ','')
         new_args = cls.get_new_args(line, wavs)
         num = cls.get_number(wavs, graph)
-        
+
         this_obj = cls.call_constructor(new_args, old_name, diag_num)
         this_obj.set_name(num, diag_num)
         if this_obj.nature != 'amplitude':
@@ -200,7 +200,7 @@ class External(MathsObject):
     # Could get this from dag but I'm worried about preserving order
     wavs_same_leg = {}
     good_wav_combs = []
-    max_wav_num = 0 
+    max_wav_num = 0
 
     def __init__(self, arguments, old_name):
         super().__init__(arguments, old_name, 'external')
@@ -246,7 +246,7 @@ class External(MathsObject):
             cls.wavs_same_leg[ext_num] += new_wavfuncs
         else:
             cls.wavs_same_leg[ext_num] = new_wavfuncs
-        
+
         cls.max_wav_num = max( cls.max_wav_num, len(graph.external_wavs) + len(graph.internal_wavs))
         return new_wavfuncs
 
@@ -281,17 +281,17 @@ class External(MathsObject):
     @staticmethod
     def format_name(*nums):
         return f'W(1,{nums[0]})'
-    
+
     def get_id(self):
         """ return the id of the particle under consideration """
-        
+
         try:
-           return self.id 
+           return self.id
         except:
             self.id =  int(re.findall(r'P\(0,(\d+)\)', self.args[0])[0])
             return self.id
-        
-        
+
+
 
 class Internal(MathsObject):
     '''Class for storing internal wavefunctions'''
@@ -306,8 +306,8 @@ class Internal(MathsObject):
     @classmethod
     def generate_wavfuncs(cls, line, graph):
         deps = cls.get_deps(line, graph)
-        new_wavfuncs = [ cls.get_obj(line, wavs, graph) 
-                         for wavs in product(*deps) 
+        new_wavfuncs = [ cls.get_obj(line, wavs, graph)
+                         for wavs in product(*deps)
                          if cls.good_helicity(wavs, graph) ]
 
         return new_wavfuncs
@@ -358,8 +358,8 @@ class Amplitude(MathsObject):
 
         deps = cls.get_deps(line, graph)
 
-        new_amps = [cls.get_obj(line, wavs, graph, diag_num) 
-                        for wavs in product(*deps) 
+        new_amps = [cls.get_obj(line, wavs, graph, diag_num)
+                        for wavs in product(*deps)
                         if cls.good_helicity(wavs, graph, diag_num, all_hel,all_bad_hel)]
 
         return new_amps
@@ -372,13 +372,13 @@ class Amplitude(MathsObject):
     def get_number(cls, *args):
         wavs, graph = args
         amp_num = -1
-        exts = graph.external_wavs        
+        exts = graph.external_wavs
         hel_amp = tuple([w.hel for w in sorted(cls.ext_deps, key=lambda x: x.mg)])
         amp_num  = External.map_hel[hel_amp] +1 # Offset because Fortran counts from 1
 
         if cls.max_amp_num < amp_num:
-            cls.max_amp_num = amp_num 
-        return amp_num  
+            cls.max_amp_num = amp_num
+        return amp_num
 
 class HelicityRecycler():
     '''Class for recycling helicity'''
@@ -404,15 +404,15 @@ class HelicityRecycler():
         self.input_file = 'matrix_orig.f'
         self.output_file = 'matrix_orig.f'
         self.template_file = 'template_matrix.f'
-        
+
         self.template_dict = {}
         #initialise everything as for zero matrix element
         self.template_dict['helicity_lines'] = '\n'
         self.template_dict['helas_calls'] = []
         self.template_dict['jamp_lines'] = '\n'
         self.template_dict['amp2_lines'] = '\n'
-        self.template_dict['ncomb'] = '0'  
-        self.template_dict['nwavefuncs'] = '0' 
+        self.template_dict['ncomb'] = '0'
+        self.template_dict['nwavefuncs'] = '0'
 
         self.dag = DAG()
 
@@ -490,12 +490,12 @@ class HelicityRecycler():
     def add_amp_index(self, matchobj):
         old_pat = matchobj.group()
         new_pat = old_pat.replace('AMP(', 'AMP( %s,' % self.loop_var)
-        
+
         #new_pat = f'{self.loop_var},{old_pat[:-1]}{old_pat[-1]}'
         return new_pat
 
     def add_indices(self, line):
-        '''Add loop_var index to amp and output variable. 
+        '''Add loop_var index to amp and output variable.
            Also update name of output variable.'''
         # Doesnt work if the AMP arguments contain brackets
         new_line = re.sub(r'\WAMP\(.*?\)', self.add_amp_index, line)
@@ -507,7 +507,7 @@ class HelicityRecycler():
         # m = indent_end.match(line)
         # if m:
         #     return True
-        return 'init_mode' in line.lower() 
+        return 'init_mode' in line.lower()
         #if f'{self.old_out_name}=0.D0' in line.replace(' ', ''):
         #    return True
         #return False
@@ -567,7 +567,7 @@ class HelicityRecycler():
         #print('deps',line, deps)
         if nature not in  ['external', 'internal', 'amplitude']:
             raise Exception('wrong unfolding')
-        
+
         if nature == 'external':
             new_objs = External.generate_wavfuncs(line, self.dag)
             for obj in new_objs:
@@ -575,8 +575,8 @@ class HelicityRecycler():
         else:
             deps = Amplitude.get_deps(line, self.dag)
             name2dep = dict([(d.name,d) for d in sum(deps,[])])
-            
-            
+
+
         if nature == 'internal':
             new_objs = Internal.generate_wavfuncs(line, self.dag)
             for obj in new_objs:
@@ -586,14 +586,14 @@ class HelicityRecycler():
                     if name in name2dep:
                         name2dep[name].nb_used +=1
                         obj.linkdag.append(name2dep[name])
-                
+
         if nature == 'amplitude':
             nb_diag = re.findall(r'AMP\((\d+)\)', line)[0]
             if nb_diag not in self.bad_amps:
                 new_objs = Amplitude.generate_amps(line, self.dag, self.all_hel, self.bad_amps_perhel)
                 out_line = self.apply_amps(line, new_objs)
                 for i,obj in enumerate(new_objs):
-                    if i == 0: 
+                    if i == 0:
                         obj.line = out_line
                         obj.nb_used = 1
                     else:
@@ -607,20 +607,20 @@ class HelicityRecycler():
             else:
                 return ''
 
-          
+
         return new_objs
         #return f'{line}\n' if nature == 'external' else line
 
     def apply_amps(self, line, new_objs):
         if self.amp_splt:
-            return split_amps(line, new_objs, gauge=self.gauge)  
-        else: 
+            return split_amps(line, new_objs, gauge=self.gauge)
+        else:
 
             return apply_args(line, [i.args for i in new_objs])
 
     def get_gwc(self, line, category):
 
-        #self.last_category = 
+        #self.last_category =
         if category not in ['external', 'internal', 'amplitude']:
             return
         if self.last_category != 'external':
@@ -637,7 +637,7 @@ class HelicityRecycler():
             self.all_hel.append(tuple(this_hel))
         elif self.nhel_started:
             self.nhel_started = False
-            
+
             if self.hel_filt:
                 External.good_hel = dict([ (self.all_hel[int(i)-1],int(i)) for i in self.good_elements ])
             else:
@@ -674,10 +674,10 @@ class HelicityRecycler():
                 if line_num == 0:
                     line_cache = line
                     continue
-                
+
                 if '!SKIP' in line:
                     continue
-                
+
                 char_5 = ''
                 try:
                     char_5 = line[5]
@@ -695,7 +695,7 @@ class HelicityRecycler():
                 call_type = self.function_call(line)
                 self.get_gwc(line, call_type)
 
-                
+
                 if call_type in ['external', 'internal', 'amplitude']:
                     self.template_dict['helas_calls'] += self.unfold_helicities(
                         line, call_type)
@@ -709,9 +709,9 @@ class HelicityRecycler():
                 for dep in obj.linkdag:
                     dep.nb_used -= 1
 
-        
-        
-        self.template_dict['helas_calls'] = '\n'.join([f'{obj.line.rstrip()} ! count {obj.nb_used}' 
+
+
+        self.template_dict['helas_calls'] = '\n'.join([f'{obj.line.rstrip()} ! count {obj.nb_used}'
                                  for obj in self.template_dict['helas_calls']
                                  if obj.nb_used > 0 and obj.line])
 
@@ -739,7 +739,7 @@ class HelicityRecycler():
             misc.sprint("No helicity", self.input_file)
             self.write_zero_matrix_element()
             return
-        
+
         atexit.register(self.clean_up)
         self.read_orig()
         self.read_template()
@@ -751,7 +751,7 @@ class HelicityRecycler():
 
 def get_arguments(line):
     '''Find the substrings separated by commas between the first
-    closed set of parentheses in 'line'. 
+    closed set of parentheses in 'line'.
     '''
     bracket_depth = 0
     element = 0
@@ -782,7 +782,7 @@ def apply_args(old_line, all_the_args):
     old_args = old_line.split(function)[-1]
     new_lines = [old_line.replace(old_args, f'({",".join(x)})\n')
                  for x in all_the_args]
-    
+
     return ''.join(new_lines)
 
 def split_amps(line, new_amps, gauge):
@@ -804,37 +804,37 @@ def split_amps(line, new_amps, gauge):
     # Each element in occur is the wavs that appear in a column, with
     # the number of occurences
     nb_wav =  [len(o) for o in occur]
-    to_remove = nb_wav.index(max(nb_wav)) 
+    to_remove = nb_wav.index(max(nb_wav))
     # Remove the one that occurs the most
     occur.pop(to_remove)
-    
-    lines = [] 
+
+    lines = []
     # Get the wavs per column
-    wav_name = [o.keys() for o in occur]          
+    wav_name = [o.keys() for o in occur]
     for wfcts in product(*wav_name):
         # Select the amplitudes produced by wfcts
-        sub_amps = [amp for amp in new_amps 
+        sub_amps = [amp for amp in new_amps
                     if all(w in amp.args for w in wfcts)]
         if not sub_amps:
             continue
         if len(sub_amps) ==1:
             lines.append(apply_args(line, [i.args for i in sub_amps]).replace('\n',''))
-            
+
             continue
-                         
-        # the next line is to make the code nicer 
+
+        # the next line is to make the code nicer
         sub_amps.sort(key=lambda a: int(a.args[-1][:-1].split(',',1)[1]))
         windices = []
         hel_calculated = []
         iamp = 0
         for i,amp in enumerate(sub_amps):
-            args = amp.args[:]   
+            args = amp.args[:]
             # Remove wav and get its index
             wcontract = args.pop(to_remove)
             windex = wcontract.split(',')[1].split(')')[0]
             windices.append(windex)
             amp_result,  args[-1]  =  args[-1], 'TMP(1)'
-            
+
             if i ==0:
                 # Call the original fct with P1N_...
                 # Final arg is replaced with TMP(1)
@@ -844,7 +844,7 @@ def split_amps(line, new_amps, gauge):
             hel, iamp = re.findall(r'AMP\((\d+),(\d+)\)', amp_result)[0]
             hel_calculated.append(hel)
             #lines.append(' %(result)s = TMP(3) * W(3,%(w)s) + TMP(4) * W(4,%(w)s)+'
-            #             % {'result': amp_result, 'w':  windex}) 
+            #             % {'result': amp_result, 'w':  windex})
             #lines.append('     &             TMP(5) * W(5,%(w)s)+TMP(6) * W(6,%(w)s)'
             #             % {'result': amp_result, 'w':  windex})
         if spin == "F" or ( spin == "V" and gauge !='FD'):
@@ -857,7 +857,7 @@ def split_amps(line, new_amps, gauge):
             raise Exception("split amp not supported for spin2, 3/2")
 
         lines.append("""      call CombineAmp%(suffix)s(%(nb)i,
-     & (/%(hel_list)s/), 
+     & (/%(hel_list)s/),
      & (/%(w_list)s/),
      & TMP, W, AMP(1,%(iamp)s))""" % {'suffix':suffix,
                                       'nb': len(sub_amps),
@@ -866,14 +866,14 @@ def split_amps(line, new_amps, gauge):
                                       'iamp': iamp
                                      })
 
-            
+
     #lines.append('')
     return '\n'.join(lines)
 
 def get_num(wav):
     name = wav.name
     between_brackets = re.search(r'\(.*?\)', name).group()
-    num = int(between_brackets[1:-1].split(',')[-1])    
+    num = int(between_brackets[1:-1].split(',')[-1])
     return num
 
 def undo_multiline(old_line, new_line):
@@ -884,7 +884,7 @@ def undo_multiline(old_line, new_line):
 def do_multiline(line):
     if "!" in line:
         line,comment  = line.split("!",1)
-    else: 
+    else:
         comment = None
     char_limit = 72
     num_splits = len(line)//char_limit

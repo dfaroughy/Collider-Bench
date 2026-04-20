@@ -6,7 +6,7 @@
 using namespace std;
 using namespace Pythia8;
 
-extern "C" { 
+extern "C" {
 
   // set up a global instance of pythia8
   Pythia pythia;
@@ -41,7 +41,7 @@ extern "C" {
     // Example of a user hook for storing in the out stream the event after the first emission.
     pythia.setUserHooksPtr(printFirstEmission);
     if (cmdFilePath!="") {
-      cout<<"Initialising Pythia8 from cmd file '"<<cmdFilePath<<"'"<<endl;		
+      cout<<"Initialising Pythia8 from cmd file '"<<cmdFilePath<<"'"<<endl;
       pythia.readFile(cmdFilePath.c_str());
     } else {
      cout<<"Using default initialization of Pythia8."<<endl;
@@ -167,4 +167,3 @@ extern "C" {
   }
 
 }
-

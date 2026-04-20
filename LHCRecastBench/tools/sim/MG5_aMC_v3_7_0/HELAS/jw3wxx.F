@@ -46,7 +46,7 @@ c where all the bosons are defined by the flowing-OUT quantum number.
 c
 c output:
 c       complex jw3w(6)        : W current             j^mu(w':w1,w2,w3)
-c     
+c
       implicit none
       double complex w1(6),w2(6),w3(6),jw3w(6)
       double complex dw1(0:3),dw2(0:3),dw3(0:3)
@@ -69,9 +69,9 @@ c
          write(stdo,*) ' helas-warn  : w1 in jw3wxx is zero vector'
       endif
       if ( abs(w1(5))+abs(w1(6)).eq.rZero ) then
-         write(stdo,*) 
-     &        ' helas-error : w1 in jw3wxx has zero momentum' 
-      endif 
+         write(stdo,*)
+     &        ' helas-error : w1 in jw3wxx has zero momentum'
+      endif
       if ( abs(w2(1))+abs(w2(2))+abs(w2(3))+abs(w2(4)).eq.rZero ) then
          write(stdo,*) ' helas-warn  : w2 in jw3wxx is zero vector'
       endif
@@ -186,7 +186,7 @@ c      dv = rOne/dcmplx( q2-mv2 , max(dwv*q2/dmv,rZero) )
       w32=dw3(0)*dw2(0)-dw3(1)*dw2(1)-dw3(2)*dw2(2)-dw3(3)*dw2(3)
 
       w13=dw1(0)*dw3(0)-dw1(1)*dw3(1)-dw1(2)*dw3(2)-dw1(3)*dw3(3)
-      
+
       j4(0) = dg2*( dw1(0)*w32 + dw3(0)*w12 - rTwo*dw2(0)*w13 )
       j4(1) = dg2*( dw1(1)*w32 + dw3(1)*w12 - rTwo*dw2(1)*w13 )
       j4(2) = dg2*( dw1(2)*w32 + dw3(2)*w12 - rTwo*dw2(2)*w13 )
@@ -203,7 +203,7 @@ c     Fabio's implementation of the fixed width
          cm2=dcmplx( mv2, -dmv*dwv)
 c     jq = (jj(0)*q(0)-jj(1)*q(1)-jj(2)*q(2)-jj(3)*q(3))/mv2
          jq = (jj(0)*q(0)-jj(1)*q(1)-jj(2)*q(2)-jj(3)*q(3))/cm2
-         
+
          jw3w(1) = dcmplx( (jj(0)-jq*q(0))*dv )
          jw3w(2) = dcmplx( (jj(1)-jq*q(1))*dv )
          jw3w(3) = dcmplx( (jj(2)-jq*q(2))*dv )

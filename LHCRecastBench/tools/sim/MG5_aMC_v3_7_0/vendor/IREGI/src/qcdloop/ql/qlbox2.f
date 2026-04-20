@@ -24,7 +24,7 @@ c                          [    2       2                 ]
       si=2d0*Y(1,3)
       ta=2d0*Y(2,4)
       mp4sq=2d0*Y(1,4)
-      fac=dcmplx(1d0/(si*ta))      
+      fac=dcmplx(1d0/(si*ta))
       Ires(-2)=fac*ctwo
       Ires(-1)=fac*ctwo
      . *(qllnrat(mp4sq,musq)

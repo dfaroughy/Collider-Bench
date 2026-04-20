@@ -13,9 +13,9 @@
 #   mind the format:   value    = variable     ! comment             *
 #*********************************************************************
 #
-#*******************                                                 
+#*******************
 # Running parameters
-#*******************                                                 
+#*******************
 #
 #*********************************************************************
 #  Tell if this is a grid run or not, false during warm-up on the    *
@@ -26,7 +26,7 @@
 #*********************************************************************
 # Number of events and rnd seed                                      *
 #*********************************************************************
-  2500       = gevents ! Number of unweighted events requested 
+  2500       = gevents ! Number of unweighted events requested
      1       = gseed   ! rnd seed
     -1       = ngran   ! Granularity (minimum # events per channel)
 #*********************************************************************

@@ -15,7 +15,7 @@ c                                                   gc(2) pseudo-scalar
 c
 c output:
 c       complex vertex         : amplitude
-c     
+c
       implicit none
 c--   dimension of the current set to arbitrary length
       INTEGER DIM
@@ -46,7 +46,7 @@ c      include "dimension.inc"
          v12  = v1(1)*v2(1) - v1(2)*v2(2) - v1(3)*v2(3) - v1(4)*v2(4)
          p12  = p1(0)*p2(0) - p1(1)*p2(1) - p1(2)*p2(2) - p1(3)*p2(3)
          p2v1 = v1(1)*p2(0) - v1(2)*p2(1) - v1(3)*p2(2) - v1(4)*p2(3)
-         p1v2 = p1(0)*v2(1) - p1(1)*v2(2) - p1(2)*v2(3) - p1(3)*v2(4)	
+         p1v2 = p1(0)*v2(1) - p1(1)*v2(2) - p1(2)*v2(3) - p1(3)*v2(4)
 
          vertex1 = - gc(1)*(v12*p12 - p2v1*p1v2)
       endif
@@ -69,7 +69,7 @@ c      include "dimension.inc"
           vertex2 = gc(2)*( v12*p34 - v13*p24 + v14*p23
      &                     +v23*p14 - v24*p13 + v34*p12 )
       endif
-       
+
       vertex = sc(1)*(vertex1 + vertex2)
 
       return

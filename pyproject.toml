@@ -43,3 +43,27 @@ exclude = ["recast_*", "old*", "runs*", "draft*"]
 testpaths = ["tests"]
 # Fast smoke suite — don't swallow stdout, fail on the first network/file error.
 addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+# Don't lint upstream-vendored code or historical scratch dirs.
+extend-exclude = [
+    "LHCRecastBench/tools/sim/MG5_aMC_v3_7_0",
+    "LHCRecastBench/tools/sim/delphes",
+    "LHCRecastBench/tools/sim/pythia8313",  # upstream Pythia examples
+    "old",
+    "runs",
+    "draft",
+]
+
+[tool.ruff.lint]
+# Start conservative — errors, pyflakes, bugbear, comprehensions, unused imports.
+# Can tighten later by adding "N" (pep8-naming), "UP" (pyupgrade), "SIM", "I".
+select = ["E", "F", "B", "C4", "W"]
+# Long lines in shell docstrings / URLs are a nuisance — let them be.
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

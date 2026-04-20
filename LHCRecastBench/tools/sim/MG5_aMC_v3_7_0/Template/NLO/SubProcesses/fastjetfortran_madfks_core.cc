@@ -32,7 +32,7 @@
 using namespace std;
 using namespace fjcore;
 
-FJCORE_BEGIN_NAMESPACE  
+FJCORE_BEGIN_NAMESPACE
 
 /// a namespace for the fortran-wrapper which contains commonly-used
 /// structures and means to transfer fortran <-> C++
@@ -42,7 +42,7 @@ namespace fwrapper {
   JetDefinition jet_def;
   auto_ptr<ClusterSequence> cs;
 
-  /// helper routine to transfer fortran input particles into 
+  /// helper routine to transfer fortran input particles into
   void amcatnlo_transfer_input_particles(const double * p, const int & npart) {
     input_particles.resize(0);
     input_particles.reserve(npart);
@@ -55,7 +55,7 @@ namespace fwrapper {
       }
       PseudoJet psjet(mom);
       psjet.set_user_index(i);
-      input_particles.push_back(psjet);    
+      input_particles.push_back(psjet);
     }
   }
 
@@ -68,13 +68,13 @@ namespace fwrapper {
       // RF-MZ: reorder the arguments because in madfks energy goes first; in fastjet last.
         *f77jets = jets[i][(j+3) % 4];
         f77jets++;
-      } 
+      }
     }
   }
-  
+
   /// helper routine packaging the transfers, the clustering
   /// and the extraction of the jets
-  void amcatnlo_transfer_cluster_transfer(const double * p, const int & npart, 
+  void amcatnlo_transfer_cluster_transfer(const double * p, const int & npart,
                                  const JetDefinition & jet_def,
                                  const double & ptmin, const double & etamax,
 				 double * f77jets, int & njets, int * whichjet) {
@@ -97,18 +97,18 @@ namespace fwrapper {
 
     // transfer jets -> f77jets[4*ijet+0..3]
     amcatnlo_transfer_jets(f77jets, njets);
- 
+
     // Determine which parton/particle ended-up in which jet
     // set all jet entrie to zero first
-    for(unsigned int ii=0; ii<npart; ++ii) whichjet[ii]=0;       
+    for(unsigned int ii=0; ii<npart; ++ii) whichjet[ii]=0;
 
     // Loop over jets and find constituents
-    for (unsigned int kk=0; kk<njets; ++kk) {   
+    for (unsigned int kk=0; kk<njets; ++kk) {
       vector<PseudoJet> constit = cs->constituents(jets[kk]);
       for(unsigned int ll=0; ll<constit.size(); ++ll)
              whichjet[constit[ll].user_index()]=kk+1;
     }
-    
+
   }
 
 }
@@ -117,7 +117,7 @@ FJCORE_END_NAMESPACE
 using namespace fjcore::fwrapper;
 
 
-extern "C" {   
+extern "C" {
 
 /// f77 interface to the pp generalised-kt (sequential recombination)
 /// algorithms, as defined in arXiv.org:0802.1189, which includes
@@ -129,20 +129,20 @@ extern "C" {
 //   SUBROUTINE FASTJETPPGENKT(P,NPART,R,PALG,F77JETS,NJETS,WHICHJET)
 //   DOUBLE PRECISION P(4,*), R, PALG, F, F77JETS(4,*)
 //   INTEGER          NPART, NJETS, WHICHJET(*)
-// 
+//
 // where on input
 //
 //   P        the input particle 4-momenta
 //   NPART    the number of input momenta
 //   R        the radius parameter
-//   PALG     the power for the generalised kt alg 
+//   PALG     the power for the generalised kt alg
 //            (1.0=kt, 0.0=C/A,  -1.0 = anti-kt)
 //
-// and on output 
+// and on output
 //
 //   F77JETS  the output jet momenta (whose second dim should be >= NPART)
 //            sorted in order of decreasing p_t.
-//   NJETS    the number of output jets 
+//   NJETS    the number of output jets
 //   WHICHJET(i) the jet of parton/particle 'i'
 //
 // For the values of PALG that correspond to "standard" cases (1.0=kt,
@@ -156,7 +156,7 @@ extern "C" {
 // the transpose of the Pythia array and drop the fifth component
 // (particle mass).
 //
-void amcatnlo_fastjetppgenkt_etamax_(const double * p, const int & npart,                   
+void amcatnlo_fastjetppgenkt_etamax_(const double * p, const int & npart,
                      const double & R, const double & ptjetmin,
                      const double & etamax,
                      const double & palg,
@@ -178,7 +178,7 @@ void amcatnlo_fastjetppgenkt_etamax_(const double * p, const int & npart,
 }
 
 
-void amcatnlo_fastjetppgenkt_(const double * p, const int & npart,                   
+void amcatnlo_fastjetppgenkt_(const double * p, const int & npart,
                      const double & R, const double & ptjetmin,
                      const double & palg,
                      double * f77jets, int & njets, int * whichjet) {
@@ -208,7 +208,7 @@ void amcatnlo_fastjetppgenkt_(const double * p, const int & npart,
 //   INTEGER    CONSTITUENT_INDICES(*)
 //   INTEGER    nconstituents
 //
-void fastjetconstituents_(const int & ijet, 
+void fastjetconstituents_(const int & ijet,
    	                  int * constituent_indices, int & nconstituents) {
   assert(cs.get() != 0);
   assert(ijet > 0 && ijet <= jets.size());
@@ -228,28 +228,28 @@ void fastjetconstituents_(const int & ijet,
 /// n+1 to n jets (sometimes known as d_{n n+1}).
 //
 // Corresponds to the following Fortran interface
-// 
+//
 //   FUNCTION FASTJETDMERGE(N)
 //   DOUBLE PRECISION FASTJETDMERGE
 //   INTEGER N
-//   
+//
 double amcatnlo_fastjetdmerge_(const int & n) {
   assert(cs.get() != 0);
   return cs->exclusive_dmerge(n);
 }
 
 
-/// return the maximum of the dmin encountered during all recombinations 
+/// return the maximum of the dmin encountered during all recombinations
 /// up to the one that led to an n-jet final state; identical to
 /// exclusive_dmerge, except in cases where the dmin do not increase
 /// monotonically.
 //
 // Corresponds to the following Fortran interface
-// 
+//
 //   FUNCTION FASTJETDMERGEMAX(N)
 //   DOUBLE PRECISION FASTJETDMERGEMAX
 //   INTEGER N
-//   
+//
 double amcatnlo_fastjetdmergemax_(const int & n) {
   assert(cs.get() != 0);
   return cs->exclusive_dmerge_max(n);

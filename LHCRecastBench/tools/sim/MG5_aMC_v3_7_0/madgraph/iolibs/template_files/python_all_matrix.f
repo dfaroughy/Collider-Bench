@@ -1,7 +1,7 @@
 %(python_information)s
   subroutine smatrixhel(pdgs, procid, npdg, p, ALPHAS, SCALE2, nhel, ANS)
   IMPLICIT NONE
-C ALPHAS is given at scale2 (SHOULD be different of 0 for loop induced, ignore for LO)  
+C ALPHAS is given at scale2 (SHOULD be different of 0 for loop induced, ignore for LO)
 
 CF2PY double precision, intent(in), dimension(0:3,npdg) :: p
 CF2PY integer, intent(in), dimension(npdg) :: pdgs
@@ -15,8 +15,8 @@ CF2PY double precision, intent(in) :: SCALE2
   double precision p(*)
   double precision ANS, ALPHAS, PI,SCALE2
   include 'coupl.inc'
-  
-  
+
+
   if (scale2.eq.0)then
        PI = 3.141592653589793D0
        G = 2* DSQRT(ALPHAS*PI)
@@ -29,7 +29,7 @@ CF2PY double precision, intent(in) :: SCALE2
 
       return
       end
-  
+
       SUBROUTINE INITIALISE(PATH)
 C     ROUTINE FOR F2PY to read the benchmark point.
       IMPLICIT NONE
@@ -38,8 +38,8 @@ CF2PY INTENT(IN) :: PATH
       CALL SETPARA(PATH)  !first call to setup the paramaters
       RETURN
       END
-      
-      
+
+
       subroutine CHANGE_PARA(name, value)
       implicit none
 CF2PY intent(in) :: name
@@ -47,7 +47,7 @@ CF2PY intent(in) :: value
 
       character*512 name
       double precision value
-      
+
       %(helreset_def)s
 
       include '../Source/MODEL/input.inc'
@@ -63,17 +63,17 @@ CF2PY intent(in) :: value
 
       return
       end
-      
+
     subroutine update_all_coup()
     implicit none
      call coup()
-    return 
+    return
     end
-      
+
 
     subroutine get_pdg_order(PDG, ALLPROC)
   IMPLICIT NONE
-CF2PY INTEGER, intent(out) :: PDG(%(nb_me)i,%(maxpart)i)  
+CF2PY INTEGER, intent(out) :: PDG(%(nb_me)i,%(maxpart)i)
 CF2PY INTEGER, intent(out) :: ALLPROC(%(nb_me)i)
   INTEGER PDG(%(nb_me)i,%(maxpart)i), PDGS(%(nb_me)i,%(maxpart)i)
   INTEGER ALLPROC(%(nb_me)i),PIDs(%(nb_me)i)
@@ -82,7 +82,7 @@ CF2PY INTEGER, intent(out) :: ALLPROC(%(nb_me)i)
   PDG = PDGS
   ALLPROC = PIDS
   RETURN
-  END 
+  END
 
     subroutine get_prefix(PREFIX)
   IMPLICIT NONE
@@ -91,8 +91,8 @@ CF2PY CHARACTER*20, intent(out) :: PREFIX(%(nb_me)i)
   DATA PREF / '%(prefix)s'/
   PREFIX = PREF
   RETURN
-  END 
- 
+  END
+
 
 
     subroutine set_fixed_extra_scale(new_value)
@@ -104,9 +104,9 @@ CF2PY logical, intent(in) :: new_value
             double precision mue_over_ref
             double precision mue_ref_fixed
             common/model_setup_running/maxjetflavor,fixed_extra_scale,mue_over_ref,mue_ref_fixed
-  
+
         fixed_extra_scale = new_value
-        return 
+        return
         end
 
     subroutine set_mue_over_ref(new_value)
@@ -118,10 +118,10 @@ CF2PY double precision, intent(in) :: new_value
     double precision mue_over_ref
     double precision mue_ref_fixed
     common/model_setup_running/maxjetflavor,fixed_extra_scale,mue_over_ref,mue_ref_fixed
-  
+
     mue_over_ref = new_value
-        
-    return 
+
+    return
     end
 
     subroutine set_mue_ref_fixed(new_value)
@@ -133,10 +133,10 @@ CF2PY double precision, intent(in) :: new_value
     double precision mue_over_ref
     double precision mue_ref_fixed
     common/model_setup_running/maxjetflavor,fixed_extra_scale,mue_over_ref,mue_ref_fixed
-  
+
     mue_ref_fixed = new_value
-        
-    return 
+
+    return
     end
 
 
@@ -149,10 +149,10 @@ CF2PY integer, intent(in) :: new_value
     double precision mue_over_ref
     double precision mue_ref_fixed
     common/model_setup_running/maxjetflavor,fixed_extra_scale,mue_over_ref,mue_ref_fixed
-  
+
     maxjetflavor = new_value
-        
-    return 
+
+    return
     end
 
 
@@ -165,8 +165,8 @@ CF2PY double precision, intent(in) :: new_value
       common/a_block/asmz,nloop
     asmz = new_value
     write(*,*) "asmz is set to ", new_value
-        
-    return 
+
+    return
     end
 
     subroutine set_nloop(new_value)
@@ -178,7 +178,6 @@ CF2PY integer, intent(in) :: new_value
       common/a_block/asmz,nloop
     nloop = new_value
      write(*,*) "nloop is set to ", new_value
-        
-    return 
-    end
 
+    return
+    end

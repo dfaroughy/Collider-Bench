@@ -3,10 +3,10 @@
  =======================================
  Generation cuts for the partonic event sample:
       Light jets:
- ptmin=   15.0000000000000       |etamax|=   6.00000000000000       dR(j-j)>  0.700000000000000     
+ ptmin=   15.0000000000000       |etamax|=   6.00000000000000       dR(j-j)>  0.700000000000000
       Leptons:
- ptmin(lep)=   0.00000000000000       |etamax|=   10.0000000000000       Et(miss)>   0.00000000000000       dR(l-j)>   0.00000000000000     
-************** run parameters 
+ ptmin(lep)=   0.00000000000000       |etamax|=   10.0000000000000       Et(miss)>   0.00000000000000       dR(l-j)>   0.00000000000000
+************** run parameters
    3 ! hard process code
    0.000   4.700 174.300  80.419  91.188 120.000 ! mc,mb,mt,mw,mz,mh
            2   1.00000000000000        ! ih2

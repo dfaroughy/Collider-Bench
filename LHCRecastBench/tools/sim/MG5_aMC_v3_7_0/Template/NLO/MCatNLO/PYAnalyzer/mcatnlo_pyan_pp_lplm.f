@@ -334,7 +334,7 @@ c
      #    call mfill(l+17,(log10(azinorm)),(WWW(kk)))
         call mfill(l+18,(xmll),(WWW(kk)))
         call mfill(l+19,(ptpair),(WWW(kk)))
-        if(ptpair.gt.0) 
+        if(ptpair.gt.0)
      #    call mfill(l+20,(log10(ptpair)),(WWW(kk)))
       endif
 
@@ -394,7 +394,7 @@ C-----------------------------------------------------------------------
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

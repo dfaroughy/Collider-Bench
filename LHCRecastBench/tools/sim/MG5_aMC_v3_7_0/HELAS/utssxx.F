@@ -1,6 +1,6 @@
       subroutine utssxx(tc1,sc1,sc2,g1,g2,xm,xw,jts)
 c
-c- by RF - Mar. 2006 
+c- by RF - Mar. 2006
 c
 c This subroutine computes an off-shell tensor current from the ttss coupling.
 c
@@ -35,7 +35,7 @@ c the tensor particle is anti-symmetric.
       jts(17) = sc1(2) + sc2(2) + tc1(17)
       jts(18) = sc1(3) + sc2(3) + tc1(18)
 
- 
+
       if (g1(1).NE.(0D0,0D0)) then
 
          jts( 1) = (0D0,0D0)   ! g1(1)* g2 * sc1(1) * sc2(1) * tc1( 1)
@@ -52,7 +52,7 @@ c the tensor particle is anti-symmetric.
          jts(10) =  g1(1)* g2 * sc1(1) * sc2(1) * tc1(10)
          jts(11) = (0D0,0D0)   ! g1(1)* g2 * sc1(1) * sc2(1) * tc1(11)
          jts(12) =  g1(1)* g2 * sc1(1) * sc2(1) * tc1(12)
-         
+
          jts(13) =  g1(1)* g2 * sc1(1) * sc2(1) * tc1(13)
          jts(14) =  g1(1)* g2 * sc1(1) * sc2(1) * tc1(14)
          jts(15) =  g1(1)* g2 * sc1(1) * sc2(1) * tc1(15)

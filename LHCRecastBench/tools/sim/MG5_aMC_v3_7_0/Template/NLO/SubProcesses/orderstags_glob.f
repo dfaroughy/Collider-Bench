@@ -11,7 +11,7 @@
 101   open(unit=78,file="../orderstags_glob.dat",status="old")
 
 99    read(78,*) n_orderstags
-      write(*,*) 'get_orderstags_glob_infos: n_orderstags=', n_orderstags 
+      write(*,*) 'get_orderstags_glob_infos: n_orderstags=', n_orderstags
       read(78,*) (orderstags_glob(j), j=1, n_orderstags)
       write(*,*) 'get_orderstags_glob_infos: orderstags_glob',
      $             (orderstags_glob(j), j=1, n_orderstags)
@@ -38,4 +38,3 @@
       stop 1
       return
       end
-        

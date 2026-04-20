@@ -7,8 +7,8 @@
 *									       *
 *******************************************************************************/
 /*
-** 	This file is a summary of various other .h files, assembled for 
-** 	the ease of use of the yet undocumented C API for MCFIO. 
+** 	This file is a summary of various other .h files, assembled for
+** 	the ease of use of the yet undocumented C API for MCFIO.
 ** 	Please refer to detailed documentation from the the F77 API.
 **
 **	Rule : mcfio_*   ==> F77 API
@@ -77,12 +77,12 @@ extern "C" void mcfioC_InfoBlockChar(int stream, int blk, int key,
                             char *answer, int *lret);
 extern "C" void mcfioC_GetBlockName(int blkId, char *answer);
 extern "C" int mcfioC_OpenReadSequential(char *device, char *label, int filenumber);
-extern "C" int mcfioC_OpenWriteSequential(char *device, char *label, char *title, 
-               char *comment, int numevts_pred, 
+extern "C" int mcfioC_OpenWriteSequential(char *device, char *label, char *title,
+               char *comment, int numevts_pred,
                 int *blkIds, unsigned int nBlocks);
 extern "C" int mcfioC_OpenReadDirect(char *filename);
 extern "C" int mcfioC_OpenReadMapped(char *filename);
-extern "C" int mcfioC_OpenWriteDirect(char *filename, char *title, char *comment, 
+extern "C" int mcfioC_OpenWriteDirect(char *filename, char *title, char *comment,
                            int numevts_pred, int *blkIds, u_int nBlocks);
 extern "C" int mcfioC_NextEvent(int stream);
 extern "C" int mcfioC_SpecificEvent(int stream, int ievt,
@@ -91,16 +91,14 @@ extern "C" int mcfioC_NextSpecificEvent(int stream, int ievt,
                              int istore, int irun, int itrig);
 extern "C" void mcfioC_CloseDirect(int jstr);
 extern "C" void mcfioC_RewindDirect(int jstr);
-extern "C" int mcfioC_Block(int stream, int blkid, 
+extern "C" int mcfioC_Block(int stream, int blkid,
   bool_t xdr_filtercode(XDR *xdrs, int *blockid, int *ntot, char **version));
-extern "C" int mcfioC_NTuple(int stream, int nTupleid, char * version); 
+extern "C" int mcfioC_NTuple(int stream, int nTupleid, char * version);
 extern "C" int mcfioC_NTupleMult(int stream, int nTupleid, char * version);
 extern "C" int mcfioC_NTupleVar(int stream, int nTupleid, int ivar, char * version);
 extern "C" int mcfioC_NTupleSubVar(int stream, int nTupleid, int ivar, int multIndex,
                            char * version);
 extern "C" int mcfioC_NTupleSubStruct(int stream, int nTupleid, int multIndex,
                            char * version);
-extern "C" void mcfioC_DefineUserBlock(int blkNum, char *descr); 
-extern "C" char *mcfioC_UserBlockDescript(int blkn); 
-
-
+extern "C" void mcfioC_DefineUserBlock(int blkNum, char *descr);
+extern "C" char *mcfioC_UserBlockDescript(int blkn);

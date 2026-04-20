@@ -8,11 +8,11 @@ C     NPRN 0 VEGAS PRINTS NOTHING.
 C     NPRN < 0 VEGAS PRINTS ALL.
 C     XL(I) IS LOWER INTEGRATION LIMIT ON I TH AXIS.
 C     XU(I) IS UPPER INTEGRATION LIMIT ON I THE AXIS.
-c     
+c
       subroutine vegas(fxn,avgi,sd,chi2a)
 c
 c     routine performs n dim monte carlo inte
-c     written by p lepage  
+c     written by p lepage
 c
       implicit double precision (a-h,o-z)
       implicit integer*4 (i-n)
@@ -40,7 +40,7 @@ c
       ndo=1
       do 1 j=1,ndim
  1       xi(1,j)=one
-c     
+c
       entry vegas1(fxn,avgi,sd,chi2a)
 c     initialises  cumulative  variables but not grid
       it=0
@@ -116,7 +116,7 @@ c     main integration loop
  10         di(i,j)=ti
 c
       if (use_sobol) then
-        call INSOBL(FLAG,NDIM,int(calls*itmx),NTAUS) 
+        call INSOBL(FLAG,NDIM,int(calls*itmx),NTAUS)
       endif
  11   fb=0.
       f2b=fb
@@ -337,6 +337,3 @@ c      RANDOM = SEED*MINV
       end
 C
 C
-
-
-    

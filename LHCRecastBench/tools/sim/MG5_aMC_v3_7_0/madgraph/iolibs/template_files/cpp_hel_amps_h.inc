@@ -6,7 +6,7 @@
 #ifndef HelAmps_%(model_name)s_H
 #define HelAmps_%(model_name)s_H
 
-#include <cmath> 
+#include <cmath>
 #include <complex>
 
 using namespace std;

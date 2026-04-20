@@ -1,6 +1,6 @@
 MODULE OpticalGlauber_Geometry
   ! This is module to provide the functions for the Optical Glauber model
-  ! via the profiles. 
+  ! via the profiles.
   ! Besides the Optical Glauber model, another possiblity is to
   !  use the Monte Carlo Glauber model, in which the nucleons are
   ! populated stochastically according to the given nuclear density profile
@@ -8,8 +8,8 @@ MODULE OpticalGlauber_Geometry
   ! https://arxiv.org/pdf/0805.4411.pdf (or 1408.2549), which requires the ROOT pre-installation).
   ! Other references for Glauber modelling in high-energy nuclear collisions are
   ! http://www.physi.uni-heidelberg.de/~reygers/lectures/2014/qgp_journal_club/talks/2014-08-18-glauber-model.pdf
-  ! The geometrical dependent shadowng can be found (e.g. Eq.6) in 
-  ! https://arxiv.org/pdf/0809.4684.pdf, which is equivalent to 
+  ! The geometrical dependent shadowng can be found (e.g. Eq.6) in
+  ! https://arxiv.org/pdf/0809.4684.pdf, which is equivalent to
   ! https://arxiv.org/pdf/nucl-th/0305046.pdf
   ! it is important to check my derived formula in /Users/erdissshaw/Works/Manuscript/OpticalGlauber
   USE NINTLIB ! for multiple dimensional integrations
@@ -24,7 +24,7 @@ CONTAINS
   ! The parameters of R, A, w, a (the Woods-Saxon distribution) are
   ! given in Ramona Vogt's lecture or H. DeVries, C.W. De Jager, C. DeVries, 1987 etc
   ! They are determined via e-=nucleus scattering (and difference between protons and neutrons negligible)
-  
+
   FUNCTION SigmaInelAB_hardsphere(RR,A,sigma_inel)
     ! in unit of fm^2, 1 fm^2 = 10 mb
     ! calculate the total inelastic cross section of A+B collision
@@ -35,9 +35,9 @@ CONTAINS
     REAL(KIND(1d0)),DIMENSION(2),INTENT(IN)::RR,A
     REAL(KIND(1d0)),INTENT(IN)::sigma_inel ! at RHIC 200 GeV, it is 42 mb; at 7-60 GeV, it is averaged as 31.5 mb;
                                            ! at LHC, it is 72 mb (large uncertainty from elastic cross section)
-                                           ! (see Table in http://www.phys.ufl.edu/~korytov/phz4390/note_01_NaturalUnits_SMsummary.pdf) 
+                                           ! (see Table in http://www.phys.ufl.edu/~korytov/phz4390/note_01_NaturalUnits_SMsummary.pdf)
                                            ! 1 GeV^-1 = 0.197e-15 m = 0.197 fm
-                                           ! 1 GeV^-2 = 0.38938573 mb = 0.38938573e-31 m^2 = 0.038938573 fm^2 
+                                           ! 1 GeV^-2 = 0.38938573 mb = 0.38938573e-31 m^2 = 0.038938573 fm^2
                                            ! 1 mb = 1e-31 m^2 = 0.1 fm^2
     REAL(KIND(1d0)),DIMENSION(2)::R_common,A_common
     REAL(KIND(1d0))::sigmainel_common
@@ -160,7 +160,7 @@ CONTAINS
                                            ! (see Table in http://www.phys.ufl.edu/~korytov/phz4390/note_01_NaturalUnits_SMsummary.pdf)
                                            ! 1 GeV^-1 = 0.197e-15 m = 0.197 fm
                                            ! 1 GeV^-2 = 0.38938573 mb = 0.38938573e-31 m^2 = 0.038938573 fm^2
-                                           ! 1 mb = 1e-31 m^2 = 0.1 fm^2 
+                                           ! 1 mb = 1e-31 m^2 = 0.1 fm^2
     REAL(KIND(1d0)),DIMENSION(2)::aax,bbx
     INTEGER,DIMENSION(2)::sub_num
     INTEGER::ind,eval_num
@@ -305,7 +305,7 @@ CONTAINS
   END FUNCTION TABhat_avg_fxn_hardsphere
 
   FUNCTION Ncoll_hardsphere(bx,by,RR,A,sigma_inel)
-    ! Eq.(2.8) in (in unit of 1) 
+    ! Eq.(2.8) in (in unit of 1)
     ! http://cds.cern.ch/record/1595014/files/CERN%20report.pdf
     IMPLICIT NONE
     REAL(KIND(1d0))::Ncoll_hardsphere
@@ -353,7 +353,7 @@ CONTAINS
   END FUNCTION TABhat_hardsphere_grid
 
   FUNCTION TABhat_hardsphere(bx,by,RR)
-    ! Thickness function defined in Eq.(2.4) in 
+    ! Thickness function defined in Eq.(2.4) in
     ! http://cds.cern.ch/record/1595014/files/CERN%20report.pdf
     IMPLICIT NONE
     REAL(KIND(1d0))::TABhat_hardsphere
@@ -435,7 +435,7 @@ CONTAINS
     TAhat_hardsphere=3d0/4d0/pi/RR**3*2d0*DSQRT(RR**2-ss**2)
     RETURN
   END FUNCTION TAhat_hardsphere
-  
+
   FUNCTION rho_hardsphere(r,RR,A)
     IMPLICIT NONE
     REAL(KIND(1d0))::rho_hardsphere
@@ -473,7 +473,7 @@ CONTAINS
     R_common(1:2)=RR(1:2)
     w_common(1:2)=w(1:2)
     aa_common(1:2)=aa(1:2)
-    A_common(1:2)=A(1:2)    
+    A_common(1:2)=A(1:2)
     sigmainel_common=sigma_inel*1D-1 ! from mb to fm^2
     CALL trapezoid_integration(1000,SigmaInelAB_fxn_WoodsSaxon,&
          10d0*RR(1)+10d0*RR(2),SigmaInelAB_WoodsSaxon)
@@ -1040,8 +1040,8 @@ CONTAINS
     ! 1 fm^2 = 10 mb
     ! 1 mb-1 = 10 fm-2
     IMPLICIT NONE
-    REAL(KIND(1d0))::TA_MC_Glauber ! in unit of fm-2                                                                                    
-    REAL(KIND(1d0)),INTENT(IN)::bx,by ! in unit of fm                                                                                   
+    REAL(KIND(1d0))::TA_MC_Glauber ! in unit of fm-2
+    REAL(KIND(1d0)),INTENT(IN)::bx,by ! in unit of fm
     REAL(KIND(1d0)),INTENT(IN)::A
     REAL(KIND(1d0)),DIMENSION(0:9)::pp
     REAL(KIND(1d0))::bb,pden
@@ -1353,7 +1353,7 @@ CONTAINS
           numericintqq=NumericIntQ
        ENDIF
        IF(numericintqq)THEN
-          CALL trapezoid_integration(10000,norho0_WoodsSaxon,50d0*RR,rho0)                                            
+          CALL trapezoid_integration(10000,norho0_WoodsSaxon,50d0*RR,rho0)
           rho0=A/4d0/rho0/pi
        ELSE
           IF(w.NE.0d0)THEN
@@ -1427,12 +1427,12 @@ CONTAINS
     RETURN
   END FUNCTION norho0_WoodsSaxon
 
-  ! it used the one-dimensional integration via 
+  ! it used the one-dimensional integration via
   ! a to b
   SUBROUTINE simpson(f,a,b,integral,n)
     !==========================================================
     ! Integration of f(x) on [a,b]
-    ! Method: Simpson rule for n intervals  
+    ! Method: Simpson rule for n intervals
     ! written by: Alex Godunov (October 2009)
     !----------------------------------------------------------
     ! IN:
@@ -1697,7 +1697,7 @@ CONTAINS
     ! nbbins,bbins are same as GetCentralityImpactB arguments
     IMPLICIT NONE
     CHARACTER(len=7),INTENT(IN)::nameA,nameB
-    REAL(KIND(1d0)),INTENT(IN),OPTIONAL::nA,nB ! the power nA, nB                                  
+    REAL(KIND(1d0)),INTENT(IN),OPTIONAL::nA,nB ! the power nA, nB
     INTEGER,INTENT(IN)::NBBINS
     REAL(KIND(1d0)),DIMENSION(NBBINS,2),INTENT(IN)::bbins
     REAL(KIND(1d0)),DIMENSION(0:NBBINS),INTENT(OUT)::res
@@ -1795,7 +1795,7 @@ CONTAINS
     RETURN
   END FUNCTION CalculateTAhatTBhat_WoodsSaxon_cfxn
 
-  ! the following is useful for the nonfactorised form, e.g. Eq.(4.8) in 
+  ! the following is useful for the nonfactorised form, e.g. Eq.(4.8) in
   ! /Users/erdissshaw/Works/Manuscript/OpticalGlauber
   SUBROUTINE CalculateTABhat_WoodsSaxon_centrality(nameA,nameB,nbbins,bbins,res,n)
     ! calculate int_{bmin}^{bmax}{TABhat(b)**n*2pi*bdb} for bin by bin
@@ -3057,7 +3057,7 @@ CONTAINS
 
   FUNCTION AtomicIncoherentStructureFunction(Z,q)
     ! charge-neutral atomic incoherent structure function
-    ! this is for the incoherent scattering of photon with the 
+    ! this is for the incoherent scattering of photon with the
     ! electrons in atoms (not for nucleus)
     ! see table 1 in /Users/huasheng/Physics/Books/AtomicPhysics/Atomicformfactors_incoherentscatteringfunctions_photonscatteringcrosssections.pdf
     IMPLICIT NONE
@@ -3968,5 +3968,5 @@ CONTAINS
     GetASymbol=TRIM(GetASymbol2)//TRIM(x1)
     RETURN
   END FUNCTION GetASymbol
-  
+
 END MODULE OpticalGlauber_Geometry

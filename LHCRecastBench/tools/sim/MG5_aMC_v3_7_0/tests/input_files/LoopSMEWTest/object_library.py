@@ -25,19 +25,19 @@ class UFOBaseClass(object):
 
     def __init__(self, *args, **options):
         assert(len(self.require_args) == len (args))
-    
+
         for i, name in enumerate(self.require_args):
             setattr(self, name, args[i])
-    
+
         for (option, value) in options.items():
             setattr(self, option, value)
 
     def get(self, name):
         return getattr(self, name)
-    
+
     def set(self, name, value):
         setattr(self, name, value)
-        
+
     def get_all(self):
         """Return a dictionary containing all the information of the object"""
         return self.__dict__
@@ -68,10 +68,10 @@ class UFOBaseClass(object):
 
 all_particles = []
 
-    
+
 
 class Particle(UFOBaseClass):
-    """A standard Particle""" 
+    """A standard Particle"""
 
     require_args=['pdg_code', 'name', 'antiname', 'spin', 'color', 'mass', 'width', 'texname', 'antitexname', 'charge']
 
@@ -101,10 +101,10 @@ class Particle(UFOBaseClass):
         """ find how we draw a line if not defined
         valid output: dashed/straight/wavy/curly/double/swavy/scurly
         """
-        
+
         spin = self.spin
         color = self.color
-        
+
         #use default
         if spin == 1:
             return 'dashed'
@@ -118,7 +118,7 @@ class Particle(UFOBaseClass):
         elif spin == 3:
             if color == 1:
                 return 'wavy'
-            
+
             else:
                 return 'curly'
         elif spin == 5:
@@ -131,16 +131,16 @@ class Particle(UFOBaseClass):
     def anti(self):
         # We do not copy the UV wavefunction renormalization as it is defined for the particle only.
         if self.selfconjugate:
-            raise Exception('%s has no anti particle.' % self.name) 
+            raise Exception('%s has no anti particle.' % self.name)
         outdic = {}
         for k,v in six.iteritems(self.__dict__):
-            if k not in self.require_args_all:                
+            if k not in self.require_args_all:
                 outdic[k] = -v
         if self.color in [1,8]:
             newcolor = self.color
         else:
             newcolor = -self.color
-                
+
         return Particle(-self.pdg_code, self.antiname, self.name, self.spin, newcolor, self.mass, self.width,
                         self.antitexname, self.texname, -self.charge, self.line, self.propagating, self.goldstoneboson, **outdic)
 
@@ -192,7 +192,7 @@ class CTParameter(UFOBaseClass):
             return self.value[0]
         except KeyError:
             return 'ZERO'
-    
+
     def pole(self, x):
         try:
             return self.value[-x]
@@ -206,13 +206,13 @@ class Vertex(UFOBaseClass):
     require_args=['name', 'particles', 'color', 'lorentz', 'couplings']
 
     def __init__(self, name, particles, color, lorentz, couplings, **opt):
- 
+
         args = (name, particles, color, lorentz, couplings)
 
         UFOBaseClass.__init__(self, *args, **opt)
 
         args=(particles,color,lorentz,couplings)
-        
+
         global all_vertices
         all_vertices.append(self)
 
@@ -223,13 +223,13 @@ class CTVertex(UFOBaseClass):
     require_args=['name', 'particles', 'color', 'lorentz', 'couplings', 'type', 'loop_particles']
 
     def __init__(self, name, particles, color, lorentz, couplings, type, loop_particles, **opt):
- 
+
         args = (name, particles, color, lorentz, couplings, type, loop_particles)
 
         UFOBaseClass.__init__(self, *args, **opt)
 
         args=(particles,color,lorentz,couplings, type, loop_particles)
-        
+
         global all_CTvertices
         all_CTvertices.append(self)
 
@@ -243,18 +243,18 @@ class Coupling(UFOBaseClass):
 
     def __init__(self, name, value, order, loop_particles=None, counterterm=None, **opt):
 
-        args =(name, value, order)	
+        args =(name, value, order)
         UFOBaseClass.__init__(self, *args, **opt)
         global all_couplings
         all_couplings.append(self)
-   
+
     def value(self):
         return self.pole(0)
 
     def pole(self, x):
         """ the self.value attribute can be a dictionary directly specifying the Laurent serie using normal
         parameter or just a string which can possibly contain CTparameter defining the Laurent serie."""
-        
+
         if isinstance(self.value,dict):
             if -x in list(self.value.keys()):
                 return self.value[-x]
@@ -300,7 +300,7 @@ class Coupling(UFOBaseClass):
                 pattern=re.compile(r"(?P<first>\A|\*|\+|\-|\(|\s)(?P<name>"+ctpar.name+r")(?P<second>\Z|\*|\+|\-|\)|/|\\|\s)")
                 tempvalue2 = tempvalue
                 tempvalue = pattern.sub(substitution,tempvalue)
-                num = numbermatch[i]-1		
+                num = numbermatch[i]-1
                 while tempvalue2 != tempvalue or num > 0:
                       tempvalue2 = tempvalue
                       tempvalue = pattern.sub(substitution,tempvalue)
@@ -308,7 +308,7 @@ class Coupling(UFOBaseClass):
             #for param in CTparam:
             #	pattern=re.compile(r"(?P<first>\A|\*|\+|\-|\()(?P<name>"+param.name+r")(?P<second>\Z|\*|\+|\-|#\)|/|\\)")
             #	numberOfMatches=len(pattern.findall(tempvalue))
-            #	if numberOfMatches > 0: raise UFOError,"There is some problem with the substitution of #"+param.name+"."  
+            #	if numberOfMatches > 0: raise UFOError,"There is some problem with the substitution of #"+param.name+"."
             return tempvalue
             # HSS
 
@@ -317,7 +317,7 @@ all_lorentz = []
 class Lorentz(UFOBaseClass):
 
     require_args=['name','spins','structure']
-    
+
     def __init__(self, name, spins, structure='external', **opt):
         args = (name, spins, structure)
         UFOBaseClass.__init__(self, *args, **opt)
@@ -338,7 +338,7 @@ class Function(object):
         self.name = name
         self.arguments = arguments
         self.expr = expression
-    
+
     def __call__(self, *opt):
 
         for i, arg in enumerate(self.arguments):
@@ -351,7 +351,7 @@ all_orders = []
 class CouplingOrder(object):
 
     def __init__(self, name, expansion_order, hierarchy, perturbative_expansion = 0):
-        
+
         global all_orders
         all_orders.append(self)
 

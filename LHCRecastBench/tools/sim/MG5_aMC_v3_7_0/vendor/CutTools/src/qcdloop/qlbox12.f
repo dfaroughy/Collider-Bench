@@ -1,6 +1,6 @@
       subroutine qlbox12(Y,musq,Ires)
       implicit none
-C I^{\{D=4-2 \epsilon\}}_4(0,m_3^2,\pt^2,\pq^2;s_{12},s_{23};0,0,m_3^2,m_4^2) 
+C I^{\{D=4-2 \epsilon\}}_4(0,m_3^2,\pt^2,\pq^2;s_{12},s_{23};0,0,m_3^2,m_4^2)
 
 c[                               m3sq - s12           m4sq - p4sq      ]
 c[      0           0            ----------           -----------      ]
@@ -73,15 +73,15 @@ C----deal with real roots
       dilog(2)=qlLi2omx2(m4sqbar,x43p,sibar,x43pm1)
       dilog(3)=qlLi2omx2(m4sqbar,x43m,sibar,x43mm1)
       else
-      call qlratreal(m4sqbar,sibar,rat1,ieps1)      
-      call qlratgam(rat2p,rat2m,ieps2,p3sq,m4sq,m3sq)      
+      call qlratreal(m4sqbar,sibar,rat1,ieps1)
+      call qlratgam(rat2p,rat2m,ieps2,p3sq,m4sq,m3sq)
       zrat1=dcmplx(rat1)
       ln43p=cln(rat2p,ieps2)
       ln43m=cln(rat2m,ieps2)
 
       call qlspencer(zrat1,rat2p,ieps1,ieps2,dilog(2))
       call qlspencer(zrat1,rat2m,ieps1,ieps2,dilog(3))
-      
+
       endif
       Ires(-2)=dcmplx(0.5d0)
       Ires(-1)=-wlog
@@ -90,10 +90,9 @@ C----deal with real roots
      . +(wlog4mu-wlogsmu)*log(m4sq/m3sq)-0.5d0*(ln43p**2+ln43m**2)
      . -2d0*dilog(1)-dilog(2)-dilog(3)
 
-       
+
       do iep=-2,0
       Ires(iep)=Ires(iep)/dcmplx(fac)
       enddo
       return
       end
-

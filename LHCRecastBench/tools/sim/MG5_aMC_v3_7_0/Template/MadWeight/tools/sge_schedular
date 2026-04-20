@@ -15,6 +15,3 @@
 #
 # type of machines (cluster dependent) often mandatory!!!
 #$ -l p=2
-
-
-

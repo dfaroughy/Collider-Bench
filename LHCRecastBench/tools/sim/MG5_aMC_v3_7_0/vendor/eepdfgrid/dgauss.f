@@ -79,9 +79,8 @@
        WRITE(*,*) NAME,'ERROR: TOO HIGH ACCURACY REQUIRED'
        GO TO 99
       END IF
-      
+
 
    99 DGAUSS=H
       RETURN
       END
-

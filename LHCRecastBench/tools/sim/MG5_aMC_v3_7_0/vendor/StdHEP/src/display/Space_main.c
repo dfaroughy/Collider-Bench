@@ -23,14 +23,14 @@ void main (int argc, char **argv)
 {
     XtAppContext context;
     Display *display;
-    
+
     /*
     ** Initialize toolkit and open display.
     */
     XtToolkitInitialize ();
     context = XtCreateApplicationContext();
     /*
-    ** Keep the same application name, so I don't have to muck around the 
+    ** Keep the same application name, so I don't have to muck around the
     ** Xdefaults file
     */
     display = XtOpenDisplay (context, NULL, "phase", "Space", NULL,
@@ -39,7 +39,7 @@ void main (int argc, char **argv)
 	XtWarning("Space: Can't open display");
 	exit(0);
     }
-    
+
     /*
     ** Create an event display panel
     */
@@ -49,4 +49,3 @@ void main (int argc, char **argv)
     */
     XtAppMainLoop (context);
 }
-

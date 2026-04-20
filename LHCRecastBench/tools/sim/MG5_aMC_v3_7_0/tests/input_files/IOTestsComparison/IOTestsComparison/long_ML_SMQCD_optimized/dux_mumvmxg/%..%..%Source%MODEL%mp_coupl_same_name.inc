@@ -29,5 +29,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       COMMON/MP_COUPLINGS/ UV_GQQB,UV_GQQT,UVWFCT_G_2,UVWFCT_G_1
      $ ,R2_SXCW,GC_4,GC_5,R2_GQQ,R2_QQQ,UV_GQQG_1EPS,UV_GQQQ_1EPS
      $ ,UVWFCT_G_2_1EPS,GC_47
-
-

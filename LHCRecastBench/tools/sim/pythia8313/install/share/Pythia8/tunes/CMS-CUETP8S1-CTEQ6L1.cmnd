@@ -6,5 +6,5 @@ PDF:pSet                            = 8        ! cteq6l1
 MultipartonInteractions:pT0Ref      = 2.1006
 MultipartonInteractions:ecmPow      = 0.2106
 MultipartonInteractions:expPow      = 1.6089
-MultipartonInteractions:a1          = 0.00  
+MultipartonInteractions:a1          = 0.00
 ColourReconnection:range            = 3.3126

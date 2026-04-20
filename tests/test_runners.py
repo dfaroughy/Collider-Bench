@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 
 import pytest
 
@@ -24,8 +23,9 @@ def test_claude_build_command_disallows_schedulewakeup(tmp_path):
     """ScheduleWakeup strands sessions in -p mode; the runner must block it."""
     try:
         r = get_runner("claude")
-        cmd = r.build_command("noop", tmp_path, "claude-opus-4-7",
-                              allowlist=None, max_thinking_tokens=1000)
+        cmd = r.build_command(
+            "noop", tmp_path, "claude-opus-4-7", allowlist=None, max_thinking_tokens=1000
+        )
     except RuntimeError as exc:
         pytest.skip(f"claude binary not installed on this host: {exc}")
     assert "--disallowedTools" in cmd
@@ -39,8 +39,7 @@ def test_claude_build_command_disallows_schedulewakeup(tmp_path):
 def test_codex_build_command_shape(tmp_path):
     try:
         r = get_runner("codex")
-        cmd = r.build_command("noop", tmp_path, "gpt-5.4",
-                              allowlist=None, max_thinking_tokens=None)
+        cmd = r.build_command("noop", tmp_path, "gpt-5.4", allowlist=None, max_thinking_tokens=None)
     except RuntimeError as exc:
         pytest.skip(f"codex binary not installed: {exc}")
     assert "exec" in cmd
@@ -52,8 +51,7 @@ def test_codex_build_command_shape(tmp_path):
 def test_claude_allowlist_threaded_through(tmp_path):
     try:
         r = get_runner("claude")
-        cmd = r.build_command("noop", tmp_path, "claude-opus-4-7",
-                              allowlist="Read Write")
+        cmd = r.build_command("noop", tmp_path, "claude-opus-4-7", allowlist="Read Write")
     except RuntimeError as exc:
         pytest.skip(f"claude binary not installed: {exc}")
     assert "--allowedTools" in cmd

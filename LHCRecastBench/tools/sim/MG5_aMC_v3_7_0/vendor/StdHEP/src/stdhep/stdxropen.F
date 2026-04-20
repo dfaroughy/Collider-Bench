@@ -21,7 +21,7 @@ C...print version number if this is the first call
         lfirst=.FALSE.
       endif
       lok = 0
-      istream = mcfio_OpenReadDirect(filename) 
+      istream = mcfio_OpenReadDirect(filename)
       if (istream .eq. -1) go to 900
       call mcfio_InfoStreamChar(istream,MCFIO_CREATIONDATE,date,dlen)
       call mcfio_InfoStreamChar(istream,MCFIO_TITLE,title,tlen)
@@ -32,12 +32,12 @@ C...print version number if this is the first call
       write(lnhout,1001) istream,title(1:tlen),date(1:dlen),
      1                   comment(1:clen),ntries,numblocks
       return
-        
+
  900  continue
       write(lnhout,1002)
       lok = -1
       stop
-        
+
 1001  format(/' STDXROPEN: successfully opened input stream ',i5/
      1       10x,'title: ',a60/
      2       10x,'date:  ',a60/

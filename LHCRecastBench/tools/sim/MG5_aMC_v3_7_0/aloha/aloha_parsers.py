@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -60,7 +60,7 @@ class UFOExpressionParser(object):
         lex.lex(module=self, debug=0)
         yacc.yacc(module=self, debug=0, debugfile=self.debugfile,
                   tabmodule=self.tabmodule)
-        
+
     def parse(self, buf):
         """Parse the string buf"""
         yacc.parse(buf)
@@ -112,7 +112,7 @@ class UFOExpressionParser(object):
     def t_VARIABLE(self, t):
         r'[a-zA-Z_][0-9a-zA-Z_]*'
         return t
-    
+
     t_NUMBER = r'([0-9]+\.[0-9]*|\.[0-9]+|[0-9]+)([eE][+-]{0,1}[0-9]+){0,1}'
     t_POWER  = r'\*\*'
 
@@ -210,11 +210,11 @@ class ALOHAExpressionParser(UFOExpressionParser):
 
     def p_expression_power(self, p):
         'expression : expression POWER expression'
-        
+
         obj = p[1]
         if '(' in p[1]:
             obj = p[1].split('(',1)[0]
-        
+
         if obj in self.aloha_object:
             p2 = [x for i,x in enumerate(p) if i>0]
             p[0] = ''.join(p2)
@@ -226,7 +226,7 @@ class ALOHAExpressionParser(UFOExpressionParser):
     def p_expression_variable(self, p):
         "expression : VARIABLE"
         p[0] = 'Param(\'%s\')' % p[1]
-        
+
     def p_expression_variable2(self, p):
         "expression : '\\'' VARIABLE '\\''"
         p[0] = '\'%s\'' % p[2]
@@ -254,8 +254,8 @@ class ALOHAExpressionParser(UFOExpressionParser):
                       | IM group
                       | SQRT group
                       | CONJ group'''
-      
-        new = aloha_lib.KERNEL.add_function_expression(p[1], eval(p[2])) 
+
+        new = aloha_lib.KERNEL.add_function_expression(p[1], eval(p[2]))
         p[0] = str(new)
 
     def p_expression_function(self, p):
@@ -283,7 +283,7 @@ class ALOHAExpressionParser(UFOExpressionParser):
         if p[1] in self.aloha_object:
             p[0] = ''.join(p[1:])
             return
-         
+
         p1 = p[1]
         re_groups = self.re_cmath_function.match(p1)
         if re_groups:
@@ -300,15 +300,15 @@ class ALOHAExpressionParser(UFOExpressionParser):
                       | expression '/' expression'''
         if p[2] != '/' or p[3].isdigit() or p[3].endswith('.'):
             p[0] = p[1] + p[2] + p[3]
-        else:  
+        else:
             denom = eval(p[3])
             if isinstance(denom, numbers.Number):
                 p[0] = p[1] + '*' + str(1/denom)
             else:
                 new = aloha_lib.KERNEL.add_function_expression('/', denom)
                 p[0] = p[1] + ' * ' + str(new)
-        
-        
+
+
 
 
 # Main program, allows to interactively test the parser
@@ -323,10 +323,3 @@ if __name__ == '__main__':
             break
         if not s: continue
         logger.info(calc.parse(s))
-        
-    
-    
-        
-            
-    
-    

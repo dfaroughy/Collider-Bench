@@ -135,38 +135,38 @@ pt   7 4
 #e    2 2
 y    1 4   # plot rapidity for the first four particles in class 1
 y    2 4
-y    3 4   
-y    4 4   
-y    5 4   
-y    6 4   
-y    7 4   
+y    3 4
+y    4 4
+y    5 4
+y    6 4
+y    7 4
 #eta  2 2   # plot pseudo-rapidity for the first two part in the 2nd class
 #mom  4 1
 #costh 5 1
 #phi   2 2
-#delta_eta 2 2 
+#delta_eta 2 2
 #delta_eta 4 1
 mij  1 4   # use the first four particles in the 1st class to plot inv. mass
 mij  2 2   # use the first two particles from the second class as well
 mij  3 1   # etc.
-mij  4 1   
-mij  5 1   
-mij  6 1   
-mij  7 1   
+mij  4 1
+mij  5 1
+mij  6 1
+mij  7 1
 #cosij  1 2
 #cosij  2 2
 #cosij  3 1
 #cosij  4 1
-dRij 1 4   
-dRij 2 2   
-dRij 3 1   
-dRij 4 1   
-dRij 5 1   
-dRij 6 1   
-dRij 7 1   
+dRij 1 4
+dRij 2 2
+dRij 3 1
+dRij 4 1
+dRij 5 1
+dRij 6 1
+dRij 7 1
 #delta_phi 2 2
 #delta_phi 4 1
-#delta_phi 5 1 
+#delta_phi 5 1
 #X1       2 2  # plot X1 (defined in kin_func.f)
 #XYZA1   2 2
 #XYZA1   4 1

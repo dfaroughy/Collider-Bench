@@ -1,4 +1,4 @@
-C	definition of variables for permutation	
+C	definition of variables for permutation
 C		definition also present in get_feynman_content.f
 C
        logical use_perm,perm_with_b, montecarlo_perm
@@ -27,7 +27,7 @@ C
      &      value_cut2,final_prec, min_perm_cut
 C
 C   variable for use histogram
-C	 	
+C
       logical histo
       common/to_histo/histo
 c
@@ -53,5 +53,3 @@ c     activate / desactivate sobol generator
 c
       logical use_sobol
       common /to_use_sobol/use_sobol
-
-

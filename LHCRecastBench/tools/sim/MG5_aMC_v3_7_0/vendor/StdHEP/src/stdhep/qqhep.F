@@ -62,7 +62,7 @@ C...convert from QQ to HEPEVT
           else
             PHEP(5,I) = SQRT(PMTMP)
           endif
-          do J=1,3 
+          do J=1,3
             VHEP(J,I) = XVTX(IVPROD(I),J)*1000.
           enddo
           VHEP(4,I) = TVTX(IVPROD(I))*cfactor

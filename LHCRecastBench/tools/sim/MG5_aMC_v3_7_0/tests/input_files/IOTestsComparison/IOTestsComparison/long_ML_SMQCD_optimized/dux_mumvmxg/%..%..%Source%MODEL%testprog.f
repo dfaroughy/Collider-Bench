@@ -7,10 +7,9 @@ c**                                                                    **
 c************************************************************************
 
       program testprog
-      
+
       call setpara('param_card.dat')
-      
+
       call printout
 
       end
-

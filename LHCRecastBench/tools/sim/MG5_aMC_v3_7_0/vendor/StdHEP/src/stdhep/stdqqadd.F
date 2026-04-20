@@ -70,7 +70,7 @@ C...add a new particle
           else
             PHEP(5,I) = SQRT(PMTMP)
           endif
-          do J=1,3 
+          do J=1,3
             VHEP(J,I) = XVTX(IVPROD(L),J)*1000.
           enddo
           VHEP(4,I) = TVTX(IVPROD(L))*cfactor

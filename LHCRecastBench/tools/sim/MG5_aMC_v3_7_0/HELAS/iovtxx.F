@@ -13,7 +13,7 @@ c       complex gt             : coupling constant      gtfv=-1/Lambda/2
 c
 c output:
 c       complex vertex         : amplitude                   <fo|v,T|fi>
-c     
+c
 c- by Q.Li - OCT. 2006
 c
       implicit none
@@ -27,7 +27,7 @@ c
       double complex cone
       parameter( cone = ( 0.0d0, 1.0d0 ) )
 
-      
+
       ft(1,1) = tc(1)
       ft(1,2) = tc(2)
       ft(1,3) = tc(3)
@@ -57,33 +57,33 @@ c
 
 
       vertex =-gt*(fi(4)*gc(2)*(fo(1)*(T12*vc(1) - cone*T13*vc(1)
-     &	 - r2*ft(2,2)*vc(2) + cone*r2*ft(3,3)*vc(3) - 
-     &          T23*(-(cone*vc(2)) + vc(3)) + r2*T00*(-vc(2) 
-     &+ cone*vc(3)) - T24*vc(4) + cone*T34*vc(4)) + 
+     &	 - r2*ft(2,2)*vc(2) + cone*r2*ft(3,3)*vc(3) -
+     &          T23*(-(cone*vc(2)) + vc(3)) + r2*T00*(-vc(2)
+     &+ cone*vc(3)) - T24*vc(4) + cone*T34*vc(4)) +
      &       fo(2)*(-(r2*ft(1,1)*vc(1)) + T12*vc(2) + T24*vc(2)
-     & + T13*vc(3) + T34*vc(3) + r2*ft(4,4)*vc(4) + 
-     &          T14*(-vc(1) + vc(4)) + r2*T00*(vc(1) + vc(4)))) + 
-     &    fi(1)*gc(1)*(fo(4)*(-(T12*vc(1)) - cone*T13*vc(1) 
-     &+ r2*ft(2,2)*vc(2) - T23*(-(cone*vc(2)) - vc(3)) + 
-     &          cone*r2*ft(3,3)*vc(3) + r2*T00*(vc(2) 
-     &+ cone*vc(3)) + T24*vc(4) + cone*T34*vc(4)) + 
-     &       fo(3)*(-(r2*ft(1,1)*vc(1)) + T12*vc(2) 
-     &+ T24*vc(2) + T13*vc(3) + T34*vc(3) + r2*ft(4,4)*vc(4) + 
-     &          T14*(-vc(1) + vc(4)) + r2*T00*(vc(1) + vc(4)))) + 
+     & + T13*vc(3) + T34*vc(3) + r2*ft(4,4)*vc(4) +
+     &          T14*(-vc(1) + vc(4)) + r2*T00*(vc(1) + vc(4)))) +
+     &    fi(1)*gc(1)*(fo(4)*(-(T12*vc(1)) - cone*T13*vc(1)
+     &+ r2*ft(2,2)*vc(2) - T23*(-(cone*vc(2)) - vc(3)) +
+     &          cone*r2*ft(3,3)*vc(3) + r2*T00*(vc(2)
+     &+ cone*vc(3)) + T24*vc(4) + cone*T34*vc(4)) +
+     &       fo(3)*(-(r2*ft(1,1)*vc(1)) + T12*vc(2)
+     &+ T24*vc(2) + T13*vc(3) + T34*vc(3) + r2*ft(4,4)*vc(4) +
+     &          T14*(-vc(1) + vc(4)) + r2*T00*(vc(1) + vc(4)))) +
      &    fi(3)*gc(2)*(fo(2)*(T12*vc(1) + cone*T13*vc(1)
      & - r2*ft(2,2)*vc(2) - cone*r2*ft(3,3)*vc(3)
-     & - T23*(cone*vc(2) + vc(3)) + 
-     &          r2*T00*(-vc(2) - cone*vc(3)) - T24*vc(4) 
-     &- cone*T34*vc(4)) + 
-     &       fo(1)*(-(r2*ft(1,1)*vc(1)) + T12*vc(2) 
-     &- T24*vc(2) + T13*vc(3) - T34*vc(3) + r2*T00*(vc(1) - vc(4)) - 
-     &          r2*ft(4,4)*vc(4) + T14*(vc(1) + vc(4)))) + 
+     & - T23*(cone*vc(2) + vc(3)) +
+     &          r2*T00*(-vc(2) - cone*vc(3)) - T24*vc(4)
+     &- cone*T34*vc(4)) +
+     &       fo(1)*(-(r2*ft(1,1)*vc(1)) + T12*vc(2)
+     &- T24*vc(2) + T13*vc(3) - T34*vc(3) + r2*T00*(vc(1) - vc(4)) -
+     &          r2*ft(4,4)*vc(4) + T14*(vc(1) + vc(4)))) +
      &    fi(2)*gc(1)*(fo(3)*(-(T12*vc(1)) + cone*T13*vc(1)
-     & + r2*ft(2,2)*vc(2) - T23*(cone*vc(2) - vc(3)) - 
-     &          cone*r2*ft(3,3)*vc(3) + r2*T00*(vc(2) 
-     &- cone*vc(3)) + T24*vc(4) - cone*T34*vc(4)) + 
-     &       fo(4)*(-(r2*ft(1,1)*vc(1)) + T12*vc(2) 
-     &- T24*vc(2) + T13*vc(3) - T34*vc(3) + r2*T00*(vc(1) - vc(4)) - 
+     & + r2*ft(2,2)*vc(2) - T23*(cone*vc(2) - vc(3)) -
+     &          cone*r2*ft(3,3)*vc(3) + r2*T00*(vc(2)
+     &- cone*vc(3)) + T24*vc(4) - cone*T34*vc(4)) +
+     &       fo(4)*(-(r2*ft(1,1)*vc(1)) + T12*vc(2)
+     &- T24*vc(2) + T13*vc(3) - T34*vc(3) + r2*T00*(vc(1) - vc(4)) -
      &          r2*ft(4,4)*vc(4) + T14*(vc(1) + vc(4)))))
 
       return

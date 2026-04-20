@@ -15,31 +15,30 @@ dependent_variables:
   qualifiers:
   - {name: Process, value: REDUCIBLE P P --> Z0 X}
   values:
-  - errors: 
-    - {label: 'normalisation (exp.)', symerror: 0.77 }   
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.77 }
     value: 1.924
-  - errors: 
-    - {label: 'normalisation (exp.)', symerror: 1.27 }     
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 1.27 }
     value: 3.175
-  - errors: 
-    - {label: 'normalisation (exp.)', symerror: 0.394 }     
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.394 }
     value: 0.986
-  - errors: 
-    - {label: 'normalisation (exp.)', symerror: 0.19 }     
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.19 }
     value: 0.476
-  - errors: 
-    - {label: 'normalisation (exp.)', symerror: 0.028 }    
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.028 }
     value: 0.071
-  - errors:   
-    - {label: 'normalisation (exp.)', symerror: 0.0 }    
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.0 }
     value: 0.0
-  - errors:   
-    - {label: 'normalisation (exp.)', symerror: 0.0 } 
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.0 }
     value: 0.0
-  - errors: 
-    - {label: 'normalisation (exp.)', symerror: 0.039 }     
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.039 }
     value: 0.098
-  - errors: 
-    - {label: 'normalisation (exp.)', symerror: 0.004 }     
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.004 }
     value: -0.011
-

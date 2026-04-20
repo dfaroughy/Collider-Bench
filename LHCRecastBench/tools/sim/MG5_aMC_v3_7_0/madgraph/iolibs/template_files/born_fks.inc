@@ -1,17 +1,17 @@
       SUBROUTINE SBORN(P1,ANS)
-C  
+C
 %(info_lines)s
 C
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C AND HELICITIES
 C FOR THE POINT IN PHASE SPACE P1(0:3,NEXTERNAL-1)
-C  
+C
 %(process_lines)s
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       include "nexternal.inc"
       include "born_nhel.inc"
       INTEGER     NCOMB
@@ -20,14 +20,14 @@ C
       PARAMETER (THEL=NCOMB*%(nconfs)d)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS=   %(ngraphs)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P1(0:3,NEXTERNAL-1)
       COMPLEX*16 ANS(2)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER IHEL,IDEN,i,j,jj,glu_ij
       REAL*8 BORN,borns(2)
       COMPLEX*16 BORNTILDE
@@ -37,12 +37,12 @@ C
 %(helicity_lines)s
 %(den_factor_lines)s
 %(ij_lines)s
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       Double Precision amp2(%(ngraphs)d), jamp2(0:%(ncolor)d)
       common/to_amps/  amp2,       jamp2
-      DATA jamp2(0) /   %(ncolor)d/          
+      DATA jamp2(0) /   %(ncolor)d/
       LOGICAL GOODHEL(NCOMB,%(nconfs)d)
       common /c_goodhel/goodhel
       double complex saveamp(ngraphs,max_bhel)
@@ -69,7 +69,7 @@ C ----------
         if (glu_ij.eq.0) then
       	  skip(nfksprocess)=0
        else
-         skip(nFKSprocess)=1			 
+         skip(nFKSprocess)=1
          do while(nhel(glu_ij ,skip(nFKSprocess)).ne.-NHEL(GLU_IJ ,1))
             skip(nFKSprocess)=skip(nFKSprocess)+1
          enddo
@@ -128,24 +128,24 @@ C ----------
       wgt_me_born=dble(ans(1))
       calculatedBorn=.true.
       END
-       
-       
+
+
       REAL*8 FUNCTION BORN(P,NHEL,HELL,BORNTILDE,borns)
-C  
+C
 %(info_lines)s
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
-      INTEGER    NGRAPHS,    NEIGEN 
-      PARAMETER (NGRAPHS=   %(ngraphs)d,NEIGEN=  1) 
+C
+      INTEGER    NGRAPHS,    NEIGEN
+      PARAMETER (NGRAPHS=   %(ngraphs)d,NEIGEN=  1)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       complex*16 imag1
@@ -153,15 +153,15 @@ C
       include "nexternal.inc"
       include "born_nhel.inc"
       include "coupl.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1),borns(2)
       INTEGER NHEL(NEXTERNAL-1), HELL
       complex*16 borntilde
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,ihel,back_hel,glu_ij
       INTEGER IC(NEXTERNAL-1),nmo
       parameter (nmo=nexternal-1)
@@ -170,9 +170,9 @@ C
       INTEGER CF_INDEX, DENOM
       COMPLEX*16 ZTEMP, AMP(NGRAPHS), JAMP(NCOLOR), W(%(wavefunctionsize)d,NWAVEFUNCS), jamph(2, ncolor)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       Double Precision amp2(ngraphs), jamp2(0:ncolor)
       common/to_amps/  amp2,       jamp2
       double complex saveamp(ngraphs,max_bhel)
@@ -187,9 +187,9 @@ C
       integer step_hel
       logical cond_ij
 %(ij_lines)s
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -214,7 +214,7 @@ C ----------
         if (glu_ij.ne.0) then
           cond_ij=IHEL.EQ.back_hel.OR.NHEL(GLU_IJ).NE.0
         else
-          cond_ij=IHEL.EQ.back_hel 
+          cond_ij=IHEL.EQ.back_hel
         endif
         IF (cond_ij) THEN
         if (glu_ij.ne.0) then
@@ -245,14 +245,14 @@ C ----------
         enddo
         endif
 %(jamp_lines)s
-        CF_INDEX = 0 
+        CF_INDEX = 0
         DO I = 1, NCOLOR
           ZTEMP = (0.D0,0.D0)
           DO J = I, NCOLOR
             CF_INDEX = CF_INDEX +1
             ZTEMP = ZTEMP + CF(CF_INDEX)*JAMP(J)
           ENDDO
-          BORNS(2-(1+back_hel*ihel)/2)=BORNS(2-(1+back_hel*ihel)/2)+ZTEMP*DCONJG(JAMP(I))   
+          BORNS(2-(1+back_hel*ihel)/2)=BORNS(2-(1+back_hel*ihel)/2)+ZTEMP*DCONJG(JAMP(I))
         ENDDO
         BORNS(2-(1+back_hel*ihel)/2)=BORNS(2-(1+back_hel*ihel)/2)/DENOM
         Do I = 1, NGRAPHS
@@ -276,7 +276,7 @@ C ----------
       BORNTILDE = BORNTILDE/(2d0*DENOM)
       if (glu_ij.ne.0) nhel(glu_ij) = back_hel
       END
-       
+
 
       BLOCK DATA GOODHELS
       INTEGER     NCOMB

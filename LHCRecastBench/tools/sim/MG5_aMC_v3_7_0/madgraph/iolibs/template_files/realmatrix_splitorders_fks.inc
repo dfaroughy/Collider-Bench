@@ -1,24 +1,24 @@
       SUBROUTINE SMATRIX%(proc_prefix)s(P,ANS_SUMMED)
-C  
+C
 %(info_lines)s
 C
 C
 C     Return the sum of the split orders which are required in orders.inc (NLO_ORDERS)
-C  
-C  
+C
+C
 %(process_lines)s
 C
 C
 C CONSTANTS
-C 
+C
       implicit none
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL), ANS_SUMMED
 C
 C VARIABLES
@@ -43,14 +43,14 @@ C
 C BEGIN CODE
 C
 
-C look for orders which match the nlo order constraint 
+C look for orders which match the nlo order constraint
 
 if (firsttime) then
  do i = 1, nsqampso
   do j = 1, nsplitorders
    if(GETORDPOWFROMINDEX%(proc_prefix)s(j, i) .gt. nlo_orders(j)) then
     keep_order(i) = .false.
-    EXIT 
+    EXIT
    endif
   enddo
   if (keep_order(i)) then
@@ -94,31 +94,31 @@ END
 
 
       SUBROUTINE SMATRIX%(proc_prefix)s_SPLITORDERS(P,ANS)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c and helicities
 c for the point in phase space P(0:3,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       include 'nexternal.inc'
-      INTEGER     NCOMB         
+      INTEGER     NCOMB
       PARAMETER ( NCOMB=%(ncomb)d)
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL),ANS(0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER IHEL,IDEN,I,J,T_IDENT(NCOMB)
       REAL*8 T(0:NSQAMPSO),T_SAVE(NCOMB,0:NSQAMPSO)
       SAVE T_SAVE,T_IDENT
@@ -134,14 +134,14 @@ C BEGIN CODE
 C ----------
       NTRY=NTRY+1
       DO I=0,NSQAMPSO
-      	ANS(I) = 0D0	  
+      	ANS(I) = 0D0
       ENDDO
       DO IHEL=1,NCOMB
         IF (GOODHEL(IHEL) .OR. NTRY .LT. 2) THEN
           IF (NTRY.LT.2) THEN
 C for the first ps-point, check for helicities that give
 C identical matrix elements
-            call MATRIX_%(proc_prefix)s(P ,NHEL(1,IHEL),T)            
+            call MATRIX_%(proc_prefix)s(P ,NHEL(1,IHEL),T)
             DO I=0,NSQAMPSO
                 T_SAVE(IHEL,I)=T(I)
             ENDDO
@@ -163,7 +163,7 @@ C if two helicity states are identical, dont recompute
               T_SAVE(IHEL,I)=T(I)
             ENDDO
             ELSE
-              CALL MATRIX_%(proc_prefix)s(P ,NHEL(1,IHEL),T)            
+              CALL MATRIX_%(proc_prefix)s(P ,NHEL(1,IHEL),T)
               DO I=0,NSQAMPSO
                 T_SAVE(IHEL,I)=T(I)
               ENDDO
@@ -178,30 +178,30 @@ C add to the sum of helicities
           ENDIF
         ENDIF
       ENDDO
-      DO I=1,NSQAMPSO			
+      DO I=1,NSQAMPSO
         ANS(I)=ANS(I)/DBLE(IDEN)
         ANS(0)=ANS(0)+ANS(I)
       ENDDO
       END
-       
+
 
       SUBROUTINE MATRIX_%(proc_prefix)s(P,NHEL,RES)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c for the point with external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER    NGRAPHS
-      PARAMETER (NGRAPHS=%(ngraphs)d) 
+      PARAMETER (NGRAPHS=%(ngraphs)d)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       REAL*8     ZERO
@@ -210,15 +210,15 @@ C
       PARAMETER (IMAG1=(0D0,1D0))
       include 'nexternal.inc'
       include 'coupl.inc'
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL)
       REAL*8 RES(0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       INTEGER IC(NEXTERNAL)
       data ic /nexternal*1/
@@ -230,9 +230,9 @@ C
 C FUNCTION
 C
       INTEGER SQSOINDEX%(proc_prefix)s
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -269,13 +269,13 @@ C
 
       INTEGER FUNCTION SQSOINDEX%(proc_prefix)s(AMPORDERA,AMPORDERB)
 C
-C This functions plays the role of the interference matrix. It can be hardcoded or 
+C This functions plays the role of the interference matrix. It can be hardcoded or
 C made more elegant using hashtables if its execution speed ever becomes a relevant
 C factor. From two split order indices of the jamps, it return the corresponding
 C index in the squared order canonical ordering.
 C
 C CONSTANTS
-C      
+C
       implicit none
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)

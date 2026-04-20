@@ -6,7 +6,7 @@ c
 c               * P2 (visible)
 c              *
 c     *********
-c      MV_r1   * 
+c      MV_r1   *
 c               * P1 (visible)
 c
 c     |P1| will be left unfactorized, MV_r1 is aligned.
@@ -57,7 +57,7 @@ c---
 c
 c     First decide which |p| is left unfactorized.
 c
-cccccccccccccccccccc NOW this is done in the init step p2 is always factorized  
+cccccccccccccccccccc NOW this is done in the init step p2 is always factorized
 c
 c      if (p1.gt.0.and.p2.gt.0) then
 c        if (c_point(p1,3,2).gt.c_point(p2,3,2)) then
@@ -73,7 +73,7 @@ c        p2=parg2
 c      elseif (parg1.lt.0.and.parg2.gt.0) then
 c        p1=parg2
 c        p2=parg1
-c      else 
+c      else
 c        write(*,*) 'Warning: wrong phase space parametrization'
 c        stop
 c      endif
@@ -82,7 +82,7 @@ c
 CCCCCCCCCCCCCCCCCCCCCCC END of modif
 
 
-c     Now |p1| will be left unfactorized, |p2| will be factorized 
+c     Now |p1| will be left unfactorized, |p2| will be factorized
 c
 c----------------------------------------------
 c     generate  p2
@@ -138,8 +138,8 @@ c
       p1_ti=(mvir2(p1)+mvir2(p2)-mvir2(r1))/dem
       p1_E1=2d0*momenta(0,p2)/dem
 c
-c     solve the equation 
-c     E1^2-|P1|^2=m_1^2   <=>   (1-p1_E1^2)*E1^2-2*p1_ti*p1_E1*E1-p1_ti^2-m1^2=0 
+c     solve the equation
+c     E1^2-|P1|^2=m_1^2   <=>   (1-p1_E1^2)*E1^2-2*p1_ti*p1_E1*E1-p1_ti^2-m1^2=0
 c
 
           jac_factor=1d0
@@ -187,20 +187,20 @@ c            call ntuple(rand,0.0,1.0,p1)
             momenta(0,p1)=sol(index_sol)
             normP1new=p1sol(index_sol)
             jac_factor=2d0
-          elseif (p1sol(1).gt.0d0.and.p1sol(2).le.0d0) then  
+          elseif (p1sol(1).gt.0d0.and.p1sol(2).le.0d0) then
               momenta(0,p1)=sol(1)
               normP1new=p1sol(1)
-          elseif (p1sol(1).le.0d0.and.p1sol(2).gt.0d0) then  
+          elseif (p1sol(1).le.0d0.and.p1sol(2).gt.0d0) then
               momenta(0,p1)=sol(2)
               normP1new=p1sol(2)
-          else 
+          else
             momenta(0,p1)=-1d0
             jac=-1d0
           endif
         else                                                 ! 0 sol
           momenta(0,p1)=-1d0
           jac=-1d0
-          return 
+          return
         endif
       endif
 
@@ -215,7 +215,7 @@ c
 c
 c     compute missing momentum
 c
-       misspx=misspx-momenta(1,p1)  
+       misspx=misspx-momenta(1,p1)
        misspy=misspy-momenta(2,p1)
        Etot=Etot+momenta(0,p1)
        pztot=pztot+momenta(3,p1)
@@ -227,12 +227,11 @@ c
 c      write(*,*) 'jac ', jac_loc
 c
       jac_loc=jac_loc
-     & /dabs(4d0*normP1new*momenta(0,p2)-2d0*momenta(0,p1)*dem)  ! jac for the change of variables 
-     & *jac_factor      !  the factor 2*E1 has been removed since it factorizes with the factor 1/2E1 in the PS weight 
+     & /dabs(4d0*normP1new*momenta(0,p2)-2d0*momenta(0,p1)*dem)  ! jac for the change of variables
+     & *jac_factor      !  the factor 2*E1 has been removed since it factorizes with the factor 1/2E1 in the PS weight
 
       jac=jac*jac_loc
 
 c      write(*,*) 'jac_factor ', jac_factor
       return
       end
-

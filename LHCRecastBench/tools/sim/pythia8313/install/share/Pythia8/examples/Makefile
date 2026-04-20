@@ -126,7 +126,7 @@ else
 	$(error Error: $@ requires MPICH, HDF5, HIGHFIVE, and HEPMC2 or HEPMC3)
 endif
 
-# General ROOT examples without other external dependencies. 
+# General ROOT examples without other external dependencies.
 main141 main143: $(PYTHIA) $$@.cc
 ifeq ($(ROOT_USE),true)
 	$(CXX) $@.cc -o $@ -w $(CXX_COMMON) $(ROOT_OPTS)
@@ -134,11 +134,11 @@ else
 	$(error Error: $@ requires ROOT)
 endif
 
-# ROOT with FastJet. 
-main142: $(PYTHIA) $$@.cc 
+# ROOT with FastJet.
+main142: $(PYTHIA) $$@.cc
 ifeq ($(ROOT_USE)$(FASTJET3_USE),truetrue)
 	$(CXX) $@.cc -o $@ -w $(CXX_COMMON) $(FASTJET3_OPTS) $(ROOT_OPTS)
-else	
+else
 	$(error Error: $@ requires ROOT and FASTJET3)
 endif
 

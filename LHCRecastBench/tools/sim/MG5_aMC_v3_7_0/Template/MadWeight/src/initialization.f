@@ -17,7 +17,7 @@ c     particle index mapping
       integer inv_matching_type_part(3:max_particles)
       common/madgraph_order_type/matching_type_part,
      & inv_matching_type_part
- 
+
       character*30 param_card_name
       common/to_param_card_name/param_card_name
 
@@ -87,7 +87,7 @@ c     set cuts
 c      CALL SETCUTS
 
 c     deternime the final state content
-      call info_final_part()                
+      call info_final_part()
 
 c     set parameters for the transfer functions
       call Init_MET_LHCO
@@ -113,7 +113,7 @@ c     set permutation info
       CALL PRINTOUT
       CALL RUN_PRINTOUT
 c     call graph_init
-      
+
       num_invis=num_inv
       nparticles=nexternal
 
@@ -192,14 +192,14 @@ cc               p2 is mapped
         integer p1,p2       ! output variable
 cc
 cc    COMMON
-cc      
+cc
       include 'permutation.inc'
         double precision c_point(NPERM,1:max_particles,3,2)
         common/ph_sp_init/c_point
 cc
 cc    Begin of the code
 cc
-        if (parg1.gt.0.and.parg2.gt.0) then 
+        if (parg1.gt.0.and.parg2.gt.0) then
            if (c_point(1,parg1,3,2).gt.c_point(1,parg2,3,2)) then
               p1=parg1
               p2=parg2
@@ -212,17 +212,17 @@ cc
            p2=parg2
         elseif (parg1.lt.0.and.parg2.gt.0) then
            p1=parg2
-           p2=parg1 
-        else 
+           p2=parg1
+        else
            write(*,*) 'Warning: wrong phase space parametrization'
            stop
         endif
-        
+
         return
         end
 
 C-------------------------------------------------------
-C     initialize tag value for LHCO MET                 
+C     initialize tag value for LHCO MET
 C-------------------------------------------------------
       SUBROUTINE INIT_MET_LHCO
       implicit none
@@ -240,18 +240,18 @@ C-------------------------------------------------------
       end
 
 C-------------------------------------------------------
-C     Check that x is real positive number              
+C     Check that x is real positive number
 C-------------------------------------------------------
       SUBROUTINE CHECK_NAN(x)
-C                                                       
+C
       IMPLICIT NONE
-C                                                       
-C     ARGUMENTS                                         
-C                                                       
+C
+C     ARGUMENTS
+C
       double precision x
-c                                                       
-c     LOCAL                                             
-c                                                       
+c
+c     LOCAL
+c
       if(.not.(x.gt.0d0).and.x.ne.0d0) then
          x=0d0
       endif
@@ -300,7 +300,7 @@ c
       integer Ndimens
       common /to_dimension/ Ndimens
 c
-      integer matching(3:nexternal) 
+      integer matching(3:nexternal)
       integer inv_matching(3:nexternal)
       common/madgraph_order_info/matching,inv_matching
       integer                                        lpp(2)
@@ -341,7 +341,7 @@ c      write(*,*) 'the number of dimension is ', temp
       Ndimens=temp
 c     very special case of two visible particles and nothing else
       if(nexternal.eq.4.and.num_inv.eq.0) Ndimens=Ndimens+2
-      
+
 
 c      if (temp.ne.(Ndimens)) then
 c      write(*,*) 'error : Ndimens is not # widths + 1 '
@@ -360,7 +360,7 @@ c
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine info_final_part()
 c
-c	this subroutine initializes the following common blocks concerning final state information 
+c	this subroutine initializes the following common blocks concerning final state information
 c
 c      common block: num_part
 c      ----------------------
@@ -389,12 +389,12 @@ c
 c
 c     common block: madgraph_order_type
 c     ---------------------------------
-c           inv_matching_type_part(3:nexternal): function: MG order --> permutation order(classed by types of particles) 
+c           inv_matching_type_part(3:nexternal): function: MG order --> permutation order(classed by types of particles)
 c           matching_type_part(3:nexternal):     function:  permutation order  --> MG order
 c
 
       implicit none
-      
+
 c      include './genps.inc'
       include 'phasespace.inc'
       include 'maxamps.inc'
@@ -402,26 +402,26 @@ c      include './genps.inc'
 
       logical use_perm,perm_with_b, montecarlo_perm
       common/global_run_perm/use_perm,perm_with_b, montecarlo_perm
-      
-      integer matching_type_part(3:max_particles) 
+
+      integer matching_type_part(3:max_particles)
       integer inv_matching_type_part(3:max_particles)
       common/madgraph_order_type/matching_type_part,
-     & inv_matching_type_part 
- 
+     & inv_matching_type_part
+
       integer i
 
       integer idup(nexternal,maxproc,maxsproc)
       integer mothup(2,nexternal)
       integer icolup(2,nexternal,maxflow,maxsproc)
       include 'leshouche.inc'
-      
+
       logical pass     					!type agreement
       integer num_inv,num_jet,num_bjet,num_e,num_ae,num_mu,num_amu,
      + num_ta,num_ata,num_notfind, num_photon
       COMMON/num_part/num_inv,num_jet,num_bjet,num_e,num_ae,num_mu,
      + num_amu,num_ta,num_ata,num_photon
-      
-      
+
+
       integer jet(nexternal-2)
       integer bjet(nexternal-2)
       integer el(nexternal-2)
@@ -434,7 +434,7 @@ c      include './genps.inc'
       integer photon(nexternal-2)
 c
 c     local
-c         
+c
       integer l,tag					!counter
 
 
@@ -473,13 +473,13 @@ cc***********************************************************************
 
       do l=3,nexternal
 c
-c      invisible particule identification 
+c      invisible particule identification
 c
          pass=.false.
          if (abs(IDUP(l,1,1)).eq.12) then
             pass=.true.         !ve
          elseif (abs(IDUP(l,1,1)).eq.14)then
-            pass=.true.         !vm 
+            pass=.true.         !vm
          elseif (abs(IDUP(l,1,1)).eq.16)then
             pass=.true.         !vt
          elseif (abs(IDUP(l,1,1)).eq.18)then
@@ -491,11 +491,11 @@ c
          elseif (abs(IDUP(l,1,1)).eq.1000024)then
             pass=.true.         !chi0
          elseif (abs(IDUP(l,1,1)).eq.1000025)then
-            pass=.true.         !chi0    
+            pass=.true.         !chi0
          elseif (abs(IDUP(l,1,1)).eq.1000035)then
             pass=.true.         !chi0
          elseif (abs(IDUP(l,1,1)).eq.1000012)then
-            pass=.true.         !svm 
+            pass=.true.         !svm
          elseif (abs(IDUP(l,1,1)).eq.1000014)then
             pass=.true.         !svm
          elseif (abs(IDUP(l,1,1)).eq.1000016)then
@@ -504,14 +504,14 @@ c
             pass=.true.         !chi0
 
          endif
-	 
+
          if (pass)then
             num_inv=num_inv+1
             neutrino(num_inv) = l
 	    goto 20 !continue (next identification)
          endif
 c
-c      jet identification 
+c      jet identification
 c
          pass=.false.
          if (abs(IDUP(l,1,1)).le.4)then
@@ -521,20 +521,20 @@ c
          elseif (abs(IDUP(l,1,1)).eq.21)then
             pass=.true.         !gluon
          endif
-	 
+
          if (pass)then
             num_jet=num_jet+1
             jet(num_jet)=l
 	 goto 20 ! continue (next identification)
          endif
 c
-c      bjet identification 
+c      bjet identification
 c
          pass=.false.
          if(.not.perm_with_b.and.abs(IDUP(l,1,1)).eq.5)then
             pass=.true.
          endif
-	 
+
          if (pass)then
             write(*,*) 'find bjet',perm_with_b
             num_bjet=num_bjet+1
@@ -542,11 +542,11 @@ c
 	 goto 20 ! continue (next identification)
          endif
 c
-c      electron identification 
+c      electron identification
 c
          pass=.false.
          if (IDUP(l,1,1).eq.11) pass=.true. !electron
-         
+
   	 if (pass)then
             num_e=num_e+1
             el(num_e)=l
@@ -566,7 +566,7 @@ c
 
 
 c
-c      muon identification 
+c      muon identification
 c
          pass=.false.
          if (IDUP(l,1,1).eq.13) pass=.true. !muon
@@ -625,7 +625,7 @@ c
 
 
 c
-c        count un-identified particle 
+c        count un-identified particle
 c
 	 if(.not.pass)then
 c	    num_notfind=num_notfind+1
@@ -634,15 +634,15 @@ c	    num_notfind=num_notfind+1
             num_inv=num_inv+1
             neutrino(num_inv) = l
 
-	 endif	 
+	 endif
  20    enddo
- 
+
 
          write(*,*)'               '
          write(*,*)'* * *  topology identification  * * *'
          write(*,*)' '
 
- 
+
          write(*,*)'Final state content:'
          write(*,*)'--------------------'
          write(*,*) num_inv,' missing particles'
@@ -650,7 +650,7 @@ c         write(*,*) "those are",(neutrino(i),i=1,num_inv)
          write(*,*) num_jet,' light jets'
 c         write(*,*) "those are",(jet(i),i=1,num_jet)
          if(.not.perm_with_b) then
-            write(*,*) num_bjet,' b jets'           
+            write(*,*) num_bjet,' b jets'
          endif
          write(*,*) num_e,' electrons'
          write(*,*) num_ae,' positronss'
@@ -660,9 +660,9 @@ c         write(*,*) "those are",(jet(i),i=1,num_jet)
          write(*,*) num_ata,' anti taus'
          write(*,*) num_photon, 'photon'
 	 if(num_notfind.ge.1)then
-            write(*,*) "!!!!!WARNING!!!!!" 
+            write(*,*) "!!!!!WARNING!!!!!"
 	    write(*,*) num_notfind,'unknow particle detected'
-            write(*,*) "!!!!!WARNING!!!!!" 
+            write(*,*) "!!!!!WARNING!!!!!"
          endif
 
 C
@@ -675,21 +675,21 @@ c jet
             if (jet(l).ne.0)then
                inv_matching_type_part(tag)=jet(l)
                tag=tag+1
-            endif           
+            endif
          enddo
 c bjet
           do l=1,nexternal-2
             if (bjet(l).ne.0)then
                inv_matching_type_part(tag)=bjet(l)
                tag=tag+1
-            endif           
+            endif
          enddo
 c elec
          do l=1,nexternal-2
             if (el(l).ne.0)then
                inv_matching_type_part(tag)=el(l)
                tag=tag+1
-           endif           
+           endif
          enddo
 c posit
          do l=1,nexternal-2
@@ -703,7 +703,7 @@ c muon
             if (mu(l).ne.0)then
                inv_matching_type_part(tag)=mu(l)
                tag=tag+1
-           endif           
+           endif
          enddo
 c anti muon
          do l=1,nexternal-2
@@ -739,20 +739,17 @@ c invisible
             if (neutrino(l).ne.0)then
                inv_matching_type_part(tag)=neutrino(l)
                tag=tag+1
-            endif           
+            endif
          enddo
          do l=3,nexternal
             matching_type_part(inv_matching_type_part(l))=l
          enddo
 c
 c        write(*,*) "matching_type_part", (matching_type_part(l),l=3,nexternal)
-        write(*,*) "inv_matching_type_part", 
+        write(*,*) "inv_matching_type_part",
      & (inv_matching_type_part(l),l=3,nexternal)
 
 
 
         return
 	end
-
-
-

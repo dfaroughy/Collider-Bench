@@ -157,7 +157,7 @@ C...only spin 1/2 and 3/2 allowed
         elseif(j1.ne.2 .and. j1.ne.4)then
           std3to4tran=0
 	endif
-C...mesons 
+C...mesons
       elseif(i1.ne.0 .and. i2.ne.0 .and. i3.eq.0)then
         if(mconv.eq.1)then
           if(ida.eq.10111) std3to4tran=isign(9000111,id)

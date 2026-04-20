@@ -1,5 +1,5 @@
 ATLAS               ! parameter set name
-81                  ! eta cells in calorimeter  
+81                  ! eta cells in calorimeter
 63                  ! phi cells in calorimeter
 0.1                 ! eta width of calorimeter cells  |eta| < 5
 0.099733101         ! phi width of calorimeter cells

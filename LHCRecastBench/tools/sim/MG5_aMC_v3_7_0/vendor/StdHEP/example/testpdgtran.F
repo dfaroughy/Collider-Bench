@@ -65,7 +65,7 @@ c...diquarks
         	  write(lnhout,1101) idold1,idnew1,itmp1
         	else
         	  itmp2=pdgtonew(idnew2,2)
-        	  write(lnhout,1102) 
+        	  write(lnhout,1102)
      1        	        idold1,idnew1,itmp1,idold2,idnew2,itmp2
         	endif
               endif

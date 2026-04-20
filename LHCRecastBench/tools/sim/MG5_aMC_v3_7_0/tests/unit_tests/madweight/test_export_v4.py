@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2013 The MadGraph Development team and Contributors
 #
-# This file is a part of the MadGraph 5 project, an application which 
+# This file is a part of the MadGraph 5 project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph license which should accompany this 
+# It is subject to the MadGraph license which should accompany this
 # distribution.
 #
 # For more information, please visit: http://madgraph.phys.ucl.ac.be
@@ -32,11 +32,11 @@ pjoin = os.path.join
 
 class TestMadWeight(IOTests.IOTestManager):
     """ """
-    
+
     def test_ungrouping_lepton(self):
         """check that the routines which ungroup the process for the muon/electron processes
         works as expected"""
-        
+
         # Setup A simple model
         mypartlist = base_objects.ParticleList()
         myinterlist = base_objects.InteractionList()
@@ -122,7 +122,7 @@ class TestMadWeight(IOTests.IOTestManager):
         mu.set('pdg_code', 13)
         mypartlist.append(mu)
         antimu = copy.copy(mu)
-        antimu.set('is_part', False)        
+        antimu.set('is_part', False)
 
         # A Z
         mypartlist.append(base_objects.Particle({'name':'z',
@@ -142,7 +142,7 @@ class TestMadWeight(IOTests.IOTestManager):
         z = mypartlist[-1]
 
         # Coupling of Z to quarks
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 1,
                       'particles': base_objects.ParticleList(\
@@ -153,7 +153,7 @@ class TestMadWeight(IOTests.IOTestManager):
                       'lorentz':['FFV1', 'FFV2'],
                       'couplings':{(0, 0):'GUZ1', (0, 1):'GUZ2'},
                       'orders':{'QED':1}}))
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 2,
                       'particles': base_objects.ParticleList(\
@@ -163,8 +163,8 @@ class TestMadWeight(IOTests.IOTestManager):
                       'color': [color.ColorString([color.T(1,0)])],
                       'lorentz':['FFV1', 'FFV2'],
                       'couplings':{(0, 0):'GDZ1', (0, 1):'GDZ2'},
-                      'orders':{'QED':1}})) 
-        
+                      'orders':{'QED':1}}))
+
         myinterlist.append(base_objects.Interaction({
                       'id': 3,
                       'particles': base_objects.ParticleList(\
@@ -174,7 +174,7 @@ class TestMadWeight(IOTests.IOTestManager):
                       'color': [color.ColorString([color.T(1,0)])],
                       'lorentz':['FFV1', 'FFV2'],
                       'couplings':{(0, 0):'GUZ1', (0, 1):'GUZ2'},
-                      'orders':{'QED':1}}))       
+                      'orders':{'QED':1}}))
 
         # Coupling of Z to leptons
         myinterlist.append(base_objects.Interaction({
@@ -186,8 +186,8 @@ class TestMadWeight(IOTests.IOTestManager):
                       'color': [color.ColorString()],
                       'lorentz':['FFV1', 'FFV2'],
                       'couplings':{(0, 0):'GLZ1', (0, 1):'GLZ2'},
-                      'orders':{'QED':1}})) 
-        
+                      'orders':{'QED':1}}))
+
         # Coupling of Z to leptons
         myinterlist.append(base_objects.Interaction({
                       'id': 5,
@@ -198,13 +198,13 @@ class TestMadWeight(IOTests.IOTestManager):
                       'color': [color.ColorString()],
                       'lorentz':['FFV1', 'FFV2'],
                       'couplings':{(0, 0):'GLZ1', (0, 1):'GLZ2'},
-                      'orders':{'QED':1}})) 
+                      'orders':{'QED':1}}))
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
-        
+
         procs = [[1,-1,23], [2,-2,23], [4,-4,23]]
         decays = [[23,11,-11], [23,13,-13]]
         coreamplitudes = diagram_generation.AmplitudeList()
@@ -254,15 +254,15 @@ class TestMadWeight(IOTests.IOTestManager):
 
         subproc_groups = \
                        dc_subproc_group.generate_helas_decay_chain_subproc_groups()
-        
+
         ######################
         ##  Make the test!! ##
         ######################
         self.assertEqual(len(subproc_groups), 1)
         subproc_groups = subproc_groups.split_lepton_grouping()
-        self.assertEqual(len(subproc_groups), 2)        
-        
-        # check that indeed 
+        self.assertEqual(len(subproc_groups), 2)
+
+        # check that indeed
         for group in subproc_groups:
             self.assertEqual(len(group['matrix_elements']), 2)
             has_muon=any(abs(l['id'])==13 for l in group['matrix_elements'][0]['processes'][0]['decay_chains'][0]['legs'])
@@ -277,7 +277,7 @@ class TestMadWeight(IOTests.IOTestManager):
                             self.assertFalse(any(abs(l['id'])==11 for l in dec['legs']))
                         else:
                             self.assertFalse(any(abs(l['id'])==13 for l in dec['legs']))
-            
+
             self.assertNotEqual(group['name'], 'qq_z_z_ll')
             if has_muon:
                 self.assertEqual(group['name'], 'qq_z_z_mummup')
@@ -288,22 +288,19 @@ class TestMadWeight(IOTests.IOTestManager):
     @IOTests.createIOTest()
     def testIO_modification_to_cuts(self):
         """ target: cuts.f"""
-        
+
         exporter = export_v4.ProcessExporterFortranMW(self.IOpath)
         strfile = StringIO()
         exporter.get_mw_cuts_version(strfile)
-        
+
         text = strfile.getvalue()
-        
+
         # first ensure that the file seems coherent
         self.assertNotIn(' call initcluster', text)
         self.assertNotIn('ickkw', text)
         self.assertNotIn('genps.inc', text)
         self.assertIn('logical function cut_bw', text)
         self.assertIn('maxparticles.inc', text)
-        
+
         open(pjoin(self.IOpath, 'cuts.f'),'w').write(text)
         # But force manual inspection at each change of the file
-
-        
-        

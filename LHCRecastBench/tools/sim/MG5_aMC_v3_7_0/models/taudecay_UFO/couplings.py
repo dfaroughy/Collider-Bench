@@ -41,4 +41,3 @@ GC_7 = Coupling(name = 'GC_7',
 GC_8 = Coupling(name = 'GC_8',
                 value = 'F3*Fr1*Gf*Gr1*cmath.cos(cabi)*cmath.sqrt(2) + F3*Fr2*Gf*Gr2*cmath.cos(cabi)*cmath.sqrt(2)',
                 order = {'EFT':1,'QED':2})
-

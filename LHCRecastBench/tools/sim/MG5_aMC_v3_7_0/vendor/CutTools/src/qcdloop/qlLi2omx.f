@@ -10,7 +10,7 @@ C     and   -Li2(1-1/(x1*x2))-1/2*(ln(x1)+ln(x2))^2 for x1*x2>1
       ieps=sign(one,x2*ieps1+x1*ieps2)
       if (arg .le. 1d0) then
          if (arg.eq. 1d0 .or. arg .eq.0d0) then
-            prod=0d0 
+            prod=0d0
          else
             lnarg=ln(x1,ieps1)+ln(x2,ieps2)
             lnomarg=dcmplx(log(1d0-arg),0d0)

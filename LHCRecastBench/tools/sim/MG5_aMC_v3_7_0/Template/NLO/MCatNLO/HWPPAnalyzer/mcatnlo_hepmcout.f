@@ -13,7 +13,7 @@
       INCLUDE 'HEPMC.INC'
       INTEGER IP,I
 c print event to screen
-     
+
       WRITE(99,*)' EVENT ',NEVHEP
       DO IP=1,NHEP
          WRITE(99,100)IP,IDHEP(IP),ISTHEP(IP),

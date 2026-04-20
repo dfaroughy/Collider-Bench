@@ -351,4 +351,4 @@ inline T Complex<T>::normalize(void)
 	return l;
 }
 
-#endif 
+#endif

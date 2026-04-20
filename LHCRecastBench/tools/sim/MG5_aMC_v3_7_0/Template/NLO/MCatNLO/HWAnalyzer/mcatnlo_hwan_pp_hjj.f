@@ -27,7 +27,7 @@ C----------------------------------------------------------------------
       real*8 vetomin, vetomax
       integer nbinveto
       common /to_veto_hist/vetomin,vetomax,nbinveto
-c      
+c
       call inihist
       vetomin = 0d0
       vetomax = 100d0
@@ -176,7 +176,7 @@ C----------------------------------------------------------------------
       parameter(NPL=15000)
       common/c_analysis/nwgt_analysis
       OPEN(UNIT=99,FILE='HERVBF.top',STATUS='UNKNOWN')
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=1.D3/DFLOAT(NEVHEP)
       DO I=1,NPL
@@ -431,7 +431,7 @@ C now look for jets within the rapidity cuts
 c look for veto jet with y cuts
              if (ij3y.gt.0.and.
      &           yjet(i).gt.min(yjet(ij1y),yjet(ij2y)).and.
-     &           yjet(i).lt.max(yjet(ij1y),yjet(ij2y)).and.ijvetoy.eq.0) 
+     &           yjet(i).lt.max(yjet(ij1y),yjet(ij2y)).and.ijvetoy.eq.0)
      &           ijvetoy = i
          endif
       enddo
@@ -443,7 +443,7 @@ c Nason-Oleari cuts (hep-ph/0911.5299)
 
 c this is the loop for w-o / w vbf cuts
       do i=1,2
-      if(i.eq.1) then 
+      if(i.eq.1) then
          ij1 = 1
          ij2 = 2
          ij3 = 3
@@ -529,9 +529,9 @@ c components from 1 to 4, rather than from 0 to 3
      &                ptj2.ge.ptj_tag .and.
      &                abs(yj1-yj2).ge.deltay12 .and.
      &                yj1*yj2.le.0d0 .and.
-     &                mj1j2.ge.mj1j2min 
+     &                mj1j2.ge.mj1j2min
 
-      if(i.eq.1) then 
+      if(i.eq.1) then
          flag=.true.
       endif
 
@@ -576,8 +576,8 @@ c components from 1 to 4, rather than from 0 to 3
             call mfill(l+ 37,DphiHj1,www(kk))
             call mfill(l+ 40,DRHj1,www(kk))
             call mfill(l+ 47,ptrel_j1,www(kk))
-         endif 
-         
+         endif
+
          if(njet.ge.2)then
             call mfill(l+ 12,ptj2,www(kk))
             call mfill(l+ 13,ptj2,www(kk))
@@ -602,7 +602,7 @@ c components from 1 to 4, rather than from 0 to 3
             call mfill(l+ 44,Dyj1j2,www(kk))
             call mfill(l+ 48,ptrel_j2,www(kk))
          endif
-         
+
          if(njet.ge.3)then
             call mfill(l+ 17,ptj3,www(kk))
             call mfill(l+ 18,ptj3,www(kk))
@@ -1009,4 +1009,3 @@ c
 
       return
       end
-

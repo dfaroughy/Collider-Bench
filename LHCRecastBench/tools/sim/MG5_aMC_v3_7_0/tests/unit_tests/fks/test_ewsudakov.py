@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -38,14 +38,14 @@ pjoin = os.path.join
 
 class TestSudakov(unittest.TestCase):
     """ a suite of extra tests for the ew stuff """
-    
+
     def setUp(self):
         self.interface = mgcmd.MasterCmd()
         self.interface.do_import('model loop_qcd_qed_sm_Gmu_forSudakov')
 
     def test_generate_ewsud_ttbar(self):
         """check that the generate command works as expected.
-        In particular the correct number of matrix elements needed for the sudakov 
+        In particular the correct number of matrix elements needed for the sudakov
         piece
         """
         cmd = 'u u~ > t t~ [LOonly=QCD] --ewsudakov'
@@ -60,7 +60,7 @@ class TestSudakov(unittest.TestCase):
 
     def test_generate_ewsud_ww(self):
         """check that the generate command works as expected.
-        In particular the correct number of matrix elements needed for the sudakov 
+        In particular the correct number of matrix elements needed for the sudakov
         piece
         """
         cmd = 'u u~ > w+ w- [LOonly=QCD] --ewsudakov'
@@ -76,7 +76,7 @@ class TestSudakov(unittest.TestCase):
 
     def test_generate_ewsud_zz(self):
         """check that the generate command works as expected.
-        In particular the correct number of matrix elements needed for the sudakov 
+        In particular the correct number of matrix elements needed for the sudakov
         piece
         """
         cmd = 'u u~ > z z [LOonly=QCD] --ewsudakov'
@@ -87,8 +87,8 @@ class TestSudakov(unittest.TestCase):
         self.assertEqual(len(fksprocess.sudakov_amps), 9)
         types = [amp['type'] for amp in fksprocess.sudakov_amps]
         self.assertEqual(types.count('goldstone'), 0) # 0 goldstone amps (no coupling to light quarks)
-        self.assertEqual(types.count('ipm2'), 7) # 
-        self.assertEqual(types.count('cew'), 2) # cew amplitude for the z-a mixing 
+        self.assertEqual(types.count('ipm2'), 7) #
+        self.assertEqual(types.count('cew'), 2) # cew amplitude for the z-a mixing
 
 
 
@@ -99,11 +99,11 @@ class IOExportEWSudTest(IOTests.IOTestManager):
         """Create a process; SA is for the Standalone Output"""
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = mgcmd.MasterCmd()
-        
+
         if model.endswith('CMS'):
             run_cmd('set complex_mass_scheme')
             model = model[:-3]

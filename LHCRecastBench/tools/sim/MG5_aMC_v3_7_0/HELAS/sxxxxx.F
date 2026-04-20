@@ -8,7 +8,7 @@ c       integer nss  = -1 or 1 : +1 for final, -1 for initial
 c
 c output:
 c       complex sc(3)          : scalar wavefunction                   s
-c     
+c
       implicit none
       double complex sc(3)
       double precision p(0:3)

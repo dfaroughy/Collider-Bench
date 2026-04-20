@@ -1,18 +1,18 @@
 C THE CORE SUBROUTINE CALLED BY CUTTOOLS WHICH CONTAINS THE HELAS CALLS BUILDING THE LOOP
 
       SUBROUTINE %(proc_prefix)sLOOPNUM(Q,RES)
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
       INTEGER    NLOOPGROUPS
       PARAMETER (NLOOPGROUPS=%(nloop_groups)d)
       include 'loop_max_coefs.inc'
 C     These are constants related to the split orders
       INTEGER    NSQUAREDSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(complex_dp_format)s Q(0:3)
       %(complex_dp_format)s RES
 C
@@ -30,7 +30,7 @@ C
 	  %(complex_dp_format)s LOOPCOEFS(0:LOOPMAXCOEFS-1,NSQUAREDSO,NLOOPGROUPS)
 ## }else{
 	  %(complex_dp_format)s LOOPCOEFS(0:LOOPMAXCOEFS-1,NLOOPGROUPS)
-## }	  
+## }
 	  common/%(proc_prefix)sLCOEFS/LOOPCOEFS
 
 	  RES=(0.0d0,0.0d0)
@@ -47,9 +47,9 @@ C
 C MODULE
 C
       INCLUDE 'cts_mprec.h'
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
       INTEGER    NLOOPGROUPS
       PARAMETER (NLOOPGROUPS=%(nloop_groups)d)
 	  INTEGER    NEXTERNAL
@@ -58,13 +58,13 @@ C
 C     These are constants related to the split orders
       INTEGER    NSQUAREDSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       INCLUDE 'cts_mpc.h'                                             , INTENT(IN), DIMENSION(0:3) :: Q
       INCLUDE 'cts_mpc.h'                                             , INTENT(OUT) :: RES
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_mp_format)s QRES
 	  %(real_dp_format)s DUMMY(3,0:NSQUAREDSO)
@@ -123,13 +123,13 @@ C
 C MODULE
 C
       INCLUDE 'cts_mprec.h'
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       INCLUDE 'cts_mpc.h'                                             , INTENT(IN), DIMENSION(0:3) :: Q
       INCLUDE 'cts_mpc.h'                                             , INTENT(OUT) :: RES
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       %(complex_dp_format)s DRES
       %(complex_dp_format)s DQ(0:3)

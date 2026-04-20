@@ -34,7 +34,7 @@ c kinematic distributions we look at
       maxplot=5+5+1
       Nscales=3
       Npdfpairs=20
-      STEP=maxplot*(Nscales*Nscales+2*Npdfpairs)	  
+      STEP=maxplot*(Nscales*Nscales+2*Npdfpairs)
 c
       if((nwgt-1).ne.(Nscales*Nscales+2*Npdfpairs))then
         write(*,*)'Error #2',nwgt,Nscales,Npdfpairs
@@ -44,7 +44,7 @@ c
 c
       call inihist
 
-c loop over each setup	  
+c loop over each setup
       do j2=1,maxset
       k2=(j2-1)*STEP
 c loop over scales and PDFs; skip the first which is equal to (1,1)
@@ -62,7 +62,7 @@ c loop over scales and PDFs; skip the first which is equal to (1,1)
      #              10.d0,0.d0,1000.d0)
 c The centers of the bins correspond to the Mellin moments (eg, the bin
 c centered at 1 is the first Mellin moment). The bin at zero should be
-c equal to one (ie, zeroth Mellin moment), as a way of cross check 
+c equal to one (ie, zeroth Mellin moment), as a way of cross check
          call mbook(kk1+ 6 ,'l+ pt      '//cc(j2)//weights_info(kk),
      #              1.d0,-0.5d0,4.5d0)
          call mbook(kk1+ 7 ,'ll pt      '//cc(j2)//weights_info(kk),
@@ -109,14 +109,14 @@ C----------------------------------------------------------------------
 c$$$      OPEN(UNIT=99,NAME='HERQQ.TOP',STATUS='UNKNOWN')
       OPEN(UNIT=99,FILE='HERQQ.TOP',STATUS='UNKNOWN')
 
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=1.D3/DFLOAT(NEVHEP)
-      DO I=1,5000              
- 	CALL MFINAL3(I)             
+      DO I=1,5000
+ 	CALL MFINAL3(I)
         CALL MCOPY(I,I+5000)
         CALL MOPERA(I+5000,'F',I+5000,I+5000,XNORM,0.d0)
-      ENDDO                          
+      ENDDO
 c Normalize Mellin moments (i.e. divide plots '6'-'10' by the total x-section plot '11')
 c NOTE: below '5' == (maxplot-1)/2 ; '6'='5+1' !!!
       do j2=1,maxset
@@ -130,11 +130,11 @@ c loop over scales and PDFs; skip the first which is equal to (1,1)
        enddo
       enddo
 c
-      DO I=1,5000              
- 	CALL MFINAL3(I+5000)             
-      ENDDO                          
+      DO I=1,5000
+ 	CALL MFINAL3(I+5000)
+      ENDDO
 c
-c loop over each setup	  
+c loop over each setup
       do j2=1,maxset
       k2=(j2-1)*STEP
 c loop over scales and PDFs; skip the first which is equal to (1,1)
@@ -231,7 +231,7 @@ C EFFECT, SO THROW THE EVENT AWAY
           CALL HWVSUM(4,PHEP(1,IHEP),PSUM,PSUM)
           ICHSUM=ICHSUM+ICHRG(IDHW(IHEP))
         ENDIF
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID=IDHEP(IHEP)
         CALL BHAD(ID,BHADRN,BMESON,BBARYON)
 c Assume the relevant B-hadrons have been set stable in the driver
@@ -350,7 +350,7 @@ c Sanity checks
      #    (mbjet.eq.1.and.jbjmax(1).eq.0) )then
         write(*,*)njet,mjet,mbjet
         write(*,*)jbjmax(1),jbjmax(2)
-        CALL HWWARN('HWANAL',504) 
+        CALL HWWARN('HWANAL',504)
       endif
 c Tag the first two jets different from the hardest b jets -- these
 c can be light jets, but also softer b jets. Also check isolation
@@ -412,9 +412,9 @@ c Use the first two leptons in the event record
         ptlep(i)=getptv4(plep(1,i))
         etalep(i)=getpseudorapv4(plep(1,i))
         sumEE=sumEE+plep(4,i)
-        sumPT=sumPT+ptlep(i)				
+        sumPT=sumPT+ptlep(i)
       enddo
-	  
+
       if(IDHEP(IL(1)).LT.0)then
         ILP=1
         ILN=2
@@ -442,7 +442,7 @@ c
       obs(3)=xmlep
       obs(4)=sumEE
       obs(5)=sumPT
-c loop over each setup	  
+c loop over each setup
       do j2=1,maxset
       k2=(j2-1)*STEP
 c loop over scales and PDFs; skip the first which is equal to (1,1)
@@ -474,7 +474,7 @@ c Fill observables just once
           enddo
          enddo
 c
-        endif 
+        endif
        enddo
       enddo
 C
@@ -775,5 +775,3 @@ c
       endif
       return
       end
-
-

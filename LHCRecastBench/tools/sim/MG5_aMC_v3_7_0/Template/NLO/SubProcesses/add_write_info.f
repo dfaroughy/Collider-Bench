@@ -33,7 +33,7 @@ c Local
 c The process chosen to write
       integer i_process_addwrite
       common/c_addwrite/i_process_addwrite
-      
+
 c Random numbers
       double precision ran2
       external ran2
@@ -129,13 +129,13 @@ c pt_clust string
       common /c_need_matching_to_write/ need_matching
       double precision ptclus
       CHARACTER temp*600,temp0*7,integ*1,float*18
-      CHARACTER integfour*4      
+      CHARACTER integfour*4
       CHARACTER(LEN=1000) ptclusstring
       common /c_ptclusstring/ ptclusstring
       include 'orders.inc'
       logical is_aorg(nexternal)
       common /c_is_aorg/is_aorg
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
 c
 c Set the leshouche info and fks info
@@ -362,7 +362,7 @@ c include initial state masses
  888     continue
 c restore the common block for the masses to the original MG masses
          call put_on_MG_mshell()
-         if (mfail.eq.0) then 
+         if (mfail.eq.0) then
 c all went fine and we can copy the new momenta onto the old ones.
             do i=1,nexternal
                do j=0,3
@@ -526,7 +526,7 @@ c Skip the t-channels
          jpart(1,i)=sprop_tree(i)
          ns=ns+1
 c     Set status codes for propagator
-         if(OnBW(i)) then 
+         if(OnBW(i)) then
 c     Resonance whose mass should be preserved
             jpart(6,i)=2
             nres=nres+1
@@ -546,7 +546,7 @@ c     Fist set "safe" color info
          if(icolalt(1,ida(1))+icolalt(1,ida(2))-
      $        icolalt(2,ida(1))-icolalt(2,ida(2)).eq.0) then ! color singlet
             icolalt(1,i) = 0
-            icolalt(2,i) = 0            
+            icolalt(2,i) = 0
          elseif(icolalt(1,ida(1))-icolalt(2,ida(2)).eq.0) then
             icolalt(1,i) = icolalt(1,ida(2))
             icolalt(2,i) = icolalt(2,ida(1))
@@ -573,22 +573,22 @@ c     Set mother info for daughters
             jpart(3,ida(j)) = i
          enddo
 c     Just zero helicity info for intermediate states
-         jpart(7,i) = 9 
+         jpart(7,i) = 9
       enddo                     ! do i (loop over internal propagators)
-      
+
 c     Remove non-resonant mothers, set position of particles
       ires=0
       do i=-ns,nexpart
          jpart(4,i)=icolalt(1,i)
          jpart(5,i)=icolalt(2,i)
-         if(i.ge.1.and.i.le.nincoming) then 
+         if(i.ge.1.and.i.le.nincoming) then
             ito(i)=i            ! initial state particle
-         elseif(i.ge.nincoming+1) then 
+         elseif(i.ge.nincoming+1) then
             ito(i)=i+nres       ! final state particle
          elseif(i.le.-1.and.jpart(6,i).eq.2) then
             ires=ires+1
             ito(i)=2+ires       ! s-channel resonances
-         else 
+         else
             ito(i)=i
             if(i.eq.0) cycle
          endif
@@ -597,7 +597,7 @@ c     Remove non-resonant mothers, set position of particles
             jpart(3,i)=jpart(3,jpart(3,i))
          endif
       enddo
-        
+
 c
 c Shift particles to right place
 c
@@ -654,7 +654,7 @@ c
 c     Set the number of particles that needs to be written in event file
 c
       npart = nexpart+nres
-         
+
       return
       end
 
@@ -721,7 +721,7 @@ c*****************************************************************************
       implicit none
 c
 c     Constants
-c     
+c
       include 'genps.inc'
       include 'nexternal.inc'
       include 'run.inc'
@@ -760,7 +760,7 @@ c kept fixed between events and counter events:
 
 c-----
 c  Begin Code
-c-----      
+c-----
       if (Hevents) then
          call get_ID_H(IDUP)
          iloop=nexternal-3
@@ -807,7 +807,7 @@ c resonant.
                xmass = sqrt(dot(xp(0,i),xp(0,i)))
                onshell = ( abs(xmass-pmass(i)) .lt. bwcutoff*pwidth(i) )
             endif
-c     
+c
 c     If the invariant mass is close to pole mass, set OnBW to true
 c
             if(onshell)then
@@ -859,7 +859,7 @@ c      include 'fks.inc'
       integer jpart(7,-nexternal+3:2*nexternal-3),iflow
       integer i_part,j_part,imother,lc
       include 'orders.inc'
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
 c
       call fill_icolor_S(iflow,jpart,lc)
@@ -888,7 +888,7 @@ c
         write(*,*) "Error in fill_icolor_H, invalid imother", imother
         stop 1
       endif
-c The following works only if i_fks is always greater than j_fks.      
+c The following works only if i_fks is always greater than j_fks.
       if (j_fks.gt.nincoming) then
          if (j_part.eq.3.and.i_part.eq.-3) then ! g/a > q qb
             if ((jpart(4,imother).eq.0 .or. jpart(5,imother).eq.0).and.
@@ -924,13 +924,13 @@ c The following works only if i_fks is always greater than j_fks.
               jpart(4,i_fks)=jpart(4,imother)
               jpart(5,i_fks)=0
               jpart(4,j_fks)=0
-              jpart(5,j_fks)=jpart(5,imother) 
+              jpart(5,j_fks)=jpart(5,imother)
             elseif (split_type(qed_pos)) then
               ! photon (singlet) splitting, add a new color index
               jpart(4,i_fks)=lc+1
               jpart(5,i_fks)=0
               jpart(4,j_fks)=0
-              jpart(5,j_fks)=lc+1 
+              jpart(5,j_fks)=lc+1
             endif
          elseif (j_part.eq.3.and.i_part.eq.8) then ! q > q g
             if (jpart(4,imother).eq.0 .or. jpart(5,imother).ne.0) then
@@ -952,7 +952,7 @@ c The following works only if i_fks is always greater than j_fks.
             jpart(5,i_fks)=jpart(5,imother)
             jpart(4,j_fks)=0
             jpart(5,j_fks)=lc+1
-         elseif (j_part.eq.3.and.i_part.eq.1) then ! q > q a 
+         elseif (j_part.eq.3.and.i_part.eq.1) then ! q > q a
             jpart(4,i_fks)=0
             jpart(5,i_fks)=0
             jpart(4,j_fks)=jpart(4,imother)
@@ -968,7 +968,7 @@ c The following works only if i_fks is always greater than j_fks.
      &              jpart(4,imother),jpart(5,imother)
                stop
             endif
-            if (ran2().gt.0.5d0) then 
+            if (ran2().gt.0.5d0) then
                jpart(4,i_fks)=lc+1
                jpart(5,i_fks)=jpart(5,imother)
                jpart(4,j_fks)=jpart(4,imother)
@@ -1071,7 +1071,7 @@ c The following works only if i_fks is always greater than j_fks.
             jpart(5,i_fks)=lc+1
             jpart(4,j_fks)=jpart(4,imother)
             jpart(5,j_fks)=lc+1
-         elseif (j_part.eq.3.and.i_part.eq.1) then ! q > q a 
+         elseif (j_part.eq.3.and.i_part.eq.1) then ! q > q a
             jpart(4,i_fks)=0
             jpart(5,i_fks)=0
             jpart(4,j_fks)=jpart(4,imother)
@@ -1081,7 +1081,7 @@ c The following works only if i_fks is always greater than j_fks.
             jpart(5,i_fks)=0
             jpart(4,j_fks)=0
             jpart(5,j_fks)=jpart(5,imother)
-         elseif (j_part.eq.1.and.i_part.eq.3) then ! q > a q 
+         elseif (j_part.eq.1.and.i_part.eq.3) then ! q > a q
             jpart(4,i_fks)=jpart(5,imother)
             jpart(5,i_fks)=0
             jpart(4,j_fks)=0
@@ -1097,7 +1097,7 @@ c The following works only if i_fks is always greater than j_fks.
      &              jpart(4,imother),jpart(5,imother)
                stop
             endif
-            if (ran2().gt.0.5d0) then 
+            if (ran2().gt.0.5d0) then
                jpart(4,i_fks)=lc+1
                jpart(5,i_fks)=jpart(4,imother)
                jpart(4,j_fks)=lc+1
@@ -1182,7 +1182,7 @@ c cuts.inc contains maxjetflavor
       include 'orders.inc'
       logical is_aorg(nexternal)
       common /c_is_aorg/is_aorg
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
 
 c Masses of the real process, as set by MadGraph
@@ -1199,7 +1199,7 @@ c
       xmj=-1.d0
       xm1=-1.d0
       xm2=-1.d0
-c WARNING: what follows will need to be reconsidered the case of 
+c WARNING: what follows will need to be reconsidered the case of
 c QED corrections, for what is relevant to i_fks and j_fks
       if (split_type(qcd_pos).and.split_type(qed_pos)) then
           write(*,*) 'ERROR add_write_info not implemented'
@@ -1315,7 +1315,7 @@ c one_tree assumes massless incoming QCD particles
             if(pmass(i).eq.0.d0)then
               tmpmass=mcmass(idpart)
             else
-c If MadFKS has a non-zero mass for a "light" quark or lepton, one probably 
+c If MadFKS has a non-zero mass for a "light" quark or lepton, one probably
 c wants to use that in the shower phase as well (ie bottom or charm production).
 c One may use equivalently a condition on maxjetflavor
               tmpmass=pmass(i)
@@ -1495,7 +1495,7 @@ c NOTE: was ytmp=-ycm in MC@NLO owing to different conventions
         sol=xif+cosh(2*ytmp)-
      #      sqrt(2.d0)*cosh(ytmp)*sqrt(cosh(2*ytmp)-1+2*xif)
         if(sol.le.0.d0.or.idone.eq.1)then
-c The procedure failed; pass the massless event to the Monte Carlo, 
+c The procedure failed; pass the massless event to the Monte Carlo,
 c and let the Monte Carlo deal with it
           xm1=0.d0
           xm2=0.d0
@@ -1641,7 +1641,7 @@ c energy equal to Q0 and modulus of 3-momentum equal to Qv.
 c cth1 is the cosine of the angle between \vec{Q} and \vec{p1}
 c
 c There are two possible solutions, returned in arrays E*(#) and p*(#)
-c with #=-1,1. If a given solution is acceptable, ifail(#)=0, 
+c with #=-1,1. If a given solution is acceptable, ifail(#)=0,
 c and ifail(#)=1 otherwise
       implicit none
       double precision Q0,Qv,xm1,xm2,cth1
@@ -1715,7 +1715,7 @@ c
       double precision chy,shy,chymo,shatp,q0,stot,xm1_r,xm2_r,
      # ybst_cm_tolab
       double precision p1(0:3),p2(0:3),xk(0:3)
-      integer i 
+      integer i
 
       integer i_fks,j_fks
       common/fks_indices/i_fks,j_fks
@@ -1903,8 +1903,8 @@ c
 c
       xmj2=xmj**2
       xmi2=xmi**2
-      pjbst(0)=Q/2.d0*(1+(xmj2-xmi2)/Q2)            
-      pibst(0)=Q/2.d0*(1-(xmj2-xmi2)/Q2)            
+      pjbst(0)=Q/2.d0*(1+(xmj2-xmi2)/Q2)
+      pibst(0)=Q/2.d0*(1-(xmj2-xmi2)/Q2)
       pij=Q2**2-2*Q2*(xmi2+xmj2)+(xmi2-xmj2)**2
       pij=1/2.d0*sqrt( pij/Q2 )
       do i=1,3

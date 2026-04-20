@@ -1,9 +1,9 @@
-    name           pdflabel     Data file         as(Mz)       nloop    
+    name           pdflabel     Data file         as(Mz)       nloop
 ---------------------------------------------------------------------
-          
+
  MRST2002NLO       mrs02nl     mrst2002nlo.dat    0.1197         2
  MRST2002NNLO      mrs02nn     mrst2002nnlo.dat   0.1154         2
- 
+
  MRST2001-cg       mrs0119     alf119.dat         0.119          2
  MRST2001-lg       mrs0117     alf117.dat         0.117          2
  MRST2001-hg       mrs0121     alf121.dat         0.121          2
@@ -68,17 +68,12 @@
  CTEQ3L            cteq3_l     ---------          0.112          1
  CTEQ3D            cteq3_d     ---------          0.112          2
 
- CTEQ14QED-00      ct14q00    ph0.00_Proton.pds         0.118          2 
- CTEQ14QED-07      ct14q07    ph0.07_Proton.pds         0.118          2 
+ CTEQ14QED-00      ct14q00    ph0.00_Proton.pds         0.118          2
+ CTEQ14QED-07      ct14q07    ph0.07_Proton.pds         0.118          2
  CTEQ14QED-14      ct14q14    ph0.14_Proton.pds         0.118          2
- CTEQ14QED-21      ct14q21    ph0.21_Proton.pds         0.118          2  
+ CTEQ14QED-21      ct14q21    ph0.21_Proton.pds         0.118          2
 ---------------------------------------------------------------------
-          
+
  NNPDF23NLO        nn23nlo     NNPDF23nlo_as_0119_qed_mem0.grid  0.119  2
  NNPDF23LO         nn23lo      NNPDF23_lo_as_0119_qed_mem0.grid  0.119  2
  NNPDF23LO1        nn23lo1     NNPDF23_lo_as_0130_qed_mem0.grid  0.130  1
-  
-
-
- 
-

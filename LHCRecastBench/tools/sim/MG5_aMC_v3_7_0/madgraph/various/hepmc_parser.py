@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import absolute_import
 import gzip
 from six.moves import range
-import os 
+import os
 
 if '__main__' == __name__:
     import sys
@@ -15,9 +15,9 @@ if '__main__' == __name__:
             import internal
     else:
         __package__ = "madgraph.various"
-    
 
-try: 
+
+try:
     import madgraph
 except ImportError as error:
     print( sys.path)
@@ -25,14 +25,14 @@ except ImportError as error:
     from . import misc
 else:
     import madgraph.various.misc as misc
-    
+
 import os
 import logging
 
 class HEPMC_Particle(object):
-    
+
     def __init__(self, text=None, event=None):
-        
+
         self.barcode = 0
         self.pdg = 0
         self.px =  0
@@ -46,25 +46,25 @@ class HEPMC_Particle(object):
         self.vertex_barcode = 0 #vertex on which this particle is incoming
         self.nb_flow_list = 0
         self.flows = []
-        
+
         if text:
             self.parse(text, event)
-    
+
     @property
     def pdg_code(self):
         return self.pdg
-    
+
     pid = pdg_code
 
     @property
     def helicity(self):
         return 9
-    
+
     def parse(self,line=None, event=None):
         """ P 3 -2 0 0 3.0332529367341937e+01 3.0332529367341937e+01 0 21 0 0 -3 1 2 501"""
 
         data = line.split()
-        
+
         self.barcode = int(data[1]) # 3
         self.pdg = int(data[2])     #-2
         self.px =  float(data[3])   #0
@@ -77,26 +77,26 @@ class HEPMC_Particle(object):
         self.polarization_phi = float(data[10]) #0
         self.vertex_barcode = float(data[11]) #-3 vertex on which this particle is incoming
         self.nb_flow_list = int(data[12]) # 1
-        self.flows = [(int(data[13+2*i]),int(data[13+2*i+1])) 
+        self.flows = [(int(data[13+2*i]),int(data[13+2*i+1]))
                                       for i in range(self.nb_flow_list)] # 2 501
-        
+
         if event:
             event.curr_vertex.add_outcoming(self)
-        
+
     def __str__(self):
         """P 3 -2 0 0 3.0332529367341937e+01 3.0332529367341937e+01 0 21 0 0 -3 1 2 501"""
-        
+
         start = """P %i %i %17.16e %17.16e %17.16e %17.16e %17.16e %i %17.16e %17.16e %i %i %s\n""" %\
          (self.barcode, self.pdg, self.px, self.py, self.pz, self.E, self.mass,
-          self.status, self.polarization_theta, self.polarization_phi, 
+          self.status, self.polarization_theta, self.polarization_phi,
           self.vertex_barcode, self.nb_flow_list, ' '.join("%i %i" % f for f in self.flows))
 
-        
-        return start.replace("%17.16e" % 0, '0')
-        
 
-     
-        
+        return start.replace("%17.16e" % 0, '0')
+
+
+
+
 class HEPMC_Vertex(object):
 
     def __init__(self, text=None, event=None):
@@ -110,17 +110,17 @@ class HEPMC_Vertex(object):
         self.nb_orphan = 0
         self.nb_outgoing = 0
         self.nb_weight = 0
-        self.weights = [] 
+        self.weights = []
         self.incoming = []
         self.outcoming = []
-        
+
 
         if text:
             self.parse(text,event)
 
     def parse(self, line, event=None):
         """V -8 0 0 0 0 0 0 2 0"""
-        
+
         data = line.split()
         self.barcode = int(data[1])
         self.id = float(data[2])
@@ -131,13 +131,13 @@ class HEPMC_Vertex(object):
         self.nb_orphan = int(data[7])
         self.nb_outgoing = int(data[8])
         self.nb_weight = int(data[9])
-        self.weights = [float(data[10+i]) for i in range(self.nb_weight)]  
+        self.weights = [float(data[10+i]) for i in range(self.nb_weight)]
         if event:
-            event.vertex[self.barcode] = self      
+            event.vertex[self.barcode] = self
 
     def add_incoming(self, particle):
         self.incoming.append(particle)
-        
+
     def add_outcoming(self, particle):
         self.outcoming.append(particle)
 
@@ -185,8 +185,8 @@ class HEPMC_Event(object):
     def wgt(self, value):
         self.nb_weight = 1
         self.weights = [value]
-    
-    
+
+
     def parse(self, text):
 
         for line in text.split('\n'):
@@ -202,8 +202,8 @@ class HEPMC_Event(object):
             elif line[0] in ['E', 'N', 'U', 'H','F','C']:
                 getattr(self, 'parse_%s' % line[0])(line)
             else:
-                self.comment = '%s%s\n' % (self.comment,line) 
-        
+                self.comment = '%s%s\n' % (self.comment,line)
+
         # add the information about incoming particle
         for particle in self:
             try:
@@ -230,8 +230,8 @@ class HEPMC_Event(object):
         self.nb_random_state = int(data[11])
         self.randoms = [float(data[12+i]) for i in range(self.nb_random_state)]
         self.nb_weight =  int(data[12+self.nb_random_state])
-        self.weights = [float(data[13+self.nb_random_state+i]) 
-                          for i in range(self.nb_weight)]      
+        self.weights = [float(data[13+self.nb_random_state+i])
+                          for i in range(self.nb_weight)]
 
     def parse_N(self,line):
         """just keep the information so far"""
@@ -247,20 +247,20 @@ class HEPMC_Event(object):
 
     def __iter__(self):
         return list(self.particles.values()).__iter__()
-    
+
     #def __next__(self):
-    #    
+    #
     #    self.particles.__next__()
-        
+
     def add_vertex(self, V):
         self.vertex[V.barcode] = V
-        
+
     def add_particle(self, P):
         self.particles[P.barcode] = P
 
 class HEPMC_EventFile(object):
-    
-    
+
+
     def __init__(self, path, mode='r', *args, **opt):
         """open file and read the banner [if in read mode]"""
 
@@ -274,7 +274,7 @@ class HEPMC_EventFile(object):
         elif mode == 'r' and not os.path.exists(path) and os.path.exists(path[:-3]):
             self.file = open(path[:-3], mode, *args, **opt)
             path = path[:-3]
-        else:            
+        else:
             try:
                 self.file =  gzip.GzipFile(path, mode, *args, **opt)
                 self.zip_mode =True
@@ -287,7 +287,7 @@ class HEPMC_EventFile(object):
                 else:
                     self.to_zip = True
                 self.file = open(path[:-3], mode, *args, **opt)
-                path = path[:-3] 
+                path = path[:-3]
 
         self.parsing = True # check if/when we need to parse the event.
         self.eventgroup  = False
@@ -300,7 +300,7 @@ class HEPMC_EventFile(object):
                 if not line:
                     self.seek(0)
                     self.banner = ''
-                    break 
+                    break
                 if 'b' in mode or self.zip_mode:
                     line = str(line.decode(errors='ignore'))
                 self.header += line
@@ -309,19 +309,19 @@ class HEPMC_EventFile(object):
     def seek(self, *args, **opts):
         self.start_event = ""
         return self.file.seek(*args, **opts)
-    
+
     def tell(self):
         if self.zip_mode:
             currpos = self.file.tell()
             if not currpos:
                 currpos = self.size
-            return currpos  
-        else: 
-            return self.file.tell() 
+            return currpos
+        else:
+            return self.file.tell()
 
     def __iter__(self):
         return self
-    
+
     def __del__(self):
         try:
             self.file.close()
@@ -343,15 +343,15 @@ class HEPMC_EventFile(object):
         return self.len
 
     def close(self,*args, **opts):
-        
+
         out = self.file.close(*args, **opts)
         if self.to_zip:
             misc.gzip(self.path)
 
-    
+
     def next(self):
-        
-        
+
+
         return self.next_event()
 
     __next__ = next
@@ -376,7 +376,7 @@ class HEPMC_EventFile(object):
                     return HEPMC_Event(text)
                 else:
                     text += line
-                    
+
             elif line.lstrip().startswith('HepMC::IO_GenEvent-END_EVENT_LISTING'):
                 if text:
                     return HEPMC_Event(text)
@@ -384,26 +384,26 @@ class HEPMC_EventFile(object):
                 text = ''
             else:
                 text += line
-                
+
     def getfilesize(self):
         if self.zip_mode:
             self.file.seek(-4, 2)
             r = self.file.read()
             self.file.seek(0)
             import struct
-            return struct.unpack('<I', r)[0]       
+            return struct.unpack('<I', r)[0]
         else:
             self.file.seek(0,2)
             pos = self.file.tell()
             self.file.seek(0)
             return pos
-        
+
     def write(self, text):
-        
+
         if self.zip_mode or 'b' in self.mode:
-            self.file.write(text.encode()) 
+            self.file.write(text.encode())
         else:
-            self.file.write(text) 
+            self.file.write(text)
 
     @property
     def name(self):
@@ -413,8 +413,8 @@ class HEPMC_EventFile(object):
     def closed(self):
         return self.file.closed
 
-    
-    
+
+
 if "__main__" == __name__:
     path = "/Users/omattelaer/Documents/eclipse/2.7.1/PROC_sm_43/Events/run_01/tag_1_pythia8_events.hepmc.gz"
     evts = HEPMC_EventFile(path)

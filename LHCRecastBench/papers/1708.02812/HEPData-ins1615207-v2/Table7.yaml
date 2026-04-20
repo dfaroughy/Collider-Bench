@@ -15,75 +15,74 @@ dependent_variables:
   qualifiers:
   - {name: Process, value: P P --> W+ W- Z0}
   values:
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.001 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.001 }
     - {label: 'PU (exp.)', asymerror: {minus: -0.005, plus: +0.004} }
     - {label: 'QCD scales (theo.)', asymerror: {minus: -0.005, plus: +0.006} }
     - {label: 'PDF (theo.)', asymerror: {minus: -0.005, plus: +0.005} }
-    - {label: 'Luminosity (exp.)', symerror: 0.002 }     
+    - {label: 'Luminosity (exp.)', symerror: 0.002 }
     value: 0.058
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.008 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.008 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.012 }
     - {label: 'PU (exp.)', asymerror: {minus: -0.031, plus: +0.032} }
     - {label: 'QCD scales (theo.)', asymerror: {minus: -0.031, plus: +0.037} }
     - {label: 'PDF (theo.)', asymerror: {minus: -0.010, plus: +0.009} }
-    - {label: 'Luminosity (exp.)', symerror: 0.010 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.010 }
     value: 0.380
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.000 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.000 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.000 }
     - {label: 'PU (exp.)', symerror: 0.000 }
     - {label: 'QCD scales (theo.)', symerror: 0.000 }
     - {label: 'PDF (theo.)', symerror: 0.000 }
-    - {label: 'Luminosity (exp.)', symerror: 0.000 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.000 }
     value: 0.000
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.000 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.000 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.000 }
     - {label: 'PU (exp.)', symerror: 0.000 }
     - {label: 'QCD scales (theo.)', symerror: 0.000 }
     - {label: 'PDF (theo.)', symerror: 0.000 }
-    - {label: 'Luminosity (exp.)', symerror: 0.000 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.000 }
     value: 0.000
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.000 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.000 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.000 }
     - {label: 'PU (exp.)', symerror: 0.000 }
     - {label: 'QCD scales (theo.)', symerror: 0.000 }
     - {label: 'PDF (theo.)', symerror: 0.000 }
-    - {label: 'Luminosity (exp.)', symerror: 0.000 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.000 }
     value: 0.000
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.000 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.000 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.000 }
     - {label: 'PU (exp.)', symerror: 0.000 }
     - {label: 'QCD scales (theo.)', symerror: 0.000 }
     - {label: 'PDF (theo.)', symerror: 0.000 }
-    - {label: 'Luminosity (exp.)', symerror: 0.000 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.000 }
     value: 0.000
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.000 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.000 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.000 }
     - {label: 'PU (exp.)', symerror: 0.000 }
     - {label: 'QCD scales (theo.)', symerror: 0.000 }
     - {label: 'PDF (theo.)', symerror: 0.000 }
-    - {label: 'Luminosity (exp.)', symerror: 0.000 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.000 }
     value: 0.000
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.000 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.000 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.000 }
     - {label: 'PU (exp.)', symerror: 0.000 }
     - {label: 'QCD scales (theo.)', symerror: 0.000 }
     - {label: 'PDF (theo.)', symerror: 0.000 }
-    - {label: 'Luminosity (exp.)', symerror: 0.000 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.000 }
     value: 0.000
-  - errors: 
-    - {label: 'Trigger (exp.)', symerror: 0.000 }     
+  - errors:
+    - {label: 'Trigger (exp.)', symerror: 0.000 }
     - {label: 'Lepton efficiency (exp.)', symerror: 0.000 }
     - {label: 'PU (exp.)', symerror: 0.000 }
     - {label: 'QCD scales (theo.)', symerror: 0.000 }
     - {label: 'PDF (theo.)', symerror: 0.000 }
-    - {label: 'Luminosity (exp.)', symerror: 0.000 }         
+    - {label: 'Luminosity (exp.)', symerror: 0.000 }
     value: 0.000
-

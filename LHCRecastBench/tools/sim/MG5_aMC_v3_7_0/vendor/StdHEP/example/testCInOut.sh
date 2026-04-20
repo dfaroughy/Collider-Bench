@@ -7,7 +7,7 @@ mv testCInOutRead.txt  testCInOutRead.txt.bak
 mv testCInOut.io       testCInOut.io.bak
 
 echo "testCInOut.sh: run testCInOut"
-./testCInOut >& testCInOut.lpt 
+./testCInOut >& testCInOut.lpt
 
 echo "testCInOut.sh: compare output"
 cmd1=`diff -q -b testCInOutRead.txt testCInOutWrite.txt`

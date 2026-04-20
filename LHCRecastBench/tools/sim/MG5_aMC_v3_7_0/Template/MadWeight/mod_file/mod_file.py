@@ -19,13 +19,13 @@ def fuse_f77_files(list_input,output):
     comment_line='C*****************************************************\
                \nC**                 NEXT FILE                      **c\
                \nC*****************************************************'
-         
-    
+
+
 #SECURITY POINT
     if type(list_input)!=list:
         print('subroutine need at least two files for fuse')
         return 0
-    
+
     if output in list_input:
         print('output file cann\'t have the same name than an input file')
         return 0
@@ -34,7 +34,7 @@ def fuse_f77_files(list_input,output):
     gg=open(output, 'w')
     subroutine_name=[]
     routine_already_exist=False
-    
+
     for input in list_input:
 
         ff=open(input,'r')
@@ -71,10 +71,10 @@ def mod_matrix(input_file,output_file,new_rel_pos):
     Pattern=[]
     Pattern.append(re.compile(r'''\s*(DATA)\s*multi_channel/.\w{4,5}./''',re.I))
     Pattern.append(re.compile(r'''\s*(include)\s*"(\D*)"''',re.I))
-    Pattern.append(re.compile(r'''\s*(SAVE)\s*''',re.I))   
+    Pattern.append(re.compile(r'''\s*(SAVE)\s*''',re.I))
     Pattern.append(re.compile(r'''c*\s*(WRITE)\s*''',re.I))
     Pattern.append(re.compile(r'''\s*(DO)\s*J\s*=\s*\d\s*[,]\s*ISUM_HEL\s*''',re.I))
-    
+
 
     ff=open(input_file,'r')
     gg=open(output_file,'w')
@@ -133,7 +133,7 @@ def rem_open_file(input_file,output_file):
         else:
             mode=1
             print(line)
-        
+
     return
 
 #########################################################################"
@@ -147,7 +147,7 @@ def mod_model_make(pos_file):
     while 1:
         line=mod_file.readline()
         if line=="":
-            break   
+            break
         if pattern.search(line):
             text+=line[:-1]+' lha_reading.o \n'
         else:
@@ -155,8 +155,8 @@ def mod_model_make(pos_file):
     mod_file.close()
     mod_file=open(pos_file,'w')
     mod_file.writelines(text)
-    mod_file.close()    
-    
+    mod_file.close()
+
 #########################################################################"
 
 def mod_photon_flux(input_file,output_file):
@@ -164,7 +164,7 @@ def mod_photon_flux(input_file,output_file):
     file_in=open(input_file,'r')
     file_out=open(output_file,'w')
 
-    Pattern=re.compile(r'''\bphi\b''',re.I)  
+    Pattern=re.compile(r'''\bphi\b''',re.I)
 
     while 1:
         line=file_in.readline()
@@ -174,8 +174,8 @@ def mod_photon_flux(input_file,output_file):
             new_line=Pattern.split(line)
             print_line=new_line[0]
             for i in range(1,len(new_line)):
-                print_line+="phi_f"+new_line[i]                
-            file_out.writelines(print_line)           
+                print_line+="phi_f"+new_line[i]
+            file_out.writelines(print_line)
         else:
             file_out.writelines(line)
 
@@ -194,7 +194,7 @@ def mod_pdfwrap(input_file,output_file):
 
     Pattern=re.compile(r'''../alfas.inc''',re.I)
     replace="../../parameters/alfas.inc"
-    
+
     while 1:
         line=file_in.readline()
         if line=="":
@@ -209,42 +209,42 @@ def mod_pdfwrap(input_file,output_file):
             file_out.writelines(line)
 
     file_in.close()
-    file_out.close() 
+    file_out.close()
 #########################################################################"
 def mod_run_card(input_file,output_file):
 
     file_in=open(input_file,'r')
     file_out=open(output_file,'w')
-    
-    Pattern_min=re.compile(r'''^\s*[\d.d]*\s*=\s*\w*\s*!\s*min([\s]|[imum\s])''',re.I)   
+
+    Pattern_min=re.compile(r'''^\s*[\d.d]*\s*=\s*\w*\s*!\s*min([\s]|[imum\s])''',re.I)
     Pattern_max=re.compile(r'''^\s*[\d.d]*\s*=\s*\w*\s*!\s*max([\s]|[imum\s])''',re.I)
     Pattern_dist=re.compile(r'''^\s*[\d.d]*\s*=\s*\w*\s*!\s*dist([\s]|[ance\s])''',re.I)
 
     while 1:
         line=file_in.readline()
         if line=="":
-            break    
+            break
         if Pattern_min.search(line):
             line_split=line.split('=',1)
 #            print line_split,Pattern_min.search(line)
             print_line=" 0   ="+line_split[1]
-            file_out.writelines(print_line)            
+            file_out.writelines(print_line)
         elif Pattern_max.search(line):
             line_split=line.split('=',1)
-#            print line_split,Pattern_min.search(line)            
+#            print line_split,Pattern_min.search(line)
             print_line=" 1d2   ="+line_split[1]
-            file_out.writelines(print_line)            
+            file_out.writelines(print_line)
         elif Pattern_dist.search(line):
             line_split=line.split('=',1)
-#            print line_split,Pattern_min.search(line)           
+#            print line_split,Pattern_min.search(line)
             print_line=" 0   ="+line_split[1]
-            file_out.writelines(print_line)            
+            file_out.writelines(print_line)
         else:
             file_out.writelines(line)
 
 #########################################################################"
 def mod_auto_dsig(input_file,output_file,new_rel_pos):
-    
+
     file_in=open(input_file,'r')
     file_out=open(output_file,'w')
 
@@ -258,11 +258,11 @@ def mod_auto_dsig(input_file,output_file,new_rel_pos):
              dsig = 0d0
          endif
     """
-  
+
     ##Pattern to look at
     Pattern=[]
     Pattern.append(re.compile(r'''\s*(include)\s*"(\D*)"''',re.I))
-    Pattern.append(re.compile(r'''DOUBLE\s+PRECISION\s+[\w,]*rwgt''',re.I))   
+    Pattern.append(re.compile(r'''DOUBLE\s+PRECISION\s+[\w,]*rwgt''',re.I))
     Pattern.append(re.compile(r'''\brwgt\b''',re.I))
     Pattern.append(re.compile(r'''\*\s*conv\s*\*''',re.I))
     Pattern.append(re.compile(r'''\s*\call\s+unwgt''',re.I))
@@ -292,16 +292,16 @@ def mod_auto_dsig(input_file,output_file,new_rel_pos):
         file_out.write(line)
     file_out.close()
     file_in.close()
-                   
+
 ##
 ## FUNCTION
-        
+
 
 def mod_data(line):
     return """      DATA multi_channel/.false./ \n"""
 
 def mod_include(line,value,new_rel_pos):
-    return "      include \""+new_rel_pos+'/'+value[1]+"\"\n" 
+    return "      include \""+new_rel_pos+'/'+value[1]+"\"\n"
 
 def mod_randomHel(line):
     return line+"      write(*,*) \"problem: random helicities\"\n"

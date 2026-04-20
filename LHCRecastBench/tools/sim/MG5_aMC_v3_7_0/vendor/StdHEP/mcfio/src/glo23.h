@@ -1,12 +1,12 @@
 /* ntuBuild
 ** Creation Date : Tue Oct 17 22:09:51 1995
 **  User Comments
-**  
-*/    
+**
+*/
 #define nglob_max 12
 typedef struct {
     char version[8]; /* Version token */
-    int nglob; /* Generalized Ntuple Multiplicity value */ 
+    int nglob; /* Generalized Ntuple Multiplicity value */
     char           eventnumber; /* ?  */
     short          triggerbit1; /* this is a trigger bit field  */
     int            runnumber; /* ?  */
@@ -20,5 +20,5 @@ typedef struct {
     float          missingetnomuon[nglob_max]; /* ?  */
     double         v7_now[nglob_max]; /* ?  */
     double         v7_now_last[nglob_max]; /* ?  */
-    int fence; 
-} glob_struct; 
+    int fence;
+} glob_struct;

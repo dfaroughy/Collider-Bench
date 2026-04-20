@@ -10,14 +10,14 @@ c 1=II, 2=FF, 3=IF, 4=FI
 c values of grid nodes: Q(j), 1<=j<=jmax, Q being either st or xm
 c (or their squares if need be). They are defined as follows:
 c   Q(j) = b^[ Q0*(j/jmax)^k - alpha ]
-c and by imposing 
+c and by imposing
 c   Q(1)    = Qmin
 c   Q(jmax) = Qmax
 c with Qmin and Qmax given. These imply the following consistency relations:
 c   alpha*log(b)*(jmax^k-1) = log(Qmax) - jmax^k*log(Qmin)
 c   Q0 = alpha + log(Qmax)/log(b)
 c These are best exploited by choosing k, jmax, and b, and thus solving
-c for alpha and Q0. 
+c for alpha and Q0.
 c At given k and jmax, the values of the grid nodes are independent
 c of b. Thus, we can just choose b=10 or b=e. Consider that:
 c  - more points towards Qmin -> increase k
@@ -70,7 +70,7 @@ c$$$      external SUDAKOV FUNCTION
       parameter ( send_data_tag = 2001, return_data_tag = 2002)
       character*1 id_string
 
-c     
+c
       root_process=0
       call MPI_INIT(ierr)
 
@@ -85,8 +85,8 @@ c     will do the runs for sudakov itypes 1, and 2-4, respectively.
      $        ,num_procs,'specified)'
          stop 1
       endif
-         
-      
+
+
       do i=1,21
         mcmass(i)=0.d0
         grid(i)=.false.
@@ -102,7 +102,7 @@ c
 
 c Only read the inputs for the master process and send them to the three slaves
       if (my_id .eq. root_process) then
-      
+
          write(*,*)'enter lower and upper bounds of st range'
          read(*,*)stlow,stupp
          write(*,*)'enter lower and upper bounds of M range'
@@ -117,7 +117,7 @@ c Only read the inputs for the master process and send them to the three slaves
          read(5,*)ifk88seed
 c Discard first (tends to be extremely small)
          if(ifk88seed.ge.1)rnd=fk88random(ifk88seed)
-         
+
          do slave_process=1,3
             call MPI_SEND( stlow, 1, MPI_LONG, slave_process, 1,
      $           MPI_COMM_WORLD,ierr)
@@ -133,7 +133,7 @@ c Discard first (tends to be extremely small)
      $           MPI_COMM_WORLD,ierr)
          enddo
       else
-c The slaves wait to read the information from the master process         
+c The slaves wait to read the information from the master process
          call MPI_RECV( stlow, 1, MPI_LONG, root_process, 1,
      $        MPI_COMM_WORLD, status, ierr)
          call MPI_RECV( stupp, 1, MPI_LONG, root_process, 2,
@@ -726,4 +726,3 @@ c
       iseedtopy=itmp
       return
       end
-

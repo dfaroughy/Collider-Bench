@@ -19,20 +19,20 @@ from mod_file import *
 
 def go_to_main_dir():
     """ move to main position """
-    
+
     list_dir=os.listdir('./')
     if 'bin' in list_dir:
         return
-    else:        
-        os.chdir(os.pardir)  
-    
+    else:
+        os.chdir(os.pardir)
+
     list_dir=os.listdir('./')
     if 'bin' in list_dir:
         return
     else:
         print('script must be launched from main or bin/Source directory')
         sys.exit()
-            
+
 
 #############################################################################
 ##                          Main
@@ -42,7 +42,7 @@ if(__name__=="__main__"):
     #supress open_file subroutine  from couplings.f if defined
     rem_open_file("Source/MODEL/couplings.f","Source/MODEL/couplings_new.f")
     os.system(  "mv Source/MODEL/couplings_new.f   Source/MODEL/couplings.f")
-    #same for couplingsValues.f 
+    #same for couplingsValues.f
     if os.path.exists("Source/MODEL/couplingsValues.f") :
         rem_open_file("Source/MODEL/couplingsValues.f","Source/MODEL/couplingsValues_new.f")
         os.system(  "mv Source/MODEL/couplingsValues_new.f   Source/MODEL/couplingsValues.f")

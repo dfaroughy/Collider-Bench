@@ -32,7 +32,7 @@ static char SCCSID[] = "@(#)settings.c	1.1	4/6/92";
 #include "phase.h"
 #include "space.h"
 #include "phaseP.h"
- 
+
 static void createVectorLengthPanel(PhaseWindow *window);
 static void createButtonRotationPanel(StdHepWindow *window);
 static void resetBtnRotText(StdHepWindow *window, Widget selBox);
@@ -49,7 +49,7 @@ void ShowVectorLengthPanel(PhaseWindow *window)
     else
     	XRaiseWindow(XtDisplay(window->vectorLengthPanel),
     		     XtWindow(XtParent(window->vectorLengthPanel)));
-}    
+}
 
 void ShowButtonRotationPanel(StdHepWindow *window)
 {
@@ -60,7 +60,7 @@ void ShowButtonRotationPanel(StdHepWindow *window)
     else
     	XRaiseWindow(XtDisplay(window->btnRotationPanel),
     		     XtWindow(XtParent(window->btnRotationPanel)));
-}    
+}
 
 static void createVectorLengthPanel(PhaseWindow *window)
 {
@@ -70,9 +70,9 @@ static void createVectorLengthPanel(PhaseWindow *window)
     XmString s1, s2;
 
     ac = 0;
-    XtSetArg(args[ac], XmNselectionLabelString, 
+    XtSetArg(args[ac], XmNselectionLabelString,
     	     (s1=MKSTRING("Percent of vector visible toward center"))); ac++;
-    XtSetArg(args[ac], XmNokLabelString, 
+    XtSetArg(args[ac], XmNokLabelString,
     	     (s2=MKSTRING("Dismiss"))); ac++;
     selBox = XmCreatePromptDialog(window->shell, "vectorLengthBox", args, ac);
     XmStringFree(s1);
@@ -89,15 +89,15 @@ static void createVectorLengthPanel(PhaseWindow *window)
     slider = XmCreateScale(selBox, "vectorLength", args, ac);
     XtAddCallback(slider, XmNdragCallback,
                    (XtCallbackProc) sliderCB, window);
-    XtAddCallback(slider, XmNvalueChangedCallback, 
+    XtAddCallback(slider, XmNvalueChangedCallback,
                    (XtCallbackProc) sliderCB, window);
     XtManageChild(slider);
-    
+
     XtManageChild(selBox);
-    
+
     window->vectorLengthPanel = selBox;
 }
-    
+
 static void createButtonRotationPanel(StdHepWindow *window)
 {
     Arg args[50];
@@ -121,9 +121,9 @@ buttons or arrow keys are pressed"))); ac++;
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_HELP_BUTTON));
     XtManageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_APPLY_BUTTON));
     SET_ONE_RSRC(XtParent(selBox), XmNtitle, "Button Rotation");
-    resetBtnRotText(window, selBox);    
+    resetBtnRotText(window, selBox);
     XtManageChild(selBox);
-    
+
     window->btnRotationPanel = selBox;
 }
 
@@ -138,7 +138,7 @@ static void resetBtnRotText(StdHepWindow *window, Widget selBox)
 static void sliderCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     int value;
-    
+
     XmScaleGetValue(w, &value);
     if (window->vectorLength != ((double)value)/100.) {
 	window->vectorLength = ((double)value)/100.;
@@ -151,7 +151,7 @@ static void btnRotOkCB(Widget w, StdHepWindow *window, caddr_t call_data)
     char *string;
     double value = -1.;
     int nRead;
-    
+
     string = XmTextGetString(XmSelectionBoxGetChild(w, XmDIALOG_TEXT));
     nRead = sscanf(string, "%lf", &value);
     XtFree(string);

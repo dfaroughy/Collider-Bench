@@ -4,13 +4,13 @@ C
 C
       include 'nexternal.inc'
       include "phasespace.inc"
-      integer perm_id(nexternal-2)     !permutation of 1,2,...,nexternal-2      
+      integer perm_id(nexternal-2)     !permutation of 1,2,...,nexternal-2
 C
       integer i,j
 
       double precision pexp_init(0:3,nexternal)  !impulsion in original configuration
       common/to_pexp_init/pexp_init
-      double precision pexp(0:3,nexternal)      
+      double precision pexp(0:3,nexternal)
       common/to_pexp/pexp
 
       integer tag_lhco(3:nexternal)
@@ -36,4 +36,4 @@ C
          tag_lhco(j)=tag_init(2+perm_id(j-2))
       enddo
 
-      end 
+      end

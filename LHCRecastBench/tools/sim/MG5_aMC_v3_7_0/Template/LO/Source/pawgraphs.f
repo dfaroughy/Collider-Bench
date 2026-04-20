@@ -79,7 +79,3 @@ c-----
 c      call hcurve(1,'shat.dat')
 c      call hrput(0,'wg.paw','N')
       end
-
-
-
-

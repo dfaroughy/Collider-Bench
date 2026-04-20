@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -31,7 +31,7 @@ import time
 import six
 
 pjoin = os.path.join
-# Get the grand parent directory (mg5 root) of the module real path 
+# Get the grand parent directory (mg5 root) of the module real path
 # (tests/acceptance_tests) and add it to the current PYTHONPATH to allow
 # for easy import of MG5 tools
 
@@ -48,7 +48,7 @@ from madgraph import MadGraph5Error, MG5DIR
 
 class MERunner(object):
     """Base class to containing default function to setup, run and access results
-    produced with a specific ME generator. 
+    produced with a specific ME generator.
     """
 
     temp_dir_name = ""
@@ -77,7 +77,7 @@ class MERunner(object):
         pass
 
     def get_result(self, proc_id):
-        """Return the result (i.e., ME value for a particular PS point) for a 
+        """Return the result (i.e., ME value for a particular PS point) for a
         specific process identified with its id."""
 
         return self.proc_list[proc_id]
@@ -87,31 +87,31 @@ class MERunner(object):
         the same state as it was initially (e.g., remove temp dirs, ...)
         """
         pass
-    
+
     @staticmethod
     def get_coupling_definitions(orders):
         """ Return a string specifying the orders specified by the dictionary
         orders. It makes sure to support the specification of squared order
-        constraints with this syntax: 
+        constraints with this syntax:
           {'QCD^2==':3, 'QED':4} -> 'QED=4 QCD^2==3'
         """
-        
+
         # The squared order couplings can be specified via the dictionary
         # squared_orders using either of the two syntax:
         # {'QCD':2,'QED':4} or {'QCD^2<=':2,'QED^2<=':4}
-        # The latter syntax allowing for specifying the comparator. 
-        # The reg. exp. below makes sure one can separate the two syntaxes.       
+        # The latter syntax allowing for specifying the comparator.
+        # The reg. exp. below makes sure one can separate the two syntaxes.
         sq_order_re = re.compile(
           r"^\s*(?P<coup_name>\w*)\s*\^2\s*(?P<logical_operator>(==)|(<=)|=|>)")
 
-        squared_couplings = []        
+        squared_couplings = []
         for coup, value in orders.items():
             parsed = sq_order_re.match(coup)
             if not parsed is None:
                 operator = parsed.group('logical_operator')
                 coup_name = parsed.group('coup_name')
             else:
-                operator = '=' 
+                operator = '='
                 coup_name = coup
             squared_couplings.append('%s^2%s%i'% (coup_name,operator,value))
         return "%s "%' '.join(squared_couplings)
@@ -120,7 +120,7 @@ class MG4Runner(MERunner):
     """Runner object for the MG4 Matrix Element generator."""
 
     mg4_path = ""
-    
+
     type='v4'
     name = 'MadGraph v4'
     compilator ='f77'
@@ -152,10 +152,10 @@ class MG4Runner(MERunner):
 
         if not temp_dir:
             i=0
-            while os.path.exists(os.path.join(mg4_path, 
+            while os.path.exists(os.path.join(mg4_path,
                                               "ptest_%s_%s" % (self.type, i))):
                 i += 1
-            temp_dir = "ptest_%s_%s" % (self.type, i)         
+            temp_dir = "ptest_%s_%s" % (self.type, i)
 
         if os.path.exists(os.path.join(mg4_path, temp_dir)):
             raise IOError("Path %s for test already exist" % \
@@ -198,7 +198,7 @@ class MG4Runner(MERunner):
                      self.temp_dir_name)
         except:
             pass
-            
+
     def run(self, proc_list, model, orders={}, energy=1000):
         """Execute MG4 on the list of processes mentioned in proc_list, using
         the specified model, the specified maximal coupling orders and a certain
@@ -250,7 +250,7 @@ class MG4Runner(MERunner):
 
     def format_mg4_proc_card(self, proc_list, model, orders):
         """Create a proc_card.dat string following v4 conventions. Does not
-        support v5 decay chain format for the moment not squared order 
+        support v5 decay chain format for the moment not squared order
         constraints."""
 
         # TODO: fix the decay chain notation
@@ -275,7 +275,7 @@ class MG4Runner(MERunner):
         sys.stdout.write('.')
         sys.stdout.flush()
         working_dir = os.path.join(self.mg4_path, self.temp_dir_name)
-         
+
         shell_name = None
         directories = glob.glob(os.path.join(working_dir, 'SubProcesses',
                                   'P%i_*' % proc_id))
@@ -288,14 +288,14 @@ class MG4Runner(MERunner):
             return ((0.0, 0), [])
 
         logging.info("Working on process %s in dir %s" % (proc, shell_name))
-        
+
         dir_name = os.path.join(working_dir, 'SubProcesses', shell_name)
         # Run make
         devnull = open(os.devnull, 'w')
         retcode = subprocess.call('make',
                         cwd=dir_name,
                         stdout=devnull, stderr=devnull)
-                        
+
         if retcode != 0:
             logging.info("Error while executing make in %s" % shell_name)
             return ((0.0, 0), [])
@@ -312,8 +312,8 @@ class MG4Runner(MERunner):
             return ((0.0, 0), [])
 
     def parse_check_output(self, output):
-        """Parse the output string and return a pair where first value is 
-        the ME value and GeV exponent and the second value is a list of 4 
+        """Parse the output string and return a pair where first value is
+        the ME value and GeV exponent and the second value is a list of 4
         momenta for all particles involved."""
 
         res_p = []
@@ -349,7 +349,7 @@ class MG4Runner(MERunner):
             file = open(check_sa_path, 'r')
             check_sa = file.read()
             file.close()
-    
+
             file = open(check_sa_path, 'w')
             file.write(re.sub("SQRTS=1000d0", "SQRTS=%id0" % int(energy), check_sa))
             file.close()
@@ -361,7 +361,7 @@ class MG5Runner(MG4Runner):
 
     name = 'MadGraph v5'
     type = 'v5'
-        
+
 
     def setup(self, mg5_path, mg4_path, temp_dir=None):
         """Wrapper for the mg4 setup, also initializing the mg5 path variable"""
@@ -370,10 +370,10 @@ class MG5Runner(MG4Runner):
 
         if not temp_dir:
             i=0
-            while os.path.exists(os.path.join(mg4_path, 
+            while os.path.exists(os.path.join(mg4_path,
                                               "ptest_%s_%s" % (self.type, i))):
                 i += 1
-            temp_dir = "ptest_%s_%s" % (self.type, i)         
+            temp_dir = "ptest_%s_%s" % (self.type, i)
 
         self.temp_dir_name = temp_dir
 
@@ -382,12 +382,12 @@ class MG5Runner(MG4Runner):
         the specified model, the specified maximal coupling orders and a certain
         energy for incoming particles (for decay, incoming particle is at rest).
         """
-        self.res_list = [] # ensure that to be void, and avoid pointer problem 
+        self.res_list = [] # ensure that to be void, and avoid pointer problem
         self.proc_list = proc_list
         self.model = model
         self.orders = orders
         self.energy = energy
-        self.non_zero = 0 
+        self.non_zero = 0
         dir_name = os.path.join(self.mg4_path, self.temp_dir_name)
 
         # Create a proc_card.dat in the v5 format
@@ -433,8 +433,8 @@ class MG5Runner(MG4Runner):
         else:
             self.res_list = [((0.0, 0), [])] * len(proc_list)
             return self.res_list
-        
-        
+
+
     def format_mg5_proc_card(self, proc_list, model, orders):
         """Create a proc_card.dat string following v5 conventions."""
 
@@ -449,12 +449,12 @@ class MG5Runner(MG4Runner):
                      os.path.join(self.mg4_path, self.temp_dir_name)
 
         return v5_string
-    
+
 class MG5_UFO_Runner(MG5Runner):
-    
+
     name = 'UFO-ALOHA-MG5'
     type = 'ufo'
-    
+
     def format_mg5_proc_card(self, proc_list, model, orders):
         """Create a proc_card.dat string following v5 conventions."""
 
@@ -473,16 +473,16 @@ class MG5_UFO_Runner(MG5Runner):
         return v5_string
 
 class MG5_UFO_gauge_Runner(MG5Runner):
-    
+
     #name = 'MG5_gauge'
     #type = 'ufo_cms'
-    
+
     def __init__(self, cms, gauge):
         self.cms = cms
         self.gauge = gauge
         self.type =  '%s_%s' %(self.cms, self.gauge)
         self.name =  'MG5_%s_%s' %(self.cms, self.gauge)
-    
+
     def format_mg5_proc_card(self, proc_list, model, orders):
         """Create a proc_card.dat string following v5 conventions."""
 
@@ -499,7 +499,7 @@ class MG5_UFO_gauge_Runner(MG5Runner):
                          '@%i' % i + '\n'
         v5_string += "output standalone %s -f\n" % \
                      os.path.join(self.mg4_path, self.temp_dir_name)
-                     
+
         v5_string += 'set complex_mass_scheme False \n'
         v5_string += 'set gauge unitary \n'
 
@@ -507,29 +507,29 @@ class MG5_UFO_gauge_Runner(MG5Runner):
 
 class MG5OldRunner(MG5Runner):
     """ """
-    
+
     mg5_path = ""
     name = 'MadGraph5 Reference'
     type = 'ufo_ref'
-    
+
     def setup(self, mg5_path, temp_dir=None):
         """ initializing the mg5 path variable"""
         self.mg5_path = os.path.abspath(mg5_path)
 
         if not temp_dir:
             i=0
-            while os.path.exists(os.path.join(MG5DIR, 
+            while os.path.exists(os.path.join(MG5DIR,
                                               "ptest_%s_%s" % (self.type, i))):
                 i += 1
-            temp_dir = "ptest_%s_%s" % (self.type, i)         
-        self.temp_dir_name = temp_dir    
+            temp_dir = "ptest_%s_%s" % (self.type, i)
+        self.temp_dir_name = temp_dir
 
     def run(self, proc_list, model, orders={}, energy=1000):
         """Execute MG5 on the list of processes mentioned in proc_list, using
         the specified model, the specified maximal coupling orders and a certain
         energy for incoming particles (for decay, incoming particle is at rest).
         """
-        self.res_list = [] # ensure that to be void, and avoid pointer problem 
+        self.res_list = [] # ensure that to be void, and avoid pointer problem
         self.proc_list = proc_list
         self.model = model
         self.orders = orders
@@ -556,14 +556,14 @@ class MG5OldRunner(MG5Runner):
         # Run mg5
         logging.info("Running mg5")
 
-        devnull = open(os.devnull,'w') 
+        devnull = open(os.devnull,'w')
         if logging.root.level >=20:
             subprocess.call([pjoin(self.mg5_path,'bin','mg5_aMC'), proc_card_location],
                         stdout=devnull, stderr=devnull)
-        else:       
+        else:
             subprocess.call([pjoin(self.mg5_path,'bin','mg5_aMC'), proc_card_location])
-                        
-        
+
+
         # Remove the temporary proc_card
         os.remove(proc_card_location)
         try:
@@ -579,10 +579,10 @@ class MG5OldRunner(MG5Runner):
 
 
 class MG5_UFO_OldRunner(MG5OldRunner):
-    
+
     name = 'UFO-ALOHA-MG5-REF'
     type = 'ufo_ref'
-    
+
     def format_mg5_proc_card(self, proc_list, model, orders):
         """Create a proc_card.dat string following v5 conventions."""
 
@@ -603,7 +603,7 @@ class MG5_CPP_Runner(MG5Runner):
     """Runner object for the MG5 C++ Standalone output."""
 
     mg5_path = ""
-    
+
     type='cpp'
     name = 'MG5-C++'
     compilator ='g++'
@@ -751,7 +751,7 @@ class MEComparator(object):
             cpu_time1 = time.time()
             logging.info("Now running %s" % runner.name)
             if pass_proc:
-                runner.pass_proc = pass_proc 
+                runner.pass_proc = pass_proc
             self.results.append(runner.run(proc_list, model[i], orders, energy))
             if hasattr(runner, 'new_proc_list'):
                 pass_proc = runner.new_proc_list
@@ -759,7 +759,7 @@ class MEComparator(object):
             logging.info(" Done in %0.3f s" % (cpu_time2 - cpu_time1))
             logging.info(" (%i/%i with zero ME)" % \
                     (len([res for res in self.results[-1] if res[0][0] == 0.0]),
-                     len(proc_list)))         
+                     len(proc_list)))
 
     def cleanup(self):
         """Call cleanup for each MERunner."""
@@ -769,7 +769,7 @@ class MEComparator(object):
             runner.cleanup()
 
     def _fixed_string_length(self, mystr, length):
-        """Helper function to fix the length of a string by cutting it 
+        """Helper function to fix the length of a string by cutting it
         or adding extra space."""
 
         if len(mystr) > length:
@@ -786,7 +786,7 @@ class MEComparator(object):
         for proc in self.proc_list:
             if len(proc) + 1 > proc_col_size:
                 proc_col_size = len(proc) + 1
-        
+
         col_size = 17
 
         pass_proc = 0
@@ -845,7 +845,7 @@ class MEComparator(object):
 
         non_zero_proc = []
         non_zero_res = []
-        
+
         for i, proc in enumerate(self.proc_list):
             list_res = [res[i] for res in self.results]
             if sum([abs(res[0][0]) for res in list_res]) != 0.0:
@@ -855,7 +855,7 @@ class MEComparator(object):
         return non_zero_proc, non_zero_res
 
     def assert_processes(self, test_object, tolerance = 1e-06):
-        """Run assert to check that all processes passed comparison""" 
+        """Run assert to check that all processes passed comparison"""
 
         col_size = 17
         fail_proc = 0
@@ -873,7 +873,7 @@ class MEComparator(object):
                             ''.join([self._fixed_string_length("%1.10e" % res,
                                                                col_size) for \
                                      res in list_res])
-                
+
                 fail_str += self._fixed_string_length("%1.10e" % diff, col_size)
 
         test_object.assertEqual(fail_str, "Failed for processes:")
@@ -882,7 +882,7 @@ class MEComparatorGauge(MEComparator):
     """Base object to run comparison tests. Take standard MERunner objects and
     a list of proc as an input and return detailed comparison tables in various
     formats."""
-    
+
     def output_result(self, filename=None, tolerance=3e-06, skip_zero=True):
         """Output result as a nicely formated table. If filename is provided,
         write it to the file, else to the screen. Tolerance can be adjusted."""
@@ -892,7 +892,7 @@ class MEComparatorGauge(MEComparator):
         for proc in self.proc_list:
             if len(proc) + 1 > proc_col_size:
                 proc_col_size = len(proc) + 1
-        
+
         col_size = 18
 
         pass_proc = 0
@@ -907,8 +907,8 @@ class MEComparatorGauge(MEComparator):
                   "Result"
 
         for i, proc in enumerate(self.proc_list):
-            list_res = [res[i][0][0] for res in self.results]            
-            
+            list_res = [res[i][0][0] for res in self.results]
+
             diff_feyn = abs(list_res[1] - list_res[2]) / \
                        (list_res[1] + list_res[2] + 1e-99)
             diff_unit = abs(list_res[0] - list_res[3]) / \
@@ -919,9 +919,9 @@ class MEComparatorGauge(MEComparator):
                        (list_res[2] + list_res[3] + 1e-99)
             if len(list_res) == 5:
                 diff_FD = abs(list_res[2] - list_res[4]) / \
-                       (list_res[2] + list_res[4] + 1e-99) 
+                       (list_res[2] + list_res[4] + 1e-99)
             else:
-                diff_FD = 0 
+                diff_FD = 0
             max_diff = max(diff_feyn, diff_unit, diff_cms, diff_fixw, diff_FD)
 
             res_str += '\n' + self._fixed_string_length(proc, proc_col_size)+ \
@@ -932,7 +932,7 @@ class MEComparatorGauge(MEComparator):
             #res_str += self._fixed_string_length("%1.10e" % diff_cms, col_size)
             #res_str += self._fixed_string_length("%1.10e" % diff_fixw, col_size)
             #res_str += self._fixed_string_length("%1.10e" % diff_feyn, col_size)
-                        
+
             if diff_feyn < 1e-2 and diff_cms < 1e-6 and diff_fixw < 1e-3 and \
                diff_unit < 1e-2 and diff_FD < 1e-4:
                 pass_proc += 1
@@ -958,7 +958,7 @@ class MEComparatorGauge(MEComparator):
             file.close()
 
     def assert_processes(self, test_object, tolerance = 1e-06):
-        """Run assert to check that all processes passed comparison""" 
+        """Run assert to check that all processes passed comparison"""
 
         col_size = 17
         fail_proc = 0
@@ -966,9 +966,9 @@ class MEComparatorGauge(MEComparator):
         for i, proc in enumerate(self.proc_list):
             list_res = [res[i][0][0] for res in self.results]
             if max(list_res) == 0.0 and min(list_res) == 0.0:
-                diff = 0.0           
+                diff = 0.0
                 continue
-            
+
             diff_feyn = abs(list_res[1] - list_res[2]) / \
                        (list_res[1] + list_res[2] + 1e-99)
             diff_unit = abs(list_res[0] - list_res[3]) / \
@@ -979,18 +979,18 @@ class MEComparatorGauge(MEComparator):
                        (list_res[2] + list_res[3] + 1e-99)
             if len(list_res) == 5:
                 diff_FD = abs(list_res[2] - list_res[4]) / \
-                       (list_res[2] + list_res[4] + 1e-99) 
+                       (list_res[2] + list_res[4] + 1e-99)
             else:
                 diff_FD=0
 
             if diff_feyn > 1e-2 or diff_cms > 1e-6 or diff_fixw > 1e-3 or \
-               diff_unit > 1e-2 or diff_FD > 1e-4:          
+               diff_unit > 1e-2 or diff_FD > 1e-4:
                 fail_str += proc+" "
 
-        test_object.assertEqual(fail_str, "")    
-    
+        test_object.assertEqual(fail_str, "")
+
 def create_proc_list(part_list, initial=2, final=2, charge_conservation=True):
-    """Helper function to automatically create process lists starting from 
+    """Helper function to automatically create process lists starting from
     a particle list."""
 
     proc_list = []
@@ -1017,7 +1017,7 @@ def create_proc_list(part_list, initial=2, final=2, charge_conservation=True):
 def create_proc_list_enhanced(init_part_list, final_part_list_1,
                               final_part_list_2 = [], initial=2, final_1=2,
                               final_2=1, charge_conservation=True):
-    """Helper function to automatically create process lists starting from 
+    """Helper function to automatically create process lists starting from
     a particle list."""
 
     proc_list = []
@@ -1026,7 +1026,7 @@ def create_proc_list_enhanced(init_part_list, final_part_list_1,
         for fprod1 in itertools.product(final_part_list_1, repeat=final_1):
             if final_part_list_2:
                 for fprod2 in itertools.product(final_part_list_2,
-                                                repeat=final_2):                
+                                                repeat=final_2):
                     sorted_product = sorted(iprod) + sorted(fprod1 + fprod2)
                     if  sorted_product not in proc_list:
                         proc_list.append(sorted_product)
@@ -1051,13 +1051,13 @@ def create_proc_list_enhanced(init_part_list, final_part_list_1,
     return res_list
 
 
-def create_proc_list_2_3(init_part_list1, 
-                         init_part_list2, 
+def create_proc_list_2_3(init_part_list1,
+                         init_part_list2,
                          final_part_list_1,
                          final_part_list_2,
                          final_part_list_3,
                          charge_conservation=True):
-    """Helper function to automatically create process lists starting from 
+    """Helper function to automatically create process lists starting from
     a particle list."""
 
     proc_list = []
@@ -1071,4 +1071,3 @@ def create_proc_list_2_3(init_part_list1,
                         res_list.append(' '.join(proc))
 
     return res_list
-

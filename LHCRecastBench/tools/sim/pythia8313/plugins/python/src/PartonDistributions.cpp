@@ -51,7 +51,7 @@
 struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 	using Pythia8::MSTWpdf::MSTWpdf;
 
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "setBeamID");
 		if (overload) {
@@ -64,7 +64,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "setExtrapolate");
 		if (overload) {
@@ -77,7 +77,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "insideBounds");
 		if (overload) {
@@ -90,7 +90,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "alphaS");
 		if (overload) {
@@ -103,7 +103,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "mQuarkPDF");
 		if (overload) {
@@ -116,7 +116,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "nMembers");
 		if (overload) {
@@ -129,7 +129,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -142,7 +142,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -155,7 +155,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -168,7 +168,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -181,7 +181,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -194,7 +194,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -207,7 +207,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -220,7 +220,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xGamma");
 		if (overload) {
@@ -233,7 +233,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xPom");
 		if (overload) {
@@ -246,7 +246,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xfFlux");
 		if (overload) {
@@ -259,7 +259,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xfApprox");
 		if (overload) {
@@ -272,7 +272,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xfGamma");
 		if (overload) {
@@ -285,7 +285,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "intFluxApprox");
 		if (overload) {
@@ -298,7 +298,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -311,7 +311,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "getXmin");
 		if (overload) {
@@ -324,7 +324,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "getXhadr");
 		if (overload) {
@@ -337,7 +337,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "sampleXgamma");
 		if (overload) {
@@ -350,7 +350,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -363,7 +363,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -376,7 +376,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xfMax");
 		if (overload) {
@@ -389,7 +389,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xfSame");
 		if (overload) {
@@ -402,7 +402,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "setVMDscale");
 		if (overload) {
@@ -415,7 +415,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MSTWpdf *>(this), "xfUpdate");
 		if (overload) {
@@ -434,7 +434,7 @@ struct PyCallBack_Pythia8_MSTWpdf : public Pythia8::MSTWpdf {
 struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 	using Pythia8::CTEQ6pdf::CTEQ6pdf;
 
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "setExtrapolate");
 		if (overload) {
@@ -447,7 +447,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return CTEQ6pdf::setExtrapolate(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "setBeamID");
 		if (overload) {
@@ -460,7 +460,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::setBeamID(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "insideBounds");
 		if (overload) {
@@ -473,7 +473,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "alphaS");
 		if (overload) {
@@ -486,7 +486,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "mQuarkPDF");
 		if (overload) {
@@ -499,7 +499,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "nMembers");
 		if (overload) {
@@ -512,7 +512,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -525,7 +525,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -538,7 +538,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -551,7 +551,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -564,7 +564,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -577,7 +577,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -590,7 +590,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -603,7 +603,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xGamma");
 		if (overload) {
@@ -616,7 +616,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xPom");
 		if (overload) {
@@ -629,7 +629,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xfFlux");
 		if (overload) {
@@ -642,7 +642,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xfApprox");
 		if (overload) {
@@ -655,7 +655,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xfGamma");
 		if (overload) {
@@ -668,7 +668,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "intFluxApprox");
 		if (overload) {
@@ -681,7 +681,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -694,7 +694,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "getXmin");
 		if (overload) {
@@ -707,7 +707,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "getXhadr");
 		if (overload) {
@@ -720,7 +720,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "sampleXgamma");
 		if (overload) {
@@ -733,7 +733,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -746,7 +746,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -759,7 +759,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xfMax");
 		if (overload) {
@@ -772,7 +772,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xfSame");
 		if (overload) {
@@ -785,7 +785,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "setVMDscale");
 		if (overload) {
@@ -798,7 +798,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CTEQ6pdf *>(this), "xfUpdate");
 		if (overload) {
@@ -817,7 +817,7 @@ struct PyCallBack_Pythia8_CTEQ6pdf : public Pythia8::CTEQ6pdf {
 struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 	using Pythia8::ProtonPoint::ProtonPoint;
 
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "setBeamID");
 		if (overload) {
@@ -830,7 +830,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "setExtrapolate");
 		if (overload) {
@@ -843,7 +843,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "insideBounds");
 		if (overload) {
@@ -856,7 +856,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "alphaS");
 		if (overload) {
@@ -869,7 +869,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "mQuarkPDF");
 		if (overload) {
@@ -882,7 +882,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "nMembers");
 		if (overload) {
@@ -895,7 +895,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -908,7 +908,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -921,7 +921,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -934,7 +934,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -947,7 +947,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -960,7 +960,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -973,7 +973,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -986,7 +986,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xGamma");
 		if (overload) {
@@ -999,7 +999,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xPom");
 		if (overload) {
@@ -1012,7 +1012,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xfFlux");
 		if (overload) {
@@ -1025,7 +1025,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xfApprox");
 		if (overload) {
@@ -1038,7 +1038,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xfGamma");
 		if (overload) {
@@ -1051,7 +1051,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "intFluxApprox");
 		if (overload) {
@@ -1064,7 +1064,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -1077,7 +1077,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "getXmin");
 		if (overload) {
@@ -1090,7 +1090,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "getXhadr");
 		if (overload) {
@@ -1103,7 +1103,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "sampleXgamma");
 		if (overload) {
@@ -1116,7 +1116,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -1129,7 +1129,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -1142,7 +1142,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xfMax");
 		if (overload) {
@@ -1155,7 +1155,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xfSame");
 		if (overload) {
@@ -1168,7 +1168,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "setVMDscale");
 		if (overload) {
@@ -1181,7 +1181,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProtonPoint *>(this), "xfUpdate");
 		if (overload) {
@@ -1200,7 +1200,7 @@ struct PyCallBack_Pythia8_ProtonPoint : public Pythia8::ProtonPoint {
 struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 	using Pythia8::GRVpiL::GRVpiL;
 
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "setVMDscale");
 		if (overload) {
@@ -1213,7 +1213,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return GRVpiL::setVMDscale(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "setBeamID");
 		if (overload) {
@@ -1226,7 +1226,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "setExtrapolate");
 		if (overload) {
@@ -1239,7 +1239,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "insideBounds");
 		if (overload) {
@@ -1252,7 +1252,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "alphaS");
 		if (overload) {
@@ -1265,7 +1265,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "mQuarkPDF");
 		if (overload) {
@@ -1278,7 +1278,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "nMembers");
 		if (overload) {
@@ -1291,7 +1291,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -1304,7 +1304,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -1317,7 +1317,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -1330,7 +1330,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -1343,7 +1343,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -1356,7 +1356,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -1369,7 +1369,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -1382,7 +1382,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xGamma");
 		if (overload) {
@@ -1395,7 +1395,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xPom");
 		if (overload) {
@@ -1408,7 +1408,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xfFlux");
 		if (overload) {
@@ -1421,7 +1421,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xfApprox");
 		if (overload) {
@@ -1434,7 +1434,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xfGamma");
 		if (overload) {
@@ -1447,7 +1447,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "intFluxApprox");
 		if (overload) {
@@ -1460,7 +1460,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -1473,7 +1473,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "getXmin");
 		if (overload) {
@@ -1486,7 +1486,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "getXhadr");
 		if (overload) {
@@ -1499,7 +1499,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "sampleXgamma");
 		if (overload) {
@@ -1512,7 +1512,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -1525,7 +1525,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -1538,7 +1538,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xfMax");
 		if (overload) {
@@ -1551,7 +1551,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xfSame");
 		if (overload) {
@@ -1564,7 +1564,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRVpiL *>(this), "xfUpdate");
 		if (overload) {
@@ -1583,7 +1583,7 @@ struct PyCallBack_Pythia8_GRVpiL : public Pythia8::GRVpiL {
 struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 	using Pythia8::GRSpiL::GRSpiL;
 
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "setVMDscale");
 		if (overload) {
@@ -1596,7 +1596,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return GRSpiL::setVMDscale(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "setBeamID");
 		if (overload) {
@@ -1609,7 +1609,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "setExtrapolate");
 		if (overload) {
@@ -1622,7 +1622,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "insideBounds");
 		if (overload) {
@@ -1635,7 +1635,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "alphaS");
 		if (overload) {
@@ -1648,7 +1648,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "mQuarkPDF");
 		if (overload) {
@@ -1661,7 +1661,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "nMembers");
 		if (overload) {
@@ -1674,7 +1674,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -1687,7 +1687,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -1700,7 +1700,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -1713,7 +1713,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -1726,7 +1726,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -1739,7 +1739,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -1752,7 +1752,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -1765,7 +1765,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xGamma");
 		if (overload) {
@@ -1778,7 +1778,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xPom");
 		if (overload) {
@@ -1791,7 +1791,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xfFlux");
 		if (overload) {
@@ -1804,7 +1804,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xfApprox");
 		if (overload) {
@@ -1817,7 +1817,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xfGamma");
 		if (overload) {
@@ -1830,7 +1830,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "intFluxApprox");
 		if (overload) {
@@ -1843,7 +1843,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -1856,7 +1856,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "getXmin");
 		if (overload) {
@@ -1869,7 +1869,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "getXhadr");
 		if (overload) {
@@ -1882,7 +1882,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "sampleXgamma");
 		if (overload) {
@@ -1895,7 +1895,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -1908,7 +1908,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -1921,7 +1921,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xfMax");
 		if (overload) {
@@ -1934,7 +1934,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xfSame");
 		if (overload) {
@@ -1947,7 +1947,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GRSpiL *>(this), "xfUpdate");
 		if (overload) {
@@ -1966,7 +1966,7 @@ struct PyCallBack_Pythia8_GRSpiL : public Pythia8::GRSpiL {
 struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 	using Pythia8::PomFix::PomFix;
 
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "setBeamID");
 		if (overload) {
@@ -1979,7 +1979,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "setExtrapolate");
 		if (overload) {
@@ -1992,7 +1992,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "insideBounds");
 		if (overload) {
@@ -2005,7 +2005,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "alphaS");
 		if (overload) {
@@ -2018,7 +2018,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "mQuarkPDF");
 		if (overload) {
@@ -2031,7 +2031,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "nMembers");
 		if (overload) {
@@ -2044,7 +2044,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -2057,7 +2057,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -2070,7 +2070,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -2083,7 +2083,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -2096,7 +2096,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -2109,7 +2109,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -2122,7 +2122,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -2135,7 +2135,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xGamma");
 		if (overload) {
@@ -2148,7 +2148,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xPom");
 		if (overload) {
@@ -2161,7 +2161,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xfFlux");
 		if (overload) {
@@ -2174,7 +2174,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xfApprox");
 		if (overload) {
@@ -2187,7 +2187,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xfGamma");
 		if (overload) {
@@ -2200,7 +2200,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "intFluxApprox");
 		if (overload) {
@@ -2213,7 +2213,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -2226,7 +2226,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "getXmin");
 		if (overload) {
@@ -2239,7 +2239,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "getXhadr");
 		if (overload) {
@@ -2252,7 +2252,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "sampleXgamma");
 		if (overload) {
@@ -2265,7 +2265,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -2278,7 +2278,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -2291,7 +2291,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xfMax");
 		if (overload) {
@@ -2304,7 +2304,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xfSame");
 		if (overload) {
@@ -2317,7 +2317,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "setVMDscale");
 		if (overload) {
@@ -2330,7 +2330,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomFix *>(this), "xfUpdate");
 		if (overload) {
@@ -2349,7 +2349,7 @@ struct PyCallBack_Pythia8_PomFix : public Pythia8::PomFix {
 struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 	using Pythia8::PomH1FitAB::PomH1FitAB;
 
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "setExtrapolate");
 		if (overload) {
@@ -2362,7 +2362,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PomH1FitAB::setExtrapolate(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "setBeamID");
 		if (overload) {
@@ -2375,7 +2375,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::setBeamID(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "insideBounds");
 		if (overload) {
@@ -2388,7 +2388,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "alphaS");
 		if (overload) {
@@ -2401,7 +2401,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "mQuarkPDF");
 		if (overload) {
@@ -2414,7 +2414,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "nMembers");
 		if (overload) {
@@ -2427,7 +2427,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -2440,7 +2440,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -2453,7 +2453,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -2466,7 +2466,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -2479,7 +2479,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -2492,7 +2492,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -2505,7 +2505,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -2518,7 +2518,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xGamma");
 		if (overload) {
@@ -2531,7 +2531,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xPom");
 		if (overload) {
@@ -2544,7 +2544,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xfFlux");
 		if (overload) {
@@ -2557,7 +2557,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xfApprox");
 		if (overload) {
@@ -2570,7 +2570,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xfGamma");
 		if (overload) {
@@ -2583,7 +2583,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "intFluxApprox");
 		if (overload) {
@@ -2596,7 +2596,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -2609,7 +2609,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "getXmin");
 		if (overload) {
@@ -2622,7 +2622,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "getXhadr");
 		if (overload) {
@@ -2635,7 +2635,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "sampleXgamma");
 		if (overload) {
@@ -2648,7 +2648,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -2661,7 +2661,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -2674,7 +2674,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xfMax");
 		if (overload) {
@@ -2687,7 +2687,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xfSame");
 		if (overload) {
@@ -2700,7 +2700,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "setVMDscale");
 		if (overload) {
@@ -2713,7 +2713,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1FitAB *>(this), "xfUpdate");
 		if (overload) {
@@ -2732,7 +2732,7 @@ struct PyCallBack_Pythia8_PomH1FitAB : public Pythia8::PomH1FitAB {
 struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 	using Pythia8::PomH1Jets::PomH1Jets;
 
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "setExtrapolate");
 		if (overload) {
@@ -2745,7 +2745,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PomH1Jets::setExtrapolate(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "setBeamID");
 		if (overload) {
@@ -2758,7 +2758,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::setBeamID(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "insideBounds");
 		if (overload) {
@@ -2771,7 +2771,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "alphaS");
 		if (overload) {
@@ -2784,7 +2784,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "mQuarkPDF");
 		if (overload) {
@@ -2797,7 +2797,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "nMembers");
 		if (overload) {
@@ -2810,7 +2810,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -2823,7 +2823,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -2836,7 +2836,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -2849,7 +2849,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -2862,7 +2862,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -2875,7 +2875,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -2888,7 +2888,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -2901,7 +2901,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xGamma");
 		if (overload) {
@@ -2914,7 +2914,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xPom");
 		if (overload) {
@@ -2927,7 +2927,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xfFlux");
 		if (overload) {
@@ -2940,7 +2940,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xfApprox");
 		if (overload) {
@@ -2953,7 +2953,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xfGamma");
 		if (overload) {
@@ -2966,7 +2966,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "intFluxApprox");
 		if (overload) {
@@ -2979,7 +2979,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -2992,7 +2992,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "getXmin");
 		if (overload) {
@@ -3005,7 +3005,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "getXhadr");
 		if (overload) {
@@ -3018,7 +3018,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "sampleXgamma");
 		if (overload) {
@@ -3031,7 +3031,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -3044,7 +3044,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -3057,7 +3057,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xfMax");
 		if (overload) {
@@ -3070,7 +3070,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xfSame");
 		if (overload) {
@@ -3083,7 +3083,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "setVMDscale");
 		if (overload) {
@@ -3096,7 +3096,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomH1Jets *>(this), "xfUpdate");
 		if (overload) {
@@ -3115,7 +3115,7 @@ struct PyCallBack_Pythia8_PomH1Jets : public Pythia8::PomH1Jets {
 struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 	using Pythia8::PomHISASD::PomHISASD;
 
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xPom");
 		if (overload) {
@@ -3128,7 +3128,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PomHISASD::xPom(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "setBeamID");
 		if (overload) {
@@ -3141,7 +3141,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "setExtrapolate");
 		if (overload) {
@@ -3154,7 +3154,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "insideBounds");
 		if (overload) {
@@ -3167,7 +3167,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "alphaS");
 		if (overload) {
@@ -3180,7 +3180,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "mQuarkPDF");
 		if (overload) {
@@ -3193,7 +3193,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "nMembers");
 		if (overload) {
@@ -3206,7 +3206,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -3219,7 +3219,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -3232,7 +3232,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -3245,7 +3245,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -3258,7 +3258,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -3271,7 +3271,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -3284,7 +3284,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -3297,7 +3297,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xGamma");
 		if (overload) {
@@ -3310,7 +3310,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::xGamma();
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xfFlux");
 		if (overload) {
@@ -3323,7 +3323,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xfApprox");
 		if (overload) {
@@ -3336,7 +3336,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xfGamma");
 		if (overload) {
@@ -3349,7 +3349,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "intFluxApprox");
 		if (overload) {
@@ -3362,7 +3362,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -3375,7 +3375,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "getXmin");
 		if (overload) {
@@ -3388,7 +3388,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "getXhadr");
 		if (overload) {
@@ -3401,7 +3401,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "sampleXgamma");
 		if (overload) {
@@ -3414,7 +3414,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -3427,7 +3427,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -3440,7 +3440,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xfMax");
 		if (overload) {
@@ -3453,7 +3453,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xfSame");
 		if (overload) {
@@ -3466,7 +3466,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "setVMDscale");
 		if (overload) {
@@ -3479,7 +3479,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::PomHISASD *>(this), "xfUpdate");
 		if (overload) {
@@ -3498,7 +3498,7 @@ struct PyCallBack_Pythia8_PomHISASD : public Pythia8::PomHISASD {
 struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 	using Pythia8::Lepton::Lepton;
 
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -3511,7 +3511,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return Lepton::sampleQ2gamma(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "setBeamID");
 		if (overload) {
@@ -3524,7 +3524,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "setExtrapolate");
 		if (overload) {
@@ -3537,7 +3537,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "insideBounds");
 		if (overload) {
@@ -3550,7 +3550,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "alphaS");
 		if (overload) {
@@ -3563,7 +3563,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "mQuarkPDF");
 		if (overload) {
@@ -3576,7 +3576,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "nMembers");
 		if (overload) {
@@ -3589,7 +3589,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -3602,7 +3602,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -3615,7 +3615,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -3628,7 +3628,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -3641,7 +3641,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -3654,7 +3654,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -3667,7 +3667,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -3680,7 +3680,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xGamma");
 		if (overload) {
@@ -3693,7 +3693,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xPom");
 		if (overload) {
@@ -3706,7 +3706,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xfFlux");
 		if (overload) {
@@ -3719,7 +3719,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xfApprox");
 		if (overload) {
@@ -3732,7 +3732,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xfGamma");
 		if (overload) {
@@ -3745,7 +3745,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "intFluxApprox");
 		if (overload) {
@@ -3758,7 +3758,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -3771,7 +3771,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "getXmin");
 		if (overload) {
@@ -3784,7 +3784,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "getXhadr");
 		if (overload) {
@@ -3797,7 +3797,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "sampleXgamma");
 		if (overload) {
@@ -3810,7 +3810,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -3823,7 +3823,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xfMax");
 		if (overload) {
@@ -3836,7 +3836,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xfSame");
 		if (overload) {
@@ -3849,7 +3849,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "setVMDscale");
 		if (overload) {
@@ -3862,7 +3862,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton *>(this), "xfUpdate");
 		if (overload) {
@@ -3881,7 +3881,7 @@ struct PyCallBack_Pythia8_Lepton : public Pythia8::Lepton {
 struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 	using Pythia8::LeptonPoint::LeptonPoint;
 
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "setBeamID");
 		if (overload) {
@@ -3894,7 +3894,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "setExtrapolate");
 		if (overload) {
@@ -3907,7 +3907,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "insideBounds");
 		if (overload) {
@@ -3920,7 +3920,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "alphaS");
 		if (overload) {
@@ -3933,7 +3933,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "mQuarkPDF");
 		if (overload) {
@@ -3946,7 +3946,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "nMembers");
 		if (overload) {
@@ -3959,7 +3959,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -3972,7 +3972,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -3985,7 +3985,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -3998,7 +3998,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -4011,7 +4011,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -4024,7 +4024,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -4037,7 +4037,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -4050,7 +4050,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xGamma");
 		if (overload) {
@@ -4063,7 +4063,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xPom");
 		if (overload) {
@@ -4076,7 +4076,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xfFlux");
 		if (overload) {
@@ -4089,7 +4089,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xfApprox");
 		if (overload) {
@@ -4102,7 +4102,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xfGamma");
 		if (overload) {
@@ -4115,7 +4115,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "intFluxApprox");
 		if (overload) {
@@ -4128,7 +4128,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -4141,7 +4141,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "getXmin");
 		if (overload) {
@@ -4154,7 +4154,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "getXhadr");
 		if (overload) {
@@ -4167,7 +4167,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "sampleXgamma");
 		if (overload) {
@@ -4180,7 +4180,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -4193,7 +4193,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -4206,7 +4206,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xfMax");
 		if (overload) {
@@ -4219,7 +4219,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xfSame");
 		if (overload) {
@@ -4232,7 +4232,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "setVMDscale");
 		if (overload) {
@@ -4245,7 +4245,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LeptonPoint *>(this), "xfUpdate");
 		if (overload) {
@@ -4264,7 +4264,7 @@ struct PyCallBack_Pythia8_LeptonPoint : public Pythia8::LeptonPoint {
 struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 	using Pythia8::NeutrinoPoint::NeutrinoPoint;
 
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "setBeamID");
 		if (overload) {
@@ -4277,7 +4277,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "setExtrapolate");
 		if (overload) {
@@ -4290,7 +4290,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "insideBounds");
 		if (overload) {
@@ -4303,7 +4303,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "alphaS");
 		if (overload) {
@@ -4316,7 +4316,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "mQuarkPDF");
 		if (overload) {
@@ -4329,7 +4329,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "nMembers");
 		if (overload) {
@@ -4342,7 +4342,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -4355,7 +4355,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -4368,7 +4368,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -4381,7 +4381,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -4394,7 +4394,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -4407,7 +4407,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -4420,7 +4420,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -4433,7 +4433,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xGamma");
 		if (overload) {
@@ -4446,7 +4446,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xPom");
 		if (overload) {
@@ -4459,7 +4459,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xfFlux");
 		if (overload) {
@@ -4472,7 +4472,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xfApprox");
 		if (overload) {
@@ -4485,7 +4485,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xfGamma");
 		if (overload) {
@@ -4498,7 +4498,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "intFluxApprox");
 		if (overload) {
@@ -4511,7 +4511,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -4524,7 +4524,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "getXmin");
 		if (overload) {
@@ -4537,7 +4537,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "getXhadr");
 		if (overload) {
@@ -4550,7 +4550,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "sampleXgamma");
 		if (overload) {
@@ -4563,7 +4563,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -4576,7 +4576,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -4589,7 +4589,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xfMax");
 		if (overload) {
@@ -4602,7 +4602,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xfSame");
 		if (overload) {
@@ -4615,7 +4615,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "setVMDscale");
 		if (overload) {
@@ -4628,7 +4628,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::NeutrinoPoint *>(this), "xfUpdate");
 		if (overload) {
@@ -4647,7 +4647,7 @@ struct PyCallBack_Pythia8_NeutrinoPoint : public Pythia8::NeutrinoPoint {
 struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 	using Pythia8::CJKL::CJKL;
 
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -4660,7 +4660,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return CJKL::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -4673,7 +4673,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return CJKL::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -4686,7 +4686,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return CJKL::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -4699,7 +4699,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return CJKL::xfIntegratedTotal(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "setBeamID");
 		if (overload) {
@@ -4712,7 +4712,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "setExtrapolate");
 		if (overload) {
@@ -4725,7 +4725,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "insideBounds");
 		if (overload) {
@@ -4738,7 +4738,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "alphaS");
 		if (overload) {
@@ -4751,7 +4751,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "mQuarkPDF");
 		if (overload) {
@@ -4764,7 +4764,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "nMembers");
 		if (overload) {
@@ -4777,7 +4777,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -4790,7 +4790,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -4803,7 +4803,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -4816,7 +4816,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xGamma");
 		if (overload) {
@@ -4829,7 +4829,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xPom");
 		if (overload) {
@@ -4842,7 +4842,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xfFlux");
 		if (overload) {
@@ -4855,7 +4855,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xfApprox");
 		if (overload) {
@@ -4868,7 +4868,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xfGamma");
 		if (overload) {
@@ -4881,7 +4881,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "intFluxApprox");
 		if (overload) {
@@ -4894,7 +4894,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -4907,7 +4907,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "getXmin");
 		if (overload) {
@@ -4920,7 +4920,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "getXhadr");
 		if (overload) {
@@ -4933,7 +4933,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "sampleXgamma");
 		if (overload) {
@@ -4946,7 +4946,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -4959,7 +4959,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -4972,7 +4972,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xfMax");
 		if (overload) {
@@ -4985,7 +4985,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xfSame");
 		if (overload) {
@@ -4998,7 +4998,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "setVMDscale");
 		if (overload) {
@@ -5011,7 +5011,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::CJKL *>(this), "xfUpdate");
 		if (overload) {
@@ -5030,7 +5030,7 @@ struct PyCallBack_Pythia8_CJKL : public Pythia8::CJKL {
 struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 	using Pythia8::Lepton2gamma::Lepton2gamma;
 
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xfUpdate");
 		if (overload) {
@@ -5043,7 +5043,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return Lepton2gamma::xfUpdate(a0, a1, a2);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xGamma");
 		if (overload) {
@@ -5056,7 +5056,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return Lepton2gamma::xGamma();
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xfMax");
 		if (overload) {
@@ -5069,7 +5069,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return Lepton2gamma::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xfSame");
 		if (overload) {
@@ -5082,7 +5082,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return Lepton2gamma::xfSame(a0, a1, a2);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -5095,7 +5095,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return Lepton2gamma::sampleQ2gamma(a0);
 	}
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "setBeamID");
 		if (overload) {
@@ -5108,7 +5108,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "setExtrapolate");
 		if (overload) {
@@ -5121,7 +5121,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "insideBounds");
 		if (overload) {
@@ -5134,7 +5134,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "alphaS");
 		if (overload) {
@@ -5147,7 +5147,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "mQuarkPDF");
 		if (overload) {
@@ -5160,7 +5160,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "nMembers");
 		if (overload) {
@@ -5173,7 +5173,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -5186,7 +5186,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -5199,7 +5199,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -5212,7 +5212,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -5225,7 +5225,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -5238,7 +5238,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -5251,7 +5251,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -5264,7 +5264,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xPom");
 		if (overload) {
@@ -5277,7 +5277,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xfFlux");
 		if (overload) {
@@ -5290,7 +5290,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xfApprox");
 		if (overload) {
@@ -5303,7 +5303,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "xfGamma");
 		if (overload) {
@@ -5316,7 +5316,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "intFluxApprox");
 		if (overload) {
@@ -5329,7 +5329,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -5342,7 +5342,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "getXmin");
 		if (overload) {
@@ -5355,7 +5355,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "getXhadr");
 		if (overload) {
@@ -5368,7 +5368,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "sampleXgamma");
 		if (overload) {
@@ -5381,7 +5381,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -5394,7 +5394,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Lepton2gamma *>(this), "setVMDscale");
 		if (overload) {
@@ -5413,7 +5413,7 @@ struct PyCallBack_Pythia8_Lepton2gamma : public Pythia8::Lepton2gamma {
 struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 	using Pythia8::GammaPoint::GammaPoint;
 
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "setBeamID");
 		if (overload) {
@@ -5426,7 +5426,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "setExtrapolate");
 		if (overload) {
@@ -5439,7 +5439,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "insideBounds");
 		if (overload) {
@@ -5452,7 +5452,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "alphaS");
 		if (overload) {
@@ -5465,7 +5465,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "mQuarkPDF");
 		if (overload) {
@@ -5478,7 +5478,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "nMembers");
 		if (overload) {
@@ -5491,7 +5491,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -5504,7 +5504,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -5517,7 +5517,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -5530,7 +5530,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -5543,7 +5543,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -5556,7 +5556,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -5569,7 +5569,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -5582,7 +5582,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xGamma");
 		if (overload) {
@@ -5595,7 +5595,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xPom");
 		if (overload) {
@@ -5608,7 +5608,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xfFlux");
 		if (overload) {
@@ -5621,7 +5621,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xfApprox");
 		if (overload) {
@@ -5634,7 +5634,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xfGamma");
 		if (overload) {
@@ -5647,7 +5647,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "intFluxApprox");
 		if (overload) {
@@ -5660,7 +5660,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -5673,7 +5673,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "getXmin");
 		if (overload) {
@@ -5686,7 +5686,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "getXhadr");
 		if (overload) {
@@ -5699,7 +5699,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "sampleXgamma");
 		if (overload) {
@@ -5712,7 +5712,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -5725,7 +5725,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -5738,7 +5738,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xfMax");
 		if (overload) {
@@ -5751,7 +5751,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xfSame");
 		if (overload) {
@@ -5764,7 +5764,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "setVMDscale");
 		if (overload) {
@@ -5777,7 +5777,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GammaPoint *>(this), "xfUpdate");
 		if (overload) {
@@ -5796,7 +5796,7 @@ struct PyCallBack_Pythia8_GammaPoint : public Pythia8::GammaPoint {
 struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 	using Pythia8::Proton2gammaDZ::Proton2gammaDZ;
 
-	void setBeamID(int a0) override { 
+	void setBeamID(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "setBeamID");
 		if (overload) {
@@ -5809,7 +5809,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::setBeamID(a0);
 	}
-	void setExtrapolate(bool a0) override { 
+	void setExtrapolate(bool a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "setExtrapolate");
 		if (overload) {
@@ -5822,7 +5822,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::setExtrapolate(a0);
 	}
-	bool insideBounds(double a0, double a1) override { 
+	bool insideBounds(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "insideBounds");
 		if (overload) {
@@ -5835,7 +5835,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::insideBounds(a0, a1);
 	}
-	double alphaS(double a0) override { 
+	double alphaS(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "alphaS");
 		if (overload) {
@@ -5848,7 +5848,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::alphaS(a0);
 	}
-	double mQuarkPDF(int a0) override { 
+	double mQuarkPDF(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "mQuarkPDF");
 		if (overload) {
@@ -5861,7 +5861,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::mQuarkPDF(a0);
 	}
-	int nMembers() override { 
+	int nMembers() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "nMembers");
 		if (overload) {
@@ -5874,7 +5874,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::nMembers();
 	}
-	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override { 
+	void calcPDFEnvelope(int a0, double a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -5887,7 +5887,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override { 
+	void calcPDFEnvelope(struct std::pair<int, int> a0, struct std::pair<double, double> a1, double a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "calcPDFEnvelope");
 		if (overload) {
@@ -5900,7 +5900,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::calcPDFEnvelope(a0, a1, a2, a3);
 	}
-	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override { 
+	struct Pythia8::PDF::PDFEnvelope getPDFEnvelope() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "getPDFEnvelope");
 		if (overload) {
@@ -5913,7 +5913,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::getPDFEnvelope();
 	}
-	double gammaPDFxDependence(int a0, double a1) override { 
+	double gammaPDFxDependence(int a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "gammaPDFxDependence");
 		if (overload) {
@@ -5926,7 +5926,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::gammaPDFxDependence(a0, a1);
 	}
-	double gammaPDFRefScale(int a0) override { 
+	double gammaPDFRefScale(int a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "gammaPDFRefScale");
 		if (overload) {
@@ -5939,7 +5939,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::gammaPDFRefScale(a0);
 	}
-	int sampleGammaValFlavor(double a0) override { 
+	int sampleGammaValFlavor(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "sampleGammaValFlavor");
 		if (overload) {
@@ -5952,7 +5952,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::sampleGammaValFlavor(a0);
 	}
-	double xfIntegratedTotal(double a0) override { 
+	double xfIntegratedTotal(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xfIntegratedTotal");
 		if (overload) {
@@ -5965,7 +5965,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xfIntegratedTotal(a0);
 	}
-	double xGamma() override { 
+	double xGamma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xGamma");
 		if (overload) {
@@ -5978,7 +5978,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xGamma();
 	}
-	void xPom(double a0) override { 
+	void xPom(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xPom");
 		if (overload) {
@@ -5991,7 +5991,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xPom(a0);
 	}
-	double xfFlux(int a0, double a1, double a2) override { 
+	double xfFlux(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xfFlux");
 		if (overload) {
@@ -6004,7 +6004,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xfFlux(a0, a1, a2);
 	}
-	double xfApprox(int a0, double a1, double a2) override { 
+	double xfApprox(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xfApprox");
 		if (overload) {
@@ -6017,7 +6017,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xfApprox(a0, a1, a2);
 	}
-	double xfGamma(int a0, double a1, double a2) override { 
+	double xfGamma(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xfGamma");
 		if (overload) {
@@ -6030,7 +6030,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xfGamma(a0, a1, a2);
 	}
-	double intFluxApprox() override { 
+	double intFluxApprox() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "intFluxApprox");
 		if (overload) {
@@ -6043,7 +6043,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::intFluxApprox();
 	}
-	bool hasApproxGammaFlux() override { 
+	bool hasApproxGammaFlux() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "hasApproxGammaFlux");
 		if (overload) {
@@ -6056,7 +6056,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::hasApproxGammaFlux();
 	}
-	double getXmin() override { 
+	double getXmin() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "getXmin");
 		if (overload) {
@@ -6069,7 +6069,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::getXmin();
 	}
-	double getXhadr() override { 
+	double getXhadr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "getXhadr");
 		if (overload) {
@@ -6082,7 +6082,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::getXhadr();
 	}
-	double sampleXgamma(double a0) override { 
+	double sampleXgamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "sampleXgamma");
 		if (overload) {
@@ -6095,7 +6095,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::sampleXgamma(a0);
 	}
-	double sampleQ2gamma(double a0) override { 
+	double sampleQ2gamma(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "sampleQ2gamma");
 		if (overload) {
@@ -6108,7 +6108,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::sampleQ2gamma(a0);
 	}
-	double fluxQ2dependence(double a0) override { 
+	double fluxQ2dependence(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "fluxQ2dependence");
 		if (overload) {
@@ -6121,7 +6121,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::fluxQ2dependence(a0);
 	}
-	double xfMax(int a0, double a1, double a2) override { 
+	double xfMax(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xfMax");
 		if (overload) {
@@ -6134,7 +6134,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xfMax(a0, a1, a2);
 	}
-	double xfSame(int a0, double a1, double a2) override { 
+	double xfSame(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xfSame");
 		if (overload) {
@@ -6147,7 +6147,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::xfSame(a0, a1, a2);
 	}
-	void setVMDscale(double a0) override { 
+	void setVMDscale(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "setVMDscale");
 		if (overload) {
@@ -6160,7 +6160,7 @@ struct PyCallBack_Pythia8_Proton2gammaDZ : public Pythia8::Proton2gammaDZ {
 		}
 		return PDF::setVMDscale(a0);
 	}
-	void xfUpdate(int a0, double a1, double a2) override { 
+	void xfUpdate(int a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Proton2gammaDZ *>(this), "xfUpdate");
 		if (overload) {

@@ -52,7 +52,7 @@ extern nTuBrowserInfo *CurrentNTupleBrowserSelected;
 extern Widget McfioHsResetBtnW; /* To reset all existing histograms */
 
 int HistoIsBrowserNtuInit;
-                /* A flag to state if HistoScope is set */ 
+                /* A flag to state if HistoScope is set */
 
 static Widget DumpHeadTextW = NULL;
 		 /* The text widget to view the header content */
@@ -68,9 +68,9 @@ static XtIntervalId TimeOutID = 0;
 * Widgets and stuff for 1D histogram utilities
 */
 static Widget OneDHistFormW  = NULL;
-      /* The form widget associated with the panel for 1D histo utilities */       
+      /* The form widget associated with the panel for 1D histo utilities */
 static Widget OneDHistShellW  = NULL;
-      /* The form widget associated with the panel for 1D histo utilities */ 
+      /* The form widget associated with the panel for 1D histo utilities */
 static Widget OneDHistHistoListW = NULL;
       /* A list to manipulate to manipulate these histograms */
 static Widget OneDHistNtupleCategoryLabelW;
@@ -89,41 +89,41 @@ static Widget OneDHistLowBinW = NULL; /* The title field for OneDhist */
 static Widget OneDHistHighBinW = NULL; /* The title field for OneDhist */
 static Widget OneDHistMultW = NULL; /* The title field for OneDhist */
 static int FirstOneDHistogram;
-static int OneDHistNumberListed = 0; 
+static int OneDHistNumberListed = 0;
 	/* The number of 1D histogram managed by this panel */
-	
-static int OneDHistSizeOfList = 0; 
-	
-static int *OneDHistListedIDs = NULL; 
+
+static int OneDHistSizeOfList = 0;
+
+static int *OneDHistListedIDs = NULL;
         /* The hs ids of the listed histograms */
-static int CurrentHistoUID = 0 ; 
+static int CurrentHistoUID = 0 ;
 	/* A holding place to kee ptrack of the modified histo UID */
 static void showHeaderData(int all);
 static void createBrowserHeadDump();
 static void dismissHeadDumpCB(Widget w, nTuBrowserInfo *nTuBr,
                                caddr_t call_data);
-                               
+
 static void createBrowserHeadDump();
 static void dismissHeadDumpCB(Widget w, nTuBrowserInfo *nTuBr,
                                caddr_t call_data);
-#ifdef HISTO                               
-static void createOneDHistCB(Widget w, nTuBrowserInfo *nTuBr, 
+#ifdef HISTO
+static void createOneDHistCB(Widget w, nTuBrowserInfo *nTuBr,
 				caddr_t call_data);
-				
+
 static void createOneDHistActual(int newHisto);
 static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr);
 static void dismissOneDHistCB(Widget w, nTuBrowserInfo *nTuBr,
                                caddr_t call_data);
 static void modifyOneDHistCB(Widget w, nTuBrowserInfo *nTuBr,
                                caddr_t call_data);
-                               
+
 static void deleteOneDHistCB(Widget w, nTuBrowserInfo *nTuBr,
                                caddr_t call_data);
 static void redisplay1DHistoList();
 static void oneDHistListCB(Widget w, nTuBrowserInfo *nTuBr,
                                caddr_t call_data);
 static nTuBrowserInfo *oneDHistNTupleSource(int hs_id);
-#endif                               
+#endif
 static void getVarIndexDialog(int *loc, int nDim, int *maxVal);
 static void setListItems(Widget w, XmString *strings, int nStrings);
 static void      setTimer(int timeInMillis);
@@ -133,14 +133,14 @@ static void      timerUpCB(void);
 ** Some scrap space to define histograms
 */
 static char BrowseUtil2htitle[255];
-                                                              
+
 /*
 ** Remove the white space (blanks and tabs) from a string
 */
 void mcfioC_RemoveWhiteSpace(char *string)
 {
     char *outPtr = string;
-    
+
     while (TRUE) {
     	if (*string != ' ' && *string != '\t')
 	    *(outPtr++) = *(string++);
@@ -159,7 +159,7 @@ void mcfioC_ShowBrowserHeadDump() {
    showHeaderData(False);
 }
 
-       
+
 void mcfioC_ShowBrowserEvtHeadDump() {
 
    if (DumpHeadShellW == NULL) createBrowserHeadDump();
@@ -172,12 +172,12 @@ void mcfioC_ShowBrowserOneDHist()
    char *text, *t1, *t2;
    int i, nChar, len, n1, n2, iln,  *blockList;
    nTuBrowserInfo *nTuBr;
-   
+
    nTuBr = CurrentNTupleBrowserSelected;
    if (OneDHistShellW == NULL) createBrowserOneDHistPanel(nTuBr);
    if (!XtIsManaged(OneDHistFormW)) XtManageChild(OneDHistFormW);
    /*
-   ** We have to set the selection in the Main Panel to this requested 
+   ** We have to set the selection in the Main Panel to this requested
    ** Ntuple.
    */
    if (CurrentNTupleBrowserSelected != nTuBr) {
@@ -197,24 +197,24 @@ void mcfioC_OneDHistUpdateNTupleContent()
    varGenNtuple *var;
    Arg args[2];
    XmString s1;
-   
+
    if (OneDHistShellW == NULL) return;
    if (!XtIsManaged(OneDHistFormW)) return;
    ddl = mcf_GetNTuByPtrID(CurrentNTupleBrowserSelected->id);
    if (ddl->descrNtu == NULL) dNTu = ddl->reference->descrNtu;
 	    else dNTu = ddl->descrNtu;
    /*
-   ** Update the Label fields 
+   ** Update the Label fields
    */
    XtSetArg(args[0], XmNlabelString, s1 = XmStringCreateSimple(ddl->category));
    XtSetValues(OneDHistNtupleCategoryLabelW, args, 1);
    XmStringFree(s1);
-   
+
    XtSetArg(args[0], XmNlabelString, s1 = XmStringCreateSimple(ddl->title));
    XtSetValues(OneDHistNtupleTitleLabelW, args, 1);
    XmStringFree(s1);
-   
-   nItems = dNTu->numVariables + 1; 
+
+   nItems = dNTu->numVariables + 1;
    stringTable = (XmString *)XtMalloc((nItems+1) * sizeof(XmString));
    stringTable[0] = XmStringCreateSimple ("Multiplicity");
    for (k=0; k<dNTu->numVariables; k++) {
@@ -227,7 +227,7 @@ void mcfioC_OneDHistUpdateNTupleContent()
     return;
 }
 #endif
-   
+
 static void showHeaderData(int all)
 {
 
@@ -239,7 +239,7 @@ static void showHeaderData(int all)
 
 
    /*
-   ** set the text widget From, To, to go for a specific track  
+   ** set the text widget From, To, to go for a specific track
    ** or substructures
    */
    mcfioC_InfoStreamInt(1, MCFIO_NUMBLOCKS, &n1);
@@ -248,27 +248,27 @@ static void showHeaderData(int all)
        mcfioC_InfoEventInt(1, MCFIO_NUMBLOCKS, &n11);
        mcfioC_InfoEventInt(1, MCFIO_NUMNTUPLES, &n12);
       nChar += 800 + 80*n12 + 80*(n11/10);
-   }    
+   }
    text = (char *) malloc(sizeof(char) * nChar);
    t1 = text;
    sprintf(t1, "Title : %n",&len); t1+=len;
    mcfioC_InfoStreamChar(1,MCFIO_TITLE, t1, &len); t1 +=len;
    sprintf (t1, " \n%n",&len); t1+=len;
    sprintf (t1, " \n%n",&len); t1+=len;
-   
+
    sprintf(t1, "Comment : %n",&len); t1+=len;
    mcfioC_InfoStreamChar(1,MCFIO_COMMENT, t1, &len); t1 +=len;
    sprintf (t1, " \n%n",&len); t1+=len;
    sprintf (t1, " \n%n",&len); t1+=len;
-   
+
    sprintf(t1, "Creation Date : %n",&len); t1+=len;
    mcfioC_InfoStreamChar(1,MCFIO_CREATIONDATE, t1, &len); t1 +=len;
    sprintf (t1, " \n%n",&len); t1+=len;
-   
+
    sprintf(t1, "Closing Date : %n",&len); t1+=len;
    mcfioC_InfoStreamChar(1,MCFIO_CLOSINGDATE, t1, &len); t1 +=len;
    sprintf (t1, " \n%n",&len); t1+=len;
-   
+
    mcfioC_InfoStreamInt(1, MCFIO_NUMEVTS, &n2);
    if (n2 <= 0) {
      sprintf(t1,
@@ -277,10 +277,10 @@ static void showHeaderData(int all)
      sprintf(t1,
      "  It is likely that this file hasn't been closed properly \n%n",&len);
      t1+=len;
-    } else 
+    } else
      sprintf(t1, "Number of events : %d \n%n", n2, &len); t1+=len;
    sprintf (t1, " \n%n",&len); t1+=len;
-   
+
    sprintf(t1, "Number of private blocks : %d \n%n",n1, &len); t1+=len;
    blockList = (int *) malloc(sizeof(int) * n1);
    mcfioC_InfoStreamInt(1, MCFIO_BLOCKIDS, blockList);
@@ -288,14 +288,14 @@ static void showHeaderData(int all)
    iln = 2;
    for (i=0; i<n1; i++, iln++) {
      if (i == (n1-1))
-         sprintf(t1," %d %n", blockList[i], &len); 
-     else 
+         sprintf(t1," %d %n", blockList[i], &len);
+     else
          sprintf(t1," %d, %n", blockList[i], &len);
-     t1 +=len; 
+     t1 +=len;
      if (iln % 8 == 0) {
           sprintf(t1, " \n%n", &len);  t1 +=len;
      }
-   } 
+   }
    sprintf(t1, " \n%n", &len);  t1 +=len;
    free(blockList);
    if (all) {
@@ -317,31 +317,31 @@ static void showHeaderData(int all)
      iln = 2;
      for (i=0; i<n11; i++, iln++) {
        if (i == (n1-1))
-           sprintf(t1," %d %n", blockList[i], &len); 
-       else 
+           sprintf(t1," %d %n", blockList[i], &len);
+       else
            sprintf(t1," %d, %n", blockList[i], &len);
-       t1 +=len; 
+       t1 +=len;
        if (iln % 8 == 0) {
           sprintf(t1, " \n%n", &len);  t1 +=len;
        }
      }
      free(blockList);
-     
+
      sprintf(t1, "Number of Ntuples : %d \n%n", n12, &len); t1+=len;
      blockList = (int *) malloc(sizeof(int) * n12);
      mcfioC_InfoEventInt(1, MCFIO_NTUPLESLIST, blockList);
-     sprintf(t1, 
-     " List of Ntuple Category and titles in this event: \n%n", &len); 
+     sprintf(t1,
+     " List of Ntuple Category and titles in this event: \n%n", &len);
      t1 +=len;
      for (i=0; i<n12; i++) {
        ddl = mcf_GetNTuByPtrID(blockList[i]);
        if (ddl->descrNtu == NULL) dNTu = ddl->reference->descrNtu;
-       sprintf(t1,"      %s   :   %s\n%n", ddl->category, ddl->title, &len); 
-       t1 += len;     
+       sprintf(t1,"      %s   :   %s\n%n", ddl->category, ddl->title, &len);
+       t1 += len;
      }
      free(blockList);
    }
-    
+
    XmTextSetString(DumpHeadTextW,text);
    XtManageChild(DumpHeadFormW);
    free(text);
@@ -354,16 +354,16 @@ static void showHeaderData(int all)
     Widget dismissBtn;
 
     ac = 0;
-    XtSetArg(args[ac], XmNautoUnmanage, False); ac++; 
-    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE); ac++; 
+    XtSetArg(args[ac], XmNautoUnmanage, False); ac++;
+    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE); ac++;
     DumpHeadFormW = XmCreateFormDialog(McfioMainPanelW, "form", args, ac);
     DumpHeadShellW = XtParent(DumpHeadFormW);
     XtVaSetValues(DumpHeadShellW, XmNtitle,
                                 "File Header Information", 0);
     AddMotifCloseCallback(XtParent(DumpHeadFormW),
                          (XtCallbackProc)dismissHeadDumpCB, NULL);
-                         
-                         
+
+
     dismissBtn = XtVaCreateManagedWidget("dismissBtn",
     	    xmPushButtonGadgetClass, DumpHeadFormW,
     	    XmNlabelString, s1=XmStringCreateSimple("Dismiss"),
@@ -375,8 +375,8 @@ static void showHeaderData(int all)
     	    XmNrightPosition, 75, 0);
     XmStringFree(s1);
     XtAddCallback(dismissBtn, XmNactivateCallback,
-    	    (XtCallbackProc)dismissHeadDumpCB, NULL); 
-    
+    	    (XtCallbackProc)dismissHeadDumpCB, NULL);
+
     ac = 0;
     XtSetArg(args[ac], XmNrows, 8); ac++;
     XtSetArg(args[ac], XmNcolumns, 80); ac++;
@@ -392,7 +392,7 @@ static void showHeaderData(int all)
     XtManageChild(DumpHeadTextW);
     XtManageChild(DumpHeadFormW);
 }
-    
+
 static void dismissHeadDumpCB(Widget w, nTuBrowserInfo * nTuBr,
                                caddr_t call_data)
 {
@@ -409,15 +409,15 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     Widget ntupleCatLabel, ntupleTitleLabel;
 
     ac = 0;
-    XtSetArg(args[ac], XmNautoUnmanage, False); ac++; 
-    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE); ac++; 
+    XtSetArg(args[ac], XmNautoUnmanage, False); ac++;
+    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE); ac++;
     OneDHistFormW = XmCreateFormDialog(McfioMainPanelW, "form", args, ac);
     OneDHistShellW = XtParent(OneDHistFormW);
     XtVaSetValues(OneDHistShellW, XmNtitle,
                                 "One Dimensional Histogram Utility", 0);
     AddMotifCloseCallback(XtParent(OneDHistFormW),
                          (XtCallbackProc)dismissOneDHistCB, NULL);
-                         
+
    OneDHistCreateW = XtVaCreateManagedWidget("create1DBtn",
     	    xmPushButtonGadgetClass, OneDHistFormW,
     	    XmNlabelString, s1=XmStringCreateSimple("Create"),
@@ -430,8 +430,8 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XmStringFree(s1);
     XtAddCallback( OneDHistCreateW, XmNactivateCallback,
     	    (XtCallbackProc)createOneDHistCB, (nTuBrowserInfo *) nTuBr );
-                         
-                         
+
+
    OneDHistModifyW = XtVaCreateManagedWidget("modify1DBtn",
     	    xmPushButtonGadgetClass, OneDHistFormW,
     	    XmNlabelString, s1=XmStringCreateSimple("Modify"),
@@ -444,7 +444,7 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XmStringFree(s1);
     XtAddCallback( OneDHistModifyW, XmNactivateCallback,
     	    (XtCallbackProc)modifyOneDHistCB, NULL);
-    	    
+
    OneDHistDeleteW = XtVaCreateManagedWidget("delete1DBtn",
     	    xmPushButtonGadgetClass, OneDHistFormW,
     	    XmNlabelString, s1=XmStringCreateSimple("Delete"),
@@ -457,7 +457,7 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XmStringFree(s1);
     XtAddCallback( OneDHistDeleteW, XmNactivateCallback,
     	    (XtCallbackProc)deleteOneDHistCB, NULL);
-    	    
+
     dismissBtn = XtVaCreateManagedWidget("dismissBtn",
     	    xmPushButtonGadgetClass, OneDHistFormW,
     	    XmNlabelString, s1=XmStringCreateSimple("Dismiss"),
@@ -472,18 +472,18 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     	    (XtCallbackProc)dismissOneDHistCB, NULL);
 
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Number of bins:"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
     XtSetArg(args[ac], XmNleftOffset,5); ac++;
     XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNbottomWidget,OneDHistCreateW); ac++;
     XtSetArg(args[ac], XmNbottomOffset,3); ac++;
-    nbinLabel = 
+    nbinLabel =
        XmCreateLabelGadget(OneDHistFormW, "num1Dbin", args, ac);
     XmStringFree(s1);
     XtManageChild(nbinLabel);
-    
+
     OneDHistNumBinsW = XtVaCreateManagedWidget("numBin1D",
     	    xmTextWidgetClass, OneDHistFormW,
             XmNcolumns, 5,
@@ -496,10 +496,10 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     	    XmNleftWidget,nbinLabel, 0);
     RemapDeleteKey(OneDHistNumBinsW);
     XmTextSetString(OneDHistNumBinsW, "100");
-    
-    
+
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Low Edge:"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNleftWidget,OneDHistNumBinsW); ac++;
@@ -507,11 +507,11 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNbottomWidget,OneDHistCreateW); ac++;
     XtSetArg(args[ac], XmNbottomOffset,3); ac++;
-    lowEdgeLabel = 
+    lowEdgeLabel =
        XmCreateLabelGadget(OneDHistFormW, "low1Dbin", args, ac);
     XmStringFree(s1);
     XtManageChild(lowEdgeLabel);
-    
+
     OneDHistLowBinW = XtVaCreateManagedWidget("lowEdge1D",
     	    xmTextWidgetClass, OneDHistFormW,
             XmNcolumns, 10,
@@ -524,9 +524,9 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     	    XmNleftWidget,lowEdgeLabel, 0);
     RemapDeleteKey(OneDHistLowBinW);
     XmTextSetString(OneDHistLowBinW, "0.");
-        	    
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("High Edge:"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNleftWidget,OneDHistLowBinW); ac++;
@@ -534,11 +534,11 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNbottomWidget,OneDHistCreateW); ac++;
     XtSetArg(args[ac], XmNbottomOffset,3); ac++;
-    highEdgeLabel = 
+    highEdgeLabel =
        XmCreateLabelGadget(OneDHistFormW, "high1Dbin", args, ac);
     XmStringFree(s1);
     XtManageChild(highEdgeLabel);
-    
+
     OneDHistHighBinW = XtVaCreateManagedWidget("highEdge1D",
     	    xmTextWidgetClass, OneDHistFormW,
             XmNcolumns, 10,
@@ -551,10 +551,10 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     	    XmNleftWidget,highEdgeLabel, 0);
     RemapDeleteKey(OneDHistHighBinW);
     XmTextSetString(OneDHistHighBinW, "1.");
-    
-    
+
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Instance:"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNleftWidget,OneDHistHighBinW); ac++;
@@ -562,11 +562,11 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNbottomWidget,OneDHistCreateW); ac++;
     XtSetArg(args[ac], XmNbottomOffset,3); ac++;
-    multLabel = 
+    multLabel =
        XmCreateLabelGadget(OneDHistFormW, "inst1Dlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(multLabel);
-    
+
     OneDHistMultW = XtVaCreateManagedWidget("inst1DTw",
     	    xmTextWidgetClass, OneDHistFormW,
             XmNcolumns, 10,
@@ -579,20 +579,20 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     	    XmNleftWidget,multLabel, 0);
     RemapDeleteKey(OneDHistMultW);
     XmTextSetString(OneDHistMultW, "All");
-    
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Title:"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
     XtSetArg(args[ac], XmNleftOffset,3); ac++;
     XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNbottomWidget,OneDHistNumBinsW); ac++;
     XtSetArg(args[ac], XmNbottomOffset,3); ac++;
-    titleLabel = 
+    titleLabel =
        XmCreateLabelGadget(OneDHistFormW, "title1Dlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(titleLabel);
-    
+
     OneDHistTitleW = XtVaCreateManagedWidget("title1DTw",
     	    xmTextWidgetClass, OneDHistFormW,
             XmNcolumns, 80,
@@ -622,17 +622,17 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtManageChild(histForm);
 
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple(
      "One Dimensional Histogram Listing"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
     XtSetArg(args[ac], XmNleftOffset,3); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_FORM); ac++;
-    histLabel = 
+    histLabel =
        XmCreateLabelGadget(histForm, "HIST1Dlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(histLabel);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNitems, (st1=StringTable(1,
      "No histogram defined                        "))); ac++;
@@ -658,9 +658,9 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     OneDHistNumberListed = 0;
     OneDHistListedIDs = (int *) malloc(sizeof(int) * OneDHistSizeOfList);
     /*
-    ** Now the list of Ntuple Variables. Also a few Label to refer to the 
+    ** Now the list of Ntuple Variables. Also a few Label to refer to the
     ** Ntuple category/title listed on the Main panel.
-    ** 
+    **
     */
     /* Create a form to hold the list and the top label */
     ac = 0;
@@ -677,31 +677,31 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtManageChild(ntupleForm);
 
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Selected NTuple Synopsis"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
     XtSetArg(args[ac], XmNleftOffset,3); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_FORM); ac++;
-    ntupleLabel = 
+    ntupleLabel =
        XmCreateLabelGadget(ntupleForm, "NTU1DDlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(ntupleLabel);
-    
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Category:"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
     XtSetArg(args[ac], XmNleftOffset, 3); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNtopOffset, 1); ac++;
     XtSetArg(args[ac], XmNtopWidget,ntupleLabel ); ac++;
-    ntupleCatLabel = 
+    ntupleCatLabel =
        XmCreateLabelGadget(ntupleForm, "NTU1Dlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(ntupleCatLabel);
-    
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("None----------------------"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNleftWidget,ntupleCatLabel ); ac++;
@@ -709,26 +709,26 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNtopOffset, 1); ac++;
     XtSetArg(args[ac], XmNtopWidget,ntupleLabel ); ac++;
-    OneDHistNtupleCategoryLabelW = 
+    OneDHistNtupleCategoryLabelW =
        XmCreateLabelGadget(ntupleForm, "NTU1DCatlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(OneDHistNtupleCategoryLabelW);
-    
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("Title:"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
     XtSetArg(args[ac], XmNleftOffset,3); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNtopWidget, ntupleCatLabel); ac++;
     XtSetArg(args[ac], XmNtopOffset, 1); ac++;
-    ntupleTitleLabel = 
+    ntupleTitleLabel =
        XmCreateLabelGadget(ntupleForm, "NTU1Dlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(ntupleTitleLabel);
-    
+
     ac = 0;
-    XtSetArg(args[ac], XmNlabelString, 
+    XtSetArg(args[ac], XmNlabelString,
      (s1=XmStringCreateSimple("None----------------------"))); ac++;
     XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNleftWidget,ntupleCatLabel ); ac++;
@@ -736,11 +736,11 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNtopWidget,ntupleCatLabel ); ac++;
     XtSetArg(args[ac], XmNtopOffset, 1); ac++;
-    OneDHistNtupleTitleLabelW = 
+    OneDHistNtupleTitleLabelW =
        XmCreateLabelGadget(ntupleForm, "NTU1DTitlabel", args, ac);
     XmStringFree(s1);
     XtManageChild(OneDHistNtupleTitleLabelW);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNitems, (st1=StringTable(1, " "))); ac++;
     XtSetArg(args[ac], XmNitemCount, 1); ac++;
@@ -760,11 +760,11 @@ static void createBrowserOneDHistPanel(nTuBrowserInfo *nTuBr)
     XtManageChild(OneDHistVariableListW);
     FirstOneDHistogram = True;
     XtManageChild(OneDHistFormW);
-    
-    	    
+
+
 }
 static void createOneDHistCB(Widget w, nTuBrowserInfo * nTuBrDummy,
-                               caddr_t call_data) 
+                               caddr_t call_data)
 {
     createOneDHistActual(True);
 }
@@ -776,7 +776,7 @@ static void createOneDHistActual(int newHisto)
    double dfrom, dto;
    XmString *selectedItems;
    int *posListHisto, *posListNTu, *posListVar;
-   char *str, category[24], x_label[20]; 
+   char *str, category[24], x_label[20];
    nTuDDL *ddl;
    descrGenNtuple *dNTu;
    nTuBrowserInfo *nTuBr;
@@ -784,7 +784,7 @@ static void createOneDHistActual(int newHisto)
    Arg args[2];
    nTuBroHs1D *nTuH1;
    char *cDat;
-   long pp; 
+   long pp;
 
 
     if (HistoIsBrowserNtuInit == NULL) {
@@ -799,7 +799,7 @@ static void createOneDHistActual(int newHisto)
     ddl = mcf_GetNTuByPtrID(CurrentNTupleBrowserSelected->id);
     if (ddl->descrNtu == NULL) dNTu = ddl->reference->descrNtu;
 	    else dNTu = ddl->descrNtu;
-    
+
     if (!XmListGetSelectedPos(OneDHistVariableListW, &posListVar, &countVar)) {
 	DialogF(DF_WARN, OneDHistShellW, 1, "Please select a Variable",
 		"Acknowledged");
@@ -814,7 +814,7 @@ static void createOneDHistActual(int newHisto)
      str = XmTextGetString(OneDHistMultW);
      if (GetIntText(OneDHistMultW, &im) == TEXT_READ_OK) {
         if (im > dNTu->maxMultiplicity) {
-             DialogF(DF_WARN, OneDHistShellW, 1, 
+             DialogF(DF_WARN, OneDHistShellW, 1,
  "Incorrect instance, above maximum Multiplicty.","Acknowledged");
              return;
         } else im--;
@@ -828,12 +828,12 @@ static void createOneDHistActual(int newHisto)
         else if ((strcmp(str,"Third") == 0) || (strcmp(str,"THIRD") == 0) ||
             (strcmp(str,"third") == 0)) im = 2;
         else {
-             DialogF(DF_WARN, OneDHistShellW, 1, 
+             DialogF(DF_WARN, OneDHistShellW, 1,
  "Incorrect instance, please use a number","Acknowledged");
              return;
         }
       }
-    }     
+    }
 /*
 ** We now read out the widget and define the histogram
 */
@@ -853,8 +853,8 @@ static void createOneDHistActual(int newHisto)
         XtSetArg (args[0], XmNitemCount, &uid);
         XtGetValues(OneDHistHistoListW, args, 1);
         uid++;
-      } else uid = CurrentHistoUID; 
-      if (ivarH == 0) 
+      } else uid = CurrentHistoUID;
+      if (ivarH == 0)
           strcpy(x_label,"Multiplicity");
       else {
          var = dNTu->variables[ivar];
@@ -863,10 +863,10 @@ static void createOneDHistActual(int newHisto)
             strncpy(x_label,var->name,16);
             strcpy(&x_label[16],"...");
          }
-     }    
-     idh = hs_create_1d_hist(uid, str,  "OneDHist", x_label, "Yield", 
+     }
+     idh = hs_create_1d_hist(uid, str,  "OneDHist", x_label, "Yield",
                              nBins, from, to);
-     XtFree(str);                        
+     XtFree(str);
      /*
      ** Store the idh, we need it for filling. Find the first free place on
      ** the list.
@@ -874,7 +874,7 @@ static void createOneDHistActual(int newHisto)
     if (nTuBr->nHistoItems == nTuBr->sizeOfLists)
            mcfioC_ExtendBrowserAnalysis(nTuBr);
      nTuH1 = (nTuBroHs1D *) malloc(sizeof(nTuBroHs1D));
-     index=0; 
+     index=0;
      while (nTuBr->hsItemList[index] != NULL)  index++;
      nTuBr->hsItemList[index] =  (nTuBroHsGeneral *) nTuH1;
      nTuBr->nHistoItems++;
@@ -886,31 +886,31 @@ static void createOneDHistActual(int newHisto)
      nTuH1->varIndices = NULL;
      if(dNTu->firstIndexed == -1) lastFixed = dNTu->numVariables;
            else lastFixed = dNTu->firstIndexed;
-     if (ivarH != 0) { 
+     if (ivarH != 0) {
         var = dNTu->variables[ivar];
        if (var->numDim >= 1) {
           nTuH1->varIndices= (int *) malloc(sizeof(int) * var->numDim);
           ivk = nTuH1->varIndices;
           getVarIndexDialog(ivk, var->numDim, var->dimensions);
-       } 
-     }  
+       }
+     }
      if (nTuBr->data == NULL) mcfioC_createBrowserData(nTuBr);
      cDat = (char *) nTuBr->data;
      if (ivarH == 0) {
         cDat += dNTu->multOffset;
         nTuH1->lDat = (long *) cDat;
      } else {
-          if (ivar < lastFixed) { 
+          if (ivar < lastFixed) {
             pp = ((long) nTuBr->data) +  dNTu->variables[ivar]->offset;
             nTuH1->lDat = (long *) pp;
-          } else  nTuH1->lDat = NULL; 
-               /* A specific subVariable (leaf), we'll compute the 
+          } else  nTuH1->lDat = NULL;
+               /* A specific subVariable (leaf), we'll compute the
           		data pointer at filling time */
-     }     		
+     }
      XtSetSensitive(OneDHistModifyW, True);
-     XtSetSensitive(OneDHistDeleteW, True); 
-     redisplay1DHistoList(); 
-     FirstOneDHistogram = False; 
+     XtSetSensitive(OneDHistDeleteW, True);
+     redisplay1DHistoList();
+     FirstOneDHistogram = False;
      hs_update();
 }
 static void modifyOneDHistCB(Widget w, nTuBrowserInfo * nTuBr,
@@ -918,7 +918,7 @@ static void modifyOneDHistCB(Widget w, nTuBrowserInfo * nTuBr,
 {
     int *posList, count;
     if (!XmListGetSelectedPos(OneDHistHistoListW, &posList, &count)) {
-	DialogF(DF_WARN, OneDHistShellW, 1, 
+	DialogF(DF_WARN, OneDHistShellW, 1,
 	"Please select a Histogram", "Acknowledged");
 	return;
     }
@@ -932,8 +932,8 @@ static void deleteOneDHistCB(Widget w, nTuBrowserInfo *nTuBrDummy,
     int i, idPos, *posList, count, id, uid, jn;
     nTuBrowserInfo *nTuBr;
     nTuBroHs1D *nTuH1;
-     
-                                  
+
+
     if (!XmListGetSelectedPos(OneDHistHistoListW, &posList, &count)) {
 	DialogF(DF_WARN, OneDHistShellW, 1, "Please select a Histogram",
 		"Acknowledged");
@@ -950,13 +950,13 @@ static void deleteOneDHistCB(Widget w, nTuBrowserInfo *nTuBrDummy,
      }
     hs_delete(id);
     hs_update();
-    for (i=0; i<nTuBr->sizeOfLists; i++) { 
+    for (i=0; i<nTuBr->sizeOfLists; i++) {
        if (nTuBr->hsItemList[i] == NULL) continue;
         if (id == nTuBr->hsItemList[i]->id ) {
              nTuH1 = (nTuBroHs1D *) nTuBr->hsItemList[i];
              if (nTuH1->varIndices != NULL) free(nTuH1->varIndices);
              free(nTuH1);
-             nTuBr->hsItemList[i] = NULL;       
+             nTuBr->hsItemList[i] = NULL;
              break;
          }
     }
@@ -964,7 +964,7 @@ static void deleteOneDHistCB(Widget w, nTuBrowserInfo *nTuBrDummy,
     nTuBr->nHisto1D--;
     redisplay1DHistoList();
 }
-     
+
 static void dismissOneDHistCB(Widget w, nTuBrowserInfo * nTuBr,
                                caddr_t call_data)
 {
@@ -976,14 +976,14 @@ static void redisplay1DHistoList()
     int i, id, nItems, l, uid, k, nh, jn, *il;
     nTuBrowserInfo *nTuBr;
     XmString *stringTable;
-    
+
     for(jn=0, nh=0; jn< NumOfNTuples; jn++)  {
        nTuBr = NTupleBrowserList[jn];
        for (i=0; i<nTuBr->sizeOfLists; i++) {
          if (nTuBr->hsItemList[i] == NULL) continue;
           id = nTuBr->hsItemList[i]->id;
           if ( (id != -1) && (hs_type(id) == HS_1D_HISTOGRAM)) nh++;
-       }    
+       }
     }
     OneDHistNumberListed = nh;
     if (nh == 0) {
@@ -993,13 +993,13 @@ static void redisplay1DHistoList()
       /* free the string table */
        FreeStringTable(stringTable);
        return;
-    } 
+    }
     if (nh > OneDHistSizeOfList) {
        il =  (int *) malloc(sizeof(int) * 2 * nh);
        memcpy((void *) il, (void *) OneDHistListedIDs, (sizeof(int) * nh));
        free(OneDHistListedIDs); OneDHistListedIDs = il;
        OneDHistSizeOfList = 2*nh;
-    } 
+    }
     stringTable = (XmString *)XtMalloc((nh+1) * sizeof(XmString));
     for(jn=0, nh=0; jn< NumOfNTuples; jn++)  {
        nTuBr = NTupleBrowserList[jn];
@@ -1010,7 +1010,7 @@ static void redisplay1DHistoList()
              l = hs_title(id, BrowseUtil2htitle);
              stringTable[nh] = XmStringCreateSimple (BrowseUtil2htitle);
              OneDHistListedIDs[nh] = id;
-             nh++; 
+             nh++;
           }
         }
     }
@@ -1018,13 +1018,13 @@ static void redisplay1DHistoList()
     setListItems(OneDHistHistoListW, stringTable, nh);
     FreeStringTable(stringTable);
     return;
-    
-}                  
+
+}
 static void oneDHistListCB(Widget w, nTuBrowserInfo *nTuBrDummy,
                                caddr_t call_data)
 {
     int i, idPos, *posList, count, id, l, jn, uid, ivar;
-    float aa, bb;                               
+    float aa, bb;
     nTuBrowserInfo *nTuBr;
     nTuBroHs1D *nTuH1;
 
@@ -1036,19 +1036,19 @@ static void oneDHistListCB(Widget w, nTuBrowserInfo *nTuBrDummy,
     ** Select the variable associated with this histogram.
     */
     nTuBr = oneDHistNTupleSource(id);
-    if (nTuBr != CurrentNTupleBrowserSelected ) 
+    if (nTuBr != CurrentNTupleBrowserSelected )
                     if (!mcfioC_SetSpecificNTupleBr(nTuBr)) return;
     for(i=0; i<CurrentNTupleBrowserSelected->sizeOfLists; i++) {
        nTuH1 = (nTuBroHs1D *) CurrentNTupleBrowserSelected->hsItemList[i];
        if (nTuH1 == NULL) continue;
        if (nTuH1->id == id) break;
-    } 
+    }
     if (nTuH1 == NULL) {
          DialogF(DF_ERR, OneDHistShellW, 1,
                  "Internal Error in oneDHistListCB\nPlease report",
 		"Acknowledged");
          return;
-    }     
+    }
     ivar =  nTuH1->varNumber;
     XmListSelectPos(OneDHistVariableListW, (ivar+1), False);
     l = hs_title(id, BrowseUtil2htitle);
@@ -1059,15 +1059,15 @@ static void oneDHistListCB(Widget w, nTuBrowserInfo *nTuBrDummy,
     SetFloatText(OneDHistLowBinW, aa);
     SetFloatText(OneDHistHighBinW, bb);
     /*
-    ** We now have to related this histogram to the associated Ntuple 
+    ** We now have to related this histogram to the associated Ntuple
     */
     for (i=0; i<nTuBr->sizeOfLists; i++) {
        if (nTuBr->hsItemList[i] == NULL) continue;
            if (nTuBr->hsItemList[i]->id == id) {
                nTuH1 = (nTuBroHs1D *) nTuBr->hsItemList[i];
-               if (nTuH1->subBlock == -1)  
+               if (nTuH1->subBlock == -1)
                    XmTextSetString(OneDHistMultW, "All");
-                else 
+                else
                    SetIntText(OneDHistMultW, nTuH1->subBlock);
             }
             break;
@@ -1075,16 +1075,16 @@ static void oneDHistListCB(Widget w, nTuBrowserInfo *nTuBrDummy,
     XtSetSensitive(OneDHistModifyW, True);
     XtSetSensitive(OneDHistDeleteW, True);
 }
-#endif                                
+#endif
 static nTuBrowserInfo *oneDHistNTupleSource(int hs_id) {
 
     nTuBrowserInfo *nTuBr;
     int i, jn;
-    
-    for(jn=0; jn< NumOfNTuples; jn++) { 
+
+    for(jn=0; jn< NumOfNTuples; jn++) {
        nTuBr = NTupleBrowserList[jn];
-       for (i=0; i<nTuBr->sizeOfLists; i++) 
-         if ((nTuBr->hsItemList[i] != NULL) 
+       for (i=0; i<nTuBr->sizeOfLists; i++)
+         if ((nTuBr->hsItemList[i] != NULL)
              && (nTuBr->hsItemList[i]->id == hs_id)) return nTuBr;
     }
     return NULL;
@@ -1098,7 +1098,7 @@ static nTuBrowserInfo *oneDHistNTupleSource(int hs_id) {
 static void setListItems(Widget w, XmString *strings, int nStrings)
 {
     XmString *st1;
-    
+
     /* Motif doesn't reset the selection when items are changed */
     XmListDeselectAllItems(w);
 
@@ -1116,10 +1116,10 @@ static void   getVarIndexDialog(int *loc, int nDim, int *maxVal)
 {
     int i, valt, ok;
     char *endPtr, *t1;
-	
+
     if (nDim == 1) {
         ok = -1;
-        while (ok == -1) { 
+        while (ok == -1) {
         DialogF(DF_PROMPT,OneDHistShellW, 0,
            "The variable you wish to histogram is a Vector\n\
   Please fill in the requested index", BrowseUtil2htitle);
@@ -1129,7 +1129,7 @@ static void   getVarIndexDialog(int *loc, int nDim, int *maxVal)
 	   DialogF(DF_ERR,OneDHistShellW, 1,
 	    "Please Try again, we need an integer number! ","Acknowledged");
 	else {
-	  if ((valt < 1) || (valt > maxVal[0]))  
+	  if ((valt < 1) || (valt > maxVal[0]))
 	   DialogF(DF_ERR,OneDHistShellW, 1,
           "Wrong Index Value\nWe need a number between 1 and %d",
           "Acknowledged",maxVal[0]);
@@ -1140,7 +1140,7 @@ static void   getVarIndexDialog(int *loc, int nDim, int *maxVal)
        }
      }
    } else {
-tryagain:  
+tryagain:
         DialogF(DF_PROMPT,OneDHistShellW, 0,
            "The variable you wish to histogram is a Matrix of dimension %d\n\
  Please fill in the requested indices\n\
@@ -1154,7 +1154,7 @@ tryagain:
 	       "Please Try again, we need integer numbers! ","Acknowledged");
 	       goto tryagain;
 	   }  else {
-	     if ((valt < 1) || (valt > maxVal[i])) { 
+	     if ((valt < 1) || (valt > maxVal[i])) {
 	      DialogF(DF_ERR,OneDHistShellW, 1,
               "Wrong Index Value\nWe need a number between 1 and %d",
               "Acknowledged",maxVal[i]);
@@ -1172,10 +1172,10 @@ tryagain:
           }
        }
      }
-   }    
+   }
 }
-          
-          
+
+
 /*
 ** setTimer - Set the timer
 */
@@ -1186,7 +1186,7 @@ static void setTimer(int timeInMillis)
 	TimeOutTime = timeInMillis;
 	TimeOutID =
 	  XtAppAddTimeOut(XtWidgetToApplicationContext(McfioMainPanelW),
-    	    		    timeInMillis > 0 ? timeInMillis : 1, 
+    	    		    timeInMillis > 0 ? timeInMillis : 1,
     	    		    (XtTimerCallbackProc)timerUpCB, NULL);
     }
     else {
@@ -1222,7 +1222,6 @@ static void timerUpCB(void)
 
 #ifdef HISTO
     hs_update();
-#endif    
+#endif
     setTimer(500);
 }
-

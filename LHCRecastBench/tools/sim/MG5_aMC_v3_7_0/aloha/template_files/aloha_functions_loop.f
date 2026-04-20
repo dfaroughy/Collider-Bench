@@ -1900,7 +1900,7 @@ c
 c output:
 c       real    p1(0:3)        : four-momentum of particle 1
 c       real    p2(0:3)        : four-momentum of particle 2
-c     
+c
       implicit none
       double precision p1(0:3),p2(0:3),
      &     esum,mass1,mass2,costh1,phi1,md2,ed,pp,sinth1
@@ -1939,7 +1939,7 @@ c      endif
 c      if (phi1.lt.rZero .or. phi1.gt.rTwo*rPi) then
 c         write(stdo,*)
 c     &   ' helas-warn  : phi1 in mom2cx does not lie on 0.0 thru 2.0*pi'
-c         write(stdo,*) 
+c         write(stdo,*)
 c     &   '             : phi1 = ',phi1
 c      endif
 c#endif
@@ -1971,7 +1971,7 @@ C LOOP related universal subroutines
 C###############################################################################
 
 C===============================================================================
-C Subroutines to create the external wavefunctions of the L-cut particles 
+C Subroutines to create the external wavefunctions of the L-cut particles
 C===============================================================================
 
       SUBROUTINE LCUT_F(Q,CFIG,W)
@@ -1979,7 +1979,7 @@ C===============================================================================
       COMPLEX*16 Q(0:3)
       INTEGER CFIG
       COMPLEX*16 W(20)
-      
+
       CALL LCUT_V(Q,CFIG,W)
       END
 
@@ -1988,7 +1988,7 @@ C===============================================================================
       COMPLEX*16 Q(0:3)
       INTEGER CFIG
       COMPLEX*16 W(20)
-      
+
       CALL LCUT_V(Q,CFIG,W)
       END
 
@@ -1997,13 +1997,13 @@ C===============================================================================
       COMPLEX*16 Q(0:3)
       INTEGER CFIG
       COMPLEX*16 W(20)
-      
+
       W(5)=(0.d0,0.d0)
       W(6)=(0.d0,0.d0)
       W(7)=(0.d0,0.d0)
       W(8)=(0.d0,0.d0)
       W(CFIG+4)=(1.d0,0.d0)
-      
+
       W(1)=Q(0)
       W(2)=Q(1)
       W(3)=Q(2)
@@ -2046,7 +2046,7 @@ C===============================================================================
       COMPLEX*32 Q(0:3)
       INTEGER CFIG
       COMPLEX*32 W(20)
-      
+
       CALL MP_LCUT_V(Q,CFIG,W)
       END
 
@@ -2055,7 +2055,7 @@ C===============================================================================
       COMPLEX*32 Q(0:3)
       INTEGER CFIG
       COMPLEX*32 W(20)
-      
+
       CALL MP_LCUT_V(Q,CFIG,W)
       END
 
@@ -2066,8 +2066,8 @@ C===============================================================================
       COMPLEX*32 W(20)
       COMPLEX*32 IONE, IZERO
       PARAMETER (IONE=(1.0e0_16,0.0e0_16))
-      PARAMETER (IZERO=(0.0e0_16,0.0e0_16))      
-      
+      PARAMETER (IZERO=(0.0e0_16,0.0e0_16))
+
       W(5)=IZERO
       W(6)=IZERO
       W(7)=IZERO
@@ -2116,11 +2116,11 @@ C===============================================================================
       END
 
 C===============================================================================
-C Subroutines to close the lorentz traces of loops, 
+C Subroutines to close the lorentz traces of loops,
 C===============================================================================
 
       SUBROUTINE CLOSE_4(AMPS,RES)
-      
+
       COMPLEX*16 RES
       COMPLEX*16 AMPS(4)
 
@@ -2129,7 +2129,7 @@ C===============================================================================
       END
 
       SUBROUTINE CLOSE_1(AMPS,RES)
-      
+
       COMPLEX*16 RES
       COMPLEX*16 AMPS
 
@@ -2138,7 +2138,7 @@ C===============================================================================
       END
 
       SUBROUTINE MP_CLOSE_4(AMPS,RES)
-      
+
       COMPLEX*32 RES
       COMPLEX*32 AMPS(4)
 
@@ -2147,7 +2147,7 @@ C===============================================================================
       END
 
       SUBROUTINE MP_CLOSE_1(AMPS,RES)
-      
+
       COMPLEX*32 RES
       COMPLEX*32 AMPS
 
@@ -2156,12 +2156,12 @@ C===============================================================================
       END
 
 C===============================================================================
-C OLD Subroutines to close the lorentz traces of loops, 
-c                           OBSOLETE 
+C OLD Subroutines to close the lorentz traces of loops,
+c                           OBSOLETE
 C===============================================================================
 
       SUBROUTINE CLOSE_V(Q,M,AMPS,RES)
-      
+
       COMPLEX*16 Q(0:3)
       COMPLEX*16 RES
       COMPLEX*16 AMPS(4)
@@ -2178,21 +2178,21 @@ c This subroutine is to recreate the fermion propagator with 4 helicities
 c only. This has problems with certain configuration of the imaginary
 c momentum q, so it is not implemented yet.
 
-      SUBROUTINE CLOSE_F4HEL(Q,M,AMPS,RES)      
-      
+      SUBROUTINE CLOSE_F4HEL(Q,M,AMPS,RES)
+
       COMPLEX*16 Q(0:3)
       COMPLEX*16 RES, QNORM
       REAL*8 M
-      COMPLEX*16 AMPS(4) 
+      COMPLEX*16 AMPS(4)
       COMPLEX*16 PMM, PPM
 
       PPM=AMPS(1)+AMPS(2)
       PMM=AMPS(3)+AMPS(4)
       write(*,*) 'PPM=',PPM
-      write(*,*) 'PMM=',PMM      
+      write(*,*) 'PMM=',PMM
       IF (M.NE.0.D0) THEN
         QNORM=SQRT(Q(0)**2-Q(1)**2-Q(2)**2-Q(3)**2)
-        write(*,*) 'Q=',Q        
+        write(*,*) 'Q=',Q
         write(*,*) 'QNORM=',QNORM
         write(*,*) 'M=',M
         RES=(0.D0,0.5D0)*((PPM+PMM)+(PPM-PMM)*(M/QNORM))
@@ -2204,12 +2204,12 @@ c momentum q, so it is not implemented yet.
 
       END
 
-      SUBROUTINE CLOSE_F(Q,M,AMPS,RES)      
-      
+      SUBROUTINE CLOSE_F(Q,M,AMPS,RES)
+
       COMPLEX*16 Q(0:3)
       COMPLEX*16 RES
       COMPLEX*16 M
-      COMPLEX*16 AMPS(12) 
+      COMPLEX*16 AMPS(12)
 
       RES=(0.D0,0.D0)
       RES=(Q(0)-Q(3))*AMPS(1)+
@@ -2233,13 +2233,13 @@ c momentum q, so it is not implemented yet.
       COMPLEX*16 AMP
 
       RES=(1.D0,0.D0)*AMP
-      
+
       END
 
 c     // QUAD PREC VERSIONS OF THE ABOVE //
 
       SUBROUTINE MP_CLOSE_V(Q,M,AMPS,RES)
-      
+
       COMPLEX*32 Q(0:3)
       COMPLEX*32 RES
       COMPLEX*32 AMPS(4)
@@ -2252,12 +2252,12 @@ c     // QUAD PREC VERSIONS OF THE ABOVE //
 
       END
 
-      SUBROUTINE MP_CLOSE_F(Q,M,AMPS,RES)      
-      
+      SUBROUTINE MP_CLOSE_F(Q,M,AMPS,RES)
+
       COMPLEX*32 Q(0:3)
       COMPLEX*32 RES
       COMPLEX*32 M
-      COMPLEX*32 AMPS(12) 
+      COMPLEX*32 AMPS(12)
 
       RES=(0.0e0_16,0.0e0_16)
       RES=(Q(0)-Q(3))*AMPS(1)+
@@ -2281,11 +2281,11 @@ c     // QUAD PREC VERSIONS OF THE ABOVE //
       COMPLEX*32 AMP
 
       RES=(1.0e0_16,0.0e0_16)*AMP
-      
+
       END
 
 C===============================================================================
-C OLD Subroutines to create the external wavefunctions of the L-cut particles 
+C OLD Subroutines to create the external wavefunctions of the L-cut particles
 C                                 OBSOLETE
 C===============================================================================
 
@@ -2303,41 +2303,41 @@ c momentum q, so it is not implemented yet.
 
       IF (CFIG.EQ.1) THEN
         IF (SCD) THEN
-C         UBAR, HEL=-1        
+C         UBAR, HEL=-1
           CALL ILXXXX(Q(0),M,-1,1,W(1))
         ELSE
 C         U, HEL=-1
           CALL ILXXXX(Q(0),M,-1,-1,W(1))
           do J=1,4
-          write(*,*) 'Wcf(',j,',1)=',W(1)   
+          write(*,*) 'Wcf(',j,',1)=',W(1)
           enddo
         ENDIF
       ELSEIF (CFIG.EQ.2) THEN
         IF (SCD) THEN
-C         UBAR, HEL=1        
+C         UBAR, HEL=1
           CALL ILXXXX(Q(0),M,1,1,W(1))
         ELSE
-C         U, HEL=1        
+C         U, HEL=1
           CALL ILXXXX(Q(0),M,1,-1,W(1))
         ENDIF
       ELSEIF (CFIG.EQ.3) THEN
         IF (SCD) THEN
-C         VBAR, HEL=-1,        
+C         VBAR, HEL=-1,
           CALL OLXXXX(Q(0),M,-1,-1,W(1))
         ELSE
-C         V, HEL=-1        
+C         V, HEL=-1
           CALL OLXXXX(Q(0),M,-1,1,W(1))
         ENDIF
       ELSEIF (CFIG.EQ.4) THEN
         IF (SCD) THEN
-C         VBAR, HEL=1        
+C         VBAR, HEL=1
           CALL OLXXXX(Q(0),M,1,-1,W(1))
         ELSE
-C         V, HEL=1    
+C         V, HEL=1
           CALL OLXXXX(Q(0),M,1,1,W(1))
         ENDIF
       ENDIF
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
       IF (SCD) THEN
         W(5)=-Q(0)
         W(6)=-Q(1)
@@ -2377,7 +2377,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
           W(3)=(1.d0,0.d0)
         ELSE
           W(2)=(1.d0,0.d0)
-        ENDIF  
+        ENDIF
       ELSEIF (CFIG.eq.4) then
         IF (SCD) then
           W(4)=(1.d0,0.d0)
@@ -2433,7 +2433,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
           W(4)=(1.d0,0.d0)
         ENDIF
       ENDIF
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
       IF (SCD) THEN
         W(5)=-Q(0)
         W(6)=-Q(1)
@@ -2482,7 +2482,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
           W(3)=IONE
         ELSE
           W(2)=IONE
-        ENDIF  
+        ENDIF
       ELSEIF (CFIG.eq.4) then
         IF (SCD) then
           W(4)=IONE
@@ -2538,7 +2538,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
           W(4)=IONE
         ENDIF
       ENDIF
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
       IF (SCD) THEN
         W(5)=-Q(0)
         W(6)=-Q(1)
@@ -2563,38 +2563,38 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
 
       IF (CFIG.EQ.1) THEN
         IF (SCD) THEN
-C         UBAR, HEL=-1        
+C         UBAR, HEL=-1
           CALL ICLXXX(Q(0),M,-1,1,W(1))
         ELSE
-C         U, HEL=-1        
+C         U, HEL=-1
           CALL ICLXXX(Q(0),M,-1,-1,W(1))
         ENDIF
       ELSEIF (CFIG.EQ.2) THEN
         IF (SCD) THEN
-C         UBAR, HEL=1        
+C         UBAR, HEL=1
           CALL ICLXXX(Q(0),M,1,1,W(1))
         ELSE
-C         U, HEL=1        
+C         U, HEL=1
           CALL ICLXXX(Q(0),M,1,-1,W(1))
         ENDIF
       ELSEIF (CFIG.EQ.3) THEN
         IF (SCD) THEN
-C         VBAR, HEL=-1,        
+C         VBAR, HEL=-1,
           CALL OCLXXX(Q(0),M,-1,-1,W(1))
         ELSE
-C         V, HEL=-1        
+C         V, HEL=-1
           CALL OCLXXX(Q(0),M,-1,1,W(1))
         ENDIF
       ELSEIF (CFIG.EQ.4) THEN
         IF (SCD) THEN
-C         VBAR, HEL=1        
+C         VBAR, HEL=1
           CALL OCLXXX(Q(0),M,1,-1,W(1))
         ELSE
-C         V, HEL=1    
+C         V, HEL=1
           CALL OCLXXX(Q(0),M,1,1,W(1))
         ENDIF
       ENDIF
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
       IF (SCD) THEN
         W(5)=-Q(0)
         W(6)=-Q(1)
@@ -2608,7 +2608,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
 
       COMPLEX*16 Q(0:3)
       INTEGER CFIG
-      LOGICAL SCD      
+      LOGICAL SCD
       COMPLEX*16 M
       COMPLEX*16 W(20)
 
@@ -2628,7 +2628,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT SPINORS
       ELSEIF (CFIG.EQ.4) THEN
         W(4)=(1.d0,0.d0)
       ENDIF
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT VECTORS      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT VECTORS
       IF (SCD) THEN
         W(5)=-Q(0)
         W(6)=-Q(1)
@@ -2647,7 +2647,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT VECTORS
 
       COMPLEX*32 Q(0:3)
       INTEGER CFIG
-      LOGICAL SCD      
+      LOGICAL SCD
       COMPLEX*32 M
       COMPLEX*32 W(20)
       COMPLEX*32 IZERO
@@ -2672,7 +2672,7 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT VECTORS
       ELSEIF (CFIG.EQ.4) THEN
         W(4)=IONE
       ENDIF
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT VECTORS      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT VECTORS
       IF (SCD) THEN
         W(5)=-Q(0)
         W(6)=-Q(1)
@@ -2692,12 +2692,12 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND L-CUT VECTORS
       COMPLEX*16 Q(0:3)
       COMPLEX*16 M
       INTEGER CFIG
-      LOGICAL SCD      
+      LOGICAL SCD
       COMPLEX*16 W(20)
 
       W(1)=(1.D0,0.D0)
 
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND SCALAR      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND SCALAR
       IF (SCD) THEN
         W(2)=-Q(0)
         W(3)=-Q(1)
@@ -2717,14 +2717,14 @@ C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND SCALAR
       COMPLEX*32 Q(0:3)
       COMPLEX*32 M
       INTEGER CFIG
-      LOGICAL SCD      
+      LOGICAL SCD
       COMPLEX*32 W(20)
       COMPLEX*32 IONE
       PARAMETER (IONE=(1.0e0_16,0.0e0_16))
 
       W(1)=IONE
 
-C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND SCALAR      
+C     REVERSE THE MOMENTUM IN THE WF FOR THE SECOND SCALAR
       IF (SCD) THEN
         W(2)=-Q(0)
         W(3)=-Q(1)
@@ -2743,7 +2743,7 @@ C===============================================================================
 C Complex-momentum version of the subroutine to create on-shell
 C wavefunctions of particles with different spins. OBSOLETE
 C===============================================================================
-   
+
 C     The subroutine with charge conjugation are not yet implemented
 c     Obsolete by now too
 
@@ -2783,7 +2783,7 @@ c
 c output:
 c       complex fi(8)          : fermion wavefunction               |fi>
 c       Note: There are 4 components for the spinor and four for the
-c             momentum. 
+c             momentum.
       implicit none
       double complex fi(8),chi(2), fmass
 c      double precision p(0:3),sf(2),sfomeg(2),omega(2),fmass,
@@ -2791,14 +2791,14 @@ c     &     pp,pp3,sqp0p3,sqm(0:1)
       double complex sqm(0:1)
       double precision sf(2),ffmass
       double complex p(0:3), sfomeg(2),omega(2),
-     &     pp,pp3,sqp0p3 
+     &     pp,pp3,sqp0p3
       integer nhel,nsf,ip,im,nh
 
       double precision rZero, rHalf, rTwo
       parameter( rZero = 0.0d0, rHalf = 0.5d0, rTwo = 2.0d0 )
-      
 
-      
+
+
 c      fi(5) = dcmplx(p(0),p(3))*nsf
 c      fi(6) = dcmplx(p(1),p(2))*nsf
       fi(5) = p(0)*nsf
@@ -2814,14 +2814,14 @@ c      fi(6) = dcmplx(p(1),p(2))*nsf
 c special treatment for massless particles.
 c         pp = min(p(0),sqrt(p(1)**2+p(2)**2+p(3)**2))
          pp=sqrt(p(1)**2+p(2)**2+p(3)**2)
-c for time-like four-momenta we can always think of it as the p_vec^2          
+c for time-like four-momenta we can always think of it as the p_vec^2
          if ( abs(pp).eq.rZero ) then
-c particle at rest.            
+c particle at rest.
             sqm(0) = sqrt(fmass) ! possibility of negative fermion masses
             sqm(1) = sqm(0) ! possibility of negative fermion masses
             ip = (1+nh)/2
             im = (1-nh)/2
-            
+
             fi(1) = ip     * sqm(ip)
             fi(2) = im*nsf * sqm(ip)
             fi(3) = ip*nsf * sqm(im)
@@ -2831,13 +2831,13 @@ c particle at rest.
 c standard spinor
 
             pp=sqrt(p(1)**2+p(2)**2+p(3)**2)
-            write(*,*) 'ppre=',pp            
+            write(*,*) 'ppre=',pp
 c            if( (dble(p(0)) .lt. 0 .and. dble(pp) .gt. 0) .or.
 c     &          (dble(p(0)) .lt. 0 .and. dble(pp) .gt. 0) ) then
 c            pp=-pp
-c            endif 
+c            endif
             sf(1) = dble(1+nsf+(1-nsf)*nh)*rHalf
-c fermion spin using HELAS conventions.            
+c fermion spin using HELAS conventions.
             sf(2) = dble(1+nsf-(1-nsf)*nh)*rHalf
             omega(1) = sqrt(p(0)+pp)
 c the omega of the definition.
@@ -2857,21 +2857,21 @@ c            pp3 = max(pp+p(3),rZero)
                chi(2) = ( (nh*p(1)) + ((0d0,1d0)*p(2)) )/
      .sqrt(rTwo*pp*pp3)
             endif
-            
+
 
 c         Write(*,*) 'Chi=',Chi(1),' and ',Chi(2)
 
             fi(1) = sfomeg(1)*chi(im)
             fi(2) = sfomeg(1)*chi(ip)
-c         Write(*,*) 'fi(2)=',fi(2)     
+c         Write(*,*) 'fi(2)=',fi(2)
             fi(3) = sfomeg(2)*chi(im)
 c         Write(*,*) 'fi(3)=',fi(3)
             fi(4) = sfomeg(2)*chi(ip)
-            
+
          endif
-         
+
       else
-         
+
 c         if(zabs(p(1)).eq.0d0.and.zabs(p(2)).eq.0d0.and.
 c     .zabs(p(3)).lt.0d0) then
 c            sqp0p3 = 0d0
@@ -2895,7 +2895,7 @@ c        end if
             fi(3) = dcmplx( rZero )
             fi(4) = dcmplx( rZero )
          endif
-      endif     
+      endif
 
       return
       end
@@ -2913,7 +2913,7 @@ c       integer nsf  = -1 or 1 : +1 for particle, -1 for anti-particle
 c
 c output:
 c       complex fo(8)          : fermion wavefunction               <fo|
-c     
+c
       implicit none
       double complex fo(8),chi(2), fmass
 
@@ -2933,7 +2933,7 @@ c      fo(6) = dcmplx(p(1),p(2))*nsf
       fo(5) = p(0)*(nsf)
       fo(6) = p(1)*(nsf)
       fo(7) = p(2)*(nsf)
-      fo(8) = p(3)*(nsf)      
+      fo(8) = p(3)*(nsf)
 
       nh = nhel*nsf
 
@@ -2945,19 +2945,19 @@ c         pp = min(p(0),dsqrt(p(1)**2+p(2)**2+p(3)**2))
          pp=sqrt(p(1)**2+p(2)**2+p(3)**2)
 
          if ( abs(pp).eq.rZero ) then
-            
+
             sqm(0) = sqrt(fmass) ! possibility of negative fermion masses
             sqm(1) = sqm(0) ! possibility of negative fermion masses
             ip = -((1+nh)/2)
             im =  (1-nh)/2
-            
+
             fo(1) = im     * sqm(im)
             fo(2) = ip*nsf * sqm(im)
             fo(3) = im*nsf * sqm(-ip)
             fo(4) = ip     * sqm(-ip)
-            
+
          else
-            
+
 c            pp = min(p(0),dsqrt(p(1)**2+p(2)**2+p(3)**2))
             pp=sqrt(p(1)**2+p(2)**2+p(3)**2) !repetition
 c            if( (dble(p(0)) .lt. 0 .and. dble(pp) .gt. 0) .or.
@@ -2981,16 +2981,16 @@ c            omega(2) = fmass/omega(1)
                chi(2) = ( nh*p(1) - ((0d0,1d0)*p(2)) )/
      .sqrt(rTwo*pp*pp3)
             endif
-            
+
             fo(1) = sfomeg(2)*chi(im)
             fo(2) = sfomeg(2)*chi(ip)
             fo(3) = sfomeg(1)*chi(im)
             fo(4) = sfomeg(1)*chi(ip)
 
          endif
-         
+
       else
-         
+
 c         if(zabs(p(1)).eq.0d0.and.zabs(p(2)).eq.0d0.and.zabs(p(3)).lt.0d0) then
 c            sqp0p3 = 0d0
 c         else
@@ -3013,7 +3013,7 @@ c         end if
             fo(3) = chi(2)
             fo(4) = chi(1)
          endif
-         
+
       endif
 c
       return

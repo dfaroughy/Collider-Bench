@@ -12,7 +12,7 @@ c       real    fmass          : fermion mass                        m_f
 c
 c output:
 c       complex vertex         : amplitude                        <fo|t|fi>
-c     
+c
       implicit none
       double complex fi(6), fo(6), tc(6,4), vertex
       double precision g, fmass

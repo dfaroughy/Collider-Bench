@@ -2,7 +2,7 @@
 C***************************************************************C
 C								C
 C  This is a package for the new MRST 2001 NLO parton           C
-C  distributions.                                               C     
+C  distributions.                                               C
 C  Reference: A.D. Martin, R.G. Roberts, W.J. Stirling and      C
 C  R.S. Thorne, hep-ph/0110215                                  C
 C                                                               C
@@ -23,10 +23,10 @@ C                                                               C
 C  Mode=4 gives the set MRST2001J which gives better agreement  C
 C  with the Tevatron inclusive jet data but has unattractive    C
 C  gluon behaviour at large x (see discussion in paper)         C
-C  This set has Lambda(MSbar,nf=4) = 0.353(alpha_s(M_Z) = 0.121 C 
+C  This set has Lambda(MSbar,nf=4) = 0.353(alpha_s(M_Z) = 0.121 C
 C  This set reads a grid whose first number is 0.00826          C
 C                                                               C
-C   This subroutine uses an improved interpolation procedure    C 
+C   This subroutine uses an improved interpolation procedure    C
 C   for extracting values of the pdf's from the grid            C
 C                                                               C
 C         Comments to : W.J.Stirling@durham.ac.uk               C
@@ -38,14 +38,14 @@ C***************************************************************C
       if(q2.lt.qsqmin.or.q2.gt.qsqmax) print 99,q2
       if(x.lt.xmin.or.x.gt.xmax)       print 98,x
           if(mode.eq.1) then
-        call mrst1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.2) then
-        call mrst2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.3) then
-        call mrst3(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst3(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.4) then
         call mrst4(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
-      endif 
+      endif
   99  format('  WARNING:  Q^2 VALUE IS OUT OF RANGE   ','q2= ',e10.5)
   98  format('  WARNING:   X  VALUE IS OUT OF RANGE   ','x= ',e10.5)
       return
@@ -139,7 +139,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -151,12 +151,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -165,7 +165,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       return
    50 format(8f10.5)
       end
- 
+
       subroutine mrst2(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
 c-fabio
@@ -254,7 +254,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -266,12 +266,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -369,7 +369,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -381,12 +381,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -484,7 +484,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -496,12 +496,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -510,4 +510,3 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       return
    50 format(8f10.5)
       end
-

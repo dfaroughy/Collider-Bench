@@ -1,5 +1,5 @@
 #
-# Platform independent part of make procedure for Nirvana spin widget, 
+# Platform independent part of make procedure for Nirvana spin widget,
 # included by machine specific makefiles.
 #
 include ../../stdhep_arch

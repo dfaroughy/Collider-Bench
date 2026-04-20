@@ -5,7 +5,7 @@
 #  Richard Corke (richard.corke@thep.lu.se)
 #
 # Changed structure to not read entire files into memory
-# 
+#
 # Based on merge.pl v1.2 by Michel Herquet (UCL-CP3)
 # DESCRIPTION : script to merge to LHE events files
 # USAGE :
@@ -71,14 +71,14 @@ foreach $infile (@ARGV) {
 
     # Extract <init> information
     } else {
- 
+
       # Check for end of <init> block
       if ($gzline =~ m/$end_init/) { last; }
 
       # Remove leading whitespace and split
       $gzline  =~ s/^\s+//;
       @gzparam = split(/\s+/, $gzline);
-     
+
       # Skip the <generator> block introduced in LHE version 3
       if ($lhe_version >= 3 && $gzline =~ m/<generator/) {
         push(@gzinit, $gzline);
@@ -156,7 +156,7 @@ foreach $infile (@infiles) {
   # Create new init block (overwrite first file's init block data)
   for ($i = 1; $i <= $#oldinit; $i++) {
     if ($oldinit[$i] =~ /^<generator/) {
-      if ($oldinit[$i] ne $currinit[$i]) { die("Init blocks do not match"); } 
+      if ($oldinit[$i] ne $currinit[$i]) { die("Init blocks do not match"); }
       next;
     }
 
@@ -279,7 +279,7 @@ foreach $infile (@infiles) {
         }
 
         $gzline .= "</init>\n";
-        
+
         $stage++;
       } else { next; }
 
@@ -319,4 +319,3 @@ $gzout->gzclose();
 
 print "Wrote $eventcount events\n";
 exit(0);
-

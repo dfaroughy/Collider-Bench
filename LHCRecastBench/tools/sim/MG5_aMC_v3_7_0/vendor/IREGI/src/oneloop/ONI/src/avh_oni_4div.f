@@ -382,14 +382,14 @@ c      write(6,*) 'MESSAGE from avh_oni_d0m8: you are calling me'
 *
       end
 
-     
+
       subroutine avh_oni_d0per(icase,per)
 *  ********************************************************************
 *  * Go through all possibilities of zero (0) and non-zero (1) masses
 *  *
 *  *   mass: 1234     mass: 1234     mass: 1234     mass: 1234
 *  * icase=1 0001  icase= 3 0011  icase= 7 0111  icase= 0 0000 icase->0
-*  * icase=2 0010  icase= 6 0110  icase=14 1110  icase=15 1111 icase->4 
+*  * icase=2 0010  icase= 6 0110  icase=14 1110  icase=15 1111 icase->4
 *  * icase=4 0100  icase=12 1100  icase=13 1101  icase= 5 0101 icase->5
 *  * icase=8 1000  icase= 9 1001  icase=11 1011  icase=10 1010 icase->5
 *  *   icase->1      icase->2       icase->3

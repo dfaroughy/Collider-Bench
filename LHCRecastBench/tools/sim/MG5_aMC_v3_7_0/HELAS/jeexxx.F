@@ -17,7 +17,7 @@ c       integer nsf  = -1 or 1 : +1 for electron, -1 for positron
 c
 c output:
 c       complex jee(6)         : off-shell photon          j^mu(<e|a|e>)
-c     
+c
       implicit none
       double complex jee(6),coeff
       double precision cs(2),eb,ef,shlf,chlf,phi,alpha,gal,hi,sf,sfh
@@ -68,7 +68,7 @@ c
       if ( phi.lt.rZero .or. phi.gt.rTwo*rPi ) then
          write(stdo,*)
      &   ' helas-warn  : phi in jeexxx does not lie on 0.0 thru 2.0*pi'
-         write(stdo,*) 
+         write(stdo,*)
      &   '             : phi = ',phi
       endif
       if ( abs(nhb).ne.1 ) then

@@ -14,7 +14,7 @@
 *									*
 *	Output:	del4		(real)	det(si.sj)			*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -40,7 +40,7 @@
 *	statement functions:
 *
 	absc(c) = abs(DBLE(c)) + abs(DIMAG(c))
-*  #] declarations: 
+*  #] declarations:
 *  #[ data:
 	data memind /0/
 	data memarr /mem*0,mem*0,mem*1,mem*1/
@@ -70,7 +70,7 @@
      +	3,7,10,9,3,8,9,10,4,5,6,7,4,5,8,6,4,5,6,10,4,5,7,8,4,5,7,9,4,5,1
      +	0,7,4,5,9,8,4,5,10,9,4,6,8,7,4,6,9,7,4,6,8,9,4,6,8,10,4,6,9,10,4
      +	,7,10,8,4,7,10,9,4,8,9,10/
-*  #] data: 
+*  #] data:
 *  #[ get starting point from memory:
 *
 *	see if we know were to start, if not: go on as last time
@@ -85,7 +85,7 @@
 	    endif
     5	continue
     6	continue
-*  #] get starting point from memory: 
+*  #] get starting point from memory:
 *  #[ calculations:
 	imem = inow
 	jmem = jnow
@@ -190,7 +190,7 @@
 	endif
 	del4 = del4p
 	xmax = xmaxp
-*  #] calculations: 
+*  #] calculations:
 *  #[ into memory:
 	if ( lwrite ) print *,'ffcel4: into memory: ',id,idsub,inow,jnow
 	memind = memind + 1
@@ -200,7 +200,7 @@
 	memarr(memind,3) = inow
 	memarr(memind,4) = jnow
   800	continue
-*  #] into memory: 
+*  #] into memory:
 *  #[ check output:
 	if ( ltest ) then
 
@@ -269,7 +269,7 @@
 *	Output:	dl3p	complex		see above			*
 *		ier	integer		number of digits lost so far	*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -298,7 +298,7 @@
      +		    1,2,6, 6,4,3, 3,1,6, 2,4,6,
      +		    2,5,3, 5,4,1, 1,3,5, 2,4,5,
      +		    1,6,5, 2,5,6, 3,6,5, 4,5,6/
-*  #] declarations: 
+*  #] declarations:
 *  #[ check input:
 	if ( lwrite ) then
 	    print *,'ffcl3p: indices are'
@@ -363,7 +363,7 @@
      +			xheck,i
    10	    continue
 	endif
-*  #] check input: 
+*  #] check input:
 *  #[ calculations:
 	if ( ii(1).eq.jj(1) .and. ii(2).eq.jj(2) .and. ii(3).eq.jj(3) )
      +		then
@@ -414,6 +414,6 @@
   101	continue
 	if ( lwarn ) call ffwarn(138,ier,absc(dl3p),xmax)
   110	continue
-*  #] calculations: 
-*###] ffcl3p: 
+*  #] calculations:
+*###] ffcl3p:
 	end

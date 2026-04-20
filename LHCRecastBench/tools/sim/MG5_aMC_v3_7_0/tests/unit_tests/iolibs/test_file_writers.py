@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -57,7 +57,7 @@ class CheckFileCreate():
             if '' in list_cur:
                 list_cur.remove('')
             else:
-                break            
+                break
 
         #full match expected
         if not partial:
@@ -78,12 +78,12 @@ class CheckFileCreate():
                 old_start += start
                 for a, b in zip(list_sol, list_cur[start:start+len_sol]):
                     try:
-                        self.assertEqual(a,b)                
+                        self.assertEqual(a,b)
                     except Exception:
                         continue
                 else:
                     break
-            
+
 
     def give_pos(self, filename):
         """ take a name and a change it in order to have a valid path in the output directory """
@@ -91,13 +91,13 @@ class CheckFileCreate():
 
     def clean_files(self):
         """ suppress all the files linked to this test """
-        
+
         for filename in self.created_files:
             try:
                 os.remove(self.give_pos(filename))
             except OSError:
                 pass
-    
+
 
 class FortranWriterTest(unittest.TestCase, CheckFileCreate):
     """Test class for the Fortran writer object"""
@@ -195,7 +195,7 @@ C       Test
       Subroutine TO_KEEP(BBB)
         integer BBB
         BBB = 1
-        return 
+        return
         end
     """
 
@@ -213,28 +213,28 @@ C       Test
       # Check that the output stays the same
       self.assertFileContains('fortran_test',
                                  goal_string)
-  
+
     def test_dummy_fcts(self):
-        
+
       input = pjoin(MG5DIR, 'Template', 'NLO', 'SubProcesses', 'dummy_fct.f')
       text = open(input).read()
 
       writer = writers.FortranWriter(self.give_pos('fortran_test'))
       writer.write(text)
-      
+
       for line in  open(self.give_pos('fortran_test')).readlines():
           if line.startswith(' '):
               self.assertFalse(line.strip().startswith(('c ','C ', 'c$', 'C$')))
-      
+
       input = pjoin(MG5DIR, 'Template', 'LO', 'SubProcesses', 'dummy_fct.f')
       text = open(input).read()
 
       writer = writers.FortranWriter(self.give_pos('fortran_test'))
       writer.write(text)
-      
+
       for line in  open(self.give_pos('fortran_test')).readlines():
           if line.startswith(' '):
-              self.assertFalse(line.strip().startswith(('c ','C ','c$', 'C$')))      
+              self.assertFalse(line.strip().startswith(('c ','C ','c$', 'C$')))
 
 
       #self.assertFileContains('fortran_test', text)
@@ -266,7 +266,7 @@ class CPPWriterTest(unittest.TestCase, CheckFileCreate):
 
 namespace Pythia8 {
 
- 
+
 /*==========================================================================
 
 A derived class for q g -> q gamma (q = u, d, s, c, b).
@@ -282,7 +282,7 @@ public:
   // Calculate flavour-independent parts of cross section.
   virtual void sigmaKin();
 
-  // Evaluate d(sigmaHat)/d(tHat). 
+  // Evaluate d(sigmaHat)/d(tHat).
   virtual double sigmaHat();
 
   // Select flavour, colour and anticolour.
@@ -309,13 +309,13 @@ void Sigma2ff2fftgmZ::setIdColAcol() {
   setId( id1, id2,    id1,id2);
 
   // Colour flow topologies. Swap when antiquarks.
-  if (abs(id1)<9 && abs(id2)<9  &&  id1*id2>2/3.) 
+  if (abs(id1)<9 && abs(id2)<9  &&  id1*id2>2/3.)
                          setColAcol(1,0,2,0,1,0,2,0);
   else if (abs(id1)<9 &&abs(id2)< 9)
-                         setColAcol(1,0,0,2,1,0,0,2); 
+                         setColAcol(1,0,0,2,1,0,0,2);
   else                   setColAcol(0,0,0,0,0,0,0,0);
 
-  if ( (abs(id1)!=9&&id1<0)||(abs(id1 )==10 &&    id2 < 0) ) 
+  if ( (abs(id1)!=9&&id1<0)||(abs(id1 )==10 &&    id2 < 0) )
     swapColAcol( ) ;
 
   template< double > > hej;
@@ -328,16 +328,16 @@ void Sigma2ff2fftgmZ::setIdColAcol() {
 #include "PythiaComplex.h"
 #include "SigmaProcess.h"
 
-namespace Pythia8 
+namespace Pythia8
 {
 
 
 //==========================================================================
-// 
+//
 // A derived class for q g -> q gamma (q = u, d, s, c, b).
 // Use massless approximation also for Q since no alternative.
 
-class Sigma2qg2qgamma : public Sigma2Process 
+class Sigma2qg2qgamma : public Sigma2Process
 {
 
   public:
@@ -346,18 +346,18 @@ class Sigma2qg2qgamma : public Sigma2Process
     Sigma2qg2qgamma() {}
 
     // Calculate flavour-independent parts of cross section.
-    virtual void sigmaKin(); 
+    virtual void sigmaKin();
 
     // Evaluate d(sigmaHat)/d(tHat).
-    virtual double sigmaHat(); 
+    virtual double sigmaHat();
 
     // Select flavour, colour and anticolour.
-    virtual void setIdColAcol(); 
+    virtual void setIdColAcol();
 
     // Info on the subprocess.
-    virtual string name() const 
+    virtual string name() const
     {
-      return "q g -> q gamma(udscb) test test test test test asasd as asd a dada djkl;sdf lkja sdfjkla;sdf l;kja+sdfkldf"; 
+      return "q g -> q gamma(udscb) test test test test test asasd as asd a dada djkl;sdf lkja sdfjkla;sdf l;kja+sdfkldf";
     }
     virtual int code() const {return 201e-3 + 2.e3 + .01e+2 + 1e+3;}
     virtual string inFlux() const {return "qg";}
@@ -367,28 +367,28 @@ class Sigma2qg2qgamma : public Sigma2Process
     // Values stored for later use.
     double mNew, m2New, sigUS, sigma0;  // Just qg
 
-}; 
+};
 
 // Select identity, colour and anticolour.
 
-void Sigma2ff2fftgmZ::setIdColAcol() 
+void Sigma2ff2fftgmZ::setIdColAcol()
 {
 
   // Trivial flavours: out = in.
-  setId(id1, id2, id1, id2); 
+  setId(id1, id2, id1, id2);
 
   // Colour flow topologies. Swap when antiquarks.
   if (abs(id1) < 9 && abs(id2) < 9 && id1 * id2 > 2/3.)
-    setColAcol(1, 0, 2, 0, 1, 0, 2, 0); 
+    setColAcol(1, 0, 2, 0, 1, 0, 2, 0);
   else if (abs(id1) < 9 && abs(id2) < 9)
-    setColAcol(1, 0, 0, 2, 1, 0, 0, 2); 
+    setColAcol(1, 0, 0, 2, 1, 0, 0, 2);
   else
-    setColAcol(0, 0, 0, 0, 0, 0, 0, 0); 
+    setColAcol(0, 0, 0, 0, 0, 0, 0, 0);
 
   if ((abs(id1) != 9 && id1 < 0) || (abs(id1) == 10 && id2 < 0))
-    swapColAcol(); 
+    swapColAcol();
 
-  template<double> > hej; 
+  template<double> > hej;
 
 }
 """
@@ -399,11 +399,11 @@ void Sigma2ff2fftgmZ::setIdColAcol()
         # Check that the output stays the same
         self.assertFileContains('cpp_test',
                                  goal_string)
-        
-        
+
+
     def test_write_cplusplus_special_syntax(self):
         """ """
-        
+
         line = """mapFinalStates[{5,-5,-13,11,-12,14}] =
 {
 { &CPPProcess::matrix_gg_ttx_bbxmupemvexvm,
@@ -420,27 +420,27 @@ void Sigma2ff2fftgmZ::setIdColAcol()
  36
  }
 };"""
-        
-        goal_string = """mapFinalStates[{5, -5, -13, 11, -12, 14}] = 
+
+        goal_string = """mapFinalStates[{5, -5, -13, 11, -12, 14}] =
 {
   {
-    &CPPProcess::matrix_gg_ttx_bbxmupemvexvm, 
-    false, 
+    &CPPProcess::matrix_gg_ttx_bbxmupemvexvm,
+    false,
     {
       std::make_pair(21, 21)
-    }, 
-    256, 
+    },
+    256,
     256
   }
-  , 
+  ,
   {
-    &CPPProcess::matrix_uux_ttx_bbxmupemvexvm, 
-    true, 
+    &CPPProcess::matrix_uux_ttx_bbxmupemvexvm,
+    true,
     {
       std::make_pair(2, -2), std::make_pair(4, -4), std::make_pair(1, -1),
           std::make_pair(3, -3)
-    }, 
-    256, 
+    },
+    256,
     36
   }
 }; """
@@ -449,8 +449,8 @@ void Sigma2ff2fftgmZ::setIdColAcol()
 
         # Check that the output stays the same
         self.assertFileContains('cpp_test',
-                                 goal_string)   
-    
+                                 goal_string)
+
 
     def test_write_cplusplus_error(self):
         """Test that a non-string gives an error"""
@@ -469,9 +469,9 @@ void Sigma2ff2fftgmZ::setIdColAcol()
 class FilePreprocessingTest(unittest.TestCase):
     """ Makes sure that the preprocessing tags '##' are correctly handled by the
     function preprocess_template()."""
-    
+
     def test_single_if_statement(self):
-        """ Test a single conditional statement """     
+        """ Test a single conditional statement """
         tests = [\
 ("""
 [...]
@@ -519,14 +519,14 @@ B
 """.split('\n'),
 {'TestVar':False}),
 ]
-        
+
         for tested_text, goal, context in tests:
             res = writers.FileWriter('tmp').preprocess_template(tested_text,
                                                                 context=context)
             self.assertEqual(res,goal)
-            
+
     def test_multiple_if_statement(self):
-        """ Test multiple entangle conditional statement """     
+        """ Test multiple entangle conditional statement """
         test_text = \
 """
 [...]
@@ -594,4 +594,4 @@ I
         for goal, context in test_goals:
             res = writers.FileWriter('tmp').preprocess_template(test_text,
                                                                 context=context)
-            self.assertEqual(res,goal)            
+            self.assertEqual(res,goal)

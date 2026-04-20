@@ -3,7 +3,7 @@ c
 c- by RF - Feb. 2006
 c
 c This subroutine computes the off-shell vector current
-c in terms of the vector w1 and tensor jt 
+c in terms of the vector w1 and tensor jt
 c
 c     input:
 c         complex ga                  : incoming vector boson (gluon)
@@ -28,7 +28,7 @@ c      include "dimension.inc"
       double complex gt1(4), gt2(4), dv, q2
       double precision q(0:3),g
       double precision xm,xw
-	
+
       double precision sqrTwo
       parameter( sqrTwo = 1.41421356237309514547462185873882845044d0 )
 
@@ -76,4 +76,3 @@ c tensor indices the indices of the outgoing vector current
 
       return
       end
-

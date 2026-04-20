@@ -16,14 +16,14 @@ Back to <a href="../ExampleKeywords.html" target="page">index.</a>
 # Authors:
 #            <a href="mailto:christian.bierlich@fysik.lu.se">Christian Bierlich</a>
 
-# This code is an example of how Pythia can be used as a shared library. 
+# This code is an example of how Pythia can be used as a shared library.
 # The physics case is a study of total cross sections, which cannot be
 # exposed through the normal Python interface. Instead a class encapsulating
-# the desired functionality (PythiaCrossSection) is implemented in 
-# main296.cc, and exposed to calls below using ctypes, which comes 
+# the desired functionality (PythiaCrossSection) is implemented in
+# main296.cc, and exposed to calls below using ctypes, which comes
 # standard with Python.
-# To use this example, main296Lib.cc must first be compiled as a shared 
-# library with make libmain296Lib.so, and then the Python code below run. 
+# To use this example, main296Lib.cc must first be compiled as a shared
+# library with make libmain296Lib.so, and then the Python code below run.
 
 # Import ctypes and load the library.
 import ctypes
@@ -32,9 +32,9 @@ lib = ctypes.cdll.LoadLibrary(&apos;./libmain296Lib.so&apos;)
 # The Python class, PythiaCrossSection, is the Python interface to the
 # PythiaCrossSection C++ class defined in main296.cc.
 # The class is written as a resource class, with the actual interface only
-# accesible inside the class as PythiaInterfacer, to ensure proper garbage 
+# accesible inside the class as PythiaInterfacer, to ensure proper garbage
 # collection.
-# The PythiaCrossSection class should therefore only be instantiated using 
+# The PythiaCrossSection class should therefore only be instantiated using
 # a with statement, which will give direct access to the interface, as seen
 # in the example use case below.
 class PythiaCrossSection:
@@ -51,7 +51,7 @@ class PythiaCrossSection:
 
                 lib.PythiaCrossSection_del.argtypes = [ctypes.c_void_p]
 
-                lib.PythiaCrossSection_calc.argtypes = [ctypes.c_void_p, 
+                lib.PythiaCrossSection_calc.argtypes = [ctypes.c_void_p,
                 ctypes.c_int, ctypes.c_int, ctypes.c_double]
 
                 lib.PythiaCrossSection_sigmaTot.argtypes = [ctypes.c_void_p]

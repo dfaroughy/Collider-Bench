@@ -31,7 +31,7 @@ c where all the bosons are defined by the flowing-OUT quantum number.
 c
 c output:
 c       complex vertex         : amplitude          gamma(wm,w31,wp,w32)
-c     
+c
       implicit none
       double complex wm(6),w31(6),wp(6),w32(6),vertex
       double complex dv1(0:3),dv2(0:3),dv3(0:3),dv4(0:3),dvertx
@@ -120,7 +120,7 @@ c
       if ( g31.lt.rZero ) then
          write(stdo,*)
      &        ' helas-warn  : g31 in w3w3xx is non-standard coupling'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : g31 = ',g31
       endif
       if ( g32.lt.rZero ) then
@@ -156,7 +156,7 @@ c
       v34 = dv3(0)*dv4(0)-dv3(1)*dv4(1)-dv3(2)*dv4(2)-dv3(3)*dv4(3)
 
       dvertx = v12*v34 + v14*v23 - rTwo*v13*v24
-      
+
       vertex = dcmplx( dvertx ) * (g31*g32)
 c
       return

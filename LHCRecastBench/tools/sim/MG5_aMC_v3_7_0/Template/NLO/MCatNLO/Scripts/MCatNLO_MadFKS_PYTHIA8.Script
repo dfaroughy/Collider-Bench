@@ -1,7 +1,7 @@
 #!/bin/bash
 # finds out architecture name, defines system files, and construct
 # the relevant directory for run, if not present. If the architecture
-# cannot be figured out, defines ./Run as working directory, and use 
+# cannot be figured out, defines ./Run as working directory, and use
 # sun as system file -- it should work in most of the cases
 function architecture {
 PATH=".:""$PATH"
@@ -29,7 +29,7 @@ if [ 0 = $rc ]
 then
 :
 else
-echo $* did not succeed, exit status=$rc 
+echo $* did not succeed, exit status=$rc
 exit $rc
 fi
 }
@@ -92,7 +92,7 @@ FREEZE|freeze) PDFGROUP=LHAPDF ;;
 EXTRAPOLATE|extrapolate) PDFGROUP=LHAEXT ;;
 *) echo "no such option; failure in linklhapdf" ; exit 1 ;;
 esac
-}    
+}
 
 # creates the executable for NLO and MC; the entry of the function
 # is either NLO or MC, depending on which executable one wants to obtain;
@@ -355,7 +355,7 @@ ifile="MCATNLO_"$MCMODE"_input"
 exefile="MCATNLO_"$MCMODE"_EXE"
 if [ -f ./$ifile ]
 then
-\rm ./$ifile 
+\rm ./$ifile
 fi
 #mv $EXEC_NAMEFF $exefile
 # create input file
@@ -364,7 +364,7 @@ cat <<EOF > $ifile
 ! 1) Settings used in the main program.
 Main:numberOfEvents = $NEVENTS_TOT    ! Number of events in the LHE file
 Main:spareMode1 = $NEVENTS            ! Number of events to be showered
-Main:spareWord1 = $EVENT_NORM         ! Event weights are normalized to sum 
+Main:spareWord1 = $EVENT_NORM         ! Event weights are normalized to sum
                                       ! or average to the cross section
 Main:timesAllowErrors = $ERR_NUM_PY8  ! Number of allowed errors
 
@@ -373,7 +373,7 @@ Init:showChangedParticleData = off    ! Shows all non-default particle settings
 Next:numberShowEvent = $MAXPR_PY8     ! print event record n times
 Stat:showProcessLevel = on            ! Process statistics
 Stat:showErrors = on                  ! Error statistics
-Check:epTolErr = 0.001                ! Momentum-conservation tolerance 
+Check:epTolErr = 0.001                ! Momentum-conservation tolerance
 EOF
 
 if [ $BEAM1 = 2 ] && [ $BEAM2 = 2 ]
@@ -695,7 +695,7 @@ fi
 if [ $B_STABLE_PY8 = ".TRUE." ]
 then
 cat <<EOF >> $ifile
-511:maydecay = false               ! stable B hadrons 
+511:maydecay = false               ! stable B hadrons
 521:maydecay = false               ! stable B hadrons
 531:maydecay = false               ! stable B hadrons
 541:maydecay = false               ! stable B hadrons
@@ -787,7 +787,7 @@ cp -f $thisdir/$ifile Pythia8.cmd
 
 }
 
-# this function set the parameter pdftype according to the value 
+# this function set the parameter pdftype according to the value
 # of PYTPDF (the entry of this function) given in input
 function whichpytpdf {
 case $1 in

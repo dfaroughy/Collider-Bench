@@ -8,5 +8,3 @@
       ! use such common outside of auto_dsig.f
       double precision ee_components(n_ee)
       common / to_ee_components / ee_components
-
-

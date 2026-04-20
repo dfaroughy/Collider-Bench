@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -169,7 +169,7 @@ class IOExportPythonTest(unittest.TestCase):
         self.mymodel.set('name', 'sm')
 
         self.mypythonmodel = helas_call_writers.PythonUFOHelasCallWriter(self.mymodel)
-    
+
         myleglist = base_objects.LegList()
 
         myleglist.append(base_objects.Leg({'id':2,
@@ -183,7 +183,7 @@ class IOExportPythonTest(unittest.TestCase):
 
         myproc = base_objects.Process({'legs':myleglist,
                                        'model':self.mymodel})
-        
+
         myamplitude = diagram_generation.Amplitude({'process': myproc})
 
         self.mymatrixelement = helas_objects.HelasMultiProcess(myamplitude)
@@ -211,7 +211,7 @@ class IOExportPythonTest(unittest.TestCase):
 
         self.exporter = export_python.ProcessExporterPython(\
             self.mymatrixelement, self.mypythonmodel)
-        
+
     def test_python_export_functions(self):
         """Test functions used by the Python export"""
 
@@ -221,7 +221,7 @@ class IOExportPythonTest(unittest.TestCase):
 
     def test_get_python_matrix_methods(self):
         """Test getting the matrix methods for Python for a matrix element."""
-        
+
         goal_method = (\
 """class Matrix_0_uux_uux(object):
 
@@ -233,32 +233,32 @@ class IOExportPythonTest(unittest.TestCase):
         self.jamp = []
 
     def smatrix(self,p, model):
-        #  
+        #
         #  MadGraph5_aMC@NLO v. %(version)s, %(date)s
         #  By the MadGraph5_aMC@NLO Development Team
         #  Visit launchpad.net/madgraph5 and amcatnlo.web.cern.ch
-        # 
+        #
         # MadGraph5_aMC@NLO StandAlone Version
-        # 
+        #
         # Returns amplitude squared summed/avg over colors
         # and helicities
         # for the point in phase space P(0:3,NEXTERNAL)
-        #  
+        #
         # Process: u u~ > u u~
         # Process: c c~ > c c~
-        #  
+        #
         # Clean additional output
         #
         self.clean()
-        #  
+        #
         # CONSTANTS
-        #  
+        #
         nexternal = 4
         ndiags = 4
         ncomb = 16
-        #  
-        # LOCAL VARIABLES 
-        #  
+        #
+        # LOCAL VARIABLES
+        #
         helicities = [ \\
         [1,-1,-1,1],
         [1,-1,-1,-1],
@@ -291,7 +291,7 @@ class IOExportPythonTest(unittest.TestCase):
         return ans.real
 
     def matrix(self, p, hel, model):
-        #  
+        #
         #  MadGraph5_aMC@NLO v. %(version)s, %(date)s
         #  By the MadGraph5_aMC@NLO Development Team
         #  Visit launchpad.net/madgraph5 and amcatnlo.web.cern.ch
@@ -301,18 +301,18 @@ class IOExportPythonTest(unittest.TestCase):
         #
         # Process: u u~ > u u~
         # Process: c c~ > c c~
-        #  
-        #  
+        #
+        #
         # Process parameters
-        #  
+        #
         ngraphs = 4
         nexternal = 4
         nwavefuncs = 5
         ncolor = 2
         ZERO = 0.
-        #  
+        #
         # Color matrix
-        #  
+        #
         denom = [1,1];
         cf = [[9,3],
         [3,9]];
@@ -360,7 +360,7 @@ class IOExportPythonTest(unittest.TestCase):
             ztemp = 0
             for j in range(ncolor):
                 ztemp = ztemp + cf[i][j]*jamp[j]
-            matrix = matrix + ztemp * jamp[i].conjugate()/denom[i]   
+            matrix = matrix + ztemp * jamp[i].conjugate()/denom[i]
         self.jamp.append(jamp)
 
         return matrix
@@ -373,7 +373,7 @@ class IOExportPythonTest(unittest.TestCase):
                           split('\n')
 
         self.assertEqual(matrix_methods, goal_method)
-        
+
 
     def test_run_python_matrix_element(self):
         """Test a complete running of a Python matrix element without
@@ -437,7 +437,7 @@ class IOExportPythonTest(unittest.TestCase):
         context = {}
         full_model = model_reader.ModelReader(model)
         context['full_model'] = full_model
-        
+
         full_model.set_parameters_and_couplings()
 
 
@@ -620,7 +620,7 @@ class IOExportPythonTest(unittest.TestCase):
                       'orders':{'QCD':1}}))
 
         # Coupling of Z to quarks
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 6,
                       'particles': base_objects.ParticleList(\
@@ -645,7 +645,7 @@ class IOExportPythonTest(unittest.TestCase):
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
 
         procs = [[2,-2,21,21], [2,-2,2,-2]]
         amplitudes = diagram_generation.AmplitudeList()
@@ -679,4 +679,3 @@ class IOExportPythonTest(unittest.TestCase):
                                         subprocess_group.get('diagram_maps')[0])
         self.assertEqual(amp2_lines,
                          ['self.amp2[0]+=abs(amp[0]*amp[0].conjugate())', 'self.amp2[1]+=abs(amp[1]*amp[1].conjugate())', 'self.amp2[2]+=abs(amp[2]*amp[2].conjugate())'])
-

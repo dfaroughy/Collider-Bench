@@ -96,11 +96,11 @@ $rdnseed = 0;
 while (my $line = <INFILE>) {
 
     # Extract <MGGenerationInfo> information
-    if ($line =~ m/$end_header/) { 
+    if ($line =~ m/$end_header/) {
 	if($nevents == -1 || $xsec == -1 || $trunc == -1 || $unitwgt == -1) {
 	    die "Error: Couldn't find number of events and cross section in $infile.\n";
 	}
-	$headerblock = 0; 
+	$headerblock = 0;
 	print OUTFILE "<ReplaceParticleInfo>\n";
 	printf OUTFILE "#  Number of Events        : %11i\n",$nevents;
 	printf OUTFILE "#  Integrated weight (pb)  : %11.4E\n",$xsec;
@@ -113,11 +113,11 @@ while (my $line = <INFILE>) {
 	else {print "Warning: Random seed 0, use default random seed (unreproducible)\n";}
     }
     if ($line =~ m/$end_init/) { $initblock=0; }
-    if ($line =~ m/$end_event/) { 
+    if ($line =~ m/$end_event/) {
 	$eventcount++;
-	$eventblock=0; 
+	$eventblock=0;
     }
-    
+
     if ($headerblock == 1) {
 	# In header
 	if ($line =~ m/^#\s+Number of Events\s*:\s*(.*)\n/) { $nevents = $1; }
@@ -153,7 +153,7 @@ while (my $line = <INFILE>) {
 		if ($#param != 5) { die "Error: Wrong number of params in event $eventcount \($#param / 5\)"; }
 		$param[2]*=$nparts;
 		$line = sprintf "%2i %3i %13.6E %13.6E %13.6E %13.6E\n",$param[0],$param[1],$param[2],$param[3],$param[4],$param[5];
-		
+
 		# Randomly choose a particle from the lists
 		$rnumber = int(rand($nparts));
 	    }
@@ -168,7 +168,7 @@ while (my $line = <INFILE>) {
 	}
 	$eventblock++;
     }
-	    
+
     if ($line =~ m/$begin_header/) { $headerblock = 1; }
     if ($line =~ m/$begin_init/) { $initblock=1; }
     if ($line =~ m/$begin_event/) { $eventblock=1; }
@@ -183,5 +183,3 @@ print "Wrote $eventcount events\n";
 if( $eventcount < $nevents ) { print "Warning: $infile ended early\n"; }
 
 exit(0);
-
-

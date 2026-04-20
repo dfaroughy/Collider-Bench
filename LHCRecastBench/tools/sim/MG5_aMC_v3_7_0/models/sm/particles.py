@@ -382,4 +382,3 @@ ta__minus__ = Particle(pdg_code = 15,
                        Y = 0)
 
 ta__plus__ = ta__minus__.anti()
-

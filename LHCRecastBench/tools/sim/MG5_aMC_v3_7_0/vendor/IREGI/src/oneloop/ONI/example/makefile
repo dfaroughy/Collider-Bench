@@ -1,5 +1,5 @@
 FC=gfortran
-FFLAGS = 
+FFLAGS =
 
 WITHLT = yes
 #WITHLT = no
@@ -23,15 +23,15 @@ FILE = example
 
 all: edit a.out
 
-.f.o: 
-	$(FC) $(FFLAGS) -I$(OLOHOME) -c $*.f -o $*.o 
+.f.o:
+	$(FC) $(FFLAGS) -I$(OLOHOME) -c $*.f -o $*.o
 
 OBJECTS = \
           ./$(FILE).o
 
 ifeq ($(WITHLT),yes)
 
-a.out: $(OBJECTS) 
+a.out: $(OBJECTS)
 	$(FC) $(FFLAGS) -I$(OLOHOME) -o $(FILE).exe $(OBJECTS) \
 	-L$(LTHOME) -l$(LTLIB) \
 	-L$(OLOHOME) -l$(OLOLIB) \
@@ -51,7 +51,7 @@ endif
 
 else
 
-a.out: $(OBJECTS) 
+a.out: $(OBJECTS)
 	$(FC) $(FFLAGS) -o $(FILE).exe $(OBJECTS) \
 	-L$(OLOHOME) -l$(OLOLIB) \
 	-L$(ONIHOME) -l$(ONILIB) \

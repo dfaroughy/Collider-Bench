@@ -81,7 +81,7 @@ typedef struct
 }	xfselControlBlkType;
 
 
-/*	local function prototypes */		
+/*	local function prototypes */
 
 static void	getStringComponent(char *inStr, int pos, char *outStr);
 static void	setupScrollLists(int dontChange, xfselControlBlkType ctrlBlk);
@@ -93,17 +93,17 @@ static void	addItemToList(char **buf, char *item, int *count);
 static void	getFontPart(char *font, char *buff1);
 static void	getStylePart(char *font, char *buff1);
 static void	getSizePart(char *font, char *buff1, int inPixels);
-static void	propFontToggleAction(Widget widget, 
-				     xfselControlBlkType *ctrlBlk, 
+static void	propFontToggleAction(Widget widget,
+				     xfselControlBlkType *ctrlBlk,
 				     XmToggleButtonCallbackStruct *call_data);
 static void	sizeToggleAction(Widget widget,
-				 xfselControlBlkType *ctrlBlk, 
+				 xfselControlBlkType *ctrlBlk,
 				 XmToggleButtonCallbackStruct *call_data);
-static void	fontAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void	fontAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmListCallbackStruct *call_data);
-static void	styleAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void	styleAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmListCallbackStruct *call_data);
-static void	sizeAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void	sizeAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmListCallbackStruct *call_data);
 static void	choiceMade(xfselControlBlkType *ctrlBlk);
 static void	dispSample(xfselControlBlkType *ctrlBlk);
@@ -112,7 +112,7 @@ static void	cancelAction(Widget widget, xfselControlBlkType *ctrlBlk,
 static void	okAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmPushButtonCallbackStruct *call_data);
 static void	startupFont(xfselControlBlkType *ctrlBlk, char *font);
-static void 	setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event, 
+static void 	setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event,
 						Boolean *continueToDispatch);
 static void	FindBigFont(xfselControlBlkType *ctrlBlk, char *bigFont);
 
@@ -169,8 +169,8 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 	char			bigFont[MAX_FONT_NAME_LEN];
 	xfselControlBlkType	ctrlBlk;
 
-	ctrlBlk.fontData	= XListFonts(XtDisplay(parent), 
-					     "-*-*-*-*-*-*-*-*-*-*-*-*-*-*", 
+	ctrlBlk.fontData	= XListFonts(XtDisplay(parent),
+					     "-*-*-*-*-*-*-*-*-*-*-*-*-*-*",
 					     MAX_NUM_FONTS, &ctrlBlk.numFonts);
 	FindBigFont(&ctrlBlk, bigFont);
 	ctrlBlk.oldFont = XLoadQueryFont(XtDisplay(parent), bigFont);
@@ -186,7 +186,7 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 
 	/*	Create form popup dialog widget */
 
-	form	= XtCreateWidget ("Font Selector", xmFormWidgetClass, dialog, 
+	form	= XtCreateWidget ("Font Selector", xmFormWidgetClass, dialog,
 								       args, n);
 
 	/*	Create pushbutton widgets */
@@ -217,13 +217,13 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 
 	/*	create font name text widget and the corresponding label */
 
-	n = 0; 
-	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-	XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++; 
-	XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++; 
-	XtSetArg(args[n], XmNbottomWidget, okButton); n++; 
-	XtSetArg(args[n], XmNleftPosition, 1); n++; 
-	XtSetArg(args[n], XmNrightPosition, 99); n++; 
+	n = 0;
+	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
+	XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++;
+	XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++;
+	XtSetArg(args[n], XmNbottomWidget, okButton); n++;
+	XtSetArg(args[n], XmNleftPosition, 1); n++;
+	XtSetArg(args[n], XmNrightPosition, 99); n++;
 	XtSetArg(args[n], XmNeditable, True); n++;
 	XtSetArg(args[n], XmNeditMode, XmSINGLE_LINE_EDIT); n++;
 	XtSetArg(args[n], XmNmaxLength, MAX_FONT_NAME_LEN); n++;
@@ -231,14 +231,14 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 								     args, n);
 	RemapDeleteKey(fontName);	/* kludge to handle delete and BS */
 
-	n = 0; 
+	n = 0;
 	tempStr = XmStringCreate("Font Name:", XmSTRING_DEFAULT_CHARSET);
 	XtSetArg(args[n], XmNlabelString, tempStr); n++;
 	XtSetArg(args[n], XmNmnemonic, 'N'); n++;
 	XtSetArg(args[n], XmNuserData, fontName); n++;
-	XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++; 
-	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-	XtSetArg(args[n], XmNleftWidget, fontName); n++; 
+	XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
+	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
+	XtSetArg(args[n], XmNleftWidget, fontName); n++;
 	XtSetArg(args[n], XmNbottomWidget, fontName); n++;
 	XtSetArg(args[n], XmNtopOffset, 1); n++;
 	nameLabel = XtCreateManagedWidget("Font Name:", xmLabelWidgetClass,
@@ -248,51 +248,51 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 	/*	create sample display label widget */
 
 	n = 0;
-	XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++; 
-	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-	XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++; 
+	XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++;
+	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
+	XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++;
 	XtSetArg(args[n], XmNrightPosition, 99); n++;
 	XtSetArg(args[n], XmNbottomWidget, nameLabel); n++;
-	XtSetArg(args[n], XmNleftPosition, 1); n++; 
+	XtSetArg(args[n], XmNleftPosition, 1); n++;
  	XtSetArg(args[n], XmNalignment, XmALIGNMENT_BEGINNING); n++;
        	XtSetArg(args[n], XmNrecomputeSize, FALSE); n++;
    	XtSetArg(args[n], XmNfontList, ctrlBlk.oldFontList); n++;
- 	dispLabel = XtCreateManagedWidget(" ", xmLabelWidgetClass, form, 
+ 	dispLabel = XtCreateManagedWidget(" ", xmLabelWidgetClass, form,
 								       args, n);
 
 	/*	create toggle buttons */
 
-	n = 0; 
-	tempStr = XmStringCreate("Show Size in Points", 
+	n = 0;
+	tempStr = XmStringCreate("Show Size in Points",
 						      XmSTRING_DEFAULT_CHARSET);
 	XtSetArg(args[n], XmNlabelString, tempStr); n++;
 	XtSetArg(args[n], XmNmnemonic, 'P'); n++;
-	XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++; 
-	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-	XtSetArg(args[n], XmNleftPosition, 2); n++; 
+	XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++;
+	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
+	XtSetArg(args[n], XmNleftPosition, 2); n++;
 	XtSetArg(args[n], XmNtopOffset, 1); n++;
 	XtSetArg(args[n], XmNbottomWidget, dispLabel); n++;
-	sizeToggle = XtCreateManagedWidget("sizetoggle", 
+	sizeToggle = XtCreateManagedWidget("sizetoggle",
 				      xmToggleButtonWidgetClass, form, args, n);
 	XmStringFree(tempStr);
 
 	if (showPropFonts != ONLY_FIXED)
 	{
-		n = 0; 
-		tempStr = XmStringCreate("Show Proportional Width Fonts", 
+		n = 0;
+		tempStr = XmStringCreate("Show Proportional Width Fonts",
 						      XmSTRING_DEFAULT_CHARSET);
 		XtSetArg(args[n], XmNlabelString, tempStr); n++;
 		XtSetArg(args[n], XmNmnemonic, 'W'); n++;
-		XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++; 
-		XtSetArg(args[n], XmNtopAttachment, 
-						XmATTACH_OPPOSITE_WIDGET); n++; 
-		XtSetArg(args[n], XmNbottomAttachment, 
-						XmATTACH_OPPOSITE_WIDGET); n++; 
-		XtSetArg(args[n], XmNrightPosition, 98); n++; 
+		XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++;
+		XtSetArg(args[n], XmNtopAttachment,
+						XmATTACH_OPPOSITE_WIDGET); n++;
+		XtSetArg(args[n], XmNbottomAttachment,
+						XmATTACH_OPPOSITE_WIDGET); n++;
+		XtSetArg(args[n], XmNrightPosition, 98); n++;
 		XtSetArg(args[n], XmNtopWidget, sizeToggle); n++;
 		XtSetArg(args[n], XmNbottomWidget, sizeToggle); n++;
 		XtSetArg(args[n], XmNtopOffset, 1); n++;
-		propFontToggle = XtCreateManagedWidget("propfonttoggle", 
+		propFontToggle = XtCreateManagedWidget("propfonttoggle",
 				      xmToggleButtonWidgetClass, form, args, n);
 		XmStringFree(tempStr);
 	}
@@ -303,12 +303,12 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 	n = 0;
 	tempStr = XmStringCreate("Font:", XmSTRING_DEFAULT_CHARSET);
 	XtSetArg(args[n], XmNlabelString, tempStr); n++;
-	XtSetArg(args[n], XmNmnemonic, 'F'); n++; 
+	XtSetArg(args[n], XmNmnemonic, 'F'); n++;
 	XtSetArg(args[n], XmNtopOffset, 2); n++;
 	XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
 	XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++;
 	XtSetArg(args[n], XmNleftPosition, 1); n++;
-	nameLabel = XtCreateManagedWidget("Font:", xmLabelWidgetClass, form, 
+	nameLabel = XtCreateManagedWidget("Font:", xmLabelWidgetClass, form,
 								      args, n);
 	XmStringFree(tempStr);
 
@@ -343,7 +343,7 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 
 	n = 0;
 	tempStr = XmStringCreate("Style:", XmSTRING_DEFAULT_CHARSET);
-	XtSetArg(args[n], XmNmnemonic, 'y'); n++; 
+	XtSetArg(args[n], XmNmnemonic, 'y'); n++;
 	XtSetArg(args[n], XmNuserData, styleList); n++;
 	XtSetArg(args[n], XmNlabelString, tempStr); n++;
 	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
@@ -371,7 +371,7 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 	n = 0;
 	tempStr = XmStringCreate("Size:", XmSTRING_DEFAULT_CHARSET);
 	XtSetArg(args[n], XmNlabelString, tempStr); n++;
-	XtSetArg(args[n], XmNmnemonic, 'z'); n++; 
+	XtSetArg(args[n], XmNmnemonic, 'z'); n++;
 	XtSetArg(args[n], XmNuserData, sizeList); n++;
 	XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
 	XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
@@ -408,15 +408,15 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 	ctrlBlk.sel3		= NULL;
 	ctrlBlk.fontName	= NULL;
 
- 	setupScrollLists(NONE, ctrlBlk);	/* update scroll lists */ 
+ 	setupScrollLists(NONE, ctrlBlk);	/* update scroll lists */
 
 	if (showPropFonts == PREF_PROP)
-		XmToggleButtonSetState(propFontToggle, TRUE, FALSE); 
-		
+		XmToggleButtonSetState(propFontToggle, TRUE, FALSE);
+
 	/*	Register callback functions */
 
 	if (showPropFonts != ONLY_FIXED)
-		XtAddCallback(propFontToggle, XmNvalueChangedCallback, 
+		XtAddCallback(propFontToggle, XmNvalueChangedCallback,
 			(XtCallbackProc)propFontToggleAction, (char *)&ctrlBlk);
 	XtAddCallback(sizeToggle, XmNvalueChangedCallback,
 		(XtCallbackProc)sizeToggleAction, (char *)&ctrlBlk);
@@ -464,7 +464,7 @@ char 	*FontSel(Widget parent, int showPropFonts, char *currFont)
 	/* set up current font parameters */
 
 	if (currFont[0] != '\0')
-		startupFont(&ctrlBlk, currFont); 
+		startupFont(&ctrlBlk, currFont);
 
 	/*	enter event loop */
 
@@ -497,11 +497,11 @@ static void	getStringComponent(char *inStr, int pos, char *outStr)
 		fprintf(stderr, "pos > %d\nIf such ", NUM_COMPONENTS_FONT_NAME);
 		fprintf(stderr, "use is intended remove these warning lines\n");
 	}
-	
+
 	for (i = 0; (pos > 0) && (inStr[i] != '\0'); i++)
 		if (inStr[i] == DELIM)
 			pos--;
-	
+
 	if (inStr[i] == '\0')
 		return;
 
@@ -532,7 +532,7 @@ static void	setupScrollLists(int dontChange, xfselControlBlkType ctrlBlk)
 		if ((dontChange != FONT) &&
 		    (styleMatch(ctrlBlk, ctrlBlk.fontData[i])) &&
 		    (sizeMatch (ctrlBlk, ctrlBlk.fontData[i])) &&
-		    ((ctrlBlk.showPropFonts == PREF_PROP) || 
+		    ((ctrlBlk.showPropFonts == PREF_PROP) ||
 		     (notPropFont(ctrlBlk.fontData[i]))))
 		{
 			getFontPart(ctrlBlk.fontData[i], buff1);
@@ -542,7 +542,7 @@ static void	setupScrollLists(int dontChange, xfselControlBlkType ctrlBlk)
 		if ((dontChange != STYLE) &&
 		    (fontMatch(ctrlBlk, ctrlBlk.fontData[i])) &&
 		    (sizeMatch (ctrlBlk, ctrlBlk.fontData[i])) &&
-		    ((ctrlBlk.showPropFonts == PREF_PROP) || 
+		    ((ctrlBlk.showPropFonts == PREF_PROP) ||
 		     (notPropFont(ctrlBlk.fontData[i]))))
 		{
 			getStylePart(ctrlBlk.fontData[i], buff1);
@@ -552,10 +552,10 @@ static void	setupScrollLists(int dontChange, xfselControlBlkType ctrlBlk)
 		if ((dontChange != SIZE) &&
 		    (fontMatch(ctrlBlk, ctrlBlk.fontData[i])) &&
 		    (styleMatch (ctrlBlk, ctrlBlk.fontData[i])) &&
-		    ((ctrlBlk.showPropFonts == PREF_PROP) || 
+		    ((ctrlBlk.showPropFonts == PREF_PROP) ||
 		     (notPropFont(ctrlBlk.fontData[i]))))
 		{
-			getSizePart(ctrlBlk.fontData[i], buff1, 
+			getSizePart(ctrlBlk.fontData[i], buff1,
 					      ctrlBlk.showSizeInPixels);
 			addItemToList(itemBuf3, buff1, &itemCount3);
 		}
@@ -711,7 +711,7 @@ static void	addItemToList(char **buf, char *item, int *count)
 		fprintf(stderr, "Trying to add more than MAX_ENTRIES_IN_LIST ");
 		fprintf(stderr, "(%d) entries to array\n", MAX_ENTRIES_IN_LIST);
 		return;
-	}	
+	}
 
 	for (i = 0; i < *count; i++)
 	{
@@ -729,7 +729,7 @@ static void	addItemToList(char **buf, char *item, int *count)
 }
 
 
-/*	given a font name this function returns the part used in the first 
+/*	given a font name this function returns the part used in the first
 	scroll list */
 
 static void	getFontPart(char *font, char *buff1)
@@ -745,7 +745,7 @@ static void	getFontPart(char *font, char *buff1)
 	getStringComponent(font, 13, buff1);
 	getStringComponent(font, 14, buff4);
 
-	if (((strncmp(buff1, "iso8859", 7) == 0) || 
+	if (((strncmp(buff1, "iso8859", 7) == 0) ||
 	     (strncmp(buff1, "ISO8859", 7) == 0)) && (strcmp(buff4, "1") == 0))
 		sprintf(buff1, "%s)", buff3);
 	else
@@ -756,7 +756,7 @@ static void	getFontPart(char *font, char *buff1)
 }
 
 
-/*	given a font name this function returns the part used in the second 
+/*	given a font name this function returns the part used in the second
 	scroll list */
 
 static void	getStylePart(char *font, char *buff1)
@@ -791,7 +791,7 @@ static void	getStylePart(char *font, char *buff1)
 }
 
 
-/*	given a font name this function returns the part used in the third 
+/*	given a font name this function returns the part used in the third
 	scroll list */
 
 static void	getSizePart(char *font, char *buff1, int inPixels)
@@ -822,8 +822,8 @@ static void	getSizePart(char *font, char *buff1, int inPixels)
 /*	Call back functions start from here - suffix Action in the function name
 	is for the callback function for the corresponding widget */
 
-static void	propFontToggleAction(Widget widget, 
-				     xfselControlBlkType *ctrlBlk, 
+static void	propFontToggleAction(Widget widget,
+				     xfselControlBlkType *ctrlBlk,
 				     XmToggleButtonCallbackStruct *call_data)
 {
 	int		n;
@@ -862,7 +862,7 @@ static void	propFontToggleAction(Widget widget,
 
 
 static void	sizeToggleAction(Widget widget,
-				 xfselControlBlkType *ctrlBlk, 
+				 xfselControlBlkType *ctrlBlk,
 				 XmToggleButtonCallbackStruct *call_data)
 {
 	int		i, makeSelection;
@@ -878,11 +878,11 @@ static void	sizeToggleAction(Widget widget,
 			    (styleMatch(*ctrlBlk, ctrlBlk->fontData[i])) &&
 			    (sizeMatch(*ctrlBlk, ctrlBlk->fontData[i])))
 			{
-				getSizePart(ctrlBlk->fontData[i], newSize, 
+				getSizePart(ctrlBlk->fontData[i], newSize,
 						    !ctrlBlk->showSizeInPixels);
 				break;
 			}
-			    
+
 		if (ctrlBlk->showSizeInPixels)
 			ctrlBlk->showSizeInPixels = FALSE;
 		else
@@ -905,7 +905,7 @@ static void	sizeToggleAction(Widget widget,
 }
 
 
-static void	fontAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void	fontAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmListCallbackStruct *call_data)
 {
 	char	*sel;
@@ -935,7 +935,7 @@ static void	fontAction(Widget widget, xfselControlBlkType *ctrlBlk,
 
 	XtFree(sel);
 	setupScrollLists(FONT, *ctrlBlk);
-	if ((ctrlBlk->sel1 != NULL) && (ctrlBlk->sel2 != NULL) && 
+	if ((ctrlBlk->sel1 != NULL) && (ctrlBlk->sel2 != NULL) &&
 	    (ctrlBlk->sel3 != NULL))
 		choiceMade(ctrlBlk);
 	else
@@ -954,7 +954,7 @@ static void	fontAction(Widget widget, xfselControlBlkType *ctrlBlk,
 }
 
 
-static void	styleAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void	styleAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmListCallbackStruct *call_data)
 {
 	char	*sel;
@@ -984,7 +984,7 @@ static void	styleAction(Widget widget, xfselControlBlkType *ctrlBlk,
 
 	XtFree(sel);
 	setupScrollLists(STYLE, *ctrlBlk);
-	if ((ctrlBlk->sel1 != NULL) && (ctrlBlk->sel2 != NULL) && 
+	if ((ctrlBlk->sel1 != NULL) && (ctrlBlk->sel2 != NULL) &&
 	    (ctrlBlk->sel3 != NULL))
 		choiceMade(ctrlBlk);
 	else
@@ -1003,7 +1003,7 @@ static void	styleAction(Widget widget, xfselControlBlkType *ctrlBlk,
 }
 
 
-static void	sizeAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void	sizeAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmListCallbackStruct *call_data)
 {
 	char	*sel;
@@ -1033,7 +1033,7 @@ static void	sizeAction(Widget widget, xfselControlBlkType *ctrlBlk,
 
 	XtFree(sel);
 	setupScrollLists(SIZE, *ctrlBlk);
-	if ((ctrlBlk->sel1 != NULL) && (ctrlBlk->sel2 != NULL) && 
+	if ((ctrlBlk->sel1 != NULL) && (ctrlBlk->sel2 != NULL) &&
 	    (ctrlBlk->sel3 != NULL))
 		choiceMade(ctrlBlk);
 	else
@@ -1124,13 +1124,13 @@ static void	dispSample(xfselControlBlkType *ctrlBlk)
 static void	cancelAction(Widget widget, xfselControlBlkType *ctrlBlk,
 				 XmListCallbackStruct *call_data)
 {
-	if (ctrlBlk->sel1 != NULL) 
+	if (ctrlBlk->sel1 != NULL)
 		XtFree(ctrlBlk->sel1);
-	if (ctrlBlk->sel2 != NULL) 
+	if (ctrlBlk->sel2 != NULL)
 		XtFree(ctrlBlk->sel2);
-	if (ctrlBlk->sel3 != NULL) 
+	if (ctrlBlk->sel3 != NULL)
 		XtFree(ctrlBlk->sel3);
-	if (ctrlBlk->fontName != NULL) 
+	if (ctrlBlk->fontName != NULL)
 		XtFree(ctrlBlk->fontName);
 	if (ctrlBlk->fontName != NULL)
 		XtFree(ctrlBlk->fontName);
@@ -1151,10 +1151,10 @@ static void	okAction(Widget widget, xfselControlBlkType *ctrlBlk,
 
 	fontPattern = XmTextGetString(ctrlBlk->fontNameField);
 	fontName    = XListFonts(XtDisplay(ctrlBlk->form), fontPattern, 1, &i);
-	
+
 	if (i != 1)
 	{
-		DialogF (DF_ERR, ctrlBlk->okButton, 1, 
+		DialogF (DF_ERR, ctrlBlk->okButton, 1,
 				"Invalid Font Specification", "Acknowledged");
 		XFreeFontNames(fontName);
 		XtFree((char *)fontName);
@@ -1166,13 +1166,13 @@ static void	okAction(Widget widget, xfselControlBlkType *ctrlBlk,
 		ctrlBlk->fontName = XtMalloc(strlen(fontName[0]) + 1);
 		strcpy(ctrlBlk->fontName, fontName[0]);
 
-		if (ctrlBlk->sel1 != NULL) 
+		if (ctrlBlk->sel1 != NULL)
 			XtFree(ctrlBlk->sel1);
-		if (ctrlBlk->sel2 != NULL) 
+		if (ctrlBlk->sel2 != NULL)
 			XtFree(ctrlBlk->sel2);
-		if (ctrlBlk->sel3 != NULL) 
+		if (ctrlBlk->sel3 != NULL)
 			XtFree(ctrlBlk->sel3);
-	
+
 		XFreeFontNames(fontName);
 		XFreeFontNames(ctrlBlk->fontData);
 		XtFree((char *)fontName);
@@ -1216,10 +1216,10 @@ static void	startupFont(xfselControlBlkType *ctrlBlk, char *font)
 }
 
 
-/*	hacked code to move initial input focus to first scroll list and at the 
+/*	hacked code to move initial input focus to first scroll list and at the
 	same time have the OK button as the default button */
 
-static void 	setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event, 
+static void 	setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event,
 						Boolean *continueToDispatch)
 {
 	int	n;
@@ -1233,7 +1233,7 @@ static void 	setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event,
 }
 
 
-/*	finds the name of the biggest font less than the given limit 
+/*	finds the name of the biggest font less than the given limit
 	MAX_DISPLAY_SIZE used to set up the initial height of the display widget
 */
 

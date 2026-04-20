@@ -18,7 +18,7 @@
       ran2=x
       return
       end
-      
+
       subroutine ewsudakov_f77(p_born_in, gstr_in, results)
 c**************************************************************************
 c     This is the driver for the whole calulation

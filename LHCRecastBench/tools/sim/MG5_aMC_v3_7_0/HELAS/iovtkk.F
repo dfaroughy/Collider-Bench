@@ -12,7 +12,7 @@ c       real    g(2)           : coupling constant    -g(L,R)*kappa/4
 c
 c output:
 c       complex vertex         : amplitude            gamma(fi,fo,vc,tc)
-c     
+c
       implicit none
       double complex fi(6), fo(6), vc(6), tc(6,4), vertex
       double precision g(2)

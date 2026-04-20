@@ -37,7 +37,7 @@
 struct PyCallBack_Pythia8_AlphaStrong : public Pythia8::AlphaStrong {
 	using Pythia8::AlphaStrong::AlphaStrong;
 
-	void init(double a0, int a1, int a2, bool a3) override { 
+	void init(double a0, int a1, int a2, bool a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::AlphaStrong *>(this), "init");
 		if (overload) {
@@ -50,7 +50,7 @@ struct PyCallBack_Pythia8_AlphaStrong : public Pythia8::AlphaStrong {
 		}
 		return AlphaStrong::init(a0, a1, a2, a3);
 	}
-	void setThresholds(double a0, double a1, double a2) override { 
+	void setThresholds(double a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::AlphaStrong *>(this), "setThresholds");
 		if (overload) {
@@ -69,7 +69,7 @@ struct PyCallBack_Pythia8_AlphaStrong : public Pythia8::AlphaStrong {
 struct PyCallBack_Pythia8_AlphaSUN : public Pythia8::AlphaSUN {
 	using Pythia8::AlphaSUN::AlphaSUN;
 
-	void initAlpha(int a0, int a1, int a2, double a3, double a4) override { 
+	void initAlpha(int a0, int a1, int a2, double a3, double a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::AlphaSUN *>(this), "initAlpha");
 		if (overload) {
@@ -82,7 +82,7 @@ struct PyCallBack_Pythia8_AlphaSUN : public Pythia8::AlphaSUN {
 		}
 		return AlphaSUN::initAlpha(a0, a1, a2, a3, a4);
 	}
-	void initLambda(int a0, int a1, int a2, double a3) override { 
+	void initLambda(int a0, int a1, int a2, double a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::AlphaSUN *>(this), "initLambda");
 		if (overload) {

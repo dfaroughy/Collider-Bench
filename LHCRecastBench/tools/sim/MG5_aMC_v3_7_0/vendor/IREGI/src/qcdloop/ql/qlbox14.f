@@ -27,8 +27,8 @@ c       [                 2                                      ]
       logical qlzero
       double precision Y(4,4),m2sq,m4sq,musq,m2,m4,ta,
      . si,xs,imxs,ieps
-      double complex cxs(3),Ires(-2:0),qllnrat,xlog,wlogtmu,cln,fac  
- 
+      double complex cxs(3),Ires(-2:0),qllnrat,xlog,wlogtmu,cln,fac
+
       m2sq=Y(2,2)
       m4sq=Y(4,4)
 C-----Assign s and t (si=-s23,ta=-s12) so as to agree with notation of BD
@@ -38,9 +38,9 @@ C-----Assign s and t (si=-s23,ta=-s12) so as to agree with notation of BD
       m4=sqrt(m4sq)
       wlogtmu=qllnrat(musq,ta)
 
-C     ieps gives the sign of the imaginary part of cxs(1)   
-      call qlkfn(cxs,ieps,-si,m2,m4)     
-      xs=dreal(cxs(1)) 
+C     ieps gives the sign of the imaginary part of cxs(1)
+      call qlkfn(cxs,ieps,-si,m2,m4)
+      xs=dreal(cxs(1))
       imxs=dimag(cxs(1))
 
       if ((qlzero(xs-1d0)) .and. (qlzero(imxs))) then
@@ -55,6 +55,3 @@ C     ieps gives the sign of the imaginary part of cxs(1)
       Ires( 0)=fac*wlogtmu
       return
       end
-
-
-

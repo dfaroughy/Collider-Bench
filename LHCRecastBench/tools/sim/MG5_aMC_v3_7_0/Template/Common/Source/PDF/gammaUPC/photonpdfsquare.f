@@ -28,10 +28,10 @@ c      common/to_pdf/lhaid,pdlabel,epa_label,pdsublabel
 
       double precision xx1,xx2
 
-      integer nb_proton(2), nb_neutron(2) 
+      integer nb_proton(2), nb_neutron(2)
       common/to_heavyion_pdg/ nb_proton, nb_neutron
       integer nb_hadron(2)
-C      
+C
 
       integer i,j
       double precision xlast(2,2),pdflast(2)
@@ -93,7 +93,7 @@ c     Reuse previous result, if possible
       if (ireuse.gt.0)then
          if (pdflast(ireuse).ne.-99d9) then
             photonpdfsquare = pdflast(ireuse)
-            return 
+            return
          endif
       endif
 
@@ -115,7 +115,7 @@ c     arrays of saved values below
      $        .and.xlast(2,1).ne.-99d9)then
 c     This is first call after everything has been reset, so the first
 c     arrays are already filled with the saved values (hence
-c     xlast(1,1).ne.-99d9 and xlast(2,1).ne.-99d9). 
+c     xlast(1,1).ne.-99d9 and xlast(2,1).ne.-99d9).
 c     Fill the second arrays of saved values (done
 c     below) by setting ireuse=2
          ireuse=2
@@ -281,10 +281,10 @@ c     write(*,*) 'running gamma-UPC'
       ! the particular normalisation for MG5 in heavy ion mode
       pdflast(ireuse)=pdflast(ireuse)*nb_hadron(1)*nb_hadron(2)
       photonpdfsquare=pdflast(ireuse)
-      
+
       return
       end
-      
+
 
       subroutine Get_nucleus_RA(nb_p,nb_n,RAI)
       USE ElasticPhotonPhotonFlux

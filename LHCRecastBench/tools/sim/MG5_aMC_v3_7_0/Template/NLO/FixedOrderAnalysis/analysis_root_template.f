@@ -11,7 +11,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine analysis_begin(nwgt,weights_info)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c This subroutine is called once at the start of each run. Here the
-c histograms should be declared. 
+c histograms should be declared.
 c
 c Declare the histograms using 'rbook'.
 c     o) The first argument is an integer that labels the histogram. In
@@ -22,7 +22,7 @@ c     o) The second argument is a string that will apear above the
 c     histogram.
 c     o) The third, forth and fifth arguments are the bin size, the
 c     lower edge of the first bin and the upper edge of the last
-c     bin. 
+c     bin.
 c     o) When including scale and/or PDF uncertainties, declare a
 c     histogram for each weight, and compute the uncertainties from the
 c     final set of histograms
@@ -37,7 +37,7 @@ c weight will mean. The size of this array of strings is equal to nwgt.
 c Local variables
       integer kk,l,nwgt_analysis
       common/c_analysis/nwgt_analysis
-c Initialize the histogramming package (rbook): 
+c Initialize the histogramming package (rbook):
       call open_root_file()
 c Fill the c_analysis common block with the number of weights that will
 c be computed
@@ -68,7 +68,7 @@ c integration channel separately. There is an external script that will
 c read the root files in each of the integration channels and
 c combines them by summing all the bins in a final single root
 c file to be put in the Events/run_XX directory.
-c      
+c
 c
 c The user is NOT SUPPOSED TO MODIFY THIS ROUTINE, except for making
 c sure that the calls to "ropera" below are relevant to all

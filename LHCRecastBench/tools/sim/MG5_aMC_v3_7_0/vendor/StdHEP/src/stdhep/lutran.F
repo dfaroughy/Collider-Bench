@@ -55,7 +55,7 @@ C... ions not allowed
       elseif(kqn.eq.1) then
         lutran=0
         call pyerrm(8,'(LUTRAN 3:) unallowed ion')
-C...SUSY 
+C...SUSY
       elseif(ksusy.eq.1 .or. ksusy.eq.2) then
 C...technicolor
       elseif(ksusy.eq.3) then
@@ -76,7 +76,7 @@ C...technicolor
 	    if(ida.eq.3150113) lutran = isign(3300113,id)
 	    if(ida.eq.3160113) lutran = isign(3400113,id)
 	endif
-C...excited quarks and leptons 
+C...excited quarks and leptons
       elseif(ksusy.eq.4 .or. ksusy.eq.5) then
         if(mconv.eq.1) then
 	    if(ida.eq.5000039) lutran = isign(4000039,id)
@@ -122,7 +122,7 @@ C...spin 1/2 baryons
       elseif(i1.ne.0 .and. i3.ne.0 .and. j1.eq.2)then
 C...spin 3/2 baryons
       elseif(i1.ne.0 .and. i3.ne.0 .and. j1.eq.4)then
-C...mesons 
+C...mesons
       elseif(i1.ne.0 .and. i2.ne.0 .and. i3.eq.0)then
         if(mconv.eq.1)then
           if(ida.eq.10111) lutran=isign(9000111,id)

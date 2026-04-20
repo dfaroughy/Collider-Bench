@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -35,7 +35,7 @@ pjoin = os.path.join
 
 class TestAMCatNLOEW(unittest.TestCase):
     """ a suite of extra tests for the ew stuff """
-    
+
     def setUp(self):
         self.interface = mgcmd.MasterCmd()
 
@@ -84,7 +84,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         nborndiag_list = [1, 4, 4, 4, 4, 4]
 
         # number of expected real emission processes
-        # for QED perturbations also the gluon emissions have to be generated, 
+        # for QED perturbations also the gluon emissions have to be generated,
         # as their alpha x alpha_s^2 contribution has to be included
         nrealproc_list = [3, 6, 6, 6, 6, 6]
 
@@ -108,7 +108,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                            [17, 17, 17, 17, 17, 17]]
 
         for cmd, born_orders, squared_orders, pert_couplings, nborndiag, nrealproc, nrealdiags, split in \
-                zip(cmd_list, born_orders_list, squared_orders_list, pert_couplings_list, nborndiag_list, 
+                zip(cmd_list, born_orders_list, squared_orders_list, pert_couplings_list, nborndiag_list,
                         nrealproc_list, nrealdiags_list, split_type_list):
             self.interface.do_generate(cmd)
 
@@ -124,7 +124,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             self.assertEqual(len(fksprocess.born_amp['diagrams']), nborndiag)
             self.assertEqual(len(fksprocess.real_amps), nrealproc)
             for amp, n in zip(fksprocess.real_amps, nrealdiags):
-                # check that the fks_j_from i have also been set 
+                # check that the fks_j_from i have also been set
                 self.assertNotEqual(amp.fks_j_from_i, {})
                 self.assertEqual(n, len(amp.amplitude['diagrams']))
                 # and that no extra counterterm is needed
@@ -168,7 +168,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         nborndiag_list = [4, 4, 4, 4, 4, 4, 1, 1, 1]
 
         # number of expected real emission processes
-        # for QED perturbations also the gluon emissions have to be generated, 
+        # for QED perturbations also the gluon emissions have to be generated,
         # as their alpha x alpha_s^2 contribution has to be included
         nrealproc_list = [6, 6, 6, 6, 6, 6, 3, 3, 3]
 
@@ -189,7 +189,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                           3*[[5, 5, 5]]
 
         for cmd, born_orders, squared_orders, pert_couplings, nborndiag, nrealproc, nrealdiags in \
-                zip(cmd_list, born_orders_list, squared_orders_list, pert_couplings_list, nborndiag_list, 
+                zip(cmd_list, born_orders_list, squared_orders_list, pert_couplings_list, nborndiag_list,
                         nrealproc_list, nrealdiags_list):
             self.interface.do_generate(cmd)
 
@@ -208,7 +208,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             self.assertEqual(len(fksprocess.born_amp['diagrams']), nborndiag)
             self.assertEqual(len(fksprocess.real_amps), nrealproc)
             for amp, n in zip(fksprocess.real_amps, nrealdiags):
-                # check that the fks_j_from i have also been set 
+                # check that the fks_j_from i have also been set
                 self.assertNotEqual(amp.fks_j_from_i, {})
                 self.assertEqual(n, len(amp.amplitude['diagrams']))
                 # and that no extra counterterm is needed
@@ -229,7 +229,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_generate('p p > t t~ QED^2=4 QCD^2=4 [real=QCD QED]')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        #there should be 12 processes: 4 qqbar + 4qbarq + gg + ga + ag + aa  
+        #there should be 12 processes: 4 qqbar + 4qbarq + gg + ga + ag + aa
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']),12 )
         for proc in self.interface._fks_multi_proc['born_processes']:
             init_id = [l['id'] for l in proc.born_amp['process']['legs'] if not l['state']]
@@ -262,7 +262,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     else:
                         self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
             # all others no cnts
-            # aa 
+            # aa
             elif init_id == [22, 22]:
                 self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 # 14 real emission MEs (add mu/e leptons, photon splitting into quarks
@@ -283,7 +283,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         """check that the generate command works as expected.
         for processes which feature g/a > qqbar splitting.
         Check if the extra countertersm are found when needed.
-        In this case the extra counterterms/splittings should not be 
+        In this case the extra counterterms/splittings should not be
         included in the gg since it is only needed for counterterms"""
 
         self.interface.do_set('include_lepton_initiated_processes True')
@@ -291,7 +291,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_generate('p p > t t~ QED^2=4 QCD^2=2 [real=QCD QED]')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        #there should be 12 processes: 4 qqbar + 4qbarq + gg + ga + ag + aa  
+        #there should be 12 processes: 4 qqbar + 4qbarq + gg + ga + ag + aa
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']),12 )
         for proc in self.interface._fks_multi_proc['born_processes']:
             init_id = [l['id'] for l in proc.born_amp['process']['legs'] if not l['state']]
@@ -320,7 +320,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     else:
                         self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
             # all others no cnts
-            # aa 
+            # aa
             elif init_id == [22, 22]:
                 self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 # 14 real emission MEs (add mu/e leptons, photon splitting into quarks
@@ -382,14 +382,14 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=0 [real=QED]')
         quarks = [-1,-2,-3,-4,1,2,3,4]
-        # just one born processes u u~ > a a 
+        # just one born processes u u~ > a a
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 1)
         for proc in self.interface._fks_multi_proc['born_processes']:
             final_id = [l['id'] for l in proc.born_amp['process']['legs'] if l['state']]
             self.assertEqual(final_id, [22, 22])
 
             # there should never be extra cnts
-            self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+            self.assertEqual(len(proc.extra_cnt_amp_list), 0)
             # make sure there are qqbar splittings in the fs
             foundqq = False
             for real in proc.real_amps:
@@ -415,7 +415,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
         for orders in ['QED^2=0 QCD^2=4 [real=QED]', 'QED^2=2 QCD^2=2 [real=QCD]']:
-            self.interface.do_generate('u u~ > jj jj %s' % orders) 
+            self.interface.do_generate('u u~ > jj jj %s' % orders)
             # two born processes u u~ > g g and g a
             self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 2)
             target_ids = [[21,21], [22,21]]
@@ -426,7 +426,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                 # there should never be extra cnts
                 if final_id == [21, 21]:
                     # there should never be extra cnts
-                    self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                    self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                     # make sure there are qqbar splittings in the fs
                     foundqq = False
                     for real in proc.real_amps:
@@ -450,7 +450,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                         if any([idd in quarks for idd in final_real_id]) and real.fks_infos[0]['ij'] == 4:
                             foundqq=True
                         self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                        # make sure no qqbar splitting comes from the photon. 
+                        # make sure no qqbar splitting comes from the photon.
                         if real.fks_infos[0]['ij'] == 3:
                             self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                             self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -471,7 +471,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
         for orders in ['QED^2=2 QCD^2=2 [real=QED]', 'QED^2=4 QCD^2=0 [real=QCD]']:
-            self.interface.do_generate('u u~ > jj jj %s' % orders) 
+            self.interface.do_generate('u u~ > jj jj %s' % orders)
             # two born processes u u~ > g a and a a
             self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 2)
             target_ids = [[22,21], [22,22]]
@@ -482,7 +482,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                 # there should never be extra cnts
                 if final_id == [22, 21]:
                     # there should never be extra cnts
-                    self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                    self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                     # make sure there are qqbar splittings in the fs
                     foundqq = False
                     for real in proc.real_amps:
@@ -502,7 +502,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                         if len(real.fks_infos) > 1:
                             self.assertTrue(not any([real.pdgs[ii['i']-1] in quarks for ii in real.fks_infos]))
                         self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                        # make sure no qqbar splitting comes from the photon. 
+                        # make sure no qqbar splitting comes from the photon.
                         if real.fks_infos[0]['ij'] > 2:
                             self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                             self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -521,7 +521,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        self.interface.do_generate('u u~ > jj jj QED^2=0 QCD^2=4 [real=QED QCD]') 
+        self.interface.do_generate('u u~ > jj jj QED^2=0 QCD^2=4 [real=QED QCD]')
         # two born processes u u~ > g g and g a
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 2)
         target_ids = [[21,21], [22,21]]
@@ -532,7 +532,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             # there should never be extra cnts
             if final_id == [21, 21]:
                 # there should never be extra cnts
-                self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 # make sure there are qqbar splittings in the fs
                 foundqq = False
                 for real in proc.real_amps:
@@ -556,7 +556,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     if any([idd in quarks for idd in final_real_id]) and real.fks_infos[0]['ij'] == 4:
                         foundqq=True
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from the photon. 
+                    # make sure no qqbar splitting comes from the photon.
                     if real.fks_infos[0]['ij'] == 3:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -575,7 +575,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        self.interface.do_generate('u u~ > jj jj QED^2=2 QCD^2=2 [real=QED QCD]') 
+        self.interface.do_generate('u u~ > jj jj QED^2=2 QCD^2=2 [real=QED QCD]')
         # all three born processes u u~ > g g, g a and a a
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 3)
         target_ids = [[21,21], [22,21], [22,22]]
@@ -587,7 +587,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             # for g g and a a no qqbar splitting should be there
             if final_id in [[21, 21], [22, 22]]:
                 # there should never be extra cnts
-                self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 # make sure there are no qqbar splittings in the fs
                 foundqq = False
                 for real in proc.real_amps:
@@ -631,7 +631,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=0 [real=QCD QED]') 
+        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=0 [real=QCD QED]')
         # two born processes u u~ > g a and a a
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 2)
         target_ids = [[22,21], [22,22]]
@@ -642,7 +642,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             # there should never be extra cnts
             if final_id == [22, 21]:
                 # there should never be extra cnts
-                self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 # make sure there are qqbar splittings in the fs
                 foundqq = False
                 for real in proc.real_amps:
@@ -651,7 +651,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     if any([idd in quarks for idd in final_real_id]) and real.fks_infos[0]['ij'] > 2:
                         foundqq = True
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from the gluon. 
+                    # make sure no qqbar splitting comes from the gluon.
                     if real.fks_infos[0]['ij'] == 4:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -668,7 +668,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
 
 
-# integrate two LO contributions together with one kind of correction 
+# integrate two LO contributions together with one kind of correction
     def test_generate_fks_ew_dijet_qed1qcd2_qcd(self):
         """check that the generate command works as expected.
         for processes which feature g/a > qqbar splitting.
@@ -681,7 +681,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        self.interface.do_generate('u u~ > jj jj QED^2=2 QCD^2=4 [real=QCD]') 
+        self.interface.do_generate('u u~ > jj jj QED^2=2 QCD^2=4 [real=QCD]')
         # two born processes u u~ > g g and g a
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 2)
         target_ids = [[21,21], [22,21]]
@@ -692,7 +692,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             # there should never be extra cnts
             if final_id == [21, 21]:
                 # there should never be extra cnts
-                self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 # make sure there are qqbar splittings in the fs
                 foundqq = False
                 for real in proc.real_amps:
@@ -716,7 +716,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     if any([idd in quarks for idd in final_real_id]) and real.fks_infos[0]['ij'] == 4:
                         foundqq=True
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from the photon. 
+                    # make sure no qqbar splitting comes from the photon.
                     if real.fks_infos[0]['ij'] == 3:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -737,7 +737,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
         for orders in ['QED^2=2 QCD^2=4 [real=QED]', 'QED^2=4 QCD^2=2 [real=QCD]']:
-            self.interface.do_generate('u u~ > jj jj %s' % orders) 
+            self.interface.do_generate('u u~ > jj jj %s' % orders)
             # all three born processes u u~ > g g , g a , aa
             self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 3)
             target_ids = [[21,21], [22,21], [22,22]]
@@ -748,7 +748,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                 # there should never be extra cnts
                 if final_id == [21, 21]:
                     # there should never be extra cnts
-                    self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                    self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                     # make sure there  are no qqbar splittings in the fs
                     foundqq = False
                     for real in proc.real_amps:
@@ -803,7 +803,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=2 [real=QED]') 
+        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=2 [real=QED]')
         # two born processes u u~ > g a and a a
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 2)
         target_ids = [[22,21], [22,22]]
@@ -814,7 +814,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             # there should never be extra cnts
             if final_id == [22, 21]:
                 # there should never be extra cnts
-                self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 # make sure there are qqbar splittings in the fs
                 foundqq = False
                 for real in proc.real_amps:
@@ -823,7 +823,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     if any([idd in quarks for idd in final_real_id]) and real.fks_infos[0]['ij'] > 2:
                         foundqq = True
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from the gluon. 
+                    # make sure no qqbar splitting comes from the gluon.
                     if real.fks_infos[0]['ij'] == 4:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -840,7 +840,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
 
 
-# integrate three LO contributions together with one kind of correction 
+# integrate three LO contributions together with one kind of correction
     def test_generate_fks_ew_dijet_qed2qcd2_qcd(self):
         """check that the generate command works as expected.
         for processes which feature g/a > qqbar splitting.
@@ -853,7 +853,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=4 [real=QCD]') 
+        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=4 [real=QCD]')
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 3)
         target_ids = [[21,21], [22,21], [22,22]]
         for ids, proc in zip(target_ids, self.interface._fks_multi_proc['born_processes']):
@@ -876,7 +876,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                 self.assertTrue(foundqq)
 
             elif final_id == [22, 21]:
-                # ag state, should not have extra_cnts with a a in the final state 
+                # ag state, should not have extra_cnts with a a in the final state
                 #(it should appear at order alpha^3, which is not inlcuded here
                 self.assertEqual(len(proc.extra_cnt_amp_list), 0) #( 21, 22)
                 # make sure there are qqbar splittings in the fs
@@ -890,7 +890,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     if any([idd in quarks for idd in final_real_id]) and real.fks_infos[0]['ij'] == 4:
                         foundqq=True
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from the photon. 
+                    # make sure no qqbar splitting comes from the photon.
                     if real.fks_infos[0]['ij'] == 3:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -905,7 +905,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                         self.assertTrue(not any([real.pdgs[ii['i']-1] in quarks for ii in real.fks_infos]))
                     final_real_id = real.pdgs[2:]
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from final state photons. 
+                    # make sure no qqbar splitting comes from final state photons.
                     if real.fks_infos[0]['ij'] in [3, 4]:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -923,7 +923,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.interface.do_define('jj = g a')
         quarks = [-1,-2,-3,-4,1,2,3,4]
 
-        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=4 [real=QED]') 
+        self.interface.do_generate('u u~ > jj jj QED^2=4 QCD^2=4 [real=QED]')
         self.assertEqual(len(self.interface._fks_multi_proc['born_processes']), 3)
         target_ids = [[21,21], [22,21], [22,22]]
         for ids, proc in zip(target_ids, self.interface._fks_multi_proc['born_processes']):
@@ -944,7 +944,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                 self.assertTrue(not foundqq)
 
             elif final_id == [22, 21]:
-                # ag state, should not have extra_cnts with a a in the final state 
+                # ag state, should not have extra_cnts with a a in the final state
                 #(it should appear at order alpha^3, which is not inlcuded here
                 self.assertEqual(len(proc.extra_cnt_amp_list), 1) #( 21, 22)
                 # make sure there are qqbar splittings in the fs
@@ -959,7 +959,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                     if any([idd in quarks for idd in final_real_id]) and real.fks_infos[0]['ij'] == 4:
                         foundqqg=True
                         self.assertNotEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from the photon. 
+                    # make sure no qqbar splitting comes from the photon.
                     if real.fks_infos[0]['ij'] == 3:
                         self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
                         if any([idd in quarks for idd in final_real_id]):
@@ -969,14 +969,14 @@ class TestAMCatNLOEW(unittest.TestCase):
 
             elif final_id == [21, 21]:
                 # gg state, should have no extra_cnts
-                self.assertEqual(len(proc.extra_cnt_amp_list), 0) 
+                self.assertEqual(len(proc.extra_cnt_amp_list), 0)
                 for real in proc.real_amps:
                     # check that real emissions with qqbar splitting has only one fks info
                     if len(real.fks_infos) > 1:
                         self.assertTrue(not any([real.pdgs[ii['i']-1] in quarks for ii in real.fks_infos]))
                     final_real_id = real.pdgs[2:]
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from final state photons. 
+                    # make sure no qqbar splitting comes from final state photons.
                     if real.fks_infos[0]['ij'] in [3, 4]:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -1033,7 +1033,7 @@ class TestAMCatNLOEW(unittest.TestCase):
                         foundqq=True
                     else:
                         self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from the photon. 
+                    # make sure no qqbar splitting comes from the photon.
                     if real.fks_infos[0]['ij'] == 3:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
@@ -1048,13 +1048,13 @@ class TestAMCatNLOEW(unittest.TestCase):
                         self.assertTrue(not any([real.pdgs[ii['i']-1] in quarks for ii in real.fks_infos]))
                     final_real_id = real.pdgs[2:]
                     self.assertEqual(real.fks_infos[0]['extra_cnt_index'], -1)
-                    # make sure no qqbar splitting comes from final state photons. 
+                    # make sure no qqbar splitting comes from final state photons.
                     if real.fks_infos[0]['ij'] in [3, 4]:
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['i']-1] in quarks)
                         self.assertTrue(not real.pdgs[real.fks_infos[0]['j']-1] in quarks)
 
     def test_generate_fks_2to1_no_finalstate_confs(self):
-        """check that in the case of a 2->1 process no final state 
+        """check that in the case of a 2->1 process no final state
         FKS configurations are generated
         """
         self.interface.do_set('include_lepton_initiated_processes False')
@@ -1088,10 +1088,10 @@ class TestAMCatNLOEW(unittest.TestCase):
         fksme3 = fks_helas.FKSHelasMultiProcess(fksproc3)['matrix_elements'][0]
 
         self.assertNotEqual(fksme2,fksme3)
-        
+
         # check the reals, they should be in the same order
-        for i1, r1, in enumerate(fksme1.real_processes): 
-            for i2, r2, in enumerate(fksme2.real_processes): 
+        for i1, r1, in enumerate(fksme1.real_processes):
+            for i2, r2, in enumerate(fksme2.real_processes):
                 if i1 == i2:
                     self.assertEqual(r1,r2)
                 else:
@@ -1125,7 +1125,7 @@ class TestAMCatNLOEW(unittest.TestCase):
 
     def test_combine_equal_processes_dijet_qcd_qed_virt(self):
         """check that two processes with the same matrix-elements are equal
-        and check that the add_process function works as expected. 
+        and check that the add_process function works as expected.
         This test also cehck that equality works for virtuals.
         In particular b-initiate processes have same trees but different loops (w/top)"""
         # generate the processes
@@ -1160,7 +1160,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.assertNotEqual(fksme1,fksme4)
         self.assertNotEqual(fksme2,fksme4)
         self.assertNotEqual(fksme3,fksme4)
-        
+
         # check that the u and c initiated are equal
         self.assertEqual(fksme1, fksme2)
 
@@ -1175,7 +1175,7 @@ class TestAMCatNLOEW(unittest.TestCase):
            os.path.isfile(pjoin(root_path,'input_files','ddx_hpwmbbx.pkl')):
             uux_me = save_load_object.load_from_file(pjoin(root_path,'input_files','uux_hpwmbbx.pkl'))
             ccx_me = save_load_object.load_from_file(pjoin(root_path,'input_files','ccx_hpwmbbx.pkl'))
-            ddx_me = save_load_object.load_from_file(pjoin(root_path,'input_files','ddx_hpwmbbx.pkl'))            
+            ddx_me = save_load_object.load_from_file(pjoin(root_path,'input_files','ddx_hpwmbbx.pkl'))
         else:
             self.interface.do_set('complex_mass_scheme True')
             self.interface.do_import('model 2HDMCMStIIymbMSbar')
@@ -1183,7 +1183,7 @@ class TestAMCatNLOEW(unittest.TestCase):
             self.interface.do_generate('u u~ > h+ w- b b~ / h1 h2 h3 QED^2=2 YB=1 YT=1 QCD^2=2 [QCD]')
             uux_proc = copy.copy(self.interface._fks_multi_proc)
             uux_me = fks_helas.FKSHelasMultiProcess(uux_proc)['matrix_elements'][0]
-            save_load_object.save_to_file(pjoin(root_path,'input_files','uux_hpwmbbx.pkl'),uux_me)            
+            save_load_object.save_to_file(pjoin(root_path,'input_files','uux_hpwmbbx.pkl'),uux_me)
             print ("Regenerating c c~ > h+ w- b b~ / h1 h2 h3 QED^2=2 YB=1 YT=1 QCD^2=2 [QCD] ...")
             self.interface.do_generate('c c~ > h+ w- b b~ / h1 h2 h3 QED^2=2 YB=1 YT=1 QCD^2=2 [QCD]')
             ccx_proc = copy.copy(self.interface._fks_multi_proc)
@@ -1191,18 +1191,18 @@ class TestAMCatNLOEW(unittest.TestCase):
             save_load_object.save_to_file(pjoin(root_path,'input_files','ccx_hpwmbbx.pkl'),ccx_me)
             uux_me = save_load_object.load_from_file(pjoin(root_path,'input_files','uux_hpwmbbx.pkl'))
             ccx_me = save_load_object.load_from_file(pjoin(root_path,'input_files','ccx_hpwmbbx.pkl'))
-            print ("Regenerating d d~ > h+ w- b b~ / h1 h2 h3 QED^2=2 YB=1 YT=1 QCD^2=2 [QCD] ...") 
+            print ("Regenerating d d~ > h+ w- b b~ / h1 h2 h3 QED^2=2 YB=1 YT=1 QCD^2=2 [QCD] ...")
             self.interface.do_generate('d d~ > h+ w- b b~ / h1 h2 h3 QED^2=2 YB=1 YT=1 QCD^2=2 [QCD]')
             ddx_proc = copy.copy(self.interface._fks_multi_proc)
             ddx_me = fks_helas.FKSHelasMultiProcess(ddx_proc)['matrix_elements'][0]
-            save_load_object.save_to_file(pjoin(root_path,'input_files','ddx_hpwmbbx.pkl'),ddx_me)  
+            save_load_object.save_to_file(pjoin(root_path,'input_files','ddx_hpwmbbx.pkl'),ddx_me)
 
         self.assertEqual(uux_me,ccx_me)
         self.assertEqual(uux_me,ddx_me)
 
     def test_combine_equal_processes_dy_qed_virt(self):
         """check that two processes with the same matrix-elements are equal
-        and check that the add_process function works as expected. 
+        and check that the add_process function works as expected.
         This test also cehck that equality works for virtuals.
         In particular b-initiate processes have same trees but different loops (w/top)"""
         # generate the processes
@@ -1237,7 +1237,7 @@ class TestAMCatNLOEW(unittest.TestCase):
         self.assertNotEqual(fksme1,fksme4)
         self.assertNotEqual(fksme2,fksme4)
         self.assertNotEqual(fksme3,fksme4)
-        
+
         # check that the u and c initiated are equal
         self.assertEqual(fksme1, fksme2)
 
@@ -1261,10 +1261,10 @@ class TestAMCatNLOEW(unittest.TestCase):
         fksproc2 = newinterface._fks_multi_proc
         fksme1 = fks_helas.FKSHelasMultiProcess(fksproc1)['matrix_elements'][0]
         fksme2 = fks_helas.FKSHelasMultiProcess(fksproc2)['matrix_elements'][0]
-        
+
         # check the reals, they should be in the same order
-        for i1, r1, in enumerate(fksme1.real_processes): 
-            for i2, r2, in enumerate(fksme2.real_processes): 
+        for i1, r1, in enumerate(fksme1.real_processes):
+            for i2, r2, in enumerate(fksme2.real_processes):
                 if i1 == i2:
                     self.assertEqual(r1,r2)
                 else:

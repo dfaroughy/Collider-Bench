@@ -3,27 +3,27 @@
 %(process_lines)s
 //--------------------------------------------------------------------------
 
-class %(process_class_name)s : public Sigma%(nfinal)dProcess 
+class %(process_class_name)s : public Sigma%(nfinal)dProcess
 {
 public:
 
   // Constructor.
   %(process_class_name)s() {}
 
-  // Initialize process. 
-  virtual void initProc(); 
+  // Initialize process.
+  virtual void initProc();
 
   // Calculate flavour-independent parts of cross section.
   virtual void sigmaKin();
 
-  // Evaluate sigmaHat(sHat). 
+  // Evaluate sigmaHat(sHat).
   virtual double sigmaHat();
 
   // Select flavour, colour and anticolour.
   virtual void setIdColAcol();
 
   // Evaluate weight for decay angles.
-  virtual double weightDecay( Event& process, int iResBeg, int iResEnd); 
+  virtual double weightDecay( Event& process, int iResBeg, int iResEnd);
 
   // Info on the subprocess.
   virtual string name()    const {return "%(process_definition)s";}

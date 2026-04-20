@@ -1,10 +1,10 @@
       SUBROUTINE ML5_0_MP_HELAS_CALLS_AMPB_1(P,NHEL,H,IC)
-C     
+C
       USE ML5_0_POLYNOMIAL_CONSTANTS
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    NCOMB
@@ -25,20 +25,20 @@ C
 C     These are constants related to the split orders
       INTEGER    NSO, NSQUAREDSO, NAMPSO
       PARAMETER (NSO=0, NSQUAREDSO=0, NAMPSO=0)
-C     
+C
 C     ARGUMENTS
-C     
+C
       REAL*16 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
       INTEGER H
-C     
+C
 C     LOCAL VARIABLES
-C     
+C
       INTEGER I,J,K
       COMPLEX*32 COEFS(MAXLWFSIZE,0:VERTEXMAXCOEFS-1,MAXLWFSIZE)
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 
       INCLUDE 'mp_coupl_same_name.inc'
 
@@ -69,7 +69,7 @@ C
       COMPLEX*32 AMPL(3,NCTAMPS)
       COMMON/ML5_0_MP_AMPL/AMPL
 
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -198,4 +198,3 @@ C     Counter-term amplitude(s) for loop diagram number 38
       MP_CT_REQ_SO_DONE=.TRUE.
  1001 CONTINUE
       END
-

@@ -13,10 +13,10 @@ Description:
    to work with the HEPEVT common block and a set of I/O routines.
    The HEPEVT common block allows 4000 particles per event.
 
-   This release of StdHep contains all necessary files to build the 
-   StdHep and mcfio libraries.  You will need Isajet, Herwig, Pythia, 
+   This release of StdHep contains all necessary files to build the
+   StdHep and mcfio libraries.  You will need Isajet, Herwig, Pythia,
    and/or QQ to build anything besides the "standalone" examples.
-   
+
    StdHep C++ code is in CLHEP.
 
    StdHep uses include files from the event generators.

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -112,7 +112,7 @@ class ParticleTest(unittest.TestCase):
                        {'prop':'name',
                         'right_list':['h', 'e+', 'e-', 'u~',
                                       'k++', 'k--', 'T', 'u+~'],
-                        'wrong_list':['', 'x ', 'e?', '{}', '$', 's/', '>', 
+                        'wrong_list':['', 'x ', 'e?', '{}', '$', 's/', '>',
                                       '[]']},
                        {'prop':'spin',
                         'right_list':[1, 2, 3, 4, 5],
@@ -169,7 +169,7 @@ class ParticleTest(unittest.TestCase):
         #goal = goal + "    \'propagating\': True,\n"
         goal = goal + "    \'propagator\': '',\n"
         goal = goal + "    \'is_part\': True,\n"
-        goal = goal + "    \'self_antipart\': False,\n"        
+        goal = goal + "    \'self_antipart\': False,\n"
         goal = goal + "    \'type\': '',\n"
         #goal = goal + "    \'ghost\': False,\n"
         goal = goal + "    \'counterterm\': {('QCD', ((1, 2), (3, 4))): {0: 'GC_0', -1: 'GC_1'}}\n}"
@@ -211,7 +211,7 @@ class ParticleTest(unittest.TestCase):
         self.assertEqual(test_part.get_helicity_states(), [-2, -1, 1, 2])
         test_part.set('mass', 'M')
         self.assertEqual(test_part.get_helicity_states(), [-2, -1, 0, 1, 2])
-        
+
     def test_particle_list(self):
         """Test particle list initialization, search and dict generation
         functions."""
@@ -582,19 +582,19 @@ class ModelTest(unittest.TestCase):
 
     def test_get_particle(self):
         """ test that get_particle is working """
-        
+
         obj = self.mymodel.get_particle(6)
         self.assertEqual(obj['name'], 't')
         obj = self.mymodel.get_particle(7)
-        self.assertEqual(obj, None)        
+        self.assertEqual(obj, None)
 
     def test_get_interaction(self):
         """ test that get_particle is working """
-        
+
         obj = self.mymodel.get_interaction(1)
         self.assertEqual(obj['lorentz'], ['L1'])
         obj = self.mymodel.get_interaction(7)
-        self.assertEqual(obj, None)  
+        self.assertEqual(obj, None)
 
     def test_setget_model_correct(self):
         """Test correct Model object get and set"""
@@ -689,7 +689,7 @@ class ModelTest(unittest.TestCase):
         self.mymodel.set('interactions', interactions)
         myinterdict[2] = interactions[1]
         self.assertEqual(myinterdict, self.mymodel.get('interaction_dict'))
-        
+
     def test_ref_dict_multiple_interactions(self):
         """Test ref_dicts with multiple interactions with same particles"""
 
@@ -804,7 +804,7 @@ class ModelTest(unittest.TestCase):
                   'pdg_code':10024,
                   'propagating':True,
                   'self_antipart':False}))
-        
+
         self.mypartlist.append(base_objects.Particle({'name':'x2',
                   'antiname':'x2~',
                   'spin':2,
@@ -831,7 +831,7 @@ class ModelTest(unittest.TestCase):
                       'self_antipart':True}))
 
         self.mymodel.set('particles', self.mypartlist)
-        
+
         # Add a non-fermion clash 4-fermion interaction
         self.myinterlist.append(base_objects.Interaction({
                       'id':2,
@@ -849,7 +849,7 @@ class ModelTest(unittest.TestCase):
 
         self.mymodel.set('interactions', self.myinterlist)
         self.assertFalse(self.mymodel.get('got_majoranas'))
-        
+
         # Add a fermion clash 4-fermion interaction
         self.myinterlist.append(base_objects.Interaction({
                       'id':3,
@@ -870,20 +870,20 @@ class ModelTest(unittest.TestCase):
 
 
     def test_pass_in_standard_name(self):
-        """Test if we can overwrite the name of the model following MG 
+        """Test if we can overwrite the name of the model following MG
         convention"""
-        
+
         model_name = [(part.get('name'), part.get('antiname')) \
                                           for part in self.mymodel['particles']]
 
         model2 = copy.copy(self.mymodel)
-        
+
         # check that standard name are not modified
         model2.pass_particles_name_in_mg_default()
         model2_name = [(part.get('name'), part.get('antiname')) \
                                                 for part in model2['particles']]
         self.assertEqual(set(model_name),set(model2_name))
-        
+
         # add a particle with non conventional name
         particles = model2['particles']
         particles.append(base_objects.Particle({'name':'ee',
@@ -894,9 +894,9 @@ class ModelTest(unittest.TestCase):
         model2.pass_particles_name_in_mg_default()
 
         model2_name = [(part.get('name'), part.get('antiname')) \
-                                                for part in model2['particles']]        
+                                                for part in model2['particles']]
         self.assertEqual(set(model_name + [('d','d~')]), set(model2_name))
-        
+
         # add a particles with non conventional name with the conventional name
         #associtaed to another particle
         particles.append(base_objects.Particle({'name':'u',
@@ -935,26 +935,26 @@ class ModelTest(unittest.TestCase):
 #===============================================================================
 class ModelTest2(unittest.TestCase):
     """Test class for the Model object from a correct load"""
-    
+
     def setUp(self):
         """ """
         import madgraph.interface.master_interface as Cmd
-        cmd = Cmd.MasterCmd() 
+        cmd = Cmd.MasterCmd()
         cmd.do_import('model sm')
         self.model = cmd._curr_model
-        
+
     def test_change_to_complex_mass_scheme(self):
         """Check that a model can be converted to complex mass scheme"""
-        
+
         model = copy.deepcopy(self.model)
         model.change_mass_to_complex_scheme()
-        
+
         # Check that the Width of the W is not anymore in the external parameter
         # and the yukawa
         self.assertEqual(len(self.model['parameters'][('external',)]) -3,
                          len(model['parameters'][('external',)]) )
-        
-        
+
+
 #        # Check that the Width of the W is in internal parameter
 #        WW = None
 #        WComplex = None
@@ -967,7 +967,7 @@ class ModelTest2(unittest.TestCase):
 #                self.assertFalse(WW)
 #            elif param.name == 'WW':
 #                WW = param
-#            elif param.name == 'MW': 
+#            elif param.name == 'MW':
 #                MW = param
 #                self.assertFalse(WW)
 #                self.assertFalse(WComplex)
@@ -977,7 +977,7 @@ class ModelTest2(unittest.TestCase):
 #        # Check that WW and MW are the real/imaginary part
 #        self.assertEqual(WW.expr, '-1 * im(CMASS_MW**2) / MW')
 #        self.assertEqual(['cmath.sqrt(re(%s**2))' % WComplex.expr], [MW.expr])
-        
+
         # Check that MZ has a complex_mass definition
         # and that the width and the mass are external
         found = 0
@@ -985,16 +985,16 @@ class ModelTest2(unittest.TestCase):
             if param.name in ['mdl_WZ','mdl_MZ','mdl_WW','mdl_MW']:
                 self.assertEqual(param.type, 'real')
                 found += 1
-                
+
         self.assertEqual(found, 4)
-        
+
         found=0
         for param in model['parameters'][tuple([])]:
             if param.name in ['CMASS_mdl_MZ']:
                 self.assertEqual(param.expr, 'cmath.sqrt(mdl_MZ**2 - complex(0,1) * mdl_MZ * mdl_WZ)')
                 found += 1
                 self.assertEqual(param.type, 'complex')
-            
+
             # check that other parameter are changed correctly
             if param.name in ['mdl_MZ__exp__2']:
                 self.assertEqual(param.expr, 'CMASS_mdl_MZ**2')
@@ -1006,17 +1006,17 @@ class ModelTest2(unittest.TestCase):
 #===============================================================================
 class ModelTestRunning(unittest.TestCase):
     """Test class for the Model object from a correct load"""
-    
+
     def setUp(self):
         """ """
         import madgraph.interface.master_interface as Cmd
-        cmd = Cmd.MasterCmd() 
+        cmd = Cmd.MasterCmd()
         cmd.do_import('model %s/tests/input_files/SMEFTatNLO_running/' % madgraph.MG5DIR)
         self.model = cmd._curr_model
-        
+
     def test_get_running(self):
         """Check that a model can be converted to complex mass scheme"""
-        
+
         model = copy.deepcopy(self.model)
         out = model.get_running()
         self.assertEqual(len(out),2)
@@ -1030,11 +1030,11 @@ class ModelTestRunning(unittest.TestCase):
         out = model.get_running(['cQq81', 'cQt8'])
         self.assertEqual(len(out),1)
         self.assertEqual(len(out[0]),17)
-        
+
         # check that filtering is working
         out = model.get_running(['aS'])
         self.assertEqual(len(out),0)
-        
+
         # check that filtering is working
         out = model.get_running(['cQq13', 'cQq81'])
         self.assertEqual(len(out),2)
@@ -1060,7 +1060,7 @@ class LegTest(unittest.TestCase):
                       'number':5,
                       'state':True,
                       'from_group':False,
-                      'onshell':None,                       
+                      'onshell':None,
                       'loop_line':False,
                       'polarization':[]}
 
@@ -1146,7 +1146,7 @@ class LegTest(unittest.TestCase):
     'onshell': None,
     'polarization': []
 }"""
-        
+
         self.assertEqual(goal, str(self.myleg))
 
     def test_leg_list(self):
@@ -1504,7 +1504,7 @@ class DiagramTest(unittest.TestCase):
         goal = "{\n"
         goal = goal + "    \'vertices\': %s,\n" % repr(self.myvertexlist)
         goal = goal + "    'orders': {}\n}"
-        
+
         self.assertEqual(goal, str(self.mydiagram))
 
     def test_diagram_list(self):
@@ -1709,7 +1709,7 @@ class ProcessTest(unittest.TestCase):
         goal_str = "2_cc_cxcc"
 
         self.assertEqual(goal_str, self.myprocess.shell_string())
-    
+
     def test_long_shell_string(self):
         """Test Process nice_string representation"""
 
@@ -1735,10 +1735,10 @@ class ProcessTest(unittest.TestCase):
         decay5.set('decay_chains', base_objects.ProcessList([decay6]))
         self.assertLess(len(self.myprocess.shell_string()), 70)
         self.assertEqual(goal_str, self.myprocess.shell_string())
-        
+
     def test_get_final_ids_after_decay(self):
         """check that we get the correct ids and in the correct order"""
-        
+
         mymodel = base_objects.Model()
         mypartlist = base_objects.ParticleList([
                      base_objects.Particle({'name':'c',
@@ -1749,9 +1749,9 @@ class ProcessTest(unittest.TestCase):
                                              'pdg_code':11}),
                      base_objects.Particle({'name':'H',
                                              'antiname':'H',
-                                             'pdg_code':25}),                                                                                                
+                                             'pdg_code':25}),
                                                 ])
-        
+
         mymodel.set('particles', mypartlist)
 
         # Check for c c~ > h c, h > l l~
@@ -1787,7 +1787,7 @@ class ProcessTest(unittest.TestCase):
                                          'number':3,
                                          'state':True,
                                          'from_group':False})])
-        
+
         mydecay = {'legs':mylegdecay,
                   'orders':{'QCD':5, 'QED':1},
                   'model':mymodel,
@@ -1805,22 +1805,22 @@ class ProcessTest(unittest.TestCase):
                        'has_born': True,
                        'overall_orders': {},
                        'NLO_mode':'tree'}
-            
+
 
         mydecay = base_objects.Process(mydecay)
-        
+
         myprocess = copy.copy(mydecay)
         myprocess['legs'] = myleglist
         myprocess['is_decay_chain'] = True
         proclist = base_objects.ProcessList()
         proclist.append(mydecay)
         myprocess['decay_chains'] = proclist
-        
+
         # checking
         output = myprocess.get_final_ids_after_decay()
         self.assertEqual(output, [11, -11, 3])
-        
-        ## c c~ > c h c~ h c, h > l l, h > l~ l~ 
+
+        ## c c~ > c h c~ h c, h > l l, h > l~ l~
         myleglist = base_objects.LegList(\
             [base_objects.Leg({'id':3,
                                          'number':1,
@@ -1863,9 +1863,9 @@ class ProcessTest(unittest.TestCase):
              base_objects.Leg({'id':11,
                                          'number':3,
                                          'state':True,
-                                         'from_group':False})])        
+                                         'from_group':False})])
         mydecay['legs'] = mylegdecay
-        
+
         mylegdecay2 = base_objects.LegList(\
             [base_objects.Leg({'id':25,
                                          'number':1,
@@ -1878,21 +1878,21 @@ class ProcessTest(unittest.TestCase):
              base_objects.Leg({'id':-11,
                                          'number':3,
                                          'state':True,
-                                         'from_group':False})]) 
+                                         'from_group':False})])
         mydecay2 = copy.copy(mydecay)
         mydecay2['legs'] = mylegdecay2
-        
-        
+
+
         myprocess['legs'] = myleglist
         myprocess['is_decay_chain'] = True
         proclist = base_objects.ProcessList()
         proclist.append(mydecay)
         proclist.append(mydecay2)
-        myprocess['decay_chains'] = proclist       
+        myprocess['decay_chains'] = proclist
         # checking
         output = myprocess.get_final_ids_after_decay()
         self.assertEqual(output, [3, 11, 11, -3,-11,-11,3])
-        
+
 #===============================================================================
 # ProcessDefinitionTest
 #===============================================================================
@@ -1997,7 +1997,7 @@ class ProcessDefinitionTest(unittest.TestCase):
                       'number':5,
                       'state':True,
                       'from_group':False,
-                      'onshell':None,                       
+                      'onshell':None,
                       'loop_line':False}
 
         myleg = base_objects.Leg(mydict)
@@ -2024,7 +2024,7 @@ class ProcessDefinitionTest(unittest.TestCase):
                        ]
 
         temp_process = copy.deepcopy(self.my_process_definition)
-        
+
 
         for test in test_values:
             for x in test['right_list']:
@@ -2033,11 +2033,11 @@ class ProcessDefinitionTest(unittest.TestCase):
                 self.assertFalse(temp_process.set(test['prop'], x))
 
     def test_check_polarization(self):
-        
+
         self.assertTrue(self.my_process_definition.check_polarization())
 
         def set_legs(ids, polarization):
-            
+
             legs = base_objects.LegList()
             for i,(id, polarization) in enumerate(zip(ids, polarization)):
                 if i < 2:
@@ -2047,18 +2047,18 @@ class ProcessDefinitionTest(unittest.TestCase):
                 leg = base_objects.Leg()
                 leg['state'] = state
                 leg['ids'] = id
-                leg['polarization'] = polarization 
+                leg['polarization'] = polarization
                 legs.append(leg)
             return legs
 
 
-        temp_process = self.my_process_definition  
+        temp_process = self.my_process_definition
         temp_process['legs'] = set_legs([[1],[1,2],[23],[23]],[[],[],[],[]])
         self.assertTrue(temp_process.check_polarization())
-        
+
         temp_process['legs'] = set_legs([[1],[1,2],[23],[23]],[[],[],[],[1]])
         self.assertFalse(temp_process.check_polarization())
-        
+
         temp_process['legs'] = set_legs([[1],[1,2],[23],[23],[34],[34]],
                                         [[1],[],[1],[-1],[-1,1],[-1,1]])
         self.assertTrue(temp_process.check_polarization())
@@ -2087,8 +2087,8 @@ class ProcessDefinitionTest(unittest.TestCase):
         goal = goal + "    \'perturbation_couplings\': [],\n"
         goal = goal + "    \'has_born\': True,\n"
         goal = goal + "    \'NLO_mode\': 'tree',\n"
-        goal = goal + "    \'split_orders\': [],\n"                
-        goal = goal + "    \'born_sq_orders\': {}\n}"                
+        goal = goal + "    \'split_orders\': [],\n"
+        goal = goal + "    \'born_sq_orders\': {}\n}"
         self.assertEqual(goal, str(self.my_process_definition))
 
 #===============================================================================

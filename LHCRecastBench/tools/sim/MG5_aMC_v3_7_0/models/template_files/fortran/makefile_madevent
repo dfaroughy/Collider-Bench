@@ -21,7 +21,7 @@ RUNNING = ../alfas_functions.o ../RUNNING/matrix_exponential.o ../RUNNING/c8lib.
 
 all: $(LIBDIR)$(LIBRARY) ../param_card.inc
 
-rw_para.o: ../param_card.inc 
+rw_para.o: ../param_card.inc
 	$(FC) $(FFLAGS) -c -o rw_para.o rw_para.f
 
 ../param_card.inc: ../../Cards/param_card.dat
@@ -43,7 +43,7 @@ $(LIBDIR)$(LIBRARY): $(MODEL)
 	$(call CREATELIB, $@, $^)
 
 shared:  $(LIBDIR)$(LIBRARY_SHARED)
-clean: 
+clean:
 	$(RM) *.o $(LIBDIR)$(LIBRARY)
 
 couplings.o: ../maxparticles.inc ../run.inc ../vector.inc

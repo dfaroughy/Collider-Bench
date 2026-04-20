@@ -10,7 +10,7 @@
 # be supported by make utilities other than GNU make.
 #
 # ----------------------------------------------------------------------------
-# coupsm.F and coupsm.inc are not to be included if HELAS is used with 
+# coupsm.F and coupsm.inc are not to be included if HELAS is used with
 # the 2003 version of MadEvent
 # ----------------------------------------------------------------------------
 

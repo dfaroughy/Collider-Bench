@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Unit test library for the color algebra related routines 
+"""Unit test library for the color algebra related routines
 in the core library"""
 
 from __future__ import absolute_import
@@ -288,7 +288,7 @@ class ColorObjectTest(unittest.TestCase):
         col_string = color.ColorString([k6, t, k6b])
         col_string.coeff = fractions.Fraction(2, 1)
         self.assertEqual(my_T6.simplify(), color.ColorFactor([col_string]))
-        
+
 class ColorStringTest(unittest.TestCase):
     """Test class for the ColorString objects"""
 
@@ -499,7 +499,7 @@ class ColorFactorTest(unittest.TestCase):
                          color.ColorFactor([col_str1, col_str2, col_str3]))
         except:
             self.assertEqual(my_color_factor.full_simplify(),
-                         color.ColorFactor([col_str2, col_str1, col_str3]))            
+                         color.ColorFactor([col_str2, col_str1, col_str3]))
 
         # T6[2, 101, 102] T6[3, 102, 101] = 1/2 (2 + Nc) delta8[2, 3]
 
@@ -520,7 +520,7 @@ class ColorFactorTest(unittest.TestCase):
         except:
             self.assertEqual(my_color_factor.full_simplify(),
                          color.ColorFactor([col_str2, col_str1]))
-        
+
         # K6[1, 101, 102] T[2, 102, 103] T[2, 103, 104] K6Bar[1, 104, 101]
         #                 = 1/4 (-1 + Nc) (1 + Nc)^2
         #                 = 1/4 (-1 - Nc + Nc^2 + Nc^3)
@@ -550,7 +550,7 @@ class ColorFactorTest(unittest.TestCase):
                                             col_str2, col_str4]))
         except:
             self.assertEqual(my_color_factor.full_simplify(),
-                         color.ColorFactor([col_str2, col_str4, 
+                         color.ColorFactor([col_str2, col_str4,
                                             col_str1, col_str3]))
         # T6[2, 101, 102] T6[2, 102, 103] K6[103, 99, 98] K6Bar[101, 98, 99]
         #                 = 1/2 (-1 + Nc) (1 + Nc) (2 + Nc)
@@ -577,11 +577,11 @@ class ColorFactorTest(unittest.TestCase):
 
         try:
             self.assertEqual(my_color_factor.full_simplify(),
-                         color.ColorFactor([col_str1, col_str2, 
+                         color.ColorFactor([col_str1, col_str2,
                                             col_str3, col_str4]))
         except:
             self.assertEqual(my_color_factor.full_simplify(),
-                         color.ColorFactor([col_str2, col_str1, 
+                         color.ColorFactor([col_str2, col_str1,
                                             col_str3, col_str4]))
 
         # K6[103, 99, 98] T[80, 98, 100] K6Bar[103, 100, 97] T[80, 99, 97]
@@ -602,7 +602,7 @@ class ColorFactorTest(unittest.TestCase):
 
         self.assertEqual(my_color_factor.full_simplify(),
                          color.ColorFactor([col_str1, col_str2]))
-        
+
         #same with epsilon
         # Tr(epsilon aepsilon) = N(N-1) = N^2 - N
         my_color_factor = color.ColorFactor([\
@@ -617,7 +617,7 @@ class ColorFactorTest(unittest.TestCase):
         col_str2.coeff = fractions.Fraction(-1, 1)
         self.assertEqual(my_color_factor.full_simplify().set_Nc(),
                          color.ColorFactor([col_str1, col_str2]).set_Nc())
-        
+
 
         #Tr KitAtA ¯Ki
         # epsilon(1,2,3) T(A,3,4) T(A,4,5) epsilonBar(5,1,2) = (N^2-1)*(N-1)/2
@@ -642,10 +642,10 @@ class ColorFactorTest(unittest.TestCase):
         self.assertEqual(my_color_factor.full_simplify().set_Nc(),
                          color.ColorFactor([col_str1, col_str3, col_str2,
                                             col_str4]).set_Nc())
-        
+
         # T6(1,2,3)T6(1,3,4) K6Bar(4,5,6) K6(2,5,6) = (N^2-1)*(N+2)/2
         #                                                    # = N^3/2 + N^2 - N/2 - 1
-        my_color_factor = color.ColorFactor([ 
+        my_color_factor = color.ColorFactor([
                     color.ColorString([color.T6(1, 2, 3),
                                        color.T6(1, 3, 4),
                                        color.K6(4, 5, 6),
@@ -681,13 +681,13 @@ class ColorFactorTest(unittest.TestCase):
                             # 'rule_aeps_T': opt[3]
 
             })
-                            
+
         nb_checked = 0
         for mode in options:
             #with misc.TMP_variable(color.Epsilon, 'rule_eps_T', mode['rule_eps_T']):
-                with misc.TMP_variable(color.Epsilon, 'rule_eps_aeps_sum', mode['rule_eps_aeps_sum']):   
+                with misc.TMP_variable(color.Epsilon, 'rule_eps_aeps_sum', mode['rule_eps_aeps_sum']):
                     with misc.TMP_variable(color.Epsilon, 'rule_eps_aeps_nosum', mode['rule_eps_aeps_nosum']):
-                        #with misc.TMP_variable(color.EpsilonBar, 'rule_aeps_T', mode['rule_aeps_T']): 
+                        #with misc.TMP_variable(color.EpsilonBar, 'rule_aeps_T', mode['rule_aeps_T']):
                             out1 = my_color_factor.full_simplify()
                             try:
                                 value, power = out1.set_Nc()
@@ -766,13 +766,13 @@ class ColorFactorTest(unittest.TestCase):
                                        color.EpsilonBar(1, 2, 3)])])
         self.check_CF_computation(my_color_factor,
                                  (fractions.Fraction(6, 1), 0))
-        
+
         # Epsilon(1,2,3) EpsilonBar(1,2,4) T(3,4)
         my_color_factor = color.ColorFactor([\
                     color.ColorString([color.Epsilon(1, 2, 3),
                                        color.EpsilonBar(1, 2, 4),
                                        color.T(4, 3)])])
-        self.check_CF_computation(my_color_factor, (fractions.Fraction(6, 1), 0))  
+        self.check_CF_computation(my_color_factor, (fractions.Fraction(6, 1), 0))
 
 
         #  EpsilonBar(-1006,-1005,3) T(-1006,-1002) T(-1005,-1001) Epsilon(-1002,-1001,5) T(3,5)
@@ -784,7 +784,7 @@ class ColorFactorTest(unittest.TestCase):
                                        color.T(3, 5)])])
         self.check_CF_computation(my_color_factor,
                                  (fractions.Fraction(6, 1), 0))
-        
+
         #Epsilon(-1008,-1001,5) EpsilonBar(-1006,3,10022) T(2,1,6,10022,-1001) T(4,-1006,-1008) EpsilonBar(-1009,-1010,5) Epsilon(-1011,3,-1012) T(6,1,2,-1010,-1012) T(4,-1009,-1011))
         my_color_factor = color.ColorFactor([\
                     color.ColorString([color.Epsilon(-1008, -1001, 5),
@@ -794,7 +794,7 @@ class ColorFactorTest(unittest.TestCase):
                                        color.EpsilonBar(-1009, -1010, 5),
                                        color.Epsilon(-1011, 3, -1012),
                                        color.T(6, 1, 2, -1010, -1012),
-                                       color.T(4, -1009, -1011)])]) 
+                                       color.T(4, -1009, -1011)])])
         self.check_CF_computation(my_color_factor,None)
 
 #DEBUG:  (1 Epsilon(-1008,-1001,5) EpsilonBar(-1006,3,10022) T(2,1,6,10022,-1001) T(4,-1006,-1008) EpsilonBar(-1010,5,10014) Epsilon(-1005,3,10013) T(1,10014,10013) T(6,2,4,-1010,-1005)) [color_amp.py at line 653]
@@ -1151,7 +1151,3 @@ class ColorFactorTest(unittest.TestCase):
                                        color.T(2, 1, 10017, -1009),
                                        color.T(6, 4, -1006, -1008)])])
         self.check_CF_computation(my_color_factor,None)
-
-
-
-                   

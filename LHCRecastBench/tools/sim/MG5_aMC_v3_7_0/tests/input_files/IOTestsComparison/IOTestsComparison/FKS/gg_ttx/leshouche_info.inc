@@ -153,4 +153,3 @@
       DATA (IDUP_D(8,ILH,4),ILH=1,5)/21,4,6,-6,4/
       DATA (MOTHUP_D(8,1,ILH,  4),ILH=1, 5)/  0,  0,  1,  1,  1/
       DATA (MOTHUP_D(8,2,ILH,  4),ILH=1, 5)/  0,  0,  2,  2,  2/
-

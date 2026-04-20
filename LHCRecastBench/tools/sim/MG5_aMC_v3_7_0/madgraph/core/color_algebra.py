@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Classes and methods required for all calculations related to SU(N) color 
+"""Classes and methods required for all calculations related to SU(N) color
 algebra."""
 
 from __future__ import absolute_import
@@ -34,7 +34,7 @@ if madgraph.ordering:
 # ColorObject
 #===============================================================================
 class ColorObject(array.array):
-    """Parent class for all color objects like T, Tr, f, d, ... Any new color 
+    """Parent class for all color objects like T, Tr, f, d, ... Any new color
     object MUST inherit from this class!"""
 
     def __new__(cls, *args):
@@ -62,8 +62,8 @@ class ColorObject(array.array):
         return None
 
     def pair_simplify(self, other):
-        """Pair simplification rules, to be overwritten for each new color 
-        object! Should return a color factor or None if no simplification 
+        """Pair simplification rules, to be overwritten for each new color
+        object! Should return a color factor or None if no simplification
         is possible"""
         return None
 
@@ -84,7 +84,7 @@ class ColorObject(array.array):
                 self[i] = repl_dict[index]
             except KeyError:
                 continue
-    
+
     def create_copy(self):
         """Return a real copy of the current object."""
         return globals()[self.__class__.__name__](*self)
@@ -137,7 +137,7 @@ class Tr(ColorObject):
         return None
 
     def pair_simplify(self, col_obj):
-        """Implement Tr product simplification: 
+        """Implement Tr product simplification:
         Tr(a,x,b)Tr(c,x,d) = 1/2(Tr(a,d,c,b)-1/Nc Tr(a,b)Tr(c,d)) and
         Tr(a,x,b)T(c,x,d,i,j) = 1/2(T(c,b,a,d,i,j)-1/Nc Tr(a,b)T(c,d,i,j))"""
 
@@ -184,13 +184,13 @@ class ColorOne(ColorObject):
 
     def __init__(self, *args):
         """Check for no index"""
-        
+
         if len(args) ==2 and args[0] == 'i' and not args[1]:
             # py3 pickle wierd output some time...
             return super(ColorOne, self).__init__()
-            
+
         assert len(args) == 0 , "ColorOne objects must have no index!"
-        
+
         super(ColorOne, self).__init__()
 
     def simplify(self):
@@ -218,11 +218,11 @@ class T(ColorObject):
 
     def __init__(self, *args):
         """Check for at least two indices"""
-        
+
         assert len(args) > 1 , "T objects must have at least two indices!"
-        
+
         super(T, self).__init__()
-        
+
     def simplify(self):
         """Implement T(a,b,c,...,i,i) = Tr(a,b,c,...) and
         T(a,x,b,x,c,i,j) = 1/2(T(a,c,i,j)Tr(b)-1/Nc T(a,b,c,i,j))"""
@@ -250,7 +250,7 @@ class T(ColorObject):
 
     def pair_simplify(self, col_obj):
         """Implement T(a,...,i,j)T(b,...,j,k) = T(a,...,b,...,i,k)
-        and T(a,x,b,i,j)T(c,x,d,k,l) = 1/2(T(a,d,i,l)T(c,b,k,j)    
+        and T(a,x,b,i,j)T(c,x,d,k,l) = 1/2(T(a,d,i,l)T(c,b,k,j)
                                         -1/Nc T(a,b,i,j)T(c,d,k,l))."""
 
         if isinstance(col_obj, T):
@@ -264,7 +264,7 @@ class T(ColorObject):
                                                    array.array('i', [ij1[0],
                                                                ij2[1]])))])])
 
-            # T(a,x,b,i,j)T(c,x,d,k,l) = 1/2(T(a,d,i,l)T(c,b,k,j)    
+            # T(a,x,b,i,j)T(c,x,d,k,l) = 1/2(T(a,d,i,l)T(c,b,k,j)
             #                          -1/Nc T(a,b,i,j)T(c,d,k,l))
             for i1, index1 in enumerate(self[:-2]):
                 for i2, index2 in enumerate(col_obj[:-2]):
@@ -310,17 +310,17 @@ class f(ColorObject):
 
     def __init__(self, *args):
         """Ensure f and d objects have strictly 3 indices"""
-        
+
         # for py3 from pickle
         if len(args) !=3 and args[0] == 'i':
             args = args[1]
         assert len(args) == 3, "f and d objects must have three indices!"
-        
+
         super(f, self).__init__()
-                
+
 
     def simplify(self):
-        """Implement only the replacement rule 
+        """Implement only the replacement rule
         f(a,b,c)=-2ITr(a,b,c)+2ITr(c,b,a)"""
 
         indices = self[:]
@@ -343,7 +343,7 @@ class d(f):
     """The d color object"""
 
     def simplify(self):
-        """Implement only the replacement rule 
+        """Implement only the replacement rule
         d(a,b,c)=2Tr(a,b,c)+2Tr(c,b,a)"""
 
         indices = self[:]
@@ -367,7 +367,7 @@ class Epsilon(ColorObject):
     rule_eps_T = True
     rule_eps_aeps_sum = True
     rule_eps_aeps_nosum = True # This is not compatible with LC rules.
-    
+
     def __init__(self, *args):
         """Ensure e_ijk objects have strictly 3 indices"""
 
@@ -376,9 +376,9 @@ class Epsilon(ColorObject):
 
     @staticmethod
     def perm_parity(lst, order=None):
-        r'''\                                                                                                                                                                                                 
-        Given a permutation of the digits 0..N in order as a list,                                                                                                                                           
-        returns its parity (or sign): +1 for even parity; -1 for odd.                                                                                                                                        
+        r'''\
+        Given a permutation of the digits 0..N in order as a list,
+        returns its parity (or sign): +1 for even parity; -1 for odd.
         '''
         lst = lst[:]
         sort =lst[:]
@@ -395,13 +395,13 @@ class Epsilon(ColorObject):
 
     def simplify(self):
         """Implement epsilon(i,k,j) = -epsilon(i,j,k) i<j<k"""
-        
-        
-        
+
+
+
         # epsilon(i,k,j) = -epsilon(i,j,k) i<j<k
         order_list = list(self[:])
         order_list.sort()
-        
+
         if list(self[:]) != order_list:
             col_str1 = ColorString([Epsilon(*order_list)])
             col_str1.coeff = self.perm_parity(self[:], order_list)
@@ -417,7 +417,7 @@ class Epsilon(ColorObject):
     -  delta(i,n) * delta(j,m) * delta(k,l)
     -  delta(i,m) * delta(j,l) * delta(k,n)
     -  delta(i,l) * delta(j,n) * delta(k,m)
-        
+
         """
 
         # e_ijk T(l,k) = e_ikl
@@ -470,15 +470,15 @@ class Epsilon(ColorObject):
                     ColorString([delta(i, n), delta(j, l), delta(k, m)]), # N_c
                     ColorString([delta(i, n), delta(j, m), delta(k, l)]), # N_c#.set_coeff(-1),
                     ColorString([delta(i, m), delta(j, l), delta(k, n)]), # N_c#.set_coeff(-1),
-                    ColorString([delta(i, l), delta(j, n), delta(k, m)]), # N_c#.set_coeff(-1)                   
+                    ColorString([delta(i, l), delta(j, n), delta(k, m)]), # N_c#.set_coeff(-1)
                 ])
-                
+
                 out[3].coeff = fractions.Fraction(-1, 1)
                 out[4].coeff = fractions.Fraction(-1, 1)
                 out[5].coeff = fractions.Fraction(-1, 1)
-           
 
-                
+
+
                 return out
 
                 col_str1 = ColorString([T(eps_indices[0], aeps_indices[0]),
@@ -542,15 +542,15 @@ class EpsilonBar(ColorObject):
             new_self[com_index] = col_obj[1]
 
             return ColorFactor([ColorString([new_self])])
-        
+
 
     def simplify(self):
         """Implement epsilon(i,k,j) = -epsilon(i,j,k) i<j<k"""
-        
+
         # epsilon(i,k,j) = -epsilon(i,j,k) i<j<k
         order_list = list(self[:])
         order_list.sort()
-        
+
         if list(self[:]) != order_list:
             col_str1 = ColorString([EpsilonBar(*order_list)])
             col_str1.coeff = Epsilon.perm_parity(self[:], order_list)
@@ -669,7 +669,7 @@ class K6Bar(ColorObject):
         """Implement the replacement rules
         delta3(i,j)K6Bar(m,j,k) = K6Bar(m,i,k)
         delta3(k,j)K6Bar(m,i,j) = K6Bar(m,i,k)."""
-        
+
         if isinstance(col_obj, T) and len(col_obj) == 2:
             # delta3(i,j)K6Bar(m,j,k) = K6Bar(m,i,k)
             # delta3(k,j)K6Bar(m,i,j) = K6Bar(m,i,k)
@@ -682,7 +682,7 @@ class K6Bar(ColorObject):
     def complex_conjugate(self):
         """Complex conjugation. By default, the ordering of color index is
         reversed. Can be overwritten for specific color objects like T,..."""
-        
+
         return K6(*self)
 
 class T6(ColorObject):
@@ -749,9 +749,9 @@ class T6(ColorObject):
                 return ColorFactor([ColorString([K6(self[0],
                                                     col_obj[1],
                                                     col_obj[2])])])
-                
 
-        if isinstance(col_obj, K6Bar):        
+
+        if isinstance(col_obj, K6Bar):
             # delta6(m,n)K6Bar(m,i,j) = K6Bar(n,i,j)."""
             if col_obj[0] == self[0]:
                 return ColorFactor([ColorString([K6Bar(self[1],
@@ -776,7 +776,7 @@ class ColorString(list):
     loop_Nc_power = 0
     canonical = None
     immutable = None
-    
+
     def __init__(self, init_list=[],
                  coeff=fractions.Fraction(1, 1),
                  is_imaginary=False, Nc_power=0, loop_Nc_power=0):
@@ -825,7 +825,7 @@ class ColorString(list):
         # Reset "canonical", so don't get wrong result from comparison
         self.canonical = None
         self.immutable = None
-        
+
         self.extend(other)
 
     def simplify(self):
@@ -892,7 +892,7 @@ class ColorString(list):
             compl_conj_str.coeff = -compl_conj_str.coeff
 
         return compl_conj_str
-    
+
     def to_immutable(self):
         """Returns an immutable object summarizing the color structure of the
         current color string. Format is ((name1,indices1),...) where name is the
@@ -900,7 +900,7 @@ class ColorString(list):
         indices. An immutable object, in Python, is built on tuples, strings and
         numbers, i.e. objects which cannot be modified. Their crucial property
         is that they can be used as dictionary keys!"""
-        
+
         if self.immutable:
             return self.immutable
 
@@ -926,13 +926,13 @@ class ColorString(list):
 
     def replace_indices(self, repl_dict):
         """Replace current indices following the rules listed in the replacement
-        dictionary written as {old_index:new_index,...}, does that for ALL 
+        dictionary written as {old_index:new_index,...}, does that for ALL
         color objects."""
 
         list(map(lambda col_obj: col_obj.replace_indices(repl_dict), self))
 
     def create_copy(self):
-        """Returns a real copy of self, non trivial because bug in 
+        """Returns a real copy of self, non trivial because bug in
         copy.deepcopy"""
         res = ColorString()
         for col_obj in self:
@@ -948,7 +948,7 @@ class ColorString(list):
     __copy__ = create_copy
 
     def set_Nc(self, Nc=3):
-        """Returns a tuple, with the first entry being the string coefficient 
+        """Returns a tuple, with the first entry being the string coefficient
         with Nc replaced (by default by 3), and the second one being True
         or False if the coefficient is imaginary or not. Raise an error if there
         are still non trivial color objects."""
@@ -966,13 +966,13 @@ class ColorString(list):
                     self.is_imaginary)
 
     def order_summation(self, immutable=None):
-        """Force a specific order for the summation indices 
+        """Force a specific order for the summation indices
            in case we have Clebsch Gordan coefficients K6's or K6Bar's
-           This is necessary to correctly recognize later on the equivalent 
+           This is necessary to correctly recognize later on the equivalent
            color strings (otherwise the color basis is degenerate).
            The new ordering is as follow:
                 1. put K and KBar Clebsch Gordan coefficients at the end of the list of color factors
-                   the other factors are re-arranged in the reversed order compared with immutable 
+                   the other factors are re-arranged in the reversed order compared with immutable
                 2. rename the summation indices so that they are increasing (starting from 10000)
                    from left to right
                 3. finally, after the summation indices have been renamed, replace
@@ -983,7 +983,7 @@ class ColorString(list):
             immutable = self.to_immutable()
 
 #       STEP 1: first scan to see whether there are some K's or KBar's,
-#       and put them at the en 
+#       and put them at the en
         immutable_order2=[]
         go_further=0
         for  elem in immutable:
@@ -1019,12 +1019,12 @@ class ColorString(list):
         return_list.sort()
 
         self.from_immutable(return_list)
-        self.immutable=None   # don't use the information self.immutable later on in the code, 
-                              # since the summation indices have been modified 
+        self.immutable=None   # don't use the information self.immutable later on in the code,
+                              # since the summation indices have been modified
         return
 
     def to_canonical(self, immutable=None):
-        """Returns the canonical representation of the immutable representation 
+        """Returns the canonical representation of the immutable representation
         (i.e., first index is 1, ...). This allow for an easy comparison of
         two color strings, i.e. independently of the actual index names (only
         relative positions matter). Also returns the conversion dictionary.
@@ -1110,7 +1110,7 @@ class ColorFactor(list):
 
         for col_str in self:
             # Check if strings are similar, this IS the optimal way of doing
-            # it. Note that first line only compare the lists, not the 
+            # it. Note that first line only compare the lists, not the
             # properties associated
             if col_str.is_similar(new_str):
                 # Add them
@@ -1169,13 +1169,13 @@ class ColorFactor(list):
 
     def replace_indices(self, repl_dict):
         """Replace current indices following the rules listed in the replacement
-        dictionary written as {old_index:new_index,...}, does that for ALL 
+        dictionary written as {old_index:new_index,...}, does that for ALL
         color strings."""
 
         list(map(lambda col_str:col_str.replace_indices(repl_dict), self))
 
     def create_copy(self):
-        """Returns a real copy of self, non trivial because bug in 
+        """Returns a real copy of self, non trivial because bug in
         copy.deepcopy"""
 
         res = ColorFactor()
@@ -1185,8 +1185,3 @@ class ColorFactor(list):
         return res
 
     __copy__ = create_copy
-
-
-
-
-

@@ -15,7 +15,7 @@ C
 C     Include
 C
       include 'pdf.inc'
-C      
+C
       if(abs(ih).eq.1) then
          pdf(-7)=0d0
          if(has_photon())then
@@ -35,7 +35,5 @@ C
          enddo
       endif
 
-      return	
+      return
       end
-  
-

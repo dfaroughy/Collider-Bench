@@ -227,7 +227,7 @@ C CHECK MOMENTUM AND CHARGE CONSERVATION
          enddo
       enddo
  999  END
-      
+
 
 C-----------------------------------------------------------------------
       SUBROUTINE VVSUM(N,P,Q,R)
@@ -283,7 +283,7 @@ C-----------------------------------------------------------------------
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

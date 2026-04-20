@@ -27,7 +27,7 @@ Configuration options.
 --help      : Print this message (also -h, --h, and -help).
 --part      : Generate the partial/simplified Python interface.
 --full      : Generate the full Python interface.
---user=FILE : Generate a user defined Python interface using the Binder 
+--user=FILE : Generate a user defined Python interface using the Binder
               configuration in FILE.
 --debug     : Do not remove generated files.
 BLOCKTEXT
@@ -92,7 +92,7 @@ function configure_part() {
 	CGENS=$(grep -Eoh "// Pythia8::[[:alnum:]]* " $1/*.cpp)
 	FGENS=$(grep -Eoh "// Pythia8::[[:alnum:]]*\(" $1/*.cpp)
     fi
-	
+
     # Create the configuration.
     configure_base
     for CLASS in $CLASSES; do
@@ -188,7 +188,7 @@ for DIR in Pythia8 Pythia8Plugins; do
     sed -i.sed 's/\(const  *Info\& *info  *=  *infoPrivate;\)/\1  \
   Info infoPython() {return Info(infoPrivate);}/g' $BINDER_INCLUDE/$DIR/*.h
 done
-    
+
 # Create the master header file.
 echo "#include <Pythia8/Pythia.h>" > $BINDER_HPP
 echo "#include <Pythia8/PythiaParallel.h>" > $BINDER_HPP
@@ -348,7 +348,7 @@ cat > $BINDER_SRC/version.cpp << BLOCKTEXT
 #include <iostream>
 int main() {
   std::string include("2.9.2");
-  if (PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION > 5) include = "2.10.4"; 
+  if (PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION > 5) include = "2.10.4";
   std::cout << include << "\n";
   return 0;
 }
@@ -359,6 +359,6 @@ if [ "$DEBUG_SET" != true ]; then
     rm -rf $BINDER_HPP $BINDER_CFG $BINDER_DOC
     rm -f $BINDER_SRC/pythia8.modules
     rm -f $BINDER_SRC/pythia8.sources
-    rm -f $BINDER_SRC/*.sed 
+    rm -f $BINDER_SRC/*.sed
     for DIR in Pythia8 Pythia8Plugins; do rm -rf $BINDER_INCLUDE/$DIR; done
 fi

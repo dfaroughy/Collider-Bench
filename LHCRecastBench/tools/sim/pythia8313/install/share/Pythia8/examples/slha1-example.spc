@@ -76,12 +76,12 @@ Block nmix                  # neutralino mixing matrix
   4  2     2.32426798e-01   # N_{4,2}
   4  3     6.78265645e-01   # N_{4,3}
   4  4    -6.92978905e-01   # N_{4,4}
-Block Umix                  # chargino U mixing matrix 
+Block Umix                  # chargino U mixing matrix
   1  1     9.60950435e-01   # U_{1,1}
   1  2    -2.76720547e-01   # U_{1,2}
   2  1     2.76720547e-01   # U_{2,1}
   2  2     9.60950435e-01   # U_{2,2}
-Block Vmix                  # chargino V mixing matrix 
+Block Vmix                  # chargino V mixing matrix
   1  1     9.82582136e-01   # V_{1,1}
   1  2    -1.85828808e-01   # V_{1,2}
   2  1     1.85828808e-01   # V_{2,1}
@@ -105,11 +105,11 @@ Block gauge Q= 8.73811408e+02  # SM gauge couplings
      1     3.62408332e-01   # g'(Q)MSSM DRbar
      2     6.43000889e-01   # g(Q)MSSM DRbar
      3     1.06090510e+00   # g3(Q)MSSM DRbar
-Block yu Q= 8.73811408e+02  
+Block yu Q= 8.73811408e+02
   3  3     8.67028746e-01   # Yt(Q)MSSM DRbar
-Block yd Q= 8.73811408e+02  
+Block yd Q= 8.73811408e+02
   3  3     1.35275115e-01   # Yb(Q)MSSM DRbar
-Block ye Q= 8.73811408e+02  
+Block ye Q= 8.73811408e+02
   3  3     1.00502013e-01   # Ytau(Q)MSSM DRbar
 Block hmix Q= 8.73811408e+02 # Higgs mixing parameters
      1     6.34225757e+02    # mu(Q)MSSM DRbar
@@ -137,16 +137,15 @@ Block msoft Q= 8.73811408e+02  # MSSM DRbar SUSY breaking parameters
     47     9.76062679e+02      # mdR(Q)
     48     9.76059936e+02      # msR(Q)
     49     9.71058708e+02      # mbR(Q)
-Block au Q= 8.73811408e+02  
+Block au Q= 8.73811408e+02
   1  1    -1.13744947e+03      # Au(Q)MSSM DRbar
   2  2    -1.13744435e+03      # Ac(Q)MSSM DRbar
   3  3    -8.73322525e+02      # At(Q)MSSM DRbar
-Block ad Q= 8.73811408e+02  
+Block ad Q= 8.73811408e+02
   1  1    -1.39629474e+03      # Ad(Q)MSSM DRbar
   2  2    -1.39628999e+03      # As(Q)MSSM DRbar
   3  3    -1.30365153e+03      # Ab(Q)MSSM DRbar
-Block ae Q= 8.73811408e+02  
+Block ae Q= 8.73811408e+02
   1  1    -2.99482647e+02      # Ae(Q)MSSM DRbar
   2  2    -2.99477266e+02      # Amu(Q)MSSM DRbar
   3  3    -2.97855048e+02      # Atau(Q)MSSM DRbar
-

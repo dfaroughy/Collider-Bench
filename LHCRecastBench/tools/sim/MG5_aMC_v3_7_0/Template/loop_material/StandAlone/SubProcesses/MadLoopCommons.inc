@@ -8,7 +8,7 @@
 
       i =1
       do while (i.le.LEN(str1))
-      if(str1(i:i).eq.' ') goto 800     
+      if(str1(i:i).eq.' ') goto 800
       path(i:i) = str1(i:i)
       i=i+1
       enddo
@@ -33,17 +33,17 @@
 
 ## if(collier_available){
 	  SUBROUTINE INITCOLLIER()
-C 
+C
 C INITIALISATION OF COLLIER
 C
-C  
+C
 C MODULE
 C
-	  USE COLLIER 
+	  USE COLLIER
 C
 C CONSTANTS
 C
-	  character(len=*) no_folder 
+	  character(len=*) no_folder
       parameter (no_folder='')
 	  character(len=*) folderOutput
       parameter (folderOutput='COLLIER_output')
@@ -52,11 +52,11 @@ C     Force COLLIER to completely reset from scratch
       logical noreset
       parameter (noreset=.FALSE.)
 C
-C LOCAL VARIABLES 
-C    
+C LOCAL VARIABLES
+C
       INTEGER N_CACHES
-C  
-C GLOBAL VARIABLES 
+C
+C GLOBAL VARIABLES
 C
       include 'MadLoopParams.inc'
 C     Now obtain the overall maximum rank, maximum external lines
@@ -107,9 +107,9 @@ C     Make sure to start by first switching off all cache
 C     Make sure no COLLIER error can interrupt the code
 	  call SwitchOffErrStop_cll()
 
-C     Specify below your other custom COLLIER parameter settings 
+C     Specify below your other custom COLLIER parameter settings
 C     [user_specific_COLLIER_settings]
-	  
+
 	  END
 ## }
 
@@ -117,7 +117,7 @@ C     [user_specific_COLLIER_settings]
 C
 C Give the possibility to overwrite the value of MadLoopParams.dat
 c for the helicity double checking.
-C Make sure to call this subroutine before the first time you 
+C Make sure to call this subroutine before the first time you
 C call MadLoop.
 C
       IMPLICIT NONE
@@ -140,7 +140,7 @@ C ----------
       subroutine setMadLoopPath(path)
 
       character(512) path
-      character(512) dummy      
+      character(512) dummy
       character(512) epath ! path of the executable
       integer pos
       character(512) prefix,fpath
@@ -157,7 +157,7 @@ C ----------
 
 
       character(512) MLPath
-      data MLPath/'[[NA]]'/      
+      data MLPath/'[[NA]]'/
       common/MLPATH/MLPath
 
       integer i
@@ -242,7 +242,7 @@ C     Make sure there is a separator added
       if (path(i-1:i-1).ne.'/') then
           path(i:i) = '/'
       endif
-      MLpath=path          
+      MLpath=path
       endif
 
 C     Check that the FilePath set is correct
@@ -287,7 +287,7 @@ C     U == 9
 C         Stable with CutTools in quadruple precision.
 C
       IMPLICIT NONE
-C     
+C
 C CONSTANTS
 C
 C
@@ -340,7 +340,7 @@ C
       INTEGER LIBNUM,NLOOPLINE,RANK,MAX_SPIN_CONNECTED_TO_LOOP
 C     The argument HAS_HEFT_VERTEX is only to implement correctly CutTools limitation
       LOGICAL complex_mass,LPASS,HAS_HEFT_VERTEX
-C     
+C
 C LOCAL VARIABLES
 C
 C
@@ -365,10 +365,10 @@ C Golem95
 C Samurai
          CALL DETECT_SAMURAI(NLOOPLINE,RANK,complex_mass,LPASS)
       ELSEIF(LIBNUM.EQ.6)THEN
-C Ninja 
+C Ninja
          CALL DETECT_NINJA(NLOOPLINE,RANK,complex_mass,LPASS)
       ELSEIF(LIBNUM.EQ.7)THEN
-C Collier 
+C Collier
          CALL DETECT_COLLIER(NLOOPLINE,RANK,complex_mass,LPASS)
       ELSE
          STOP 'Only CutTools, PJFry++, IREGI, Golem95, Samurai, Ninja and COLLIER are available'
@@ -411,7 +411,7 @@ C     or in general whenever the higher rank doesn't come from the Higgs effecti
 	  ENDIF
 
       IF( (RANK.GT.MAX_RANK).OR.(NLOOPLINE.gt.10) ) THEN
-	    LPASS=.FALSE.	  
+	    LPASS=.FALSE.
 	  endif
 
       RETURN
@@ -520,7 +520,7 @@ C       The DD branch is used and it has limitations
         endif
       ELSE
 C       Limitations of the COLI branch are academic.
-        LPASS=.TRUE. 
+        LPASS=.TRUE.
 	  ENDIF
       RETURN
       END
@@ -568,7 +568,7 @@ C ----------
       END
 
       SUBROUTINE DETECT_IREGI(NLOOPLINE,RANK,complex_mass,LPASS)
-C     
+C
 C DETECT whether IREGI CAN BE USED OR NOT
 C
       IMPLICIT NONE
@@ -580,7 +580,7 @@ C ARGUMENTS
 C
       INTEGER NLOOPLINE,RANK
       LOGICAL complex_mass,LPASS
-C     
+C
 C LOCAL VARIABLES
 C
 C
@@ -625,7 +625,7 @@ C ----------
       RETURN
       END
 
-C     Now some sorting related routines. Only to be used for small 
+C     Now some sorting related routines. Only to be used for small
 C     arrays since these are not the most optimized sorting algorithms.
 
 ! --------------------------------------------------------------------
@@ -724,4 +724,3 @@ C     arrays since these are not the most optimized sorting algorithms.
       %(print_banner_commands)s
 
       END
-

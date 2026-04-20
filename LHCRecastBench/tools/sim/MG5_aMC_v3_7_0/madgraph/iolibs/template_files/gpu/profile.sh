@@ -39,7 +39,7 @@ while [ "$1" != "" ]; do
   # (NB do not exceed 12 iterations: profiling overhead per iteration is huge)
   elif [ "$1" == "-p" ]; then
     if [ "$4" != "" ]; then
-      args="$2 $3 $4"    
+      args="$2 $3 $4"
       shift 4
     else
       usage
@@ -81,7 +81,7 @@ if [ "${host%%cern.ch}" != "${host}" ] && [ "${host##b}" != "${host}" ]; then
 fi
 
 # Set the ncu sampling period (default is auto)
-# The value is in the range [0..31], the actual period is 2**(5+value) cycles. 
+# The value is in the range [0..31], the actual period is 2**(5+value) cycles.
 ###ncu="${ncu} --sampling-interval 0"  # MAX sampling frequency
 ###ncu="${ncu} --sampling-interval 31" # MIN sampling frequency
 
@@ -105,7 +105,7 @@ if [ "$tag" != "nogui" ]; then
   arg1=$(echo $args | cut -d' ' -f1)
   arg2=$(echo $args | cut -d' ' -f2)
   arg3=$(echo $args | cut -d' ' -f3)
-  
+
   if [ "${host%%raplab*}" != "${host}" ]; then
     logs=logs_raplab
   elif [ "${host%%cern.ch}" != "${host}" ] && [ "${host##b}" != "${host}" ]; then
@@ -115,20 +115,20 @@ if [ "$tag" != "nogui" ]; then
   fi
   trace=$logs/eemumuAV_${tag}_`date +%m%d_%H%M`_b${arg1}_t${arg2}_i${arg3}
   if [ "$label" != "" ]; then trace=${trace}_${label}; fi
-  
+
   echo
   echo "PROFILING: ${cmd}"
   echo "OUTPUT: ${trace}.*"
   echo
-  
+
   \rm -f ${trace}.*
-  
+
   hostname > ${trace}.txt
   echo "nproc=$(nproc)" >> ${trace}.txt
   echo >> ${trace}.txt
   ( time ${cmd} ) 2>&1 | tee -a ${trace}.txt
   nvidia-smi -q -d CLOCK >> ${trace}.txt
-  
+
   if [ "$tag" == "cu" ]; then
     echo
     echo "${ncu} --set full --metrics ${metrics} -o ${trace} ${cmd}"
@@ -143,7 +143,7 @@ if [ "$tag" != "nogui" ]; then
   echo "TO ANALYSE TRACE FILES:"
   echo "  ${ncugui}"
   echo "  ${nsysgui}"
-  
+
 # NO-GUI analysis
 else
 

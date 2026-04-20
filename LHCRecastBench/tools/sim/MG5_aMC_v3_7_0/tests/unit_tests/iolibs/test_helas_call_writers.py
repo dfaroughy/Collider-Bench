@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -536,7 +536,7 @@ class HelasModelTest(HelasModelTestSetup):
 
         del wavefunctions[key1]
         del wavefunctions[key2]
-        
+
 
 #===============================================================================
 # FortranHelasCallWriterTest
@@ -858,38 +858,38 @@ class UFOHELASCallWriterTest(unittest.TestCase):
         self.mybasemodel.set('particles', mypartlist)
         self.mybasemodel.set('interactions', myinterlist)
         self.mybasemodel.set('name', 'sm')
-        
-        
+
+
         #import madgraph.interface.cmd_interface as cmd
         #CMD = cmd.MadGraphCmdShell()
         #CMD._curr_model = self.mybasemodel
-        #CMD._curr_fortran_model = helas_call_writers.FortranUFOHelasCallWriter 
+        #CMD._curr_fortran_model = helas_call_writers.FortranUFOHelasCallWriter
         #CMD.do_generate('a w- > w- a z')
         #CMD.do_export('matrix_v4 /tmp/')
-        
-        
-        
+
+
+
         leg1 = base_objects.Leg({'id':22,'state':False})
         leg2 = base_objects.Leg({'id':24,'state':False})
         leg3 = base_objects.Leg({'id':22,'state':True})
         leg4 = base_objects.Leg({'id':24,'state':True})
-        leg5 = base_objects.Leg({'id':23,'state':True}) 
+        leg5 = base_objects.Leg({'id':23,'state':True})
 
         legList1 = base_objects.LegList([leg1, leg2, leg3, leg4, leg5])
-        
+
         myproc = base_objects.Process({'legs':legList1,
                                        'model':self.mybasemodel})
-        
+
         myamplitude = diagram_generation.Amplitude({'process': myproc})
-        
+
         self.mymatrixelement = helas_objects.HelasMatrixElement(myamplitude)
-        
+
     def test_UFO_fortran_helas_call_writer(self):
         """Test automatic generation of UFO helas calls in Fortran"""
-        
+
         fortran_model = helas_call_writers.FortranUFOHelasCallWriter(\
             self.mybasemodel)
-        
+
         result = fortran_model.get_matrix_element_calls(self.mymatrixelement)
         solution =['CALL VXXXXX(P(0,1),zero,NHEL(1),-1*IC(1),W(1,1))',
                    'CALL VXXXXX(P(0,2),wmas,NHEL(2),-1*IC(2),W(1,2))',
@@ -903,17 +903,17 @@ class UFOHELASCallWriterTest(unittest.TestCase):
                    '# Amplitude(s) for diagram number 2',
                    'CALL VVV1_0(W(1,2),W(1,6),W(1,5),GC_12,AMP(2))']
 
-        
+
         for i, line in enumerate(solution):
             self.assertEqual(line, result[i])
 
-        
+
     def test_UFO_CPP_helas_call_writer(self):
         """Test automatic generation of UFO helas calls in C++"""
-        
+
         cpp_model = helas_call_writers.CPPUFOHelasCallWriter(\
             self.mybasemodel)
-        
+
         result = cpp_model.get_matrix_element_calls(self.mymatrixelement)
         solution =['vxxxxx(p[perm[0]],mME[0],hel[0],-1,w[0]);',
                    'vxxxxx(p[perm[1]],mME[1],hel[1],-1,w[1]);',
@@ -926,17 +926,17 @@ class UFOHELASCallWriterTest(unittest.TestCase):
                    'VVVV1_3(w[0],w[2],w[3],pars->GC_51,pars->wmas,pars->wwid,w[5]);',
                    '# Amplitude(s) for diagram number 2',
                    'VVV1_0(w[1],w[5],w[4],pars->GC_12,amp[1]);']
-        
+
         for i, line in enumerate(solution):
             self.assertEqual(line, result[i])
-        
+
 
     def test_UFO_Python_helas_call_writer(self):
         """Test automatic generation of UFO helas calls in Python"""
-        
+
         cpp_model = helas_call_writers.PythonUFOHelasCallWriter(\
             self.mybasemodel)
-        
+
         result = cpp_model.get_matrix_element_calls(self.mymatrixelement)
         solution =['w[0] = vxxxxx(p[0],zero,hel[0],-1)',
                    'w[1] = vxxxxx(p[1],wmas,hel[1],-1)',
@@ -949,23 +949,23 @@ class UFOHELASCallWriterTest(unittest.TestCase):
                    'w[5]= VVVV1_3(w[0],w[2],w[3],GC_51,wmas,wwid)',
                    '# Amplitude(s) for diagram number 2',
                    'amp[1]= VVV1_0(w[1],w[5],w[4],GC_12)']
-        
-        
+
+
         for i, line in enumerate(solution):
             self.assertEqual(line, result[i])
-        
+
 
 class UFOHELASCALLWriterComplexMass(unittest.TestCase):
     """testing the writting in case of complex mass scheme"""
 
-    @test_aloha.set_global(cms=True) 
+    @test_aloha.set_global(cms=True)
     def setUp(self):
         """load the model"""
 
         import madgraph.interface.master_interface as interface
         cmd = interface.MasterCmd()
         cmd.do_import('model sm')
-        
+
         self.mybasemodel = cmd._curr_model
         self.mybasemodel.change_mass_to_complex_scheme()
 
@@ -973,24 +973,24 @@ class UFOHELASCALLWriterComplexMass(unittest.TestCase):
         leg2 = base_objects.Leg({'id':24,'state':False})
         leg3 = base_objects.Leg({'id':22,'state':True})
         leg4 = base_objects.Leg({'id':24,'state':True})
-        leg5 = base_objects.Leg({'id':23,'state':True}) 
+        leg5 = base_objects.Leg({'id':23,'state':True})
 
         legList1 = base_objects.LegList([leg1, leg2, leg3, leg4, leg5])
-        
+
         myproc = base_objects.Process({'legs':legList1,
                                        'model':self.mybasemodel})
-        
+
         myamplitude = diagram_generation.Amplitude({'process': myproc})
-        
+
         self.mymatrixelement = helas_objects.HelasMatrixElement(myamplitude)
 
-    @test_aloha.set_global(cms=True)        
+    @test_aloha.set_global(cms=True)
     def test_UFO_fortran_helas_call_writer(self):
         """Test automatic generation of UFO helas calls in Fortran"""
-        
+
         fortran_model = helas_call_writers.FortranUFOHelasCallWriter(\
             self.mybasemodel)
-        
+
         result = fortran_model.get_matrix_element_calls(self.mymatrixelement)
         solution = """CALL VXXXXX(P(0,1),ZERO,NHEL(1),-1*IC(1),W(1,1))
 CALL VXXXXX(P(0,2),mdl_MW,NHEL(2),-1*IC(2),W(1,2))
@@ -1034,15 +1034,15 @@ CALL VVV1_0(W(1,3),W(1,2),W(1,10),-GC_3,AMP(12))"""
 
         self.assertEqual(solution.split('\n'), result)
 
-    @test_aloha.set_global(cms=True)   
+    @test_aloha.set_global(cms=True)
     def test_UFO_CPP_helas_call_writer(self):
         """Test automatic generation of UFO helas calls in C++"""
-        
+
         cpp_model = helas_call_writers.CPPUFOHelasCallWriter(\
             self.mybasemodel)
-        
+
         result = cpp_model.get_matrix_element_calls(self.mymatrixelement)
-        
+
         solution = """vxxxxx(p[perm[0]],mME[0],hel[0],-1,w[0]);
 vxxxxx(p[perm[1]],mME[1],hel[1],-1,w[1]);
 vxxxxx(p[perm[2]],mME[2],hel[2],+1,w[2]);
@@ -1084,14 +1084,14 @@ VVVV5_2(w[0],w[3],w[4],pars->GC_57,pars->CMASS_mdl_MW,w[9]);
 VVV1_0(w[2],w[1],w[9],-pars->GC_3,amp[11]);"""
 
         self.assertEqual(solution.split('\n'), result)
-        
-    @test_aloha.set_global(cms=True) 
+
+    @test_aloha.set_global(cms=True)
     def test_UFO_Python_helas_call_writer(self):
         """Test automatic generation of UFO helas calls in Python"""
-        
+
         cpp_model = helas_call_writers.PythonUFOHelasCallWriter(\
             self.mybasemodel)
-        
+
         result = cpp_model.get_matrix_element_calls(self.mymatrixelement)
         solution = """w[0] = vxxxxx(p[0],ZERO,hel[0],-1)
 w[1] = vxxxxx(p[1],mdl_MW,hel[1],-1)
@@ -1132,6 +1132,5 @@ amp[10]= VVV1_0(w[1],w[9],w[4],GC_53)
 w[9]= VVVV5_2(w[0],w[3],w[4],GC_57,CMASS_mdl_MW)
 # Amplitude(s) for diagram number 12
 amp[11]= VVV1_0(w[2],w[1],w[9],-GC_3)"""
-        
-        self.assertEqual(solution.split('\n'), result)        
 
+        self.assertEqual(solution.split('\n'), result)

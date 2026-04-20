@@ -108,7 +108,7 @@ static unsigned char viewRotYNegBM[] = {
     0x00, 0x08, 0x00,
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00};
-    
+
 static unsigned char viewRotZPosBM[] = {
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00,
@@ -129,7 +129,7 @@ static unsigned char viewRotZPosBM[] = {
     0x00, 0x3c, 0x00,
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00};
-    
+
 static unsigned char viewRotZNegBM[] = {
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00,
@@ -150,7 +150,7 @@ static unsigned char viewRotZNegBM[] = {
     0x00, 0x3c, 0x00,
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00};
-    
+
 static unsigned char coordRotXPosBM[] = {
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00,
@@ -211,7 +211,7 @@ static unsigned char coordRotYPosBM[] = {
     0x00, 0x01, 0x00,
     0x00, 0x00, 0x80,
     0x00, 0x00, 0x00};
-    
+
 static unsigned char coordRotYNegBM[] = {
     0x00, 0x00, 0x00,
     0x00, 0x40, 0x00,
@@ -295,7 +295,7 @@ static unsigned char scaleDownBM[] = {
     0x00, 0x08, 0x00,
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00};
-    
+
 static unsigned char scaleUpBM[] = {
     0x00, 0x00, 0x00,
     0x00, 0x00, 0x00,
@@ -366,19 +366,19 @@ static void registerBM(Screen *screen, char *name, unsigned char *bits,
 		       int width, int height)
 {
     XImage *image;
-    
+
     /* There is something very wrong with XCreateImage.  It does seem rather
        stupid to use server information to fill in client dependent information.
        Motif does not use XCreateImage internally, rather it just fills in the
        image data structure itself and hopes for pity in future Xlib versions.
        The X recommended code results in byte-swapped pixmaps on many machines:
-       
+
        image=XCreateImage(DisplayOfScreen(screen), DefaultVisualOfScreen(screen),
     			  1, XYBitmap, 0, bits, width, height, 8, 0);
-    	
+
        The following code, copied from the motif source, just initializes the
        structure to all zeros and fills in the data we know about.	      */
-    
+
     image = (XImage *)XtCalloc(1, sizeof(XImage)) ;
     image->width = width ;
     image->height = height ;
@@ -392,6 +392,6 @@ static void registerBM(Screen *screen, char *name, unsigned char *bits,
     image->bitmap_pad = 8 ;
     image->bytes_per_line = (width + 7) >> 3 ;
 
-    
+
     XmInstallImage(image, name);
 }

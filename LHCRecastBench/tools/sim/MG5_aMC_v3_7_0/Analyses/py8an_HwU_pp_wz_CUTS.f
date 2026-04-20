@@ -34,7 +34,7 @@ C----------------------------------------------------------------------
       PARAMETER (PI=3.14159265358979312D0)
       integer j,kk,l,i,nnn
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -107,7 +107,7 @@ c Collect accumulated results. IEVTTOT is such that we need to multiply
 c the results by this factor
       xnorm=ievttot
       call finalize_histograms(nevhep)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)
@@ -131,7 +131,7 @@ C----------------------------------------------------------------------
      # etaq1,getpseudorap,etaq2,azi,azinorm,qqm,dr,yqq
       DOUBLE PRECISION XPTQ(5),XPTB(5),XPLP(5),XPNU(5),XPBQ(5),XPLM(5),
      # XPNB(5),XPBB(5),p_t(0:3),p_tx(0:3),pttx(0:3),
-     # mtt,pt_t,pt_tx,pt_ttx,yt,ytx,yttx,var 
+     # mtt,pt_t,pt_tx,pt_ttx,yt,ytx,yttx,var
       DOUBLE PRECISION YPBQBB(4),YPLPLM(4),YPBQLM(4),YPBBLP(4),
      # YPBQNB(4),YPBBNU(4),YPTQTB(4)
       REAL*8 PI
@@ -192,9 +192,9 @@ C EFFECT, SO THROW THE EVENT AWAY
       NN=0
 
       DO IHEP=1,NHEP
-C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM 
+C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM
 C        IF(IQ1*IQ2.EQ.1) GOTO 11
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID1=IDHEP(IHEP)
         IF(ID1.EQ.24)THEN
           IQ1=IQ1+1
@@ -387,4 +387,3 @@ c
       getdelphi=tmp
       return
       end
-

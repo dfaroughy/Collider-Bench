@@ -52,16 +52,16 @@ bool_t xdr_mcfast_stdhep_(XDR *xdrs, int *blockid,
 {
 /*  Translate the HEPEVT COMMON block from the STDHEP package to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, the mcfio will allocate the space for the 
+    directly the COMMON.  Also, the mcfio will allocate the space for the
     string version.  */
-    
+
     unsigned int nn, nn2, nn4, nn5;
     int *idat;
     float *dat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE)) {
        if (*blockid != MCFIO_STDHEP) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
        }
@@ -72,16 +72,16 @@ bool_t xdr_mcfast_stdhep_(XDR *xdrs, int *blockid,
        *ntot = 20 + 4 * (2 * nn + 2* nn2 + nn4 + nn5);
        if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
        strcpy(*version, "1.05");
-       } 
-      
+       }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, 4) &&
      	      xdr_int(xdrs, &(hepevt_.nevhep)) &&
               xdr_int(xdrs, &(hepevt_.nhep))) == FALSE) return FALSE;
-              
+
      if ((xdrs->x_op == XDR_DECODE) && ( *blockid != MCFIO_STDHEP) ) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -99,10 +99,9 @@ bool_t xdr_mcfast_stdhep_(XDR *xdrs, int *blockid,
                 &nn2, 2*NMXHEP, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (float *)  hepevt_.phep;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nn5, 5*NMXHEP, sizeof(int), xdr_float) == FALSE) return FALSE; 
+                &nn5, 5*NMXHEP, sizeof(int), xdr_float) == FALSE) return FALSE;
      dat = (float *) hepevt_.vhep;
      if     ( xdr_array(xdrs, (char **)    &dat,
                 &nn4, 4*NMXHEP, sizeof(int), xdr_float) == FALSE) return FALSE;
      return TRUE;
-}   
-
+}

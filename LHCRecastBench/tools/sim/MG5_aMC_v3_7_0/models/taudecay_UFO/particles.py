@@ -119,4 +119,3 @@ pi0 = Particle(pdg_code = 111,
                antitexname = 'pi0',
                charge = 0,
                LeptonNumber = 0)
-

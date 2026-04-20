@@ -1,7 +1,7 @@
 /*******************************************************************************
 *									       *
 * stdHepFiles.c -- Nirvana Phase Space Event Display, Accessing the StdHep     *
-*                  files and records					       *   
+*                  files and records					       *
 *									       *
 * Copyright (c) 1991 Universities Research Association, Inc.		       *
 * All rights reserved.							       *
@@ -53,7 +53,7 @@ extern void closestdhep_();
 int OpenCheckXdrStdHep(char *filename, int nmax, int istr)
 {
    int nn, i, lok, ierr, flag;
-   
+
    ierr = StdHepXdrReadInit(filename, nmax, istr);
    nn = 0;
    if (ierr != 0 ) return nn;
@@ -68,7 +68,7 @@ int OpenCheckXdrStdHep(char *filename, int nmax, int istr)
    }
    StdHepXdrEnd(istr);
    return nn;
-}   
+}
 
 void OpenGetStdHep(StdHepWindow *window, int nevt)
 {
@@ -83,10 +83,10 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
    double pmax;
 
 /* Scrap the previous event, if there */
-   
+
    if (window->event.particles != NULL) {
      XtFree((char *)window->event.particles);
-     if ((PhaseWindow *) window->selnodeTracks != NULL) 
+     if ((PhaseWindow *) window->selnodeTracks != NULL)
              XtFree((char *)(PhaseWindow *) window->selnodeTracks);
      window->selnodeNumTrack =0;
      window->event.eventNum = 0;
@@ -98,7 +98,7 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
        wins->numRealVertices = 0;
      }
    }
-   
+
 /* Open the file again, and read until we find the one we want.. */
 
    l = strlen(window->filename);
@@ -120,14 +120,14 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
           }
        }
     if (lok != 0) {
-       if (window->filemode == XDR_STDHEP) 
+       if (window->filemode == XDR_STDHEP)
           StdHepXdrEnd(istr);
        else
           closestdhep_();
        return;
        }
    }
-   if (window->filemode == XDR_STDHEP) 
+   if (window->filemode == XDR_STDHEP)
      StdHepXdrEnd(istr);
    else
      closestdhep_();
@@ -138,7 +138,7 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
    window->event.eventNum = nevt;
    window->event.userData = hepevt_.nevhep;
    window->event.nParticles = hepevt_.nhep;
-   window->event.particles = (PhaseParticle *) 
+   window->event.particles = (PhaseParticle *)
    XtMalloc (hepevt_.nhep * sizeof(PhaseParticle));
    particle = window->event.particles;
    for (i=0; i< hepevt_.nhep; i++, particle++) {
@@ -154,12 +154,12 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
        particle->lastdaughter = hepevt_.jdahep[i][1];
        particle->userData = i;
      }
-     if (window->type == STDHEP_SPACE) { 
-     /* 
+     if (window->type == STDHEP_SPACE) {
+     /*
      * Load Vertex information
      */
        wins = (SpaceWindow *) window;
-       wins->vertices = (SpaceVertex *) 
+       wins->vertices = (SpaceVertex *)
           XtMalloc (hepevt_.nhep * sizeof(SpaceVertex));
       vertex = wins->vertices;
       for (i=0; i< hepevt_.nhep; i++, vertex++) {
@@ -169,24 +169,24 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
         vertex->time = hepevt_.vhep[i][3];
       }
       /*
-      ** Set now reasonable values for slider ranges. Start by computing 
-      ** the real number of vertices. If two vertices are separate by less 
-      ** 1 micron, call it one vertex.. 
+      ** Set now reasonable values for slider ranges. Start by computing
+      ** the real number of vertices. If two vertices are separate by less
+      ** 1 micron, call it one vertex..
       */
       vertex = wins->vertices;
       dmax = 0.;
       wins->numRealVertices = 1;
-      vTempReal = (SpaceVertex *) 
+      vTempReal = (SpaceVertex *)
           XtMalloc (hepevt_.nhep * sizeof(SpaceVertex));
       vtt = vTempReal;
       vtt->x = hepevt_.vhep[0][0];
       vtt->y = hepevt_.vhep[0][1];
-      vtt->z = hepevt_.vhep[0][2];  
+      vtt->z = hepevt_.vhep[0][2];
       vtt->time = hepevt_.vhep[0][3];
       for (i=0; i < hepevt_.nhep; i++, vertex++) {
         xvv = vertex->x; yvv = vertex->y; zvv = vertex->z;
         k = 1;
-        vtt2 = vTempReal; 
+        vtt2 = vTempReal;
         for (j=0; j<wins->numRealVertices; j++, vtt2++) {
           dxsq = (xvv - vtt2->x)*(xvv - vtt2->x);
           dysq = (yvv - vtt2->y)*(yvv - vtt2->y);
@@ -203,38 +203,38 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
             wins->numRealVertices++; vtt++;
             vtt->x = hepevt_.vhep[i][0];
             vtt->y = hepevt_.vhep[i][1];
-            vtt->z = hepevt_.vhep[i][2];  
+            vtt->z = hepevt_.vhep[i][2];
             vtt->time = hepevt_.vhep[i][3];
             }
       }
       /* Realloc and copy to shorten that buffer */
-      wins->realVertices = (SpaceVertex *) 
+      wins->realVertices = (SpaceVertex *)
           XtMalloc (wins->numRealVertices * sizeof(SpaceVertex));
-      vtt = vTempReal; vtt2 = wins->realVertices; 
+      vtt = vTempReal; vtt2 = wins->realVertices;
         for (j=0 ; j<wins->numRealVertices; j++, vtt++, vtt2++) {
       	  vtt2->x = vtt->x;  vtt2->y = vtt->y;  vtt2->z = vtt->z;
       	  vtt2->time = vtt->time;
       	}
       XtFree((char *)vTempReal);
       /*
-      ** Compute stuff to set the scale now... At minimum, the real world 
-      ** coordinate will arbitrarily set to 5 cm 
+      ** Compute stuff to set the scale now... At minimum, the real world
+      ** coordinate will arbitrarily set to 5 cm
       **  ( in case only 1 vertex shows up )
       */
-      if (dmax < 0.5) dmax = 1.;       
+      if (dmax < 0.5) dmax = 1.;
       dmax = 5.0 * dmax;
       wins->minTransl[2] = -dmax/2.; wins->maxTransl[2] = dmax/2.;
       wins->currentTransl[2] = 0.;
       wins->currentScale = dmax;
       wins->maxScale = dmax;
       /*
-      ** Set now the Transverse to Longitudinal aspect ratio. 
-      ** Currently, at the outset, this is a fixed quantity.. 
+      ** Set now the Transverse to Longitudinal aspect ratio.
+      ** Currently, at the outset, this is a fixed quantity..
       */
       wins->minLongToTr = 1.;  wins->maxLongToTr = 10. * DEFAULTLONGTOTR;
-      wins->currentLongToTr = DEFAULTLONGTOTR; 
-      for (k=0; k<2; k++){   
-       wins->minTransl[k] = -1. *  dmax/( 2. * wins->currentLongToTr); 
+      wins->currentLongToTr = DEFAULTLONGTOTR;
+      for (k=0; k<2; k++){
+       wins->minTransl[k] = -1. *  dmax/( 2. * wins->currentLongToTr);
        wins->maxTransl[k] = dmax/( 2. * wins->currentLongToTr);
        wins->currentTransl[k] = 0.;
       }
@@ -252,10 +252,10 @@ void OpenGetStdHep(StdHepWindow *window, int nevt)
       wins->maxMomentum = pmax;
       wins->currentMomToSpace = 2.0 * wins->maxTransl[2] /pmax;
       wins->maxMomToSpace = 10. *  wins->currentMomToSpace;
-              
+
      }
      return;
-}   
+}
 
 void GetDetectorSketch(SpaceWindow *window)
 {
@@ -267,22 +267,22 @@ void GetDetectorSketch(SpaceWindow *window)
     float x1, y1, z1, x2, y2, z2;
     SpinSegment *spdt;
     Pixel black; /* For possible expansion ( I hate this.. ) */
-    
+
 
     /*
     ** Scrap the previous detector sketch
     **
-    */    
+    */
     if (window->detectorSegments != NULL)
          XtFree((char *)window->detectorSegments);
     window->nDetectorSegments = 0;
-    ifile = GetExistingFilename(window->shell, 
+    ifile = GetExistingFilename(window->shell,
                      "Detector Sketch File", filename);
     if (ifile == GFN_CANCEL) {
        return;
     }
     /*
-    ** Scan the file once, to read the number of segments one has to 
+    ** Scan the file once, to read the number of segments one has to
     **	allocate.
     */
     fileD = fopen(filename, "r");
@@ -295,14 +295,14 @@ void GetDetectorSketch(SpaceWindow *window)
         perror(" Error Reading Detector Sketch file, check file or format ");
         ok = False;
         }
-      npts = sscanf(line, " %f %f %f %f %f %f ", 
+      npts = sscanf(line, " %f %f %f %f %f %f ",
             &x1, &y1, &z1, &x2,  &y2, &z2);
       if (ok && (npts == 6)) nSegments++;
     }
     fclose(fileD);
     if (nSegments == 0) return;
     window->nDetectorSegments = nSegments;
-    window->detectorSegments = 
+    window->detectorSegments =
            (SpinSegment *)XtMalloc(sizeof(SpinSegment) * nSegments);
     ok = True;
     spdt = window->detectorSegments;
@@ -310,7 +310,7 @@ void GetDetectorSketch(SpaceWindow *window)
     while (ok) {
       ll = fgets(line, 131, fileD);
       if (ll == NULL) ok = False;
-      npts = sscanf(line, " %f %f %f %f %f %f ", 
+      npts = sscanf(line, " %f %f %f %f %f %f ",
             &x1, &y1, &z1, &x2,  &y2, &z2);
       if (ok && (npts == 6)) {
         spdt->x1 = (double) x1;
@@ -323,30 +323,30 @@ void GetDetectorSketch(SpaceWindow *window)
        }
     }
     fclose(fileD);
-} 
-    
+}
+
 
 void LoadColorCodeEvent(PhaseWindow *window)
 {
 	PhaseParticle  *pt;
-	
+
 	window->colorcode.eventNum = -9999;
 	window->colorcode.nParticles = 36;
 	window->colorcode.userData = 0;
-	window->colorcode.particles = 
+	window->colorcode.particles =
 	(PhaseParticle *) XtMalloc(sizeof(PhaseParticle) *
-	                 window->colorcode.nParticles);  
+	                 window->colorcode.nParticles);
         pt = window->colorcode.particles;
-        
-        /* Top Level : a gluino, a neutral Higgs, a charged Higgs, a gluon */ 
-        		 
+
+        /* Top Level : a gluino, a neutral Higgs, a charged Higgs, a gluon */
+
 	pt->id = 47; pt->mother = 0; pt->firstdaughter = 0; pt++;
 	pt->id = 25; pt->mother = 0; pt->firstdaughter = 5; pt++;
 	pt->id = 33; pt->mother = 0; pt->firstdaughter = 14; pt++;
 	pt->id = 9; pt->mother = 0; pt->firstdaughter = 23; pt++;
-	
-        /* 4 Part. next : Electrweak Bosons from neutral Higgs  */ 
-        		 
+
+        /* 4 Part. next : Electrweak Bosons from neutral Higgs  */
+
 	pt->id = -24; pt->mother = 2; pt->firstdaughter = 8; pt++;
 	pt->id = 24; pt->mother = 2; pt->firstdaughter = 10; pt++;
 	pt->id = 23; pt->mother = 2; pt->firstdaughter = 12; pt++;
@@ -356,10 +356,10 @@ void LoadColorCodeEvent(PhaseWindow *window)
 	pt->id = 13; pt->mother = 6; pt->firstdaughter = 0; pt++;
 	pt->id = 11; pt->mother = 7; pt->firstdaughter = 0; pt++;
 	pt->id = -11; pt->mother = 7; pt->firstdaughter =0; pt++;
-	
+
         /* 13 Part., next,
-          Electrweak Bosons from Charged Higgs: into bare quarks.  */ 
-        		 
+          Electrweak Bosons from Charged Higgs: into bare quarks.  */
+
 	pt->id = -24; pt->mother = 3; pt->firstdaughter = 17; pt++;
 	pt->id = 24; pt->mother = 3; pt->firstdaughter = 19; pt++;
 	pt->id = 24; pt->mother = 3; pt->firstdaughter = 21; pt++;
@@ -369,10 +369,10 @@ void LoadColorCodeEvent(PhaseWindow *window)
 	pt->id = 3; pt->mother = 15; pt->firstdaughter = 0; pt++;
 	pt->id = 2; pt->mother = 16; pt->firstdaughter = 0; pt++;
 	pt->id = 1; pt->mother = 16; pt->firstdaughter =0; pt++;
-	
-        /* 22 Part, next : Gluon fragments into B Bbar, B decay 
-        		First B...  */ 
-        		 
+
+        /* 22 Part, next : Gluon fragments into B Bbar, B decay
+        		First B...  */
+
 	pt->id = -511; pt->mother = 4; pt->firstdaughter = 25; pt++;
 	pt->id = 511; pt->mother = 4; pt->firstdaughter = 31; pt++;
 	pt->id = 443; pt->mother = 23; pt->firstdaughter = 27; pt++;
@@ -383,7 +383,7 @@ void LoadColorCodeEvent(PhaseWindow *window)
 	pt->id = -211; pt->mother = 26; pt->firstdaughter = 0; pt++;
 
         /* 30 Part. defined, the second B decays */
-        
+
 	pt->id = 421; pt->mother = 24; pt->firstdaughter = 33; pt++;
 	pt->id = 111; pt->mother = 24; pt->firstdaughter = 35; pt++;
 	pt->id = -321; pt->mother = 31; pt->firstdaughter = 0; pt++;

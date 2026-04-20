@@ -34,7 +34,7 @@ C----Nucl.\ Phys.\  B {\bf 338}, 349 (1990).
      . si,tabar,ieps,iep2,iep3,mp2sq,mp3sq,mean,rexs,imxs
       double complex fac,cxs(3),cx2(3),cx3(3),
      . xs,Ires(-2:0),qllnrat,xlog,cln,qlcLi2omx2,qlcLi2omx3
- 
+
       m2sq=Y(2,2)
       m3sq=Y(3,3)
       m4sq=Y(4,4)
@@ -48,13 +48,13 @@ C-----Assign s and t so as to agree with notation of BD
       m4=sqrt(m4sq)
       mean=sqrt(m3sq*musq)
 
-C     iepsi gives the sign of the imaginary part of K   
-      call qlkfn(cxs,ieps,-si,m2,m4)     
-      call qlkfn(cx2,iep2,-mp2sq,m2,m3)     
-      call qlkfn(cx3,iep3,-mp3sq,m3,m4)     
-      
+C     iepsi gives the sign of the imaginary part of K
+      call qlkfn(cxs,ieps,-si,m2,m4)
+      call qlkfn(cx2,iep2,-mp2sq,m2,m3)
+      call qlkfn(cx3,iep3,-mp3sq,m3,m4)
+
       xs=cxs(1)
-      rexs=dreal(xs) 
+      rexs=dreal(xs)
       imxs=dimag(xs)
       if ((qlzero(rexs-1d0)) .and. (qlzero(imxs))) then
       fac=dcmplx(-half/(m2*m4*tabar))
@@ -67,12 +67,12 @@ C     special case x2=x3=1
      .     qlzero(dimag(cx2(1)-cx3(1))) .and.
      .     qlzero(dreal(cx2(1))-1d0) .and.
      .     qlzero(dimag(cx2(1)))) then
-      Ires(0) = Ires(0) + dcmplx(4d0) 
-C     special case x2=x3 /= 1 
+      Ires(0) = Ires(0) + dcmplx(4d0)
+C     special case x2=x3 /= 1
       elseif (qlzero(dreal(cx2(1)-cx3(1))) .and.
      .     qlzero(dimag(cx2(1)-cx3(1)))) then
       Ires(0) = Ires(0) + ctwo
-     .+2d0*(cx2(1)**2+cone)*cln(cx2(1),iep2)/(cx2(1)**2-cone) 
+     .+2d0*(cx2(1)**2+cone)*cln(cx2(1),iep2)/(cx2(1)**2-cone)
       else
       Ires(0)=Ires(0)
      . -(cone+cx2(1)*cx3(1))/(cone-cx2(1)*cx3(1))
@@ -80,14 +80,14 @@ C     special case x2=x3 /= 1
      . -(cone+cx2(1)/cx3(1))/(cone-cx2(1)/cx3(1))
      . *(cln(cx2(1),iep2)-cln(cx3(1),iep3))
       endif
-         
+
       else
       fac=dcmplx(-1d0/(m2*m4*tabar))*cxs(1)/(cone-cxs(1)**2)
       xlog=cln(xs,ieps)
       Ires(-2)=czip
       Ires(-1)=-xlog
       Ires(0)=-2d0*xlog*qllnrat(mean,tabar)
-     . +cln(cx2(1),iep2)**2 +cln(cx3(1),iep3)**2 
+     . +cln(cx2(1),iep2)**2 +cln(cx3(1),iep3)**2
      . -qlcLi2omx2(xs,xs,ieps,ieps)
      . +qlcLi2omx3(cxs(1),cx2(1),cx3(1),ieps,iep2,iep3)
      . +qlcLi2omx3(cxs(1),cone/cx2(1),cone/cx3(1),ieps,-iep2,-iep3)
@@ -100,6 +100,3 @@ C     special case x2=x3 /= 1
       enddo
       return
       end
-
-
-

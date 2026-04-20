@@ -2,12 +2,12 @@
 C
 C Modules
 C
-      use %(proc_prefix)sPOLYNOMIAL_CONSTANTS      
-C 
+      use %(proc_prefix)sPOLYNOMIAL_CONSTANTS
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C    
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
 	  INTEGER    NCOMB
@@ -29,7 +29,7 @@ C
 C     These are constants related to the split orders
       INTEGER    NSO, NSQUAREDSO, NAMPSO
 	  PARAMETER (NSO=%(nSO)d, NSQUAREDSO=%(nSquaredSO)d, NAMPSO=%(nAmpSO)d)
-C  
+C
 C ARGUMENTS
 C
       %(real_dp_format)s P(0:3,NEXTERNAL)
@@ -43,14 +43,14 @@ C
 
 	  LOGICAL DUMMYFALSE
 	  DATA DUMMYFALSE/.FALSE./
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       %(include_vector)s
       include 'coupl.inc'
 	  include 'mp_coupl.inc'
 
-	  INTEGER HELOFFSET	  
+	  INTEGER HELOFFSET
 	  INTEGER GOODHEL(NCOMB)
 	  LOGICAL GOODAMP(NSQUAREDSO,NLOOPGROUPS)
 	  common/%(proc_prefix)sFilters/GOODAMP,GOODHEL,HELOFFSET
@@ -61,7 +61,7 @@ C
 
 	  INTEGER SQSO_TARGET
 	  common/%(proc_prefix)sSOCHOICE/SQSO_TARGET
-      
+
 	  LOGICAL UVCT_REQ_SO_DONE,MP_UVCT_REQ_SO_DONE,CT_REQ_SO_DONE,MP_CT_REQ_SO_DONE,LOOP_REQ_SO_DONE,MP_LOOP_REQ_SO_DONE,CTCALL_REQ_SO_DONE,FILTER_SO
 	  common/%(proc_prefix)sSO_REQS/UVCT_REQ_SO_DONE,MP_UVCT_REQ_SO_DONE,CT_REQ_SO_DONE,MP_CT_REQ_SO_DONE,LOOP_REQ_SO_DONE,MP_LOOP_REQ_SO_DONE,CTCALL_REQ_SO_DONE,FILTER_SO
 
@@ -85,7 +85,7 @@ C
       %(complex_dp_format)s AMPL(3,NCTAMPS)
 ## } else {
       %(complex_dp_format)s AMPL(3,NLOOPAMPS)
-## } 
+## }
 	  common/%(proc_prefix)sAMPL/AMPL
 
 C

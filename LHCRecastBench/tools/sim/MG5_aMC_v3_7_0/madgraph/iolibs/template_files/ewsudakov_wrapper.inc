@@ -111,7 +111,7 @@ if (.not.good_hel(ihel).and.sud_filter_hel) cycle
 
 C call the born amplitude and store the result
 call sborn_onehel(p,nhel(1,ihel),ihel,ans_summed)
-amp_split_born_onehel(:) = amp_split_ewsud(:) 
+amp_split_born_onehel(:) = amp_split_ewsud(:)
 
 if (firsttime_hel(ihel)) then
     good_hel(ihel) = .false.
@@ -188,7 +188,7 @@ PARAMETER ( NCOMB=  %(ncomb)d )
 INTEGER NHEL(NEXTERNAL-1,NCOMB)
 %(helicity_lines)s
 
-hels(:) = NHEL(:, ihel) 
+hels(:) = NHEL(:, ihel)
 
 return
 end
@@ -200,9 +200,9 @@ C      sudakov MEs so that they have the same identical-particle
 C      factor as the Born in the specific FKS configuration
 implicit none
 integer igold_me
-C 
+C
 integer sdk_ident_goldstone(%(ngoldstone_me)d)
-data sdk_ident_goldstone / %(sdk_ident_goldstone)s / 
+data sdk_ident_goldstone / %(sdk_ident_goldstone)s /
 C
 integer nfksprocess
 common/c_nfksprocess/nfksprocess
@@ -214,4 +214,3 @@ data bornspincol / %(bornspincol)d /
 
 return
 end
-

@@ -151,7 +151,7 @@ For the input, the same holds as for the scalar function.
   subroutine olo_an( rslt ,rank ,mm ,rmu )
 
 The 1-point Passarino-Veltman functions, up to rank 4.
-The complex output is of shape rslt(0:2,0:2). 
+The complex output is of shape rslt(0:2,0:2).
 For input rank=0, only rslt(:,0  ) is filled,
 For input rank=1, only rslt(:,0  ) is filled,
 For input rank=2, only rslt(:,0:1) is filled.
@@ -170,7 +170,7 @@ For the input, the same holds as for the scalar function.
   subroutine olo_bn( rslt ,rank ,pp,m1,m2 ,rmu )
 
 The 2-point Passarino-Veltman functions, up to rank 4.
-The complex output is of shape rslt(0:2,0:8). 
+The complex output is of shape rslt(0:2,0:8).
 For input rank=0, only rslt(:,0  ) is filled,
 For input rank=1, only rslt(:,0:1) is filled,
 For input rank=2, only rslt(:,0:3) is filled.
@@ -198,4 +198,3 @@ These functions give the precisions at which the routines are operating.
 They return the number of decimals.
 
 ########################################################################
-

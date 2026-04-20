@@ -26,7 +26,7 @@
 *		aai(4)		real	the other roots			*
 *		laai		logical	if .TRUE. aai are defined	*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -49,7 +49,7 @@
 *
 	include 'ff.h'
 *
-*  #] declarations: 
+*  #] declarations:
 *  #[ get ai:
 	if ( lwrite ) print *,'ffai: xpi = ',(xpi(i),i=1,10),ier
 *
@@ -157,7 +157,7 @@
 	    ai(1) = ai(4)*xpi(3)/piDpj(7,1)
 	endif
 	ier = ier2
-*  #] get ai: 
+*  #] get ai:
 *  #[ get daiaj:
 	ier2 = ier
 	do 120 i=1,4
@@ -179,7 +179,7 @@
 		    ier1 = ier
 		    call ffwarn(146,ier1,daiaj(j,i),ai(i))
 		    goto 105
-*  #]		    del2s=0: 
+*  #]		    del2s=0:
 		elseif ( lnasty .and. i.eq.1 ) then
 		    ier1 = ier
 		    call ffwarn(146,ier1,daiaj(j,i),ai(i))
@@ -203,7 +203,7 @@
      +			del3m(1)/del2s,-delps/sdel2s,ier1)
 		    daiaj(2,1) = -ai(1)*ai(2)*da2a1m
 		    goto 104
-*  #]		    daiaj(2,1): 
+*  #]		    daiaj(2,1):
 		elseif ( i .eq. 1 .and. j .eq. 3 ) then
 *  #[		    daiaj(3,1):
 *
@@ -219,7 +219,7 @@
      +			del3m(1)/del2s,delps/sdel2s,ier1)
 		    daiaj(3,1) = -ai(1)*ai(3)*da1a3m
 		    goto 104
-*  #]		    daiaj(3,1): 
+*  #]		    daiaj(3,1):
 		elseif ( i .eq. 1 .and. j .eq. 4 ) then
 *  #[		    daiaj(4,1):
 *
@@ -235,7 +235,7 @@
      +			del2s,delps/sdel2s,ier1)
 		    daiaj(4,1) = ai(1)*ai(4)*da1a4m
 		    goto 104
-*  #]		    daiaj(4,1): 
+*  #]		    daiaj(4,1):
 		elseif ( i .eq. 2 .and. j .eq. 3 ) then
 *  #[		    daiaj(3,2):
 *
@@ -251,7 +251,7 @@
      +			del3m(1)/del2s,delps/sdel2s,ier1)
 		    daiaj(3,2) = ai(2)*ai(3)*da2a3m
 		    goto 104
-*  #]		    daiaj(3,2): 
+*  #]		    daiaj(3,2):
 		elseif ( i .eq. 2 .and. j .eq. 4 ) then
 *  #[		    daiaj(4,2):
 *
@@ -268,7 +268,7 @@
      +			del2s,delps/sdel2s,ier1)
 		    daiaj(4,2) = -ai(2)*ai(4)*da2a4m
 		    goto 104
-*  #]		    daiaj(4,2): 
+*  #]		    daiaj(4,2):
 		elseif ( i .eq. 3 .and. j .eq. 4 ) then
 *  #[		    daiaj(4,3):
 *
@@ -279,7 +279,7 @@
      +			xpi(7),sdel2s,ier1)
 		    daiaj(4,3) = ai(3)*ai(4)*da3a4m
 		    goto 104
-*  #]		    daiaj(4,3): 
+*  #]		    daiaj(4,3):
 		endif
   104		continue
 		if ( lwrite ) print *,'daiaj(',j,i,')+= ',daiaj(j,i),ier
@@ -289,14 +289,14 @@
   110	    continue
   120	continue
 	ier = ier2
-*  #] get daiaj: 
+*  #] get daiaj:
 *  #[ debug output:
 	if ( lwrite ) then
 	    print *,'ffai: Found Ai: ',ai
 	    print *,'      Ai-Aj:    ',daiaj
 	    print *,'      ier       ',ier
 	endif
-*  #] debug output: 
+*  #] debug output:
 *###] ffai:
 	end
 *###[ fftran:
@@ -328,7 +328,7 @@
 *									*
 *	Calls:	ffxlmb,...						*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -353,7 +353,7 @@
 	include 'ff.h'
 *
 	ifirst = 0
-*  #] declarations: 
+*  #] declarations:
 *  #[ si.sj -> ti.tj:
 *
 *	calculate the dotproducts of ti(i) = ai*si(i): no problems.
@@ -398,7 +398,7 @@
 	    endif
 	endif
 *
-*  #] si.sj -> ti.tj: 
+*  #] si.sj -> ti.tj:
 *  #[ si.pj -> ti.qj:
 *
 *	The dotproducts ti.qjk are still not too bad
@@ -480,7 +480,7 @@
      +		    qiDqj(i,3)-qiDqj(i,4),ier
   100	    continue
 	endif
-*  #] si.pj -> ti.qj: 
+*  #] si.pj -> ti.qj:
 *  #[ pi.pj -> qi.qj:
 	do 180 i=1,3
 	    do 170 j=i+1,4
@@ -614,7 +614,7 @@
      +			'qiDqj, i=',i,' j=5810 ',xheck,smax,ier
   840	    continue
 	endif
-*  #] pi.pj -> qi.qj: 
+*  #] pi.pj -> qi.qj:
 *  #[ si^2 - sj^2:
 *
 *	the differences may be awkward
@@ -654,7 +654,7 @@
 		ier2 = max(ier2,ier0)
   130	    continue
   140	continue
-*  #] si^2 - sj^2: 
+*  #] si^2 - sj^2:
 *  #[ si^2 - pj^2:
 	do 210 i=1,4
 	    do 200 j=1,4
@@ -785,7 +785,7 @@
   190		continue
   200	    continue
   210	continue
-*  #] si^2 - pj^2: 
+*  #] si^2 - pj^2:
 *  #[ pi^2 - pj^2:
 	do 280 i=1,4
 	    do 270 j=i+1,4
@@ -931,7 +931,7 @@
   270	    continue
   280	continue
 	ier = ier2
-*  #] pi^2 - pj^2: 
+*  #] pi^2 - pj^2:
 *  #[ debug:
 	if ( lwrite ) then
 	    print *,'fftran: transformed momenta'
@@ -939,6 +939,6 @@
 	    print '(10e16.8)',qiDqj
 	    print *,'ier = ',ier
 	endif
-*  #] debug: 
+*  #] debug:
 *###] fftran:
 	end

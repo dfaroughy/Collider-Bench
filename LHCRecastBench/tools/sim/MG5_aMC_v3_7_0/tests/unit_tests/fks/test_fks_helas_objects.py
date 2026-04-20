@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -46,14 +46,14 @@ class testFKSHelasObjects(unittest.TestCase):
            not hasattr(self, 'myproc3'):
 
             myleglist1 = MG.LegList()
-            # PROCESS: u g > u g 
+            # PROCESS: u g > u g
             mylegs = [{'id': 2, 'number': 1, 'state': False},
                       {'id': 21, 'number': 2, 'state': False},
                       {'id': 2, 'number': 3, 'state': True},
                       {'id': 21, 'number': 4, 'state': True}]
             for i in mylegs:
                 myleglist1.append(MG.Leg(i))
-                
+
             myleglist3 = MG.LegList()
             # PROCESS: d d~ > u u~
             mylegs = [{'id': 1, 'number': 1, 'state': False},
@@ -65,7 +65,7 @@ class testFKSHelasObjects(unittest.TestCase):
 
             mymodel = import_ufo.import_model('sm')
 
-            dict1 = {'legs' : myleglist1, 
+            dict1 = {'legs' : myleglist1,
                                'model': mymodel,
                                'id': 1,
                                'required_s_channels':[],
@@ -78,8 +78,8 @@ class testFKSHelasObjects(unittest.TestCase):
                                'perturbation_couplings' : ['QCD'],
                                'decay_chains': MG.ProcessList(),
                                'overall_orders': {}}
-            
-            dict1_qed = {'legs' : myleglist1, 
+
+            dict1_qed = {'legs' : myleglist1,
                                'model': mymodel,
                                'id': 1,
                                'required_s_channels':[],
@@ -106,7 +106,7 @@ class testFKSHelasObjects(unittest.TestCase):
                                'perturbation_couplings' : ['QCD'],
                                'decay_chains': MG.ProcessList(),
                                'overall_orders': {}}
-            
+
             dict3_qed = {'legs' : myleglist3,
                                'model': mymodel,
                                'id': 1,
@@ -120,7 +120,7 @@ class testFKSHelasObjects(unittest.TestCase):
                                'perturbation_couplings' : ['QED'],
                                'decay_chains': MG.ProcessList(),
                                'overall_orders': {}}
-            
+
             testFKSHelasObjects.mymodel = mymodel
             testFKSHelasObjects.myleglist3 = myleglist3
             testFKSHelasObjects.myproc1 = MG.Process(dict1)
@@ -130,7 +130,7 @@ class testFKSHelasObjects(unittest.TestCase):
 
 
     def test_fks_helas_multi_process_ppz(self):
-        """tests the correct recycling of color infos for MEs with the same 
+        """tests the correct recycling of color infos for MEs with the same
         color flow (e.g. uu~>z and dd~>z)
         """
         p= [21, 1, 2, 3, 4, -1, -2, -3, -4]
@@ -255,8 +255,8 @@ class testFKSHelasObjects(unittest.TestCase):
 
 
     def test_fks_helas_multi_process_ppwj(self):
-        """tests the correct initialization of a FKSHelasMultiProcess, 
-        given an FKSMultiProcess. This also checks that, when combining 
+        """tests the correct initialization of a FKSHelasMultiProcess,
+        given an FKSMultiProcess. This also checks that, when combining
         2 FKSHelasProcess using the add_process function, the real
         emissions are combined consistently.
         The p p > w+ j process is studied
@@ -269,7 +269,7 @@ class testFKSHelasObjects(unittest.TestCase):
         # Define the multiprocess
         my_multi_leglist = MG.MultiLegList([copy.copy(leg) for leg in [p_leg] * 2] \
                     + MG.MultiLegList([w_leg, j_leg]))
-        
+
         my_process_definition = MG.ProcessDefinition({ \
                         'born_sq_orders': {'QED':2,'QCD':2},
                         'squared_orders': {'QED':2,'QCD':4},
@@ -284,7 +284,7 @@ class testFKSHelasObjects(unittest.TestCase):
                 {'process_definitions': my_process_definitions})
         my_helas_mp = fks_helas.FKSHelasMultiProcess(my_multi_process, gen_color = False)
 
-        #there are 6  borns 
+        #there are 6  borns
         self.assertEqual(len(my_helas_mp.get('matrix_elements')),6)
         #born processes are initiated by : gu, gdx, ug, udx, dxg, dxu
         n_real_processes = [8,8,8,6,8,6]
@@ -340,7 +340,7 @@ class testFKSHelasObjects(unittest.TestCase):
                     [ [-1,2,24,3,-3], [-1,2,24,4,-4], [-3,4,24,1,-1], [-3,4,24,2,-2] ], #subrpocs for real 5
                     [ [-1,2,24,2,-2], [-3,4,24,4,-4]] #subrpocs for real 6
                 ]]
-                  
+
         #each born correspond to 2 partonic processes
         for i, me in enumerate(my_helas_mp.get('matrix_elements')):
             # gu and gc
@@ -352,7 +352,7 @@ class testFKSHelasObjects(unittest.TestCase):
 
 
     def test_fks_helas_multi_process_pptt(self):
-        """tests the correct initialization of a FKSHelasMultiProcess, 
+        """tests the correct initialization of a FKSHelasMultiProcess,
         given an FKSMultiProcess. This test also checks that each real
         process corresponds to the correct number of FKS configurations.
         The p p > t t~ process is studied
@@ -366,7 +366,7 @@ class testFKSHelasObjects(unittest.TestCase):
         # Define the multiprocess
         my_multi_leglist = MG.MultiLegList([copy.copy(leg) for leg in [p_leg] * 2] \
                     + MG.MultiLegList([t, tx]))
-        
+
         my_process_definition = MG.ProcessDefinition({ \
                         'born_sq_orders': {'QCD':4, 'QED':0},
                         'squared_orders': {'QCD':6, 'QED':0},
@@ -380,8 +380,8 @@ class testFKSHelasObjects(unittest.TestCase):
         my_multi_process = fks_base.FKSMultiProcess(\
                 {'process_definitions': my_process_definitions})
         my_helas_mp = fks_helas.FKSHelasMultiProcess(my_multi_process, False)
-        
-        #there are 3 (gg uux uxu initiated) borns 
+
+        #there are 3 (gg uux uxu initiated) borns
         self.assertEqual(len(my_helas_mp.get('matrix_elements')),3)
         # and 25 real matrix elements
         self.assertEqual(len(my_helas_mp.get('real_matrix_elements')), 25)
@@ -417,17 +417,17 @@ class testFKSHelasObjects(unittest.TestCase):
         self.assertEqual(len(my_helas_mp.get('matrix_elements')[2].real_processes[1].fks_infos), 1)
         self.assertEqual(len(my_helas_mp.get('matrix_elements')[2].real_processes[2].matrix_element['processes']), 4)
         self.assertEqual(len(my_helas_mp.get('matrix_elements')[2].real_processes[2].fks_infos), 1)
-        
-    
+
+
     def test_fks_helas_real_process_init(self):
-        """tests the correct initialization of an FKSHelasRealProcess, from a 
+        """tests the correct initialization of an FKSHelasRealProcess, from a
         FKSRealProc. The process uu~>dd~ is used as born.
         For the real we use dd~>uu~(j) g(i) and dd~>uu~(j)a(i).
         We test The correct initialization of:
         --i/j fks
         --permutation
         --matrix element
-        """         
+        """
         #dd~> uu~
         fks3 = fks_base.FKSProcess(self.myproc3)
         fks3_qed = fks_base.FKSProcess(self.myproc3_qed)
@@ -442,7 +442,7 @@ class testFKSHelasObjects(unittest.TestCase):
         amp_id_list_qed = []
         me_list_qed = []
         me_id_list_qed = []
-        
+
         fksleglist.append(fks_common.to_fks_leg(MG.Leg({'id' : 21,
                                                  'state' : True,
                                                  'number' : 5,
@@ -453,7 +453,7 @@ class testFKSHelasObjects(unittest.TestCase):
                                                  'number' : 5,
                                                  'from_group' : True}),
                                                  self.mymodel))
-        
+
         fksleglist[0]['fks']='n'
         fksleglist[1]['fks']='n'
         fksleglist[2]['fks']='n'
@@ -464,7 +464,7 @@ class testFKSHelasObjects(unittest.TestCase):
         fksleglist_qed[2]['fks']='n'
         fksleglist_qed[3]['fks']='j'
         fksleglist_qed[4]['fks']='i'
-        
+
         real_proc = fks_base.FKSRealProcess(fks3.born_amp['process'], fksleglist, 4, 0,\
                                             [[1,-1,2,-2]],\
                                             ['QCD'], perturbed_orders = ['QCD'])
@@ -486,13 +486,13 @@ class testFKSHelasObjects(unittest.TestCase):
         target_me = helas_objects.HelasMatrixElement(real_proc.amplitude)
         target_me_qed = helas_objects.HelasMatrixElement(real_proc_qed.amplitude)
         self.assertEqual(helas_real_proc.matrix_element, target_me)
-        self.assertEqual(helas_real_proc.matrix_element.get('color_matrix'), 
+        self.assertEqual(helas_real_proc.matrix_element.get('color_matrix'),
                          target_me.get('color_matrix'))
         self.assertEqual(helas_real_proc_qed.matrix_element, target_me_qed)
-        self.assertEqual(helas_real_proc_qed.matrix_element.get('color_matrix'), 
+        self.assertEqual(helas_real_proc_qed.matrix_element.get('color_matrix'),
                          target_me_qed.get('color_matrix'))
-        
-        
+
+
     def test_fks_helas_process_init(self):
         """tests the correct initialization of a FKSHelasProcess object.
         in particular checks:
@@ -507,12 +507,12 @@ class testFKSHelasObjects(unittest.TestCase):
         fks1_qed = fks_base.FKSProcess(self.myproc1_qed)
         #dd~> uu~
         fks3 = fks_base.FKSProcess(self.myproc3)
-        
+
         pdg_list1 = []
         real_amp_list1 = diagram_generation.AmplitudeList()
         pdg_list1_qed = []
         real_amp_list1_qed = diagram_generation.AmplitudeList()
-        pdg_list3 = [] 
+        pdg_list3 = []
         real_amp_list3 = diagram_generation.AmplitudeList()
         fks1.generate_reals(pdg_list1, real_amp_list1)
         fks1_qed.generate_reals(pdg_list1_qed, real_amp_list1_qed)
@@ -533,7 +533,7 @@ class testFKSHelasObjects(unittest.TestCase):
                                     fks1_qed, me_list_qed, me_id_list_qed)
         helas_born_proc3 = fks_helas.FKSHelasProcess(
                                     fks3, me_list3, me_id_list3)
-        
+
         self.assertEqual(helas_born_proc.born_me,
                           helas_objects.HelasMatrixElement(
                                     fks1.born_amp))
@@ -560,7 +560,7 @@ class testFKSHelasObjects(unittest.TestCase):
         misc.sprint('Check this')
         #self.assertNotEqual(helas_born_proc.born_me,\
         #                    helas_born_proc_qed.born_me)
-        for a,b in zip(helas_born_proc3.real_processes, 
+        for a,b in zip(helas_born_proc3.real_processes,
                     helas_born_proc.real_processes):
             self.assertNotEqual(a,b)
 
@@ -592,11 +592,11 @@ class testFKSHelasObjects(unittest.TestCase):
         tar_legpair_qed = [[1,3]]
         self.assertEqual(legpair,tar_legpair)
         self.assertEqual(legpair_qed,tar_legpair_qed)
-        
+
     def test_get_fks_info_list(self):
-        """tests that the get_fks_info_list of a FKSHelasProcess 
+        """tests that the get_fks_info_list of a FKSHelasProcess
         returns the correct list of configurations/fks_configs"""
-        
+
         #ug> ug
         fks1 = fks_base.FKSProcess(self.myproc1)
         me_list=[]
@@ -703,5 +703,3 @@ class testFKSHelasObjects(unittest.TestCase):
             self.assertEqual(a,b)
 
         self.assertEqual(goal, helas_born_proc.get_fks_info_list())
-
-        

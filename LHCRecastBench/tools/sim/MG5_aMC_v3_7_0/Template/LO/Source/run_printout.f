@@ -19,7 +19,7 @@ c
 c
 c output all info
 c
-      write(6,*)            
+      write(6,*)
       write(6,*)  'Collider parameters:'
       write(6,*)  '--------------------'
 
@@ -38,21 +38,21 @@ c
 
       ene=2d0*dsqrt(ebeam(1)*ebeam(2))
 
-      write(6,*)  
+      write(6,*)
       write(6,*) 'Running at ',ab(1),ab(2),'  machine @ ', ene, ' GeV'
       write(6,*) 'PDF set = ',pdlabel
-      write(6,'(1x,a12,1x,f6.4,a12,i1,a7)') 
+      write(6,'(1x,a12,1x,f6.4,a12,i1,a7)')
      &     'alpha_s(Mz)=', asmz ,' running at ', nloop , ' loops.'
-      if(lpp(1).ne.0.or.lpp(2).ne.0) then    
-      write(6,'(1x,a12,1x,f6.4,a12,i1,a7)') 
+      if(lpp(1).ne.0.or.lpp(2).ne.0) then
+      write(6,'(1x,a12,1x,f6.4,a12,i1,a7)')
      &     'alpha_s(Mz)=', asmz ,' running at ', nloop , ' loops. Value tuned to the PDF set.'
-      else 
-      write(6,'(1x,a12,1x,f6.4,a12,i1,a7)') 
+      else
+      write(6,'(1x,a12,1x,f6.4,a12,i1,a7)')
      &     'alpha_s(Mz)=', asmz ,' running at ', nloop , ' loops. Value set in param_card.dat'
-      endif      
-           
+      endif
+
       if(fixed_ren_scale) then
-         write(6,*) 'Renormalization scale fixed @ ',scale 
+         write(6,*) 'Renormalization scale fixed @ ',scale
       else
          write(6,*) 'Renormalization scale set on event-by-event basis'
       endif
@@ -69,10 +69,9 @@ c
      &        dsqrt(q2fact(1)),dsqrt(q2fact(2))
 
       endif
-   
-      write(6,*)  
-      write(6,*)  
-      
+
+      write(6,*)
+      write(6,*)
+
       return
       end
-

@@ -16,7 +16,7 @@
 /*
  *  To use DialogF, #include <stdarg.h>
  */
- 
+
 #define DF_ERR 1			/* Error Dialog       */
 #define DF_INF 2			/* Information Dialog */
 #define DF_MSG 3			/* Message Dialog     */

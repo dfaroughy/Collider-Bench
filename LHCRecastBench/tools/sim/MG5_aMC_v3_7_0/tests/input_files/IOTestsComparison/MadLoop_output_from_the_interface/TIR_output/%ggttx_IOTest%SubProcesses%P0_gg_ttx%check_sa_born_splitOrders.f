@@ -7,21 +7,21 @@ C     Fabio Maltoni - 3rd Febraury 2007
 C     *****************************************************************
 C     *********
       IMPLICIT NONE
-C     
-C     CONSTANTS  
-C     
+C
+C     CONSTANTS
+C
       REAL*8 ZERO
       PARAMETER (ZERO=0D0)
       INTEGER NSPLITORDERS
       PARAMETER (NSPLITORDERS=1)
-C     
+C
 C     INCLUDE FILES
-C     
+C
 C     ---  the include file with the values of the parameters and
-C      masses	
+C      masses
       INCLUDE 'coupl.inc'
 C     integer nexternal and number particles (incoming+outgoing) in
-C      the me 
+C      the me
       INTEGER NEXTERNAL, NINCOMING
       PARAMETER (NEXTERNAL=4,NINCOMING=2)
 C     ---  particle masses
@@ -30,9 +30,9 @@ C     ---  particle masses
 C     ---  integer    n_max_cg
       INCLUDE 'ngraphs.inc'  !how many diagrams (could be useful to know...)
 
-C     
+C
 C     LOCAL
-C     
+C
       INTEGER I,J,K
       REAL*8 P(0:3,NEXTERNAL)  ! four momenta. Energy is the zeroth component.
       REAL*8 SQRTS  ! sqrt(s)= center of mass energy
@@ -43,9 +43,9 @@ C
       INTEGER NCHOSEN
       CHARACTER*20 CHOSEN_SO_INDICES(NSPLITORDERS)
 
-C     
+C
 C     EXTERNAL
-C     
+C
       REAL*8 DOT
       EXTERNAL DOT
 
@@ -55,7 +55,7 @@ C
 C     -----
 C     BEGIN CODE
 C     -----
-C     
+C
 C     Start by initializing what is the squared split orders indices
 C      chosen
       NCHOSEN=0
@@ -67,9 +67,9 @@ C      chosen
       ENDDO
 
 C     ---  INITIALIZATION CALLS
-C     
+C
 C     ---  Call to initialize the values of the couplings, masses and
-C      widths 
+C      widths
 C     used in the evaluation of the matrix element. The primary
 C      parameters of the
 C     models are read from Cards/param_card.dat. The secondary
@@ -87,13 +87,13 @@ C     in coupl.inc .
       ENDDO
 
 C     ---  Now use a simple multipurpose PS generator (RAMBO) just to
-C      get a 
+C      get a
 C     RANDOM set of four momenta of given masses pmass(i) to be used
-C      to evaluate 
-C     the madgraph matrix-element.       
+C      to evaluate
+C     the madgraph matrix-element.
 C     Alternatevely, here the user can call or set the four momenta at
 C      his will, see below.
-C     
+C
       IF(NINCOMING.EQ.1) THEN
         SQRTS=PMASS(1)
       ELSE
@@ -106,9 +106,9 @@ C
       CALL PRINTOUT()
 
       CALL GET_MOMENTA(SQRTS,PMASS,P)
-C     
-C     write the information on the four momenta 
-C     
+C
+C     write the information on the four momenta
+C
       WRITE (*,*)
       WRITE (*,*) ' Phase space point:'
       WRITE (*,*)
@@ -120,13 +120,13 @@ C
       ENDDO
       WRITE (*,*) '-----------------------------'
 
-C     
+C
 C     Now we can call the matrix element!
-C     
+C
       CALL ML5_0_SMATRIX_SPLITORDERS(P,MATELEMS)
       MATELEM=MATELEMS(0)
       WRITE(*,*) '1) Matrix element for (QCD=4) = ',MATELEMS(1)
-C     
+C
       IF (NCHOSEN.NE.NSPLITORDERS) THEN
         WRITE (*,*) 'Selected squared coupling orders combination for'
      $   //' the sum below:'
@@ -137,18 +137,18 @@ C
       WRITE (*,*) '-----------------------------'
 
 C     c
-C     c      Copy down here (or read in) the four momenta as a string. 
-C     c      
+C     c      Copy down here (or read in) the four momenta as a string.
 C     c
-C     buff(1)=" 1   0.5630480E+04  0.0000000E+00  0.0000000E+00 
+C     c
+C     buff(1)=" 1   0.5630480E+04  0.0000000E+00  0.0000000E+00
 C      0.5630480E+04"
 C     buff(2)=" 2   0.5630480E+04  0.0000000E+00  0.0000000E+00
 C      -0.5630480E+04"
 C     buff(3)=" 3   0.5466073E+04  0.4443190E+03  0.2446331E+04
 C      -0.4864732E+04"
-C     buff(4)=" 4   0.8785819E+03 -0.2533886E+03  0.2741971E+03 
+C     buff(4)=" 4   0.8785819E+03 -0.2533886E+03  0.2741971E+03
 C      0.7759741E+03"
-C     buff(5)=" 5   0.4916306E+04 -0.1909305E+03 -0.2720528E+04 
+C     buff(5)=" 5   0.4916306E+04 -0.1909305E+03 -0.2720528E+04
 C      0.4088757E+04"
 C     c
 C     c      Here the k,E,px,py,pz are read from the string into the
@@ -159,19 +159,19 @@ C     c
 C     do i=1,nexternal
 C     read (buff(i),*) k, P(0,i),P(1,i),P(2,i),P(3,i)
 C     enddo
-C     
+C
 C     c- print the momenta out
-C     
+C
 C     do i=1,nexternal
-C     write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i), 
+C     write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i),
 C     .dsqrt(dabs(DOT(p(0,i),p(0,i))))
 C     enddo
-C     
+C
 C     CALL SMATRIX(P,MATELEM)
-C     
+C
 C     write (*,*) "-------------------------------------------------"
 C     write (*,*) "Matrix element = ", MATELEM, "
-C      GeV^",-(2*nexternal-8)	
+C      GeV^",-(2*nexternal-8)
 C     write (*,*) "-------------------------------------------------"
 
       END
@@ -194,10 +194,10 @@ C     ***********
       SUBROUTINE GET_MOMENTA(ENERGY,PMASS,P)
 C     ---- auxiliary function to change convention between madgraph
 C      and rambo
-C     ---- four momenta. 	  
+C     ---- four momenta.
       IMPLICIT NONE
 C     integer nexternal and number particles (incoming+outgoing) in
-C      the me 
+C      the me
       INTEGER NEXTERNAL, NINCOMING
       PARAMETER (NEXTERNAL=4,NINCOMING=2)
 C     ARGUMENTS
@@ -259,37 +259,37 @@ C     LOCAL
       SUBROUTINE RAMBO(N,ET,XM,P,WT)
 C     *****************************************************************
 C     ******
-C     *                       RAMBO                                   
+C     *                       RAMBO
 C           *
-C     *    RA(NDOM)  M(OMENTA)  B(EAUTIFULLY)  O(RGANIZED)            
+C     *    RA(NDOM)  M(OMENTA)  B(EAUTIFULLY)  O(RGANIZED)
 C           *
-C     *                                                               
+C     *
 C           *
-C     *    A DEMOCRATIC MULTI-PARTICLE PHASE SPACE GENERATOR          
+C     *    A DEMOCRATIC MULTI-PARTICLE PHASE SPACE GENERATOR
 C           *
-C     *    AUTHORS:  S.D. ELLIS,  R. KLEISS,  W.J. STIRLING           
+C     *    AUTHORS:  S.D. ELLIS,  R. KLEISS,  W.J. STIRLING
 C           *
-C     *    THIS IS VERSION 1.0 -  WRITTEN BY R. KLEISS                
+C     *    THIS IS VERSION 1.0 -  WRITTEN BY R. KLEISS
 C           *
 C     *    -- ADJUSTED BY HANS KUIJF, WEIGHTS ARE LOGARITHMIC
 C      (20-08-90)    *
-C     *                                                               
+C     *
 C           *
-C     *    N  = NUMBER OF PARTICLES                                   
+C     *    N  = NUMBER OF PARTICLES
 C           *
-C     *    ET = TOTAL CENTRE-OF-MASS ENERGY                           
+C     *    ET = TOTAL CENTRE-OF-MASS ENERGY
 C           *
-C     *    XM = PARTICLE MASSES ( DIM=NEXTERNAL-nincoming )           
+C     *    XM = PARTICLE MASSES ( DIM=NEXTERNAL-nincoming )
 C           *
-C     *    P  = PARTICLE MOMENTA ( DIM=(4,NEXTERNAL-nincoming) )      
+C     *    P  = PARTICLE MOMENTA ( DIM=(4,NEXTERNAL-nincoming) )
 C           *
-C     *    WT = WEIGHT OF THE EVENT                                   
+C     *    WT = WEIGHT OF THE EVENT
 C           *
 C     *****************************************************************
 C     ******
       IMPLICIT REAL*8(A-H,O-Z)
 C     integer nexternal and number particles (incoming+outgoing) in
-C      the me 
+C      the me
       INTEGER NEXTERNAL, NINCOMING
       PARAMETER (NEXTERNAL=4,NINCOMING=2)
       DIMENSION XM(NEXTERNAL-NINCOMING),P(4,NEXTERNAL-NINCOMING)
@@ -515,10 +515,3 @@ C       * k=56,l=78) put ij=1802, kl=9373
         IRANMR = 97
         JRANMR = 33
         END
-
-
-
-
-
-
-

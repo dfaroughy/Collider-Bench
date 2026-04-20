@@ -1,6 +1,6 @@
       subroutine jvvtlx(ga,gb,sc,g1,g2,xm,xw,jggs)
 c
-c- by RF - Feb. 2006	
+c- by RF - Feb. 2006
 c
 c This subroutine computes an off-shell vector current from the coupling
 c of three gauge bosons and a scalar particle. The outgoing vector
@@ -18,7 +18,7 @@ c       complex jggs(6)         : vector current
 c not used:
 c       real    xm, xw
 c
- 
+
       implicit none
 c--   dimension of the current set to arbitrary length
       INTEGER DIM
@@ -76,7 +76,7 @@ c      include "dimension.inc"
       jggs1(3)= g2(1)*((p1(2)-p2(2))*vab+sva*gb(3)+svb*ga(3))
       jggs1(4)= g2(1)*((p1(3)-p2(3))*vab+sva*gb(4)+svb*ga(4))
       endif
-      
+
       if (g2(2).NE.(0D0,0D0)) then
 
       p12q(1) = p1(0) + p2(0) + q(0)

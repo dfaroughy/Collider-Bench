@@ -13,7 +13,7 @@ c       real    vwidth         : width of OUTPUT vector v
 c
 c output:
 c       complex jio(6)         : vector current          j^mu(<fo|v|fi>)
-c     
+c
       implicit none
       double complex fi(6),fo(6),gc(2),jio(6),c0,c1,c2,c3,cs,d
       double precision q(0:3),vmass,vwidth,q2,vm2

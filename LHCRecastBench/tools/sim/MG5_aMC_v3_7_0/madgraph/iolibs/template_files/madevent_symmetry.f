@@ -16,7 +16,7 @@ c
       include 'cuts.inc'
       include '../../Source/vector.inc'
       include '../../Source/run.inc'
-      
+
       double precision ZERO
       parameter       (ZERO = 0d0)
       integer   maxswitch
@@ -191,7 +191,7 @@ c     112-100
 c     So I add here a safety margin 10.
       nsym=int(dlog10(dble(mapconfig(0))))+13
 
-      ic = 0      
+      ic = 0
 c     ncode is number of digits needed for the code
       ncode=int(dlog10(3d0)*(max_particles-3))+1
       do i=1,mapconfig(0)
@@ -204,7 +204,7 @@ c     ncode is number of digits needed for the code
                   iarray(j)=0   !Assume no cuts on BW
                enddo
                do j=1,nexternal-3
-c                  write(*,*) 'Width',prwidth(-j,i),j,ic                 
+c                  write(*,*) 'Width',prwidth(-j,i),j,ic
             if (.not.(iforest(1,-j,i) .eq. 1 .or. prwidth(-j,i).le.0.or.
      &                       (nincoming.eq.2.and.iforest(1,-j,i) .eq. 2))) then
                      nbw=nbw+1
@@ -225,12 +225,12 @@ c            do j=1,2**nbw
             do while (.not. done)
                call enCode(icode,iarray,ibase,imax)
                if(failConfig(i,iarray,iforest(1,-max_branch,i),
-     $           sprop(1,-max_branch,i),gForceBW(-max_branch,i))) then 
+     $           sprop(1,-max_branch,i),gForceBW(-max_branch,i))) then
                   goto 100
                endif
                ic=ic+1
                nconf=int(dlog10(dble(mapconfig(i))))+1
-c               write(*,*) 'mapping',ic,mapconfig(i),icode               
+c               write(*,*) 'mapping',ic,mapconfig(i),icode
                if (icode .eq. 0) then
 c                 Create format string based on number of digits
                   write(formstr,'(a,i1,a)') '(I',nconf,',$)'
@@ -341,7 +341,7 @@ c-----
 c      write(*,*) 'Checking for BW in config number ',iconfig
 c
 c     Reset variables
-c      
+c
       do i=1,nexternal
          xmass(i) = pmass(i)
       enddo
@@ -357,11 +357,11 @@ c     Initialize mtot (needed final-state phase space)
 c
 c     Start by keeping track of identical particles. Only view the outermost
 c     identical particle as a BW, unless it is a required BW
-c     
+c
       call idenparts(iden_part,itree,sprop,forcebw,
      $               prwidth(-nexternal,iconfig))
 c
-c     Now determine which propagators are part of the same 
+c     Now determine which propagators are part of the same
 c     chain and could potentially conflict
 c
       i=1
@@ -378,7 +378,7 @@ c     $              prmass(-i,iconfig),xmass(-i)
             endif
          endif
          if (iden_part(-i).eq.0) then
-            xmass(-i) = max(xmass(-i),prmass(-i,iconfig)+3d0*prwidth(-i,iconfig))        
+            xmass(-i) = max(xmass(-i),prmass(-i,iconfig)+3d0*prwidth(-i,iconfig))
          endif
          mtot=mtot+xmass(-i)
          i=i+1
@@ -418,8 +418,8 @@ c
 c     Only include BW props as conflicting, but not if radiation
 c
       do j=i,1,-1
-         if (lconflict(-j)) then 
-            if (prwidth(-j,iconfig) .le. 0 .or. iden_part(-j).gt.0) then 
+         if (lconflict(-j)) then
+            if (prwidth(-j,iconfig) .le. 0 .or. iden_part(-j).gt.0) then
                lconflict(-j) = .false.
 c               write(*,*) 'No conflict BW',iconfig,j
                continue
@@ -427,7 +427,7 @@ c            else
 c               write(*,*) 'Conflicting BW',iconfig,j
             endif
          endif
-      enddo                  
+      enddo
 
       end
 
@@ -488,7 +488,7 @@ c-----
       include 'pmass.inc'   !External particle masses
 c
 c     Reset variables
-c      
+c
       do i=1,nexternal
          xmass(i) = pmass(i)
          xwidth(i) = 0
@@ -553,7 +553,7 @@ c     Fail if too small phase space
 
       subroutine bw_increment_array(iarray,imax,ibase,done)
 c************************************************************************
-c     Increments iarray     
+c     Increments iarray
 c************************************************************************
       implicit none
 c
@@ -622,4 +622,3 @@ c     Dummy routine
 c**********************************************************************
       n_unwgted = 1
       end
-

@@ -5,7 +5,7 @@ c
 c                     * 1 (nu)
 c     r2     r1     *
 c      -----------*
-c        *          *  
+c        *          *
 c          *          * 2 (e)
 c            * 3 (b)
 c
@@ -17,27 +17,27 @@ c     * * * *
 c
 c
 c     A  variables: (rho3= sqrt[p1x^2+p1y^2+p1z^2]):
-c      
-c             
+c
+c
 c      (miss_px,miss_py,m12sq,m123sq-m12sq)  <-->  (p1x,p1y,p1z,rho3)
 c               ^                                       ^
 c               |                                       |
 c            var w in the following              var u in the following
-c            
+c
 c     B the change of variables can be written
-c 
+c
 c      w = A u + E1 C1 + alpha C2 + C3
 c
 c     with   Amat  =  a 4x4 matrix
 c            C1 = (0,0,2E1,0)
 c            C2 = (0,0,0,1)
 c            C3 = (0,0,m1**2+m2**2, m3**2)
-c            alpha = 2 rho3 (E1-sin (theta3) cos (theta3) p1x 
+c            alpha = 2 rho3 (E1-sin (theta3) cos (theta3) p1x
 c                              -sin (theta3) sin (theta3) p1y )
 c                              -cos (theta3)  p1z )
 c
 
-      implicit none 
+      implicit none
       include '../../../SubProcesses/phasespace.inc'
 c
 c      arguments
@@ -83,7 +83,7 @@ c
       logical sol(4)
       double precision p1x,p1y,p1z
 c
-      double precision inv_jac 
+      double precision inv_jac
 c
 c     global
 c
@@ -198,8 +198,8 @@ c
 c
 c     define the coefficients of the two quadratic equations
 c
-c     g11 E1^2 + g22 alpha^2 + g12 E1 alpha + g10 E1 + g20 alpha +g00 =0   
-c     h11 E1^2 + h22 alpha^2 + h12 E1 alpha + h10 E1 + h20 alpha +h00 =0   
+c     g11 E1^2 + g22 alpha^2 + g12 E1 alpha + g10 E1 + g20 alpha +g00 =0
+c     h11 E1^2 + h22 alpha^2 + h12 E1 alpha + h10 E1 + h20 alpha +h00 =0
 c
       g11=1d0-p1x_E1**2-p1y_E1**2-p1z_E1**2
       g22=-p1x_alpha**2-p1y_alpha**2-p1z_alpha**2
@@ -285,7 +285,7 @@ c            write(*,*) solr2(k)
        endif
        enddo
 
-      if (k.eq.0) then 
+      if (k.eq.0) then
         jac=-1d0
       return
       elseif (k.eq.1) then
@@ -383,9 +383,9 @@ c
 c       define jac of the transformation
 c
 c     (m12sq, m123sq, Etot, pztot, misspx, misspy, E1^2)
-c                     
+c
 c           =>    (p1z,|p3|,x1,x2,p1x,p1y,E1)   -> [Jac_g^-1]=E^5
-c          g^-1                                
+c          g^-1
 c
 
 c       A=-2d0*(p2x+rho3*dsin(theta3)*dcos(phi3))  ! dim E
@@ -397,25 +397,25 @@ c       F=2d0*(E2+rho3)   ! dim E
        chi=2d0*(E1+E2-(p1x+p2x)*dcos(phi3)*dsin(theta3)-
      & (p1y+p2y)*dsin(phi3)*dsin(theta3)-
      & (p1z+p2z)*dcos(theta3))
- 
+
 c       inv_jac= -2d0*(D*(E2*p1z - E1*p2z) +
 c     -     (cosphi3*(C*E2*p1x - A*E2*p1z - C*E1*p2x - F*p1z*p2x +
 c     -           A*E1*p2z + F*p1x*p2z) +
 c     -        (C*E2*p1y - B*E2*p1z - C*E1*p2y - F*p1z*p2y +
 c     -           B*E1*p2z + F*p1y*p2z)*sinphi3)*sintheta3)*s
 
-        inv_jac=   (4d0*chi*E2*p1z - 4d0*chi*E1*p2z - 
-     -   8d0*dcos(phi3)*dcos(theta3)*E2*p1x*rho3*dsin(theta3) + 
-     -   8d0*dcos(phi3)*dcos(theta3)*E1*p2x*rho3*dsin(theta3) - 
-     -   8d0*dcos(phi3)*p1z*p2x*rho3*dsin(theta3) + 
-     -   8d0*dcos(phi3)*p1x*p2z*rho3*dsin(theta3) - 
-     -   8d0*dcos(theta3)*E2*p1y*rho3*dsin(phi3)*dsin(theta3) + 
-     -   8d0*dcos(theta3)*E1*p2y*rho3*dsin(phi3)*dsin(theta3) - 
-     -   8d0*p1z*p2y*rho3*dsin(phi3)*dsin(theta3) + 
-     -   8d0*p1y*p2z*rho3*dsin(phi3)*dsin(theta3) + 
-     -   8d0*dcos(phi3)**2*E2*p1z*rho3*dsin(theta3)**2 - 
-     -   8d0*dcos(phi3)**2*E1*p2z*rho3*dsin(theta3)**2 + 
-     -   8d0*E2*p1z*rho3*dsin(phi3)**2*dsin(theta3)**2 - 
+        inv_jac=   (4d0*chi*E2*p1z - 4d0*chi*E1*p2z -
+     -   8d0*dcos(phi3)*dcos(theta3)*E2*p1x*rho3*dsin(theta3) +
+     -   8d0*dcos(phi3)*dcos(theta3)*E1*p2x*rho3*dsin(theta3) -
+     -   8d0*dcos(phi3)*p1z*p2x*rho3*dsin(theta3) +
+     -   8d0*dcos(phi3)*p1x*p2z*rho3*dsin(theta3) -
+     -   8d0*dcos(theta3)*E2*p1y*rho3*dsin(phi3)*dsin(theta3) +
+     -   8d0*dcos(theta3)*E1*p2y*rho3*dsin(phi3)*dsin(theta3) -
+     -   8d0*p1z*p2y*rho3*dsin(phi3)*dsin(theta3) +
+     -   8d0*p1y*p2z*rho3*dsin(phi3)*dsin(theta3) +
+     -   8d0*dcos(phi3)**2*E2*p1z*rho3*dsin(theta3)**2 -
+     -   8d0*dcos(phi3)**2*E1*p2z*rho3*dsin(theta3)**2 +
+     -   8d0*E2*p1z*rho3*dsin(phi3)**2*dsin(theta3)**2 -
      -   8d0*E1*p2z*rho3*dsin(phi3)**2*dsin(theta3)**2)*s/2d0
 
 
@@ -438,7 +438,7 @@ c     First evaluated the total momentum in the LAB frame
         enddo
       pboost(j)=Ptot(j)
       enddo
- 
+
 c     Then calculate the momenta in the CMS frame
       pboost(1)=-pboost(1)
       pboost(2)=-pboost(2)
@@ -477,7 +477,7 @@ c     Evaluate the initial momenta in the LAB frame
       call boostx(CMS_mom(0,2),pboost,momenta(0,2))
 
 c     correction from the measure to translate the weight to the CM frame
-c     ONLY if isr = 2 
+c     ONLY if isr = 2
 
       if (isr_mode.eq.2) then
       measureLAB=1d0
@@ -498,4 +498,3 @@ c     ONLY if isr = 2
 
       return
       end
-

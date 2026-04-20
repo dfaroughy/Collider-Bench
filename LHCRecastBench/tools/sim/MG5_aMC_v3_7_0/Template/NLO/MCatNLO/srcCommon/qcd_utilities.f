@@ -14,15 +14,15 @@ C ===================================================================
 C
 C Input : R*4 p(4,N)    : array with 4-vectors
 C         I*4 np        : number of 4-vectors in PP
-C         Log miss      : .True. -> use also  missing momentum 
+C         Log miss      : .True. -> use also  missing momentum
 C                       : .False.-> disregard missing momentum
 C Output: R*4 dirs(4,3) : full results for Thrust, Major and Minor
-C 
+C
 C       The return argument DIRS contains the information:
 C
-C       DIRS(1..3,1) : thrust direction,  DIRS(4,1) : thrust value 
-C       DIRS(1..3,2) : major  direction,  DIRS(4,2) : major  value 
-C       DIRS(1..3,3) : minor  direction,  DIRS(4,3) : minor  value 
+C       DIRS(1..3,1) : thrust direction,  DIRS(4,1) : thrust value
+C       DIRS(1..3,2) : major  direction,  DIRS(4,2) : major  value
+C       DIRS(1..3,3) : minor  direction,  DIRS(4,3) : minor  value
 C
 C Note: Negative values for thrust signify an error condition:
 C
@@ -35,8 +35,8 @@ C-----------------------------------------------------------------------
       Implicit  NONE
 
       Integer   NpMax
-      Parameter (NpMax =200) 
-      
+      Parameter (NpMax =200)
+
       Integer   np,i,j,imax,neff
       Real*4    Pext(4,np),p(4,NpMax),dirs(4,3)
       Real*4    pmiss(4),psum,pmax
@@ -46,7 +46,7 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 
 C -- Check for critical values of particlenumber
- 
+
       if (np.le. 0) then
         dirs(4,1) = -1.
         RETURN
@@ -56,7 +56,7 @@ C -- Check for critical values of particlenumber
         RETURN
       endif
 
-C -- find missing momentum 
+C -- find missing momentum
       do i=1,4
         pmiss(i) = 0.
       enddo
@@ -84,7 +84,7 @@ C -- find missing momentum
 
 C -- find fastest particle and put Thrust in same hemisphere
       imax = 0
-      pmax = 0.     
+      pmax = 0.
       do i=1,neff
         psum = sqrt(p(1,i)**2+p(2,i)**2+p(3,i)**2)
         if (psum.gt.pmax) then
@@ -116,14 +116,14 @@ C based on a Thrustcalculation by H.Albrecht
 C ================================================================
 C
 C Input : R*4 p(4,N)    : array with 4-vectors
-C         I*4 np        : number of 4-vectors in PP 
+C         I*4 np        : number of 4-vectors in PP
 C Output: R*4 dirs(4,3) : full results for Thrust, Major and Minor
-C 
+C
 C       The return argument DIRS contains the information:
 C
-C       DIRS(1..3,1) : thrust direction,  DIRS(4,1) : thrust value 
-C       DIRS(1..3,2) : major  direction,  DIRS(4,2) : major  value 
-C       DIRS(1..3,3) : minor  direction,  DIRS(4,3) : minor  value 
+C       DIRS(1..3,1) : thrust direction,  DIRS(4,1) : thrust value
+C       DIRS(1..3,2) : major  direction,  DIRS(4,2) : major  value
+C       DIRS(1..3,3) : minor  direction,  DIRS(4,3) : minor  value
 C
 C Note: Negative values for thrust signify an error condition:
 C
@@ -138,7 +138,7 @@ C-----------------------------------------------------------------------
 
       Integer   NpMax
       Parameter (NpMax=200)
-      
+
       Integer   np,i,j,npt
       Real*4    p(4,np),pt(4,NpMax),dirs(4,3),ptot,temp(4,NpMax)
       Real*4    t,dt(3),major,dmajor(3),minor,dminor(3)
@@ -179,7 +179,7 @@ C -- Now calculate normal vectors to Thrustaxis
       do i=1,np
         temp(1,i) = p(2,i)*dt(3) - p(3,i)*dt(2)
         temp(2,i) = p(3,i)*dt(1) - p(1,i)*dt(3)
-        temp(3,i) = p(1,i)*dt(2) - p(2,i)*dt(1)        
+        temp(3,i) = p(1,i)*dt(2) - p(2,i)*dt(1)
         temp(4,i) = sqrt(temp(1,i)**2+temp(2,i)**2+temp(3,i)**2)
         if (temp(4,i).ne.0.) then
           npt = npt+1
@@ -198,7 +198,7 @@ C -- Check against balanced 2-particle final state
         enddo
         goto 10
       endif
-        
+
 C -- Use normal vectors to compute Minor
 C -- Note : The axis we get is rotated by 90deg with respect
 C           to the Major_axis -> Minor
@@ -258,26 +258,26 @@ C Calculate Thrust for a set of 4-momenta
 C =======================================
 C
 C Input : R*4 p(4,np) : array of 4-vectors
-C         I*4 np      : number of 4-vectors 
+C         I*4 np      : number of 4-vectors
 C Output: R*4 t       : thrust
 C         R*4 dt(3)   : thrust axis
-C 
+C
 C Description
 C ===========
 C An exact calculation of Thrust is performed for a set of not too
-C many balanced momentum vectors, i.e. which add up to zero. This 
-C routine exploits the facts, that 
-C  a) the Thrust axis is given by the longest vector that can be 
-C     formed from any subset of the available momentum vectors, 
+C many balanced momentum vectors, i.e. which add up to zero. This
+C routine exploits the facts, that
+C  a) the Thrust axis is given by the longest vector that can be
+C     formed from any subset of the available momentum vectors,
 C     and that
-C  b) all partions of a set of N elements into 2 subsets are given 
-C     by the pattern of 0 and 1 of a binary counter which ranges 
-C     from 0 to 2**N-1. 
-C As the momenta are assumed to be balanced only 2**(N-1)-1 
+C  b) all partions of a set of N elements into 2 subsets are given
+C     by the pattern of 0 and 1 of a binary counter which ranges
+C     from 0 to 2**N-1.
+C As the momenta are assumed to be balanced only 2**(N-1)-1
 C combinations actually have to be tried. Note that the limitation
 C for this routine is at np=32 - which already requires a few hours
-C CPU-time on an ALPHA 3000-600.  Up to np=8 this routine is 
-C faster than the LUND algorithm, as far as only the calculation of 
+C CPU-time on an ALPHA 3000-600.  Up to np=8 this routine is
+C faster than the LUND algorithm, as far as only the calculation of
 C Thrust is required.
 C
 C Author: Michael Schmelling / 9-Feb-1995
@@ -300,9 +300,9 @@ C--      initialization
       dt(3) = 0.
 
       if(np.le. 0) RETURN
-      if(np.gt.32) STOP 'RTHRUST: too many momentum vectors'  
+      if(np.gt.32) STOP 'RTHRUST: too many momentum vectors'
 
-C--      loop over all possible subsets 
+C--      loop over all possible subsets
 
       nact =    np   - 1
       nmax = 2**nact - 1
@@ -320,7 +320,7 @@ C--      loop over all possible subsets
             endif
          enddo
          temp = px**2+py**2+pz**2
-         if(t.lt.temp) then 
+         if(t.lt.temp) then
             t     = temp
             dt(1) = px
             dt(2) = py
@@ -331,7 +331,7 @@ C--      loop over all possible subsets
 
 C--      fill return arguments
 
-      t     = sqrt(t) 
+      t     = sqrt(t)
       dt(1) = dt(1)/t
       dt(2) = dt(2)/t
       dt(3) = dt(3)/t
@@ -355,11 +355,11 @@ C ALPHA-topological event analysis: thrust
 C                                                   H. Albrecht. feb 82
 C
 C Algorithm: try initial trust axis from sum of projections along
-C            all cross products between pairs of particles. Take 
-C            the axis with maximum thrust value and iterate once 
+C            all cross products between pairs of particles. Take
+C            the axis with maximum thrust value and iterate once
 C            more.
 C-----------------------------------------------------------------------
-  
+
       Implicit NONE
 
       Integer n
@@ -497,7 +497,7 @@ C
       dt(1) = QTBOX/vnew
       dt(2) = QTBOY/vnew
       dt(3) = QTBOZ/vnew
-C  
+C
       RETURN
       END
 
@@ -511,25 +511,25 @@ C Stand-alone self-contained thrust calculation based on 4-vectors
 C ================================================================
 C
 C Input : R*4 PP(4,N)   : array with 4-vectors
-C         I*4 N         : number of 4-vectors in PP 
+C         I*4 N         : number of 4-vectors in PP
 C Output: R*4 Thrust_Lund    : trust value
 C         R*4 DIRS(4,3) : full results for Thrust, Major and Minor
-C 
+C
 C Note: Negative values for thrust signifif am error condition:
 C
 C       Thrust_Lund = -1 : too few tracks
 C       Thrust_Lund = -2 : too many tracks
-C 
+C
 C       The return argument DIRS contains additional information:
 C
-C       DIRS(1..3,1) : thrust direction,  DIRS(4,1) : thrust value 
-C       DIRS(1..3,2) : major  direction,  DIRS(4,2) : major  value 
-C       DIRS(1..3,3) : minor  direction,  DIRS(4,3) : minor  value 
+C       DIRS(1..3,1) : thrust direction,  DIRS(4,1) : thrust value
+C       DIRS(1..3,2) : major  direction,  DIRS(4,2) : major  value
+C       DIRS(1..3,3) : minor  direction,  DIRS(4,3) : minor  value
 C
-C       This routine was adapted from a hack-up of the original 
+C       This routine was adapted from a hack-up of the original
 C       LUND 6.3 program by Glen Cowan.
 C
-C Author: Michael Schmelling  / 08-Dec-1990 
+C Author: Michael Schmelling  / 08-Dec-1990
 C         Guenther Dissertori / 13-Dec-1994  (small bug fix regarding
 C                                             THRUST = -1,-2)
 C-----------------------------------------------------------------------
@@ -544,7 +544,7 @@ C-----------------------------------------------------------------------
 
       Thrust_Lund = 0.
 
-C -- Check for extreme values 
+C -- Check for extreme values
 
       IF(N.LT.3) THEN
         Thrust_Lund = -1
@@ -563,7 +563,7 @@ C--      COPY DATA TO INTERNAL ARRAYS
         P(I,2) = PP(2,I)
         P(I,3) = PP(3,I)
       ENDDO
- 
+
 C--      START THE LUND ALOGORITHM
 
       NP=0
@@ -585,7 +585,7 @@ C...THRUST AXIS ALONG Z DIRECTION FOR MAJOR AXIS SEARCH
         GOTO 7777
  7772   CONTINUE
       ENDIF
- 
+
 C...FIND AND ORDER PARTICLES WITH HIGHEST P (PT FOR MAJOR)
       DO 100 LF=N+4,N+8
   100 P(LF,4)=0.
@@ -608,13 +608,13 @@ C...FIND AND ORDER PARTICLES WITH HIGHEST P (PT FOR MAJOR)
       P(LF+1,4)=PA
       P(LF+1,5)=P(I,5)
   140 CONTINUE
- 
+
       IF(NP.LE.1) THEN
 C...VERY LOW MULTIPLICITIES (0 OR 1) NOT CONSIDERED
         Thrust_Lund =-1.
         RETURN
       ENDIF
- 
+
 C...FIND AND ORDER INITIAL AXES WITH HIGHEST THRUST
       DO 150 LG=N+9,N+19
   150 P(LG,4)=0.
@@ -637,7 +637,7 @@ C...FIND AND ORDER INITIAL AXES WITH HIGHEST THRUST
   200 P(LG+1,J)=TDI(J)
       P(LG+1,4)=TDS
   210 CONTINUE
- 
+
 C...ITERATE DIRECTION OF AXIS UNTIL STABLE MAXIMUM
       P(N+LD,4)=0.
       LG=0
@@ -655,7 +655,7 @@ C...ITERATE DIRECTION OF AXIS UNTIL STABLE MAXIMUM
   260 CONTINUE
       THP=SQRT(TPR(1)**2+TPR(2)**2+TPR(3)**2)/PS
       IF(THP.GE.THPS+EPS) GOTO 230
- 
+
 C...SAVE GOOD AXIS, TRY NEW INITIAL AXIS UNTIL A NUMBER OF TRIES AGREE
       IF(THP.LT.P(N+LD,4)-EPS.AND.LG.LT.MIN(10,NC)) GOTO 220
       IF(THP.GT.P(N+LD,4)+EPS) THEN
@@ -669,7 +669,7 @@ C...SAVE GOOD AXIS, TRY NEW INITIAL AXIS UNTIL A NUMBER OF TRIES AGREE
       ENDIF
       LAGR=LAGR+1
   280 IF(LAGR.LT.2.AND.LG.LT.MIN(10,NC)) GOTO 220
- 
+
 C...FIND MINOR AXIS AND VALUE BY ORTHOGONALITY
       JRAN = MOD(JRAN*IA+IC,IM)
       RAN  = FLOAT(JRAN)/FLOAT(IM)
@@ -683,7 +683,7 @@ C...FIND MINOR AXIS AND VALUE BY ORTHOGONALITY
       P(I,5)=SQRT(MAX(P(I,4)**2-P(I,1)**2-P(I,2)**2-P(I,3)**2,0.))
   290 CONTINUE
       P(N+3,4)=THP/PS
- 
+
 C...RESET UNUSED COMPONENTS, ROTATE BACK TO ORIGINAL COORDINATE SYSTEM
       DO 300 LD=1,3
   300 P(N+LD,5)=0.
@@ -695,14 +695,14 @@ C...RESET UNUSED COMPONENTS, ROTATE BACK TO ORIGINAL COORDINATE SYSTEM
  7773 CONTINUE
 
 C--      COPY RESULTS TO OUTPUT BUFFER AND RETURN
- 
+
       DO I=1,4
         DIRS(I,1) = P(N+1,I)
         DIRS(I,2) = P(N+2,I)
         DIRS(I,3) = P(N+3,I)
       ENDDO
- 
-      Thrust_Lund = DIRS(4,1)        
+
+      Thrust_Lund = DIRS(4,1)
       RETURN
 
 C-----------------------------------------------------------------------
@@ -749,7 +749,7 @@ C         I*4 n      : number of 4-vectors
 C Output: R*4 Cpar   : C-parameter
 C         R*4 Dpar   : D-parameter
 C
-C Author: Michael Schmelling  / 14-Dec-1990 
+C Author: Michael Schmelling  / 14-Dec-1990
 C         Guenther Dissertori / 05-May-1995  (D-parameter added)
 C-----------------------------------------------------------------------
 
@@ -766,7 +766,7 @@ C-----------------------------------------------------------------------
       txz = 0.
       tyz = 0.
       sum = 0.
-      
+
       do 111 i=1,n
       pi  = sqrt(p(1,i)*p(1,i)+p(2,i)*p(2,i)+p(3,i)*p(3,i))
       sum = sum + pi
@@ -807,7 +807,7 @@ C Output: R*4 mh2    : high mass**2/s
 C         R*4 ml2    : low mass**2/s
 C         R*4 md2    : mass**2 difference/s
 C
-C Author: Michael Schmelling / 8-Dec-1990 
+C Author: Michael Schmelling / 8-Dec-1990
 C-----------------------------------------------------------------------
 
       Implicit NONE
@@ -834,13 +834,13 @@ C-----------------------------------------------------------------------
       endif
  10   continue
 
-      s    = (ppos(4)+pneg(4))**2 
+      s    = (ppos(4)+pneg(4))**2
       mpos = (ppos(4)**2-ppos(1)**2-ppos(2)**2-ppos(3)**2) / s
       mneg = (pneg(4)**2-pneg(1)**2-pneg(2)**2-pneg(3)**2) / s
       mh2  = max(mpos,mneg)
       ml2  = min(mpos,mneg)
       md2  = abs(mpos-mneg)
-    
+
       RETURN
       END
 
@@ -861,7 +861,7 @@ C         R*4 ml2    : low mass**2/s
 C         R*4 md2    : mass**2 difference/s
 C         I*4 h      : hemisphere of mh2: +1 ptot || thrust, -1 else
 C
-C Author: Michael Schmelling / 8-Dec-1990 
+C Author: Michael Schmelling / 8-Dec-1990
 C-----------------------------------------------------------------------
 
       Implicit NONE
@@ -888,7 +888,7 @@ C-----------------------------------------------------------------------
       endif
  10   continue
 
-      s    = (ppos(4)+pneg(4))**2 
+      s    = (ppos(4)+pneg(4))**2
       mpos = (ppos(4)**2-ppos(1)**2-ppos(2)**2-ppos(3)**2) / s
       mneg = (pneg(4)**2-pneg(1)**2-pneg(2)**2-pneg(3)**2) / s
       mh2  = max(mpos,mneg)
@@ -900,7 +900,7 @@ C-----------------------------------------------------------------------
       else
         h = -1
       endif
-    
+
       RETURN
       END
 
@@ -920,7 +920,7 @@ C         R*4 dir(3) : direction that defines hemispheres
 C Output: R*4 Btot   : total broadening
 C         R*4 Bw     : highest broadening of the 2 hemispheres
 C
-C Author: Guenther Dissertori / 16-Dec-1994 
+C Author: Guenther Dissertori / 16-Dec-1994
 C-----------------------------------------------------------------------
 
       Implicit NONE
@@ -931,7 +931,7 @@ C-----------------------------------------------------------------------
       Ptot  = 0.
       ptpos = 0.
       ptneg = 0.
-      
+
       do i=1,np
         pt(1) = p(2,i)*dir(3) - p(3,i)*dir(2)
         pt(2) = p(3,i)*dir(1) - p(1,i)*dir(3)
@@ -946,7 +946,7 @@ C-----------------------------------------------------------------------
 
       Btot = (ptpos + ptneg)/(2.*Ptot)
       Bw   = (max(ptpos,ptneg))/(2.*Ptot)
-    
+
       RETURN
       END
 
@@ -967,7 +967,7 @@ C Output: R*4 Btot   : total broadening
 C         R*4 Bw     : highest broadening of the 2 hemispheres
 C         I*4 h      : hemisphere of Bw, +1 if || with thrust, -1 else
 C
-C Author: Guenther Dissertori / 9-Jun-1998 
+C Author: Guenther Dissertori / 9-Jun-1998
 C-----------------------------------------------------------------------
 
       Implicit NONE
@@ -978,7 +978,7 @@ C-----------------------------------------------------------------------
       Ptot  = 0.
       ptpos = 0.
       ptneg = 0.
-      
+
       do i=1,np
         pt(1) = p(2,i)*dir(3) - p(3,i)*dir(2)
         pt(2) = p(3,i)*dir(1) - p(1,i)*dir(3)
@@ -1030,7 +1030,7 @@ C---------------------------------------------------------------------
       Implicit NONE
 
       Integer   NpMax
-      Parameter (NpMax = 300)   
+      Parameter (NpMax = 300)
 
 C -- External variables
       Real    Pext(4,*),Yn(*)
@@ -1045,7 +1045,7 @@ C -- Internal Variables
 C=====================================================================
 
 C -- Check if # of particles is o.k.
-      
+
       Error = 0
       if (Np.lt.3) then
         Error = 1
@@ -1058,7 +1058,7 @@ C -- Check if # of particles is o.k.
 
 C -- Copy momenta to internal array, initialize
 C -- rescale all momenta to zero mass in case E0
-      
+
       Evis = 0.
       do i=1,Np
         Iflag(i) = 0
@@ -1067,7 +1067,7 @@ C -- rescale all momenta to zero mass in case E0
         PnClus = sqrt(Pext(1,i)**2+Pext(2,i)**2+Pext(3,i)**2)
         do j=1,3
           if (Scheme.eq.0) P(j,i)=Pext(j,i)*EnClus/(max(1.e-7,PnClus))
-          if (Scheme.eq.1) P(j,i)=Pext(j,i) 
+          if (Scheme.eq.1) P(j,i)=Pext(j,i)
         enddo
         P(4,i) = EnClus
       enddo
@@ -1083,7 +1083,7 @@ C -- loop over # of jets
       Ymin  = 100000.
 
 C -- loop over combination of particles
-      
+
       do i=1,Np-1
         if (Iflag(i).eq.1) goto 300
         do j=i+1,Np
@@ -1095,7 +1095,7 @@ C -- if nothing has changed for i and j
               Imin = i
               Jmin = j
             endif
-          else 
+          else
 C -- else compute metric now
             Cij = P(1,i)*P(1,j)+P(2,i)*P(2,j)+P(3,i)*P(3,j)
             P2i = P(1,i)*P(1,i)+P(2,i)*P(2,i)+P(3,i)*P(3,i)
@@ -1132,7 +1132,7 @@ C -- recombine according to E0-Scheme
         P(4,Imin) = P(4,Imin) + P(4,Jmin)
         P2i = sqrt((P(1,Imin) + P(1,Jmin))**2 +
      >             (P(2,Imin) + P(2,Jmin))**2 +
-     >             (P(3,Imin) + P(3,Jmin))**2) 
+     >             (P(3,Imin) + P(3,Jmin))**2)
         if (P2i.le.1.e-14) then
           Error = 3
           RETURN
@@ -1178,7 +1178,7 @@ C---------------------------------------------------------------------
       Implicit NONE
 
       Integer   NpMax
-      Parameter (NpMax = 300)   
+      Parameter (NpMax = 300)
 
 C -- External variables
       Real    Pext(4,*),Pjet(4,*),Ycut
@@ -1193,7 +1193,7 @@ C -- Internal Variables
 C=====================================================================
 
 C -- Check if # of particles is o.k.
-      
+
       Error = 0
       if (Np.lt.2) then
         Error = 1
@@ -1206,7 +1206,7 @@ C -- Check if # of particles is o.k.
 
 C -- Copy momenta to internal array, initialize
 C -- rescale all momenta to zero mass in case E0
-      
+
       Evis = 0.
       do i=1,Np
         Iflag(i) = 0
@@ -1215,7 +1215,7 @@ C -- rescale all momenta to zero mass in case E0
         PnClus = sqrt(Pext(1,i)**2+Pext(2,i)**2+Pext(3,i)**2)
         do j=1,3
           if (Scheme.eq.0) P(j,i)=Pext(j,i)*EnClus/(max(1.e-7,PnClus))
-          if (Scheme.eq.1) P(j,i)=Pext(j,i) 
+          if (Scheme.eq.1) P(j,i)=Pext(j,i)
         enddo
         P(4,i) = EnClus
       enddo
@@ -1231,7 +1231,7 @@ C -- loop over # of jets
       Ymin  = 100000.
 
 C -- loop over combination of particles
-      
+
       do i=1,Np-1
         if (Iflag(i).eq.1) goto 300
         do j=i+1,Np
@@ -1243,7 +1243,7 @@ C -- if nothing has changed for i and j
               Imin = i
               Jmin = j
             endif
-          else 
+          else
 C -- else compute metric now
             Cij = P(1,i)*P(1,j)+P(2,i)*P(2,j)+P(3,i)*P(3,j)
             P2i = P(1,i)*P(1,i)+P(2,i)*P(2,i)+P(3,i)*P(3,i)
@@ -1267,7 +1267,7 @@ C -- else compute metric now
 C -- compare Ymin with Ycut
       if (Ymin.gt.Ycut) then
 
-C -- fill array of cluster momenta 
+C -- fill array of cluster momenta
         i = 1
         Iclus = 1
  101    if (i.le.Np) then
@@ -1299,7 +1299,7 @@ C -- recombine according to E0-Scheme
         P(4,Imin) = P(4,Imin) + P(4,Jmin)
         P2i = sqrt((P(1,Imin) + P(1,Jmin))**2 +
      >             (P(2,Imin) + P(2,Jmin))**2 +
-     >             (P(3,Imin) + P(3,Jmin))**2) 
+     >             (P(3,Imin) + P(3,Jmin))**2)
         if (P2i.le.1.e-14) then
           Error = 3
           RETURN
@@ -1317,7 +1317,7 @@ C -- lock the other track
       goto 100
 
  1000 Continue
-      
+
       END
 
 
@@ -1331,7 +1331,7 @@ C Routine to return an array of eventshape-values
 C
 C Input : R*4 Pext(4,Np)   Array of external momenta
 C         I*4 Np           Number of external particles
-C         Log Miss      : .True. -> use also  missing momentum in Thrustcalc 
+C         Log Miss      : .True. -> use also  missing momentum in Thrustcalc
 C                       : .False.-> disregard missing momentum
 C
 C Output: R*4 EvS(20)      Array of eventshape-values
@@ -1353,15 +1353,15 @@ C
 C         R*4 ThD(4,3)     Thrust and Major Directions, see subr ThrustDG
 C         I*4 Error        Error = 0 : o.k.
 C                          Error <>0 : a problem occured in Thrust         I
-C         
+C
 C
 C Author: Guenther Dissertori / 19-Dec-1994
 C---------------------------------------------------------------------
 
       Implicit NONE
-      
+
       Integer   NpMax
-      Parameter (NpMax = 300)   
+      Parameter (NpMax = 300)
 
 C -- External variables
       Real    Pext(4,*),EvS(20),ThD(4,3)
@@ -1373,13 +1373,13 @@ C -- Internal Variables
       Real    Thrus,Major,Minor,Oblat,Cpar,Dpar,mh2,ml2,md2,Btot,Bw
       Integer i,j,h1,h2
 
-C=====================================================================      
+C=====================================================================
 
       Error = 0
 
 C -- first Thrust and related quantities
       call ThrustDG(Pext,Np,Dirs,Miss)
- 
+
       Thrus = Dirs(4,1)
       Major = Dirs(4,2)
       Minor = Dirs(4,3)
@@ -1424,11 +1424,11 @@ C -- store accumulated Results
       EvS(3) = Minor
       EvS(4) = Oblat
       EvS(5) = Cpar
-      EvS(6) = mh2  
-      EvS(7) = ml2  
-      EvS(8) = md2  
-      EvS(9) = Btot 
-      EvS(10)= Bw    
+      EvS(6) = mh2
+      EvS(7) = ml2
+      EvS(8) = md2
+      EvS(9) = Btot
+      EvS(10)= Bw
       EvS(11)= Dpar
       EvS(12)= float(h1)
       EvS(13)= float(h2)
@@ -1445,13 +1445,13 @@ C-----------------------------------------------------------------------
 C Routine which calculates 4-Jet related quantities
 C ==========================================================
 C
-C  Input  Real*4  Pclus(4,*) :  4 vector of * jets  (* should be 4) 
-C 
+C  Input  Real*4  Pclus(4,*) :  4 vector of * jets  (* should be 4)
+C
 C  Output Real*4  Abz        :  Bengtsson-Zerwas   Angle in radian
 C                 Aks        :  Koerner-Schierholz  --  "  --
 C                 Anr        :  Nachtmann-Reiter
 C                 A34        :  Angle between jet 3 and 4 in radian
-C         Integer Error      :  0 if everything OK        
+C         Integer Error      :  0 if everything OK
 C
 C Author: Guenther Dissertori  / 12.4.95
 C-----------------------------------------------------------------------
@@ -1472,14 +1472,14 @@ C-----------------------------------------------------------------------
 
       Error = 1
 
-C -- order Jetenergies 
+C -- order Jetenergies
       do i=1,4
         Eclus(i) = Pclus(4,i)
 
 C -- check against pathological cases
         if (Eclus(i).le.0.) then
           write(6,*)' ** FOURJETS : Eclus = ',Eclus(i),' !!!!'
-          RETURN 
+          RETURN
         endif
 
       enddo
@@ -1562,7 +1562,7 @@ C -- generalized NR-Angle
       P1(3) = Pclus(3,i)-Pclus(3,j)
 
       i=IEO(3)
-      j=IEO(4)      
+      j=IEO(4)
 
       P2(1) = Pclus(1,i)-Pclus(1,j)
       P2(2) = Pclus(2,i)-Pclus(2,j)
@@ -1575,7 +1575,7 @@ C -- generalized NR-Angle
 
       if (Anr.ge.(PI/2.)) Anr = PI - Anr
 
-     
+
 C -- Angle between 3 and 4
       i=IEO(3)
 

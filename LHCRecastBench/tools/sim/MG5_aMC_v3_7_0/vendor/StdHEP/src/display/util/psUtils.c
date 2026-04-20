@@ -41,13 +41,13 @@ static void echPS(char *str, int siz, int posx, int posy, int anchor,
 	char *fontname, double red, double green, double blue);
 static void setXGCLineParams(Display *display, GC gc);
 static void getXParms(Display *display, GC gc,
-	unsigned short *red_ptr, unsigned short *green_ptr, 
+	unsigned short *red_ptr, unsigned short *green_ptr,
 	unsigned short *blue_ptr, double *lineWidth);
 static XFontStruct *getFontStruct(XmFontList font);
 
 /* Parameters of the current open file  */
 static PSWidth  = 0;
-static PSHeight = 0; 
+static PSHeight = 0;
 static FILE *PSFile;
 
 /* Maximum color component value in X Windows */
@@ -78,13 +78,13 @@ FILE *OpenPS(char fname[], int width, int height)
     fprintf(PSFile, "%%%%Title: %s \n", fname);
     time(&tt);
     fprintf(PSFile, "%%%%CreationDate: %s \n", ctime(&tt));
-    
+
     /* Set up the page margin.  This is essential since most PostScript
        printers can't print all of the way to the edge of the page.  For
        encapsulated PostScript, we aren't allowed to use initclip to find
        out the real boundaries of the page, so this guess must suffice */
     fprintf(PSFile, "%d %d translate\n", PAGE_MARGIN, PAGE_MARGIN);
-    
+
     /* Scale coordinates to 75 dpi rather than 72 because most X screens
        are closer to 75, and because being an even multiple of 300, simple
        line thicknesses like 1.0 and .5 will be more uniform */
@@ -93,7 +93,7 @@ FILE *OpenPS(char fname[], int width, int height)
     /* Save the graphics state so that further scaling and transformations
        can be undone if necessary (as in PSSetWindowPagePosition) */
     fprintf(PSFile, "gsave\n");
-    
+
     /* Define PostScript procedures for drawing dots and line segments:
        d draws a dot using x and y coordinates from the stack, l draws
        a line between arguments x1 y1 x2 y2 from the stack, rect draws
@@ -150,7 +150,7 @@ newpath\n\
 arc\n\
 fill\n\
 } def\n");
-    
+
     /* Clip to the width and height of the window on the screen */
     fprintf(PSFile, "0 0 moveto\n");
     fprintf(PSFile, "%d 0 lineto\n", width);
@@ -205,7 +205,7 @@ void PSSetWindowPagePosition(int left, int bottom, int width, int height)
     /* Undo cliping from previous window page position */
     fprintf(PSFile, "grestore\n");
     fprintf(PSFile, "gsave\n");
-    
+
     /* Clip to the width and height of the window on the screen */
     fprintf(PSFile, "%d %d translate\n", left, bottom);
     fprintf(PSFile, "0 0 moveto\n");
@@ -214,7 +214,7 @@ void PSSetWindowPagePosition(int left, int bottom, int width, int height)
     fprintf(PSFile, "0 %d lineto\n", height);
     fprintf(PSFile, "closepath clip\n");
     fprintf(PSFile, "newpath\n");
-    
+
     /* Reset the origin
     fprintf(PSFile, "%d %d translate\n", bottom, left);
 
@@ -238,14 +238,14 @@ void PSDrawLines(Display *display, Drawable w, GC gc,
     	fprintf(stderr, "PSDrawLines only does CoordModeOrigin (so far)\n");
     	return;
     }
-    
+
     /* set line drawing parameters from contents of X graphics context */
     setXGCLineParams(display, gc);
 
-    /* generate PostScript calls to the line drawing procedure l defined 
+    /* generate PostScript calls to the line drawing procedure l defined
        in OpenPS above to draw each of the segments in the array */
     fprintf(PSFile, "%d %d moveto\n", x_X2PS(points->x), y_X2PS(points->y));
-    for(i=1, point= &points[1]; i<nPoints; i++, point++) 
+    for(i=1, point= &points[1]; i<nPoints; i++, point++)
         fprintf(PSFile, "%d %d lineto\n", x_X2PS(point->x), y_X2PS(point->y));
     fprintf(PSFile, "stroke\n");
 }
@@ -262,9 +262,9 @@ void PSDrawSegments(Display *display, Drawable w, GC gc,
     /* set line drawing parameters from contents of X graphics context */
     setXGCLineParams(display, gc);
 
-    /* generate PostScript calls to the line drawing procedure l defined 
+    /* generate PostScript calls to the line drawing procedure l defined
        in OpenPS above to draw each of the segments in the array */
-    for(j=0; j<nSegments; j++,segment++) 
+    for(j=0; j<nSegments; j++,segment++)
         fprintf(PSFile, "%d %d %d %d l\n",
         	x_X2PS(segment->x1), y_X2PS(segment->y1),
                 x_X2PS(segment->x2), y_X2PS(segment->y2));
@@ -274,7 +274,7 @@ void PSDrawLine(Display *display, Drawable w, GC gc, int x1, int y1,
 	int x2, int y2)
 {
     XSegment seg;
-    
+
     seg.x1 = x1; seg.x2 = x2; seg.y1 = y1; seg.y2 = y2;
     PSDrawSegments(display, w, gc, &seg, 1);
 }
@@ -286,7 +286,7 @@ void PSDrawLine(Display *display, Drawable w, GC gc, int x1, int y1,
 ** the floating point values just allow lines to be positioned at a greater
 ** precision within the 72 dpi grid of the screen coordinate system.
 */
-void PSFloatDrawSegments(Display *display, Drawable w, GC gc, 
+void PSFloatDrawSegments(Display *display, Drawable w, GC gc,
 	FloatSegment *segment, int nSegments)
 {
     int j;
@@ -294,9 +294,9 @@ void PSFloatDrawSegments(Display *display, Drawable w, GC gc,
     /* set line drawing parameters from contents of X graphics context */
     setXGCLineParams(display, gc);
 
-    /* generate PostScript calls to the line drawing procedure l defined 
+    /* generate PostScript calls to the line drawing procedure l defined
        in OpenPS above to draw each of the segments in the array */
-    for(j=0; j<nSegments; j++,segment++) 
+    for(j=0; j<nSegments; j++,segment++)
         fprintf(PSFile, "%g %g %g %g l\n",
         	x_X2PS(segment->x1), y_X2PS(segment->y1),
                 x_X2PS(segment->x2), y_X2PS(segment->y2));
@@ -318,10 +318,10 @@ void PSFloatDrawLines(Display *display, Drawable w, GC gc,
     /* set line drawing parameters from contents of X graphics context */
     setXGCLineParams(display, gc);
 
-    /* generate PostScript calls to the line drawing procedure l defined 
+    /* generate PostScript calls to the line drawing procedure l defined
        in OpenPS above to draw each of the segments in the array */
     fprintf(PSFile, "%g %g moveto\n", x_X2PS(points->x), y_X2PS(points->y));
-    for(i=1, point= &points[1]; i<nPoints; i++, point++) 
+    for(i=1, point= &points[1]; i<nPoints; i++, point++)
         fprintf(PSFile, "%g %g lineto\n", x_X2PS(point->x), y_X2PS(point->y));
     fprintf(PSFile, "stroke\n");
 }
@@ -337,7 +337,7 @@ void PSDrawPoints(Display *display, Drawable w, GC gc,
     /* Set line drawing parameters from contents of X graphics context */
     setXGCLineParams(display, gc);
 
-    /* generate PostScript calls to the line drawing procedure l defined 
+    /* generate PostScript calls to the line drawing procedure l defined
        in OpenPS above to draw each of the segments in the array */
     for(j=0; j<npoints; j++,point++)
     	fprintf(PSFile, "%d %d d\n", x_X2PS(point->x), y_X2PS(point->y));
@@ -345,7 +345,7 @@ void PSDrawPoints(Display *display, Drawable w, GC gc,
 
 /*
 ** Display a colored Motif compound string in Times Roman at a point size
-** one point smaller than the default font of the fontlist specified.  
+** one point smaller than the default font of the fontlist specified.
 ** Parameters are the same as XmStringDraw, except minus layout direction
 ** and clipping.  The routine can't yet handle multiline strings,
 ** clipping, or right-to-left character sets.
@@ -356,7 +356,7 @@ void PSDrawXmString(Display *display, Drawable w, XmFontList font, XmString msg,
     char *ansiMsg;
     XFontStruct *fs = getFontStruct(font);
     int adjX, adjY, anchor;
-    
+
     /* Calculate revised coordinates and anchor mode for drawing the string,
        using the parameters in the form required by XmStringDraw */
     adjY = y + fs->ascent;	/* change y to top left corner of string */
@@ -364,13 +364,13 @@ void PSDrawXmString(Display *display, Drawable w, XmFontList font, XmString msg,
     	adjX = x;
     	anchor = PS_LEFT;
     } else if (alignment == XmALIGNMENT_CENTER) {
-    	adjX = x + width/2;	
+    	adjX = x + width/2;
     	anchor = PS_CENTER;
     } else /* XmALIGNMENT_END */ {
         adjX = x + width;
         anchor = PS_RIGHT;
     }
-    
+
     /* Convert the string to a C style stle string and call PSDrawString */
     XmStringGetLtoR(msg, XmSTRING_DEFAULT_CHARSET, &ansiMsg);
     PSDrawString(display, w, gc, fs, adjX, adjY, anchor, ansiMsg);
@@ -390,7 +390,7 @@ void PSDrawString(Display *display, Drawable w, GC gc, XFontStruct *fs,
     getXParms(display, gc, &red, &green, &blue, &lw);
 
     echPS(msg, fs->ascent + fs->descent - 2, x_X2PS(x), y_X2PS(y),
-    	  anchor, "Times-Roman",     
+    	  anchor, "Times-Roman",
     	  (float)red   / COLOR_FACTOR,
           (float)green / COLOR_FACTOR,
           (float)blue  / COLOR_FACTOR);
@@ -497,7 +497,7 @@ void PSDrawImage(display, w, gc, scanLength, scanLines, bitsPerSample,
     disp_y = y ;
     /* draw image */
     fprintf(PSFile, "%d %d translate\n", x_X2PS(disp_x), y_X2PS(disp_y));
-    fprintf(PSFile, "%d %d %d [%d 0 0 %d 0 0] {<", scanLength, 
+    fprintf(PSFile, "%d %d %d [%d 0 0 %d 0 0] {<", scanLength,
                      scanLines, bitsPerSample, scanLength, scanLines);
     for (i = 0; i < scanLength; i++) {
       letter = (int)(bitmap[i] & 0xf0);
@@ -509,7 +509,7 @@ void PSDrawImage(display, w, gc, scanLength, scanLines, bitsPerSample,
     /* restore origin */
     fprintf(PSFile, "%d %d translate\n", -x_X2PS(disp_x), -y_X2PS(disp_y));
 }
-   
+
 
 /*
 ** Draw dashed (or solid) line segments (dashed lines can't be drawn by
@@ -528,15 +528,15 @@ void PSDrawDashedSegments(Display *display, Drawable w, GC gc,
     	PSDrawSegments(display, w, gc, segments, nSegments);
     	return;
     }
-  
+
     /* transform and set dash list */
     len = strlen(dashList);
     if (len != 0) {
-	fprintf(PSFile, "["); 
-	for (i = 0; i < len - 1; i++) 
+	fprintf(PSFile, "[");
+	for (i = 0; i < len - 1; i++)
 	      fprintf(PSFile, "%3d ", (int)dashList[i]);
-	fprintf(PSFile, "%3d] %d setdash\n", (int)(dashList[len-1]), 
-        	dashOffset);  
+	fprintf(PSFile, "%3d] %d setdash\n", (int)(dashList[len-1]),
+        	dashOffset);
     }
 
     /* draw the segments */
@@ -566,11 +566,11 @@ void PSFloatDrawDashedLines(Display *display, Drawable w, GC gc,
     /* transform and set dash list */
     len = strlen(dashList);
     if (len != 0) {
-	fprintf(PSFile, "["); 
-	for (i = 0; i < len - 1; i++) 
+	fprintf(PSFile, "[");
+	for (i = 0; i < len - 1; i++)
 	      fprintf(PSFile, "%3d ", (int)dashList[i]);
-	fprintf(PSFile, "%3d] %d setdash\n", (int)(dashList[len-1]), 
-        	dashOffset);  
+	fprintf(PSFile, "%3d] %d setdash\n", (int)(dashList[len-1]),
+        	dashOffset);
     }
 
     /* draw the lines */
@@ -579,7 +579,7 @@ void PSFloatDrawDashedLines(Display *display, Drawable w, GC gc,
     /* set the line style back to solid line */
     fprintf(PSFile, "[] 0 setdash\n");
 }
-    
+
 /*
 ** Draw a dashed line (dashed lines can't be drawn by PSDrawLine because
 ** X does not give access to the complete dash information in the gc
@@ -588,7 +588,7 @@ void PSDrawDashedLine(Display *display, Drawable w, GC gc, int x1, int y1,
 	int x2, int y2, char *dashList, int dashOffset)
 {
     XSegment seg;
-    
+
     seg.x1 = x1; seg.x2 = x2; seg.y1 = y1; seg.y2 = y2;
     PSDrawDashedSegments(display, w, gc, &seg, 1, dashList, dashOffset);
 }
@@ -607,12 +607,12 @@ void PSSetClipRectangle(int x1, int y1, int x2, int y2)
     fprintf(PSFile, "closepath clip newpath\n");
 }
 
-/* 
+/*
 ** Output colored text
 */
 static void echPS(char *str, int siz, int posx, int posy, int anchor,
 		  char *fontname, double red, double green, double blue)
-{   
+{
     fprintf(PSFile, "%.2f %.2f %.2f setrgbcolor ", red, green, blue);
     fprintf(PSFile, "/%s findfont %04d scalefont setfont\n", fontname, siz);
     if (anchor == PS_LEFT)
@@ -626,7 +626,7 @@ static void echPS(char *str, int siz, int posx, int posy, int anchor,
     else {
     	fprintf(stderr, "Internal error: bad anchor value in echPS\n");
     	return;
-    }	
+    }
     fprintf(PSFile, "(%s) show\n", str);
 }
 
@@ -646,13 +646,13 @@ static void setXGCLineParams(Display *display, GC gc)
     fprintf(PSFile, "%.2f setlinewidth\n", lineWidth);
 }
 
-/* 
+/*
 ** Obtain X Window related drawing parameters
 ** and massage them for PostScript printers
 */
 static void getXParms(Display *display, GC gc, unsigned short *red_ptr,
 	unsigned short *green_ptr, unsigned short *blue_ptr, double *lineWidth)
-{ 
+{
     XGCValues valuesRet;
     XColor ret_color;
 
@@ -678,7 +678,7 @@ static XFontStruct *getFontStruct(XmFontList font)
     XFontStruct *fs;
     XmFontContext context;
     XmStringCharSet charset;
-    
+
     XmFontListInitFontContext(&context, font);
     XmFontListGetNextFont(context, &charset, &fs);
     XmFontListFreeFontContext(context);

@@ -61,7 +61,7 @@ import os
 import re
 import stat
 from six.moves import range
-try: 
+try:
     import madgraph.madweight.Cards as Cards
 except ImportError as error:
     print(error)
@@ -89,7 +89,7 @@ def go_to_main_dir():
     if last=='Python':
         os.chdir(os.pardir+os.sep+os.pardir+os.sep+os.pardir)
         return
-    
+
     list_dir=os.listdir('./')
     if 'bin' in list_dir:
         return
@@ -128,7 +128,7 @@ def check_for_help(opt):
 #1#########################################################################
 class P_info:
     """ class containing option/routine for standard MG/ME run """
-    
+
     #2#########################################################################
     def P_lisdir(self):
         try:
@@ -139,10 +139,10 @@ class P_info:
 
     #2#########################################################################
     def detect_SubProcess(self,P_mode=0):
-        
-            
+
+
         P_SubProcess_list,MW_SubProcess_list=detect_SubProcess(P_mode)
-        return P_SubProcess_list,MW_SubProcess_list 
+        return P_SubProcess_list,MW_SubProcess_list
 
 
 
@@ -171,7 +171,7 @@ class MW_info(dict,P_info):
         self.P_listdir,self.MW_listdir=self.detect_SubProcess()
         self.nb_event_MW = {}
         for MW in self.MW_listdir:
-            self.nb_event_MW[MW] = self.nb_event 
+            self.nb_event_MW[MW] = self.nb_event
         self.init_run_opt()
         self.def_actif_param()
         self.Pinupdate=[]
@@ -191,7 +191,7 @@ class MW_info(dict,P_info):
         self.run_opt['launch']=value
         self.run_opt['control']=value
         self.run_opt['collect']=value
-        self.run_opt['plot']=value 
+        self.run_opt['plot']=value
         self.run_opt['madweight_main']=value
         self.run_opt['relaunch']=0           #only for bugging case... -> desactivate
         self.run_opt['refine']=0             #only for bugging case... -> desactivate
@@ -207,7 +207,7 @@ class MW_info(dict,P_info):
             block tag type value #comment
             additionaly check if the mw_parameter['?3'] is a list
         """
-        
+
         #define convertissor
         def pass_in_integer(value):
             return int(value)
@@ -247,7 +247,7 @@ class MW_info(dict,P_info):
             if type in ['integer','logical','float']:
                 self[block][tag]=eval('pass_in_'+type+'(self[block][tag])')
         self.check_mw_parameter_list_type()
-        
+
     #2#########################################################################
     def check_mw_parameter_list_type(self):
         """ check that self['mw_parameter']['?3'] is a list """
@@ -257,7 +257,7 @@ class MW_info(dict,P_info):
             if not isinstance(self['mw_parameter'][str(nb_param*10+3)], list):
                 self['mw_parameter'][str(nb_param*10+3)]=[self['mw_parameter'][str(nb_param*10+3)]]
             nb_param+=1
-                
+
 
     #2#########################################################################
     def take_run_name(self):
@@ -270,7 +270,7 @@ class MW_info(dict,P_info):
             line=card.readline()
             if line=='':
                 break
-            
+
             if Pattern.search(line):
                 name=Pattern.search(line).groups()[0]
                 break
@@ -281,7 +281,7 @@ class MW_info(dict,P_info):
         "take the info from MW_runcard.dat"
         self.nb_card=self.number_of_P_run()
         self.def_actif_param()
-        
+
     #2##########################################################################
     def number_of_P_run(self):
         "take the info from the existing card in Cards"
@@ -293,7 +293,7 @@ class MW_info(dict,P_info):
             if os.path.isfile('Cards/param_card_'+str(j)+'.dat'): j+=1
             elif(j==1): return j
             else: return j-1
-            
+
 
 
     #2##########################################################################
@@ -303,7 +303,7 @@ class MW_info(dict,P_info):
         self.P_nevents=self.info['mw_run']['5']
         self.MW_nevents=self.info['mw_run']['6']
 
-        
+
     #2##########################################################################
     def give_block_param_info(self):
         """ return the number of modified parameter and the number of different value for each"""
@@ -328,7 +328,7 @@ class MW_info(dict,P_info):
     #3########################################################################
     def CardNb_to_ParameterTag(self,num_card):
         """ find from th card number, to which value for each block this card belong
-            num_card is the number of the card in the last generation. 
+            num_card is the number of the card in the last generation.
             card in previous generation are not accessible by this routine
             (and are not related to this MadWeight card anyway)
          """
@@ -381,7 +381,7 @@ class MW_info(dict,P_info):
                 self.run_opt[tag]=value
             else:
                 self.run_opt[option[i]]=1
-                                                
+
         self.control_opt()
 
     #3##########################################################################
@@ -391,7 +391,7 @@ class MW_info(dict,P_info):
 
         if self.run_opt['refine']:
             self.run_opt['relaunch']=1
-        
+
         #check value for 'madweight_main'
         for i in list(range(3,9))+[-1,-3,-4]:
             if self.run_opt[num_to_tag[i]]==1:
@@ -442,12 +442,12 @@ class MW_info(dict,P_info):
             number=[int(eventdir.split('_')[-1]) for eventdir in os.listdir(directory+'/card_'+str(card_nb)+'/')]
         else:
             return 0
-        
+
         if len(number):
             return max(number)+1
         else:
             return 0
-        
+
 #1 #################################################################################
 class move:
     def __init__(self):
@@ -455,7 +455,7 @@ class move:
         self.old=self.initpos
 
     def to_SubProcesses(self):
-        
+
         old_pos=os.getcwd()+'/'
         self.old=old_pos
         if old_pos.count('/SubProcesses/')>1:
@@ -464,11 +464,11 @@ class move:
             new_pos=old_pos+'/SubProcesses/'
         else:
             new_pos='/SubProcesses/'.join(old_pos.split('/SubProcesses/')[:-1])+'/SubProcesses/'
-            
+
         if new_pos!=old_pos:
             self.old=old_pos
             os.chdir(new_pos)
-            
+
     def to_init(self):
         self.old=os.getcwd()
         os.chdir(self.initpos)
@@ -501,14 +501,13 @@ def detect_SubProcess(P_mode=0):
 
         list_dir=os.listdir("./SubProcesses/")
         for name in list_dir:
-            try:           
+            try:
                 st = os.lstat(os.path.join("./SubProcesses/", name))
             except os.error:
                 continue
             if stat.S_ISDIR(st.st_mode):
                 if name[0]=='P':
-                    MW_SubProcess_list.append(name)                
+                    MW_SubProcess_list.append(name)
 
 # Pierre: set MW_SubProcess_list to SubProcess_list, set SubProcess_list to []
         return [],MW_SubProcess_list
-

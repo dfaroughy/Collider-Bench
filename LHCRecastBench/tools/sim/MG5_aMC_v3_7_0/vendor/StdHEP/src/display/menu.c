@@ -74,26 +74,26 @@ static void closeCB(Widget w, PhaseWindow *window, caddr_t callData);
 static void printCB(Widget w, PhaseWindow *window, caddr_t callData);
 static void exitCB(Widget w, PhaseWindow *window, caddr_t callData);
 static void statisticsCB(Widget w, PhaseWindow *window, caddr_t callData);
-static void rotationAnglesCB(Widget w, PhaseWindow *window, caddr_t callData); 
+static void rotationAnglesCB(Widget w, PhaseWindow *window, caddr_t callData);
 static void colorCodesCB(Widget w, StdHepWindow *window, caddr_t callData);
 static void showAxesCB(Widget w, PhaseWindow *window, caddr_t callData);
 static void showVerticesCB(Widget w, SpaceWindow *window, caddr_t callData);
 static void perspectiveCB(Widget w, PhaseWindow *window, caddr_t callData);
 static void bufferCB(Widget w, PhaseWindow *window, caddr_t callData);
-static void vecLengthCB(Widget w, PhaseWindow *window, caddr_t callData); 
+static void vecLengthCB(Widget w, PhaseWindow *window, caddr_t callData);
 static void rotationIncrCB(Widget w, StdHepWindow *window, caddr_t callData);
-static int getFZFilename(Widget w, char *filename, int *blockSize); 
-static void eventTreeCB(Widget w, StdHepWindow *window, caddr_t callData); 
-static void highlightNodeCB(Widget w, StdHepWindow *window, caddr_t callData); 
+static int getFZFilename(Widget w, char *filename, int *blockSize);
+static void eventTreeCB(Widget w, StdHepWindow *window, caddr_t callData);
+static void highlightNodeCB(Widget w, StdHepWindow *window, caddr_t callData);
 static void highlightDaughtersCB(Widget w,
-                                 StdHepWindow *window, caddr_t callData); 
-static void highlightDescendantsCB(Widget w, 
-                                 StdHepWindow *window, caddr_t callData); 
-static void highlightMotherCB(Widget w, 
-                                 StdHepWindow *window, caddr_t callData); 
-static void highlightAncestorsCB(Widget w, 
                                  StdHepWindow *window, caddr_t callData);
-                                                                    
+static void highlightDescendantsCB(Widget w,
+                                 StdHepWindow *window, caddr_t callData);
+static void highlightMotherCB(Widget w,
+                                 StdHepWindow *window, caddr_t callData);
+static void highlightAncestorsCB(Widget w,
+                                 StdHepWindow *window, caddr_t callData);
+
 /*
 ** Create the menu bar
 */
@@ -116,9 +116,9 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
     XVisualInfo info;
     PhaseWindow *window = (PhaseWindow *) winsthep;
     SpaceWindow *winspace = (SpaceWindow *) winsthep;
-   
+
     display = XtDisplay(parent);
-    screen = XtScreen(parent); 
+    screen = XtScreen(parent);
 
 #define ITEM(parent, name, label, mnemonic, acc, accText, callback) \
     ac = 0; \
@@ -164,20 +164,20 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
     ac = 0;
     menuPane = XmCreatePulldownMenu(menuBar, "file", al, ac);
     if (type == STDHEP_PHASE) {
-      ac = 0; 
+      ac = 0;
       XtSetArg(al[ac], XmNlabelString,
                 st1=MKSTRING("Show New Display...")); ac++;
       XtSetArg(al[ac], XmNmnemonic, 'N'); ac++;
       XtSetArg(al[ac], XmNacceleratorText,
-                 st2=MKSTRING("Ctrl N")); ac++; 
-      XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> n" ); ac++; 
-      XtSetArg(al[ac], XmNsensitive, FALSE); ac++; 
-      button = XmCreatePushButton(menuPane, "newPhase", al, ac); 
-      XtAddCallback(button, XmNactivateCallback, 
-                     (XtCallbackProc) newPhaseCB, winsthep); 
+                 st2=MKSTRING("Ctrl N")); ac++;
+      XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> n" ); ac++;
+      XtSetArg(al[ac], XmNsensitive, FALSE); ac++;
+      button = XmCreatePushButton(menuPane, "newPhase", al, ac);
+      XtAddCallback(button, XmNactivateCallback,
+                     (XtCallbackProc) newPhaseCB, winsthep);
       XtManageChild(button);
-      winspace->newPhaseButton = button; 
-      XmStringFree(st1); 
+      winspace->newPhaseButton = button;
+      XmStringFree(st1);
       XmStringFree(st2);
     }
     ITEM(menuPane, "close", "Close", 'C', "Ctrl <Key> w", "Ctrl W", closeCB)
@@ -193,7 +193,7 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
 	SEPARATOR(menuPane, "separator3")
 	ITEM(menuPane, "exit", "Exit", 'E', "<Key>F3:", "F3", exitCB)
     }
-    
+
     ac = 0;
     XtSetArg (al[ac], XmNsubMenuId, menuPane);  ac++;
     if (canOpenFiles) {
@@ -207,7 +207,7 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
     }
     XtManageChild (cascade);
     XmStringFree(st1);
-    
+
     /*
     ** Create the Event pull down menu
     */
@@ -218,94 +218,94 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
 #endif
     ITEM(menuPane, "rotationAngles", "Rotation Angles...", 'R',
     	 "Ctrl <Key> r", "Ctrl R", rotationAnglesCB)
-    ac = 0; 
+    ac = 0;
     XtSetArg(al[ac], XmNlabelString,
                 st1=MKSTRING("Show Event Tree...")); ac++;
     XtSetArg(al[ac], XmNmnemonic, 'T'); ac++;
     XtSetArg(al[ac], XmNacceleratorText,
-                 st2=MKSTRING("Ctrl T")); ac++; 
-    XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> t" ); ac++; 
-    XtSetArg(al[ac], XmNsensitive, FALSE); ac++; 
-    button = XmCreatePushButton(menuPane, "eventTree", al, ac); 
-    XtAddCallback(button, XmNactivateCallback, 
-                  (XtCallbackProc) eventTreeCB, window); 
+                 st2=MKSTRING("Ctrl T")); ac++;
+    XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> t" ); ac++;
+    XtSetArg(al[ac], XmNsensitive, FALSE); ac++;
+    button = XmCreatePushButton(menuPane, "eventTree", al, ac);
+    XtAddCallback(button, XmNactivateCallback,
+                  (XtCallbackProc) eventTreeCB, window);
     XtManageChild(button);
-    window->eventTreeButton = button; 
-    XmStringFree(st1); 
+    window->eventTreeButton = button;
+    XmStringFree(st1);
     XmStringFree(st2);
     /*
-    ** The Eta-Pt Phase Space 
+    ** The Eta-Pt Phase Space
     */
-    ac = 0; 
+    ac = 0;
     XtSetArg(al[ac], XmNlabelString,
                 st1=MKSTRING("Show Eta-Pt Display...")); ac++;
     XtSetArg(al[ac], XmNmnemonic, 'E'); ac++;
     XtSetArg(al[ac], XmNacceleratorText,
-                 st2=MKSTRING("Ctrl E")); ac++; 
-    XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> e" ); ac++; 
-    XtSetArg(al[ac], XmNsensitive, FALSE); ac++; 
-    button = XmCreatePushButton(menuPane, "newPara", al, ac); 
+                 st2=MKSTRING("Ctrl E")); ac++;
+    XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> e" ); ac++;
+    XtSetArg(al[ac], XmNsensitive, FALSE); ac++;
+    button = XmCreatePushButton(menuPane, "newPara", al, ac);
     XtAddCallback(button, XmNactivateCallback,
-                  (XtCallbackProc)  newParaCB, winsthep); 
+                  (XtCallbackProc)  newParaCB, winsthep);
     XtManageChild(button);
-    winsthep->newParaButton = button; 
-    XmStringFree(st1); 
+    winsthep->newParaButton = button;
+    XmStringFree(st1);
     XmStringFree(st2);
-    
+
     if ((type == STDHEP_SPACE)) {
-      ac = 0; 
+      ac = 0;
       XtSetArg(al[ac], XmNlabelString,
                 st1=MKSTRING("Show Phase Display...")); ac++;
       XtSetArg(al[ac], XmNmnemonic, 'D'); ac++;
       XtSetArg(al[ac], XmNacceleratorText,
-                 st2=MKSTRING("Ctrl D")); ac++; 
-      XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> d" ); ac++; 
-      XtSetArg(al[ac], XmNsensitive, FALSE); ac++; 
-      button = XmCreatePushButton(menuPane, "newPhase", al, ac); 
+                 st2=MKSTRING("Ctrl D")); ac++;
+      XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> d" ); ac++;
+      XtSetArg(al[ac], XmNsensitive, FALSE); ac++;
+      button = XmCreatePushButton(menuPane, "newPhase", al, ac);
       XtAddCallback(button, XmNactivateCallback,
-                    (XtCallbackProc)  newPhaseCB, winsthep); 
+                    (XtCallbackProc)  newPhaseCB, winsthep);
       XtManageChild(button);
-      winspace->newPhaseButton = button; 
-      XmStringFree(st1); 
+      winspace->newPhaseButton = button;
+      XmStringFree(st1);
       XmStringFree(st2);
-      
-      ac = 0; 
+
+      ac = 0;
       XtSetArg(al[ac], XmNlabelString,
                 st1=MKSTRING("Show Detector Sketch...")); ac++;
       XtSetArg(al[ac], XmNmnemonic, 'S'); ac++;
       XtSetArg(al[ac], XmNacceleratorText,
-                 st2=MKSTRING("Ctrl S")); ac++; 
-      XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> s" ); ac++; 
-      XtSetArg(al[ac], XmNsensitive, FALSE); ac++; 
-      button = XmCreatePushButton(menuPane, "detectorSketch", al, ac); 
-      XtAddCallback(button, XmNactivateCallback, 
-                      (XtCallbackProc) detectorSketchCB, winsthep); 
+                 st2=MKSTRING("Ctrl S")); ac++;
+      XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> s" ); ac++;
+      XtSetArg(al[ac], XmNsensitive, FALSE); ac++;
+      button = XmCreatePushButton(menuPane, "detectorSketch", al, ac);
+      XtAddCallback(button, XmNactivateCallback,
+                      (XtCallbackProc) detectorSketchCB, winsthep);
       XtManageChild(button);
-      winspace->detectorButton = button; 
-      XmStringFree(st1); 
+      winspace->detectorButton = button;
+      XmStringFree(st1);
       XmStringFree(st2);
      }
-    
-/* Check that we have a color screen .. */   
+
+/* Check that we have a color screen .. */
     if (XMatchVisualInfo(display, XScreenNumberOfScreen(screen),
 	    DefaultDepthOfScreen(screen), PseudoColor, &info)) {
-     ac = 0; 
+     ac = 0;
      XtSetArg(al[ac], XmNlabelString,
                 st1=MKSTRING("Show Color Code...")); ac++;
      XtSetArg(al[ac], XmNmnemonic, 'C'); ac++;
      XtSetArg(al[ac], XmNacceleratorText,
-                 st2=MKSTRING("Ctrl C")); ac++; 
-     XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> c" ); ac++; 
-     XtSetArg(al[ac], XmNsensitive, FALSE); ac++; 
-     button = XmCreatePushButton(menuPane, "colorCode", al, ac); 
+                 st2=MKSTRING("Ctrl C")); ac++;
+     XtSetArg(al[ac], XmNaccelerator,"Ctrl <Key> c" ); ac++;
+     XtSetArg(al[ac], XmNsensitive, FALSE); ac++;
+     button = XmCreatePushButton(menuPane, "colorCode", al, ac);
      XtAddCallback(button, XmNactivateCallback,
-                     (XtCallbackProc) colorCodesCB, window); 
+                     (XtCallbackProc) colorCodesCB, window);
      XtManageChild(button);
-     window->colorCodeButton = button; 
-     XmStringFree(st1); 
+     window->colorCodeButton = button;
+     XmStringFree(st1);
      XmStringFree(st2);
     } else window->colorCodeButton = NULL;
-    
+
     ac = 0;
     XtSetArg (al[ac], XmNsubMenuId, menuPane);  ac++;
     XtSetArg(al[ac], XmNlabelString, st1=MKSTRING("Event")); ac++;
@@ -313,7 +313,7 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
     cascade = XmCreateCascadeButton (menuBar, "eventB", al, ac);
     XtManageChild (cascade);
     XmStringFree(st1);
-    
+
     /*
     ** Create the Preferences pull down menu
     */
@@ -335,8 +335,8 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
     }
     ITEM(menuPane, "rotationIncrements", "Rotation Increments...", 'R',
     		NULL, "", rotationIncrCB)
-    
-    winsthep->highlightTrackMode = TRACK_NODE;    
+
+    winsthep->highlightTrackMode = TRACK_NODE;
     subPane = AddSubMenu(menuPane, "trackHighlight", "Track Highlight", 'H');
     XtVaSetValues(subPane, XmNradioBehavior, True, 0);
     button = XtVaCreateManagedWidget("trackNode",
@@ -344,37 +344,37 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
                 XmNlabelString, st1=XmStringCreateSimple("Node -> Track"),
                 XmNset, True, 0);
     XtAddCallback(button, XmNvalueChangedCallback,
-                   (XtCallbackProc)  highlightNodeCB, window); 
+                   (XtCallbackProc)  highlightNodeCB, window);
     XmStringFree(st1);
     button = XtVaCreateManagedWidget("trackDaughters",
                 xmToggleButtonWidgetClass, subPane,
                 XmNlabelString, st1=XmStringCreateSimple("Node -> Daughters"),
                 XmNset, False, 0);
     XtAddCallback(button, XmNvalueChangedCallback,
-                  (XtCallbackProc) highlightDaughtersCB, window); 
+                  (XtCallbackProc) highlightDaughtersCB, window);
     XmStringFree(st1);
     button = XtVaCreateManagedWidget("trackDescendants",
                 xmToggleButtonWidgetClass, subPane,
                 XmNlabelString, st1=XmStringCreateSimple("Node -> Descendants"),
                 XmNset, False, 0);
     XtAddCallback(button, XmNvalueChangedCallback,
-                 (XtCallbackProc)  highlightDescendantsCB, window); 
-    XmStringFree(st1);     
+                 (XtCallbackProc)  highlightDescendantsCB, window);
+    XmStringFree(st1);
     button = XtVaCreateManagedWidget("trackMother",
                 xmToggleButtonWidgetClass, subPane,
                 XmNlabelString, st1=XmStringCreateSimple("Node -> Mother"),
                 XmNset, False, 0);
     XtAddCallback(button, XmNvalueChangedCallback,
-                 (XtCallbackProc)  highlightMotherCB, window); 
+                 (XtCallbackProc)  highlightMotherCB, window);
     XmStringFree(st1);
     button = XtVaCreateManagedWidget("trackAncestors",
                 xmToggleButtonWidgetClass, subPane,
                 XmNlabelString, st1=XmStringCreateSimple("Node -> Ancestors"),
                 XmNset, False, 0);
     XtAddCallback(button, XmNvalueChangedCallback,
-                  (XtCallbackProc) highlightAncestorsCB, window); 
+                  (XtCallbackProc) highlightAncestorsCB, window);
     XmStringFree(st1);
-     
+
     ac = 0;
     XtSetArg (al[ac], XmNsubMenuId, menuPane);  ac++;
     XtSetArg(al[ac], XmNlabelString, st1=MKSTRING("Preferences")); ac++;
@@ -382,15 +382,15 @@ Widget CreateMenuBar(Widget parent, StdHepWindow *winsthep, int canOpenFiles,
     cascade = XmCreateCascadeButton (menuBar, "preferencesB", al, ac);
     XtManageChild (cascade);
     XmStringFree(st1);
-    
+
     /* Create the Help menu */
-    if (type == STDHEP_PHASE) 
+    if (type == STDHEP_PHASE)
        CreateHelpPulldownMenu(menuBar, MainMenuHelp);
-    if (type == STDHEP_SPACE) 
+    if (type == STDHEP_SPACE)
        CreateHelpPulldownMenu(menuBar, MainMenuHelpSpace);
     if (type == STDHEP_PARA)
        CreateHelpPulldownMenu(menuBar, MainMenuHelpPara);
-       
+
     return (menuBar);
 }
 
@@ -400,9 +400,9 @@ void GetSetStdHep(StdHepWindow *window, int evtnum)
     char *ctmp;
     PhaseWindow *winp = (PhaseWindow *) window;
     SpaceWindow *wins = (SpaceWindow *) window;
-    
+
 /*
-* If a track has been selected, make sure it taking care off first 
+* If a track has been selected, make sure it taking care off first
 */
     if (window->selectedTrack != NO_TRACK)
         XtUnmapWidget(window->trackWindowShell);
@@ -412,103 +412,103 @@ void GetSetStdHep(StdHepWindow *window, int evtnum)
      if (window->dtree != NULL) CloseHepTreeWindow(NULL, window);
 /*
 * Now get the new stuff..
-*/        
+*/
      OpenGetStdHep(window, evtnum);
-     
+
 /* Set the Tree button Sensitive, newPhase ( and Color tree ) */
-    
-    XtSetSensitive(window->eventTreeButton, TRUE);                           
+
+    XtSetSensitive(window->eventTreeButton, TRUE);
     if(window->colorCodeButton != NULL)
-        XtSetSensitive(window->colorCodeButton, TRUE);                           
+        XtSetSensitive(window->colorCodeButton, TRUE);
     XtSetSensitive(window->newPhaseButton, TRUE);
     XtSetSensitive(window->newParaButton, TRUE);
-    if (window->type == STDHEP_SPACE) 
+    if (window->type == STDHEP_SPACE)
        XtSetSensitive(wins->detectorButton, TRUE);
-    
+
 /* Set the Slider value corresponding to this event */
-                               
-     if (window->type == STDHEP_SPACE) { 
+
+     if (window->type == STDHEP_SPACE) {
        SetScaleSpaceSliders(wins);
        SET_ONE_RSRC( wins->scaleSliderScale, XmNvalue, SLIDER_MAX);
     } else if (window->type == STDHEP_PARA) {
        SetScaleParaSliders((ParaWindow *) wins);
-    }    
+    }
 /*
-* Set the eventnumber information line.. and event number. 
+* Set the eventnumber information line.. and event number.
 */
     ctmp = (char *) XtMalloc(80);
     if (window->nEvents == window->nMaxEvts )
-    sprintf(ctmp, "Out of at least %d, events, StdHep evt %d ", 
+    sprintf(ctmp, "Out of at least %d, events, StdHep evt %d ",
                        window->nMaxEvts, window->event.userData);
-    else   sprintf(ctmp, "Out of %d, events, StdHep evt %d ", 
+    else   sprintf(ctmp, "Out of %d, events, StdHep evt %d ",
                        window->nEvents, window->event.userData);
 
     mString = XmStringCreateSimple(ctmp);
     XtFree((char *) ctmp);
     XtVaSetValues(window->eventSelectorLabel, XmNlabelString, mString, 0);
     XmStringFree(mString);
-    
+
     ctmp = (char *) XtMalloc(20);
     sprintf(ctmp, " %d ", evtnum);
     mString = XmStringCreateSimple(ctmp);
     XtFree((char *) ctmp);
     XtVaSetValues(window->eventNumText, XmNlabelString, mString, 0);
     XmStringFree(mString);
-    
+
     window->selectedTrack = NO_TRACK;
     window->selnodeNumTrack = 0;
     window->selnodeTracks = NULL;
-    
+
     DrawEvent(window, True);
 }
 
-static void newPhaseCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void newPhaseCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     char title[40];
-/* 
-* Start a new window, with the same event, but clone the window 
-* structure to avoid clashes with the other(s) existing windows. 
+/*
+* Start a new window, with the same event, but clone the window
+* structure to avoid clashes with the other(s) existing windows.
 * Since we have only one bacpointer to TreeHep...
 */
     sprintf(title, "StdHep Event %d ", window->event.userData);
     DisplayOneEvent(XtDisplay(w), &window->event, title, STDHEP_PHASE,
-    			window->exitProc);    
+    			window->exitProc);
 }
 
-static void newParaCB(Widget w, StdHepWindow *window, caddr_t callData) 
+static void newParaCB(Widget w, StdHepWindow *window, caddr_t callData)
 {
     char title[40];
-/* 
-* Start a new window, with the same event, but clone the window 
-* structure to avoid clashes with the other(s) existing windows. 
+/*
+* Start a new window, with the same event, but clone the window
+* structure to avoid clashes with the other(s) existing windows.
 * Since we have only one bacpointer to TreeHep...
 */
     sprintf(title, "StdHep Event %d ", window->event.userData);
     DisplayOneEvent(XtDisplay(w), &window->event, title, STDHEP_PARA,
-    			window->exitProc);    
+    			window->exitProc);
 }
 
-static void detectorSketchCB(Widget w, SpaceWindow *window, caddr_t callData) 
+static void detectorSketchCB(Widget w, SpaceWindow *window, caddr_t callData)
 {
 /*
-**  Read a Detector-Sketch file, and redraw the event. 
+**  Read a Detector-Sketch file, and redraw the event.
 */
 	GetDetectorSketch(window);
 	DrawEvent((StdHepWindow *) window, False);
 }
 
-static void openXCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void openXCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
-   
+
    int ifile, resp, ievt;
    int istr = 0;
-   
+
   /* Set the Event Tree button insensitive */
-  
+
     XtSetSensitive(window->eventTreeButton, FALSE);
-    if (window->colorCodeButton != NULL) 
+    if (window->colorCodeButton != NULL)
        XtSetSensitive(window->colorCodeButton, FALSE);
-    
+
     if (window->filename != NULL) {
         resp = DialogF(DF_WARN, w, 2,
                 "Opening a new file will delete current display ",
@@ -517,20 +517,20 @@ static void openXCB(Widget w, PhaseWindow *window, caddr_t callData)
             return;
         XtFree((char *) window->filename);
     }
-    window->filename = (char *) XtMalloc(255);    
+    window->filename = (char *) XtMalloc(255);
     ifile = GetExistingFilename(w, "Xdr StdHep File", window->filename);
     if (ifile == GFN_CANCEL) {
        XtFree((char *) window->filename);
        window->filename = NULL;
        return;
     }
-    
+
 /* Set the maximum number of events "check through STDHEP i/o to xx, aribtrary
    at this point.. To set by a preference pull down menu */
-   
+
     window->nMaxEvts = 100;
     window->xdrStream = istr;
-    window->nEvents = 
+    window->nEvents =
        OpenCheckXdrStdHep(window->filename, window->nMaxEvts, istr);
     if (window->nEvents <= 0) {
         resp = DialogF(DF_INF, w, 1,
@@ -542,13 +542,13 @@ static void openXCB(Widget w, PhaseWindow *window, caddr_t callData)
     }
     ievt = 1;
     window->filemode = XDR_STDHEP;
-/* 
+/*
 * Set the title window to the filename
 */
     XtVaSetValues(window->shell, XmNtitle, window->filename,
                  XmNiconName, window->filename, 0);
-                                   
-    GetSetStdHep((StdHepWindow *) window, ievt);  
+
+    GetSetStdHep((StdHepWindow *) window, ievt);
 }
 
 static int getFZFilename(Widget w, char *filename, int *blockSize)
@@ -558,7 +558,7 @@ static int getFZFilename(Widget w, char *filename, int *blockSize)
     XmString s1, s2;
     int n;
     Arg args[10];
-    
+
     while(True) {
 	n=0;
 	XtSetArg(args[n], XmNlistLabelString,
@@ -567,7 +567,7 @@ static int getFZFilename(Widget w, char *filename, int *blockSize)
 	XtSetArg(args[n], XmNdialogTitle, s2=XmStringCreateSimple(" ")); n++;
 	fileSB = XmCreateFileSelectionDialog(w, "hbFileSB", args, n);
 	XmStringFree(s1); XmStringFree(s2);
-	XtUnmanageChild(XmFileSelectionBoxGetChild(fileSB, XmDIALOG_TEXT)); 
+	XtUnmanageChild(XmFileSelectionBoxGetChild(fileSB, XmDIALOG_TEXT));
 	XtUnmanageChild(XmFileSelectionBoxGetChild(fileSB,
 		XmDIALOG_SELECTION_LABEL));
 	form = XtVaCreateManagedWidget("bsForm", xmFormWidgetClass, fileSB, 0);
@@ -583,7 +583,7 @@ static int getFZFilename(Widget w, char *filename, int *blockSize)
     	RemapDeleteKey(text);
     	*blockSize = 900;
     	SetIntText(text, *blockSize);
-    
+
 	resp = HandleCustomExistFileSB(fileSB, filename);
 	XmStringFree(s1);		/* JMK - 6/28/93	*/
     	if (resp == GFN_CANCEL)
@@ -595,7 +595,7 @@ static int getFZFilename(Widget w, char *filename, int *blockSize)
 	} else if (bsOK == TEXT_IS_BLANK)
 	    DialogF(DF_ERR, w, 1, "Please enter record length\n\
 for FZ file",  "Acknowledged");
-	else 
+	else
 	    DialogF(DF_ERR, w, 1, "Can't read value for FZ\n\
 file record length",  "Acknowledged");
     }
@@ -606,10 +606,10 @@ void CloseWindow(StdHepWindow *window)
      int resp, iok;
      SpaceWindow *wins;
      PhaseWindow *winp;
-     
+
     /* If no other windows opened, this means that the users will de-facto
     	exit the program.. Make sure that's what he wants.. */
-    	
+
       if (((WindowList == window) && (window->next == NULL)) ) {
         resp = DialogF(DF_WARN, window->shell, 2,
                 "Closing this window will terminate the show",
@@ -619,27 +619,27 @@ void CloseWindow(StdHepWindow *window)
     	      (*window->exitProc)();
     }
     /* Remove the Tree Window (if there ) */
-    
+
     CloseHepTreeWindow(NULL, window);
-    
-    /* Remove the colorcode tree */ 
-    if (window->treeheadcolorcode != NULL) 
+
+    /* Remove the colorcode tree */
+    if (window->treeheadcolorcode != NULL)
         FreeTree((nodehep *) window->treeheadcolorcode);
-        
+
     if (window->colorcode.nParticles != 0 )
-        XtFree((char *) window->colorcode.particles); 
-     
+        XtFree((char *) window->colorcode.particles);
+
     if (window->selnodeTracks != NULL) XtFree((char *) window->selnodeTracks);
-       
+
     /* remove and deallocate all of the widgets associated with window */
     XtDestroyWidget(window->shell);
-    
+
     /* free the event track data */
     if (window->event.nParticles != 0)
     	XtFree((char *) window->event.particles);
-    	
+
     /* Free the verices if a Space Window */
-    if (window->type == STDHEP_SPACE) { 
+    if (window->type == STDHEP_SPACE) {
         wins = (SpaceWindow *) window;
         XtFree((char *) wins->vertices);
         XtFree((char *) wins->realVertices);
@@ -649,10 +649,10 @@ void CloseWindow(StdHepWindow *window)
           XtFree((char *) wins->detectorSegments);
           wins->detectorSegments = NULL;
           }
-     }	
+     }
     /* remove the window from the global window list */
     RemoveFromWindowList(window);
-    
+
     /* deallocate the window data structure */
     XtFree((char *) window);
 }
@@ -667,27 +667,27 @@ void SetScaleSpaceSliders(SpaceWindow *window)
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->scaleSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    
+
     sprintf(line,"X Trans. = %12.5e",window->currentTransl[0]);
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->xTranslSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    
+
     sprintf(line,"Y Trans. = %12.5e",window->currentTransl[1]);
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->yTranslSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    
+
     sprintf(line,"Z Trans. = %12.5e",window->currentTransl[2]);
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->zTranslSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    
+
     sprintf(line,"P to Dist = %12.5e",window->currentMomToSpace);
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->momToSpaceSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    
+
     sprintf(line,"Pl to Pt = %f", window->currentLongToTr);
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->longToTrSliderValue, XmNlabelString, s1, 0);
@@ -708,8 +708,8 @@ void SetScaleSpaceSliders(SpaceWindow *window)
       double eta, pt, etamax, ptmax;
 
 /*
-** Compute the maximum Pt and eta in the event, this set the scale 
-**     
+** Compute the maximum Pt and eta in the event, this set the scale
+**
 */
     etamax = 0.; ptmax = 0.;
     p = window->event.particles;
@@ -727,27 +727,27 @@ void SetScaleSpaceSliders(SpaceWindow *window)
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->zTranslSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    
+
     window->currentRapToPt = ptmax/etamax;
     window->minRapToPt = 0.2 * window->currentRapToPt;
     window->maxRapToPt = 5. * window->currentRapToPt;
-     window->currentRapToPt = window->minRapToPt + 
+     window->currentRapToPt = window->minRapToPt +
      0.5 * (window->maxRapToPt - window->minRapToPt);
     sprintf(line,"Eta to Dist = %12.5e",window->currentRapToPt);
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->rapToPtSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    
+
     SET_ONE_RSRC( window->zTranslSliderScale, XmNvalue, SLIDER_MAX/2);
     SET_ONE_RSRC( window->rapToPtSliderScale, XmNvalue, SLIDER_MAX/2);
 }
 
-static void closeCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void closeCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     CloseWindow((StdHepWindow *) window);
 }
 
-static void printCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void printCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     char tmpFileName[L_tmpnam];    /* L_tmpnam defined in stdio.h */
     char *windowTitle;
@@ -760,23 +760,23 @@ static void printCB(Widget w, PhaseWindow *window, caddr_t callData)
 
 }
 
-static void exitCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void exitCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     if (window->exitProc != NULL)
     	(*window->exitProc)();
 }
 
-static void statisticsCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void statisticsCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     printf("statisticsCB called\n");
 }
 
-static void rotationAnglesCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void rotationAnglesCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     ShowAbsRotationPanel((StdHepWindow *) window);
 }
 
-static void colorCodesCB(Widget w, StdHepWindow *window, caddr_t callData) 
+static void colorCodesCB(Widget w, StdHepWindow *window, caddr_t callData)
 {
     window->modetreedisp = TREEDISPCODE;
     if (window->colorcode.nParticles == 0)
@@ -784,18 +784,18 @@ static void colorCodesCB(Widget w, StdHepWindow *window, caddr_t callData)
     DispTree(w, window);
 }
 
-static void eventTreeCB(Widget w, StdHepWindow *window, caddr_t callData) 
+static void eventTreeCB(Widget w, StdHepWindow *window, caddr_t callData)
 {
     window->modetreedisp = TREEDISPREAL;
     DispTree(w, window);
 }
 
-static void showAxesCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void showAxesCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     SET_ONE_RSRC(window->spin, XmNshowAxes, XmToggleButtonGetState(w));
 }
 
-static void showVerticesCB(Widget w, SpaceWindow *window, caddr_t callData) 
+static void showVerticesCB(Widget w, SpaceWindow *window, caddr_t callData)
 {
 	if (XmToggleButtonGetState(w)) window->showVertices = True;
 	else window->showVertices = False;
@@ -803,22 +803,22 @@ static void showVerticesCB(Widget w, SpaceWindow *window, caddr_t callData)
 	           DrawEvent((StdHepWindow*) window, False);
 }
 
-static void perspectiveCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void perspectiveCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     SET_ONE_RSRC(window->spin, XmNperspectiveOn, XmToggleButtonGetState(w));
 }
 
-static void bufferCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void bufferCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     SET_ONE_RSRC(window->spin, XmNdoubleBuffer, XmToggleButtonGetState(w));
 }
 
-static void vecLengthCB(Widget w, PhaseWindow *window, caddr_t callData) 
+static void vecLengthCB(Widget w, PhaseWindow *window, caddr_t callData)
 {
     ShowVectorLengthPanel(window);
 }
 
-static void rotationIncrCB(Widget w, StdHepWindow *window, caddr_t callData) 
+static void rotationIncrCB(Widget w, StdHepWindow *window, caddr_t callData)
 {
     ShowButtonRotationPanel(window);
 }
@@ -828,32 +828,30 @@ static void highlightNodeCB(Widget w, StdHepWindow *window, caddr_t callData)
 }
 
 static void highlightDaughtersCB(Widget w,
-                                 StdHepWindow *window, caddr_t callData) 
+                                 StdHepWindow *window, caddr_t callData)
 {
-    if (XmToggleButtonGetState(w)) 
+    if (XmToggleButtonGetState(w))
      window->highlightTrackMode = TRACK_DAUGHTERS;
 }
 
-static void highlightDescendantsCB(Widget w, 
-                                 StdHepWindow *window, caddr_t callData) 
+static void highlightDescendantsCB(Widget w,
+                                 StdHepWindow *window, caddr_t callData)
 {
-    if (XmToggleButtonGetState(w)) 
+    if (XmToggleButtonGetState(w))
     window->highlightTrackMode = TRACK_DESCENDANTS;
 }
 
-static void highlightMotherCB(Widget w, 
-                                 StdHepWindow *window, caddr_t callData) 
+static void highlightMotherCB(Widget w,
+                                 StdHepWindow *window, caddr_t callData)
 {
-    if (XmToggleButtonGetState(w)) 
+    if (XmToggleButtonGetState(w))
     window->highlightTrackMode = TRACK_MOTHER;
 }
 
-static void highlightAncestorsCB(Widget w, 
-                                 StdHepWindow *window, caddr_t callData) 
+static void highlightAncestorsCB(Widget w,
+                                 StdHepWindow *window, caddr_t callData)
 
 {
-    if (XmToggleButtonGetState(w)) 
+    if (XmToggleButtonGetState(w))
     window->highlightTrackMode = TRACK_ANCESTORS;
 }
-
-

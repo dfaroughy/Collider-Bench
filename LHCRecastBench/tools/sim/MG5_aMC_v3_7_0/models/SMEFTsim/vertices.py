@@ -25994,4 +25994,3 @@ V_4331 = Vertex(name = 'V_4331',
                 color = [ 'f(-1,1,2)*f(-1,3,4)', 'f(-1,1,3)*f(-1,2,4)', 'f(-1,1,4)*f(-1,2,3)' ],
                 lorentz = [ L.VVVVS1, L.VVVVS10, L.VVVVS11, L.VVVVS12, L.VVVVS13, L.VVVVS14, L.VVVVS15, L.VVVVS16, L.VVVVS18, L.VVVVS2, L.VVVVS20, L.VVVVS3, L.VVVVS5, L.VVVVS7, L.VVVVS8 ],
                 couplings = {(2,5):C.GC_6386,(2,8):C.GC_6395,(1,4):C.GC_6386,(1,10):C.GC_6395,(2,6):C.GC_6392,(0,11):C.GC_6388,(0,12):C.GC_6396,(1,7):C.GC_6392,(0,3):C.GC_6391,(1,2):C.GC_6388,(2,1):C.GC_6388,(0,9):C.GC_6386,(1,13):C.GC_6382,(0,0):C.GC_6382,(2,14):C.GC_6382})
-

@@ -14,7 +14,7 @@ C***********************************************************************
 *            IDATE(1) : year        ITIME(1) : hour
 *            IDATE(2) : month       ITIME(2) : minute
 *            IDATE(3) : day
- 
+
        CALL UXDATE(IY,IM,ID,IHH,IMM)
 CERN   call datime(id,it)
 CERN   CALL UCOPY(IS(1),IDATE(1),5)
@@ -55,7 +55,7 @@ C
 C
       save time_init
 C
- 
+
       IF( IFLG .NE. 0 ) THEN
 C
 C         iutime.c should be compiled.
@@ -64,11 +64,11 @@ C
 *         CALL TIMEX(TIME)
 C
       ELSE
- 
+
           time_init = uxtime()
 *         CALL TIMEST(9999999.)
           TIME      = 0.0
- 
+
       ENDIF
 C
       RETURN

@@ -44,4 +44,3 @@ if [[ (-x $MAdir/plot_events) && (-e unweighted_events.lhe) && (-e ../Cards/plot
     $dirbin/plot_page-pl $run parton
     mv plots.html ${run}_plots.html
 fi
-

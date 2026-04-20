@@ -25,7 +25,7 @@ c
       double complex d, T00, T12, T13, T14, T23, T24, T34
       double precision pv(4), pv2
       integer i
-      
+
       double precision rZero, rTwo
       parameter( rZero = 0.0d0, rTwo = 2.0d0 )
       double complex cone
@@ -58,9 +58,9 @@ c
       pv(2) = dreal(jiot(6))
       pv(3) = dimag(jiot(6))
       pv(4) = dimag(jiot(5))
- 
+
       pv2=pv(1)**2-pv(2)**2-pv(3)**2-pv(4)**2
-     
+
 
       T00 = ft(1,1)-ft(2,2)-ft(3,3)-ft(4,4)
       T12 = ft(1,2) + ft(2,1)
@@ -69,7 +69,7 @@ c
       T23 = ft(2,3) + ft(3,2)
       T24 = ft(2,4) + ft(4,2)
       T34 = ft(3,4) + ft(4,3)
-      
+
       if ( vmass.gt.rZero ) then
          d =  1.0d0/dcmplx( pv2-vmass**2, vmass*vwidth )
       else
@@ -78,252 +78,252 @@ c
 
       if (vmass.gt.rzero) then
          jiot(1) = fi(3)*gc(2)*(-((rtwo*T00*fo(2)*pv(1)*(-pv(2)
-     &	 - cone*pv(3)))/vmass**2) + 
-     &       fo(1)*((rtwo*T00) 
-     &- (rtwo*T00*pv(1)*(pv(1) - pv(4)))/vmass**2)) + 
+     &	 - cone*pv(3)))/vmass**2) +
+     &       fo(1)*((rtwo*T00)
+     &- (rtwo*T00*pv(1)*(pv(1) - pv(4)))/vmass**2)) +
      &    fi(2)*gc(1)*(-((rtwo*T00*fo(3)*pv(1)
-     &*(pv(2) - cone*pv(3)))/vmass**2) + 
+     &*(pv(2) - cone*pv(3)))/vmass**2) +
      &       fo(4)*((rtwo*T00) - (rtwo*T00*pv(1)
-     &*(pv(1) - pv(4)))/vmass**2)) + 
+     &*(pv(1) - pv(4)))/vmass**2)) +
      &    fi(4)*gc(2)*(-((rtwo*T00*fo(1)*pv(1)
-     &*(-pv(2) + cone*pv(3)))/vmass**2) + 
-     &       fo(2)*((rtwo*T00) 
-     &- (rtwo*T00*pv(1)*(pv(1) + pv(4)))/vmass**2)) + 
+     &*(-pv(2) + cone*pv(3)))/vmass**2) +
+     &       fo(2)*((rtwo*T00)
+     &- (rtwo*T00*pv(1)*(pv(1) + pv(4)))/vmass**2)) +
      &    fi(1)*gc(1)*(-((rtwo*T00*fo(4)*pv(1)*(pv(2)
-     & + cone*pv(3)))/vmass**2) + 
-     &       fo(3)*((rtwo*T00) 
-     &- (rtwo*T00*pv(1)*(pv(1) + pv(4)))/vmass**2)) + 
-     &    fi(4)*gc(2)*(fo(1)*(ft(1,2) - cone*ft(1,3) 
+     & + cone*pv(3)))/vmass**2) +
+     &       fo(3)*((rtwo*T00)
+     &- (rtwo*T00*pv(1)*(pv(1) + pv(4)))/vmass**2)) +
+     &    fi(4)*gc(2)*(fo(1)*(ft(1,2) - cone*ft(1,3)
      &+ ft(2,1) - cone*ft(3,1))
-     & + fo(2)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) + 
-     &    fi(1)*gc(1)*(fo(4)*(-ft(1,2) - cone*ft(1,3) - ft(2,1) 
-     &- cone*ft(3,1)) + fo(3)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) + 
-     &    fi(3)*gc(2)*(fo(2)*(ft(1,2) + cone*ft(1,3) + ft(2,1) 
-     &+ cone*ft(3,1)) + fo(1)*(-2*ft(1,1) + ft(1,4) + ft(4,1))) + 
+     & + fo(2)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) +
+     &    fi(1)*gc(1)*(fo(4)*(-ft(1,2) - cone*ft(1,3) - ft(2,1)
+     &- cone*ft(3,1)) + fo(3)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) +
+     &    fi(3)*gc(2)*(fo(2)*(ft(1,2) + cone*ft(1,3) + ft(2,1)
+     &+ cone*ft(3,1)) + fo(1)*(-2*ft(1,1) + ft(1,4) + ft(4,1))) +
      &    fi(2)*gc(1)*(fo(3)*(-ft(1,2) + cone*ft(1,3) - ft(2,1)
-     & + cone*ft(3,1)) + fo(4)*(-2*ft(1,1) + ft(1,4) + ft(4,1))) + 
+     & + cone*ft(3,1)) + fo(4)*(-2*ft(1,1) + ft(1,4) + ft(4,1))) +
      &    (pv(1)*(fi(4)*gc(2)*(fo(1)*(-(T12*pv(1)) + cone*T13*pv(1)
-     & + T23*(-(cone*pv(2)) + pv(3)) + T24*pv(4) - cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
-     &            fo(2)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3) - 
-     &T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     & + T23*(-(cone*pv(2)) + pv(3)) + T24*pv(4) - cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
+     &            fo(2)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3) -
+     &T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(1)*gc(1)*
-     &          (fo(4)*(T12*pv(1) + cone*T13*pv(1) 
-     &+ T23*(-(cone*pv(2)) - pv(3)) - T24*pv(4) - cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
-     &            fo(3)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3) 
-     &- T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     &          (fo(4)*(T12*pv(1) + cone*T13*pv(1)
+     &+ T23*(-(cone*pv(2)) - pv(3)) - T24*pv(4) - cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
+     &            fo(3)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3)
+     &- T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(3)*gc(2)*
-     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1) 
-     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
+     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1)
+     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(1)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
-     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4))) + fi(2)*gc(1)*
-     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1) 
-     &+ T23*(cone*pv(2) - pv(3)) - T24*pv(4) + cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
-     &            fo(4)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3) 
-     &+ T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1)
+     &+ T23*(cone*pv(2) - pv(3)) - T24*pv(4) + cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
+     &            fo(4)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
+     &+ T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4)))))/vmass**2
-      
-         jiot(2) = fi(3)*gc(2)*(fo(2)*((rtwo*T00) 
-     &- (rtwo*T00*pv(2)*(-pv(2) - cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(1)*pv(2)*(pv(1) - pv(4)))/vmass**2) + 
+
+         jiot(2) = fi(3)*gc(2)*(fo(2)*((rtwo*T00)
+     &- (rtwo*T00*pv(2)*(-pv(2) - cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(1)*pv(2)*(pv(1) - pv(4)))/vmass**2) +
      &    fi(2)*gc(1)*(fo(3)*(-rtwo*T00 - (rtwo*T00*pv(2)*(pv(2)
-     & - cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(4)*pv(2)*(pv(1) - pv(4)))/vmass**2) + 
+     & - cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(4)*pv(2)*(pv(1) - pv(4)))/vmass**2) +
      &    fi(4)*gc(2)*(fo(1)*((rtwo*T00)
-     & - (rtwo*T00*pv(2)*(-pv(2) + cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(2)*pv(2)*(pv(1) + pv(4)))/vmass**2) + 
-     &    fi(1)*gc(1)*(fo(4)*(-rtwo*T00 - (rtwo*T00*pv(2)*(pv(2) 
-     &+ cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(3)*pv(2)*(pv(1) + pv(4)))/vmass**2) + 
+     & - (rtwo*T00*pv(2)*(-pv(2) + cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(2)*pv(2)*(pv(1) + pv(4)))/vmass**2) +
+     &    fi(1)*gc(1)*(fo(4)*(-rtwo*T00 - (rtwo*T00*pv(2)*(pv(2)
+     &+ cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(3)*pv(2)*(pv(1) + pv(4)))/vmass**2) +
      &    fi(4)*gc(2)*(fo(1)*(2*ft(2,2) - cone*ft(2,3) - cone*ft(3,2))
-     & + fo(2)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) + 
-     &    fi(1)*gc(1)*(fo(4)*(-2*ft(2,2) - cone*ft(2,3) - cone*ft(3,2)) 
-     &+ fo(3)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) + 
-     &    fi(3)*gc(2)*(fo(2)*(2*ft(2,2) + cone*ft(2,3) + cone*ft(3,2)) 
-     &+ fo(1)*(-ft(1,2) - ft(2,1) + ft(2,4) + ft(4,2))) + 
+     & + fo(2)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) +
+     &    fi(1)*gc(1)*(fo(4)*(-2*ft(2,2) - cone*ft(2,3) - cone*ft(3,2))
+     &+ fo(3)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) +
+     &    fi(3)*gc(2)*(fo(2)*(2*ft(2,2) + cone*ft(2,3) + cone*ft(3,2))
+     &+ fo(1)*(-ft(1,2) - ft(2,1) + ft(2,4) + ft(4,2))) +
      &    fi(2)*gc(1)*(fo(3)*(-2*ft(2,2) + cone*ft(2,3) + cone*ft(3,2))
-     & + fo(4)*(-ft(1,2) - ft(2,1) + ft(2,4) + ft(4,2))) + 
+     & + fo(4)*(-ft(1,2) - ft(2,1) + ft(2,4) + ft(4,2))) +
      &    (pv(2)*(fi(4)*gc(2)*(fo(1)*(-(T12*pv(1)) + cone*T13*pv(1)
-     & + T23*(-(cone*pv(2)) + pv(3)) + T24*pv(4) - cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
+     & + T23*(-(cone*pv(2)) + pv(3)) + T24*pv(4) - cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(2)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3)
-     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(1)*gc(1)*
      &          (fo(4)*(T12*pv(1) + cone*T13*pv(1) + T23*(-(cone*pv(2))
-     & - pv(3)) - T24*pv(4) - cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
+     & - pv(3)) - T24*pv(4) - cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(3)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3)
-     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(3)*gc(2)*
-     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1) 
-     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
+     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1)
+     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(1)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
-     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4))) + fi(2)*gc(1)*
-     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1) 
-     &+ T23*(cone*pv(2) - pv(3)) - T24*pv(4) + cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
-     &            fo(4)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3) 
-     &+ T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1)
+     &+ T23*(cone*pv(2) - pv(3)) - T24*pv(4) + cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
+     &            fo(4)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
+     &+ T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4)))))/vmass**2
 
          jiot(3) =fi(3)*gc(2)*(fo(2)*((cone*rtwo*T00)
-     &	 - (rtwo*T00*pv(3)*(-pv(2) - cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(1)*pv(3)*(pv(1) - pv(4)))/vmass**2) + 
-     &    fi(2)*gc(1)*(fo(3)*((cone*rtwo*T00) 
-     &- (rtwo*T00*pv(3)*(pv(2) - cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(4)*pv(3)*(pv(1) - pv(4)))/vmass**2) + 
-     &    fi(4)*gc(2)*(fo(1)*(-cone*rtwo*T00 
-     &- (rtwo*T00*pv(3)*(-pv(2) + cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(2)*pv(3)*(pv(1) + pv(4)))/vmass**2) + 
+     &	 - (rtwo*T00*pv(3)*(-pv(2) - cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(1)*pv(3)*(pv(1) - pv(4)))/vmass**2) +
+     &    fi(2)*gc(1)*(fo(3)*((cone*rtwo*T00)
+     &- (rtwo*T00*pv(3)*(pv(2) - cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(4)*pv(3)*(pv(1) - pv(4)))/vmass**2) +
+     &    fi(4)*gc(2)*(fo(1)*(-cone*rtwo*T00
+     &- (rtwo*T00*pv(3)*(-pv(2) + cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(2)*pv(3)*(pv(1) + pv(4)))/vmass**2) +
      &    fi(1)*gc(1)*(fo(4)*(-cone*rtwo*T00
-     & - (rtwo*T00*pv(3)*(pv(2) + cone*pv(3)))/vmass**2) - 
-     &       (rtwo*T00*fo(3)*pv(3)*(pv(1) + pv(4)))/vmass**2) + 
-     &    fi(4)*gc(2)*(fo(1)*(ft(2,3) + ft(3,2) 
-     &- 2*cone*ft(3,3)) + fo(2)*(-ft(1,3) - ft(3,1) 
-     &- ft(3,4) - ft(4,3))) + 
-     &    fi(1)*gc(1)*(fo(4)*(-ft(2,3) - ft(3,2) 
-     &- 2*cone*ft(3,3)) + fo(3)*(-ft(1,3) - ft(3,1) 
-     &- ft(3,4) - ft(4,3))) + 
+     & - (rtwo*T00*pv(3)*(pv(2) + cone*pv(3)))/vmass**2) -
+     &       (rtwo*T00*fo(3)*pv(3)*(pv(1) + pv(4)))/vmass**2) +
+     &    fi(4)*gc(2)*(fo(1)*(ft(2,3) + ft(3,2)
+     &- 2*cone*ft(3,3)) + fo(2)*(-ft(1,3) - ft(3,1)
+     &- ft(3,4) - ft(4,3))) +
+     &    fi(1)*gc(1)*(fo(4)*(-ft(2,3) - ft(3,2)
+     &- 2*cone*ft(3,3)) + fo(3)*(-ft(1,3) - ft(3,1)
+     &- ft(3,4) - ft(4,3))) +
      &    fi(3)*gc(2)*(fo(2)*(ft(2,3) + ft(3,2) + 2*cone*ft(3,3))
-     & + fo(1)*(-ft(1,3) - ft(3,1) + ft(3,4) + ft(4,3))) + 
-     &    fi(2)*gc(1)*(fo(3)*(-ft(2,3) - ft(3,2) + 2*cone*ft(3,3)) 
-     &+ fo(4)*(-ft(1,3) - ft(3,1) + ft(3,4) + ft(4,3))) + 
-     &    (pv(3)*(fi(4)*gc(2)*(fo(1)*(-(T12*pv(1)) + cone*T13*pv(1) 
-     &+ T23*(-(cone*pv(2)) + pv(3)) + T24*pv(4) - cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
+     & + fo(1)*(-ft(1,3) - ft(3,1) + ft(3,4) + ft(4,3))) +
+     &    fi(2)*gc(1)*(fo(3)*(-ft(2,3) - ft(3,2) + 2*cone*ft(3,3))
+     &+ fo(4)*(-ft(1,3) - ft(3,1) + ft(3,4) + ft(4,3))) +
+     &    (pv(3)*(fi(4)*gc(2)*(fo(1)*(-(T12*pv(1)) + cone*T13*pv(1)
+     &+ T23*(-(cone*pv(2)) + pv(3)) + T24*pv(4) - cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(2)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3)
-     &- T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     &- T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(1)*gc(1)*
-     &          (fo(4)*(T12*pv(1) + cone*T13*pv(1) 
-     &+ T23*(-(cone*pv(2)) - pv(3)) - T24*pv(4) - cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
+     &          (fo(4)*(T12*pv(1) + cone*T13*pv(1)
+     &+ T23*(-(cone*pv(2)) - pv(3)) - T24*pv(4) - cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(3)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3)
-     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(3)*gc(2)*
-     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1) 
-     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
+     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1)
+     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(1)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
-     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4))) + fi(2)*gc(1)*
-     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1) 
-     &+ T23*(cone*pv(2) - pv(3)) - T24*pv(4) + cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
+     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1)
+     &+ T23*(cone*pv(2) - pv(3)) - T24*pv(4) + cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(4)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
-     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4)))))/vmass**2
 
-         jiot(4) =fi(3)*gc(2)*(-((rtwo*T00*fo(2)*(-pv(2) 
-     &	- cone*pv(3))*pv(4))/vmass**2) + 
+         jiot(4) =fi(3)*gc(2)*(-((rtwo*T00*fo(2)*(-pv(2)
+     &	- cone*pv(3))*pv(4))/vmass**2) +
      &       fo(1)*((rtwo*T00) - (rtwo*T00*(pv(1)
-     & - pv(4))*pv(4))/vmass**2)) + 
+     & - pv(4))*pv(4))/vmass**2)) +
      &    fi(2)*gc(1)*(-((rtwo*T00*fo(3)*(pv(2)
-     & - cone*pv(3))*pv(4))/vmass**2) + 
+     & - cone*pv(3))*pv(4))/vmass**2) +
      &       fo(4)*((rtwo*T00) - (rtwo*T00*(pv(1)
-     & - pv(4))*pv(4))/vmass**2)) + 
-     &    fi(4)*gc(2)*(-((rtwo*T00*fo(1)*(-pv(2) 
-     &+ cone*pv(3))*pv(4))/vmass**2) + 
+     & - pv(4))*pv(4))/vmass**2)) +
+     &    fi(4)*gc(2)*(-((rtwo*T00*fo(1)*(-pv(2)
+     &+ cone*pv(3))*pv(4))/vmass**2) +
      &       fo(2)*(-rtwo*T00
-     & - (rtwo*T00*pv(4)*(pv(1) + pv(4)))/vmass**2)) + 
+     & - (rtwo*T00*pv(4)*(pv(1) + pv(4)))/vmass**2)) +
      &    fi(1)*gc(1)*(-((rtwo*T00*fo(4)*(pv(2)
-     & + cone*pv(3))*pv(4))/vmass**2) + 
+     & + cone*pv(3))*pv(4))/vmass**2) +
      &       fo(3)*(-rtwo*T00 - (rtwo*T00*pv(4)*(pv(1)
-     & + pv(4)))/vmass**2)) + 
+     & + pv(4)))/vmass**2)) +
      &    fi(4)*gc(2)*(fo(1)*(ft(2,4) - cone*ft(3,4)
-     & + ft(4,2) - cone*ft(4,3)) + fo(2)*(-ft(1,4) 
-     &- ft(4,1) - 2*ft(4,4))) + 
+     & + ft(4,2) - cone*ft(4,3)) + fo(2)*(-ft(1,4)
+     &- ft(4,1) - 2*ft(4,4))) +
      &    fi(1)*gc(1)*(fo(4)*(-ft(2,4) - cone*ft(3,4)
      & - ft(4,2) - cone*ft(4,3)) + fo(3)*(-ft(1,4)
-     & - ft(4,1) - 2*ft(4,4))) + 
-     &    fi(3)*gc(2)*(fo(2)*(ft(2,4) + cone*ft(3,4) 
-     &+ ft(4,2) + cone*ft(4,3)) + fo(1)*(-ft(1,4) 
-     &- ft(4,1) + 2*ft(4,4))) + 
+     & - ft(4,1) - 2*ft(4,4))) +
+     &    fi(3)*gc(2)*(fo(2)*(ft(2,4) + cone*ft(3,4)
+     &+ ft(4,2) + cone*ft(4,3)) + fo(1)*(-ft(1,4)
+     &- ft(4,1) + 2*ft(4,4))) +
      &    fi(2)*gc(1)*(fo(3)*(-ft(2,4) + cone*ft(3,4)
      & - ft(4,2) + cone*ft(4,3)) + fo(4)*(-ft(1,4)
-     & - ft(4,1) + 2*ft(4,4))) + 
-     &    (pv(4)*(fi(4)*gc(2)*(fo(1)*(-(T12*pv(1)) 
+     & - ft(4,1) + 2*ft(4,4))) +
+     &    (pv(4)*(fi(4)*gc(2)*(fo(1)*(-(T12*pv(1))
      &+ cone*T13*pv(1) + T23*(-(cone*pv(2)) + pv(3))
-     & + T24*pv(4) - cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
+     & + T24*pv(4) - cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(2)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3)
-     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(1)*gc(1)*
-     &          (fo(4)*(T12*pv(1) + cone*T13*pv(1) 
-     &+ T23*(-(cone*pv(2)) - pv(3)) - T24*pv(4) - cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) + 
+     &          (fo(4)*(T12*pv(1) + cone*T13*pv(1)
+     &+ T23*(-(cone*pv(2)) - pv(3)) - T24*pv(4) - cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) - cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(3)*(-(T12*pv(2)) - T24*pv(2) - T13*pv(3)
-     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) - 
+     & - T34*pv(3) - T14*(-pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) -
      &               rtwo*pv(4)*ft(4,4))) + fi(3)*gc(2)*
-     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1) 
-     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) + 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
-     &            fo(1)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3) 
-     &+ T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     &          (fo(2)*(-(T12*pv(1)) - cone*T13*pv(1)
+     &+ T23*(cone*pv(2) + pv(3)) + T24*pv(4) + cone*T34*pv(4) +
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
+     &            fo(1)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
+     &+ T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4))) + fi(2)*gc(1)*
-     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1) + T23*(cone*pv(2) 
-     &- pv(3)) - T24*pv(4) + cone*T34*pv(4) - 
-     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) + 
+     &          (fo(3)*(T12*pv(1) - cone*T13*pv(1) + T23*(cone*pv(2)
+     &- pv(3)) - T24*pv(4) + cone*T34*pv(4) -
+     &               rtwo*pv(2)*ft(2,2) + cone*rtwo*pv(3)*ft(3,3)) +
      &            fo(4)*(-(T12*pv(2)) + T24*pv(2) - T13*pv(3)
-     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) + 
+     & + T34*pv(3) - T14*(pv(1) + pv(4)) + rtwo*pv(1)*ft(1,1) +
      &               rtwo*pv(4)*ft(4,4)))))/vmass**2
 
       else
 
          jiot(1) = rtwo*T00*fi(1)*fo(3)*gc(1)
-     & + rtwo*T00*fi(2)*fo(4)*gc(1) + rtwo*T00*fi(3)*fo(1)*gc(2) + 
-     &    rtwo*T00*fi(4)*fo(2)*gc(2) + fi(4)*gc(2)*(fo(1)*(ft(1,2) 
-     &- cone*ft(1,3) + ft(2,1) - cone*ft(3,1)) + 
-     &       fo(2)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) + 
-     &    fi(1)*gc(1)*(fo(4)*(-ft(1,2) - cone*ft(1,3) - ft(2,1) 
-     &- cone*ft(3,1)) + fo(3)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) + 
-     &    fi(3)*gc(2)*(fo(2)*(ft(1,2) + cone*ft(1,3) + ft(2,1) 
-     &+ cone*ft(3,1)) + fo(1)*(-2*ft(1,1) + ft(1,4) + ft(4,1))) + 
+     & + rtwo*T00*fi(2)*fo(4)*gc(1) + rtwo*T00*fi(3)*fo(1)*gc(2) +
+     &    rtwo*T00*fi(4)*fo(2)*gc(2) + fi(4)*gc(2)*(fo(1)*(ft(1,2)
+     &- cone*ft(1,3) + ft(2,1) - cone*ft(3,1)) +
+     &       fo(2)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) +
+     &    fi(1)*gc(1)*(fo(4)*(-ft(1,2) - cone*ft(1,3) - ft(2,1)
+     &- cone*ft(3,1)) + fo(3)*(-2*ft(1,1) - ft(1,4) - ft(4,1))) +
+     &    fi(3)*gc(2)*(fo(2)*(ft(1,2) + cone*ft(1,3) + ft(2,1)
+     &+ cone*ft(3,1)) + fo(1)*(-2*ft(1,1) + ft(1,4) + ft(4,1))) +
      &    fi(2)*gc(1)*(fo(3)*(-ft(1,2) + cone*ft(1,3) - ft(2,1)
      & + cone*ft(3,1)) + fo(4)*(-2*ft(1,1) + ft(1,4) + ft(4,1)))
 
-         jiot(2) = -(rtwo*T00*fi(2)*fo(3)*gc(1)) 
+         jiot(2) = -(rtwo*T00*fi(2)*fo(3)*gc(1))
      &  - rtwo*T00*fi(1)*fo(4)*gc(1)
-     &	 + rtwo*T00*fi(4)*fo(1)*gc(2) + 
-     &    rtwo*T00*fi(3)*fo(2)*gc(2) + fi(4)*gc(2)*(fo(1)*(2*ft(2,2) 
-     &- cone*ft(2,3) - cone*ft(3,2)) + 
-     &       fo(2)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) + 
+     &	 + rtwo*T00*fi(4)*fo(1)*gc(2) +
+     &    rtwo*T00*fi(3)*fo(2)*gc(2) + fi(4)*gc(2)*(fo(1)*(2*ft(2,2)
+     &- cone*ft(2,3) - cone*ft(3,2)) +
+     &       fo(2)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) +
      &    fi(1)*gc(1)*(fo(4)*(-2*ft(2,2) - cone*ft(2,3) - cone*ft(3,2))
-     & + fo(3)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) + 
+     & + fo(3)*(-ft(1,2) - ft(2,1) - ft(2,4) - ft(4,2))) +
      &    fi(3)*gc(2)*(fo(2)*(2*ft(2,2) + cone*ft(2,3) + cone*ft(3,2))
-     & + fo(1)*(-ft(1,2) - ft(2,1) + ft(2,4) + ft(4,2))) + 
-     &    fi(2)*gc(1)*(fo(3)*(-2*ft(2,2) + cone*ft(2,3) + cone*ft(3,2)) 
+     & + fo(1)*(-ft(1,2) - ft(2,1) + ft(2,4) + ft(4,2))) +
+     &    fi(2)*gc(1)*(fo(3)*(-2*ft(2,2) + cone*ft(2,3) + cone*ft(3,2))
      &+ fo(4)*(-ft(1,2) - ft(2,1) + ft(2,4) + ft(4,2)))
 
-         jiot(3) = cone*rtwo*T00*fi(2)*fo(3)*gc(1) 
+         jiot(3) = cone*rtwo*T00*fi(2)*fo(3)*gc(1)
      &	- cone*rtwo*T00*fi(1)*fo(4)*gc(1)
-     & - cone*rtwo*T00*fi(4)*fo(1)*gc(2) + 
+     & - cone*rtwo*T00*fi(4)*fo(1)*gc(2) +
      &    cone*rtwo*T00*fi(3)*fo(2)*gc(2) + fi(4)*gc(2)*
      &     (fo(1)*(ft(2,3) + ft(3,2) - 2*cone*ft(3,3))
-     & + fo(2)*(-ft(1,3) - ft(3,1) - ft(3,4) - ft(4,3))) + 
+     & + fo(2)*(-ft(1,3) - ft(3,1) - ft(3,4) - ft(4,3))) +
      &    fi(1)*gc(1)*(fo(4)*(-ft(2,3) - ft(3,2) - 2*cone*ft(3,3))
-     & + fo(3)*(-ft(1,3) - ft(3,1) - ft(3,4) - ft(4,3))) + 
-     &    fi(3)*gc(2)*(fo(2)*(ft(2,3) + ft(3,2) + 2*cone*ft(3,3)) 
-     &+ fo(1)*(-ft(1,3) - ft(3,1) + ft(3,4) + ft(4,3))) + 
-     &    fi(2)*gc(1)*(fo(3)*(-ft(2,3) - ft(3,2) + 2*cone*ft(3,3)) 
+     & + fo(3)*(-ft(1,3) - ft(3,1) - ft(3,4) - ft(4,3))) +
+     &    fi(3)*gc(2)*(fo(2)*(ft(2,3) + ft(3,2) + 2*cone*ft(3,3))
+     &+ fo(1)*(-ft(1,3) - ft(3,1) + ft(3,4) + ft(4,3))) +
+     &    fi(2)*gc(1)*(fo(3)*(-ft(2,3) - ft(3,2) + 2*cone*ft(3,3))
      &+ fo(4)*(-ft(1,3) - ft(3,1) + ft(3,4) + ft(4,3)))
-       
+
          jiot(4) = -(rtwo*T00*fi(1)*fo(3)*gc(1))
-     &	 + rtwo*T00*fi(2)*fo(4)*gc(1) + rtwo*T00*fi(3)*fo(1)*gc(2) - 
-     &    rtwo*T00*fi(4)*fo(2)*gc(2) + fi(4)*gc(2)*(fo(1)*(ft(2,4) 
-     &- cone*ft(3,4) + ft(4,2) - cone*ft(4,3)) + 
-     &       fo(2)*(-ft(1,4) - ft(4,1) - 2*ft(4,4))) + 
+     &	 + rtwo*T00*fi(2)*fo(4)*gc(1) + rtwo*T00*fi(3)*fo(1)*gc(2) -
+     &    rtwo*T00*fi(4)*fo(2)*gc(2) + fi(4)*gc(2)*(fo(1)*(ft(2,4)
+     &- cone*ft(3,4) + ft(4,2) - cone*ft(4,3)) +
+     &       fo(2)*(-ft(1,4) - ft(4,1) - 2*ft(4,4))) +
      &    fi(1)*gc(1)*(fo(4)*(-ft(2,4) - cone*ft(3,4) - ft(4,2)
-     & - cone*ft(4,3)) + fo(3)*(-ft(1,4) - ft(4,1) - 2*ft(4,4))) + 
+     & - cone*ft(4,3)) + fo(3)*(-ft(1,4) - ft(4,1) - 2*ft(4,4))) +
      &    fi(3)*gc(2)*(fo(2)*(ft(2,4) + cone*ft(3,4) + ft(4,2)
-     & + cone*ft(4,3)) + fo(1)*(-ft(1,4) - ft(4,1) + 2*ft(4,4))) + 
-     &    fi(2)*gc(1)*(fo(3)*(-ft(2,4) + cone*ft(3,4) - ft(4,2) 
-     &+ cone*ft(4,3)) + fo(4)*(-ft(1,4) - ft(4,1) + 2*ft(4,4)))  
+     & + cone*ft(4,3)) + fo(1)*(-ft(1,4) - ft(4,1) + 2*ft(4,4))) +
+     &    fi(2)*gc(1)*(fo(3)*(-ft(2,4) + cone*ft(3,4) - ft(4,2)
+     &+ cone*ft(4,3)) + fo(4)*(-ft(1,4) - ft(4,1) + 2*ft(4,4)))
 
       endif
 

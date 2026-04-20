@@ -1,6 +1,6 @@
       subroutine setTF
       implicit none
-c     
+c
       include 'nexternal.inc'
       include 'nb_tf.inc'
       include 'TF_param.inc'
@@ -25,11 +25,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 
 $$ADD_HERE$$
-      
+
 
 
       return
       end
-
-
-

@@ -58,7 +58,7 @@ Generate showered events in StdHEP/HEPMC format (see above), for the
 parton-level .lhe event file contained corresponding to run RUN (the
 event file is Events/RUN/events.lhe.gz).  All informations
 (parton-shower to be used, number of events contained in the file,
-etc...) are directly read from the file header. 
+etc...) are directly read from the file header.
 
 calculate_crossx
 Calculate the cross section and distributions at fixed order.

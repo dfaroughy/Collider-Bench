@@ -27,7 +27,7 @@ c where all the bosons are defined by the flowing-OUT quantum number.
 c
 c output:
 c       complex jwww(6)        : W current             j^mu(w':w1,w2,w3)
-c     
+c
       implicit none
       double complex w1(6),w2(6),w3(6),jwww(6)
       double complex dw1(0:3),dw2(0:3),dw3(0:3),jj(0:3)
@@ -66,7 +66,7 @@ c
       if ( abs(w3(5))+abs(w3(6)).eq.rZero ) then
          write(stdo,*)
      &        ' helas-error : w3 in jwwwxx has zero momentum'
-      endif 
+      endif
 c     Neil edited the following to allow 3-site couplings.
 c      if ( gwwa.eq.rZero ) then
 c         write(stdo,*) ' helas-error : gwwa in jwwwxx is zero coupling'
@@ -93,7 +93,7 @@ c     End Neil's edit
 
 
 
-      
+
       jwww(5) = w1(5)+w2(5)+w3(5)
       jwww(6) = w1(6)+w2(6)+w3(6)
 

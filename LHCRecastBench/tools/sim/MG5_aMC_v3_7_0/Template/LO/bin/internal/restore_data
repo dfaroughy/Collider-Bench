@@ -4,7 +4,7 @@
 #   into the appropriate location so gen_grid_jobs has necessary
 #   information
 #
-#  
+#
 #   First we need to get into the main directory
 #
 if [[  ! -d ./bin  ]]; then
@@ -20,13 +20,13 @@ if [[ ! -d SubProcesses ]]; then
 fi
 cd SubProcesses
 if [[  "$1" == ""  ]]; then
-    echo 'Enter you must specify a name to store files under. (eg restore_data TeV)'     
+    echo 'Enter you must specify a name to store files under. (eg restore_data TeV)'
     exit
 fi
 
 
 if [[  "$1" == ""  ]]; then
-    echo 'Enter you must specify a name to store files under. (eg restore_data TeV)'     
+    echo 'Enter you must specify a name to store files under. (eg restore_data TeV)'
     exit
 fi
 
@@ -35,7 +35,7 @@ if [[ -e $1_results.dat ]]; then
 else
     cp  results.dat $1_results.dat  >& /dev/null
 fi
-    
+
 for i in `cat subproc.mg` ; do
     cd $i
     echo $i

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -72,7 +72,7 @@ class Models4FermionTest(unittest.TestCase):
             evaluator = process_checks.MatrixElementEvaluator(base_model,
                                                                   reuse = False)
             evaluator.full_model = full_model
-            
+
             if not p:
                 p, w_rambo = evaluator.get_momenta(myproc)
 
@@ -84,7 +84,7 @@ class Models4FermionTest(unittest.TestCase):
 
             values[model] = evaluator.evaluate_matrix_element(matrix_element,
                                                               p)[0]
-            
+
         self.assertAlmostEqual(values['scalar'], values['4ferm'], 3)
 
 #===============================================================================
@@ -95,20 +95,20 @@ class TestSchannelModels(Models4FermionTest):
 
     def setUp(self):
 
-        
 
-       
+
+
         self.base_model_4ferm = import_ufo.import_model('uutt_sch_4fermion')
         self.full_model_4ferm = \
                                model_reader.ModelReader(self.base_model_4ferm)
         self.full_model_4ferm.set_parameters_and_couplings()
-        
+
         self.base_model_scalar = import_ufo.import_model('sextet_diquarks')
         self.full_model_scalar = \
                                model_reader.ModelReader(self.base_model_scalar)
         self.full_model_scalar.set_parameters_and_couplings()
         self.full_model_scalar.get('parameter_dict')['mdl_MSIX'] = 1.e5
-    
+
     def test_uu_to_tt_sch(self):
         """Test the process u u > t t between s-channel and 4fermion vertex"""
         self.uu_to_ttng_test(0)
@@ -149,7 +149,7 @@ class TestSchannelModels(Models4FermionTest):
         evaluator = process_checks.MatrixElementEvaluator(self.base_model_4ferm,
                                                           auth_skipping = True,
                                                           reuse = True)
-        
+
         p, w_rambo = evaluator.get_momenta(process)
         me_value, amp2_org = evaluator.evaluate_matrix_element(\
                                           matrix_element, p)
@@ -161,7 +161,7 @@ class TestSchannelModels(Models4FermionTest):
             me_value, amp2 = evaluator.evaluate_matrix_element(matrix_element,
                                                                new_p)
             self.assertAlmostEqual(amp2[isym], amp2_org[-sym-1])
-        
+
     def test_find_symmetry_uu_tt_with_subprocess_group(self):
         """Test the find_symmetry function for subprocess groups"""
 
@@ -193,7 +193,7 @@ class TestSchannelModels(Models4FermionTest):
                          [1])
 
         return
-        
+
 #===============================================================================
 # TestTchannelModels
 #===============================================================================
@@ -205,12 +205,12 @@ class TestTchannelModels(Models4FermionTest):
     #    self.full_model_scalar = \
     #                           model_reader.ModelReader(self.base_model_scalar)
     #    self.full_model_scalar.set_parameters_and_couplings()
-    #    
+    #
     #    self.base_model_4ferm = import_ufo.import_model('uutt_tch_4fermion')
     #    self.full_model_4ferm = \
     #                           model_reader.ModelReader(self.base_model_4ferm)
     #    self.full_model_4ferm.set_parameters_and_couplings()
-    
+
     def test_uu_to_tt_tch(self):
         """Test the process u u > t t between t-channel and 4fermion vertex"""
         logger.info('test_uu_to_tt_tch bypassed')
@@ -220,4 +220,3 @@ class TestTchannelModels(Models4FermionTest):
         """Test the process u u > t t g between t-channel and 4fermion vertex"""
         logger.info('test_uu_to_ttg_tch bypassed')
     #    self.uu_to_ttng_test(1)
-        

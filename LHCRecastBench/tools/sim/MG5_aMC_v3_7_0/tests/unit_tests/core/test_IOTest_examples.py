@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 import tests.IOTests as IOTests
-import os 
+import os
 import shutil
 
 pjoin = os.path.join
@@ -19,7 +19,7 @@ pjoin = os.path.join
 
 # Let's start with the simplest implementation.
 # Notice that if you plan on having some IOTests in a given class, you must make
-# it inherit from IOTests.IOTestManager (which itself inherits from 
+# it inherit from IOTests.IOTestManager (which itself inherits from
 # unittest.TestCase). You can still have regular tests in these classes too.
 
 class IOTest_SimpleExamples(IOTests.IOTestManager):
@@ -38,10 +38,10 @@ class IOTest_SimpleExamples(IOTests.IOTestManager):
     #     is self.IOpath or the path returned by your function if you decide
     #     to return one.
     #  d) Don't worry about the header of most MG file with the date and version
-    #     because the IOTestManager makes sure to parse that and transform it 
+    #     because the IOTestManager makes sure to parse that and transform it
     #     automatically in a transparent manner.
     #  e) The path self.IOpath is automatically cleaned up at the end of the run.
-    
+
     @IOTests.createIOTest()
     def testIO_MySimpleIOTestWrapped(self):
         """ target: aFile.txt
@@ -73,9 +73,9 @@ class IOTest_SimpleExamples(IOTests.IOTestManager):
         open(pjoin(self.IOpath,'testScratch/FolderA/FileA.txt'),'w').write("FileA")
         open(pjoin(self.IOpath,'testScratch/FolderA/FileB.txt'),'w').write("FileB")
         open(pjoin(self.IOpath,'testScratch/FileC.txt'),'w').write("FileC")
-        
+
     # Below is another way (not optimal) to implement the test above. It is just
-    # to show how to use the return path as base path  
+    # to show how to use the return path as base path
 
     @IOTests.createIOTest(groupName='MyTestGroup',testName='ReturnedPathTest')
     def testIO_MyCustomNameIOTestWrappedWithReturnPath(self):
@@ -87,13 +87,13 @@ class IOTest_SimpleExamples(IOTests.IOTestManager):
         open(pjoin(self.IOpath,'testScratch/FolderA/FileA.txt'),'w').write("FileA")
         open(pjoin(self.IOpath,'testScratch/FolderA/FileB.txt'),'w').write("FileB")
         open(pjoin(self.IOpath,'testScratch/FileC.txt'),'w').write("FileC")
-        
+
         return pjoin(self.IOpath,'testScratch','FolderA')
-    
+
     # Finally the example below shows how to use regular expressions involving
     # the whole target path, i.e. parent directory names and file base name.
-    # Notice that by specifying a *single file* target whose path starts with 
-    # an hyphen you veto it from the selection. 
+    # Notice that by specifying a *single file* target whose path starts with
+    # an hyphen you veto it from the selection.
     # This quite handy to quickly veto files whose comparison is problematic
     # (for example if they include unordered dictionary-driven output) without
     # having to modify the original selecting regular expression.
@@ -116,11 +116,11 @@ class IOTest_SimpleExamples(IOTests.IOTestManager):
 
 class IOTestExampleWithSetUp(IOTests.IOTestManager):
     """Here are some slightly more involved examples"""
-    
+
     # This setup function will be called prior the IOTest and regular tests,
     # both when run directly from ./test/test_manager.py -p [A|P|U]  and
     # from ./test/test_manager.py -i [U|R] (|-f|-F)
-    
+
     def setUp(self):
         self.file_content = 'ContentDefinedFromSetup'
 
@@ -136,7 +136,7 @@ class IOTestExampleWithSetUp(IOTests.IOTestManager):
 
     # This test is similar to the simple one above except that it is implemented
     # directly without the decorator. In principle you would not need it, but
-    # it might be useful in some cases to have more freedom in defining the 
+    # it might be useful in some cases to have more freedom in defining the
     # clean up function for example. And it shows a bit more of how things are
     # implemented under the hood.
     def testIO_MyHandwrittenIOTest(self, load_only=False):
@@ -152,5 +152,5 @@ class IOTestExampleWithSetUp(IOTests.IOTestManager):
         self.addIOTest('IOTestExampleWithSetUp','MyHandwrittenIOTest',
                                                                    MyCustomTest)
         if not load_only:
-            self.runIOTests(update=False, force=10, verbose=False, 
+            self.runIOTests(update=False, force=10, verbose=False,
                     testKeys=[('IOTestExampleWithSetUp','MyHandwrittenIOTest')])

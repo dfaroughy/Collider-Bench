@@ -105,11 +105,11 @@ c
       subroutine load_para(npara,param,value)
 c----------------------------------------------------------------------
 c Read the params from the run_card.dat file
-c---------------------------------------------------------------------- 
+c----------------------------------------------------------------------
       implicit none
 c
 c     arguments
-c     
+c
       character*20 param(*),value(*)
       integer npara
 c
@@ -148,7 +148,7 @@ c
 c     first look for process-specific parameters
 c
       done=.false.
-      do while(.not.done)  
+      do while(.not.done)
          read(iunit,'(a132)',end=20,err=20) buff
          if(buff(1:1).ne.'#' .and. index(buff,"=").gt.0
      $        .and. index(buff,"@").gt.0) then
@@ -181,7 +181,7 @@ c
 c     read in values
 c
       done=.false.
-      do while(.not.done)  
+      do while(.not.done)
          read(iunit,'(a132)',end=96,err=96) buff
          if(buff(1:1).ne.'#' .and. index(buff,"=").gt.0
      $        .and. index(buff,"@").le.0) then
@@ -217,7 +217,7 @@ c
 c     first look for process-specific parameters
 c
       done=.false.
-      do while(.not.done)  
+      do while(.not.done)
          read(iunit,'(a132)',end=30,err=30) buff
          if(buff(1:1).ne.'#' .and. index(buff,"=").gt.0
      $        .and. index(buff,"@").gt.0) then
@@ -250,7 +250,7 @@ c
 c     read in values
 c
       done=.false.
-      do while(.not.done)  
+      do while(.not.done)
          read(iunit,'(a132)',end=99,err=99) buff
          if(buff(1:1).ne.'#' .and. index(buff,"=").gt.0
      $        .and. index(buff,"@").le.0) then
@@ -284,7 +284,7 @@ c
 
       subroutine get_real(npara,param,value,name,var,def_value)
 c----------------------------------------------------------------------------------
-c     finds the parameter named "name" in param and associate to "value" in value 
+c     finds the parameter named "name" in param and associate to "value" in value
 c----------------------------------------------------------------------------------
       implicit none
 
@@ -326,7 +326,7 @@ c
 
       subroutine get_integer(npara,param,value,name,var,def_value)
 c----------------------------------------------------------------------------------
-c     finds the parameter named "name" in param and associate to "value" in value 
+c     finds the parameter named "name" in param and associate to "value" in value
 c----------------------------------------------------------------------------------
       implicit none
 c
@@ -366,7 +366,7 @@ c         if (found) write (*,*) name,var
 c
       subroutine get_int8(npara,param,value,name,var,def_value)
 c----------------------------------------------------------------------------------
-c     finds the parameter named "name" in param and associate to "value" in value 
+c     finds the parameter named "name" in param and associate to "value" in value
 c----------------------------------------------------------------------------------
       implicit none
 c
@@ -407,7 +407,7 @@ c         if (found) write (*,*) name,var
 c
       subroutine get_string(npara,param,value,name,var,def_value)
 c----------------------------------------------------------------------------------
-c     finds the parameter named "name" in param and associate to "value" in value 
+c     finds the parameter named "name" in param and associate to "value" in value
 c----------------------------------------------------------------------------------
       implicit none
 
@@ -448,7 +448,7 @@ c         if (found) write (*,*) name,var
 c
       subroutine get_logical(npara,param,value,name,var,def_value)
 c----------------------------------------------------------------------------------
-c     finds the parameter named "name" in param and associate to "value" in value 
+c     finds the parameter named "name" in param and associate to "value" in value
 c----------------------------------------------------------------------------------
       implicit none
 
@@ -491,13 +491,13 @@ c
 
 
       subroutine case_trap2(name)
-c**********************************************************    
+c**********************************************************
 c change the string to lowercase if the input is not
 c**********************************************************
       implicit none
 c
 c     ARGUMENT
-c      
+c
       character*20 name
 c
 c     LOCAL
@@ -507,8 +507,8 @@ c
       do i=1,20
          k=ichar(name(i:i))
          if(k.ge.65.and.k.le.90) then  !upper case A-Z
-            k=ichar(name(i:i))+32   
-            name(i:i)=char(k)        
+            k=ichar(name(i:i))+32
+            name(i:i)=char(k)
          endif
       enddo
 
@@ -517,7 +517,7 @@ c
 
 c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 c ++
-c ++ firststring -> return the first "word" of string 
+c ++ firststring -> return the first "word" of string
 c ++ & remove whitespaces around
 c ++ Needed to correct a bug in "get_" routines
 c ++ Michel Herquet - CP3 - 05-04-2006
@@ -532,7 +532,7 @@ c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       character*20 temp
 
       temp=string
-      do while(temp(1:1) .eq. ' ') 
+      do while(temp(1:1) .eq. ' ')
 	temp=temp(2:len(temp))
       end do
       first=temp(1:index(temp,' ')-1)

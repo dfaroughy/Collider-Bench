@@ -71,13 +71,13 @@ static void resize(SpinWidget w);
 static Boolean setValues(SpinWidget current, SpinWidget request,SpinWidget new);
 static double normalizeAngle(double angle);
 static void drawAxes(SpinWidget w, Drawable drawBuf, int outDevice);
-static void transform3DtoWindow(SpinWidget w, double x, double y, double z, 
+static void transform3DtoWindow(SpinWidget w, double x, double y, double z,
 				double m[3][3], short *xOut, short *yOut);
 static int compareSegments(SpinSegment *seg1, SpinSegment *seg2);
 static int comparePoints(SpinPoint *pt1, SpinPoint *pt2);
 static void updateBufferAllocation(SpinWidget w);
 
-static char defaultTranslations[] = 
+static char defaultTranslations[] =
     "<Btn1Motion>: Motion()\n\
      <Btn1Down>: Motion()\n\
      <Btn1Up>: BtnUp()\n\
@@ -117,11 +117,11 @@ static XtResource resources[] = {
       XtOffset(SpinWidget, spin.showAxes), XmRString, "True"},
     {XmNfontList, XmCFontList, XmRFontList, sizeof(XmFontList),
       XtOffset(SpinWidget, spin.font), XmRImmediate, NULL},
-    {XmNxAxisLabel, XmCXAxisLabel, XmRXmString, sizeof (XmString), 
+    {XmNxAxisLabel, XmCXAxisLabel, XmRXmString, sizeof (XmString),
       XtOffset(SpinWidget, spin.axisLabels[0]), XmRString, "X"},
-    {XmNyAxisLabel, XmCYAxisLabel, XmRXmString, sizeof (XmString), 
+    {XmNyAxisLabel, XmCYAxisLabel, XmRXmString, sizeof (XmString),
       XtOffset(SpinWidget, spin.axisLabels[1]), XmRString, "Y"},
-    {XmNzAxisLabel, XmCZAxisLabel, XmRXmString, sizeof (XmString), 
+    {XmNzAxisLabel, XmCZAxisLabel, XmRXmString, sizeof (XmString),
       XtOffset(SpinWidget, spin.axisLabels[2]), XmRString, "Z"},
     {XmNresizeCallback, XmCCallback, XmRCallback, sizeof(caddr_t),
       XtOffset (SpinWidget, spin.resize), XtRCallback, NULL},
@@ -195,8 +195,8 @@ static void initialize(SpinWidget request, SpinWidget new)
     XGCValues values;
     int i;
     XFontStruct *fs;
-   
-    /* Make sure the window size is not zero. The Core 
+
+    /* Make sure the window size is not zero. The Core
        initialize() method doesn't do this. */
     if (request->core.width == 0)
     	new->core.width = 100;
@@ -226,7 +226,7 @@ static void initialize(SpinWidget request, SpinWidget new)
     values.foreground = new->primitive.foreground;
     values.background = new->core.background_pixel;
     new->spin.gc = XCreateGC(XtDisplay(new), XDefaultRootWindow(XtDisplay(new)),
-    			     GCForeground|GCBackground|GCFont, &values);  
+    			     GCForeground|GCBackground|GCFont, &values);
 
     /* Make local copies of the XmStrings */
     for (i=0; i<3; i++) {
@@ -245,7 +245,7 @@ static void initialize(SpinWidget request, SpinWidget new)
     /* Initialize the drawing */
     new->spin.nSegments = 0;
     new->spin.nPoints = 0;
-    
+
     /* No drag or spin operation started yet */
     new->spin.dragging = False;
     new->spin.spinning = False;
@@ -264,7 +264,7 @@ static void initialize(SpinWidget request, SpinWidget new)
 static void destroy(SpinWidget w)
 {
     int i;
-    
+
     if (w->spin.spinning)
     	SpinStopSpinning((Widget)w);
     for (i=1; i<3; i++)
@@ -286,13 +286,13 @@ static void resize(SpinWidget w)
     XRectangle clipRect;
     int borderWidth =
     	w->primitive.shadow_thickness+w->primitive.highlight_thickness;
-    
+
     /* calculate the center of the widget */
-    w->spin.centerX = w->core.width/2; 
+    w->spin.centerX = w->core.width/2;
     w->spin.centerY = w->core.height/2;
     w->spin.drawWidth = w->core.width - 2 * borderWidth;
     /* resize the drawing buffer, an offscreen pixmap for smoother animation */
-    updateBufferAllocation(w); 
+    updateBufferAllocation(w);
 
     /* set drawing gc to clip drawing before motif shadow and highlight */
     clipRect.x = borderWidth;
@@ -300,7 +300,7 @@ static void resize(SpinWidget w)
     clipRect.width = w->core.width - 2 * borderWidth;
     clipRect.height = w->core.height - 2 * borderWidth;
     XSetClipRectangles(XtDisplay(w), w->spin.gc, 0, 0, &clipRect, 1, Unsorted);
-    
+
     /* call the resize callback */
     if (XtIsRealized(w))
     	XtCallCallbacks((Widget) w, XmNresizeCallback, NULL);
@@ -313,7 +313,7 @@ static void redisplay(SpinWidget w, XEvent *event, Region region)
 {
     /* Draw the Motif required shadows and highlights */
     if (w->primitive.shadow_thickness > 0) {
-	_XmDrawShadow (XtDisplay(w), XtWindow(w), 
+	_XmDrawShadow (XtDisplay(w), XtWindow(w),
 		       w->primitive.bottom_shadow_GC,
 		       w->primitive.top_shadow_GC,
                        w->primitive.shadow_thickness,
@@ -326,7 +326,7 @@ static void redisplay(SpinWidget w, XEvent *event, Region region)
 	_XmHighlightBorder((Widget)w);
     else if (_XmDifferentBackground((Widget)w, XtParent((Widget)w)))
 	_XmUnhighlightBorder((Widget)w);
-    
+
     /* Now draw the contents of the spin widget */
     redisplayContents(w);
 }
@@ -349,7 +349,7 @@ static Boolean setValues(SpinWidget current, SpinWidget request, SpinWidget new)
     if (new->primitive.foreground != current->primitive.foreground) {
     	XSetForeground(XtDisplay(new), new->spin.gc,
     		       new->primitive.foreground);
-	redraw = TRUE;  
+	redraw = TRUE;
     }
     /* if labels are changed, free the old ones and copy the new ones */
     for (i=0; i<3; i++) {
@@ -369,15 +369,15 @@ static Boolean setValues(SpinWidget current, SpinWidget request, SpinWidget new)
     if (new->spin.perspectOn != current->spin.perspectOn)
     	redraw = TRUE;
     /* if highlight thickness or shadow thickness changed, resize and redraw */
-    if  ((new->primitive.highlight_thickness != 
+    if  ((new->primitive.highlight_thickness !=
           current->primitive.highlight_thickness) ||
          (new -> primitive.shadow_thickness !=
           current->primitive.shadow_thickness)) {
     	redraw = TRUE;
         resize (new);
     }
-    return (redraw); 
-} 
+    return (redraw);
+}
 
 /*
 ** Button press and button motion action proc.
@@ -394,8 +394,8 @@ static void motionAP(SpinWidget w, XEvent *event, char *args, int n_args)
     	_XmProcessTraversal(w, XmTRAVERSE_CURRENT);
 #else
     	XmProcessTraversal((Widget)w, XmTRAVERSE_CURRENT);
-#endif   
-    
+#endif
+
     if (event->type == ButtonPress || event->type == MotionNotify) {
 	/* calculate coordinates of button press normalized to unit circle */
 	normFactor = (double)w->spin.drawWidth / 2.;
@@ -447,8 +447,8 @@ static void motionAP(SpinWidget w, XEvent *event, char *args, int n_args)
 	w->spin.lastDY = dy;
 	w->spin.lastDT = event->xbutton.time - w->spin.lastTimeStamp;
 	w->spin.lastTimeStamp = event->xbutton.time;
-    }  
-} 
+    }
+}
 
 /*
 ** Button up action proc.
@@ -475,7 +475,7 @@ static void btnUpAP(SpinWidget w, XEvent *event, char *args, int n_args)
 	    rotationType = SPIN_AXIS_XY;
 	} else {
 	    angRot = 0.;
-	    angDist = ((fabs(x)>.5) ? atan(dy/x) : 0)  - 
+	    angDist = ((fabs(x)>.5) ? atan(dy/x) : 0)  -
 		      ((fabs(y)>.5) ? atan(dx/y) : 0);
 	    rotationType = SPIN_AXIS_Z;
 	}
@@ -490,12 +490,12 @@ static void btnUpAP(SpinWidget w, XEvent *event, char *args, int n_args)
 static void btn2AP(SpinWidget w, XEvent *event, char *args, int n_args)
 {
     SpinCallbackStruct cbStruct;
-    
+
 #ifdef MOTIF10
     	_XmProcessTraversal(w, XmTRAVERSE_CURRENT);
 #else
     	XmProcessTraversal((Widget)w, XmTRAVERSE_CURRENT);
-#endif   
+#endif
 
     /* Just call the callback */
     cbStruct.reason = XmCR_INPUT;
@@ -506,12 +506,12 @@ static void btn2AP(SpinWidget w, XEvent *event, char *args, int n_args)
 static void btn3AP(SpinWidget w, XEvent *event, char *args, int n_args)
 {
     SpinCallbackStruct cbStruct;
-    
+
 #ifdef MOTIF10
     	_XmProcessTraversal(w, XmTRAVERSE_CURRENT);
 #else
     	XmProcessTraversal((Widget)w, XmTRAVERSE_CURRENT);
-#endif   
+#endif
 
     /* Just call the callback */
     cbStruct.reason = XmCR_INPUT;
@@ -540,7 +540,7 @@ static void spinRightAP(SpinWidget w, XEvent *event, char *args, int n_args)
 }
 
 /*
-** Stop spinning action proc. 
+** Stop spinning action proc.
 */
 static void stopAP(SpinWidget w, XEvent *event, char *args, int n_args)
 {
@@ -580,13 +580,13 @@ void SpinStartSpinning(Widget w, int rotationType, int zAngle, int degPerSec)
     sw->spin.rStartMilliseconds = tp.tv_usec / 1000;
     sw->spin.rAngle = RADIANS(zAngle);
     sw->spin.rType = rotationType;
-    sw->spin.rIncrement = RADIANS(degPerSec) / 1000.; 
+    sw->spin.rIncrement = RADIANS(degPerSec) / 1000.;
     sw->spin.spinning = True;
 
     /* Set the timeout to activate the rotation procedure, once started, the
        rotation procedure will re-request the timeout until told to stop     */
     sw->spin.timeOutID = XtAppAddTimeOut(XtWidgetToApplicationContext(w),
-    		                         MIN_REFRESH_TIME, 
+    		                         MIN_REFRESH_TIME,
     		                         (XtTimerCallbackProc) rotateProc, w);
 }
 
@@ -602,7 +602,7 @@ void SpinStartSpinning(Widget w, int rotationType, int zAngle, int degPerSec)
 void SpinStopSpinning(Widget w)
 {
     SpinWidget sw = (SpinWidget)w;
-    
+
     if (sw->spin.spinning) {
     	sw->spin.spinning = False;
     	XtRemoveTimeOut(sw->spin.timeOutID);
@@ -663,7 +663,7 @@ double SpinGetScale(Widget w)
 void SpinSetSegments(Widget w, SpinSegment *segments, int nSegments)
 {
     SpinWidget sw = (SpinWidget)w;
-    
+
     if (sw->spin.nSegments != 0) {
     	XtFree((char *) sw->spin.segments);
     	sw->spin.nSegments = 0;
@@ -678,7 +678,7 @@ void SpinSetSegments(Widget w, SpinSegment *segments, int nSegments)
     	memcpy(sw->spin.segments, segments, sizeof(SpinSegment) * nSegments);
 	sw->spin.nSegments = nSegments;
     }
-    
+
     /* Sort segs by color so the drawing routines can batch drawing calls */
     qsort(sw->spin.segments, nSegments, sizeof(SpinSegment), compareSegments);
 
@@ -705,7 +705,7 @@ void SpinSetSegments(Widget w, SpinSegment *segments, int nSegments)
 void SpinSetPoints(Widget w, SpinPoint *points, int nPoints)
 {
     SpinWidget sw = (SpinWidget)w;
-    
+
     if (sw->spin.nSegments != 0) {
     	XtFree((char *) sw->spin.segments);
     	sw->spin.nSegments = 0;
@@ -720,10 +720,10 @@ void SpinSetPoints(Widget w, SpinPoint *points, int nPoints)
     	memcpy(sw->spin.points, points, sizeof(SpinPoint) * nPoints);
 	sw->spin.nPoints = nPoints;
     }
-    
+
     /* Sort points by color so the drawing routines can batch drawing calls */
     qsort(sw->spin.points, nPoints, sizeof(SpinPoint), comparePoints);
-    
+
     if (XtIsRealized(w))
     	redisplayContents(sw);
 }
@@ -788,7 +788,7 @@ void SpinTransformPoint(Widget w, double x, double y, double z,
     SpinWidget sw = (SpinWidget)w;
 
     double scale = sw->spin.scale * ((double)sw->spin.drawWidth/2.);
-    
+
     x *= scale; y *= scale; z *= scale;
     transform3DtoWindow(sw, x, y, z, sw->spin.matrix, xOut, yOut);
 }
@@ -809,7 +809,7 @@ void SpinTransformPoint(Widget w, double x, double y, double z,
 void SpinViewRotateX(Widget w, double degrees)
 {
     double m[3][3];
-    
+
     SpinGetTransform(w, m);
     ViewRotX(RADIANS(degrees), m);
     SpinSetTransform(w, m);
@@ -817,7 +817,7 @@ void SpinViewRotateX(Widget w, double degrees)
 void SpinViewRotateY(Widget w, double degrees)
 {
     double m[3][3];
-    
+
     SpinGetTransform(w, m);
     ViewRotY(RADIANS(degrees), m);
     SpinSetTransform(w, m);
@@ -825,7 +825,7 @@ void SpinViewRotateY(Widget w, double degrees)
 void SpinViewRotateZ(Widget w, double degrees)
 {
     double m[3][3];
-    
+
     SpinGetTransform(w, m);
     ViewRotZ(RADIANS(degrees), m);
     SpinSetTransform(w, m);
@@ -833,7 +833,7 @@ void SpinViewRotateZ(Widget w, double degrees)
 void SpinCoordRotateX(Widget w, double degrees)
 {
     double m[3][3];
-    
+
     SpinGetTransform(w, m);
     CoordRotX(RADIANS(degrees), m);
     SpinSetTransform(w, m);
@@ -841,7 +841,7 @@ void SpinCoordRotateX(Widget w, double degrees)
 void SpinCoordRotateY(Widget w, double degrees)
 {
     double m[3][3];
-    
+
     SpinGetTransform(w, m);
     CoordRotY(RADIANS(degrees), m);
     SpinSetTransform(w, m);
@@ -849,7 +849,7 @@ void SpinCoordRotateY(Widget w, double degrees)
 void SpinCoordRotateZ(Widget w, double degrees)
 {
     double m[3][3];
-    
+
     SpinGetTransform(w, m);
     CoordRotZ(RADIANS(degrees), m);
     SpinSetTransform(w, m);
@@ -880,7 +880,7 @@ void SpinRedisplay(Widget w)
 **
 **	w		A spin widget
 **	psFileName	Name for the PostScript file that will be created
-**	
+**
 */
 void SpinPrintContents(Widget w, char *psFileName)
 {
@@ -890,7 +890,7 @@ void SpinPrintContents(Widget w, char *psFileName)
     if (ps != NULL) {
 	redrawContents((SpinWidget)w, PS_PRINTER);
 	EndPS();
-    }    
+    }
 }
 
 /*
@@ -906,7 +906,7 @@ void SpinPrintContents(Widget w, char *psFileName)
 GC SpinCopyGC(Widget w)
 {
     GC gc;
-    
+
     gc = XCreateGC(XtDisplay(w), XtWindow(w), 0, NULL);
     XCopyGC(XtDisplay(w), ((SpinWidget)w)->spin.gc, GCForeground|GCBackground|
     	GCFont|GCClipMask|GCClipXOrigin|GCClipYOrigin, gc);
@@ -918,7 +918,7 @@ GC SpinCopyGC(Widget w)
 ** highlights.
 */
 static void redisplayContents(SpinWidget w)
-{        
+{
      redrawContents(w, X_SCREEN);
 
     /* Call the redisplay callback so an application which
@@ -977,7 +977,7 @@ static void redrawContents(SpinWidget w, int outDevice)
     */
     xSegments = (XSegment *)XtMalloc(sizeof(XSegment)*(w->spin.nSegments));
     xPoints = (XPoint *)XtMalloc(sizeof(XPoint)*(w->spin.nPoints));
-    
+
     xSeg = xSegments;
     lastPixel = -1;
     for (i=0, seg=w->spin.segments; i<w->spin.nSegments; i++, seg++) {
@@ -1037,10 +1037,10 @@ static void redrawContents(SpinWidget w, int outDevice)
         if (outDevice == X_SCREEN)
     	    XDrawPoints(display, drawBuf, gc, ptColor->start, ptColor->nPts, 0);
         else if (outDevice == PS_PRINTER)
-            PSDrawPoints(display, drawBuf, gc, ptColor->start, ptColor->nPts,0); 
+            PSDrawPoints(display, drawBuf, gc, ptColor->start, ptColor->nPts,0);
     }
     XtFree((char *) xPoints);
-    
+
     /* For double buffering, now copy offscreen pixmap to screen */
     if (outDevice == X_SCREEN) {
 	if (w->spin.doubleBuffer) {
@@ -1049,25 +1049,25 @@ static void redrawContents(SpinWidget w, int outDevice)
 	}
     }
 }
-    	
+
 /*
 ** This procedure is called when the rotation time out expires.  It rotates
 ** the rotation matrix and redraws the contents of the widget in the new
 ** rotated position.  After completing, it re-establishes the time out
 ** to activate it again after MIN_REFRESH_TIME
-*/ 
+*/
 static void rotateProc(SpinWidget w, XtIntervalId *id)
 {
     struct timeval tp;
     struct timezone tzp;
     long dt;
     double newM[3][3];
-    
+
     /* If the widget is no longer supposed to be auto-
        rotating, return and don't reset the time out   */
     if (!w->spin.spinning)
     	return;
-    	
+
     /* Rotate the the widget if it's realized and visible */
     if (XtIsRealized(w) && w->core.visible) {
     	/* Make sure the server is done with the last rotation */
@@ -1089,9 +1089,9 @@ static void rotateProc(SpinWidget w, XtIntervalId *id)
 	/* Redisplay in rotated position */
 	redisplayContents(w);
     }
-    
+
     /* Set up the next time out to execute this procedure again */
-    w->spin.timeOutID = 
+    w->spin.timeOutID =
          XtAppAddTimeOut(XtWidgetToApplicationContext((Widget) w),
     					MIN_REFRESH_TIME,
     					(XtTimerCallbackProc)  rotateProc, w);
@@ -1103,7 +1103,7 @@ static void rotateProc(SpinWidget w, XtIntervalId *id)
 static void keySpin(SpinWidget w, XEvent *event, int direction)
 {
     int rAngle, speed;
-    
+
     if (event->xbutton.state & ShiftMask) {
     	/* shift key pressed means adjust spin speed */
 	if (w->spin.spinning) {
@@ -1202,7 +1202,7 @@ static void drawAxes(SpinWidget w, Drawable drawBuf, int outDevice)
     CopyM(w->spin.matrix, m);
     ScaleM((double)width/2., m);
     for (i=0; i<3; i++) {
-   	transform3DtoWindow(w, labelLocs[i].x, labelLocs[i].y, labelLocs[i].z, 
+   	transform3DtoWindow(w, labelLocs[i].x, labelLocs[i].y, labelLocs[i].z,
     			    m, &tx1, &ty1);
         if (outDevice == X_SCREEN) {
 	    XmStringDrawImage(display, drawBuf, w->spin.font,
@@ -1221,16 +1221,16 @@ static void drawAxes(SpinWidget w, Drawable drawBuf, int outDevice)
 ** no scaling applied.  This does apply perspective if it is turned on in
 ** the widget.
 */
-static void transform3DtoWindow(SpinWidget w, double x, double y, double z, 
+static void transform3DtoWindow(SpinWidget w, double x, double y, double z,
 				double m[3][3], short *xOut, short *yOut)
 {
     double tx, ty, tz;
-    
+
     TransformPoint(x, y, z, &tx, &ty, &tz, m);
 
     /* X gets wierd when points get near it's precision limit.  If users zoom
        in far enough that points go past this threshold, we must clip them.
-       Since this routine deals with points rather than segments, it can't 
+       Since this routine deals with points rather than segments, it can't
        clip entirely correctly.  Lines which are not radial, with endpoints
        that lies outside the clipped area, will be distorted.  (Of course
        the X server would have distorted them even more, so we're still
@@ -1276,13 +1276,13 @@ static int comparePoints(SpinPoint *pt1, SpinPoint *pt2)
 }
 
 static void updateBufferAllocation(SpinWidget w)
-{ 
+{
     if (w->spin.drawBuffer)
     	XFreePixmap(XtDisplay(w), w->spin.drawBuffer);
     if (w->spin.doubleBuffer) {
     	w->spin.drawBuffer = XCreatePixmap(XtDisplay(w),
 		DefaultRootWindow(XtDisplay(w)), w->core.width, w->core.height,
-    	 	DefaultDepthOfScreen(XtScreen(w)));   
+    	 	DefaultDepthOfScreen(XtScreen(w)));
     } else {
     	w->spin.drawBuffer = NULL;
     }

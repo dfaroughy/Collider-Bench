@@ -16,4 +16,3 @@ $(target): $(objects)
 clean:
 	rm -f $(target)
 	rm -f $(objects)
-

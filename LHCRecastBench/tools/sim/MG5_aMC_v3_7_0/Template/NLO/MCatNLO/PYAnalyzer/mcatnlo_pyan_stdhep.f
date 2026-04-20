@@ -22,11 +22,11 @@ C----------------------------------------------------------------------
 c For the stdhep event file, use the input file with ".hep" appended
       output_file=QQIN
       write(output_file(index(QQIN,' '):),'(a)') '.hep'
-      
+
       NITER = MAXEVV !number of events
 C...Open STDHEP output file
       call stdxwinit(output_file,'PYTHIA file',NITER,istrstd,lok)
-      
+
       if (lok.ne.0) then
          print *,'Failed to open output file ',output_file,
      &        '. Quitting!'

@@ -14,7 +14,7 @@ c   provided by Tomasz Pierzchala - UCL
       real*8 function epa_lepton(x,q2max, mode)
       implicit none
       integer i, mode, imode
-c     mode is +3/-3  for electron and +4/-4 for muon      
+c     mode is +3/-3  for electron and +4/-4 for muon
       real*8 x,phi_f
       real*8 xin(3:4)
       real*8 alpha
@@ -26,17 +26,17 @@ c     mode is +3/-3  for electron and +4/-4 for muon
 
       alpha = .0072992701
       imode = abs(mode)
-      
+
 C     // x = omega/E = (E-E')/E
       if (x.lt.1) then
          q2min= xin(imode)*xin(imode)*x*x/(1-x)
-         if(q2min.lt.q2max) then 
+         if(q2min.lt.q2max) then
              f = alpha/2d0/PI*
      &           (2d0*xin(imode)*xin(imode)*x*(-1/q2min+1/q2max)+
      &           (2-2d0*x+x*x)/x*dlog(q2max/q2min))
-            
+
          else
-           f = 0. 
+           f = 0.
          endif
       else
          f= 0.
@@ -55,7 +55,7 @@ c      write (*,*) x,dsqrt(q2min),dsqrt(q2max),f
       real*8 alpha,qz
       real*8 f, qmi,qma, q2max
       real*8 PI
-    
+
       integer nb_proton(2), nb_neutron(2)
       common/to_heavyion_pdg/ nb_proton, nb_neutron
       double precision mass_ion(2)
@@ -72,11 +72,11 @@ c      write (*,*) x,dsqrt(q2min),dsqrt(q2max),f
          xin = mass_ion(beamid)
          alpha = alpha * nb_proton(beamid)
       endif
-    
+
 C     // x = omega/E = (E-E')/E
       if (x.lt.1) then
          qmi= xin*xin*x*x/(1-x)
-         if(qmi.lt.q2max) then          
+         if(qmi.lt.q2max) then
             f = alpha/PI*(phi_f(x,q2max/qz)-phi_f(x,qmi/qz))*(1-x)/x
          else
             f=0.
@@ -105,23 +105,23 @@ C     // x = omega/E = (E-E')/E
      $b*b*b/(3*qq1*qq1*qq1))
       phi_f= f
       end
-  
+
       double precision function get_ion_pdf(pdf, pdg, nb_proton, nb_neutron)
 C***********************************************************************
 C     computing (heavy) ion contribution from proton PDF
-C***********************************************************************      
+C***********************************************************************
       double precision pdf(-7:7)
       double precision tmppdf(-2:2)
       integer pdg
       integer nb_proton
       integer nb_neutron
       double precision tmp1, tmp2
- 
+
       if (nb_proton.eq.1.and.nb_neutron.eq.0)then
          get_ion_pdf = pdf(pdg)
          return
       endif
-      
+
       if (pdg.eq.1.or.pdg.eq.2) then
          tmp1 = pdf(1)
          tmp2 = pdf(2)
@@ -134,12 +134,11 @@ C***********************************************************************
          tmppdf(-1) = nb_proton * tmp1 + nb_neutron * tmp2
          tmppdf(-2) = nb_proton * tmp2 + nb_neutron * tmp1
          get_ion_pdf = tmppdf(pdg)
-      else 
+      else
          get_ion_pdf = pdf(pdg)*(nb_proton+nb_neutron)
       endif
-      
+
 C     set correct PDF normalisation
       get_ion_pdf = get_ion_pdf * (nb_proton+nb_neutron)
       return
       end
-

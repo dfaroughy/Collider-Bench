@@ -27,5 +27,3 @@ gfortran -c avh_olo.f90
 g++ example.o avh_olo.o -lgfortran
 
 to create the executable.
-
-

@@ -3,12 +3,12 @@ c ----------------------------------------------------------------------
 c
       subroutine ficxxx(fi , fic)
 c
-c this subroutine charge conjugates a flowing-in fermion wavefunction.  
-c                                                                       
-c input:                                                                
+c this subroutine charge conjugates a flowing-in fermion wavefunction.
+c
+c input:
 c       complex fi(6)          : flowing-in fermion                 |fi>
-c                                                                       
-c output:                                                               
+c
+c output:
 c       complex fic(6)         : charge conjugated fermion         <fic|
 c
       implicit none

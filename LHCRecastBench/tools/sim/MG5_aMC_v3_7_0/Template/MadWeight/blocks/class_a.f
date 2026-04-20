@@ -1,14 +1,14 @@
       subroutine class_a(x,p1,p2)
 c***************************************************************************
 c     ECS in CLASS A
-c  
+c
 c
 c***************************************************************************
       implicit none
       include '../../../SubProcesses/phasespace.inc'
 c
 c     arguments
-c      
+c
       integer p1,p2,n_var,local_var
 c
 c     local
@@ -51,15 +51,15 @@ c---
 c Begin code
 c---
 
-c if pTmiss reconstructed is NOT used, 
+c if pTmiss reconstructed is NOT used,
 c the boost is defined by the pT balancing the visible particles
-c in class_h 
+c in class_h
        if (ISR_mode.eq.3) then
          call class_h(x,p1,p2)
          return
        endif
 
-c otherwise, boost the event based on ISR. 
+c otherwise, boost the event based on ISR.
 c
       jac_loc=1d0
       sqrts=dsqrt(s)
@@ -109,7 +109,7 @@ c        pause
         momenta(0,p2)=-1
         return
         endif
-         
+
         call four_momentum(angles(1,1),angles(1,2),normp1,
      &    pmass(p1),momenta(0,p1))
         call four_momentum(angles(2,1),angles(2,2),normp2,
@@ -119,7 +119,7 @@ c        pause
       jac_loc=jac_loc*normp1**2*dsin(angles(1,1))/(2d0*momenta(0,p1))
       jac_loc=jac_loc*normp2**2*dsin(angles(2,1))/(2d0*momenta(0,p2))
 
-C Apply the boost correction 
+C Apply the boost correction
 c     First evaluated the total momentum in the LAB frame
       do j=0,3
       Ptot(j)=0d0
@@ -128,7 +128,7 @@ c     First evaluated the total momentum in the LAB frame
         enddo
       pboost(j)=Ptot(j)
       enddo
-        
+
 c     Then calculate the momenta in the CMS frame
       pboost(1)=-pboost(1)
       pboost(2)=-pboost(2)
@@ -166,7 +166,7 @@ c     Evaluate the initial momenta in the LAB frame
       call boostx(CMS_mom(0,2),pboost,momenta(0,2))
 
 c     correction from the measure to translate the weight to the CM frame
-c     ONLY if isr != 1 
+c     ONLY if isr != 1
 
       if (isr_mode.ne.1) then
       measureLAB=1d0

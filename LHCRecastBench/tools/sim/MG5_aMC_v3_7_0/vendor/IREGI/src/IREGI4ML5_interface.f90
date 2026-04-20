@@ -47,7 +47,7 @@ SUBROUTINE IMLOOP(CTMODE,IMODE,NLOOPLINE,NLOOPCOEFS,RANK,PDEN,M2L,MUR,TIRCOEFS,S
 ! CTMODE=5 ---> ROTATE THE LOOP PROPAGATOR DIRECTION IN QUADRUPLE PRECISION (NOT DONE)
 ! IMODE=0, IBP reduction
 ! IMODE=1, PaVe reduction
-! IMODE=2, PaVe reduction with stablility improved by IBP reduction 
+! IMODE=2, PaVe reduction with stablility improved by IBP reduction
   USE funlib
   USE ti_reduce
   USE cti_reduce
@@ -72,7 +72,7 @@ SUBROUTINE IMLOOP(CTMODE,IMODE,NLOOPLINE,NLOOPCOEFS,RANK,PDEN,M2L,MUR,TIRCOEFS,S
   REAL(KIND(1d0)),PARAMETER::euplogpi=1.7219455507509331d0 ! eulergamma+log(pi)
   ! (6 EulerGamma^2 + \[Pi]^2 - 12 EulerGamma Log[4 \[Pi]] + 6 Log[4 \[Pi]]^2)/12
   REAL(KIND(1d0)),PARAMETER::exp4eulergamma=2.7311510211049246100d0
-  ! (6 EulerGamma^2 + \[Pi]^2 + 12 EulerGamma Log[\[Pi]] + 6 Log[\[Pi]]^2)/12 
+  ! (6 EulerGamma^2 + \[Pi]^2 + 12 EulerGamma Log[\[Pi]] + 6 Log[\[Pi]]^2)/12
   REAL(KIND(1d0)),PARAMETER::exp4eulergamma2=2.3050152732995803d0
   COMPLEX(KIND(1d0)),PARAMETER::cnorm=DCMPLX(0d0,-0.1013211836423377714438794632d0) ! 1/pi**2/i
   INTEGER::nnonzeromass,ml5_sign,ipostemp

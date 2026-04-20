@@ -55,7 +55,7 @@
 struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 	using Pythia8::SimpleTimeShower::SimpleTimeShower;
 
-	void init(class Pythia8::BeamParticle * a0, class Pythia8::BeamParticle * a1) override { 
+	void init(class Pythia8::BeamParticle * a0, class Pythia8::BeamParticle * a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "init");
 		if (overload) {
@@ -68,7 +68,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::init(a0, a1);
 	}
-	bool limitPTmax(class Pythia8::Event & a0, double a1, double a2) override { 
+	bool limitPTmax(class Pythia8::Event & a0, double a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "limitPTmax");
 		if (overload) {
@@ -81,7 +81,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::limitPTmax(a0, a1, a2);
 	}
-	int shower(int a0, int a1, class Pythia8::Event & a2, double a3, int a4) override { 
+	int shower(int a0, int a1, class Pythia8::Event & a2, double a3, int a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "shower");
 		if (overload) {
@@ -94,7 +94,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::shower(a0, a1, a2, a3, a4);
 	}
-	int showerQED(int a0, int a1, class Pythia8::Event & a2, double a3) override { 
+	int showerQED(int a0, int a1, class Pythia8::Event & a2, double a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "showerQED");
 		if (overload) {
@@ -107,7 +107,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::showerQED(a0, a1, a2, a3);
 	}
-	void prepareProcess(class Pythia8::Event & a0, class Pythia8::Event & a1, class std::vector<int, class std::allocator<int> > & a2) override { 
+	void prepareProcess(class Pythia8::Event & a0, class Pythia8::Event & a1, class std::vector<int, class std::allocator<int> > & a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "prepareProcess");
 		if (overload) {
@@ -120,7 +120,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::prepareProcess(a0, a1, a2);
 	}
-	void prepareGlobal(class Pythia8::Event & a0) override { 
+	void prepareGlobal(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "prepareGlobal");
 		if (overload) {
@@ -133,7 +133,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::prepareGlobal(a0);
 	}
-	void prepare(int a0, class Pythia8::Event & a1, bool a2) override { 
+	void prepare(int a0, class Pythia8::Event & a1, bool a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "prepare");
 		if (overload) {
@@ -146,7 +146,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::prepare(a0, a1, a2);
 	}
-	void rescatterUpdate(int a0, class Pythia8::Event & a1) override { 
+	void rescatterUpdate(int a0, class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "rescatterUpdate");
 		if (overload) {
@@ -159,7 +159,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::rescatterUpdate(a0, a1);
 	}
-	void update(int a0, class Pythia8::Event & a1, bool a2) override { 
+	void update(int a0, class Pythia8::Event & a1, bool a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "update");
 		if (overload) {
@@ -172,7 +172,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::update(a0, a1, a2);
 	}
-	double pTnext(class Pythia8::Event & a0, double a1, double a2, bool a3, bool a4) override { 
+	double pTnext(class Pythia8::Event & a0, double a1, double a2, bool a3, bool a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "pTnext");
 		if (overload) {
@@ -185,7 +185,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::pTnext(a0, a1, a2, a3, a4);
 	}
-	double pTnextResDec() override { 
+	double pTnextResDec() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "pTnextResDec");
 		if (overload) {
@@ -198,7 +198,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::pTnextResDec();
 	}
-	bool branch(class Pythia8::Event & a0, bool a1) override { 
+	bool branch(class Pythia8::Event & a0, bool a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "branch");
 		if (overload) {
@@ -211,7 +211,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::branch(a0, a1);
 	}
-	bool resonanceShower(class Pythia8::Event & a0, class Pythia8::Event & a1, class std::vector<int, class std::allocator<int> > & a2, double a3) override { 
+	bool resonanceShower(class Pythia8::Event & a0, class Pythia8::Event & a1, class std::vector<int, class std::allocator<int> > & a2, double a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "resonanceShower");
 		if (overload) {
@@ -224,7 +224,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::resonanceShower(a0, a1, a2, a3);
 	}
-	void list() const override { 
+	void list() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "list");
 		if (overload) {
@@ -237,7 +237,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::list();
 	}
-	bool initUncertainties() override { 
+	bool initUncertainties() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "initUncertainties");
 		if (overload) {
@@ -250,7 +250,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::initUncertainties();
 	}
-	bool initEnhancements() override { 
+	bool initEnhancements() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "initEnhancements");
 		if (overload) {
@@ -263,7 +263,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::initEnhancements();
 	}
-	bool getHasWeaklyRadiated() override { 
+	bool getHasWeaklyRadiated() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "getHasWeaklyRadiated");
 		if (overload) {
@@ -276,7 +276,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::getHasWeaklyRadiated();
 	}
-	int system() const override { 
+	int system() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "system");
 		if (overload) {
@@ -289,7 +289,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::system();
 	}
-	double enhancePTmax() override { 
+	double enhancePTmax() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "enhancePTmax");
 		if (overload) {
@@ -302,7 +302,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::enhancePTmax();
 	}
-	double pTLastInShower() override { 
+	double pTLastInShower() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "pTLastInShower");
 		if (overload) {
@@ -315,7 +315,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::pTLastInShower();
 	}
-	double noEmissionProbability(double a0, double a1, double a2, int a3, int a4, double a5, double a6) override { 
+	double noEmissionProbability(double a0, double a1, double a2, int a3, int a4, double a5, double a6) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "noEmissionProbability");
 		if (overload) {
@@ -328,7 +328,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return SimpleTimeShower::noEmissionProbability(a0, a1, a2, a3, a4, a5, a6);
 	}
-	int showerQEDafterRemnants(class Pythia8::Event & a0) override { 
+	int showerQEDafterRemnants(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "showerQEDafterRemnants");
 		if (overload) {
@@ -341,7 +341,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return TimeShower::showerQEDafterRemnants(a0);
 	}
-	int showerQEDafterDecays(int a0, int a1, class Pythia8::Event & a2) override { 
+	int showerQEDafterDecays(int a0, int a1, class Pythia8::Event & a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "showerQEDafterDecays");
 		if (overload) {
@@ -354,7 +354,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return TimeShower::showerQEDafterDecays(a0, a1, a2);
 	}
-	class Pythia8::Event clustered(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	class Pythia8::Event clustered(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "clustered");
 		if (overload) {
@@ -368,7 +368,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		return TimeShower::clustered(a0, a1, a2, a3, a4);
 	}
 	using _binder_ret_0 = class std::map<class std::basic_string<char>, double, struct std::less<class std::basic_string<char> >, class std::allocator<struct std::pair<const class std::basic_string<char>, double> > >;
-	_binder_ret_0 getStateVariables(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	_binder_ret_0 getStateVariables(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "getStateVariables");
 		if (overload) {
@@ -381,7 +381,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return TimeShower::getStateVariables(a0, a1, a2, a3, a4);
 	}
-	bool isTimelike(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	bool isTimelike(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "isTimelike");
 		if (overload) {
@@ -395,7 +395,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		return TimeShower::isTimelike(a0, a1, a2, a3, a4);
 	}
 	using _binder_ret_1 = class std::vector<class std::basic_string<char>, class std::allocator<class std::basic_string<char> > >;
-	_binder_ret_1 getSplittingName(const class Pythia8::Event & a0, int a1, int a2, int a3) override { 
+	_binder_ret_1 getSplittingName(const class Pythia8::Event & a0, int a1, int a2, int a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "getSplittingName");
 		if (overload) {
@@ -408,7 +408,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return TimeShower::getSplittingName(a0, a1, a2, a3);
 	}
-	double getSplittingProb(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override { 
+	double getSplittingProb(const class Pythia8::Event & a0, int a1, int a2, int a3, class std::basic_string<char> a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "getSplittingProb");
 		if (overload) {
@@ -421,7 +421,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return TimeShower::getSplittingProb(a0, a1, a2, a3, a4);
 	}
-	bool allowedSplitting(const class Pythia8::Event & a0, int a1, int a2) override { 
+	bool allowedSplitting(const class Pythia8::Event & a0, int a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "allowedSplitting");
 		if (overload) {
@@ -435,7 +435,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		return TimeShower::allowedSplitting(a0, a1, a2);
 	}
 	using _binder_ret_2 = class std::vector<int, class std::allocator<int> >;
-	_binder_ret_2 getRecoilers(const class Pythia8::Event & a0, int a1, int a2, class std::basic_string<char> a3) override { 
+	_binder_ret_2 getRecoilers(const class Pythia8::Event & a0, int a1, int a2, class std::basic_string<char> a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "getRecoilers");
 		if (overload) {
@@ -448,7 +448,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return TimeShower::getRecoilers(a0, a1, a2, a3);
 	}
-	double enhanceFactor(const class std::basic_string<char> & a0) override { 
+	double enhanceFactor(const class std::basic_string<char> & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "enhanceFactor");
 		if (overload) {
@@ -461,7 +461,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return TimeShower::enhanceFactor(a0);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -474,7 +474,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "onBeginEvent");
 		if (overload) {
@@ -487,7 +487,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "onEndEvent");
 		if (overload) {
@@ -500,7 +500,7 @@ struct PyCallBack_Pythia8_SimpleTimeShower : public Pythia8::SimpleTimeShower {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SimpleTimeShower *>(this), "onStat");
 		if (overload) {

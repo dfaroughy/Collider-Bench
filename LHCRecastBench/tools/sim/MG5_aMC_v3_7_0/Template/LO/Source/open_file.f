@@ -15,11 +15,11 @@ c
       character*30  upname ! sequence of ../
       integer fine,fine2
       integer i, pos
-      
+
 c-----
 c  Begin Code
 c-----
-c      
+c
 c     getting the path of the executable
 c
       call getarg(0,path) !path is the PATH to the madevent executable (either global or from launching directory)
@@ -33,9 +33,9 @@ c
 c 	  if I have to read a card
 c
 
-      tempname=filename 	 
-      fine=index(tempname,' ') 	 
-      fine2=index(path,' ')-1	 
+      tempname=filename
+      fine=index(tempname,' ')
+      fine2=index(path,' ')-1
       if(fine.eq.0) fine=len(tempname)
       open(unit=lun,file=tempname,status='old',ERR=20)
       fopened=.true.
@@ -61,5 +61,3 @@ c
          endif
       enddo
       end
-
-

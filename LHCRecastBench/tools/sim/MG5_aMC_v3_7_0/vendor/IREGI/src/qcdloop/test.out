@@ -1,10 +1,10 @@
  ====================================================
-   This is QCDLoop - version 1.95                    
-   Authors: Keith Ellis and Giulia Zanderighi        
-   (ellis@fnal.gov, g.zanderighi1@physics.ox.ac.uk)  
-   For details see FERMILAB-PUB-07-633-T,OUTP-07/16P 
-   arXiv:0712.1851 [hep-ph], published in            
-   JHEP 0802:002,2008.                               
+   This is QCDLoop - version 1.95
+   Authors: Keith Ellis and Giulia Zanderighi
+   (ellis@fnal.gov, g.zanderighi1@physics.ox.ac.uk)
+   For details see FERMILAB-PUB-07-633-T,OUTP-07/16P
+   arXiv:0712.1851 [hep-ph], published in
+   JHEP 0802:002,2008.
  ====================================================
  ====================================================
    FF 2.0, a package to evaluate one-loop integrals
@@ -12,7 +12,7 @@
  ====================================================
  for the algorithms used see preprint NIKHEF-H 89/17,
  'New Algorithms for One-loop Integrals', by G.J. van
- Oldenborgh and J.A.M. Vermaseren, published in 
+ Oldenborgh and J.A.M. Vermaseren, published in
  Zeitschrift fuer Physik C46(1990)425.
  ====================================================
  ffini: precx =    4.4408920985006262E-016

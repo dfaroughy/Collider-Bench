@@ -17,31 +17,160 @@ from pathlib import Path
 
 
 PHYSICS_ADJ: list[str] = [
-    "Agile", "Arcane", "Atomic", "Bold", "Bright", "Calm",
-    "Candid", "Cosmic", "Curious", "Daring", "Deep", "Electric",
-    "Elegant", "Fierce", "Flashy", "Formal", "Gentle", "Grand",
-    "Grim", "Happy", "Humble", "Keen", "Kind", "Lively", "Boring",
-    "Lucid", "Lucky", "Merry", "Mystic", "Nimble", "Noble", "Romantic",
-    "Odd", "Playful", "Prime", "Proud", "Quantum", "Quick", "Annoying",
-    "Quiet", "Radiant", "Rapid", "Rare", "Sharp",  "Creepy", "Special",
-    "Silly", "Sly", "Solid", "Strange", "Swift", "Witty",
-    "Wise", "Goofy", "Gay", "Fuzzy", "Sassy", "Wacky", "Quirky",
-    "Cheerful", "Slow", "Brave", "Clever", "Eccentric", "Funky",
-    "Sad", "Salty", "Spicy", "Bubbly", "Stubborn", "Zany", "Jolly",
-    "Mysterious", "Nerdy", "Peculiar", "Cool", "Geeky", "Chubby", "Fat", "Skinny"
+    "Agile",
+    "Arcane",
+    "Atomic",
+    "Bold",
+    "Bright",
+    "Calm",
+    "Candid",
+    "Cosmic",
+    "Curious",
+    "Daring",
+    "Deep",
+    "Electric",
+    "Elegant",
+    "Fierce",
+    "Flashy",
+    "Formal",
+    "Gentle",
+    "Grand",
+    "Grim",
+    "Happy",
+    "Humble",
+    "Keen",
+    "Kind",
+    "Lively",
+    "Boring",
+    "Lucid",
+    "Lucky",
+    "Merry",
+    "Mystic",
+    "Nimble",
+    "Noble",
+    "Romantic",
+    "Odd",
+    "Playful",
+    "Prime",
+    "Proud",
+    "Quantum",
+    "Quick",
+    "Annoying",
+    "Quiet",
+    "Radiant",
+    "Rapid",
+    "Rare",
+    "Sharp",
+    "Creepy",
+    "Special",
+    "Silly",
+    "Sly",
+    "Solid",
+    "Strange",
+    "Swift",
+    "Witty",
+    "Wise",
+    "Goofy",
+    "Gay",
+    "Fuzzy",
+    "Sassy",
+    "Wacky",
+    "Quirky",
+    "Cheerful",
+    "Slow",
+    "Brave",
+    "Clever",
+    "Eccentric",
+    "Funky",
+    "Sad",
+    "Salty",
+    "Spicy",
+    "Bubbly",
+    "Stubborn",
+    "Zany",
+    "Jolly",
+    "Mysterious",
+    "Nerdy",
+    "Peculiar",
+    "Cool",
+    "Geeky",
+    "Chubby",
+    "Fat",
+    "Skinny",
 ]
 
 PHYSICIST_LAST: list[str] = [
-    "Einstein", "Feynman", "Pauli", "Dirac", "Bohr", "Curie", "Nielsen", "Mayer",
-    "Planck", "Newton", "Maxwell", "Faraday", "Galilei", "Kepler", "Higgs",
-    "Schrodinger", "Heisenberg", "Boltzmann", "Noether", "Hawking", "Tesla",
-    "Rutherford", "Lorentz", "Hertz", "Laplace", "Lagrange", "Gauss", "Quinn",
-    "Huygens", "Ampere", "Volta", "Ohm", "Compton", "deBroglie", "Salam","Rubin",
-    "Bose", "Fermi", "Majorana", "Mach", "Born", "Sommerfeld", "Wu", "Zeldovich",
-    "Chandrasekhar", "Witten", "Bhabha", "Meitner", "Bethe", "Cherenkov", "Yang",
-    "Wigner", "GellMann", "Landau", "Poincare", "Alcubierre", "Penrose",
-    "Susskind", "tHooft", "Weinberg", "Glashow", "Cabibbo", "Yukawa", "Georgi",
-    "Nambu", "Wilson", "Gibbs", "Hamilton", "Poisson", "Chadwick", "Gamow"
+    "Einstein",
+    "Feynman",
+    "Pauli",
+    "Dirac",
+    "Bohr",
+    "Curie",
+    "Nielsen",
+    "Mayer",
+    "Planck",
+    "Newton",
+    "Maxwell",
+    "Faraday",
+    "Galilei",
+    "Kepler",
+    "Higgs",
+    "Schrodinger",
+    "Heisenberg",
+    "Boltzmann",
+    "Noether",
+    "Hawking",
+    "Tesla",
+    "Rutherford",
+    "Lorentz",
+    "Hertz",
+    "Laplace",
+    "Lagrange",
+    "Gauss",
+    "Quinn",
+    "Huygens",
+    "Ampere",
+    "Volta",
+    "Ohm",
+    "Compton",
+    "deBroglie",
+    "Salam",
+    "Rubin",
+    "Bose",
+    "Fermi",
+    "Majorana",
+    "Mach",
+    "Born",
+    "Sommerfeld",
+    "Wu",
+    "Zeldovich",
+    "Chandrasekhar",
+    "Witten",
+    "Bhabha",
+    "Meitner",
+    "Bethe",
+    "Cherenkov",
+    "Yang",
+    "Wigner",
+    "GellMann",
+    "Landau",
+    "Poincare",
+    "Alcubierre",
+    "Penrose",
+    "Susskind",
+    "tHooft",
+    "Weinberg",
+    "Glashow",
+    "Cabibbo",
+    "Yukawa",
+    "Georgi",
+    "Nambu",
+    "Wilson",
+    "Gibbs",
+    "Hamilton",
+    "Poisson",
+    "Chadwick",
+    "Gamow",
 ]
 
 
@@ -87,9 +216,9 @@ def generate_run_info(
 # "medium" mirrors the Claude CLI's own default; "high" matches what CC Code
 # uses for heavy reasoning tasks. Users can also pass a raw integer.
 EFFORT_THINKING_TOKENS: dict[str, int] = {
-    "low":    2000,
+    "low": 2000,
     "medium": 8000,
-    "high":   31999,
+    "high": 31999,
 }
 
 
@@ -117,27 +246,27 @@ def resolve_effort(effort: str | int | None) -> tuple[str, int]:
 
 # Typed schema for YAML configs. Unknown keys raise; values may be None.
 ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
-    "extends":   (str,),
-    "agent":     (str,),
-    "paper":     (str,),
-    "runner":    (str,),
-    "model":     (str,),
-    "effort":    (str, int),
+    "extends": (str,),
+    "agent": (str,),
+    "paper": (str,),
+    "runner": (str,),
+    "model": (str,),
+    "effort": (str, int),
     "max_iters": (int,),
     "min_iters": (int,),
-    "compute":   (str,),
-    "account":   (str,),
-    "cpus":      (int, str),
-    "walltime":  (str,),
-    "qos":       (str,),
-    "sandbox":   (str,),
+    "compute": (str,),
+    "account": (str,),
+    "cpus": (int, str),
+    "walltime": (str,),
+    "qos": (str,),
+    "sandbox": (str,),
     # Sisyphus agent: separate model / effort for the planner and critic roles.
-    "critic_model":   (str,),
-    "critic_effort":  (str, int),
+    "critic_model": (str,),
+    "critic_effort": (str, int),
     "planner_effort": (str, int),
 }
 
-_ALLOWED_AGENTS  = {"simple", "baseline", "iterative", "sisyphus"}
+_ALLOWED_AGENTS = {"simple", "baseline", "iterative", "sisyphus"}
 _ALLOWED_RUNNERS = {"claude", "codex", "aider"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high"}
@@ -152,8 +281,7 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
     unknown = sorted(set(cfg) - set(ALLOWED_CONFIG_KEYS))
     if unknown:
         raise ValueError(
-            f"{source}: unknown config key(s) {unknown}. "
-            f"Allowed: {sorted(ALLOWED_CONFIG_KEYS)}"
+            f"{source}: unknown config key(s) {unknown}. " f"Allowed: {sorted(ALLOWED_CONFIG_KEYS)}"
         )
     for key, val in list(cfg.items()):
         if val is None:
@@ -165,9 +293,13 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
         # Coerce numeric → string for string-only fields (arxiv IDs, account
         # names). Only when int/float aren't already accepted, otherwise we'd
         # stringify e.g. `effort: 1500` or `cpus: 128` that want to stay numeric.
-        if (str in expected
-                and int not in expected and float not in expected
-                and isinstance(val, (int, float)) and not isinstance(val, bool)):
+        if (
+            str in expected
+            and int not in expected
+            and float not in expected
+            and isinstance(val, (int, float))
+            and not isinstance(val, bool)
+        ):
             cfg[key] = val = str(val)
         if not isinstance(val, expected):
             raise ValueError(
@@ -182,15 +314,15 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
         raise ValueError(f"{source}: runner={runner!r}; must be one of {sorted(_ALLOWED_RUNNERS)}")
     compute = cfg.get("compute")
     if compute is not None and compute not in _ALLOWED_COMPUTE:
-        raise ValueError(
-            f"{source}: compute={compute!r}; must be '' (login node) or 'perlmutter'"
-        )
+        raise ValueError(f"{source}: compute={compute!r}; must be '' (login node) or 'perlmutter'")
     effort = cfg.get("effort")
-    if isinstance(effort, str) and effort and not effort.isdigit() \
-            and effort not in _ALLOWED_EFFORT_LABELS:
-        raise ValueError(
-            f"{source}: effort={effort!r}; must be low|medium|high or an integer"
-        )
+    if (
+        isinstance(effort, str)
+        and effort
+        and not effort.isdigit()
+        and effort not in _ALLOWED_EFFORT_LABELS
+    ):
+        raise ValueError(f"{source}: effort={effort!r}; must be low|medium|high or an integer")
     sandbox = cfg.get("sandbox")
     if sandbox is not None and sandbox not in _ALLOWED_SANDBOX:
         raise ValueError(
@@ -199,6 +331,7 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
 
 
 # ── Config loading ─────────────────────────────────────────────────────────
+
 
 def load_config(path: str | os.PathLike | None) -> dict:
     """Load a YAML config, resolving `extends:` chains. Returns {} for empty/None.
@@ -209,6 +342,7 @@ def load_config(path: str | os.PathLike | None) -> dict:
     if not path:
         return {}
     import yaml
+
     chain: list[Path] = []
 
     def _load(p: Path) -> dict:
@@ -241,6 +375,7 @@ def read_agent_from_config(path: str | os.PathLike) -> str | None:
     if not path:
         return None
     import yaml
+
     seen: set[Path] = set()
     p = Path(path).resolve()
     while p not in seen:
@@ -260,6 +395,7 @@ def read_agent_from_config(path: str | os.PathLike) -> str | None:
 
 # ── Run info persistence ───────────────────────────────────────────────────
 
+
 def write_run_info(recast_dir: Path, info: dict) -> Path:
     """Write <recast_dir>/run_info.json and return the path."""
     recast_dir = Path(recast_dir)
@@ -268,8 +404,7 @@ def write_run_info(recast_dir: Path, info: dict) -> Path:
     # Add UTC timestamp on write so the file captures when the run started.
     info = {
         **info,
-        "started_at": info.get("started_at")
-            or time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "started_at": info.get("started_at") or time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
     out.write_text(json.dumps(info, indent=2))
     return out
@@ -304,23 +439,25 @@ def parse_session_log_usage(session_log: Path) -> dict:
                 if isinstance(c, (int, float)):
                     total_cost = float(c)
                 u = ev.get("usage") or {}
-                input_tokens   = int(u.get("input_tokens", input_tokens) or input_tokens)
-                output_tokens  = int(u.get("output_tokens", output_tokens) or output_tokens)
-                cache_read     = int(u.get("cache_read_input_tokens", cache_read) or cache_read)
-                cache_creation = int(u.get("cache_creation_input_tokens", cache_creation) or cache_creation)
-                n_turns        = int(ev.get("num_turns", n_turns) or n_turns)
+                input_tokens = int(u.get("input_tokens", input_tokens) or input_tokens)
+                output_tokens = int(u.get("output_tokens", output_tokens) or output_tokens)
+                cache_read = int(u.get("cache_read_input_tokens", cache_read) or cache_read)
+                cache_creation = int(
+                    u.get("cache_creation_input_tokens", cache_creation) or cache_creation
+                )
+                n_turns = int(ev.get("num_turns", n_turns) or n_turns)
     except OSError:
         return {}
     if not (total_cost or input_tokens or output_tokens):
         return {}
     return {
-        "api_cost_usd":           round(total_cost, 6),
-        "input_tokens":           input_tokens,
-        "output_tokens":          output_tokens,
-        "cache_read_tokens":      cache_read,
-        "cache_creation_tokens":  cache_creation,
-        "tokens_total_billed":    input_tokens + output_tokens + cache_creation,
-        "n_turns":                n_turns,
+        "api_cost_usd": round(total_cost, 6),
+        "input_tokens": input_tokens,
+        "output_tokens": output_tokens,
+        "cache_read_tokens": cache_read,
+        "cache_creation_tokens": cache_creation,
+        "tokens_total_billed": input_tokens + output_tokens + cache_creation,
+        "n_turns": n_turns,
     }
 
 
@@ -346,24 +483,28 @@ def finalize_run_info(
                 info = json.loads(info_path.read_text())
             except json.JSONDecodeError:
                 info = {}
-        info["ended_at"]  = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        info["ended_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         info["exit_code"] = int(exit_code)
         if started_at is not None:
             info["duration_wall_s"] = round(time.time() - started_at, 2)
         if scores is not None:
             info["final_score"] = {
                 "overall_score": scores.get("overall_score"),
-                "overall_pass":  scores.get("overall_pass"),
-                "n_pass":        scores.get("n_pass"),
-                "n_filled":      scores.get("n_filled"),
+                "overall_pass": scores.get("overall_pass"),
+                "n_pass": scores.get("n_pass"),
+                "n_filled": scores.get("n_filled"),
             }
         usage_total = {
-            "api_cost_usd": 0.0, "input_tokens": 0, "output_tokens": 0,
-            "cache_read_tokens": 0, "cache_creation_tokens": 0,
-            "tokens_total_billed": 0, "n_turns": 0,
+            "api_cost_usd": 0.0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "cache_read_tokens": 0,
+            "cache_creation_tokens": 0,
+            "tokens_total_billed": 0,
+            "n_turns": 0,
         }
         any_usage = False
-        for log_path in (session_logs or []):
+        for log_path in session_logs or []:
             if not log_path:
                 continue
             u = parse_session_log_usage(Path(log_path))
@@ -383,6 +524,7 @@ def finalize_run_info(
 
 
 # ── Fail-fast input validation ─────────────────────────────────────────────
+
 
 def validate_launch_inputs(repo_root: Path, paper_ref: str) -> None:
     """Validate prerequisites before doing any workspace setup. Raises on failure.

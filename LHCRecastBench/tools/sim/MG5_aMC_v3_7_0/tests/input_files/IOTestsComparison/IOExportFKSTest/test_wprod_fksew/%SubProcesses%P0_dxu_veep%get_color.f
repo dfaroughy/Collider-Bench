@@ -117,4 +117,3 @@ C       This is dummy particle used in multiparticle vertices
         RETURN
       ENDIF
       END
-

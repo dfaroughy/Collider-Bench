@@ -39,7 +39,7 @@ c                 [     2           2          2                  ]
 
       call qlratreal(p3sqbar,si,r1,ieps1)
       call qlratreal(p4sqbar,msq,r2,ieps2)
-       
+
       Ires(-2)=cone
       Ires(-1)=wlogp3+wlogp4-wlogs
 
@@ -53,4 +53,3 @@ c                 [     2           2          2                  ]
       enddo
       return
       end
-

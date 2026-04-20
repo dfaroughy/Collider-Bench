@@ -1,4 +1,4 @@
-double %(process_class_name)s::matrix_%(proc_name)s(%(matrix_args)s) { 
+double %(process_class_name)s::matrix_%(proc_name)s(%(matrix_args)s) {
 %(all_wavefunction_calls)s
 // Local variables
 const int ngraphs = %(ngraphs)d;
@@ -26,6 +26,6 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[%(proc_number)d][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }

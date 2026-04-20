@@ -10,7 +10,7 @@ import object_library
 try:
     import decays
 except ImportError:
-    pass    
+    pass
 try:
     from . import build_restrict
 except ImportError:

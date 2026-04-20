@@ -26,11 +26,11 @@ public:
     mSave(0.0), m0Save(0.0), pSave(Vec4()) {};
   Particle(const int idIn, const int statusIn, const int colIn,
       const int acolIn, const double mIn, const double m0In,
-      double eI, double pxI, double pyI, double pzI) 
+      double eI, double pxI, double pyI, double pzI)
     : idSave(idIn), statusSave(statusIn),  colSave(colIn), acolSave(acolIn),
       mSave(mIn), m0Save(m0In), pSave(Vec4()) {
       e(eI); px(pxI);  py(pyI);  pz(pzI); };
-  Particle(const Particle& particleIn) 
+  Particle(const Particle& particleIn)
     : idSave(particleIn.idSave), statusSave(particleIn.statusSave),
       colSave(particleIn.colSave), acolSave(particleIn.acolSave),
       mSave(particleIn.mSave), m0Save(particleIn.m0Save),
@@ -44,7 +44,7 @@ public:
   void id(int idIn) {idSave = idIn;}
   void status(int statusIn) {statusSave = statusIn;}
   void p(Vec4 pIn) {pSave = pIn;}
-  void p(double pxIn, double pyIn, double pzIn, double eIn) 
+  void p(double pxIn, double pyIn, double pzIn, double eIn)
     {pSave.p(pxIn, pyIn, pzIn, eIn);}
   void px(double pxIn) {pSave.px(pxIn);}
   void py(double pyIn) {pSave.py(pyIn);}
@@ -77,12 +77,12 @@ public:
   int    acol()      const {return acolSave;}
 
   // Member functions that perform operations.
-  void rot(double thetaIn, double phiIn) {pSave.rot(thetaIn, phiIn);} 
+  void rot(double thetaIn, double phiIn) {pSave.rot(thetaIn, phiIn);}
   void bst(double betaX, double betaY, double betaZ) { pSave.bst(betaX, betaY, betaZ);}
   void bst(double betaX, double betaY, double betaZ, double gamma) {pSave.bst(betaX, betaY, betaZ, gamma);}
   void bst(const Vec4& pBst) {pSave.bst(pBst);}
   void bst(const Vec4& pBst, double mBst) {pSave.bst(pBst, mBst);}
-  void rotbst(const RotBstMatrix& M) {pSave.rotbst(M);} 
+  void rotbst(const RotBstMatrix& M) {pSave.rotbst(M);}
 
   friend class State;
 
@@ -93,8 +93,8 @@ class State {
 
 public:
 
- ~State() {} 
-  State() { entry.reserve(100);} 
+ ~State() {}
+  State() { entry.reserve(100);}
   State(const vector<int> id, const vector<int> status) { entry.reserve(100);}
 
   // Overload index operator to access element of event record.
@@ -105,7 +105,7 @@ public:
   int size() const {return entry.size();}
   int append(Particle entryIn) { entry.push_back(entryIn); return entry.size() - 1;}
 
-  void list() const; 
+  void list() const;
 
 };
 
@@ -116,7 +116,7 @@ void State::list() const {
   std::cout << "\n --------  State listing ----------"
      << "-------------------------------------------------\n \n    no    "
      << "    id    status    colours"
-     << "      p_x        p_y        p_z         e          m \n"; 
+     << "      p_x        p_y        p_z         e          m \n";
 
   // At high energy switch to scientific format for momenta.
   bool useFixed = (entry[0].e() < 1e5);
@@ -128,24 +128,24 @@ void State::list() const {
     const Particle& pt = entry[i];
 
     // Basic line for a particle, always printed.
-    std::cout << setw(6) << i << setw(6) << pt.id() << "   " << setw(6) 
+    std::cout << setw(6) << i << setw(6) << pt.id() << "   " << setw(6)
        << pt.status() << setw(6) << pt.col() << setw(6) << pt.acol()
-       << scientific << setprecision(5) 
-       << setw(14) << pt.px() << setw(14) << pt.py() << setw(14) 
+       << scientific << setprecision(5)
+       << setw(14) << pt.px() << setw(14) << pt.py() << setw(14)
        << pt.pz() << setw(14) << pt.e() << setw(14) << pt.m() << "\n";
 
     // Statistics on momentum and charge.
     if (entry[i].status() > 0) {
-      pSum += entry[i].p(); 
+      pSum += entry[i].p();
     }
   }
 
   // Line with sum charge, momentum, energy and invariant mass.
   std::cout << fixed << setprecision(3) << "                                   "
-     << "Momentum sum:" 
-     << scientific << setprecision(3) 
-     << setw(11) << pSum.px() << setw(11) << pSum.py() << setw(11) 
-     << pSum.pz() << setw(11) << pSum.e() << setw(11) << pSum.mCalc() 
+     << "Momentum sum:"
+     << scientific << setprecision(3)
+     << setw(11) << pSum.px() << setw(11) << pSum.py() << setw(11)
+     << pSum.pz() << setw(11) << pSum.e() << setw(11) << pSum.mCalc()
      << "\n";
 
   // Listing finished.
@@ -210,7 +210,7 @@ int getRadBeforeCol(const int rad, const int emt,
     //Gluon emissions in FSR
     } else if (type == 1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].acol())
                     ? event[rad].acol() : event[rad].col();
       radBeforeCol  = (event[rad].col()  == colRemove)
@@ -218,7 +218,7 @@ int getRadBeforeCol(const int rad, const int emt,
     //Gluon emissions in ISR
     } else if (type == -1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].col())
                     ? event[rad].col() : event[rad].acol();
       radBeforeCol  = (event[rad].col()  == colRemove)
@@ -229,7 +229,7 @@ int getRadBeforeCol(const int rad, const int emt,
     // Quark emission in FSR
     if (type == 1 && event[emt].id() != 21) {
       // If radiating is a quark, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].acol())
                     ? event[rad].acol() : 0;
       radBeforeCol  = (event[rad].col()  == colRemove)
@@ -237,7 +237,7 @@ int getRadBeforeCol(const int rad, const int emt,
     //Gluon emissions in FSR
     } else if (type == 1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].acol())
                     ? event[rad].col() : 0;
       radBeforeCol  = (event[rad].col()  == colRemove)
@@ -245,7 +245,7 @@ int getRadBeforeCol(const int rad, const int emt,
     //Quark emissions in ISR
     } else if (type == -1 && event[emt].id() != 21) {
       // If emitted is a quark, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].col())
                     ? event[rad].col() : 0;
       radBeforeCol  = (event[rad].col()  == colRemove)
@@ -253,7 +253,7 @@ int getRadBeforeCol(const int rad, const int emt,
     //Gluon emissions in ISR
     } else if (type == -1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].col())
                     ? event[rad].col() : 0;
       radBeforeCol  = (event[rad].col()  == colRemove)
@@ -291,7 +291,7 @@ int getRadBeforeAcol(const int rad, const int emt,
     //Gluon emissions in FSR
     } else if (type == 1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].acol())
                     ? event[rad].acol() : event[rad].col();
       radBeforeAcl  = (event[rad].acol() == colRemove)
@@ -299,7 +299,7 @@ int getRadBeforeAcol(const int rad, const int emt,
     //Gluon emissions in ISR
     } else if (type == -1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].col())
                     ? event[rad].col() : event[rad].acol();
       radBeforeAcl  = (event[rad].acol() == colRemove)
@@ -310,7 +310,7 @@ int getRadBeforeAcol(const int rad, const int emt,
     // Antiquark emission in FSR
     if (type == 1 && event[emt].id() != 21) {
       // If radiating is a antiquark, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].col() == event[emt].acol())
                     ? event[rad].acol() : 0;
       radBeforeAcl  = (event[rad].acol()  == colRemove)
@@ -318,7 +318,7 @@ int getRadBeforeAcol(const int rad, const int emt,
     //Gluon emissions in FSR
     } else if (type == 1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].acol() == event[emt].col())
                     ? event[rad].acol() : 0;
       radBeforeAcl  = (event[rad].acol()  == colRemove)
@@ -326,7 +326,7 @@ int getRadBeforeAcol(const int rad, const int emt,
     //Antiquark emissions in ISR
     } else if (type == -1 && event[emt].id() != 21) {
       // If emitted is an antiquark, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].acol() == event[emt].acol())
                     ? event[rad].acol() : 0;
       radBeforeAcl  = (event[rad].acol()  == colRemove)
@@ -334,7 +334,7 @@ int getRadBeforeAcol(const int rad, const int emt,
     //Gluon emissions in ISR
     } else if (type == -1 && event[emt].id() == 21) {
       // If emitted is a gluon, remove the repeated index, and take
-      // the remaining indices as colour and anticolour 
+      // the remaining indices as colour and anticolour
       int colRemove = (event[rad].acol() == event[emt].acol())
                     ? event[rad].acol() : 0;
       radBeforeAcl  = (event[rad].acol()  == colRemove)
@@ -631,7 +631,7 @@ double pTpythia(const Particle& RadAfterBranch,
   double m2Dip = sum.m2Calc();
   double x1 = 2. * (sum * RadAfterBranch.p()) / m2Dip;
   double x3 = 2. * (sum * EmtAfterBranch.p()) / m2Dip;
-  // Construct momenta of dipole before/after splitting for ISR 
+  // Construct momenta of dipole before/after splitting for ISR
   Vec4 qBR(RadAfterBranch.p() - EmtAfterBranch.p() + RecAfterBranch.p());
   Vec4 qAR(RadAfterBranch.p() + RecAfterBranch.p());
   // Calculate z of splitting, different for FSR and ISR
@@ -699,7 +699,7 @@ double minPythiaSep( const State& inEvent, int& iradMin, int& iemtMin, int& irec
   double ptmin = 1e15;
   int irad, iemt, irec, itype;
   irad = iemt = irec = itype = 0;
-  
+
   for(int i=0; i < int(FinalPartPos.size()); ++i){
 
     double pt12  = ptmin;
@@ -768,7 +768,7 @@ double minPythiaSep( const State& inEvent, int& iradMin, int& iemtMin, int& irec
   iradMin = irad;
   iemtMin = iemt;
   irecMin = irec;
-  typeMin = itype; 
+  typeMin = itype;
 
   // Done
   return ptmin;
@@ -783,7 +783,7 @@ const double TINYMASS  = 1e-8;
 
 
 
-extern "C" {   
+extern "C" {
 //Fortran interface
 
   void pythia_unlops_cluster_(const double & eCM, const double * p, const int & npart,
@@ -820,4 +820,3 @@ extern "C" {
     delete originalState;
   }
 }
-

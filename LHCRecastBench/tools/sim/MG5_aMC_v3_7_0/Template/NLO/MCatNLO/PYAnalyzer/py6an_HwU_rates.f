@@ -27,7 +27,7 @@ C----------------------------------------------------------------------
       implicit none
       include 'reweight0.inc'
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -70,7 +70,7 @@ C----------------------------------------------------------------------
 c Collect accumulated results.
       xnorm=1d0
       call finalize_histograms(ievt)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)

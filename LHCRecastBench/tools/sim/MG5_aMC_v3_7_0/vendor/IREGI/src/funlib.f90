@@ -36,8 +36,8 @@ CONTAINS
   END FUNCTION factorial
 
   SUBROUTINE PCL2PE(NLOOPLINE,PCL,PE)
-    ! transfer the loop momenta q,q+p1,q+p1+p2,q+p1+p2+p3,... 
-    ! to p1,p2,p3,p4,... 
+    ! transfer the loop momenta q,q+p1,q+p1+p2,q+p1+p2+p3,...
+    ! to p1,p2,p3,p4,...
     IMPLICIT NONE
     INTEGER,INTENT(IN)::NLOOPLINE
     REAL(KIND(1d0)),DIMENSION(NLOOPLINE,0:3),INTENT(IN)::PCL
@@ -78,10 +78,10 @@ CONTAINS
   END SUBROUTINE calc_all_integers
 
   SUBROUTINE all_Integers(n,ntot,i,sol,factor)
-    ! finds all the non-negative solutions to x1,...,xn 
-    ! that x1+x2+...+xn==i 
+    ! finds all the non-negative solutions to x1,...,xn
+    ! that x1+x2+...+xn==i
     ! the number of solutions should be ntot=C(i+n-1)^(n-1)=(i+n-1)!/(n-1)!/i!
-    ! it can be recycled for all phase space point 
+    ! it can be recycled for all phase space point
     IMPLICIT NONE
     INTEGER,INTENT(IN)::n,ntot,i
     INTEGER,DIMENSION(ntot,n),INTENT(OUT)::sol
@@ -188,7 +188,7 @@ CONTAINS
   END FUNCTION number_coefs_for_rank
 
   SUBROUTINE timestamp
-    IMPLICIT NONE    
+    IMPLICIT NONE
     CHARACTER(len=8)::ampm
     INTEGER::d
     INTEGER::h
@@ -231,7 +231,7 @@ CONTAINS
        ENDIF
     ENDIF
     WRITE( *, '(i2,1x,a,1x,i4,2x,i2,a1,i2.2,a1,i2.2,a1,i3.3,1x,a)' ) &
-         d, TRIM( month(m) ), y, h, ':', n, ':', s, '.', mm, TRIM( ampm )  
+         d, TRIM( month(m) ), y, h, ':', n, ':', s, '.', mm, TRIM( ampm )
     RETURN
   END SUBROUTINE timestamp
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -241,7 +241,7 @@ CONTAINS
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   SUBROUTINE SORT_IREGICOEFS(RANK,NLOOPCOEFS,OLDCOEFS,NEWCOEFS)
     !
-    ! CONVERT THE OUTPUT OF IREGI TO THAT OF (NEW) MADLOOP 
+    ! CONVERT THE OUTPUT OF IREGI TO THAT OF (NEW) MADLOOP
     !
     ! THE NEW OUTPUT OF COEFS FROM MADLOOP IS
     ! RANK=0: (,)
@@ -273,7 +273,7 @@ CONTAINS
     ! ----------
     ! BEGIN CODE
     ! ----------
-            
+
     IF(INIT)THEN
        IF(NLOOPCOEFS.GT.LOOPMAXCOEFS_IREGI)&
             STOP "ERROR:LOOPMAXCOEFS_IREGI IS TOO SMALL!!!"
@@ -281,12 +281,12 @@ CONTAINS
        ! ASSIGN THE POSITION OF POS FOR SWAP
        CALL ASSIGN_PJPOS(POS)
     ENDIF
-    
+
     DO I=0,NLOOPCOEFS-1
     !   NEWCOEFS(I,1:3)=OLDCOEFS(POS(I),1:3)
        NEWCOEFS(POS(I),1:3)=OLDCOEFS(I,1:3)
     ENDDO
-    
+
   END SUBROUTINE SORT_IREGICOEFS
 
   SUBROUTINE ASSIGN_PJPOS(POS)
@@ -299,11 +299,11 @@ CONTAINS
     ! CONSTANS
     !
     ! MAX RANK SET AS 10
-    ! Sum((3+r)*(2+r)*(1+r)/6,{r,0,10})=1001 
+    ! Sum((3+r)*(2+r)*(1+r)/6,{r,0,10})=1001
     INTEGER,PARAMETER::LOOPMAXCOEFS_IREGI=1001,MAXRANK=10
-    ! 
+    !
     ! ARGUMENTS
-    ! 
+    !
     INTEGER,DIMENSION(0:LOOPMAXCOEFS_IREGI-1),INTENT(OUT)::POS
     !
     ! LOCAL VARIABLES
@@ -331,7 +331,7 @@ CONTAINS
        ENDDO
        SHIFT=SHIFT+DN
     ENDDO
-    
+
   END SUBROUTINE ASSIGN_PJPOS
 
   SUBROUTINE NEXTINDEX(RANK,POSINDEX)
@@ -369,7 +369,7 @@ CONTAINS
           RETURN
        ENDIF
     ENDDO
-    
+
   END SUBROUTINE NEXTINDEX
 
   SUBROUTINE CONVERT_PJPOSINDEX(RANK,POSINDEX,PJPOSINDEX)
@@ -428,12 +428,12 @@ CONTAINS
        QPOLYPOS=1
        RETURN
     ENDIF
-    
+
     IF(RANK.EQ.1)THEN
        QPOLYPOS=POSINDEX(1)+1
        RETURN
     ENDIF
-    
+
     QPOLYPOS=POSINDEX(1)-POSINDEX(2)+1
     DO I=2,RANK
        IF(I.EQ.RANK)THEN
@@ -470,7 +470,7 @@ CONTAINS
     INTEGER::I,J,IMIN
     ! ----------
     ! BEGIN CODE
-    ! ----------                                                                                                                                                                                            
+    ! ----------
 
     IF(RANK.EQ.0)THEN
        NEWQPOLYPOS=1
@@ -600,7 +600,7 @@ CONTAINS
     ! SPLIT_FACTOR is the factor for each term
     ! SPLIT_INFO(J,K,0-3) is the number of 0,1,2,3 with MOM^mu
     ! SPLIT_INFO(J,K,4) is the corresponding q^mu (remaining lorentz indices)
-    INTEGER,DIMENSION(0:LOOPMAXCOEFS_IREGI-1,MAXSPLIT,0:4)::SPLIT_INFO  
+    INTEGER,DIMENSION(0:LOOPMAXCOEFS_IREGI-1,MAXSPLIT,0:4)::SPLIT_INFO
     SAVE INIT,NTERM,SPLIT_FACTOR,SPLIT_INFO
     INTEGER::I,J,K,L,NINDEX,r,incr
     INTEGER::i1,i2,i3,i4,nsplit,itit,rte,ND

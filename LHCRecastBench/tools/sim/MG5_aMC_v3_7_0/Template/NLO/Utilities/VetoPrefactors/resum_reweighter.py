@@ -39,7 +39,7 @@ logging.getLogger('madgraph.model').setLevel(logging.CRITICAL)
 # ==============================================
 
 def setup_channel(channelPath):
-    """ Compiles the Resummation fortran steering 
+    """ Compiles the Resummation fortran steering
     code and returns the corresponding process."""
 
     logging.info('Setting up resummation runner in\n   %s'%channelPath)
@@ -49,11 +49,11 @@ def setup_channel(channelPath):
     except:
         logging.error("Could not compile resummation runner in %s/%s"%(channelPath))
         raise
-    
+
     logging.info('  ... Done.')
-    
-    return subprocess.Popen([os.path.join(channelPath,'resum_driver')], 
-          stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
+
+    return subprocess.Popen([os.path.join(channelPath,'resum_driver')],
+          stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                                                    cwd=channelPath)
 
 def kill_processes(encountered_channels):
@@ -69,7 +69,7 @@ def get_value(Runner, input_str):
     """ This version of get_me_value is simplified for the purpose of this
     class. No compilation is necessary. The CT mode can be specified."""
     Runner.stdin.write(input_str)
-    output = Runner.stdout.readline()  
+    output = Runner.stdout.readline()
     return output
 
 # ==============================================
@@ -94,14 +94,14 @@ except:
 
 i=0
 while os.path.exists(outPath):
-    i=i+1    
+    i=i+1
     if outSpecified and i==1:
         logging.warning("The chosen filename %s for the output already exists."%os.path.basename(outPath))
     outPath=pjoin(os.path.dirname(os.path.realpath(eventFile)),
                   '%s_rwgt_%i.%s'%(evtFileName,i,evtFileExt))
 
 try:
-    evtBanner = banner.Banner(eventFile)    
+    evtBanner = banner.Banner(eventFile)
     evtFile = lhe_parser.EventFile(eventFile)
 except:
     logging.error("Could not read event file %s."%eventFile)
@@ -134,7 +134,7 @@ max_wgt = 0.0
 n_percent_monitor=1
 for event in evtFile:
     i_evt = i_evt+1
-    t_evt_start = time.time()    
+    t_evt_start = time.time()
     # The channel Folder
     chanFolder=""
     EvtChannelName="VetoPrefactors"
@@ -156,7 +156,7 @@ for event in evtFile:
             logging.error("Could not setup resum runner %s"%virtFolderPath)
             kill_processes(encountered_channels)
             exit()
-    
+
             # Save the runners just created for ChannelNameToSetup and possibly related to
             # EvtChannelName as well.
         encountered_channels[EvtChannelName]=(runner,virtFolderPath)
@@ -176,7 +176,7 @@ for event in evtFile:
     f2=str(pdg[1])
 # Bjorken x's of the particles
     x1=str(momenta[0][0]/ebeam1)
-    x2=str(momenta[1][0]/ebeam2) 
+    x2=str(momenta[1][0]/ebeam2)
 # Q is set to \sqrt(\hat{s})
     Q =str(2*math.sqrt(momenta[0][0]*momenta[1][0]))
 # renormalisation scale used to generate the events

@@ -1,21 +1,21 @@
 c
 c ----------------------------------------------------------------------
 c
-      subroutine hiocxx(fic,foc,gc,smass,swidth , hioc)                
-c                                                                       
-c this subroutine computes an off-shell scalar current from an external 
-c antifermion pair.                                                     
-c                                                                       
-c input:                                                                
+      subroutine hiocxx(fic,foc,gc,smass,swidth , hioc)
+c
+c this subroutine computes an off-shell scalar current from an external
+c antifermion pair.
+c
+c input:
 c       complex fic(6)         : flow-in  antifermion              |fic>
 c       complex foc(6)         : flow-out antifermion              <foc|
 c       complex gc(2)          : coupling constants                 gchf
-c       real    smass          : mass  of output scalar s               
-c       real    swidth         : width of output scalar s               
-c                                                                       
-c output:                                                               
+c       real    smass          : mass  of output scalar s
+c       real    swidth         : width of output scalar s
+c
+c output:
 c       complex hioc(3)        : scalar current           j(<fic|s|foc>)
-c                                                                       
+c
       implicit none
       double complex fic(6),foc(6),hioc(3),gc(2),dn
       double precision q(0:3),smass,swidth,q2

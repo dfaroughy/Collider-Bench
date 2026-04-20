@@ -1,9 +1,9 @@
       SUBROUTINE MP_HELAS_CALLS_AMPB_1(P,NHEL,H,IC)
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER NBORNAMPS
       PARAMETER (NBORNAMPS=8)
       INTEGER    NEXTERNAL
@@ -22,20 +22,20 @@ C
       PARAMETER (ZERO=0.0E0_16)
       COMPLEX*32     IZERO
       PARAMETER (IZERO=CMPLX(0.0E0_16,0.0E0_16,KIND=16))
-C     
+C
 C     ARGUMENTS
-C     
+C
       REAL*16 P(0:3,NEXTERNAL)
       INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
       INTEGER H
-C     
+C
 C     LOCAL VARIABLES
-C     
+C
       INTEGER I,J,K
       COMPLEX*32 COEFS(MAXLWFSIZE,0:VERTEXMAXCOEFS-1,MAXLWFSIZE)
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       INCLUDE 'mp_coupl_same_name.inc'
 
       INTEGER GOODHEL(NCOMB)
@@ -61,7 +61,7 @@ C
       COMPLEX*16 LOOPRES(3,NLOOPGROUPS)
       LOGICAL S(NLOOPGROUPS)
       COMMON/LOOPRES/LOOPRES,S
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -496,4 +496,3 @@ C     Amplitude(s) for UVCT diagram with ID 168
      $ EPS)
 
       END
-

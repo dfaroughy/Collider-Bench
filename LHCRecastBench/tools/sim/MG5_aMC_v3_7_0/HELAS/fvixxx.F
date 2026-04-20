@@ -16,7 +16,7 @@ c
       implicit none
       double complex fi(6),vc(6),gc(2),fvi(6),sl1,sl2,sr1,sr2,d
       double precision pf(0:3),fmass,fwidth,pf2
-      
+
       double precision rZero, rOne
       parameter( rZero = 0.0d0, rOne = 1.0d0 )
       double complex cImag, cZero

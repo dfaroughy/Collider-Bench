@@ -64,7 +64,7 @@ while ( -e "matrix$imatrix.ps"){
 #
   if (! -e "../../HTML/card.png") {
     system ("/bin/bash -c \"head -352 matrix$imatrix.ps >& junk.ps\" ");
-    open(JUNK,">> junk.ps") || die "Error opening junk.ps";  
+    open(JUNK,">> junk.ps") || die "Error opening junk.ps";
 
     print JUNK "-30 -380 translate \n";
     print JUNK "0.7 0.7 scale \n";
@@ -82,4 +82,3 @@ print PAGE "\n";
 print PAGE "\<\/BODY\> \n";
 print PAGE "\<\/HTML\> \n";
 close(PAGE);
-

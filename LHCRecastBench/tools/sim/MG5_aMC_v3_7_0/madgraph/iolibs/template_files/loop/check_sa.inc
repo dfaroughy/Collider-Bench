@@ -4,9 +4,9 @@ C     THIS IS THE DRIVER FOR CHECKING THE STANDALONE MATRIX ELEMENT.
 C     IT USES A SIMPLE PHASE SPACE GENERATOR
 C *************************************************************************
       IMPLICIT NONE
-C     
-C     CONSTANTS  
-C     
+C
+C     CONSTANTS
+C
       REAL*8 ZERO
       PARAMETER (ZERO=0D0)
 
@@ -16,16 +16,16 @@ C
       INTEGER NPSPOINTS
       PARAMETER (NPSPOINTS = 4)
 
-C integer nexternal and number particles (incoming+outgoing) in the me 
+C integer nexternal and number particles (incoming+outgoing) in the me
       INTEGER NEXTERNAL, NINCOMING
 	  PARAMETER (NEXTERNAL=%(nexternal)d,NINCOMING=%(nincoming)d)
 
 	  character(512) MadLoopResourcePath
 
-C     
+C
 C     INCLUDE FILES
-C     
-C the include file with the values of the parameters and masses      
+C
+C the include file with the values of the parameters and masses
       INCLUDE "coupl.inc"
 C particle masses
       REAL*8 PMASS(NEXTERNAL)
@@ -34,16 +34,16 @@ C integer    n_max_cg
 	  include "nsqso_born.inc"
 	  include "nsquaredSO.inc"
 
-C     
+C
 C     LOCAL
-C     
+C
       INTEGER I,J,K
 C four momenta. Energy is the zeroth component.
       REAL*8 P(0:3,NEXTERNAL)
 	  INTEGER MATELEM_ARRAY_DIM
 	  REAL*8 , allocatable :: MATELEM(:,:)
       REAL*8 SQRTS,AO2PI,TOTMASS
-C sqrt(s)= center of mass energy 
+C sqrt(s)= center of mass energy
       REAL*8 PIN(0:3), POUT(0:3)
       CHARACTER*120 BUFF(NEXTERNAL)
 	  INTEGER RETURNCODE, UNITS, TENS, HUNDREDS
@@ -71,16 +71,16 @@ C
 	  LOGICAL INIT
       DATA INIT/.TRUE./
 	  COMMON/INITCHECKSA/INIT
-C     
+C
 C     EXTERNAL
-C     
+C
       REAL*8 DOT
       EXTERNAL DOT
-      
-C 
+
+C
 C     BEGIN CODE
-C 
-C   
+C
+C
 
       IF (INIT) THEN
 	    INIT=.FALSE.
@@ -90,8 +90,8 @@ C
 	  	ALLOCATE(PREC_FOUND(0:NSQUAREDSO_LOOP))
 
 C     INITIALIZATION CALLS
-C     
-C     Call to initialize the values of the couplings, masses and widths 
+C
+C     Call to initialize the values of the couplings, masses and widths
 C     used in the evaluation of the matrix element. The primary parameters of the
 C     models are read from Cards/param_card.dat. The secondary parameters are calculated
 C     in Source/MODEL/couplings.f. The values are stored in common blocks that are listed
@@ -99,7 +99,7 @@ C     in coupl.inc .
 C first call to setup the paramaters
       call setpara('param_card.dat')
 C set up masses
-      include "pmass.inc"             
+      include "pmass.inc"
 
 	  ENDIF
 
@@ -123,11 +123,11 @@ c     Start by initializing what is the squared split orders indices chosen
       AO2PI=G**2/(8.D0*(3.14159265358979323846d0**2))
 
       write(*,*) 'AO2PI=',AO2PI
-C     Now use a simple multipurpose PS generator (RAMBO) just to get a 
-C     RANDOM set of four momenta of given masses pmass(i) to be used to evaluate 
-C     the madgraph matrix-element.       
+C     Now use a simple multipurpose PS generator (RAMBO) just to get a
+C     RANDOM set of four momenta of given masses pmass(i) to be used to evaluate
+C     the madgraph matrix-element.
 C     Alternatevely, here the user can call or set the four momenta at his will, see below.
-C           
+C
       IF(nincoming.EQ.1) THEN
          SQRTS=PMASS(1)
       ELSE
@@ -217,7 +217,7 @@ C
       CALL %(proc_prefix)sSLOOPMATRIX_THRES(P,MATELEM,-1.0d0,PREC_FOUND,RETURNCODE)
 
 C
-C        write the information on the four momenta 
+C        write the information on the four momenta
 C
       if (K.eq.NPSPOINTS) then
       write (*,*)
@@ -287,12 +287,12 @@ C
 	  ELSE
         write (*,*) "finite / ao2pi      = ", MATELEM(1,0)/AO2PI
         write (*,*) "1eps   / ao2pi      = ", MATELEM(2,0)/AO2PI
-        write (*,*) "2eps   / ao2pi      = ", MATELEM(3,0)/AO2PI	    
+        write (*,*) "2eps   / ao2pi      = ", MATELEM(3,0)/AO2PI
 	  ENDIF
       write (*,*) "---------------------------------"
 
       open(69, file="result.dat", err=976, action='WRITE')
-      do i=1,nexternal      
+      do i=1,nexternal
           write (69,'(a2,1x,5ES30.15E3)') 'PS',P(0,i),P(1,i),P(2,i),P(3,i)
       enddo
       write (69,'(a3,1x,i3)') 'EXP',-(2*nexternal-8)
@@ -321,8 +321,8 @@ C
       enddo
 
 C C
-C C      Copy down here (or read in) the four momenta as a string. 
-C C      
+C C      Copy down here (or read in) the four momenta as a string.
+C C
 C C
 C      buff(1)=" 1   0.5630480E+04  0.0000000E+00  0.0000000E+00  0.5630480E+04"
 C      buff(2)=" 2   0.5630480E+04  0.0000000E+00  0.0000000E+00 -0.5630480E+04"
@@ -341,24 +341,24 @@ C
 C C print the momenta out
 C
 C      do i=1,nexternal
-C         write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i), 
+C         write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i),
 C     &dsqrt(dabs(DOT(p(0,i),p(0,i))))
 C      enddo
 C
 C      CALL SLOOPMATRIX(P,MATELEM)
 C
 C      write (*,*) "-------------------------------------------------"
-C      write (*,*) "Matrix element = ", MATELEM(1), " GeV^",-(2*nexternal-8)      
+C      write (*,*) "Matrix element = ", MATELEM(1), " GeV^",-(2*nexternal-8)
 C      write (*,*) "-------------------------------------------------"
 
       DEALLOCATE(MATELEM)
 	  DEALLOCATE(PREC_FOUND)
 
       end
-      
-        
-        
-        
+
+
+
+
          double precision function dot(p1,p2)
 C *************************************************************
 C     4-Vector Dot product
@@ -371,7 +371,7 @@ C *************************************************************
 
         SUBROUTINE GET_MOMENTA(ENERGY,PMASS,P)
 C       auxiliary function to change convention between madgraph and rambo
-c       four momenta.         
+c       four momenta.
         IMPLICIT NONE
         INTEGER NEXTERNAL, NINCOMING
 	    PARAMETER (NEXTERNAL=%(nexternal)d,NINCOMING=%(nincoming)d)
@@ -401,34 +401,34 @@ c         write (*,*) e1+e2,mom
             P(1,2)=0d0
             P(2,2)=0d0
             P(3,2)=-mom
-             
+
             call rambo(nexternal-2,energy,pmass(NINCOMING+1),prambo,WGT)
             DO I=3, NEXTERNAL
-               P(0,I)=PRAMBO(4,I-2)      
+               P(0,I)=PRAMBO(4,I-2)
                P(1,I)=PRAMBO(1,I-2)
                P(2,I)=PRAMBO(2,I-2)
-               P(3,I)=PRAMBO(3,I-2)      
+               P(3,I)=PRAMBO(3,I-2)
             ENDDO
-             
-          elseif(nincoming.eq.1) then 
-             
+
+          elseif(nincoming.eq.1) then
+
              P(0,1)=energy
              P(1,1)=0d0
              P(2,1)=0d0
              P(3,1)=0d0
-             
+
              call rambo(nexternal-1,energy,pmass(2),prambo,WGT)
              DO I=2, NEXTERNAL
-                P(0,I)=PRAMBO(4,I-1)      
+                P(0,I)=PRAMBO(4,I-1)
                 P(1,I)=PRAMBO(1,I-1)
                 P(2,I)=PRAMBO(2,I-1)
-                P(3,I)=PRAMBO(3,I-1)      
+                P(3,I)=PRAMBO(3,I-1)
              ENDDO
           endif
-          
+
         RETURN
         END
-      
+
 
       SUBROUTINE RAMBO(N,ET,XM,P,WT)
 C **********************************************************************
@@ -625,7 +625,7 @@ C In this version RVEC is a double precision variable.
       IF(UNI .LT. 0D0) UNI = UNI + 1D0
       RVEC = UNI
       END
- 
+
       SUBROUTINE RMARIN(IJ,KL)
 C     -----------------
 C Initializing routine for RANMAR, must be called before generating
@@ -663,9 +663,3 @@ C k=56,l=78) put ij=1802, kl=9373
       IRANMR = 97
       JRANMR = 33
       END
-
-
-
-
-
-

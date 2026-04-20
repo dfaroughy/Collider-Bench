@@ -1005,4 +1005,3 @@ V_166 = Vertex(name = 'V_166',
                color = [ '1' ],
                lorentz = [ L.VVS2],
                couplings = {(0,0):C.GC_138})
-

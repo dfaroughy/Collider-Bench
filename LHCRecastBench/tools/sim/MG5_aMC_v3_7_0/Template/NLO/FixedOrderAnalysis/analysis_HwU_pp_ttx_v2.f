@@ -35,7 +35,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer i
       integer kk,l
       call HwU_write_file
-      return                
+      return
       end
 
 
@@ -108,7 +108,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          call HwU_fill(l+8,pt_ttx,wgts)
       enddo
 c
- 999  return      
+ 999  return
       end
 
 
@@ -124,7 +124,7 @@ c
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

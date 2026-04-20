@@ -2,39 +2,39 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""This files contains class for creating files or object representing a 
+"""This files contains class for creating files or object representing a
 diagram or a set of diagrams.
 
 class structure:
- 
-DrawDiagram: 
-    In principle ALL routines representing a diagram in Any format SHOULD derive
-    from this class. This is a (nearly empty) frameworks to draw a diagram 
-    in any type format.  
 
-    This frameworks defines in particular 
-        - function to convert the input diagram in the correct object. 
+DrawDiagram:
+    In principle ALL routines representing a diagram in Any format SHOULD derive
+    from this class. This is a (nearly empty) frameworks to draw a diagram
+    in any type format.
+
+    This frameworks defines in particular
+        - function to convert the input diagram in the correct object.
             [convert_diagram]
         - main loop to draw a diagram in a line-by-line method
             [draw - draw_diagram]
-        
+
 DrawDiagramEPS:
-    This contains all the routines to represent one diagram in Encapsuled 
+    This contains all the routines to represent one diagram in Encapsuled
     PostScript (EPS)
-    
+
 DrawDiagramsEPS:
-    This contains all the routines to represent a set of diagrams in Encapsuled 
+    This contains all the routines to represent a set of diagrams in Encapsuled
     PostScript (EPS)."""
 
 from __future__ import division
@@ -56,14 +56,14 @@ _file_path = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0] + '/'
 # DrawDiagramEps
 #===============================================================================
 class EpsDiagramDrawer(draw.DiagramDrawer):
-    """Class to write a EPS file containing the asked diagram 
+    """Class to write a EPS file containing the asked diagram
     This class follows the DrawDiagram Frameworks.
-    
+
     The main routine to draw a diagram is 'draw' which call
     1) initialize: setup things for the diagram (usually open a file)
     2) convert_diagram : Update the diagram in the correct format if needed
     3) draw_diagram : Perform diagram dependent operation
-    4) conclude : finish the operation. 
+    4) conclude : finish the operation.
     """
 
     #some page information
@@ -71,23 +71,23 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
     height = 450
     npage = 1
 
-    # Define where to put the diagram in the page. This is the coordinate of 
+    # Define where to put the diagram in the page. This is the coordinate of
     #the two opposites point of the drawing area
     x_min = 150
     y_min = 450
     x_max = 450
     y_max = 750
-    
+
     blob_size = 1.5
     april_fool = False
 
     def initialize(self):
         """Operation done before starting to create diagram specific EPS content
-        First open the file in write mode then write in it the header and the 
+        First open the file in write mode then write in it the header and the
         library of particle type."""
 
 
-        # Open file 
+        # Open file
         super(EpsDiagramDrawer, self).initialize()
 
         # File Header
@@ -123,7 +123,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
         a oblong. Deformation are linear."""
 
         # Use the information for the graph position. 'self.x_???,self.y_????
-        #are the coordinate of the two opposites point of the drawing area. 
+        #are the coordinate of the two opposites point of the drawing area.
         x = self.x_min + (self.x_max - self.x_min) * x
         y = self.y_min + (self.y_max - self.y_min) * y
 
@@ -133,7 +133,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
     def line_format(self, x1, y1, x2, y2, name):
         """Specify the text format of a specific Particles.
         EPS format for Particle is either [X Y X Y NAME] or [X Y X Y NUM NAME].
-        In this routine we will consider only the first format. The second can 
+        In this routine we will consider only the first format. The second can
         be matched by redefining name in [NUM NAME]."""
 
         # Compute real position for starting/ending point
@@ -151,7 +151,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             return "%s %s %s %s %s \n" % (x1, y1, x2, y2, name)
     def draw_vertex(self, vertex, bypass = ['QED','QCD']  ):
         """Add blob in case on non QED-QCD information"""
-        
+
         interaction = self.model.get_interaction(vertex.id)
         if interaction:
             order = interaction.get('orders')
@@ -178,10 +178,10 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             curvature = 0.4
         else:
             curvature = 1
-        
+
         if (line.begin.pos_x, line.begin.pos_y) == self.curved_part_start:
             curvature *= -1
-        
+
         #add the code in the correct format
         x1, y1 = self.rescale(line.begin.pos_x, line.begin.pos_y)
         self.text += ' %s  %s moveto \n' % (x1, y1)
@@ -196,15 +196,15 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             curvature = 0.4
         else:
             curvature = 1
-        
+
         if (line.begin.pos_x, line.begin.pos_y) == self.curved_part_start:
             curvature *= -1
-        
+
         #add the code in the correct format
         self.text += self.line_format(line.begin.pos_x, line.begin.pos_y,
                          line.end.pos_x, line.end.pos_y, '%s Ffermionl' %\
                          curvature)
-    
+
     def draw_circled_straight(self, line, cercle):
         """ADD the EPS code for this fermion line."""
 
@@ -212,10 +212,10 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             curvature = 4
         else:
             curvature = 5
-            
+
         is_tadpole = line.begin.pos_x==line.end.pos_x and \
                                                 line.begin.pos_y==line.end.pos_y
-                                                
+
         if is_tadpole:
             # Obtain the direction of the propagator supporting the tadpole
             direction = None
@@ -233,7 +233,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
                          [new_direction, (-new_direction[0],-new_direction[1])]:
                         pass
 #                        logger.debug('The case of a five-point vertex'+
-#                                          'yielding a tadpole is not supported')            
+#                                          'yielding a tadpole is not supported')
                 continue
 
             #add the code in the correct format
@@ -262,7 +262,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
 
         is_tadpole = line.begin.pos_x==line.end.pos_x and \
                                                 line.begin.pos_y==line.end.pos_y
-                                                
+
         if is_tadpole:
             # Obtain the direction of the propagator supporting the tadpole
             direction = None
@@ -279,7 +279,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
                     if direction not in \
                          [new_direction, (-new_direction[0],-new_direction[1])]:
 #                        logger.error('The case of a five-point vertex'+
-#                                          'yielding a tadpole is not supported')            
+#                                          'yielding a tadpole is not supported')
                         pass
 
             #add the code in the correct format
@@ -308,7 +308,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             curvature = 1
 
         if (line.begin.pos_x, line.begin.pos_y) == self.curved_part_start:
-            curvature *= -1	
+            curvature *= -1
         #add the code in the correct format
         self.text += self.line_format(line.begin.pos_x, line.begin.pos_y,\
                         line.end.pos_x, line.end.pos_y, '%s Fghostl'% curvature)
@@ -322,7 +322,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
 
         is_tadpole = line.begin.pos_x==line.end.pos_x and \
                                                 line.begin.pos_y==line.end.pos_y
-                                                
+
         if is_tadpole:
             # Obtain the direction of the propagator supporting the tadpole
             direction = None
@@ -339,9 +339,9 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
                     if direction not in \
                          [new_direction, (-new_direction[0],-new_direction[1])]:
 #                        logger.error('The case of a five-point vertex'+
-#                                          'yielding a tadpole is not supported')            
-                        pass           
-            
+#                                          'yielding a tadpole is not supported')
+                        pass
+
             #add the code in the correct format
             self.text += self.line_format(line.begin.pos_x, line.begin.pos_y,
              line.end.pos_x+0.01*direction[0], line.end.pos_y+0.01*direction[1],
@@ -377,10 +377,10 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             curvature = 4
         else:
             curvature = 5
-        
+
         is_tadpole = line.begin.pos_x==line.end.pos_x and \
                                                 line.begin.pos_y==line.end.pos_y
-                                                
+
         if is_tadpole:
             # Obtain the direction of the propagator supporting the tadpole
             direction = None
@@ -397,9 +397,9 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
                     if direction not in \
                          [new_direction, (-new_direction[0],-new_direction[1])]:
 #                        logger.error('The case of a five-point vertex'+
-#                                          'yielding a tadpole is not supported')            
-                        pass            
-            
+#                                          'yielding a tadpole is not supported')
+                        pass
+
             #add the code in the correct format
             self.text += self.line_format(line.begin.pos_x, line.begin.pos_y,
              line.end.pos_x+0.01*direction[0], line.end.pos_y+0.01*direction[1],
@@ -407,7 +407,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
         else:
             #add the code in the correct format
             self.text += self.line_format(line.begin.pos_x, line.begin.pos_y,
-                         line.end.pos_x+0.01, line.end.pos_y+0.01, 
+                         line.end.pos_x+0.01, line.end.pos_y+0.01,
                                       '%d %s Fphotonl%s' % (opt,curvature,type))
 
     def draw_curly(self, line, type=''):
@@ -426,12 +426,12 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             self.text += self.line_format(line.end.pos_x,
                         line.end.pos_y, line.begin.pos_x,
                         line.begin.pos_y, '0 Fgluon%s' % type)
-    
+
     def draw_curved_scurly(self, line, cercle, type=''):
-        
+
         self.draw_curved_curly(line, cercle, type)
         self.draw_curved_straight(line, cercle)
-            
+
     def draw_curved_curly(self, line, cercle, type=''):
         """ADD the EPS code for this gluon line."""
 
@@ -446,49 +446,49 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
         # Due to the asymmetry in the way to draw the gluon (everything is draw
         #upper or below the line joining the points). We have to put conditions
         #in order to have nice diagram.
-        
+
         if (line.begin.pos_x, line.begin.pos_y) == self.curved_part_start:
             curvature *= -1
 
         self.text += self.line_format(line.end.pos_x,
                         line.end.pos_y, line.begin.pos_x,
                         line.begin.pos_y, '0 %s Fgluonl%s' % (-1*curvature, type))
-        
-                    
-    
+
+
+
     def draw_scurly(self, line):
         """ADD the EPS code for this gluino line."""
         self.draw_curly(line, type='r'
                         )
         self.draw_straight(line)
-        
+
     def draw_swavy(self, line):
         """ADD the EPS code for this neutralino line."""
         self.draw_wavy(line, type='r')
-        self.draw_straight(line)  
-             
+        self.draw_straight(line)
+
     def draw_double(self, line, type='r'):
         """ADD the EPS code for this neutralino line."""
-        
-        
+
+
         length = math.sqrt((line.end.pos_y - line.begin.pos_y)**2 + (line.end.pos_x - line.begin.pos_x) **2)
         c1 = (line.end.pos_x - line.begin.pos_x)/length
         c2 = (line.end.pos_y - line.begin.pos_y)/length
-        
+
         gap = 0.013
-        start2_x = line.begin.pos_x + gap * c1  
+        start2_x = line.begin.pos_x + gap * c1
         start2_y = line.begin.pos_y + gap * c2
         stop1_x = line.end.pos_x - gap * c1
         stop1_y = line.end.pos_y - gap * c2
-        
-        
+
+
         self.text += self.line_format(line.begin.pos_x, line.begin.pos_y,
                          stop1_x, stop1_y, '0 Fphoton%s' % (type))
         #add the code in the correct format
         self.text += self.line_format(start2_x, start2_y,
                          line.end.pos_x, line.end.pos_y, '0 Fphoton%s' % (type))
-        
-        
+
+
     def put_diagram_number(self, number=0):
         """ADD the comment 'diagram [number]' just below the diagram."""
 
@@ -499,7 +499,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
         x, y = self.rescale(x, y)
         #write the text
         self.text += ' %s  %s moveto \n' % (x, y)
-        
+
         if hasattr(self, 'diagram_type'):
             self.text += '(%s diagram %s )   show\n' % (self.diagram_type, number + 1) # +1 python
                                                             #starts to count at
@@ -508,19 +508,19 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             self.text += '(diagram %s )   show\n' % (number + 1) # +1 python
                                                             #starts to count at
                                                             #zero.
-            
+
         mystr = " (%s)" % ", ".join(["%s=%d" % (key, self.diagram.diagram['orders'][key]) \
                       for key in sorted(self.diagram.diagram['orders'].keys()) \
                       if key != 'WEIGHTED'])
-        
+
         x = 0.6
         y = -0.17
         x, y = self.rescale(x, y)
         #write the text
         self.text += ' %s  %s moveto \n' % (x, y)
-        self.text += '%s   show\n' % (mystr)                                                             
-        
-        
+        self.text += '%s   show\n' % (mystr)
+
+
 
     def associate_number(self, line, number):
         """Write in the EPS figure the MadGraph5_aMC@NLO number associate to the line.
@@ -532,7 +532,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
         else:
             vertex = line.end
 
-        # find the position of this vertex    
+        # find the position of this vertex
         x = vertex.pos_x
         y = vertex.pos_y
 
@@ -556,7 +556,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
 
         is_tadpole = line.begin.pos_x==line.end.pos_x and \
                                                 line.begin.pos_y==line.end.pos_y
-                                                
+
         if is_tadpole:
             # Obtain the direction of the propagator supporting the tadpole
             direction = None
@@ -572,8 +572,8 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
                     if direction not in \
                          [new_direction, (-new_direction[0],-new_direction[1])]:
 #                        logger.error('The case of a five-point vertex'+
-#                                          'yielding a tadpole is not supported')            
-                        pass           
+#                                          'yielding a tadpole is not supported')
+                        pass
             # Compute the orthogonal the
             orthogonal = (-direction[1],direction[0])
 
@@ -597,7 +597,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
             dy = 0.02 * len(name) #d * 0.12
         else:
             dx = 0.01 #0.05
-            dy = 0.02 #d * 0.12 
+            dy = 0.02 #d * 0.12
         if loop:
             dx, dy = 1.5* dx, dy
             if x1 == x2:
@@ -611,12 +611,12 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
         if reverse:
             dx, dy = -dx, -dy
 
-            
-                
+
+
         # Assign position
         x_pos = (x1 + x2) / 2 + dx
         y_pos = (y1 + y2) / 2 + dy
-        
+
         # Pass in EPS coordinate
         x_pos, y_pos = self.rescale(x_pos, y_pos)
         #write EPS code
@@ -630,7 +630,7 @@ class EpsDiagramDrawer(draw.DiagramDrawer):
 class MultiEpsDiagramDrawer(EpsDiagramDrawer):
     """Class to write a EPS file containing the asked set of diagram
     This class follows the DrawDiagram Frameworks.
-    
+
     The main routine to draw a diagram is 'draw' which call
     1) initialize: setup things for the diagram (usually open a file)
     2) convert_diagram : Update the diagram in the correct format if needed
@@ -638,10 +638,10 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
     4) conclude : finish the operation.
     """
 
-    # Define where to put the diagrams in the page. This is the coordinate of 
-    #the lower left corner of the drawing area of the first graph. and the 
+    # Define where to put the diagrams in the page. This is the coordinate of
+    #the lower left corner of the drawing area of the first graph. and the
     #dimension associate to this drawing area.
-    
+
     x_min = 75
     x_size = 200
     y_min = 560
@@ -652,29 +652,29 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
 
     #define font
     font=9
-    
+
     #Defines the number of line-column in a EPS page
     nb_line = 3
     nb_col = 2
-    
+
     blob_size = 1.5
-    
+
     lower_scale = 5
     second_scale ={'x_min': 40, 'x_size':150,'y_min':620,'y_size':100,
                    'x_gap':42,'y_gap':30,'font':6,'nb_line':5,'nb_col':3,
                    'blob_size':0.9}
-    
+
     def __init__(self, diagramlist=None, filename='diagram.eps', \
                   model=None, amplitude=None, legend='',diagram_type=''):
         """Define basic variable and store some global information
         all argument are optional
-        diagramlist : are the list of object to draw. item should inherit 
+        diagramlist : are the list of object to draw. item should inherit
                 from either  base_objects.Diagram  or drawing_lib.FeynmanDiagram
         filename: filename of the file to write
         model: model associate to the diagram. In principle use only if diagram
             inherit from base_objects.Diagram
         amplitude: amplitude associate to the diagram. NOT USE for the moment.
-            In future you could pass the amplitude associate to the object in 
+            In future you could pass the amplitude associate to the object in
             order to adjust fermion flow in case of Majorana fermion."""
 
         #use standard initialization but without any diagram
@@ -700,21 +700,21 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
             add = (len(diagramlist) - limit -1) // \
                      (self.second_scale['nb_col'] * self.second_scale['nb_line'])
             self.npage += self.lower_scale + add
-            
+
         if diagramlist:
             # diagramlist Argument should be a DiagramList object
             assert(isinstance(diagramlist, base_objects.DiagramList))
             self.diagramlist = diagramlist
         else:
-            self.diagramlist = None            
-            
+            self.diagramlist = None
+
     def rescale(self, x, y):
         """All coordinates belongs to [0,1]. So that in order to have a visible
         graph we need to re-scale the graph. This method distort the square in
         a oblong. Deformation are linear."""
 
         # Compute the current line and column
-        block_pos = self.block_in_page 
+        block_pos = self.block_in_page
         line_pos = block_pos // self.nb_col
         col_pos = block_pos % self.nb_col
 
@@ -734,19 +734,19 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
         return x, y
 
     def draw_diagram(self, diagram):
-        """Creates the representation in EPS format associate to a specific 
+        """Creates the representation in EPS format associate to a specific
         diagram."""
 
         # Standard method
         super(MultiEpsDiagramDrawer, self).draw_diagram(diagram, self.block_nb)
         # But keep track how many diagrams are already drawn
-        
+
         self.block_nb += 1
         self.block_in_page +=1
 
 
     def draw(self, diagramlist='', opt=None):
-        """Creates the representation in EPS format associate to a specific 
+        """Creates the representation in EPS format associate to a specific
         diagram. 'opt' keeps track of possible option of drawing. Those option
         are used if we need to convert diagram to Drawing Object.
         opt is an DrawOption object containing all the possible option on how
@@ -757,7 +757,7 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
                                    'horizontal':True,
                                    'max_size':0.4,
                                    'add_gap': 2.5})
-        
+
         if diagramlist == '':
             diagramlist = self.diagramlist
 
@@ -770,7 +770,7 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
         self.text += ' 525         770  moveto\n'
         self.text += ' (page %s/%s) show\n' % (self.curr_page + 1, self.npage)
         self.text += ' 260         50  moveto\n'
-        self.text += ' (Diagrams made by MadGraph5_aMC@NLO) show\n'       
+        self.text += ' (Diagrams made by MadGraph5_aMC@NLO) show\n'
         # Loop on all diagram
         for i,diagram in enumerate(diagramlist):
             # Check if they need to be convert in correct format
@@ -796,8 +796,8 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
         if self.curr_page == self.lower_scale:
             for key, value in self.second_scale.items():
                 setattr(self, key, value)
-        
-        
+
+
         self.text += 'showpage\n'
         self.text += '%%' + 'Page: %s %s \n' % (self.curr_page+1, self.curr_page+1)
         self.text += '%%PageBoundingBox:-20 -20 600 800\n'
@@ -809,4 +809,3 @@ class MultiEpsDiagramDrawer(EpsDiagramDrawer):
         self.text += ' (page %s/%s) show\n' % (self.curr_page + 1, self.npage)
         self.text += ' 260         40  moveto\n'
         self.text += ' (Diagrams made by MadGraph5_aMC@NLO) show\n'
-        

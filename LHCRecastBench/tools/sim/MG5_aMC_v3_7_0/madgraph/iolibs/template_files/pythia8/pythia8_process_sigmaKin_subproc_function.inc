@@ -1,4 +1,4 @@
-void %(process_class_name)s::sigmaKin_%(proc_name)s() { 
+void %(process_class_name)s::sigmaKin_%(proc_name)s() {
 
 // Local variables and constants
 const int ncomb = %(ncomb)d;
@@ -22,7 +22,7 @@ if (sum_hel == 0 || ntry < 10){
 // Calculate the matrix element for all helicities
   for(int ihel = 0; ihel < ncomb; ihel ++){
     if (goodhel[ihel] || ntry < 2){
-      t=matrix_%(proc_name)s(helicities[ihel]);            
+      t=matrix_%(proc_name)s(helicities[ihel]);
       matrix_element[%(proc_number)d]+=t;
       // Store which helicities give non-zero result
       if (t != 0. && !goodhel[ihel]){
@@ -35,7 +35,7 @@ if (sum_hel == 0 || ntry < 10){
   jhel = 0;
   sum_hel=min(sum_hel, ngood);
 }
-else              
+else
 {
 // Only use the "good" helicities
   for(int j=0; j < sum_hel; j++){

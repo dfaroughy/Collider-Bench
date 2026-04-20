@@ -7,4 +7,3 @@
 *******************************************************************************/
 #define APP_NAME "mcfio_Browse" /* application name for loading X resources */
 #define APP_CLASS "MCFIO_Browse"
-

@@ -52,17 +52,17 @@ bool_t xdr_stdhep_cxx_(XDR *xdrs, int *blockid,
 {
 /*  Translate a copy of the StdHep::Event class to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, mcfio will allocate the space for the 
+    directly the COMMON.  Also, mcfio will allocate the space for the
     string version.  */
-    
+
     unsigned int nn, nnint, nndbl, nnw, nnw4, nnw5, nmlt, nnmlt;
     int i;
     int *idat;
     double *dat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE))  {
 	if (*blockid != MCFIO_STDHEPCXX) {
-           fprintf (stderr, "mcf_StdHep_cxx: Inconsistent Blockid %d \n ", 
+           fprintf (stderr, "mcf_StdHep_cxx: Inconsistent Blockid %d \n ",
             (*blockid));
            return FALSE;
 	}
@@ -75,17 +75,17 @@ bool_t xdr_stdhep_cxx_(XDR *xdrs, int *blockid,
 	*ntot = 6 * sizeof(int) + nnint + nndbl + nmlt;
 	if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
 	strncpy(version[0],stdver_.stdhep_ver, 4);
-     } 
-      
+     }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) &&
      	      xdr_int(xdrs, &(stdevent_.nevhep)) &&
      	      xdr_int(xdrs, &(stdevent_.nhep)) &&
               xdr_int(xdrs, &(stdevent_.ncol))) == FALSE) return FALSE;
-              
+
      if ((xdrs->x_op == XDR_DECODE) && ( *blockid != MCFIO_STDHEPCXX) ) {
-          fprintf (stderr, "mcf_StdHep_cxx: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_StdHep_cxx: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -124,13 +124,13 @@ bool_t xdr_stdhep_cxx_(XDR *xdrs, int *blockid,
                 &nnw, NMXHEP, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (double *)  stdevent_.phep;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nnw4, 4*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nnw4, 4*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = stdevent_.mass;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nnw, NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nnw, NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = stdevent_.helicity;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nnw, NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nnw, NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = (double *) stdevent_.vcr;
      if     ( xdr_array(xdrs, (char **)    &dat,
                 &nnw4, 4*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
@@ -140,4 +140,4 @@ bool_t xdr_stdhep_cxx_(XDR *xdrs, int *blockid,
      if ( xdr_int(xdrs, &(stdevent_.ncol)) == FALSE) return FALSE;
 
      return TRUE;
-}   
+}

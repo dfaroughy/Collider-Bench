@@ -1,6 +1,6 @@
       subroutine uvvcxx(v1,v2,gt,vmass,tmass,twidth , uvvh)
 c
-c This subroutine computes an off-shell tensor current from 
+c This subroutine computes an off-shell tensor current from
 c the two gauge bosons-pseudo tensor boson coupling.
 c
 c input:
@@ -24,7 +24,7 @@ c
       parameter( rZero = 0.0d0, rTwo = 2.0d0 )
       parameter( cZero = ( 0.0d0, 0.0d0 ) )
 
-      
+
       yvv(5,1) = v1(5)+v2(5)
       yvv(6,1) = v1(6)+v2(6)
 

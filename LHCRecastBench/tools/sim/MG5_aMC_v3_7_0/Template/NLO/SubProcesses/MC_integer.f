@@ -27,7 +27,7 @@ c value of the integer picked, and f_abs is the (real*8) value of the
 c integrand (without dividing by 'vol'), computed with the 'iint' value.
 c Hence, for every call to 'get_MC_integer' there should be a call to
 c 'fill_MC_integer'.
-c 
+c
 c When enough values have been chosen, the integration grids can be
 c updated with a call to 'regrid_MC_integer'. This subroutine doesn't
 c take any arguments and updates all the integration grids for all
@@ -42,7 +42,7 @@ c
 c A call to 'reset_MC_grid' resets all the MC integration grids to a
 c flat starting point.
 c
-c A call to 'empty_MC_grid' removes all the accumulated results for the 
+c A call to 'empty_MC_grid' removes all the accumulated results for the
 c current iteration.
 c
 c Written by Rikkert Frederix, 2012.
@@ -150,7 +150,7 @@ c Compute the volume 'vol'
       common/integration_integer/grid,acc,ncall,nintervals
       do this_dim=1,maxdim
          do i=0,nintervals(this_dim)
-            if (nintervals(this_dim).ne.0) 
+            if (nintervals(this_dim).ne.0)
      &           grid(i,this_dim)=dble(i)/nintervals(this_dim)
             acc(i,this_dim)=0d0
             ncall(i,this_dim)=0
@@ -158,7 +158,7 @@ c Compute the volume 'vol'
       enddo
       return
       end
-            
+
       subroutine fill_MC_integer(this_dim,iint,f_abs)
       implicit none
       integer iint,this_dim

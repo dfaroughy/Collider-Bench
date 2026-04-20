@@ -1,5 +1,5 @@
 !
-! Copyright (C) 2014 Andreas van Hameren. 
+! Copyright (C) 2014 Andreas van Hameren.
 !
 ! This file is part of OneLOop-3.4.
 !

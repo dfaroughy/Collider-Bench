@@ -1,10 +1,10 @@
-C...This file contains an almost complete listing of all PYTHIA 
-C...commonblocks, and additionally some recommended other 
+C...This file contains an almost complete listing of all PYTHIA
+C...commonblocks, and additionally some recommended other
 C...declarations. You may copy this to the top of your
 C...mina program and then eliminate unnecessary parts.
 
 C-----------------------------------------------------------------
- 
+
 C...All real arithmetic in double precision.
       IMPLICIT DOUBLE PRECISION(A-H, O-Z)
 C...Three Pythia functions return integers, so need declaring.
@@ -34,7 +34,7 @@ C...Random number generator information.
       COMMON/PYDATR/MRPY(6),RRPY(100)
 C...Selection of hard scattering subprocesses.
       COMMON/PYSUBS/MSEL,MSELPD,MSUB(500),KFIN(2,-40:40),CKIN(200)
-C...Parameters. 
+C...Parameters.
       COMMON/PYPARS/MSTP(200),PARP(200),MSTI(200),PARI(200)
 C...Internal variables.
       COMMON/PYINT1/MINT(400),VINT(400)
@@ -52,9 +52,9 @@ C...Process names.
 C...Total cross sections.
       COMMON/PYINT7/SIGT(0:6,0:6,0:5)
 C...Photon parton distributions: total and valence only.
-      COMMON/PYINT8/XPVMD(-6:6),XPANL(-6:6),XPANH(-6:6),XPBEH(-6:6), 
-     &XPDIR(-6:6) 
-      COMMON/PYINT9/VXPVMD(-6:6),VXPANL(-6:6),VXPANH(-6:6),VXPDGM(-6:6) 
+      COMMON/PYINT8/XPVMD(-6:6),XPANL(-6:6),XPANH(-6:6),XPBEH(-6:6),
+     &XPDIR(-6:6)
+      COMMON/PYINT9/VXPVMD(-6:6),VXPANL(-6:6),VXPANH(-6:6),VXPDGM(-6:6)
 C...Supersymmetry parameters.
       COMMON/PYMSSM/IMSS(0:99),RMSS(0:99)
 C...Supersymmetry mixing matrices.

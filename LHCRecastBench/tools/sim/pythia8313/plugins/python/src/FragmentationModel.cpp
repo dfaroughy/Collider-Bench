@@ -56,7 +56,7 @@
 struct PyCallBack_Pythia8_LundFragmentation : public Pythia8::LundFragmentation {
 	using Pythia8::LundFragmentation::LundFragmentation;
 
-	bool init(class Pythia8::StringFlav * a0, class Pythia8::StringPT * a1, class Pythia8::StringZ * a2, class std::shared_ptr<class Pythia8::FragmentationModifierBase> a3) override { 
+	bool init(class Pythia8::StringFlav * a0, class Pythia8::StringPT * a1, class Pythia8::StringZ * a2, class std::shared_ptr<class Pythia8::FragmentationModifierBase> a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LundFragmentation *>(this), "init");
 		if (overload) {
@@ -69,7 +69,7 @@ struct PyCallBack_Pythia8_LundFragmentation : public Pythia8::LundFragmentation 
 		}
 		return LundFragmentation::init(a0, a1, a2, a3);
 	}
-	bool fragment(int a0, class Pythia8::ColConfig & a1, class Pythia8::Event & a2, bool a3, bool a4) override { 
+	bool fragment(int a0, class Pythia8::ColConfig & a1, class Pythia8::Event & a2, bool a3, bool a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LundFragmentation *>(this), "fragment");
 		if (overload) {
@@ -82,7 +82,7 @@ struct PyCallBack_Pythia8_LundFragmentation : public Pythia8::LundFragmentation 
 		}
 		return LundFragmentation::fragment(a0, a1, a2, a3, a4);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LundFragmentation *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -95,7 +95,7 @@ struct PyCallBack_Pythia8_LundFragmentation : public Pythia8::LundFragmentation 
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LundFragmentation *>(this), "onBeginEvent");
 		if (overload) {
@@ -108,7 +108,7 @@ struct PyCallBack_Pythia8_LundFragmentation : public Pythia8::LundFragmentation 
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LundFragmentation *>(this), "onEndEvent");
 		if (overload) {
@@ -121,7 +121,7 @@ struct PyCallBack_Pythia8_LundFragmentation : public Pythia8::LundFragmentation 
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::LundFragmentation *>(this), "onStat");
 		if (overload) {
@@ -140,7 +140,7 @@ struct PyCallBack_Pythia8_LundFragmentation : public Pythia8::LundFragmentation 
 struct PyCallBack_Pythia8_MiniStringFragmentation : public Pythia8::MiniStringFragmentation {
 	using Pythia8::MiniStringFragmentation::MiniStringFragmentation;
 
-	bool init(class Pythia8::StringFlav * a0, class Pythia8::StringPT * a1, class Pythia8::StringZ * a2, class std::shared_ptr<class Pythia8::FragmentationModifierBase> a3) override { 
+	bool init(class Pythia8::StringFlav * a0, class Pythia8::StringPT * a1, class Pythia8::StringZ * a2, class std::shared_ptr<class Pythia8::FragmentationModifierBase> a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MiniStringFragmentation *>(this), "init");
 		if (overload) {
@@ -153,7 +153,7 @@ struct PyCallBack_Pythia8_MiniStringFragmentation : public Pythia8::MiniStringFr
 		}
 		return MiniStringFragmentation::init(a0, a1, a2, a3);
 	}
-	bool fragment(int a0, class Pythia8::ColConfig & a1, class Pythia8::Event & a2, bool a3, bool a4) override { 
+	bool fragment(int a0, class Pythia8::ColConfig & a1, class Pythia8::Event & a2, bool a3, bool a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MiniStringFragmentation *>(this), "fragment");
 		if (overload) {
@@ -166,7 +166,7 @@ struct PyCallBack_Pythia8_MiniStringFragmentation : public Pythia8::MiniStringFr
 		}
 		return MiniStringFragmentation::fragment(a0, a1, a2, a3, a4);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MiniStringFragmentation *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -179,7 +179,7 @@ struct PyCallBack_Pythia8_MiniStringFragmentation : public Pythia8::MiniStringFr
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MiniStringFragmentation *>(this), "onBeginEvent");
 		if (overload) {
@@ -192,7 +192,7 @@ struct PyCallBack_Pythia8_MiniStringFragmentation : public Pythia8::MiniStringFr
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MiniStringFragmentation *>(this), "onEndEvent");
 		if (overload) {
@@ -205,7 +205,7 @@ struct PyCallBack_Pythia8_MiniStringFragmentation : public Pythia8::MiniStringFr
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::MiniStringFragmentation *>(this), "onStat");
 		if (overload) {
@@ -224,7 +224,7 @@ struct PyCallBack_Pythia8_MiniStringFragmentation : public Pythia8::MiniStringFr
 struct PyCallBack_Pythia8_StringFragmentation : public Pythia8::StringFragmentation {
 	using Pythia8::StringFragmentation::StringFragmentation;
 
-	bool init(class Pythia8::StringFlav * a0, class Pythia8::StringPT * a1, class Pythia8::StringZ * a2, class std::shared_ptr<class Pythia8::FragmentationModifierBase> a3) override { 
+	bool init(class Pythia8::StringFlav * a0, class Pythia8::StringPT * a1, class Pythia8::StringZ * a2, class std::shared_ptr<class Pythia8::FragmentationModifierBase> a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::StringFragmentation *>(this), "init");
 		if (overload) {
@@ -237,7 +237,7 @@ struct PyCallBack_Pythia8_StringFragmentation : public Pythia8::StringFragmentat
 		}
 		return StringFragmentation::init(a0, a1, a2, a3);
 	}
-	bool fragment(int a0, class Pythia8::ColConfig & a1, class Pythia8::Event & a2, bool a3, bool a4) override { 
+	bool fragment(int a0, class Pythia8::ColConfig & a1, class Pythia8::Event & a2, bool a3, bool a4) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::StringFragmentation *>(this), "fragment");
 		if (overload) {
@@ -250,7 +250,7 @@ struct PyCallBack_Pythia8_StringFragmentation : public Pythia8::StringFragmentat
 		}
 		return StringFragmentation::fragment(a0, a1, a2, a3, a4);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::StringFragmentation *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -263,7 +263,7 @@ struct PyCallBack_Pythia8_StringFragmentation : public Pythia8::StringFragmentat
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::StringFragmentation *>(this), "onBeginEvent");
 		if (overload) {
@@ -276,7 +276,7 @@ struct PyCallBack_Pythia8_StringFragmentation : public Pythia8::StringFragmentat
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::StringFragmentation *>(this), "onEndEvent");
 		if (overload) {
@@ -289,7 +289,7 @@ struct PyCallBack_Pythia8_StringFragmentation : public Pythia8::StringFragmentat
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::StringFragmentation *>(this), "onStat");
 		if (overload) {

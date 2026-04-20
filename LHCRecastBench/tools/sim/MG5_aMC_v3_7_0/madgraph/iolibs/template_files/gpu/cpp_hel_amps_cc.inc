@@ -21,4 +21,3 @@ namespace MG5_sm
 %(function_definitions)s
 
 } // end namespace $(namespace)s_%(model_name)s
-

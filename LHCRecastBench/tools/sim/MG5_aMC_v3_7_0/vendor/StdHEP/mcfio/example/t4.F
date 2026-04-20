@@ -16,10 +16,10 @@ c
 	external xdr_stdhep_multi
         integer xdr_mcfast_track_offlslow
         external xdr_mcfast_track_offlslow
-       integer xdr_mcfast_track_offline 
+       integer xdr_mcfast_track_offline
        external xdr_mcfast_track_offline
-	
-	
+
+
 c
 c	Initialization phase.
 c
@@ -30,44 +30,44 @@ c
 	blkids(1) = MCFIO_STDHEPM
 	blkids(2) = MCFIO_OFFTRACKARRAYS
 	blkids(3) = MCFIO_OFFTRACKSTRUCT
-	ostr_all = mcfio_OpenWriteDirect(filename, title, %val(0), 
+	ostr_all = mcfio_OpenWriteDirect(filename, title, %val(0),
      &             NUMTRIES, blkids, numblocks)
-        if (ostr_all .eq. -1) then 
+        if (ostr_all .eq. -1) then
            print *, ' Can t open output file, give up '
            stop
         end if
-        
+
         ivalue = 456
-        call mcfio_SetEventInfo(ostr_all, MCFIO_RUNNUMBER, ivalue) 
+        call mcfio_SetEventInfo(ostr_all, MCFIO_RUNNUMBER, ivalue)
         do i = 1, NUMTRIES
           call fill_stdhep(i)
           if (mcfio_block(ostr_all, MCFIO_STDHEPM, xdr_stdhep_multi)
-     &        .eq. -1) then 
+     &        .eq. -1) then
              print *, ' Error writing STDHEP block '
              STOP
           end if
-          if (mcfio_block(ostr_all, 
+          if (mcfio_block(ostr_all,
      &         MCFIO_OFFTRACKARRAYS, xdr_mcfast_track_offline)
-     &        .eq. -1) then 
+     &        .eq. -1) then
              print *, ' Error writing OFFTRACKARRAYS, block '
              STOP
           end if
-c          if (mcfio_block(ostr_all, 
+c          if (mcfio_block(ostr_all,
 c     &         MCFIO_OFFTRACKSTRUCT, xdr_mcfast_track_offlslow)
-c     &        .eq. -1) then 
+c     &        .eq. -1) then
 c             print *, ' Error writing OFFTRACKSTRUCT, block '
 c             STOP
 c          end if
           ivalue = i/12
-          call mcfio_SetEventInfo(ostr_all, MCFIO_STORENUMBER, ivalue) 
-          if (i .ne. 13) then 
+          call mcfio_SetEventInfo(ostr_all, MCFIO_STORENUMBER, ivalue)
+          if (i .ne. 13) then
             ivalue = 0
           else
             ivalue =255
             call study_stdhep
           end if
-          call mcfio_SetEventInfo(ostr_all, MCFIO_TRIGGERMASK, ivalue) 
-          if (mcfio_NextEvent(ostr_all) .eq. -1) then 
+          call mcfio_SetEventInfo(ostr_all, MCFIO_TRIGGERMASK, ivalue)
+          if (mcfio_NextEvent(ostr_all) .eq. -1) then
              print *,'  Error writing next event, Stop '
              stop
           end if
@@ -76,13 +76,13 @@ c          end if
         print *,' Efficiency ', inum
         call mcfio_close(ostr_all)
         stop
-        end 
+        end
         subroutine fill_stdhep(inum)
 c
-c	Moronic routine to generate pseudo data. And copy it to the 
-c	Offline structure. 
+c	Moronic routine to generate pseudo data. And copy it to the
+c	Offline structure.
 c
-        implicit none 
+        implicit none
 #include "stdhep.inc"
 #include "offline_track.inc"
 	integer inum
@@ -98,8 +98,8 @@ c
 	double precision vec(4), masses(5)
 	save masses
 	data masses/0.1345, 0.6783, 1.245, 1.45, 5.678/
-	
-	
+
+
 #if AIX
 	nn = mod(inum, 100) * 5 * ifix(5. * rand())
 #else
@@ -148,7 +148,7 @@ c
           trk_off(i).w.pt =
      &        dsqrt(trk_off(i).w.px**2 + trk_off(i).w.py**2)
           trk_off(i).w.p = dsqrt(vec(4))
-          trk_off(i).w.q = 1.0 
+          trk_off(i).w.q = 1.0
           do j = 1, 7
            do k = 1,7
             trk_off(i).cov(j,k) = 0.01*j + 0.1*k
@@ -162,12 +162,12 @@ c
           trk_off(i).hep = i
         end do
         return
-        end 
+        end
 	subroutine study_stdhep
 	implicit none
 	integer i, io, nn
 #include "stdhep.inc"
-	
+
 	print  *, ' Number of tracks ', nhep
 	nn = nhep
 	if (nn .gt. 3 ) nn = 3
@@ -177,8 +177,4 @@ c
 	 print *, ' Y position, Z position ', vhep(2,i), vhep(3,i)
 	end do
 	return
-	end 	
-          
-	    
-	  
-	
+	end

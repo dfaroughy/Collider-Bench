@@ -48,8 +48,3 @@ csc = Function(name = 'csc',
 acsc = Function(name = 'acsc',
              arguments = ('z',),
              expression = 'asin(1./z)')
-
-
-
-
-

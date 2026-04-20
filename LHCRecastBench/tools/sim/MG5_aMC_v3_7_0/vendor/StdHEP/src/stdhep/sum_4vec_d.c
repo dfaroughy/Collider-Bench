@@ -1,8 +1,8 @@
 /*
 
-   Rob Kutschke,  Oct. 21/96 
+   Rob Kutschke,  Oct. 21/96
 
-   Add a list of 4-vectors.  
+   Add a list of 4-vectors.
 
    Calling arguments,
    int *n        - input  - the number of 4-vectors in the input list.
@@ -12,7 +12,7 @@
    double *pin_3 - input  - the next 4-vector in the list.
      .....
 
-   The number of input 4-vectors can be any positive integer, so long as 
+   The number of input 4-vectors can be any positive integer, so long as
    the first argument correctly describes how many there are.
 
    The first argument is passed by reference in order to make this

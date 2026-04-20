@@ -11,7 +11,7 @@ c       real    g              : coupling constant    gw or gwwa or gwwz
 c
 c output:
 c       complex vertex         : amplitude               gamma(wm,wp,w3)
-c     
+c
       implicit none
       double complex wm(6),wp(6),w3(6),vertex,
      &     xv1,xv2,xv3,v12,v23,v31,p12,p13,p21,p23,p31,p32

@@ -9,7 +9,7 @@ from object_library import all_parameters, Parameter
 from function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
 
 if configuration.bottomYukawa:
-    
+
     ymb = Parameter(name = 'ymb',
                     nature = 'external',
                     type = 'real',
@@ -967,4 +967,3 @@ aEWM1 = Parameter(name = 'aEWM1',
                   type = 'real',
                   value = '1/aEW',
                   texname = '\\text{aEWM1}')
-

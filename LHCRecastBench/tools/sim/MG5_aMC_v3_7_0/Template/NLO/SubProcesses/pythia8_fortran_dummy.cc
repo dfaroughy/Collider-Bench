@@ -1,4 +1,4 @@
-extern "C" { 
+extern "C" {
 
   void pythia_init_(char input[500]) {}
   void pythia_init_default_() {}
@@ -18,4 +18,3 @@ extern "C" {
 
 
 }
-

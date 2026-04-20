@@ -12,11 +12,11 @@
  * 8/21/95   TW        Strings class removed from dbin generated code.
  * 8/22/95   TW        Strings class removed from dbinc.cc
  *
- * November 1995: some clean up to be able to run this code and 
+ * November 1995: some clean up to be able to run this code and
  * standard dbin simulateneously..
- * Make some routine & variable static, and change the name of routine 
+ * Make some routine & variable static, and change the name of routine
  * called from the outside, following the Nirvana/mcfio conventions.
- * 
+ *
  */
 
 #include <stdlib.h>
@@ -28,7 +28,7 @@
 
 static void dbin_debug();
 static void lineparse();
-static void dbinparse(char* str, char* typ, char* nam, 
+static void dbinparse(char* str, char* typ, char* nam,
                       char* var, char* com, char* dim);
 static void  getmembers(long nmems);
 static void getvalues();
@@ -51,7 +51,7 @@ static char dbpath[FILENAME_MAX+1], filename[FILENAME_MAX+1];
 static long nvars, morevalues, n_templates;
 static long inc_depth, n_instance, debug_on;
 static int isl;
-static long n_significant, lnlen=0; 
+static long n_significant, lnlen=0;
 static FILE *inFile, *curFile1,  *curFile2,  *curFile3,  *curFile4,  *curFile5;
 static const char *fnamep;
 static void dbin_getrec(char* fname[],void (*)(void));
@@ -64,11 +64,11 @@ static void dbin_getrec(char* fname[],void (*interpret)(void))
   const int nchmx = 300;
   /*
   ** Start be intializing all these globals, to be able to call this routine
-  ** more than once.. 
+  ** more than once..
   */
   inc_depth = 0;
   n_instance = 0;
-  lnlen = 0; 
+  lnlen = 0;
   /* extract path from filename */
   strcpy(filename,*fname);
   if (strrchr(filename,'/') != NULL)  {
@@ -173,7 +173,7 @@ static void dbin_getrec(char* fname[],void (*interpret)(void))
                 } else {
                     morevalues = 0;
                 }
-                strcat(values," "); 
+                strcat(values," ");
                 if (morevalues == 0) {
                     strcat(values,line);
                 } else {
@@ -182,7 +182,7 @@ static void dbin_getrec(char* fname[],void (*interpret)(void))
             } else { /* line is not an extension. Parse it. */
                 dbinparse(line, tok1, tok2, tok3, com, dim);
             }
-            if (morevalues == 0) { 
+            if (morevalues == 0) {
                 /* no more line extensions to read. Process line. */
                 /* now interpret the line */
                 if (tok1[0] != '\0') {
@@ -224,10 +224,10 @@ static void lineparse()
   if (!strcmp(tok1,"command")) {in_template = 1; strcpy(curstruct,tok2);}
   if (!strcmp(tok1,"include")) {  /* switch input to specified file */
  /*
- ** Commented out, we use absolute path name in the includes. 
+ ** Commented out, we use absolute path name in the includes.
  ** This allows us to go to more than one directory..
  */
-/*    strcpy(filename,dbpath); */ 
+/*    strcpy(filename,dbpath); */
 /*    strcat(filename,tok2); */
 /*
 ** We now implement translation of environmental variable
@@ -244,17 +244,17 @@ static void lineparse()
          tmp2 = strchr(envName, '/'); *tmp2 = '\0';
          env = getenv(envName);
          free(envName);
-         
-         if (env == NULL) { 
+
+         if (env == NULL) {
               fprintf(stderr, "DBin error, Unkonw path %s\n", tok2);
               return;
          }
          strcpy(filename,env); l = strlen(env); filename[l] = '/'; l++;
          strcpy(&filename[l], tmp1);
-            
+
       } else  strcpy(filename, tok2);
     inc_depth++;
-  } 
+  }
   if (!strcmp(tok1,"make")) {
     n_instance++;
     strcpy(varname,"TEMPLATE_");
@@ -292,7 +292,7 @@ static void lineparse()
 }
 
 /****************************************************************************/
-static void dbinparse(char* str, char* typ, 
+static void dbinparse(char* str, char* typ,
                       char* nam, char* var, char* com, char* dim)
 {
 /* Parse from line the type, name, value, comment */
@@ -302,7 +302,7 @@ static void dbinparse(char* str, char* typ,
   nvars = 1;
   chvalues[0] = dim[0] = typ[0] = nam[0] = var[0] = com[0] = '\0';
   values = chvalues;
-  
+
 /* if final significant char is '/', mark next line as values continuation */
   isl=strlen(str);
   for (i=0;i<strlen(str);i++) {
@@ -336,7 +336,7 @@ static void dbinparse(char* str, char* typ,
     nvars = atol(dim);
   }
     /* skip over value(s) to comment */
-  while (  (str[nc] != '!')   && 
+  while (  (str[nc] != '!')   &&
            (str[nc] != '/' || ( morevalues && (nc != isl) ) )   &&
            ( (nc < strlen(str)) || ( morevalues && (nc < isl)) )   ) chrcat(chvalues,str[nc++]);
     /* comment */
@@ -444,7 +444,7 @@ static char* token(char** str, char* sep)
     }
     if (if1 == NULL) return if1;
     /* if2 = 1st char past the token */
-    i=0; while (if2 == NULL && i<strlen(if1)) 
+    i=0; while (if2 == NULL && i<strlen(if1))
         { if (testsep(if1[i],sep)) if2=&if1[i]; i++; }
     if (if2<strend && if2 != NULL) {
         if (if2 != NULL) *if2 = '\0';
@@ -467,18 +467,18 @@ static int testsep(char chr, char *sep)
 /***    Generated automatically using the dbin tool. */
 /***    Not to be modified by user. */
 /*
-** Modifiedt by P.L., to abe able to load all the templates into 
-** one file... And included in this file, to avoid defining too many 
-** global symbols.  This clearly breaks the dbin mold, to be discussed 
-** later.. 
+** Modifiedt by P.L., to abe able to load all the templates into
+** one file... And included in this file, to avoid defining too many
+** global symbols.  This clearly breaks the dbin mold, to be discussed
+** later..
 */
 void mcf_ntubldRead(char* fname)
 {
   void (*pf)(); /* pointer to interpreter */
   inc_depth = 0;
   n_instance =0;
-  lnlen=0; 
-  debug_on = 0;  
+  lnlen=0;
+  debug_on = 0;
   pf = &mcf_ntubld_interpret;
   mcf_ntubldInit();
   n_instance_line_title = 0;

@@ -16,7 +16,7 @@ c$$$      write (*,'(a)') 'Enter "0" for local run, "1" for condor cluster'
          write (*,*) "Invalid run mode", run_cluster
          stop
       endif
-      
+
       done=.false.
       open (unit=1, file="dname.mg",status="old")
       read(1,'(a)') buffer
@@ -208,7 +208,7 @@ c-----
       write(lun,'(a)') '; do'
 c
 c     Now write the commands
-c      
+c
       if (run_cluster.eq.0) then
          write(lun,20) 'echo $i'
          write(lun,20) 'echo $i >& run.$script'
@@ -394,11 +394,11 @@ c madevent_vegas or madevent_mint
 c madevent_mintMC
          write(lun,15) "elif [[ $1 == '2' ]]; then"
          write(lun,20) 'cp -ar G$2* $CONDOR_INITIAL_DIR/'
-         write(lun,20) 
+         write(lun,20)
 c endif
          write(lun,15) "fi"
       endif
-      
+
  15   format(a)
  20   format(4x,a)
  25   format(8x,a)
@@ -412,7 +412,7 @@ c endif
 
       subroutine bw_increment_array(iarray,imax,ibase,force,done)
 c************************************************************************
-c     Increments iarray     
+c     Increments iarray
 c************************************************************************
       implicit none
 c
@@ -476,4 +476,3 @@ c      stop
       passcuts=.true.
       RETURN
       END
-

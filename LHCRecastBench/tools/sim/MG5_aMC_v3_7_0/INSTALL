@@ -27,16 +27,16 @@ Dependencies :
 - Python 3.7 (or higher)
 
  * MadEvent *
-Package for the LO cross-section computation and generation of events 
+Package for the LO cross-section computation and generation of events
 
 - bash
 - perl 5.8 (or higher)
 - a Fortran 77 compiler (such as g77 or gfortran)
-- a c++ compiler 
+- a c++ compiler
 
  * aMC@NLO *
 Package for the NLO cross-section computation (matched to shower) and
-generation of events 
+generation of events
 
 - bash
 - gfortran4.6 (or higher) compatible with quadruple precision)

@@ -77,7 +77,7 @@ c with the two two-body phase spaces computed in the t and W rest frames
 c respectively. In the weighted-event mode, the factor g_W^4*|V_tb|^2
 c is NOT included in wgt.
 c Since the phase-space variables are generated within this routine,
-c and only a seed or random numbers are given in input, the weight wgt 
+c and only a seed or random numbers are given in input, the weight wgt
 c includes the jacobian relevant to the definition of these variables
       implicit none
       logical xext
@@ -179,7 +179,7 @@ c and N a normalization factor such that N*\int = 1 when Q2=xmwupp2
           drk2=thrbdec_dot(xbq0,xnu0)
           dpk1=thrbdec_dot(xtq0,xel0)
 c The event weight (evwgt) and the upper bound (bound) should both contain
-c a factor 1/((qw2-xmw2)**2+(xmw*wwidth)**2), and trivial phase-space 
+c a factor 1/((qw2-xmw2)**2+(xmw*wwidth)**2), and trivial phase-space
 c normalizations, which are not included since they cancel in the ratio.
 c The Breit-Wigner must not be included since qw2 is generated with the
 c inverse of its integral function
@@ -224,7 +224,7 @@ c
 
       function thrbdec_ibw(t,xm02,ga,bwdelf,bwfmmn)
 c Returns the mass squared, given 0<t<1, the pole mass squared (xm02),
-c the width (ga), and the mass range (implicit in bwdelf and bwfmmn). 
+c the width (ga), and the mass range (implicit in bwdelf and bwfmmn).
 c This function is the inverse of F(M^2), where
 c   F(M^2)=\int_{xmlow2}^{M^2} ds BW(sqrt(s),M0,Ga)
 c   BW(M,M0,Ga)=M0 Ga/pi 1/((M^2-M0^2)^2+M0^2 Ga^2
@@ -245,7 +245,7 @@ c
      #                       xtq,xbq,xel,xnu)
 c Generates the four-momenta of the decay products of the top. These
 c four-momenta are returned in the top rest frame (xbq, xel, xnu; the
-c trivial top momentum is returned as well, xtq). 
+c trivial top momentum is returned as well, xtq).
 c The inputs of the routine are cth1,phi1,cth2,phi2, which are cosines of
 c polar angles and azimuthal angles, with
 c   (cth1,phi1) --> direction of W in the top rest frame
@@ -315,7 +315,7 @@ c
 
 
       function thrb_sfromc(c)
-c Extract sine [with positive sign] from cosine 
+c Extract sine [with positive sign] from cosine
 c avoiding numerical inaccuracies
       implicit none
       real*8 thrb_sfromc,c,tiny,s

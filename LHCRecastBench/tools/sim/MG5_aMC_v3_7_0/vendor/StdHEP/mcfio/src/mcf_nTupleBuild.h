@@ -26,7 +26,7 @@ typedef struct nTuBuildWindowRec {
     				/* Main panel widgets */
     Widget shell;
     Widget form;
-    Widget titleW, descriptW, versionW, multiplicityW, nameIndexW; 
+    Widget titleW, descriptW, versionW, multiplicityW, nameIndexW;
     Widget nameW, descriptVarW;
     Widget cutBtn, copyBtn, pasteBtn, clearBtn, insertBtn;
     Widget changeBtn, undoBtn;
@@ -38,14 +38,12 @@ typedef struct nTuBuildWindowRec {
     Widget indexingMenu;
     Widget indexingBtns[2];
     Widget dimDialogW, dimDialogShell, dimDialogForm, dimDialogComLbl ;
-    
+
     				/* Menu type Widgets */
     Widget saveItem;
-    Widget saveAsItem; 
+    Widget saveAsItem;
     Widget generateF77;
     Widget generateC;
     Widget generateDbin;
     Widget closeItem;
 } nTuBuildWindow;
-
-    

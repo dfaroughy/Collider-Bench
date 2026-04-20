@@ -3,20 +3,20 @@ c
 c- by RF - Mar. 2006
 c
 c
-c This subroutine computes an amplitude of the vector-vector-Higgs-Higgs 
+c This subroutine computes an amplitude of the vector-vector-Higgs-Higgs
 c effective coupling.
 c
 c input:
-c       complex v1(6)          : first  vector                        
-c       complex v2(6)          : second vector                        
-c       complex sc1(3)         : first  scalar                        
-c       complex g1(2)          : first coupling constant                 
+c       complex v1(6)          : first  vector
+c       complex v2(6)          : second vector
+c       complex sc1(3)         : first  scalar
+c       complex g1(2)          : first coupling constant
 c       real    mass           : mass of the outgoing scalar
 c       real    width          : width of the outgoing scalar
 c
 c output:
 c       complex hvvsh(3)       : scalar current
-c     
+c
       implicit none
 c--   dimension of the current set to arbitrary length
       INTEGER DIM
@@ -26,7 +26,7 @@ c      include "dimension.inc"
       double complex hvvsh1,hvvsh2,dg,g1(2)
       double complex v12,p2v1,p1v2,v13,v14,v23,v24,v34
       double precision p12,p13,p14,p23,p24,p34
-      
+
       double precision p1(0:3),p2(0:3),mass,width,q2,q(0:3)
 
 
@@ -60,7 +60,7 @@ c      include "dimension.inc"
          v12  = v1(1)*v2(1) - v1(2)*v2(2) - v1(3)*v2(3) - v1(4)*v2(4)
          p12  = p1(0)*p2(0) - p1(1)*p2(1) - p1(2)*p2(2) - p1(3)*p2(3)
          p2v1 = v1(1)*p2(0) - v1(2)*p2(1) - v1(3)*p2(2) - v1(4)*p2(3)
-         p1v2 = p1(0)*v2(1) - p1(1)*v2(2) - p1(2)*v2(3) - p1(3)*v2(4)	
+         p1v2 = p1(0)*v2(1) - p1(1)*v2(2) - p1(2)*v2(3) - p1(3)*v2(4)
 
          hvvsh1 = - g1(1) *(v12*p12 - p2v1*p1v2)
       endif
@@ -83,7 +83,7 @@ c      include "dimension.inc"
           hvvsh2 = g1(2)*( v12*p34 - v13*p24 + v14*p23
      &                    +v23*p14 - v24*p13 + v34*p12 )
       endif
-       
+
       hvvsh(1) = sc(1)*(hvvsh1 + hvvsh2) /dg
 
       return

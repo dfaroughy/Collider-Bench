@@ -35,13 +35,13 @@
           x(i)=-9d99
         endif
       enddo
-      
+
       wgt=1d0
       evnt_wgt=evtsgn*weight
       call generate_momenta(ndim,iconfig,wgt,x,p)
 c
 c Get all the info we need for writing the events.
-c      
+c
       if (Hevents) then
          call set_cms_stuff(-100)
       else
@@ -77,14 +77,14 @@ c Put the Hevent info in a common block
          enddo
          Hevents=.false.
       endif
-      
+
       call add_write_info(p_born,p,ybst_til_tolab,iconfig,Hevents,
      &     putonshell,ndim,x,jpart,npart,pb,shower_scale,shower_scale_a)
 
 c Write-out the events
       call write_events_lhe(pb(0,1),evnt_wgt,jpart(1,1),npart,lunlhe
      $     ,shower_scale,shower_scale_a,ickkw)
-      
+
       call cpu_time(tAfter)
       t_write=t_write+(tAfter-tBefore)
       return
@@ -470,7 +470,7 @@ C     Retrieve information set by setrun()
       character*7 event_norm
       common /event_normalisation/event_norm
 C     Retrieve information from the run parameters
-      call setrun() 
+      call setrun()
       XSECUP_out(1)=inter
       XERRUP_out(1)=uncer
       XMAXUP_out(1)=absint/ievents

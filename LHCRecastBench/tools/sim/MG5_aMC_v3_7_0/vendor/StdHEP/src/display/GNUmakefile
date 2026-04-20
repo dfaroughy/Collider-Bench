@@ -1,5 +1,5 @@
 #
-# Platform independent part of make procedure for Nirvana phase space 
+# Platform independent part of make procedure for Nirvana phase space
 # event display, included by machine specific makefiles.
 #
 include ../stdhep_arch
@@ -41,7 +41,7 @@ $(NBINDIR)/Phase$(SFX): Phase_main$(SFX).o TestParticles$(SFX).o $(NLIBDIR)/libP
 	      ../../lib/libFmcfio$(SFX).a \
 	      $(CRNLIB)/libpacklib.a \
 	      $(LIBS) -o $@
-      
+
 $(NBINDIR)/Space$(SFX): Space_main$(SFX).o $(NLIBDIR)/libPhaseStdHep$(SFX).a
 	$(CC) $(CFLAGS) Space_main$(SFX).o \
 	      $(NLIBDIR)/libPhaseStdHep$(SFX).a \
@@ -62,11 +62,11 @@ install:
 
 clean:
 	rm -f *$(SFX).o
-	
+
 realclean:
 	rm -f *.o
 	rm -f $(NBINDIR)/Phase* $(NBINDIR)/Space* $(NLIBDIR)/libPhaseStdHep*.a
-	
+
 depend:
 	$(MAKEDEPEND) -fGNUmakefile -- $(CFLAGS) $(CXFLAGS) -- $(SRCS) Phase.c \
 		     space.c TestParticles.c

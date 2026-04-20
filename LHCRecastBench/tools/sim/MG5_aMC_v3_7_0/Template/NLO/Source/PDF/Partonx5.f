@@ -11,7 +11,7 @@ C
       PARAMETER (M= 2, M1 = M + 1)
 C
       Logical First
-      Common 
+      Common
      > / CtqPar1 / Al, XV(0:MXX), QL(0:MXQ), UPD(MXPQX)
      > / CtqPar2 / Nx, Nt, NfMx
      > / XQrange / Qini, Qmax, Xmin
@@ -39,7 +39,7 @@ C                           Find lower end of interval containing X
       Jx = JL - (M-1)/2
       If (X .lt. Xmin .and. First ) Then
          First = .false.
-         Print '(A, 2(1pE12.4))', 
+         Print '(A, 2(1pE12.4))',
      >     ' WARNING: X < Xmin, extrapolation used; X, Xmin =', X, Xmin
          If (Jx .LT. 0) Jx = 0
       Elseif (Jx .GT. Nx-M) Then
@@ -61,11 +61,11 @@ C                                    Find the interval where Q lies
       Jq = JL - (M-1)/2
       If (Jq .LT. 0) Then
          Jq = 0
-         If (Q .lt. Qini)  Print '(A, 2(1pE12.4))', 
+         If (Q .lt. Qini)  Print '(A, 2(1pE12.4))',
      >     ' WARNING: Q < Qini, extrapolation used; Q, Qini =', Q, Qini
       Elseif (Jq .GT. Nt-M) Then
          Jq = Nt - M
-         If (Q .gt. Qmax)  Print '(A, 2(1pE12.4))', 
+         If (Q .gt. Qmax)  Print '(A, 2(1pE12.4))',
      >     ' WARNING: Q > Qmax, extrapolation used; Q, Qmax =', Q, Qmax
       Endif
 
@@ -91,4 +91,3 @@ C
       RETURN
 C                        ****************************
       END
-

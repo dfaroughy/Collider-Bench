@@ -9,9 +9,9 @@
 module fmin_module
 
   implicit none
-  
+
   private
-  
+
   public :: fmin
 
 contains
@@ -47,9 +47,9 @@ contains
   !  * [fmin from Netlib](http://www.netlib.org/fmm/fmin.f)
 
   function fmin(f,ax,bx,tol) result(xmin)
-    
+
     implicit none
-    
+
     real(kind(1d0)),external:: f    !! the function to minimize
     real(kind(1d0)),intent(in) :: ax   !! left endpoint of initial interval
     real(kind(1d0)),intent(in) :: bx   !! right endpoint of initial interval
@@ -112,7 +112,7 @@ contains
        else
 
           !  fit parabola
-          
+
           r = (x - w)*(fx - fv)
           q = (x - v)*(fx - fw)
           p = (x - v)*q - (x - w)*r
@@ -138,7 +138,7 @@ contains
           else
 
              !  a parabolic interpolation step
-             
+
              d = p/q
              u = x + d
 
@@ -183,14 +183,14 @@ contains
              fv = fu
           end if
        end if
-       
+
     end do    !  end of main loop
-    
+
     xmin = x
-    
+
   end function fmin
   !*****************************************************************************************
-  
+
   !*****************************************************************************************
 end module fmin_module
 !*****************************************************************************************

@@ -97,7 +97,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $     ,0.2d0,-6.d0,6.d0)
       call bookup(l+36,'H-j1 y,pT_j1>90GeV '//weights_info(kk)
      $     ,0.2d0,-6.d0,6.d0)
-      
+
       call bookup(l+37,'njets '//weights_info(kk)
      $     ,1.d0,-0.5d0,10.5d0)
       call bookup(l+38,'njets,|y_j|<2.5 '//weights_info(kk)
@@ -136,7 +136,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          call multitop(l+4,3,2,'Higgs pT (GeV)',' ','LOG')
          call multitop(l+5,3,2,'Higgs pT (GeV)',' ','LOG')
          call multitop(l+6,3,2,'Higgs log(pT/GeV)',' ','LOG')
-c     
+c
          call multitop(l+7,3,2,'j1 pT (GeV)',' ','LOG')
          call multitop(l+8,3,2,'j1 pT (GeV)',' ','LOG')
          call multitop(l+9,3,2,'j1 log(pT/GeV)',' ','LOG')
@@ -157,7 +157,7 @@ c
          call multitop(l+22,3,2,'Higgs y',' ','LOG')
          call multitop(l+23,3,2,'Higgs y',' ','LOG')
          call multitop(l+24,3,2,'Higgs y',' ','LOG')
-c     
+c
          call multitop(l+25,3,2,'j1 y',' ','LOG')
          call multitop(l+26,3,2,'j1 y',' ','LOG')
          call multitop(l+27,3,2,'j1 y',' ','LOG')
@@ -177,7 +177,7 @@ c
          call multitop(l+39,3,2,'xsec',' ','LOG')
       enddo
       call close_topdrawer_file
-      return                
+      return
       end
 
 
@@ -284,8 +284,8 @@ c
       if(pth.ge.30.d0) call mfill(l+21,yh,WWW)
       if(pth.ge.50.d0) call mfill(l+22,yh,WWW)
       if(pth.ge.70.d0) call mfill(l+23,yh,WWW)
-      if(pth.ge.90.d0) call mfill(l+24,yh,WWW)  
-c     
+      if(pth.ge.90.d0) call mfill(l+24,yh,WWW)
+c
       if(njet.ge.1)then
          call mfill(l+25,yj1,WWW)
          if(ptj1.ge.10.d0) call mfill(l+26,yj1,WWW)
@@ -293,7 +293,7 @@ c
          if(ptj1.ge.50.d0) call mfill(l+28,yj1,WWW)
          if(ptj1.ge.70.d0) call mfill(l+29,yj1,WWW)
          if(ptj1.ge.90.d0) call mfill(l+30,yj1,WWW)
-c     
+c
          call mfill(l+31,yh-yj1,WWW)
          if(ptj1.ge.10.d0) call mfill(l+32,yh-yj1,WWW)
          if(ptj1.ge.30.d0) call mfill(l+33,yh-yj1,WWW)
@@ -305,10 +305,10 @@ c
       call mfill(l+37,njdble,WWW)
       call mfill(l+38,njcdble,WWW)
       call mfill(l+39,1d0,WWW)
-c      
+c
       enddo
 C
- 999  return      
+ 999  return
       end
 
 
@@ -325,7 +325,7 @@ C
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

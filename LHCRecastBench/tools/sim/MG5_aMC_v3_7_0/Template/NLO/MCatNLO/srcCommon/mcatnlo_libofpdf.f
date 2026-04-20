@@ -88,15 +88,15 @@ C-------------------------------------------------------------------------
      # ,'  98     MRSTM  ..    .247        .164              MS  '
      # ,'  99     MRSTP  ..    .409        .288              MS  '
       WRITE(*,100)
-     #  ' 101     CTEQ5M       .329        .226  (as=0.118)  MS  ' 
-     # ,' 102     CTEQ5D       .329        .226  (as=0.118)  DI  ' 
-     # ,' 103     CTEQ5L       .497        .359  (as=0.127)  MS  ' 
-     # ,' 104     CTEQ5HJ      .329        .226  (as=0.118)  MS  ' 
-     # ,' 105     CTEQ5HQ      .329        .226  (as=0.118)  MS  ' 
-     # ,' 106     CTEQ5F3      Nf=3, L_3=.395    (as=0.106)  MS  ' 
-     # ,' 107     CTEQ5F4      Nf=4, L_4=.309    (as=0.112)  MS  ' 
-     # ,' 108     CTEQ5M1      .329        .226  (as=0.118)  MS  ' 
-     # ,' 109     CTEQ5HQ1     .329        .226  (as=0.118)  MS  ' 
+     #  ' 101     CTEQ5M       .329        .226  (as=0.118)  MS  '
+     # ,' 102     CTEQ5D       .329        .226  (as=0.118)  DI  '
+     # ,' 103     CTEQ5L       .497        .359  (as=0.127)  MS  '
+     # ,' 104     CTEQ5HJ      .329        .226  (as=0.118)  MS  '
+     # ,' 105     CTEQ5HQ      .329        .226  (as=0.118)  MS  '
+     # ,' 106     CTEQ5F3      Nf=3, L_3=.395    (as=0.106)  MS  '
+     # ,' 107     CTEQ5F4      Nf=4, L_4=.309    (as=0.112)  MS  '
+     # ,' 108     CTEQ5M1      .329        .226  (as=0.118)  MS  '
+     # ,' 109     CTEQ5HQ1     .329        .226  (as=0.118)  MS  '
      # ,' 110     CTEQ5M1 (parametrized version)                  '
       WRITE(*,100)
      #  ' 111     MRST99 COR01 .321        .220              MS  '
@@ -112,10 +112,10 @@ C-------------------------------------------------------------------------
      # ,' 121     MRST99 COR11 .321        .220              MS  '
      # ,' 122     MRST99 COR12 .321        .220              MS  '
       WRITE(*,100)
-     #  ' 131     CTEQ6M       .326        .226  (as=0.118)  MS  ' 
-     # ,' 132     CTEQ6D       .326        .226  (as=0.118)  DI  ' 
-     # ,' 133     CTEQ6L       .326        .226  (as=0.118)  MS  ' 
-     # ,' 134-173 CTEQ6M1xx    .326        .226  (as=0.118)  MS  ' 
+     #  ' 131     CTEQ6M       .326        .226  (as=0.118)  MS  '
+     # ,' 132     CTEQ6D       .326        .226  (as=0.118)  DI  '
+     # ,' 133     CTEQ6L       .326        .226  (as=0.118)  MS  '
+     # ,' 134-173 CTEQ6M1xx    .326        .226  (as=0.118)  MS  '
       write(*,100)
      #  ' 181     MRST2001NNLO av.   .290  .196  (as=0.1155) MS  '
      # ,' 182     MRST2001NNLO fast  .290  .196  (as=0.1155) MS  '
@@ -130,34 +130,34 @@ C-------------------------------------------------------------------------
      #  ' 191     MRST2002     .359        .249  (as=0.1197) MS  '
      # ,' 192     MRST2002NNLO .289        .195  (as=0.1154) MS  '
      # ,' 200-230 MRS2001E     .347        .239  (as=0.119)  MS  '
-      write(*,100) 
+      write(*,100)
      #  '         Alekhin pdf sets'
      #, ' 231     LO  nominal ffn          .418  (as=0.1301) MS  '
      #, ' 232     LO  nominal vfn'
      #, ' 233     LO  mc=1.75 ffn'
-     #, ' 234     LO  mc=1.75 vfn'   
-     #, ' 235     LO  ss      ffn'   
-     #, ' 236     LO  ss      vfn'   
+     #, ' 234     LO  mc=1.75 vfn'
+     #, ' 235     LO  ss      ffn'
+     #, ' 236     LO  ss      vfn'
      #, ' 237     NLO  nominal ffn         .215  (as=0.1171) MS  '
      #, ' 238     NLO  nominal vfn'
      #, ' 239     NLO  mc=1.75 ffn'
-     #, ' 240     NLO  mc=1.75 vfn'   
-     #, ' 241     NLO  ss      ffn'   
-     #, ' 242     NLO  ss      vfn'   
+     #, ' 240     NLO  mc=1.75 vfn'
+     #, ' 241     NLO  ss      ffn'
+     #, ' 242     NLO  ss      vfn'
      #, ' 243     NNLO  nominal ffn        .182  (as=0.1143) MS  '
      #, ' 244     NNLO  nominal vfn'
      #, ' 245     NNLO  mc=1.75 ffn'
-     #, ' 246     NNLO  mc=1.75 vfn'   
-     #, ' 247     NNLO  ss      ffn'   
-     #, ' 248     NNLO  ss      vfn'   
-     #, ' 249     NNLO  slow ev ffn'   
-     #, ' 250     NNLO  slow ev vfn'   
+     #, ' 246     NNLO  mc=1.75 vfn'
+     #, ' 247     NNLO  ss      ffn'
+     #, ' 248     NNLO  ss      vfn'
+     #, ' 249     NNLO  slow ev ffn'
+     #, ' 250     NNLO  slow ev vfn'
      #, ' To get the sets with errorrs, do:'
      #, ' call errsk(i), con i=-15...15. After this, calls to'
      #, ' mlmpdf will return the pdf minus (plus) the variation'
      #, ' if the |ith| parameter'
 C ---------------------------------------------------------------------------
-      WRITE(*,100)                             
+      WRITE(*,100)
      #  '  PDF sets followed by * are obtained from a 1-loop analysis,'
      # ,'  and the relative values of Lambda_4 refer to 1-loop. '
      # ,'  Lambda is automatically converted to 2-loop for use with '
@@ -171,7 +171,7 @@ C ---------------------------------------------------------------------------
      # ,'  Sets 13-16 are MRS fits of BCDMS data using'
      # ,'  different values of Lambda PHYS REV D43 (91) 3648.'
      # ,'  Sets 17-19 are the new NMC/CCFR fits by MRS (RAL-92-021)'
-      WRITE(*,100)                             
+      WRITE(*,100)
      #  '  Set 20: MRSA (Durham preprint, DTP/94/34)'
      # ,'  Set 71: MRSA prime (Durham preprint, DTP/95/14)'
      # ,'  Set 72: MRSG (Durham preprint, DTP/95/14)'
@@ -188,7 +188,7 @@ C ---------------------------------------------------------------------------
      # ,'  CTEQ-604, hep-ph/9606399, (81=default, 82=DIS scheme,'
      # ,'  83=leading order, 84-87=variable Lambda, 88=High-et jet fit,'
      # ,'  89=low momentum evolution)'
-      WRITE(*,100)                             
+      WRITE(*,100)
      #  '  Set 40 corresponds to photon PDF''s by Drees, Grassie, Kim'
      # ,'  Z.Phys. C28 (1985) 51 and DTP/91/16'
      # ,'  Set 41 corresponds to photon PDF''s Aurenche et al.'
@@ -266,8 +266,8 @@ c 71 MRSA prime
      #  0.152D0,0.170D0,
 c 73 MRSA-alpha dependent
      #  0.09936d0,0.1396d0,0.1903d0,0.2526d0,0.3276d0,0.4162d0,2*0.D0,
-c The values given above for the MRSXXX sets are consistent with the 
-c alfas(Mz) given by MRS. The values    
+c The values given above for the MRSXXX sets are consistent with the
+c alfas(Mz) given by MRS. The values
 c     #  .094d0,0.130d0,0.178d0,0.237d0,0.309d0,0.396d0/
 c are on the other hand consistent with the Lambda_4 given by MRS
 c CTEQ4
@@ -275,9 +275,9 @@ c CTEQ4
      #  0.2392d0,0.2811d0,0.2018d0,0.1793d0,0.d0,
 c 91-94 MRSR
      #  0.159d0,0.237d0,0.159d0,0.237d0,
-c 95-99 MRST                       
+c 95-99 MRST
      #  3*0.220d0,0.164d0,0.288d0,0.d0,
-C 101-110 CTEQ5                    
+C 101-110 CTEQ5
      #  2*0.226d0,0.359d0,2*0.226d0,2*1.d-8,0.226d0,2*0.226d0,
 c 111-122 MRST99
      #  3*.220d0,.164d0,.288d0,.224d0,.215d0,5*.220d0,8*0d0,
@@ -293,7 +293,7 @@ c 200-230
      # 31*0.239d0,
 c 231-250, Alekhin 20 sets
      # 6*0.418d0,6*0.215d0,8*0.182d0/
-      IRET=0       
+      IRET=0
       IF(ABS(IH).NE.1.AND.IH.NE.4.AND.IH.NE.5)THEN
         WRITE(*,*) ' HADRON TPYE ',IH,' NOT IMPLEMENTED'
         IRET=1
@@ -435,21 +435,21 @@ C It is not MRSTH
 C It is not MRSTL
      # .AND. J.NE.98
 C It is not MRSTM
-     # .AND. J.NE.99 
+     # .AND. J.NE.99
 C It is not MRSTP
-     # .AND. J.NE.101 
+     # .AND. J.NE.101
 C It is not CTEQ5M
-     # .AND. J.NE.102 
+     # .AND. J.NE.102
 C It is not CTEQ5D
-     # .AND. J.NE.103 
+     # .AND. J.NE.103
 C It is not CTEQ5L
-     # .AND. J.NE.104 
+     # .AND. J.NE.104
 C It is not CTEQ5HJ
-     # .AND. J.NE.105 
+     # .AND. J.NE.105
 C It is not CTEQ5HQ
-     # .AND. J.NE.106 
+     # .AND. J.NE.106
 C It is not CTEQ5F3
-     # .AND. J.NE.107 
+     # .AND. J.NE.107
 C It is not CTEQ5F4
      # .AND. J.NE.108
 C It is not CTEQ5M1
@@ -457,29 +457,29 @@ C It is not CTEQ5M1
 C It is not CTEQ5HQ1
      # .AND. J.NE.110
 C It is not CTEQ5M1 parametrized form
-     # .AND. J.NE.111 
+     # .AND. J.NE.111
 C It is not MRST991
-     # .AND. J.NE.112 
+     # .AND. J.NE.112
 C It is not MRST992
-     # .AND. J.NE.113 
+     # .AND. J.NE.113
 C It is not MRST993
-     # .AND. J.NE.114 
+     # .AND. J.NE.114
 C It is not MRST994
-     # .AND. J.NE.115 
+     # .AND. J.NE.115
 C It is not MRST995
-     # .AND. J.NE.116 
+     # .AND. J.NE.116
 C It is not MRST996
-     # .AND. J.NE.117 
+     # .AND. J.NE.117
 C It is not MRST997
-     # .AND. J.NE.118 
+     # .AND. J.NE.118
 C It is not MRST998
-     # .AND. J.NE.119 
+     # .AND. J.NE.119
 C It is not MRST999
-     # .AND. J.NE.120 
+     # .AND. J.NE.120
 C It is not MRST9910
-     # .AND. J.NE.121 
+     # .AND. J.NE.121
 C It is not MRST9911
-     # .AND. J.NE.122 
+     # .AND. J.NE.122
 C It is not MRST9912
      # .AND. J.NE.131
 C It is not CTEQ6M
@@ -528,13 +528,13 @@ C It is not a proton PDF
 C It is a photon
      # .AND. J.NE.40
 C It is not Drees e Grassie
-     # .AND. J.NE.41 
+     # .AND. J.NE.41
 C It is not ACFGP
-     # .AND. J.NE.42 
+     # .AND. J.NE.42
 C It is not AFG
      # .AND. J.NE.43
 C It is not GRV-HO
-     # .AND. J.NE.44 
+     # .AND. J.NE.44
 C It is not LAC1
      # .AND. J.NE.45 )
 C It is not GRS-HO
@@ -549,7 +549,7 @@ C It is not a photon PDF
       IF(
      #  ABS(IH).EQ.5
 C It is an electron
-     # .AND. J.NE.51 
+     # .AND. J.NE.51
 C It is not LAC1
      # .AND. J.NE.52
 C It is not GRV-G HO
@@ -609,7 +609,7 @@ C--MORFIN AND TUNG
 C--PHOTON PDFS
         ISET=NDNS-40
         IF(ISET.EQ.0) THEN
-C--DREES,GRASSIE, KIM 
+C--DREES,GRASSIE, KIM
            CALL PHOPDF(Q2,X,FX,NF)
         ELSEIF(ISET.EQ.1) THEN
 C--AURENCHE ET AL
@@ -638,11 +638,11 @@ C--ELECTRON PDFS
             CALL ELPDF_USER(Q2,X,FX,NF)
         ENDIF
       ELSEIF(NDNS.LE.65) THEN
-C-- CTEQ1 FITS          
+C-- CTEQ1 FITS
         ISET=NDNS-60
         CALL CTEQ(ISET,IH0,Q2,X,FX,NF)
       ELSEIF(NDNS.LE.70) THEN
-C-- CTEQ3 FITS          
+C-- CTEQ3 FITS
         ISET=NDNS-65
         CALL CTEQ3(ISET,IH0,Q2,X,FX,NF)
       ELSEIF(NDNS.LE.80) THEN
@@ -650,23 +650,23 @@ C-- MRSAP, MRSG AND MRS WITH VARIABLE LAMBDA
         ISET=NDNS-60
         CALL HMRS(ISET,IH0,Q2,X,FX,NF)
       ELSEIF(NDNS.LE.89) THEN
-C-- CTEQ4 FITS          
+C-- CTEQ4 FITS
         ISET=NDNS-80
         CALL CTEQ4(ISET,IH0,Q2,X,FX,NF)
       ELSEIF(NDNS.LE.99) THEN
-C-- MRSR/T sets        
+C-- MRSR/T sets
         ISET=NDNS-60
         CALL HMRS(ISET,IH0,Q2,X,FX,NF)
       ELSEIF(NDNS.LE.110) THEN
-C-- CTEQ5 FITS          
+C-- CTEQ5 FITS
         ISET=NDNS-100
         CALL CTEQ5(ISET,IH0,Q2,X,FX,NF)
       ELSEIF(NDNS.LE.122) THEN
-C-- MRST99 sets        
+C-- MRST99 sets
         ISET=NDNS-70
         CALL HMRS(ISET,IH0,Q2,X,FX,NF)
       ELSEIF(NDNS.LE.173) THEN
-C-- CTEQ6 FITS          
+C-- CTEQ6 FITS
         ISET=NDNS-130
         IF(ISET.GE.4) ISET=ISET-3+100
         CALL CTEQ6(ISET,IH0,Q2,X,FX,NF)
@@ -676,23 +676,23 @@ C-- MRSTNNLO (200?)
         CALL HMRS(ISET,IH0,Q2,X,FX,NF)
 C-- MRST2001
       ELSEIF(NDNS.LE.188) THEN
-        ISET=NDNS-(188-60) 
+        ISET=NDNS-(188-60)
         CALL HMRS(ISET,IH0,Q2,X,FX,NF)
 C-- MRST2001 lo
       ELSEIF(NDNS.EQ.189) THEN
-        ISET=NDNS-(189-61) 
+        ISET=NDNS-(189-61)
         CALL HMRS(ISET,IH0,Q2,X,FX,NF)
 C-- MRST2002, MRST2002NNLO
       ELSEIF(NDNS.LE.192) THEN
-        ISET=NDNS-(192-63) 
+        ISET=NDNS-(192-63)
         CALL HMRS(ISET,IH0,Q2,X,FX,NF)
 C-- MRST2001E
       ELSEIF(NDNS.LE.230) THEN
-         ISET=NDNS-(230-94) 
+         ISET=NDNS-(230-94)
          CALL HMRS(ISET,IH0,Q2,X,FX,NF)
 C-- ALEKHIN
       ELSEIF(NDNS.LE.250) THEN
-         ISET=NDNS-230 
+         ISET=NDNS-230
          CALL ALEKHIN(ISET,X,Q2,FX,NF)
          CALL HADCONV(FX,IH0,NF)
       ELSE
@@ -1338,13 +1338,13 @@ C----- START HMRS ------------------------------
         IF(MODE.EQ.10)QSQMIN=0.625D0
         IF(MODE.GT.30.AND.MODE.LE.94) QSQMIN=1.25D0
         IF(MODE.GT.30.AND.MODE.LE.94) QSQMAX=1.D7
-        ILXMIN=0                    
+        ILXMIN=0
         ILXMAX=0
         ILQSQMIN=0
         ILQSQMAX=0
         INI=1
 1     CONTINUE
-      IF(ABS(IH).GE.3) CALL NOSETP       
+      IF(ABS(IH).GE.3) CALL NOSETP
       IH0=IH
       IF(ABS(IH).EQ.2) IH0=ISIGN(1,IH)
       Q=SQRT(Q2)
@@ -1354,7 +1354,7 @@ C----- START HMRS ------------------------------
         IXMIN=IXMIN+1.
         IF(LOG10(IXMIN).GT.ILXMIN) THEN
           WRITE(*,*)' X < XMIN IN STR. FUNCTIONS MORE THAN 10**',
-     +  ILXMIN,' TIMES'                          
+     +  ILXMIN,' TIMES'
           ILXMIN=ILXMIN+1
         ENDIF
       ENDIF
@@ -1425,10 +1425,10 @@ C----- START HMRS ------------------------------
         ELSEIF(MODE.EQ.10) THEN
           IF(Q2.GT.5D0) THEN
             CALL STRC33(DX,DQ,UPV,DOV,USEA,DSEA,STR,CHR,BOT,GLU)
-          ELSEIF(Q2.LE.5D0) THEN 
+          ELSEIF(Q2.LE.5D0) THEN
             CALL STRC34(DX,DQ,UPV,DOV,USEA,DSEA,STR,CHR,BOT,GLU)
           ENDIF
-        ELSE         
+        ELSE
           CALL MRS92(DX,DQ,MODE,UPV,DOV,USEA,DSEA,STR,CHR,BOT,GLU)
         ENDIF
         FX(0)=SNGL(GLU)
@@ -1482,7 +1482,7 @@ C
         FX(I)=FACTOR*FX(I)
       ENDDO
       RETURN
-      END 
+      END
 C
 C
       SUBROUTINE MRSCHECK(VAL,MODE)
@@ -1498,9 +1498,9 @@ C
      #          'MRST995','MRST996','MRST997','MRST998',
      #          'MRST999','MRST9910','MRST9911','MRST9912','EMPTY',
      #          'MRSTNNLO1','MRSTNNLO2','MRSTNNLO3','MRSTNNLO4'/
-      IF(ABS(VAL-0.00232D0).LT.0.000001) THEN                      
+      IF(ABS(VAL-0.00232D0).LT.0.000001) THEN
          IMODE = 10
-      ELSEIF(ABS(VAL-0.03058D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.03058D0).LT.0.000001) THEN
          IMODE = 1
       ELSEIF(ABS(VAL-0.01727D0).LT.0.000001) THEN
          IMODE = 2
@@ -1519,80 +1519,80 @@ C
       ELSEIF(ABS(VAL-0.00474D0).LT.0.000001) THEN
          IMODE = 9
       ELSEIF(ABS(VAL-0.00383D0).LT.0.000001) THEN
-         IMODE = 10         
-      ELSEIF(ABS(VAL-0.00341D0).LT.0.000001) THEN                      
-         IMODE = 11         
-      ELSEIF(ABS(VAL-0.00269D0).LT.0.000001) THEN                      
-         IMODE = 12         
-      ELSEIF(ABS(VAL-0.00429D0).LT.0.000001) THEN                      
-         IMODE = 13         
-      ELSEIF(ABS(VAL-0.00350D0).LT.0.000001) THEN                      
-         IMODE = 14         
-      ELSEIF(ABS(VAL-0.00294D0).LT.0.000001) THEN                      
-         IMODE = 15         
-      ELSEIF(ABS(VAL-0.00273D0).LT.0.000001) THEN                      
-         IMODE = 16         
-      ELSEIF(ABS(VAL-0.00195D0).LT.0.000001) THEN                      
-         IMODE = 17         
-      ELSEIF(ABS(VAL-0.00145D0).LT.0.000001) THEN                      
-         IMODE = 18         
+         IMODE = 10
+      ELSEIF(ABS(VAL-0.00341D0).LT.0.000001) THEN
+         IMODE = 11
+      ELSEIF(ABS(VAL-0.00269D0).LT.0.000001) THEN
+         IMODE = 12
+      ELSEIF(ABS(VAL-0.00429D0).LT.0.000001) THEN
+         IMODE = 13
+      ELSEIF(ABS(VAL-0.00350D0).LT.0.000001) THEN
+         IMODE = 14
+      ELSEIF(ABS(VAL-0.00294D0).LT.0.000001) THEN
+         IMODE = 15
+      ELSEIF(ABS(VAL-0.00273D0).LT.0.000001) THEN
+         IMODE = 16
+      ELSEIF(ABS(VAL-0.00195D0).LT.0.000001) THEN
+         IMODE = 17
+      ELSEIF(ABS(VAL-0.00145D0).LT.0.000001) THEN
+         IMODE = 18
 c
-      ELSEIF(ABS(VAL-0.00150D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00150D0).LT.0.000001) THEN
          IMODE = 21
-      ELSEIF(ABS(VAL-0.00125D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00125D0).LT.0.000001) THEN
          IMODE = 22
-      ELSEIF(ABS(VAL-0.00181D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00181D0).LT.0.000001) THEN
          IMODE = 23
-      ELSEIF(ABS(VAL-0.00085D0).LT.0.000001) THEN                      
-         IMODE = 24         
-      ELSEIF(ABS(VAL-0.00561D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00085D0).LT.0.000001) THEN
+         IMODE = 24
+      ELSEIF(ABS(VAL-0.00561D0).LT.0.000001) THEN
          IMODE = 25
-      ELSEIF(ABS(VAL-0.00510D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00510D0).LT.0.000001) THEN
          IMODE = 26
-      ELSEIF(ABS(VAL-0.00408D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00408D0).LT.0.000001) THEN
          IMODE = 27
-      ELSEIF(ABS(VAL-0.00586D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00586D0).LT.0.000001) THEN
          IMODE = 28
-      ELSEIF(ABS(VAL-0.00410D0).LT.0.000001) THEN                      
-         IMODE = 29          
+      ELSEIF(ABS(VAL-0.00410D0).LT.0.000001) THEN
+         IMODE = 29
 c
-      ELSEIF(ABS(VAL-0.00524D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00524D0).LT.0.000001) THEN
          IMODE = 31
-      ELSEIF(ABS(VAL-0.00497D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00497D0).LT.0.000001) THEN
          IMODE = 32
-      ELSEIF(ABS(VAL-0.00398D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00398D0).LT.0.000001) THEN
          IMODE = 33
-      ELSEIF(ABS(VAL-0.00585D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00585D0).LT.0.000001) THEN
          IMODE = 34
-      ELSEIF(ABS(VAL-0.00384D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00384D0).LT.0.000001) THEN
          IMODE = 35
-      ELSEIF(ABS(VAL-0.00177D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00177D0).LT.0.000001) THEN
          IMODE = 36
-      ELSEIF(ABS(VAL-0.00593D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00593D0).LT.0.000001) THEN
          IMODE = 37
-      ELSEIF(ABS(VAL-0.00541D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00541D0).LT.0.000001) THEN
          IMODE = 38
-      ELSEIF(ABS(VAL-0.91673D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.91673D0).LT.0.000001) THEN
          IMODE = 39
-      ELSEIF(ABS(VAL-0.00525D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00525D0).LT.0.000001) THEN
          IMODE = 40
-      ELSEIF(ABS(VAL-0.89447D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.89447D0).LT.0.000001) THEN
          IMODE = 41
-      ELSEIF(ABS(VAL-0.00515D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00515D0).LT.0.000001) THEN
          IMODE = 42
-      ELSEIF(ABS(VAL-0.00725D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00725D0).LT.0.000001) THEN
          IMODE = 44
-      ELSEIF(ABS(VAL-0.00734D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00734D0).LT.0.000001) THEN
          IMODE = 45
-      ELSEIF(ABS(VAL-0.00739D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00739D0).LT.0.000001) THEN
          IMODE = 46
-      ELSEIF(ABS(VAL-0.00865D0).LT.0.000001) THEN                      
+      ELSEIF(ABS(VAL-0.00865D0).LT.0.000001) THEN
          IMODE = 47
       ELSE
          WRITE(*,*) ' MRSCHECK: ERROR,'
          WRITE(*,*) ' NO TABLE MATCHING THE ENTRY HAS BEEN FOUND'
          STOP
-      ENDIF        
+      ENDIF
       IF(IMODE.NE.MODE) THEN
          WRITE(*,*) ' MRSCHECK: ERROR,'
          WRITE(*,*) ' MRSCHECK: MODE CORRESPONDS TO ',NAME(MODE)
@@ -1724,7 +1724,7 @@ C***************************************************************C
      .  OPEN(UNIT=27,FILE='HMRSB',STATUS='OLD')
       IF(MODE.EQ.2)
      .  OPEN(UNIT=27,FILE='KMRSB',STATUS='OLD')
-      IF(MODE.EQ.3)        
+      IF(MODE.EQ.3)
      .  OPEN(UNIT=27,FILE='HMRSB135',STATUS='OLD')
       IF(MODE.EQ.4)
      .  OPEN(UNIT=27,FILE='HMRSB160',STATUS='OLD')
@@ -1937,10 +1937,10 @@ C     THIS IS THE NEW  "G" FIT -- Feb 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       open(unit=31,file='MRSG',status='old')
@@ -1998,14 +1998,14 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
       SUBROUTINE STRC33(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
-                 
+
 C     THIS IS THE NEW  "A" FIT -- May 1994 -- standard Q^2 range
 
       IMPLICIT REAL*8(A-H,O-Z)
@@ -2023,14 +2023,14 @@ C     THIS IS THE NEW  "A" FIT -- May 1994 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       open(unit=33,file='MRSA',status='old')
-      DO 20 N=1,nx-1         
+      DO 20 N=1,nx-1
       DO 20 M=1,19
       READ(33,50)F(1,N,M),F(2,N,M),F(3,N,M),F(4,N,M),F(5,N,M),F(7,N,M),
      .          F(6,N,M),F(8,N,M)
@@ -2084,9 +2084,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2184,7 +2184,7 @@ C     This is a package for the new MRS variable alpha_S parton C
 C     distributions. The minimum Q^2  value is 5 GeV^2          C
 C     and the x range is, as before,                            C
 C     10^-5 < x < 1. MSbar factorization is used.               C
-C     The package reads 7 grids, which are in  separate files.  C  
+C     The package reads 7 grids, which are in  separate files.  C
 C     Note that x times the parton                              C
 C     distribution is returned, Q is the scale in GeV.          C
 C								C
@@ -2216,13 +2216,13 @@ C***************************************************************C
       IMPLICIT REAL*8(A-H,O-Z)
       data init/0/
       IF(INIT.NE.0.AND.MODE.EQ.IMODE) GOTO 10
-      INIT=1                          
+      INIT=1
       IMODE=MODE
       IF(MODE.EQ.0) then
         OPEN(UNIT=30,FILE='MRSAP',STATUS='OLD')
       ELSEIF(MODE.EQ.1) then
         OPEN(UNIT=55,FILE='MRS105',STATUS='OLD')
-      ELSEIF(MODE.EQ.2) then      
+      ELSEIF(MODE.EQ.2) then
         OPEN(UNIT=60,FILE='MRS110',STATUS='OLD')
       ELSEIF(MODE.EQ.3) then
         OPEN(UNIT=65,FILE='MRS115',STATUS='OLD')
@@ -2237,19 +2237,19 @@ C***************************************************************C
          STOP
       ENDIF
 10    Q2=SCALE**2
-      IF(MODE.EQ.0) 
+      IF(MODE.EQ.0)
      .   CALL STRC30(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
-      IF(MODE.EQ.1) 
+      IF(MODE.EQ.1)
      .   CALL STRC105(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
-      IF(MODE.EQ.2) 
+      IF(MODE.EQ.2)
      .   CALL STRC110(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
-      IF(MODE.EQ.3) 
+      IF(MODE.EQ.3)
      .   CALL STRC115(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
-      IF(MODE.EQ.4) 
+      IF(MODE.EQ.4)
      .   CALL STRC120(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
-      IF(MODE.EQ.5) 
+      IF(MODE.EQ.5)
      .   CALL STRC125(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
-      IF(MODE.EQ.6) 
+      IF(MODE.EQ.6)
      .   CALL STRC130(X,SCALE,UPV,DNV,USEA,DSEA,STR,CHM,BOT,GLU)
       RETURN
       END
@@ -2273,10 +2273,10 @@ C     THIS IS THE NEW  "Aprime" FIT -- Feb 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       DO 20 N=1,nx-1
@@ -2332,9 +2332,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2357,10 +2357,10 @@ C     THIS IS THE alphas=0.105 FIT -- May 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       DO 20 N=1,nx-1
@@ -2416,9 +2416,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2442,10 +2442,10 @@ C     THIS IS THE alphas=0.110 FIT -- May 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       DO 20 N=1,nx-1
@@ -2501,9 +2501,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2526,10 +2526,10 @@ C     THIS IS THE alphas=0.115 FIT -- May 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       DO 20 N=1,nx-1
@@ -2585,9 +2585,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2610,10 +2610,10 @@ C     THIS IS THE alphas=0.120 FIT -- May 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       DO 20 N=1,nx-1
@@ -2669,9 +2669,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2694,10 +2694,10 @@ C     THIS IS THE alphas=0.125 FIT -- May 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       DO 20 N=1,nx-1
@@ -2753,9 +2753,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2778,10 +2778,10 @@ C     THIS IS THE alphas=0.130 FIT -- May 1995 -- standard Q^2 range
       DATA XMIN,XMAX,QSQMIN,QSQMAX/1.D-5,1.D0,5.D0,1310720.D0/
       DATA N0/2,5,5,9,0,0,9,9/
       DATA INIT/0/
- 
- 
+
+
       xsave=x
- 
+
       IF(INIT.NE.0) GOTO 10
       INIT=1
       DO 20 N=1,nx-1
@@ -2837,9 +2837,9 @@ C 1=UV 2=DV 3=GLUE 4=UBAR 5=CBAR 7=BBAR 6=SBAR 8=DBAR
       CHM=G(5)
       GLU=G(3)
       BOT=G(7)
- 
+
       x=xsave
- 
+
       RETURN
       END
 C
@@ -2852,7 +2852,7 @@ C     earlier MRS packages:                                     C
 C       -- the q**2 range is enlarged to 1.25d0 < q**2 < 1d7,   C
 C          the x range is still 1d-5 < x < 1d0                  C
 C       -- the interpolation routine has been slightly modified C
-C       -- the call is now to mrs96() rather than to MRSEB()    C 
+C       -- the call is now to mrs96() rather than to MRSEB()    C
 C     Note that the grid files which the program reads in       C
 C     (mrsr1.dat,...) are now larger and more obviously named.  C
 C      								C
@@ -2881,14 +2881,14 @@ C***************************************************************C
       data xmin,xmax,qsqmin,qsqmax/1d-5,1d0,1.25d0,1d7/
       q2=q*q
       if(mode.eq.1) then
-        call mrsr1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrsr1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.2) then
-        call mrsr2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrsr2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.3) then
-        call mrsr3(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrsr3(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.4) then
         call mrsr4(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
-      endif 
+      endif
       return
       end
 
@@ -2912,7 +2912,7 @@ C***************************************************************C
       data xmin,xmax,qsqmin,qsqmax/1d-5,1d0,1.25d0,1d7/
       data n0/3,4,5,9,9,9,9,9/
       data init/0/
-      save 
+      save
       xsave=x
       q2save=qsq
       if(init.ne.0) goto 10
@@ -2939,7 +2939,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
   40  f(i,nx,m)=0d0
       init=1
       close(1)
-  10  continue                       
+  10  continue
       if(x.lt.xmin) x=xmin
       if(x.gt.xmax) x=xmax
       if(qsq.lt.qsqmin)	qsq=qsqmin
@@ -2970,13 +2970,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrsr2(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -2997,7 +2997,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       data xmin,xmax,qsqmin,qsqmax/1d-5,1d0,1.25d0,1d7/
       data n0/3,4,5,9,9,9,9,9/
       data init/0/
-      save   
+      save
       xsave=x
       q2save=qsq
       if(init.ne.0) goto 10
@@ -3055,13 +3055,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrsr3(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -3082,7 +3082,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       data xmin,xmax,qsqmin,qsqmax/1d-5,1d0,1.25d0,1d7/
       data n0/3,4,5,9,9,9,9,9/
       data init/0/
-      save   
+      save
       xsave=x
       q2save=qsq
       if(init.ne.0) goto 10
@@ -3140,13 +3140,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrsr4(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -3167,7 +3167,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       data xmin,xmax,qsqmin,qsqmax/1d-5,1d0,1.25d0,1d7/
       data n0/3,4,5,9,9,9,9,9/
       data init/0/
-      save   
+      save
       xsave=x
       q2save=qsq
       if(init.ne.0) goto 10
@@ -3225,7 +3225,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
@@ -3270,16 +3270,16 @@ C****************************************************************C
       q2=q*q
       mode=imode-4
       if(mode.eq.1) then
-        call mrs981(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs981(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.2) then
-        call mrs982(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs982(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.3) then
-        call mrs983(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs983(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.4) then
-        call mrs984(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs984(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.5) then
-        call mrs985(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
-      endif 
+        call mrs985(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
+      endif
       return
       end
 
@@ -3317,7 +3317,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
   25	 f(i,n,m)=f(i,n,m)/(1d0-xx(n))**n0(i)
   20  continue
       call mrscheck(f(1,1,1),25)
-      do 31 j=1,ntenth-1       
+      do 31 j=1,ntenth-1
       xx(j)=dlog10(xx(j)/xx(ntenth))+xx(ntenth)
       do 31 i=1,8
       if(i.eq.5.or.i.eq.7) goto 31
@@ -3361,13 +3361,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs982(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -3402,7 +3402,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
   25	 f(i,n,m)=f(i,n,m)/(1d0-xx(n))**n0(i)
   20  continue
       call mrscheck(f(1,1,1),26)
-      do 31 j=1,ntenth-1       
+      do 31 j=1,ntenth-1
       xx(j)=dlog10(xx(j)/xx(ntenth))+xx(ntenth)
       do 31 i=1,8
       if(i.eq.5.or.i.eq.7) goto 31
@@ -3446,13 +3446,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs983(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -3487,7 +3487,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
   25	 f(i,n,m)=f(i,n,m)/(1d0-xx(n))**n0(i)
   20  continue
       call mrscheck(f(1,1,1),27)
-      do 31 j=1,ntenth-1       
+      do 31 j=1,ntenth-1
       xx(j)=dlog10(xx(j)/xx(ntenth))+xx(ntenth)
       do 31 i=1,8
       if(i.eq.5.or.i.eq.7) goto 31
@@ -3531,14 +3531,14 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
-      
+
+
       subroutine mrs984(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -3573,7 +3573,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
   25	 f(i,n,m)=f(i,n,m)/(1d0-xx(n))**n0(i)
   20  continue
       call mrscheck(f(1,1,1),28)
-      do 31 j=1,ntenth-1       
+      do 31 j=1,ntenth-1
       xx(j)=dlog10(xx(j)/xx(ntenth))+xx(ntenth)
       do 31 i=1,8
       if(i.eq.5.or.i.eq.7) goto 31
@@ -3617,13 +3617,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs985(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -3658,7 +3658,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
   25	 f(i,n,m)=f(i,n,m)/(1d0-xx(n))**n0(i)
   20  continue
       call mrscheck(f(1,1,1),29)
-      do 31 j=1,ntenth-1       
+      do 31 j=1,ntenth-1
       xx(j)=dlog10(xx(j)/xx(ntenth))+xx(ntenth)
       do 31 i=1,8
       if(i.eq.5.or.i.eq.7) goto 31
@@ -3702,7 +3702,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
@@ -3760,30 +3760,30 @@ C****************************************************************C
 c      if(q2.lt.qsqmin.or.q2.gt.qsqmax) print 99
 c      if(x.lt.xmin.or.x.gt.xmax)       print 98
       if(mode.eq.1) then
-        call mrs991(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs991(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.2) then
-        call mrs992(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs992(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.3) then
-        call mrs993(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs993(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.4) then
-        call mrs994(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs994(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.5) then
-        call mrs995(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs995(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.6) then
-        call mrs996(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs996(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.7) then
-        call mrs997(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs997(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.8) then
-        call mrs998(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs998(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.9) then
-        call mrs999(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs999(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.10) then
-        call mrs9910(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs9910(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.11) then
-        call mrs9911(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrs9911(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.12) then
-        call mrs9912(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
-      endif 
+        call mrs9912(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
+      endif
   99  format('  WARNING:  Q^2 VALUE IS OUT OF RANGE   ')
   98  format('  WARNING:   X  VALUE IS OUT OF RANGE   ')
       return
@@ -3867,13 +3867,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs992(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -3952,13 +3952,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs993(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4037,13 +4037,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs994(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4122,13 +4122,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs995(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4207,13 +4207,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs996(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4292,13 +4292,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs997(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4377,13 +4377,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs998(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4462,13 +4462,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs999(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4547,13 +4547,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs9910(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4632,13 +4632,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs9911(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4717,13 +4717,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-      
+
       subroutine mrs9912(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,ntenth=23,np=8)
@@ -4802,13 +4802,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       dsea=g(8)
       str=g(6)
       chm=g(5)
-      glu=g(3) 
+      glu=g(3)
       bot=g(7)
         x=xsave
         qsq=q2save
       return
       end
-c end of MRS99      
+c end of MRS99
 C
 C----- END HMRS -------------------------------------------------
 C------------------------------------------------------------------
@@ -5108,7 +5108,7 @@ C                         *************************
 C------- END TUNG AND MORFIN ---------------------------------------
 C----- START CTEQ1 FITS ------------------------------
       SUBROUTINE  CTEQ(ISET,IH,Q2,X,FX,NF)
-      REAL FX(-NF:NF) 
+      REAL FX(-NF:NF)
       REAL*8 DX,DQ,PDF(-6:2)
 C     Pdf(Iprtn), Iprtn = (2,    1,   0,   -1,  -2, ......,    -6)
 C                  for (d_val, u_val, g, u_bar, d_bar,  ..., t_bar)
@@ -5119,7 +5119,7 @@ C                  for (d_val, u_val, g, u_bar, d_bar,  ..., t_bar)
       DQ=DBLE(Q)
       DX=DBLE(X)
       CALL CTQPDS(ISET,PDF,DX,DQ,IRT)
-c 
+c
       FX(0)=SNGL(PDF(0))
       FX(-IH0)=SNGL(PDF(-1))
       FX(-2*IH0)=SNGL(PDF(-2))
@@ -5145,22 +5145,22 @@ C...TRANSFORM PROTON INTO NEUTRON
         FX(-2)=T
       ENDIF
       END
-C            
+C
       Subroutine CtqPds (Iset, Pdf, XX, QQ, Irt)
 
-C   CTEQ distribution function in a parametrized form.  
+C   CTEQ distribution function in a parametrized form.
 
 C   (No data tables are needed.)
 
-C   The returned function values (in the array Pdf) are the 
-C   MOMENTUM FRACTION densities: 
+C   The returned function values (in the array Pdf) are the
+C   MOMENTUM FRACTION densities:
 
 C    Pdf(Iprtn), Iprtn = (2,    1,   0,   -1,  -2, ......,    -6)
 C                 for (d_val, u_val, g, u_bar, d_bar,  ..., t_bar)
 
 C  !!! Be aware of our numbering scheme when you declare the dimension
 C  !!! of this array in the calling program!!... In particular,
-C  !!! the ascending/descending order!! 
+C  !!! the ascending/descending order!!
 
 C  \\  A parallel (independent) program (not included in this file) in
 C  ||  Function form is also available.  There, the function CteqPd returns
@@ -5172,20 +5172,20 @@ C Ref.: "CTEQ Parton Distributions and Flavor Dependence of the Sea Quarks"
 C     by: J. Botts, J.G. Morfin, J.F. Owens, J. Qiu, W.K. Tung & H. Weerts
 C     MSUHEP-92-27, Fermilab-Pub-92/371, FSU-HEP-92-1225, ISU-NP-92-17
 
-C   Since this is an initial distribution, and there may be updates, it is 
+C   Since this is an initial distribution, and there may be updates, it is
 C   useful for the authors to maintain a record of the distribution list.
-C   Please do not freely distribute this program package; instead, refer any 
+C   Please do not freely distribute this program package; instead, refer any
 C   interested colleague to direct their request for a copy to:
 C   Botts@msupa.pa.msu.edu  or  Botts@msupa (bitnet)  or  MSUHEP::Botts
 
-C   If you have any questions concerning these distributions, direct inquires 
+C   If you have any questions concerning these distributions, direct inquires
 C   to Jim Botts or Wu-Ki Tung (username Tung at same E-mail nodes as above).
 
-C$Header: /users/wkt/1hep/0cteq/RCS/CtqPr1B.f,v 1.1 93/02/16 13:09:52 wkt Exp $ 
+C$Header: /users/wkt/1hep/0cteq/RCS/CtqPr1B.f,v 1.1 93/02/16 13:09:52 wkt Exp $
 C$Log:	CtqPr1B.f,v $
 c Revision 1.1  93/02/16  13:09:52  wkt
 c Initial revision
-c 
+c
 c Revision 1.2  93/02/14  17:30:21  botts
 c The new Faster version.
 c Revision 1.1  93/02/08  18:35:25  wkt
@@ -5193,9 +5193,9 @@ c Initial revision
 
 C     Name convention for CTEQ distributions:  CTEQnSx  where
 C         n : version number                      (currently n = 1)
-C         S : factorization scheme label: = [M D L] for [MS-bar DIS LO]  
+C         S : factorization scheme label: = [M D L] for [MS-bar DIS LO]
 C             resp.
-C         x : special characteristics, if any 
+C         x : special characteristics, if any
 C                  (e.g. S for singular gluon, L for "LEP lambda value")
 
 C Xx, Qq are the usual x, Q; Irt is a return error code (not implemented).
@@ -5205,7 +5205,7 @@ C     cteq1M, cteq1MS, cteq1ML, cteq1D, cteq1L  respectively.
 
 C --> QCD parameters for parton distribution set Iset can be obtained inside
 C         the user's program by:
-C     Call Prctq2 
+C     Call Prctq2
 C    >        (Iset, Iord, Ischeme, MxFlv,
 C    >         Alam4, Alam5, Alam6, Amas4, Amas5, Amas6,
 C    >         Xmin, Qini, Qmax, ExpNor)
@@ -5216,12 +5216,12 @@ C     The range of (x, Q) used in this round of global analysis is, approxi-
 C     mately,  0.01 < x < 0.75 ; and 4 GeV^2 < Q^2 < 400 GeV^2.
 
 C    The range of (x, Q) used in the reparametrization of the QCD evolved
-C    parton distributions is 10E-5 < x < 1 ; 2 GeV < Q < 1 TeV.  The  
+C    parton distributions is 10E-5 < x < 1 ; 2 GeV < Q < 1 TeV.  The
 c    functional form of this parametrization is:
 
 C      A0 * x^A1 * (1-x)^A2 * (1 + A3 * x^A4) * [log(1+1/x)]^A5
 
-C     with the A'coefficients being smooth functions of Q.  
+C     with the A'coefficients being smooth functions of Q.
 
 C    Since this function is positive definite and smooth, it provides sensible
 C     extrapolations of the parton distributions if they are called beyond
@@ -5229,7 +5229,7 @@ C     the original range in an application. There is no artificial boundaries
 C     or sharp cutoff's.
 
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)
-      
+
       dimension pdf(-6:2)
 
       PARAMETER (D0=0D0, D1=1D0, D2=2D0, D3=3D0, D4=4D0, D10=1D1)
@@ -5243,8 +5243,8 @@ C     or sharp cutoff's.
      > , Mex(Nst), Mpn(Nst), ExpN(Nexpt, Nst), ExpNor(Nexpt)
 
 c                                                             CTEQ1M
-      DATA 
-     >  Isch(1), Iord(1), Nqrk(1), Alm(1) /  1,  2,  6,  .152 / 
+      DATA
+     >  Isch(1), Iord(1), Nqrk(1), Alm(1) /  1,  2,  6,  .152 /
      >  (Vlm(I,1), I=4,6) / .231,    .152,    .059  /
      >  (Qms(I,1), I=4,6) / 1.50,   5.00,  180.0 /
      >  Xmn(1), Qmn(1), Qmx(1) /  1.E-5,  2.00,  1.E3  /
@@ -5252,8 +5252,8 @@ c                                                             CTEQ1M
      >  (ExpN(I, 1), I=1,8)
      >  / 0.989, 1.00, 1.02, 0.978, 1.10, 0.972, 0.987, 0.846 /
 c                                                             CTEQ1MS
-      DATA 
-     >  Isch(2), Iord(2), Nqrk(2), Alm(2) /  1,  2,  6, .152  / 
+      DATA
+     >  Isch(2), Iord(2), Nqrk(2), Alm(2) /  1,  2,  6, .152  /
      >  (Vlm(I,2), I=4,6) / .231,    .152,    .059  /
      >  (Qms(I,2), I=4,6) / 1.50,   5.00,  180.0 /
      >  Xmn(2), Qmn(2), Qmx(2) /  1.E-5,  2.00,  1.E3  /
@@ -5261,8 +5261,8 @@ c                                                             CTEQ1MS
      >  (ExpN(I, 2), I=1,8 )
      >  / 0.989, 1.00, 1.02, 0.984, 1.05, 0.891, 0.923, 0.824 /
 c                                                             CTEQ1ML
-      DATA 
-     >  Isch(3), Iord(3), Nqrk(3), Alm(3) /  1,  2,  6, .220  / 
+      DATA
+     >  Isch(3), Iord(3), Nqrk(3), Alm(3) /  1,  2,  6, .220  /
      >  (Vlm(I,3), I=4,6) / .322,    .220,     .088  /
      >  (Qms(I,3), I=4,6) / 1.50,   5.00,  180.0 /
      >  Xmn(3), Qmn(3), Qmx(3) /  1.E-5,  2.00,  1.E3  /
@@ -5271,8 +5271,8 @@ c                                                             CTEQ1ML
      >  / 0.985, 1.00, 1.01, 0.977, 1.07, 1.31, 1.19, 1.09 /
 
 c                                                             CTEQ1D
-      DATA 
-     >  Isch(4), Iord(4), Nqrk(4), Alm(4) /  2,  2,  6, .164  / 
+      DATA
+     >  Isch(4), Iord(4), Nqrk(4), Alm(4) /  2,  2,  6, .164  /
      >  (Vlm(I,4), I=4,6) / .247,    .164,    .064  /
      >  (Qms(I,4), I=4,6) / 1.50,   5.00,  180.0 /
      >  Xmn(4), Qmn(4), Qmx(4) /  1.E-5,  2.00,  1.E3  /
@@ -5280,8 +5280,8 @@ c                                                             CTEQ1D
      >  (ExpN(I, 4), I=1,8 )
      >  / 0.983, 1.00, 1.01, 0.975, 0.964, 1.23, 1.00, 1.12 /
 c                                                             CTEQ1L
-      DATA 
-     >  Isch(5), Iord(5), Nqrk(5), Alm(5) /  1,  1,  6, .125  / 
+      DATA
+     >  Isch(5), Iord(5), Nqrk(5), Alm(5) /  1,  1,  6, .125  /
      >  (Vlm(I,5), I=4,6) / .168,    .125,     .063   /
      >  (Qms(I,5), I=4,6) / 1.50,   5.00,  180.0 /
      >  Xmn(5), Qmn(5), Qmx(5) /  1.E-5,  2.00,  1.E3  /
@@ -5350,7 +5350,7 @@ c   ifl =    -1
       A5=0.0000E+00-.1736E+01*SB+0.2863E+01*SB2-.1268E+01*SB3
       Pdf(-1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -2
  15   A0=0.1324E+00*(1.0 -.1050E+01*SB+0.4844E+00*SB2-.1043E+00*SB3)
       A1=-.1580E+00+0.1672E+00*SB-.4100E+00*SB2+0.1793E+00*SB3
@@ -5361,7 +5361,7 @@ c   ifl =    -2
       A5=0.0000E+00+0.1850E+01*SB-.1481E+01*SB2+0.6222E+00*SB3
       Pdf(-2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -3
  16   A0=0.3208E+00*(1.0 -.4755E+00*SB-.4003E+00*SB2+0.2300E+00*SB3)
       A1=-.3200E-01-.3357E+00*SB+0.3222E-01*SB2+0.5011E-01*SB3
@@ -5372,7 +5372,7 @@ c   ifl =    -3
       A5=0.0000E+00-.2496E+00*SB+0.3903E+00*SB2+0.1392E+00*SB3
       Pdf(-3) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -4
  17   A0=0.7967E-06*(1.0 + 0.1587E+01*SB+0.1812E+02*SB2-.1333E+02*SB3)
      $ *sqrt(sta - stbqm)
@@ -5384,7 +5384,7 @@ c   ifl =    -4
       A5=0.3494E+01-.3511E+01*SB-.1766E+01*SB2+0.3442E+01*SB3
       Pdf(-4) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -5
       if(qq.le.qms(5,iset)) then
          pdf(-5) = 0.0
@@ -5405,7 +5405,7 @@ c   ifl =    -5
       A5=0.2551E+01+0.2168E+01*S5-.5119E+01*S52+0.3739E+01*S53
       Pdf(-5) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -6
       if(qq.le.qms(6,iset)) then
          pdf(-6) = 0.0
@@ -5440,7 +5440,7 @@ c   ifl =     2
       A5=0.0000E+00+0.1091E+01*SB-.1613E+00*SB2+0.3773E-01*SB3
       Pdf(2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     1
  22   A0=0.2885E+00*(1.0 + 0.3388E+00*SB-.4550E+00*SB2+0.6005E-01*SB3)
       A1=0.2730E+00+0.1198E-01*SB+0.1880E-01*SB2-.1077E-01*SB3
@@ -5451,7 +5451,7 @@ c   ifl =     1
       A5=0.0000E+00+0.4277E-01*SB+0.2187E+00*SB2-.4646E-01*SB3
       Pdf(1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     0
  23   A0=0.8416E-01*(1.0 -.1996E+01*SB+0.1903E+01*SB2-.6722E+00*SB3)
       A1=-.4790E+00-.5459E+00*SB+0.1638E+01*SB2-.4342E+00*SB3
@@ -5462,7 +5462,7 @@ c   ifl =     0
       A5=0.0000E+00-.4480E+00*SB+0.3720E+01*SB2-.1838E+01*SB3
       Pdf(0) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -1
  24   A0=0.4378E+00*(1.0 -.1244E+01*SB+0.3278E+01*SB2-.2098E+01*SB3)
       A1=0.3500E-01-.1298E+01*SB+0.1229E+01*SB2-.3665E+00*SB3
@@ -5473,7 +5473,7 @@ c   ifl =    -1
       A5=0.0000E+00-.3205E+01*SB+0.2683E+01*SB2-.1746E+00*SB3
       Pdf(-1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -2
  25   A0=0.7413E-01*(1.0 + 0.1291E+01*SB-.2667E+01*SB2+0.1076E+01*SB3)
       A1=-.2730E+00-.1206E+00*SB+0.1828E+00*SB2-.1001E+00*SB3
@@ -5484,7 +5484,7 @@ c   ifl =    -2
       A5=0.0000E+00-.5023E+00*SB+0.1951E+01*SB2-.8427E+00*SB3
       Pdf(-2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -3
  26   A0=0.6551E+00*(1.0 -.5968E-01*SB+0.5621E-02*SB2-.2074E+00*SB3)
       A1=0.2800E-01-.1138E+01*SB+0.1178E+01*SB2-.4425E+00*SB3
@@ -5495,7 +5495,7 @@ c   ifl =    -3
       A5=0.0000E+00-.3668E+01*SB+0.4757E+01*SB2-.1717E+01*SB3
       Pdf(-3) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -4
  27   A0=0.1486E-03*(1.0 + 0.2107E+01*SB-.1056E+02*SB2+0.1403E+02*SB3)
      $ * sqrt(sta - stbqm)
@@ -5507,7 +5507,7 @@ c   ifl =    -4
       A5=0.3904E+01-.4398E+01*SB+0.7056E+01*SB2-.3722E+01*SB3
       Pdf(-4) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -5
       if(qq.le.qms(5,iset)) then
          pdf(-5) = 0.0
@@ -5528,7 +5528,7 @@ c   ifl =    -5
       A5=0.3330E+01-.5133E+01*S5+0.6921E+01*S52-.3283E+01*S53
       Pdf(-5) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -6
       if(qq.le.qms(6,iset)) then
          pdf(-6) = 0.0
@@ -5563,7 +5563,7 @@ c   ifl =     2
       A5=0.0000E+00+0.4320E+00*SB+0.2449E+00*SB2-0.6670E-01*SB3
       Pdf(2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     1
  32   A0=0.2780E+00*(1.0 + 0.4355E+00*SB-0.4584E+00*SB2+0.4390E-01*SB3)
       A1=0.2760E+00+0.1420E-01*SB+0.1480E-01*SB2-.9800E-02*SB3
@@ -5574,7 +5574,7 @@ c   ifl =     1
       A5=0.0000E+00+0.1860E-01*SB+0.2080E+00*SB2-.450E-01*SB3
       Pdf(1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     0
  33   A0=0.2924E+01*(1.0 -.18916E+01*SB+0.1191E+01*SB2-.2492E+00*SB3)
       A1=0.0000E+00-.9167E+00*SB+0.11147E+01*SB2-.3329E+00*SB3
@@ -5585,7 +5585,7 @@ c   ifl =     0
       A5=0.0000E+00+0.1645E+00*SB+0.19041E+01*SB2+0.1474E+00*SB3
       Pdf(0) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -1
  34   A0=0.3471E+00*(1.0- 0.1753E+00*SB-.9189E+00*SB2+0.6211E+00*SB3)
       A1=0.1900E-01-.4579E+00*SB+0.2112E+00*SB2-.6180E-01*SB3
@@ -5596,7 +5596,7 @@ c   ifl =    -1
       A5=0.0000E+00-.4679E+00*SB+0.10741E+01*SB2-.5663E+00*SB3
       Pdf(-1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -2
  35   A0=0.1702E+00*(1.0 -.1041E+01*SB+0.4064E+00*SB2-.5888E-01*SB3)
       A1=-.9300E-01-.4742E-01*SB-.1959E+00*SB2+0.1039E+00*SB3
@@ -5607,7 +5607,7 @@ c   ifl =    -2
       A5=0.0000E+00+0.1245E+01*SB-.7843E+00*SB2+0.3724E+00*SB3
       Pdf(-2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -3
  36   A0=0.3910E+00*(1.0 -.1103E+01*SB+0.5383E+00*SB2-.1083E+00*SB3)
       A1=-.1400E-01-.2471E+00*SB-.8042E-01*SB2+0.7193E-01*SB3
@@ -5618,7 +5618,7 @@ c   ifl =    -3
       A5=0.0000E+00+0.3927E+00*SB-.3216E+00*SB2+0.2164E+00*SB3
       Pdf(-3) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -4
  37   A0=0.3815E-02*(1.0 + 0.2039E+02*SB-.2834E+02*SB2+0.1070E+02*SB3)
      $ * sqrt(sta - stbqm)
@@ -5630,7 +5630,7 @@ c   ifl =    -4
       A5=0.1200E+01+0.2178E+00*SB-.4230E+00*SB2+0.4739E+00*SB3
       Pdf(-4) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -5
       if(qq.le.qms(5,iset)) then
          pdf(-5) = 0.0
@@ -5651,7 +5651,7 @@ c   ifl =    -5
       A5=0.1590E+01+0.1025E+01*S5-.2318E+01*S52+0.1380E+01*S53
       Pdf(-5) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -6
       if(qq.le.qms(6,iset)) then
          pdf(-6) = 0.0
@@ -5685,7 +5685,7 @@ c   ifl =     2
       A5=0.0000E+00+0.1035E+01*SB-.5910E-01*SB2-.1982E+00*SB3
       Pdf(2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     1
  42   A0=0.3535E+00*(1.0 + 0.4352E+00*SB-.2095E+00*SB2-.8455E-02*SB3)
       A1=0.2660E+00-.4096E-03*SB+0.1502E-01*SB2-.1163E-01*SB3
@@ -5696,7 +5696,7 @@ c   ifl =     1
       A5=0.0000E+00-.6273E-01*SB+0.1497E+00*SB2-.5683E-01*SB3
       Pdf(1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     0
  43   A0=0.2743E+01*(1.0 -.2027E+01*SB+0.1517E+01*SB2-.4145E+00*SB3)
       A1=0.7000E-02-.9431E+00*SB+0.1231E+01*SB2-.4834E+00*SB3
@@ -5707,7 +5707,7 @@ c   ifl =     0
       A5=0.0000E+00+0.2702E+00*SB+0.2389E+01*SB2-.8274E+00*SB3
       Pdf(0) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -1
  44   A0=0.2015E+00*(1.0 -.2133E+00*SB-.6770E+00*SB2+0.5011E+00*SB3)
       A1=-.7700E-01-.7104E-01*SB-.3720E+00*SB2+0.2159E+00*SB3
@@ -5729,7 +5729,7 @@ c   ifl =    -2
       A5=0.0000E+00+0.1558E+01*SB-.6295E+00*SB2+0.1847E+00*SB3
       Pdf(-2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -3
  46   A0=0.3997E+00*(1.0 -.1046E+01*SB+0.6194E+00*SB2-.1342E+00*SB3)
       A1=0.2000E-02-.2544E+00*SB-.1958E+00*SB2+0.1458E+00*SB3
@@ -5740,7 +5740,7 @@ c   ifl =    -3
       A5=0.0000E+00+0.3351E+00*SB-.7709E+00*SB2+0.4296E+00*SB3
       Pdf(-3) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -4
  47   A0=0.2156E-03*(1.0 + 0.2879E+02*SB-.2310E+02*SB2+0.9812E+01*SB3)
      $ * sqrt(sta - stbqm)
@@ -5752,7 +5752,7 @@ c   ifl =    -4
       A5=0.2723E+01-.4110E+00*SB+0.4868E-01*SB2-.3075E+00*SB3
       Pdf(-4) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -5
       if(qq.le.qms(5,iset)) then
          pdf(-5) = 0.0
@@ -5773,7 +5773,7 @@ c   ifl =    -5
       A5=0.2226E+01-.5738E+00*S5+0.5239E+00*S52+0.3825E+00*S53
       Pdf(-5) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -6
       if(qq.le.qms(6,iset)) then
          pdf(-6) = 0.0
@@ -5806,7 +5806,7 @@ c   ifl =     2
       A5=  0.000+  0.741*SB+  0.563*SB2-0.525*SB3
       Pdf(2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     1
  52   A0=  0.513*(1.0 +   0.032*SB-0.120*SB2+  0.013*SB3)
       A1=  0.276+  0.052*SB+  0.000*SB2-0.006*SB3
@@ -5816,7 +5816,7 @@ c   ifl =     1
       A5=  0.000+  0.311*SB+  0.029*SB2-0.010*SB3
       Pdf(1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =     0
  53   A0=  2.710*(1.0 -1.773*SB+  0.970*SB2-0.149*SB3)
       A1= -0.010-1.636*SB+  2.087*SB2-0.637*SB3
@@ -5826,7 +5826,7 @@ c   ifl =     0
       A5=  0.000-1.776*SB+  4.266*SB2-0.335*SB3
       Pdf(0) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -1
  54   A0=  0.278*(1.0 - 1.022*SB+  0.6457*SB2-0.1824*SB3)
       A1=  0.0862*SB-0.8657*SB2+  0.4185*SB3
@@ -5836,7 +5836,7 @@ c   ifl =    -1
       A5=  0.000+1.424*SB-2.7503*SB2+  1.2226*SB3
       Pdf(-1) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -2
  55   A0=  0.154*(1.0 -0.659*SB+  0.005*SB2+  0.061*SB3)
       A1= -0.128+  0.279*SB-0.786*SB2+  0.363*SB3
@@ -5846,7 +5846,7 @@ c   ifl =    -2
       A5=  0.000+  1.681*SB-2.068*SB2+  0.975*SB3
       Pdf(-2) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -3
  56   A0=  0.372*(1.0 -1.939*SB+  1.504*SB2-0.440*SB3)
       A1=  0.009+  0.610*SB-1.387*SB2+  0.579*SB3
@@ -5856,7 +5856,7 @@ c   ifl =    -3
       A5=  0.000+  3.558*SB-3.940*SB2+  1.302*SB3
       Pdf(-3) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -4
  57   A0=  (7.5242E-5)*(1.0+22.0905*SB+7.1209*SB2-8.303*SB3)*
      $     sqrt(sta - stbqm)
@@ -5867,7 +5867,7 @@ c   ifl =    -4
       A5=  2.7352+0.1811*SB-0.5167*SB2+0.0543*SB3
       Pdf(-4) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -5
       if(qq.le.qms(5,iset)) then
          pdf(-5) = 0.0
@@ -5887,7 +5887,7 @@ c   ifl =    -5
       A5=  1.5627-0.4917*S5+ 1.5927*S52-0.351*S53
       Pdf(-5) = A0*(x**A1)*((1.-x)**A2)*(1.+A3*(x**A4))
      $     *(log(1.+1./x))**A5
-      
+
 c   ifl =    -6
       if(qq.le.qms(6,iset)) then
          pdf(-6) = 0.0
@@ -5924,10 +5924,10 @@ c      ENTRY WLAMBD (ISET, IORDER)
 
 c      IORDER = IORD (ISET)
 c      WLAMBD = ALM  (ISET)
-                
+
 c      RETURN
 C                                  -----------------------
-      Entry PrCtq2 
+      Entry PrCtq2
      >        (Iset, Iordr, Ischeme, MxFlv,
      >         Alam4, Alam5, Alam6, Amas4, Amas5, Amas6,
      >         Xmin, Qini, Qmax, ExpNor)
@@ -5937,7 +5937,7 @@ C                           associated with parton distribution set Iset.
 C    Iord    : Order Of Fit
 C    Ischeme : (0, 1, 2)  for  (LO, MS-bar-NLO, DIS-NLO) resp.
 C    MxFlv   : Maximum number of flavors included
-C    Alam_i  : i = 4,5,6  Effective lambda for i-flavors 
+C    Alam_i  : i = 4,5,6  Effective lambda for i-flavors
 
 C    Amas_i  : i = 4,5,6  Mass parameter for flavor i
 C    Xmin, Qini, Qmax : self explanary
@@ -5972,7 +5972,7 @@ C                         *************************
 C--- END CTEQ1 FITS -----------------------------
 C--- START CTEQ3 FITS
       SUBROUTINE  CTEQ3(ISET,IH,Q2,X,FX,NF)
-      REAL FX(-NF:NF) 
+      REAL FX(-NF:NF)
       REAL*8 DX,DQ,PDF(-6:6)
 C     Pdf(Iprtn), Iprtn = (6, 5, 4, 3, 2, 1, 0, -1, -2, ......,   -6)
 C                  for (t, b, c, d, u, g, u_bar, d_bar,  ..., t_bar)
@@ -5983,7 +5983,7 @@ C                  for (t, b, c, d, u, g, u_bar, d_bar,  ..., t_bar)
       DQ=DBLE(Q)
       DX=DBLE(X)
       CALL CTQ3PDS(ISET,PDF,DX,DQ,IRT)
-c 
+c
       DO I=-NF,NF
         FX(I*IH0)=PDF(I)/DX
       ENDDO
@@ -6000,12 +6000,12 @@ C...TRANSFORM PROTON INTO NEUTRON
 C     Version 3 CTEQ distribution function in a parametrized form.
 
 C   By: H.L. Lai, J. Botts, J. Huston, J.G. Morfin, J.F. Owens, J. Qiu,
-C       W.K. Tung & H. Weerts;  Preprint MSU-HEP/41024, CTEQ 404 
+C       W.K. Tung & H. Weerts;  Preprint MSU-HEP/41024, CTEQ 404
 
-C   This file contains three versions of the same CTEQ3 parton distributions: 
-C 
-C Two "front-end" subprograms:    
-C     FUNCTION Ctq3Pd (Iset, Iparton, X, Q, Irt) 
+C   This file contains three versions of the same CTEQ3 parton distributions:
+C
+C Two "front-end" subprograms:
+C     FUNCTION Ctq3Pd (Iset, Iparton, X, Q, Irt)
 C         returns the PROBABILITY density for a GIVEN flavor;
 C     SUBROUTINE Ctq3Pds(Iset, Pdf, XX, QQ, Irt)
 C         returns an array of MOMENTUM densities for ALL flavors;
@@ -6013,12 +6013,12 @@ C One lower-level subprogram:
 C     FUNCTION Ctq3df (Iset, Iprtn, XX, QQ, Irt)
 C         returns the MOMENTUM density of a GIVEN valence or sea distribution.
 
-C      One supplementary function to return the QCD lambda parameter 
-C      concerning these distributions is also included (see below). 
+C      One supplementary function to return the QCD lambda parameter
+C      concerning these distributions is also included (see below).
 
 C     Although DOUBLE PRECISION is used, conversion to SINGLE PRECISION
-C     is straightforward by removing the 
-C     Implicit Double Precision statements. 
+C     is straightforward by removing the
+C     Implicit Double Precision statements.
 
 C     Since this is an initial distribution of version 3, it is
 C     useful for the authors to maintain a record of the distribution
@@ -6028,8 +6028,8 @@ C     please do not freely distribute this program package; instead, refer
 C     any interested colleagues to direct their request for a copy to:
 C     Lai@cteq11.pa.msu.edu or Tung@msupa.pa.msu.edu.
 
-C   If you have detailed questions concerning these CTEQ3 distributions, 
-C   or if you find problems/bugs using this initial distribution, direct 
+C   If you have detailed questions concerning these CTEQ3 distributions,
+C   or if you find problems/bugs using this initial distribution, direct
 C   inquires to Hung-Liang Lai or Wu-Ki Tung.
 
 C     -------------------------------------------
@@ -6037,7 +6037,7 @@ C     Detailed instructions follow.
 
 C     Name convention for CTEQ distributions:  CTEQnSx  where
 C        n : version number                      (currently n = 3)
-C        S : factorization scheme label: = [M L D] for [MS-bar LO DIS] 
+C        S : factorization scheme label: = [M L D] for [MS-bar LO DIS]
 c               resp.
 C        x : special characteristics, if any
 C        (e.g. S(F) for singular (flat) small-x, L for "LEP lambda value")
@@ -6045,21 +6045,21 @@ C        (not applicable to CTEQ3 since only three standard sets are given.)
 
 C    Explanation of functional arguments:
 
-C    Iset is the set label; in this version, Iset = 1, 2, 3 
+C    Iset is the set label; in this version, Iset = 1, 2, 3
 C                           correspond to the following CTEQ global fits:
 
-C          cteq3M  : best fit in the MS-bar scheme 
+C          cteq3M  : best fit in the MS-bar scheme
 C          cteq3L  : best fit in Leading order QCD
 C          cteq3D  : best fit in the DIS scheme
 
 C   Iprtn  is the parton label (6, 5, 4, 3, 2, 1, 0, -1, ......, -6)
 C                          for (t, b, c, s, d, u, g, u_bar, ..., t_bar)
-C  *** WARNING: We use the parton label 2 as D-quark, and 1 as U-quark which 
+C  *** WARNING: We use the parton label 2 as D-quark, and 1 as U-quark which
 C               might be different with your labels.
 
-C   X, Q are the usual x, Q; 
+C   X, Q are the usual x, Q;
 C   Irt is a return error code (see individual modules for explanation).
-C       
+C
 C     ---------------------------------------------
 
 C  Since the QCD Lambda value for the various sets are needed more often than
@@ -6074,7 +6074,7 @@ C     mately,  0.01 < x < 0.75 ; and 4 GeV^2 < Q^2 < 400 GeV^2 for fixed target
 C     experiments and 0.0001 < x < 0.1 from HERA data.
 
 C    The range of (x, Q) used in the reparametrization of the QCD evolved
-C    parton distributions is 10E-6 < x < 1 ; 1.6 GeV < Q < 10 TeV.  The 
+C    parton distributions is 10E-6 < x < 1 ; 1.6 GeV < Q < 10 TeV.  The
 C    functional form of this parametrization is:
 
 C      A0 * x^A1 * (1-x)^A2 * (1 + A3 * x^A4) * [log(1+1/x)]^A5
@@ -6096,12 +6096,12 @@ C   --- the Momentum density in array form
 c
 C    (Iset, X, Q): explained in header comment lines;
 
-C     Irt : return error code -- cumulated over flavors: 
+C     Irt : return error code -- cumulated over flavors:
 C           see module Ctq3df for explanation on individual flavors.
-C     Pdf (Iparton);  
+C     Pdf (Iparton);
 C         Iparton = -6, -5, ...0, 1, 2 ... 6
 C               has the same meaning as explained in the header comment lines.
-    
+
       Implicit Double Precision (A-H, O-Z)
       Dimension Pdf (-6:6)
 
@@ -6136,8 +6136,8 @@ C            QQ  : scale parameter "Q"
 C      Irt : Return code
 C      0 : no error
 C      1 : parametrization is slightly negative; reset to 0.0.
-C          (This condition happens rarely -- only for large x where the 
-C          absolute value of the parton distribution is extremely small.) 
+C          (This condition happens rarely -- only for large x where the
+C          absolute value of the parton distribution is extremely small.)
 
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)
 
@@ -6151,24 +6151,24 @@ C          absolute value of the parton distribution is extremely small.)
 
 c                                          --------- CTEQ3M
 c
-      DATA 
-     >  Isch(1), Iord(1), Nqrk(1), Alm(1) /  1,  2,  6, .239  / 
+      DATA
+     >  Isch(1), Iord(1), Nqrk(1), Alm(1) /  1,  2,  6, .239  /
      >  (Vlm(I,1), I=4,6) / .239,    .158,     .063   /
      >  (Qms(I,1), I=4,6) / 1.60,   5.00,  180.0 /
      >  Xmn(1), Qmn(1), Qmx(1) /  1.E-6,  1.60,  1.E4  /
 
 c                                          --------- CTEQ3L
 c
-      DATA 
-     >  Isch(2), Iord(2), Nqrk(2), Alm(2) /  1,  1,  6, .177  / 
+      DATA
+     >  Isch(2), Iord(2), Nqrk(2), Alm(2) /  1,  1,  6, .177  /
      >  (Vlm(I,2), I=4,6) / .177,    .132,     .066   /
      >  (Qms(I,2), I=4,6) / 1.60,   5.00,  180.0 /
      >  Xmn(2), Qmn(2), Qmx(2) /  1.E-6,  1.60,  1.E4  /
 
 c                                          --------- CTEQ3D
 c
-      DATA 
-     >  Isch(3), Iord(3), Nqrk(3), Alm(3) /  1,  2,  6, .247  / 
+      DATA
+     >  Isch(3), Iord(3), Nqrk(3), Alm(3) /  1,  2,  6, .247  /
      >  (Vlm(I,3), I=4,6) / .247,    .164,     .066   /
      >  (Qms(I,3), I=4,6) / 1.60,   5.00,  180.0 /
      >  Xmn(3), Qmn(3), Qmx(3) /  1.E-6,  1.60,  1.E4  /
@@ -6211,226 +6211,226 @@ C                   Use "standard lambda" of parametrization program
 
       Goto (1,2,3, 311) Iset
 
- 1    Goto(11,12,13,14,15,16,17,18,19)Iflv    
+ 1    Goto(11,12,13,14,15,16,17,18,19)Iflv
 c   Ifl =   2
   11  A0=Exp(-0.7266E+00-0.1584E+01*SB +0.1259E+01*SB2-0.4305E-01*SB3)
-      A1= 0.5285E+00-0.3721E+00*SB +0.5150E+00*SB2-0.1697E+00*SB3 
-      A2= 0.4075E+01+0.8282E+00*SB -0.4496E+00*SB2+0.2107E+00*SB3 
-      A3= 0.3279E+01+0.5066E+01*SB -0.9134E+01*SB2+0.2897E+01*SB3 
-      A4= 0.4399E+00-0.5888E+00*SB +0.4802E+00*SB2-0.1664E+00*SB3 
-      A5= 0.3678E+00-0.8929E+00*SB +0.1592E+01*SB2-0.5713E+00*SB3 
+      A1= 0.5285E+00-0.3721E+00*SB +0.5150E+00*SB2-0.1697E+00*SB3
+      A2= 0.4075E+01+0.8282E+00*SB -0.4496E+00*SB2+0.2107E+00*SB3
+      A3= 0.3279E+01+0.5066E+01*SB -0.9134E+01*SB2+0.2897E+01*SB3
+      A4= 0.4399E+00-0.5888E+00*SB +0.4802E+00*SB2-0.1664E+00*SB3
+      A5= 0.3678E+00-0.8929E+00*SB +0.1592E+01*SB2-0.5713E+00*SB3
       goto 100
 c   Ifl =   1
   12  A0=Exp( 0.2259E+00+0.1237E+00*SB +0.3035E+00*SB2-0.2935E+00*SB3)
-      A1= 0.5085E+00+0.1651E-01*SB -0.3592E-01*SB2+0.2782E-01*SB3 
-      A2= 0.3732E+01+0.4901E+00*SB +0.2218E+00*SB2-0.1116E+00*SB3 
-      A3= 0.7011E+01-0.6620E+01*SB +0.2557E+01*SB2-0.1360E+00*SB3 
-      A4= 0.8969E+00-0.2429E+00*SB +0.1811E+00*SB2-0.6888E-01*SB3 
-      A5= 0.8636E-01+0.2558E+00*SB -0.3082E+00*SB2+0.2535E+00*SB3 
+      A1= 0.5085E+00+0.1651E-01*SB -0.3592E-01*SB2+0.2782E-01*SB3
+      A2= 0.3732E+01+0.4901E+00*SB +0.2218E+00*SB2-0.1116E+00*SB3
+      A3= 0.7011E+01-0.6620E+01*SB +0.2557E+01*SB2-0.1360E+00*SB3
+      A4= 0.8969E+00-0.2429E+00*SB +0.1811E+00*SB2-0.6888E-01*SB3
+      A5= 0.8636E-01+0.2558E+00*SB -0.3082E+00*SB2+0.2535E+00*SB3
       goto 100
 c   Ifl =   0
   13  A0=Exp(-0.2318E+00-0.9779E+00*SB -0.3783E+00*SB2+0.1037E-01*SB3)
-      A1=-0.2916E+00+0.1754E+00*SB -0.1884E+00*SB2+0.6116E-01*SB3 
-      A2= 0.5349E+01+0.7460E+00*SB +0.2319E+00*SB2-0.2622E+00*SB3 
-      A3= 0.6920E+01-0.3454E+01*SB +0.2027E+01*SB2-0.7626E+00*SB3 
-      A4= 0.1013E+01+0.1423E+00*SB -0.1798E+00*SB2+0.1872E-01*SB3 
-      A5=-0.5465E-01+0.2303E+01*SB -0.9584E+00*SB2+0.3098E+00*SB3 
+      A1=-0.2916E+00+0.1754E+00*SB -0.1884E+00*SB2+0.6116E-01*SB3
+      A2= 0.5349E+01+0.7460E+00*SB +0.2319E+00*SB2-0.2622E+00*SB3
+      A3= 0.6920E+01-0.3454E+01*SB +0.2027E+01*SB2-0.7626E+00*SB3
+      A4= 0.1013E+01+0.1423E+00*SB -0.1798E+00*SB2+0.1872E-01*SB3
+      A5=-0.5465E-01+0.2303E+01*SB -0.9584E+00*SB2+0.3098E+00*SB3
       goto 100
 c   Ifl =  -1
   14  A0=Exp(-0.2906E+01-0.1069E+00*SB -0.1055E+01*SB2+0.2496E+00*SB3)
-      A1=-0.2875E+00+0.6571E-01*SB -0.1987E-01*SB2-0.1800E-02*SB3 
-      A2= 0.9854E+01-0.2715E+00*SB -0.7407E+00*SB2+0.2888E+00*SB3 
-      A3= 0.1583E+02-0.7687E+01*SB +0.3428E+01*SB2-0.3327E+00*SB3 
-      A4= 0.9763E+00+0.7599E-01*SB -0.2128E+00*SB2+0.6852E-01*SB3 
-      A5=-0.8444E-02+0.9434E+00*SB +0.4152E+00*SB2-0.1481E+00*SB3 
+      A1=-0.2875E+00+0.6571E-01*SB -0.1987E-01*SB2-0.1800E-02*SB3
+      A2= 0.9854E+01-0.2715E+00*SB -0.7407E+00*SB2+0.2888E+00*SB3
+      A3= 0.1583E+02-0.7687E+01*SB +0.3428E+01*SB2-0.3327E+00*SB3
+      A4= 0.9763E+00+0.7599E-01*SB -0.2128E+00*SB2+0.6852E-01*SB3
+      A5=-0.8444E-02+0.9434E+00*SB +0.4152E+00*SB2-0.1481E+00*SB3
       goto 100
 c   Ifl =  -2
   15  A0=Exp(-0.2328E+01-0.3061E+01*SB +0.3620E+01*SB2-0.1602E+01*SB3)
-      A1=-0.3358E+00+0.3198E+00*SB -0.4210E+00*SB2+0.1571E+00*SB3 
-      A2= 0.8478E+01-0.3112E+01*SB +0.5243E+01*SB2-0.2255E+01*SB3 
-      A3= 0.1971E+02+0.3389E+00*SB -0.5268E+01*SB2+0.2099E+01*SB3 
-      A4= 0.1128E+01-0.4701E+00*SB +0.7779E+00*SB2-0.3506E+00*SB3 
-      A5=-0.4708E+00+0.3341E+01*SB -0.3375E+01*SB2+0.1353E+01*SB3 
+      A1=-0.3358E+00+0.3198E+00*SB -0.4210E+00*SB2+0.1571E+00*SB3
+      A2= 0.8478E+01-0.3112E+01*SB +0.5243E+01*SB2-0.2255E+01*SB3
+      A3= 0.1971E+02+0.3389E+00*SB -0.5268E+01*SB2+0.2099E+01*SB3
+      A4= 0.1128E+01-0.4701E+00*SB +0.7779E+00*SB2-0.3506E+00*SB3
+      A5=-0.4708E+00+0.3341E+01*SB -0.3375E+01*SB2+0.1353E+01*SB3
       goto 100
 c   Ifl =  -3
   16  A0=Exp(-0.3780E+01+0.2499E+01*SB -0.4962E+01*SB2+0.1936E+01*SB3)
-      A1=-0.2639E+00-0.1575E+00*SB +0.3584E+00*SB2-0.1646E+00*SB3 
-      A2= 0.8082E+01+0.2794E+01*SB -0.5438E+01*SB2+0.2321E+01*SB3 
-      A3= 0.1811E+02-0.2000E+02*SB +0.1951E+02*SB2-0.6904E+01*SB3 
-      A4= 0.9822E+00+0.4972E+00*SB -0.8690E+00*SB2+0.3415E+00*SB3 
-      A5= 0.1772E+00-0.6078E+00*SB +0.3341E+01*SB2-0.1473E+01*SB3 
+      A1=-0.2639E+00-0.1575E+00*SB +0.3584E+00*SB2-0.1646E+00*SB3
+      A2= 0.8082E+01+0.2794E+01*SB -0.5438E+01*SB2+0.2321E+01*SB3
+      A3= 0.1811E+02-0.2000E+02*SB +0.1951E+02*SB2-0.6904E+01*SB3
+      A4= 0.9822E+00+0.4972E+00*SB -0.8690E+00*SB2+0.3415E+00*SB3
+      A5= 0.1772E+00-0.6078E+00*SB +0.3341E+01*SB2-0.1473E+01*SB3
       goto 100
 c   Ifl =  -4
   17  A0=SB** 0.1122E+01*Exp(-0.4232E+01-0.1808E+01*SB +0.5348E+00*SB2)
-      A1=-0.2824E+00+0.5846E+00*SB -0.7230E+00*SB2+0.2419E+00*SB3 
-      A2= 0.5683E+01-0.2948E+01*SB +0.5916E+01*SB2-0.2560E+01*SB3 
-      A3= 0.2051E+01+0.4795E+01*SB -0.4271E+01*SB2+0.4174E+00*SB3 
-      A4= 0.1737E+00+0.1717E+01*SB -0.1978E+01*SB2+0.6643E+00*SB3 
-      A5= 0.8689E+00+0.3500E+01*SB -0.3283E+01*SB2+0.1026E+01*SB3 
+      A1=-0.2824E+00+0.5846E+00*SB -0.7230E+00*SB2+0.2419E+00*SB3
+      A2= 0.5683E+01-0.2948E+01*SB +0.5916E+01*SB2-0.2560E+01*SB3
+      A3= 0.2051E+01+0.4795E+01*SB -0.4271E+01*SB2+0.4174E+00*SB3
+      A4= 0.1737E+00+0.1717E+01*SB -0.1978E+01*SB2+0.6643E+00*SB3
+      A5= 0.8689E+00+0.3500E+01*SB -0.3283E+01*SB2+0.1026E+01*SB3
       goto 100
 c   Ifl =  -5
   18  A0=SB** 0.9906E+00*Exp(-0.1496E+01-0.6576E+01*SB +0.1569E+01*SB2)
-      A1=-0.2140E+00-0.6419E-01*SB -0.2741E-02*SB2+0.3185E-02*SB3 
-      A2= 0.5781E+01+0.1049E+00*SB -0.3930E+00*SB2+0.5174E+00*SB3 
-      A3=-0.9420E+00+0.5511E+00*SB +0.8817E+00*SB2+0.1903E+01*SB3 
-      A4= 0.2418E-01+0.4232E-01*SB -0.1244E-01*SB2-0.2365E-01*SB3 
-      A5= 0.7664E+00+0.1794E+01*SB -0.4917E+00*SB2-0.1284E+00*SB3 
+      A1=-0.2140E+00-0.6419E-01*SB -0.2741E-02*SB2+0.3185E-02*SB3
+      A2= 0.5781E+01+0.1049E+00*SB -0.3930E+00*SB2+0.5174E+00*SB3
+      A3=-0.9420E+00+0.5511E+00*SB +0.8817E+00*SB2+0.1903E+01*SB3
+      A4= 0.2418E-01+0.4232E-01*SB -0.1244E-01*SB2-0.2365E-01*SB3
+      A5= 0.7664E+00+0.1794E+01*SB -0.4917E+00*SB2-0.1284E+00*SB3
       goto 100
 c   Ifl =  -6
   19  A0=SB** 0.1000E+01*Exp(-0.8460E+01+0.1154E+01*SB +0.8838E+01*SB2)
-      A1=-0.4316E-01-0.2976E+00*SB +0.3174E+00*SB2-0.1429E+01*SB3 
-      A2= 0.4910E+01+0.2273E+01*SB +0.5631E+01*SB2-0.1994E+02*SB3 
-      A3= 0.1190E+02-0.2000E+02*SB -0.2000E+02*SB2+0.1292E+02*SB3 
-      A4= 0.5771E+00-0.2552E+00*SB +0.7510E+00*SB2+0.6923E+00*SB3 
-      A5= 0.4402E+01-0.1627E+01*SB -0.2085E+01*SB2-0.6737E+01*SB3 
+      A1=-0.4316E-01-0.2976E+00*SB +0.3174E+00*SB2-0.1429E+01*SB3
+      A2= 0.4910E+01+0.2273E+01*SB +0.5631E+01*SB2-0.1994E+02*SB3
+      A3= 0.1190E+02-0.2000E+02*SB -0.2000E+02*SB2+0.1292E+02*SB3
+      A4= 0.5771E+00-0.2552E+00*SB +0.7510E+00*SB2+0.6923E+00*SB3
+      A5= 0.4402E+01-0.1627E+01*SB -0.2085E+01*SB2-0.6737E+01*SB3
       goto 100
 
- 2    Goto(21,22,23,24,25,26,27,28,29)Iflv    
+ 2    Goto(21,22,23,24,25,26,27,28,29)Iflv
 c   Ifl =   2
   21  A0=Exp( 0.1141E+00+0.4764E+00*SB -0.1745E+01*SB2+0.7728E+00*SB3)
-      A1= 0.4275E+00-0.1290E+00*SB +0.3609E+00*SB2-0.1689E+00*SB3 
-      A2= 0.3000E+01+0.2946E+01*SB -0.4117E+01*SB2+0.1989E+01*SB3 
-      A3=-0.1302E+01+0.2322E+01*SB -0.4258E+01*SB2+0.2109E+01*SB3 
-      A4= 0.2586E+01-0.1920E+00*SB -0.3754E+00*SB2+0.2731E+00*SB3 
-      A5=-0.2251E+00-0.5374E+00*SB +0.2245E+01*SB2-0.1034E+01*SB3 
+      A1= 0.4275E+00-0.1290E+00*SB +0.3609E+00*SB2-0.1689E+00*SB3
+      A2= 0.3000E+01+0.2946E+01*SB -0.4117E+01*SB2+0.1989E+01*SB3
+      A3=-0.1302E+01+0.2322E+01*SB -0.4258E+01*SB2+0.2109E+01*SB3
+      A4= 0.2586E+01-0.1920E+00*SB -0.3754E+00*SB2+0.2731E+00*SB3
+      A5=-0.2251E+00-0.5374E+00*SB +0.2245E+01*SB2-0.1034E+01*SB3
       goto 100
 c   Ifl =   1
   22  A0=Exp( 0.1907E+00+0.4205E-01*SB +0.2752E+00*SB2-0.3171E+00*SB3)
-      A1= 0.4611E+00+0.2331E-01*SB -0.3403E-01*SB2+0.3174E-01*SB3 
-      A2= 0.3504E+01+0.5739E+00*SB +0.2676E+00*SB2-0.1553E+00*SB3 
-      A3= 0.7452E+01-0.6742E+01*SB +0.2849E+01*SB2-0.1964E+00*SB3 
-      A4= 0.1116E+01-0.3435E+00*SB +0.2865E+00*SB2-0.1288E+00*SB3 
-      A5= 0.6659E-01+0.2714E+00*SB -0.2688E+00*SB2+0.2763E+00*SB3 
+      A1= 0.4611E+00+0.2331E-01*SB -0.3403E-01*SB2+0.3174E-01*SB3
+      A2= 0.3504E+01+0.5739E+00*SB +0.2676E+00*SB2-0.1553E+00*SB3
+      A3= 0.7452E+01-0.6742E+01*SB +0.2849E+01*SB2-0.1964E+00*SB3
+      A4= 0.1116E+01-0.3435E+00*SB +0.2865E+00*SB2-0.1288E+00*SB3
+      A5= 0.6659E-01+0.2714E+00*SB -0.2688E+00*SB2+0.2763E+00*SB3
       goto 100
 c   Ifl =   0
   23  A0=Exp(-0.7631E+00-0.7241E+00*SB -0.1170E+01*SB2+0.5343E+00*SB3)
-      A1=-0.3573E+00+0.3469E+00*SB -0.3396E+00*SB2+0.9188E-01*SB3 
-      A2= 0.5604E+01+0.7458E+00*SB -0.5082E+00*SB2+0.1844E+00*SB3 
-      A3= 0.1549E+02-0.1809E+02*SB +0.1162E+02*SB2-0.3483E+01*SB3 
-      A4= 0.9881E+00+0.1364E+00*SB -0.4421E+00*SB2+0.2051E+00*SB3 
-      A5=-0.9505E-01+0.3259E+01*SB -0.1547E+01*SB2+0.2918E+00*SB3 
+      A1=-0.3573E+00+0.3469E+00*SB -0.3396E+00*SB2+0.9188E-01*SB3
+      A2= 0.5604E+01+0.7458E+00*SB -0.5082E+00*SB2+0.1844E+00*SB3
+      A3= 0.1549E+02-0.1809E+02*SB +0.1162E+02*SB2-0.3483E+01*SB3
+      A4= 0.9881E+00+0.1364E+00*SB -0.4421E+00*SB2+0.2051E+00*SB3
+      A5=-0.9505E-01+0.3259E+01*SB -0.1547E+01*SB2+0.2918E+00*SB3
       goto 100
 c   Ifl =  -1
   24  A0=Exp(-0.2740E+01-0.7987E-01*SB -0.9015E+00*SB2-0.9872E-01*SB3)
-      A1=-0.3909E+00+0.1244E+00*SB -0.4487E-01*SB2+0.1277E-01*SB3 
-      A2= 0.9163E+01+0.2823E+00*SB -0.7720E+00*SB2-0.9360E-02*SB3 
-      A3= 0.1080E+02-0.3915E+01*SB -0.1153E+01*SB2+0.2649E+01*SB3 
-      A4= 0.9894E+00-0.1647E+00*SB -0.9426E-02*SB2+0.2945E-02*SB3 
-      A5=-0.3395E+00+0.6998E+00*SB +0.7000E+00*SB2-0.6730E-01*SB3 
+      A1=-0.3909E+00+0.1244E+00*SB -0.4487E-01*SB2+0.1277E-01*SB3
+      A2= 0.9163E+01+0.2823E+00*SB -0.7720E+00*SB2-0.9360E-02*SB3
+      A3= 0.1080E+02-0.3915E+01*SB -0.1153E+01*SB2+0.2649E+01*SB3
+      A4= 0.9894E+00-0.1647E+00*SB -0.9426E-02*SB2+0.2945E-02*SB3
+      A5=-0.3395E+00+0.6998E+00*SB +0.7000E+00*SB2-0.6730E-01*SB3
       goto 100
 c   Ifl =  -2
   25  A0=Exp(-0.2449E+01-0.3513E+01*SB +0.4529E+01*SB2-0.2031E+01*SB3)
-      A1=-0.4050E+00+0.3411E+00*SB -0.3669E+00*SB2+0.1109E+00*SB3 
-      A2= 0.7470E+01-0.2982E+01*SB +0.5503E+01*SB2-0.2419E+01*SB3 
-      A3= 0.1503E+02+0.1638E+01*SB -0.8772E+01*SB2+0.3852E+01*SB3 
-      A4= 0.1137E+01-0.1006E+01*SB +0.1485E+01*SB2-0.6389E+00*SB3 
-      A5=-0.5299E+00+0.3160E+01*SB -0.3104E+01*SB2+0.1219E+01*SB3 
+      A1=-0.4050E+00+0.3411E+00*SB -0.3669E+00*SB2+0.1109E+00*SB3
+      A2= 0.7470E+01-0.2982E+01*SB +0.5503E+01*SB2-0.2419E+01*SB3
+      A3= 0.1503E+02+0.1638E+01*SB -0.8772E+01*SB2+0.3852E+01*SB3
+      A4= 0.1137E+01-0.1006E+01*SB +0.1485E+01*SB2-0.6389E+00*SB3
+      A5=-0.5299E+00+0.3160E+01*SB -0.3104E+01*SB2+0.1219E+01*SB3
       goto 100
 c   Ifl =  -3
   26  A0=Exp(-0.3640E+01+0.1250E+01*SB -0.2914E+01*SB2+0.8390E+00*SB3)
-      A1=-0.3595E+00-0.5259E-01*SB +0.3122E+00*SB2-0.1642E+00*SB3 
-      A2= 0.7305E+01+0.9727E+00*SB -0.9788E+00*SB2-0.5193E-01*SB3 
-      A3= 0.1198E+02-0.1799E+02*SB +0.2614E+02*SB2-0.1091E+02*SB3 
-      A4= 0.9882E+00-0.6101E+00*SB +0.9737E+00*SB2-0.4935E+00*SB3 
-      A5=-0.1186E+00-0.3231E+00*SB +0.3074E+01*SB2-0.1274E+01*SB3 
+      A1=-0.3595E+00-0.5259E-01*SB +0.3122E+00*SB2-0.1642E+00*SB3
+      A2= 0.7305E+01+0.9727E+00*SB -0.9788E+00*SB2-0.5193E-01*SB3
+      A3= 0.1198E+02-0.1799E+02*SB +0.2614E+02*SB2-0.1091E+02*SB3
+      A4= 0.9882E+00-0.6101E+00*SB +0.9737E+00*SB2-0.4935E+00*SB3
+      A5=-0.1186E+00-0.3231E+00*SB +0.3074E+01*SB2-0.1274E+01*SB3
       goto 100
 c   Ifl =  -4
   27  A0=SB** 0.1122E+01*Exp(-0.3718E+01-0.1335E+01*SB +0.1651E-01*SB2)
-      A1=-0.4719E+00+0.7509E+00*SB -0.8420E+00*SB2+0.2901E+00*SB3 
-      A2= 0.6194E+01-0.1641E+01*SB +0.4907E+01*SB2-0.2523E+01*SB3 
-      A3= 0.4426E+01-0.4270E+01*SB +0.6581E+01*SB2-0.3474E+01*SB3 
-      A4= 0.2683E+00+0.9876E+00*SB -0.7612E+00*SB2+0.1780E+00*SB3 
-      A5=-0.4547E+00+0.4410E+01*SB -0.3712E+01*SB2+0.1245E+01*SB3 
+      A1=-0.4719E+00+0.7509E+00*SB -0.8420E+00*SB2+0.2901E+00*SB3
+      A2= 0.6194E+01-0.1641E+01*SB +0.4907E+01*SB2-0.2523E+01*SB3
+      A3= 0.4426E+01-0.4270E+01*SB +0.6581E+01*SB2-0.3474E+01*SB3
+      A4= 0.2683E+00+0.9876E+00*SB -0.7612E+00*SB2+0.1780E+00*SB3
+      A5=-0.4547E+00+0.4410E+01*SB -0.3712E+01*SB2+0.1245E+01*SB3
       goto 100
 c   Ifl =  -5
   28  A0=SB** 0.9838E+00*Exp(-0.2548E+01-0.7660E+01*SB +0.3702E+01*SB2)
-      A1=-0.3122E+00-0.2120E+00*SB +0.5716E+00*SB2-0.3773E+00*SB3 
-      A2= 0.6257E+01-0.8214E-01*SB -0.2537E+01*SB2+0.2981E+01*SB3 
-      A3=-0.6723E+00+0.2131E+01*SB +0.9599E+01*SB2-0.7910E+01*SB3 
-      A4= 0.9169E-01+0.4295E-01*SB -0.5017E+00*SB2+0.3811E+00*SB3 
-      A5= 0.2402E+00+0.2656E+01*SB -0.1586E+01*SB2+0.2880E+00*SB3 
+      A1=-0.3122E+00-0.2120E+00*SB +0.5716E+00*SB2-0.3773E+00*SB3
+      A2= 0.6257E+01-0.8214E-01*SB -0.2537E+01*SB2+0.2981E+01*SB3
+      A3=-0.6723E+00+0.2131E+01*SB +0.9599E+01*SB2-0.7910E+01*SB3
+      A4= 0.9169E-01+0.4295E-01*SB -0.5017E+00*SB2+0.3811E+00*SB3
+      A5= 0.2402E+00+0.2656E+01*SB -0.1586E+01*SB2+0.2880E+00*SB3
       goto 100
 c   Ifl =  -6
   29  A0=SB** 0.1001E+01*Exp(-0.6934E+01+0.3050E+01*SB -0.6943E+00*SB2)
-      A1=-0.1713E+00-0.5167E+00*SB +0.1241E+01*SB2-0.1703E+01*SB3 
-      A2= 0.6169E+01+0.3023E+01*SB -0.1972E+02*SB2+0.1069E+02*SB3 
-      A3= 0.4439E+01-0.1746E+02*SB +0.1225E+02*SB2+0.8350E+00*SB3 
-      A4= 0.5458E+00-0.4586E+00*SB +0.9089E+00*SB2-0.4049E+00*SB3 
-      A5= 0.3207E+01-0.3362E+01*SB +0.5877E+01*SB2-0.7659E+01*SB3 
+      A1=-0.1713E+00-0.5167E+00*SB +0.1241E+01*SB2-0.1703E+01*SB3
+      A2= 0.6169E+01+0.3023E+01*SB -0.1972E+02*SB2+0.1069E+02*SB3
+      A3= 0.4439E+01-0.1746E+02*SB +0.1225E+02*SB2+0.8350E+00*SB3
+      A4= 0.5458E+00-0.4586E+00*SB +0.9089E+00*SB2-0.4049E+00*SB3
+      A5= 0.3207E+01-0.3362E+01*SB +0.5877E+01*SB2-0.7659E+01*SB3
       goto 100
 
- 3    Goto(31,32,33,34,35,36,37,38,39)Iflv    
+ 3    Goto(31,32,33,34,35,36,37,38,39)Iflv
 c   Ifl =   2
   31  A0=Exp( 0.3961E+00+0.4914E+00*SB -0.1728E+01*SB2+0.7257E+00*SB3)
-      A1= 0.4162E+00-0.1419E+00*SB +0.3680E+00*SB2-0.1618E+00*SB3 
-      A2= 0.3248E+01+0.3028E+01*SB -0.4307E+01*SB2+0.1920E+01*SB3 
-      A3=-0.1100E+01+0.2184E+01*SB -0.3820E+01*SB2+0.1717E+01*SB3 
-      A4= 0.2082E+01-0.2756E+00*SB +0.3043E+00*SB2-0.1260E+00*SB3 
-      A5=-0.4822E+00-0.5706E+00*SB +0.2243E+01*SB2-0.9760E+00*SB3 
+      A1= 0.4162E+00-0.1419E+00*SB +0.3680E+00*SB2-0.1618E+00*SB3
+      A2= 0.3248E+01+0.3028E+01*SB -0.4307E+01*SB2+0.1920E+01*SB3
+      A3=-0.1100E+01+0.2184E+01*SB -0.3820E+01*SB2+0.1717E+01*SB3
+      A4= 0.2082E+01-0.2756E+00*SB +0.3043E+00*SB2-0.1260E+00*SB3
+      A5=-0.4822E+00-0.5706E+00*SB +0.2243E+01*SB2-0.9760E+00*SB3
       goto 100
 c   Ifl =   1
   32  A0=Exp( 0.2148E+00+0.5814E-01*SB +0.2734E+00*SB2-0.2902E+00*SB3)
-      A1= 0.4810E+00+0.1657E-01*SB -0.3800E-01*SB2+0.3125E-01*SB3 
-      A2= 0.3509E+01+0.3923E+00*SB +0.4010E+00*SB2-0.1932E+00*SB3 
-      A3= 0.7055E+01-0.6552E+01*SB +0.3466E+01*SB2-0.5657E+00*SB3 
-      A4= 0.1061E+01-0.3453E+00*SB +0.4089E+00*SB2-0.1817E+00*SB3 
-      A5= 0.8687E-01+0.2548E+00*SB -0.2967E+00*SB2+0.2647E+00*SB3 
+      A1= 0.4810E+00+0.1657E-01*SB -0.3800E-01*SB2+0.3125E-01*SB3
+      A2= 0.3509E+01+0.3923E+00*SB +0.4010E+00*SB2-0.1932E+00*SB3
+      A3= 0.7055E+01-0.6552E+01*SB +0.3466E+01*SB2-0.5657E+00*SB3
+      A4= 0.1061E+01-0.3453E+00*SB +0.4089E+00*SB2-0.1817E+00*SB3
+      A5= 0.8687E-01+0.2548E+00*SB -0.2967E+00*SB2+0.2647E+00*SB3
       goto 100
 c   Ifl =   0
   33  A0=Exp(-0.4665E+00-0.7554E+00*SB -0.3323E+00*SB2-0.2734E-04*SB3)
-      A1=-0.3359E+00+0.2395E+00*SB -0.2377E+00*SB2+0.7059E-01*SB3 
-      A2= 0.5451E+01+0.6086E+00*SB +0.8606E-01*SB2-0.1425E+00*SB3 
-      A3= 0.1026E+02-0.9352E+01*SB +0.4879E+01*SB2-0.1150E+01*SB3 
-      A4= 0.9935E+00-0.5017E-01*SB -0.1707E-01*SB2-0.1464E-02*SB3 
-      A5=-0.4160E-01+0.2305E+01*SB -0.1063E+01*SB2+0.3211E+00*SB3 
+      A1=-0.3359E+00+0.2395E+00*SB -0.2377E+00*SB2+0.7059E-01*SB3
+      A2= 0.5451E+01+0.6086E+00*SB +0.8606E-01*SB2-0.1425E+00*SB3
+      A3= 0.1026E+02-0.9352E+01*SB +0.4879E+01*SB2-0.1150E+01*SB3
+      A4= 0.9935E+00-0.5017E-01*SB -0.1707E-01*SB2-0.1464E-02*SB3
+      A5=-0.4160E-01+0.2305E+01*SB -0.1063E+01*SB2+0.3211E+00*SB3
       goto 100
 c   Ifl =  -1
   34  A0=Exp(-0.3323E+01+0.2296E+00*SB -0.1109E+01*SB2+0.2223E+00*SB3)
-      A1=-0.3410E+00+0.8847E-01*SB -0.1111E-01*SB2-0.5927E-02*SB3 
-      A2= 0.9753E+01-0.5182E+00*SB -0.4670E+00*SB2+0.1921E+00*SB3 
-      A3= 0.1977E+02-0.1600E+02*SB +0.9481E+01*SB2-0.1864E+01*SB3 
-      A4= 0.9818E+00+0.2839E-02*SB -0.1188E+00*SB2+0.3584E-01*SB3 
-      A5=-0.7934E-01+0.1004E+01*SB +0.3704E+00*SB2-0.1220E+00*SB3 
+      A1=-0.3410E+00+0.8847E-01*SB -0.1111E-01*SB2-0.5927E-02*SB3
+      A2= 0.9753E+01-0.5182E+00*SB -0.4670E+00*SB2+0.1921E+00*SB3
+      A3= 0.1977E+02-0.1600E+02*SB +0.9481E+01*SB2-0.1864E+01*SB3
+      A4= 0.9818E+00+0.2839E-02*SB -0.1188E+00*SB2+0.3584E-01*SB3
+      A5=-0.7934E-01+0.1004E+01*SB +0.3704E+00*SB2-0.1220E+00*SB3
       goto 100
 c   Ifl =  -2
   35  A0=Exp(-0.2714E+01-0.2868E+01*SB +0.3700E+01*SB2-0.1671E+01*SB3)
-      A1=-0.3893E+00+0.3341E+00*SB -0.3897E+00*SB2+0.1420E+00*SB3 
-      A2= 0.8359E+01-0.3267E+01*SB +0.5327E+01*SB2-0.2245E+01*SB3 
-      A3= 0.2359E+02-0.5669E+01*SB -0.4602E+01*SB2+0.3153E+01*SB3 
-      A4= 0.1106E+01-0.4745E+00*SB +0.7739E+00*SB2-0.3417E+00*SB3 
-      A5=-0.5557E+00+0.3433E+01*SB -0.3390E+01*SB2+0.1354E+01*SB3 
+      A1=-0.3893E+00+0.3341E+00*SB -0.3897E+00*SB2+0.1420E+00*SB3
+      A2= 0.8359E+01-0.3267E+01*SB +0.5327E+01*SB2-0.2245E+01*SB3
+      A3= 0.2359E+02-0.5669E+01*SB -0.4602E+01*SB2+0.3153E+01*SB3
+      A4= 0.1106E+01-0.4745E+00*SB +0.7739E+00*SB2-0.3417E+00*SB3
+      A5=-0.5557E+00+0.3433E+01*SB -0.3390E+01*SB2+0.1354E+01*SB3
       goto 100
 c   Ifl =  -3
   36  A0=Exp(-0.3985E+01+0.2855E+01*SB -0.5208E+01*SB2+0.1937E+01*SB3)
-      A1=-0.3337E+00-0.1150E+00*SB +0.3691E+00*SB2-0.1709E+00*SB3 
-      A2= 0.7968E+01+0.3641E+01*SB -0.6599E+01*SB2+0.2642E+01*SB3 
-      A3= 0.1873E+02-0.1999E+02*SB +0.1734E+02*SB2-0.5813E+01*SB3 
-      A4= 0.9731E+00+0.5082E+00*SB -0.8780E+00*SB2+0.3231E+00*SB3 
-      A5=-0.5542E-01-0.4189E+00*SB +0.3309E+01*SB2-0.1439E+01*SB3 
+      A1=-0.3337E+00-0.1150E+00*SB +0.3691E+00*SB2-0.1709E+00*SB3
+      A2= 0.7968E+01+0.3641E+01*SB -0.6599E+01*SB2+0.2642E+01*SB3
+      A3= 0.1873E+02-0.1999E+02*SB +0.1734E+02*SB2-0.5813E+01*SB3
+      A4= 0.9731E+00+0.5082E+00*SB -0.8780E+00*SB2+0.3231E+00*SB3
+      A5=-0.5542E-01-0.4189E+00*SB +0.3309E+01*SB2-0.1439E+01*SB3
       goto 100
 c   Ifl =  -4
   37  A0=SB** 0.1105E+01*Exp(-0.3952E+01-0.1901E+01*SB +0.5137E+00*SB2)
-      A1=-0.3543E+00+0.6055E+00*SB -0.6941E+00*SB2+0.2278E+00*SB3 
-      A2= 0.5955E+01-0.2629E+01*SB +0.5337E+01*SB2-0.2300E+01*SB3 
-      A3= 0.1933E+01+0.4882E+01*SB -0.3810E+01*SB2+0.2290E+00*SB3 
-      A4= 0.1806E+00+0.1655E+01*SB -0.1893E+01*SB2+0.6395E+00*SB3 
-      A5= 0.4790E+00+0.3612E+01*SB -0.3152E+01*SB2+0.9684E+00*SB3 
+      A1=-0.3543E+00+0.6055E+00*SB -0.6941E+00*SB2+0.2278E+00*SB3
+      A2= 0.5955E+01-0.2629E+01*SB +0.5337E+01*SB2-0.2300E+01*SB3
+      A3= 0.1933E+01+0.4882E+01*SB -0.3810E+01*SB2+0.2290E+00*SB3
+      A4= 0.1806E+00+0.1655E+01*SB -0.1893E+01*SB2+0.6395E+00*SB3
+      A5= 0.4790E+00+0.3612E+01*SB -0.3152E+01*SB2+0.9684E+00*SB3
       goto 100
 c   Ifl =  -5
   38  A0=SB** 0.9818E+00*Exp(-0.1825E+01-0.7464E+01*SB +0.2143E+01*SB2)
-      A1=-0.2604E+00-0.1400E+00*SB +0.1702E+00*SB2-0.8476E-01*SB3 
-      A2= 0.6005E+01+0.6275E+00*SB -0.2535E+01*SB2+0.2219E+01*SB3 
-      A3=-0.9067E+00+0.1149E+01*SB +0.1974E+01*SB2+0.4716E+01*SB3 
-      A4= 0.3915E-01+0.5945E-01*SB -0.9844E-01*SB2+0.2783E-01*SB3 
-      A5= 0.5500E+00+0.1994E+01*SB -0.6727E+00*SB2-0.1510E+00*SB3 
+      A1=-0.2604E+00-0.1400E+00*SB +0.1702E+00*SB2-0.8476E-01*SB3
+      A2= 0.6005E+01+0.6275E+00*SB -0.2535E+01*SB2+0.2219E+01*SB3
+      A3=-0.9067E+00+0.1149E+01*SB +0.1974E+01*SB2+0.4716E+01*SB3
+      A4= 0.3915E-01+0.5945E-01*SB -0.9844E-01*SB2+0.2783E-01*SB3
+      A5= 0.5500E+00+0.1994E+01*SB -0.6727E+00*SB2-0.1510E+00*SB3
       goto 100
 c   Ifl =  -6
   39  A0=SB** 0.1002E+01*Exp(-0.8553E+01+0.3793E+00*SB +0.9998E+01*SB2)
-      A1=-0.5870E-01-0.2792E+00*SB +0.6526E+00*SB2-0.1984E+01*SB3 
-      A2= 0.4716E+01+0.4473E+00*SB +0.1128E+02*SB2-0.1937E+02*SB3 
-      A3= 0.1289E+02-0.1742E+02*SB -0.1983E+02*SB2-0.9274E+00*SB3 
-      A4= 0.5647E+00-0.2732E+00*SB +0.1074E+01*SB2+0.5981E+00*SB3 
-      A5= 0.4390E+01-0.1262E+01*SB -0.9026E+00*SB2-0.9394E+01*SB3 
+      A1=-0.5870E-01-0.2792E+00*SB +0.6526E+00*SB2-0.1984E+01*SB3
+      A2= 0.4716E+01+0.4473E+00*SB +0.1128E+02*SB2-0.1937E+02*SB3
+      A3= 0.1289E+02-0.1742E+02*SB -0.1983E+02*SB2-0.9274E+00*SB3
+      A4= 0.5647E+00-0.2732E+00*SB +0.1074E+01*SB2+0.5981E+00*SB3
+      A5= 0.4390E+01-0.1262E+01*SB -0.9026E+00*SB2-0.9394E+01*SB3
       goto 100
 
  311  stop 'This option is not currently supported.'
@@ -6465,7 +6465,7 @@ C                         *************************
 C--- END CTEQ3 FITS
 C----- START CTEQ4 FITS ------------------------------
       SUBROUTINE  CTEQ4(ISET,IH,Q2,X,FX,NF)
-      REAL FX(-NF:NF) 
+      REAL FX(-NF:NF)
       REAL*8 DX,DQ,CTQ4FN
 C
       IF(ABS(IH).GE.3) CALL NOSETP
@@ -6530,29 +6530,29 @@ C   8      CTEQ4A5  Alpha_s series          0.122        1.6      cteq4a5.tbl
 C   9      CTEQ4HJ  High Jet                0.116        1.6      cteq4hj.tbl
 C   10     CTEQ4LQ  Low Q0                  0.114        0.7      cteq4lq.tbl
 C ---------------------------------------------------------------------------
-C   
-C   The available applied range is 10^-5 < x < 1 and 1.6 < Q < 10,000 (GeV) 
-C   except CTEQ4LQ for which Q starts at a lower value of 0.7 GeV.  
+C
+C   The available applied range is 10^-5 < x < 1 and 1.6 < Q < 10,000 (GeV)
+C   except CTEQ4LQ for which Q starts at a lower value of 0.7 GeV.
 C   The Table_Files are assumed to be in the working directory.
-C   
+C
 C   The function Ctq4Fn (Iset, Iparton, X, Q)
-C   returns the parton distribution inside the proton for parton [Iparton] 
+C   returns the parton distribution inside the proton for parton [Iparton]
 C   at [X] Bjorken_X and scale [Q] (GeV) in PDF set [Iset].
 C   Iparton  is the parton label (5, 4, 3, 2, 1, 0, -1, ......, -5)
 C                            for (b, c, s, d, u, g, u_bar, ..., b_bar)
-C   
-C   For detailed information on the parameters used, e.q. quark masses, 
-C   QCD Lambda, ... etc.,  see info lines at the beginning of the 
+C
+C   For detailed information on the parameters used, e.q. quark masses,
+C   QCD Lambda, ... etc.,  see info lines at the beginning of the
 C   Table_Files.
 
 C   These programs, as provided, are in double precision.  By removing the
-C   "Implicit Double Precision" lines, they can also be run in single 
+C   "Implicit Double Precision" lines, they can also be run in single
 C   precision.
-C   
-C   If you have detailed questions concerning these CTEQ4 distributions, 
-C   or if you find problems/bugs using this package, direct inquires to 
+C
+C   If you have detailed questions concerning these CTEQ4 distributions,
+C   or if you find problems/bugs using this package, direct inquires to
 C   Hung-Liang Lai(Lai_H@pa.msu.edu) or Wu-Ki Tung(Tung@pa.msu.edu).
-C   
+C
 C===========================================================================
 
       Function Ctq4Fn (Iset, Iparton, X, Q)
@@ -6626,21 +6626,21 @@ C
       Character Line*80
       PARAMETER (MXX = 105, MXQ = 25, MXF = 6)
       PARAMETER (MXPQX = (MXF *2 +2) * MXQ * MXX)
-      Common 
+      Common
      > / K719CtqPar1 / Al, XV(0:MXX), QL(0:MXQ), UPD(MXPQX)
      > / K719CtqPar2 / Nx, Nt, NfMx
      > / K719XQrange / Qini, Qmax, Xmin
      > / K719QCDtable /  Alambda, Nfl, Iorder
      > / K719Masstbl / Amass(6)
-      
-      Read  (Nu, '(A)') Line     
+
+      Read  (Nu, '(A)') Line
       Read  (Nu, '(A)') Line
       Read  (Nu, *) Dr, Fl, Al, (Amass(I),I=1,6)
       Iorder = Nint(Dr)
       Nfl = Nint(Fl)
       Alambda = Al
 
-      Read  (Nu, '(A)') Line 
+      Read  (Nu, '(A)') Line
       Read  (Nu, *) NX,  NT, NfMx
 
       Read  (Nu, '(A)') Line
@@ -6653,9 +6653,9 @@ C
          QL(Iq) = Log (QL(Iq) /Al)
    11 Continue
 C
-C                  Since quark = anti-quark for nfl>2 at this stage, 
+C                  Since quark = anti-quark for nfl>2 at this stage,
 C                  we Read  out only the non-redundent data points
-C     No of flavors = NfMx (sea) + 1 (gluon) + 2 (valence) 
+C     No of flavors = NfMx (sea) + 1 (gluon) + 2 (valence)
 
       Nblk = (NX+1) * (NT+1)
       Npts =  Nblk  * (NfMx+3)
@@ -6678,7 +6678,7 @@ C
       PARAMETER (MXPQX = (MXF *2 +2) * MXQ * MXX)
       PARAMETER (M= 2, M1 = M + 1)
 C
-      Common 
+      Common
      > / K719CtqPar1 / Al, XV(0:MXX), QL(0:MXQ), UPD(MXPQX)
      > / K719CtqPar2 / Nx, Nt, NfMx
      > / K719XQrange / Qini, Qmax, Xmin
@@ -6707,7 +6707,7 @@ C                           Find lower end of interval containing X
       Jx = JL - (M-1)/2
       If (X .lt. Xmin) Then
          ixrange=ixrange+1
-         if(ixrange.eq.1) Print '(A, 2(1pE12.4))', 
+         if(ixrange.eq.1) Print '(A, 2(1pE12.4))',
      >     ' WARNING: X < Xmin, extrapolation used; X, Xmin =', X, Xmin
          If (Jx .LT. 0) Jx = 0
       Elseif (Jx .GT. Nx-M) Then
@@ -6731,14 +6731,14 @@ C                                    Find the interval where Q lies
          Jq = 0
          If (Q .lt. Qini)  then
            iqmnrng=iqmnrng+1
-           if(iqmnrng.eq.1) Print '(A, 2(1pE12.4))', 
+           if(iqmnrng.eq.1) Print '(A, 2(1pE12.4))',
      >     ' WARNING: Q < Qini, extrapolation used; Q, Qini =', Q, Qini
          endif
       Elseif (Jq .GT. Nt-M) Then
          Jq = Nt - M
          If (Q .gt. Qmax) then
            iqmxrng=iqmxrng+1
-           if(iqmxrng.eq.1) Print '(A, 2(1pE12.4))', 
+           if(iqmxrng.eq.1) Print '(A, 2(1pE12.4))',
      >     ' WARNING: Q > Qmax, extrapolation used; Q, Qmax =', Q, Qmax
          endif
       Endif
@@ -6767,9 +6767,9 @@ C                        ****************************
       END
 
       SUBROUTINE POLINT_DD (XA,YA,N,X,Y,DY)
- 
+
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)
-C                                        Adapted from "Numerical Recipes" 
+C                                        Adapted from "Numerical Recipes"
       PARAMETER (NMAX=10)
       DIMENSION XA(N),YA(N),C(NMAX),D(NMAX)
       NS=1
@@ -6813,10 +6813,10 @@ C Cteq5m1 (fitted form) added on mar-23-2001 by SF
 c This set seemingly supersedes Cteq5m, which was affected (?) by a bug
 c in the evolution code
       SUBROUTINE  CTEQ5(ISET,IH,Q2,X,FX,NF)
-      REAL FX(-NF:NF)  
+      REAL FX(-NF:NF)
       REAL*8 DX,DQ,CTQ5PDF,CTQ5PD,PDFS(-NF:NF)
-      DATA INIT/0/ 
-C                         
+      DATA INIT/0/
+C
       Q=SQRT(Q2)
       DQ=DBLE(Q)
       DX=DBLE(X)
@@ -6827,12 +6827,12 @@ C
          ENDDO
       ELSEIF(ISET.EQ.10) THEN
          DO I=-NF,NF
-            PDFS(I)=CTQ5PD(1,I,DX,DQ,IRET) 
+            PDFS(I)=CTQ5PD(1,I,DX,DQ,IRET)
          ENDDO
       ELSE
          CALL NOSETP
       ENDIF
-C     
+C
       IF(ABS(IH).GE.3) CALL NOSETP
       IH0=IH
       IF(ABS(IH).EQ.2) IH0=ISIGN(1,IH)
@@ -6843,12 +6843,12 @@ C The division by the factor DX is NOT needed
       FX(2*IH0)=SNGL(PDFS(2))
       FX(-IH0)=SNGL(PDFS(-1))
       FX(-2*IH0)=SNGL(PDFS(-2))
-      DO I=3,NF              
+      DO I=3,NF
         FX(I)=SNGL(PDFS(I))
-      ENDDO          
+      ENDDO
       DO I=-NF,-3
         FX(I)=SNGL(PDFS(I))
-      ENDDO          
+      ENDDO
 C...TRANSFORM PROTON INTO NEUTRON
       IF(ABS(IH).EQ.2) THEN
         T=FX(1)
@@ -6869,8 +6869,8 @@ C         CTEQ5 PPARTON DISTRIBUTIONS"
 C
 C  hep-ph/9903282; to be published in Eur. Phys. J. C 1999.
 C
-C  These PDF's use quadratic interpolation of attached tables. A parametrized 
-C  version of the same PDF's without external tables is under construction.  
+C  These PDF's use quadratic interpolation of attached tables. A parametrized
+C  version of the same PDF's without external tables is under construction.
 C  They will become available later.
 C
 C   This package contains 7 sets of CTEQ5 PDF's; plus two updated ones.
@@ -6894,38 +6894,38 @@ C         --------------------------------------------------------
 C   8    CTEQ5M1  Improved CTEQ5M         0.118     326   226    cteq5m1.tbl
 C   9    CTEQ5HQ1 Improved CTEQ5HQ        0.118     326   226    ctq5hq1.tbl
 C ---------------------------------------------------------------------------
-C   
+C
 C  The available applied range is 10^-5 << x << 1 and 1.0 << Q << 10,000 (GeV).
-C   Lam5 (Lam4, Lam3) represents Lambda value (in MeV) for 5 (4,3) flavors. 
-C   The matching alpha_s between 4 and 5 flavors takes place at Q=4.5 GeV,  
+C   Lam5 (Lam4, Lam3) represents Lambda value (in MeV) for 5 (4,3) flavors.
+C   The matching alpha_s between 4 and 5 flavors takes place at Q=4.5 GeV,
 C   which is defined as the bottom quark mass, whenever it can be applied.
 C
 C   The Table_Files are assumed to be in the working directory.
-C   
+C
 C   Before using the PDF, it is necessary to do the initialization by
-C       Call SetCtq5(Iset) 
+C       Call SetCtq5(Iset)
 C   where Iset is the desired PDF specified in the above table.
-C   
+C
 C   The function Ctq5Pdf (Iparton, X, Q)
-C   returns the parton distribution inside the proton for parton [Iparton] 
+C   returns the parton distribution inside the proton for parton [Iparton]
 C   at [X] Bjorken_X and scale [Q] (GeV) in PDF set [Iset].
 C   Iparton  is the parton label (5, 4, 3, 2, 1, 0, -1, ......, -5)
 C                            for (b, c, s, d, u, g, u_bar, ..., b_bar),
 C      whereas CTEQ5F3 has, by definition, only 3 flavors and gluon;
 C              CTEQ5F4 has only 4 flavors and gluon.
-C   
-C   For detailed information on the parameters used, e.q. quark masses, 
-C   QCD Lambda, ... etc.,  see info lines at the beginning of the 
+C
+C   For detailed information on the parameters used, e.q. quark masses,
+C   QCD Lambda, ... etc.,  see info lines at the beginning of the
 C   Table_Files.
 C
 C   These programs, as provided, are in double precision.  By removing the
-C   "Implicit Double Precision" lines, they can also be run in single 
+C   "Implicit Double Precision" lines, they can also be run in single
 C   precision.
-C   
-C   If you have detailed questions concerning these CTEQ5 distributions, 
-C   or if you find problems/bugs using this package, direct inquires to 
+C
+C   If you have detailed questions concerning these CTEQ5 distributions,
+C   or if you find problems/bugs using this package, direct inquires to
 C   Hung-Liang Lai(lai@phys.nthu.edu.tw) or Wu-Ki Tung(Tung@pa.msu.edu).
-C   
+C
 C===========================================================================
 
       Function Ctq5Pdf (Iparton, X, Q)
@@ -6966,7 +6966,7 @@ C                             ********************
       End
 
       FUNCTION Ctq5partonx (IPRTN, X, Q)
-C                     
+C
 C   Given the parton distribution function in the array Upd in
 C   COMMON / K719CtqPar1 / , this routine fetches u(fl, x, q) at any value of
 C   x and q using Mth-order polynomial interpolation for x and Ln(Q/Lambda).
@@ -6978,7 +6978,7 @@ C
       PARAMETER (M= 2, M1 = M + 1)
 C
       Logical First
-      Common 
+      Common
      > / K719CtqPar1 / Al, XV(0:MXX), QL(0:MXQ), UPD(MXPQX)
      > / K719CtqPar2 / Nx, Nt, NfMx
      > / K719XQrange / Qini, Qmax, Xmin
@@ -7010,7 +7010,7 @@ C                           Find lower end of interval containing X
       Jx = JL - (M-1)/2
       If (X .lt. Xmin .and. First ) Then
          First = .false.
-         Print '(A, 2(1pE12.4))', 
+         Print '(A, 2(1pE12.4))',
      >     ' WARNING: X << Xmin, extrapolation used; X, Xmin =', X, Xmin
          If (Jx .LT. 0) Jx = 0
       Elseif (Jx .GT. Nx-M) Then
@@ -7034,14 +7034,14 @@ C                                    Find the interval where Q lies
          Jq = 0
          If (Q .lt. Qini)  then
            iqmnrng=iqmnrng+1
-           if(iqmnrng.eq.1) Print '(A, 2(1pE12.4))', 
+           if(iqmnrng.eq.1) Print '(A, 2(1pE12.4))',
      >     ' WARNING: Q < Qini, extrapolation used; Q, Qini =', Q, Qini
          endif
       Elseif (Jq .GT. Nt-M) Then
          Jq = Nt - M
          If (Q .gt. Qmax) then
            iqmxrng=iqmxrng+1
-           if(iqmxrng.eq.1) Print '(A, 2(1pE12.4))', 
+           if(iqmxrng.eq.1) Print '(A, 2(1pE12.4))',
      >     ' WARNING: Q > Qmax, extrapolation used; Q, Qmax =', Q, Qmax
          endif
       Endif
@@ -7102,7 +7102,7 @@ C             If data file not initialized, do so.
             Open(IU, File=Tablefile, Status='OLD', Err=100)
 	 Endif
          Call Ctq5readtbl (IU)
-         Close (IU)   
+         Close (IU)
 	 Isetold=Iset
       Endif
       Return
@@ -7118,21 +7118,21 @@ C                             ********************
       Character Line*80
       PARAMETER (MXX = 105, MXQ = 25, MXF = 6)
       PARAMETER (MXPQX = (MXF *2 +2) * MXQ * MXX)
-      Common 
+      Common
      > / K719CtqPar1 / Al, XV(0:MXX), QL(0:MXQ), UPD(MXPQX)
      > / K719CtqPar2 / Nx, Nt, NfMx
      > / K719XQrange / Qini, Qmax, Xmin
      > / K719QCDtable /  Alambda, Nfl, Iorder
      > / K719Masstbl / Amass(6)
-      
-      Read  (Nu, '(A)') Line     
+
+      Read  (Nu, '(A)') Line
       Read  (Nu, '(A)') Line
       Read  (Nu, *) Dr, Fl, Al, (Amass(I),I=1,6)
       Iorder = Nint(Dr)
       Nfl = Nint(Fl)
       Alambda = Al
 
-      Read  (Nu, '(A)') Line 
+      Read  (Nu, '(A)') Line
       Read  (Nu, *) NX,  NT, NfMx
 
       Read  (Nu, '(A)') Line
@@ -7145,9 +7145,9 @@ C                             ********************
          QL(Iq) = Log (QL(Iq) /Al)
    11 Continue
 C
-C                  Since quark = anti-quark for nfl>2 at this stage, 
+C                  Since quark = anti-quark for nfl>2 at this stage,
 C                  we Read  out only the non-redundent data points
-C     No of flavors = NfMx (sea) + 1 (gluon) + 2 (valence) 
+C     No of flavors = NfMx (sea) + 1 (gluon) + 2 (valence)
 
       Nblk = (NX+1) * (NT+1)
       Npts =  Nblk  * (NfMx+3)
@@ -7175,9 +7175,9 @@ C               *************************
 C
 
       SUBROUTINE CTQ5POLINT (XA,YA,N,X,Y,DY)
- 
+
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)
-C                                        Adapted from "Numerical Recipes" 
+C                                        Adapted from "Numerical Recipes"
       PARAMETER (NMAX=10)
       DIMENSION XA(N),YA(N),C(NMAX),D(NMAX)
       NS=1
@@ -7216,7 +7216,7 @@ C                                        Adapted from "Numerical Recipes"
       END
 
 C   CTEQ5M1 and CTEQ5L Parton Distribution Functions in Parametrized Form
-C                             
+C
 C               September 15, 1999
 C
 C   Ref: "GLOBAL QCD ANALYSIS OF PARTON STRUCTURE OF THE NUCLEON:
@@ -7226,16 +7226,16 @@ C
 C   The CTEQ5M1 set given here is an updated version of the original CTEQ5M
 C     set posted, in the table version, on the Web page of CTEQ.
 C     The differences between CTEQ5M and CTEQ5M1 are insignificant for almost
-C     all applications. 
+C     all applications.
 C   The improvement is in the QCD evolution which is now more accurate, and
 C   which agrees completely with the benchmark work of the HERA 96/97 Workshop.
 
 C   The differences between the parametrized and the corresponding table ver-
 C sions (on which it is based) are of similar order as between the two version.
-C    
+C
 C!! Because accurate parametrizations over a wide range of (x,Q) is hard to
-C   obtain, only the most widely used sets CTEQ5M and CTEQ5L are available 
-C   in parametrized form for now. 
+C   obtain, only the most widely used sets CTEQ5M and CTEQ5L are available
+C   in parametrized form for now.
 
 C   These parametrizations were obtained by Jon Pumplin.
 C
@@ -7251,8 +7251,8 @@ C     form of Alpha_s!!  Alpha_s(Mz) gives the absolute calibration.
 C  The two Iset value are adopted to agree with the standard table versions.
 
 C   The following user-callable routines are provided:
-C 
-C     FUNCTION Ctq5Pd (Iset, Iprtn, X, Q, Irt) 
+C
+C     FUNCTION Ctq5Pd (Iset, Iprtn, X, Q, Irt)
 C         returns the PROBABILITY density for a GIVEN flavor;
 C
 C     FUNCTION Ctq5df (Iset, Iprtn, X, Q, Irt)
@@ -7261,34 +7261,34 @@ C
 C     SUBROUTINE Ctq5Pds(Iset, Pdf, X, Q, Irt)
 C         returns an array of MOMENTUM densities for ALL flavors;
 C
-C   The arguments of these routines are as follows: 
+C   The arguments of these routines are as follows:
 C
-C   Iset is the set number:  1 for CTEQ5M1 or 3 for CTEQ5L  
+C   Iset is the set number:  1 for CTEQ5M1 or 3 for CTEQ5L
 C
 C   Iprtn  is the parton label (6, 5, 4, 3, 2, 1, 0, -1, ......, -6)
 C                          for (t, b, c, s, d, u, g, u_bar, ..., t_bar)
-C  *** WARNING: We use the parton label 2 as D-quark and 1 as U-quark, 
+C  *** WARNING: We use the parton label 2 as D-quark and 1 as U-quark,
 C               which might be different from your labels.
 C
-C   X, Q are the usual x, Q; 
+C   X, Q are the usual x, Q;
 C
-C   Irt is an error code: 0 if there was no error; 1 or more if (x,q) was 
+C   Irt is an error code: 0 if there was no error; 1 or more if (x,q) was
 C   outside the range of validity of the parametrization.
-C       
+C
 C  Range of validity:
-C  
+C
 C     The range of (x, Q) covered by this parametrization of the QCD evolved
 C     parton distributions is 1E-6 < x < 1 ; 1.1 GeV < Q < 10 TeV.  Of course,
-C     the PDF's are constrained by data only in a subset of that region; and 
+C     the PDF's are constrained by data only in a subset of that region; and
 C     the assumed DGLAP evolution is unlikely to be valid for all of it either.
 C
-C     The range of (x, Q) used in the CTEQ5 round of global analysis is 
-C     approximately 0.01 < x < 0.75 ; and 4 GeV^2 < Q^2 < 400 GeV^2 for 
-C     fixed target experiments; 0.0001 < x < 0.3 from HERA data; and   
+C     The range of (x, Q) used in the CTEQ5 round of global analysis is
+C     approximately 0.01 < x < 0.75 ; and 4 GeV^2 < Q^2 < 400 GeV^2 for
+C     fixed target experiments; 0.0001 < x < 0.3 from HERA data; and
 C     Q^2 up to 40,000 GeV^2 from Tevatron inclusive Jet data.
 C
-C   DOUBLE PRECISION is used throughout in these routines, but conversion to 
-C   SINGLE PRECISION is possible by removing the Implicit Double Precision statements. 
+C   DOUBLE PRECISION is used throughout in these routines, but conversion to
+C   SINGLE PRECISION is possible by removing the Implicit Double Precision statements.
 C
 C **************************************************************************
 
@@ -7297,11 +7297,11 @@ C ********************************************************
 C ********************************************************
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)
 
-c if called at a point (x,q) that is outside the region that was 
-c actually parametrized, return a value of 0, and set the error code IRT=1.  
-c The user can remove the following IF statement to receive instead an 
+c if called at a point (x,q) that is outside the region that was
+c actually parametrized, return a value of 0, and set the error code IRT=1.
+c The user can remove the following IF statement to receive instead an
 c extrapolated value, which may be wildly unphysical.
-      if((x .lt. 1.e-6). or. (x .gt. 1.) 
+      if((x .lt. 1.e-6). or. (x .gt. 1.)
      &	 .or. (q .lt. .99) .or. (q .gt. 10000.)) then
          ctq5pd = 0.d0
          irt = 1
@@ -7314,7 +7314,7 @@ c extrapolated value, which may be wildly unphysical.
       elseif(iset .eq. 1) then
          ctq5pd = ctq5Mi(iparton,x,q)
       else
-         print *,'iset=',iset,' has not been parametrized.' 
+         print *,'iset=',iset,' has not been parametrized.'
 	   print '(/A)', 'Use the interpolation-table version instead.'
          stop
       endif
@@ -7328,7 +7328,7 @@ C ********************************************************
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)
 
       CTQ5DF = X * CTQ5PD(ISET, IPARTON, X, Q, IRT)
-        
+
       RETURN
       END
 
@@ -7380,7 +7380,7 @@ c --------------------------------------------------------------------------
 	   ctq5MI = faux5MI(ii,x,q)
 
 	else
-	   ctq5MI = 0.d0 
+	   ctq5MI = 0.d0
 
 	endif
 
@@ -7624,9 +7624,9 @@ c ---------------------------------------------------------------------
       u = log(x/0.00001d0)
 
       part1 = af(1)*y**(1.d0+0.01d0*af(4))*(1.d0+ af(8)*u)
-      part2 = af(0)*(1.d0 - x) + af(3)*x 
+      part2 = af(0)*(1.d0 - x) + af(3)*x
       part3 = x*(1.d0-x)*(af(5)+af(6)*(1.d0-x)+af(7)*x*(1.d0-x))
-      part4 = ut1vec(ifl)*log(1.d0-x) + 
+      part4 = ut1vec(ifl)*log(1.d0-x) +
      &	      AF(2)*log(1.d0+exp(ut2vec(ifl))-x)
 
       faux5MI = exp(log(x) + part1 + part2 + part3 + part4)
@@ -7663,7 +7663,7 @@ c --------------------------------------------------------------------------
 	   ctq5L = faux5L(ii,x,q)
 
 	else
-	   ctq5L = 0.d0 
+	   ctq5L = 0.d0
 
 	endif
 
@@ -7907,9 +7907,9 @@ c ---------------------------------------------------------------------
       u = log(x/0.00001d0)
 
       part1 = af(1)*y**(1.d0+0.01d0*af(4))*(1.d0+ af(8)*u)
-      part2 = af(0)*(1.d0 - x) + af(3)*x 
+      part2 = af(0)*(1.d0 - x) + af(3)*x
       part3 = x*(1.d0-x)*(af(5)+af(6)*(1.d0-x)+af(7)*x*(1.d0-x))
-      part4 = ut1vec(ifl)*log(1.d0-x) + 
+      part4 = ut1vec(ifl)*log(1.d0-x) +
      &	      AF(2)*log(1.d0+exp(ut2vec(ifl))-x)
 
       faux5L = exp(log(x) + part1 + part2 + part3 + part4)
@@ -7922,19 +7922,19 @@ c include threshold factor...
 
 
 C--- END CTEQ5 FITS -----
-C    
+C
 C-- WEIZSAKER AND WILLIAMS DISTRIBUTION
 C----------------------------------------------------------------------
       subroutine wwpdf(xs,q2s,ys,wwwgts)
 c  this routine extracts a photon from an electron with momentum fraction
-c  y>x at a scale q2. The momentum fraction is distributed according to the 
-c  Weitzsaker-Williams shape. WWWGT is the probability that a photon with 
-c  momentum fraction > x is emitted at the scale q2. The outine needs a 
+c  y>x at a scale q2. The momentum fraction is distributed according to the
+c  Weitzsaker-Williams shape. WWWGT is the probability that a photon with
+c  momentum fraction > x is emitted at the scale q2. The outine needs a
 c  minimum and maximum value for the range within which x is expected to vary
 c  in the desired process. We expect xmin=(min q2)/shad and xmax=1-xme2/max(q2)
 c  The program is protected against x=1, so xmax=1 is allowed.
-C----------------------------------------------------------------------        
-      implicit real * 8 (a-h,o-z)                                           
+C----------------------------------------------------------------------
+      implicit real * 8 (a-h,o-z)
       real*8 ln10,lgx
       real*4 xs,q2s,ys,wwwgts
       dimension z(0:100),f1int(0:100),f2int(0:100),ftot(0:100)
@@ -7943,15 +7943,15 @@ C----------------------------------------------------------------------
       parameter (pi=3.14159265358979312D0)
       parameter (aemo2pi=alfaem/(2*pi))
       parameter (xme = 0.511d-3)
-      data e0/0/,jseed/1/,nbin/100/             
+      data e0/0/,jseed/1/,nbin/100/
       x=dble(xs)
       q2=dble(q2s)
 c initialization: evaluates integral of the gamma<-e distribution function (WW)
       if(ini.eq.0) then
-        ini=1                        
+        ini=1
         if(xwwmin.eq.0.d0) xwwmin=1.d-4
-        if(xwwmax.eq.0.d0) xwwmax=1.d0 
-        zmin=log10(xwwmin)             
+        if(xwwmax.eq.0.d0) xwwmax=1.d0
+        zmin=log10(xwwmin)
         zmax=log10(xwwmax)
         zrange=zmax-zmin
         dz=zrange/nbin
@@ -7959,22 +7959,22 @@ c initialization: evaluates integral of the gamma<-e distribution function (WW)
         f1int(0)=0
         f2int(0)=0
 c perform the integral in the variable log10(x)
-c It requires the jacobian d(log10(x)) = 1/log(10) d(log(x)) = 1/log(10) dx/x 
+c It requires the jacobian d(log10(x)) = 1/log(10) d(log(x)) = 1/log(10) dx/x
         ln10=log(10.d0)
         do i=1,nbin
           z(i)=z(i-1)+dz
           f1int(i)=f1int(i-1)
           f2int(i)=f2int(i-1)
-          do j=1,10  
-2           xx= random(jseed)*dz+z(i-1) 
+          do j=1,10
+2           xx= random(jseed)*dz+z(i-1)
             xx=10.d0**(xx)
             if(xx.eq.1.d0) go to 2
             f2=aemo2pi*(1+(1-xx)**2)
-            f1=f2*log((1-xx)/xx**2)    
+            f1=f2*log((1-xx)/xx**2)
             f1int(i)=f1int(i)+f1/ln10/10.
             f2int(i)=f2int(i)+f2/ln10/10.
 c divide by 10 to take the average within the dz integration bin
-          enddo                     
+          enddo
         enddo
         xme2=xme**2
       endif
@@ -7989,10 +7989,10 @@ c first find location of x and relative integral of the WW from xmin to x
         go to 20
       endif
       if(lgx.gt.z(n)) then
-        nmin=n                      
+        nmin=n
         go to 10
       elseif(lgx.lt.z(n)) then
-        nmax=n     
+        nmax=n
         go to 10
       elseif(lgx.eq.z(n)) then
         nmin=n
@@ -8004,17 +8004,17 @@ c first find location of x and relative integral of the WW from xmin to x
       do i=nmin,nbin
         ftot(i)=f1int(i)+f2int(i)*xlogq2
 c protect against  q2/xm2<x2/(1-x) , by forcing ftot(x>xmax)=f(xmax)
-        if(ftot(i).lt.ftot(i-1)) ftot(i)=ftot(i-1)                  
+        if(ftot(i).lt.ftot(i-1)) ftot(i)=ftot(i-1)
       enddo
       ftot1=ftot(nbin)
       ftotx=ftot(nmin)+(lgx-z(nmin))*(ftot(nmax)-ftot(nmin))/dz
-      do i=nmin,nbin      
+      do i=nmin,nbin
         ftot(i)=(ftot(i)-ftotx)/(ftot(nbin)-ftotx)
-      enddo                                       
+      enddo
 c now the WW distribution is normalized to 1 over the (x,xmax) range.
 c Generate a random number between 0 and 1 and find by linear interpolation the
 c value of y such that ftot(y)=rn
-      rn=random(jseed)                                           
+      rn=random(jseed)
       nmax=nbin
 30    n=(nmax+nmin)/2
       if(nmin.eq.n) then
@@ -8022,15 +8022,15 @@ c value of y such that ftot(y)=rn
 	y=10.d0**(rn)
         wwwgt=ftot1-ftotx
         go to 40
-      endif              
+      endif
       if(rn.gt.ftot(n)) then
         nmin=n
         go to 30
       elseif(rn.lt.ftot(n)) then
-        nmax=n   
+        nmax=n
         go to 30
       elseif(rn.eq.ftot(n)) then
-        rn=z(n)           
+        rn=z(n)
 	y=10.d0**(rn)
         wwwgt=ftot1-ftotx
         go to 40
@@ -8041,7 +8041,7 @@ c value of y such that ftot(y)=rn
 C DREES AND GRASSIE PHOTON
 C--------------------------------------------------------
       SUBROUTINE PHOPDF(Q2,X,FX,NLF)
-C PHOTON PDFS           
+C PHOTON PDFS
 C--------------------------------------------------------
       REAL FX(-NLF:NLF)
 C--------------------------------------------------
@@ -8059,7 +8059,7 @@ C Thresholds are chosen for consistency with PDFLIB 4.17
       ENDIF
       DQ=PHDGQ(X,Q2,NF,1)/X
       UQ=PHDGQ(X,Q2,NF,2)/X
-      GL=PHDGG(X,Q2,NF)/X                        
+      GL=PHDGG(X,Q2,NF)/X
       IF(NLF.GE.1) FX(1)=UQ
       IF(NLF.GE.2) FX(2)=DQ
       IF(NLF.GE.3) FX(3)=DQ
@@ -8074,9 +8074,9 @@ c*-- Author :    Drees, Grassie, Charchula, modified by Bryan Webber
 C ===============================================================
 C  DREES & GRASSIE PARAMETRIZATION OF PHOTON STRUCTURE FUNCTION
 C
-C    PHDGQ(X,Q2,NFL,NCH) - X*QUARK_IN_PHOTON           
+C    PHDGQ(X,Q2,NFL,NCH) - X*QUARK_IN_PHOTON
 C    PHDGG(X,Q2,NFL)     - X*GLUON_IN_PHOTON
-C WHERE:                                    
+C WHERE:
 C        (INTEGER) NCH - QUARK CHARGE: 1 FOR 1/3
 C                                      2 FOR 2/3
 C        (INTEGER) NFL - NUMBER OF QUARK FLAVOURS /3 OR 4/
@@ -8246,7 +8246,7 @@ C -------  QUARK DISTRIBUTIONS ----------
 C  END DREES AND GRASSIE PHOTON
 C  FONTANNAZ ET AL PHOTON PDF'S
       SUBROUTINE FONPDF(Q2IN,X,FX,NLF)
-C                           
+C
 C     INTERPOLATION PROGRAM WHICH INTERPOLATES THE GRID "DATAN" AND GIVES THE
 C     QUARK AND GLUON DISTRIBUTIONS IN THE REAL PHOTON, AS FUNCTIONS OF X AND Q2
 C
@@ -8290,7 +8290,7 @@ C INITIALIZATION
       IF(INIT.EQ.0) THEN
         INIT=1
         OPEN(UNIT=12,FILE='DATAN',STATUS='OLD')
-C          
+C
 C  SET UP FLAGS, I/O FILES, ETC.
 C
 C  Q2 DEPENDENCE TURNED ON
@@ -8328,7 +8328,7 @@ C  INITIALIZATION COMPLETED
       XSAVE=X
       IF(X.LT.0.00137)X=0.00137
       IF(X.GT.0.9986)X=0.9986
-      ALQ2=ALOG(Q2/OWLAM2) 
+      ALQ2=ALOG(Q2/OWLAM2)
       ALFPI= 2. /(B0*ALQ2+B1*ALOG(ALQ2)/B0)
       CALL DIST(X,Q)
       ADD=Q(1)/FLAVOR
@@ -8343,13 +8343,13 @@ C  INITIALIZATION COMPLETED
       UQ=UPLUS/X
       SQ=SPLUS/X
       CQ=CPLUM/X
-      GL=GLU/X                        
+      GL=GLU/X
       IF(NLF.GE.1) FX(1)=UQ/2.
       IF(NLF.GE.2) FX(2)=DQ/2.
       IF(NLF.GE.3) FX(3)=SQ/2.
       IF(NLF.GE.4) FX(4)=CQ/2.
       IF(NLF.GE.5) FX(5)=0.
-      FX(0)=GL            
+      FX(0)=GL
       DO I=1,NLF
         FX(-I)=FX(I)
       ENDDO
@@ -8435,7 +8435,7 @@ C
 C  32 POINT GAUSSIAN QUADRATURE ROUTINE
       DIMENSION X(16),W(16)
       COMMON/K719FOGAUS32/XI(32),WI(32),NTERMS,XX(33)
-      NTERMS=32                     
+      NTERMS=32
       X(1)=0.048307665687738316235
       X(2)=0.144471961582796493485
       X(3)=0.239287362252137074545
@@ -8619,8 +8619,8 @@ C FONTANNAZ 1994
       SUBROUTINE AFGPDF(Q2IN,X,FX,NLF)
 C**************************************************************************
 C                       ( 1st of February 1994)
-C     This is an interpolation program which reads the files GRPOL and 
-C     GRVDM and gives the quark and gluon distributions in real photon 
+C     This is an interpolation program which reads the files GRPOL and
+C     GRVDM and gives the quark and gluon distributions in real photon
 C     as functions of x and Q**2.
 C
 C     The Q**2 evolution is a BLL evolution (MSbar scheme) with Nf=4
@@ -8637,7 +8637,7 @@ C     The file GRVDM contains the vdm part (A precise definition of this
 C     latter is given in the paper "PARTON DISTRIBUTIONS IN THE PHOTON",
 C     Preprint LPTHE Orsay 93-37, by P.Aurenche,M.Fontannaz and J.Ph.Guillet).
 C
-C     The output of the program is written in the file GETOUT with the 
+C     The output of the program is written in the file GETOUT with the
 C     following conventions
 C                              UPLUS=x(u+ubar)
 C                              DPLUS=x(d+dbar)
@@ -8645,9 +8645,9 @@ C                              SPLUS=x(s+sbar)
 C                              CPLUS=x(c+cbar)
 C                              SING =UPLUS+DPLUS+SPLUS+CPLUS
 C                              GLU  =x*g
-C     
+C
 C      The interpolation is valid for     2. < Q**2 < 5.5E+5 Gev**2,
-C                             and for   .0015<  x   < .99 
+C                             and for   .0015<  x   < .99
 C
 C      The program also gives the structure function F2:
 C                        F2 = q*Cq + g*Cg + Cgam
@@ -8655,12 +8655,12 @@ C      Cq and Cg are the Wilson coeficients and Cgam is the direct term.
 C
 C      Although the charm quark evolution is massless, the direct term
 C      Cgam includes the effects due to the charm quark mass. The charm
-C      quark threshold is therefore correctly described at the lowest 
+C      quark threshold is therefore correctly described at the lowest
 C      ordre in alphastrong (Details are given in the preprint).
 C
 C      The charm contribution can be set equal to zero with the CHARME flag
 C      ( CHARME=0.  -> no charm) ( 27/09/94)
-C      
+C
 C**************************************************************************
       REAL FX(-NLF:NLF)
       DIMENSION Q(7),PAR(30),PAR2(30),QQ(7)
@@ -8698,7 +8698,7 @@ C*****mass of the charm quark******************************************
 C*****CHARME=0. -> no charm contribution ******************************
         CHARME=1.
 C
-C******The parameters are fixed in the file GRPOL**********************     
+C******The parameters are fixed in the file GRPOL**********************
 C
         IORD=INT(PAR(28)+1.E-7)
         FLAV=PAR(25)
@@ -8729,7 +8729,7 @@ C  INITIALIZATION COMPLETED
       XTH=1./(1.+4.*CM**2/Q2)
       ALQ2=XLOG(Q2/OWLAM2)
       ALFPI= 2. /(B0*ALQ2+B1*XLOG(ALQ2)/B0)
-      CUT=1.     
+      CUT=1.
       IF(CHARME.EQ.0.) CUT=0.
       CUTG=1.
       IF(X.GT.XTH) CUT=0.
@@ -8740,7 +8740,7 @@ C  INITIALIZATION COMPLETED
       SPLUS=-Q(6)+ADD
       CPLUS=-Q(3)+ADD
       SING=Q(1)
-      GLU=Q(7)         
+      GLU=Q(7)
       CALL DIST2_N(X,QQ)
       ADD2=QQ(1)/FLAVOR
       UPLU2=QQ(5)+ADD2
@@ -8759,7 +8759,7 @@ C  INITIALIZATION COMPLETED
       UQ=UPLUS/X
       SQ=SPLUS/X
       CQ=CPLUS/X
-      GL=GLU/X                        
+      GL=GLU/X
       IF(NLF.GE.1) FX(1)=UQ/2.
       IF(NLF.GE.2) FX(2)=DQ/2.
       IF(NLF.GE.3) FX(3)=SQ/2.
@@ -8781,7 +8781,7 @@ C
       IF(BE.GE.1.) WCM=0.
       IF(BE.GE.1.) GO TO 1
       SQ=SQRT(1.-BE)
-      A1=((1.+SQ)/2.)**2 
+      A1=((1.+SQ)/2.)**2
       A2=(1.-X)/X
       WCM=(8.*(1.-X)*X-1.)*SQ+(X**2+(1.-X)**2)*XLOG(A1*A2)
       WCM=3.*(4./9.)/(3.1416*137.)*X*WCM
@@ -8837,7 +8837,7 @@ C      PROGRAM DISTL0.FOR
  8    QQ(1)=SING2
       RETURN
       END
-                                                                      
+
       SUBROUTINE GINTER_N(I,NDRV,X,S,ANS)
       DIMENSION F1(32),F2(32),F3(32)
       COMMON/K719GFUNC/GF(8,20,32)
@@ -8992,11 +8992,11 @@ C      ENDIF
   77   GETFV_N=Y
        RETURN
        END
- 
+
       SUBROUTINE POLINT_N(XA,YA,N,X,Y,DY)
       PARAMETER (NMAX=10)
       DIMENSION XA(N),YA(N),C(NMAX),D(NMAX)
-      NS=1 
+      NS=1
       DIF=ABS(X-XA(1))
       DO 11 I=1,N
         DIFT=ABS(X-XA(I))
@@ -9019,7 +9019,7 @@ C      ENDIF
           DEN=W/DEN
           D(I)=HP*DEN
           C(I)=HO*DEN
-12      CONTINUE     
+12      CONTINUE
         IF (2*NS.LT.N-M)THEN
           DY=C(NS+1)
         ELSE
@@ -9061,7 +9061,7 @@ C GLUECK REYA VOGT PHOTON
         ixmin=ixmin+1.
         if(log10(ixmin).gt.ilxmin) then
           write(*,*)' x < xmin in str. functions more than 10**',
-     +  ilxmin,' times'                          
+     +  ilxmin,' times'
           ilxmin=ilxmin+1
         endif
       endif
@@ -9285,7 +9285,7 @@ C GLUECK REYA SCHIENBEIN PHOTON
         ixmin=ixmin+1.
         if(log10(ixmin).gt.ilxmin) then
           write(*,*)' x < xmin in str. functions more than 10**',
-     +  ilxmin,' times'                          
+     +  ilxmin,' times'
           ilxmin=ilxmin+1
         endif
       endif
@@ -9344,8 +9344,8 @@ C GLUECK REYA SCHIENBEIN PHOTON
 *   The parametrizations are fitted to the parton distributions     *
 *                               for                                 *
 *                0.5 GeV**2 =< Q**2 =< 1.E-5 GeV**2                 *
-*                               and                                 * 
-*                          1.E-5 =< x =< 0.95                       *                  
+*                               and                                 *
+*                          1.E-5 =< x =< 0.95                       *
 *   Regions, where the distribution under consideration is neg-     *
 *   ligible, were excluded from the fit.                            *
 *                                                                   *
@@ -9374,7 +9374,7 @@ C GLUECK REYA SCHIENBEIN PHOTON
 *   At Q^2 = MZ^2, alpha_s reads  0.114 (0.125) in NLO (LO); the    *
 *   heavy quark thresholds, Qh^2 = mh^2, in the beta function are   *
 *                   mc = 1.4 GeV,  mb = 4.5 GeV.                    *
-*   Note that the NLO alpha_s running is different from GRV(94).    * 
+*   Note that the NLO alpha_s running is different from GRV(94).    *
 *                                                                   *
 *   Questions, comments etc to: schien@hal1.physik.uni-dortmund.de  *
 *   19.03.1999                                                      *
@@ -9382,10 +9382,10 @@ C GLUECK REYA SCHIENBEIN PHOTON
 C
 C Leading Order Real and Virtual Photon (Point-Like + Hadronic)
 C
-C x f(gamma(P2)) / alpha = x f(gamma(P2))_PL / alpha 
-C                        + eta G_f^2 x f(Pi^0) + r_f 
-C                        = x f(gamma(P2))_PL / alpha 
-C                        + x f(gamma(P2))_HAD / alpha 
+C x f(gamma(P2)) / alpha = x f(gamma(P2))_PL / alpha
+C                        + eta G_f^2 x f(Pi^0) + r_f
+C                        = x f(gamma(P2))_PL / alpha
+C                        + x f(gamma(P2))_HAD / alpha
        SUBROUTINE GRSGLO (X, Q2, P2, UPH, DPH, SPH, GPH)
        IMPLICIT DOUBLE PRECISION (A - Z)
 c couplings and eta factor
@@ -9396,14 +9396,14 @@ c couplings and eta factor
        eta = 1/(1.+ P2/0.59)**2
 c hadronic part:
        call GRSPILO (X, Q2, VAP, GLP, QBP, SBP)
-C X U(Pi^0) = X UBAR(Pi^0) = (VAP + 2 QBP)/2 
-C X D(Pi^0) = X DBAR(Pi^0) = (VAP + 2 QBP)/2 
+C X U(Pi^0) = X UBAR(Pi^0) = (VAP + 2 QBP)/2
+C X D(Pi^0) = X DBAR(Pi^0) = (VAP + 2 QBP)/2
 C X S = X SBAR = SBP
 C X G = GLP
        r = eta * (Gu2-Gd2)/2. * SBP
-       UHAD = eta * Gu2 * (VAP + 2. * QBP)/2. - r  
+       UHAD = eta * Gu2 * (VAP + 2. * QBP)/2. - r
        DHAD = eta * Gd2 * (VAP + 2. * QBP)/2. + r
-       SHAD = eta * Gs2 * SBP 
+       SHAD = eta * Gs2 * SBP
        GHAD = eta * Gg2 * GLP
 c point-like part:
        call GRSGLOPL (X, Q2, P2, UPL, DPL, SPL, GPL)
@@ -9416,10 +9416,10 @@ c PL + HAD:
 C
 C Next-To-Leading Order Real(P2=0) Photon (Point-Like + Hadronic)
 C x f(gamma) / alpha = x f(gamma)_PL / alpha + G_f^2 x f(Pi^0) + r_f
-C                        = x f(gamma)_PL / alpha + x f(gamma)_HAD / alpha 
+C                        = x f(gamma)_PL / alpha + x f(gamma)_HAD / alpha
        SUBROUTINE GRSGHO (X, Q2, UPH, DPH, SPH, GPH)
        IMPLICIT DOUBLE PRECISION (A - Z)
-c couplings 
+c couplings
        Gu2 = 0.836
        Gd2 = 0.250
        Gs2 = 0.543
@@ -9427,9 +9427,9 @@ c couplings
 c hadronic part:
        call GRSPIHO (X, Q2, VAP, GLP, QBP, SBP)
        r = (Gu2-Gd2)/2. * SBP
-       UHAD = Gu2 * (VAP + 2. * QBP)/2. - r  
+       UHAD = Gu2 * (VAP + 2. * QBP)/2. - r
        DHAD = Gd2 * (VAP + 2. * QBP)/2. + r
-       SHAD = Gs2 * SBP 
+       SHAD = Gs2 * SBP
        GHAD = Gg2 * GLP
 c point-like part:
        call GRSGHOPL (X, Q2, UPL, DPL, SPL, GPL)
@@ -9450,18 +9450,18 @@ C Leading Order, Point-Like
            S = DLOG(DLOG(Q2/LAM2)/DLOG(MU2/LAM2))
        else
            S = DLOG(DLOG(Q2/LAM2)/DLOG(P2/LAM2))
-       end if    
+       end if
        alpq3= 4.*pi/(9.*DLOG(Q2/LAM2))
        DS = SQRT (S)
        S2 = S * S
 C...X * U = X * UBAR :
-            AL =  2.626 
-            BE =  0.413 
+            AL =  2.626
+            BE =  0.413
             AK =  2.137 - 0.310 * DS
             BK = -1.049 + 0.113 * S
-            AG = -0.785 + 0.270 * DS 
+            AG = -0.785 + 0.270 * DS
             BG =  0.650 - 0.146 * S
-            C  =  0.252 - 0.065 * DS 
+            C  =  0.252 - 0.065 * DS
             D  = -0.116 + 0.403 * S - 0.117 * S2
             E  =  6.749 + 2.452 * S - 0.226 * S2
             ES =          1.994 * S - 0.216 * S2
@@ -9470,12 +9470,12 @@ C...X * U = X * UBAR :
             UL =  UL/alpq3
 C...X * D = X * DBAR :
             AL =  2.811
-            BE =  0.960 
-            AK =  0.914 
+            BE =  0.960
+            AK =  0.914
             BK =  3.723 - 0.968 * S
-            AG =  0.081 - 0.028 * DS 
-            BG = -0.048 
-            C  =  0.094 - 0.043 * DS  
+            AG =  0.081 - 0.028 * DS
+            BG = -0.048
+            C  =  0.094 - 0.043 * DS
             D  =  0.059 + 0.263 * S - 0.085 * S2
             E  =  6.808 + 2.239 * S - 0.108 * S2
             ES =  1.225 + 0.594 * S - 0.073 * S2
@@ -9484,20 +9484,20 @@ C...X * D = X * DBAR :
             DL =  DL/alpq3
 C...X * G :
             AL =  2.024
-            BE =  0.770 
-            AK =  0.081 
-            BK =  0.848 
+            BE =  0.770
+            AK =  0.081
+            BK =  0.848
             AG =  0.012 + 0.039 * DS
             BG = -0.056 - 0.044 * S
-            C  =  0.043 + 0.031 * S  
-            D  =  0.925 + 0.316 * S 
+            C  =  0.043 + 0.031 * S
+            D  =  0.925 + 0.316 * S
             E  =  3.129 + 2.434 * S - 0.115 * S2
             ES =  1.364 + 1.227 * S - 0.128 * S2
             GA =  1.262
             GL =  F (X, S, AL, BE, AK, BK, AG, BG, C, D, E, ES, GA)
             GL =  GL/alpq3
 C...X * S = X * SBAR :
-           SL = DL     
+           SL = DL
        end
 C
 C Next-to-leading Order, Point-Like
@@ -9510,8 +9510,8 @@ C P2=0 !
        DS = SQRT (S)
        S2 = S * S
 C...X * U = X * UBAR :
-            AL =  2.107 
-            BE =  0.970 
+            AL =  2.107
+            BE =  0.970
             AK =  0.412 - 0.115 * DS
             BK =  4.544 - 0.563 * S
             AG =        - 0.028 * DS  + 0.019 * S2
@@ -9523,41 +9523,41 @@ C...X * U = X * UBAR :
             GA =  1.051
             UH =  F (X, S, AL, BE, AK, BK, AG, BG, C, D, E, ES, GA)
 C...X * D = X * DBAR :
-            AL =  1.812 
-            BE =  0.457 
+            AL =  1.812
+            BE =  0.457
             AK =  0.416 - 0.173 * DS
             BK =  4.489 - 0.827 * S
             AG =        - 0.010 * DS  + 0.006 * S2
             BG =  0.064 + 0.020 * S
-            C  =  1.577 - 0.916 * DS  
+            C  =  1.577 - 0.916 * DS
             D  =  1.122 - 0.093 * S   - 0.100 * S2
             E  =  5.240 + 1.666 * S   - 0.234 * S2
-            ES =          1.284 * S 
+            ES =          1.284 * S
             GA =  1.043
             DH =  F (X, S, AL, BE, AK, BK, AG, BG, C, D, E, ES, GA)
 C...X * G :
-            AL =  1.773 
+            AL =  1.773
             BE =  1.666
             AK =  0.844 - 0.820 * DS
             BK =  2.302 - 0.474 * S
             AG =  0.194
             BG = -0.324 + 0.143 * S
-            C  =  0.330 - 0.177 * S 
+            C  =  0.330 - 0.177 * S
             D  =  0.778 + 0.502 * S - 0.154 * S2
             E  =  2.895 + 1.823 * S - 0.441 * S2
             ES =  2.344 - 0.584 * S
             GA =  0.901
             GH =  F (X, S, AL, BE, AK, BK, AG, BG, C, D, E, ES, GA)
 C...X * S = X * SBAR :
-            SH = DH     
+            SH = DH
        end
 C
-C Point-Like Photon 
+C Point-Like Photon
 C
 C... GA = alpha; AL = alpha'; BE = beta
 C... AK = a; AG = A
 C... BK = b; BG = B
-C... C = C; D = D; E = E; E' = ES 
+C... C = C; D = D; E = E; E' = ES
        FUNCTION F (X, S, AL, BE, AK, BK, AG, BG, C, D, E, ES, GA)
        IMPLICIT DOUBLE PRECISION (A - Z)
        SX = SQRT (X)
@@ -9582,8 +9582,8 @@ C The pion is a vdm-like input for the photon
 *   The parametrizations are fitted to the parton distributions     *
 *                               for                                 *
 *                0.5 GeV**2 =< Q**2 =< 1.E-5 GeV**2                 *
-*                               and                                 * 
-*                          1.E-5 =< x =< 1.                         *                  
+*                               and                                 *
+*                          1.E-5 =< x =< 1.                         *
 *   Regions, where the distribution under consideration is neg-     *
 *   ligible, were excluded from the fit.                            *
 *                                                                   *
@@ -9604,14 +9604,14 @@ C The pion is a vdm-like input for the photon
 *   At Q^2 = MZ^2, alpha_s reads  0.114 (0.125) in NLO (LO); the    *
 *   heavy quark thresholds, Qh^2 = mh^2, in the beta function are   *
 *                   mc = 1.4 GeV,  mb = 4.5 GeV.                    *
-*   Note that the NLO alpha_s running is different from GRV(94).    * 
+*   Note that the NLO alpha_s running is different from GRV(94).    *
 *                                                                   *
 *   Questions, comments etc to: schien@hal1.physik.uni-dortmund.de  *
 *                                                                   *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 C
-C X U(Pi^0) = X UBAR(Pi^0) = (VAP + 2 QBP)/2 
-C X D(Pi^0) = X DBAR(Pi^0) = (VAP + 2 QBP)/2 
+C X U(Pi^0) = X UBAR(Pi^0) = (VAP + 2 QBP)/2
+C X D(Pi^0) = X DBAR(Pi^0) = (VAP + 2 QBP)/2
 C X S = X SBAR = SBP
 C X G = GLP
 C
@@ -9646,9 +9646,9 @@ C...X * QBAR (LIGHT SEA) :
        BES =  1.241
        AKS =  0.309 - 0.134 * DS
        BKS =  0.893 - 0.264 * DS
-       AGS =  0.219 - 0.054 * S  
+       AGS =  0.219 - 0.054 * S
        BGS =  -0.593 + 0.240 * S
-       CS  =  1.100 - 0.452 * S  
+       CS  =  1.100 - 0.452 * S
        DS  =  3.526 + 0.491 * S
        ES  =  4.521 + 1.583 * S
        ESS =  3.102
@@ -9657,7 +9657,7 @@ C...X * SBAR = X * S :
        ALSTR =   0.823
        BESTR =   0.650
        AKSTR =   1.036 - 0.709 * S
-       AGSTR =   -1.245 + 0.713 * S 
+       AGSTR =   -1.245 + 0.713 * S
        BGSTR =   5.580 - 1.281 * S
        DSTR  =   2.746 - 0.191 * S
        ESTR  =   5.101 + 1.294 * S
@@ -9699,9 +9699,9 @@ C...X * QBAR (LIGHT SEA) :
        BES =  0.457
        AKS =  0.111 - 0.326 * DS
        BKS =  -0.978 - 0.488 * DS
-       AGS =  1.035 - 0.295 * S  
+       AGS =  1.035 - 0.295 * S
        BGS =  -3.008 + 1.165 * S
-       CS  =  4.111 - 1.575 * S  
+       CS  =  4.111 - 1.575 * S
        DS  =  6.192 + 0.705 * S
        ES  =  5.035 + 0.997 * S
        ESS =  1.486 + 1.288 * S
@@ -9710,8 +9710,8 @@ C...X * SBAR = X * S :
        ALSTR =   0.908
        BESTR =   0.812
        AKSTR =   -0.567 - 0.466 * S
-       AGSTR =   -2.348 + 1.433 * S 
-       BGSTR =   4.403 
+       AGSTR =   -2.348 + 1.433 * S
+       BGSTR =   4.403
        DSTR  =   2.061
        ESTR  =   3.796 + 1.618 * S
        ESSTR =   0.309 + 0.355 * S
@@ -9720,7 +9720,7 @@ C...X * SBAR = X * S :
        RETURN
        END
 C
-C PION 
+C PION
 C
 c... AK = a; AG = A
 c... BK = b; BG = B
@@ -9777,7 +9777,7 @@ C LAC1 PHOTON
         ixmin=ixmin+1.
         if(log10(ixmin).gt.ilxmin) then
           write(*,*)' x < xmin in str. functions more than 10**',
-     +  ilxmin,' times'                          
+     +  ilxmin,' times'
           ilxmin=ilxmin+1
         endif
       endif
@@ -10051,7 +10051,7 @@ c
          stop
       endif
       return
-      end       
+      end
 
 c----------------------------------------------------------
 c Program to get lambda_nf from as_nf at the scale q
@@ -10092,9 +10092,9 @@ c CTEQ6 START
 C----- START CTEQ6 FITS ------------------------------
 C Cteq6, added by P. Nason on 4-2-2002
       SUBROUTINE  CTEQ6(ISET,IH,Q2,X,FX,NF)
-      REAL FX(-NF:NF)  
+      REAL FX(-NF:NF)
       REAL*8 DX,DQ,CTQ6PDF,PDFS(-NF:NF)
-      DATA INIT/0/ 
+      DATA INIT/0/
 C
       Q=SQRT(Q2)
       DQ=DBLE(Q)
@@ -10103,7 +10103,7 @@ C
       DO I=-NF,NF
          PDFS(I)=CTQ6PDF(I,DX,DQ)
       ENDDO
-C                         
+C
       IF(ABS(IH).GE.3) CALL NOSETP
       IH0=IH
       IF(ABS(IH).EQ.2) IH0=ISIGN(1,IH)
@@ -10114,12 +10114,12 @@ C The division by the factor DX is NOT needed
       FX(2*IH0)=SNGL(PDFS(2))
       FX(-IH0)=SNGL(PDFS(-1))
       FX(-2*IH0)=SNGL(PDFS(-2))
-      DO I=3,NF              
+      DO I=3,NF
         FX(I)=SNGL(PDFS(I))
-      ENDDO          
+      ENDDO
       DO I=-NF,-3
         FX(I)=SNGL(PDFS(I))
-      ENDDO          
+      ENDDO
 C...TRANSFORM PROTON INTO NEUTRON
       IF(ABS(IH).EQ.2) THEN
         T=FX(1)
@@ -10611,7 +10611,7 @@ C                                       ********************
 c CTEQ6 END
 
 
-c BEGIN MRSTNNLO (2002) 
+c BEGIN MRSTNNLO (2002)
       subroutine mrst0201127
      #           (x,q,mode,upv,dnv,usea,dsea,str,chm,bot,glu)
 C***************************************************************C
@@ -10624,26 +10624,26 @@ C  There are 4 pdf sets corresponding to mode = 1, 2, 3, 4      C
 C                                                               C
 C  Mode=1 gives the default set with Lambda(MSbar,nf=4) = 0.235 C
 C  corresponding to alpha_s(M_Z) of 0.1155                      C
-C  This set is the `average' of the slow and fast evolutions    C 
+C  This set is the `average' of the slow and fast evolutions    C
 C  This set reads a grid whose first number is 0.00725          C
 C                                                               C
 C  Mode=2 gives the set with Lambda(MSbar,nf=4) = 0.235         C
 C  corresponding to alpha_s(M_Z) of 0.1155                      C
-C  This set is the fast evolution                               C 
+C  This set is the fast evolution                               C
 C  This set reads a grid whose first number is 0.00734          C
 C                                                               C
 C  Mode=3 gives the set with Lambda(MSbar,nf=4) = 0.235         C
 C  corresponding to alpha_s(M_Z) of 0.1155                      C
-C  This set is the slow evolution                               C 
+C  This set is the slow evolution                               C
 C  This set reads a grid whose first number is 0.00739          C
 C                                                               C
 C  Mode=4 gives the set MRSTNNLOJ which gives better agreement  C
 C  with the Tevatron inclusive jet data but has unattractive    C
 C  gluon behaviour at large x (see discussion in paper)         C
-C  This set has Lambda(MSbar,nf=4) = 0.267(alpha_s(M_Z) =0.1180 C 
+C  This set has Lambda(MSbar,nf=4) = 0.267(alpha_s(M_Z) =0.1180 C
 C  This set reads a grid whose first number is 0.00865          C
 C                                                               C
-C   This subroutine uses an improved interpolation procedure    C 
+C   This subroutine uses an improved interpolation procedure    C
 C   for extracting values of the pdf's from the grid            C
 C                                                               C
 C         Comments to : W.J.Stirling@durham.ac.uk               C
@@ -10655,14 +10655,14 @@ C***************************************************************C
 c      if(q2.lt.qsqmin.or.q2.gt.qsqmax) print 99,q2
 c      if(x.lt.xmin.or.x.gt.xmax)       print 98,x
       if(mode.eq.1) then
-        call mrst10201127(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst10201127(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.2) then
-        call mrst20201127(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst20201127(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.3) then
-        call mrst30201127(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst30201127(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.4) then
         call mrst40201127(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
-      endif 
+      endif
   99  format('  WARNING:  Q^2 VALUE IS OUT OF RANGE   ','q2= ',e10.5)
   98  format('  WARNING:   X  VALUE IS OUT OF RANGE   ','x= ',e10.5)
       return
@@ -10751,7 +10751,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -10763,12 +10763,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -10777,7 +10777,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       return
    50 format(8f10.5)
       end
- 
+
       subroutine mrst20201127(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,np=8,nqc0=2,nqb0=11,nqc=35,nqb=26)
@@ -10861,7 +10861,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -10873,12 +10873,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -10971,7 +10971,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -10983,12 +10983,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -11081,7 +11081,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -11093,12 +11093,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -11220,7 +11220,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       subroutine jeppe2(x,y,nx,my,xx,yy,cc,z)
       implicit real*8(a-h,o-z)
-      dimension xx(nx),yy(my),cc(nx,my,4,4)      
+      dimension xx(nx),yy(my),cc(nx,my,4,4)
 
       n=locx(xx,nx,x)
       m=locx(yy,my,y)
@@ -11243,8 +11243,8 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       locx=1
       return
       endif
-      if(x.ge.xx(nx)) then 
-      locx=nx-1  
+      if(x.ge.xx(nx)) then
+      locx=nx-1
       return
       endif
       ju=nx+1
@@ -11268,7 +11268,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
      .(y2-y3))+x2*x2*(y1-y3)+x1*x1*(y2-y3))/((x1-x2)*(x1-x3)*(x2-x3))
       return
       end
-c END MRSTNNLO (2002) 
+c END MRSTNNLO (2002)
 
 
       subroutine mrst2001E(x,q,n,upv,dnv,usea,dsea,str,chm,bot,glu)
@@ -11277,7 +11277,7 @@ C								C
 C  This is a package for the new MRST 2001 "NLO parton          C
 C  distributions with errors" package, which allows estimates   C
 C  of the uncertainties for given physical quantities according C
-C  to the Hessian approach                                      C     
+C  to the Hessian approach                                      C
 C  Reference: A.D. Martin, R.G. Roberts, W.J. Stirling and      C
 C  R.S. Thorne, hep-ph/0211080                                  C
 C                                                               C
@@ -11299,7 +11299,7 @@ C  first row of which is                                        C
 C                                                               C
 C   0.00959   0.00189 -10.10634   0.85204   0.00000  ...        C
 C                                                               C
-C   This subroutine uses an improved interpolation procedure    C 
+C   This subroutine uses an improved interpolation procedure    C
 C   for extracting values of the pdf's from the grid            C
 C                                                               C
 C         Comments to : W.J.Stirling@durham.ac.uk               C
@@ -11310,7 +11310,7 @@ C***************************************************************C
       q2=q*q
 c      if(q2.lt.qsqmin.or.q2.gt.qsqmax) print 99,q2
 c      if(x.lt.xmin.or.x.gt.xmax)       print 98,x
-      call mrst2001EE(n,x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+      call mrst2001EE(n,x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
   99  format('  WARNING:  Q^2 VALUE IS OUT OF RANGE   ','q2= ',e10.5)
   98  format('  WARNING:   X  VALUE IS OUT OF RANGE   ','x= ',e10.5)
       return
@@ -11408,7 +11408,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -11420,12 +11420,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe3001E2(i,xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe3001E2(i,xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe3001E2(i,xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -11434,7 +11434,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       return
    50 format(8f10.5)
       end
- 
+
 
 
 
@@ -11551,7 +11551,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       subroutine jeppe3001E2(i,x,y,nx,my,xx,yy,cc,z)
       implicit real*8(a-h,o-z)
       parameter(nhess=30)
-      dimension xx(nx),yy(my),cc(0:nhess,nx,my,4,4)      
+      dimension xx(nx),yy(my),cc(0:nhess,nx,my,4,4)
 
       n=locx2001E(xx,nx,x)
       m=locx2001E(yy,my,y)
@@ -11574,8 +11574,8 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       locx2001E=1
       return
       endif
-      if(x.ge.xx(nx)) then 
-      locx2001E=nx-1  
+      if(x.ge.xx(nx)) then
+      locx2001E=nx-1
       return
       endif
       ju=nx+1
@@ -11606,13 +11606,13 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 C***************************************************************C
 C								C
 C  This is a package for the new MRST 2002 updated NLO and      C
-C  NNLO parton distributions.                                   C 
+C  NNLO parton distributions.                                   C
 C  Reference: A.D. Martin, R.G. Roberts, W.J. Stirling and      C
 C  R.S. Thorne, hep-ph/0211080                                  C
 C                                                               C
 C  There are 2 pdf sets corresponding to mode = 1, 2            C
 C                                                               C
-C  Mode=1 gives the NLO set with alpha_s(M_Z,NLO) = 0.1197      C  
+C  Mode=1 gives the NLO set with alpha_s(M_Z,NLO) = 0.1197      C
 C  This set reads a grid whose first number is 0.00949          C
 C                                                               C
 C  Mode=2 gives the NNLO set with alpha_s(M_Z,NNLO) = 0.1154    C
@@ -11627,10 +11627,10 @@ C***************************************************************C
 c      if(q2.lt.qsqmin.or.q2.gt.qsqmax) print 99,q2
 c      if(x.lt.xmin.or.x.gt.xmax)       print 98,x
       if(mode.eq.1) then
-        call mrst2002_1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst2002_1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.2) then
-        call mrst2002_2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
-      endif 
+        call mrst2002_2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
+      endif
   99  format('  WARNING:  Q^2 VALUE IS OUT OF RANGE   ','q2= ',e10.5)
   98  format('  WARNING:   X  VALUE IS OUT OF RANGE   ','x= ',e10.5)
       return
@@ -11717,7 +11717,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -11729,12 +11729,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2002_2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2002_2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2002_2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -11825,7 +11825,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -11837,12 +11837,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2002_2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2002_2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2002_2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -11963,7 +11963,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       subroutine jeppe2002_2(x,y,nx,my,xx,yy,cc,z)
       implicit real*8(a-h,o-z)
-      dimension xx(nx),yy(my),cc(nx,my,4,4)      
+      dimension xx(nx),yy(my),cc(nx,my,4,4)
 
       n=locx2002(xx,nx,x)
       m=locx2002(yy,my,y)
@@ -11986,8 +11986,8 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       locx2002=1
       return
       endif
-      if(x.ge.xx(nx)) then 
-      locx2002=nx-1  
+      if(x.ge.xx(nx)) then
+      locx2002=nx-1
       return
       endif
       ju=nx+1
@@ -12017,7 +12017,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 C***************************************************************C
 C								C
 C  This is a package for the new MRST 2001 LO parton            C
-C  distributions.                                               C     
+C  distributions.                                               C
 C  Reference: A.D. Martin, R.G. Roberts, W.J. Stirling and      C
 C  R.S. Thorne, hep-ph/0201xxx                                  C
 C                                                               C
@@ -12027,7 +12027,7 @@ C  Mode=1 gives the default set with Lambda(MSbar,nf=4) = 0.220 C
 C  corresponding to alpha_s(M_Z) of 0.130                       C
 C  This set reads a grid whose first number is 0.02868          C
 C                                                               C
-C   This subroutine uses an improved interpolation procedure    C 
+C   This subroutine uses an improved interpolation procedure    C
 C   for extracting values of the pdf's from the grid            C
 C                                                               C
 C         Comments to : W.J.Stirling@durham.ac.uk               C
@@ -12039,8 +12039,8 @@ C***************************************************************C
 c      if(q2.lt.qsqmin.or.q2.gt.qsqmax) print 99,q2
 c      if(x.lt.xmin.or.x.gt.xmax)       print 98,x
       if(mode.eq.1) then
-        call mrst2001lo1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
-      endif 
+        call mrst2001lo1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
+      endif
   99  format('  WARNING:  Q^2 VALUE IS OUT OF RANGE   ','q2= ',e10.5)
   98  format('  WARNING:   X  VALUE IS OUT OF RANGE   ','x= ',e10.5)
       return
@@ -12127,7 +12127,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -12139,12 +12139,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2001lo2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2001lo2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2001lo2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -12153,7 +12153,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       return
    50 format(8f10.5)
       end
- 
+
 c      subroutine jeppe1(nx,my,xx,yy,ff,cc)
 c      implicit real*8(a-h,o-z)
 c      dimension xx(nx),yy(my),ff(nx,my),ff1(nx,my),ff2(nx,my),
@@ -12272,7 +12272,7 @@ c     xcl(16),cc(nx,my,4,4),iwt(16,16)
 
       subroutine jeppe2001lo2(x,y,nx,my,xx,yy,cc,z)
       implicit real*8(a-h,o-z)
-      dimension xx(nx),yy(my),cc(nx,my,4,4)      
+      dimension xx(nx),yy(my),cc(nx,my,4,4)
 
       n=locx2001lo(xx,nx,x)
       m=locx2001lo(yy,my,y)
@@ -12295,8 +12295,8 @@ c     xcl(16),cc(nx,my,4,4),iwt(16,16)
       locx2001lo=1
       return
       endif
-      if(x.ge.xx(nx)) then 
-      locx2001lo=nx-1  
+      if(x.ge.xx(nx)) then
+      locx2001lo=nx-1
       return
       endif
       ju=nx+1
@@ -12326,7 +12326,7 @@ c     xcl(16),cc(nx,my,4,4),iwt(16,16)
 C***************************************************************C
 C								C
 C  This is a package for the new MRST 2001 NLO parton           C
-C  distributions.                                               C     
+C  distributions.                                               C
 C  Reference: A.D. Martin, R.G. Roberts, W.J. Stirling and      C
 C  R.S. Thorne, hep-ph/0110215                                  C
 C                                                               C
@@ -12347,10 +12347,10 @@ C                                                               C
 C  Mode=4 gives the set MRST2001J which gives better agreement  C
 C  with the Tevatron inclusive jet data but has unattractive    C
 C  gluon behaviour at large x (see discussion in paper)         C
-C  This set has Lambda(MSbar,nf=4) = 0.353(alpha_s(M_Z) = 0.121 C 
+C  This set has Lambda(MSbar,nf=4) = 0.353(alpha_s(M_Z) = 0.121 C
 C  This set reads a grid whose first number is 0.00826          C
 C                                                               C
-C   This subroutine uses an improved interpolation procedure    C 
+C   This subroutine uses an improved interpolation procedure    C
 C   for extracting values of the pdf's from the grid            C
 C                                                               C
 C         Comments to : W.J.Stirling@durham.ac.uk               C
@@ -12362,14 +12362,14 @@ C***************************************************************C
 c      if(q2.lt.qsqmin.or.q2.gt.qsqmax) print 99,q2
 c      if(x.lt.xmin.or.x.gt.xmax)       print 98,x
       if(mode.eq.1) then
-        call mrst2001_1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst2001_1(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.2) then
-        call mrst2001_2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst2001_2(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.3) then
-        call mrst2001_3(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu) 
+        call mrst2001_3(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
       elseif(mode.eq.4) then
         call mrst2001_4(x,q2,upv,dnv,usea,dsea,str,chm,bot,glu)
-      endif 
+      endif
   99  format('  WARNING:  Q^2 VALUE IS OUT OF RANGE   ','q2= ',e10.5)
   98  format('  WARNING:   X  VALUE IS OUT OF RANGE   ','x= ',e10.5)
       return
@@ -12456,7 +12456,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -12468,12 +12468,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2001_2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -12482,7 +12482,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       return
    50 format(8f10.5)
       end
- 
+
       subroutine mrst2001_2(x,qsq,upv,dnv,usea,dsea,str,chm,bot,glu)
       implicit real*8(a-h,o-z)
       parameter(nx=49,nq=37,np=8,nqc0=2,nqb0=11,nqc=35,nqb=26)
@@ -12564,7 +12564,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -12576,12 +12576,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2001_2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -12672,7 +12672,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -12684,12 +12684,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2001_2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -12780,7 +12780,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       init=1
    10 continue
-      
+
       xlog=dlog(x)
       qsqlog=dlog(qsq)
 
@@ -12792,12 +12792,12 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       call jeppe2001_2(xlog,qsqlog,nx,nq,xxl,qql,cc8,dsea)
 
       chm=0.d0
-      if(qsq.gt.emc2) then 
+      if(qsq.gt.emc2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqc,xxl,qqlc,ccc,chm)
       endif
 
       bot=0.d0
-      if(qsq.gt.emb2) then 
+      if(qsq.gt.emb2) then
       call jeppe2001_2(xlog,qsqlog,nx,nqb,xxl,qqlb,ccb,bot)
       endif
 
@@ -12919,7 +12919,7 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       subroutine jeppe2001_2(x,y,nx,my,xx,yy,cc,z)
       implicit real*8(a-h,o-z)
-      dimension xx(nx),yy(my),cc(nx,my,4,4)      
+      dimension xx(nx),yy(my),cc(nx,my,4,4)
 
       n=locx2001(xx,nx,x)
       m=locx2001(yy,my,y)
@@ -12942,8 +12942,8 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
       locx2001=1
       return
       endif
-      if(x.ge.xx(nx)) then 
-      locx2001=nx-1  
+      if(x.ge.xx(nx)) then
+      locx2001=nx-1
       return
       endif
       ju=nx+1
@@ -13050,46 +13050,46 @@ c notation: 1=uval 2=val 3=glue 4=usea 5=chm 6=str 7=btm 8=dsea
 
       subroutine a02(x,qsq,PDFS,DPDFS,NPDF,NPAR,KORD,KSCHEM,KSET)
 c--------------------
-c     This is a package for the parton distributions with account 
-c     of their experimental (stat+syst) and theoretical uncertainties. 
-c     The q**2 range is 2.5d0 < q**2 < 5.6d7, the x range is 1d-7 < x < 1d0. 
+c     This is a package for the parton distributions with account
+c     of their experimental (stat+syst) and theoretical uncertainties.
+c     The q**2 range is 2.5d0 < q**2 < 5.6d7, the x range is 1d-7 < x < 1d0.
 c     The grid and interpolation routines are cloned from the MRS's ones.
 C
 c  Input parameters:
 c        KORD=1 -- the LO PDFs
 c        KORD=2 -- the NLO PDFs
 c        KORD=3 -- the NNLO PDFs
-C      
-c        KSCHEM=0 -- the fixed-flavor-number (FFN) scheme 
+C
+c        KSCHEM=0 -- the fixed-flavor-number (FFN) scheme
 c        KSCHEM=1 -- the variable-flavor-number (VFN) scheme
 C
 c        KSET=0 -- nominal PDFs
 c        KSET=1 -- PDFs with mass of c-quark increased from 1.5 to 1.75 GeV
-c        KSET=2 -- PDFs with the strange sea suppression factor increased from 
+c        KSET=2 -- PDFs with the strange sea suppression factor increased from
 c                  0.42 to 0.52
-c        KSET=3 -- PDFs with the choice B (slow evolution) for the NNLO kernel 
+c        KSET=3 -- PDFs with the choice B (slow evolution) for the NNLO kernel
 c                  (used with KORD=2 only)
 c
 c  Output parameters:
 c     The array PDFS contains parton distributions times x:
-c        PDF(1) -- valence u-quarks 
+c        PDF(1) -- valence u-quarks
 c        PDF(2) -- valence d-quarks
-c        PDF(3) -- gluons 
-c        PDF(4) -- sea u-quarks 
-c        PDF(5) -- s-quarks 
-c        PDF(6) -- sea d-quarks 
+c        PDF(3) -- gluons
+c        PDF(4) -- sea u-quarks
+c        PDF(5) -- s-quarks
+c        PDF(6) -- sea d-quarks
 c        PDF(7) -- c-quarks
 c        PDF(8) -- b-quarks
 c        PDF(9) -- t-quarks
-c     NPDF is the number of PDFs returned (NPDF=6 for the FFN PDFs and 9 for 
+c     NPDF is the number of PDFs returned (NPDF=6 for the FFN PDFs and 9 for
 c     the VFN ones).
-c     Output array DPDFS(ipdf,ipar) contains derivatives of the PDFs on the 
+c     Output array DPDFS(ipdf,ipar) contains derivatives of the PDFs on the
 c     fitted parameters with the number of the parameters returned in NPAR.
-c     These derivatives are transformed to the orthonormal basis of 
-c     eigenvectors of the parameters error matrix. For this reason the 
-c     variation of the PDFs in the derivatives directions can be performed 
-c     independently. For example the dispersion of the i-th PDF can be stored 
-c     in DELPDF using the code 
+c     These derivatives are transformed to the orthonormal basis of
+c     eigenvectors of the parameters error matrix. For this reason the
+c     variation of the PDFs in the derivatives directions can be performed
+c     independently. For example the dispersion of the i-th PDF can be stored
+c     in DELPDF using the code
 c
 c-----------------
 c          DELPDF=0.
@@ -13097,9 +13097,9 @@ c          do k=1,npar
 c            DELPDF=DELPDF+dpdfs(i,k)**2
 c          end do
 c-----------------
-c     and its random value is stored in RPDF using the code 
+c     and its random value is stored in RPDF using the code
 c-----------------
-c          RPDF=pdfs(i)          
+c          RPDF=pdfs(i)
 c          do k=1,npar
 c            s=0.
 c            do k=1,96
@@ -13108,11 +13108,11 @@ c            end do
 c            RPDF=RPDF+s*dpdfs(i,k)
 c          end do
 c-----------------
-c          
+c
 c         Reference: hep-ph/0211096
-c      
-c         Comments to: alekhin@sirius.ihep.su                      
-c                                                               
+c
+c         Comments to: alekhin@sirius.ihep.su
+c
       implicit real*8(a-h,o-z)
       parameter(nxb=59,nq=37,ntenth=33,np=9,nvar=15)
       real*4 f(np,nxb,nq+1),qq(nq),xx(nxb),xx0(nxb),n0(np)
@@ -13150,7 +13150,7 @@ c put in your local address of the PDFs files in LOCDIR
       character *3 pdfset(0:3)
       data pdfset /'   ','_mc','_ss','_kr'/
 
-      if (init.eq.0) then 
+      if (init.eq.0) then
         do n=1,ntenth-1
           xx(n)=log10(xx0(n)/xx0(ntenth))+xx0(ntenth)
         end do
@@ -13160,9 +13160,9 @@ c put in your local address of the PDFs files in LOCDIR
       init=1
       end if
 
-      if (kschem.eq.0) then 
+      if (kschem.eq.0) then
         npdf=6
-      else 
+      else
         npdf=9
       end if
       npar=nvar
@@ -13171,7 +13171,7 @@ c put in your local address of the PDFs files in LOCDIR
 
       kords=kord
       kschems=kschem
-      ksets=kset      
+      ksets=kset
 
       write(*,*) 'a02.pdfs_'//pdford(kord)//'_'
      /     //pdfschem(kschem)//pdfset(kset)
@@ -13194,7 +13194,7 @@ c put in your local address of the PDFs files in LOCDIR
      /                              //pdfschem(kschem))
       do n=1,nxb-1
         do m=1,nq
-          do i=1,npdf 
+          do i=1,npdf
             read (nport,*) (df(k,i,n,m),k=1,npar)
             do k=1,npar
               df(k,i,n,m)=df(k,i,n,m)/(1d0-xx0(n))**n0(i)
@@ -13254,4 +13254,3 @@ c      if(x.lt.xmin.or.x.gt.xmax)       print 98,x
       return
 
       end
-

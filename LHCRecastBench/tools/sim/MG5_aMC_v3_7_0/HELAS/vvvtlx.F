@@ -14,7 +14,7 @@ c       real    g1             : coupling constant        (QCD)
 c       complex g2(2)          : coupling constant        (Higgs Effct. Thr.)
 c
 c output:
-c       complex vertex         : amplitude  
+c       complex vertex         : amplitude
 c
 
       implicit none

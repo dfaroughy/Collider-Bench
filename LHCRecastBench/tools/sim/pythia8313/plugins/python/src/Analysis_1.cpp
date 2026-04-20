@@ -37,7 +37,7 @@
 struct PyCallBack_Pythia8_SlowJetHook : public Pythia8::SlowJetHook {
 	using Pythia8::SlowJetHook::SlowJetHook;
 
-	bool include(int a0, const class Pythia8::Event & a1, class Pythia8::Vec4 & a2, double & a3) override { 
+	bool include(int a0, const class Pythia8::Event & a1, class Pythia8::Vec4 & a2, double & a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SlowJetHook *>(this), "include");
 		if (overload) {
@@ -56,7 +56,7 @@ struct PyCallBack_Pythia8_SlowJetHook : public Pythia8::SlowJetHook {
 struct PyCallBack_Pythia8_SlowJet : public Pythia8::SlowJet {
 	using Pythia8::SlowJet::SlowJet;
 
-	bool doStep() override { 
+	bool doStep() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SlowJet *>(this), "doStep");
 		if (overload) {
@@ -69,7 +69,7 @@ struct PyCallBack_Pythia8_SlowJet : public Pythia8::SlowJet {
 		}
 		return SlowJet::doStep();
 	}
-	void findNext() override { 
+	void findNext() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SlowJet *>(this), "findNext");
 		if (overload) {

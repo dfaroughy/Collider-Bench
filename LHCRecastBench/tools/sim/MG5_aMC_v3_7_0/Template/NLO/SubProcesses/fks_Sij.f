@@ -11,7 +11,7 @@ c is the cosine of the angle between the FKS parton and its sister,
 c and thus does not coincide, in general, with the cosine of the angle
 c between partons ii_fks and jj_fks.
 c
-c The function fks_Sij has smooth numerical limits for 
+c The function fks_Sij has smooth numerical limits for
 c   E(i_fks)-->0   and  theta(i_fks,j_fks)-->0
 c if and only if ii_fks=i_fks and if (ii_fks,jj_fks)=(i_fks,j_fks)
 c respectively. In all other cases, the program is protected against
@@ -24,7 +24,7 @@ c arguments (ii_fks,jj_fks)=(i_fks,j_fks). An exception is the directory
 c where the finite contribution is computed, where potential problems
 c can be avoided with a suitable choice of f()
 c
-c 
+c
       Double precision function fks_Sij(p,ii_fks,jj_fks,
      #                                  xi_i_fks,y_ij_fks)
       implicit none
@@ -143,9 +143,9 @@ c entering this function
          write(*,*)'fks_Sij: do not know what to do',
      #     ii_fks,i_fks,xi_i_fks
       endif
-      
+
       if (firsttime) then
-C can be optimized using firsttime configuration by configuration 
+C can be optimized using firsttime configuration by configuration
 c         firsttime=.false.
          do k = 1,nexternal
            do l = 1,nexternal
@@ -182,7 +182,7 @@ c         firsttime=.false.
       inverseSij=0d0
       ihdamp=0
       hfact=1.d0
-      
+
       do i=1,nexternal
        if (fks_j_from_i(i,0).ne.0) then
         do j=1,fks_j_from_i(i,0)
@@ -421,7 +421,7 @@ c
 
       subroutine get_cms_costh_fks(p1,p2,ka,kb,E1,E2,xm1,xm2,
      #                             beta1,beta2,costhfks)
-c Given the momenta p1 and p2 in the \tilde{k}_1+\tilde{k}_2 c.m. frame, 
+c Given the momenta p1 and p2 in the \tilde{k}_1+\tilde{k}_2 c.m. frame,
 c returns the velocities beta1 and beta2, and the 3-angle between p1 and p2
 c in the k_1+k_2 c.m. frame. Here, ka=\tilde{k}_1, ,kb=\tilde{k}_2
       implicit none
@@ -470,7 +470,7 @@ c
 
       length1=dsqrt(p1(1)**2+p1(2)**2+p1(3)**2)
       length2=dsqrt(p2(1)**2+p2(2)**2+p2(3)**2)
-      
+
       if (length1.ne.0 .and. length2.ne.0)then
          costh_fks=(p1(1)*p2(1)+p1(2)*p2(2)+p1(3)*p2(3))/length1/length2
          if((abs(costh_fks)-1.d0).gt.tiny)then
@@ -496,7 +496,7 @@ c
       double precision x,y
 
       include "fks_powers.inc"
-      
+
       if (x.lt.0d0 .or. x.gt.1d0)then
          write (*,*) 'ERROR in h_damp',x
          stop
@@ -561,11 +561,9 @@ c entering this function
         write(*,*)shattmp,shat
         stop
       endif
-      
+
       z=p(0,ii_fks)/(p(0,ii_fks)+p(0,jj_fks))
       fks_Hij=h_damp(z)
 
       return
       end
-
-

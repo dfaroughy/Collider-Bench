@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -19,7 +19,7 @@ from __future__ import absolute_import
 from io import StringIO
 import copy
 import fractions
-import os 
+import os
 import sys
 import tempfile
 import glob
@@ -60,30 +60,30 @@ class TestMG5aMCDistribution(unittest.TestCase):
             else:
                 program = ["wget"]
             # Here shell=True is necessary. It is safe however since program and link are not
-            
+
             subprocess.call(program+[link],cwd=curr_dir)
             return pjoin(curr_dir,os.path.basename(link))
 
         def test_short_OfflineHEPToolsInstaller(self):
             """ Test whether the current OfflineHEPToolsInstaller is up to date."""
-            
+
             with misc.TMP_directory() as tmp_path:
                 subprocess.call('bzr branch lp:~maddevelopers/mg5amcnlo/HEPToolsInstallers BZR_VERSION',
                                 cwd=tmp_path, shell=True)
 #                shutil.copy(pjoin(MG5DIR,'vendor','OfflineHEPToolsInstaller.tar.gz'),
-#                            pjoin(tmp_path,'OfflineHEPToolsInstaller.tar.gz'))    
+#                            pjoin(tmp_path,'OfflineHEPToolsInstaller.tar.gz'))
 #                subprocess.call('tar -xzf OfflineHEPToolsInstaller.tar.gz', cwd=tmp_path, shell=True)
 #                shutil.move(pjoin(tmp_path,'HEPToolsInstallers'),pjoin(tmp_path,'OFFLINE_VERSION'))
                 online_path = dict(tuple(line.decode().split()[:2]) for line in six.moves.urllib.request.urlopen(
                       'http://madgraph.phys.ucl.ac.be/package_info.dat'))['HEPToolsInstaller']
-                subprocess.call('tar -xzf %s'%TestMG5aMCDistribution.get_data(online_path,tmp_path), 
-                                                                            cwd=tmp_path, shell=True)                
+                subprocess.call('tar -xzf %s'%TestMG5aMCDistribution.get_data(online_path,tmp_path),
+                                                                            cwd=tmp_path, shell=True)
                 shutil.move(pjoin(tmp_path,'HEPToolsInstallers'),pjoin(tmp_path,'ONLINE_VERSION_UCL'))
                 online_path = dict(tuple(line.decode().split()[:2]) for line in six.moves.urllib.request.urlopen(
                       'https://madgraph.mi.infn.it//package_info.dat'))['HEPToolsInstaller']
-                subprocess.call('tar -xzf %s'%TestMG5aMCDistribution.get_data(online_path,tmp_path), 
-                                                                            cwd=tmp_path, shell=True)                
-                shutil.move(pjoin(tmp_path,'HEPToolsInstallers'),pjoin(tmp_path,'ONLINE_VERSION_UIUC'))                
+                subprocess.call('tar -xzf %s'%TestMG5aMCDistribution.get_data(online_path,tmp_path),
+                                                                            cwd=tmp_path, shell=True)
+                shutil.move(pjoin(tmp_path,'HEPToolsInstallers'),pjoin(tmp_path,'ONLINE_VERSION_UIUC'))
                 for path in misc.glob(pjoin('BZR_VERSION','*'),tmp_path):
                     if os.path.basename(path)=='.bzr':
                         continue
@@ -98,4 +98,3 @@ class TestMG5aMCDistribution(unittest.TestCase):
                         self.assertEqual(diff,'',
                             'Comparison of HEPToolsInstallers | %s vs %s | %s failed.\n'%('BZR_VERSION',comparison,file_name)+
                             "Consider updating MG servers and '%s'."%pjoin(MG5DIR,'vendor','OfflineHEPToolsInstaller.tar.gz'))
-

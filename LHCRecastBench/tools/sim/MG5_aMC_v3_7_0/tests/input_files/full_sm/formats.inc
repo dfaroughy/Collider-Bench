@@ -16,8 +16,8 @@ c Real with mass dimension
  3    format(1x,a15,f11.5,' GeV')
 c Chiral couplings
  4    format(1x,a15,f11.5,1x,f11.5,a15,f11.5,1x,f11.5)
- 
- 
+
+
 c Formats for helas_coupling output
 
 c Real
@@ -26,5 +26,3 @@ c Complex
  12   format(a10,f11.5,1x,f11.5 )
 c Chiral
  13   format(a10,f11.5,1x,f11.5,1x,f11.5,1x,f11.5 )
-
-

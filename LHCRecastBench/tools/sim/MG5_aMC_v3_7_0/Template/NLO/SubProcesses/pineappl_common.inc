@@ -5,7 +5,7 @@
 ************************************************************************
       include 'orders.inc'
 *     Amp split size
-      integer appl_amp_split_size 
+      integer appl_amp_split_size
       integer appl_qcdpower(amp_split_size), appl_qedpower(amp_split_size)
       common / appl_common_fixed / appl_amp_split_size, appl_qcdpower, appl_qedpower
 
@@ -17,7 +17,7 @@
       common / appl_common_lumi / appl_lumimap,appl_nproc,appl_nlumi
 
 *     Event weights, kinematics, observables etc. that are different event by event
-      double precision appl_x1(4), 
+      double precision appl_x1(4),
      1                 appl_x2(4)
       double precision appl_muF2(4),
      1                 appl_muR2(4),
@@ -79,4 +79,3 @@
       parameter(nmax_obs=50)
       integer ih_obs(nmax_obs)
       common / appl_ident / nh_obs,ih_obs
-

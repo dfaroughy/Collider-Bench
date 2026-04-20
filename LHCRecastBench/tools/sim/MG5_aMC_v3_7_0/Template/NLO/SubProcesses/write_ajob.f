@@ -31,7 +31,7 @@ c-----
       open (unit=lun, file = fname, status='unknown')
       open (unit=lun+1,file="../ajob_template",status="old")
       found_tag=.false.
-      do while (.true.) 
+      do while (.true.)
          read(lun+1,15,err=99,end=99) buff
          if (index(buff,'TAGTAGTAGTAGTAG').ne.0) exit
          write(lun,15) buff
@@ -53,7 +53,7 @@ c***********************************************************************
       integer lun
       character*120 buff
       write(lun,'(a)') '; do'
-      do while (.true.) 
+      do while (.true.)
          read(lun+1,15,err=99,end=99) buff
          write(lun,15) buff
       enddo
@@ -63,4 +63,3 @@ c***********************************************************************
 
  15   format(a)
       end
-

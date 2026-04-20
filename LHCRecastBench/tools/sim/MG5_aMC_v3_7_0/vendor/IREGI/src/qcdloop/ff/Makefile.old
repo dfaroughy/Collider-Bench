@@ -1,4 +1,4 @@
-FFLAGS = 
+FFLAGS =
 
 LFLAGS = $(FFLAGS)
 
@@ -83,7 +83,7 @@ clean:
 
 install:	ff.a aa.a
 	cp ff.a aa.a /user/local/lib
-	
+
 ff.a:	$(OBJS) Makefile
 	ar ruv ff.a $(OBJS)
 	ranlib ff.a
@@ -91,5 +91,3 @@ ff.a:	$(OBJS) Makefile
 aa.a:	$(AAOBJS) Makefile
 	ar ruv aa.a $(AAOBJS)
 	ranlib aa.a
-
-

@@ -17,9 +17,9 @@ c
 
 C...print version number if this is the first call
       if(lfirst)then
-        write(*,*) "try to call version number" 
+        write(*,*) "try to call version number"
         call stdversn
-        write(*,*) "done to call version number" 
+        write(*,*) "done to call version number"
         lfirst=.FALSE.
       endif
 c

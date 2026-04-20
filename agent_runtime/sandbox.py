@@ -37,6 +37,7 @@ from typing import Callable, Iterable, Sequence
 
 # ── Backend protocol ────────────────────────────────────────────────────────
 
+
 class Sandbox(ABC):
     """Filesystem-isolation backend for a single agent invocation."""
 
@@ -70,6 +71,7 @@ class Sandbox(ABC):
 
 
 # ── bubblewrap (Linux user-space namespaces) ───────────────────────────────
+
 
 class BwrapSandbox(Sandbox):
     """User-space sandbox via `bwrap` (bubblewrap).
@@ -110,29 +112,44 @@ class BwrapSandbox(Sandbox):
 
         cmd: list[str] = [
             "bwrap",
-            "--bind", "/", "/",
-            "--tmpfs", str(repo_root),
-            "--bind", str(workspace), str(workspace),
-            "--ro-bind", str(benchmark_dir), str(benchmark_dir),
-            "--tmpfs", str(benchmark_dir / "papers"),       # reference answers
-            "--tmpfs", str(benchmark_dir / "evaluation"),   # judge rubric + scorers
-            "--tmpfs", "/tmp",
+            "--bind",
+            "/",
+            "/",
+            "--tmpfs",
+            str(repo_root),
+            "--bind",
+            str(workspace),
+            str(workspace),
+            "--ro-bind",
+            str(benchmark_dir),
+            str(benchmark_dir),
+            "--tmpfs",
+            str(benchmark_dir / "papers"),  # reference answers
+            "--tmpfs",
+            str(benchmark_dir / "evaluation"),  # judge rubric + scorers
+            "--tmpfs",
+            "/tmp",
             "--unshare-pid",
             "--unshare-ipc",
             "--unshare-uts",
         ]
         for host_path, mount_path in extra_mounts:
             cmd.extend(["--ro-bind", host_path, mount_path])
-        for path in (extra_ro_binds or []):
+        for path in extra_ro_binds or []:
             if Path(path).exists():
                 cmd.extend(["--ro-bind", str(path), str(path)])
-        cmd.extend([
-            "--dev", "/dev",
-            "--proc", "/proc",
-            "--chdir", str(workspace),
-            "--die-with-parent",
-            "--",
-        ])
+        cmd.extend(
+            [
+                "--dev",
+                "/dev",
+                "--proc",
+                "/proc",
+                "--chdir",
+                str(workspace),
+                "--die-with-parent",
+                "--",
+            ]
+        )
         cmd.extend(list(inner_cmd))
 
         def cleanup() -> None:
@@ -147,6 +164,7 @@ class BwrapSandbox(Sandbox):
 
 
 # ── No-op passthrough (macOS / CI / free-range debugging) ──────────────────
+
 
 class NoneSandbox(Sandbox):
     """Run the agent with no filesystem isolation.
@@ -170,7 +188,7 @@ class NoneSandbox(Sandbox):
 
 SANDBOXES: dict[str, type[Sandbox]] = {
     "bwrap": BwrapSandbox,
-    "none":  NoneSandbox,
+    "none": NoneSandbox,
     # Add future backends here: "podman": PodmanSandbox, "docker": DockerSandbox, ...
 }
 
@@ -206,19 +224,17 @@ def get_sandbox(name: str | None = None) -> Sandbox:
         return _auto_select()
     cls = SANDBOXES.get(name)
     if cls is None:
-        raise ValueError(
-            f"Unknown sandbox {name!r}. Available: {sorted(SANDBOXES) + ['auto']}"
-        )
+        raise ValueError(f"Unknown sandbox {name!r}. Available: {sorted(SANDBOXES) + ['auto']}")
     inst = cls()
     if not inst.available():
         raise RuntimeError(
-            f"Sandbox {name!r} is not available on this host "
-            f"(required tools missing)."
+            f"Sandbox {name!r} is not available on this host " f"(required tools missing)."
         )
     return inst
 
 
 # ── Back-compat shim for existing callers ───────────────────────────────────
+
 
 def sandbox_command(
     workspace: Path,

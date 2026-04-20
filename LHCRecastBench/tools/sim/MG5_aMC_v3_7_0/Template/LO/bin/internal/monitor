@@ -1,5 +1,5 @@
 #!/bin/bash
-#  
+#
 #   First we need to get into the main directory
 #
 if [[  ! -d ./bin  ]]; then
@@ -16,7 +16,7 @@ main=`pwd`
 dirbin=$main/bin/internal
 # Begin Local versions
 # set dirbin = /home/tstelzer/bin/MG_ME
-# End Local versions 
+# End Local versions
 cd SubProcesses
 t=`find ./ -maxdepth 2 -name "ajob*" |wc -l`
 r=`find ./ -maxdepth 2 -name "run.ajob*" |wc -l`
@@ -24,7 +24,7 @@ w=`find ./ -maxdepth 2 -name "wait.ajob*" |wc -l`
 d=`find ./ -maxdepth 2 -name "done.ajob*" |wc -l`
 
 echo "waiting while finishing jobs on cluster"
-while [[  $d -lt $t  ]]; do    
+while [[  $d -lt $t  ]]; do
     echo $w $r $d $t
     rm -f ../status
     echo $w $r $d $t > ../status

@@ -52,17 +52,17 @@ bool_t xdr_mcfast_stdhep_(XDR *xdrs, int *blockid,
 {
 /*  Translate the HEPEVT COMMON block from the STDHEP package to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, the mcfio will allocate the space for the 
+    directly the COMMON.  Also, the mcfio will allocate the space for the
     string version.  */
-    
+
     unsigned int nn, nn2, nn4, nn5;
     int *idat;
     char *vers;
     float *dat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE))  {
        if (*blockid != MCFIO_STDHEP) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
        }
@@ -73,16 +73,16 @@ bool_t xdr_mcfast_stdhep_(XDR *xdrs, int *blockid,
        *ntot = 24 + 4 * (2 * nn + 2* nn2 + nn4 + nn5 + nn);
        if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
        strcpy(*version, "2.02");
-       } 
-      
+       }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) &&
      	      xdr_int(xdrs, &(hepevt_.nevhep)) &&
               xdr_int(xdrs, &(hepevt_.nhep))) == FALSE) return FALSE;
-              
+
      if ((xdrs->x_op == XDR_DECODE) && ( *blockid != MCFIO_STDHEP) ) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -100,22 +100,21 @@ bool_t xdr_mcfast_stdhep_(XDR *xdrs, int *blockid,
                 &nn2, 2*NMXHEP, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (float *)  hepevt_.phep;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nn5, 5*NMXHEP, sizeof(int), xdr_float) == FALSE) return FALSE; 
+                &nn5, 5*NMXHEP, sizeof(int), xdr_float) == FALSE) return FALSE;
      dat = (float *) hepevt_.vhep;
      if     ( xdr_array(xdrs, (char **)    &dat,
                 &nn4, 4*NMXHEP, sizeof(int), xdr_float) == FALSE) return FALSE;
      /*
-     ** V2.02 Upgrade : adding Multiple interactions. 
-     */ 
-     vers = *version;          
+     ** V2.02 Upgrade : adding Multiple interactions.
+     */
+     vers = *version;
      if ((strcmp(vers,"1.05") == 0)  && (xdrs->x_op == XDR_DECODE)) {
            hepev2_.nmulti = -1;
            return TRUE;
-     }      
+     }
      if ( xdr_int(xdrs, &(hepev2_.nmulti)) == FALSE) return FALSE;
      idat = hepev2_.jmulti;
      if     ( xdr_array(xdrs, (char **)   &idat,
                 &nn, NMXHEP, sizeof(int), xdr_int) == FALSE) return FALSE;
      return TRUE;
-}   
-
+}

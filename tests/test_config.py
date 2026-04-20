@@ -25,8 +25,7 @@ def test_config_loads_and_validates(config_path):
 
 def test_unknown_key_rejected():
     with pytest.raises(ValueError, match="unknown config key"):
-        validate_config({"agent": "simple", "paper": "1707.06193",
-                         "bogus_key": 1}, source="<test>")
+        validate_config({"agent": "simple", "paper": "1707.06193", "bogus_key": 1}, source="<test>")
 
 
 def test_yaml_bool_guard():

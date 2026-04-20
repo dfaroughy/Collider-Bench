@@ -55,7 +55,7 @@ void PSDrawLine(Display *display, Drawable w, GC gc, int x1, int y1,
 	int x2, int y2);
 void PSDrawLines(Display *display, Drawable w, GC gc,
 	XPoint *points, int nPoints, int mode);
-void PSFloatDrawSegments(Display *display, Drawable w, GC gc, 
+void PSFloatDrawSegments(Display *display, Drawable w, GC gc,
 	FloatSegment *segment, int nSegments);
 void PSFloatDrawLines(Display *display, Drawable w, GC gc,
 	FloatPoint *points, int nPoints);
@@ -73,9 +73,9 @@ void PSDrawString(Display *display, Drawable w, GC gc, XFontStruct *fs,
 	int x, int y, int anchor, char *msg);
 void PSDrawXmString(Display *display, Drawable w, XmFontList font, XmString msg,
 	GC gc, int x, int y, int width, int alignment);
-void PSDrawImage(Display *display, Drawable w, GC gc, int scanLength, 
+void PSDrawImage(Display *display, Drawable w, GC gc, int scanLength,
 	int scanLines, int bitsPerSample, int x, int y, unsigned char *bitmap);
-void PSDrawDashedSegments(Display *display, Drawable w, GC gc, 
+void PSDrawDashedSegments(Display *display, Drawable w, GC gc,
 	XSegment *segments, int nSegments, char *dashList, int dashOffset);
 void PSDrawDashedLine(Display *display, Drawable w, GC gc, int x1, int y1,
 	int x2, int y2, char *dashList, int dashOffset);

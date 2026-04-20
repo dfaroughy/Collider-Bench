@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2011 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -37,11 +37,11 @@ else:
 
 class RunStatistics(dict):
     """ A class to store statistics about a MadEvent run. """
-    
+
     def __init__(self, *args, **opts):
         """ Initialize the run dictionary. For now, the same as a regular
         dictionary, except that we specify some default statistics. """
-        
+
         madloop_statistics = {
           'unknown_stability'  : 0,
           'stable_points'      : 0,
@@ -52,7 +52,7 @@ class RunStatistics(dict):
           'DP_init_usage'      : 0,
           'QP_init_usage'      : 0,
           'CutTools_DP_usage'  : 0,
-          'CutTools_QP_usage'  : 0,          
+          'CutTools_QP_usage'  : 0,
           'PJFry_usage'        : 0,
           'Golem_usage'        : 0,
           'IREGI_usage'        : 0,
@@ -65,18 +65,18 @@ class RunStatistics(dict):
           'averaged_timing'    : 0.0,
           'n_madloop_calls'    : 0,
           'cumulative_timing'  : 0.0,
-          'skipped_subchannel' : 0 # number of times that a computation have been 
+          'skipped_subchannel' : 0 # number of times that a computation have been
                                     # discarded due to abnormal weight.
           }
-        
+
         for key, value in madloop_statistics.items():
             self[key] = value
 
         super(dict,self).__init__(*args, **opts)
-    
+
     def aggregate_statistics(self, new_stats):
         """ Update the current statitistics with the new_stats specified."""
-        
+
         if isinstance(new_stats,RunStatistics):
             new_stats = [new_stats, ]
         elif isinstance(new_stats,list):
@@ -84,7 +84,7 @@ class RunStatistics(dict):
                 raise MadGraph5Error("The 'new_stats' argument of the function "+\
                         "'updtate_statistics' must be a (possibly list of) "+\
                                                        "RunStatistics instance.")
- 
+
         keys = set([])
         for stat in [self,]+new_stats:
             keys |= set(stat.keys())
@@ -102,18 +102,18 @@ class RunStatistics(dict):
                 n_madloop_calls = sum(_['n_madloop_calls'] for _ in new_stats if
                                                          'n_madloop_calls' in _)
                 if n_madloop_calls > 0 :
-                    self[key] = sum(_[key]*_['n_madloop_calls'] for _ in 
+                    self[key] = sum(_[key]*_['n_madloop_calls'] for _ in
                       new_stats if (key in _ and 'n_madloop_calls' in _) )/n_madloop_calls
             else:
                 # Now assume all other quantities are cumulative
                 self[key] = sum(_[key] for _ in new_stats if key in _)
-    
+
     def load_statistics(self, xml_node):
         """ Load the statistics from an xml node. """
-        
+
         def getData(Node):
             return Node.childNodes[0].data
-        
+
         u_return_code = xml_node.getElementsByTagName('u_return_code')
         u_codes = [int(_) for _ in getData(u_return_code[0]).split(',')]
         self['CutTools_DP_usage'] = u_codes[1]
@@ -122,7 +122,7 @@ class RunStatistics(dict):
         self['Golem_usage']       = u_codes[4]
         self['Samurai_usage']     = u_codes[5]
         self['Ninja_usage']       = u_codes[6]
-        self['COLLIER_usage']     = u_codes[7]        
+        self['COLLIER_usage']     = u_codes[7]
         self['Ninja_QP_usage']    = u_codes[8]
         self['CutTools_QP_usage'] = u_codes[9]
         t_return_code = xml_node.getElementsByTagName('t_return_code')
@@ -139,26 +139,26 @@ class RunStatistics(dict):
         self['exceptional_points'] = h_codes[4]
         average_time = xml_node.getElementsByTagName('average_time')
         avg_time = float(getData(average_time[0]))
-        self['averaged_timing']    = avg_time 
+        self['averaged_timing']    = avg_time
         cumulated_time = xml_node.getElementsByTagName('cumulated_time')
         cumul_time = float(getData(cumulated_time[0]))
-        self['cumulative_timing']  = cumul_time 
+        self['cumulative_timing']  = cumul_time
         max_prec = xml_node.getElementsByTagName('max_prec')
         max_prec = float(getData(max_prec[0]))
         # The minimal precision corresponds to the maximal value for PREC
-        self['min_precision']      = max_prec  
+        self['min_precision']      = max_prec
         min_prec = xml_node.getElementsByTagName('min_prec')
         min_prec = float(getData(min_prec[0]))
         # The maximal precision corresponds to the minimal value for PREC
-        self['max_precision']      = min_prec              
+        self['max_precision']      = min_prec
         n_evals = xml_node.getElementsByTagName('n_evals')
         n_evals = int(getData(n_evals[0]))
         self['n_madloop_calls']    = n_evals
-    
+
     def nice_output(self,G, no_warning=False):
-        """Returns a one-line string summarizing the run statistics 
+        """Returns a one-line string summarizing the run statistics
         gathered for the channel G."""
-        
+
         # Do not return anythign for now if there is no madloop calls. This can
         # change of course if more statistics are gathered, unrelated to MadLoop.
         if self['n_madloop_calls']==0:
@@ -173,7 +173,7 @@ class RunStatistics(dict):
         stability = [_ for _ in stability if _[1] > 0 or _[0] in ['UPS%','EPS#']]
         stability = [(_[0],'%i'%_[1]) if isinstance(_[1], int) else
                      (_[0],'%.3g'%(100.0*_[1])) for _ in stability]
-        
+
         tools_used = [
           ('CT_DP',float(self['CutTools_DP_usage'])/self['n_madloop_calls']),
           ('CT_QP',float(self['CutTools_QP_usage'])/self['n_madloop_calls']),
@@ -181,7 +181,7 @@ class RunStatistics(dict):
           ('Golem',float(self['Golem_usage'])/self['n_madloop_calls']),
           ('IREGI',float(self['IREGI_usage'])/self['n_madloop_calls']),
           ('Samurai',float(self['Samurai_usage'])/self['n_madloop_calls']),
-          ('COLLIER',float(self['COLLIER_usage'])/self['n_madloop_calls']),          
+          ('COLLIER',float(self['COLLIER_usage'])/self['n_madloop_calls']),
           ('Ninja_DP',float(self['Ninja_usage'])/self['n_madloop_calls']),
           ('Ninja_QP',float(self['Ninja_QP_usage'])/self['n_madloop_calls'])]
 
@@ -209,17 +209,17 @@ class RunStatistics(dict):
                "discarded. This happened %s times." % self['skipped_subchannel'])
 
         return ('\n'.join(to_print)).replace("'"," ")
-    
+
     def has_warning(self):
         """return if any stat needs to be reported as a warning
            When this is True, the print_warning doit retourner un warning
         """
-    
+
         if self['n_madloop_calls'] > 0:
             fraction = self['exceptional_points']/float(self['n_madloop_calls'])
         else:
             fraction = 0.0
-            
+
         if self['skipped_subchannel'] > 0:
             return True
         elif fraction > 1.0e-4:
@@ -229,7 +229,7 @@ class RunStatistics(dict):
 
     def get_warning_text(self):
         """get a string with all the identified warning"""
-        
+
         to_print = []
         if self['skipped_subchannel'] > 0:
             to_print.append("Some event with large weight have been discarded."+\
@@ -239,14 +239,14 @@ class RunStatistics(dict):
             if fraction > 1.0e-4:
                 to_print.append("Some PS with numerical instability have been set "+\
                    "to a zero matrix-element (%.3g%%)" % (100.0*fraction))
-        
-        return ('\n'.join(to_print)).replace("'"," ") 
+
+        return ('\n'.join(to_print)).replace("'"," ")
 
 class OneResult(object):
-    
+
     def __init__(self, name):
         """Initialize all data """
-        
+
         self.run_statistics = RunStatistics()
         self.name = name
         self.parent_name = ''
@@ -256,7 +256,7 @@ class OneResult(object):
         self.xerrc = 0  # correlated error
         self.nevents = 0
         self.nw = 0     # number of events after the primary unweighting
-        self.maxit = 0  # 
+        self.maxit = 0  #
         self.nunwgt = 0  # number of unweighted events
         self.luminosity = 0
         self.mfactor = 1 # number of times that this channel occur (due to symmetry)
@@ -268,25 +268,25 @@ class OneResult(object):
         self.maxwgt = 0 # weight used for the secondary unweighting.
         self.th_maxwgt= 0 # weight that should have been use for secondary unweighting
                           # this can happen if we force maxweight
-        self.th_nunwgt = 0 # associated number of event with th_maxwgt 
+        self.th_nunwgt = 0 # associated number of event with th_maxwgt
                            #(this is theoretical do not correspond to a number of written event)
         self.timing = 0
         return
-    
+
     #@cluster.multiple_try(nb_try=5,sleep=20)
     def read_results(self, filepath):
         """read results.dat and fullfill information"""
-        
+
         if isinstance(filepath, str):
             finput = open(filepath)
         elif hasattr(filepath, 'read') and hasattr(filepath, 'name'):
             finput = filepath
         else:
             raise Exception("filepath should be a path or a file descriptor")
-        
+
         i=0
         found_xsec_line = False
-        for line in finput:           
+        for line in finput:
             # Exit as soon as we hit the xml part. Not elegant, but the part
             # below should eventually be xml anyway.
             if '<' in line:
@@ -300,7 +300,7 @@ class OneResult(object):
                         m=re.search(r'''([+-]?[\d.]*)([+-]\d*)''', d)
                         if m:
                             return float(m.group(1))*10**(float(m.group(2)))
-                        return 
+                        return
 
                 data = [secure_float(d) for d in line.split()]
                 try:
@@ -318,7 +318,7 @@ class OneResult(object):
                         else:
                             log = pjoin(os.path.dirname(filepath), 'log.txt')
                             raise Exception("Wrong formatting in results.dat: %s \n Full associated log: \n%s"\
-                                %  (line, open(log).read()))                        
+                                %  (line, open(log).read()))
                 if len(data) > 10:
                     self.maxwgt = data[10]
                 if len(data) >12:
@@ -347,22 +347,22 @@ class OneResult(object):
             xml.append(line)
 
         if xml:
-            self.parse_xml_results('\n'.join(xml))       
-        
+            self.parse_xml_results('\n'.join(xml))
+
         # this is for amcatnlo: the number of events has to be read from another file
         if self.nevents == 0 and self.nunwgt == 0 and isinstance(filepath, str) and \
-                os.path.exists(pjoin(os.path.split(filepath)[0], 'nevts')): 
+                os.path.exists(pjoin(os.path.split(filepath)[0], 'nevts')):
             nevts = int((open(pjoin(os.path.split(filepath)[0], 'nevts')).read()).split()[0])
             self.nevents = nevts
             self.nunwgt = nevts
-        
+
     def parse_xml_results(self, xml):
         """ Parse the xml part of the results.dat file."""
 
         dom = minidom.parseString(xml)
-                    
+
         statistics_node = dom.getElementsByTagName("run_statistics")
-        
+
         if statistics_node:
             try:
                 self.run_statistics.load_statistics(statistics_node[0])
@@ -377,13 +377,13 @@ class OneResult(object):
 
     def set_mfactor(self, value):
         self.mfactor = int(value)
-        
+
     def change_iterations_number(self, nb_iter):
         """Change the number of iterations for this process"""
-            
+
         if len(self.ysec_iter) <= nb_iter:
             return
-        
+
         # Combine the first iterations into a single bin
         nb_to_rm =  len(self.ysec_iter) - nb_iter
         ysec = [0]
@@ -393,16 +393,16 @@ class OneResult(object):
             yerr[0] += self.yerr_iter[i]**2
         ysec[0] /= (nb_to_rm+1)
         yerr[0] = math.sqrt(yerr[0]) / (nb_to_rm + 1)
-        
+
         for i in range(1, nb_iter):
             ysec[i] = self.ysec_iter[nb_to_rm + i]
             yerr[i] = self.yerr_iter[nb_to_rm + i]
-        
+
         self.ysec_iter = ysec
         self.yerr_iter = yerr
-    
+
     def get(self, name):
-        
+
         if name in ['xsec', 'xerru','xerrc']:
             return getattr(self, name) * self.mfactor
         elif name in ['luminosity']:
@@ -419,12 +419,12 @@ class OneResult(object):
             return getattr(self, name)
 
 class Combine_results(list, OneResult):
-    
+
     def __init__(self, name):
-        
+
         list.__init__(self)
         OneResult.__init__(self, name)
-    
+
     def add_results(self, name, filepath, mfactor=1):
         """read the data in the file"""
 
@@ -438,7 +438,7 @@ class Combine_results(list, OneResult):
         except Exception:
             logger.critical("Error when reading %s" % filepath)
             raise
-    
+
     def compute_values(self, update_statistics=False):
         """compute the value associate to this combination"""
 
@@ -450,8 +450,8 @@ class Combine_results(list, OneResult):
 
         self.nevents = sum([one.nevents for one in self])
         self.nw = sum([one.nw for one in self])
-        self.maxit = len(self.yerr_iter)  # 
-        self.nunwgt = sum([one.nunwgt for one in self])  
+        self.maxit = len(self.yerr_iter)  #
+        self.nunwgt = sum([one.nunwgt for one in self])
         self.wgt = 0
         self.luminosity = min([0]+[one.luminosity for one in self])
         self.timing = sum([one.timing for one in self])
@@ -470,21 +470,21 @@ class Combine_results(list, OneResult):
         self.xsec = sum([one.xsec for one in self]) /nbjobs
         self.xerrc = sum([one.xerrc for one in self]) /nbjobs
         self.xerru = math.sqrt(sum([one.xerru**2 for one in self])) /nbjobs
-        self.timing = sum([one.timing for one in self]) #no average here 
+        self.timing = sum([one.timing for one in self]) #no average here
         if error:
             self.xerrc = error
             self.xerru = error
 
         self.nevents = sum([one.nevents for one in self])
         self.nw = 0#sum([one.nw for one in self])
-        self.maxit = 0#len(self.yerr_iter)  # 
-        self.nunwgt = sum([one.nunwgt for one in self])  
+        self.maxit = 0#len(self.yerr_iter)  #
+        self.nunwgt = sum([one.nunwgt for one in self])
         self.wgt = 0
         self.luminosity = sum([one.luminosity for one in self])
         self.ysec_iter = []
         self.yerr_iter = []
         self.th_maxwgt = 0.0
-        self.th_nunwgt = 0 
+        self.th_nunwgt = 0
         for result in self:
             self.ysec_iter+=result.ysec_iter
             self.yerr_iter+=result.yerr_iter
@@ -505,37 +505,37 @@ class Combine_results(list, OneResult):
                 return self.compute_average(error)
             else:
                 return self.compute_average((max_xsec-min_xsec)/2.)
-            
 
-    
+
+
     def compute_iterations(self):
-        """Compute iterations to have a chi-square on the stability of the 
+        """Compute iterations to have a chi-square on the stability of the
         integral"""
 
         #iter = [len(a.ysec_iter) for a in self]
         #if iter:
         #    nb_iter = min(iter)
         #else:
-        #    nb_iter = 0 
+        #    nb_iter = 0
         #nb_iter = misc.mmin([len(a.ysec_iter) for a in self], 0)
         #misc.sprint(nb_iter)
         # syncronize all iterations to a single one
         for oneresult in self:
             oneresult.change_iterations_number(0)
-            
+
         # compute value error for each iteration
         #for i in range(nb_iter):
         #    value = [one.ysec_iter[i] for one in self]
         #    error = [one.yerr_iter[i]**2 for one in self]
-        #    
+        #
         #   # store the value for the iteration
         #    raise Exception
         #    self.ysec_iter.append(sum(value))
         #    self.yerr_iter.append(math.sqrt(sum(error)))
-    
-       
+
+
     template_file = \
-"""  
+"""
 %(diagram_link)s
  <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>s= %(cross).5g &#177 %(error).3g (%(unit)s)</b><br><br>
@@ -551,7 +551,7 @@ class Combine_results(list, OneResult):
 </table>
 </center>
 <br><br><br>
-"""    
+"""
     table_line_template = \
 """
 <tr><td align=right>%(P_title)s</td>
@@ -565,7 +565,7 @@ class Combine_results(list, OneResult):
 
     def get_html(self,run, unit, me_dir = []):
         """write html output"""
-        
+
         # store value for global cross-section
         P_grouping = {}
 
@@ -581,7 +581,7 @@ class Combine_results(list, OneResult):
                     P_grouping[P] = float(oneresult.xsec)
             else:
                 title = oneresult.name
-            
+
             if not isinstance(oneresult, Combine_results):
                 # this is for the (aMC@)NLO logs
                 if os.path.exists(pjoin(me_dir, 'Events', run, 'alllogs_1.html')):
@@ -614,7 +614,7 @@ class Combine_results(list, OneResult):
             else:
                 link = '#%s' % oneresult.name
                 mod_link = link
-            
+
             dico = {'P_title': title,
                     'P_link': link,
                     'mod_P_link': mod_link,
@@ -624,9 +624,9 @@ class Combine_results(list, OneResult):
                     'unweighted': oneresult.nunwgt,
                     'luminosity': '%.3g' % oneresult.luminosity
                    }
-    
+
             tables_line += self.table_line_template % dico
-        
+
         for P_name, cross in P_grouping.items():
             dico = {'P_title': '%s sum' % P_name,
                     'P_link': './results.html',
@@ -644,7 +644,7 @@ class Combine_results(list, OneResult):
                                                           % {'P':self.name}
         else:
             title = ''
-            
+
         dico = {'cross': self.xsec,
                 'abscross': self.axsec,
                 'error': self.xerru,
@@ -656,7 +656,7 @@ class Combine_results(list, OneResult):
 
         html_text = self.template_file % dico
         return html_text
-    
+
     def write_results_dat(self, output_path):
         """write a correctly formatted results.dat"""
 
@@ -670,21 +670,21 @@ class Combine_results(list, OneResult):
             power = int(power) + 1
             return '%.5fE%+03i' %(nb,power)
 
-        line = '%s %s %s %i %i %i %i %s %s %s %s %s %i\n' % (fstr(self.axsec), fstr(self.xerru), 
+        line = '%s %s %s %i %i %i %i %s %s %s %s %s %i\n' % (fstr(self.axsec), fstr(self.xerru),
                 fstr(self.xerrc), self.nevents, self.nw, self.maxit, self.nunwgt,
                  fstr(self.luminosity), fstr(self.wgt), fstr(self.xsec), fstr(self.maxwgt),
-                 fstr(self.th_maxwgt), self.th_nunwgt)        
-        fsock = open(output_path,'w') 
+                 fstr(self.th_maxwgt), self.th_nunwgt)
+        fsock = open(output_path,'w')
         fsock.writelines(line)
         for i in range(len(self.ysec_iter)):
-            line = '%s %s %s %s %s %s\n' % (i+1, self.ysec_iter[i], self.yerr_iter[i], 
-                      self.eff_iter[i], self.maxwgt_iter[i], self.yasec_iter[i]) 
+            line = '%s %s %s %s %s %s\n' % (i+1, self.ysec_iter[i], self.yerr_iter[i],
+                      self.eff_iter[i], self.maxwgt_iter[i], self.yasec_iter[i])
             fsock.writelines(line)
 
         if self.timing:
             text = """<lo_statistics>\n<cumulated_time> %s </cumulated_time>\n</lo_statistics>"""
             fsock.writelines(text % self.timing)
-        
+
 
 
 results_header = """
@@ -707,10 +707,10 @@ function UrlExists(url) {
   return http.status!=404;
 }
 </script>
-""" 
+"""
 
 def collect_result(cmd, folder_names=[], jobs=None, main_dir=None):
-    """ """ 
+    """ """
 
     run = cmd.results.current['run_name']
     all = Combine_results(run)
@@ -729,7 +729,7 @@ def collect_result(cmd, folder_names=[], jobs=None, main_dir=None):
                         continue
                     if os.path.exists(pjoin(Pdir, 'ajob.no_ps.log')):
                         continue
-                    
+
                     for folder in folder_names:
                         if 'G' in folder:
                             dir = folder.replace('*', name)
@@ -775,20 +775,20 @@ def make_all_html_results(cmd, folder_names = [], jobs=[], get_attr=None):
     run = cmd.results.current['run_name']
     if not os.path.exists(pjoin(cmd.me_dir, 'HTML', run)):
         os.mkdir(pjoin(cmd.me_dir, 'HTML', run))
-    
+
     unit = cmd.results.unit
-    P_text = ""      
+    P_text = ""
     Presults = collect_result(cmd, folder_names=folder_names, jobs=jobs)
-    
+
     for P_comb in Presults:
-        P_text += P_comb.get_html(run, unit, cmd.me_dir) 
+        P_text += P_comb.get_html(run, unit, cmd.me_dir)
         P_comb.compute_values()
         if cmd.proc_characteristics['ninitial'] == 1:
             P_comb.write_results_dat(pjoin(cmd.me_dir, 'SubProcesses', P_comb.name,
                                            '%s_results.dat' % run))
-    
-    Presults.write_results_dat(pjoin(cmd.me_dir,'SubProcesses', 'results.dat'))   
-    
+
+    Presults.write_results_dat(pjoin(cmd.me_dir,'SubProcesses', 'results.dat'))
+
     fsock = open(pjoin(cmd.me_dir, 'HTML', run, 'results.html'),'w')
     fsock.write(results_header)
     fsock.write('%s <dl>' % Presults.get_html(run, unit, cmd.me_dir))
@@ -800,6 +800,3 @@ def make_all_html_results(cmd, folder_names = [], jobs=[], get_attr=None):
         if isinstance(get_attr, tuple):
             return [getattr(Presults, _) for _ in get_attr]
         return getattr(Presults, get_attr)
-
-            
-

@@ -30,11 +30,11 @@ edit:
 	../src/avh_pc_exe.py "case" "LTVSNge26" "$(WITHLT)$(LTVSNge26)" "tmp_$(FILE)"
 
 ifeq ($(WITHLT),yes)
-compile: 
+compile:
 	$(FC) $(FFLAGS) -I$(MPFUN90MOD) -I$(OLOMOD) -o example.exe tmp_$(FILE) \
 	-L$(MPFUN90LIB) -l$(MPFUN90) -L$(OLOLIB) -l$(OLO) -L$(LTHOME) -l$(LTLIB)
 else
-compile: 
+compile:
 	$(FC) $(FFLAGS) -I$(MPFUN90MOD) -I$(OLOMOD) -o example.exe tmp_$(FILE) \
 	-L$(MPFUN90LIB) -l$(MPFUN90) -L$(OLOLIB) -l$(OLO)
 endif

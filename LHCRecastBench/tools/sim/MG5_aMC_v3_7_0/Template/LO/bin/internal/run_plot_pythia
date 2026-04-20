@@ -47,4 +47,3 @@ if [[ (-x $MAdir/plot_events) && (-e pythia_events.lhe) && (-e ../Cards/plot_car
 else
    echo "Not creating plots"
 fi
-

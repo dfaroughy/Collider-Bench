@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2010 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -35,7 +35,7 @@ pjoin = os.path.join
 
 class TestAMCatNLOEWTagPh(unittest.TestCase):
     """ a suite of extra tests for the ew stuff """
-    
+
     def setUp(self):
         self.interface = mgcmd.MasterCmd()
 
@@ -47,7 +47,7 @@ class TestAMCatNLOEWTagPh(unittest.TestCase):
             'u u~ > a a [real=QED]',
             'u u~ > !a! !a! [real=QED]',
             'u u~ > !2a!  [real=QED]',
-            'u u~ > 2!a! [real=QED]'] 
+            'u u~ > 2!a! [real=QED]']
 
         nrealproc_list = [9, 3, 3, 3]
         fks_j_list = [[1,2,3], [1,2], [1,2], [1,2]] # 4 is not there in the first set for symmetry
@@ -61,7 +61,7 @@ class TestAMCatNLOEWTagPh(unittest.TestCase):
 
             self.assertEqual(len(fksprocess.real_amps), nrealproc)
             self.assertEqual(set([r.fks_infos[0]['j'] for r in fksprocess.real_amps]), set(fks_j))
-            
+
     def test_invalid_syntax_tag(self):
 
         cmd = "u u~ > !a! !a!"
@@ -75,5 +75,3 @@ class TestAMCatNLOEWTagPh(unittest.TestCase):
 
         #cmd = "u u~ > !a! a [real=QCD]" # is this valid ? I guess NOT [note this is QCD]
         #self.assertRaises(madgraph.InvalidCmd,  self.interface.do_generate, cmd)
-
-        

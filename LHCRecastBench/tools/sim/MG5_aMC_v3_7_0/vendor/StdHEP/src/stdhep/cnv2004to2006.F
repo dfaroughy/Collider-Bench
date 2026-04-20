@@ -80,7 +80,7 @@ C... itab2006(I) converts all defined PDG 2006 particle ID's to the 2004 numbers
       ida=iabs(id)
 
       if(ida.eq.0)then
-D        write(lnhout,1001) 
+D        write(lnhout,1001)
       elseif(mconv.eq.1)then
         do i = 1,mxlist
            if(ida.eq.itab2004(i))then

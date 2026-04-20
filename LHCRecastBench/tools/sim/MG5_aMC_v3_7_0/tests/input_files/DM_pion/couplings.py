@@ -560,4 +560,3 @@ GC_98 = Coupling(name = 'GC_98',
 GC_99 = Coupling(name = 'GC_99',
                  value = '-((complex(0,1)*yb)/cmath.sqrt(2))',
                  order = {'QED':1})
-

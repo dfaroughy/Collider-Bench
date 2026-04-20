@@ -31,35 +31,44 @@
 #      export PYTHONPATH=$(PREFIX_LIB):$PYTHONPATH
 # or the following which sets the path from within Python.
 import sys
-cfg = open('Makefile.inc')
-lib = '../lib'
+
+cfg = open("Makefile.inc")
+lib = "../lib"
 for line in cfg:
-    if line.startswith('PREFIX_LIB='): lib = line[11:-1]; break
+    if line.startswith("PREFIX_LIB="):
+        lib = line[11:-1]
+        break
 sys.path.insert(0, lib)
 import pythia8
 
-#==========================================================================
+# ==========================================================================
 
 # A simple method to run Pythia, analyze the events, and fill a histogram.
 
-def run(pythia, hist, nEvent):
-  pythia.readString("Random:setSeed = on")
-  pythia.readString("Random:seed = 1")
-  pythia.init()
-  for iEvent in range(0, nEvent):
-      if not pythia.next(): continue
-      iMu1 = 0; iMu2 = 0
-      for prt in pythia.event:
-          if not iMu1 and prt.id() == 13:  iMu1 = prt.index()
-          if not iMu2 and prt.id() == -13: iMu2 = prt.index()
-          if iMu1 and iMu2:
-              iMu1 = pythia.event[iMu1].iBotCopyId()
-              iMu2 = pythia.event[iMu2].iBotCopyId()
-              hist.fill((pythia.event[iMu1].p() + pythia.event[iMu2].p()).pT())
-              break
-  pythia.stat()
 
-#==========================================================================
+def run(pythia, hist, nEvent):
+    pythia.readString("Random:setSeed = on")
+    pythia.readString("Random:seed = 1")
+    pythia.init()
+    for iEvent in range(0, nEvent):
+        if not pythia.next():
+            continue
+        iMu1 = 0
+        iMu2 = 0
+        for prt in pythia.event:
+            if not iMu1 and prt.id() == 13:
+                iMu1 = prt.index()
+            if not iMu2 and prt.id() == -13:
+                iMu2 = prt.index()
+            if iMu1 and iMu2:
+                iMu1 = pythia.event[iMu1].iBotCopyId()
+                iMu2 = pythia.event[iMu2].iBotCopyId()
+                hist.fill((pythia.event[iMu1].p() + pythia.event[iMu2].p()).pT())
+                break
+    pythia.stat()
+
+
+# ==========================================================================
 
 # The name of the MadGraph5_aMC@NLO executable.
 # You must prepend this string with the path to the executable
@@ -67,9 +76,9 @@ def run(pythia, hist, nEvent):
 exe = "mg5_aMC"
 
 # Create the histograms.
-pyPtZ = pythia8.Hist("Pythia dN/dpTZ", 100, 0., 100.)
-mgPtZ = pythia8.Hist("MadGraph dN/dpTZ", 100, 0., 100.)
-amPtZ = pythia8.Hist("aMC@NLO dN/dpTZ", 100, 0., 100.)
+pyPtZ = pythia8.Hist("Pythia dN/dpTZ", 100, 0.0, 100.0)
+mgPtZ = pythia8.Hist("MadGraph dN/dpTZ", 100, 0.0, 100.0)
+amPtZ = pythia8.Hist("aMC@NLO dN/dpTZ", 100, 0.0, 100.0)
 
 # Produce leading-order events with Pythia.
 pythia = pythia8.Pythia()
@@ -83,7 +92,7 @@ run(pythia, pyPtZ, 100)
 # Produce leading-order events with MadGraph 5.
 pythia = pythia8.Pythia()
 madgraph = pythia8.LHAupMadgraph(pythia, True, "madgraphrun", exe)
-madgraph.readString("generate p p > mu+ mu-");
+madgraph.readString("generate p p > mu+ mu-")
 # Note the need for a blank character before "set".
 madgraph.readString(" set ebeam1 6500")
 madgraph.readString(" set ebeam2 6500")
@@ -99,7 +108,7 @@ amcatnlo.readString("generate p p > mu+ mu- [QCD]")
 amcatnlo.readString(" set ebeam1 6500")
 amcatnlo.readString(" set ebeam2 6500")
 amcatnlo.readString(" set mll 80")
-pythia.setLHAupPtr(amcatnlo);
+pythia.setLHAupPtr(amcatnlo)
 run(pythia, amPtZ, 1000)
 
 # Print the histograms.

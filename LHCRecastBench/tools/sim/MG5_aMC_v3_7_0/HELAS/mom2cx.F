@@ -13,7 +13,7 @@ c
 c output:
 c       real    p1(0:3)        : four-momentum of particle 1
 c       real    p2(0:3)        : four-momentum of particle 2
-c     
+c
       implicit none
       double precision p1(0:3),p2(0:3),
      &     esum,mass1,mass2,costh1,phi1,md2,ed,pp,sinth1
@@ -52,7 +52,7 @@ c
       if (phi1.lt.rZero .or. phi1.gt.rTwo*rPi) then
          write(stdo,*)
      &   ' helas-warn  : phi1 in mom2cx does not lie on 0.0 thru 2.0*pi'
-         write(stdo,*) 
+         write(stdo,*)
      &   '             : phi1 = ',phi1
       endif
 #endif

@@ -24,7 +24,7 @@
 struct PyCallBack_std_exception : public std::exception {
 	using std::exception::exception;
 
-	const char * what() const noexcept override { 
+	const char * what() const noexcept override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const std::exception *>(this), "what");
 		if (overload) {

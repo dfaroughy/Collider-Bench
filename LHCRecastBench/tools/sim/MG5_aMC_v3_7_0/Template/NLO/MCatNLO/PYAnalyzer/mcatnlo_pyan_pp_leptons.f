@@ -34,7 +34,7 @@ C----------------------------------------------------------------------
       real*8 cbin(100),cmin(100),cmax(100)
       integer i,kk,l,icuts
       integer l0,ilep1,ilep2,io,ipair
-c      
+c
       call inihist
       nwgt_analysis=nwgt
 c The analysis will consider:
@@ -51,7 +51,7 @@ c Set these variables here and only here
 c For each weight and cut configuration, there will be:
 c   nsingle single-inclusive plots (e.g., pt and y)
 c   ncorr correlation plots (e.g., invM, ptpair, dphi, Deltay)
-c to be repeated for each of the nlepton leptons and 
+c to be repeated for each of the nlepton leptons and
 c nlepton*(nlepton-1)/2 lepton pairs respectively
       ncuts=1
       if(ncuts.gt.maxcuts)then

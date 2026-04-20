@@ -59,13 +59,13 @@ static void initWindow(StdHepWindow *window);
 **			so the caller does not need to maintain it after
 **			the call.
 **	windowTitle	A title for the event display window
-**      mode 		A int to declare the display type or mode, 
+**      mode 		A int to declare the display type or mode,
 **			either PHASE or PARA ( Eta-Pt) plot.
 **	exitProc	A procedure to execute when the user selects "Exit"
 **			from the "File", or "Window" menu of the event
 **			display window.  Pass NULL to omit "Exit" from
 **			the menu.
-**			
+**
 */
 EventWindow *DisplayOneEvent(Display *display, PhaseEvent *event,
     char *windowTitle, int mode, void (*exitProc)())
@@ -81,12 +81,12 @@ EventWindow *DisplayOneEvent(Display *display, PhaseEvent *event,
     	initColorsAndBitmaps(display);
 
     if (mode == STDHEP_PHASE) {
-      window = CreatePanel(display, False, False, 
+      window = CreatePanel(display, False, False,
     			 exitProc != NULL, windowTitle, NULL);
       window->type = STDHEP_PHASE;
       winsthep = (StdHepWindow *) window;
-    } else if ( mode == STDHEP_PARA) { 
-      winpa = CreatePanelPa(display, False, False, 
+    } else if ( mode == STDHEP_PARA) {
+      winpa = CreatePanelPa(display, False, False,
     			 exitProc != NULL, windowTitle, NULL);
       winsthep = (StdHepWindow *) winpa;
       winpa->type = STDHEP_PARA;
@@ -95,20 +95,20 @@ EventWindow *DisplayOneEvent(Display *display, PhaseEvent *event,
     winsthep->getEventProc = NULL;
     winsthep->openProc = NULL;
     initWindow(winsthep);
-    
+
     /* Copy the event so caller doesn't have to maintain it */
     winsthep->event = *event;
     particleBytes = event->nParticles * sizeof(PhaseParticle);
     winsthep->event.particles = (PhaseParticle *)XtMalloc(particleBytes);
     memcpy(winsthep->event.particles, event->particles, particleBytes);
-    
+
     if (mode == STDHEP_PARA) SetScaleParaSliders(winpa);
     DrawEvent(winsthep, True);
     if ( mode == STDHEP_PARA) {
-      XtSetSensitive(winsthep->eventTreeButton, TRUE);                           
+      XtSetSensitive(winsthep->eventTreeButton, TRUE);
       if(winsthep->colorCodeButton != NULL)
         XtSetSensitive(winsthep->colorCodeButton, TRUE);
-        }                           
+        }
     return (EventWindow *)window;
 }
 
@@ -125,7 +125,7 @@ EventWindow *DisplayEventFile(Display *display, void (*exitProc)(),
     static char title[] = "Event Phase Space Display (no file open)";
     static char barText[] = "No file open";
     PhaseWindow *window;
-   
+
     if (ColorsAndBitmapsInitialized == False)
     	initColorsAndBitmaps(display);
 
@@ -142,13 +142,13 @@ EventWindow *DisplayEventFile(Display *display, void (*exitProc)(),
 
 
 static void initColorsAndBitmaps(Display *display)
-{   
+{
     /*
     ** Put the button bitmaps into the motif bitmap cache for later use
     ** in creating buttons with bitmap labels
     */
     RegisterPhaseBitmaps(DefaultScreenOfDisplay(display));
-    
+
     /*
     ** Allocate color cells for particle colors
     */
@@ -177,4 +177,4 @@ static void initWindow(StdHepWindow *window)
     window->selnodeTracks = NULL;
     window->treeheadcolorcode = NULL;
     window->modetreedisp = TREEDISPREAL;
-}    
+}

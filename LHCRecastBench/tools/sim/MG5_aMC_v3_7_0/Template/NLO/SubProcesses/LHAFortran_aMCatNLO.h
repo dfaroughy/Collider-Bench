@@ -239,7 +239,7 @@ class MyLHAupFortran : public LHAupFortran_aMCatNLO {
   bool fillHepEup(){
     return true;
   }
-  
+
   bool is_initialised(){
     return initialised;
   }
@@ -745,7 +745,7 @@ public:
       }
       in1 = iParentInOther;
       if (iParentInOther) resonantIncoming = true;
-    } 
+    }
 
     event.append(state[0]);
     event.append(state[1]);
@@ -768,7 +768,7 @@ public:
       // Careful when builing the sub-events: A particle that is currently
       // intermediate in one system could be the pirogenitor of another
       // system, i.e. when resonance decays are present. In this case, the
-      // intermediate particle in the current system should be final. 
+      // intermediate particle in the current system should be final.
       bool isFin   = state[i].isFinal();
       bool isInSys = (partonSystemsPtr->getSystemOf(i) == iSys);
 
@@ -785,7 +785,7 @@ public:
       }
 
       if ( (isFin || isParentOfOther) && (!hasSystems || isInSys) ) {
-      //if ( state[i].isFinal() 
+      //if ( state[i].isFinal()
       //  && (!hasSystems || partonSystemsPtr->getSystemOf(i) == iSys)) {
         int iN = event.append(state[i]);
         event[iN].daughters(0,0);

@@ -53,7 +53,7 @@ static char SCCSID[] = "@(#)panel.c	1.2	4/10/92";
 #include "pick.h"
 #include "rotation.h"
 
-#define INITIAL_MOMTOSP_RAT 0.1         /* The initial scale factor for the 
+#define INITIAL_MOMTOSP_RAT 0.1         /* The initial scale factor for the
 						conversion momentum to space */
 #define INITIAL_LONGTOTR_RAT 10.       /* The initial longitudinal to transverse
 						ratio */
@@ -72,10 +72,10 @@ static void neutrinosCB(Widget w, SpaceWindow *window, caddr_t call_data);
 static void gammasCB(Widget w, SpaceWindow *window, caddr_t call_data);
 static void quarksCB(Widget w, SpaceWindow *window, caddr_t call_data);
 static void hadronsCB(Widget w, SpaceWindow *window, caddr_t call_data);
-static Widget createSpaceSlider(Widget *scaleret, Widget *valueret, 
+static Widget createSpaceSlider(Widget *scaleret, Widget *valueret,
 			 Widget parent, Widget attached,
 			 char *namef, char *namel,
-                         int initval, SpaceWindow *window, 
+                         int initval, SpaceWindow *window,
                           void (*gensliderCB) ());
 static void wzCB(Widget w, SpaceWindow *window, caddr_t call_data);
 static void scaleCB(Widget w, SpaceWindow *window,caddr_t call_data);
@@ -84,21 +84,21 @@ static void yTransCB(Widget w, SpaceWindow *window,caddr_t call_data);
 static void zTransCB(Widget w, SpaceWindow *window,caddr_t call_data);
 static void momToSpaceCB(Widget w, SpaceWindow *window,caddr_t call_data);
 static void longToTrCB(Widget w, SpaceWindow *window,caddr_t call_data);
-static void viewRotXPosCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void viewRotYPosCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void viewRotZPosCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void viewRotXNegCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void viewRotYNegCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void viewRotZNegCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void coordRotXPosCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void coordRotYPosCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void coordRotZPosCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void coordRotXNegCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void coordRotYNegCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void coordRotZNegCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void scaleUpCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void scaleDownCB(Widget w, SpaceWindow *window, caddr_t call_data); 
-static void resetRotationCB(Widget w, SpaceWindow *window, caddr_t call_data); 
+static void viewRotXPosCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void viewRotYPosCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void viewRotZPosCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void viewRotXNegCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void viewRotYNegCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void viewRotZNegCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void coordRotXPosCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void coordRotYPosCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void coordRotZPosCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void coordRotXNegCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void coordRotYNegCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void coordRotZNegCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void scaleUpCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void scaleDownCB(Widget w, SpaceWindow *window, caddr_t call_data);
+static void resetRotationCB(Widget w, SpaceWindow *window, caddr_t call_data);
 static void scaleExposeCB(Widget w, SpaceWindow *window, caddr_t call_data);
 static void resizeCB(Widget w, SpaceWindow *window, caddr_t call_data);
 static void redisplayCB(Widget w, SpaceWindow *window, caddr_t call_data);
@@ -121,7 +121,7 @@ SpaceWindow *CreatePanelSp(Display *display, int setsEventNum,
 
     /* Allocate some memory for the new window data structure */
     window = (SpaceWindow *)XtMalloc(sizeof(SpaceWindow));
-    
+
     /* Create an toplevel shell to hold the window */
     ac = 0;
     XtSetArg(al[ac], XmNtitle, windowTitle); ac++;
@@ -130,7 +130,7 @@ SpaceWindow *CreatePanelSp(Display *display, int setsEventNum,
     /* Keep the phase name here, to same valid XDefaults.. */
     appShell = XtAppCreateShell ("phase", "Space",
 		applicationShellWidgetClass, display, al, ac);
-    	    
+
     /*
     ** create a main window holding a menu bar and a form with the rest of
     ** the window contents.
@@ -146,7 +146,7 @@ SpaceWindow *CreatePanelSp(Display *display, int setsEventNum,
 
     /* add the window to the global window list */
     AddToWindowList((StdHepWindow *) window);
-    
+
     /* realize all of the widgets in the new window */
     XtRealizeWidget(appShell);
 
@@ -185,7 +185,7 @@ SpaceWindow *CreatePanelSp(Display *display, int setsEventNum,
     return window;
 }
 
-static void closeCB (Widget w, SpaceWindow *window, caddr_t call_data) 
+static void closeCB (Widget w, SpaceWindow *window, caddr_t call_data)
 {
     CloseWindow((StdHepWindow *) window);
 }
@@ -213,18 +213,18 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     XtSetArg(args[ac], XmNmarginHeight, 0); ac++;
     form = XmCreateForm(parent, "form", args, ac);
     XtManageChild(form);
-  
+
     if (hasEventBar) {
         ac = 0;
 	XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
 	XtSetArg(args[ac], XmNrightAttachment, XmATTACH_FORM); ac++;
 	eventCtrlFrame = XmCreateFrame(form, "eventCtrlFrame", args, ac);
 	XtManageChild(eventCtrlFrame);
-        
+
         ac = 0;
 	eventCtrlForm = XmCreateForm(eventCtrlFrame, "eventCtrlForm", args, ac);
 	XtManageChild(eventCtrlForm);
-	
+
         ac = 0;
 	XtSetArg(args[ac], XmNtopAttachment, XmATTACH_FORM); ac++;
 	XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_FORM); ac++;
@@ -234,7 +234,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
 					    args, ac);
 	XmStringFree(s1);
 	XtManageChild(eventNumLabel);
-	
+
 	ac = 0;
 	XtSetArg(args[ac], XmNarrowDirection, XmARROW_UP); ac++;
 	XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
@@ -243,11 +243,11 @@ static Widget createContents(Widget parent, SpaceWindow *window,
 	XtSetArg(args[ac], XmNleftWidget, eventNumLabel); ac++;
 	upArrow = XmCreateArrowButton(eventCtrlForm, "upArrow", args, ac);
         XtAddCallback(upArrow, XmNactivateCallback,
-                      (XtCallbackProc)  nextEvtCB, window); 
+                      (XtCallbackProc)  nextEvtCB, window);
 	XtManageChild(upArrow);
-	
+
 	ac = 0;
-	
+
 	sprintf(ctmp,"  %d  ", ac);
 	XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING(ctmp))); ac++;
 	XtSetArg(args[ac], XmNcolumns, 7); ac++;
@@ -258,7 +258,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
 					    args, ac);
 /*	eventNumText = XmCreateText(eventCtrlForm, "eventNumText", args, ac); */
 	XtManageChild(eventNumText);
-	
+
 	ac = 0;
 	XtSetArg(args[ac], XmNarrowDirection, XmARROW_DOWN); ac++;
 	XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
@@ -267,9 +267,9 @@ static Widget createContents(Widget parent, SpaceWindow *window,
 	XtSetArg(args[ac], XmNleftWidget, eventNumText); ac++;
 	downArrow = XmCreateArrowButton(eventCtrlForm, "downArrow", args, ac);
         XtAddCallback(downArrow, XmNactivateCallback,
-                      (XtCallbackProc)  previousEvtCB, window); 
+                      (XtCallbackProc)  previousEvtCB, window);
 	XtManageChild(downArrow);
-	
+
 	ac = 0;
 	XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING(eventBarText))); ac++;
 	XtSetArg(args[ac], XmNrightAttachment, XmATTACH_FORM); ac++;
@@ -281,7 +281,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
 	XmStringFree(s1);
 	XtManageChild(eventCtrlText);
     }
-    
+
     /* Create a Form for the controls along the left edge of window */
     ac = 0;
     if (hasEventBar) {
@@ -292,7 +292,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     }
     controls = XmCreateForm(form, "controls", args, ac);
     XtManageChild(controls);
-     
+
     ac = 0;
     XtSetArg(args[ac], XmNborderWidth, (Dimension)0); ac++;
     XtSetArg(args[ac], XmNpacking, XmPACK_COLUMN); ac++;
@@ -300,7 +300,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     XtSetArg(args[ac], XmNnumColumns, (short)2); ac++;
     stability = XmCreateRowColumn(controls, "stability", args, ac);
     XtManageChild(stability);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("Particle Types"))); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -321,7 +321,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     particleType = XmCreateRowColumn(controls, "particleType", args, ac);
     XtManageChild(particleType);
 
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNhighlightThickness, 0); ac++;
     XtSetArg(args[ac], XmNpacking, XmPACK_COLUMN); ac++;
@@ -362,7 +362,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     TOGGLE_BTN(particleType, "Quarks/Gluons", "quarks", quarksCB, True);
     TOGGLE_BTN(particleType,"Hadrons", "hadrons", hadronsCB, True);
     TOGGLE_BTN(particleType,"W/Z", "wz", wzCB, True);
-    
+
     /* Do now the slider.. X, Y ,Z translation first. */
     ac = 0;
     XtSetArg(args[ac], XmNborderWidth, (Dimension)0); ac++;
@@ -375,11 +375,11 @@ static Widget createContents(Widget parent, SpaceWindow *window,
 /*    XtSetArg(args[ac], XmNrightWidget, particleType); ac++; */
     allSliders = XmCreateRowColumn(controls, "allSliders", args, ac);
     XtManageChild(allSliders);
-     
-                                 
+
+
     ac = 0;
     XtSetArg(args[ac], XmNpacking, XmPACK_COLUMN); ac++;
-    XtSetArg(args[ac], XmNadjustLast, False); ac++;    
+    XtSetArg(args[ac], XmNadjustLast, False); ac++;
     XtSetArg(args[ac], XmNspacing, 0); ac++;
     XtSetArg(args[ac], XmNnumColumns, (short)5); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -402,8 +402,8 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     XtAddCallback(widget, XmNactivateCallback, \
                    (XtCallbackProc)  cb, window); \
     XtManageChild(widget);
-    
-    ROTATE_BTN("viewRotXPos", "viewRotXPos", viewRotXPosCB) 
+
+    ROTATE_BTN("viewRotXPos", "viewRotXPos", viewRotXPosCB)
     ROTATE_BTN("viewRotYPos", "viewRotYPos", viewRotYPosCB)
     ROTATE_BTN("viewRotZPos", "viewRotZPos", viewRotZPosCB)
     ROTATE_BTN("viewRotXNeg", "viewRotXNeg", viewRotXNegCB)
@@ -418,7 +418,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     ROTATE_BTN("scaleUp", "scaleUp", scaleUpCB)
     ROTATE_BTN("scaleDown", "scaleDown", scaleDownCB)
     ROTATE_BTN("resetRotation", "resetRotation", resetRotationCB)
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNshadowType, XmSHADOW_IN); ac++;
     XtSetArg(args[ac], XmNshadowThickness, 1); ac++;
@@ -426,7 +426,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     XtManageChild(scaleFrame);
     trackInfoFrame = XmCreateFrame(stats, "trackInfoFrame", args, ac);
     XtManageChild(trackInfoFrame);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNpacking, XmPACK_COLUMN); ac++;
     XtSetArg(args[ac], XmNentryAlignment, XmALIGNMENT_CENTER); ac++;
@@ -436,10 +436,10 @@ static Widget createContents(Widget parent, SpaceWindow *window,
 
     ac = 0;
     scaleArea = XmCreateDrawingArea(scaleRC, "scaleArea", args, ac);
-    XtAddCallback(scaleArea, XmNexposeCallback, 
+    XtAddCallback(scaleArea, XmNexposeCallback,
                     (XtCallbackProc)  scaleExposeCB, window);
     XtManageChild(scaleArea);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("x"))); ac++;
     XtSetArg(args[ac], XmNmarginHeight, 0); ac++;
@@ -447,7 +447,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
                             scaleRC, "scaleLabel", args, ac);
     XmStringFree(s1);
     XtManageChild(scaleLabel);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNalignment, XmALIGNMENT_BEGINNING); ac++;
     XtSetArg(args[ac], XmNrecomputeSize, False); ac++;
@@ -457,7 +457,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
                            trackInfoFrame, "trackInfo", args, ac);
     XmStringFree(s1);
     XtManageChild(trackInfo);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNshowAxes, True); ac++;
     XtSetArg(args[ac], XmNperspectiveOn, True); ac++;
@@ -473,45 +473,45 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     XtSetArg(args[ac], XmNleftOffset, (int)0); ac++;
     XtSetArg(args[ac], XmNrightOffset, (int)0); ac++;
     spin = XtCreateManagedWidget("spin", spinWidgetClass, form, args, ac);
-    XtAddCallback(spin, XmNresizeCallback, 
+    XtAddCallback(spin, XmNresizeCallback,
                   (XtCallbackProc) resizeCB, window);
-    XtAddCallback(spin, XmNredisplayCallback, 
+    XtAddCallback(spin, XmNredisplayCallback,
                    (XtCallbackProc) redisplayCB, window);
     XtAddCallback(spin, XmNbtn2Callback,
                    (XtCallbackProc)  spinSelectCB, window);
 
-/* Place now the Sliders, right attached to the spin widget */ 
+/* Place now the Sliders, right attached to the spin widget */
 
-    formt1 = createSpaceSlider(&window->scaleSliderScale, 
-				&window->scaleSliderValue, 
+    formt1 = createSpaceSlider(&window->scaleSliderScale,
+				&window->scaleSliderValue,
 			        allSliders, spin,
-			        "scaleScale", "Overall Scale", 
-                                SLIDER_MAX, window, scaleCB);  
-    formt1 = createSpaceSlider(&window->xTranslSliderScale, 
-				&window->xTranslSliderValue, 
+			        "scaleScale", "Overall Scale",
+                                SLIDER_MAX, window, scaleCB);
+    formt1 = createSpaceSlider(&window->xTranslSliderScale,
+				&window->xTranslSliderValue,
 			        allSliders, spin,
-			        "scaleX", "X transl.", 
-                                (SLIDER_MAX/2), window, xTransCB);  
-    formt1 = createSpaceSlider(&window->yTranslSliderScale, 
-				&window->yTranslSliderValue, 
+			        "scaleX", "X transl.",
+                                (SLIDER_MAX/2), window, xTransCB);
+    formt1 = createSpaceSlider(&window->yTranslSliderScale,
+				&window->yTranslSliderValue,
 			        allSliders, spin,
-			        "scaleY", "Y transl.", 
-                                (SLIDER_MAX/2), window, yTransCB);  
-    formt1 = createSpaceSlider(&window->zTranslSliderScale, 
-				&window->zTranslSliderValue, 
+			        "scaleY", "Y transl.",
+                                (SLIDER_MAX/2), window, yTransCB);
+    formt1 = createSpaceSlider(&window->zTranslSliderScale,
+				&window->zTranslSliderValue,
 			        allSliders, spin,
-			        "scaleZ", "Z transl.", 
-                                (SLIDER_MAX/2), window, zTransCB);  
-    formt1 = createSpaceSlider(&window->momToSpaceSliderScale, 
-				&window->momToSpaceSliderValue, 
+			        "scaleZ", "Z transl.",
+                                (SLIDER_MAX/2), window, zTransCB);
+    formt1 = createSpaceSlider(&window->momToSpaceSliderScale,
+				&window->momToSpaceSliderValue,
 			        allSliders, spin,
-			        "momtospace", "P to Dist", 
-                               (SLIDER_MAX/10), window, momToSpaceCB);  
-    formt1 = createSpaceSlider(&window->longToTrSliderScale, 
-				&window->longToTrSliderValue, 
+			        "momtospace", "P to Dist",
+                               (SLIDER_MAX/10), window, momToSpaceCB);
+    formt1 = createSpaceSlider(&window->longToTrSliderScale,
+				&window->longToTrSliderValue,
 			        allSliders, spin,
 			        "LongToTr",
-			         "Aspect ratio Long/Tr.          ", 
+			         "Aspect ratio Long/Tr.          ",
                                 (SLIDER_MAX/10), window, longToTrCB);
 /* This last string is in fact constraining the appearance of the widget */
     window->spin = spin;
@@ -520,7 +520,7 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     window->statsLabel = trackInfo;
     window->scaleArea = scaleArea;
     window->scaleLabel = scaleLabel;
-    
+
     window->stable = True;
     window->unstable = True;
     window->charged = True;
@@ -532,14 +532,14 @@ static Widget createContents(Widget parent, SpaceWindow *window,
     window->quarks = True;
     window->hadrons = True;
     window->wz = True;
-    
+
     return(form);
 }
 
-static Widget createSpaceSlider(Widget *scaleret, Widget *valueret, 
+static Widget createSpaceSlider(Widget *scaleret, Widget *valueret,
 			 Widget parent, Widget attached,
 			 char *namef, char *namel,
-                         int initval, SpaceWindow *window, 
+                         int initval, SpaceWindow *window,
                           void (*gensliderCB) ())
 {
     Widget bulletin, scale, name, value;
@@ -547,7 +547,7 @@ static Widget createSpaceSlider(Widget *scaleret, Widget *valueret,
     Arg    	args[20];
     int    	ac;
     XmString s1;
-     	
+
     /* create the contents of the slider window */
     scale = XtVaCreateManagedWidget("scale", xmScaleWidgetClass, parent,
     			XmNorientation, XmHORIZONTAL,
@@ -566,14 +566,14 @@ static Widget createSpaceSlider(Widget *scaleret, Widget *valueret,
 	    		  (XtCallbackProc)gensliderCB, (caddr_t) window);
 	    XtAddCallback(scale, XmNvalueChangedCallback,
 	    		  (XtCallbackProc)gensliderCB, (caddr_t) window);
-     *scaleret = scale;    		  
-    value = XtVaCreateManagedWidget("value", xmLabelWidgetClass, parent, 
+     *scaleret = scale;
+    value = XtVaCreateManagedWidget("value", xmLabelWidgetClass, parent,
     			XmNlabelString,s1=XmStringCreateSimple(namel),
     			XmNalignment, XmALIGNMENT_END,
     			XmNrecomputeSize, False, 0);
       *valueret = value;
       XmStringFree(s1);
-    	
+
     return bulletin;
 }
 
@@ -650,11 +650,11 @@ static void scaleCB(Widget w, SpaceWindow *window,caddr_t call_data)
      float curval, factor;
      XmString s1;
      char line[40];
-     
+
     if (window->filename == NULL) return;
-    
+
     XtVaGetValues(w, XmNvalue, &sliderValue, 0);
-    curval = window->maxScale * 0.3678794 * 
+    curval = window->maxScale * 0.3678794 *
                     exp (-1.0 * SLIDER_MAX / sliderValue );
     if (curval == window->currentScale)  return;
     window->currentScale = curval;
@@ -662,23 +662,23 @@ static void scaleCB(Widget w, SpaceWindow *window,caddr_t call_data)
     s1=XmStringCreateSimple(line);
     XtVaSetValues(window->scaleSliderValue, XmNlabelString, s1, 0);
     XmStringFree(s1);
-    /* 
+    /*
     ** Reset the defaul and scale of other sliders
     **
     */
     window->minTransl[2] = -curval/2.; window->maxTransl[2] = curval/2.;
     window->currentTransl[2] = 0.;
      /*
-      ** Set now the Transverse to Longitudinal aspect ratio. 
-      ** Currently, at the outset, this is a fixed quantity.. 
+      ** Set now the Transverse to Longitudinal aspect ratio.
+      ** Currently, at the outset, this is a fixed quantity..
       */
-     for (k=0; k<2; k++){   
-       window->minTransl[k] = -1. *  curval/( 2. * window->currentLongToTr); 
+     for (k=0; k<2; k++){
+       window->minTransl[k] = -1. *  curval/( 2. * window->currentLongToTr);
        window->maxTransl[k] = curval/( 2. * window->currentLongToTr);
        window->currentTransl[k] = 0.;
     }
-    
-    window->currentMomToSpace = 
+
+    window->currentMomToSpace =
           2.0 * window->maxTransl[2] /window->maxMomentum;
     window->maxMomToSpace = 10. *  window->currentMomToSpace;
     SetScaleSpaceSliders(window);
@@ -691,9 +691,9 @@ static void xTransCB(Widget w, SpaceWindow *window,caddr_t call_data)
      float curval;
      XmString s1;
      char line[40];
-     
+
     if (window->filename == NULL) return;
-    
+
     XtVaGetValues(w, XmNvalue, &sliderValue, 0);
     curval = window->minTransl[0] +
      sliderValue * (window->maxTransl[0] - window->minTransl[0])/SLIDER_MAX;
@@ -712,9 +712,9 @@ static void yTransCB(Widget w, SpaceWindow *window,caddr_t call_data)
      char line[40];
      XmString s1;
      float curval;
-     
+
     if (window->filename == NULL) return;
-     
+
     XtVaGetValues(w, XmNvalue, &sliderValue, 0);
     curval = window->minTransl[1] +
     sliderValue * (window->maxTransl[1] - window->minTransl[1])/SLIDER_MAX;
@@ -733,9 +733,9 @@ static void zTransCB(Widget w, SpaceWindow *window,caddr_t call_data)
      char line[40];
      XmString s1;
      float curval;
-     
+
     if (window->filename == NULL) return;
-     
+
     XtVaGetValues(w, XmNvalue, &sliderValue, 0);
     curval = window->minTransl[2] +
       sliderValue * (window->maxTransl[2] - window->minTransl[2])/SLIDER_MAX;
@@ -747,18 +747,18 @@ static void zTransCB(Widget w, SpaceWindow *window,caddr_t call_data)
     XmStringFree(s1);
     DrawEvent((StdHepWindow *) window, False);
 }
-     
+
 static void momToSpaceCB(Widget w, SpaceWindow *window,caddr_t call_data)
 {
      int sliderValue;
      char line[40];
      XmString s1;
      float curval;
-     
+
     if (window->filename == NULL) return;
-     
+
     XtVaGetValues(w, XmNvalue, &sliderValue, 0);
-    curval = 
+    curval =
          sliderValue * (window->maxMomToSpace)/SLIDER_MAX;
     if (curval == window->currentMomToSpace)  return;
     window->currentMomToSpace = curval;
@@ -769,16 +769,16 @@ static void momToSpaceCB(Widget w, SpaceWindow *window,caddr_t call_data)
     DrawEvent((StdHepWindow *) window, False);
     DrawScale((StdHepWindow *) window);
 }
-     
+
 static void longToTrCB(Widget w, SpaceWindow *window,caddr_t call_data)
 {
      int sliderValue;
      char line[40];
      XmString s1;
      float curval;
-     
+
     if (window->filename == NULL) return;
-     
+
     XtVaGetValues(w, XmNvalue, &sliderValue, 0);
     curval = window->minLongToTr +
        sliderValue * (window->maxLongToTr - window->minLongToTr)/SLIDER_MAX;
@@ -790,114 +790,114 @@ static void longToTrCB(Widget w, SpaceWindow *window,caddr_t call_data)
     XmStringFree(s1);
     DrawEvent((StdHepWindow *) window, False);
 }
-     
+
 
 static void viewRotXPosCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateX(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void viewRotYPosCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateY(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void viewRotZPosCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateZ(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void viewRotXNegCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateX(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void viewRotYNegCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateY(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void viewRotZNegCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateZ(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void coordRotXPosCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateX(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void coordRotYPosCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateY(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void coordRotZPosCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateZ(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void coordRotXNegCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateX(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void coordRotYNegCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateY(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void coordRotZNegCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateZ(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void scaleUpCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinSetScale(window->spin, SpinGetScale(window->spin) * (5./4.));
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void scaleDownCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinSetScale(window->spin, SpinGetScale(window->spin) * (4./5.));
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void resetRotationCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinRestore(window->spin);
 }
- 
+
 static void scaleExposeCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void resizeCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void redisplayCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     ShowSelectedTrack((StdHepWindow *) window);
     UpdateRotationPanel((StdHepWindow *) window);
 }
- 
+
 static void spinSelectCB(Widget w, SpaceWindow *window, SpinCallbackStruct *cb)
 {
     int particleIndex;
@@ -905,7 +905,7 @@ static void spinSelectCB(Widget w, SpaceWindow *window, SpinCallbackStruct *cb)
                         cb->event->xbutton.x,cb->event->xbutton.y);
     SelectTrack((StdHepWindow *) window, particleIndex);
 }
- 
+
 static void nextEvtCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     int ievt = window->event.eventNum;
@@ -918,7 +918,7 @@ static void nextEvtCB(Widget w, SpaceWindow *window, caddr_t call_data)
      }
     GetSetStdHep((StdHepWindow *) window, ievt);
 }
- 
+
 static void previousEvtCB(Widget w, SpaceWindow *window, caddr_t call_data)
 {
     int ievt = window->event.eventNum;
@@ -930,5 +930,4 @@ static void previousEvtCB(Widget w, SpaceWindow *window, caddr_t call_data)
         return;
      }
     GetSetStdHep((StdHepWindow *) window, ievt);
-} 
-
+}

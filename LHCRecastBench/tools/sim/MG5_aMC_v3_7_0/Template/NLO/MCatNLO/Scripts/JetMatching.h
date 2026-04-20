@@ -1374,7 +1374,7 @@ inline void JetMatchingMadgraph::sortIncomingProcess(const Event &event) {
 
   // Step-FxFx-1: remove preclustering from FxFx
 
- /* 
+ /*
 
   // For FxFx, pre-cluster partons in the event into jets.
   if (doFxFx) {
@@ -1438,7 +1438,7 @@ inline void JetMatchingMadgraph::sortIncomingProcess(const Event &event) {
 
     // Done. Clean-up
     workEventJet.clear();
-    
+
    */
 
   // Step-FxFx-2: : set the same eventProcess for both MLM and FxFx. This was only for MLM

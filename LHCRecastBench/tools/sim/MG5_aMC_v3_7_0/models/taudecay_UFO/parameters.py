@@ -145,4 +145,3 @@ WTA = Parameter(name = 'WTA',
                 texname = 'no_restrict',
                 lhablock = 'DECAY',
                 lhacode = [ 15 ])
-

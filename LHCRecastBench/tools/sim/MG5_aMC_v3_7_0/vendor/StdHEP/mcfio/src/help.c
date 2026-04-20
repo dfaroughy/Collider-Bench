@@ -106,7 +106,7 @@ Widget CreateHelpPulldownMenu(Widget menuBar, helpMenuInfo **menuInfo)
     	    menuBar, XmNlabelString, s1=XmStringCreateSimple("Help"),
 	    XmNmnemonic, 'H', XmNsubMenuId, menu, 0);
     XmStringFree(s1);
-    
+
     /* set the menu up as the designated help menu (puts it on the right
        of a menu bar or bottom of a submenu) */
     XtVaSetValues(menuBar, XmNmenuHelpWidget, cascade, 0);
@@ -153,7 +153,7 @@ Widget CreateHelpDialog(Widget parent, char *title, char *text)
     XmStringFree(st1);
     XtManageChild(button);
     XtVaSetValues(form, XmNdefaultButton, button, 0);
-    
+
     ac = 0;
     XtSetArg(al[ac], XmNrows, 15);  ac++;
     XtSetArg(al[ac], XmNcolumns, 60);  ac++;
@@ -172,10 +172,10 @@ Widget CreateHelpDialog(Widget parent, char *title, char *text)
     XtSetArg(al[ac], XmNbottomWidget, button);  ac++;
     textW = XmCreateScrolledText(form, "helpText", al, ac);
     XtManageChild(textW);
-    
+
     XtVaSetValues(XtParent(form), XmNtitle, title, 0);
     ManageDialogCenteredOnPointer(form);
-    
+
     return form;
 }
 
@@ -209,7 +209,7 @@ Widget CreateBitmapHelpDialog(Widget parent, char *title, char *bits,
     /* create a form dialog to hold everything */
     form = XmCreateFormDialog(parent, "helpForm", NULL, 0);
     XtVaSetValues(form, XmNshadowThickness, 0, 0);
-    
+
     /* decide on a width and height for the scrolled window */
     swWidth = (width > MAX_HELP_BM_WIDTH ? MAX_HELP_BM_WIDTH : width) +
     	  (height > MAX_HELP_BM_HEIGHT ? SCROLL_BAR_WIDTH : SCROLL_FRAME_WIDTH);
@@ -251,10 +251,10 @@ Widget CreateBitmapHelpDialog(Widget parent, char *title, char *bits,
     XtVaCreateManagedWidget("bitmap", xmLabelWidgetClass,  scrollW,
     	    XmNlabelType, XmPIXMAP,
     	    XmNlabelPixmap, labelPixmap, 0);
-    
+
     /* set the title of the window */
     XtVaSetValues(XtParent(form), XmNtitle, title, 0);
-    
+
     /* pop up and return wigit id of the help dialog just created */
     ManageDialogCenteredOnPointer(form);
     return form;

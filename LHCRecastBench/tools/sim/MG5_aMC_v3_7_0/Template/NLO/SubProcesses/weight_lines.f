@@ -84,7 +84,7 @@ c nFKS
          allocate(itemp1(n_contr))
          itemp1(1:max_contr)=nFKS
          call move_alloc(itemp1,nFKS)
-c QCDpower         
+c QCDpower
          allocate(itemp1(n_contr))
          itemp1(1:max_contr)=QCDpower
          call move_alloc(itemp1,QCDpower)

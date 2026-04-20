@@ -2,10 +2,10 @@ c*********************************************************
 c                  TF_param.inc                         **
 c*********************************************************
       include 'phasespace.inc'
-      
+
       integer curr_tf
       common/transfer_fct_curr_tf/curr_tf
-      
+
 c
 c external functions
 c
@@ -41,7 +41,7 @@ c
 c     global
 c
       double precision momenta(0:3,-max_branches:2*max_particles)
-      double precision mvir2(-max_branches:2*max_particles)    
+      double precision mvir2(-max_branches:2*max_particles)
       common /to_diagram_kin/ momenta, mvir2
 
       double precision permutation_weight
@@ -49,4 +49,4 @@ c
 
 c
 c parameters to init in transfert_card.dat
-c	
+c

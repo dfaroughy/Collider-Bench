@@ -13,6 +13,7 @@ from pathlib import Path
 
 # ── AST-based code analysis ──────────────────────────────────────────────────
 
+
 class AnalysisChecker(ast.NodeVisitor):
     """Walk the AST of analysis.py and flag performance/correctness issues."""
 
@@ -59,12 +60,19 @@ class AnalysisChecker(ast.NodeVisitor):
                     flagged = True
 
                 # range(len(something))
-                if isinstance(arg, ast.Call) and isinstance(arg.func, ast.Name) and arg.func.id == "len":
+                if (
+                    isinstance(arg, ast.Call)
+                    and isinstance(arg.func, ast.Name)
+                    and arg.func.id == "len"
+                ):
                     # Check if it's iterating over events-sized arrays
                     if arg.args and isinstance(arg.args[0], ast.Name):
                         varname = arg.args[0].id
                         # Heuristic: if the variable suggests events/leptons/jets
-                        if any(kw in varname.lower() for kw in ("ev", "event", "lep", "mu", "el", "jet", "pass")):
+                        if any(
+                            kw in varname.lower()
+                            for kw in ("ev", "event", "lep", "mu", "el", "jet", "pass")
+                        ):
                             flagged = True
 
                 if flagged:
@@ -109,6 +117,7 @@ def check_code(analysis_path: str) -> tuple[list[str], list[str]]:
 
 
 # ── Dataset checks ───────────────────────────────────────────────────────────
+
 
 def check_datasets(datasets_path: str) -> tuple[list[str], list[str], dict]:
     """Check datasets.yaml and return (errors, warnings, summary)."""
@@ -168,6 +177,7 @@ def check_datasets(datasets_path: str) -> tuple[list[str], list[str], dict]:
 
 # ── Main entry points ────────────────────────────────────────────────────────
 
+
 def check_analysis(datasets_path: str, analysis_path: str):
     """Run all pre-flight checks. Hard-fails on errors."""
     all_errors = []
@@ -185,10 +195,10 @@ def check_analysis(datasets_path: str, analysis_path: str):
 
     # Print dataset summary
     print(f"\n{'─'*60}")
-    print(f"  DATASET SUMMARY")
+    print("  DATASET SUMMARY")
     print(f"{'─'*60}")
     with open(datasets_path) as f:
-        for d in (yaml.safe_load(f) or []):
+        for d in yaml.safe_load(f) or []:
             status = d.get("status", "")
             n = len(d.get("file_urls", []))
             tag = f" [{status}]" if status else ""
@@ -207,10 +217,13 @@ def check_analysis(datasets_path: str, analysis_path: str):
     if all_errors:
         for e in all_errors:
             print(f"  ERROR: {e}", file=sys.stderr)
-        print(f"\n  Pre-flight failed ({len(all_errors)} errors). Fix before running.\n", file=sys.stderr)
+        print(
+            f"\n  Pre-flight failed ({len(all_errors)} errors). Fix before running.\n",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
-    print(f"  Pre-flight passed.\n")
+    print("  Pre-flight passed.\n")
 
 
 def print_postflight(start_time: float, results_path: str = "results.json"):
@@ -239,9 +252,8 @@ def print_postflight(start_time: float, results_path: str = "results.json"):
         "report.md",
     ]
     missing = [f for f in required if not Path(f).exists()]
-    written = [f for f in required if Path(f).exists()]
     if missing:
         print(f"  MISSING ARTIFACTS: {', '.join(missing)}")
     else:
-        print(f"  All required artifacts present.")
+        print("  All required artifacts present.")
     print(f"{'─'*60}\n")

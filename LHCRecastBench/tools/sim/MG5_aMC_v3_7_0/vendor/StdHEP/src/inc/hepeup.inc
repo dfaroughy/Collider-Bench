@@ -7,11 +7,11 @@ C...User process event common block.
      &ISTUP(MAXNUP),MOTHUP(2,MAXNUP),ICOLUP(2,MAXNUP),PUP(5,MAXNUP),
      &VTIMUP(MAXNUP),SPINUP(MAXNUP)
 
-C  
+C
 C	Les Houches accord 2001
 C
 C	NUP - number of particle entries in this event
-C	IDPRUP - ID of the process for this event 
+C	IDPRUP - ID of the process for this event
 C		(ID's are generator-specific)
 C	XWGTUP - event weight
 C	SCALUP - scale of the event in GeV, as used to calculate PDFs

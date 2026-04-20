@@ -36,7 +36,7 @@ using namespace std;
 bool _first_time = true;
 auto_ptr<fj::ClusterSequence> cs;
 
-extern "C" {   
+extern "C" {
 
 // f77 interface to the pp generalised-kt (sequential recombination)
 // algorithms, as defined in arXiv.org:0802.1189, which includes
@@ -48,32 +48,32 @@ extern "C" {
 //   SUBROUTINE FASTJETPPSEQREC(P,NPART,R,PALG,F77JETS,NJETS)
 //   DOUBLE PRECISION P(4,*), R, PALG, F, F77JETS(4,*)
 //   INTEGER          NPART, NJETS
-// 
+//
 // where on input
 //
 //   P        the input particle 4-momenta
 //   NPART    the number of input momenta
 //   R        the radius parameter
-//   PALG     the power for the generalised kt alg 
+//   PALG     the power for the generalised kt alg
 //            (1.0=kt, 0.0=C/A,  -1.0 = anti-kt)
 //
-// and on output 
+// and on output
 //
 //   F77JETS  the output jet momenta (whose second dim should be >= NPART)
 //            sorted in order of decreasing p_t.
-//   NJETS    the number of output jets 
+//   NJETS    the number of output jets
 //
 // For the values of PALG that correspond to "standard" cases (1.0=kt,
 // 0.0=C/A, -1.0 = anti-kt) this routine actually calls the direct
 // implementation of those algorithms, whereas for other values of
 // PALG it calls the generalised kt implementation.
 //
-void fastjetppgenkt_etamax_(const double * p, const int & npart,                   
+void fastjetppgenkt_etamax_(const double * p, const int & npart,
                      const double & R, const double & jetptmin, const double & etamax,
                      const double & palg, double * f77jets, int & njets, int * whichjet) {
-  
+
   // transfer p[4*ipart+0..3] -> input_particles[i]
-  vector<fj::PseudoJet> input_particles;   
+  vector<fj::PseudoJet> input_particles;
   for (int i=0; i<npart; i++) {
     valarray<double> mom(4); // mom[0..3]
     for (int j=0;j<=3; j++) {
@@ -81,9 +81,9 @@ void fastjetppgenkt_etamax_(const double * p, const int & npart,
     }
     fj::PseudoJet psjet(mom);
     psjet.set_user_index(i);
-    input_particles.push_back(psjet);    
+    input_particles.push_back(psjet);
   }
-  
+
   // prepare jet def and run fastjet
   fj::JetDefinition jet_def;
   if (palg == 1.0) {
@@ -95,8 +95,8 @@ void fastjetppgenkt_etamax_(const double * p, const int & npart,
   } else {
     jet_def = fj::JetDefinition(fj::genkt_algorithm, R, palg);
   }
-  
-  
+
+
   // perform clustering
   cs.reset(new fj::ClusterSequence(input_particles,jet_def));
   // extract jets (pt-ordered)
@@ -109,7 +109,7 @@ void fastjetppgenkt_etamax_(const double * p, const int & npart,
   }
 
   njets = jets.size();
-  
+
   // tell the user what was done
   //if (_first_time) {
   //  cout << "# " << jet_def.description() << endl;
@@ -117,30 +117,30 @@ void fastjetppgenkt_etamax_(const double * p, const int & npart,
   //  printf ("#------------------------------------------------------ \n");
   //  _first_time = false;
   //}
-  
+
   // transfer jets -> f77jets[4*ijet+0..3]
   for (int i=0; i<njets; i++) {
     for (int j=0;j<=3; j++) {
       *f77jets = jets[i][j];
       f77jets++;
-    } 
+    }
   }
-  
+
   // clean up
-  
+
   // set all jet entries to zero first
-  for(unsigned int ii=0; ii<npart; ++ii) whichjet[ii]=0;       
-  
-  for (unsigned int kk=0; kk<jets.size(); ++kk) {   
+  for(unsigned int ii=0; ii<npart; ++ii) whichjet[ii]=0;
+
+  for (unsigned int kk=0; kk<jets.size(); ++kk) {
   vector<fj::PseudoJet> constit = cs->constituents(jets[kk]);
   for(unsigned int ll=0; ll<constit.size(); ++ll)
   whichjet[constit[ll].user_index()]=kk+1;
   }
-  
+
 }
 
 
-void fastjetppgenkt_(const double * p, const int & npart,                   
+void fastjetppgenkt_(const double * p, const int & npart,
                      const double & R, const double & jetptmin,
                      const double & palg, double * f77jets, int & njets, int * whichjet) {
     // jsut call fastjetppgenkt_etamax passing etamax=-1.
@@ -153,27 +153,27 @@ void fastjetppgenkt_(const double * p, const int & npart,
 /// n+1 to n jets (sometimes known as d_{n n+1}).
 //
 // Corresponds to the following Fortran interface
-// 
+//
 //   FUNCTION FASTJETDMERGE(N)
 //   DOUBLE PRECISION FASTJETDMERGE
 //   INTEGER N
-//   
+//
 double fastjetdmerge_(const int & n) {
   assert(cs.get() != 0);
   return cs->exclusive_dmerge(n);
 }
 
-/// return the maximum of the dmin encountered during all recombinations 
+/// return the maximum of the dmin encountered during all recombinations
 /// up to the one that led to an n-jet final state; identical to
 /// exclusive_dmerge, except in cases where the dmin do not increase
 /// monotonically.
 //
 // Corresponds to the following Fortran interface
-// 
+//
 //   FUNCTION FASTJETDMERGEMAX(N)
 //   DOUBLE PRECISION FASTJETDMERGEMAX
 //   INTEGER N
-//   
+//
 double fastjetdmergemax_(const int & n) {
   assert(cs.get() != 0);
   return cs->exclusive_dmerge_max(n);
@@ -181,10 +181,3 @@ double fastjetdmergemax_(const int & n) {
 
 
 }
-
-
-
-
-
-
-

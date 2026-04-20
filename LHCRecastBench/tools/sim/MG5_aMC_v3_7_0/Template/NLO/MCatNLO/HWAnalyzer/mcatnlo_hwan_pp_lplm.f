@@ -92,7 +92,7 @@ C----------------------------------------------------------------------
       parameter(NPL=15000)
       common/c_analysis/nwgt_analysis
       OPEN(UNIT=99,FILE='HERLL.TOP',STATUS='UNKNOWN')
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=1.D3/DFLOAT(NEVHEP)
       DO I=1,NPL
@@ -190,7 +190,7 @@ C EFFECT, SO THROW THE EVENT AWAY
             CALL HWVSUM(4,PHEP(1,IHEP),PSUM,PSUM)
             ICHSUM=ICHSUM+ICHRG(IDHW(IHEP))
          ENDIF
-         IST=ISTHEP(IHEP)      
+         IST=ISTHEP(IHEP)
          ID=IDHW(IHEP)
          ID1=IDHEP(IHEP)
          ISLP=ID1.EQ.IDENT
@@ -319,7 +319,7 @@ c
      #    call mfill(l+17,(log10(azinorm)),(WWW(kk)))
         call mfill(l+18,(xmll),(WWW(kk)))
         call mfill(l+19,(ptpair),(WWW(kk)))
-        if(ptpair.gt.0) 
+        if(ptpair.gt.0)
      #    call mfill(l+20,(log10(ptpair)),(WWW(kk)))
       endif
 
@@ -341,7 +341,7 @@ c
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

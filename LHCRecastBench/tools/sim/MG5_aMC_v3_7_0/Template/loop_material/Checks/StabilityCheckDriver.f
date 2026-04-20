@@ -4,34 +4,34 @@
 !     ELEMENTS
 !**************************************************************************
       IMPLICIT NONE
-!     
-!     CONSTANTS  
-!     
+!
+!     CONSTANTS
+!
       REAL*8 ZERO
       PARAMETER (ZERO=0D0)
 
-!     
+!
 !     INCLUDE FILES
-!     
-!---  the include file with the values of the parameters and masses      
+!
+!---  the include file with the values of the parameters and masses
       INCLUDE "coupl.inc"
-!---  integer nexternal ! number particles (incoming+outgoing) in the me 
-      INCLUDE "nexternal.inc" 
+!---  integer nexternal ! number particles (incoming+outgoing) in the me
+      INCLUDE "nexternal.inc"
       INCLUDE "MadLoopParams.inc"
 
-!     
+!
 !     LOCAL
-!     
+!
       INTEGER I,J,K
       REAL*8 P(0:3,NEXTERNAL)   ! four momenta. Energy is the zeroth component.
 
       INTEGER MATELEM_ARRAY_DIM
       REAL*8 , allocatable :: MATELEM(:,:)
 
-      REAL*8 SQRTS,BORNELEM,AO2PI           ! sqrt(s)= center of mass energy 
+      REAL*8 SQRTS,BORNELEM,AO2PI           ! sqrt(s)= center of mass energy
       REAL*8 PIN(0:3), POUT(0:3)
       CHARACTER*120 BUFF(NEXTERNAL)
-      CHARACTER*1 EX 
+      CHARACTER*1 EX
       INTEGER HELCHOICE
       INTEGER SOCHOICE
 
@@ -42,25 +42,25 @@
       DATA INIT/.TRUE./
       COMMON/INITCHECKSA/INIT
 
-!     
+!
 !     EXTERNAL
-!     
+!
       REAL*8 DOT
       EXTERNAL DOT
 
 !-----
 !     BEGIN CODE
 !-----
-!     
+!
 !---  INITIALIZATION CALLS
-!    
+!
       IF (INIT) THEN
          INIT=.FALSE.
          CALL %(proc_prefix)sGET_ANSWER_DIMENSION(MATELEM_ARRAY_DIM)
          ALLOCATE(MATELEM(0:3,0:MATELEM_ARRAY_DIM))
 
 
-!---  Call to initialize the values of the couplings, masses and widths 
+!---  Call to initialize the values of the couplings, masses and widths
 !     used in the evaluation of the matrix element. The primary parameters of the
 !     models are read from Cards/param_card.dat. The secondary parameters are calculated
 !     in Source/MODEL/couplings.f. The values are stored in common blocks that are listed
@@ -96,7 +96,7 @@
         write(*,*) "Enter MU_R, -1.0d0 = default"
         read(*,*) MU_R
         if (MU_R.lt.0.0d0) then
-          MU_R=SQRTS            
+          MU_R=SQRTS
         endif
         write(*,*) "Enter Helicity tag, -1 = summed."
         read(*,*) HELCHOICE
@@ -107,7 +107,7 @@
         ENDIF
 !---  Update the couplings with the new MU_R
         CALL UPDATE_AS_PARAM()
-!     
+!
 !     Now we can call the matrix element!
 !
         IF (HELCHOICE.EQ.-1) THEN
@@ -116,7 +116,7 @@
           CALL %(proc_prefix)sSLOOPMATRIXHEL(P,HELCHOICE,MATELEM)
         ENDIF
         write(*,*) '##TAG#RESULT_START#TAG##'
-        do i=1,nexternal      
+        do i=1,nexternal
           write (*,'(a2,1x,5ES30.15E4)') 'PS',P(0,i),P(1,i),P(2,i),P(3,i)
         enddo
         write (*,'(a3,1x,i3)') 'EXP',-(2*nexternal-8)
@@ -128,14 +128,14 @@
         write (*,'(a4,1x,1ES30.15E4)') '2EPS',
      &MATELEM(3,0)/MATELEM(0,0)/AO2PI
         write (*,*) 'Export_Format Default'
-        write(*,*) '##TAG#RESULT_STOP#TAG##'      
+        write(*,*) '##TAG#RESULT_STOP#TAG##'
       enddo
 
       end
-      
-        
-        
-        
+
+
+
+
          double precision function dot(p1,p2)
 C****************************************************************************
 C     4-Vector Dot product

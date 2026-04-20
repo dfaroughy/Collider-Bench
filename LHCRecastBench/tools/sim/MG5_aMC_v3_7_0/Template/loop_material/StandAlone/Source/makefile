@@ -11,7 +11,7 @@ include make_opts
 
 # Source files
 
-PROCESS= hfill.o matrix.o myamp.o 
+PROCESS= hfill.o matrix.o myamp.o
 HBOOK = hfill.o hcurve.o hbook1.o hbook2.o
 GENERIC = $(alfas_functions).o transpole.o invarients.o hfill.o pawgraphs.o ran1.o \
           rw_events.o rw_routines.o kin_functions.o open_file.o basecode.o setrun.o \
@@ -32,7 +32,7 @@ all: $(LIBRARIES) $(LIBDIR)libdhelas.$(libext) $(LIBDIR)libmodel.$(libext)
 $(LIBDIR)libdhelas.$(libext): DHELAS
 	cd DHELAS; make
 $(LIBDIR)libmodel.$(libext): MODEL
-	cd MODEL; make	 
+	cd MODEL; make
 
 CutTools: $(LIBDIR)libcts.a
 libcuttools: $(LIBDIR)libcts.a
@@ -64,7 +64,7 @@ treatCardsLoopNoInit:
 
 # Binaries
 
-$(BINDIR)sum_html: sum_html.o 
+$(BINDIR)sum_html: sum_html.o
 	$(FC) $(FFLAGS) -o $@ $^
 $(BINDIR)gen_ximprove: gen_ximprove.o ranmar.o rw_routines.o open_file.o
 	$(FC) $(FFLAGS) -o $@ $^

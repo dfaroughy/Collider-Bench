@@ -2,7 +2,7 @@
 # rescaled by bin width to obtain counts. The YAML references in
 # benchmark/papers/1707.06193/artifacts/HEPRecastData/ have already been rescaled.
 
-bins: 
+bins:
 0 - 10
 10 - 20
 20 - 30

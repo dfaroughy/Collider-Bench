@@ -85,7 +85,7 @@ c (in pb) per bin.
       enddo
       enddo
       call close_root_file
-      return                
+      return
       end
 
 
@@ -221,7 +221,7 @@ c
          endif
          if(ptq1.gt.ptcut)call rfill(l+16,yq1,WWW)
       enddo
- 999  return      
+ 999  return
       end
 
 
@@ -238,7 +238,7 @@ c
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

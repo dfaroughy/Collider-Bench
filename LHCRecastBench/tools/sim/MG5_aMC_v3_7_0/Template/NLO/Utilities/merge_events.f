@@ -54,7 +54,7 @@ c
       enddo
 
       ofile=34
-      ifile=35         
+      ifile=35
       open(unit=ofile,file=pref(1:loc-1)//'.complete',status='unknown')
       open(unit=ifile,file=pref(1:loc-1)//'.001',status='old')
       call copy_header(ifile,ofile,sumevt)

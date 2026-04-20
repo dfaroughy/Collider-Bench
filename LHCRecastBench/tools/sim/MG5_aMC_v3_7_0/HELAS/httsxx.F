@@ -1,6 +1,6 @@
       subroutine httsxx(tc1,tc2,sc,g1,g2,mass,width,htts)
 c
-c- by RF - Mar. 2006 
+c- by RF - Mar. 2006
 c
 c This subroutine computes an off-shell tensor current from the ttss coupling.
 c
@@ -32,11 +32,11 @@ c coupling constants and the scalar particles.
 c Note that the diagonal tensor terms are always zero because
 c the tensor particle is anti-symmetric.
 
-      
+
       htts(2) = sc(2) + tc2(17) + tc1(17)
       htts(3) = sc(3) + tc2(18) + tc1(18)
 
- 
+
       if (g1(1).NE.(0D0,0D0)) then
 
       q(0) = -dble( htts(2))

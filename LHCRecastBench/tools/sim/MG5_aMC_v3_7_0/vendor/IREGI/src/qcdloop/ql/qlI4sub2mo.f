@@ -16,15 +16,15 @@ C     xpi(13) = +xpi(5)-xpi(6)+xpi(7)-xpi(8)+xpi(9)+xpi(10)
       double complex Ival(-2:0)
       logical qlnonzero,qlzero
       integer ier
-  
+
       If (qlnonzero(xpi(1)) .or. qlnonzero(xpi(3))) then
       write(6,*)'Error in qlI4sub2mo,qlnonzero m1sq/m3sq',xpi(1),xpi(3)
       stop
       endif
 
-      call qlYcalc(xpi,Y,Yalt) 
+      call qlYcalc(xpi,Y,Yalt)
 C----case 14
-      if    ((qlzero(Y(1,1))) 
+      if    ((qlzero(Y(1,1)))
      . .and. (qlzero(Y(3,3)))
      . .and. (qlzero(Y(1,2)))
      . .and. (qlzero(Y(1,4)))
@@ -33,13 +33,13 @@ C----case 14
       call qlbox14(Y,musq,Ival)
 
 C----case 15
-      elseif((qlzero(Y(1,1))) 
+      elseif((qlzero(Y(1,1)))
      . .and. (qlzero(Y(3,3)))
      . .and. (qlzero(Y(1,2)))
      . .and. (qlzero(Y(1,4))))then
       call qlbox15(Y,musq,Ival)
 
-      elseif((qlzero(Y(1,1))) 
+      elseif((qlzero(Y(1,1)))
      . .and. (qlzero(Y(3,3)))
      . .and. (qlzero(Y(2,3)))
      . .and. (qlzero(Y(3,4))))then

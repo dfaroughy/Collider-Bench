@@ -4,7 +4,7 @@ c- by RF - Mar. 2006
 c
 c
 c This subroutine computes an off-shell vector current from the vector-
-c vector-(pseudo-)scalar effective coupling.  
+c vector-(pseudo-)scalar effective coupling.
 c input:
 c       complex vc(6)          : input vector
 c       complex sc(3)          : input scalar
@@ -59,15 +59,15 @@ c      include "dimension.inc"
       endif
 
       if (gc(1).NE.(0D0,0D0)) then
-         qvc = vc(1)*q(1) - vc(2)*q(2) - vc(3)*q(3) - vc(4)*q(4)	
-         qp1 = q(1)*p1(1) - q(2)*p1(2) - q(3)*p1(3) - q(4)*p1(4)	
-         
+         qvc = vc(1)*q(1) - vc(2)*q(2) - vc(3)*q(3) - vc(4)*q(4)
+         qp1 = q(1)*p1(1) - q(2)*p1(2) - q(3)*p1(3) - q(4)*p1(4)
+
          jvs1(1) = -gc(1)* (vc(1)*qp1 - p1(1)*qvc)
          jvs1(2) = -gc(1)* (vc(2)*qp1 - p1(2)*qvc)
          jvs1(3) = -gc(1)* (vc(3)*qp1 - p1(3)*qvc)
          jvs1(4) = -gc(1)* (vc(4)*qp1 - p1(4)*qvc)
       endif
- 
+
       if (gc(2).NE.(0D0,0D0)) then
          p12 = p1(1)*q(2) - p1(2)*q(1)
          p13 = p1(1)*q(3) - p1(3)*q(1)

@@ -2,9 +2,9 @@ C     THE CORE SUBROUTINE CALLED BY CUTTOOLS WHICH CONTAINS THE HELAS
 C      CALLS BUILDING THE LOOP
 
       SUBROUTINE LOOPNUM(Q,RES)
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NCOMB
       PARAMETER (NCOMB=16)
       INTEGER    NEXTERNAL
@@ -19,20 +19,20 @@ C
       PARAMETER (MAXLCOUPLINGS=4)
       COMPLEX*16 IMAG1
       PARAMETER (IMAG1=(0D0,1D0))
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       COMPLEX*16 Q(0:3)
       COMPLEX*16 RES
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       COMPLEX*16 CFTOT
       COMPLEX*16 BUFF
       INTEGER I,H
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       INTEGER WE(NEXTERNAL)
       INTEGER ID, SYMFACT,AMPLNUM
       COMMON/LOOP/WE,ID,SYMFACT,AMPLNUM
@@ -78,9 +78,9 @@ C
       END
 
       SUBROUTINE LOOPNUMHEL(Q,RES,H)
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    MAXLCOUPLINGS
@@ -97,21 +97,21 @@ C
       PARAMETER (NLOOPAMPS=138)
       INTEGER    NCOMB
       PARAMETER (NCOMB=16)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       COMPLEX*16 Q(0:3)
       COMPLEX*16 RES
       INTEGER H
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       COMPLEX*16 BUFF(4)
       COMPLEX*16 WL(20,NMAXLOOPWFS)
       INTEGER I
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       COMPLEX*16 LC(MAXLCOUPLINGS)
       COMPLEX*16 ML(NEXTERNAL+2)
       COMMON/DP_LOOP/LC,ML
@@ -441,9 +441,9 @@ C       Loop diagram number 48 (might be others, just an example)
 
       INCLUDE 'cts_mprec.h'
       IMPLICIT NONE
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NCOMB
       PARAMETER (NCOMB=16)
       INTEGER    NEXTERNAL
@@ -458,25 +458,25 @@ C
       PARAMETER (MAXLCOUPLINGS=4)
       COMPLEX*32 IMAG1
       PARAMETER (IMAG1=(0E0_16,1E0_16))
-C     
-C     ARGUMENTS 
-C     
-      INCLUDE 'cts_mpc.h'                                             
+C
+C     ARGUMENTS
+C
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(IN), DIMENSION(0:3) :: Q
-      INCLUDE 'cts_mpc.h'                                             
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(OUT) :: RES
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       COMPLEX*32 QPRES
       COMPLEX*32 QPQ(0:3)
       REAL*16 QPP(0:3,NEXTERNAL)
       INTEGER I,J,H
       COMPLEX*32 CFTOT
       COMPLEX*32 BUFF
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       LOGICAL MP_DONE
       COMMON/MP_DONE/MP_DONE
 
@@ -544,9 +544,9 @@ C       This is just to compute the wfs in quad prec
       END
 
       SUBROUTINE MPLOOPNUMHEL(Q,RES,H)
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=4)
       INTEGER    MAXLCOUPLINGS
@@ -563,21 +563,21 @@ C
       PARAMETER (NLOOPAMPS=138)
       INTEGER    NCOMB
       PARAMETER (NCOMB=16)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       COMPLEX*32 Q(0:3)
       COMPLEX*32 RES
       INTEGER H
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       COMPLEX*32 BUFF(4)
       COMPLEX*32 WL(20,NMAXLOOPWFS)
       INTEGER I
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       COMPLEX*32 LC(MAXLCOUPLINGS)
       COMPLEX*32 ML(NEXTERNAL+2)
       COMMON/MP_LOOP/LC,ML
@@ -980,17 +980,17 @@ C       Loop diagram number 48 (might be others, just an example)
       END
 
       SUBROUTINE MPLOOPNUM_DUMMY(Q,RES)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       INCLUDE 'cts_mprec.h'
-      INCLUDE 'cts_mpc.h'                                             
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(IN), DIMENSION(0:3) :: Q
-      INCLUDE 'cts_mpc.h'                                             
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(OUT) :: RES
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       COMPLEX*16 DRES
       COMPLEX*16 DQ(0:3)
       INTEGER I
@@ -1005,4 +1005,3 @@ C     ----------
       RES=DRES
 
       END
-

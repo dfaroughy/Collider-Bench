@@ -1,25 +1,25 @@
       SUBROUTINE EWSDK_GOLD_ME_%(ime)d(P,NHEL,ANS_SUMMED)
-C  
+C
 %(info_lines)s
 C
 C
-C     Return the sum of the split orders which are required in orders.inc 
+C     Return the sum of the split orders which are required in orders.inc
 C     With respect to those at the born, the QED power is increased by 2
 C     Note that helicities must be passed as an input argument.
 C
-C  
+C
 %(process_lines)s
 C
-C  
+C
 C CONSTANTS
-C 
+C
 implicit none
       include 'nexternal.inc'
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1), ANS_SUMMED
       integer nhel(nexternal-1)
 C
@@ -31,7 +31,7 @@ C
       LOGICAL KEEP_ORDER(NSQAMPSO)
       common /c_keep_order_sdkg%(ime)d/ keep_order
       LOGICAL KEEP_ORDER_CNT(NSPLITORDERS, NSQAMPSO)
-      common /c_keep_order_cnt/ keep_order_cnt 
+      common /c_keep_order_cnt/ keep_order_cnt
       integer amp_orders(nsplitorders)
       logical firsttime
       data firsttime / .TRUE. /
@@ -66,7 +66,7 @@ C this is for the orders of the born to integrate
   do j = 1, nsplitorders
    if(GETORDPOWFROMINDEX_SDKG%(ime)d(j, i) .gt. born_orders(j)) then
     keep_order(i) = .false.
-    EXIT 
+    EXIT
    endif
   enddo
 
@@ -116,17 +116,17 @@ C the following is for the LO2
     endif
 enddo
 
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
 if (abs(ans_summed).lt.max_val*tiny) ans_summed=0d0
 
 return
 END
 
 
-       
-       
+
+
       SUBROUTINE EWSDK_GOLD_ME_%(ime)d_SPLITORDERS(p,NHEL,ANS)
-C  
+C
 %(info_lines)s
 C RETURNS THE INTERFERENCE OF THE BORN DIAGRAMS WITH THOSE
 C NEEDED FOR THE EVALUATION OF THE EW CORRECTIONS IN THE
@@ -134,17 +134,17 @@ C SUDAKOV APPROCIMATION,
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
-      INTEGER     NGRAPHS 
-      PARAMETER ( NGRAPHS=%(ngraphs)d) 
+      INTEGER     NGRAPHS
+      PARAMETER ( NGRAPHS=%(ngraphs)d)
       INTEGER    NWAVEFUNCS, NCOLOR
-      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+      PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       complex*16 imag1
@@ -152,15 +152,15 @@ C
       include "nexternal.inc"
       include "born_nhel.inc"
       INCLUDE "coupl.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL-1)
       INTEGER NHEL(NEXTERNAL-1)
       REAL*8 ANS(NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       INTEGER IC(NEXTERNAL-1),NMO
       PARAMETER (NMO=NEXTERNAL-1)
@@ -169,16 +169,16 @@ C
       INTEGER DENOM, CF_INDEX
       COMPLEX*16 ZTEMP, AMP(NGRAPHS),JAMP(NCOLOR,NAMPSO), W(%(wavefunctionsize)d,NWAVEFUNCS)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
 C
 C FUNCTION
 C
       INTEGER SQSOINDEXSDKG%(ime)d
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -188,7 +188,7 @@ C ----------
 
     ANS(:) = 0d0
     DO M = 1, NAMPSO
-      CF_INDEX = 0 
+      CF_INDEX = 0
       DO I = 1, NCOLOR
           ZTEMP = (0.D0,0.D0)
           DO J = I, NCOLOR
@@ -202,8 +202,8 @@ C ----------
     ENDDO
     ANS(:) = ANS(:)/DENOM
     END
-       
-       
+
+
 
 C
 C Helper functions to deal with the split orders.
@@ -211,13 +211,13 @@ C
 
       INTEGER FUNCTION SQSOINDEXSDKG%(ime)d(AMPORDERA,AMPORDERB)
 C
-C This functions plays the role of the interference matrix. It can be hardcoded or 
+C This functions plays the role of the interference matrix. It can be hardcoded or
 C made more elegant using hashtables if its execution speed ever becomes a relevant
 C factor. From two split order indices of the jamps, it return the corresponding
 C index in the squared order canonical ordering.
 C
 C CONSTANTS
-C      
+C
       implicit none
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
@@ -340,5 +340,3 @@ C
 	  NSQSO=NSQAMPSO
 
       END
-
-

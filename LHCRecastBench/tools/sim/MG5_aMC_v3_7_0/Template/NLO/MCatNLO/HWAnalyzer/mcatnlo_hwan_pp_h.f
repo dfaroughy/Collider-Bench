@@ -100,7 +100,7 @@ C----------------------------------------------------------------------
      $     ,0.2d0,-6.d0,6.d0)
       call mbook(l+36,'H-j1 y,pT_j1>90GeV '//weights_info(kk)
      $     ,0.2d0,-6.d0,6.d0)
-      
+
       call mbook(l+37,'njets '//weights_info(kk)
      $     ,1.d0,-0.5d0,10.5d0)
       call mbook(l+38,'njets,|y_j|<2.5 '//weights_info(kk)
@@ -122,7 +122,7 @@ C----------------------------------------------------------------------
       parameter(NPL=15000)
       common/c_analysis/nwgt_analysis
       OPEN(UNIT=99,FILE='HERHG.TOP',STATUS='UNKNOWN')
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=1.D3/DFLOAT(NEVHEP)
       DO I=1,NPL
@@ -140,7 +140,7 @@ C
          call multitop(NPL+l+4,NPL-1,3,2,'Higgs pT (GeV)',' ','LOG')
          call multitop(NPL+l+5,NPL-1,3,2,'Higgs pT (GeV)',' ','LOG')
          call multitop(NPL+l+6,NPL-1,3,2,'Higgs log(pT/GeV)',' ','LOG')
-c     
+c
          call multitop(NPL+l+7,NPL-1,3,2,'j1 pT (GeV)',' ','LOG')
          call multitop(NPL+l+8,NPL-1,3,2,'j1 pT (GeV)',' ','LOG')
          call multitop(NPL+l+9,NPL-1,3,2,'j1 log(pT/GeV)',' ','LOG')
@@ -161,7 +161,7 @@ c
          call multitop(NPL+l+22,NPL-1,3,2,'Higgs y',' ','LOG')
          call multitop(NPL+l+23,NPL-1,3,2,'Higgs y',' ','LOG')
          call multitop(NPL+l+24,NPL-1,3,2,'Higgs y',' ','LOG')
-c     
+c
          call multitop(NPL+l+25,NPL-1,3,2,'j1 y',' ','LOG')
          call multitop(NPL+l+26,NPL-1,3,2,'j1 y',' ','LOG')
          call multitop(NPL+l+27,NPL-1,3,2,'j1 y',' ','LOG')
@@ -243,7 +243,7 @@ C EFFECT, SO THROW THE EVENT AWAY
           CALL HWVSUM(4,PHEP(1,IHEP),PSUM,PSUM)
           ICHSUM=ICHSUM+ICHRG(IDHW(IHEP))
         ENDIF
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID=IDHW(IHEP)
         ID1=IDHEP(IHEP)
         IF(IST.EQ.195)THEN
@@ -359,8 +359,8 @@ c
       if(pth.ge.30.d0) call mfill(l+21,yh,WWW(kk))
       if(pth.ge.50.d0) call mfill(l+22,yh,WWW(kk))
       if(pth.ge.70.d0) call mfill(l+23,yh,WWW(kk))
-      if(pth.ge.90.d0) call mfill(l+24,yh,WWW(kk))  
-c     
+      if(pth.ge.90.d0) call mfill(l+24,yh,WWW(kk))
+c
       if(njet.ge.1)then
          call mfill(l+25,yj1,WWW(kk))
          if(ptj1.ge.10.d0) call mfill(l+26,yj1,WWW(kk))
@@ -368,7 +368,7 @@ c
          if(ptj1.ge.50.d0) call mfill(l+28,yj1,WWW(kk))
          if(ptj1.ge.70.d0) call mfill(l+29,yj1,WWW(kk))
          if(ptj1.ge.90.d0) call mfill(l+30,yj1,WWW(kk))
-c     
+c
          call mfill(l+31,yh-yj1,WWW(kk))
          if(ptj1.ge.10.d0) call mfill(l+32,yh-yj1,WWW(kk))
          if(ptj1.ge.30.d0) call mfill(l+33,yh-yj1,WWW(kk))
@@ -380,7 +380,7 @@ c
       call mfill(l+37,njdble,WWW(kk))
       call mfill(l+38,njcdble,WWW(kk))
       call mfill(l+39,1d0,WWW(kk))
-c      
+c
       enddo
 C
  999  END
@@ -398,7 +398,7 @@ C
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

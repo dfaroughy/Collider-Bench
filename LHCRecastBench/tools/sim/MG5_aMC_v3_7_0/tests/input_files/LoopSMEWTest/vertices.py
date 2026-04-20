@@ -1036,4 +1036,3 @@ V_157 = Vertex(name = 'V_157',
                couplings = {(0,0):C.GC_118})
 
 # END FFS
-

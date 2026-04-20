@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -249,7 +249,7 @@ class ColorOrderedAmplitudeTest(unittest.TestCase):
         self.myinterlist.append(base_objects.Interaction({
                       'id': 7,
                       'particles': base_objects.ParticleList(\
-                                            [s, 
+                                            [s,
                                              antis,
                                              self.mypartlist[0]]),
                       'color': [],
@@ -397,9 +397,9 @@ class ColorOrderedAmplitudeTest(unittest.TestCase):
                              goal_nflows[ngluon-2])
             self.assertEqual(len(self.myamplitude.get('color_flows')[0].\
                                  get('diagrams')), goal_ndiagrams[ngluon-2])
-                             
 
-            
+
+
     def test_color_ordered_uux_uuxng(self):
         """Test the number of color flows and diagrams for uu~>uu~+ng
         """
@@ -489,7 +489,7 @@ class ColorOrderedAmplitudeTest(unittest.TestCase):
                         63, 69, 69, 56, 28, 56, 28, 69, 69, 63, 50, 50,
                         63, 38, 32, 38, 20, 28, 50, 32, 32, 28, 56, 38,
                         50]]
-        
+
         goal_nflows = [6, 18, 36]
         #goal_nflows = []
         #goal_ndiags = []
@@ -551,7 +551,7 @@ class ColorOrderedAmplitudeTest(unittest.TestCase):
                         38, 69, 28, 63, 20, 63, 20, 69, 28, 63, 50, 69,
                         28, 56, 32, 28, 32, 69, 28, 69, 56, 50, 38, 63,
                         50]]
-        
+
         goal_nflows = [6, 18, 36]
         #goal_nflows = []
         #goal_ndiags = []
@@ -634,9 +634,9 @@ class ColorOrderedAmplitudeTest(unittest.TestCase):
                              goal_nflows[ngluon])
             self.assertEqual(len(self.myamplitude.get('color_flows')[0].\
                                  get('diagrams')), goal_ndiagrams[ngluon])
-                             
 
-            
+
+
     def test_color_ordered_uux_uuxepemng(self):
         """Test color flows and diagrams for uu~>uu~e+e-+ng with n up to 2
         """
@@ -679,7 +679,7 @@ class ColorOrderedAmplitudeTest(unittest.TestCase):
             for iflow, flow in enumerate(self.myamplitude.get('color_flows')):
                 self.assertEqual(len(self.myamplitude.get('color_flows')[iflow].get('diagrams')),
                              goal_ndiags[ngluons][iflow])
-                
+
     def test_color_ordered_gg_h_nglue(self):
         """Test the number of color ordered diagrams gg>h+ng with n up to 3"""
 
@@ -1043,7 +1043,7 @@ class BGHelasMatrixElementTest(unittest.TestCase):
         self.myinterlist.append(base_objects.Interaction({
                       'id': 7,
                       'particles': base_objects.ParticleList(\
-                                            [s, 
+                                            [s,
                                              antis,
                                              self.mypartlist[0]]),
                       'color': [color.ColorString([color.T(2,0,1)])],
@@ -1157,7 +1157,7 @@ class BGHelasMatrixElementTest(unittest.TestCase):
                              goal_wavefunctions[ngluon-2])
             self.assertEqual(len(matrix_element.get_all_amplitudes()),
                              goal_amplitudes[ngluon-2])
-            
+
             # Test JAMP (color amplitude) output
             #print '\n'.join(export_v4.get_JAMP_lines(matrix_element))
 
@@ -1203,7 +1203,7 @@ class BGHelasMatrixElementTest(unittest.TestCase):
                              goal_wavefunctions[ngluon-2])
             self.assertEqual(len(matrix_element.get_all_amplitudes()),
                              goal_amplitudes[ngluon-2])
-            
+
             # Test JAMP (color amplitude) output
             #print '\n'.join(export_v4.get_JAMP_lines(matrix_element))
 
@@ -1570,7 +1570,7 @@ class BGHelasMatrixElementTest(unittest.TestCase):
         #goal_wavefunctions = []
         #goal_amplitudes = []
         #goal_ndiags = []
-        
+
         # Test 2, 3, 4 and 5 gluons in the final state
         for ngluon in range (0, 2):
 
@@ -1598,7 +1598,7 @@ class BGHelasMatrixElementTest(unittest.TestCase):
             for iflow, mycolorflow in \
                 enumerate(self.myamplitude.get('color_flows')):
                 #print mycolorflow.nice_string()
-                
+
                 matrix_element = color_ordered_amplitudes.BGHelasMatrixElement(\
                     mycolorflow, gen_color=False, optimization = 3)
 
@@ -1651,4 +1651,3 @@ class BGHelasMatrixElementTest(unittest.TestCase):
             #print goal_wavefunctions
             #print goal_amplitudes
             #print goal_ndiags
-                              

@@ -3,8 +3,8 @@
 %(process_lines)s
 
 //--------------------------------------------------------------------------
-// Initialize process. 
-  
+// Initialize process.
+
 void CPPProcess::initProc(string param_card_name) {
 // Instantiate the model class and set parameters that stay fixed during run
     pars = Parameters_%(model_name)s::getInstance();
@@ -14,12 +14,12 @@ void CPPProcess::initProc(string param_card_name) {
     pars->printIndependentParameters();
     pars->printIndependentCouplings();
     %(initProc_lines)s
-} 
+}
 
 //--------------------------------------------------------------------------
-// Evaluate |M|^2, part independent of incoming flavour. 
+// Evaluate |M|^2, part independent of incoming flavour.
 
-void CPPProcess::sigmaKin() { 
+void CPPProcess::sigmaKin() {
     // Set the parameters which change event by event
     pars->setDependentParameters();
     pars->setDependentCouplings();
@@ -36,9 +36,9 @@ void CPPProcess::sigmaKin() {
 }
 
 //--------------------------------------------------------------------------
-// Evaluate |M|^2, including incoming flavour dependence. 
+// Evaluate |M|^2, including incoming flavour dependence.
 
-double CPPProcess::sigmaHat() {  
+double CPPProcess::sigmaHat() {
     %(sigmaHat_lines)s
 }
 

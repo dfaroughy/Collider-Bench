@@ -11,7 +11,7 @@ c**************************************************************************
       p(2)=p1(3)*p2(1)-p1(1)*p2(3)
       p(3)=p1(1)*p2(2)-p1(2)*p2(1)
 
-      return 
+      return
       end
 
 
@@ -21,7 +21,7 @@ c     input:
 c            p1        vector to be rotated
 c            n         vector perpendicular to plane of rotation
 c            nn2       squared norm of n to improve numerics
-c            ct, st    cos/sin theta of rotation in plane 
+c            ct, st    cos/sin theta of rotation in plane
 c            d         direction: 1 there / -1 back
 c     output:
 c            p2        p1 rotated using defined rotation
@@ -34,7 +34,7 @@ c**************************************************************************
       if (nn2.eq.0d0) then
          do i=0,3
             p2(i)=p1(i)
-         enddo   
+         enddo
          return
       endif
       nn=dsqrt(nn2)
@@ -52,12 +52,12 @@ c      write(*,*)'cr ',cr(1),',',cr(2),',',cr(3)
       do i=1,3
          if (d.ge.0) then
             p2(i)=at(i)+ct*ap(i)+st/nn*cr(i)
-         else 
+         else
             p2(i)=at(i)+ct*ap(i)-st/nn*cr(i)
          endif
       enddo
-      
-      return 
+
+      return
       end
 
 
@@ -68,7 +68,7 @@ c            p1, p2    p1 rotated onto p2 defines plane of rotation
 c     output:
 c            n         vector perpendicular to plane of rotation
 c            nn2       squared norm of n to improve numerics
-c            ct, st    cos/sin theta of rotation in plane 
+c            ct, st    cos/sin theta of rotation in plane
 c**************************************************************************
       implicit none
       real*8 p1(0:3), p2(0:3), n(0:3), tr(0:3)
@@ -98,8 +98,8 @@ c      write(*,*)'nn (',n(0),',',n(1),',',n(2),',',n(3),')'
 c      write(*,*)'nn (',n(0),',',n(1),',',n(2),',',n(3),')'
 c      write(*,*)'nn2 = ',nn2,', ct = ',ct,', st = ',st
 c      write(*,*)'tr (',tr(0),',',tr(1),',',tr(2),',',tr(3),')'
-      
-      return 
+
+      return
       end
 
 
@@ -112,7 +112,7 @@ c**************************************************************************
       implicit none
       include 'nexternal.inc'
       integer i, id, ids(nexternal)
-      
+
       id=0
       do i=1,nexternal
          if (ids(i).ne.0) then
@@ -134,7 +134,7 @@ c**************************************************************************
       implicit none
       include 'nexternal.inc'
       integer i, icd, id, ids(nexternal)
-      
+
       icd=id
       do i=1,nexternal
          ids(i)=0
@@ -161,7 +161,7 @@ c**************************************************************************
 
 c      combid=min(i+j,ishft(1,nexternal+1)-2-i-j)
       combid = i+j
-     
+
       return
       end
 
@@ -192,9 +192,9 @@ c**************************************************************************
 c**************************************************************************
 c     input:
 c            ignum      number of graph to be analysed
-c            ipnum      number of level to be analysed, 
+c            ipnum      number of level to be analysed,
 c                       starting with nexternal
-c            ipids      particle number, iforest number, 
+c            ipids      particle number, iforest number,
 c                       daughter1, daughter2
 c     output:
 c            true if no errors
@@ -345,7 +345,7 @@ C $E$ IFOREST $E$ !this is a tag for MadWeight
       include 'leshouche.inc'
       integer nqcd(lmaxconfigs)
       include 'config_nqcd.inc'
-      
+
       logical filgrp
       external filgrp
 
@@ -430,7 +430,7 @@ C $E$ ONBW $E$ !this is a tag for MadWeight
 c          print *,'Added BW for resonance ',i,icl(i),this_config
         endif
       enddo
-      
+
       end
 
       logical function findmt(idij,icgs)
@@ -533,7 +533,7 @@ c**************************************************************************
       real*8 p(0:3,nexternal), pcmsp(0:3), p1(0:3)
       real*8 pi(0:3), nr(0:3), pz(0:3)
       integer i, j, k, n, idi, idj, idij, icgs(0:n_max_cg)
-      integer nleft, iwin, jwin, iwinp, imap(nexternal,2) 
+      integer nleft, iwin, jwin, iwinp, imap(nexternal,2)
       double precision nn2,ct,st
       double precision minpt2ij,pt2ij(n_max_cl),zij(n_max_cl)
 
@@ -573,7 +573,7 @@ c     initialize index map
          imap(i,1)=i
          imap(i,2)=ishft(1,i-1)
          mt2ij(i)=0
-      enddo   
+      enddo
       mt2last=0
       minpt2ij=1.0d37
       do i=1,nexternal
@@ -600,7 +600,7 @@ c     cluster only combinable legs (acc. to diagrams)
                      write(*,*)'diagrams: ',(icgs(k),k=1,icgs(0))
                   endif
                   if (j.ne.1.and.j.ne.2) then
-c     final state clustering                     
+c     final state clustering
                      if(isbw(idij))then
                        pt2ij(idij)=SumDot(pcl(0,idi),pcl(0,idj),1d0)
                        if (btest(mlevel,4))
@@ -642,7 +642,7 @@ c     Check if smallest pt2 ("winner")
                      iwin=j
                      jwin=i
                      minpt2ij=pt2ij(idij)
-                  endif                 
+                  endif
                endif
             enddo
          endif
@@ -673,7 +673,7 @@ c     initialize graph storage
           cluster=.false.
           return
       endif
-c     cluster 
+c     cluster
       do n=1,nexternal-2
 c     combine winner
          imocl(n)=imap(iwin,2)+imap(jwin,2)
@@ -700,7 +700,7 @@ c        Set info for LH clustering output
          endif
 c     Reset igraphs with new mother
          if (.not.findmt(imocl(n),igraphs)) then
-            write(*,*) 'cluster.f: Error. Invalid combination.' 
+            write(*,*) 'cluster.f: Error. Invalid combination.'
             return
          endif
          if (btest(mlevel,4)) then
@@ -708,7 +708,7 @@ c     Reset igraphs with new mother
          endif
          if (iwin.lt.3) then
 c     is clustering
-c     Set mt2ij to m^2+pt^2 
+c     Set mt2ij to m^2+pt^2
             mt2ij(n)=djb(pcl(0,idacl(n,2)))
             if (btest(mlevel,1)) then
                write(*,*)'mtij(',n,') for ',idacl(n,2),' is ',sqrt(mt2ij(n)),
@@ -732,7 +732,7 @@ c            do i=0,3
      $         (pcl(4,idacl(n,1)).gt.0.and.pcl(4,idacl(n,2)).gt.0))
      $         pcl(4,imocl(n))=max(pcl(4,idacl(n,1)),pcl(4,idacl(n,2)))
 
-c       Don't boost if boost vector too lightlike or last vertex 
+c       Don't boost if boost vector too lightlike or last vertex
             if (pcmsp(0)**2-pcmsp(1)**2-pcmsp(2)**2-pcmsp(3)**2.gt.100d0.and.
      $           nleft.gt.4) then
                call boostx(pcl(0,imocl(n)),pcmsp(0),p1(0))
@@ -766,7 +766,7 @@ c     fs clustering
      $          pcl(4,imocl(n))
            endif
          endif
-         
+
          nleft=nleft-1
 c     create new imap
          imap(iwin,2)=imocl(n)
@@ -781,7 +781,7 @@ c           of the particles combined (for use if QCD vertex, e.g. tt~ or qq~)
                mt2last=sqrt(djb(pcl(0,idacl(n,1)))*djb(pcl(0,idacl(n,2))))
                if (btest(mlevel,3)) then
                   write(*,*)'Set mt2last to ',mt2last
-               endif              
+               endif
 c         Boost and rotate back to get m_T for final particle
                if (pcmsp(0)**2-pcmsp(1)**2-pcmsp(2)**2-pcmsp(3)**2.gt.100d0) then
                   call rotate(pcl(0,imap(3,2)),p1(0),nr(0),nn2,ct,st,-1)
@@ -819,7 +819,7 @@ c            if(pt2ijcl(n).gt. pt2ijcl(n+1))then
 c              pt2ijcl(n+1)=pt2ijcl(n)
 c              if (btest(mlevel,3)) then
 c                write(*,*)'Reset scale for vertex ',n+1,' to ',pt2ijcl(n+1)
-c              endif              
+c              endif
 c            endif
             zcl(n+1)=1
 c            else
@@ -859,7 +859,7 @@ c                     write (*,*) 'RECALC !!! ',idij
                            write(*,*)'diagrams: ',(icgs(k),k=1,icgs(0))
                        endif
                         if (j.ne.1.and.j.ne.2) then
-c     final state clustering                     
+c     final state clustering
                            if(isbw(idij))then
                              pt2ij(idij)=SumDot(pcl(0,idi),pcl(0,idj),1d0)
                              if (btest(mlevel,4))
@@ -899,7 +899,7 @@ c                 prefer clustering when outgoing in direction of incoming
                            iwin=j
                            jwin=i
                            minpt2ij=pt2ij(idij)
-                        endif                 
+                        endif
                      endif
                   enddo
                endif

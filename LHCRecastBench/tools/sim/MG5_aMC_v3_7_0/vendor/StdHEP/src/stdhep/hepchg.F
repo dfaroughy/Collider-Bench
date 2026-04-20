@@ -9,7 +9,7 @@ C      hepchg = particle charge times 3
       integer id,kqa,kq1,kq2,kq3,kqj,irt,kqx
 
       integer ichg(109)
-      data ichg/-1,2,-1,2,-1,2,-1,2,2*0, 
+      data ichg/-1,2,-1,2,-1,2,-1,2,2*0,
      1 -3,0,-3,0,-3,0,-3,3*0,
      2 3*0,3,6*0,
      3 3*0,3,0,0,3,3*0,

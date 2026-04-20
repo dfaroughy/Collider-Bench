@@ -3,11 +3,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -59,8 +59,8 @@ class Compile_MG5:
         if self.overwrite_configuration:
             files.cp(pjoin(MG5DIR,'input','.mg5_configuration_default.txt'),
                      pjoin(MG5DIR,'input','mg5_configuration.txt'))
-            
-        self.cmd = interface.MasterCmd()                
+
+        self.cmd = interface.MasterCmd()
 
         if self.autorun:
             self.make_UFO_pkl()
@@ -90,12 +90,12 @@ class Compile_MG5:
     @staticmethod
     def make_v4_pkl():
         """create the model.pkl for each directory"""
-        file_cond = lambda p :  (os.path.exists(os.path.join(MG5DIR,'models',p,'particles.dat'))) 
+        file_cond = lambda p :  (os.path.exists(os.path.join(MG5DIR,'models',p,'particles.dat')))
         #1. find v4 model:
-        v4_model = [os.path.join(MG5DIR,'models',p) 
-                        for p in os.listdir(os.path.join(MG5DIR,'models')) 
+        v4_model = [os.path.join(MG5DIR,'models',p)
+                        for p in os.listdir(os.path.join(MG5DIR,'models'))
                             if file_cond(p)]
-            
+
         for model_path in v4_model:
             #remove old pkl
             start = time.time()
@@ -106,14 +106,14 @@ class Compile_MG5:
                 pass
             import_v4.import_model(model_path)
             print('%2fs' % (time.time() - start))
-    
+
     @staticmethod
     def make_UFO_pkl():
         """ """
         file_cond = lambda p : os.path.exists(os.path.join(MG5DIR,'models',p,'particles.py'))
         #1. find UFO model:
-        ufo_model = [os.path.join(MG5DIR,'models',p) 
-                        for p in os.listdir(os.path.join(MG5DIR,'models')) 
+        ufo_model = [os.path.join(MG5DIR,'models',p)
+                        for p in os.listdir(os.path.join(MG5DIR,'models'))
                             if file_cond(p)]
         # model.pkl
         for model_path in ufo_model:
@@ -126,9 +126,9 @@ class Compile_MG5:
                 pass
             import_ufo.import_full_model(model_path)
             print('%2fs' % (time.time() - start))
-        
+
         return
-        # aloha routine 
+        # aloha routine
         for model_path in ufo_model:
             start = time.time()
             print('make ALOHA for %s' % os.path.basename(model_path))
@@ -136,18 +136,18 @@ class Compile_MG5:
             try:
                 os.remove(os.path.join(model_path,'aloha.pkl'))
             except:
-                pass    
+                pass
             try:
                 os.system('rm -rf %s &> /dev/null' % os.path.join(model_path,'Fortran'))
             except:
-                pass            
-            
+                pass
+
             ufo_path, ufo_name =os.path.split(model_path)
             sys.path.insert(0, ufo_path)
             output_dir = os.path.join(model_path, 'Fortran')
             create_aloha.AbstractALOHAModel(ufo_name, write_dir=output_dir, format='Fortran')
             print('done in %2fs' % (time.time() - start))
-           
+
     @staticmethod
     def make_stdHep():
         print("Compiling StdHEP in %s."%str(os.path.join(MG5DIR, 'vendor', 'StdHEP')))
@@ -169,7 +169,7 @@ class Compile_MG5:
             compiler = '#FC=gfortran'
 
         base_compiler= ['FC=g77','FC=gfortran','#FC=g77','#FC=gfortran']
-        path = None            
+        path = None
         path = os.path.join(MG5DIR, 'vendor', 'StdHEP', 'src', 'make_opts')
         text = open(path).read()
         for base in base_compiler:
@@ -189,9 +189,9 @@ class Compile_MG5:
                 raise self.InvalidCmd('Require gfortran compiler')
         else:
             compiler = '#FC=gfortran'
-        
-        base_compiler= ['FC=gfortran','#FC=gfortran']            
-        path = None            
+
+        base_compiler= ['FC=gfortran','#FC=gfortran']
+        path = None
         path = os.path.join(MG5DIR, 'vendor', 'CutTools', 'makefile')
         text = open(path).read()
         for base in base_compiler:
@@ -215,7 +215,7 @@ class Compile_MG5:
         iregi_path = os.path.join(MG5DIR, 'vendor', 'IREGI')
         # replace the current compiler to be gfortran
         if compiler == 'FC=gfortran':
-            # in case there is #FC -> FC 
+            # in case there is #FC -> FC
             #search file in src
             file_to_change=misc.find_makefile_in_dir(os.path.join(iregi_path,'src'))
             comp_re = re.compile(r'^(\s*)#FC\s*=\s*(.+)\s*$')
@@ -282,24 +282,21 @@ class Compile_MG5:
                     open(name,'w').write('\n'.join(lines))
                     mod = False
 
-        misc.compile(cwd = os.path.join(iregi_path,'src'))        
+        misc.compile(cwd = os.path.join(iregi_path,'src'))
 
     def install_package(self, programs=[]):
         print("installing external package")
         if not programs:
             programs = ['pythia8','Delphes','ExRootAnalysis','MadAnalysis5']
-            
+
         for prog in programs:
             self.cmd.exec_cmd('install %s' % prog)
 
     def precompilation(self, debug=False):
         if debug:
-            subprocess.call('python3 -m compileall .', shell=True, cwd=root_path)            
+            subprocess.call('python3 -m compileall .', shell=True, cwd=root_path)
         else:
             subprocess.call('python3 -O -m compileall .', shell=True, cwd=root_path)
 
 if __name__ == '__main__':
     Compile_MG5(sys.argv[1:])
-
-
-

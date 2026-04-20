@@ -8,14 +8,14 @@
 #ifndef PY8MEs_H_sm_ckm
 #define PY8MEs_H_sm_ckm
 
-#include <vector> 
-#include <map> 
+#include <vector>
+#include <map>
 
 #include "Parameters_sm_ckm.h"
 #include "PY8ME.h"
 #include "all_processes_headers.inc"
 
-using namespace std; 
+using namespace std;
 
 namespace PY8MEs_namespace
 {
@@ -25,102 +25,102 @@ namespace PY8MEs_namespace
 // Template to make initializing sets simpler, while not relying on C++11.
 // Usage: set(createset<T>(a)(b)(c));
 
-template < typename T > class createset 
+template < typename T > class createset
 {
 
   private:
 
-    set<T> m_set; 
+    set<T> m_set;
 
   public:
     createset() {}
     createset(const T& val) {m_set.insert(val);}
-    createset<T> & operator()(const T& val) 
+    createset<T> & operator()(const T& val)
     {
-      m_set.insert(val); 
-      return * this; 
+      m_set.insert(val);
+      return * this;
     }
     operator set<T> () {return m_set;}
 
-}; 
+};
 
 //==========================================================================
 
 // Template to make initializing maps simpler, while not relying on C++11.
 // Usage: map(createmap<T,U>(a,b)(c,d)(e,f));
 
-template < typename T, typename U > class createmap 
+template < typename T, typename U > class createmap
 {
 
   private:
 
-    map < T, U > m_map; 
+    map < T, U > m_map;
 
   public:
 
     createmap() {}
     createmap(const T& key, const U& val) {m_map[key] = val;}
-    createmap < T, U > & operator()(const T& key, const U& val) 
+    createmap < T, U > & operator()(const T& key, const U& val)
     {
-      m_map[key] = val; 
-      return * this; 
+      m_map[key] = val;
+      return * this;
     }
     operator map < T, U > () {return m_map;}
 
-}; 
+};
 
 //==========================================================================
 
 // Template to make initializing maps simpler, while not relying on C++11.
 // Usage: vector(creatvector<T>(a)(b)(c));
 
-template < typename T > class createvector 
+template < typename T > class createvector
 {
 
   private:
 
-    vector<T> m_vector; 
+    vector<T> m_vector;
 
   public:
 
     createvector() {}
     createvector(const T& val) {m_vector.push_back(val);}
-    createvector<T> & operator()(const T& val) 
+    createvector<T> & operator()(const T& val)
     {
-      m_vector.push_back(val); 
-      return * this; 
+      m_vector.push_back(val);
+      return * this;
     }
     operator vector<T> () {return m_vector;}
 
-}; 
+};
 
-typedef vector<int> vec_int; 
-typedef set<int> set_int; 
+typedef vector<int> vec_int;
+typedef set<int> set_int;
 
 // Instance of the Matrix element with the corresponding permutation and
 // proc_ID to use
-typedef pair < vec_int, int > perm_and_id; 
-typedef pair < PY8ME * , perm_and_id > process_accessor; 
+typedef pair < vec_int, int > perm_and_id;
+typedef pair < PY8ME * , perm_and_id > process_accessor;
 
-struct process_specifier 
+struct process_specifier
 {
   // List of incoming and list of incoming PDGs
-  vec_int in_pdgs; 
+  vec_int in_pdgs;
   // List of incoming and list of outgoing PDGs
-  vec_int out_pdgs; 
+  vec_int out_pdgs;
   // Set of the required s-channels
-  set_int required_s_channels; 
+  set_int required_s_channels;
 
   // Define the ordering operator for to use process_specifier as map keys.
-  bool operator < (const process_specifier& other) const 
+  bool operator < (const process_specifier& other) const
   {
-    return (make_pair(make_pair(in_pdgs, out_pdgs), required_s_channels) < 
+    return (make_pair(make_pair(in_pdgs, out_pdgs), required_s_channels) <
     make_pair(make_pair(other.in_pdgs, other.out_pdgs),
         other.required_s_channels)
-    ); 
+    );
   }
 
-}; 
+};
 
 //==========================================================================
 // A class for easily accessing all Matrix Elements exported in this output
@@ -131,11 +131,11 @@ class PY8MEs
   public:
 
     // Constructors
-    PY8MEs(string param_card_path = string()); 
-    PY8MEs(Parameters_sm_ckm * model_input); 
+    PY8MEs(string param_card_path = string());
+    PY8MEs(Parameters_sm_ckm * model_input);
 
     // Destructor
-    ~PY8MEs(); 
+    ~PY8MEs();
 
     // Model factory
     static Parameters_sm_ckm * instantiateModel(string param_card_path =
@@ -166,24 +166,24 @@ class PY8MEs
         vec_int(), vec_int helicities = vec_int());
 
     // Initialize the model
-    void initModelFromSLHACard(string card_path = string()); 
+    void initModelFromSLHACard(string card_path = string());
 
     // Function to update the alpha_S dependent couplings each event.
-    void updateModelDependentCouplings(double alpS); 
+    void updateModelDependentCouplings(double alpS);
 
     // Function to initialize and update the model from a PY8 particle data
     // pointer.
     // One must link against Parameters_sm_PY8[.h|.cc] and the Pythia8.h include
     // in order to use this routine.
-    // 
+    //
     // void initModelWithPY8(ParticleData * & pd, Couplings * & csm,
     // SusyLesHouches * & slhaPtr);
     // void updateModelDependentCouplingsWithPY8(ParticleData * & pd, Couplings
     // * & csm, SusyLesHouches * & slhaPtr, double alpS);
-    // 
+    //
 
     // Preload processes
-    void load_processes(); 
+    void load_processes();
 
     // A handy function to release the model
     void releaseModel(){if(model) {delete model; model = NULL;}}
@@ -193,64 +193,63 @@ class PY8MEs
     // to release it and we should no longer do it on his behalf in the
     // destructor as he
     // could be using it elsewhere.
-    Parameters_sm_ckm * getModel(bool changeReleaseModelOnExit = true) 
+    Parameters_sm_ckm * getModel(bool changeReleaseModelOnExit = true)
     {
       if(changeReleaseModelOnExit)
       {
-        releaseModelOnExit = false; 
+        releaseModelOnExit = false;
       }
-      return model; 
+      return model;
     }
     // If the model pointer is replace, we must release the old one if
     // necessary and
     // make sure that the new one will not be released by this class since it
     // originated
     // from outside.
-    void setModel(Parameters_sm_ckm * model_input) 
+    void setModel(Parameters_sm_ckm * model_input)
     {
       if (releaseModelOnExit)
-        releaseModel(); 
-      releaseModelOnExit = false; 
-      model = model_input; 
-      syncProcessesWithModel(); 
+        releaseModel();
+      releaseModelOnExit = false;
+      model = model_input;
+      syncProcessesWithModel();
     }
 
     // Sync processes variable with the currently active model
-    void syncProcessesWithModel(); 
+    void syncProcessesWithModel();
 
     // Set all values of the external masses od all processes to an integer
     // mode:
     // 0 : Mass taken from the model
     // 1 : Mass taken from p_i^2 if not massless to begin with
     // 2 : Mass always taken from p_i^2.
-    void setProcessesExternalMassesMode(int mode); 
+    void setProcessesExternalMassesMode(int mode);
 
     // Broadcast settings to all processes
-    void seProcessesIncludeSymmetryFactors(bool OnOff); 
-    void seProcessesIncludeHelicityAveragingFactors(bool OnOff); 
-    void seProcessesIncludeColorAveragingFactors(bool OnOff); 
+    void seProcessesIncludeSymmetryFactors(bool OnOff);
+    void seProcessesIncludeHelicityAveragingFactors(bool OnOff);
+    void seProcessesIncludeColorAveragingFactors(bool OnOff);
 
   private:
 
     // Forbid the copy of the accessor as it defines pointers
-    PY8MEs(const PY8MEs&); 
+    PY8MEs(const PY8MEs&);
 
     // A map to store all processes accessed and matrix element instances
     // generated
-    map < struct process_specifier, process_accessor > processes_map; 
+    map < struct process_specifier, process_accessor > processes_map;
 
     // A list of instances already available at this time
-    vector < PY8ME * > loaded_processes; 
+    vector < PY8ME * > loaded_processes;
 
     // The model that the processes will be loaded with
-    Parameters_sm_ckm * model; 
+    Parameters_sm_ckm * model;
     // Keep track of whether the model instance was created in this class or
     // externally,
     // so as to decide whether we should release in this destructor or not.
-    bool releaseModelOnExit; 
-}; 
+    bool releaseModelOnExit;
+};
 
 }  // End namespace PY8MEs_namespace
 
 #endif  // PY8MEs_H_sm_ckm
-

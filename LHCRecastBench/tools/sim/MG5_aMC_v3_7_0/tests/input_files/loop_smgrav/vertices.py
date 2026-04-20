@@ -18,7 +18,7 @@ V_3 = Vertex(name = 'V_3',
               color = [ 'f(1,2,3)' ],
               lorentz = [ L.VVV1 ],
               couplings = {(0,0):C.GC_4})
-              
+
 V_4 = Vertex(name = 'V_4',
               particles = [ P.G, P.G, P.G, P.G ],
               color = [ 'f(-1,1,2)*f(3,4,-1)', 'f(-1,1,3)*f(2,4,-1)', 'f(-1,1,4)*f(2,3,-1)' ],

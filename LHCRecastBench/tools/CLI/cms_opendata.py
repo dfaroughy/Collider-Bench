@@ -14,12 +14,10 @@ Usage:
 import argparse
 import hashlib
 import json
-import os
 import re
 import shutil
 import ssl
 import sys
-import tempfile
 from pathlib import Path
 from urllib.request import urlopen, Request, build_opener, HTTPSHandler
 
@@ -27,7 +25,7 @@ API_BASE = "https://opendata.cern.ch/api/records/"
 XROOTD_PREFIX = "root://eospublic.cern.ch/"
 HTTP_PREFIX = "https://eospublic.cern.ch/"
 
-_DATASET_NAME_RE = re.compile(r'^[A-Z][A-Za-z0-9]*([-_][A-Za-z0-9]+)+$')
+_DATASET_NAME_RE = re.compile(r"^[A-Z][A-Za-z0-9]*([-_][A-Za-z0-9]+)+$")
 
 
 def _print_json(payload):
@@ -44,14 +42,13 @@ def _smart_query(query):
     tokens = query.split()
     if len(tokens) == 1:
         return f"title:*{query}*"
-    return " ".join(
-        f"title:*{t}*" if _DATASET_NAME_RE.match(t) else t for t in tokens
-    )
+    return " ".join(f"title:*{t}*" if _DATASET_NAME_RE.match(t) else t for t in tokens)
 
 
 def _api_get(url, params=None):
     if params:
         from urllib.parse import urlencode
+
         url = url + "?" + urlencode(params)
     req = Request(url)
     with urlopen(req, timeout=30) as resp:
@@ -60,7 +57,7 @@ def _api_get(url, params=None):
 
 def _xrootd_to_http(uri):
     if uri.startswith(XROOTD_PREFIX):
-        return HTTP_PREFIX + uri[len(XROOTD_PREFIX):].lstrip("/")
+        return HTTP_PREFIX + uri[len(XROOTD_PREFIX) :].lstrip("/")
     return uri
 
 
@@ -157,6 +154,7 @@ def _open_events_tree(url, timeout=120):
 # Commands
 # =====================================================================
 
+
 def cmd_search(args):
     """Search for datasets."""
     params = {"page": args.page, "size": args.size}
@@ -178,26 +176,30 @@ def cmd_search(args):
     for h in hits.get("hits", []):
         meta = h.get("metadata", {})
         dist = meta.get("distribution", {})
-        rows.append({
-            "recid": meta.get("recid", ""),
-            "title": meta.get("title", ""),
-            "title_additional": meta.get("title_additional", ""),
-            "collision_energy": meta.get("collision_information", {}).get("energy", ""),
-            "events": dist.get("number_events"),
-            "files": dist.get("number_files"),
-            "doi": meta.get("doi", ""),
-            "license": meta.get("license", {}),
-            "raw_metadata": meta if args.json else None,
-        })
+        rows.append(
+            {
+                "recid": meta.get("recid", ""),
+                "title": meta.get("title", ""),
+                "title_additional": meta.get("title_additional", ""),
+                "collision_energy": meta.get("collision_information", {}).get("energy", ""),
+                "events": dist.get("number_events"),
+                "files": dist.get("number_files"),
+                "doi": meta.get("doi", ""),
+                "license": meta.get("license", {}),
+                "raw_metadata": meta if args.json else None,
+            }
+        )
 
     if args.json:
-        _print_json({
-            "query": params.get("q", ""),
-            "page": args.page,
-            "size": args.size,
-            "total": total,
-            "results": rows,
-        })
+        _print_json(
+            {
+                "query": params.get("q", ""),
+                "page": args.page,
+                "size": args.size,
+                "total": total,
+                "results": rows,
+            }
+        )
         return
 
     print(f"Found {total} datasets (showing page {args.page}):\n")
@@ -259,13 +261,17 @@ def cmd_record(args):
         print(f"  Abstract: {abstract[:200]}{'...' if len(abstract) > 200 else ''}")
     collision_info = meta.get("collision_information", {})
     if collision_info:
-        print(f"  Collision: {collision_info.get('type', '')} at {collision_info.get('energy', '')}")
+        print(
+            f"  Collision: {collision_info.get('type', '')} at {collision_info.get('energy', '')}"
+        )
     date_created = meta.get("date_created", "")
     if date_created:
         print(f"  Date created: {date_created}")
     run_period = meta.get("run_period", [])
     if run_period:
-        print(f"  Run period: {', '.join(run_period) if isinstance(run_period, list) else run_period}")
+        print(
+            f"  Run period: {', '.join(run_period) if isinstance(run_period, list) else run_period}"
+        )
     print(f"  Events: {dist.get('number_events', '?')}")
     print(f"  Files: {dist.get('number_files', '?')}")
     print(f"  DOI: {meta.get('doi', '')}")
@@ -315,34 +321,40 @@ def cmd_files(args):
     for i, idx in enumerate(file_indices):
         idx_files = idx.get("files", [])
         total_size = sum(f.get("size", 0) for f in idx_files)
-        index_summaries.append({
-            "index": i,
-            "key": idx.get("key", ""),
-            "num_files": len(idx_files),
-            "total_size": total_size,
-        })
+        index_summaries.append(
+            {
+                "index": i,
+                "key": idx.get("key", ""),
+                "num_files": len(idx_files),
+                "total_size": total_size,
+            }
+        )
 
     offset = args.offset
     limit = args.limit
-    page = files[offset:offset + limit]
+    page = files[offset : offset + limit]
 
     if args.json:
-        _print_json({
-            "recid": args.recid,
-            "total_files": len(files),
-            "file_indices": index_summaries,
-            "offset": offset,
-            "limit": limit,
-            "returned": len(page),
-            "files": page,
-        })
+        _print_json(
+            {
+                "recid": args.recid,
+                "total_files": len(files),
+                "file_indices": index_summaries,
+                "offset": offset,
+                "limit": limit,
+                "returned": len(page),
+                "files": page,
+            }
+        )
         return
 
     if index_summaries:
         print(f"Record {args.recid}: {len(file_indices)} file index group(s)\n")
         for si in index_summaries:
             size_mb = si["total_size"] / 1e6 if si["total_size"] else 0
-            print(f"  Index {si['index']}: key={si['key']}, files={si['num_files']}, size={size_mb:.1f} MB")
+            print(
+                f"  Index {si['index']}: key={si['key']}, files={si['num_files']}, size={size_mb:.1f} MB"
+            )
         print()
 
     print(f"Record {args.recid}: {len(files)} files total (showing {offset}-{offset+len(page)})\n")
@@ -356,7 +368,11 @@ def cmd_files(args):
             print(f"    checksum: {checksum}")
 
     if args.save:
-        urls = [f.get("xrootd_uri", f.get("http_url", "")) for f in files if f.get("xrootd_uri") or f.get("http_url")]
+        urls = [
+            f.get("xrootd_uri", f.get("http_url", ""))
+            for f in files
+            if f.get("xrootd_uri") or f.get("http_url")
+        ]
         with open(args.save, "w") as out:
             out.write("\n".join(urls))
         print(f"\nSaved {len(urls)} URLs to {args.save}")
@@ -364,7 +380,6 @@ def cmd_files(args):
 
 def cmd_stream(args):
     """Stream NanoAOD branches from a remote file."""
-    import uproot
     import awkward as ak
 
     url = args.url
@@ -381,19 +396,23 @@ def cmd_stream(args):
             if filt and filt not in name:
                 continue
             branch = f[name]
-            branch_info.append({
-                "name": name,
-                "typename": branch.typename,
-                "interpretation": str(branch.interpretation),
-            })
+            branch_info.append(
+                {
+                    "name": name,
+                    "typename": branch.typename,
+                    "interpretation": str(branch.interpretation),
+                }
+            )
 
         if args.json:
-            _print_json({
-                "url": args.url,
-                "num_entries": f.num_entries,
-                "num_branches": len(f.keys()),
-                "branches": branch_info,
-            })
+            _print_json(
+                {
+                    "url": args.url,
+                    "num_entries": f.num_entries,
+                    "num_branches": len(f.keys()),
+                    "branches": branch_info,
+                }
+            )
             return
 
         print(f"Tree 'Events': {f.num_entries} entries, {len(f.keys())} branches\n")
@@ -415,11 +434,13 @@ def cmd_stream(args):
             for key in arrays.fields:
                 col = arrays[key]
                 branch_data[key] = ak.to_list(col)
-            _print_json({
-                "mode": "data",
-                "num_events": n,
-                "branches": branch_data,
-            })
+            _print_json(
+                {
+                    "mode": "data",
+                    "num_events": n,
+                    "branches": branch_data,
+                }
+            )
             return
 
         # Plain text: show summary stats
@@ -429,8 +450,11 @@ def cmd_stream(args):
             flat = ak.flatten(col) if col.ndim > 1 else col
             if len(flat) > 0:
                 import numpy as np
-                print(f"  {key}: n={len(flat)}, mean={np.mean(flat):.4f}, "
-                      f"min={np.min(flat):.4f}, max={np.max(flat):.4f}")
+
+                print(
+                    f"  {key}: n={len(flat)}, mean={np.mean(flat):.4f}, "
+                    f"min={np.min(flat):.4f}, max={np.max(flat):.4f}"
+                )
 
 
 def cmd_download(args):
@@ -440,7 +464,7 @@ def cmd_download(args):
     outdir = Path(args.output_dir)
     outdir.mkdir(parents=True, exist_ok=True)
 
-    for url in args.urls[:args.max_files]:
+    for url in args.urls[: args.max_files]:
         if url.startswith("root://"):
             url = _xrootd_to_http(url)
         filename = url.split("/")[-1]
@@ -459,8 +483,6 @@ def cmd_sample_info(args):
     Follows the chain: NanoAOD → MiniAOD → GEN-SIM, collecting cross sections
     and downloading generator configuration artifacts.
     """
-    import re
-    from html.parser import HTMLParser
 
     nano_recid = args.recid
     data = _api_get(f"{API_BASE}{nano_recid}")
@@ -468,6 +490,7 @@ def cmd_sample_info(args):
     nano_title = nano_meta.get("title", "")
 
     verbose = not args.json
+
     def log(msg):
         if verbose:
             print(msg)
@@ -486,8 +509,9 @@ def cmd_sample_info(args):
     if mini_recid is None:
         log("  WARNING: No parent MiniAOD record found in relations.")
         if args.json:
-            _print_json({"nano_recid": nano_recid, "title": nano_title,
-                         "error": "No parent MiniAOD found"})
+            _print_json(
+                {"nano_recid": nano_recid, "title": nano_title, "error": "No parent MiniAOD found"}
+            )
         return
 
     log(f"  Parent MiniAOD: recid {mini_recid}")
@@ -498,8 +522,10 @@ def cmd_sample_info(args):
     xsec = mini_meta.get("cross_section", {})
 
     if xsec:
-        log(f"\n  Cross section:")
-        log(f"    cross_section_pb:      {xsec.get('total_value', '?')}  ← USE THIS VALUE for normalization")
+        log("\n  Cross section:")
+        log(
+            f"    cross_section_pb:      {xsec.get('total_value', '?')}  ← USE THIS VALUE for normalization"
+        )
         log(f"    uncertainty_pb:        {xsec.get('total_value_uncertainty', '?')}")
     else:
         log("\n  Cross section: not available on this record")
@@ -515,8 +541,10 @@ def cmd_sample_info(args):
         release = step.get("release", "?")
         generators = step.get("generators", [])
         gen_str = ", ".join(generators) if generators else ""
-        log(f"    {i}: {step_type}  release={release}" +
-            (f"  generators={gen_str}" if gen_str else ""))
+        log(
+            f"    {i}: {step_type}  release={release}"
+            + (f"  generators={gen_str}" if gen_str else "")
+        )
 
         # Collect all configuration/parameter file URLs
         for cfg in step.get("configuration_files", []):
@@ -531,12 +559,14 @@ def cmd_sample_info(args):
             else:
                 continue
             if url:
-                gen_artifacts.append({
-                    "step": step_type,
-                    "step_index": i,
-                    "title": title,
-                    "url": url,
-                })
+                gen_artifacts.append(
+                    {
+                        "step": step_type,
+                        "step_index": i,
+                        "title": title,
+                        "url": url,
+                    }
+                )
 
         # Check for generator_parameters links
         for gp in step.get("generator_parameters", []):
@@ -549,12 +579,14 @@ def cmd_sample_info(args):
             else:
                 continue
             if url:
-                gen_artifacts.append({
-                    "step": step_type,
-                    "step_index": i,
-                    "title": title,
-                    "url": url,
-                })
+                gen_artifacts.append(
+                    {
+                        "step": step_type,
+                        "step_index": i,
+                        "title": title,
+                        "url": url,
+                    }
+                )
 
     # ── Download and concatenate artifacts ──
     if gen_artifacts and not args.no_download:
@@ -593,9 +625,11 @@ def cmd_sample_info(args):
             f.write(f"# Title: {nano_title}\n")
             f.write(f"# MiniAOD recid: {mini_recid}\n")
             if xsec:
-                f.write(f"# Cross section (pb): {xsec.get('total_value', '?')}  ← USE THIS for normalization\n")
+                f.write(
+                    f"# Cross section (pb): {xsec.get('total_value', '?')}  ← USE THIS for normalization\n"
+                )
                 f.write(f"# Uncertainty (pb): {xsec.get('total_value_uncertainty', '?')}\n")
-            f.write(f"\n")
+            f.write("\n")
             f.write("\n".join(all_text))
         log(f"\n  Artifacts written to: {out_path}")
     elif gen_artifacts:
@@ -608,7 +642,9 @@ def cmd_sample_info(args):
             "mini_recid": int(mini_recid),
             "title": nano_title,
             "cross_section_pb": float(xsec["total_value"]) if xsec.get("total_value") else None,
-            "cross_section_uncertainty_pb": float(xsec["total_value_uncertainty"]) if xsec.get("total_value_uncertainty") else None,
+            "cross_section_uncertainty_pb": float(xsec["total_value_uncertainty"])
+            if xsec.get("total_value_uncertainty")
+            else None,
             "cross_section_note": "Use cross_section_pb directly. Matching and filter efficiencies are already included.",
             "cross_section_raw": xsec,
             "production_steps": [
@@ -628,6 +664,7 @@ def _fetch_text(url):
     """Fetch a URL and return its text content."""
     import ssl
     from urllib.request import urlopen, Request
+
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
@@ -645,10 +682,11 @@ def _fetch_text(url):
 # Main
 # =====================================================================
 
+
 def main():
     parser = argparse.ArgumentParser(
-        prog="cms_opendata",
-        description="CLI for CMS Open Data portal and Perlmutter analysis")
+        prog="cms_opendata", description="CLI for CMS Open Data portal and Perlmutter analysis"
+    )
     sub = parser.add_subparsers(dest="cmd")
     sub.required = True
 
@@ -697,11 +735,21 @@ def main():
     p.set_defaults(func=cmd_download)
 
     # sample-info
-    p = sub.add_parser("sample-info", help="Get cross section, generator configs, and production chain for a MC sample")
+    p = sub.add_parser(
+        "sample-info",
+        help="Get cross section, generator configs, and production chain for a MC sample",
+    )
     p.add_argument("recid", type=int, help="NanoAOD record ID")
     p.add_argument("--json", action="store_true", help="Print machine-readable JSON")
-    p.add_argument("--no-download", action="store_true", help="Skip downloading generator artifacts")
-    p.add_argument("--output", "-o", default=None, help="Output file for artifacts (default: sample_info_<recid>.txt)")
+    p.add_argument(
+        "--no-download", action="store_true", help="Skip downloading generator artifacts"
+    )
+    p.add_argument(
+        "--output",
+        "-o",
+        default=None,
+        help="Output file for artifacts (default: sample_info_<recid>.txt)",
+    )
     p.set_defaults(func=cmd_sample_info)
 
     args = parser.parse_args()

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -123,10 +123,10 @@ logger = logging.getLogger('madgraph.various.process_checks')
 
 # Helper function to boost momentum
 def boost_momenta(p, boost_direction=1, beta=0.5):
-    """boost the set momenta in the 'boost direction' by the 'beta' 
+    """boost the set momenta in the 'boost direction' by the 'beta'
        factor"""
-       
-    boost_p = []    
+
+    boost_p = []
     gamma = 1/ math.sqrt(1 - beta**2)
     for imp in p:
         bosst_p = imp[boost_direction]
@@ -137,21 +137,21 @@ def boost_momenta(p, boost_direction=1, beta=0.5):
         # PX
         if boost_direction == 1:
             boost_imp.append(-gamma * beta * E + gamma * px)
-        else: 
+        else:
             boost_imp.append(px)
         # PY
         if boost_direction == 2:
             boost_imp.append(-gamma * beta * E + gamma * py)
-        else: 
-            boost_imp.append(py)    
+        else:
+            boost_imp.append(py)
         # PZ
         if boost_direction == 3:
             boost_imp.append(-gamma * beta * E + gamma * pz)
-        else: 
-            boost_imp.append(pz) 
+        else:
+            boost_imp.append(pz)
         #Add the momenta to the list
-        boost_p.append(boost_imp)                   
-            
+        boost_p.append(boost_imp)
+
     return boost_p
 
 #===============================================================================
@@ -170,12 +170,12 @@ class MatrixElementEvaluator(object):
         reuse = True means that the matrix element corresponding to a
                 given process can be reused (turn off if you are using
                 different models for the same process)"""
- 
+
         self.cmd = cmd
- 
+
         # Writer for the Python matrix elements
         self.helas_writer = helas_call_writers.PythonUFOHelasCallWriter(model)
-    
+
         # Read a param_card and calculate couplings
         self.full_model = model_reader.ModelReader(model)
         try:
@@ -186,17 +186,17 @@ class MatrixElementEvaluator(object):
             logger.warning('param_card present in the event file not compatible.'+
                                                 ' We will use the default one.')
             self.full_model.set_parameters_and_couplings()
-            
+
         self.auth_skipping = auth_skipping
         self.reuse = reuse
         self.cmass_scheme = cmd.options['complex_mass_scheme']
         self.store_aloha = []
         self.stored_quantities = {}
-        
+
     #===============================================================================
     # Helper function evaluate_matrix_element
     #===============================================================================
-    def evaluate_matrix_element(self, matrix_element, p=None, full_model=None, 
+    def evaluate_matrix_element(self, matrix_element, p=None, full_model=None,
                                 gauge_check=False, auth_skipping=None, output='m2',
                                 options=None):
         """Calculate the matrix element and evaluate it for a phase space point
@@ -246,7 +246,7 @@ class MatrixElementEvaluator(object):
         if "list_color_basis" not in self.stored_quantities:
             self.stored_quantities["list_color_basis"] = []
         if "list_color_matrices" not in self.stored_quantities:
-            self.stored_quantities["list_color_matrices"] = []        
+            self.stored_quantities["list_color_matrices"] = []
 
         col_basis = color_amp.ColorBasis()
         new_amp = matrix_element.get_base_amplitude()
@@ -289,7 +289,7 @@ class MatrixElementEvaluator(object):
         # Write out the routines in Python
         aloha_routines = []
         for routine in aloha_model.values():
-            aloha_routines.append(routine.write(output_dir = None, 
+            aloha_routines.append(routine.write(output_dir = None,
                                                 mode='mg5',
                                                 language = 'Python'))
         for routine in aloha_model.external_routines:
@@ -321,7 +321,7 @@ class MatrixElementEvaluator(object):
 #       open('output_path','w').write(matrix_methods[process.shell_string()])
         if self.reuse:
             # Define the routines (globally)
-            exec(matrix_methods[process.shell_string()], globals())	    
+            exec(matrix_methods[process.shell_string()], globals())
             ADDED_GLOBAL.append('Matrix_%s'  % process.shell_string())
         else:
             # Define the routines (locally is enough)
@@ -336,7 +336,7 @@ class MatrixElementEvaluator(object):
         else:
             m2 = data.smatrix(p,self.full_model)
             return {'m2': m2, output:getattr(data, output)}
-    
+
     @staticmethod
     def pass_isolation_cuts(pmoms, ptcut=50.0, drcut=0.5):
         """ Check whether the specified kinematic point passes isolation cuts
@@ -350,7 +350,7 @@ class MatrixElementEvaluator(object):
             """ Computes the DeltaR between two 4-momenta"""
             # First compute pseudo-rapidities
             p1_vec=math.sqrt(p1[1]**2+p1[2]**2+p1[3]**2)
-            p2_vec=math.sqrt(p2[1]**2+p2[2]**2+p2[3]**2)    
+            p2_vec=math.sqrt(p2[1]**2+p2[2]**2+p2[3]**2)
             eta1=0.5*math.log((p1_vec+p1[3])/(p1_vec-p1[3]))
             eta2=0.5*math.log((p2_vec+p2[3])/(p2_vec-p2[3]))
             # Then azimutal angle phi
@@ -371,7 +371,7 @@ class MatrixElementEvaluator(object):
                 if DeltaR(pmom,pmom2)<drcut:
                     return False
         return True
-    
+
     #===============================================================================
     # Helper function get_momenta
     #===============================================================================
@@ -391,13 +391,13 @@ class MatrixElementEvaluator(object):
             energy = options['energy']
             events = options['events']
             to_skip = options['skip_evt']
-            
+
         if not (isinstance(process, base_objects.Process) and \
                 isinstance(energy, (float,int))):
             raise rambo.RAMBOError("Not correct type for arguments to get_momenta")
 
 
-        sorted_legs = sorted(process.get('legs'), key=lambda l: l.get('number')) 
+        sorted_legs = sorted(process.get('legs'), key=lambda l: l.get('number'))
 
         # If an events file is given use it for getting the momentum
         if events:
@@ -433,7 +433,7 @@ class MatrixElementEvaluator(object):
         mass = []
         for l in sorted_legs:
             if l.get('id') != 0:
-                mass_string = self.full_model.get_particle(l.get('id')).get('mass')        
+                mass_string = self.full_model.get_particle(l.get('id')).get('mass')
                 mass.append(self.full_model.get('parameter_dict')[mass_string].real)
             else:
                 if isinstance(special_mass, float):
@@ -527,11 +527,11 @@ class MatrixElementEvaluator(object):
 class LoopMatrixElementEvaluator(MatrixElementEvaluator):
     """Class taking care of matrix element evaluation for loop processes."""
 
-    def __init__(self,cuttools_dir=None, output_path=None, tir_dir={}, 
+    def __init__(self,cuttools_dir=None, output_path=None, tir_dir={},
                                             cmd=FakeInterface(),*args,**kwargs):
         """Allow for initializing the MG5 root where the temporary fortran
         output for checks is placed."""
-        
+
         super(LoopMatrixElementEvaluator,self).__init__(*args,cmd=cmd,**kwargs)
 
         self.mg_root=self.cmd._mgme_dir
@@ -540,34 +540,34 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             self.output_path = self.cmd._mgme_dir
         else:
             self.output_path = output_path
-            
+
         self.cuttools_dir=cuttools_dir
         self.tir_dir=tir_dir
         self.loop_optimized_output = cmd.options['loop_optimized_output']
         # Set proliferate to true if you want to keep the produced directories
         # and eventually reuse them if possible
         self.proliferate=True
-        
+
     #===============================================================================
     # Helper function evaluate_matrix_element for loops
     #===============================================================================
     def evaluate_matrix_element(self, matrix_element, p=None, options=None,
-                             gauge_check=False, auth_skipping=None, output='m2', 
+                             gauge_check=False, auth_skipping=None, output='m2',
                                                   PS_name = None, MLOptions={}):
         """Calculate the matrix element and evaluate it for a phase space point
            Output can only be 'm2. The 'jamp' and 'amp' returned values are just
            empty lists at this point.
-           If PS_name is not none the written out PS.input will be saved in 
+           If PS_name is not none the written out PS.input will be saved in
            the file PS.input_<PS_name> as well."""
 
         process = matrix_element.get('processes')[0]
         model = process.get('model')
-        
+
         if options and 'split_orders' in list(options.keys()):
             split_orders = options['split_orders']
         else:
             split_orders = -1
-        
+
         if "loop_matrix_elements" not in self.stored_quantities:
             self.stored_quantities['loop_matrix_elements'] = []
 
@@ -581,14 +581,14 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
         # Generate phase space point to use
         if not p:
             p, w_rambo = self.get_momenta(process, options=options)
-        
+
         if matrix_element in [el[0] for el in \
-                                self.stored_quantities['loop_matrix_elements']]:  
+                                self.stored_quantities['loop_matrix_elements']]:
             export_dir=self.stored_quantities['loop_matrix_elements'][\
                 [el[0] for el in self.stored_quantities['loop_matrix_elements']\
                  ].index(matrix_element)][1]
             logger.debug("Reusing generated output %s"%str(export_dir))
-        else:        
+        else:
             export_dir=pjoin(self.output_path,temp_dir_prefix)
             if os.path.isdir(export_dir):
                 if not self.proliferate:
@@ -599,7 +599,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                                         '%s_%i'%(temp_dir_prefix,id))):
                         id+=1
                     export_dir=pjoin(self.output_path,'%s_%i'%(temp_dir_prefix,id))
-            
+
             if self.proliferate:
                 self.stored_quantities['loop_matrix_elements'].append(\
                                                     (matrix_element,export_dir))
@@ -611,10 +611,10 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                 exporter_class=loop_exporters.LoopProcessOptimizedExporterFortranSA
             else:
                 exporter_class=loop_exporters.LoopProcessExporterFortranSA
-            
-            MLoptions = {'clean': True, 
+
+            MLoptions = {'clean': True,
                        'complex_mass': self.cmass_scheme,
-                       'export_format':'madloop', 
+                       'export_format':'madloop',
                        'mp':True,
                        'SubProc_prefix':'P',
                        'compute_color_flows': not process.get('has_born'),
@@ -624,7 +624,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                        'output_dependencies': self.cmd.options['output_dependencies']}
 
             MLoptions.update(self.tir_dir)
-            
+
             FortranExporter = exporter_class(export_dir, MLoptions)
             FortranModel = helas_call_writers.FortranUFOHelasCallWriter(model)
             FortranExporter.copy_template(model)
@@ -640,22 +640,22 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
 
         self.fix_MadLoopParamCard(pjoin(export_dir,'Cards'),
            mp = gauge_check and self.loop_optimized_output, MLOptions=MLOptions)
-        
+
         if gauge_check:
             file_path, orig_file_content, new_file_content = \
-              self.setup_ward_check(pjoin(export_dir,'SubProcesses'), 
+              self.setup_ward_check(pjoin(export_dir,'SubProcesses'),
                                        ['helas_calls_ampb_1.f','loop_matrix.f'])
             file = open(file_path,'w')
             file.write(new_file_content)
             file.close()
             if self.loop_optimized_output:
                 mp_file_path, mp_orig_file_content, mp_new_file_content = \
-                  self.setup_ward_check(pjoin(export_dir,'SubProcesses'), 
+                  self.setup_ward_check(pjoin(export_dir,'SubProcesses'),
                   ['mp_helas_calls_ampb_1.f','mp_compute_loop_coefs.f'],mp=True)
                 mp_file = open(mp_file_path,'w')
                 mp_file.write(mp_new_file_content)
                 mp_file.close()
-    
+
         # Evaluate the matrix element for the momenta p
         finite_m2 = self.get_me_value(process.shell_string_v4(), 0,\
                           export_dir, p, PS_name = PS_name, verbose=False)[0][0]
@@ -669,13 +669,13 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                 mp_file = open(mp_file_path,'w')
                 mp_file.write(mp_orig_file_content)
                 mp_file.close()
-        
+
         # Now erase the output directory
         if not self.proliferate:
             shutil.rmtree(export_dir)
-        
-        if output == "m2": 
-            # We do not provide details (i.e. amps and Jamps) of the computed 
+
+        if output == "m2":
+            # We do not provide details (i.e. amps and Jamps) of the computed
             # amplitudes, hence the []
             return finite_m2, []
         else:
@@ -713,7 +713,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                     raise MadGraph5Error('The argument %s '%str(value)+\
                       ' in fix_MadLoopParamCard must be a string, integer'+\
                       ' or a list.')
-                MLCard.set("MLReductionLib",ml_reds)      
+                MLCard.set("MLReductionLib",ml_reds)
             elif key == 'ImprovePS':
                 MLCard.set('ImprovePSPoint',2 if value else -1)
             elif key == 'ForceMP':
@@ -729,7 +729,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             MLCard.set('CTModeInit',mode)
         MLCard.set('UseLoopFilter',loop_filter)
         MLCard.set('DoubleCheckHelicityFilter',DoubleCheckHelicityFilter)
-        
+
         MLCard.write(pjoin(dir_name,os.pardir,'SubProcesses','MadLoopParams.dat'))
 
     @classmethod
@@ -737,12 +737,12 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                           verbose=True, format='tuple', skip_compilation=False):
         """Compile and run ./check, then parse the output and return the result
         for process with id = proc_id and PSpoint if specified.
-        If PS_name is not none the written out PS.input will be saved in 
-        the file PS.input_<PS_name> as well"""  
+        If PS_name is not none the written out PS.input will be saved in
+        the file PS.input_<PS_name> as well"""
         if verbose:
             sys.stdout.write('.')
             sys.stdout.flush()
-         
+
         shell_name = None
         directories = misc.glob('P%i_*' % proc_id, pjoin(working_dir, 'SubProcesses'))
         if directories and os.path.isdir(directories[0]):
@@ -754,7 +754,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             return ((0.0, 0.0, 0.0, 0.0, 0), [])
 
         if verbose: logging.debug("Working on process %s in dir %s" % (proc, shell_name))
-        
+
         dir_name = pjoin(working_dir, 'SubProcesses', shell_name)
         if not skip_compilation:
             # Make sure to recreate the executable and modified sources
@@ -770,7 +770,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             retcode = subprocess.call(['make','check'],
                                        cwd=dir_name, stdout=devnull, stderr=devnull)
             devnull.close()
-                         
+
             if retcode != 0:
                 logging.info("Error while executing make in %s" % shell_name)
                 return ((0.0, 0.0, 0.0, 0.0, 0), [])
@@ -779,10 +779,10 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
         if PSpoint:
             misc.write_PS_input(pjoin(dir_name, 'PS.input'),PSpoint)
             # Also save the PS point used in PS.input_<PS_name> if the user
-            # wanted so. It is used for the lorentz check. 
+            # wanted so. It is used for the lorentz check.
             if not PS_name is None:
                 misc.write_PS_input(pjoin(dir_name, \
-                                                 'PS.input_%s'%PS_name),PSpoint)        
+                                                 'PS.input_%s'%PS_name),PSpoint)
         # Run ./check
         try:
             output = subprocess.Popen('./check',
@@ -792,7 +792,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             output.close()
             if os.path.exists(pjoin(dir_name,'result.dat')):
                 return cls.parse_check_output(open(pjoin(dir_name,\
-                                                   'result.dat')),format=format)  
+                                                   'result.dat')),format=format)
             else:
                 logging.warning("Error while looking for file %s"%str(os.path\
                                            .join(dir_name,'result.dat')))
@@ -803,9 +803,9 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
 
     @classmethod
     def parse_check_output(cls,output,format='tuple'):
-        """Parse the output string and return a pair where first four values are 
+        """Parse the output string and return a pair where first four values are
         the finite, born, single and double pole of the ME and the fourth is the
-        GeV exponent and the second value is a list of 4 momenta for all particles 
+        GeV exponent and the second value is a list of 4 momenta for all particles
         involved. Return the answer in two possible formats, 'tuple' or 'dict'."""
 
         res_dict = {'res_p':[],
@@ -824,7 +824,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                     'Loop_kept':[]
                     }
         res_p = []
-        
+
         # output is supposed to be a file, if it is its content directly then
         # I change it to be the list of line.
         if isinstance(output,(file,io.TextIOWrapper)) or isinstance(output,list):
@@ -867,7 +867,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             elif splitline[0] in ['Loop_SO_Results', 'Born_SO_Results']:
                 # The value for this key of this dictionary is a list of elements
                 # with format ([],{}) where the first list specifies the split
-                # orders to which the dictionary in the second position corresponds 
+                # orders to which the dictionary in the second position corresponds
                 # to.
                 res_dict[splitline[0]].append(\
                                          ([int(el) for el in splitline[1:]],{}))
@@ -877,7 +877,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             elif splitline[0]=='SO_Born':
                 res_dict['Born_SO_Results'][-1][1][splitline[1]]=\
                                                              float(splitline[2])
-        
+
         res_dict['res_p'] = res_p
 
         if format=='tuple':
@@ -885,7 +885,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                        res_dict['2eps'],res_dict['gev_pow']), res_dict['res_p'])
         else:
             return res_dict
-    
+
     @staticmethod
     def apply_log_tweak(proc_path, mode):
         """ Changes the file model_functions.f in the SOURCE of the process output
@@ -896,7 +896,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                 len(mode)==2 and all(m in ['logp','logm','log'] for m in mode))):
             raise MadGraph5Error("Mode '%s' not reckonized"%mode+
                                                 " in function apply_log_tweak.")
-        
+
         model_path = pjoin(proc_path,'Source','MODEL')
         directories = misc.glob('P0_*', pjoin(proc_path,'SubProcesses'))
         if directories and os.path.isdir(directories[0]):
@@ -905,7 +905,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             raise MadGraph5Error('Could not find a process executable '+\
                                                       'directory in %s'%proc_dir)
         bu_path = pjoin(model_path, 'model_functions.f__backUp__')
-        
+
         if mode=='default':
             # Restore the default source file model_function.f
             if not os.path.isfile(bu_path):
@@ -918,7 +918,7 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                 os.remove(pjoin(model_path,'model_functions.o'))
                 os.remove(pjoin(proc_path,'lib','libmodel.a'))
             except:
-                pass    
+                pass
             misc.compile(cwd=model_path)
             # Remove the executable to insure proper recompilation
             try:
@@ -927,19 +927,19 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                 pass
             misc.compile(arg=['check'], cwd=exe_path)
             return
-        
+
         if mode[0]==mode[1]:
             return
-        
+
         # Now change the logs
         mp_prefix = 'MP_'
         target_line = 'FUNCTION %%sREG%s(ARG)'%mode[0].lower()
 
         # Make sure to create a backup
         if not os.path.isfile(bu_path):
-            shutil.copy(pjoin(model_path, 'model_functions.f'), bu_path)            
+            shutil.copy(pjoin(model_path, 'model_functions.f'), bu_path)
         model_functions = open(pjoin(model_path,'model_functions.f'),'r')
-        
+
         new_model_functions = []
         has_replaced        = False
         just_replaced       = False
@@ -993,27 +993,27 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                     if re.match(r'^\s*END\s*$',line,re.IGNORECASE):
                         mp_mode      = None
                         has_replaced = False
-        
+
         if not find_one_replacement:
             logger.warning('No replacement was found/performed for token '+
                                                   "'%s->%s'."%(mode[0],mode[1]))
         else:
             open(pjoin(model_path,'model_functions.f'),'w').\
                                              write(''.join(new_model_functions))
-        return          
-                
+        return
+
     def setup_ward_check(self, working_dir, file_names, mp = False):
         """ Modify loop_matrix.f so to have one external massless gauge boson
-        polarization vector turned into its momentum. It is not a pretty and 
+        polarization vector turned into its momentum. It is not a pretty and
         flexible solution but it works for this particular case."""
-        
+
         shell_name = None
         directories = misc.glob('P0_*', working_dir)
         if directories and os.path.isdir(directories[0]):
             shell_name = os.path.basename(directories[0])
-        
+
         dir_name = pjoin(working_dir, shell_name)
-        
+
         # Look, in order, for all the possible file names provided.
         ind=0
         while ind<len(file_names) and not os.path.isfile(pjoin(dir_name,
@@ -1021,10 +1021,10 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
             ind += 1
         if ind==len(file_names):
             raise Exception("No helas calls output file found.")
-        
+
         helas_file_name=pjoin(dir_name,file_names[ind])
         file = open(pjoin(dir_name,helas_file_name), 'r')
-        
+
         helas_calls_out=""
         original_file=""
         gaugeVectorRegExp=re.compile(\
@@ -1052,26 +1052,26 @@ class LoopMatrixElementEvaluator(MatrixElementEvaluator):
                                        res.group('p_id')+"),0.0E0_16,KIND=16)\n"
                     helas_calls_out+="      ENDDO\n"
         file.close()
-        
+
         return pjoin(dir_name,helas_file_name), original_file, helas_calls_out
 
 #===============================================================================
 # Helper class LoopMatrixElementEvaluator
 #===============================================================================
 class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
-    """Class taking care of matrix element evaluation and running timing for 
+    """Class taking care of matrix element evaluation and running timing for
        loop processes."""
 
     def __init__(self, *args, **kwargs):
         """ Same as the mother for now """
         LoopMatrixElementEvaluator.__init__(self,*args, **kwargs)
-    
+
     @classmethod
     def get_MadLoop_Params(cls,MLCardPath):
         """ Return a dictionary of the parameter of the MadLoopParamCard.
         The key is the name of the parameter and the value is the corresponding
         string read from the card."""
-        
+
         return bannermod.MadLoopParam(MLCardPath)
 
 
@@ -1081,7 +1081,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         the dictionary params.
         The key is the name of the parameter and the value is the corresponding
         string to write in the card."""
-        
+
         MLcard = bannermod.MadLoopParam(MLCardPath)
         for key,value in params.items():
             MLcard.set(key, value, changeifuserset=False)
@@ -1095,9 +1095,9 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         file = open(pjoin(dir_name,'loop_matrix.f'), 'r')
         loop_matrix = file.read()
         file.close()
-        
+
         file = open(pjoin(dir_name,'loop_matrix.f'), 'w')
-        loop_matrix = re.sub(r"SKIPLOOPEVAL=\S+\)","SKIPLOOPEVAL=%s)"%('.TRUE.' 
+        loop_matrix = re.sub(r"SKIPLOOPEVAL=\S+\)","SKIPLOOPEVAL=%s)"%('.TRUE.'
                                            if skip else '.FALSE.'), loop_matrix)
         file.write(loop_matrix)
         file.close()
@@ -1109,9 +1109,9 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         file = open(pjoin(dir_name,'loop_matrix.f'), 'r')
         loop_matrix = file.read()
         file.close()
-        
-        file = open(pjoin(dir_name,'loop_matrix.f'), 'w')        
-        loop_matrix = re.sub(r"BOOTANDSTOP=\S+\)","BOOTANDSTOP=%s)"%('.TRUE.' 
+
+        file = open(pjoin(dir_name,'loop_matrix.f'), 'w')
+        loop_matrix = re.sub(r"BOOTANDSTOP=\S+\)","BOOTANDSTOP=%s)"%('.TRUE.'
                                     if bootandstop else '.FALSE.'), loop_matrix)
         file.write(loop_matrix)
         file.close()
@@ -1119,9 +1119,9 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
     def setup_process(self, matrix_element, export_dir, reusing = False,
                                       param_card = None, MLOptions={},clean=True):
         """ Output the matrix_element in argument and perform the initialization
-        while providing some details about the output in the dictionary returned. 
+        while providing some details about the output in the dictionary returned.
         Returns None if anything fails"""
-                
+
         infos={'Process_output': None,
                'HELAS_MODEL_compilation' : None,
                'dir_path' : None,
@@ -1138,8 +1138,8 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         else:
             if not os.path.isdir(export_dir):
                 raise InvalidCmd(\
-                    "Could not find the directory %s to reuse."%str(export_dir))                           
-        
+                    "Could not find the directory %s to reuse."%str(export_dir))
+
 
         if not reusing and clean:
             model = matrix_element['processes'][0].get('model')
@@ -1150,10 +1150,10 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                 exporter_class=loop_exporters.LoopProcessOptimizedExporterFortranSA
             else:
                 exporter_class=loop_exporters.LoopProcessExporterFortranSA
-    
-            MLoptions = {'clean': True, 
+
+            MLoptions = {'clean': True,
                        'complex_mass': self.cmass_scheme,
-                       'export_format':'madloop', 
+                       'export_format':'madloop',
                        'mp':True,
                        'SubProc_prefix':'P',
         'compute_color_flows':not matrix_element['processes'][0].get('has_born'),
@@ -1161,7 +1161,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                        'cuttools_dir': self.cuttools_dir,
                        'fortran_compiler':self.cmd.options['fortran_compiler'],
                        'output_dependencies':self.cmd.options['output_dependencies']}
-    
+
             MLoptions.update(self.tir_dir)
 
             start=time.time()
@@ -1177,7 +1177,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             start=time.time()
             FortranExporter.finalize(matrix_element,"",self.cmd.options, ['nojpeg'])
             infos['HELAS_MODEL_compilation'] = time.time()-start
-        
+
         # Copy the parameter card if provided
         if param_card != None:
             if isinstance(param_card, str):
@@ -1185,7 +1185,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                               pjoin(export_dir,'Cards','param_card.dat'))
             else:
                 param_card.write(pjoin(export_dir,'Cards','param_card.dat'))
-                
+
         # First Initialize filters (in later versions where this will hopefully
         # be done at generation time, then it will be able to skip it)
         MadLoopInitializer.fix_PSPoint_in_check(
@@ -1193,7 +1193,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
 
         self.fix_MadLoopParamCard(pjoin(export_dir,'Cards'),
                             mp = False, loop_filter = True,MLOptions=MLOptions)
-        
+
         shell_name = None
         directories = misc.glob('P0_*', pjoin(export_dir, 'SubProcesses'))
         if directories and os.path.isdir(directories[0]):
@@ -1240,7 +1240,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         about the timing for its output and running"""
 
         # If True, then force three PS points only and skip the test on
-        # unpolarized PS point 
+        # unpolarized PS point
         make_it_quick=False
 
         if options and 'split_orders' in list(options.keys()):
@@ -1249,19 +1249,19 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             split_orders = -1
 
         assert ((not reusing and isinstance(matrix_element, \
-                 helas_objects.HelasMatrixElement)) or (reusing and 
+                 helas_objects.HelasMatrixElement)) or (reusing and
                               isinstance(matrix_element, base_objects.Process)))
         if not reusing:
             proc_name = matrix_element['processes'][0].shell_string()[2:]
         else:
             proc_name = matrix_element.shell_string()[2:]
-        
+
         export_dir=pjoin(self.output_path,('SAVED' if keep_folder else '')+\
                                                 temp_dir_prefix+"_%s"%proc_name)
 
         res_timings = self.setup_process(matrix_element,export_dir, \
             reusing, param_card,MLOptions = MLOptions,clean=True)
-        
+
         if res_timings == None:
             return None
         dir_name=res_timings['dir_path']
@@ -1281,16 +1281,16 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         if not res_timings['Initialization']==None:
             time_per_ps_estimate = (res_timings['Initialization']/4.0)/2.0
         elif make_it_quick:
-            time_per_ps_estimate = -1.0            
+            time_per_ps_estimate = -1.0
         else:
             # We cannot estimate from the initialization, so we run just a 3
             # PS point run to evaluate it.
             MadLoopInitializer.fix_PSPoint_in_check(pjoin(export_dir,'SubProcesses'),
-                                  read_ps = False, npoints = 3, hel_config = -1, 
+                                  read_ps = False, npoints = 3, hel_config = -1,
                                                       split_orders=split_orders)
             compile_time, run_time, ram_usage = MadLoopInitializer.make_and_run(dir_name)
             time_per_ps_estimate = run_time/3.0
-        
+
         self.boot_time_setup(dir_name,bootandstop=True)
         compile_time, run_time, ram_usage = MadLoopInitializer.make_and_run(dir_name)
         res_timings['Booting_time'] = run_time
@@ -1309,31 +1309,31 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                 if contributing_hel==0:
                     contributing_hel=i+1
                 n_contrib_hel += 1
-                    
+
         if contributing_hel==0:
             logger.error("Could not find a contributing helicity "+\
                                      "configuration for process %s."%proc_name)
             return None
-        
+
         res_timings['n_contrib_hel']=n_contrib_hel
         res_timings['n_tot_hel']=len(helicities)
-        
+
         # We aim at a 30 sec run
         if not make_it_quick:
             target_pspoints_number = max(int(30.0/time_per_ps_estimate)+1,50)
         else:
             target_pspoints_number = 10
-        
+
         logger.info("Checking timing for process %s "%proc_name+\
                                     "with %d PS points."%target_pspoints_number)
-        
+
         MadLoopInitializer.fix_PSPoint_in_check(pjoin(export_dir,'SubProcesses'),
                           read_ps = False, npoints = target_pspoints_number*2, \
                        hel_config = contributing_hel, split_orders=split_orders)
         compile_time, run_time, ram_usage = MadLoopInitializer.make_and_run(dir_name)
-        
+
         if compile_time == None: return None
-        
+
         res_timings['run_polarized_total']=\
                (run_time-res_timings['Booting_time'])/(target_pspoints_number*2)
 
@@ -1344,20 +1344,20 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             MadLoopInitializer.fix_PSPoint_in_check(pjoin(export_dir,'SubProcesses'),
                  read_ps = False, npoints = target_pspoints_number, hel_config = -1,
                                                           split_orders=split_orders)
-            compile_time, run_time, ram_usage = MadLoopInitializer.make_and_run(dir_name, 
+            compile_time, run_time, ram_usage = MadLoopInitializer.make_and_run(dir_name,
                                                                       checkRam=True)
 
             if compile_time == None: return None
             res_timings['run_unpolarized_total']=\
                        (run_time-res_timings['Booting_time'])/target_pspoints_number
-            res_timings['ram_usage'] = ram_usage       
-        
+            res_timings['ram_usage'] = ram_usage
+
         if not self.loop_optimized_output:
             return res_timings
-        
+
         # For the loop optimized output, we also check the time spent in
         # computing the coefficients of the loop numerator polynomials.
-        
+
         # So we modify loop_matrix.f in order to skip the loop evaluation phase.
         self.skip_loop_evaluation_setup(dir_name,skip=True)
 
@@ -1371,18 +1371,18 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             if compile_time == None: return None
             res_timings['run_unpolarized_coefs']=\
                        (run_time-res_timings['Booting_time'])/target_pspoints_number
-        
+
         MadLoopInitializer.fix_PSPoint_in_check(pjoin(export_dir,'SubProcesses'),
                           read_ps = False, npoints = target_pspoints_number*2, \
                        hel_config = contributing_hel, split_orders=split_orders)
         compile_time, run_time, ram_usage = MadLoopInitializer.make_and_run(dir_name)
         if compile_time == None: return None
         res_timings['run_polarized_coefs']=\
-               (run_time-res_timings['Booting_time'])/(target_pspoints_number*2)    
+               (run_time-res_timings['Booting_time'])/(target_pspoints_number*2)
 
         # Restitute the original file.
         self.skip_loop_evaluation_setup(dir_name,skip=False)
-        
+
         return res_timings
 
 #===============================================================================
@@ -1394,10 +1394,10 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                           MLOptions = {}):
         """ Output the matrix_element in argument, run in for nPoints and return
         a dictionary containing the stability information on each of these points.
-        If infos are provided, then the matrix element output is skipped and 
+        If infos are provided, then the matrix element output is skipped and
         reused from a previous run and the content of infos.
         """
-        
+
         if not options:
             reusing = False
             nPoints = 100
@@ -1406,22 +1406,22 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             reusing = options['reuse']
             nPoints = options['npoints']
             split_orders = options['split_orders']
-        
+
         assert ((not reusing and isinstance(matrix_element, \
-                 helas_objects.HelasMatrixElement)) or (reusing and 
-                              isinstance(matrix_element, base_objects.Process)))            
+                 helas_objects.HelasMatrixElement)) or (reusing and
+                              isinstance(matrix_element, base_objects.Process)))
 
         # Helper functions
         def format_PS_point(ps, rotation=0):
             """ Write out the specified PS point to the file dir_path/PS.input
             while rotating it if rotation!=0. We consider only rotations of 90
             but one could think of having rotation of arbitrary angle too.
-            The first two possibilities, 1 and 2 are a rotation and boost 
+            The first two possibilities, 1 and 2 are a rotation and boost
             along the z-axis so that improve_ps can still work.
             rotation=0  => No rotation
             rotation=1  => Z-axis pi/2 rotation
             rotation=2  => Z-axis pi/4 rotation
-            rotation=3  => Z-axis boost            
+            rotation=3  => Z-axis boost
             rotation=4 => (x'=z,y'=-x,z'=-y)
             rotation=5 => (x'=-z,y'=y,z'=x)"""
             if rotation==0:
@@ -1432,18 +1432,18 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                 sq2 = math.sqrt(2.0)
                 p_out = [[pm[0],(pm[1]-pm[2])/sq2,(pm[1]+pm[2])/sq2,pm[3]] for pm in ps]
             elif rotation==3:
-                p_out = boost_momenta(ps, 3)     
+                p_out = boost_momenta(ps, 3)
             # From this point the transformations will prevent the
-            # improve_ps script of MadLoop to work.      
+            # improve_ps script of MadLoop to work.
             elif rotation==4:
                 p_out=[[pm[0],pm[3],-pm[1],-pm[2]] for pm in ps]
             elif rotation==5:
                 p_out=[[pm[0],-pm[3],pm[2],pm[1]] for pm in ps]
             else:
                 raise MadGraph5Error("Rotation id %i not implemented"%rotation)
-            
+
             return '\n'.join([' '.join(['%.16E'%pi for pi in p]) for p in p_out])
-            
+
         def pick_PS_point(proc, options):
             """ Randomly generate a PS point and make sure it is eligible. Then
             return it. Users can edit the cuts here if they want."""
@@ -1454,29 +1454,29 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             # For 2>1 process, we don't check the cuts of course
             while (not MatrixElementEvaluator.pass_isolation_cuts(p) and  len(p)>3):
                 p, w_rambo = self.get_momenta(proc, options)
-             
+
             # For a 2>1 process, it would always be the same PS point,
             # so here we bring in so boost along the z-axis, just for the sake
             # of it.
             if len(p)==3:
                 p = boost_momenta(p,3,random.uniform(0.0,0.99))
             return p
-        
-        # Start loop on loop libraries        
+
+        # Start loop on loop libraries
         # Accuracy threshold of double precision evaluations above which the
         # PS points is also evaluated in quadruple precision
         accuracy_threshold=1.0e-1
-        
+
         # Number of lorentz transformations to consider for the stability test
         # (along with the loop direction test which is performed by default)
         num_rotations = 1
-        
+
         if "MLReductionLib" not in MLOptions:
             tools=[1]
         else:
             tools=MLOptions["MLReductionLib"]
             tools=misc.make_unique(tools) # remove the duplication ones
-            
+
         # not self-contained tir libraries
         tool_var={'pjfry':2,'golem':4,'samurai':5,'ninja':6,'collier':7}
         for tool in ['pjfry','golem','samurai','ninja','collier']:
@@ -1491,7 +1491,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                     tools.remove(tool_var[tool])
         if not tools:
             return None
-        
+
         # Normally, this should work for loop-induced processes as well
         if not reusing:
             process = matrix_element['processes'][0]
@@ -1500,23 +1500,23 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         proc_name = process.shell_string()[2:]
         export_dir=pjoin(self.mg_root,("SAVED" if keep_folder else "")+\
                                                 temp_dir_prefix+"_%s"%proc_name)
-        
+
         tools_name=bannermod.MadLoopParam._ID_reduction_tool_map
-        
+
         return_dict={}
         return_dict['Stability']={}
         infos_save={'Process_output': None,
                'HELAS_MODEL_compilation' : None,
                'dir_path' : None,
                'Initialization' : None,
-               'Process_compilation' : None} 
-       
+               'Process_compilation' : None}
+
         for tool in tools:
             tool_name=tools_name[tool]
             # Each evaluations is performed in different ways to assess its stability.
             # There are two dictionaries, one for the double precision evaluation
             # and the second one for quadruple precision (if it was needed).
-            # The keys are the name of the evaluation method and the value is the 
+            # The keys are the name of the evaluation method and the value is the
             # float returned.
             DP_stability = []
             QP_stability = []
@@ -1524,7 +1524,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             Unstable_PS_points = []
             # The exceptional PS points are those which stay unstable in quad prec.
             Exceptional_PS_points = []
-        
+
             MLoptions=MLOptions
             MLoptions["MLReductionLib"]=tool
             clean = (tool==tools[0]) and not nPoints==0
@@ -1538,7 +1538,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                                             reusing, param_card,MLoptions,clean)
                 if not infos:
                     return None
-            
+
             if clean:
                 infos_save['Process_output']=infos['Process_output']
                 infos_save['HELAS_MODEL_compilation']=infos['HELAS_MODEL_compilation']
@@ -1553,13 +1553,13 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                     infos['dir_path']=infos_save['dir_path']
                 if not infos['Process_compilation']:
                     infos['Process_compilation']=infos_save['Process_compilation']
-                    
+
             dir_path=infos['dir_path']
 
             # Reuse old stability runs if present
             savefile='SavedStabilityRun_%s%%s.pkl'%tools_name[tool]
             data_i = 0
-            
+
             if reusing:
                 # Possibly add additional data than the main one in 0
                 data_i=0
@@ -1578,7 +1578,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                     Unstable_PS_points.extend(saved_run['Unstable_PS_points'])
                     Exceptional_PS_points.extend(saved_run['Exceptional_PS_points'])
                     data_i += 1
-                                        
+
             return_dict['Stability'][tool_name] = {'DP_stability':DP_stability,
                               'QP_stability':QP_stability,
                               'Unstable_PS_points':Unstable_PS_points,
@@ -1604,7 +1604,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                 sec_needed = int(time_per_ps_estimate*nPoints*4)
             else:
                 sec_needed = 0
-            
+
             progress_bar = None
             time_info = False
             if sec_needed>5:
@@ -1615,9 +1615,9 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                             datetime.datetime.now().strftime("%d-%m-%Y %H:%M")))
             if logger.getEffectiveLevel()<logging.WARNING and \
                               (sec_needed>5 or infos['Initialization'] == None):
-                widgets = ['Stability check:', pbar.Percentage(), ' ', 
+                widgets = ['Stability check:', pbar.Percentage(), ' ',
                                             pbar.Bar(),' ', pbar.ETA(), ' ']
-                progress_bar = pbar.ProgressBar(widgets=widgets, maxval=nPoints, 
+                progress_bar = pbar.ProgressBar(widgets=widgets, maxval=nPoints,
                                                               fd=sys.stdout)
             MadLoopInitializer.fix_PSPoint_in_check(pjoin(export_dir,'SubProcesses'),
             read_ps = True, npoints = 1, hel_config = -1, split_orders=split_orders)
@@ -1633,13 +1633,13 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             devnull = open(os.devnull, 'w')
             retcode = subprocess.call(['make','check'],
                                    cwd=dir_path, stdout=devnull, stderr=devnull)
-            devnull.close()    
+            devnull.close()
             if retcode != 0:
                 logging.info("Error while executing make in %s" % dir_path)
                 return None
-                
 
-            # First create the stability check fortran driver executable if not 
+
+            # First create the stability check fortran driver executable if not
             # already present.
             if not os.path.isfile(pjoin(dir_path,'StabilityCheckDriver.f')):
                 # Use the presence of the file born_matrix.f to check if this output
@@ -1656,10 +1656,10 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                                                                  proc_prefix.read()}
                 checkerFile = open(pjoin(dir_path,'StabilityCheckDriver.f'),'w')
                 checkerFile.write(checkerToWrite)
-                checkerFile.close()                
+                checkerFile.close()
                 #cp(pjoin(self.mg_root,'Template','loop_material','Checks',\
                 #    checkerName),pjoin(dir_path,'StabilityCheckDriver.f'))
-        
+
             # Make sure to recompile the possibly modified files (time stamps can be
             # off).
             if os.path.isfile(pjoin(dir_path,'StabilityCheckDriver')):
@@ -1676,8 +1676,8 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                 self.fix_MadLoopParamCard(dir_path, mp=False,
                               loop_filter=False, DoubleCheckHelicityFilter=True)
 
-            StabChecker = subprocess.Popen([pjoin(dir_path,'StabilityCheckDriver')], 
-                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
+            StabChecker = subprocess.Popen([pjoin(dir_path,'StabilityCheckDriver')],
+                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                                                    cwd=dir_path, bufsize=0)
             start_index = len(DP_stability)
             if progress_bar!=None:
@@ -1696,7 +1696,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                 fsock = open(options['events'])
                 self.event_file = madspin.Event(fsock)
             while i<(start_index+nPoints):
-                # To be added to the returned statistics  
+                # To be added to the returned statistics
                 qp_dict={}
                 dp_dict={}
                 UPS = None
@@ -1748,7 +1748,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                             # Make sure all results make sense
                             if any([not res for res in qp_res]):
                                 return None
-                        
+
                             qp_accuracy = ((max(qp_res)-min(qp_res))/
                                                    abs(sum(qp_res)/len(qp_res)))
                             qp_dict['Accuracy']=qp_accuracy
@@ -1772,28 +1772,28 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                             logger.debug("Recovered from a system call interruption."+\
                                         "PSpoint #%i, Attempt #%i."%(i,retry+1))
                             # Sleep for half a second. Safety measure.
-                            time.sleep(0.5)                        
+                            time.sleep(0.5)
                         # We will retry this PS point
                         retry = retry+1
                         # Make sure the MadLoop process is properly killed
                         try:
                             StabChecker.kill()
-                        except Exception: 
+                        except Exception:
                             pass
                         StabChecker = subprocess.Popen(\
-                               [pjoin(dir_path,'StabilityCheckDriver')], 
-                               stdin=subprocess.PIPE, stdout=subprocess.PIPE, 
+                               [pjoin(dir_path,'StabilityCheckDriver')],
+                               stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                            stderr=subprocess.PIPE, cwd=dir_path, bufsize=0)
                         continue
                     else:
                         raise
-                
+
                 # Successfully processed a PS point so,
                 #  > reset retry
                 retry = 0
                 #  > Update the while loop counter variable
                 i=i+1
-            
+
                 # Update the returned statistics
                 DP_stability.append(dp_dict)
                 QP_stability.append(qp_dict)
@@ -1813,19 +1813,19 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                 StabChecker.stdin.write('y\n'.encode())
             else:
                 StabChecker.kill()
-        
+
             #return_dict = {'DP_stability':DP_stability,
             #           'QP_stability':QP_stability,
             #           'Unstable_PS_points':Unstable_PS_points,
             #           'Exceptional_PS_points':Exceptional_PS_points}
-        
+
             # Save the run for possible future use
             save_load_object.save_to_file(pjoin(dir_path,savefile%'_0'),\
                                           return_dict['Stability'][tool_name])
 
             if interrupted:
                 break
-        
+
         return_dict['Process'] =  matrix_element.get('processes')[0] if not \
                                                      reusing else matrix_element
         return return_dict
@@ -1839,12 +1839,12 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
         # Reset the stdin with EOF character without closing it.
         StabChecker.stdin.write('\x1a'.encode())
         StabChecker.stdin.write('1\n'.encode())
-        StabChecker.stdin.write(('%d\n'%mode).encode())   
+        StabChecker.stdin.write(('%d\n'%mode).encode())
         StabChecker.stdin.write(('%s\n'%PSpoint).encode())
-        StabChecker.stdin.write(('%.16E\n'%mu_r).encode()) 
+        StabChecker.stdin.write(('%.16E\n'%mu_r).encode())
         StabChecker.stdin.write(('%d\n'%hel).encode())
         StabChecker.stdin.write(('%d\n'%split_orders).encode())
-        
+
 
         try:
             #fsock = open('/tmp/log', 'w')
@@ -1864,7 +1864,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                     error = StabChecker.stderr.readline().decode(errors='ignore')
                     raise MadGraph5Error("The MadLoop stability checker crashed with return code = %d, and last output:\n\nstdout: %s\nstderr: %s\n"%\
                                                (ret_code, last_non_empty, error))
-                    
+
             res = ""
             while True:
                 output = StabChecker.stdout.readline().decode(errors='ignore')
@@ -1874,7 +1874,7 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
                     break
                 else:
                     res += output
-                ret_code = StabChecker.poll()               
+                ret_code = StabChecker.poll()
                 if not ret_code is None:
                     output = StabChecker.stdout.readline().decode(errors='ignore')
                     if output != '':
@@ -1886,33 +1886,33 @@ class LoopMatrixElementTimer(LoopMatrixElementEvaluator):
             return cls.parse_check_output(res,format='tuple')[0][0]
         except IOError as e:
             logging.warning("Error while running MadLoop. Exception = %s"%str(e))
-            raise e 
+            raise e
 
-def evaluate_helicities(process, param_card = None, mg_root="", 
+def evaluate_helicities(process, param_card = None, mg_root="",
                                                           cmass_scheme = False):
     """ Perform a python evaluation of the matrix element independently for
-    all possible helicity configurations for a fixed number of points N and 
+    all possible helicity configurations for a fixed number of points N and
     returns the average for each in the format [[hel_config, eval],...].
-    This is used to determine what are the vanishing and dependent helicity 
+    This is used to determine what are the vanishing and dependent helicity
     configurations at generation time and accordingly setup the output.
     This is not yet implemented at LO."""
-    
+
     # Make sure this function is employed with a single process at LO
     assert isinstance(process,base_objects.Process)
     assert process.get('perturbation_couplings')==[]
-    
+
     N_eval=50
-    
+
     evaluator = MatrixElementEvaluator(process.get('model'), param_card,
                                             auth_skipping = False, reuse = True)
-    
+
     amplitude = diagram_generation.Amplitude(process)
     matrix_element = helas_objects.HelasMatrixElement(amplitude,gen_color=False)
-    
+
     cumulative_helEvals = []
     # Fill cumulative hel progressively with several evaluations of the ME.
     for i in range(N_eval):
-        p, w_rambo = evaluator.get_momenta(process) 
+        p, w_rambo = evaluator.get_momenta(process)
         helEvals = evaluator.evaluate_matrix_element(\
                 matrix_element, p = p, output = 'helEvals')['helEvals']
         if cumulative_helEvals==[]:
@@ -1920,16 +1920,16 @@ def evaluate_helicities(process, param_card = None, mg_root="",
         else:
             cumulative_helEvals = [[h[0],h[1]+helEvals[i][1]] for i, h in \
                                                  enumerate(cumulative_helEvals)]
-            
+
     # Now normalize with the total number of evaluations
     cumulative_helEvals = [[h[0],h[1]/N_eval] for h in cumulative_helEvals]
-    
+
     # As we are not in the context of a check command, so we clean the added
     # globals right away
     clean_added_globals(ADDED_GLOBAL)
-    
+
     return cumulative_helEvals
-    
+
 def run_multiprocs_no_crossings(function, multiprocess, stored_quantities,
                                 opt=None, options=None):
     """A wrapper function for running an iteration of a function over
@@ -1937,7 +1937,7 @@ def run_multiprocs_no_crossings(function, multiprocess, stored_quantities,
     (which makes a big difference for very large multiprocesses.
     stored_quantities is a dictionary for any quantities that we want
     to reuse between runs."""
-    
+
     model = multiprocess.get('model')
     isids = [leg.get('ids') for leg in multiprocess.get('legs') \
               if not leg.get('state')]
@@ -1947,7 +1947,7 @@ def run_multiprocs_no_crossings(function, multiprocess, stored_quantities,
     id_anti_id_dict = {}
     for id in set(tuple(sum(isids+fsids, []))):
         id_anti_id_dict[id] = model.get_particle(id).get_anti_pdg_code()
-        id_anti_id_dict[model.get_particle(id).get_anti_pdg_code()] = id        
+        id_anti_id_dict[model.get_particle(id).get_anti_pdg_code()] = id
     sorted_ids = []
     results = []
     for is_prod in itertools.product(*isids):
@@ -1975,7 +1975,7 @@ def run_multiprocs_no_crossings(function, multiprocess, stored_quantities,
                     result = function(process, stored_quantities, opt, options=options)
             else:
                 result = function(process, stored_quantities, options=options)
-                      
+
             if result:
                 results.append(result)
 
@@ -1996,7 +1996,7 @@ def check_already_checked(is_ids, fs_ids, sorted_ids, process, model,
                   is_ids]
     else:
         is_ids = [model.get_particle(id).get_anti_pdg_code() for id in \
-                  is_ids]        
+                  is_ids]
 
     ids = array.array('i', sorted(is_ids + list(fs_ids)) + \
                       [process.get('id')])
@@ -2029,17 +2029,17 @@ def generate_loop_matrix_element(process_definition, reuse, output_path=None,
         if any(len(l.get('ids'))>1 for l in process_definition.get('legs')):
             raise InvalidCmd("This check can only be performed on single "+
                              " processes. (i.e. without multiparticle labels).")
-    
+
         isids = [leg.get('ids')[0] for leg in process_definition.get('legs') \
                   if not leg.get('state')]
         fsids = [leg.get('ids')[0] for leg in process_definition.get('legs') \
                  if leg.get('state')]
-    
+
         # Now generate a process based on the ProcessDefinition given in argument.
         process = process_definition.get_process(isids,fsids)
     else:
         process = process_definition
-    
+
     if not output_path is None:
         root_path = output_path
     else:
@@ -2061,7 +2061,7 @@ def generate_loop_matrix_element(process_definition, reuse, output_path=None,
         logger.info("Reusing directory %s"%str(proc_dir))
         # If reusing, return process instead of matrix element
         return timing, process
-    
+
     logger.info("Generating p%s"%process_definition.nice_string()[1:])
 
     start=time.time()
@@ -2071,18 +2071,18 @@ def generate_loop_matrix_element(process_definition, reuse, output_path=None,
     except InvalidCmd:
         # An error about the sanity of the process can be thrown, in which case
         # we return nothing
-        return time.time()-start, None        
+        return time.time()-start, None
     if not amplitude.get('diagrams'):
         # Not matrix eleemnt for this process
         return time.time()-start, None
 
-    # Make sure to disable loop_optimized_output when considering loop induced 
+    # Make sure to disable loop_optimized_output when considering loop induced
     # processes
     loop_optimized_output = cmd.options['loop_optimized_output']
     timing['Diagrams_generation']=time.time()-start
     timing['n_loops']=len(amplitude.get('loop_diagrams'))
     start=time.time()
-    
+
     matrix_element = loop_helas_objects.LoopHelasMatrixElement(amplitude,
                         optimized_output = loop_optimized_output,gen_color=True)
     # Here, the alohaModel used for analytica computations and for the aloha
@@ -2090,7 +2090,7 @@ def generate_loop_matrix_element(process_definition, reuse, output_path=None,
     # But that is ok for the check functionality.
     matrix_element.compute_all_analytic_information()
     timing['HelasDiagrams_generation']=time.time()-start
-    
+
     if loop_optimized_output:
         timing['n_loop_groups']=len(matrix_element.get('loop_groups'))
         lwfs=[l for ldiag in matrix_element.get_loop_diagrams() for l in \
@@ -2132,10 +2132,10 @@ def check_profile(process_definition, param_card = None,cuttools="",tir={},
     else:
         MLoptions=MLOptions
 
-    timing2 = myProfiler.time_matrix_element(matrix_element, reusing, 
+    timing2 = myProfiler.time_matrix_element(matrix_element, reusing,
                             param_card, keep_folder=keep_folder,options=options,
-                            MLOptions = MLoptions) 
-    
+                            MLOptions = MLoptions)
+
     timing2['reduction_tool'] = MLoptions['MLReductionLib'][0]
 
     if timing2 == None:
@@ -2143,7 +2143,7 @@ def check_profile(process_definition, param_card = None,cuttools="",tir={},
 
     # The timing info is made of the merged two dictionaries
     timing = dict(list(timing1.items())+list(timing2.items()))
-    stability = myProfiler.check_matrix_element_stability(matrix_element,                                            
+    stability = myProfiler.check_matrix_element_stability(matrix_element,
                             options=options, infos_IN=timing,param_card=param_card,
                                                       keep_folder = keep_folder,
                                                       MLOptions = MLoptions)
@@ -2157,7 +2157,7 @@ def check_profile(process_definition, param_card = None,cuttools="",tir={},
 #===============================================================================
 # check_timing for loop processes
 #===============================================================================
-def check_stability(process_definition, param_card = None,cuttools="",tir={}, 
+def check_stability(process_definition, param_card = None,cuttools="",tir={},
                                options=None,nPoints=100, output_path=None,
                                cmd = FakeInterface(), MLOptions = {}):
     """For a single loop process, give a detailed summary of the generation and
@@ -2216,11 +2216,11 @@ def check_stability(process_definition, param_card = None,cuttools="",tir={},
             if "collier_dir" in tir:
                 MLoptions["MLReductionLib"].extend([7])
 
-    stability = myStabilityChecker.check_matrix_element_stability(matrix_element, 
-                        options=options,param_card=param_card, 
+    stability = myStabilityChecker.check_matrix_element_stability(matrix_element,
+                        options=options,param_card=param_card,
                                                         keep_folder=keep_folder,
                                                         MLOptions=MLoptions)
-    
+
     if stability == None:
         return None
     else:
@@ -2232,7 +2232,7 @@ def check_stability(process_definition, param_card = None,cuttools="",tir={},
 #===============================================================================
 def check_timing(process_definition, param_card= None, cuttools="",tir={},
                            output_path=None, options={}, cmd = FakeInterface(),
-                                                                MLOptions = {}):                 
+                                                                MLOptions = {}):
     """For a single loop process, give a detailed summary of the generation and
     execution timing."""
 
@@ -2264,14 +2264,14 @@ def check_timing(process_definition, param_card= None, cuttools="",tir={},
         if 'MLReductionLib' not in MLoptions or \
                                             len(MLoptions['MLReductionLib'])==0:
             MLoptions['MLReductionLib'] = [6]
-            
+
     timing2 = myTimer.time_matrix_element(matrix_element, reusing, param_card,
                                      keep_folder = keep_folder, options=options,
                                      MLOptions = MLoptions)
-    
+
     if timing2 == None:
         return None
-    else:    
+    else:
         # Return the merged two dictionaries
         res = dict(list(timing1.items())+list(timing2.items()))
         res['loop_optimized_output']=myTimer.loop_optimized_output
@@ -2299,10 +2299,10 @@ def check_processes(processes, param_card = None, quick = [],cuttools="",tir={},
             evaluator = MatrixElementEvaluator(model,
                auth_skipping = True, reuse = False, cmd = cmd)
         else:
-            evaluator = LoopMatrixElementEvaluator(cuttools_dir=cuttools,tir_dir=tir, 
+            evaluator = LoopMatrixElementEvaluator(cuttools_dir=cuttools,tir_dir=tir,
                             model=model, auth_skipping = True,
                             reuse = False, output_path=output_path, cmd = cmd)
-       
+
         results = run_multiprocs_no_crossings(check_process,
                                               multiprocess,
                                               evaluator,
@@ -2311,11 +2311,11 @@ def check_processes(processes, param_card = None, quick = [],cuttools="",tir={},
 
         if "used_lorentz" not in evaluator.stored_quantities:
             evaluator.stored_quantities["used_lorentz"] = []
-            
+
         if multiprocess.get('perturbation_couplings')!=[] and not reuse:
             # Clean temporary folders created for the running of the loop processes
             clean_up(output_path)
-            
+
         return results, evaluator.stored_quantities["used_lorentz"]
 
     elif isinstance(processes, base_objects.Process):
@@ -2347,8 +2347,8 @@ def check_processes(processes, param_card = None, quick = [],cuttools="",tir={},
 
     # Check process by process
     for process in processes:
-        
-        # Check if we already checked process        
+
+        # Check if we already checked process
         if check_already_checked([l.get('id') for l in process.get('legs') if \
                                   not l.get('state')],
                                  [l.get('id') for l in process.get('legs') if \
@@ -2362,11 +2362,11 @@ def check_processes(processes, param_card = None, quick = [],cuttools="",tir={},
 
     if "used_lorentz" not in evaluator.stored_quantities:
         evaluator.stored_quantities["used_lorentz"] = []
-    
+
     if processes[0].get('perturbation_couplings')!=[] and not reuse:
         # Clean temporary folders created for the running of the loop processes
-        clean_up(output_path)    
-    
+        clean_up(output_path)
+
     return comparison_results, evaluator.stored_quantities["used_lorentz"]
 
 def check_process(process, evaluator, quick, options):
@@ -2397,7 +2397,7 @@ def check_process(process, evaluator, quick, options):
     # Now, generate all possible permutations of the legs
     number_checked=0
     for legs in itertools.permutations(process.get('legs')):
-        
+
         order = [l.get('number') for l in legs]
         if quick:
             found_leg = True
@@ -2413,7 +2413,7 @@ def check_process(process, evaluator, quick, options):
 
             if found_leg:
                 continue
-        
+
         # Further limit the total number of permutations checked to 3 for
         # loop processes.
         if quick and process.get('perturbation_couplings') and number_checked >3:
@@ -2424,7 +2424,7 @@ def check_process(process, evaluator, quick, options):
         if order != list(range(1,len(legs) + 1)):
             logger.info("Testing permutation: %s" % \
                         order)
-        
+
         newproc = copy.copy(process)
         newproc.set('legs',legs)
 
@@ -2443,7 +2443,7 @@ def check_process(process, evaluator, quick, options):
             result = amplitude.get('diagrams')
         # Make sure to re-initialize the cutting method to the original one.
         loop_base_objects.cutting_method = 'optimal'
-        
+
         if not result:
             # This process has no diagrams; go to next process
             logging.info("No diagrams for %s" % \
@@ -2475,7 +2475,7 @@ def check_process(process, evaluator, quick, options):
 
         process_matrix_elements.append(matrix_element)
 
-        res = evaluator.evaluate_matrix_element(matrix_element, p = p, 
+        res = evaluator.evaluate_matrix_element(matrix_element, p = p,
                                                                 options=options)
         if res == None:
             break
@@ -2489,7 +2489,7 @@ def check_process(process, evaluator, quick, options):
                2 * abs(max(values) - min(values)) / \
                (abs(max(values)) + abs(min(values))) > 0.01:
             break
-    
+
     # Check if process was interrupted
     if not values:
         return None
@@ -2505,7 +2505,7 @@ def check_process(process, evaluator, quick, options):
     if process.get('perturbation_couplings'):
         passed = diff < 1.e-5
     else:
-        passed = diff < 1.e-8        
+        passed = diff < 1.e-8
 
     return {"process": process,
             "momenta": p,
@@ -2516,10 +2516,10 @@ def check_process(process, evaluator, quick, options):
 def clean_up(mg_root):
     """Clean-up the possible left-over outputs from 'evaluate_matrix element' of
     the LoopMatrixEvaluator (when its argument proliferate is set to true). """
-    
+
     if mg_root is None:
         pass
-    
+
     directories = misc.glob('%s*' % temp_dir_prefix, mg_root)
     if directories != []:
         logger.debug("Cleaning temporary %s* check runs."%temp_dir_prefix)
@@ -2529,9 +2529,9 @@ def clean_up(mg_root):
             shutil.rmtree(dir)
 
 def format_output(output,format):
-    """ Return a string for 'output' with the specified format. If output is 
+    """ Return a string for 'output' with the specified format. If output is
     None, it returns 'NA'."""
-    
+
     if output!=None:
         return format%output
     else:
@@ -2539,7 +2539,7 @@ def format_output(output,format):
 
 def output_profile(myprocdef, stability, timing, output_path, reusing=False):
     """Present the results from a timing and stability consecutive check"""
-    
+
 
     opt = timing['loop_optimized_output']
 
@@ -2553,7 +2553,7 @@ def output_profile(myprocdef, stability, timing, output_path, reusing=False):
 
     mode = 'optimized' if opt else 'default'
     logFilePath =  pjoin(output_path, 'profile_%s_%s.log'\
-                                    %(mode,stability['Process'].shell_string()))        
+                                    %(mode,stability['Process'].shell_string()))
     logFile = open(logFilePath, 'w')
     logFile.write(text)
     logFile.close()
@@ -2565,16 +2565,16 @@ def output_stability(stability, output_path, reusing=False):
     """Present the result of a stability check in a nice format.
     The full info is printed out in 'Stability_result_<proc_shell_string>.dat'
     under the MadGraph5_aMC@NLO root folder (output_path)"""
-    
+
     def accuracy(eval_list):
         """ Compute the accuracy from different evaluations."""
         return (2.0*(max(eval_list)-min(eval_list))/
                                              abs(max(eval_list)+min(eval_list)))
-    
+
     def best_estimate(eval_list):
         """ Returns the best estimate from different evaluations."""
         return (max(eval_list)+min(eval_list))/2.0
-    
+
     def loop_direction_test_power(eval_list):
         """ Computes the loop direction test power P is computed as follow:
           P = accuracy(loop_dir_test) / accuracy(all_test)
@@ -2592,19 +2592,19 @@ def output_stability(stability, output_path, reusing=False):
                                                          ['CTModeB','Accuracy']]
             if accuracy(other_evals)!=0.0 and accuracy(loop_dir_evals)!=0.0:
                 powers.append(accuracy(loop_dir_evals)/accuracy(other_evals))
-        
+
         n_fail=0
         for p in powers:
             if (math.log(p)/math.log(10))<-3:
                 n_fail+=1
-                
+
         if len(powers)==0:
             return (None,None,None)
 
         return (math.log(median(powers))/math.log(10),
                 math.log(min(powers))/math.log(10),
                 n_fail/len(powers))
-        
+
     def test_consistency(dp_eval_list, qp_eval_list):
         """ Computes the consistency test C from the DP and QP evaluations.
           C = accuracy(all_DP_test) / abs(best_QP_eval-best_DP_eval)
@@ -2627,7 +2627,7 @@ def output_stability(stability, output_path, reusing=False):
         return (math.log(median(consistencies))/math.log(10),
                 math.log(min(consistencies))/math.log(10),
                 math.log(max(consistencies))/math.log(10))
-    
+
     def median(orig_list):
         """ Find the median of a sorted float list. """
         tmp=copy.copy(orig_list)
@@ -2638,7 +2638,7 @@ def output_stability(stability, output_path, reusing=False):
             return tmp[int((len(tmp)-1)/2)]
 
     # Define shortcut
-    f = format_output   
+    f = format_output
     opt = stability['loop_optimized_output']
 
     mode = 'optimized' if opt else 'default'
@@ -2670,7 +2670,7 @@ def output_stability(stability, output_path, reusing=False):
         len_PS=["%i"%len(evals)+\
              ''.join([' ']*(10-len("%i"%len(evals)))) for evals in DP_stability]
         len_PS_str="     |     ".join(len_PS)
-        res_str_i += "|= Number of PS points considered   %s\n"%len_PS_str        
+        res_str_i += "|= Number of PS points considered   %s\n"%len_PS_str
         res_str_i += "|= Median accuracy...............   %s\n"%med_dp_stab_str
         res_str_i += "|= Max accuracy..................   %s\n"%min_dp_stab_str
         res_str_i += "|= Min accuracy..................   %s\n"%max_dp_stab_str
@@ -2726,7 +2726,7 @@ The loop direction test power P is computed as follow:
         if len(UPS)>0:
             res_str_i = "\nDetails of the %d/%d UPS encountered by %s\n"\
                                                         %(len(UPS),nPS,toolname)
-            prefix = 'DP' if toolname=='CutTools' else '' 
+            prefix = 'DP' if toolname=='CutTools' else ''
             res_str_i += "|= %s Median inaccuracy.......... %s\n"\
                                     %(prefix,f(median(UPS_stability_DP),'%.2e'))
             res_str_i += "|= %s Max accuracy............... %s\n"\
@@ -2756,7 +2756,7 @@ The loop direction test power P is computed as follow:
                                      [stab['QP_stability'][U[0]] for U in UPS])
                 res_str_i += "|= DP vs QP stab test consistency %s,%s,%s\n"\
                                      %(f(pmed,'%.1f'),f(pmin,'%.1f'),f(pmax,'%.1f'))
-            if len(EPS)==0:    
+            if len(EPS)==0:
                 res_str_i += "= Number of Exceptional PS points : 0\n"
         if len(EPS)>0:
             res_str_i = "\nDetails of the %d/%d EPS encountered by %s\n"\
@@ -2822,7 +2822,7 @@ The loop direction test power P is computed as follow:
             accuracies=[10**(-17+(i/5.0)) for i in range(5*(17+min_digit_acc)+1)]
         else:
             logFile.writelines('%.4e  %.4e\n'%(accuracies[i], 0.0) for i in \
-                                                         range(len(accuracies)))      
+                                                         range(len(accuracies)))
             logFile.write('</plot_data>\n')
             res_str_i += '\nPerfect accuracy over all the trial PS points. No plot'+\
                                                               ' is output then.'
@@ -2838,7 +2838,7 @@ The loop direction test power P is computed as follow:
             data_plot.append(float(len([d for d in DP_stability if d>acc]))\
                                                       /float(len(DP_stability)))
         data_plot_dict[toolname]=data_plot
-        
+
         logFile.writelines('%.4e  %.4e\n'%(accuracies[i], data_plot[i]) for i in \
                                                          range(len(accuracies)))
         logFile.write('</plot_data>\n')
@@ -2853,7 +2853,7 @@ The loop direction test power P is computed as follow:
     logFile.close()
     res_str += "\n= Stability details of the run are output to the file"+\
                           " stability_%s_%s.log\n"%(mode,process.shell_string())
-                          
+
     # Bypass the plotting if the madgraph logger has a FileHandler (like it is
     # done in the check command acceptance test) because in this case it makes
     # no sense to plot anything.
@@ -2884,7 +2884,7 @@ The loop direction test power P is computed as follow:
                                                         'close the plot window')
             plt.show()
         else:
-            fig_output_file = str(pjoin(output_path, 
+            fig_output_file = str(pjoin(output_path,
                      'stability_plot_%s_%s.png'%(mode,process.shell_string())))
             logger.info('Stability plot output to file %s. '%fig_output_file)
             plt.savefig(fig_output_file)
@@ -2897,16 +2897,16 @@ The loop direction test power P is computed as follow:
             res_str += "\n= Could not produce the stability plot because of "+\
                                                 "the following error: %s"%str(e)
         return res_str
-  
+
 def output_timings(process, timings):
     """Present the result of a timings check in a nice format """
-    
+
     # Define shortcut
     f = format_output
     loop_optimized_output = timings['loop_optimized_output']
     reduction_tool        = bannermod.MadLoopParam._ID_reduction_tool_map[
                                                       timings['reduction_tool']]
-    
+
     res_str = "%s \n"%process.nice_string()
     try:
         gen_total = timings['HELAS_MODEL_compilation']+\
@@ -2949,7 +2949,7 @@ def output_timings(process, timings):
         coef_time=timings['run_polarized_coefs']*1000.0
         loop_time=(timings['run_polarized_total']-\
                                         timings['run_polarized_coefs'])*1000.0
-        total=coef_time+loop_time        
+        total=coef_time+loop_time
         res_str += "|= Coefs. computation time... %.3gms (%d%%)\n"\
                                   %(coef_time,int(round(100.0*coef_time/total)))
         res_str += "|= Loop evaluation time...... %.3gms (%d%%)\n"\
@@ -2969,19 +2969,19 @@ def output_timings(process, timings):
     res_str += "|= Loading time (Color data). ~%.3gms\n"\
                                                %(timings['Booting_time']*1000.0)
     res_str += "|= Maximum RAM usage (rss)... %s\n"\
-                                  %f(float(timings['ram_usage']/1000.0),'%.3gMb')                                            
+                                  %f(float(timings['ram_usage']/1000.0),'%.3gMb')
     res_str += "\n= Output disk size =====================\n"
     res_str += "|= Source directory sources.. %s\n"%f(timings['du_source'],'%sb')
-    res_str += "|= Process sources........... %s\n"%f(timings['du_process'],'%sb')    
+    res_str += "|= Process sources........... %s\n"%f(timings['du_process'],'%sb')
     res_str += "|= Color and helicity data... %s\n"%f(timings['du_color'],'%sb')
     res_str += "|= Executable size........... %s\n"%f(timings['du_exe'],'%sb')
-    
+
     return res_str
 
 def output_comparisons(comparison_results):
     """Present the results of a comparison in a nice list format
        mode short: return the number of fail process
-    """    
+    """
     proc_col_size = 17
     pert_coupl = comparison_results[0]['process']['perturbation_couplings']
     if pert_coupl:
@@ -3014,10 +3014,10 @@ def output_comparisons(comparison_results):
     for result in comparison_results:
         proc = result['process'].base_string()
         values = result['values']
-        
+
         if len(values) <= 1:
             res_str += '\n' + fixed_string_length(proc, proc_col_size) + \
-                   "    * No permutations, process not checked *" 
+                   "    * No permutations, process not checked *"
             no_check_proc += 1
             no_check_proc_list.append(result['process'].nice_string())
             continue
@@ -3049,22 +3049,22 @@ def output_comparisons(comparison_results):
     return res_str
 
 def fixed_string_length(mystr, length):
-    """Helper function to fix the length of a string by cutting it 
+    """Helper function to fix the length of a string by cutting it
     or adding extra space."""
-    
+
     if len(mystr) > length:
         return mystr[0:length]
     else:
         return mystr + " " * (length - len(mystr))
-    
+
 
 #===============================================================================
 # check_gauge
 #===============================================================================
-def check_gauge(processes, param_card = None,cuttools="", tir={}, reuse = False, 
+def check_gauge(processes, param_card = None,cuttools="", tir={}, reuse = False,
                          options=None, output_path=None, cmd = FakeInterface()):
     """Check gauge invariance of the processes by using the BRS check.
-    For one of the massless external bosons (e.g. gluon or photon), 
+    For one of the massless external bosons (e.g. gluon or photon),
     replace the polarization vector (epsilon_mu) with its momentum (p_mu)
     """
     cmass_scheme = cmd.options['complex_mass_scheme']
@@ -3073,7 +3073,7 @@ def check_gauge(processes, param_card = None,cuttools="", tir={}, reuse = False,
         # Extract IS and FS ids
         multiprocess = processes
 
-        model = multiprocess.get('model')        
+        model = multiprocess.get('model')
         # Initialize matrix element evaluation
         if multiprocess.get('perturbation_couplings')==[]:
             evaluator = MatrixElementEvaluator(model, param_card,cmd= cmd,
@@ -3095,11 +3095,11 @@ def check_gauge(processes, param_card = None,cuttools="", tir={}, reuse = False,
                                            evaluator,
                                            options=options
                                            )
-        
+
         if multiprocess.get('perturbation_couplings')!=[] and not reuse:
             # Clean temporary folders created for the running of the loop processes
             clean_up(output_path)
-        
+
         return results
 
     elif isinstance(processes, base_objects.Process):
@@ -3116,7 +3116,7 @@ def check_gauge(processes, param_card = None,cuttools="", tir={}, reuse = False,
     # Initialize matrix element evaluation
     if processes[0].get('perturbation_couplings')==[]:
         evaluator = MatrixElementEvaluator(model, param_card,
-                                       auth_skipping = True, reuse = False, 
+                                       auth_skipping = True, reuse = False,
                                        cmd = cmd)
     else:
         evaluator = LoopMatrixElementEvaluator(cuttools_dir=cuttools,tir_dir=tir,
@@ -3135,7 +3135,7 @@ def check_gauge(processes, param_card = None,cuttools="", tir={}, reuse = False,
         #                          l.get('state')],
         #                         sorted_ids, process, model):
         #    continue
-        
+
         # Get process result
         result = check_gauge_process(process, evaluator,options=options)
         if result:
@@ -3144,7 +3144,7 @@ def check_gauge(processes, param_card = None,cuttools="", tir={}, reuse = False,
     if processes[0].get('perturbation_couplings')!=[] and not reuse:
         # Clean temporary folders created for the running of the loop processes
         clean_up(output_path)
-            
+
     return comparison_results
 
 
@@ -3183,7 +3183,7 @@ def check_gauge_process(process, evaluator, options=None):
     except InvalidCmd:
         logging.info("No diagrams for %s" % \
                          process.nice_string().replace('Process', 'process'))
-        return None    
+        return None
     if not amplitude.get('diagrams'):
         # This process has no diagrams; go to next process
         logging.info("No diagrams for %s" % \
@@ -3210,10 +3210,10 @@ def check_gauge_process(process, evaluator, options=None):
     if not isinstance(amplitude,loop_diagram_generation.LoopAmplitude):
         matrix_element = helas_objects.HelasMatrixElement(amplitude,
                                                       gen_color = False)
-          
+
     mvalue = evaluator.evaluate_matrix_element(matrix_element, gauge_check = False,
                                                output='jamp', options=options)
-    
+
     if mvalue and mvalue['m2']:
         return {'process':process,'value':mvalue,'brs':brsvalue}
 
@@ -3221,15 +3221,15 @@ def output_gauge(comparison_results, output='text'):
     """Present the results of a comparison in a nice list format"""
 
     proc_col_size = 17
-    
+
     pert_coupl = comparison_results[0]['process']['perturbation_couplings']
-    
+
     # Of course, be more tolerant for loop processes
     if pert_coupl:
         threshold=1e-5
     else:
         threshold=1e-10
-        
+
     if pert_coupl:
         process_header = "Process [virt="+" ".join(pert_coupl)+"]"
     else:
@@ -3268,7 +3268,7 @@ def output_gauge(comparison_results, output='text'):
                     fixed_string_length("%1.10e" % mvalue['m2'], col_size)+ \
                     fixed_string_length("%1.10e" % brsvalue['m2'], col_size)+ \
                     fixed_string_length("%1.10e" % ratio, col_size)
-         
+
         if ratio > threshold:
             fail_proc += 1
             proc_succeed = False
@@ -3291,18 +3291,18 @@ def output_gauge(comparison_results, output='text'):
                 for j in range(len(mvalue['jamp'])):
                     #values for the different lorentz boost
                     m_sum += abs(mvalue['jamp'][j][k])**2
-                    brs_sum += abs(brsvalue['jamp'][j][k])**2                                            
-                        
-                # Compare the different helicity  
+                    brs_sum += abs(brsvalue['jamp'][j][k])**2
+
+                # Compare the different helicity
                 if not m_sum:
                     continue
                 ratio = abs(brs_sum) / abs(m_sum)
-    
+
                 tmp_str = '\n' + fixed_string_length('   JAMP %s'%k , proc_col_size) + \
                        fixed_string_length("%1.10e" % m_sum, col_size) + \
                        fixed_string_length("%1.10e" % brs_sum, col_size) + \
-                       fixed_string_length("%1.10e" % ratio, col_size)        
-                       
+                       fixed_string_length("%1.10e" % ratio, col_size)
+
                 if ratio > 1e-15:
                     if not len(failed_proc_list) or failed_proc_list[-1] != proc:
                         fail_proc += 1
@@ -3329,7 +3329,7 @@ def output_gauge(comparison_results, output='text'):
 #===============================================================================
 def check_lorentz(processes, param_card = None,cuttools="", tir={}, options=None, \
                  reuse = False, output_path=None, cmd = FakeInterface()):
-    """ Check if the square matrix element (sum over helicity) is lorentz 
+    """ Check if the square matrix element (sum over helicity) is lorentz
         invariant by boosting the momenta with different value."""
 
     cmass_scheme = cmd.options['complex_mass_scheme']
@@ -3363,9 +3363,9 @@ def check_lorentz(processes, param_card = None,cuttools="", tir={}, options=None
         if multiprocess.get('perturbation_couplings')!=[] and not reuse:
             # Clean temporary folders created for the running of the loop processes
             clean_up(output_path)
-        
+
         return results
-        
+
     elif isinstance(processes, base_objects.Process):
         processes = base_objects.ProcessList([processes])
     elif isinstance(processes, base_objects.ProcessList):
@@ -3380,7 +3380,7 @@ def check_lorentz(processes, param_card = None,cuttools="", tir={}, options=None
     # Initialize matrix element evaluation
     if processes[0].get('perturbation_couplings')==[]:
         evaluator = MatrixElementEvaluator(model, param_card,
-                                       auth_skipping = False, reuse = True, 
+                                       auth_skipping = False, reuse = True,
                                        cmd=cmd)
     else:
         evaluator = LoopMatrixElementEvaluator(cuttools_dir=cuttools, tir_dir=tir,
@@ -3399,7 +3399,7 @@ def check_lorentz(processes, param_card = None,cuttools="", tir={}, options=None
         #                          l.get('state')],
         #                         sorted_ids, process, model):
         #    continue
-        
+
         # Get process result
         result = check_lorentz_process(process, evaluator,options=options)
         if result:
@@ -3436,7 +3436,7 @@ def check_lorentz_process(process, evaluator,options=None):
         logging.info("No diagrams for %s" % \
                          process.nice_string().replace('Process', 'process'))
         return None
-    
+
     if not amplitude.get('diagrams'):
         # This process has no diagrams; go to next process
         logging.info("No diagrams for %s" % \
@@ -3498,7 +3498,7 @@ def check_lorentz_process(process, evaluator,options=None):
             results.append(('Y-axis boost',
                 evaluator.evaluate_matrix_element(matrix_element,options=options,
                 p=boost_p, PS_name='yBoost', output='jamp',MLOptions = MLOptions)))
-        # We only consider the rotations around the z axis so to have the 
+        # We only consider the rotations around the z axis so to have the
         # improve_ps fortran routine work.
         rot_p = [[pm[0],-pm[2],pm[1],pm[3]] for pm in p]
         results.append(('Z-axis pi/2 rotation',
@@ -3510,24 +3510,24 @@ def check_lorentz_process(process, evaluator,options=None):
         results.append(('Z-axis pi/4 rotation',
             evaluator.evaluate_matrix_element(matrix_element,options=options,
             p=rot_p, PS_name='Rotation2', output='jamp',MLOptions = MLOptions)))
-            
-        
+
+
     return {'process': process, 'results': results}
 
 #===============================================================================
 # check_gauge
 #===============================================================================
-def check_unitary_feynman(processes_unit, processes_feynm, param_card=None, 
+def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
                                options=None, tir={}, output_path=None,
                                cuttools="", reuse=False, cmd = FakeInterface()):
     """Check gauge invariance of the processes by flipping
        the gauge of the model
     """
-    
+
     mg_root = cmd._mgme_dir
-    
+
     cmass_scheme = cmd.options['complex_mass_scheme']
-    
+
     if isinstance(processes_unit, base_objects.ProcessDefinition):
         # Generate a list of unique processes
         # Extract IS and FS ids
@@ -3546,7 +3546,7 @@ def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
                   " specifies squared order constraints.")
         else:
             cmd.options['loop_optimized_output'] = False
-            
+
         aloha.unitary_gauge = True
         if processes_unit.get('perturbation_couplings')==[]:
             evaluator = MatrixElementEvaluator(model, param_card,
@@ -3555,7 +3555,7 @@ def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
             evaluator = LoopMatrixElementEvaluator(cuttools_dir=cuttools,tir_dir=tir,
                                            cmd=cmd, model=model,
                                            param_card=param_card,
-                                           auth_skipping = False, 
+                                           auth_skipping = False,
                                            output_path=output_path,
                                            reuse = False)
         if not cmass_scheme and multiprocess_unit.get('perturbation_couplings')==[]:
@@ -3568,7 +3568,7 @@ def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
                                            multiprocess_unit,
                                            evaluator,
                                            options=options)
-        
+
         clean_added_globals(ADDED_GLOBAL)
        # Clear up previous run if checking loop output
         if processes_unit.get('perturbation_couplings')!=[]:
@@ -3577,7 +3577,7 @@ def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
         momentum = {}
         for data in output_u:
             momentum[data['process']] = data['p']
-        
+
         multiprocess_feynm = processes_feynm
         model = multiprocess_feynm.get('model')
 
@@ -3593,7 +3593,7 @@ def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
             evaluator = LoopMatrixElementEvaluator(cuttools_dir=cuttools,tir_dir=tir,
                                            cmd= cmd, model=model,
                                            param_card=param_card,
-                                           auth_skipping = False, 
+                                           auth_skipping = False,
                                            output_path=output_path,
                                            reuse = False)
 
@@ -3605,16 +3605,16 @@ def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
 
         output_f = run_multiprocs_no_crossings(get_value, multiprocess_feynm,
                                                             evaluator, momentum,
-                                                            options=options)  
-        output = [processes_unit]        
+                                                            options=options)
+        output = [processes_unit]
         for data in output_f:
             local_dico = {}
             local_dico['process'] = data['process']
             local_dico['value_feynm'] = data['value']
-            local_dico['value_unit'] = [d['value'] for d in output_u 
+            local_dico['value_unit'] = [d['value'] for d in output_u
                                       if d['process'] == data['process']][0]
             output.append(local_dico)
-        
+
         if processes_feynm.get('perturbation_couplings')!=[] and not reuse:
             # Clean temporary folders created for the running of the loop processes
             clean_up(output_path)
@@ -3633,7 +3633,7 @@ def check_unitary_feynman(processes_unit, processes_feynm, param_card=None,
 #===============================================================================
 # check_cms
 #===============================================================================
-def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={}, 
+def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
          cmd = FakeInterface(), output_path=None, MLOptions = {}, options={}):
     """Check complex mass scheme consistency in the offshell region of s-channels
     detected for this process, by varying the expansion paramer consistently
@@ -3707,7 +3707,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
           ' respectively by default).')
 
     # Reload the model including the decay.py to have efficient MadWidth if
-    # possible (this model will be directly given to MadWidth. Notice that 
+    # possible (this model will be directly given to MadWidth. Notice that
     # this will not be needed for the CMS run because MadWidth is not supposed
     # to be used there (the widths should be recycled from those of the NWA run).
     if options['recompute_width'] in ['first_time', 'always'] and has_FRdecay:
@@ -3722,7 +3722,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
     # Set the seed if chosen by user
     if options['seed'] > 0:
         random.seed(options['seed'])
-    
+
     # Add useful entries
     run_options['param_card'] = param_card
     if isinstance(cmd, FakeInterface):
@@ -3733,7 +3733,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
         run_options['output_path'] = output_path
     else:
         run_options['output_path'] = cmd._mgme_dir
-    
+
     # Add the information regarding FR decay for optimal log information
     run_options['has_FRdecay']     = has_FRdecay
 
@@ -3784,7 +3784,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
         evaluator = LoopMatrixElementTimer(cuttools_dir=cuttools,tir_dir=tir,
                                            cmd=cmd, model=model,
                                            param_card=param_card,
-                                           auth_skipping = False, 
+                                           auth_skipping = False,
                                            output_path=output_path,
                                            reuse = False)
 
@@ -3807,7 +3807,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
     cmd.do_set('complex_mass_scheme True --allow_qed', log=False)
     #cmd.do_import('model loop_qcd_qed_sm__CMS__-CMS')
 
-    multiprocess_cms = cmd.extract_process(process_line)    
+    multiprocess_cms = cmd.extract_process(process_line)
     model = multiprocess_cms.get('model')
     # Apply veto
     if len(veto_orders)>0:
@@ -3815,7 +3815,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
             multiprocess_cms.get('orders')[order]==0
         multiprocess_cms.set('perturbation_couplings', [order for order in
         multiprocess_cms['perturbation_couplings'] if order not in veto_orders])
-        
+
     if multiprocess_cms.get('perturbation_couplings')==[]:
         evaluator = MatrixElementEvaluator(model, param_card,
                                     cmd=cmd,auth_skipping = False, reuse = True)
@@ -3823,7 +3823,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
         evaluator = LoopMatrixElementTimer(cuttools_dir=cuttools,tir_dir=tir,
                                            cmd=cmd, model=model,
                                            param_card=param_card,
-                                           auth_skipping = False, 
+                                           auth_skipping = False,
                                            output_path=output_path,
                                            reuse = False)
 
@@ -3839,7 +3839,7 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
         clean_up(output_path)
 
     # Now reformat a bit the output by putting the CMS and NWA results together
-    # as values of a dictionary with the process name as key. 
+    # as values of a dictionary with the process name as key.
     # Also a 'processes_order' to list all processes in their order of appearance
     result = {'ordered_processes':[],'lambdaCMS':options['lambdaCMS']}
     # Recall what perturbation orders were used
@@ -3851,11 +3851,11 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
                 'CMS':output_cms[i][1]['resonances_result'],
                 'born_order':proc_res[1]['born_order'],
                 'loop_order':proc_res[1]['loop_order']}
-    
+
     # As an optimization we propagate the widths as they could be reused when
     # using several tweaks
     options['cached_widths'] = run_options['cached_widths']
-    
+
     # Add widths information to the result
     result['recompute_width'] = options['recompute_width']
     result['has_FRdecay']     = has_FRdecay
@@ -3867,38 +3867,38 @@ def check_complex_mass_scheme(process_line, param_card=None, cuttools="",tir={},
             continue
         result['widths_computed'].append((model.get_particle(pdg).get_name(),
                                                                          width))
-        
+
     # Make sure to clear the python ME definitions generated in LO runs
     clean_added_globals(ADDED_GLOBAL)
-    
+
     return result
 
 
 # Check CMS for a given process
-def check_complex_mass_scheme_process(process, evaluator, opt = [], 
+def check_complex_mass_scheme_process(process, evaluator, opt = [],
                                                                   options=None):
     """Check CMS for the process in argument. The options 'opt' is quite important.
     When opt is a list, it means that we are doing NWA and we are filling the
-    list with the following tuple 
+    list with the following tuple
                        ('proc_name',({'ParticlePDG':ParticlePDG,
-                                      'FinalStateMothersNumbers':set([]), 
+                                      'FinalStateMothersNumbers':set([]),
                                       'PS_point_used':[]},...))
     When opt is a dictionary, we are in the CMS mode and it will be reused then.
     """
 
-    # a useful logical to check if we are in LO (python on the flight) or 
+    # a useful logical to check if we are in LO (python on the flight) or
     # NLO (output and compilation) mode
     NLO = process.get('perturbation_couplings') != []
-    
+
     def glue_momenta(production, decay):
-        """ Merge together the kinematics for the production of particle 
-        positioned last in the 'production' array with the 1>N 'decay' kinematic' 
+        """ Merge together the kinematics for the production of particle
+        positioned last in the 'production' array with the 1>N 'decay' kinematic'
         provided where the decay particle is first."""
-        
+
         from MadSpin.decay import momentum
-        
+
         full = production[:-1]
-        
+
         # Consistency check:
         # target  =  production[decay_number-1]
         # boosted = momentum(decay[0][0],decay[0][1],decay[0][2],decay[0][3])
@@ -3906,18 +3906,18 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
         for p in decay[1:]:
             bp = momentum(*p).boost(momentum(*production[-1]))
             full.append([bp.E,bp.px,bp.py,bp.pz])
-        
+
         return full
-    
+
     def find_resonances(diagrams):
         """ Find all the resonances in the matrix element in argument """
-        
+
         model = process['model']
         resonances_found = []
 
         for ll, diag in enumerate(diagrams):
             for amp in diag.get('amplitudes'):
-                # 0 specifies the PDG given to the fake s-channels from 
+                # 0 specifies the PDG given to the fake s-channels from
                 # vertices with more than four legs
                 s_channels, t_channels = amp.\
                  get_s_and_t_channels(process.get_ninitial(), model, 0)
@@ -3940,7 +3940,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                             except KeyError:
                                 raise Exception('The following diagram '+\
                                               'is malformed:'+diag.nice_string())
-                                               
+
                     replacement_dict[s_channel.get('legs')[-1].get('number')] = \
                                                new_resonance['FSMothersNumbers']
                     new_resonance['FSMothersNumbers'] = set(
@@ -3966,7 +3966,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             # Discard massless s-channels
             if mass==0.0:
                 continue
-            
+
             width_string = evaluator.full_model.get_particle(
                                            resonance['ParticlePDG']).get('width')
             width  = evaluator.full_model.get('parameter_dict')[width_string].real
@@ -3978,12 +3978,12 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             final_state_energy = sum(
                 evaluator.full_model.get('parameter_dict')[
                 evaluator.full_model.get_particle(l.get('id')).get('mass')].real
-                for l in process.get('legs') if l.get('number') in 
+                for l in process.get('legs') if l.get('number') in
                                                   resonance['FSMothersNumbers'])
-            
+
             # Choose the offshellness
             special_mass = (1.0 + options['offshellness'])*mass
-            
+
             # Discard impossible kinematics
             if special_mass<final_state_energy:
                 raise InvalidCmd('The offshellness specified (%s) is such'\
@@ -3992,29 +3992,29 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                            get_particle(resonance['ParticlePDG']).get_name(),
                                       str(list(resonance['FSMothersNumbers']))))
                 continue
-            
+
             # Add it to the list of accepted resonances
             kept_resonances.append(resonance)
-            
+
         for resonance in kept_resonances:
             # Chose the PS point for the resonance
             set_PSpoint(resonance, force_other_res_offshell=kept_resonances)
 
         return tuple(kept_resonances)
 
-    def set_PSpoint(resonance, force_other_res_offshell=[], 
+    def set_PSpoint(resonance, force_other_res_offshell=[],
                                 allow_energy_increase=1.5, isolation_cuts=True):
         """ Starting from the specified resonance, construct a phase space point
         for it and possibly also enforce other resonances to be onshell. Possibly
         allow to progressively increase enregy by steps of the integer specified
         (negative float to forbid it) and possible enforce default isolation cuts
         as well."""
-        
+
         def invmass(momenta):
             """ Computes the invariant mass of a list of momenta."""
             ptot = [sum(p[i] for p in momenta) for i in range(4)]
             return math.sqrt(ptot[0]**2-ptot[1]**2-ptot[2]**2-ptot[3]**2)
-        
+
         model = evaluator.full_model
         def getmass(pdg):
             """ Returns the mass of a particle given the current model and its
@@ -4029,12 +4029,12 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
         if options['offshellness'] > 0.0:
             offshellness              = options['offshellness']
         else:
-            # We must undershoot the offshellness since one needs more 
+            # We must undershoot the offshellness since one needs more
             # energy than the target mass to have a valid PS point. So we
             # start with an offshellness 4 times larger, and progressively reduce
             # it later
             offshellness = (0.25*(options['offshellness']+1.0))-1.0
-        
+
         # When offshellness is negative, it is progressively decreased every
         # nstep_for_energy_increase attempts (not increased!), so it is more
         # dangerous, and we therefore want the steps to be smaller
@@ -4043,10 +4043,10 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
         else:
             energy_increase = allow_energy_increase
         # Make sure to remove the resonance itself from force_other_res_offshell
-        other_res_offshell = [res for res in force_other_res_offshell if 
+        other_res_offshell = [res for res in force_other_res_offshell if
                                                                  res!=resonance]
 
-        # Now play it smart on finding starting energy and offshellness and 
+        # Now play it smart on finding starting energy and offshellness and
         # register all resonance masses
         all_other_res_masses = [getmass(res['ParticlePDG'])
                                                   for res in other_res_offshell]
@@ -4069,25 +4069,25 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                                   process.get('legs') if l.get('state')==True),
                          sum(getmass(l.get('id')) for l in \
                                   process.get('legs') if l.get('state')==False))
-        
-        # List all other offshellnesses of the potential daughters of this 
+
+        # List all other offshellnesses of the potential daughters of this
         # resonance
-        daughter_offshellnesses = [(1.0+options['offshellness'])*mass 
-              for i, mass in enumerate(all_other_res_masses) if 
+        daughter_offshellnesses = [(1.0+options['offshellness'])*mass
+              for i, mass in enumerate(all_other_res_masses) if
                       other_res_offshell[i]['FSMothersNumbers'].issubset(
                                                  resonance['FSMothersNumbers'])]
-        
+
         if options['offshellness'] >= 0.0:
-            
+
             if len(daughter_offshellnesses)>0:
                 max_mass = max(daughter_offshellnesses)
                 # A factor two to have enough phase-space
                 offshellness = max(2.0*(max_mass/resonance_mass)-1.0,
                                                         options['offshellness'])
-            
+
             max_mass = max([(1.0+options['offshellness'])*mass for mass in \
                   all_other_res_masses]+[(1.0+offshellness)*resonance_mass])
-            
+
             # Account for external_masses too
             # A factor two to have enough phase-space open
             target = max(min_energy*1.2,max_mass*2.0)
@@ -4097,14 +4097,14 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
               "%f required for the chosen offshellness %f."%(max_mass,
                options['offshellness']) + " Energy reset to %f."%target)
                 options['energy'] = target
-                
+
         else:
             if len(daughter_offshellnesses) > 0:
                 min_mass = min(daughter_offshellnesses)
                 # A factor one half to have enough phase-space
                 offshellness = min(0.25*(min_mass/resonance_mass)-1.0,
                                                         options['offshellness'])
-            
+
             # Make sure the chosen offshellness leaves enough energy to produce
             # the daughter masses
             if (1.0+offshellness)*resonance_mass < daughter_masses*1.2:
@@ -4117,7 +4117,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                 else:
                   msg += ' Try again with a smalled offshellness (in absolute value).'
                 raise InvalidCmd(msg)
-            
+
             min_mass = min([(1.0+options['offshellness'])*mass for mass in \
                       all_other_res_masses]+[(1.0+offshellness)*resonance_mass])
             # Account for external_masses too
@@ -4128,13 +4128,13 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                   " too large to not overshoot the maximum propagator invariant mass "+
                   "%f required for the chosen offshellness %f."%(min_mass,
                    options['offshellness']) + " Energy reset to %f."%new_energy)
-                options['energy'] = new_energy  
-        
+                options['energy'] = new_energy
+
         if options['offshellness'] < 0.0 and options['energy'] >= min_mass:
             logger.debug("The target energy is not compatible with the mass"+
               " of the external states for this process (%f). It is "%min_mass+
                  "unlikely that a valid kinematic configuration will be found.")
-        
+
         if options['offshellness']<0.0 and offshellness<options['offshellness'] or \
            options['offshellness']>0.0 and offshellness>options['offshellness']:
             logger.debug("Offshellness increased to %f"%offshellness+
@@ -4142,7 +4142,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                 " offshellness at least equal to %f"%options['offshellness']+
                                                          " for all resonances.")
 
-        start_energy = options['energy']        
+        start_energy = options['energy']
         while N_trials<max_trial:
             N_trials += 1
             if N_trials%nstep_for_energy_increase==0:
@@ -4152,7 +4152,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                         options['energy'] *= energy_increase
                         offshellness      *= energy_increase
                     else:
-                        options['energy'] = max(options['energy']/energy_increase, 
+                        options['energy'] = max(options['energy']/energy_increase,
                                                                  min_energy*1.2)
                         offshellness = max(min_offshellnes,
                                        ((offshellness+1.0)/energy_increase)-1.0)
@@ -4185,7 +4185,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                     continue
             PS_point_found = candidate
             break
-        
+
         # Restore the initial energy setup
         options['energy'] = start_energy
 
@@ -4211,26 +4211,26 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                                          res['ParticlePDG']).get_name(),
                                              str(list(res['FSMothersNumbers'])))
                 resonance['offshellnesses'].append((res_str,(
-                    (invmass([PS_point_found[j-1] for j in 
+                    (invmass([PS_point_found[j-1] for j in
                        res['FSMothersNumbers']])/all_other_res_masses[i])-1.0)))
 
             resonance['PS_point_used'] = PS_point_found
-        
+
     def get_PSpoint_for_resonance(resonance, offshellness = options['offshellness']):
-        """ Assigns a kinematic configuration to the resonance dictionary 
-        given in argument."""            
+        """ Assigns a kinematic configuration to the resonance dictionary
+        given in argument."""
 
         # Get the particle mass
         mass_string = evaluator.full_model.get_particle(
                                        resonance['ParticlePDG']).get('mass')
         mass  = evaluator.full_model.get('parameter_dict')[mass_string].real
-        
+
         # Choose the offshellness
         special_mass = (1.0 + offshellness)*mass
-        
+
         # Create a fake production and decay process
         prod_proc = base_objects.Process({'legs':base_objects.LegList(
-             copy.copy(leg) for leg in process.get('legs') if 
+             copy.copy(leg) for leg in process.get('legs') if
                    leg.get('number') not in resonance['FSMothersNumbers'])})
         # Add the resonant particle as a final state
         # ID set to 0 since its mass will be forced
@@ -4241,11 +4241,11 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                 'id':0}))
         # now the decay process
         decay_proc = base_objects.Process({'legs':base_objects.LegList(
-           copy.copy(leg) for leg in process.get('legs') if leg.get('number') 
+           copy.copy(leg) for leg in process.get('legs') if leg.get('number')
              in resonance['FSMothersNumbers'] and not leg.get('state')==False)})
         # Add the resonant particle as an initial state
         # ID set to 0 since its mass will be forced
-        # Number set to -1 as well so as to be sure it appears first in 
+        # Number set to -1 as well so as to be sure it appears first in
         # get_momenta
         decay_proc.get('legs').insert(0,base_objects.Leg({
                 'number':-1,
@@ -4253,7 +4253,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                 'id':0}))
         prod_kinematic = evaluator.get_momenta(prod_proc, options=options,
                                                special_mass=special_mass)[0]
-        decay_kinematic = evaluator.get_momenta(decay_proc, options=options, 
+        decay_kinematic = evaluator.get_momenta(decay_proc, options=options,
                                                special_mass=special_mass)[0]
         momenta = glue_momenta(prod_kinematic,decay_kinematic)
         # Reshuffle the momentum so as to put it back in the order specified
@@ -4267,9 +4267,9 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
 
         # Return the PSpoint found in the right order
         return [m[1] for m in sorted(ordered_momenta, key = lambda el: el[0])]
-        
-        # misc.sprint(resonance['PS_point_used'])        
-    
+
+        # misc.sprint(resonance['PS_point_used'])
+
     @misc.mute_logger()
     def get_width(PDG, lambdaCMS, param_card):
         """ Returns the width to use for particle with absolute PDG 'PDG' and
@@ -4281,7 +4281,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             return 0.0
 
         particle = evaluator.full_model.get_particle(PDG)
-        
+
         # If it is a goldstone or a ghost, return zero as its width should anyway
         # not be independent.
         if particle.get('ghost') or particle.get('goldstone'):
@@ -4290,7 +4290,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
         # If its width is analytically set to zero, then return zero right away
         if particle.get('width')=='ZERO':
             return 0.0
-    
+
         if (PDG,lambdaCMS) in options['cached_widths']:
             return options['cached_widths'][(PDG,lambdaCMS)]
 
@@ -4318,7 +4318,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
 #                misc.sprint(command)
                 param_card.write(pjoin(options['output_path'],'tmp.dat'))
                 # The MG5 command get_width will change the cmd._curr_model
-                # and the cmd._curr_fortran_model which what we specified, so 
+                # and the cmd._curr_fortran_model which what we specified, so
                 # we must make sure to restore them after it finishes
                 orig_model = options['cmd']._curr_model
                 orig_helas_model = options['cmd']._curr_helas_model
@@ -4334,7 +4334,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                     tmp_param_card = check_param_card.ParamCard(pjoin(path,'tmp.dat'))
                 except:
                     raise MadGraph5Error('Error occured during width '+\
-                       'computation with command:\n   compute_widths %s'%command)                   
+                       'computation with command:\n   compute_widths %s'%command)
                 width = tmp_param_card['decay'].get(PDG).value
 #                misc.sprint('lambdaCMS checked is', lambdaCMS,
 #                                                   'for particle',particle_name)
@@ -4342,21 +4342,21 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
 #                if lambdaCMS != 1.0:
 #                    misc.sprint('Naively expected (lin. scaling) :',
 #                                  options['cached_widths'][(PDG,1.0)]*lambdaCMS)
-                
+
         if options['recompute_width'] in ['never','first_time']:
             # Assume linear scaling of the width
             for lam in options['lambdaCMS']:
                 options['cached_widths'][(PDG,lam)]=width*(lam/lambdaCMS)
         else:
             options['cached_widths'][(PDG,lambdaCMS)] = width
-        
+
         return options['cached_widths'][(PDG,lambdaCMS)]
-            
+
     def get_order(diagrams, diagsName):
         """Compute the common summed of coupling orders used for this cms check
          in the diagrams specified. When inconsistency occurs, use orderName
          in the warning message if throwm."""
-         
+
         orders = set([])
         for diag in diagrams:
             diag_orders = diag.calculate_orders()
@@ -4367,11 +4367,11 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                 return min(list(orders))
             else:
                 return list(orders)[0]
-         
+
     MLoptions = copy.copy(options['MLOptions'])
     # Make sure double-check helicities is set to False
     MLoptions['DoubleCheckHelicityFilter'] = False
-    
+
     # Apply the seed tweak if present
     for tweak in options['tweak']['custom']:
         if tweak.startswith('seed'):
@@ -4380,14 +4380,14 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             except ValueError:
                 raise MadGraph5Error("Seed '%s' is not of the right format 'seed<int>'."%tweak)
             random.seed(new_seed)
-                
+
     mode = 'CMS' if aloha.complex_mass else 'NWA'
     for i, leg in enumerate(process.get('legs')):
         leg.set('number', i+1)
 
     logger.info("Running CMS check for process %s  (now doing %s scheme)" % \
                   ( process.nice_string().replace('Process:', 'process'), mode))
-    
+
     proc_dir = None
     resonances = None
     warning_msg = "All %sdiagrams do not share the same sum of orders "+\
@@ -4396,19 +4396,19 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
     if NLO:
         # We must first create the matrix element, export it and set it up.
         # If the reuse option is specified, it will be recycled.
-        
+
         if options['name']=='auto':
             proc_name = "%s%s_%s%s__%s__"%(('SAVED' if options['reuse'] else ''),
-         temp_dir_prefix, '_'.join(process.shell_string().split('_')[1:]), 
+         temp_dir_prefix, '_'.join(process.shell_string().split('_')[1:]),
          ('_' if process.get('perturbation_couplings') else '')+
          '_'.join(process.get('perturbation_couplings')),mode)
         else:
             proc_name = "%s%s_%s__%s__"%(('SAVED' if options['reuse'] else ''),
                                           temp_dir_prefix,options['name'], mode)
         # Generate the ME
-        timing, matrix_element = generate_loop_matrix_element(process, 
-                options['reuse'], output_path=options['output_path'], 
-                           cmd = options['cmd'], proc_name=proc_name, 
+        timing, matrix_element = generate_loop_matrix_element(process,
+                options['reuse'], output_path=options['output_path'],
+                           cmd = options['cmd'], proc_name=proc_name,
                                              loop_filter=options['loop_filter'])
         if matrix_element is None:
             # No diagrams for this process
@@ -4418,13 +4418,13 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
         proc_dir = pjoin(options['output_path'],proc_name)
 
         # Export the ME
-        infos = evaluator.setup_process(matrix_element, proc_dir, 
-                        reusing = reusing, param_card = options['param_card'], 
+        infos = evaluator.setup_process(matrix_element, proc_dir,
+                        reusing = reusing, param_card = options['param_card'],
                                                             MLOptions=MLoptions)
         # Make sure the right MLoptions are set
         evaluator.fix_MadLoopParamCard(pjoin(proc_dir,'Cards'),
                               mp = None, loop_filter = True,MLOptions=MLoptions)
-        
+
         # Make sure to start from fresh if previous run was stopped
         tmp_card_backup = pjoin(proc_dir,'Cards','param_card.dat__TemporaryBackup__')
         if os.path.isfile(tmp_card_backup):
@@ -4452,10 +4452,10 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
 
         # Make sure to setup correctly the helicity
         MadLoopInitializer.fix_PSPoint_in_check(pjoin(proc_dir,'SubProcesses'),
-              read_ps = True, npoints = 1, hel_config = options['helicity'], 
+              read_ps = True, npoints = 1, hel_config = options['helicity'],
                                            split_orders=options['split_orders'])
-   
-        # And recompile while making sure to recreate the executable and 
+
+        # And recompile while making sure to recreate the executable and
         # modified sources
         for dir in misc.glob('P*_*', pjoin(proc_dir,'SubProcesses')):
             if not (re.search(r'.*P\d+_\w*$', dir) or not os.path.isdir(dir)):
@@ -4468,7 +4468,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             # Now run make
             with open(os.devnull, 'w') as devnull:
                 retcode = subprocess.call(['make','check'],
-                                   cwd=dir, stdout=devnull, stderr=devnull)                     
+                                   cwd=dir, stdout=devnull, stderr=devnull)
             if retcode != 0:
                 raise MadGraph5Error("Compilation error with "+\
                                                         "'make check' in %s"%dir)
@@ -4541,12 +4541,12 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             resonances = opt[-1][1]
         else:
             resonances= opt
-    
+
     if len(resonances)==0:
         logger.info("No resonance found for process %s."\
                                                          %process.base_string())
         return None
-    
+
     # Cache the default param_card for NLO
     if not options['cached_param_card'][mode][0]:
         if NLO:
@@ -4558,7 +4558,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
         options['cached_param_card'][mode][0] = param_card
         name2block, _ = param_card.analyze_param_card()
         options['cached_param_card'][mode][1] = name2block
-        
+
     else:
         param_card = options['cached_param_card'][mode][0]
         name2block = options['cached_param_card'][mode][1]
@@ -4567,7 +4567,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
     if loop_order != -1 and (loop_order+born_order)%2 != 0:
         raise MadGraph5Error('The summed squared matrix element '+\
                               " order '%d' is not even."%(loop_order+born_order))
-    result = {'born_order':born_order, 
+    result = {'born_order':born_order,
               'loop_order': (-1 if loop_order==-1 else (loop_order+born_order)/2),
               'resonances_result':[]}
 
@@ -4603,7 +4603,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
     if options['resonances']=='all':
         resonances_to_run = resonances
     elif isinstance(options['resonances'],int):
-        resonances_to_run = resonances[:options['resonances']]    
+        resonances_to_run = resonances[:options['resonances']]
     elif isinstance(options['resonances'],list):
         resonances_to_run = []
         for res in resonances:
@@ -4619,9 +4619,9 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
     # Display progressbar both for LO and NLO for now but not when not showing
     # the plots
     if NLO and options['show_plot']:
-        widgets = ['ME evaluations:', pbar.Percentage(), ' ', 
+        widgets = ['ME evaluations:', pbar.Percentage(), ' ',
                                                 pbar.Bar(),' ', pbar.ETA(), ' ']
-        progress_bar = pbar.ProgressBar(widgets=widgets, 
+        progress_bar = pbar.ProgressBar(widgets=widgets,
                 maxval=len(options['lambdaCMS'])*len(resonances_to_run), fd=sys.stdout)
         progress_bar.update(0)
         # Flush stdout to force the progress_bar to appear
@@ -4642,8 +4642,8 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             new_param_card = check_param_card.ParamCard(param_card)
             # Change all specified parameters
             for param, replacement in options['expansion_parameters'].items():
-                # Replace the temporary prefix used for evaluation of the 
-                # substitution expression 
+                # Replace the temporary prefix used for evaluation of the
+                # substitution expression
                 orig_param = param.replace('__tmpprefix__','')
                 if orig_param not in name2block:
                     # It can be that some parameter ar in the NWA model but not
@@ -4659,7 +4659,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             # Apply these changes already (for the purpose of Width computation.
             # although it is optional since we now provide the new_param_card to
             # the width computation function.). Also in principle this matters
-            # only in the CMS and there the widths would be reused from their 
+            # only in the CMS and there the widths would be reused from their
             # prior computation within NWA with zero widths. So, all in all,
             # the line below is really not crucial, but semantically, it ought
             # to be there.
@@ -4668,7 +4668,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
             # Now compute or recyle all widths
             for decay in new_param_card['decay'].keys():
                 if mode=='CMS':
-                    new_width = get_width(abs(decay[0]), lambdaCMS, 
+                    new_width = get_width(abs(decay[0]), lambdaCMS,
                                                                  new_param_card)
                 else:
                     new_width = 0.0
@@ -4685,7 +4685,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                           options['recompute_width'] in ['always','first_time']:
                     new_param_card.write(pjoin(proc_dir,
                                     'Cards','param_card.dat_recomputed_widths'))
-                    
+
             # If recomputing widths with MadWidths, we want to do it within
             # the NWA models with zero widths.
             if mode=='NWA' and (options['recompute_width']=='always' or (
@@ -4710,11 +4710,11 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                 if lambdaCMS==1.0 and NLO:
                     tmp_param_card.write(pjoin(proc_dir,
                                     'Cards','param_card.dat_recomputed_widths'))
-            
+
             # Apply the params tweaks
             for param, replacement in options['tweak']['params'].items():
-               # Replace the temporary prefix used for evaluation of the 
-               # substitution expression 
+               # Replace the temporary prefix used for evaluation of the
+               # substitution expression
                orig_param = param.replace('__tmpprefix__','')
                # Treat the special keyword 'allwidths'
                if orig_param.lower() == 'allwidths':
@@ -4734,7 +4734,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                    new_value  = eval(replacement,
                                        {param:orig_value,'lambdacms':lambdaCMS})
                    new_param_card[block].get(lhaid).value=new_value
-            
+
             if options['tweak']['params']:
                 # Apply the tweaked param_card one last time
                 evaluator.full_model.set_parameters_and_couplings(
@@ -4744,12 +4744,12 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
 
             # Finally ready to compute the matrix element
             if NLO:
-                ME_res = LoopMatrixElementEvaluator.get_me_value(process, 0, 
-                       proc_dir, PSpoint=res['PS_point_used'], verbose=False, 
+                ME_res = LoopMatrixElementEvaluator.get_me_value(process, 0,
+                       proc_dir, PSpoint=res['PS_point_used'], verbose=False,
                                            format='dict', skip_compilation=True)
                 # Notice that there is much more information in ME_res. It can
                 # be forwarded to check_complex_mass_scheme in this result
-                # dictionary if necessary for the analysis. (or even the full 
+                # dictionary if necessary for the analysis. (or even the full
                 # dictionary ME_res can be added).
                 result['resonances_result'][-1]['born'].append(ME_res['born'])
                 result['resonances_result'][-1]['finite'].append(
@@ -4772,7 +4772,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                 continue
             if NLO:
                 evaluator.apply_log_tweak(proc_dir, 'default')
-                evaluator.apply_log_tweak(proc_dir, 'recompile')                
+                evaluator.apply_log_tweak(proc_dir, 'recompile')
                 log_reversed = True
 
     # Restore the original model parameters
@@ -4783,7 +4783,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
                                       pjoin(proc_dir,'Cards','param_card.dat'))
         except:
             param_card.write(pjoin(proc_dir,'Cards','param_card.dat'))
-    
+
     # All should have been restored properly, so we can now clean the temporary
     # backups
     try:
@@ -4797,7 +4797,7 @@ def check_complex_mass_scheme_process(process, evaluator, opt = [],
 
 def get_value(process, evaluator, p=None, options=None):
     """Return the value/momentum for a phase space point"""
-    
+
     for i, leg in enumerate(process.get('legs')):
         leg.set('number', i+1)
 
@@ -4817,33 +4817,33 @@ def get_value(process, evaluator, p=None, options=None):
         logging.info("No diagrams for %s" % \
                          process.nice_string().replace('Process', 'process'))
         return None
-    
+
     if not amplitude.get('diagrams'):
         # This process has no diagrams; go to next process
         logging.info("No diagrams for %s" % \
                          process.nice_string().replace('Process', 'process'))
         return None
-    
+
     if not p:
         # Generate phase space point to use
         p, w_rambo = evaluator.get_momenta(process, options)
-        
+
     # Generate the HelasMatrixElement for the process
     if not isinstance(amplitude, loop_diagram_generation.LoopAmplitude):
         matrix_element = helas_objects.HelasMatrixElement(amplitude,
                                                       gen_color = True)
     else:
-        matrix_element = loop_helas_objects.LoopHelasMatrixElement(amplitude, 
+        matrix_element = loop_helas_objects.LoopHelasMatrixElement(amplitude,
            gen_color = True, optimized_output = evaluator.loop_optimized_output)
 
     mvalue = evaluator.evaluate_matrix_element(matrix_element, p=p,
                                                   output='jamp',options=options)
-    
+
     if mvalue and mvalue['m2']:
         return {'process':process.base_string(),'value':mvalue,'p':p}
 
 def output_lorentz_inv_loop(comparison_results, output='text'):
-    """Present the results of a comparison in a nice list format for loop 
+    """Present the results of a comparison in a nice list format for loop
     processes. It detail the results from each lorentz transformation performed.
     """
 
@@ -4852,31 +4852,31 @@ def output_lorentz_inv_loop(comparison_results, output='text'):
     # Rotations do not change the reference vector for helicity projection,
     # the loop ME are invarariant under them with a relatively good accuracy.
     threshold_rotations = 1e-6
-    # This is typically not the case for the boosts when one cannot really 
-    # expect better than 1e-5. It turns out that this is even true in 
+    # This is typically not the case for the boosts when one cannot really
+    # expect better than 1e-5. It turns out that this is even true in
     # quadruple precision, for an unknown reason so far.
     threshold_boosts =  1e-3
     res_str = "%s" % process.base_string()
-    
+
     transfo_col_size = 17
     col_size = 18
     transfo_name_header = 'Transformation name'
 
     if len(transfo_name_header) + 1 > transfo_col_size:
         transfo_col_size = len(transfo_name_header) + 1
-    
+
     for transfo_name, value in results:
         if len(transfo_name) + 1 > transfo_col_size:
             transfo_col_size = len(transfo_name) + 1
-        
+
     res_str += '\n' + fixed_string_length(transfo_name_header, transfo_col_size) + \
       fixed_string_length("Value", col_size) + \
       fixed_string_length("Relative diff.", col_size) + "Result"
-    
+
     ref_value = results[0]
     res_str += '\n' + fixed_string_length(ref_value[0], transfo_col_size) + \
                    fixed_string_length("%1.10e" % ref_value[1]['m2'], col_size)
-    # Now that the reference value has been recuperated, we can span all the 
+    # Now that the reference value has been recuperated, we can span all the
     # other evaluations
     all_pass = True
     for res in results[1:]:
@@ -4885,7 +4885,7 @@ def output_lorentz_inv_loop(comparison_results, output='text'):
         rel_diff = abs((ref_value[1]['m2']-res[1]['m2'])\
                                        /((ref_value[1]['m2']+res[1]['m2'])/2.0))
         this_pass = rel_diff <= threshold
-        if not this_pass: 
+        if not this_pass:
             all_pass = False
         res_str += '\n' + fixed_string_length(res[0], transfo_col_size) + \
                    fixed_string_length("%1.10e" % res[1]['m2'], col_size) + \
@@ -4895,12 +4895,12 @@ def output_lorentz_inv_loop(comparison_results, output='text'):
         res_str += '\n' + 'Summary: passed'
     else:
         res_str += '\n' + 'Summary: failed'
-    
+
     return res_str
 
 def output_lorentz_inv(comparison_results, output='text'):
     """Present the results of a comparison in a nice list format
-        if output='fail' return the number of failed process -- for test-- 
+        if output='fail' return the number of failed process -- for test--
     """
 
     # Special output for loop processes
@@ -4914,7 +4914,7 @@ def output_lorentz_inv(comparison_results, output='text'):
 
     if len(process_header) + 1 > proc_col_size:
         proc_col_size = len(process_header) + 1
-    
+
     for proc, values in comparison_results:
         if len(proc) + 1 > proc_col_size:
             proc_col_size = len(proc) + 1
@@ -4937,23 +4937,23 @@ def output_lorentz_inv(comparison_results, output='text'):
     for one_comp in comparison_results:
         proc = one_comp['process'].base_string()
         data = one_comp['results']
-        
+
         if data == 'pass':
             no_check_proc += 1
             no_check_proc_list.append(proc)
             continue
 
         values = [data[i]['m2'] for i in range(len(data))]
-        
+
         min_val = min(values)
         max_val = max(values)
-        diff = (max_val - min_val) / abs(max_val) 
-        
+        diff = (max_val - min_val) / abs(max_val)
+
         res_str += '\n' + fixed_string_length(proc, proc_col_size) + \
                    fixed_string_length("%1.10e" % min_val, col_size) + \
                    fixed_string_length("%1.10e" % max_val, col_size) + \
                    fixed_string_length("%1.10e" % diff, col_size)
-                   
+
         if diff < threshold:
             pass_proc += 1
             proc_succeed = True
@@ -4976,19 +4976,19 @@ def output_lorentz_inv(comparison_results, output='text'):
                     #values for the different lorentz boost
                     values = [abs(data[i]['jamp'][j][k])**2 for i in range(len(data))]
                     sum = [sum[i] + values[i] for i in range(len(values))]
-    
-                # Compare the different lorentz boost  
+
+                # Compare the different lorentz boost
                 min_val = min(sum)
                 max_val = max(sum)
                 if not max_val:
                     continue
-                diff = (max_val - min_val) / max_val 
-            
+                diff = (max_val - min_val) / max_val
+
                 tmp_str = '\n' + fixed_string_length('   JAMP %s'%k , proc_col_size) + \
                            fixed_string_length("%1.10e" % min_val, col_size) + \
                            fixed_string_length("%1.10e" % max_val, col_size) + \
                            fixed_string_length("%1.10e" % diff, col_size)
-                       
+
                 if diff > 1e-10:
                     if not len(failed_proc_list) or failed_proc_list[-1] != proc:
                         fail_proc += 1
@@ -4996,10 +4996,10 @@ def output_lorentz_inv(comparison_results, output='text'):
                         failed_proc_list.append(proc)
                     res_str += tmp_str + "Failed"
                 elif not proc_succeed:
-                 res_str += tmp_str + "Passed" 
-            
-            
-        
+                 res_str += tmp_str + "Passed"
+
+
+
     res_str += "\nSummary: %i/%i passed, %i/%i failed" % \
                 (pass_proc, pass_proc + fail_proc,
                  fail_proc, pass_proc + fail_proc)
@@ -5008,32 +5008,32 @@ def output_lorentz_inv(comparison_results, output='text'):
         res_str += "\nFailed processes: %s" % ', '.join(failed_proc_list)
     if no_check_proc:
         res_str += "\nNot checked processes: %s" % ', '.join(no_check_proc_list)
-    
+
     if output == 'text':
-        return res_str        
-    else: 
+        return res_str
+    else:
         return fail_proc
 
 def output_unitary_feynman(comparison_results, output='text'):
     """Present the results of a comparison in a nice list format
-        if output='fail' return the number of failed process -- for test-- 
+        if output='fail' return the number of failed process -- for test--
     """
-    
+
     proc_col_size = 17
-    
+
     # We use the first element of the comparison_result list to store the
     # process definition object
     pert_coupl = comparison_results[0]['perturbation_couplings']
     comparison_results = comparison_results[1:]
-    
+
     if pert_coupl:
         process_header = "Process [virt="+" ".join(pert_coupl)+"]"
     else:
         process_header = "Process"
-    
+
     if len(process_header) + 1 > proc_col_size:
         proc_col_size = len(process_header) + 1
-    
+
     for data in comparison_results:
         proc = data['process']
         if len(proc) + 1 > proc_col_size:
@@ -5057,26 +5057,26 @@ def output_unitary_feynman(comparison_results, output='text'):
     for one_comp in comparison_results:
         proc = one_comp['process']
         data = [one_comp['value_unit'], one_comp['value_feynm']]
-        
-        
+
+
         if data[0] == 'pass':
             no_check_proc += 1
             no_check_proc_list.append(proc)
             continue
-        
+
         values = [data[i]['m2'] for i in range(len(data))]
-        
+
         min_val = min(values)
         max_val = max(values)
         # when max_val is also negative
         # diff will be negative if there is no abs
-        diff = (max_val - min_val) / abs(max_val) 
-        
+        diff = (max_val - min_val) / abs(max_val)
+
         res_str += '\n' + fixed_string_length(proc, proc_col_size) + \
                    fixed_string_length("%1.10e" % values[0], col_size) + \
                    fixed_string_length("%1.10e" % values[1], col_size) + \
                    fixed_string_length("%1.10e" % diff, col_size)
-                   
+
         if diff < 1e-8:
             pass_proc += 1
             proc_succeed = True
@@ -5099,19 +5099,19 @@ def output_unitary_feynman(comparison_results, output='text'):
                     #values for the different lorentz boost
                     values = [abs(data[i]['jamp'][j][k])**2 for i in range(len(data))]
                     sum = [sum[i] + values[i] for i in range(len(values))]
-    
-                # Compare the different lorentz boost  
+
+                # Compare the different lorentz boost
                 min_val = min(sum)
                 max_val = max(sum)
                 if not max_val:
                     continue
-                diff = (max_val - min_val) / max_val 
-            
+                diff = (max_val - min_val) / max_val
+
                 tmp_str = '\n' + fixed_string_length('   JAMP %s'%k , col_size) + \
                            fixed_string_length("%1.10e" % sum[0], col_size) + \
                            fixed_string_length("%1.10e" % sum[1], col_size) + \
                            fixed_string_length("%1.10e" % diff, col_size)
-                       
+
                 if diff > 1e-10:
                     if not len(failed_proc_list) or failed_proc_list[-1] != proc:
                         fail_proc += 1
@@ -5119,10 +5119,10 @@ def output_unitary_feynman(comparison_results, output='text'):
                         failed_proc_list.append(proc)
                     res_str += tmp_str + "Failed"
                 elif not proc_succeed:
-                     res_str += tmp_str + "Passed" 
-                
-            
-        
+                     res_str += tmp_str + "Passed"
+
+
+
     res_str += "\nSummary: %i/%i passed, %i/%i failed" % \
                 (pass_proc, pass_proc + fail_proc,
                  fail_proc, pass_proc + fail_proc)
@@ -5131,16 +5131,16 @@ def output_unitary_feynman(comparison_results, output='text'):
         res_str += "\nFailed processes: %s" % ', '.join(failed_proc_list)
     if no_check_proc:
         res_str += "\nNot checked processes: %s" % ', '.join(no_check_proc_list)
-    
-    
+
+
     if output == 'text':
-        return res_str        
-    else: 
+        return res_str
+    else:
         return fail_proc
 
 def CMS_save_path(extension, cms_res, used_model, opts, output_path=None):
     """Creates a suitable filename for saving these results."""
-    
+
     if opts['name']=='auto' and opts['analyze']!='None':
         # Reuse the same name then
         return '%s.%s'%(os.path.splitext(opts['analyze'].split(',')[0])\
@@ -5150,7 +5150,7 @@ def CMS_save_path(extension, cms_res, used_model, opts, output_path=None):
         basename = opts['name']
     else:
         prefix = 'cms_check_'
-        # Use process name if there is only one process            
+        # Use process name if there is only one process
         if len(cms_res['ordered_processes'])==1:
             proc = cms_res['ordered_processes'][0]
             replacements = [('=>','gt'),('<=','lt'),('/','_no_'),
@@ -5161,19 +5161,19 @@ def CMS_save_path(extension, cms_res, used_model, opts, output_path=None):
                 proc=proc[:proc.index('[')]
             except ValueError:
                 pass
-    
+
             for key, value in replacements:
                 proc = proc.replace(key,value)
-    
+
             basename =prefix+proc+'_%s_'%used_model.get('name')+\
                       ( ('_'+'_'.join(cms_res['perturbation_orders'])) if \
                                       cms_res['perturbation_orders']!=[] else '')
         # Use timestamp otherwise
         else:
             basename = prefix+datetime.datetime.now().strftime("%Y_%m_%d_%Hh%Mm%Ss")
-            
-    suffix = '_%s'%opts['tweak']['name'] if opts['tweak']['name']!='' else '' 
-    if output_path:     
+
+    suffix = '_%s'%opts['tweak']['name'] if opts['tweak']['name']!='' else ''
+    if output_path:
         return pjoin(output_path,'%s%s.%s'%(basename,suffix,extension))
     else:
         return '%s%s.%s'%(basename,suffix,extension)
@@ -5183,9 +5183,9 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
     by varying the width in the offshell region of resonances found for eahc process.
     Output just specifies whether text should be returned or a list of failed
     processes. Use 'concise_text' for a consise report of the results."""
-    
+
     pert_orders=result['perturbation_orders']
-    
+
     ######## CHECK PARAMETERS #########
     #
     # diff_lambda_power choses the power by which one should divide the difference
@@ -5214,8 +5214,8 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
         # a lowest lambda value of 10^-4. It is clear that the threshold should
         # scale with the minimum lambda value because any little offset in the
         # LO width value for example (acceptable when less than one 1% if the
-        # widths were computed numerically) will lead to an inaccuracy of the 
-        # cancellation scaling with lambda. 
+        # widths were computed numerically) will lead to an inaccuracy of the
+        # cancellation scaling with lambda.
         if not has_FRdecay and ('recomputed_with' not in result or \
                           result['recompute_width'] in ['always','first_time']):
             CMS_test_threshold = 2e-2*(1.0e-4/min(result['lambdaCMS']))
@@ -5223,7 +5223,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
             # If the widths were not computed numerically, then the accuracy of
             # the cancellation should be better.
             CMS_test_threshold = 2e-2*(1.0e-5/min(result['lambdaCMS']))
-            
+
     # This threshold sets how flat the diff line must be when approaching it from
     # the right to start considering its value. Notice that it cannot be larger
     # than the CMS_test_threshold
@@ -5236,11 +5236,11 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
     # average instead of this asymptotic median. u d~ > e+ ve LO exhibit a \
     # difference at zero for example.
     diff_zero_threshold = 1e-3
-    # Plotting parameters. Specify the lambda range to plot. 
+    # Plotting parameters. Specify the lambda range to plot.
     # lambda_range = [-1,-1] returns the default automatic setup
     lambda_range = options['lambda_plot_range']
     ##################################
-    
+
 #   One can print out the raw results by uncommenting the line below
 #    misc.sprint(result)
 #    for i, res in enumerate(result['a e- > e- ve ve~ [ virt = QCD QED ]']['CMS']):
@@ -5248,7 +5248,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
 #        if res['resonance']['FSMothersNumbers'] == set([3, 4]):
 #            misc.sprint(res['resonance']['PS_point_used'])
 #    stop
-    
+
     res_str           = ''
     # Variables for the concise report
     concise_str       = ''
@@ -5257,7 +5257,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
                                    'asymptot':'Asymptot',
                                    'cms_check':'Deviation to asymptot',
                                    'status':'Result'}}
-    
+
     ####### BEGIN helper functions
 
     # Chose here whether to use Latex particle names or not
@@ -5273,11 +5273,11 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
         d = {'e':'e','m':r'\mu','t':r'\tau'}
         name2tex['v%s'%p]=r'\nu_{%s}'%d[p]
         name2tex['v%s~'%p]=r'\bar{\nu_{%s}}'%d[p]
-        
+
     for p in ['u','d','c','s','b','t']:
         name2tex[p]=p
         name2tex['%s~'%p]=r'\bar{%s}'%p
-      
+
     def format_particle_name(particle, latex=useLatexParticleName):
         p_name = particle
         if latex=='model':
@@ -5303,7 +5303,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
 
     def format_title(process, resonance):
         """ Format the plot title given the process and resonance """
-        
+
         process_string = []
         for particle in process.split():
             if '<=' in particle:
@@ -5319,7 +5319,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
             if particle=='/':
                 process_string.append(r'$\displaystyle /$')
                 continue
-            process_string.append(format_particle_name(particle))              
+            process_string.append(format_particle_name(particle))
 
         if resonance=='':
             return r'CMS check for %s' %(' '.join(process_string))
@@ -5330,7 +5330,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
     def guess_lambdaorder(ME_values_list, lambda_values, expected=None,
                                                            proc=None, res=None):
         """ Guess the lambda scaling from a list of ME values and return it.
-        Also compare with the expected result if specified and trigger a 
+        Also compare with the expected result if specified and trigger a
         warning if not in agreement."""
         # guess the lambdaCMS power in the amplitude squared
         bpowers = []
@@ -5348,10 +5348,10 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
              'seems inconsistent w.r.t to detected value '+
              '(%i vs %i). %i will be used.'%(expected,bpower,bpower)+
              ' This happend for process %s and resonance %s'%(proc, res))
-        return bpower    
+        return bpower
 
     def check_stability(ME_values, lambda_values, lambda_scaling, values_name):
-        """ Checks if the values passed in argument are stable and return the 
+        """ Checks if the values passed in argument are stable and return the
         stability check outcome warning if it is not precise enough. """
 
         values = sorted([
@@ -5369,7 +5369,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
     ####### END helper functions
     if options['analyze']=='None':
         if options['reuse']:
-            save_path = CMS_save_path('pkl', result, model, options, 
+            save_path = CMS_save_path('pkl', result, model, options,
                                                         output_path=output_path)
             buff = "\nThe results of this check have been stored on disk and its "+\
               "analysis can be rerun at anytime with the MG5aMC command:\n   "+\
@@ -5382,23 +5382,23 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
                     "the raw results on disk.\n"+\
                     "    check cms -reuse <proc_def> <options>\n"
             res_str += buff
-            concise_str += buff            
-    
+            concise_str += buff
+
     ############################
     # Numerical check first    #
     ############################
-    
+
     checks = []
     for process in result['ordered_processes']:
         checks.extend([(process,resID) for resID in \
                                             range(len(result[process]['CMS']))])
-        
+
     if options['reuse']:
         logFile = open(CMS_save_path(
                     'log', result, model, options, output_path=output_path),'w')
-    
+
     lambdaCMS_list=result['lambdaCMS']
-    
+
     # List of failed processes
     failed_procs = []
 
@@ -5411,7 +5411,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
         if result['recompute_width'] == 'never':
             res_str += '| Widths extracted from the param_card.dat'
         else:
-            res_str += '| Widths computed %s'%('analytically' if has_FRdecay 
+            res_str += '| Widths computed %s'%('analytically' if has_FRdecay
                                                              else 'numerically')
             if result['recompute_width'] == 'first_time':
                 res_str += r' for \lambda = 1'
@@ -5429,7 +5429,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
     # Store here the asymptot detected for each difference curve
     differences_target = {}
     for process, resID in checks:
-        # Reinitialize the concise result replacement dictionary 
+        # Reinitialize the concise result replacement dictionary
         # (only one resonance is indicated in this one, no matter what.)
         concise_repl_dict[process] = {'process':process,
                                       'asymptot':'N/A',
@@ -5450,18 +5450,18 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
         # Starting bottom thin bar
         res_str += '%s%s%s\n'%(bar('-'),'-'*8,bar('-'))
         # Reminder if diff_lambda_power is not 1
-        
+
         if diff_lambda_power!=1:
             res_str += "== WARNING diff_lambda_power is not 1 but    = %g\n"%diff_lambda_power
             res_str += '%s%s%s\n'%(bar('-'),'-'*8,bar('-'))
 
         born_power = guess_lambdaorder(nwa_born,lambdaCMS_list,
                expected=proc_res['born_order'], proc=process, res=resonance)
-        stab_cms_born = check_stability(cms_born[-nstab_points:], 
+        stab_cms_born = check_stability(cms_born[-nstab_points:],
                          lambdaCMS_list[-nstab_points:], born_power, 'CMS Born')
         if stab_cms_born:
             res_str += stab_cms_born
-        stab_nwa_born = check_stability(nwa_born[-nstab_points:], 
+        stab_nwa_born = check_stability(nwa_born[-nstab_points:],
                          lambdaCMS_list[-nstab_points:], born_power, 'NWA Born')
         if stab_nwa_born:
             res_str += stab_nwa_born
@@ -5470,7 +5470,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
         for i, p in enumerate(cms_res['resonance']['PS_point_used']):
             res_str += "  | p%-2.d = "%(i+1)
             for pi in p:
-                res_str += '%-24.17g'%pi if pi<0.0 else ' %-23.17g'%pi 
+                res_str += '%-24.17g'%pi if pi<0.0 else ' %-23.17g'%pi
             res_str += "\n"
         # Write out the offshellnesses specification
         res_str += "== Offshellnesses of all detected resonances\n"
@@ -5484,14 +5484,14 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
             cms_finite=cms_res['finite']
             nwa_finite=nwa_res['finite']
             loop_power = guess_lambdaorder(nwa_finite,lambdaCMS_list,
-                   expected=proc_res['loop_order'], proc=process, res=resonance)  
+                   expected=proc_res['loop_order'], proc=process, res=resonance)
             res_str += "== Scaling lambda^n. nborn, nloop            = %d, %d\n"\
                                                         %(born_power,loop_power)
-            stab_cms_finite = check_stability(cms_finite[-nstab_points:], 
+            stab_cms_finite = check_stability(cms_finite[-nstab_points:],
                                   lambdaCMS_list[-nstab_points:], loop_power, 'CMS finite')
             if stab_cms_finite:
                 res_str += stab_cms_finite
-            stab_nwa_finite = check_stability(nwa_finite[-nstab_points:], 
+            stab_nwa_finite = check_stability(nwa_finite[-nstab_points:],
                       lambdaCMS_list[-nstab_points:], loop_power, 'NWA finite')
             if stab_nwa_finite:
                 res_str += stab_nwa_finite
@@ -5511,7 +5511,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
             NWAData.append(new_nwa)
             DiffData.append(new_diff)
 
-                    
+
         # NWA Born median
 
         # Find which values to start the test at by looking at the CMSdata scaling
@@ -5519,11 +5519,11 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
         trim_range=int(((1.0-0.6)/2.0)*len(DiffData))
         low_diff_median = sorted(DiffData[trim_range:-trim_range])\
                                                [(len(DiffData)-2*trim_range)//2]
-        
+
         # Now walk the values from the right of the diff plot until we reaches
         # values stable with respect to the CMS_tale_median. This value will
         # be limit of the range considered for the CMS test. Do it in a way which
-        # is insensitive to instabilities, by considering medians of group_val 
+        # is insensitive to instabilities, by considering medians of group_val
         # consecutive points.
         current_median = 0
         # We really want to select only the very stable region
@@ -5551,7 +5551,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
                                                      'left half of the values.')
                 scan_index = -1
                 break;
-        
+
         if scan_index == -1:
             cms_check_data_range = len(DiffData)//2
         else:
@@ -5566,7 +5566,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
         # For the purpose of checking the stability of the tale, we now do
         # the consideration_threshold scan from the *left* and if we finsih
         # before the end, it means that there is an unstable region.
-        if scan_index >= 0:            
+        if scan_index >= 0:
             # try to find the numerical instability region
             scan_index = len(CMScheck_values)
             used_group_val = max(3,group_val)
@@ -5587,7 +5587,7 @@ def output_complex_mass_scheme(result,output_path, options, model, output='text'
             # Now report here the unstability found
             if unstability_found:
                 unstab_check=CMScheck_values[scan_index:]
-                relative_array = [val > CMScheck_values[scan_index-1] for 
+                relative_array = [val > CMScheck_values[scan_index-1] for
                                                             val in unstab_check]
                 upper = relative_array.count(True)
                 lower = relative_array.count(False)
@@ -5598,7 +5598,7 @@ Look at the plot in this region (and possibly throw more points using the option
 If this is indeed a stability issue, then either decrease MLStabThreshold in MadLoop or decrease the
 minimum value of lambda to be considered in the CMS check."""\
                 %(proc_title, lambdaCMS_list[cms_check_data_range+scan_index-1]))
-        
+
         # Now apply the same same technique, as above but to the difference plot
         # Now we will use low_diff_median instead of diff_tale_median
         #diff_tale_median = sorted(CMScheck_values)[len(CMScheck_values)//2]
@@ -5614,16 +5614,16 @@ minimum value of lambda to be considered in the CMS check."""\
         differences_target[(process,resID)]= low_diff_median
 #        misc.sprint('Now doing resonance %s.'%res_str)
         while True:
-            current_vals = CMScheck_values[scan_index:scan_index+group_val]      
+            current_vals = CMScheck_values[scan_index:scan_index+group_val]
             max_diff = max(max_diff, abs(low_diff_median-
                      sorted(current_vals)[len(current_vals)//2])/reference)
             if (scan_index+group_val)>=len(CMScheck_values):
                 break
             scan_index += 1
-        
+
         # Now use the CMS check result
         cms_check = (max_diff*100.0, '>' if max_diff>CMS_test_threshold else '<',
-                                                       CMS_test_threshold*100.0) 
+                                                       CMS_test_threshold*100.0)
         res_str += "== CMS check result (threshold)              = %.3g%% (%s%.3g%%)\n"%cms_check
         concise_repl_dict[process]['cms_check'] = \
             "%-10s (%s%.3g%%)"%('%.3g%%'%cms_check[0],cms_check[1],cms_check[2])
@@ -5651,7 +5651,7 @@ minimum value of lambda to be considered in the CMS check."""\
     else:
         return "\nNo CMS check to perform, the process either has no diagram or does not "+\
                                   "not feature any massive s-channel resonance."
-        
+
     for process, resonance in failed_procs:
         res_str += ">  %s, %s\n"%(process, resonance)
 
@@ -5670,8 +5670,8 @@ minimum value of lambda to be considered in the CMS check."""\
             return res_str
         else:
             return failed_procs
-        
-    fig_output_file = CMS_save_path('pdf', result, model, options, 
+
+    fig_output_file = CMS_save_path('pdf', result, model, options,
                                                         output_path=output_path)
     base_fig_name = fig_output_file[:-4]
     suffix = 1
@@ -5680,7 +5680,7 @@ minimum value of lambda to be considered in the CMS check."""\
         suffix+=1
 
     process_data_plot_dict={}
-    
+
     # load possible additional results. The second element of the tuple is
     # the dataset name.
     all_res = [(result, None)]
@@ -5702,7 +5702,7 @@ minimum value of lambda to be considered in the CMS check."""\
             raise self.InvalidCmd('The complex mass scheme check result'+
                       " file below does not seem compatible.\n     %s"%filename)
         all_res.append((new_result,title))
-    
+
     # Prepare the data
     for process, resID in checks:
         data1=[] # for subplot 1,i.e. CMS and NWA
@@ -5725,19 +5725,19 @@ minimum value of lambda to be considered in the CMS check."""\
                 raise MadGraph5Error('Inconsistent list of results w.r.t. the'+\
                                 ' lambdaCMS values specified for process %s'%process)
             if pert_orders:
-                cms_finite=cms_res['finite'] 
+                cms_finite=cms_res['finite']
                 nwa_finite=nwa_res['finite']
                 if len(cms_finite) != len(lambdaCMS_list) or\
                     len(nwa_finite) != len(lambdaCMS_list):
                     raise MadGraph5Error('Inconsistent list of results w.r.t. the'+\
                                 ' lambdaCMS values specified for process %s'%process)
-        
+
             bpower = guess_lambdaorder(nwa_born,lambdaCMS_list,
                     expected=proc_res['born_order'], proc=process, res=resonance)
 
             CMSData  = []
             NWAData  = []
-            DiffData = []   
+            DiffData = []
             for idata, lam in enumerate(lambdaCMS_list):
                 if not pert_orders:
                     new_cms = cms_born[idata]/lam**bpower
@@ -5761,13 +5761,13 @@ minimum value of lambda to be considered in the CMS check."""\
                 data2.append([r'$\displaystyle\Delta\;=\;(CMS-NWA)/\lambda%s$'\
                     %('' if diff_lambda_power==1 else r'^{%g}'%diff_lambda_power)
                                                                      ,DiffData])
-                data2.append([r'Detected asymptot',[differences_target[(process,resID)] 
+                data2.append([r'Detected asymptot',[differences_target[(process,resID)]
                                                 for i in range(len(lambdaCMS_list))]])
             else:
                 data1.append([r'$\displaystyle CMS$  %s'%res[1].replace('_',' ').replace('#',r'\#'), CMSData])
                 data1.append([r'$\displaystyle NWA$  %s'%res[1].replace('_',' ').replace('#',r'\#'), NWAData])
                 data2.append([r'$\displaystyle\Delta$  %s'%res[1].replace('_',' ').replace('#',r'\#'), DiffData])
-                
+
         process_data_plot_dict[(process,resID)]=(data1,data2, info)
 
     # Now turn to the actual plotting
@@ -5799,7 +5799,7 @@ minimum value of lambda to be considered in the CMS check."""\
                     break
         else:
             max_lambda_index=len(lambdaCMS_list)-1
-    
+
         if max_lambda_index==-1 or min_lambda_index==-1 or \
                                              min_lambda_index==max_lambda_index:
             raise InvalidCmd('Invalid lambda plotting range: (%.1e,%.1e)'%\
@@ -5817,14 +5817,14 @@ minimum value of lambda to be considered in the CMS check."""\
             import matplotlib.colors as colors
             import matplotlib.cm as mplcm
             import matplotlib.colors as colors
-            
+
             # Nice color maps here are 'gist_rainbow'
             cm = plt.get_cmap('gist_rainbow')
             cNorm  = colors.Normalize(vmin=0, vmax=(len(data2)-1))
             scalarMap = mplcm.ScalarMappable(norm=cNorm, cmap=cm)
             # use vmax=(len(data1)-1)*0.9 to remove pink at the end of the spectrum
             colorlist = [scalarMap.to_rgba(i*0.9) for i in range(len(data2))]
-            # Or it is also possible to alternate colors so as to make them 
+            # Or it is also possible to alternate colors so as to make them
             # as distant as possible to one another
             # colorlist = sum([
             #    [scalarMap.to_rgba(i),scalarMap.to_rgba(i+len(data2)//2)]
@@ -5848,9 +5848,9 @@ minimum value of lambda to be considered in the CMS check."""\
                 color=colorlist[i//2]
                 data_plot=d1[1]
                 minvalue=min(min(data_plot),minvalue)
-                maxvalue=max(max(data_plot),maxvalue)           
+                maxvalue=max(max(data_plot),maxvalue)
                 plt.plot(lambdaCMS_list, data_plot, color=color, marker='', \
-                        linestyle=('-' if i%2==0 else '--'), 
+                        linestyle=('-' if i%2==0 else '--'),
                         label=(d1[0] if (i%2==0 or i==1) else '_nolegend_'))
             ymin = minvalue-(maxvalue-minvalue)/5.
             ymax = maxvalue+(maxvalue-minvalue)/5.
@@ -5865,20 +5865,20 @@ minimum value of lambda to be considered in the CMS check."""\
                 plt.legend(prop={'size':legend_size},loc='upper left', frameon=False)
             else:
                 plt.legend(prop={'size':legend_size},loc='lower left', frameon=False)
-                
+
             plt.axis([min(lambdaCMS_list),max(lambdaCMS_list), ymin, ymax])
-            
+
             plt.subplot(212)
             minvalue=1e+99
             maxvalue=-1e+99
-            
+
             try:
                 asymptot_index = [d2[0] for d2 in data2].index('Detected asymptot')
-                plt.plot(lambdaCMS_list, data2[asymptot_index][1], 
+                plt.plot(lambdaCMS_list, data2[asymptot_index][1],
                                color='0.75', marker='', linestyle='-', label='')
             except ValueError:
                 pass
-            
+
             color_ID = -1
             for d2 in data2:
                 # Special setup for the reference asymptot straight line
@@ -5898,7 +5898,7 @@ minimum value of lambda to be considered in the CMS check."""\
             plt.xscale('log')
             plt.ylabel(r'$\displaystyle \Delta$')
             plt.xlabel(r'$\displaystyle \lambda$')
-            # The unreadable stuff below is just to check if the left of the 
+            # The unreadable stuff below is just to check if the left of the
             # plot is stable or not
             sd = [sorted(d2[1][-len(d2[1])//2:]) for d2 in data2]
             left_stability = sum(abs(s[0]-s[-1]) for s in sd)
@@ -5906,13 +5906,13 @@ minimum value of lambda to be considered in the CMS check."""\
             right_stability = sum(abs(s[0]-s[-1]) for s in sd)
             left_stable =  False if right_stability==0.0 else \
                                             (left_stability/right_stability)<0.1
- 
+
             if left_stable:
                 if ymax*len(data2)-sum(max(d2[1][-len(d2[1])//2:]) \
                                  for d2 in data2) > 0.5*(ymax-ymin)*len(data2):
                     plt.legend(prop={'size':legend_size},loc='upper left', frameon=False)
                 else:
-                    plt.legend(prop={'size':legend_size},loc='lower left', frameon=False)                
+                    plt.legend(prop={'size':legend_size},loc='lower left', frameon=False)
             else:
                 if ymax*len(data2)-sum(max(d2[1][:-len(d2[1])//2]) \
                                   for d2 in data2) > 0.5*(ymax-ymin)*len(data2):
@@ -5922,21 +5922,21 @@ minimum value of lambda to be considered in the CMS check."""\
 
             plt.axis([min(lambdaCMS_list),max(lambdaCMS_list),\
               minvalue-(maxvalue-minvalue)/5., maxvalue+(maxvalue-minvalue)/5.])
-            
+
             plt.savefig(pp,format='pdf')
 
         pp.close()
-        
+
         if len(checks)>0:
             logger.info('Complex Mass Scheme check plot output to file %s. '%fig_output_file)
-            
+
             if sys.platform.startswith('linux'):
                 misc.call(["xdg-open", fig_output_file])
             elif sys.platform.startswith('darwin'):
                 misc.call(["open", fig_output_file])
-        
+
         plt.close("all")
-    
+
     except Exception as e:
         if isinstance(e, ImportError):
             res_str += "\n= Install matplotlib to get a "+\
@@ -5953,7 +5953,7 @@ minimum value of lambda to be considered in the CMS check."""\
                     res_str += general_error
             except:
                 res_str += general_error
-    
+
     if options['reuse']:
         logFile.write(res_str)
         logFile.close()

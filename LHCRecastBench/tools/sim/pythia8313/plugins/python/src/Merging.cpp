@@ -50,7 +50,7 @@
 struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 	using Pythia8::Merging::Merging;
 
-	void init() override { 
+	void init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "init");
 		if (overload) {
@@ -63,7 +63,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 		}
 		return Merging::init();
 	}
-	void statistics() override { 
+	void statistics() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "statistics");
 		if (overload) {
@@ -76,7 +76,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 		}
 		return Merging::statistics();
 	}
-	int mergeProcess(class Pythia8::Event & a0) override { 
+	int mergeProcess(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "mergeProcess");
 		if (overload) {
@@ -89,7 +89,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 		}
 		return Merging::mergeProcess(a0);
 	}
-	double generateSingleSudakov(double a0, double a1, double a2, int a3, int a4, double a5, double a6) override { 
+	double generateSingleSudakov(double a0, double a1, double a2, int a3, int a4, double a5, double a6) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "generateSingleSudakov");
 		if (overload) {
@@ -102,7 +102,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 		}
 		return Merging::generateSingleSudakov(a0, a1, a2, a3, a4, a5, a6);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -115,7 +115,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "onBeginEvent");
 		if (overload) {
@@ -128,7 +128,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "onEndEvent");
 		if (overload) {
@@ -141,7 +141,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Merging *>(this), "onStat");
 		if (overload) {
@@ -160,7 +160,7 @@ struct PyCallBack_Pythia8_Merging : public Pythia8::Merging {
 struct PyCallBack_Pythia8_Ropewalk : public Pythia8::Ropewalk {
 	using Pythia8::Ropewalk::Ropewalk;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Ropewalk *>(this), "init");
 		if (overload) {
@@ -173,7 +173,7 @@ struct PyCallBack_Pythia8_Ropewalk : public Pythia8::Ropewalk {
 		}
 		return Ropewalk::init();
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Ropewalk *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -186,7 +186,7 @@ struct PyCallBack_Pythia8_Ropewalk : public Pythia8::Ropewalk {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Ropewalk *>(this), "onBeginEvent");
 		if (overload) {
@@ -199,7 +199,7 @@ struct PyCallBack_Pythia8_Ropewalk : public Pythia8::Ropewalk {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Ropewalk *>(this), "onEndEvent");
 		if (overload) {
@@ -212,7 +212,7 @@ struct PyCallBack_Pythia8_Ropewalk : public Pythia8::Ropewalk {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Ropewalk *>(this), "onStat");
 		if (overload) {

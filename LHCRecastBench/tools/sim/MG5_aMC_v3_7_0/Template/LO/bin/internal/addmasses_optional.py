@@ -59,7 +59,7 @@ class Momentum:
         DBY=ref.py*rdir/pmag
         DBZ=ref.pz*rdir/pmag
         DB=math.sqrt(DBX**2+DBY**2+DBZ**2)
-        DGA=1.0/math.sqrt(1.0-DB**2)        
+        DGA=1.0/math.sqrt(1.0-DB**2)
         DBP=DBX*self.px+DBY*self.py+DBZ*self.pz
         DGABP=DGA*(DGA*DBP/(1.0+DGA)+self.E)
         self.px = self.px+DGABP*DBX
@@ -72,7 +72,7 @@ class Momentum:
         self.pz = self.pz/pi*po
     def printMe(self):
         li = [self.px,self.py, self.pz, self.E, self.m]
-        print("| %18.10E %18.10E %18.10E %18.10E %18.10E |" % tuple(li))    
+        print("| %18.10E %18.10E %18.10E %18.10E %18.10E |" % tuple(li))
 
 #useful class to describe a particle
 class Particle:
@@ -92,7 +92,7 @@ class Particle:
         print("%2i | %9i | %4i | %4i %4i | %4i %4i | %18.10E %18.10E %18.10E %18.10E %18.10E | %1.0f. %2.0f" % tuple(li))
     def writeMe(self):
         li = [self.id, self.status,self.mo1, self.mo2, self.co1, self.co2, self.mom.px,self.mom.py, self.mom.pz, self.mom.E, self.mom.m, self.life, self.polar]
-        return "%9i %4i %4i %4i %4i %4i %18.10E %18.10E %18.10E %18.10E %18.10E  %1.0f. %2.0f\n" % tuple(li)        
+        return "%9i %4i %4i %4i %4i %4i %18.10E %18.10E %18.10E %18.10E %18.10E  %1.0f. %2.0f\n" % tuple(li)
 
 #useful function for converting a string to variables
 def parseStringToVars(input):
@@ -116,19 +116,19 @@ def add_masses(f,g):
             g.write(line)
         else:
             break
-    
+
     f.close()
-    
+
     #let xml find the event tags
     try:
         xmldoc = minidom.parse(sys.argv[1])
     except IOError:
         print(" could not open file for xml parsing ",sys.argv[1])
         sys.exit(0)
-        
-        
-    reflist = xmldoc.getElementsByTagName('event')    
-    
+
+
+    reflist = xmldoc.getElementsByTagName('event')
+
     for ref in reflist:
         lines = ref.toxml()
         slines = lines.split("\n")
@@ -139,7 +139,7 @@ def add_masses(f,g):
         event = []
         event_description=""
         event_poundSign=""
-    
+
         while counter<nlines:
             s=slines[counter]
             if s.find("<event>")>-1:
@@ -159,10 +159,10 @@ def add_masses(f,g):
                 nup = nup+1
                 event.append(Particle(nup,t))
             counter=counter+1
-    
+
     #default is to skip this
         if motherFlag:
-    
+
             noMotherList=[]
             for p in event:
                 if p.status == -1: continue
@@ -174,8 +174,8 @@ def add_masses(f,g):
                         noMotherList.append(p.no)
                 elif idabs<=5 and abs(pmo.id)==6:
                     if not ( p.co1==pmo.co1 and p.co2==pmo.co2):
-                        noMotherList.append(p.no)                
-    
+                        noMotherList.append(p.no)
+
             nAdded=0
             if len(noMotherList)==0:
                 pass
@@ -194,20 +194,20 @@ def add_masses(f,g):
                         idMom=23
                     else:
                         break
-                    lMom=l1.mom+l2.mom            
+                    lMom=l1.mom+l2.mom
                     lm=[idMom,2,l1.mo1,l1.mo2,0,0,lMom.px,lMom.py,lMom.pz,lMom.E,lMom.calcMass(),0,0]
                     nup=nup+1
                     nAdded=nAdded+1
                     event.append(Particle(nup,lm))
                     l1.mo1=l1.mo2=l2.mo1=l2.mo2=nup
                     ki=ki+1
-    
+
     # update number of partons if mothers added
                 if nAdded>0:
                     s1=event_description.split()[0]
                     mySub = re.compile(s1)
                     event_description = mySub.sub(str(nup),event_description)
-    
+
         if nAdded>0:
             for ip in range(len(event)):
                 l=event[ip]
@@ -222,7 +222,7 @@ def add_masses(f,g):
                             l2.mo1 = l2.mo2 = ip + 1
                         elif l2.mo1 > ip and l2.mo1 < nmo:
                             l2.mo1 = l2.mo2 = l2.mo1 + 1
-    
+
     # identify mothers
         particleDict={}
         for p in event:
@@ -237,7 +237,7 @@ def add_masses(f,g):
                     else:
                         l=[p.no]
                     particleDict[p.mo1]=l
-    
+
     # repair kinematics
         for k in particleDict:
             if len(particleDict[k]) != 2: continue
@@ -256,7 +256,7 @@ def add_masses(f,g):
             p2.mom = Momentum(0,0,0,rsh,rsh) - p1.mom
             p1.mom.boost(event[k-1].mom,1)
             p2.mom.boost(event[k-1].mom,1)
-    
+
         pSum = Momentum(0,0,0,0,0)
         for p in event:
             if p.status== 2 :
@@ -265,11 +265,11 @@ def add_masses(f,g):
                 pSum = pSum - p.mom
             elif p.status==1:
                 pSum = pSum + p.mom
-    
+
         if abs(pSum.px)>toler or abs(pSum.py)>toler or abs(pSum.pz)>toler or abs(pSum.E)>toler:
             print("Event does not pass tolerance ",toler)
             pSum.printMe()
-    
+
         if 1:
             g.write("<event>\n")
             g.write(event_description+"\n")
@@ -282,7 +282,7 @@ def add_masses(f,g):
     g.write("</LesHouchesEvents>\n")
     g.close()
 
-    
+
 
 if __name__ == "__main__":
 
@@ -293,7 +293,7 @@ if __name__ == "__main__":
         sys.exit(1)
     else:
         print("Running addmasses.py to add masses and correct kinematics of fixed particles")
-    
+
     #first print out leading information
     try:
         f=open(sys.argv[1],'r')
@@ -306,10 +306,9 @@ if __name__ == "__main__":
     except IOError:
         print("need a file for writing")
         sys.exit(1)
-    
+
     try:
         add_masses(f,g)
     except Exception as error:
         print("addmasses failed with error, %s" % error)
         sys.exit(1)
-    

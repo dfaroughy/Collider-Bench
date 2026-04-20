@@ -17,7 +17,7 @@
 *  ********************************************************************
 *  *
 *  *           C   / d^(Dim)q
-*  * rslt = ------ | -------- 
+*  * rslt = ------ | --------
 *  *        i*pi^2 / (q^2-mm)
 *  *
 *  * with  Dim = 4-2*eps
@@ -221,7 +221,7 @@
       implicit none
       double complex rslt(0:2) ,p1,p2,p3,m1,m2,m3
      &,zmu,mm(3),pp(3),s1,s2,s3,r1,r2,r3,cnst,zero
-      double precision 
+      double precision
      & mu2,h1,h2,smax,small,avh_oni_mu_get,avh_oni_thrs,avh_oni_pi
      &,ap(3),am(3),s1r2,s2r3,s3r3,as1
       integer
@@ -384,8 +384,8 @@
 *  *         C = pi^eps * mu^(2*eps)
 *  *             * GAMMA(1-2*eps)/GAMMA(1-eps)^2/GAMMA(1+eps)
 *  *
-*  * input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2, 
-*  *         p12=(k1+k2)^2, p23=(k2+k3)^2, 
+*  * input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2,
+*  *         p12=(k1+k2)^2, p23=(k2+k3)^2,
 *  *         m1,m2,m3,m4=squared masses
 *  * output: rslt(0) = eps^0   -coefficient
 *  *         rslt(1) = eps^(-1)-coefficient
@@ -592,8 +592,8 @@
 *  * Rotate kinematics to one of the following forms
 *  *   p12,p23 ,p1,p2,p3,p4
 *  *            +  +  +  + , p1 largest of p1,p2,p3,p4
-*  *    +   -   -  -  +  + 
-*  *            -  +  -  + 
+*  *    +   -   -  -  +  +
+*  *            -  +  -  +
 *  ********************************************************************
       implicit none
       double complex pp(6),mm(4) ,p1,p2,p3,p4,p12,p23,m1,m2,m3,m4

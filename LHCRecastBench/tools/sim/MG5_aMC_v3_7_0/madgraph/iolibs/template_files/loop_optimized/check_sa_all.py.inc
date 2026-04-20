@@ -17,7 +17,7 @@ except:
        os.path.isfile(pjoin(root_path,'all_matrix.f')) and \
        not os.path.isfile(pjoin(root_path,'allmatrix2py.so')):
         print( "Trying to automatically generate the python module 'allmatrix2py.so' with f2py...")
-        p = subprocess.Popen(['make','allmatrix2py.so'], stdout=subprocess.PIPE, 
+        p = subprocess.Popen(['make','allmatrix2py.so'], stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE, cwd=root_path)
         (out, err) = p.communicate()
         out = out.decode()
@@ -114,7 +114,7 @@ for iProc, (process_pdgs, kinematic_config) in enumerate(p.items()):
     P =invert_momenta(kinematic_config)
     # Alpha_s value
     alphas = 0.118
-    # -1 means that the MadLoop averages/sum over helicity configuration. 
+    # -1 means that the MadLoop averages/sum over helicity configuration.
     # If a positive integer is picked it corresponds to the position of the helicity configuration listed in the file
     # 'MadLoop5_resouces/ML5_<id>_HelConfigs.dat'
     nhel = -1 # means sum over all helicity
@@ -138,4 +138,3 @@ for iProc, (process_pdgs, kinematic_config) in enumerate(p.items()):
     print( '* %-108s *'%('      %.18e'%finite_loop_me))
     print( '* %-108s *'%'')
     print( '='*112)
-

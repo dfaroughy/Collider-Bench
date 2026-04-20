@@ -11,11 +11,11 @@
 *
       SUBROUTINE DLSQP2(N,X,Y,A0,A1,A2,SD,IFAIL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
+
       DIMENSION X(*),Y(*)
- 
+
       PARAMETER (R0 = 0)
- 
+
       A0=0
       A1=0
       A2=0
@@ -66,4 +66,3 @@
       A1=A1-2*XM*A2
       RETURN
       END
-

@@ -3,7 +3,7 @@
 
       DOUBLE PRECISION YGAMMA, JMZMIN, JMRAD, PTJIM
       DOUBLE PRECISION PHAD, JMU2, JMV2, SMALL, JMARRY
-c     JMARRY is the array storing gamma-p xsec at various z, & 
+c     JMARRY is the array storing gamma-p xsec at various z, &
 c	max weight for each z
       DOUBLE PRECISION TOTSCAT, NLOST
       INTEGER MAXMS, NPSIMP, MSFLAG, JMPTYP, JCMVAR, NPROC
@@ -22,8 +22,3 @@ C                                 intervals (must be even)
       DOUBLE PRECISION JMPROC, JMVETO
       COMMON / JMEVNT/ JMPROC(NPROC)
      &,        JMVETO(2,13), NSCAT
-
-
-
-
-

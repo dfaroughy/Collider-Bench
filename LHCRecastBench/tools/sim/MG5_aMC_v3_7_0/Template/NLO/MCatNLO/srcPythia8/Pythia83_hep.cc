@@ -1,5 +1,5 @@
 // Driver for Pythia 8. Reads an input file dynamically created on
-// the basis of the inputs specified in MCatNLO_MadFKS_PY8.Script 
+// the basis of the inputs specified in MCatNLO_MadFKS_PY8.Script
 #include "Pythia8/Pythia.h"
 #include "Pythia8Plugins/HepMC2.h"
 #include "Pythia8Plugins/aMCatNLOHooks.h"
@@ -102,7 +102,7 @@ int main() {
     xsec.set_cross_section( sigmaTotal, pythia.info.sigmaErr() );
     hepmcevt->set_cross_section( xsec );
     // Write the HepMC event to file. Done with it.
-    ascii_io << hepmcevt;    
+    ascii_io << hepmcevt;
     delete hepmcevt;
   }
 

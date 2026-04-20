@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2012 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -50,16 +50,16 @@ class TestEvent(unittest.TestCase):
         self.assertTrue(out)
         l2 =[4,5,3]
         out = lhe_parser.Event.equiv_sequence(l1,l2, mapping)
-        self.assertFalse(out)        
+        self.assertFalse(out)
 
-    
+
     def test_get_permutation(self):
         """ check the static method get_permutation"""
 
 
         out = lhe_parser.Event.get_permutation([3,4,5], "AAA")
         self.assertEqual(len(out), 1)
-        
+
         out = lhe_parser.Event.get_permutation([3,4,5], "AAB")
         self.assertEqual(len(out), 3)
         self.assertIn((3,4,5), out)
@@ -84,7 +84,7 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(len(out), 6)
         self.assertIn((3,4,5,6), out)
         self.assertIn((4,3,6,5), out)
-  
+
 
     def test_event_property(self):
         """
@@ -110,13 +110,13 @@ class TestEvent(unittest.TestCase):
         event = lhe_parser.Event(input)
         self.assertEqual(10, len(event))
 
-        # check that we can get the momenta for a request order 
+        # check that we can get the momenta for a request order
         out = event.get_momenta([(2,-2), (-11,-11,-11,11,11,11)])
         self.assertEqual(out, [(1146.3656627, 0.0, 0.0, 1146.3656627), (219.8184945, -0.0, -0.0, -219.8184945), (321.40266327, -173.27841208, -191.47557428, 191.34097396), (168.05697822, 40.361765237, -11.075255459, 162.76183383), (17.71161152, -2.2637466291, -14.439319632, -10.004133265), (86.88363136, 1.1099279128, -66.124593668, 56.347773431), (613.85212913, 73.969380376, 151.49184462, 590.2484123), (158.27714371, 60.10108518, 131.62289842, -64.147692042)])
-        
+
         # and for a second order:
         out2 = event.get_momenta([(2,-2), (-11,11,-11,11,-11,11)])
-        
+
         self.assertEqual(out2, [(1146.3656627, 0.0, 0.0, 1146.3656627), (219.8184945, -0.0, -0.0, -219.8184945), (321.40266327, -173.27841208, -191.47557428, 191.34097396), (86.88363136, 1.1099279128, -66.124593668, 56.347773431), (168.05697822, 40.361765237, -11.075255459, 162.76183383), (613.85212913, 73.969380376, 151.49184462, 590.2484123), (17.71161152, -2.2637466291, -14.439319632, -10.004133265), (158.27714371, 60.10108518, 131.62289842, -64.147692042)])
 
 
@@ -136,7 +136,7 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(len(perm_gen), 2)
         self.assertEqual(len(perm_gen[11]), 6)
         self.assertEqual(len(perm_gen[-11]), 6)
-        self.assertEqual(perm_gen, {-11: [[(2, 2), (3, 3), (4, 4)], [(2, 2), (4, 3), (3, 4)], [(3, 2), (2, 3), (4, 4)], [(3, 2), (4, 3), (2, 4)], [(4, 2), (2, 3), (3, 4)], [(4, 2), (3, 3), (2, 4)]], 
+        self.assertEqual(perm_gen, {-11: [[(2, 2), (3, 3), (4, 4)], [(2, 2), (4, 3), (3, 4)], [(3, 2), (2, 3), (4, 4)], [(3, 2), (4, 3), (2, 4)], [(4, 2), (2, 3), (3, 4)], [(4, 2), (3, 3), (2, 4)]],
                                      11: [[(5, 5), (6, 6), (7, 7)], [(5, 5), (7, 6), (6, 7)], [(6, 5), (5, 6), (7, 7)], [(6, 5), (7, 6), (5, 7)], [(7, 5), (5, 6), (6, 7)], [(7, 5), (6, 6), (5, 7)]]}
         )
         perm_gen2 = event.get_all_momenta([(2,-2), (-11,11,-11,11,-11,11)], debug_output=2)
@@ -144,13 +144,13 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(len(perm_gen2[11]), 6)
         self.assertEqual(len(perm_gen2[-11]), 6)
         self.assertNotEqual(perm_gen, perm_gen2)
-        self.assertEqual(perm_gen2, {-11: [[(2, 2), (4, 4), (6, 6)], [(2, 2), (6, 4), (4, 6)], [(4, 2), (2, 4), (6, 6)], [(4, 2), (6, 4), (2, 6)], [(6, 2), (2, 4), (4, 6)], [(6, 2), (4, 4), (2, 6)]], 
+        self.assertEqual(perm_gen2, {-11: [[(2, 2), (4, 4), (6, 6)], [(2, 2), (6, 4), (4, 6)], [(4, 2), (2, 4), (6, 6)], [(4, 2), (6, 4), (2, 6)], [(6, 2), (2, 4), (4, 6)], [(6, 2), (4, 4), (2, 6)]],
                                      11: [[(3, 3), (5, 5), (7, 7)], [(3, 3), (7, 5), (5, 7)], [(5, 3), (3, 5), (7, 7)], [(5, 3), (7, 5), (3, 7)], [(7, 3), (3, 5), (5, 7)], [(7, 3), (5, 5), (3, 7)]]}
-        
+
         )
-        
-        
-    
+
+
+
         all_perms = event.get_all_momenta([(2,-2), (-11,-11,-11,11,11,11)], debug_output=0)
         self.assertEqual(len(all_perms), 36)
         for i in range(len(all_perms)):
@@ -187,13 +187,13 @@ class TestEvent(unittest.TestCase):
         event = lhe_parser.Event(input)
         self.assertEqual(10, len(event))
 
-        # check that we can get the momenta for a request order 
+        # check that we can get the momenta for a request order
         out = event.get_momenta([(2,-2), (-11,-11,-11,11,11,11)])
         self.assertEqual(out, [(1146.3656627, 0.0, 0.0, 1146.3656627), (219.8184945, -0.0, -0.0, -219.8184945), (321.40266327, -173.27841208, -191.47557428, 191.34097396), (168.05697822, 40.361765237, -11.075255459, 162.76183383), (17.71161152, -2.2637466291, -14.439319632, -10.004133265), (86.88363136, 1.1099279128, -66.124593668, 56.347773431), (613.85212913, 73.969380376, 151.49184462, 590.2484123), (158.27714371, 60.10108518, 131.62289842, -64.147692042)])
-        
+
         # and for a second order:
         out2 = event.get_momenta([(2,-2), (-11,11,-11,11,-11,11)])
-        
+
         self.assertEqual(out2, [(1146.3656627, 0.0, 0.0, 1146.3656627), (219.8184945, -0.0, -0.0, -219.8184945), (321.40266327, -173.27841208, -191.47557428, 191.34097396), (86.88363136, 1.1099279128, -66.124593668, 56.347773431), (168.05697822, 40.361765237, -11.075255459, 162.76183383), (613.85212913, 73.969380376, 151.49184462, 590.2484123), (17.71161152, -2.2637466291, -14.439319632, -10.004133265), (158.27714371, 60.10108518, 131.62289842, -64.147692042)])
 
 
@@ -215,7 +215,7 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(len(perm_gen), 2)
         self.assertEqual(len(perm_gen[11]), 3)
         self.assertEqual(len(perm_gen[-11]), 3)
-        self.assertEqual(perm_gen, {-11: [[(2, 2), (3, 3), (4, 4)], [(2, 2), (4, 3), (3, 4)], [(3, 2), (4, 3), (2, 4)]], 
+        self.assertEqual(perm_gen, {-11: [[(2, 2), (3, 3), (4, 4)], [(2, 2), (4, 3), (3, 4)], [(3, 2), (4, 3), (2, 4)]],
                                      11: [[(5, 5), (6, 6), (7, 7)], [(5, 5), (7, 6), (6, 7)], [(6, 5), (7, 6), (5, 7)]]}
         )
 
@@ -224,11 +224,11 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(len(perm_gen2[11]), 3)
         self.assertEqual(len(perm_gen2[-11]), 3)
         self.assertNotEqual(perm_gen, perm_gen2)
-        self.assertEqual(perm_gen2, {-11: [[(2, 2), (4, 4), (6, 6)], [(2, 2), (6, 4), (4, 6)], [(4, 2), (6, 4), (2, 6)]], 
+        self.assertEqual(perm_gen2, {-11: [[(2, 2), (4, 4), (6, 6)], [(2, 2), (6, 4), (4, 6)], [(4, 2), (6, 4), (2, 6)]],
                                       11: [[(3, 3), (5, 5), (7, 7)], [(3, 3), (7, 5), (5, 7)], [(5, 3), (7, 5), (3, 7)]]}
         )
-        
-        
+
+
         all_perms = event.get_all_momenta([(2,-2), (-11,-11,-11,11,11,11)], debug_output=0)
         self.assertEqual(len(all_perms), 9)
         for i in range(len(all_perms)):
@@ -245,7 +245,7 @@ class TestEvent(unittest.TestCase):
                 if all_perms[i][j] == all_perms[0][j]:
                     nb_identical[j] +=1
         self.assertIn(nb_identical, [[9,9,3,3,3,3,3,3],
-                                     [9,9,6,3,3,6,3,3]]) # technically other combination are possible 
+                                     [9,9,6,3,3,6,3,3]]) # technically other combination are possible
 
 
         # redo the same but with less particles (simpler case so should go trough)
@@ -277,10 +277,10 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(len(perm_gen), 2)
         self.assertEqual(len(perm_gen[11]), 2)
         self.assertEqual(len(perm_gen[-11]), 2)
-        self.assertEqual(perm_gen, {-11: [[(2, 2), (3, 3)], [(3, 2), (2, 3)]], 
+        self.assertEqual(perm_gen, {-11: [[(2, 2), (3, 3)], [(3, 2), (2, 3)]],
                                      11: [[(4, 4), (5, 5)], [(5, 4), (4, 5)]]}
         )
-        
+
         all_perms = event.get_all_momenta([(2,-2), (-11,-11,11,11)], debug_output=0)
         self.assertEqual(len(all_perms), 4)
         for i in range(len(all_perms)):
@@ -310,7 +310,7 @@ class TestFourMomentum(unittest.TestCase):
         ptop = FourMomentum(186.51892916393933,66.4591715464,-21.3845299376,10.463198859726106)
         #Want to have the lepton momenta in the frame where the top is at rest
 
-        out = plep.boost_to_restframe(ptop) 
+        out = plep.boost_to_restframe(ptop)
 
         self.assertAlmostEqual(out.E, 35.77191285579485)
         self.assertAlmostEqual(out.px,  11.108508511835302)
@@ -319,7 +319,7 @@ class TestFourMomentum(unittest.TestCase):
 
 
         out = ptop.boost_to_restframe(ptop)
-        self.assertAlmostEqual(out.E, ptop.mass) 
+        self.assertAlmostEqual(out.E, ptop.mass)
         self.assertAlmostEqual(out.px,  0)
         self.assertAlmostEqual(out.py, 0)
         self.assertAlmostEqual(out.pz, 0)
@@ -336,7 +336,7 @@ class TestFourMomentum(unittest.TestCase):
 class TESTLHEParser(unittest.TestCase):
 
     def setUp(self):
-        
+
         debugging = unittest.debug
         if debugging:
             self.path = pjoin(MG5DIR, "tmp_lhe_test")
@@ -347,7 +347,7 @@ class TESTLHEParser(unittest.TestCase):
             self.path = tempfile.mkdtemp(prefix='test_mg5')
 
     def tearDown(self):
-        
+
         if self.path != pjoin(MG5DIR, "tmp_lhe_test"):
             shutil.rmtree(self.path)
 
@@ -359,9 +359,9 @@ class TESTLHEParser(unittest.TestCase):
         def parse_lo_weight_old(evt):
             """parsing for unittest onlyx"""
 
-            
+
             start, stop = evt.tag.find('<mgrwt>'), evt.tag.find('</mgrwt>')
-    
+
             if start != -1 != stop :
                 text = evt.tag[start+8:stop]
     #<rscale>  3 0.29765919e+03</rscale>
@@ -393,8 +393,8 @@ class TESTLHEParser(unittest.TestCase):
                     elif '<asrwt>' in line:
                         args = line.replace('>','> ').split()
                         nalps = int(args[1])
-                        evt.loweight['asrwt'] = [float(a) for a in args[2:2+nalps]] 
-                        
+                        evt.loweight['asrwt'] = [float(a) for a in args[2:2+nalps]]
+
                     elif 'totfact' in line:
                         args = line.replace('>','> ').split()
                         evt.loweight['tot_fact'] = float(args[1])
@@ -402,7 +402,7 @@ class TESTLHEParser(unittest.TestCase):
                 return None
             return evt.loweight
 
-        
+
         events=["""
 <event>
  4      0 +1.7208000e-01 1.00890300e+02 7.95774700e-02 1.27947900e-01
@@ -484,16 +484,16 @@ class TESTLHEParser(unittest.TestCase):
 </mgrwt>
 </event>
 """]
-     
-        solutions = [None, 
+
+        solutions = [None,
                   {'pdf_pdg_code1': [4], 'asrwt': [], 'pdf_pdg_code2': [-1], 'pdf_q1': [125.0], 'pdf_q2': [125.0], 'n_pdfrw1': 1, 'n_pdfrw2': 1, 'tot_fact': -0.0002735227, 'pdf_x2': [0.59528052], 'pdf_x1': [0.1131999], 'n_qcd': 2, 'ren_scale': 125.0},
                   {'pdf_pdg_code1': [4], 'asrwt': [0.11], 'pdf_pdg_code2': [1, -1], 'pdf_q1': [125.0], 'pdf_q2': [0.59528052, 125.0], 'ren_scale': 125.0, 'n_pdfrw1': 1, 'n_pdfrw2': 2, 'pdf_x2': [0.2, 0.0011], 'pdf_x1': [0.1131999], 'n_qcd': 2, 'tot_fact': 115.0},
                   {'pdf_pdg_code1': [4], 'asrwt': [0.11], 'pdf_pdg_code2': [1, -1], 'pdf_q1': [125.0], 'pdf_q2': [0.59528052, 125.0], 'ren_scale': 125.0, 'n_pdfrw1': 1, 'n_pdfrw2': 2, 'pdf_x2': [0.2, 0.0011], 'pdf_x1': [0.1131999], 'n_qcd': 2, 'tot_fact': 115.001},
                   {'pdf_pdg_code1': [4], 'asrwt': [0.11], 'pdf_pdg_code2': [1, -1], 'pdf_q1': [125.0], 'pdf_q2': [0.59528052, 125.0], 'ren_scale': 125.0, 'n_pdfrw1': 1, 'n_pdfrw2': 2, 'pdf_x2': [0.2, 0.0011], 'pdf_x1': [0.1131999], 'n_qcd': 2, 'tot_fact': 115.001},
                   {'pdf_pdg_code1': [21], 'asrwt': [46.373112], 'pdf_pdg_code2': [21], 'pdf_q1': [5.2142986], 'pdf_q2': [46.373112], 'ren_scale': 26.956472, 'n_pdfrw1': 1, 'n_pdfrw2': 1, 'pdf_x2': [0.029841683], 'pdf_x1': [0.013689253], 'n_qcd': 2, 'tot_fact': 159.51072},
                   None]
-                  
-     
+
+
         for i,evt in enumerate(events):
             evt1 = lhe_parser.Event(evt)
             evt2 = lhe_parser.Event(evt)
@@ -507,15 +507,15 @@ class TESTLHEParser(unittest.TestCase):
                     for key in lo2:
                         self.assertEqual(lo[key], lo2[key])
             self.assertEqual(lo, solutions[i])
-         
-     
-     
-        
-        
+
+
+
+
+
 
     def test_read_write_lhe(self):
         """test that we can read/write an lhe event file"""
-        
+
         input= """<LesHouchesEvents version="1.0">
 <header>
 DATA
@@ -539,7 +539,7 @@ DATA
        23  1    1    2    0    0 -6.0417155e+00 -4.2744556e+01 -2.6360878e+02 2.82255979e+02 9.11880035e+01 1.8975e-26 1.0000e+00
 # balbalblb
 #bbbb3
-</event>            
+</event>
 <event>
   7     66 +1.5024446e-03 3.15138740e+02 7.95774720e-02 9.66701260e-02
        21 -1    0    0  502  501 +0.0000000e+00 +0.0000000e+00 -6.4150959e+01 6.41553430e+01 7.49996552e-01 0.0000e+00 0.0000e+00
@@ -558,12 +558,12 @@ DATA
     <wgt id='1005'> +1.1253000e+04 </wgt>
   </rwgt>
 </event>
-</LesHouchesEvents> 
-        
+</LesHouchesEvents>
+
         """
-        
+
         open(pjoin(self.path,'event.lhe'),'w').write(input)
-        
+
         input = lhe_parser.EventFile(pjoin(self.path,'event.lhe'))
         self.assertEqual(input.banner.lower(), """<LesHouchesEvents version="1.0">
 <header>
@@ -574,7 +574,7 @@ DATA
   0.16531958660E+02  0.18860728290E+00  0.17208000000E+00   0
 </init>
 """.lower())
-        
+
         nb_event = 0
         txt = ""
         for event in input:
@@ -585,7 +585,7 @@ DATA
             self.assertEqual(new, event, '%s \n !=\n %s' % (new, event))
             txt += str(event)
         self.assertEqual(nb_event, 3)
-    
+
         target = """<event>
  4      0 +1.7208000e-01 1.00890300e+02 7.95774700e-02 1.27947900e-01
        -1 -1    0    0    0  501 +0.0000000000e+00 +0.0000000000e+00 +1.1943355000e+01 1.1943354600e+01 0.0000000000e+00 0.0000e+00 1.0000e+00
@@ -627,8 +627,8 @@ DATA
 
 
     def test_read_write_gzip(self):
-        """ """ 
-        
+        """ """
+
         input= """<LesHouchesEvents version="1.0">
 <header>
 DATA
@@ -652,7 +652,7 @@ DATA
        23  1    1    2    0    0 -6.0417155e+00 -4.2744556e+01 -2.6360878e+02 2.82255979e+02 9.11880035e+01 1.8975e-26 1.0000e+00
 # balbalblb
 #bbbb3
-</event>            
+</event>
 <event>
   7     66 +1.5024446e-03 3.15138740e+02 7.95774720e-02 9.66701260e-02
        21 -1    0    0  502  501 +0.0000000e+00 +0.0000000e+00 -6.4150959e+01 6.41553430e+01 7.49996552e-01 0.0000e+00 0.0000e+00
@@ -671,10 +671,10 @@ DATA
     <wgt id='1005'> +1.1253000e+04 </wgt>
   </rwgt>
 </event>
-</LesHouchesEvents> 
-        
+</LesHouchesEvents>
+
         """
-        
+
         open(pjoin(self.path, 'event.lhe'),'w').write(input)
         input_lhe = lhe_parser.EventFile(pjoin(self.path, 'event.lhe.gz'))
         output_lhe = lhe_parser.EventFile(pjoin(self.path, 'event2.lhe.gz'),'wb')
@@ -691,12 +691,12 @@ DATA
         misc.gunzip(pjoin(self.path,'event2.lhe.gz'))
         self.assertTrue(pjoin(self.path,'event2.lhe'))
         input_lhe = lhe_parser.EventFile(pjoin(self.path, 'event.lhe'))
-        
+
 
 class TESTLHEParserNLO(unittest.TestCase):
 
     def setUp(self):
-        
+
         debugging = unittest.debug
         if debugging:
             self.path = pjoin(MG5DIR, "tmp_lhe_nlo_test")
@@ -707,7 +707,7 @@ class TESTLHEParserNLO(unittest.TestCase):
             self.path = tempfile.mkdtemp(prefix='test_mg5')
 
     def tearDown(self):
-        
+
         if self.path != pjoin(MG5DIR, "tmp_lhe_nlo_test"):
             shutil.rmtree(self.path)
 
@@ -787,14 +787,14 @@ class TESTLHEParserNLO(unittest.TestCase):
 </mgrwgt>
  """
         evt1 = lhe_parser.Event(input)
-        #evt1.parse_reweight() 
+        #evt1.parse_reweight()
         evt1.parse_nlo_weight()
         self.assertFalse(evt1.nloweight.ispureqcd())
 
         for cevent in evt1.nloweight.cevents:
             self.assertIn(len(cevent), (5,6))
 
-        
+
         input_tt="""
    4      0 0.11274375E+04 0.20505458E+03 0.75467711E-02 0.93919079E-01
         21 -1    0    0  503  502  0.00000000000000000E+00  0.00000000000000000E+00  0.18170668562899095E+03  0.18170823344656947E+03  0.75000000000000000E+00 0.0000E+00 0.9000E+01
@@ -819,7 +819,7 @@ class TESTLHEParserNLO(unittest.TestCase):
 """
 
         evt2 = lhe_parser.Event(input_tt)
-        #evt1.parse_reweight() 
+        #evt1.parse_reweight()
         evt2.parse_nlo_weight()
         self.assertTrue(evt2.nloweight.ispureqcd())
 
@@ -862,7 +862,7 @@ class TESTLHEParserNLO(unittest.TestCase):
 
 """
         evt3 = lhe_parser.Event(input_dy)
-        #evt1.parse_reweight() 
+        #evt1.parse_reweight()
         evt3.parse_nlo_weight()
         self.assertTrue(evt3.nloweight.ispureqcd())
 

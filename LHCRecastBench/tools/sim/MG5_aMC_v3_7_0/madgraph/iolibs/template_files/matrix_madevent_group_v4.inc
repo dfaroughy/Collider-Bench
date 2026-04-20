@@ -1,37 +1,37 @@
 SUBROUTINE SMATRIX%(proc_id)s(P, RHEL, RCOL, channel, IVEC, ANS, IHEL, ICOL)
-C 
+C
 %(info_lines)s
-C 
+C
 C MadGraph5_aMC@NLO for Madevent Version
-C 
+C
 C Returns amplitude squared -- no average over initial state/symmetry factor
 c and helicities
 c for the point in phase space P(0:3,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C 
+C
     use DiscreteSampler
     IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
     Include 'genps.inc'
     Include 'maxconfigs.inc'
     Include 'nexternal.inc'
     Include 'maxamps.inc'
     include '../../Source/vector.inc' ! defines VECSIZE_MEMMAX
     include 'run.inc'
-    INTEGER                 NCOMB         
+    INTEGER                 NCOMB
     PARAMETER (             NCOMB=%(ncomb)s)
     INTEGER    NGRAPHS
-    PARAMETER (NGRAPHS=%(ngraphs)d) 
+    PARAMETER (NGRAPHS=%(ngraphs)d)
     INTEGER    NDIAGS
-    PARAMETER (NDIAGS=%(ndiags)d) 
+    PARAMETER (NDIAGS=%(ndiags)d)
     INTEGER    THEL
     PARAMETER (THEL=2*NCOMB)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
     REAL*8 P(0:3,NEXTERNAL),ANS
     double precision RHEL ! random number for selecting helicity
     double precision RCOL ! random number for selecting helicity
@@ -42,14 +42,14 @@ c   output argument
 c
     integer ihel, icol
 c
-c global (due to reading writting) 
+c global (due to reading writting)
 c
         LOGICAL GOODHEL(NCOMB, MAXSPROC)
 	    INTEGER NTRY(MAXSPROC)
         common/BLOCK_GOODHEL/NTRY,GOODHEL
 
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
         INTEGER CONFSUB(MAXSPROC,LMAXCONFIGS)
         INCLUDE 'config_subproc_map.inc'
@@ -67,26 +67,26 @@ C
 	DATA NB_FAIL /0/
         double precision get_channel_cut
         external get_channel_cut
-	
+
 c
 C       This is just to temporarily store the reference grid for helicity of the DiscreteSampler so as to obtain its number of entries with ref_helicity_grid%%n_tot_entries
 	    type(SampledDimension) ref_helicity_grid
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
     logical init_mode
     common /to_determine_zero_hel/init_mode
     DOUBLE PRECISION AMP2(MAXAMPS), JAMP2(0:MAXFLOW)
-   
+
 
     INTEGER NB_SPIN_STATE_in(2)
     common /nb_hel_state/ nb_spin_state_in
-    
+
     INTEGER IMIRROR, IPROC
     COMMON/TO_MIRROR/ IMIRROR,IPROC
 
-c       included vi run.inc    
-c       double precision tmin_for_channel	
+c       included vi run.inc
+c       double precision tmin_for_channel
 c       integer sde_strat ! 1 means standard single diagram enhancement strategy,
 c      	      	      	   2 means approximation by the	denominator of the propagator
 c       common/TO_CHANNEL_STRAT/tmin_for_channel,	sde_strat
@@ -117,7 +117,7 @@ C ----------
     DO I=1,NEXTERNAL
        JC(I) = +1
     ENDDO
-     
+
     IF (multi_channel) THEN
         DO I=1,NDIAGS
             AMP2(I)=0D0
@@ -156,7 +156,7 @@ C ----------
 		  hel_jacobian   = 1.0d0
 !         We don't want to re-update the helicity grid if it was already updated by another matrix<i>, so we make sure that the reference grid is empty.
           ref_helicity_grid = DS_get_dimension(ref_grid,'Helicity')
-		  IF((DS_get_dim_status('Helicity').eq.1).and.(ref_helicity_grid%%n_tot_entries.eq.0)) then 
+		  IF((DS_get_dim_status('Helicity').eq.1).and.(ref_helicity_grid%%n_tot_entries.eq.0)) then
 !           If we finished the initialization we can update the grid so as to start sampling over it.
 !           However the grid will now be filled by dsample with different kind of weights (including pdf, flux, etc...) so by setting the grid_mode of the reference grid to 'initialization' we make sure it will be overwritten (as opposed to 'combined') by the running grid at the next update.
             CALL DS_UPDATE_GRID('Helicity')
@@ -172,7 +172,7 @@ C ----------
 	      ELSE IF (.NOT.GOODHEL(I,%(proc_id)s) .AND. (DABS(TS(I)).GT.ANS*LIMHEL/NCOMB)) THEN
                  GOODHEL(I,%(proc_id)s)=.TRUE.
                  NGOOD = NGOOD +1
-                 PRINT *,'Added good helicity ',I, 'for process %(proc_id)s',TS(I)*NCOMB/ANS,' in event ',NTRY(%(proc_id)s) 
+                 PRINT *,'Added good helicity ',I, 'for process %(proc_id)s',TS(I)*NCOMB/ANS,' in event ',NTRY(%(proc_id)s)
               ENDIF
            ENDDO
 		endif
@@ -180,7 +180,7 @@ C ----------
            ISHEL=MIN(ISUM_HEL,NGOOD)
         ENDIF
       ENDIF
-    ELSE IF (.not.init_mode) then            ! random helicity 
+    ELSE IF (.not.init_mode) then            ! random helicity
 C           The helicity configuration was chosen already by genps and put in a common block defined in genps.inc.
             I = HEL_PICKED
 
@@ -208,7 +208,7 @@ c         Set right sign for ANS, based on sign of chosen helicity
           GOTO 10
        ENDIF
     ENDDO
- 10 CONTINUE   
+ 10 CONTINUE
     ENDIF
     IF (MULTI_CHANNEL) THEN
         XTOT=0D0
@@ -221,15 +221,15 @@ c         Set right sign for ANS, based on sign of chosen helicity
 	    else
 	    	 AMP2(J) = GET_CHANNEL_CUT(P, I)
                  XTOT=XTOT+AMP2(J)
-	    endif	
-            endif	
+	    endif
+            endif
         ENDDO
         IF (XTOT.NE.0D0) THEN
 		ANS=ANS*AMP2(channel)/XTOT
         ELSE IF(ANS.ne.0d0) THEN
 	     IF(NB_FAIL.ge.10)then
 			write(*,*) "Problem in the multi-channeling. All amp2 are zero but not the total matrix-element"
-			
+
 	        stop 1
             else
 	    nb_fail = nb_fail +1
@@ -244,27 +244,27 @@ c         Set right sign for ANS, based on sign of chosen helicity
 
 
 REAL*8 FUNCTION MATRIX%(proc_id)s(P,NHEL,IC, IHEL,AMP2, JAMP2, IVEC)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c for the point with external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
-C  
+C
     IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
     INTEGER    NGRAPHS
     PARAMETER (NGRAPHS=%(ngraphs)d)
-    INTEGER                 NCOMB         
+    INTEGER                 NCOMB
     PARAMETER (             NCOMB=%(ncomb)s)
     include 'genps.inc'
     include 'nexternal.inc'
     include 'maxamps.inc'
     INTEGER    NWAVEFUNCS,     NCOLOR
-    PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d) 
+    PARAMETER (NWAVEFUNCS=%(nwavefuncs)d, NCOLOR=%(ncolor)d)
     REAL*8     ZERO
     PARAMETER (ZERO=0D0)
     COMPLEX*16 IMAG1
@@ -274,16 +274,16 @@ C
 	LOGICAL CHOSEN_SO_CONFIGS(NSQAMPSO)
 	DATA CHOSEN_SO_CONFIGS/%(chosen_so_configs)s/
 	SAVE CHOSEN_SO_CONFIGS
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
     REAL*8 P(0:3,NEXTERNAL)
     INTEGER NHEL(NEXTERNAL), IC(NEXTERNAL)
     INTEGER IHEL
     INTEGER IVEC
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
     INTEGER I,J,M,N
     COMPLEX*16 ZTEMP, TMP_JAMP(%(nb_temp_jamp)i)
     INTEGER CF(NCOLOR*(NCOLOR+1)/2)
@@ -302,7 +302,7 @@ C
 C FUNCTION
 C
       INTEGER SQSOINDEX%(proc_id)s
-C  
+C
 C GLOBAL VARIABLES
 C
    include '../../Source/vector.inc' ! defines VECSIZE_MEMMAX
@@ -322,10 +322,10 @@ C
        integer sde_strat ! 1 means standard single diagram enhancement strategy,
 c      	      	      	   2 means approximation by the	denominator of the propagator
        common/TO_CHANNEL_STRAT/tmin_for_channel,	sde_strat
-       
-C  
+
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -336,24 +336,24 @@ if (first) then
 
 	if(init_mode) then
 	   zeroamp_%(proc_id)s(:,:) = .true.
-	endif	
+	endif
 endif
 
 
 %(helas_calls)s
 
-JAMP(:,:) = (0d0,0d0) 
+JAMP(:,:) = (0d0,0d0)
 %(jamp_lines)s
 
     if(init_mode)then
-      DO I=1, NGRAPHS	
+      DO I=1, NGRAPHS
         if (AMP(I).ne.0) then
        	  zeroamp_%(proc_id)s(ihel,i) = .false.
        endif
       ENDDO
-    endif	
+    endif
 
-    MATRIX%(proc_id)s = 0.D0 
+    MATRIX%(proc_id)s = 0.D0
 	DO M = 1, NAMPSO
       CF_INDEX = 0
       DO I = 1, NCOLOR
@@ -370,13 +370,13 @@ JAMP(:,:) = (0d0,0d0)
       ENDDO
 	ENDDO
     MATRIX%(proc_id)s = MATRIX%(proc_id)s/DENOM
-    
+
     if(sde_strat.eq.1)then
 %(amp2_lines)s
-    endif 
+    endif
 
     Do I = 1, NCOLOR
-	  DO M = 1, NAMPSO	
+	  DO M = 1, NAMPSO
 		DO N = 1, NAMPSO
 		  %(select_configs_if)s
             Jamp2(i)=Jamp2(i)+DABS(DBLE(Jamp(i,m)*dconjg(Jamp(i,n))))
@@ -409,17 +409,17 @@ JAMP(:,:) = (0d0,0d0)
 	     all_false = .false.
 	     exit
 	  endif
-       enddo	  
+       enddo
        if (all_false) then
        	  write(*,*) 'Amplitude/ZEROAMP:', %(proc_id)s, i
        else
           do j=1,NCOMB
                if (zeroamp_%(proc_id)s(j, i)) then
 	         write(*,*) 'HEL/ZEROAMP:', %(proc_id)s, j  , i
-	      endif	    
-           enddo	
+	      endif
+           enddo
        endif
-    enddo   
+    enddo
 
     return
     end

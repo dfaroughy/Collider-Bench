@@ -70,15 +70,15 @@ c
         else
         print *, "OUT CASE"
         stop
-        endif 
+        endif
 
- 
+
         do i=1,16
         t1(i)=-1.0d0*t1(i)*
-     & dsqrt( 
+     & dsqrt(
      & 2.0d0*Pi*8.0d0*Pi  ! to compensate the decay phase factor
      &* PADD/L_ADD**NADD*xmass**(NADD-1)  ! density factor for d=4 case
-     &/2.0d0/xmass)   ! dm=dm^2/2/m    
+     &/2.0d0/xmass)   ! dm=dm^2/2/m
         enddo
 
       return

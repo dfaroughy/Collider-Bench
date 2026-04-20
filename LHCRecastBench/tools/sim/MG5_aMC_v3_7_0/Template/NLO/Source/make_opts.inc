@@ -9,14 +9,14 @@ DEFAULT_CPP_COMPILER = g++
 # Rest of the makefile
 ifeq ($(origin FFLAGS),undefined)
   #FFLAGS= -O -w
-  FFLAGS = -O 
+  FFLAGS = -O
   #FFLAGS+= -g -fbounds-check -ffpe-trap=invalid,zero,overflow,underflow,denormal -Wall
 endif
 
-# REMOVE MACFLAG IF NOT ON MAC 
+# REMOVE MACFLAG IF NOT ON MAC
 UNAME := $(shell uname -s)
 ifneq ($(UNAME), Darwin)
-    MACFLAG=  
+    MACFLAG=
 endif
 
 
@@ -26,18 +26,18 @@ ifdef ewsudsa
 endif
 
 ifeq ($(origin CXXFLAGS),undefined)
-  #CXXFLAGS= -g 
+  #CXXFLAGS= -g
   CXXFLAGS = -O $(STDLIB_FLAG) $(MACFLAG)
 endif
 
 ifeq ($(origin CFLAGS),undefined)
-  #CFLAGS= -g 
+  #CFLAGS= -g
   CFLAGS = -O  $(STDLIB_FLAG) $(MACFLAG)
 endif
 
 # REMOVE MACFLAG IF IN F2PY mode
 ifdef f2pymode
-    MACFLAG= 
+    MACFLAG=
 endif
 
 # set the flag for dynamical library
@@ -148,7 +148,7 @@ ifdef madloop
   ifneq ("$(wildcard */loop_matrix.f)","") # this is to skip ML for LOonly
     libmadloop=libMadLoop.a
     libcuttools=-lcts %(link_tir_libs)s
-  endif 
+  endif
 else
   libmadloop=
   libcuttools=

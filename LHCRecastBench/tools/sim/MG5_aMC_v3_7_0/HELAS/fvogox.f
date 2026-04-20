@@ -1,7 +1,7 @@
       subroutine fvogox(fo,vc,gc,fmass,fwidth , fvo)
 c
 c This subroutine computes an off-shell fermion wavefunction from a
-c flowing-OUT external fermion and a vector boson in the case when 
+c flowing-OUT external fermion and a vector boson in the case when
 c they are all color octets.
 c
 c

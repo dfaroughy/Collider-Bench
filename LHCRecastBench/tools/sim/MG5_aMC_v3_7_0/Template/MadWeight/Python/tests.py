@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 ####################################################################################################
 ####################################################################################################
 ##                                                                                                ##
@@ -16,7 +16,7 @@
 ##                                                                                                ##
 ####################################################################################################
 
-  
+
 #########################################################################################################
 #  TEST #################################################################################################
 #########################################################################################################
@@ -30,7 +30,7 @@ import os, shutil
 
 import create_run
 import MW_param
-import mod_file    
+import mod_file
 import write_MadWeight as MW_write
 
 #########################################################################################################
@@ -58,7 +58,7 @@ class TestMod_file(unittest.TestCase):
 
         file_to_mod='./SubProcesses/cuts.bk'
         rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
-        #modify file                                            
+        #modify file
         mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
         self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
         self.assertEqual(create_run.bw_cut_is_active('cuts.mod'),1)
@@ -86,12 +86,12 @@ class TestMod_file(unittest.TestCase):
         rule= './Source/MadWeight/mod_file/mod_cuts'
         mod_file.mod_file(file_to_mod,rule, write='./SubProcesses/cuts.mod')
         self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
-        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'),1)            
+        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'),1)
         self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-        
+
         file_to_mod='./SubProcesses/cuts.mod'
         rule = './Source/MadWeight/mod_file/suppress_cuts_MW'
-        
+
         mod_file.mod_file(file_to_mod,rule, write='./SubProcesses/cuts.mod')
         self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
         self.assertEqual(create_run.bw_cut_is_active('cuts.mod'),1)
@@ -116,11 +116,11 @@ class TestMod_file(unittest.TestCase):
 
         self.assertEqual(create_run.cut_is_active('cuts.bk'), 1)
         self.assertEqual(create_run.bw_cut_is_active('cuts.bk'),1)
-        
+
         file_to_mod='./SubProcesses/cuts.bk'
         rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-        #modify file                                                                                                                                                                   
-        
+        #modify file
+
         mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
         self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
         self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
@@ -131,30 +131,6 @@ class TestMod_file(unittest.TestCase):
         self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
         self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
         self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
- 
-        rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
-        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-        self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
-        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
-        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-
-        rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-        self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
-        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
-        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-
-        rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
-        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-        self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
-        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
-        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-
-        rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-        self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
-        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
-        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
 
         rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
         mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
@@ -174,7 +150,31 @@ class TestMod_file(unittest.TestCase):
         self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
         self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
 
-        # Next one will Fail but is not supose to be called whitout check of the second 
+        rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
+        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+        self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
+        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
+        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+        rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
+        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+        self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
+        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
+        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+        rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
+        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+        self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
+        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
+        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+        rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
+        mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+        self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
+        self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
+        self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+        # Next one will Fail but is not supose to be called whitout check of the second
         #rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
         #mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
         #self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
@@ -195,13 +195,13 @@ class TestMod_file(unittest.TestCase):
 
         file_to_mod='./SubProcesses/cuts.mod'
         rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-        #modify file                                                                                                                                                                   
-        
+        #modify file
+
         mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
         self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
         self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
         self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-            
+
         mod_file.mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
         self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
         self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
@@ -276,7 +276,7 @@ class TestMWBuilder(unittest.TestCase):
                 os.system(text % (MWdir, '', MWdir[4]))
                 self.assertTrue(filecmp.cmp(os.path.join('./SubProcesses/',MWdir, filename % ''), './Source/MadWeight/test_files/' + filename % MWdir[4], False),
                                 'not valid file %s in process %s' % (filename % '', MWdir))
-    
+
 
 
 
@@ -287,4 +287,3 @@ if y == 'y':
     unittest.main()
 else:
     print('stopped')
-

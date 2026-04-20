@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -20,7 +20,7 @@ import six
 StringIO = six
 import copy
 import fractions
-import os 
+import os
 
 import tests.unit_tests as unittest
 
@@ -236,7 +236,7 @@ class SubProcessGroupTest(unittest.TestCase):
                       'orders':{'QED':1}}))
 
         # Coupling of Z to quarks and electrons
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 8,
                       'particles': base_objects.ParticleList(\
@@ -272,7 +272,7 @@ class SubProcessGroupTest(unittest.TestCase):
 
         self.mymodel = base_objects.Model()
         self.mymodel.set('particles', mypartlist)
-        self.mymodel.set('interactions', myinterlist)        
+        self.mymodel.set('interactions', myinterlist)
         self.mymodel.set('name', 'sm')
 
     def test_group_subprocs_and_get_diagram_maps(self):
@@ -328,7 +328,7 @@ class SubProcessGroupTest(unittest.TestCase):
             for igroup, group in enumerate(subprocess_groups):
                 group.get('matrix_elements')
                 #dmaps.append(group.get('diagram_maps'))
-                
+
                 self.assertEqual(group.get('diagram_maps'),
                                  diagram_maps[nfs-2][igroup])
                 #diags.append([group.get_subproc_diagrams_for_config(ic) for\
@@ -369,7 +369,7 @@ class SubProcessGroupTest(unittest.TestCase):
                               {0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], 1: [4, 5, 6, 10, 11, 12, 13, 14, 15, 19, 20, 21, 25], 2: [27, 28, 29, 16, 17, 18, 30, 31, 32, 1, 2, 3, 7, 8, 9, 33, 34, 35, 22, 23, 24, 36, 37, 38, 26, 39], 3: [10, 11, 12, 4, 5, 6, 13, 14, 15, 19, 20, 21, 25], 4: [27, 28, 29, 33, 34, 35, 36, 37, 38, 30, 31, 32, 39], 5: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], 6: [27, 28, 29, 33, 34, 35, 30, 31, 32, 36, 37, 38, 39], 7: [27, 28, 29, 16, 17, 18, 30, 31, 32, 1, 2, 3, 7, 8, 9, 33, 34, 35, 22, 23, 24, 36, 37, 38, 26, 39]},
                               {0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], 1: [4, 5, 6, 27, 28, 29, 19, 20, 21, 30, 31, 32, 33, 34, 35, 10, 11, 12, 36, 37, 38, 13, 14, 15, 39, 25], 2: [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39], 3: [4, 5, 6, 10, 11, 12, 13, 14, 15, 19, 20, 21, 25], 4: [4, 5, 6, 10, 11, 12, 19, 20, 21, 13, 14, 15, 25], 5: [22, 23, 24, 30, 31, 32, 1, 2, 3, 27, 28, 29, 33, 34, 35, 7, 8, 9, 36, 37, 38, 16, 17, 18, 39, 26], 6: [30, 31, 32, 27, 28, 29, 33, 34, 35, 36, 37, 38, 39], 7: [7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 19, 20, 21, 22, 23, 24, 13, 14, 15, 16, 17, 18, 25, 26], 8: [10, 11, 12, 4, 5, 6, 13, 14, 15, 19, 20, 21, 25], 9: [10, 11, 12, 4, 5, 6, 19, 20, 21, 13, 14, 15, 25], 10: [22, 23, 24, 7, 8, 9, 16, 17, 18, 1, 2, 3, 26], 11: [7, 8, 9, 22, 23, 24, 16, 17, 18, 1, 2, 3, 26], 12: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], 13: [36, 37, 38, 33, 34, 35, 30, 31, 32, 27, 28, 29, 39], 14: [4, 5, 6, 27, 28, 29, 19, 20, 21, 30, 31, 32, 33, 34, 35, 10, 11, 12, 36, 37, 38, 13, 14, 15, 39, 25], 15: [22, 23, 24, 7, 8, 9, 1, 2, 3, 16, 17, 18, 26], 16: [7, 8, 9, 22, 23, 24, 1, 2, 3, 16, 17, 18, 26], 17: [36, 37, 38, 33, 34, 35, 27, 28, 29, 30, 31, 32, 39], 18: [22, 23, 24, 30, 31, 32, 1, 2, 3, 27, 28, 29, 33, 34, 35, 7, 8, 9, 36, 37, 38, 16, 17, 18, 39, 26], 19: [7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 19, 20, 21, 22, 23, 24, 13, 14, 15, 16, 17, 18, 25, 26]},
                               {0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0], 1: [2, 1, 3, 5, 4, 6, 10, 11, 12, 7, 8, 9, 13, 15, 14, 0], 2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0], 3: [2, 1, 3, 5, 4, 6, 10, 11, 12, 7, 8, 9, 13, 15, 14, 0]}]]
-        
+
         #new_diagram_maps = []
 
         for nfs in range(2, max_fs + 1):
@@ -418,7 +418,7 @@ class SubProcessGroupTest(unittest.TestCase):
             #new_diagram_maps.append(dmaps)
 
         #print "all_diagram_maps = ",new_diagram_maps
-        
+
     def test_group_decay_chains(self):
         """Test group_amplitudes for decay chains."""
 
@@ -471,7 +471,7 @@ class SubProcessGroupTest(unittest.TestCase):
                  diagram_generation.DecayChainAmplitudeList([decay_chains]))
 
         #print dc_subproc_group.nice_string()
-        
+
         self.assertEqual(dc_subproc_group.nice_string(),
 """Group 1:
   Process: d d~ > u u~ z QED<=1
@@ -701,7 +701,7 @@ Decay groups:
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
 
         # Multiparticle labels
@@ -764,12 +764,12 @@ Decay groups:
     Decay: dl > d n1 WEIGHTED<=2
   Decay: go > d~ dl WEIGHTED<=1
     Decay: dl > d n1 WEIGHTED<=2"""]
-        
+
 
         for i,me in enumerate(subproc_groups[0].get('matrix_elements')):
             self.assertEqual(me.get('processes')[0].nice_string(),
                              me_strings[i])
-            
+
 
     def test_even_more_special_group_decay_chain(self):
         """Test group_amplitudes for even more special decay chain"""
@@ -1031,7 +1031,7 @@ Decay groups:
                     'couplings': {(0, 0): 'GC_7'},
                     'orders': {'QED': 1}
                     }))
-        
+
         myinterlist.append(base_objects.Interaction({
                     'id': 8,
                     'particles': base_objects.ParticleList(\
@@ -1084,7 +1084,7 @@ Decay groups:
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
 
         # Multiparticle labels
@@ -1102,7 +1102,7 @@ Decay groups:
         core_process = base_objects.ProcessDefinition({'legs':my_leglist,
                                                        'model':mymodel})
 
-        decay1proc1 = [[n1.get('pdg_code')], 
+        decay1proc1 = [[n1.get('pdg_code')],
                       [11], [24]]
         my_leglist = base_objects.MultiLegList([\
                 base_objects.MultiLeg({'ids': id}) for id in decay1proc1])
@@ -1153,12 +1153,12 @@ Decay groups:
     Decay: W+ > u d~ WEIGHTED<=1
   Decay: ~n1 > e- W+ WEIGHTED<=1
     Decay: W+ > t b~ WEIGHTED<=1"""]
-        
+
 
         for i,me in enumerate(subproc_groups[0].get('matrix_elements')):
             self.assertEqual(me.get('processes')[0].nice_string(),
                              me_strings[i])
-            
+
 
         # Now test also for different process ids
 
@@ -1178,7 +1178,7 @@ Decay groups:
                                                        'model':mymodel,
                                                        'id': 1})
 
-        decay1proc1 = [[n1.get('pdg_code')], 
+        decay1proc1 = [[n1.get('pdg_code')],
                       [11], [24]]
         my_leglist = base_objects.MultiLegList([\
                 base_objects.MultiLeg({'ids': id}) for id in decay1proc1])
@@ -1222,7 +1222,7 @@ Decay groups:
                                                        'model':mymodel,
                                                        'id': 2})
 
-        decay1proc1 = [[n1.get('pdg_code')], 
+        decay1proc1 = [[n1.get('pdg_code')],
                       [11], [24]]
         my_leglist = base_objects.MultiLegList([\
                 base_objects.MultiLeg({'ids': id}) for id in decay1proc1])
@@ -1264,7 +1264,7 @@ Decay groups:
 
         self.assertEqual(len(subproc_groups[0].get('matrix_elements')),2)
         self.assertEqual(len(subproc_groups[1].get('matrix_elements')),2)
-        
+
     def test_single_decay_combinations(self):
         """Test combination of single decay of t and t~:
         b b~ > t t~, t > c d d~ and b b~ > t t~, t~ > c~ d d~"""
@@ -1489,7 +1489,7 @@ Decay groups:
                       'orders':{'QED':1}}))
 
         # Coupling of Z to quarks and electrons
-        
+
         myinterlist.append(base_objects.Interaction({
                       'id': 9,
                       'particles': base_objects.ParticleList(\
@@ -1550,10 +1550,10 @@ Decay groups:
 
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
-        mymodel.set('interactions', myinterlist)        
+        mymodel.set('interactions', myinterlist)
         mymodel.set('name', 'sm')
 
-        # d d~ > t t~, t > u Z 
+        # d d~ > t t~, t > u Z
         my_leglist = base_objects.MultiLegList()
         my_leglist.append(base_objects.MultiLeg({'ids': [1],
                                                  'state': False}))
@@ -1575,7 +1575,7 @@ Decay groups:
         core_process1.get('decay_chains').append(decay1process1)
         my_amplitude1 = diagram_generation.DecayChainAmplitude(core_process1)
 
-        # d d~ > t t~, t~ > u~ Z 
+        # d d~ > t t~, t~ > u~ Z
         my_leglist = base_objects.MultiLegList()
         my_leglist.append(base_objects.MultiLeg({'ids': [1],
                                                  'state': False}))
@@ -1614,11 +1614,9 @@ Decay groups:
   Decay: t > u z WEIGHTED<=2""",
                       """Process: d d~ > t t~ WEIGHTED<=2
   Decay: t~ > u~ z WEIGHTED<=2"""]
-        
+
 
         for i, group in enumerate(subproc_groups):
             self.assertEqual(group.get('matrix_elements')[0].\
                                  get('processes')[0].nice_string(),
                              me_strings[i])
-            
-

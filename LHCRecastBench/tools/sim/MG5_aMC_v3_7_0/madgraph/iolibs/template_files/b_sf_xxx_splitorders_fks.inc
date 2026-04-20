@@ -1,24 +1,24 @@
       SUBROUTINE SB_SF_%(ilink)3.3d(P,ANS_SUMMED)
-C  
+C
 %(info_lines)s
 C
 C
 C     Return the sum of the split orders which are required in orders.inc (BORN_ORDERS)
 C     Also the values needed for the counterterms are stored in the C_BORN_CNT common block
 C
-C  
+C
 %(process_lines)s
 C
-C  
+C
 C CONSTANTS
-C 
+C
 implicit none
       include 'nexternal.inc'
       INTEGER NSQAMPSO
       PARAMETER (NSQAMPSO=%(nSqAmpSplitOrders)d)
-C  
-C ARGUMENTS 
-C 
+C
+C ARGUMENTS
+C
       REAL*8 P(0:3,NEXTERNAL), ANS_SUMMED
 C
 C VARIABLES
@@ -27,7 +27,7 @@ C
       include 'orders.inc'
       REAL*8 ANS(0:NSQAMPSO)
       LOGICAL KEEP_ORDER_CNT(NSPLITORDERS, NSQAMPSO)
-      common /c_keep_order_cnt/ keep_order_cnt 
+      common /c_keep_order_cnt/ keep_order_cnt
       integer amp_orders(nsplitorders)
       double precision tiny
       parameter (tiny = 1d-12)
@@ -66,7 +66,7 @@ C take into account the fact that this is for QCD
         endif
       enddo
 
-C this is to avoid fake non-zero contributions 
+C this is to avoid fake non-zero contributions
 if (abs(ans_summed).lt.max_val*tiny) ans_summed=0d0
 
 return
@@ -74,19 +74,19 @@ END
 
 
     SUBROUTINE SB_SF_%(ilink)3.3d_SPLITORDERS(P1,ANS)
-C  
+C
 %(info_lines)s
 C
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C AND HELICITIES
 C FOR THE POINT IN PHASE SPACE P(0:3,NEXTERNAL-1)
-C  
+C
 %(process_lines)s
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       Include "nexternal.inc"
       INTEGER     NCOMB
       PARAMETER ( NCOMB=  %(ncomb)d )
@@ -96,19 +96,19 @@ C
       PARAMETER (THEL=NCOMB*%(nconfs)d)
       INTEGER NGRAPHS
       PARAMETER (NGRAPHS=   %(ngraphs)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       REAL*8 P1(0:3,NEXTERNAL-1),ANS(0:NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER IHEL,IDEN,i,j
       double precision T(NSQAMPSO)
 %(den_factor_lines)s
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       LOGICAL GOODHEL(NCOMB,%(nconfs)d)
       common /c_goodhel/ goodhel
       double precision savemom(nexternal-1,2)
@@ -149,47 +149,47 @@ C ----------
         ANS(0)=ANS(0)+ANS(I)
       ENDDO
       END
-       
-       
+
+
       SUBROUTINE B_SF_%(ilink)3.3d(HELL,ANS)
-C  
+C
 %(info_lines)s
 C RETURNS AMPLITUDE SQUARED SUMMED/AVG OVER COLORS
 C FOR THE POINT WITH EXTERNAL LINES W(0:6,NEXTERNAL-1)
 
 %(process_lines)s
-C  
+C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
-C  
+C
       INTEGER NAMPSO, NSQAMPSO
       PARAMETER (NAMPSO=%(nAmpSplitOrders)d, NSQAMPSO=%(nSqAmpSplitOrders)d)
       INTEGER     NGRAPHS
-      PARAMETER ( NGRAPHS = %(ngraphs)d ) 
+      PARAMETER ( NGRAPHS = %(ngraphs)d )
       INTEGER NCOLOR1, NCOLOR2
-      PARAMETER (NCOLOR1=%(ncolor1)d, NCOLOR2=%(ncolor2)d) 
+      PARAMETER (NCOLOR1=%(ncolor1)d, NCOLOR2=%(ncolor2)d)
       REAL*8     ZERO
       PARAMETER (ZERO=0D0)
       complex*16 imag1
       parameter (imag1 = (0d0,1d0))
       include "nexternal.inc"
       include "born_nhel.inc"
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       INTEGER HELL
       REAL*8 ANS(NSQAMPSO)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,M,N
       INTEGER CF(NCOLOR2,NCOLOR1),DENOM
       COMPLEX*16 ZTEMP, AMP(NGRAPHS), JAMP1(NCOLOR1,NAMPSO), JAMP2(NCOLOR2,NAMPSO)
       COMPLEX*16 TMP_JAMP(%(nb_temp_jamp)i)
-C  
+C
 C GLOBAL VARIABLES
-C  
+C
       double complex saveamp(ngraphs,max_bhel)
       common/to_saveamp/saveamp
       logical calculatedBorn
@@ -198,9 +198,9 @@ C
 C FUNCTION
 C
       INTEGER SQSOINDEXB
-C  
+C
 C COLOR DATA
-C  
+C
 %(color_data_lines)s
 C ----------
 C BEGIN CODE
@@ -231,5 +231,3 @@ C ----------
     ENDDO
     ANS(:) = ANS(:)/DENOM
     END
-       
-       

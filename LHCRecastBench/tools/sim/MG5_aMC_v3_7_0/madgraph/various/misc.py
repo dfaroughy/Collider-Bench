@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -47,18 +47,18 @@ except Exception as error:
     import internal
     from internal import MadGraph5Error, InvalidCmd
     import internal.files as files
-    MADEVENT = True    
+    MADEVENT = True
 else:
     from madgraph import MadGraph5Error, InvalidCmd
     import madgraph.iolibs.files as files
     MADEVENT = False
 
-    
+
 logger = logging.getLogger('cmdprint.ext_program')
 logger_stderr = logging.getLogger('madevent.misc')
 pjoin = os.path.join
 misc = locals
-   
+
 #===============================================================================
 # parse_info_str
 #===============================================================================
@@ -97,8 +97,8 @@ def mute_logger(names=['madgraph','ALOHA','cmdprint','madevent'], levels=[50,50,
         def restore_old_levels(names, levels):
             for name, level in zip(names, levels):
                 log_module = logging.getLogger(name)
-                log_module.setLevel(level)            
-        
+                log_module.setLevel(level)
+
         def f_with_no_logger(self, *args, **opt):
             old_levels = []
             for name, level in zip(names, levels):
@@ -112,7 +112,7 @@ def mute_logger(names=['madgraph','ALOHA','cmdprint','madevent'], levels=[50,50,
             except:
                 restore_old_levels(names, old_levels)
                 raise
-            
+
         return f_with_no_logger
     return control_logger
 
@@ -121,8 +121,8 @@ PACKAGE_INFO = {}
 # get_pkg_info
 #===============================================================================
 def get_pkg_info(info_str=None):
-    """Returns the current version information of the MadGraph5_aMC@NLO package, 
-    as written in the VERSION text file. If the file cannot be found, 
+    """Returns the current version information of the MadGraph5_aMC@NLO package,
+    as written in the VERSION text file. If the file cannot be found,
     a dictionary with empty values is returned. As an option, an info
     string can be passed to be read instead of the file content.
     """
@@ -134,26 +134,26 @@ def get_pkg_info(info_str=None):
 
     if PACKAGE_INFO:
         return PACKAGE_INFO
-    
+
     elif MADEVENT:
         info_dict ={}
         info_dict['version'] = open(pjoin(internal.__path__[0],'..','..','MGMEVersion.txt')).read().strip()
         info_dict['date'] = '20xx-xx-xx'
-        PACKAGE_INFO = info_dict                        
+        PACKAGE_INFO = info_dict
     else:
         if PACKAGE_INFO:
             return PACKAGE_INFO
         info_dict = files.read_from_file(os.path.join(madgraph.__path__[0],
                                                   "VERSION"),
-                                                  parse_info_str, 
+                                                  parse_info_str,
                                                   print_error=False)
-        if info_dict:                                          
+        if info_dict:
            PACKAGE_INFO = info_dict
         else:
            info_dict ={}
            info_dict['version'] = '3.x.x'
            info_dict['date'] = '20xx-xx-xx'
-           PACKAGE_INFO = info_dict        
+           PACKAGE_INFO = info_dict
         return PACKAGE_INFO
 #===============================================================================
 # get_time_info
@@ -162,7 +162,7 @@ def get_time_info():
     """Returns the present time info for use in MG5 command history header.
     """
 
-    creation_time = time.asctime() 
+    creation_time = time.asctime()
     time_info = {'time': creation_time,
                  'fill': ' ' * (26 - len(creation_time))}
 
@@ -173,7 +173,7 @@ def get_time_info():
 # Test the compatibility of a given version of MA5 with this version of MG5
 #===============================================================================
 def is_MA5_compatible_with_this_MG5(ma5path):
-    """ Returns None if compatible or, it not compatible, a string explaining 
+    """ Returns None if compatible or, it not compatible, a string explaining
     why it is so."""
 
     class version:
@@ -183,7 +183,7 @@ def is_MA5_compatible_with_this_MG5(ma5path):
         def __lt__(input):
             if isinstance(input, str):
                 input = version(input)
-            
+
             for a,b in zip(self.info, input.info):
                 both_int = True
                 try:
@@ -207,7 +207,7 @@ def is_MA5_compatible_with_this_MG5(ma5path):
                 else:
                     return a < b
             else:
-                return len(self.info) < len(input.info)                   
+                return len(self.info) < len(input.info)
 
     def LooseVersion(input):
         return version(input)
@@ -225,18 +225,18 @@ def is_MA5_compatible_with_this_MG5(ma5path):
         reason = "No MadAnalysis5 version number could be read from the path supplied '%s'."%ma5path
         reason += "\nThe specified version of MadAnalysis5 will not be active in your session."
         return reason
-        
+
     mg5_version = None
     try:
-        info = get_pkg_info()        
+        info = get_pkg_info()
         mg5_version = LooseVersion(info['version'])
     except:
         mg5_version = None
-    
+
     # If version not reckognized, then carry on as it's probably a development version
     if not mg5_version:
         return None
-    
+
     if mg5_version < LooseVersion("2.6.1") and ma5_version >= LooseVersion("1.6.32"):
         reason =  "This active MG5aMC version is too old (v%s) for your selected version of MadAnalysis5 (v%s)"%(mg5_version,ma5_version)
         reason += "\nUpgrade MG5aMC or re-install MA5 from within MG5aMC to fix this compatibility issue."
@@ -252,13 +252,13 @@ def is_MA5_compatible_with_this_MG5(ma5path):
     return None
 
 #===============================================================================
-# Find the subdirectory which includes the files ending with a given extension 
+# Find the subdirectory which includes the files ending with a given extension
 #===============================================================================
 def find_includes_path(start_path, extension):
     """Browse the subdirectories of the path 'start_path' and returns the first
     one found which contains at least one file ending with the string extension
     given in argument."""
-    
+
     if not os.path.isdir(start_path):
         return None
     subdirs=[pjoin(start_path,dir) for dir in os.listdir(start_path)]
@@ -273,24 +273,24 @@ def find_includes_path(start_path, extension):
     return None
 
 #===============================================================================
-# Given the path of a ninja installation, this function determines if it 
-# supports quadruple precision or not. 
+# Given the path of a ninja installation, this function determines if it
+# supports quadruple precision or not.
 #===============================================================================
 def get_ninja_quad_prec_support(ninja_lib_path):
     """ Get whether ninja supports quad prec in different ways"""
-    
+
     # First try with the ninja-config executable if present
     ninja_config = os.path.abspath(pjoin(
                                  ninja_lib_path,os.pardir,'bin','ninja-config'))
     if os.path.exists(ninja_config):
-        try:    
-            p = Popen([ninja_config, '-quadsupport'], stdout=subprocess.PIPE, 
+        try:
+            p = Popen([ninja_config, '-quadsupport'], stdout=subprocess.PIPE,
                                                          stderr=subprocess.PIPE)
             output, error = p.communicate()
             return 'TRUE' in output.decode(errors='ignore').upper()
         except Exception:
             pass
-    
+
     # If no ninja-config is present, then simply use the presence of
     # 'quadninja' in the include
     return False
@@ -326,21 +326,21 @@ def has_f2py():
     elif which('f2py%d' %(sys.version_info.major)):
         has_f2py = True
 
-    return has_f2py       
-        
+    return has_f2py
+
 #===============================================================================
 #  Activate dependencies if possible. Mainly for tests
 #===============================================================================
 
 def deactivate_dependence(dependency, cmd=None, log = None):
     """ Make sure to turn off some dependency of MG5aMC. """
-    
+
     def tell(msg):
         if log == 'stdout':
             print(msg)
         elif callable(log):
             log(msg)
-    
+
 
     if dependency in ['pjfry','golem','samurai','ninja','collier']:
         if dependency not in cmd.options:
@@ -352,7 +352,7 @@ def deactivate_dependence(dependency, cmd=None, log = None):
 def activate_dependence(dependency, cmd=None, log = None, MG5dir=None):
     """ Checks whether the specfieid MG dependency can be activated if it was
     not turned off in MG5 options."""
-    
+
     def tell(msg):
         if log == 'stdout':
             print(msg)
@@ -375,9 +375,9 @@ def activate_dependence(dependency, cmd=None, log = None, MG5dir=None):
          which_lib(pjoin(cmd.options['golem'],'libgolem.a')) is None:
             tell("Installing Golem95...")
             cmd.do_install('Golem95')
-    
+
     if dependency=='samurai':
-        raise MadGraph5Error('Samurai cannot yet be automatically installed.') 
+        raise MadGraph5Error('Samurai cannot yet be automatically installed.')
 
     if dependency=='ninja':
         if cmd.options['ninja'] in ['None',None,''] or\
@@ -385,7 +385,7 @@ def activate_dependence(dependency, cmd=None, log = None, MG5dir=None):
          which_lib(pjoin(MG5dir,cmd.options['ninja'],'lib','libninja.a')) is None):
             tell("Installing ninja...")
             cmd.do_install('ninja')
- 
+
     if dependency=='collier':
         if cmd.options['collier'] in ['None',None,''] or\
          (cmd.options['collier'] == 'auto' and which_lib('libcollier.a') is None) or\
@@ -409,7 +409,7 @@ def which_lib(lib):
             return lib
     else:
         locations = sum([os.environ[env_path].split(os.pathsep) for env_path in
-           ["DYLD_LIBRARY_PATH","LD_LIBRARY_PATH","LIBRARY_PATH","PATH"] 
+           ["DYLD_LIBRARY_PATH","LD_LIBRARY_PATH","LIBRARY_PATH","PATH"]
                                                   if env_path in os.environ],[])
         for path in locations:
             lib_file = os.path.join(path, lib)
@@ -422,7 +422,7 @@ def which_lib(lib):
 #===============================================================================
 def nice_representation(var, nb_space=0):
     """ Return nice information on the current variable """
-    
+
     #check which data to put:
     info = [('type',type(var)),('str', var)]
     if hasattr(var, 'func_doc'):
@@ -431,7 +431,7 @@ def nice_representation(var, nb_space=0):
         info.append( ('DOC', var.__doc__) )
     if hasattr(var, '__dict__'):
         info.append( ('ATTRIBUTE', list(var.__dict__.keys()) ))
-    
+
     spaces = ' ' * nb_space
 
     outstr=''
@@ -480,17 +480,17 @@ def get_scan_name(first, last):
     """return a name of the type xxxx[A-B]yyy
         where xxx and yyy are the common part between the two names.
     """
-    
-    # find the common string at the beginning     
+
+    # find the common string at the beginning
     base = [first[i] for i in range(len(first)) if first[:i+1] == last[:i+1]]
     # remove digit even if in common
     while base and base[0].isdigit():
-        base = base[1:] 
-    # find the common string at the end 
+        base = base[1:]
+    # find the common string at the end
     end = [first[-(i+1)] for i in range(len(first)) if first[-(i+1):] == last[-(i+1):]]
-    # remove digit even if in common    
+    # remove digit even if in common
     while end and end[-1].isdigit():
-        end = end[:-1] 
+        end = end[:-1]
     end.reverse()
     #convert to string
     base, end = ''.join(base), ''.join(end)
@@ -529,7 +529,7 @@ def compile(arg=[], cwd=None, mode='fortran', job_specs = True, nb_core=1 ,**opt
         if nb_core > 1:
             cmd.append('-j%s' % nb_core)
         cmd += arg
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, 
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, cwd=cwd, **opt)
         (out, err) = p.communicate()
     except OSError as error:
@@ -557,7 +557,7 @@ def compile(arg=[], cwd=None, mode='fortran', job_specs = True, nb_core=1 ,**opt
             error_msg = 'A fortran compiler (g77 or gfortran) is required to create this output.\n'
             error_msg += 'Please install g77 or gfortran on your computer and retry.'
             raise MadGraph5Error(error_msg)
-        elif mode == 'cpp' and not which('g++'):            
+        elif mode == 'cpp' and not which('g++'):
             error_msg ='A C++ compiler (g++) is required to create this output.\n'
             error_msg += 'Please install g++ (which is part of the gcc package)  on your computer and retry.'
             raise MadGraph5Error(error_msg)
@@ -594,8 +594,8 @@ def compile(arg=[], cwd=None, mode='fortran', job_specs = True, nb_core=1 ,**opt
 def get_gfortran_version(compiler='gfortran'):
     """ Returns the gfortran version as a string.
         Returns '0' if it failed."""
-    try:    
-        p = Popen([compiler, '-dumpversion'], stdout=subprocess.PIPE, 
+    try:
+        p = Popen([compiler, '-dumpversion'], stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE)
         output, error = p.communicate()
         output = output.decode("utf-8",errors='ignore')
@@ -633,9 +633,9 @@ def mod_compilator(directory, new='gfortran', current=None, compiler_type='gfort
                     lines[iline] = result.group(1) + var + "=" + new
             elif compiler_type == 'gfortran' and line.startswith('DEFAULT_F_COMPILER'):
                 lines[iline] = "DEFAULT_F_COMPILER = %s" % new
-            elif compiler_type == 'cpp' and line.startswith('DEFAULT_CPP_COMPILER'):    
+            elif compiler_type == 'cpp' and line.startswith('DEFAULT_CPP_COMPILER'):
                 lines[iline] = "DEFAULT_CPP_COMPILER = %s" % new
-                
+
         if mod:
             open(name,'w').write('\n'.join(lines))
             # reset it to change the next file
@@ -647,7 +647,7 @@ def pid_exists(pid):
     https://stackoverflow.com/questions/568271/how-to-check-if-there-exists-a-process-with-a-given-pid-in-python
     """
     import errno
-    
+
     if pid < 0:
         return False
     if pid == 0:
@@ -685,7 +685,7 @@ class MuteLogger(object):
     def __init__(self, names, levels, files=None, **opt):
         assert isinstance(names, list)
         assert isinstance(names, list)
-        
+
         self.names = names
         self.levels = levels
         if isinstance(files, list):
@@ -705,7 +705,7 @@ class MuteLogger(object):
             log_module = logging.getLogger(name)
             log_module.setLevel(level)
         self.levels = old_levels
-        
+
     def __exit__(self, ctype, value, traceback ):
         for name, level, path in zip(self.names, self.levels, self.files):
 
@@ -716,11 +716,11 @@ class MuteLogger(object):
                     self.restore_logFile_for_logger(name, level)
             else:
                 log_module = logging.getLogger(name)
-                log_module.setLevel(level)         
-        
+                log_module.setLevel(level)
+
     def setup_logFile_for_logger(self, path, full_logname, **opts):
         """ Setup the logger by redirecting them all to logfiles in tmp """
-        
+
         logs = full_logname.split('.')
         lognames = [ '.'.join(logs[:(len(logs)-i)]) for i in\
                                             range(len(full_logname.split('.')))]
@@ -730,7 +730,7 @@ class MuteLogger(object):
             except Exception as error:
                 pass
             my_logger = logging.getLogger(logname)
-            hdlr = logging.FileHandler(path)            
+            hdlr = logging.FileHandler(path)
             # I assume below that the orders of the handlers in my_logger.handlers
             # remains the same after having added/removed the FileHandler
             self.logger_saved_info[logname] = [hdlr, my_logger.handlers]
@@ -744,7 +744,7 @@ class MuteLogger(object):
 
     def restore_logFile_for_logger(self, full_logname, level, path=None, **opts):
         """ Setup the logger by redirecting them all to logfiles in tmp """
-        
+
         logs = full_logname.split('.')
         lognames = [ '.'.join(logs[:(len(logs)-i)]) for i in\
                                             range(len(full_logname.split('.')))]
@@ -761,22 +761,22 @@ class MuteLogger(object):
                     my_logger.addHandler(old_hdlr)
             else:
                 my_logger.setLevel(level)
-        
+
             #for i, h in enumerate(my_logger.handlers):
             #    h.setLevel(cls.logger_saved_info[logname][2][i])
 
 nb_open =0
 @contextlib.contextmanager
 def stdchannel_redirected(stdchannel, dest_filename):
-    """                                                                                                                                                                                                     
-    A context manager to temporarily redirect stdout or stderr                                                                                                                                              
-                                                                                                                                                                                                            
-    e.g.:                                                                                                                                                                                                   
-                                                                                                                                                                                                            
-                                                                                                                                                                                                            
-    with stdchannel_redirected(sys.stderr, os.devnull):                                                                                                                                                     
-        if compiler.has_function('clock_gettime', libraries=['rt']):                                                                                                                                        
-            libraries.append('rt')                                                                                                                                                                          
+    """
+    A context manager to temporarily redirect stdout or stderr
+
+    e.g.:
+
+
+    with stdchannel_redirected(sys.stderr, os.devnull):
+        if compiler.has_function('clock_gettime', libraries=['rt']):
+            libraries.append('rt')
     """
 
     if logger.getEffectiveLevel()>5:
@@ -798,8 +798,8 @@ def stdchannel_redirected(stdchannel, dest_filename):
             yield
         finally:
             return
-        
-        
+
+
 def get_open_fds():
     '''
     return the number of open file descriptors for current process
@@ -810,17 +810,17 @@ def get_open_fds():
     import os
 
     pid = os.getpid()
-    procs = subprocess.check_output( 
+    procs = subprocess.check_output(
         [ "lsof", '-w', '-Ff', "-p", str( pid ) ] )
     nprocs = [s for s in procs.split( '\n' ) if s and s[ 0 ] == 'f' and s[1: ].isdigit()]
-        
+
     return nprocs
 
 def detect_if_cpp_compiler_is_clang(cpp_compiler):
     """ Detects whether the specified C++ compiler is clang."""
-    
+
     try:
-        p = Popen([cpp_compiler, '--version'], stdout=subprocess.PIPE, 
+        p = Popen([cpp_compiler, '--version'], stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE)
         output, error = p.communicate()
     except Exception as error:
@@ -828,7 +828,7 @@ def detect_if_cpp_compiler_is_clang(cpp_compiler):
         return False
 
     output = output.decode(errors='ignore')
-    
+
     return 'LLVM' in str(output) or "clang" in str(output)
 
 
@@ -857,7 +857,7 @@ def detect_cpp_std_lib_dependence(cpp_compiler):
 
 def detect_current_compiler(path, compiler_type='fortran'):
     """find the current compiler for the current directory"""
-    
+
 #    comp = re.compile("^\s*FC\s*=\s*(\w+)\s*")
 #   The regular expression below allows for compiler definition with absolute path
     if compiler_type == 'fortran':
@@ -900,10 +900,10 @@ def rm_old_compile_file():
 
     # remove all the .o files
     os.path.walk('.', rm_file_extension, '.o')
-    
+
     # remove related libraries
     libraries = ['libblocks.a', 'libgeneric_mw.a', 'libMWPS.a', 'libtools.a', 'libdhelas3.a',
-                 'libdsample.a', 'libgeneric.a', 'libmodel.a', 'libpdf.a', 'libgammaUPC.a','libdhelas3.so', 'libTF.a', 
+                 'libdsample.a', 'libgeneric.a', 'libmodel.a', 'libpdf.a', 'libgammaUPC.a','libdhelas3.so', 'libTF.a',
                  'libdsample.so', 'libgeneric.so', 'libmodel.so', 'libpdf.so', 'libgammaUPC.so']
     lib_pos='./lib'
     [os.remove(os.path.join(lib_pos, lib)) for lib in libraries \
@@ -919,9 +919,9 @@ def format_time(n_secs):
     elif h > 0:
         return "%dh%02dm%02ds" % (h, m, s)
     elif m > 0:
-        return "%dm%02ds" % (m, s)                
+        return "%dm%02ds" % (m, s)
     else:
-        return "%d second%s" % (s, '' if s<=1 else 's')   
+        return "%d second%s" % (s, '' if s<=1 else 's')
 
 def rm_file_extension( ext, dirname, names):
 
@@ -950,9 +950,9 @@ def check_system_error(value=1):
                     prog =  arg[0]
                 else:
                     prog = arg
-                
+
                 # Permission denied
-                if error.errno == 13:     
+                if error.errno == 13:
                     if os.path.exists(prog):
                         os.system('chmod +x %s' % prog)
                     elif 'cwd' in opt and opt['cwd'] and \
@@ -963,7 +963,7 @@ def check_system_error(value=1):
                 elif error.errno == 2:
                     # raise a more meaningfull error message
                     raise Exception('%s fails with no such file or directory' \
-                                                                           % arg)            
+                                                                           % arg)
                 # Checkpoint, requeued automatically
                 elif error.errno == 85:
                     logger.info('%s created a checkpoint' % arg)
@@ -981,7 +981,7 @@ def call(arg, *args, **opt):
     except OSError:
         arg[0] = './%s' % arg[0]
         return subprocess.call(arg, *args, **opt)
-        
+
 @check_system_error()
 def Popen(arg, *args, **opt):
     """nice way to call an external program with nice error treatment"""
@@ -995,7 +995,7 @@ def call_stdout(arg, *args, **opt):
     except OSError:
         arg[0] = './%s' % arg[0]
         out = subprocess.call(arg, *args,  stdout=subprocess.PIPE, **opt)
-        
+
     str_out = out.stdout.read().decode(errors='ignore').strip()
     return str_out
 
@@ -1008,7 +1008,7 @@ def copytree(src, dst, symlinks = False, ignore = None):
       shutil.copystat(src, dst)
     except PermissionError:
         if os.path.realpath(src).startswith('/cvmfs') and os.path.realpath(dst).startswith('/afs'):
-           # allowing missmatch from cvmfs to afs since sounds to not create issue --at least in general-- 
+           # allowing missmatch from cvmfs to afs since sounds to not create issue --at least in general--
            logger.critical(f'Ignoring that we could not copy permissions from {src} to {dst}')
         else:
            logger.critical(f'Permission error detected from {src} to {dst}.\n'+\
@@ -1016,7 +1016,7 @@ def copytree(src, dst, symlinks = False, ignore = None):
                           'or avoid moving your data from the WSL partition to the UNIX one')
            # we do not have enough experience in WSL to allow it to get trough.
            raise
-      
+
   lst = os.listdir(src)
   if ignore:
     excl = ignore(src, lst)
@@ -1039,11 +1039,11 @@ def copytree(src, dst, symlinks = False, ignore = None):
     else:
       shutil.copy2(s, d)
 
-    
+
 
 @multiple_try()
 def mult_try_open(filepath, *args, **opt):
-    """try to open a file with multiple try to ensure that filesystem is sync"""  
+    """try to open a file with multiple try to ensure that filesystem is sync"""
     return open(filepath, *args, ** opt)
 
 ################################################################################
@@ -1071,7 +1071,7 @@ def tail(f, n, offset=None):
         avg_line_length = int(avg_line_length)
 
 def mkfifo(fifo_path):
-    """ makes a piping fifo (First-in First-out) file and nicely intercepts 
+    """ makes a piping fifo (First-in First-out) file and nicely intercepts
     error in case the file format of the target drive doesn't suppor tit."""
 
     try:
@@ -1086,7 +1086,7 @@ def mkfifo(fifo_path):
 ################################################################################
 def get_last_line(fsock):
     """return the last line of a file"""
-    
+
     return tail(fsock, 1)[0]
 
 
@@ -1110,7 +1110,7 @@ def reverse_readline(filename, buf_size=8192):
             if segment is not None:
                 # If the previous chunk starts right from the beginning of line
                 # do not concat the segment to the last line of new chunk.
-                # Instead, yield the segment first 
+                # Instead, yield the segment first
                 if buffer[-1] != '\n':
                     lines[-1] += segment
                 else:
@@ -1144,7 +1144,7 @@ def write_PS_input(filePath, PS):
 def format_timer(running_time):
     """ return a nicely string representing the time elapsed."""
     if running_time < 2e-2:
-        running_time = running_time = 'current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min) 
+        running_time = running_time = 'current time: %02dh%02d' % (time.localtime().tm_hour, time.localtime().tm_min)
     elif running_time < 10:
         running_time = ' %.2gs ' % running_time
     elif 60 > running_time >= 10:
@@ -1154,7 +1154,7 @@ def format_timer(running_time):
     else:
         running_time = ' %ih %im ' % (running_time // 3600, (running_time//60 % 60))
     return running_time
-    
+
 
 #===============================================================================
 # TMP_directory (designed to work as with statement)
@@ -1165,10 +1165,10 @@ class TMP_directory(object):
 
     def __init__(self, suffix='', prefix='tmp', dir=None):
         self.nb_try_remove = 0
-        import tempfile   
+        import tempfile
         self.path = tempfile.mkdtemp(suffix, prefix, dir)
 
-    
+
     def __exit__(self, ctype, value, traceback ):
         #True only for debugging:
         if False and isinstance(value, Exception):
@@ -1183,10 +1183,10 @@ class TMP_directory(object):
                 self.__exit__(ctype, value, traceback)
             else:
                 logger.warning("Directory %s not completely cleaned. This directory can be removed manually" % self.path)
-        
+
     def __enter__(self):
         return self.path
-    
+
 class TMP_variable(object):
     """replace an attribute of a class with another value for the time of the
        context manager
@@ -1195,7 +1195,7 @@ class TMP_variable(object):
     def __init__(self, cls, attribute, value):
 
         self.cls = cls
-        self.attribute = attribute        
+        self.attribute = attribute
         if isinstance(attribute, list):
             self.old_value = []
             for key, onevalue in zip(attribute, value):
@@ -1204,39 +1204,39 @@ class TMP_variable(object):
         else:
             self.old_value = getattr(cls, attribute)
             setattr(self.cls, self.attribute, value)
-    
+
     def __exit__(self, ctype, value, traceback ):
-        
+
         if isinstance(self.attribute, list):
             for key, old_value in zip(self.attribute, self.old_value):
                 setattr(self.cls, key, old_value)
         else:
             setattr(self.cls, self.attribute, self.old_value)
-        
+
     def __enter__(self):
-        return self.old_value 
-    
+        return self.old_value
+
     #allow to use as decorator
     def __call__(self, func):
         def wrapper(*args, **kwds):
             with self:
                 return func(*args, **kwds)
-    
+
 #
 # GUNZIP/GZIP
 #
 def gunzip(path, keep=False, stdout=None):
     """ a standard replacement for os.system('gunzip -f %s.gz ' % event_path)"""
 
-    
+
     if not path.endswith(".gz"):
         if os.path.exists("%s.gz" % path):
             path = "%s.gz" % path
         else:
             raise Exception("%(path)s does not finish by .gz and the file %(path)s.gz does not exists" %\
-                              {"path": path})         
+                              {"path": path})
 
-    
+
     #for large file (>1G) it is faster and safer to use a separate thread
     if os.path.getsize(path) > 1e8:
         if keep:
@@ -1247,17 +1247,17 @@ def gunzip(path, keep=False, stdout=None):
         if stdout:
             os.system('gunzip  %s -c %s > %s' % (options, path, stdout))
         else:
-            os.system('gunzip %s %s' % (options, path)) 
+            os.system('gunzip %s %s' % (options, path))
         return 0
-    
+
     if not stdout:
         stdout = path[:-3]
     try:
         gfile = ziplib.open(path, "r")
     except IOError:
         raise
-    else:    
-        try:    
+    else:
+        try:
             open(stdout,'w').write(gfile.read().decode(errors='ignore'))
         except IOError as error:
             sprint(error)
@@ -1267,7 +1267,7 @@ def gunzip(path, keep=False, stdout=None):
             else:
                 files.cp(path, stdout)
     finally:
-        gfile.close()    
+        gfile.close()
     if not keep:
         os.remove(path)
     return 0
@@ -1288,7 +1288,7 @@ def configure_gzip(configuration=None):
     use_pigz = configuration['use_pigz']
     if use_pigz is None:
         # Try using pigz if possible, fall back to gzip otherwise
-        _gzip_tool = open_file.find_valid(['pigz', 'gzip'], 'gzip') 
+        _gzip_tool = open_file.find_valid(['pigz', 'gzip'], 'gzip')
     elif use_pigz:
         _gzip_tool = open_file.find_valid(['pigz'], 'pigz')
         if not which(_gzip_tool):
@@ -1337,31 +1337,31 @@ def gzip(path, stdout=None, error=True, forceexternal=False):
             return
     finally:
         os.remove(path)
-    
+
 #
 # Global function to open supported file types
 #
 class open_file(object):
     """ a convinient class to open a file """
-    
+
     web_browser = None
     eps_viewer = None
-    text_editor = None 
+    text_editor = None
     configured = False
-    
+
     def __init__(self, filename):
         """open a file"""
-        
+
         # Check that the class is correctly configure
         if not self.configured:
             self.configure()
-        
+
         try:
             extension = filename.rsplit('.',1)[1]
         except IndexError:
-            extension = ''   
-    
-    
+            extension = ''
+
+
         # dispatch method
         if extension in ['html','htm','php']:
             self.open_program(self.web_browser, filename, background=True)
@@ -1370,35 +1370,35 @@ class open_file(object):
         else:
             self.open_program(self.text_editor,filename, mac_check=False)
             # mac_check to False avoid to use open cmd in mac
-    
+
     @classmethod
     def configure(cls, configuration=None):
         """ configure the way to open the file """
-         
+
         cls.configured = True
-        
+
         # start like this is a configuration for mac
         cls.configure_mac(configuration)
         if sys.platform == 'darwin':
             return # done for MAC
-        
+
         # on Mac some default (eps/web) might be kept on None. This is not
         #suitable for LINUX which doesn't have open command.
-        
+
         # first for eps_viewer
         if not cls.eps_viewer:
-           cls.eps_viewer = cls.find_valid(['evince','gv', 'ggv'], 'eps viewer') 
-            
+           cls.eps_viewer = cls.find_valid(['evince','gv', 'ggv'], 'eps viewer')
+
         # Second for web browser
         if not cls.web_browser:
             cls.web_browser = cls.find_valid(
-                                    ['firefox', 'chrome', 'safari','opera'], 
+                                    ['firefox', 'chrome', 'safari','opera'],
                                     'web browser')
 
     @classmethod
     def configure_mac(cls, configuration=None):
         """ configure the way to open a file for mac """
-    
+
         if configuration is None:
             configuration = {'text_editor': None,
                              'eps_viewer':None,
@@ -1408,7 +1408,7 @@ class open_file(object):
             if key == 'text_editor':
                 # Treat text editor ONLY text base editor !!
                 if configuration[key]:
-                    program = configuration[key].split()[0]                    
+                    program = configuration[key].split()[0]
                     if not which(program):
                         logger.warning('Specified text editor %s not valid.' % \
                                                              configuration[key])
@@ -1423,7 +1423,7 @@ class open_file(object):
                     cls.text_editor = cls.find_valid(
                                         ['vi', 'emacs', 'vim', 'gedit', 'nano'],
                                          'text editor')
-              
+
             elif key == 'eps_viewer':
                 if configuration[key]:
                     cls.eps_viewer = configuration[key]
@@ -1432,7 +1432,7 @@ class open_file(object):
                     ver, _, _ =  platform.mac_ver()
                     # open does not support eps anymore since 13.0
                     # pass by a converter first
-                    if int(ver.split('.')[0]) > 12: 
+                    if int(ver.split('.')[0]) > 12:
                         if which('pstopdf'):
                             cls.eps_viewer = 'pstopdf'
                         elif  which('ps2pdf'):
@@ -1449,29 +1449,29 @@ class open_file(object):
     @staticmethod
     def find_valid(possibility, program='program'):
         """find a valid shell program in the list"""
-        
+
         for p in possibility:
             if which(p):
                 logger.info('Using default %s \"%s\". ' % (program, p) + \
                              'Set another one in ./input/mg5_configuration.txt')
                 return p
-        
+
         logger.info('No valid %s found. ' % program + \
                                    'Please set in ./input/mg5_configuration.txt')
         return None
-        
-        
+
+
     def open_program(self, program, file_path, mac_check=True, background=False):
         """ open a file with a given program """
-        
+
         if mac_check==True and sys.platform == 'darwin':
             return self.open_mac_program(program, file_path)
-        
-        # Shell program only                                                                                                                                                                 
+
+        # Shell program only
         if program:
             arguments = program.split() # allow argument in program definition
             arguments.append(file_path)
-        
+
             if not background:
                 subprocess.call(arguments)
             else:
@@ -1497,7 +1497,7 @@ class open_file(object):
             arguments = [program, file_path, output]
             subprocess.call(arguments, stdout=open(os.devnull,"w"))
             return self.open_mac_program(None, output)
-        elif which(program): 
+        elif which(program):
             # shell program
             arguments = program.split() # Allow argument in program definition
             arguments.append(file_path)
@@ -1512,14 +1512,14 @@ def get_HEPTools_location_setter(HEPToolsDir,type):
     sets it before calling the exectuable, for example:
        <preamble> ./my_exe
     with <preamble> -> DYLD_LIBRARY_PATH=blabla:$DYLD_LIBRARY_PATH"""
-    
+
     assert(type in ['bin','include','lib'])
-    
+
     target_env_var = 'PATH' if type in ['bin','include'] else \
           ('DYLD_LIBRARY_PATH' if sys.platform=='darwin' else 'LD_LIBRARY_PATH')
-    
+
     target_path = os.path.abspath(pjoin(HEPToolsDir,type))
-    
+
     if target_env_var not in os.environ or \
                 target_path not in os.environ[target_env_var].split(os.pathsep):
         return "%s=%s:$%s "%(target_env_var,target_path,target_env_var)
@@ -1535,20 +1535,20 @@ def get_shell_type():
             return 'tcsh'
         else:
             # If unknown, return None
-            return None 
+            return None
     except KeyError:
         return None
 
 def is_executable(path):
     """ check if a path is executable"""
-    try: 
+    try:
         return os.access(path, os.X_OK)
     except Exception:
-        return False        
-    
+        return False
+
 class OptionParser(optparse.OptionParser):
     """Option Peaser which raise an error instead as calling exit"""
-    
+
     def exit(self, status=0, msg=None):
         if msg:
             raise InvalidCmd(msg)
@@ -1557,19 +1557,19 @@ class OptionParser(optparse.OptionParser):
 
 def sprint(*args, **opt):
     """Returns the current line number in our program."""
-    
+
     if not __debug__:
         return
-    
+
 
     import inspect
     if 'cond' in opt and not opt['cond']:
         return
 
-    use_print = False    
+    use_print = False
     if 'use_print' in opt and opt['use_print']:
         use_print = True
-    
+
     if 'log' in opt:
         log = opt['log']
     else:
@@ -1588,7 +1588,7 @@ def sprint(*args, **opt):
         wait = bool(opt['wait'])
     else:
         wait = False
-        
+
     lineno  =  inspect.currentframe().f_back.f_lineno
     fargs =  inspect.getframeinfo(inspect.currentframe().f_back)
     filename, lineno = fargs[:2]
@@ -1603,7 +1603,7 @@ def sprint(*args, **opt):
         elif line.startswith("\"") and line.endswith("\"") and line.count(",") ==0:
             line= ''
         elif line.startswith(("\"","'")) and len(args)==1 and "%" in line:
-            line= ''        
+            line= ''
     except Exception:
         line=''
 
@@ -1611,8 +1611,8 @@ def sprint(*args, **opt):
         intro = ' %s = \033[0m' % line
     else:
         intro = ''
-    
-    
+
+
     if not use_print:
         log.log(level, ' '.join([intro]+[str(a) for a in args]) + \
                    ' \033[1;30m[%s at line %s]\033[0m' % (os.path.basename(filename), lineno))
@@ -1625,7 +1625,7 @@ def sprint(*args, **opt):
     elif 'sleep' in opt:
         time.sleep(int(opt['sleep']))
 
-    return 
+    return
 
 class misc(object):
     @staticmethod
@@ -1646,7 +1646,7 @@ def equal(a,b,sig_fig=6, zero_limit=True):
                 else:
                     power = sig_fig + 1
             else:
-                return a == b  
+                return a == b
         else:
             power = sig_fig - int(math.log10(abs(a)))
 
@@ -1676,9 +1676,9 @@ class chdir:
 ################################################################################
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
-    '''This function will spwan a thread and run the given function using the args, kwargs and 
-    return the given default value if the timeout_duration is exceeded 
-    ''' 
+    '''This function will spwan a thread and run the given function using the args, kwargs and
+    return the given default value if the timeout_duration is exceeded
+    '''
     import threading
     class InterruptableThread(threading.Thread):
         def __init__(self):
@@ -1696,7 +1696,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     return it.result
 
 def mmin(iter, default=None):
-    
+
     if six.PY3:
         return min(iter, default=default)
     else:
@@ -1721,7 +1721,7 @@ class digest:
             return self.test_zlib()
         except Exception:
             pass
-                
+
     def test_hashlib(self):
         import hashlib
         def digest(text):
@@ -1730,7 +1730,7 @@ class digest:
             t.update(text)
             return t.hexdigest()
         return digest
-    
+
     def test_md5(self):
         import md5
         def digest(text):
@@ -1739,12 +1739,12 @@ class digest:
             t.update(text)
             return t.hexdigest()
         return digest
-    
+
     def test_zlib(self):
         import zlib
         def digest(text):
             return zlib.adler32(text)
-    
+
 digest = digest().test_all()
 
 #===============================================================================
@@ -1791,7 +1791,7 @@ class ProcessTimer:
 #      rss_memory = 0
 #      vms_memory = 0
 #
-#      # calculate and sum up the memory of the subprocess and all its descendants 
+#      # calculate and sum up the memory of the subprocess and all its descendants
 #      for descendant in descendants:
 #        try:
 #          mem_info = descendant.get_memory_info()
@@ -1868,10 +1868,10 @@ class Notification(object):
         elif sys.platform == 'linux':
             if which('notify-send'):
                 self.working = 'notify-send'
-            
+
 
     def __call__(self,subtitle, info_text, userInfo={}):
-        
+
         if not self.init:
             self.load_notification()
         if not self.working:
@@ -1889,7 +1889,7 @@ class Notification(object):
                 self.NSUserNotificationCenter.defaultUserNotificationCenter().scheduleNotification_(notification)
             except:
                 pass
-            
+
         elif self.working=='osascript':
             try:
                 os.system("""
@@ -1909,7 +1909,7 @@ class Notification(object):
 system_notify = Notification()
 
 class EasterEgg(object):
-    
+
     done_notification = False
     message_aprilfirst =\
         {'error': ['Be careful, a cat is eating a lot of fish today. This makes the code unstable.',
@@ -1930,7 +1930,7 @@ class EasterEgg(object):
         "*                     W E L C O M E to                     *\n" + \
         "*              M A D G R A P H 5 _ a M C @ N L O           *\n" + \
         "*                                                          *\n" + \
-        "*                                                          *\n" 
+        "*                                                          *\n"
 
 
     default_banner_2 =        "*                                                          *\n" + \
@@ -1975,7 +1975,7 @@ class EasterEgg(object):
         "* M::::::M               M::::::M                          *\n" + \
         "* MMMMMMMM               MMMMMMMM                          *\n" + \
         "*                                                          *\n" + \
-        "*     https://en.wikipedia.org/wiki/Z_comme_Zorglub        *\n"    
+        "*     https://en.wikipedia.org/wiki/Z_comme_Zorglub        *\n"
 
 
 
@@ -1983,12 +1983,12 @@ class EasterEgg(object):
 
     special_banner = {(4,5): May4_banner, (14,10): Zcommezorglub}
 
-    
+
     def __init__(self, msgtype):
 
         try:
             now = time.localtime()
-            date = now.tm_mday, now.tm_mon 
+            date = now.tm_mday, now.tm_mon
             if date in [(1,4)]:
                 madgraph.iolibs.drawing_eps.EpsDiagramDrawer.april_fool = True
                 if msgtype in EasterEgg.message_aprilfirst:
@@ -2010,10 +2010,10 @@ class EasterEgg(object):
                 return
             if MADEVENT:
                 return
-            
+
             import os
             import pwd
-            username =pwd.getpwuid( os.getuid() )[ 0 ] 
+            username =pwd.getpwuid( os.getuid() )[ 0 ]
             msg = msg % {'user': username}
             if sys.platform == "darwin":
                 self.call_apple(msg)
@@ -2022,13 +2022,13 @@ class EasterEgg(object):
         except Exception as error:
             sprint(error)
             pass
-    
+
     def __call__(self, msg):
         try:
             self.call_apple(msg)
         except:
             pass
-            
+
     def change_banner(self, date):
         if MADEVENT:
             return
@@ -2053,10 +2053,10 @@ class EasterEgg(object):
                                                         #"\n************************************************************"
         else:
             madgraph_interface.CmdExtended.intro_banner= self.default_banner_1 + self.special_banner[date] + self.default_banner_2
-        
+
 
     def call_apple(self, msg):
-        
+
         #1. control if the volume is on or not
         p = subprocess.Popen("osascript -e 'get volume settings'", stdout=subprocess.PIPE, shell=True)
         output, _  = p.communicate()
@@ -2068,7 +2068,7 @@ class EasterEgg(object):
             muted = True
         elif 'output volume' in info and info['output volume'] == '0':
             muted = True
-        
+
         if muted:
             if not EasterEgg.done_notification:
                 system_notify('On April first','turn up your volume!')
@@ -2100,11 +2100,11 @@ class EasterEgg(object):
 def get_older_version(v1, v2):
     """ return v2 if v1>v2
         return v1 if v1<v2
-        return v1 if v1=v2 
+        return v1 if v1=v2
         return v1 if v2 is not in 1.2.3.4.5 format (treat '<n>_text' as '<n>' if n is an integer)
         return v2 if v1 is not in 1.2.3.4.5 format (treat '<n>_text' as '<n>' if n is an integer)
     """
-    
+
     for a1, a2 in zip_longest(v1, v2, fillvalue=0):
         if '_' in str(a1) : a1 = str(a1)[:str(a1).index('_')]
         if '_' in str(a2) : a2 = str(a2)[:str(a2).index('_')]
@@ -2115,23 +2115,23 @@ def get_older_version(v1, v2):
         try:
             a2 = int(a2)
         except:
-            return v1        
+            return v1
         if a1 > a2:
             return v2
         elif a1 < a2:
             return v1
     return v1
 
-    
+
 
 plugin_support = {}
 def is_plugin_supported(obj):
     global plugin_support
-    
+
     name = obj.__name__
     if name in plugin_support:
         return plugin_support[name]
-    
+
     # get MG5 version
     if '__mg5amcnlo__' in plugin_support:
         mg5_ver = plugin_support['__mg5amcnlo__']
@@ -2146,24 +2146,24 @@ def is_plugin_supported(obj):
         logger.error("Plugin %s misses some required info to be valid. It is therefore discarded" % name)
         plugin_support[name] = False
         return
-    
+
     logger.debug("Validating plugin against this version: %s." % '.'.join(str(i) for i in mg5_ver) )
     if get_older_version(min_ver, mg5_ver) == min_ver and \
        get_older_version(mg5_ver, max_ver) == mg5_ver:
         plugin_support[name] = True
         if get_older_version(mg5_ver, val_ver) == val_ver:
-            logger.warning("""Plugin %s has marked as NOT being validated with this version: %s. 
+            logger.warning("""Plugin %s has marked as NOT being validated with this version: %s.
 It has been validated for the last time with version: %s""",
 			   name, '.'.join(str(i) for i in mg5_ver), '.'.join(str(i) for i in val_ver) )
     else:
         if __debug__:
             logger.error("Plugin %s seems not supported by this version of MG5aMC. Keep it active (please update status)" % name)
-            plugin_support[name] = True            
+            plugin_support[name] = True
         else:
             logger.error("Plugin %s is not supported by this version of MG5aMC." % name)
             plugin_support[name] = False
     return plugin_support[name]
-    
+
 
 #decorator
 def set_global(loop=False, unitary=True, mp=False, cms=False):
@@ -2198,13 +2198,13 @@ def set_global(loop=False, unitary=True, mp=False, cms=False):
             return out
         return deco_f_set
     return deco_set
-   
-    
-    
+
+
+
 
 def plugin_import(module, error_msg, fcts=[]):
     """convenient way to import a plugin file/function"""
-    
+
     if six.PY2:
         level = -1
     else:
@@ -2217,7 +2217,7 @@ def plugin_import(module, error_msg, fcts=[]):
             _temp = __import__('MG5aMC_PLUGIN.%s' % module, globals(), locals(), fcts, level)
         except ImportError:
             raise MadGraph5Error(error_msg)
-    
+
     if not fcts:
         return _temp
     elif len(fcts) == 1:
@@ -2229,7 +2229,7 @@ def from_plugin_import(plugin_path, target_type, keyname=None, warning=False,
                        info=None):
     """return the class associated with keyname for a given plugin class
     if keyname is None, return all the name associated"""
-    
+
     validname = []
     for plugpath in plugin_path:
         plugindirname = os.path.basename(plugpath)
@@ -2243,7 +2243,7 @@ def from_plugin_import(plugin_path, target_type, keyname=None, warning=False,
                         logger.warning("error detected in plugin: %s.", plug)
                         logger.warning("%s", error)
                     continue
-                plugin = sys.modules['%s.%s' % (plugindirname,plug)] 
+                plugin = sys.modules['%s.%s' % (plugindirname,plug)]
                 if hasattr(plugin, target_type):
                     if not is_plugin_supported(plugin):
                         continue
@@ -2256,12 +2256,12 @@ def from_plugin_import(plugin_path, target_type, keyname=None, warning=False,
                             else:
                                 logger.info(info % {'plug': plug, 'key':keyname}, '$MG:BOLD')
                             return getattr(plugin, target_type)[keyname]
-                        
+
     if not keyname:
         return validname
-    
-    
-    
+
+
+
 
 python_lhapdf=None
 def import_python_lhapdf(lhapdfconfig):
@@ -2277,7 +2277,7 @@ def import_python_lhapdf(lhapdfconfig):
 
     use_lhapdf=False
     try:
-        
+
         lhapdf_libdir=subprocess.Popen([lhapdfconfig,'--libdir'],\
                                            stdout=subprocess.PIPE).stdout.read().decode(errors='ignore').strip()
     except:
@@ -2344,9 +2344,9 @@ def import_python_lhapdf(lhapdfconfig):
                                    "If the python interface to LHAPDF is available on your system, try "\
                                    "adding its location to the PYTHONPATH environment variable and the"\
                                    "LHAPDF library location to LD_LIBRARY_PATH (linux) or DYLD_LIBRARY_PATH (mac os x)."\
-                                   "The required LD_LIBRARY_PATH is "+ lhapdf_libdir 
+                                   "The required LD_LIBRARY_PATH is "+ lhapdf_libdir
                                    )
-        
+
     if use_lhapdf:
         python_lhapdf = lhapdf
         try:
@@ -2390,14 +2390,14 @@ def make_unique(input, keepordering=None):
     if not keepordering:
         return list(set(input))
     else:
-        return list(dict.fromkeys(input)) 
+        return list(dict.fromkeys(input))
 
 if six.PY3:
     try:
         from collections import MutableSet
     except ImportError: # this is for python3.10
         from collections.abc import  MutableSet
-    
+
     class OrderedSet(collections.OrderedDict, MutableSet):
 
         def __init__(self, arg=None):
@@ -2500,7 +2500,7 @@ def dict_cmp(A, B, level=1):
     if adiff != bdiff:
         a = adiff
         b = bdiff
-        return (a > b) - (a < b)        
+        return (a > b) - (a < b)
     a = A[adiff]
     b = B[bdiff]
     if isinstance(a, dict):
@@ -2512,7 +2512,7 @@ def dict_cmp(A, B, level=1):
 if six.PY3:
     import io
     file = io.FileIO
-        
+
 class BackRead(file):
     """read a file returning the lines in reverse order for each call of readline()
 This actually just reads blocks (4096 bytes by default) of data from the end of
@@ -2568,7 +2568,7 @@ the file and returns last line in an internal buffer."""
 def tqdm(iterator, **opts):
     return iterator
 
-        
+
 ############################### TRACQER FOR OPEN FILE
 #openfiles = set()
 #oldfile = __builtin__.file
@@ -2592,5 +2592,3 @@ def tqdm(iterator, **opts):
 #    return newfile(*args)
 #__builtin__.file = newfile
 #__builtin__.open = newopen
-
-

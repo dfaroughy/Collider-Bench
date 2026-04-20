@@ -2,7 +2,7 @@
 c----------------------------------------------------------------------
 c     This is the USER-FUNCTION to calculate the renormalization
 c     scale on event-by-event basis.
-c----------------------------------------------------------------------      
+c----------------------------------------------------------------------
       implicit none
       real*8   alphas
       external alphas
@@ -25,14 +25,14 @@ c
       double precision pmass(nexternal)
       common/to_mass/  pmass
 
-      
+
       real*8 xptj,xptb,xpta,xptl,xmtc
       real*8 xetamin,xqcut,deltaeta
       common /to_specxpt/xptj,xptb,xpta,xptl,xmtc,xetamin,xqcut,deltaeta
 
 c
 c     ARGUMENTS
-c      
+c
       REAL*8 P(0:3,nexternal)
       REAL*8 rscale
 c
@@ -48,11 +48,11 @@ c         Cluster external states until reducing the system to a 2->2 topology w
 c         This is not done in this file due to the clustering.
          rscale=0d0
       elseif(dynamical_scale_choice.eq.1) then
-c         Total transverse energy of the event.         
+c         Total transverse energy of the event.
           rscale=0d0
           do i=3,nexternal
              rscale=rscale+et(P(0,i))
-          enddo      
+          enddo
       elseif(dynamical_scale_choice.eq.2) then
 c         sum of the transverse mass
 c         m^2+pt^2=p(0)^2-p(3)^2=(p(0)+p(3))*(p(0)-p(3))
@@ -97,9 +97,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       subroutine set_fac_scale(P,q2factorization)
 c----------------------------------------------------------------------
-c     This is the USER-FUNCTION to calculate the factorization 
+c     This is the USER-FUNCTION to calculate the factorization
 c     scales^2 on event-by-event basis.
-c----------------------------------------------------------------------      
+c----------------------------------------------------------------------
       implicit none
 
 c     INCLUDE and COMMON
@@ -112,7 +112,7 @@ c
 c--masses and poles
 c
 c     ARGUMENTS
-c      
+c
       REAL*8 P(0:3,nexternal)
       real*8 q2factorization(2)
 c
@@ -129,7 +129,7 @@ c
 c----------
 c     start
 c----------
-      
+
       if (dynamical_scale_choice.eq.-1) then
 c         Cluster external states until reducing the system to a 2->2 topology whose transverse mass is used for setting the scale.
 c         This is not done in this file due to the clustering.
@@ -151,28 +151,28 @@ c-some examples of dynamical scales
 c
 
 c---------------------------------------
-c-- total transverse energy of the event 
+c-- total transverse energy of the event
 c---------------------------------------
 c     q2factorization(1)=0d0
 c     do i=3,nexternal
 c      q2factorization(1)= q2factorization(1)+et(P(0,i))**2
 c     enddo
-c     q2factorization(2)=q2factorization(1)  
+c     q2factorization(2)=q2factorization(1)
 
 c--------------------------------------
-c-- scale^2 = \sum_i  (pt_i^2+m_i^2)  
+c-- scale^2 = \sum_i  (pt_i^2+m_i^2)
 c--------------------------------------
 c     q2factorization(1)=0d0
 c     do i=3,nexternal
 c      q2factorization(1)=q2factorization(1)+pt(P(0,i))**2+dot(p(0,i),p(0,i))
 c     enddo
-c     q2factorization(2)=q2factorization(1)  
+c     q2factorization(2)=q2factorization(1)
 
 c--------------------------------------
 c-- \sqrt(s): partonic energy
 c--------------------------------------
 c     q2factorization(1)=2d0*dot(P(0,1),P(0,2))
-c     q2factorization(2)=q2factorization(1)  
+c     q2factorization(2)=q2factorization(1)
 
 
 
@@ -186,10 +186,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       endif
 
 
-      
 
-      
+
+
       return
       end
-
-

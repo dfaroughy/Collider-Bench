@@ -14,7 +14,7 @@ c       real    zwidth         : width of Z
 c
 c output:
 c       complex vertex         : amplitude        gamma(wm1,wp1,wm2,wp2)
-c     
+c
       implicit none
       double complex wm1(6),wp1(6),wm2(6),wp2(6),vertex
       double complex dv1(0:3),dv2(0:3),dv3(0:3),dv4(0:3),dvertx
@@ -104,7 +104,7 @@ c
       if ( gwwa.lt.rZero .or. gwwa.ge.gwwz ) then
          write(stdo,*)
      &  ' helas-warn  : gwwa/gwwz in wwwwxx are non-standard couplings'
-         write(stdo,*) 
+         write(stdo,*)
      &  '             : gwwa = ',gwwa,'  gwwz = ',gwwz
       endif
 #endif

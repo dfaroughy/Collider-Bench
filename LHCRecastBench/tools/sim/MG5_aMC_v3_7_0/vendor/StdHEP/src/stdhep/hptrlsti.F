@@ -73,4 +73,3 @@ c everything else
 1102  format(1X,I7,1X,I8,2X,a16,1X,I7,2X,A8,
      1       5X,I7,1X,I8,2X,a16,1X,I7,2X,A8)
       end
-

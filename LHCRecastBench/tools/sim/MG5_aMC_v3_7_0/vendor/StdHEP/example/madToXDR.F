@@ -30,7 +30,7 @@ C.....Opening stdhep file for writing
       call stdxwinit(outname,'MadGraph to MCFio',nev,istr,lok)
       if(lok.ne.0) write(lnhout,*) ' Problem opening file '
 
-C          Write Stdhep begin-run record   
+C          Write Stdhep begin-run record
       call stdxwrt(100,istr,lok)
       if(lok.ne.0) write(lnhout,*)
      1        ' Problem writing stdhep begin run record'
@@ -51,7 +51,7 @@ c.. now read and write an event
        enddo
        write(lnhout,*) ' Processed ',iev,' HEPEUP events'
 
-C          Write end-of-run record  
+C          Write end-of-run record
       call stdxwrt(200,istr,lok)
       if(lok.ne.0) write(lnhout,*) ' Problem writing end run record'
 

@@ -55,7 +55,7 @@ C----------------------------------------------------------------------
       parameter(NPL=15000)
       common/c_analysis/nwgt_analysis
       OPEN(UNIT=99,FILE='PYTLL.TOP',STATUS='UNKNOWN')
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=IEVTTOT/DFLOAT(NEVHEP)
       DO I=1,NPL
@@ -128,7 +128,7 @@ C EFFECT, SO THROW THE EVENT AWAY
       NLP=0
       NLM=0
       DO 100 IHEP=1,NHEP
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID1=IDHEP(IHEP)
          ISLP=ID1.EQ.IDENT
          ISLM=ID1.EQ.-IDENT
@@ -182,7 +182,7 @@ C
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

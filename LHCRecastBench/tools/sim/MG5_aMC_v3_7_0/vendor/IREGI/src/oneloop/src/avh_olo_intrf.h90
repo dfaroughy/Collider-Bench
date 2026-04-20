@@ -153,7 +153,7 @@
   hh = ii
   rslt = hh-zz
   end function
- 
+
   function minus_i_qr(ii,zz) result(rslt)
   intent(in) :: ii,zz
   include 'avh_olo_real.h90'
@@ -162,4 +162,3 @@
   hh = ii
   rslt = hh-zz
   end function
- 

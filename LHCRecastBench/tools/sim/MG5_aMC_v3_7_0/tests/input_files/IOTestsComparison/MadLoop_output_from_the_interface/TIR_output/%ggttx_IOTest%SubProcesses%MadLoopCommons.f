@@ -32,16 +32,16 @@
 
 
       SUBROUTINE INITCOLLIER()
-C     
+C
 C     INITIALISATION OF COLLIER
-C     
-C     
+C
+C
 C     MODULE
-C     
+C
       USE COLLIER
-C     
+C
 C     CONSTANTS
-C     
+C
       CHARACTER(LEN=*) NO_FOLDER
       PARAMETER (NO_FOLDER='')
       CHARACTER(LEN=*) FOLDEROUTPUT
@@ -50,13 +50,13 @@ C
 C     Force COLLIER to completely reset from scratch
       LOGICAL NORESET
       PARAMETER (NORESET=.FALSE.)
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       INTEGER N_CACHES
-C     
-C     GLOBAL VARIABLES 
-C     
+C
+C     GLOBAL VARIABLES
+C
       INCLUDE 'MadLoopParams.inc'
 C     Now obtain the overall maximum rank, maximum external lines
 C     and maximal number of processes.
@@ -106,26 +106,26 @@ C     Make sure to start by first switching off all cache
 C     Make sure no COLLIER error can interrupt the code
       CALL SWITCHOFFERRSTOP_CLL()
 
-C     Specify below your other custom COLLIER parameter settings 
+C     Specify below your other custom COLLIER parameter settings
 C     [user_specific_COLLIER_settings]
 
       END
 
       SUBROUTINE SET_FORBID_HEL_DOUBLECHECK(ONOFF)
-C     
+C
 C     Give the possibility to overwrite the value of MadLoopParams.dat
 C     for the helicity double checking.
-C     Make sure to call this subroutine before the first time you 
+C     Make sure to call this subroutine before the first time you
 C     call MadLoop.
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     ARGUMENT
-C     
+C
       LOGICAL ONOFF
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       LOGICAL FORBID_HEL_DOUBLECHECK
       DATA FORBID_HEL_DOUBLECHECK/.FALSE./
       COMMON/FORBID_HEL_DOUBLECHECK/FORBID_HEL_DOUBLECHECK
@@ -192,11 +192,11 @@ C         Try to automatically find the path
           GOTO 10
  3        CONTINUE
           CLOSE(1)
-C         
+C
 C         Try to automatically find the path from the executable
 C          location
 C         particularly usefull in gridpack readonly mode
-C         
+C
           CALL GETARG(0,PATH)  !path is the PATH to the madevent executable (either global or from launching directory)
           POS = INDEX(PATH,'/',.TRUE.)
           PREFIX = PATH(:POS)
@@ -269,10 +269,10 @@ C     Check that the FilePath set is correct
       END
 
       INTEGER FUNCTION SET_RET_CODE_U(MLRED,DOING_QP,STABLE)
-C     
+C
 C     This functions returns the value of U
-C     
-C     
+C
+C
 C     U == 0
 C     Not stable.
 C     U == 1
@@ -293,25 +293,25 @@ C     U == 8
 C     Stable with Ninja in quadruple precision.
 C     U == 9
 C     Stable with CutTools in quadruple precision.
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER MLRED
       LOGICAL DOING_QP,STABLE
-C     
+C
 C     LOCAL VARIABLES
-C     
-C     
+C
+C
 C     FUNCTION
-C     
-C     
+C
+C
 C     BEGIN CODE
-C     
+C
       IF(.NOT.STABLE)THEN
         SET_RET_CODE_U=0
         RETURN
@@ -337,26 +337,26 @@ C
 
       SUBROUTINE DETECT_LOOPLIB(LIBNUM,NLOOPLINE,RANK,COMPLEX_MASS
      $ ,HAS_HEFT_VERTEX,MAX_SPIN_CONNECTED_TO_LOOP,LPASS)
-C     
+C
 C     DETECT WHICH LOOP LIB PASSED
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER LIBNUM,NLOOPLINE,RANK,MAX_SPIN_CONNECTED_TO_LOOP
 C     The argument HAS_HEFT_VERTEX is only to implement correctly
 C      CutTools limitation
       LOGICAL COMPLEX_MASS,LPASS,HAS_HEFT_VERTEX
-C     
+C
 C     LOCAL VARIABLES
-C     
-C     
+C
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -377,10 +377,10 @@ C       Golem95
 C       Samurai
         CALL DETECT_SAMURAI(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
       ELSEIF(LIBNUM.EQ.6)THEN
-C       Ninja 
+C       Ninja
         CALL DETECT_NINJA(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
       ELSEIF(LIBNUM.EQ.7)THEN
-C       Collier 
+C       Collier
         CALL DETECT_COLLIER(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
       ELSE
         STOP 'Only CutTools, PJFry++, IREGI, Golem95, Samurai, Ninja'
@@ -391,23 +391,23 @@ C       Collier
 
       SUBROUTINE DETECT_CUTTOOLS(NLOOPLINE,RANK,COMPLEX_MASS
      $ ,HAS_HEFT_VERTEX,MAX_SPIN_CONNECTED_TO_LOOP,LPASS)
-C     
+C
 C     DETECT whether CUTTOOLS CAN BE USED OR NOT
-C     
+C
       IMPLICIT NONE
 
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER NLOOPLINE,RANK
       INTEGER MAX_SPIN_CONNECTED_TO_LOOP
       LOGICAL COMPLEX_MASS,LPASS,HAS_HEFT_VERTEX
-C     
+C
 C     LOCAL VARIABLES
-C     
+C
       INTEGER MAX_RANK
 C     ----------
 C     BEGIN CODE
@@ -435,24 +435,24 @@ C      Higgs effective vertex.
       END
 
       SUBROUTINE DETECT_SAMURAI(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
-C     
+C
 C     DETECT whether Samurai CAN BE USED OR NOT
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER NLOOPLINE,RANK
       LOGICAL COMPLEX_MASS,LPASS
-C     
+C
 C     LOCAL VARIABLES
-C     
-C     
+C
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -467,24 +467,24 @@ C     It can easily be increased if necessary.
       END
 
       SUBROUTINE DETECT_NINJA(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
-C     
+C
 C     Detect whether Ninja can be used or not
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER NLOOPLINE,RANK
       LOGICAL COMPLEX_MASS,LPASS
-C     
+C
 C     LOCAL VARIABLES
-C     
-C     
+C
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -499,26 +499,26 @@ C     It can easily be increased if necessary.
       END
 
       SUBROUTINE DETECT_COLLIER(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
-C     
+C
 C     Detect whether Collier can be used or not
-C     
+C
       USE COLLIER
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER NLOOPLINE,RANK
       LOGICAL COMPLEX_MASS,LPASS
-C     
+C
 C     LOCAL VARIABLES
-C     
+C
       INTEGER CURRENT_COLLIERMODE
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       LOGICAL CTINIT,TIRINIT,GOLEMINIT,SAMURAIINIT,NINJAINIT
      $ ,COLLIERINIT
       COMMON/REDUCTIONCODEINIT/CTINIT, TIRINIT, GOLEMINIT, SAMURAIINIT
@@ -546,24 +546,24 @@ C       Limitations of the COLI branch are academic.
       END
 
       SUBROUTINE DETECT_PJFRY(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
-C     
+C
 C     DETECT whether PJFRY++ CAN BE USED OR NOT
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER NLOOPLINE,RANK
       LOGICAL COMPLEX_MASS,LPASS
-C     
+C
 C     LOCAL VARIABLES
-C     
-C     
+C
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -576,24 +576,24 @@ C     ----------
       END
 
       SUBROUTINE DETECT_IREGI(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
-C     
+C
 C     DETECT whether IREGI CAN BE USED OR NOT
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER NLOOPLINE,RANK
       LOGICAL COMPLEX_MASS,LPASS
-C     
+C
 C     LOCAL VARIABLES
-C     
-C     
+C
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -605,24 +605,24 @@ C      7 and above.
       END
 
       SUBROUTINE DETECT_GOLEM(NLOOPLINE,RANK,COMPLEX_MASS,LPASS)
-C     
+C
 C     DETECT whether Golem95 CAN BE USED OR NOT
-C     
+C
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
-C     
+C
+C
 C     ARGUMENTS
-C     
+C
       INTEGER NLOOPLINE,RANK
       LOGICAL COMPLEX_MASS,LPASS
-C     
+C
 C     LOCAL VARIABLES
-C     
-C     
+C
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -634,7 +634,7 @@ C     ----------
       RETURN
       END
 
-C     Now some sorting related routines. Only to be used for small 
+C     Now some sorting related routines. Only to be used for small
 C     arrays since these are not the most optimized sorting algorithms.
 
 C     -----------------------------------------------------------------
@@ -737,5 +737,3 @@ C           ---------
                 MEDIAN = TEMP(N/2+1)
                 END IF
                 END FUNCTION  MEDIAN
-
-

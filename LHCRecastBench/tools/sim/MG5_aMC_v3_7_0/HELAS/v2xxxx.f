@@ -11,7 +11,7 @@ c       integer nsv  = -1 or 1 : +1 for final, -1 for initial
 c
 c output:
 c       complex vc(6)          : vector wavefunction       epsilon^mu(v)
-c     
+c
       implicit none
       double complex vc(6)
       double precision p(0:3),vmass,hel,hel0,pt,pt2,pp,pzpt,emp,sqh
@@ -20,8 +20,8 @@ c
       double precision rZero, rHalf, rOne, rTwo
       parameter( rZero = 0.0d0, rHalf = 0.5d0 )
       parameter( rOne = 1.0d0, rTwo = 2.0d0 )
-      
-      
+
+
       vc(5) = dcmplx(p(0),p(3))*nsv
       vc(6) = dcmplx(p(1),p(2))*nsv
 

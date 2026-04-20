@@ -41,5 +41,3 @@ else:
         f.write('PYTHIA8INCLUDE=\\$(WORK)/include \n')
         f.write('PYTHIA8LIB=\\$(WORK)/lib \n')
         f.write('PYTHIA8FLAGS=-lstdc++ -lz -ldl -fPIC \n')
-    
-

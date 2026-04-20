@@ -35,5 +35,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $ ,MP__UV_GQQG_1EPS,MP__UV_GQQB_1EPS,MP__UVWFCT_G_1_1EPS
      $ ,MP__R2_BXTW,MP__UV_GQQB,MP__UV_GQQT,MP__UVWFCT_G_1
      $ ,MP__UVWFCT_G_2,MP__GC_11
-
-

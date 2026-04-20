@@ -62,5 +62,3 @@ c Definition of the EW coupling used in the write out of aqed
 c Definition of DUM symbols
       DUM0 = 0
       DUM1 = 1
-
-

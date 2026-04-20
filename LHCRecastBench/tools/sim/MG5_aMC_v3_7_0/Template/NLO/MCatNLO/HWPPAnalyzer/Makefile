@@ -11,11 +11,11 @@ CXXFLAGS += $(shell $(HWPPPATH)/bin/herwig-config --cppflags )
 
 all : HepMCFortran.so
 
-%.o: ../srcCommon/%.f 
-	$(FF) -c $< -fPIC -I$(INCDIR) -o $@	
+%.o: ../srcCommon/%.f
+	$(FF) -c $< -fPIC -I$(INCDIR) -o $@
 %.o: %.f
-	$(FF) -c $< -fPIC -I$(INCDIR) -o $@   
-	
+	$(FF) -c $< -fPIC -I$(INCDIR) -o $@
+
 %.o: ../srcCommon/%.cc
 	$(CPP) -c $< -fPIC $(INCLOPTION) -I$(INCDIR) -o $@
 %.o: %.cc

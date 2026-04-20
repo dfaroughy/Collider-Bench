@@ -31,7 +31,7 @@
 struct PyCallBack_Pythia8_RndmEngine : public Pythia8::RndmEngine {
 	using Pythia8::RndmEngine::RndmEngine;
 
-	double flat() override { 
+	double flat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::RndmEngine *>(this), "flat");
 		if (overload) {

@@ -17,7 +17,7 @@ c output:
 c       complex jvvt(6)        : vector current          j^mu(v:va,vb,T)
 c
 c- by Q.Li - OCT. 2006
-c     
+c
       implicit none
       double complex va(6), vb(6), tc(18), gt, jvvt(6)
       double precision gc,vmass,vwidth
@@ -42,7 +42,7 @@ c
       parameter( rZero = 0.0d0, rTwo = 2.0d0 )
       parameter( cZero = ( 0.0d0, 0.0d0 ) )
 
-      
+
       ft(1,1) = tc(1)
       ft(1,2) = tc(2)
       ft(1,3) = tc(3)
@@ -80,7 +80,7 @@ c
       pvc(2) = -dreal(jvvt(6))
       pvc(3) = -dimag(jvvt(6))
       pvc(4) = -dimag(jvvt(5))
-	
+
       pv32=pvc(1)**2-pvc(2)**2-pvc(3)**2-pvc(4)**2
       if ( vmass.gt.rZero ) then
          d =  gc/dcmplx( pv32-vmass**2, vmass*vwidth )
@@ -91,28 +91,28 @@ c
       do i=1,4
          do j=1,4
             MET(i,j) = 0.0d0
-         enddo 
+         enddo
       enddo
       MET(1,1) = 1.0d0
       MET(2,2) = -1.0d0
       MET(3,3) = -1.0d0
       MET(4,4) = -1.0d0
-      
+
       p31(1) = pvc(1)-pva(1)
       p31(2) = pvc(2)-pva(2)
       p31(3) = pvc(3)-pva(3)
       p31(4) = pvc(4)-pva(4)
-      
+
       p12(1) = pva(1)-pvb(1)
       p12(2) = pva(2)-pvb(2)
       p12(3) = pva(3)-pvb(3)
       p12(4) = pva(4)-pvb(4)
-      
+
       p23(1) = pvb(1)-pvc(1)
       p23(2) = pvb(2)-pvc(2)
       p23(3) = pvb(3)-pvc(3)
       p23(4) = pvb(4)-pvc(4)
-      
+
       T00 = ft(1,1)-ft(2,2)-ft(3,3)-ft(4,4)
       T12 = ft(1,2) + ft(2,1)
       T13 = ft(1,3) + ft(3,1)
@@ -120,16 +120,16 @@ c
       T23 = ft(2,3) + ft(3,2)
       T24 = ft(2,4) + ft(4,2)
       T34 = ft(3,4) + ft(4,3)
-      
+
       V1V2 =  va(1)*vb(1) -  va(2)*vb(2) -  va(3)*vb(3) -  va(4)*vb(4)
       K1V2 = pva(1)*vb(1) - pva(2)*vb(2) - pva(3)*vb(3) - pva(4)*vb(4)
       K2V1 = pvb(1)*va(1) - pvb(2)*va(2) - pvb(3)*va(3) - pvb(4)*va(4)
       K3V1 = pvc(1)*va(1) - pvc(2)*va(2) - pvc(3)*va(3) - pvc(4)*va(4)
       K3V2 = pvc(1)*vb(1) - pvc(2)*vb(2) - pvc(3)*vb(3) - pvc(4)*vb(4)
-      
+
       K1K3 = pva(1)*pvc(1)-pva(2)*pvc(2)-pva(3)*pvc(3)-pva(4)*pvc(4)
       K2K3 = pvb(1)*pvc(1)-pvb(2)*pvc(2)-pvb(3)*pvc(3)-pvb(4)*pvc(4)
-      
+
       TV12 = rtwo*(ft(1,1)*va(1)*vb(1)+ft(2,2)*va(2)*vb(2)
      &+ft(3,3)*va(3)*vb(3)+ft(4,4)*va(4)*vb(4))
 
@@ -140,16 +140,16 @@ c
       TKV2 = rtwo*(ft(1,1)*p31(1)*vb(1)+ft(2,2)*p31(2)*vb(2)
      &+ft(3,3)*p31(3)*vb(3)+ft(4,4)*p31(4)*vb(4))
 
-     
+
       TK3V1 = rtwo*(ft(1,1)*pvc(1)*va(1)+ft(2,2)*pvc(2)*va(2)
-     &+ft(3,3)*pvc(3)*va(3)+ft(4,4)*pvc(4)*va(4))	
+     &+ft(3,3)*pvc(3)*va(3)+ft(4,4)*pvc(4)*va(4))
 
       TK3V2 = rtwo*(ft(1,1)*pvc(1)*vb(1)+ft(2,2)*pvc(2)*vb(2)
-     &+ft(3,3)*pvc(3)*vb(3)+ft(4,4)*pvc(4)*vb(4))	
+     &+ft(3,3)*pvc(3)*vb(3)+ft(4,4)*pvc(4)*vb(4))
 
 
       TK312 = rtwo*(ft(1,1)*pvc(1)*p12(1)+ft(2,2)*pvc(2)*p12(2)
-     &+ft(3,3)*pvc(3)*p12(3)+ft(4,4)*pvc(4)*p12(4))	
+     &+ft(3,3)*pvc(3)*p12(3)+ft(4,4)*pvc(4)*p12(4))
 
 
       TV12 = TV12 - T12*(va(1)*vb(2) + va(2)*vb(1))
@@ -254,9 +254,9 @@ c
      &-ft(3,3)*p12(3)-ft(3,4)*p12(4))
      &-MET(j,4)*(ft(4,1)*p12(1)-ft(4,2)*p12(2)
      &-ft(4,3)*p12(3)-ft(4,4)*p12(4))
-     
+
       enddo
-        
+
       do i=1,4
          jvvt(i) = TV12*p12(i)+TKV1*vb(i)+TKV2*va(i)
      &+(-p12(i)*V1V2-vb(i)*K2V1+vb(i)*K3V1
@@ -264,7 +264,7 @@ c
      &-K1V2*TV1M(i)+K3V2*TV1M(i)
      &+V1V2*TK12M(i)
      &+K2V1*TV2M(i)-K3V1*TV2M(i)
-      enddo 
+      enddo
 
       if ( vmass.gt.rZero ) then
          do i=1,4
@@ -279,12 +279,12 @@ c
      &+pvc(i)*V1V2*K1K3-pvc(i)*V1V2*K2K3
      &)/vmass**2*T00
          enddo
-           
-      endif	
-      
+
+      endif
+
       do i=1,4
          jvvt(i) = -jvvt(i) * d*gt
       enddo
-      
+
       return
       end

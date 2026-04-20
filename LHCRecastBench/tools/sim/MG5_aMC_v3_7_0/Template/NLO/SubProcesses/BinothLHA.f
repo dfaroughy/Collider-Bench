@@ -83,7 +83,7 @@ c statistics for MadLoop
       integer get_n_tagged_photons
       external get_n_tagged_photons
       double precision get_virtual_a0Gmu_conv
-      external get_virtual_a0Gmu_conv 
+      external get_virtual_a0Gmu_conv
       integer ntagph, qed_pow_b
 c masses
       include 'pmass.inc'
@@ -143,7 +143,7 @@ c splips unnoticed.
          tolerance=IRPoleCheckThreshold/10d0 ! for the pole check below
          call sloopmatrix_thres(p, virt_wgts, tolerance, accuracies,
      $        ret_code)
-C        look for orders which match the nlo order constraint 
+C        look for orders which match the nlo order constraint
          do i = 1, nsqso
            keep_order(i) = .true.
            do j = 1, nsplitorders
@@ -244,7 +244,7 @@ CCC     $              ,born_hel_from_virt/4d0,wgt_hel(hel(ihel))
 CCC     $              /(born_hel_from_virt/4d0)
 CCC                stop
 CCC            endif
-c Average over initial state helicities 
+c Average over initial state helicities
             if (nincoming.ne.2) then
                write (*,*)
      &              'Cannot do MC over helicities for 1->N processes'
@@ -257,7 +257,7 @@ c Average over initial state helicities
          endif
       endif
 
-      if(cs_run) then     
+      if(cs_run) then
         print*,"I am skipping checkpoles"
         return
       endif
@@ -274,11 +274,11 @@ c      virt_wgt=virt_wgt+conversion*born_wgt*ao2pi
 c======================================================================
 
 c======================================================================
-c If there are tagged photon and other particles in the process, 
+c If there are tagged photon and other particles in the process,
 C one must use a mixed Gmu-alpha0 renormalisation.
-      ntagph = get_n_tagged_photons() 
+      ntagph = get_n_tagged_photons()
       if (ntagph.ne.0) then
-        do i = 1, AMP_SPLIT_SIZE_BORN 
+        do i = 1, AMP_SPLIT_SIZE_BORN
           call amp_split_pos_to_orders(i, amp_orders)
           born_wgt = amp_split(i)
           ! this is the number of powers of 'e' in the born
@@ -286,11 +286,11 @@ C one must use a mixed Gmu-alpha0 renormalisation.
           amp_orders(qed_pos) = amp_orders(qed_pos) + 2
           if (amp_orders(qed_pos).gt.NLO_ORDERS(qed_pos)) cycle
 
-          amp_split_poles_ML(orders_to_amp_split_pos(amp_orders),1) = 
+          amp_split_poles_ML(orders_to_amp_split_pos(amp_orders),1) =
      $        amp_split_poles_ML(orders_to_amp_split_pos(amp_orders),1) +
      $         get_virtual_a0Gmu_conv(qed_pow_b,ntagph,1,born_wgt)
 
-          amp_split_finite_ML(orders_to_amp_split_pos(amp_orders)) = 
+          amp_split_finite_ML(orders_to_amp_split_pos(amp_orders)) =
      $        amp_split_finite_ML(orders_to_amp_split_pos(amp_orders)) +
      $         get_virtual_a0Gmu_conv(qed_pow_b,ntagph,0,born_wgt)
 
@@ -456,7 +456,7 @@ c or more non-zero (independent) helicities
                      write(*,*) i,p(0,i),p(1,i),p(2,i),p(3,i),pmass(i)
                   enddo
                endif
-               write(*,*) 
+               write(*,*)
                write(*,*) " SCALE**2: ", QES2
                if (nbad .lt. nbadmax) then
                   nbad = nbad + 1
@@ -510,7 +510,7 @@ c check (only available when not doing MC over hels)
                   open(unit=78, file='UPS.log', access='append')
                endif
                write(78,*) '===== EPS #',neps,' ====='
-               write(78,*) 'mu_r    =',mu_r           
+               write(78,*) 'mu_r    =',mu_r
                write(78,*) 'alpha_S =',alpha_S
                write(78,*) 'MadLoop return code, pole check and'/
      $              /' accuracy reported',ret_code,cpol,prec_found
@@ -530,7 +530,7 @@ c check (only available when not doing MC over hels)
                write(78,*) 'Accuracy estimated by MadLop ='
      $              ,prec_found(iamp)
                do i = 1, nexternal-1
-                  write(78,'(i2,1x,5e25.15)') 
+                  write(78,'(i2,1x,5e25.15)')
      &                 i, p(0,i), p(1,i), p(2,i), p(3,i), pmass(i)
                enddo
                close(78)
@@ -655,7 +655,7 @@ c Particle types (=color) of i_fks, j_fks and fks_mother
       write (*,*) 'From DR to CDR conversion: ',octet,' octets and ',
      &     triplet,' triplets in Born (both massless), sum =',conversion
       return
-      
+
       end
 
 

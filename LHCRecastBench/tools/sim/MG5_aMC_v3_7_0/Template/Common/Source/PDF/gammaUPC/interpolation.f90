@@ -58,8 +58,8 @@ CONTAINS
     ! Spline interpolation
     ! Comments: values of function f(x) are calculated in n base points
     ! then: spline coefficients are computed
-    !       spline interpolation is computed in 2n-1 points, 
-    !       a difference sum|f(u)-ispline(u)| 
+    !       spline interpolation is computed in 2n-1 points,
+    !       a difference sum|f(u)-ispline(u)|
     !====================================================================
     IMPLICIT NONE
     INTEGER,INTENT(IN)::N ! base points for interpolation
@@ -99,7 +99,7 @@ CONTAINS
     double precision x(n), y(n), b(n), c(n), d(n)
     integer i, j, gap
     double precision h
-    
+
     gap = n-1
     ! check input
     if ( n < 2 ) return
@@ -124,7 +124,7 @@ CONTAINS
        c(i) = c(i+1) - c(i)
     end do
     !
-    ! step 2: end conditions 
+    ! step 2: end conditions
     !
     b(1) = -d(1)
     b(n) = -d(n-1)
@@ -137,7 +137,7 @@ CONTAINS
        c(n) = -c(n)*d(n-1)**2/(x(n)-x(n-3))
     end if
     !
-    ! step 3: forward elimination 
+    ! step 3: forward elimination
     !
     do i = 2, n
        h = d(i-1)/b(i-1)
@@ -185,7 +185,7 @@ CONTAINS
     double precision  u, x(n), y(n), b(n), c(n), d(n)
     integer i, j, k
     double precision dx
-    
+
     ! if u is ouside the x() interval take a boundary value (left or right)
     if(u <= x(1)) then
        ispline = y(1)
@@ -195,7 +195,7 @@ CONTAINS
        ispline = y(n)
        return
     end if
-    
+
     !*
     !  binary search for for i, such that x(i) <= u <= x(i+1)
     !*
@@ -216,7 +216,7 @@ CONTAINS
     ispline = y(i) + dx*(b(i) + dx*(c(i) + dx*d(i)))
   end function ispline
 
-  ! the following interpolation subroutines are from 
+  ! the following interpolation subroutines are from
   ! https://people.sc.fsu.edu/~jburkardt/f_src/lagrange_interp_2d/lagrange_interp_2d.html
   subroutine lagrange_basis_function_1d(mx,xd,i,xi,yi)
     !*****************************************************************************80
@@ -249,14 +249,14 @@ CONTAINS
     !    Output, real ( kind = 8 ) YI, the value of the I-th Lagrange 1D basis
     !    function for the nodes XD, evaluated at XI.
     !
-    implicit none    
+    implicit none
     integer ( kind = 4 ) mx
     integer ( kind = 4 ) i
     integer ( kind = 4 ) j
     real ( kind = 8 ) xd(mx+1)
     real ( kind = 8 ) xi
     real ( kind = 8 ) yi
-    
+
     yi = 1.0D+00
 
     if ( xi /= xd(i) ) then
@@ -307,7 +307,7 @@ CONTAINS
     integer ( kind = 4 ) mx
     integer ( kind = 4 ) my
     integer ( kind = 4 ) ni
-    
+
     integer ( kind = 4 ) i
     integer ( kind = 4 ) j
     integer ( kind = 4 ) k
@@ -320,7 +320,7 @@ CONTAINS
     real ( kind = 8 ) yi(ni)
     real ( kind = 8 ) zd(mx+1,my+1)
     real ( kind = 8 ) zi(ni)
-    
+
     do k = 1, ni
        l = 0
        zi(k) = 0.0D+00
@@ -333,7 +333,7 @@ CONTAINS
           end do
        end do
     end do
-    
+
     return
   end subroutine lagrange_interp_2d
 
@@ -380,7 +380,7 @@ CONTAINS
     integer ( kind = 4 ) ni
     integer ( kind = 4 ) nxd
     integer ( kind = 4 ) nyd
-    
+
     real ( kind = 8 ) alpha
     real ( kind = 8 ) beta
     real ( kind = 8 ) det
@@ -402,7 +402,7 @@ CONTAINS
     real ( kind = 8 ) yi(ni)
     real ( kind = 8 ) zd(nxd,nyd)
     real ( kind = 8 ) zi(ni)
-    
+
     do k = 1, ni
        !
        !  For interpolation point (xi(k),yi(k)), find data intervals I and J so that:
@@ -418,7 +418,7 @@ CONTAINS
           zi(k) = r8_huge ( )
           cycle
        end if
-       
+
        j = r8vec_bracket5 ( nyd, yd, yi(k) )
        if ( j == -1 ) then
           zi(k) = r8_huge ( )
@@ -426,7 +426,7 @@ CONTAINS
        end if
        !
        !  The rectangular cell is arbitrarily split into two triangles.
-       !  The linear interpolation formula depends on which triangle 
+       !  The linear interpolation formula depends on which triangle
        !  contains the data point.
        !
        !    (I,J+1)--(I+1,J+1)
@@ -443,44 +443,44 @@ CONTAINS
 
           dxa = xd(i+1) - xd(i)
           dya = yd(j)   - yd(j)
-          
+
           dxb = xd(i)   - xd(i)
           dyb = yd(j+1) - yd(j)
-          
+
           dxi = xi(k)   - xd(i)
           dyi = yi(k)   - yd(j)
-          
+
           det = dxa * dyb - dya * dxb
-          
+
           alpha = ( dxi * dyb - dyi * dxb ) / det
           beta =  ( dxa * dyi - dya * dxi ) / det
           gamma = 1.0D+00 - alpha - beta
-          
+
           zi(k) = alpha * zd(i+1,j) + beta * zd(i,j+1) + gamma * zd(i,j)
-          
+
        else
-          
+
           dxa = xd(i)   - xd(i+1)
           dya = yd(j+1) - yd(j+1)
 
           dxb = xd(i+1) - xd(i+1)
           dyb = yd(j)   - yd(j+1)
-          
+
           dxi = xi(k)   - xd(i+1)
           dyi = yi(k)   - yd(j+1)
-          
+
           det = dxa * dyb - dya * dxb
-          
+
           alpha = ( dxi * dyb - dyi * dxb ) / det
           beta =  ( dxa * dyi - dya * dxi ) / det
           gamma = 1.0D+00 - alpha - beta
-          
+
           zi(k) = alpha * zd(i,j+1) + beta * zd(i+1,j) + gamma * zd(i+1,j+1)
-          
+
        end if
-       
+
     end do
-    
+
     return
   end subroutine pwl_interp_2d
 
@@ -518,12 +518,12 @@ CONTAINS
 
     real ( kind = 8 ) r8_huge
     real ( kind = 8 ), parameter :: t = 1.0D+00
-    
+
     r8_huge = huge ( t )
     return
   end function r8_huge
 
-  function r8vec_bracket5 ( nd, xd, xi )    
+  function r8vec_bracket5 ( nd, xd, xi )
     !*****************************************************************************80
     !
     !! R8VEC_BRACKET5 brackets data between successive entries of a sorted R8VEC.
@@ -573,16 +573,16 @@ CONTAINS
     integer ( kind = 4 ) r8vec_bracket5
     real ( kind = 8 ) xd(nd)
     real ( kind = 8 ) xi
-    
+
     if ( xi < xd(1) .or. xd(nd) < xi ) then
-       
+
        b = -1
-       
+
     else
-       
+
        l = 1
        r = nd
-       
+
        do while ( l + 1 < r )
           m = ( l + r ) / 2
           if ( xi < xd(m) ) then
@@ -591,13 +591,13 @@ CONTAINS
              l = m
           end if
        end do
-       
+
        b = l
-       
+
     end if
-    
+
     r8vec_bracket5 = b
-    
+
     return
   end function r8vec_bracket5
 
@@ -635,37 +635,37 @@ CONTAINS
     !
     implicit none
     integer ( kind = 4 ) n
-    
+
     integer ( kind = 4 ) i
     real ( kind = 8 ), parameter :: pi = 3.141592653589793D+00
     real ( kind = 8 ) points(n)
-    
+
     if ( n < 1 ) then
-       
+
        write ( *, '(a)' ) ' '
        write ( *, '(a)' ) 'CC_COMPUTE_POINTS - Fatal error!'
        write ( *, '(a,i8)' ) '  Illegal value of N = ', n
        stop
-       
+
     else if ( n == 1 ) then
-       
+
        points(1) = 0.0D+00
-       
+
     else
-       
+
        do i = 1, n
           points(i) = cos ( real ( n - i, kind = 8 ) * pi &
                / real ( n - 1, kind = 8 ) )
        end do
-       
+
        points(1) = -1.0D+00
        if ( mod ( n, 2 ) == 1 ) then
           points((n+1)/2) = 0.0D+00
        end if
        points(n) = +1.0D+00
-       
+
     end if
-    
+
     return
   end subroutine cc_compute_points
 
@@ -703,20 +703,20 @@ CONTAINS
 
     integer ( kind = 4 ) nd
     integer ( kind = 4 ) ni
-    
+
     integer ( kind = 4 ) i
     integer ( kind = 4 ) j
     real ( kind = 8 ) lb(ni,nd)
     real ( kind = 8 ) xd(nd)
     real ( kind = 8 ) xi(ni)
-    
+
     do i = 1, ni
        do j = 1, nd
           lb(i,j) = product ( ( xi(i) - xd(1:j-1)  ) / ( xd(j) - xd(1:j-1)  ) ) &
                * product ( ( xi(i) - xd(j+1:nd) ) / ( xd(j) - xd(j+1:nd) ) )
        end do
     end do
-    
+
     return
   end subroutine lagrange_basis_1d
 
@@ -754,7 +754,7 @@ CONTAINS
 
     integer ( kind = 4 ) m
     integer ( kind = 4 ) nd
-    
+
     real ( kind = 8 ) a(m)
     real ( kind = 8 ) b(m)
     integer ( kind = 4 ) i
@@ -775,7 +775,7 @@ CONTAINS
        call r8vec_direct_product ( i, n, x_1d, m, nd, xd )
        deallocate ( x_1d )
     end do
-    
+
     return
   end subroutine lagrange_interp_nd_grid
 
@@ -813,7 +813,7 @@ CONTAINS
 
     integer ( kind = 4 ) m
     integer ( kind = 4 ) nd
-    
+
     real ( kind = 8 ) a(m)
     real ( kind = 8 ) b(m)
     integer ( kind = 4 ) i
@@ -834,7 +834,7 @@ CONTAINS
        call r8vec_direct_product ( i, n, x_1d, m, nd, xd )
        deallocate ( x_1d )
     end do
-    
+
     return
   end subroutine lagrange_interp_nd_grid2
 
@@ -867,7 +867,7 @@ CONTAINS
     implicit none
 
     integer ( kind = 4 ) m
-    
+
     integer ( kind = 4 ) n_1d(m)
     integer ( kind = 4 ) nd
     !
@@ -899,7 +899,7 @@ CONTAINS
     !
     !    Input, integer ( kind = 4 ) M, the spatial dimension.
     !
-    !    Input, integer ( kind = 4 ) IND(M), the index or level of the 1D rule 
+    !    Input, integer ( kind = 4 ) IND(M), the index or level of the 1D rule
     !    to be used in each dimension.
     !
     !    Output, integer ( kind = 4 ) ND, the number of points in the product grid.
@@ -907,7 +907,7 @@ CONTAINS
     implicit none
 
     integer ( kind = 4 ) m
-    
+
     integer ( kind = 4 ) i
     integer ( kind = 4 ) ind(m)
     integer ( kind = 4 ) n
@@ -920,7 +920,7 @@ CONTAINS
        call order_from_level_135 ( ind(i), n )
        nd = nd * n
     end do
-    
+
     return
   end subroutine lagrange_interp_nd_size2
 
@@ -957,10 +957,10 @@ CONTAINS
     !    Input, integer ( kind = 4 ) NI, the number of points at which the
     !    interpolant is to be evaluated.
     !
-    !    Input, real ( kind = 8 ) XI(M,NI), the points at which the interpolant is 
+    !    Input, real ( kind = 8 ) XI(M,NI), the points at which the interpolant is
     !    to be evaluated.
     !
-    !    Output, real ( kind = 8 ) ZI(NI), the interpolant evaluated at the 
+    !    Output, real ( kind = 8 ) ZI(NI), the interpolant evaluated at the
     !    points XI.
     !
     implicit none
@@ -968,7 +968,7 @@ CONTAINS
     integer ( kind = 4 ) m
     integer ( kind = 4 ) nd
     integer ( kind = 4 ) ni
-    
+
     real ( kind = 8 ) a(m)
     real ( kind = 8 ) b(m)
     integer ( kind = 4 ) i
@@ -981,11 +981,11 @@ CONTAINS
     real ( kind = 8 ) xi(m,ni)
     real ( kind = 8 ) zd(nd)
     real ( kind = 8 ) zi(ni)
-    
+
     do j = 1, ni
-       
+
        w(1:nd) = 1.0D+00
-       
+
        do i = 1, m
           n = n_1d(i)
           allocate ( x_1d(1:n) )
@@ -998,9 +998,9 @@ CONTAINS
           deallocate ( value )
           deallocate ( x_1d )
        end do
-       
+
        zi(j) = dot_product ( w, zd )
-       
+
     end do
 
     return
@@ -1027,7 +1027,7 @@ CONTAINS
     !
     !    Input, integer ( kind = 4 ) M, the spatial dimension.
     !
-    !    Input, integer ( kind = 4 ) IND(M), the index or level of the 1D rule 
+    !    Input, integer ( kind = 4 ) IND(M), the index or level of the 1D rule
     !    to be used in each dimension.
     !
     !    Input, real ( kind = 8 ) A(M), B(M), the lower and upper limits.
@@ -1036,13 +1036,13 @@ CONTAINS
     !
     !    Input, real ( kind = 8 ) ZD(ND), the function evaluated at the points XD.
     !
-    !    Input, integer ( kind = 4 ) NI, the number of points at which the 
+    !    Input, integer ( kind = 4 ) NI, the number of points at which the
     !    interpolant is to be evaluated.
     !
     !    Input, real ( kind = 8 ) XI(M,NI), the points at which the interpolant
     !    is to be evaluated.
     !
-    !    Output, real ( kind = 8 ) ZI(NI), the interpolant evaluated at the 
+    !    Output, real ( kind = 8 ) ZI(NI), the interpolant evaluated at the
     !    points XI.
     !
     implicit none
@@ -1050,7 +1050,7 @@ CONTAINS
     integer ( kind = 4 ) m
     integer ( kind = 4 ) nd
     integer ( kind = 4 ) ni
-    
+
     real ( kind = 8 ) a(m)
     real ( kind = 8 ) b(m)
     integer ( kind = 4 ) i
@@ -1063,11 +1063,11 @@ CONTAINS
     real ( kind = 8 ) xi(m,ni)
     real ( kind = 8 ) zd(nd)
     real ( kind = 8 ) zi(ni)
-    
+
     do j = 1, ni
-       
+
        w(1:nd) = 1.0D+00
-       
+
        do i = 1, m
           call order_from_level_135 ( ind(i), n )
           allocate ( x_1d(1:n) )
@@ -1080,11 +1080,11 @@ CONTAINS
           deallocate ( value )
           deallocate ( x_1d )
        end do
-       
+
        zi(j) = dot_product ( w, zd )
-       
+
     end do
-    
+
     return
   end subroutine lagrange_interp_nd_value2
 
@@ -1123,7 +1123,7 @@ CONTAINS
 
     integer ( kind = 4 ) l
     integer ( kind = 4 ) n
-    
+
     if ( l < 0 ) then
        write ( *, '(a)' ) ''
        write ( *, '(a)' ) 'ORDER_FROM_LEVEL_135 - Fatal error!'
@@ -1134,7 +1134,7 @@ CONTAINS
     else
        n = ( 2 ** l ) + 1
     end if
-    
+
     return
   end subroutine order_from_level_135
 
@@ -1250,13 +1250,13 @@ CONTAINS
     !
     !  Local Parameters:
     !
-    !    Local, integer ( kind = 4 ) START, the first location of a block of 
+    !    Local, integer ( kind = 4 ) START, the first location of a block of
     !    values to set.
     !
-    !    Local, integer ( kind = 4 ) CONTIG, the number of consecutive values 
+    !    Local, integer ( kind = 4 ) CONTIG, the number of consecutive values
     !    to set.
     !
-    !    Local, integer ( kind = 4 ) SKIP, the distance from the current value 
+    !    Local, integer ( kind = 4 ) SKIP, the distance from the current value
     !    of START to the next location of a block of values to set.
     !
     !    Local, integer ( kind = 4 ) REP, the number of blocks of values to set.
@@ -1266,7 +1266,7 @@ CONTAINS
     integer ( kind = 4 ) factor_num
     integer ( kind = 4 ) factor_order
     integer ( kind = 4 ) point_num
-    
+
     integer ( kind = 4 ), save :: contig
     integer ( kind = 4 ) factor_index
     real ( kind = 8 ) factor_value(factor_order)
@@ -1276,30 +1276,30 @@ CONTAINS
     integer ( kind = 4 ), save :: skip
     integer ( kind = 4 ) start
     real ( kind = 8 ) x(factor_num,point_num)
-    
+
     if ( factor_index == 1 ) then
        contig = 1
        skip = 1
        rep = point_num
        x(1:factor_num,1:point_num) = 0.0D+00
     end if
-    
+
     rep = rep / factor_order
     skip = skip * factor_order
-    
+
     do j = 1, factor_order
-       
+
        start = 1 + ( j - 1 ) * contig
-       
+
        do k = 1, rep
           x(factor_index,start:start+contig-1) = factor_value(j)
           start = start + skip
        end do
-       
+
     end do
-    
+
     contig = contig * factor_order
-    
+
     return
   end subroutine r8vec_direct_product
 
@@ -1431,7 +1431,7 @@ CONTAINS
     integer ( kind = 4 ) factor_num
     integer ( kind = 4 ) factor_order
     integer ( kind = 4 ) point_num
-    
+
     integer ( kind = 4 ), save :: contig
     integer ( kind = 4 ) factor_index
     real ( kind = 8 ) factor_value(factor_order)
@@ -1443,30 +1443,30 @@ CONTAINS
     real ( kind = 8 ) w(point_num)
 
     call i4_fake_use ( factor_num )
-    
+
     if ( factor_index == 1 ) then
        contig = 1
        skip = 1
        rep = point_num
        w(1:point_num) = 1.0D+00
     end if
-    
+
     rep = rep / factor_order
     skip = skip * factor_order
-    
+
     do j = 1, factor_order
 
        start = 1 + ( j - 1 ) * contig
-       
+
        do k = 1, rep
           w(start:start+contig-1) = w(start:start+contig-1) * factor_value(j)
           start = start + skip
        end do
-       
+
     end do
-    
+
     contig = contig * factor_order
-    
+
     return
   end subroutine r8vec_direct_product2
 

@@ -30,7 +30,7 @@ c   Local variables
         ipoints=2
       else
         ipoints=1
-      endif        
+      endif
       if(kkfl.gt.5) then
         if(nerr.lt.10)
      $     write(*,*)'GETISSUD Warning: flavor ',kfl,' not supported'
@@ -168,7 +168,7 @@ c     $       exp(points(nx2+nx1+ipt2-2+j,ipoints)/2)
       call splint2(minigrid,
      $   points(nx2+ix1-1,ipoints),4,x(2),getissud)
       getissud=max(0d0,min(1d0,getissud))
-      
+
 c      print *,'Result: ',getissud
 
       return

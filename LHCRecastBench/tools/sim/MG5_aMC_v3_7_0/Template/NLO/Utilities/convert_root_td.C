@@ -4,7 +4,7 @@
 //This code can be executed directly from a shell with the command:
 //   root -l -b convert_root_td.C
 //
-//It has beed tested on SLC6 machines with root v5.34.11. 
+//It has beed tested on SLC6 machines with root v5.34.11.
 //It may not work with older versions
 
 #include <TCanvas.h>
@@ -49,7 +49,7 @@ void convert_root_td(){
   	std::cout << "File is not open" << i << " " << filenames[i] << std::endl;
   	return ;
   }
-      
+
   //Keep only 1-dimensional histograms in double format
   vector<TH1D*>  HistoContents;
   TList *KeyList;
@@ -63,7 +63,7 @@ void convert_root_td(){
     TH1D *thishist = (TH1D*)currentKey->ReadObj();
     HistoContents.push_back(thishist);
   }
-      
+
   int llength = HistoContents.size();
   if(myverbose)cout << "Total number of histograms: " << llength << endl;
 

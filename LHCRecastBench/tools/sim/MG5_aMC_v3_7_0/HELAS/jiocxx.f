@@ -2,18 +2,18 @@ c ----------------------------------------------------------------------
 c
       subroutine jiocxx(fic,foc,gc,vmass,vwidth , jioc)
 c
-c This subroutine computes an off-shell vector current from an external 
-c antifermion pair. The vector boson propagator is given in Feynman     
+c This subroutine computes an off-shell vector current from an external
+c antifermion pair. The vector boson propagator is given in Feynman
 c gauge for a massless vector and in unitary gauge for a massive vector.
-c                                                                       
-c input:                                                                
+c
+c input:
 c       complex fic(6)         : flow-in  antifermion              |fic>
 c       complex foc(6)         : flow-out antifermion              <foc|
 c       complex gc(2)          : coupling constants                  gvf
-c       real    vmass          : mass  of output vector v               
-c       real    vwidth         : width of output vector v               
-c                                                                       
-c output:                                                               
+c       real    vmass          : mass  of output vector v
+c       real    vwidth         : width of output vector v
+c
+c output:
 c       complex jioc(6)        : vector current        j^mu(<foc|v|fic>)
 c
       implicit none
@@ -47,7 +47,7 @@ c         d = -rOne/dcmplx( q2-vm2, max(vwidth*q2/vmass,rZero) )
      &          +gc(1)*( foc(1)*fic(3)+foc(2)*fic(4))
             c1= -gc(2)*( foc(3)*fic(2)+foc(4)*fic(1))
      &          +gc(1)*( foc(1)*fic(4)+foc(2)*fic(3))
-            c2=( gc(2)*( foc(3)*fic(2)-foc(4)*fic(1)) 
+            c2=( gc(2)*( foc(3)*fic(2)-foc(4)*fic(1))
      &          +gc(1)*(-foc(1)*fic(4)+foc(2)*fic(3)))*cImag
             c3=  gc(2)*(-foc(3)*fic(1)+foc(4)*fic(2))
      &          +gc(1)*( foc(1)*fic(3)-foc(2)*fic(4))
@@ -58,12 +58,12 @@ c         d = -rOne/dcmplx( q2-vm2, max(vwidth*q2/vmass,rZero) )
             c2 =(-foc(1)*fic(4)+foc(2)*fic(3))*cImag
             c3 =  foc(1)*fic(3)-foc(2)*fic(4)
          end if
-	 
+
 c     Fabio's implementation of the fixed width (Benj&Claude)
          cm2=dcmplx( vm2, -vmass*vwidth )
 c         cs = (q(0)*c0-q(1)*c1-q(2)*c2-q(3)*c3)/vm2
          cs = (q(0)*c0-q(1)*c1-q(2)*c2-q(3)*c3)/cm2
-	 
+
          jioc(1) = (c0-cs*q(0))*d
          jioc(2) = (c1-cs*q(1))*d
          jioc(3) = (c2-cs*q(2))*d

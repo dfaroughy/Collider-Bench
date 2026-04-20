@@ -1,5 +1,5 @@
 /*
-** Basic COMMON block from STDHEP: the HEPEVT COMMON block 
+** Basic COMMON block from STDHEP: the HEPEVT COMMON block
 ** See product StDhep
 */
 /*  note that to avoid alignment problems, structures and common blocks
@@ -38,7 +38,7 @@ float stdchg_(int *particleID);
 void stdspin_(int *index, int *jspin);
 void stdcquarks_(int *index, int *quark1, int *quark2, int *quark3,
                   int *ang_mom, int *jspin, int *radial, int *kqx);
-void stdquarks_(int *index, int *quark1, int *quark2, int *quark3, 
+void stdquarks_(int *index, int *quark1, int *quark2, int *quark3,
                 int *ang_mom, int *jspin, int *radial, int *kqx);
 
 #if defined(c_plusplus) || defined(__cplusplus)

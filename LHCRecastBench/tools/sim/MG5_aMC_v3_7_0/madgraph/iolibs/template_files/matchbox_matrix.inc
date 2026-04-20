@@ -18,4 +18,3 @@ int %(process_class_name)s::NCol() {
 const int ncolor = %(ncolor)d;
 return ncolor;
 }
-

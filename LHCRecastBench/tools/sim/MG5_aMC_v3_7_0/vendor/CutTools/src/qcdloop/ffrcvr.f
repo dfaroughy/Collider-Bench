@@ -25,5 +25,5 @@
 	ner = ner + 100
 	ier = 0
 	call fferr(100,ier)
-*###] ffrcvr: 
+*###] ffrcvr:
 	end

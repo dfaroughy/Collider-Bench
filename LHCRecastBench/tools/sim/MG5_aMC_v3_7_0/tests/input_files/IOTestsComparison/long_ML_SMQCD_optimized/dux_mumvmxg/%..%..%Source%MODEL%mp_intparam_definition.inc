@@ -3,7 +3,7 @@ c      written by the UFO converter
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 C     Parameters that should not be recomputed event by event.
-C     
+C
       IF(READLHA) THEN
 
         MP__G = 2 * SQRT(MP__AS*MP__PI)  ! for the first init
@@ -154,9 +154,9 @@ C
         MP__MDL_YT__EXP__2 = MP__MDL_YT**2
 
       ENDIF
-C     
+C
 C     Parameters that should be recomputed at an event by even basis.
-C     
+C
       MP__AS = MP__G**2/4/MP__PI
 
       MP__MDL_SQRT__AS = SQRT(CMPLX((MP__AS),KIND=16))
@@ -169,9 +169,9 @@ C
 
       MP__MDL_MU_R__EXP__2 = MP__MU_R**2
 
-C     
+C
 C     Parameters that should be updated for the loops.
-C     
+C
       MP__MDL_R2MIXEDFACTOR_FIN_ = -(MP__MDL_G__EXP__2*(1.000000E
      $ +00_16+MP__MDL_LHV)*(MP__MDL_NCOL__EXP__2-1.000000E+00_16))
      $ /(2.000000E+00_16*MP__MDL_NCOL*1.600000E+01_16*MP__PI**2)
@@ -194,9 +194,8 @@ C
      $ *MP__MDL_TF*MP_REGLOG(CMPLX((MP__MDL_MT__EXP__2
      $ /MP__MDL_MU_R__EXP__2),KIND=16)),KIND=16))
 
-C     
+C
 C     Definition of the EW coupling used in the write out of aqed
-C     
+C
       MP__GAL(1) = 2 * SQRT(MP__PI/ABS(MP__AEWM1))
       MP__GAL(2) = 1D0
-

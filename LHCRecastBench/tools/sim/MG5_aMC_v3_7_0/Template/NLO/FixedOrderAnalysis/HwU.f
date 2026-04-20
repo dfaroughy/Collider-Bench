@@ -12,8 +12,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       module HwU_wgts_info_len
          use iso_c_binding
-         integer, parameter :: wgts_info_len=80 
-         contains 
+         integer, parameter :: wgts_info_len=80
+         contains
              integer function get_wgts_info_len() bind(c,name="get_wgts_info_len")
                  get_wgts_info_len = wgts_info_len
                  return
@@ -39,7 +39,7 @@ c variables (something not possible in old fortran version)
          save
       end module HwU_variables
 
-      
+
 c To be called once at the start of each run. Initialises the packages
 c and sets the number of weights that need to be included for each point.
       subroutine HwU_inithist(nweights,wgt_info)
@@ -97,7 +97,7 @@ c     input 3: Same as input 2, but weighted average is same as from MINT
       endif
       return
       end
-            
+
 c Book the histograms at the start of the run. Give a 'label' (an
 c integer) that identifies the plot when filling it and a title
 c ('title_l') for each plot. Also the number of bins ('nbin_l') and the
@@ -116,7 +116,7 @@ c     PineAPPL commons
       double precision del
 
 c     Initialize the grids only if the switch "pineappl" is set to True
-c     and if the title  does not contain the word "Born". 
+c     and if the title  does not contain the word "Born".
       if(pineappl.and.index(title_l,"Born").eq.0)then
 c     Observable parameters
 c     Compute number of bins and edges only if they have not been given by the user.
@@ -132,7 +132,7 @@ c     compute bin edges
          appl_obs_min = appl_obs_bins(0)
          appl_obs_max = appl_obs_bins(appl_obs_nbins)
          if(abs(appl_obs_max-xmax).gt.0.00000001d0)then
-            write(*,*) 'PineAPPL Histogram: ', 
+            write(*,*) 'PineAPPL Histogram: ',
      1                 'Change of the upper limit:',xmax,'-->',
      2                  appl_obs_max
          endif
@@ -145,7 +145,7 @@ c     Reset number of bins to zero
          appl_obs_nbins = 0
       endif
 
-c     Allocate space for new histograms if needed      
+c     Allocate space for new histograms if needed
       call HwU_allocate_histo(label,nbin_l)
 c     Setup the histogram
       booked(label)=.true.
@@ -168,7 +168,7 @@ c     Set all the bins to zero.
       enddo
       return
       end
-      
+
 c Fill the histograms identified with 'label' with a point at x with
 c weights giving by 'wgts'. The dimension of the 'wgts' array should
 c always be as large as the number of weights ('nweights') specified in
@@ -227,7 +227,7 @@ c     If a new bin, add it to the list of points
       enddo
       return
       end
-      
+
 c Call after all correlated contributions for a give phase-space
 c point. I.e., every time you get a new set of random numbers from
 c MINT/VEGAS. It adds the current list of points to the histograms. Add
@@ -413,7 +413,7 @@ c     Add the results of the current iteration to the accumulated results
                histy_err(label,i)=sqrt(a2*histy_err(label,i)**2 +
      &              a1*etot**2)
             endif
-         enddo 
+         enddo
       elseif(error_estimation.eq.1) then
 c     simply sum the weights in the bins
          do i=1,nbin(label)
@@ -458,7 +458,7 @@ c     making sure we normalise with the number of iterations.
          enddo
       endif
       end
-      
+
 c Write the histograms to disk at the end of the run, multiplying the
 c output by 'xnorm'
       subroutine HwU_output(unit,xnorm)
@@ -505,7 +505,7 @@ c     data
 c     2 empty lines after each plot
          write (unit,'(12a)') '<\histogram>'
          write (unit,'(a)') ''
-         write (unit,'(a)') ''         
+         write (unit,'(a)') ''
       enddo
       deallocate(buffer)
       return
@@ -550,7 +550,7 @@ c p_bin
             allocate(itemp1(np+max_plots))
             itemp1(1:max_points)=p_bin
             call move_alloc(itemp1,p_bin)
-      
+
 c p_label
             allocate(itemp1(np+max_plots))
             itemp1(1:max_points)=p_label
@@ -655,8 +655,8 @@ c Update maximums
       endif
       return
       end
-      
-      
+
+
 c dummy subroutine
       subroutine accum(idummy)
       integer idummy
@@ -665,6 +665,3 @@ c dummy subroutine
       subroutine addfil(string)
       character*(*) string
       end
-
-
-

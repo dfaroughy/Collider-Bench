@@ -8,7 +8,7 @@ c*****************************************************************************
 c
 c     Constants
 c
-      include 'genps.inc'      
+      include 'genps.inc'
       include 'nexternal.inc'
       include 'run.inc'
       include 'nFKSconfigs.inc'
@@ -82,7 +82,7 @@ c other things-- in a wrong shower starting scale.
          write (*,*) 'unknown run_mode is gensym'
          stop 1
       endif
-      
+
       multi_channel=.true.
       nbody=.true.
 c Pick a process that is BORN+1GLUON (where the gluon is i_fks).
@@ -99,7 +99,7 @@ c factors. Hence, simply use the first fks_configuration.
       call leshouche_inc_chooser()
       call setrun                !Sets up run parameters
       call setpara('param_card.dat')   !Sets up couplings and masses
-      call setcuts               !Sets up cuts 
+      call setcuts               !Sets up cuts
       call printout
       call run_printout
       call fill_configurations_common
@@ -116,7 +116,7 @@ c
       do i=1,mapconfig(0)
          use_config(i)=1
       enddo
-c     
+c
 c     Get momentum configuration
 c
       ntry = 1
@@ -317,7 +317,7 @@ c***************************************************************************
       character*30 fname,mname
       character*2 postfix
       logical j_fks_ini,j_fks_fin,two_jobs,force_one_job
-      
+
       j_fks_ini=.false.
       j_fks_fin=.false.
       do i=1,fks_configs
@@ -388,11 +388,9 @@ c
       enddo
       close(26)
       end
-      
+
 c
 c
 c Dummy routines
 c
 c
-
-      

@@ -86,49 +86,49 @@ void ViewRotX(double theta, double m[3][3])
     double a[3][3];
 
     genXRotMatrix(theta, a);
-    MultM(a, m, m);   
+    MultM(a, m, m);
 }
 void ViewRotY(double theta, double m[3][3])
 {
     double a[3][3];
 
     genYRotMatrix(theta, a);
-    MultM(a, m, m);   
+    MultM(a, m, m);
 }
 void ViewRotZ(double theta, double m[3][3])
 {
     double a[3][3];
 
     genZRotMatrix(theta, a);
-    MultM(a, m, m);   
+    MultM(a, m, m);
 }
 void CoordRotX(double theta, double m[3][3])
 {
     double a[3][3];
 
     genXRotMatrix(theta, a);
-    MultM(m, a, m);   
+    MultM(m, a, m);
 }
 void CoordRotY(double theta, double m[3][3])
 {
     double a[3][3];
 
     genYRotMatrix(theta, a);
-    MultM(m, a, m);   
+    MultM(m, a, m);
 }
 void CoordRotZ(double theta, double m[3][3])
 {
     double a[3][3];
 
     genZRotMatrix(theta, a);
-    MultM(m, a, m);   
+    MultM(m, a, m);
 }
 void ScaleM(double factor, double m[3][3])
 {
     double a[3][3];
 
     genScaleMatrix(factor, a);
-    MultM(m, a, m);   
+    MultM(m, a, m);
 }
 
 /*
@@ -147,14 +147,14 @@ void Perspective(double *x, double *y, double *z, double pp)
 {
     double ss, lpt;
 
-    lpt = sqrt(*x**x + *y**y + *z**z); 
+    lpt = sqrt(*x**x + *y**y + *z**z);
     /* if point is less than one pixel from the origin,
        ignore it to keep the z/lpt term from blowing up */
     if (lpt < 1.)
-        return;   
+        return;
     ss = 1. - (*z/lpt) * pp;
     *x *= ss;
-    *y *= ss; 
+    *y *= ss;
 }
 
 /*
@@ -193,7 +193,7 @@ void MultM(double a[3][3], double b[3][3], double result[3][3])
 
     /* c could be equal to a or b, place the result in a temporary array.. */
     for (i=0; i<=2; i++) {
-       for (j=0; j<=2; j++) 
+       for (j=0; j<=2; j++)
           at[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2]*b[2][j];
     }
     CopyM(at, result);
@@ -212,9 +212,9 @@ void MultM(double a[3][3], double b[3][3], double result[3][3])
 void CopyM(double srcM[3][3], double dstM[3][3])
 {
     int i, j;
-    
+
     for (i=0; i<=2; i++)
-	for (j=0; j<=2; j++) 
+	for (j=0; j<=2; j++)
             dstM[i][j] = srcM[i][j];
 }
 

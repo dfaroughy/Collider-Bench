@@ -68,16 +68,16 @@ c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       implicit none
       character*(*) string
       character*(*) first
-      
+
       if(len_trim(string).le.0) return
-      
-      do while(string(1:1) .eq. ' ') 
+
+      do while(string(1:1) .eq. ' ')
         string=string(2:len(string))
       end do
       if (index(string,' ').gt.1) then
          first=string(1:index(string,' ')-1)
          string=string(index(string,' '):len(string))
-      else 
+      else
          first=string
       end if
 
@@ -91,7 +91,7 @@ c ++ LHA_case_trap -> change string to lower case
 c ++
 c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       implicit none
-      
+
       character*20 name
       integer i,k
 
@@ -108,7 +108,7 @@ c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 c ++
-c ++ LHA_blockread -> read a LHA line and return parameter name (evntually found in 
+c ++ LHA_blockread -> read a LHA line and return parameter name (evntually found in
 c ++ a ref file) and value
 c ++
 c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -130,26 +130,26 @@ c
       ref_file = 20
       call LHA_open_file(ref_file,'ident_card.dat',fopened)
       if(.not. fopened) goto 99 ! If the file does not exist -> no matter, use default!
-        
+
       islast=.false.
       found=.false.
       do while(.not. found)!run over reference file
-      
+
 
         ! read a line
         read(ref_file,'(a132)',end=98,err=98) buffer
-        
+
         ! Seek a corresponding blockname
         call LHA_firststring(temp,buffer)
         call LHA_case_trap(temp)
-        
+
         if(temp .eq. blockname) then
              ! Seek for a corresponding LHA code
              curr_ref=buffer
              curr_buff=buff
              first_ref=''
              first_line=''
-             
+
              do while((.not. islast).and.(first_ref .eq. first_line))
                  call LHA_firststring(first_ref,curr_ref)
                  call LHA_firststring(first_line,curr_buff)
@@ -157,15 +157,15 @@ c
                  if (islast) then
                    par=first_ref
                    val=first_line ! If found set param name & value
-                   found=.true. 
+                   found=.true.
 c                   write(23,*) "      ",par,"=",val
                  end if
              end do
         end if
-                     
+
       end do
 98    close(ref_file)
-99    return    
+99    return
       end
 
 
@@ -206,15 +206,15 @@ c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
          write(*,*) 'Exiting'
          stop
       endif
-      
+
       ! Try to open log file
       open (unit = logfile, file = "param.log")
-      
+
       ! Scan the data file
-      do while(.true.)  
-      
+      do while(.true.)
+
          read(iunit,'(a132)',end=99,err=99) buff
-         
+
          if(buff .ne. '' .and. buff(1:1) .ne.'#') then ! Skip comments and empty lines
 
              tag=buff(1:5)
@@ -250,13 +250,13 @@ c +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
          endif
       enddo
-      
+
       npara=npara-1
 c      close(iunit)
       close(logfile)
-      
+
  99   return
- 
+
       end
 
 
@@ -293,7 +293,7 @@ c
 c
 c     start
 c
-      
+
  10   i=1
       found=.false.
       do while(.not.found.and.i.le.npara)
@@ -351,7 +351,7 @@ c
 c      write(*,*) 'read model file ',filename
       fopened=.true.
       return
-      
+
 20    tempname=filename
       fine=index(tempname,' ')
       if(fine.eq.0) fine=len(tempname)
@@ -379,4 +379,3 @@ c        write(*,*) 'read model file ',tempname
 
       return
       end
-

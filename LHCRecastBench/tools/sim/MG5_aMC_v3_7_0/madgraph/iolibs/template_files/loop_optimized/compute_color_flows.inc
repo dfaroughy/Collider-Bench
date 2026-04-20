@@ -10,24 +10,24 @@ C Set of subroutines to project the Feynman diagrama amplitudes AMPL onto the co
 
       SUBROUTINE %(proc_prefix)sCOMPUTE_COLOR_FLOWS_DERIVED_QUANTITIES(HEL_MULT)
       IMPLICIT NONE
-      INTEGER HEL_MULT      
+      INTEGER HEL_MULT
 ##if(MadEventOutput) {
  	    CALL %(proc_prefix)sCOMPUTE_AMPL2(HEL_MULT)
-        CALL %(proc_prefix)sCOMPUTE_JAMP2(HEL_MULT)  
+        CALL %(proc_prefix)sCOMPUTE_JAMP2(HEL_MULT)
 ## }
         CONTINUE
       END SUBROUTINE
-      
+
       SUBROUTINE %(proc_prefix)sDEALLOCATE_COLOR_FLOWS()
       IMPLICIT NONE
         CALL %(proc_prefix)sDO_COMPUTE_COLOR_FLOWS(.TRUE.)
       END SUBROUTINE
-            
+
       SUBROUTINE %(proc_prefix)sDO_COMPUTE_COLOR_FLOWS(CLEANUP)
       implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
       CHARACTER*512 Proc_Prefix
       PARAMETER ( Proc_Prefix='%(proc_prefix)s')
       CHARACTER*512 LoopColorFlowCoefsName
@@ -52,16 +52,16 @@ C
       INTEGER    NSQUAREDSO, NLOOPAMPSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d, NLOOPAMPSO=%(nAmpSO)d)
 	  INTEGER NLOOPFLOWS
-	  PARAMETER (NLOOPFLOWS=%(nLoopFlows)d)	  
+	  PARAMETER (NLOOPFLOWS=%(nLoopFlows)d)
 ## if(not LoopInduced){
 	  INTEGER NBORNFLOWS
-	  PARAMETER (NBORNFLOWS=%(nBornFlows)d)	
+	  PARAMETER (NBORNFLOWS=%(nBornFlows)d)
       INTEGER    NBORNAMPSO
 	  PARAMETER (NBORNAMPSO=NLOOPAMPSO)
 
 ## }
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 C When this subroutine is called with CLEANUP=True, it deallocates all its
 C arrays
@@ -82,7 +82,7 @@ C Storing concatenated filenames
 	  %(config_map_definition)s
 ## }
 
-C  
+C
 C FUNCTIONS
 C
       INTEGER %(proc_prefix)sML5SOINDEX_FOR_BORN_AMP
@@ -116,7 +116,7 @@ C This is of course not F77 standard but widely supported by now.
 	  TYPE ProjCoeffs
   	    integer, dimension(:), allocatable :: Num
   	    integer, dimension(:), allocatable :: Denom
-  	    integer, dimension(:), allocatable :: AmpID  	      
+  	    integer, dimension(:), allocatable :: AmpID
 	  ENDTYPE ProjCoeffs
 	  TYPE(ProjCoeffs), dimension(NLOOPFLOWS), save :: LoopColorProjector
 ## if(not LoopInduced){
@@ -140,7 +140,7 @@ if (CleanUp) then
     if(ALLOCATED(BornColorProjector(I)%%Denom)) deallocate(BornColorProjector(I)%%Denom)
     if(ALLOCATED(BornColorProjector(I)%%AmpID)) deallocate(BornColorProjector(I)%%AmpID)
   ENDDO
-## }  
+## }
   return
 endif
 
@@ -165,7 +165,7 @@ C Initialize the LoopColorProjector
   ENDDO
   GOTO 203
 201  CONTINUE
-  STOP 'Color projection coefficients could not be initialized from file %(proc_prefix)sLoopColorFlowCoefs.dat.' 
+  STOP 'Color projection coefficients could not be initialized from file %(proc_prefix)sLoopColorFlowCoefs.dat.'
 203  CONTINUE
   CLOSE(1)
 
@@ -183,14 +183,14 @@ C Initialize the BornColorProjector
   ENDDO
   GOTO 303
 301  CONTINUE
-  STOP 'Color projection coefficients could not be initialized from file %(proc_prefix)sBornColorFlowCoefs.dat.'  
+  STOP 'Color projection coefficients could not be initialized from file %(proc_prefix)sBornColorFlowCoefs.dat.'
 303  CONTINUE
   CLOSE(1)
 
 ## }
   GOTO 999
 998 CONTINUE
-  STOP 'End of file reached. Should not have happened.' 
+  STOP 'End of file reached. Should not have happened.'
 999 CONTINUE
 
 ENDIF
@@ -216,7 +216,7 @@ DO I=1,NLOOPFLOWS
     DO K=1,3
       JAMPL(K,I,SOINDEX) = JAMPL(K,I,SOINDEX) + PROJ_COEF*AMPL(K,LoopColorProjector(I)%%AmpID(J))
 ## if(LoopInduced and MadEventOutput){
-      config_index = CONFIG_MAP(LoopColorProjector(I)%%AmpID(J)) 
+      config_index = CONFIG_MAP(LoopColorProjector(I)%%AmpID(J))
 	  IF (config_index.ne.0) THEN
 	    JAMPL_FOR_AMP2(K,I,SOINDEX,config_index) = JAMPL_FOR_AMP2(K,I,SOINDEX,config_index) + PROJ_COEF*AMPL(K,LoopColorProjector(I)%%AmpID(J))
 	  ENDIF
@@ -230,9 +230,9 @@ ENDDO
 c This subroutine initializes the color flow matrix.
       SUBROUTINE %(proc_prefix)sINITIALIZE_FLOW_COLORMATRIX()
       implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
       CHARACTER*512 Proc_Prefix
       PARAMETER ( Proc_Prefix='%(proc_prefix)s')
       CHARACTER*512 LoopColorFlowMatrixName
@@ -243,13 +243,13 @@ C
 ## }
 
 	  INTEGER NLOOPFLOWS
-	  PARAMETER (NLOOPFLOWS=%(nLoopFlows)d)	  
+	  PARAMETER (NLOOPFLOWS=%(nLoopFlows)d)
 ## if(not LoopInduced){
 	  INTEGER NBORNFLOWS
 	  PARAMETER (NBORNFLOWS=%(nBornFlows)d)
 ## }
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 C Storing concatenated filenames
       CHARACTER*512 TMP
@@ -269,7 +269,7 @@ C This is of course not F77 standard but widely supported by now.
 	  TYPE ColorCoeff
 	    sequence
   	    integer :: Num
-  	    integer :: Denom  	      
+  	    integer :: Denom
 	  ENDTYPE ColorCoeff
 ## if(not LoopInduced){
 	  TYPE(ColorCoeff), dimension(NLOOPFLOWS,NBORNFLOWS) :: LoopColorFlowMatrix
@@ -304,7 +304,7 @@ C Initialize the BornColorFlowMatrix
   ENDDO
   GOTO 603
 601  CONTINUE
-  STOP 'Color factors could not be initialized from file %(proc_prefix)sBornColorFlowMatrix.dat.' 
+  STOP 'Color factors could not be initialized from file %(proc_prefix)sBornColorFlowMatrix.dat.'
 603  CONTINUE
   CLOSE(1)
 ## }
@@ -321,45 +321,45 @@ C Initialize the LoopColorFlowMatrix
   ENDDO
   GOTO 703
 701  CONTINUE
-  STOP 'Color factors could not be initialized from file %(proc_prefix)sBornColorFlowMatrix.dat.' 
+  STOP 'Color factors could not be initialized from file %(proc_prefix)sBornColorFlowMatrix.dat.'
 703  CONTINUE
   CLOSE(1)
 
   GOTO 899
 898 CONTINUE
-  STOP 'End of file reached. Should not have happened.' 
+  STOP 'End of file reached. Should not have happened.'
 899 CONTINUE
 
 ENDIF
       END SUBROUTINE
 
 ## if(LoopInduced and MadEventOutput){
-C For the loop-inducedd MadEvent this subroutine computes the squared of 
+C For the loop-inducedd MadEvent this subroutine computes the squared of
 C each individual JAMPL to created the usual JAMP2 array used for the
 C color assignation of the events.
       SUBROUTINE %(proc_prefix)sCOMPUTE_JAMP2(HEL_MULT)
       implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  %(complex_dp_format)s IMAG1
       PARAMETER (IMAG1=(0.0d0,1.0d0))
 
       INTEGER    NSQUAREDSO, NLOOPAMPSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d, NLOOPAMPSO=%(nAmpSO)d)
 	  INTEGER NLOOPFLOWS
-	  PARAMETER (NLOOPFLOWS=%(nLoopFlows)d)	  
-C  
-C ARGUMENT 
+	  PARAMETER (NLOOPFLOWS=%(nLoopFlows)d)
+C
+C ARGUMENT
 C
 C HEL_MULT is the helicity multiplier which can be more than one if several helicity configuration are mapped onto the one being currently computed.
 	  integer HEL_MULT
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 	  INTEGER I, J, M, N, K, ISQSO, DOUBLEFACT
 	  %(complex_dp_format)s COLOR_COEF
-C  
+C
 C FUNCTIONS
 C
 	  INTEGER %(proc_prefix)sML5SQSOINDEX
@@ -380,7 +380,7 @@ C This is of course not F77 standard but widely supported by now.
 	  TYPE ColorCoeff
 	    sequence
   	    integer :: Num
-  	    integer :: Denom  	      
+  	    integer :: Denom
 	  ENDTYPE ColorCoeff
 	  TYPE(ColorCoeff), dimension(NLOOPFLOWS,NLOOPFLOWS) :: LoopColorFlowMatrix
 	  LOGICAL CMInitialized
@@ -404,8 +404,8 @@ DO I=1,NLOOPFLOWS
       ISQSO = %(proc_prefix)sML5SQSOINDEX(M,N)
       IF(CHOSEN_SO_CONFIGS(ISQSO)) THEN
         IF(M.ne.N) THEN
-          DOUBLEFACT=2 
-        ELSE 
+          DOUBLEFACT=2
+        ELSE
           DOUBLEFACT=1
         ENDIF
         JAMP2(I)=JAMP2(I)+DABS(DOUBLEFACT*HEL_MULT*DBLE(COLOR_COEF*(JAMPL(1,I,M)*DCONJG(JAMPL(1,I,N)))))
@@ -422,9 +422,9 @@ c from the JAMP is equal to the amplitude computed directly. It is a consistency
 c check of the color projection and computation.
       SUBROUTINE %(proc_prefix)sCOMPUTE_RES_FROM_JAMP(RES,HEL_MULT)
       implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  %(complex_dp_format)s IMAG1
       PARAMETER (IMAG1=(0.0d0,1.0d0))
 
@@ -439,18 +439,18 @@ C
 ## if(not LoopInduced){
 	  INTEGER NBORNFLOWS
 	  PARAMETER (NBORNFLOWS=%(nBornFlows)d)
-C     We use the same list of amplitude split order for Born and Loop, so that NBORNAMPSO is always equal to NLOOPAMPSO  
+C     We use the same list of amplitude split order for Born and Loop, so that NBORNAMPSO is always equal to NLOOPAMPSO
       INTEGER    NBORNAMPSO
 	  PARAMETER (NBORNAMPSO=NLOOPAMPSO)
 ## }
-C  
-C ARGUMENT 
+C
+C ARGUMENT
 C
       %(real_dp_format)s RES(0:3,0:NSQUAREDSO)
 C HEL_MULT is the helicity multiplier which can be more than one if several helicity configuration are mapped onto the one being currently computed.
 	  integer HEL_MULT
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 	  INTEGER I, J, M, N, K, ISQSO, DOUBLEFACT
 ## if(LoopInduced) {
@@ -465,10 +465,10 @@ C
 ## if(LoopInduced and MadEventOutput){
 	  %(real_dp_format)s TEMP_AMP2(3,NCONFIGS)
 ## }
-C  
+C
 C FUNCTIONS
 C
-C This function belongs to the loop ME computation (loop_matrix.f) and is prefixed with ML5 
+C This function belongs to the loop ME computation (loop_matrix.f) and is prefixed with ML5
 	  INTEGER %(proc_prefix)sML5SQSOINDEX
 C This function belongs to the Born ME computation (born_matrix.f) and is not prefixed at all
 	  INTEGER %(proc_prefix)sSQSOINDEX, %(proc_prefix)sSOINDEX_FOR_AMPORDERS
@@ -487,7 +487,7 @@ C
 	  common/%(proc_prefix)sJAMPB/JAMPB
 ## }
 ## if(LoopInduced and MadEventOutput){
-      %(real_dp_format)s AMP2_ALL(3,NCONFIGS,0:NSQUAREDSO)	  
+      %(real_dp_format)s AMP2_ALL(3,NCONFIGS,0:NSQUAREDSO)
       common/%(proc_prefix)sAMP2_ALL/AMP2_ALL
 	  %(complex_dp_format)s JAMPL_FOR_AMP2(3,NLOOPFLOWS,NLOOPAMPSO,NCONFIGS)
 	  common/%(proc_prefix)sJAMPL_FOR_AMP2/JAMPL_FOR_AMP2
@@ -501,7 +501,7 @@ C This is of course not F77 standard but widely supported by now.
 	  TYPE ColorCoeff
 	    sequence
   	    integer :: Num
-  	    integer :: Denom  	      
+  	    integer :: Denom
 	  ENDTYPE ColorCoeff
 ## if(not LoopInduced){
 	  TYPE(ColorCoeff), dimension(NLOOPFLOWS,NBORNFLOWS) :: LoopColorFlowMatrix
@@ -552,8 +552,8 @@ C First fetch what orders the split order indices M, N correspond to
 C Now figure out to which SQSOINDEX these orders together correspond to *in the Born subroutine* (Notice the absence of the ML5 prefix in the functions used then)
         ISQSO = %(proc_prefix)sSQSOINDEX(%(proc_prefix)sSOINDEX_FOR_AMPORDERS(ORDERS_A),%(proc_prefix)sSOINDEX_FOR_AMPORDERS(ORDERS_B))
         IF(J.ne.I) THEN
-          DOUBLEFACT=2 
-        ELSE 
+          DOUBLEFACT=2
+        ELSE
           DOUBLEFACT=1
         ENDIF
         TEMP(1) = DOUBLEFACT*HEL_MULT*DBLE(COLOR_COEF*JAMPB(I,M)*DCONJG(JAMPB(J,N)))
@@ -594,7 +594,7 @@ C Same for contributions of split order index N by the Born amps
         ISQSO = %(proc_prefix)sML5SQSOINDEX(M,N)
 ## if(LoopInduced){
         IF(J.ne.I) THEN
-          DOUBLEFACT=2 
+          DOUBLEFACT=2
         ELSEIF (M.ne.N) THEN
           DOUBLEFACT=2
 		ELSE
@@ -623,7 +623,7 @@ c          DO config_j=1,nconfigs
 ## }
 ## }
         DO K=1,3
-## if(not LoopInduced){      
+## if(not LoopInduced){
           TEMP(K) = 2.0d0*HEL_MULT*DBLE(COLOR_COEF*JAMPL(K,I,M)*DCONJG(JAMPB(J,N)))
 ## }
           RES(K,ISQSO) = RES(K,ISQSO) + TEMP(K)
@@ -653,9 +653,9 @@ ENDDO
 
 ## if(LoopInduced and MadEventOutput){
       SUBROUTINE %(proc_prefix)sCOMPUTE_AMPL2(HEL_MULT)
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
       INTEGER    NLOOPAMPS
       PARAMETER (NLOOPAMPS=%(nloopamps)d)
       INTEGER    NLOOPDIAGRAMS
@@ -664,22 +664,22 @@ C
 	  PARAMETER (NCONFIGS=%(nmultichannel_configs)i)
       INTEGER    NSQUAREDSO, NLOOPAMPSO, NSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d, NLOOPAMPSO=%(nAmpSO)d, NSO=%(nSO)d)
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 	  INTEGER I,J, SOINDEX
       integer config_index_map(NCONFIGS)
 	  %(config_index_map_definition)s
 C
 C ARGUMENTS
-C 
+C
 	  INTEGER HEL_MULT
 C
 C GLOBAL VARIABLES
 C
       %(real_dp_format)s AMP2(NLOOPDIAGRAMS)
 	  common/%(proc_prefix)sAMP2/AMP2
-      %(real_dp_format)s  AMP2_ALL(3,NCONFIGS,0:NSQUAREDSO)	  
+      %(real_dp_format)s  AMP2_ALL(3,NCONFIGS,0:NSQUAREDSO)
 	  common/%(proc_prefix)sAMP2_ALL/AMP2_ALL
       LOGICAL CHOSEN_SO_CONFIGS(NSQUAREDSO)
       COMMON/%(proc_prefix)sCHOSEN_LOOP_SQSO/CHOSEN_SO_CONFIGS
@@ -693,7 +693,7 @@ C The configurations are not necessarily consecutive when grouping subprocesses.
 		  cycle
 		endif
 	    DO J=1,NSQUAREDSO
-C For the multi-channeling, it is in general better to ignore the squared order constraints (which, if they are any, would restrict the AMP2 quantities to be coming from the interference terms only).  
+C For the multi-channeling, it is in general better to ignore the squared order constraints (which, if they are any, would restrict the AMP2 quantities to be coming from the interference terms only).
          IF (.TRUE.) THEN
 C Chosing the if statement below instead would as a result to apply the squared order constraints to the AMP2 quantities given to MadEvent for the multichanneling.
 c  		  IF (CHOSEN_SO_CONFIGS(I)) THEN
@@ -708,9 +708,9 @@ c  		  IF (CHOSEN_SO_CONFIGS(I)) THEN
 C This subroutine resets to 0 the common arrays JAMPL, JAMPB and possibly JAMPL_FOR_AMP2 if used
 SUBROUTINE %(proc_prefix)sREINITIALIZE_JAMPS()
 implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  %(complex_dp_format)s CMPLXZERO
       PARAMETER (CMPLXZERO=(0.0d0,0.0d0))
 	  %(real_dp_format)s ZERO
@@ -784,9 +784,9 @@ END SUBROUTINE
 C This subroutine resets to 0 the common arrays AMP2_ALL
 SUBROUTINE %(proc_prefix)sREINITIALIZE_AMP2_ALL()
 implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
       INTEGER    NSQUAREDSO, NLOOPAMPSO, NSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d, NLOOPAMPSO=%(nAmpSO)d, NSO=%(nSO)d)
 	  %(real_dp_format)s ZERO
@@ -822,9 +822,9 @@ C This subroutine is called by loop_matrix.f at appropriate time when these arra
 C An example of this is the JAMP2 which must be cumulatively computed as loop_matrix.f loops over helicity configs but must be resets when loop_matrix.f starts over with helicity one (for the stability test for example).
 SUBROUTINE %(proc_prefix)sREINITIALIZE_CUMULATIVE_ARRAYS()
 implicit none
-C  
-C CONSTANTS 
-C 
+C
+C CONSTANTS
+C
 	  %(complex_dp_format)s CMPLXZERO
       PARAMETER (CMPLXZERO=(0.0d0,0.0d0))
 	  %(real_dp_format)s ZERO

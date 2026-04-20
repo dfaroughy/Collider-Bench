@@ -1,25 +1,25 @@
 #include <complex>
-#include <cmath> 
+#include <cmath>
 #include "aloha_aux_functions.h"
 using namespace std;
-void ixxxxx(double p[4],double fmass,int nhel, int nsf, complex<double> fi[6]){ 
+void ixxxxx(double p[4],double fmass,int nhel, int nsf, complex<double> fi[6]){
   complex<double> chi[2];
   double sf[2],sfomega[2],omega[2],pp,pp3,sqp0p3,sqm[2];
   int ip,im,nh;
   fi[0] = complex<double> (-p[0]*nsf,-p[3]*nsf);
   fi[1] = complex<double> (-p[1]*nsf,-p[2]*nsf);
   nh = nhel*nsf;
-  if (fmass != 0.0) { 
+  if (fmass != 0.0) {
     pp = min(p[0],sqrt(p[1]*p[1]+p[2]*p[2]+p[3]*p[3]));
-    if (pp == 0.0){ 
-      sqm[0] = sqrt(std::abs(fmass)); 
+    if (pp == 0.0){
+      sqm[0] = sqrt(std::abs(fmass));
       sqm[1] = Sgn(sqm[0],fmass);
       ip = (1+nh)/2;
       im = (1-nh)/2;
       fi[2]= ip*sqm[ip];
       fi[3] = im*nsf*sqm[ip];
       fi[4] = ip*nsf*sqm[im];
-      fi[5] = im *sqm[im]; 
+      fi[5] = im *sqm[im];
     }
     else{
       sf[0] = (1+nsf+(1-nsf)*nh)*0.5;
@@ -44,8 +44,8 @@ void ixxxxx(double p[4],double fmass,int nhel, int nsf, complex<double> fi[6]){
       fi[5] = sfomega[1]*chi[ip];
     }
   }
-  else{ 
-    if (p[1] == 0.0 and p[2] == 0.0 and p[3]<0.0){ 
+  else{
+    if (p[1] == 0.0 and p[2] == 0.0 and p[3]<0.0){
       sqp0p3 = 0.0;
     }
     else{
@@ -67,4 +67,4 @@ void ixxxxx(double p[4],double fmass,int nhel, int nsf, complex<double> fi[6]){
       fi[5] = complex<double>(0.0,0.0);
     }
   }
-  return;} 
+  return;}

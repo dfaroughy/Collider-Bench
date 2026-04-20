@@ -47,7 +47,7 @@ extern SpinClassRec spinClassRec;
 typedef struct _SpinPart {
     int centerX;		/* coordinates of the center of the window   */
     int centerY;
-    int drawWidth;		/* width of drawable area of widget */	
+    int drawWidth;		/* width of drawable area of widget */
     GC gc;	   	       	/* the main graphics context */
     double scale;
     int keyRotateDegrees;	/* how far to rotate with each arrow press */

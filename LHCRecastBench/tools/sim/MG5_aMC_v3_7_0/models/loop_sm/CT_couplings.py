@@ -282,7 +282,7 @@ R2_txbW = Coupling(name = 'R2_txbW',
                 value = '((ee*complex(0,1)*complexconjugate(CKM33))/(sw*cmath.sqrt(2)))*R2MixedFactor',
                 order = {'QCD':2,'QED':1})
 
-# R2 for the Higgs couplings to massive quarks 
+# R2 for the Higgs couplings to massive quarks
 
 R2_bbH = Coupling(name = 'R2_bbH',
                 value = '(-((complex(0,1)*yb)/cmath.sqrt(2)))*(2.0*R2MixedFactor)',
@@ -495,7 +495,7 @@ UV_cMass = Coupling(name = 'UV_cMass',
 
 UV_bMass = Coupling(name = 'UV_bMass',
                  value = 'bMass_UV',
-                 order = {'QCD':2}) 
+                 order = {'QCD':2})
 
 UV_tMass = Coupling(name = 'UV_tMass',
                  value = 'tMass_UV',

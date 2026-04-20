@@ -1293,4 +1293,3 @@ V_160 = CTVertex(name = 'V_160',
                  lorentz = [ L.VV1, L.VV5 ],
                  loop_particles = [ [ [P.b] ], [ [P.c] ], [ [P.d] ], [ [P.g] ], [ [P.ghG] ], [ [P.s] ], [ [P.t] ], [ [P.u] ] ],
                  couplings = {(0,1,0):C.UVGC_259_139,(0,1,1):C.UVGC_259_140,(0,1,2):C.UVGC_259_141,(0,1,5):C.UVGC_259_142,(0,1,6):C.UVGC_259_143,(0,1,7):C.UVGC_259_144,(0,0,3):C.UVGC_162_3,(0,0,4):C.UVGC_162_4})
-

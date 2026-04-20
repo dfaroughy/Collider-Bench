@@ -2,10 +2,10 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c      written by the UFO converter
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-C     
+C
 C     NB: VECSIZE_MEMMAX is defined in vector.inc
 C     NB: vector.inc must be included before coupl.inc
-C     
+C
 
       DOUBLE PRECISION G, ALL_G
       COMMON/STRONG/ G, ALL_G
@@ -46,4 +46,3 @@ C
      $  UV_BMASS_1EPS, UV_TMASS_1EPS, UVWFCT_B_0_1EPS, UVWFCT_G_1_1EPS
      $ , R2_BXTW, UV_3GB, UV_3GT, UV_GQQB, UV_GQQT, UV_BMASS, UV_TMASS
      $ , UVWFCT_B_0, UVWFCT_T_0, UVWFCT_G_1, UVWFCT_G_2, GC_11
-

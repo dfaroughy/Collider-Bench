@@ -1,11 +1,11 @@
 	  SUBROUTINE %(proc_prefix)sGOLEMLOOP(NLOOPLINE,PL,M2L,RANK,RES,STABLE)
-C  
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and Golem95.
 C The Golem95 version should be higher than 1.3.0.
 C It supports RANK = NLOOPLINE + 1 tensor integrals when 1 < NLOOPLINE < 6.
-C  
+C
 %(process_lines)s
 C
 C
@@ -21,11 +21,11 @@ C
 	  USE FORM_FACTOR_3P, ONLY: A30
 	  USE FORM_FACTOR_4P, ONLY: A40
 	  USE FORM_FACTOR_5P, ONLY: A50
-	  USE FORM_FACTOR_6P, ONLY: A60 
+	  USE FORM_FACTOR_6P, ONLY: A60
 	  IMPLICIT NONE
-C  
-C CONSTANTS 
-C  
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       LOGICAL checkPConservation
@@ -34,7 +34,7 @@ C
       PARAMETER (NORMALIZATION = 1.D0/(16.D0*3.14159265358979323846D0**2))
       REAL(KI),DIMENSION(0:3),PARAMETER::NULL_VEC = (/0.0_ki,0.0_ki,0.0_ki,0.0_ki/)
 C     GOLEM_RUN_MODE = 1: Use directly MadLoop tensorial coefficients
-C     GOLEM_RUN_MODE = 2: Reconstruct the tensorial coefficeints directly from 
+C     GOLEM_RUN_MODE = 2: Reconstruct the tensorial coefficeints directly from
 C                         numerator using golem internal reconstruction routine
 C     GOLEM_RUN_MODE = 3: Cross-checked reconstructed coefficients against
 C                         MadLoop internal ones.
@@ -45,9 +45,9 @@ C     The following is the acceptance threshold used for GOLEM_RUN_MODE = 3
       DATA coef_check_thrs/1.0d-13/
       COMMON/%(proc_prefix)scoef_check_thrs/coef_check_thrs
 
-      LOGICAL PASS_COEF_CHECK     
-C  
-C ARGUMENTS 
+      LOGICAL PASS_COEF_CHECK
+C
+C ARGUMENTS
 C
       INTEGER NLOOPLINE, RANK
       %(real_dp_format)s PL(0:3,NLOOPLINE)
@@ -57,13 +57,13 @@ C
       %(mass_dp_format)s M2L(NLOOPLINE)
       COMPLEX(ki) M2LGOLEM(NLOOPLINE)
       %(complex_dp_format)s RES(3)
-	  LOGICAL STABLE	  
-C  
-C LOCAL VARIABLES 
+	  LOGICAL STABLE
+C
+C LOCAL VARIABLES
 C
 	  INTEGER I, J, K
 	  TYPE(FORM_FACTOR)::RES_GOLEM
-	  
+
 	  COMPLEX(KI)::COEFFS0,COEFFS0_REC
 	  TYPE(COEFF_TYPE_1)::COEFFS1,COEFFS1_REC
 	  TYPE(COEFF_TYPE_2)::COEFFS2,COEFFS2_REC
@@ -113,7 +113,7 @@ C
       PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
       include 'loop_max_coefs.inc'
 
-## if(not AmplitudeReduction){	  
+## if(not AmplitudeReduction){
       %(complex_dp_format)s LOOPCOEFS(0:LOOPMAXCOEFS-1,NSQUAREDSO,NLOOPGROUPS)
 ## }else{
       %(complex_dp_format)s LOOPCOEFS(0:LOOPMAXCOEFS-1,NLOOPGROUPS)
@@ -255,7 +255,7 @@ C     Fill in the golem coefficents and compute the loop
 	    WRITE(*,*)"Not yet implemented in Golem95 for rank= ",RANK
 	    STOP
 	END SELECT
-	
+
 	IF(.NOT.PASS_COEF_CHECK)THEN
 	    WRITE(*,*)'Coefs mismatch for ID ',ID,' and rank ',RANK
 	    WRITE(*,*)'Coefs form MadLoop5:'
@@ -414,7 +414,7 @@ C     Finally free golem memory and cache
 	 REAL(KI),DIMENSION(0:3),INTENT(IN)::Q
 	 REAL(KI),INTENT(IN)::mu2
 	 COMPLEX(KI)::%(proc_prefix)sGOLEM_LOOPNUM
-	 
+
 	 %(complex_dp_format)s QQ(0:3),num
 	 INTEGER i
 
@@ -428,20 +428,20 @@ C     Finally free golem memory and cache
 	 END FUNCTION
 
 	  SUBROUTINE %(proc_prefix)sINITGOLEM()
-C 
+C
 C INITIALISATION OF GOLEM
 C
-C  
+C
 C MODULE
 C
 	  USE PARAMETRE
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
 	  %(real_dp_format)s THRS
 	  LOGICAL EXT_NUM_FOR_R1
-C  
-C GLOBAL VARIABLES 
+C
+C GLOBAL VARIABLES
 C
 	  include 'MadLoopParams.inc'
 C ----------
@@ -449,20 +449,20 @@ C BEGIN CODE
 C ----------
 
 C DEFAULT PARAMETERS FOR GOLEM
-C -------------------------------  
-C One can chose here to have either just the rational R1 piece 
+C -------------------------------
+C One can chose here to have either just the rational R1 piece
 C or everything but the R2
        RAT_OR_TOT_PAR = TOT
 
 	  END
 
      SUBROUTINE %(proc_prefix)sSETUP_KIN_MATRIX(NLOOPLINE,PGOLEM,M2L)
-C    
+C
 C    MODULE
 C
      USE MATRICE_S
      USE PRECISION_GOLEM, ONLY: KI
-C    
+C
 C    ARGUMENTS
 C
      INTEGER NLOOPLINE
@@ -477,14 +477,14 @@ C    ----------
 C    BEGIN CODE
 C    ----------
 
-   	   CALL %(proc_prefix)sBUILD_KINEMATIC_MATRIX(NLOOPLINE,PGOLEM,M2L,S_MAT_FROM_MG) 
+   	   CALL %(proc_prefix)sBUILD_KINEMATIC_MATRIX(NLOOPLINE,PGOLEM,M2L,S_MAT_FROM_MG)
 
        do i=1,NLOOPLINE
          do j=1,NLOOPLINE
 	       s_mat(i,j)=S_MAT_FROM_MG(i,j)
          ENDDO
        ENDDO
-       
+
       END
 
       FUNCTION %(proc_prefix)sCOMPARE_COEFS_0(COEFS_A,COEFS_B)
@@ -501,23 +501,23 @@ C    ----------
       IF(DENOM.GT.0d0)THEN
         %(proc_prefix)sCOMPARE_COEFS_0=((NUM/DENOM).LT.coef_check_thrs)
       ELSE
-        %(proc_prefix)sCOMPARE_COEFS_0=(NUM.LT.coef_check_thrs)      
+        %(proc_prefix)sCOMPARE_COEFS_0=(NUM.LT.coef_check_thrs)
       ENDIF
 
       END
 
       FUNCTION %(proc_prefix)sCOMPARE_COEFS_1(COEFS_A,COEFS_B)
-      
+
       USE TENS_REC
       TYPE(COEFF_TYPE_1)COEFS_A,COEFS_B
       %(real_dp_format)s COEF_CHECK_THRS
       COMMON/%(proc_prefix)scoef_check_thrs/coef_check_thrs
       %(real_dp_format)s DENOM,NUM
       LOGICAL %(proc_prefix)sCOMPARE_COEFS_1
-      
+
       NUM = ABS(COEFS_A%%c0-COEFS_B%%c0)+SUM(ABS(COEFS_A%%c1-COEFS_B%%c1))
       DENOM = ABS(COEFS_A%%c0+COEFS_B%%c0)+SUM(ABS(COEFS_A%%c1+COEFS_B%%c1))
-      
+
       IF(DENOM.GT.0d0)THEN
         %(proc_prefix)sCOMPARE_COEFS_1=((NUM/DENOM).LT.coef_check_thrs)
       ELSE
@@ -527,14 +527,14 @@ C    ----------
       END
 
       FUNCTION %(proc_prefix)sCOMPARE_COEFS_2(COEFS_A,COEFS_B)
-      
+
       USE TENS_REC
       TYPE(COEFF_TYPE_2) COEFS_A,COEFS_B
       %(real_dp_format)s coef_check_thrs
       COMMON/%(proc_prefix)scoef_check_thrs/coef_check_thrs
       %(real_dp_format)s DENOM,NUM
       LOGICAL %(proc_prefix)sCOMPARE_COEFS_2
-      
+
       NUM = ABS(COEFS_A%%c0-COEFS_B%%c0)+SUM(ABS(COEFS_A%%c1-COEFS_B%%c1))+SUM(ABS(COEFS_A%%c2-COEFS_B%%c2))
       DENOM = ABS(COEFS_A%%c0+COEFS_B%%c0)+SUM(ABS(COEFS_A%%c1+COEFS_B%%c1))+SUM(ABS(COEFS_A%%c2+COEFS_B%%c2))
       IF(DENOM.GT.0d0)THEN
@@ -562,10 +562,10 @@ C    ----------
         %(proc_prefix)sCOMPARE_COEFS_3=(NUM.LT.coef_check_thrs)
       ENDIF
 
-      END	     
+      END
 
       FUNCTION %(proc_prefix)sCOMPARE_COEFS_4(COEFS_A,COEFS_B)
-      
+
       USE TENS_REC
       TYPE(COEFF_TYPE_4) COEFS_A, COEFS_B
       %(real_dp_format)s coef_check_thrs
@@ -584,7 +584,7 @@ C    ----------
       END
 
       FUNCTION %(proc_prefix)sCOMPARE_COEFS_5(COEFS_A,COEFS_B)
-      
+
       USE TENS_REC
       TYPE(COEFF_TYPE_5) COEFS_A,COEFS_B
       %(real_dp_format)s coef_check_thrs
@@ -603,7 +603,7 @@ C    ----------
       END
 
       FUNCTION %(proc_prefix)sCOMPARE_COEFS_6(COEFS_A,COEFS_B)
-      
+
       USE TENS_REC
       TYPE(COEFF_TYPE_6) COEFS_A,COEFS_B
       %(real_dp_format)s coef_check_thrs

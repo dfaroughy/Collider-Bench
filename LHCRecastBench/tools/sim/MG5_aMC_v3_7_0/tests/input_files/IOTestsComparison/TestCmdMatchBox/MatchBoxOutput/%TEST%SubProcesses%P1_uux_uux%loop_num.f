@@ -2,23 +2,23 @@ C     THE CORE SUBROUTINE CALLED BY CUTTOOLS WHICH CONTAINS THE HELAS
 C      CALLS BUILDING THE LOOP
 
       SUBROUTINE MG5_1_LOOPNUM(Q,RES)
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NLOOPGROUPS
       PARAMETER (NLOOPGROUPS=13)
       INCLUDE 'loop_max_coefs.inc'
 C     These are constants related to the split orders
       INTEGER    NSQUAREDSO
       PARAMETER (NSQUAREDSO=1)
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       COMPLEX*16 Q(0:3)
       COMPLEX*16 RES
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       INTEGER ID,SQSOINDEX,RANK
       COMMON/MG5_1_LOOP/ID,SQSOINDEX,RANK
 
@@ -31,13 +31,13 @@ C
       END
 
       SUBROUTINE MG5_1_MPLOOPNUM(Q,RES)
-C     
+C
 C     MODULE
-C     
+C
       INCLUDE 'cts_mprec.h'
-C     
-C     CONSTANTS 
-C     
+C
+C     CONSTANTS
+C
       INTEGER    NLOOPGROUPS
       PARAMETER (NLOOPGROUPS=13)
       INTEGER    NEXTERNAL
@@ -46,24 +46,24 @@ C
 C     These are constants related to the split orders
       INTEGER    NSQUAREDSO
       PARAMETER (NSQUAREDSO=1)
-C     
-C     ARGUMENTS 
-C     
-      INCLUDE 'cts_mpc.h'                                             
+C
+C     ARGUMENTS
+C
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(IN), DIMENSION(0:3) :: Q
-      INCLUDE 'cts_mpc.h'                                             
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(OUT) :: RES
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       COMPLEX*32 QRES
       REAL*8 DUMMY(3,0:NSQUAREDSO)
       REAL*16 QPP(0:3,NEXTERNAL)
       COMPLEX*32 QQ(0:3)
       INTEGER I,J
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
       LOGICAL MP_DONE
       COMMON/MG5_1_MP_DONE/MP_DONE
 
@@ -98,20 +98,20 @@ C     ----------
       END
 
       SUBROUTINE MG5_1_MPLOOPNUM_DUMMY(Q,RES)
-C     
+C
 C     MODULE
-C     
+C
       INCLUDE 'cts_mprec.h'
-C     
-C     ARGUMENTS 
-C     
-      INCLUDE 'cts_mpc.h'                                             
+C
+C     ARGUMENTS
+C
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(IN), DIMENSION(0:3) :: Q
-      INCLUDE 'cts_mpc.h'                                             
+      INCLUDE 'cts_mpc.h'
      $ , INTENT(OUT) :: RES
-C     
-C     LOCAL VARIABLES 
-C     
+C
+C     LOCAL VARIABLES
+C
       COMPLEX*16 DRES
       COMPLEX*16 DQ(0:3)
       INTEGER I
@@ -126,4 +126,3 @@ C     ----------
       RES=DRES
 
       END
-

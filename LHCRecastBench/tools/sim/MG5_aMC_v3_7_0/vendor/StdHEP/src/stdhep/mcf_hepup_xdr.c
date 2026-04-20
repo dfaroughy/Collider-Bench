@@ -55,16 +55,16 @@ bool_t xdr_hepeup_(XDR *xdrs, int *blockid,
 {
 /*  Translate the HEPEUP COMMON block from the STDHEP package to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, mcfio will allocate the space for the 
+    directly the COMMON.  Also, mcfio will allocate the space for the
     string version.  */
-    
+
     unsigned int nn, nn2, nn5;
     int *idat;
     double *dat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE))  {
        if (*blockid != MCFIO_HEPEUP) {
-          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
        }
@@ -79,16 +79,16 @@ bool_t xdr_hepeup_(XDR *xdrs, int *blockid,
 
        if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
        strncpy(version[0],stdver_.stdhep_ver, 4);
-       } 
-      
+       }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) &&
      	      xdr_int(xdrs, &(hepeup_.nup)) &&
               xdr_int(xdrs, &(hepeup_.idprup))) == FALSE) return FALSE;
-              
+
      if ((xdrs->x_op == XDR_DECODE) && ( *blockid != MCFIO_HEPEUP) ) {
-          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -111,15 +111,15 @@ bool_t xdr_hepeup_(XDR *xdrs, int *blockid,
          &nn2, 2*MAXNUP, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (double *)  hepeup_.pup;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-         &nn5, 5*MAXNUP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+         &nn5, 5*MAXNUP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = (double *)  hepeup_.vtimup;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-         &nn, MAXNUP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+         &nn, MAXNUP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = (double *)  hepeup_.spinup;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-         &nn, MAXNUP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+         &nn, MAXNUP, sizeof(double), xdr_double) == FALSE) return FALSE;
      return TRUE;
-}   
+}
 
 bool_t xdr_heprup_(XDR *xdrs, int *blockid,
  				 int *ntot, char** version)
@@ -127,18 +127,18 @@ bool_t xdr_heprup_(XDR *xdrs, int *blockid,
 {
 /*  Translate the HEPRUP COMMON block from the STDHEP package to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, mcfio will allocate the space for the 
+    directly the COMMON.  Also, mcfio will allocate the space for the
     string version.        */
-    
+
     unsigned int nn, n2;
     int i;
     int *idat;
     char *vers;
     double *dat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE))  {
        if (*blockid != MCFIO_HEPRUP) {
-          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
        }
@@ -152,16 +152,16 @@ bool_t xdr_heprup_(XDR *xdrs, int *blockid,
 
        if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
        strncpy(version[0],stdver_.stdhep_ver, 4);
-       } 
-      
+       }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) &&
      	      xdr_int(xdrs, &(heprup_.idwtup)) &&
               xdr_int(xdrs, &(heprup_.nprup))) == FALSE) return FALSE;
-              
+
      if ((xdrs->x_op == XDR_DECODE) && ( *blockid != MCFIO_HEPRUP) ) {
-          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_hepup_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -170,7 +170,7 @@ bool_t xdr_heprup_(XDR *xdrs, int *blockid,
             &n2, 2, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (double *)  heprup_.ebmup;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &n2, 2, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &n2, 2, sizeof(double), xdr_double) == FALSE) return FALSE;
      idat = heprup_.pdfgup;
      if     ( xdr_array(xdrs, (char **)  &idat,
             &n2, 2, sizeof(int), xdr_int) == FALSE) return FALSE;
@@ -179,18 +179,16 @@ bool_t xdr_heprup_(XDR *xdrs, int *blockid,
             &n2, 2, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (double *)  heprup_.xsecup;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nn, MAXPUP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nn, MAXPUP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = (double *)  heprup_.xerrup;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nn, MAXPUP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nn, MAXPUP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = (double *)  heprup_.xmaxup;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nn, MAXPUP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nn, MAXPUP, sizeof(double), xdr_double) == FALSE) return FALSE;
      idat = heprup_.lprup;
      if     ( xdr_array(xdrs, (char **)  &idat,
             &nn, MAXPUP, sizeof(int), xdr_int) == FALSE) return FALSE;
-     
+
      return TRUE;
-}   
-
-
+}

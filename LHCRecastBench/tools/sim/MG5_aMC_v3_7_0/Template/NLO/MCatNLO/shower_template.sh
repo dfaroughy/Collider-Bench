@@ -64,7 +64,7 @@ if [ "$OUTPUT" == "HEP" ] ; then
     fi
 
 elif [ "$OUTPUT" == "TOP" ] || [ "$OUTPUT" == "HWU" ]; then
-    #top output 
+    #top output
     # this is for the final filename
     if [[ "$NFILE" != "" ]]; then
         NAME="../histfile_$NFILE"

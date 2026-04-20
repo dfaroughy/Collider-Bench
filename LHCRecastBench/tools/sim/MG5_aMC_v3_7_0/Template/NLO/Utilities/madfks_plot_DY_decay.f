@@ -16,7 +16,7 @@ c of these routines are real*8
       integer j,k
       character*5 cc(5)
       data cc/'     ',' cut1',' cut2',' cut3',' cut4'/
-c 
+c
       gammaX=300d0
       xm02=wmass**2
       gah=wwidth
@@ -35,7 +35,7 @@ c
         xmi=xm0-(49*bin+bin/2)
         xms=xm0+(50*bin+bin/2)
       endif
-      call inihist 
+      call inihist
 c
       do j=1,3
       k=(j-1)*8
@@ -83,16 +83,16 @@ c
       call multitop(k+ 1,3,2,'W pt',' ','LOG')
       call multitop(k+ 2,3,2,'W y',' ','LOG')
       call multitop(k+ 3,3,2,'mW',' ','LOG')
-      enddo                
+      enddo
 c
       do j=1,3
       k=(j-1)*8
-c                          
+c
       call multitop(k+ 1,3,2,'e pt',' ','LOG')
       call multitop(k+ 2,3,2,'e eta',' ','LOG')
       call multitop(k+ 3,3,2,'nu pt',' ','LOG')
       call multitop(k+ 4,3,2,'nu eta',' ','LOG')
-c                        
+c
       call multitop(k+ 5,3,2,'DCe pt',' ','LOG')
       call multitop(k+ 6,3,2,'DCe eta',' ','LOG')
       call multitop(k+ 7,3,2,'DCnu pt',' ','LOG')
@@ -166,7 +166,7 @@ c
       endif
 c
 
-      
+
 c$$$      if(sqrt(sh).lt.10000)then
 c$$$        etaemin(1)=0.d0
 c$$$        etaemax(1)=1.d0
@@ -402,7 +402,7 @@ C Here x1 and x2 are generated externally -- needed to avoid instabilities
 C due to counterevents
       SUBROUTINE PDECAY(X1,X2,P,Q1,Q2,WT)
 C Decays a particle with momentum P into two particles with momenta
-C Q1 and Q2; these momenta are understood in the lab frame. WT is the 
+C Q1 and Q2; these momenta are understood in the lab frame. WT is the
 c phase space density beta_cm.
 C The decay is spherically symmetric in the decay C_of_M frame
 C Written by MLM, modified by SF
@@ -428,7 +428,7 @@ c
 C The transverse component of P defined here need not coincide with that
 c of the calling routine -- it's purely conventional
       PMOD=SQRT(P(1)**2+P(2)**2+P(3)**2)
-      PTR=SQRT(P(2)**2+P(3)**2)                              
+      PTR=SQRT(P(2)**2+P(3)**2)
 C U and V are 3-vectors of modulus 1, perpendicular to each other and to P;
 C therefore, they are invariant under the boost along the longitudinal
 C component of P
@@ -457,7 +457,7 @@ C component of P
       Q2(4)=GAM*(Q2E+BET*QPLON)
       Q1(4)=P(4)-Q2(4)
       WT=2.*QP/PM
-      END            
+      END
 
 
       FUNCTION RANDAXX(SEED)
@@ -476,5 +476,3 @@ C component of P
       IF(SEED.LE.0) SEED = SEED + M
       RANDAXX = SEED*MINV
       END
-
-

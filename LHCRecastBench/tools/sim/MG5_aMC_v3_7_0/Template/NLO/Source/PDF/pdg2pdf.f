@@ -18,7 +18,7 @@ c timing statistics
          return
 
       end
-      
+
       double precision function pdg2pdf(ih,ipdg,ibeam,x,xmu)
 c***************************************************************************
 c     Based on pdf.f, wrapper for calling the pdf of MCFM
@@ -40,7 +40,7 @@ C
 C     Include
 C
       include 'pdf.inc'
-C      
+C
       double precision Ctq3df,Ctq4Fn,Ctq5Pdf,Ctq6Pdf,Ctq5L
       integer mode,Irt,i,j,i_replace,ii
       double precision xlast(20),xmulast(20),pdflast(-7:7,20),q2max
@@ -65,7 +65,7 @@ C dressed lepton stuff
       double precision tolerance
       parameter (tolerance=1.d-2)
       if (ih.eq.0) then
-c     Lepton collisions (no PDF). 
+c     Lepton collisions (no PDF).
          pdg2pdf=1d0
          return
       endif
@@ -90,7 +90,7 @@ C     dressed leptons so force lpp to be 3/4 (electron/muon beam)
 C      and check that it is not a photon initial state --elastic photon is handle below --
       if ((abs(ih).eq.3.or.abs(ih).eq.4)) then
         ipart = ipdg
-c         ! change e/mu/tau = 8/9/10 to 11/13/15 
+c         ! change e/mu/tau = 8/9/10 to 11/13/15
 
 
         if (abs(ipart).eq.8) then
@@ -112,7 +112,7 @@ c         ! change e/mu/tau = 8/9/10 to 11/13/15
         endif
 
         pdg2pdf = 0d0
-        do i_ee = 1, n_ee 
+        do i_ee = 1, n_ee
            ee_components(i_ee) = compute_eepdf(x, omx_ee(ibeam), xmu,i_ee,ipart,ih_local)
         enddo
         return
@@ -123,7 +123,7 @@ c         ! change e/mu/tau = 8/9/10 to 11/13/15
       else
          ipart = ipdg
       endif
-      
+
       if(iabs(ipart).eq.21) then
          ipart=0
       else if(iabs(ipart).eq.22) then
@@ -134,7 +134,7 @@ c         ! change e/mu/tau = 8/9/10 to 11/13/15
 c     This will be called for any PDG code, but we only support up to 7
 C         write(*,*) 'PDF not supported for pdg ',ipdg
 C         write(*,*) 'For lepton colliders, please set the lpp* '//
-C     $    'variables to 0 in the run_card'  
+C     $    'variables to 0 in the run_card'
 C         open(unit=26,file='../../../error',status='unknown')
 C         write(26,*) 'Error: PDF not supported for pdg ',ipdg
 C         stop 1
@@ -166,13 +166,13 @@ c     Reuse previous result, if possible
       if (ireuse.gt.0) then
          if (pdflast(iporg,ireuse).ne.-99d9) then
             pdg2pdf=pdflast(iporg,ireuse)
-            return 
+            return
          endif
       endif
 
 c Calculated a new value: replace the value computed longest ago.
       i_replace=mod(i_replace,20)+1
-      
+
 c     Give the current values to the arrays that should be
 c     saved. 'pdflast' is filled below.
       xlast(i_replace)=x
@@ -186,7 +186,7 @@ c     saved. 'pdflast' is filled below.
             pdg2pdf=epa_electron(x,q2max)
          elseif(abs(ih) .eq. 2) then !from a proton without breaking
             pdg2pdf=epa_proton(x,q2max)
-         endif 
+         endif
          pdflast(iporg,i_replace)=pdg2pdf
          return
       endif
@@ -238,7 +238,7 @@ c The actual call to the PDFs (in Source/PDF/pdf.f)
 
       xmu2=xmu**2
 
-      compute_eepdf = eepdf_tilde(x,xmu2,n_ee,id,idbeam) 
+      compute_eepdf = eepdf_tilde(x,xmu2,n_ee,id,idbeam)
       ! this does not include a factor (1-x)^(-kappa)
       ! where k is given by
       k_exp = eepdf_tilde_power(xmu2,n_ee,id,idbeam)
@@ -270,5 +270,3 @@ c The actual call to the PDFs (in Source/PDF/pdf.f)
       enddo
       return
       end
-
-

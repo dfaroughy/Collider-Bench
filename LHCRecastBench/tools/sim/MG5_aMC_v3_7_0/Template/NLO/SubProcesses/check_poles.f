@@ -65,13 +65,13 @@ cc
       common /to_polecheck/force_polecheck, polecheck_passed
       integer ret_code_ml
       common /to_ret_code/ret_code_ml
-      
+
 C-----
 C  BEGIN CODE
-C-----  
+C-----
       force_polecheck = .true.
       if (first_time) then
-          call get_nsqso_loop(nsqso)          
+          call get_nsqso_loop(nsqso)
           call get_answer_dimension(MLResArrayDim)
           allocate(virt_wgts(0:3,0:MLResArrayDim))
           allocate(accuracies(0:nsqso))
@@ -85,7 +85,7 @@ C-----
       call printout              !Prints out a summary of paramaters
       call run_printout          !Prints out a summary of the run settings
       include 'pmass.inc'
-     
+
       call FKSParamReader('FKS_params.dat',.TRUE.,.FALSE.)
       tolerance_default = IRPoleCheckThreshold
       iconfig=1
@@ -112,7 +112,7 @@ c     not equal to it so as to be sensitive to all logs in the check.
       read(*,*) npoints
       write(*,*)'Insert the relative tolerance'
       write(*,*)' A negative number will mean use the default one: ',
-     1 tolerance_default 
+     1 tolerance_default
       read(*,*) tolerance
       if (tolerance .le. zero) then
           tolerance = tolerance_default
@@ -163,7 +163,7 @@ c initialization
           double=0d0
           calculatedborn = .false.
           if (nincoming.eq.1) then
-              call rambo(0, nexternal-nincoming-1, pmass(1), 
+              call rambo(0, nexternal-nincoming-1, pmass(1),
      1         pmass_rambo, prambo)
               p_born(0,1) = pmass(1)
               p_born(1,1) = 0d0
@@ -177,13 +177,13 @@ c initialization
                   p_born(1,1) = 0d0
                   p_born(2,1) = 0d0
                   p_born(3,1) = pmass(3)/2d0
-                  if (pmass(1) > 0d0) 
+                  if (pmass(1) > 0d0)
      1               p_born(3,1) = dsqrt(pmass(3)**2/4d0 - pmass(1)**2)
                   p_born(0,2) = pmass(3)/2d0
                   p_born(1,2) = 0d0
                   p_born(2,2) = 0d0
                   p_born(3,2) = -pmass(3)/2d0
-                  if (pmass(2) > 0d0) 
+                  if (pmass(2) > 0d0)
      1               p_born(3,2) = -dsqrt(pmass(3)**2/4d0 - pmass(1)**2)
 
                   prambo(0,1) = pmass(3)
@@ -192,24 +192,24 @@ c initialization
                   prambo(3,1) = 0d0
 
               else
-                    
-                  call rambo(0, nexternal-nincoming-1, energy, 
+
+                  call rambo(0, nexternal-nincoming-1, energy,
      1             pmass_rambo, prambo)
                   p_born(0,1) = energy/2d0
                   p_born(1,1) = 0d0
                   p_born(2,1) = 0d0
                   p_born(3,1) = energy/2d0
-                  if (pmass(1) > 0d0) 
+                  if (pmass(1) > 0d0)
      1               p_born(3,1) = dsqrt(energy**2/4d0 - pmass(1)**2)
                   p_born(0,2) = energy/2
                   p_born(1,2) = 0d0
                   p_born(2,2) = 0d0
                   p_born(3,2) = -energy/2d0
-                  if (pmass(2) > 0d0) 
+                  if (pmass(2) > 0d0)
      1               p_born(3,2) = -dsqrt(energy**2/4d0 - pmass(1)**2)
               endif
           else
-              write(*,*) 'INVALID NUMBER OF INCOMING PARTICLES', 
+              write(*,*) 'INVALID NUMBER OF INCOMING PARTICLES',
      1          nincoming
               stop
           endif
@@ -261,11 +261,11 @@ C         Otherwise, perform the check
           endif
           write(*,*)
 
-      if (npointsChecked.lt.npoints) goto 200 
+      if (npointsChecked.lt.npoints) goto 200
 
-          write(*,*) 'NUMBER OF POINTS PASSING THE CHECK', 
+          write(*,*) 'NUMBER OF POINTS PASSING THE CHECK',
      1     npoints - nfail
-          write(*,*) 'NUMBER OF POINTS FAILING THE CHECK', 
+          write(*,*) 'NUMBER OF POINTS FAILING THE CHECK',
      1     nfail
           write(*,*) 'TOLERANCE ', tolerance
 
@@ -330,7 +330,7 @@ C CHECK WHETHER TOTAL ENERGY IS SUFFICIENT; COUNT NONZERO MASSES
       PRINT 1002,XMT,ET
       STOP
 
-  201 CONTINUE 
+  201 CONTINUE
       if (lflag.eq.1) then
         w0= exp((2.*N-4.)*LOG(ET)+Z(N))
         do j= 1,N
@@ -462,10 +462,9 @@ C
 
 
       subroutine rans(rand)
-c     Just a wrapper to ran2      
+c     Just a wrapper to ran2
       implicit none
       double precision rand, ran2
       rand = ran2()
-      return 
+      return
       end
-

@@ -60,8 +60,8 @@ CPPProcess::~CPPProcess() {}
 const std::vector<fptype> &CPPProcess::getMasses() const { return mME; }
 
 //--------------------------------------------------------------------------
-// Initialize process. 
-  
+// Initialize process.
+
 void CPPProcess::initProc(string param_card_name) {
 // Instantiate the model class and set parameters that stay fixed during run
     pars = Parameters_%(model_name)s::getInstance();
@@ -85,7 +85,7 @@ void CPPProcess::initProc(string param_card_name) {
     memcpy( cIPD, tIPD, %(nparams)i * sizeof(fptype) );
 #endif
 
-} 
+}
 
 //--------------------------------------------------------------------------
 
@@ -133,13 +133,13 @@ void CPPProcess::initProc(string param_card_name) {
 
 
 //--------------------------------------------------------------------------
-// Evaluate |M|^2, part independent of incoming flavour. 
+// Evaluate |M|^2, part independent of incoming flavour.
 
 __global__ void sigmaKin(const fptype * allmomenta, fptype * allMEs
 #ifndef __CUDACC__
                  , const int nevt          // input: #events (for cuda: nevt == ndim == gpublocks*gputhreads)
 #endif
-) { 
+) {
     // Set the parameters which change event by event
     // Need to discuss this with Stefan
     //pars->setDependentParameters();

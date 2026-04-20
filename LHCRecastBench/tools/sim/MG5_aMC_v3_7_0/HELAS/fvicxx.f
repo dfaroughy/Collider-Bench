@@ -3,17 +3,17 @@ c ----------------------------------------------------------------------
 c
       subroutine fvicxx(fic,vc,gc,fmass,fwidth , fvic)
 c
-c this subroutine computes an off-shell antifermion wavefunction from a 
-c flowing-in external antifermion and a vector boson.                   
-c                                                                       
-c input:                                                                
+c this subroutine computes an off-shell antifermion wavefunction from a
+c flowing-in external antifermion and a vector boson.
+c
+c input:
 c       complex fic(6)         : flow-in  antifermion              |fic>
-c       complex vc(6)          : input    vector                      v 
+c       complex vc(6)          : input    vector                      v
 c       complex gc(2)          : coupling constants                  gvf
-c       real    fmass          : mass  of output antifermion f'         
-c       real    fwidth         : width of output antifermion f'         
-c                                                                       
-c output:                                                               
+c       real    fmass          : mass  of output antifermion f'
+c       real    fwidth         : width of output antifermion f'
+c
+c output:
 c       complex fvic(6)        : off-shell antifermion       |fc',v,fic>
 c
       implicit none

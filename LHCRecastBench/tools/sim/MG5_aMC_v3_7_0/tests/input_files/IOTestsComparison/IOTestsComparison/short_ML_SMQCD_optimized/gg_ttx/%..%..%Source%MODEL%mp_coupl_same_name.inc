@@ -33,5 +33,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $ ,R2_GQQ,R2_GGQ,R2_GGB,R2_GGT,R2_GGG_1,R2_GGG_2,R2_QQQ,R2_QQT
      $ ,UV_3GG_1EPS,UV_3GB_1EPS,UV_GQQG_1EPS,UV_GQQQ_1EPS,UV_TMASS_1EPS
      $ ,UVWFCT_B_0_1EPS,UVWFCT_G_2_1EPS
-
-

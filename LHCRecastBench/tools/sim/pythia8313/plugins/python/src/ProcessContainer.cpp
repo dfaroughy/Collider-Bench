@@ -58,7 +58,7 @@
 struct PyCallBack_Pythia8_ProcessContainer : public Pythia8::ProcessContainer {
 	using Pythia8::ProcessContainer::ProcessContainer;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessContainer *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -71,7 +71,7 @@ struct PyCallBack_Pythia8_ProcessContainer : public Pythia8::ProcessContainer {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessContainer *>(this), "onBeginEvent");
 		if (overload) {
@@ -84,7 +84,7 @@ struct PyCallBack_Pythia8_ProcessContainer : public Pythia8::ProcessContainer {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessContainer *>(this), "onEndEvent");
 		if (overload) {
@@ -97,7 +97,7 @@ struct PyCallBack_Pythia8_ProcessContainer : public Pythia8::ProcessContainer {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessContainer *>(this), "onStat");
 		if (overload) {
@@ -116,7 +116,7 @@ struct PyCallBack_Pythia8_ProcessContainer : public Pythia8::ProcessContainer {
 struct PyCallBack_Pythia8_ProcessLevel : public Pythia8::ProcessLevel {
 	using Pythia8::ProcessLevel::ProcessLevel;
 
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessLevel *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -129,7 +129,7 @@ struct PyCallBack_Pythia8_ProcessLevel : public Pythia8::ProcessLevel {
 		}
 		return ProcessLevel::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessLevel *>(this), "onBeginEvent");
 		if (overload) {
@@ -142,7 +142,7 @@ struct PyCallBack_Pythia8_ProcessLevel : public Pythia8::ProcessLevel {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessLevel *>(this), "onEndEvent");
 		if (overload) {
@@ -155,7 +155,7 @@ struct PyCallBack_Pythia8_ProcessLevel : public Pythia8::ProcessLevel {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ProcessLevel *>(this), "onStat");
 		if (overload) {

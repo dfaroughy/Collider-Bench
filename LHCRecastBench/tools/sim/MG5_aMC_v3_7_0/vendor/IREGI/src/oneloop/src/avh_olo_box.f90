@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -102,7 +102,7 @@ contains
    q24 = qonv(r24,-1)
    q34 = qonv(r34,-1)
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box16: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -177,7 +177,7 @@ contains
    r34 = (    cm4-cp3 )/(sm3*sm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box15: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -240,7 +240,7 @@ contains
    sm4 = mysqrt(cm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box14: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -318,7 +318,7 @@ contains
    q14 = qonv(r14,-1)
    q23 = qonv(r23,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
    qy1 = q14*q23/q13/q24
    logd = logc2(qy1     )/(r13*r24)
@@ -390,12 +390,12 @@ contains
    q13 = qonv(r13,-1)
    q14 = qonv(r14,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
-   log13 = logc(q13) 
-   log14 = logc(q14) 
-   log24 = logc(q24) 
-   log34 = logc(q34) 
+   log13 = logc(q13)
+   log14 = logc(q14)
+   log24 = logc(q24)
+   log34 = logc(q34)
 !
    qyy = q14/q13
    li2f = li2c(qyy*q34)
@@ -458,9 +458,9 @@ contains
    r24 = (cm4-cp23)/(sm2*sm4)
    call rfun( r34,d34 ,(cm3+cm4-cp3 )/(sm3*sm4) )
 !
-   log13 = logc(qonv(r13,-1)) 
-   log24 = logc(qonv(r24,-1)) 
-   log34 = logc(qonv(r34,-1)) 
+   log13 = logc(qonv(r13,-1))
+   log24 = logc(qonv(r24,-1))
+   log34 = logc(qonv(r34,-1))
 !
    rslt(2) = 1
    rslt(1) = -log13-log24
@@ -819,7 +819,7 @@ contains
    include 'avh_olo_complex.h90'
      ,intent(out) :: rslt(0:2)
    include 'avh_olo_complex.h90'
-     ,intent(in)  :: p2,p4,p5,p6 
+     ,intent(in)  :: p2,p4,p5,p6
    include 'avh_olo_real.h90'
      ,intent(in)  :: rmu
    type(qmplx_type) :: q2,q4,q5,q6,q26,q54,qy
@@ -992,15 +992,15 @@ contains
      log6 = olog(abs(rp6/rmu2),i6)
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg*( 2 )
@@ -1020,15 +1020,15 @@ contains
      li263 = dilog( abs(rp3/rp6) ,i3-i6 )
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg
@@ -1053,7 +1053,7 @@ contains
    endif
    end subroutine
 
-  
+
   subroutine boxf0( rslt ,p1,p2,p3,p4,p12,p23 )
 !*******************************************************************
 ! Finite 1-loop scalar 4-point function with all internal masses
@@ -1061,7 +1061,7 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
   include 'avh_olo_complex.h90'
-    ,intent(out) :: rslt(0:2) 
+    ,intent(out) :: rslt(0:2)
   include 'avh_olo_complex.h90'
     ,intent(in) :: p1,p2,p3,p4,p12,p23
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qss
@@ -1076,7 +1076,7 @@ contains
   r14 = -p4  !  p1+p2+p3
   r23 = -p2  !  p2
   r24 = -p23 !  p2+p3
-  r34 = -p3  !  p3      
+  r34 = -p3  !  p3
 !
   aa = r34*r24
 !
@@ -1126,7 +1126,7 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
   include 'avh_olo_complex.h90'
-    ,intent(out) :: rslt(0:2) 
+    ,intent(out) :: rslt(0:2)
   include 'avh_olo_complex.h90'
     ,intent(in) :: p1,p2,p3,p4,p12,p23 ,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
@@ -1136,7 +1136,7 @@ contains
 ![CALLINGME  write(*,*) 'MESSAGE from OneLOop boxf1: you are calling me'
 !
   sm4 = mysqrt(m4)
-  smm = abs(sm4) 
+  smm = abs(sm4)
 !
   r12 = ( m4-p4 -p4 *IEPS )/(smm*sm4)
   r13 = ( m4-p23-p23*IEPS )/(smm*sm4)
@@ -1216,7 +1216,7 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
   include 'avh_olo_complex.h90'
-    ,intent(out) :: rslt(0:2) 
+    ,intent(out) :: rslt(0:2)
   include 'avh_olo_complex.h90'
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m2,m4
   call boxf2( rslt ,p12,p2,p23,p4,p1,p3 ,m2,m4 )
@@ -1230,7 +1230,7 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
   include 'avh_olo_complex.h90'
-    ,intent(out) :: rslt(0:2) 
+    ,intent(out) :: rslt(0:2)
   include 'avh_olo_complex.h90'
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m3,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
@@ -1323,7 +1323,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r24/r12
     endif
     if (.not.r12zero.and..not.r13zero) then
-      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2 
+      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2
     endif
   endif
 !
@@ -1337,7 +1337,7 @@ contains
 ! non-zero.
 !*******************************************************************
   include 'avh_olo_complex.h90'
-    ,intent(out) :: rslt(0:2) 
+    ,intent(out) :: rslt(0:2)
   include 'avh_olo_complex.h90'
     ,intent(in) :: pp(6),mm(4)
   integer :: j
@@ -1363,7 +1363,7 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
   include 'avh_olo_complex.h90'
-    ,intent(out) :: rslt(0:2) 
+    ,intent(out) :: rslt(0:2)
   include 'avh_olo_complex.h90'
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34,qy1,qy2
@@ -1450,7 +1450,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r34/r13
     endif
   else
-    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2 
+    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2
   endif
 !
   rslt(0) = -rslt(0)/(aa*sm1*sm2*sm3*sm4)
@@ -1464,7 +1464,7 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
   include 'avh_olo_complex.h90'
-    ,intent(out) :: rslt(0:2) 
+    ,intent(out) :: rslt(0:2)
   include 'avh_olo_complex.h90'
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m3,m4
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qy1,qy2,qtt

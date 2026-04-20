@@ -36,14 +36,14 @@ PROCESS= $(patsubst %(dotf)s,%(doto)s,$(wildcard polynomial.f)) \
 %(doto)s : %(dotf)s
 	$(FC) $(FFLAGS) -c $< %(tir_include)s
 
-all: cleanlib $(LOOPLIB) 
+all: cleanlib $(LOOPLIB)
 
-$(LOOPLIB): $(PROCESS)   
+$(LOOPLIB): $(PROCESS)
 	@ar cr $(LOOPLIB) $(PROCESS)
 	mv $(LOOPLIB) ../
 
 clean: cleanlib
-		@rm -f *.o 
+		@rm -f *.o
 
 cleanlib:
 	rm -f ../$(LOOPLIB) $(PROG)

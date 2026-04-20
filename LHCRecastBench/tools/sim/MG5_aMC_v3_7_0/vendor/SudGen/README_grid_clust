@@ -10,15 +10,15 @@
  of a bi-linear interpolation of the tabulated nodal values. This is
  performed by the CERNLIB routine dfint (also provided with the code).
 
-1. There is one NEP per type of parton (the gluon, and all quarks up 
+1. There is one NEP per type of parton (the gluon, and all quarks up
  to the top; charge-conjugation invariance is assumed), and per type
  of dipole (II, IF, FI, and FF). Each of these depends on the parton
  mass as defined by the PSMC, on the shower variable (st), and on the
  dipole mass (xm). We construct a table for all possible parton type
  and dipole type (thus, 28 tables in total). The parton masses are
  fixed by means of the file MCmasses_PYTHIA8.inc. The nodal values of
- any two-dimensional table are the NEP values at given (st,xm) points. 
- There are nnst=100 st points and nnxm=50 xm points, distributed 
+ any two-dimensional table are the NEP values at given (st,xm) points.
+ There are nnst=100 st points and nnxm=50 xm points, distributed
  in a pre-determined manner, which is in turn controlled by the input
  parameter inode, in the ranges stlow<st<stupp and xmlow<xm<xmupp.
  The template pre-tabulated NEPs presently shipped with MG5_aMC
@@ -45,7 +45,7 @@
   - threshold below which the NEP is set equal to zero (xlowthrs).
   - type of distribution of the nodal values (inode).
   - random seed (ifk88seed)
- Among the input parameters, xlowthrs is a positive dimensionless number 
+ Among the input parameters, xlowthrs is a positive dimensionless number
  that must be set equal to a very small value (e.g. 10^(-4)), whereas
  inode is an integer, whose possible values are 1, 2, and 3. In practice,
  inode=1 is what has been used during the development phase; inode=2 is
@@ -91,16 +91,10 @@
    dipole type, j = parton type, k = integer identifying xm nodal value).
 
 4. Run "./grid_combine.sh".
-   This step collects all files grid_i_j_k.txt into grid_i_j.txt. 
+   This step collects all files grid_i_j_k.txt into grid_i_j.txt.
 
 5. Run "make gridsudcomb".
 
 6. Run "./gridsudcomb < gridsudcomb_input".
    This step copies the content of the grid_i_j.txt files to the final
    sudakov_template.f output file
-
-
-
-
-
-

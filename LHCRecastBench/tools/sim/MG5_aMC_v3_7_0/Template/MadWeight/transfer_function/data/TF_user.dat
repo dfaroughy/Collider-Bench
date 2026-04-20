@@ -28,10 +28,10 @@
 ##          - a delta functions for the rest                            ##
 ##########################################################################
 ##                                                                      ##
-##   Syntax/variables:                                                  ## 
+##   Syntax/variables:                                                  ##
 ##                                                                      ##
 ##  - a definition for transfer functions should define the variable tf ##
-##    while a definition for the width shoud define the variable width  ##                               
+##    while a definition for the width shoud define the variable width  ##
 ##	- You can use all standard f77 functions. (All variables are	##
 ##		in double precision format). 	                        ##
 ##	- The experimental event is  defined by the variable pexp(i)    ##
@@ -81,13 +81,13 @@
   <info> define simple gaussian for energy and delta for THETA/PHI </info>
      # "info" block will provide information in the generated transfer_card.dat
   <particles> e </particles>
-     # "particles block define for which particle this transfer function 
-     #    will be used. the input in this block must be label in 
+     # "particles block define for which particle this transfer function
+     #    will be used. the input in this block must be label in
      #    particles.dat (or special tag as x1,x2,met)
   <width_type> thin </width_type>
-     #  "width_type" could be large or thin. thin is for acurate resolution 
+     #  "width_type" could be large or thin. thin is for acurate resolution
      #     on the Energy of the particles (up to 5-10%)
-  <variable name='E'> 
+  <variable name='E'>
      <include>
 c    additional variable to add if default are not enough
      integer k ! not use but for the example!
@@ -103,11 +103,11 @@ c
      </tf>
       # this block defines the transfer function in fortran
      <width>
-        width=prov2 	
+        width=prov2
      </width>
      # this block defines the typical width of the transfer functions
   </variable>
- # in this case THETA/PHI are not defined because they are considered 
+ # in this case THETA/PHI are not defined because they are considered
  # in delta (=default)
 </block>
 
@@ -115,8 +115,8 @@ c
 ##**********************************************************************##
 ##                           TF JET                                     ##
 ##**********************************************************************##
-## define binned simple gaussian for energy 
-##        simple guassian for  THETA 
+## define binned simple gaussian for energy
+##        simple guassian for  THETA
 ##        delta for PHI variable
 <block name="jet">
   <info> Transfer function for jet.
@@ -127,11 +127,11 @@ c
   </info>
   # "info" block will provide information in the generated transfer_card.dat
   <particles> u,d,s,c,b,g </particles>
-     # "particles block define for which particle this transfer function 
-     #    will be used. the input in this block must be label in 
+     # "particles block define for which particle this transfer function
+     #    will be used. the input in this block must be label in
      #    particles.dat (or special tag as x1,x2,met)
   <width_type> thin </width_type>
-     #  "width_type" could be large or thin. thin is for acurate resolution 
+     #  "width_type" could be large or thin. thin is for acurate resolution
      #     on the Energy of the particles (up to 5-10%)
   <variable name='E'>
     <tf>
@@ -148,7 +148,7 @@ c
         tf=1d0/dsqrt(2d0*pi)/prov2*exp(-(p(0)-pexp(0)-prov1)**2/2d0/prov2**2)         !first gaussian
       </tf>
       <width>
-        width=prov2 	
+        width=prov2
       </width>
     </variable>
     #pass to theta
@@ -162,7 +162,7 @@ c
         tf=1d0/dsqrt(2d0*pi)/prov2*exp(-(p(0)-pexp(0)-prov1)**2/2d0/prov2**2)         !first gaussian
       </tf>
       <width>
-        width=prov2 	
+        width=prov2
       </width>
     </variable>
     #phi is in delta -> nothing to write

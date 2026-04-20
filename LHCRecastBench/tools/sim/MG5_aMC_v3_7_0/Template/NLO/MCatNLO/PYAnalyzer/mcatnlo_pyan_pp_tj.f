@@ -97,7 +97,7 @@ C----------------------------------------------------------------------
       parameter(NPL=15000)
       common/c_analysis/nwgt_analysis
       OPEN(UNIT=99,FILE='PYTST.top',STATUS='UNKNOWN')
-C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG 
+C XNORM IS SUCH THAT THE CROSS SECTION PER BIN IS IN PB, SINCE THE HERWIG
 C WEIGHT IS IN NB, AND CORRESPONDS TO THE AVERAGE CROSS SECTION
       XNORM=1.D0/IEVT
       DO I=1,NPL
@@ -229,7 +229,7 @@ C TOP
               P_TOP(MU,1)=P(IHEP,MU)
            ENDDO
         ENDIF
-c Define particles that go into jet. 
+c Define particles that go into jet.
         IF (IST.LE.10.AND.ABS(ID).GE.100)THEN
            NTRACKS=NTRACKS+1
            if (abs(id1).eq.5) THEN
@@ -266,12 +266,12 @@ C CHECK MOMENTUM AND CHARGE CONSERVATION
          WRITE(*,*) 'NO TRACKS FOUND, DROP ANALYSIS OF THIS EVENT'
          GOTO 999
       ENDIF
-         
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C KT ALGORITHM, FASTJET IMPLEMENTATION
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       NJET=0
-      JET_KTRADIUS = 0.7D0          
+      JET_KTRADIUS = 0.7D0
       JET_KTPTMIN  = 5D0
       PALG=1D0
       CALL fastjetppgenkt(PTRACK,NTRACKS,JET_KTRADIUS,JET_KTPTMIN,PALG,
@@ -284,8 +284,8 @@ c Check that jets are ordered in pt
             stop
          endif
       enddo
-         
-C b-jet 
+
+C b-jet
       do i=1,njet
          is_b_jet(i)=.false.
          do j=1,NB
@@ -372,7 +372,7 @@ c fill the histograms
             endif
          enddo
       enddo
-      
+
  999  RETURN
       END
 

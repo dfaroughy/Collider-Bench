@@ -34,7 +34,7 @@
             else
               pts = 100000
             endif
-c            write(*,*) 'Grid before iteration'            
+c            write(*,*) 'Grid before iteration'
 c            call DS_print_global_info()
             call approx(pts,computed_int,'norm')
             write(*,*) '=== ITERATION #'//trim(toStr(j))//' with '//
@@ -48,10 +48,10 @@ c            call DS_print_global_info()
      &       trim(toStr(this_acc*100.0d0,'Fw.3'))
             write(*,*) 'avg rel. diff (%) :   ',
      &       trim(toStr(avg_acc*100.0d0,'Fw.3'))
-            write(*,*) 'Grid before update'            
+            write(*,*) 'Grid before update'
             call DS_print_global_info()
             call DS_update_grid('TestDim')
-c            write(*,*) 'Grid after update'            
+c            write(*,*) 'Grid after update'
 c            call DS_print_global_info('TestDim')
           enddo
           call DS_write_grid('rrrr.dsg','TestDim')
@@ -61,7 +61,7 @@ c            call DS_print_global_info('TestDim')
 
 
       subroutine approx(n_trials,res,mode)
-          use DiscreteSampler          
+          use DiscreteSampler
          integer n_trials
          character(len=*) mode
          real*8 res, to_test, computed_int, jac, func

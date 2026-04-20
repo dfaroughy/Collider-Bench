@@ -93,7 +93,7 @@ void mcfio_infostreamchar_(int *stream, int *key,
     mcfioC_InfoStreamChar(*stream, *key, aString, lret);
     ll1 = *lret;
     if (ll1 > length) ll1 = length;
-    strncpy(answer, aString, ll1); 
+    strncpy(answer, aString, ll1);
     free(aString);
 }
 
@@ -107,12 +107,12 @@ void mcfio_infoeventchar_(int *Event, int *key, char *answer,
 {
     char *aString;
     int ll1;
-    
+
     aString = (char *)  malloc(sizeof(char) * (FILENAME_MAX + 1));
     mcfioC_InfoEventChar(*Event, *key, aString, lret);
     ll1 = *lret;
     if (ll1 > length) ll1 = length;
-    strncpy(answer, aString, ll1); 
+    strncpy(answer, aString, ll1);
     free(aString);
 }
 
@@ -125,24 +125,24 @@ void mcfio_infoblockchar_(int *Event, int *blkId,
                           int *key, char *answer, int *lret, int length)
 {
     char *aString;
-    
+
     int ll1;
-    
+
     aString = (char *)  malloc(sizeof(char) * (FILENAME_MAX + 1));
     mcfioC_InfoBlockChar(*Event, *blkId, *key, aString, lret);
     ll1 = *lret;
     if (ll1 > length) ll1 = length;
-    strncpy(answer, aString, ll1); 
+    strncpy(answer, aString, ll1);
     free(aString);
 }
 
 void mcfio_getblockname_(int *blkId, char *answer, int length)
 {
     char *aString;
-    
+
     aString = (char *)  malloc(sizeof(char) * (FILENAME_MAX + 1));
     mcfioC_GetBlockName(*blkId, aString);
-    strncpy(answer, aString, length); 
+    strncpy(answer, aString, length);
     free(aString);
 }
 
@@ -150,7 +150,7 @@ void mcfio_defineuserblock_(int *blkId, char *name,
                    bool_t xdr_filter, int *current_size, int length)
 {
     char *aString;
-    
+
     aString = mallocNCopyMcfio(name, length);
     mcfioC_DefineUserBlock(*blkId, aString, xdr_filter, current_size);
     free(aString);
@@ -161,13 +161,13 @@ int mcfio_declarentuple_(int *uid, char*title, char *category,
 {
     char *aString, *bString, *cString;
     int iret;
-    
+
     aString = mallocNCopyMcfio(title, la);
     bString = mallocNCopyMcfio(category, lb);
-    cString = mallocNCopyMcfio(filename, lc); 
+    cString = mallocNCopyMcfio(filename, lc);
     iret = mcfioC_DeclareNtuple(*uid, aString, bString, *stream, cString);
     free(aString); free(bString); free(cString);
-    return iret;    
+    return iret;
 }
 
 int mcfio_enddeclntuples_(int *stream)
@@ -177,53 +177,53 @@ int mcfio_enddeclntuples_(int *stream)
 
 
 int mcfio_getntupleids_(int *stream, int *ids, int *max)
-{    
+{
     return mcfioC_GetNTupleIds(*stream, ids, *max);
-}    
+}
 
 int mcfio_getntupleuid_(int *stream, int *id)
-{    
+{
     return mcfioC_GetNTupleUID(*stream, *id);
 }
-    
+
 int mcfio_getntuplecategory_(int *stream, int *id, char *category, int ll)
-{ 
+{
     int iret, lret;
     char *aString;
     mcfioC_GetNTupleCategory(*stream, *id, &aString);
     lret = strlen(aString);
     if (ll > lret) strcpy(category, aString);
     else strncpy(category, aString, (ll-1));
-    return lret;    
-}    
+    return lret;
+}
 
 int mcfio_getntupletitle_(int *stream, int *id, char *title, int ll)
-{ 
+{
     int iret, lret;
     char *aString;
     mcfioC_GetNTupleTitle(*stream, *id, &aString);
     lret = strlen(aString);
     if (ll > lret) strcpy(title, aString);
     else strncpy(title, aString, (ll-1));
-    return lret;    
-}    
-   
+    return lret;
+}
+
 int mcfio_getntuplename_(int *stream, int *id, char *name, int ll)
-{ 
+{
     int iret, lret;
     char *aString;
     mcfioC_GetNTupleName(*stream, *id, &aString);
     lret = strlen(aString);
     if (ll > lret) strcpy(name, aString);
     else strncpy(name, aString, (ll-1));
-    return lret;    
+    return lret;
 }
-    
+
 int mcfio_openreaddirect_(char *filename, int length)
 {
     char *aString;
     int iret;
-    
+
     aString = mallocNCopyMcfio(filename, length);
     iret =  mcfioC_OpenReadDirect(aString);
     if (aString != NULL) free(aString);
@@ -234,19 +234,19 @@ int mcfio_openreadmapped_(char *filename, int length)
 {
     char *aString;
     int iret;
-    
+
     aString = mallocNCopyMcfio(filename, length);
     iret =  mcfioC_OpenReadMapped(aString);
     if (aString != NULL) free(aString);
     return iret;
 }
 
-int mcfio_openreadsequential_(char *device, char *vsn, 
+int mcfio_openreadsequential_(char *device, char *vsn,
                                  int *filenumber, int l1, int l2)
 {
     char *aString, *bString;
     int iret;
-    
+
     aString = mallocNCopyMcfio(device, l1);
     bString = mallocNCopyMcfio(vsn,l2);
     iret =  mcfioC_OpenReadSequential(aString, bString, *filenumber);
@@ -258,61 +258,61 @@ int mcfio_openreadsequential_(char *device, char *vsn,
 void mcfio_setforsavedecoding_(int *value)
 {
   mcfioC_SetForSaveDecoding(*value);
-}     
+}
 
-int mcfio_openwritedirect_(char *filename, char *title, char *comment, 
+int mcfio_openwritedirect_(char *filename, char *title, char *comment,
                            int *numevts_pred, int *blkIds, int *nBlocks,
                            int ll1, int ll2, int ll3)
 {
     char *aString, *bString, *cString;
     int iret;
-    
+
     aString = mallocNCopyMcfio(filename, ll1);
     bString = mallocNCopyMcfio(title, ll2);
     cString = mallocNCopyMcfio(comment, ll3);
-    iret =  mcfioC_OpenWriteDirect(aString, bString, cString, 
+    iret =  mcfioC_OpenWriteDirect(aString, bString, cString,
                      *numevts_pred, blkIds, (unsigned int) *nBlocks);
-    if (aString != NULL) free(aString); 
+    if (aString != NULL) free(aString);
     if (bString != NULL) free(bString);
     if (cString != NULL) free(cString);
     return iret;
 }
-                 
-int mcfio_openwritesequential_(char *device, char *vsn, char *title, 
-                           char *comment, int *numevts_pred, int *blkIds, 
+
+int mcfio_openwritesequential_(char *device, char *vsn, char *title,
+                           char *comment, int *numevts_pred, int *blkIds,
                            int *nBlocks, int ll1, int ll2, int ll3, int ll4)
 {
     char *aString, *bString, *cString, *dString;
     int iret;
-    
+
     aString = mallocNCopyMcfio(device, ll1);
     bString = mallocNCopyMcfio(vsn, ll2);
     cString = mallocNCopyMcfio(title, ll3);
     dString = mallocNCopyMcfio(comment, ll4);
-    iret =  mcfioC_OpenWriteSequential(aString, bString, cString, dString, 
+    iret =  mcfioC_OpenWriteSequential(aString, bString, cString, dString,
                      *numevts_pred, blkIds, (unsigned int) *nBlocks);
-    if (aString != NULL) free(aString); 
+    if (aString != NULL) free(aString);
     if (bString != NULL) free(bString);
     if (cString != NULL) free(cString);
-    if (dString != NULL) free(dString); 
+    if (dString != NULL) free(dString);
      return iret;
 }
 
 int mcfio_nextevent_(int *stream)
 {
     return mcfioC_NextEvent(*stream);
-}    
+}
 
 int mcfio_specificevent_(int *stream, int * ievt,
                              int *istore, int *irun, int *itrig)
 {
     return mcfioC_SpecificEvent(*stream, *ievt, *istore, *irun, *itrig);
 }
-    
+
 int mcfio_nextspecificevent_(int *stream,int * ievt,
                              int *istore, int *irun, int *itrig)
 {
-    return mcfioC_NextSpecificEvent(*stream, 
+    return mcfioC_NextSpecificEvent(*stream,
                                      *ievt, *istore, *irun, *itrig);
 }
 
@@ -325,19 +325,19 @@ int mcfio_block_(int *stream, int *blkid,
 int mcfio_ntuple_(int *stream, int *ntupleid, char *version, int ll)
 {
 /*
-** Note we do not copy the string this time, as we are interested in the 
+** Note we do not copy the string this time, as we are interested in the
 ** address, not the content
 */
     return mcfioC_NTuple(*stream, *ntupleid, version);
 }
-    
-     
+
+
 int mcfio_ntuplemult_(int *stream, int *ntupleid, char *version, int ll)
 {
     return mcfioC_NTupleMult(*stream, *ntupleid, version);
 }
 
-int mcfio_ntuplevar_(int *stream, int *ntupleid, int *ivar, 
+int mcfio_ntuplevar_(int *stream, int *ntupleid, int *ivar,
                        char *version, int ll)
 {
    int ivarF;
@@ -360,7 +360,7 @@ int mcfio_ntuplesubstruct_(int *stream, int *ntupleid,
 {
    int multIndexF;
    multIndexF = (*multIndex) -1;
-   return mcfioC_NTupleSubStruct(*stream, *ntupleid, 
+   return mcfioC_NTupleSubStruct(*stream, *ntupleid,
                                   multIndexF, version);
 }
 
@@ -368,10 +368,10 @@ int mcfio_ntuplesubstruct_(int *stream, int *ntupleid,
 char *mallocNCopyMcfio(char *string, int length)
 {
     char *str;
-    
+
     if (string == NULL) return NULL;
     if (length < 0) {
-    	fprintf(stderr, 
+    	fprintf(stderr,
     	"hs: Error. Character argument has negative length, setting to null\n");
     	length = 0;
     }
@@ -400,7 +400,7 @@ static void cleanFortranString(char *string, int length)
 abcdefghijklmnopqrstuvwxyz1234567890/~!@#$%^&*()_+=-`\"\'?><,.\\[]{}:; \t";
     char *inPtr, *outPtr;
     int i;
-    
+
     /* remove junk characters */
     inPtr = outPtr = string;
     for (i=1; i<=length; i++) {
@@ -409,15 +409,13 @@ abcdefghijklmnopqrstuvwxyz1234567890/~!@#$%^&*()_+=-`\"\'?><,.\\[]{}:; \t";
     	else
     	    inPtr++;
     }
-    
+
     /* remove trailing spaces */
     for (outPtr--; outPtr>=string; outPtr--)
     	if (*outPtr != ' ' && *outPtr != '\0')
     	    break;
-    
+
     /* add a null to terminate the string */
     ++outPtr;
     *outPtr = '\0';
 }
-
-

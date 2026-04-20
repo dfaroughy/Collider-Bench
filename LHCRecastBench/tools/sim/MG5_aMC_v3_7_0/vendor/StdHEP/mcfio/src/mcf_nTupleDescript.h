@@ -14,8 +14,8 @@ enum varTypes {BYTE_NTU, CHARACTER_NTU, INTEGER2_NTU, LOGICAL_NTU,
                INTEGER_NTU, REAL_NTU,
                DBL_PRECISION_NTU, COMPLEX_NTU, DBL_COMPLEX_NTU, POINTER_NTU};
 
-enum orgStyles {PARALLEL_ARRAY_NTU, DATA_STRUCT_NTU};               
-               
+enum orgStyles {PARALLEL_ARRAY_NTU, DATA_STRUCT_NTU};
+
 #define N_VAR_TYPES 10
 #define MAX_VAR_NAME  31
 #define MAX_NTU_TITLE 80
@@ -37,7 +37,7 @@ typedef struct {
     int  dimensions[MAX_VAR_DIMENSIONS+1];
                       /* Variable dims, not counting the multiplicity one*/
     size_t lengthW;   /* Used in XDR filtering, length in words */
-    size_t lengthB; /* Used in XDR filtering, length in byte */                
+    size_t lengthB; /* Used in XDR filtering, length in byte */
     long offset;    /* The variable virtual address for a given instance */
     u_int offsetXDR; /* The variable relative address within the struct. */
 } varGenNtuple;
@@ -61,26 +61,25 @@ typedef struct {
     varGenNtuple **variables; /* The variable descriptions */
     int *varOrdering;    /* Ordering of the variables for the dbin, .h..  file*/
     int firstIndexed;    /* Once ordered, the first indexed for indexed part */
-} descrGenNtuple; 
+} descrGenNtuple;
 
 /*
-** A Data structure to hold a DDL, without MOTIF widget, to be used in 
+** A Data structure to hold a DDL, without MOTIF widget, to be used in
 ** stand alone mode in mcfio.
 */
 
 typedef struct nTuDDLRec {
     int id;             /* The id of the NTuple, as returned to the user */
     int seqNTuId;	/* The sequential number for this particular stream */
-    int uid;            /* The user Id, Unique (within a Category) id */    
+    int uid;            /* The user Id, Unique (within a Category) id */
     char *category;
     char *title;
     char *dbinFileName; /* dbin filename, not guarantted to be there. */
     int streamId;       /* The stream on which this ddl is assigned to */
-    int referenceId;     
+    int referenceId;
     struct nTuDDLRec *reference;
-                       /* the reference in case a similar ddl has already 
+                       /* the reference in case a similar ddl has already
     			   been installed in the running image. */
-    			   
-    descrGenNtuple *descrNtu; /* The Ntuple Descriptor */
-} nTuDDL;    
 
+    descrGenNtuple *descrNtu; /* The Ntuple Descriptor */
+} nTuDDL;

@@ -11,7 +11,7 @@
       character*(*) filename
       return
       end
-      
+
       subroutine ctsstatistics(n_mp,n_disc)
       implicit none
       integer n_mp,n_disc

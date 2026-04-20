@@ -1,8 +1,8 @@
       subroutine ggggxx(ga,gb,gc,gd,g, vertex)
 c
-c This subroutine computes the portion of the amplitude of the four-point 
-c coupling of 4 massless color octet gauge bosons (gluons) corresponding 
-c to the color structure f^{a,b,e} f{c,d,e}. 
+c This subroutine computes the portion of the amplitude of the four-point
+c coupling of 4 massless color octet gauge bosons (gluons) corresponding
+c to the color structure f^{a,b,e} f{c,d,e}.
 c To optain the complete amplitude, this coupling must be called three
 c times (once for each color structure) with the following permutations:
 c	call ggggxx(ga,gb,gc,gd,g,v1)
@@ -13,13 +13,13 @@ c	f^{a,b,e} f{c,d,e}*v1+
 c	f^{a,c,e} f{d,b,e}*v2+
 c	f^{a,d,e} f{b,c,e}*v3
 c (See 2.9.1 of the manual for more information).
-c                                                                       
-c input:                                                                
-c       complex ga(0:3)        : Boson with adjoint color index a 
+c
+c input:
+c       complex ga(0:3)        : Boson with adjoint color index a
 c       complex gb(0:3)        : Boson with adjoint color index b
-c       complex gc(0:3)        : Boson with adjoint color index c 
+c       complex gc(0:3)        : Boson with adjoint color index c
 c       complex gd(0:3)        : Boson with adjoint color index d
-c       real    g              : coupling of w31 with w-/w+             
+c       real    g              : coupling of w31 with w-/w+
 c
       implicit none
       double complex ga(6),gb(6),gc(6),gd(6),vertex

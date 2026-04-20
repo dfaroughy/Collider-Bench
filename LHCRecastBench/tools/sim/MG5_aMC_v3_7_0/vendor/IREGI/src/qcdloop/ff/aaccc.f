@@ -106,7 +106,7 @@
 *  #] declarations:
 *  #[ really real?:
 *
-	if ( DIMAG(cpi(1)).eq.0 .and. DIMAG(cpi(2)).eq.0 .and. 
+	if ( DIMAG(cpi(1)).eq.0 .and. DIMAG(cpi(2)).eq.0 .and.
      +	     DIMAG(cpi(3)).eq.0 ) then
 	    do i=1,6
 	    	xpi(i) = DBLE(cpi(i))

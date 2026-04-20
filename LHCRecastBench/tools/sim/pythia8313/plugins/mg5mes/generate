@@ -25,8 +25,8 @@ For general usage there are three required options.
 --model=MODEL  : Model to use, either internal or external [sm]. When external,
                  specify either the relative, e.g. "./sm", or absolute path.
 --output=OUT   : Output directory for the generated matrix elements [kernels].
---process=PROC : Process or processes to generate ["p p > e+ e-"]. Multiple 
-                 processes can be passed, e.g. 
+--process=PROC : Process or processes to generate ["p p > e+ e-"]. Multiple
+                 processes can be passed, e.g.
                  ./generate --process="p p > e+ e-" --process="p p > mu+ mu-"
 
 Advanced usage is possible where the --process option is no longer
@@ -152,7 +152,7 @@ echo "set group_subprocesses True" > $MG_CFG
 
 # Run a user supplied card.
 if [ "$CARD_SET" == true ]; then
-  if [ -f $CARD ]; then 
+  if [ -f $CARD ]; then
     cp $CARD $MG_CFG;
     if [ "$VERBATIM_SET" != true ]; then
 	echo "output PY8MEs $OUTPUT_DIR" >> $MG_CFG; fi

@@ -32,7 +32,7 @@ c
          CALL MBOOK(1,-1*i,t2,GeVbin,100d0,1300d0)
       enddo
       return
-      
+
       end
 ccccCcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
@@ -62,10 +62,10 @@ c---
         Ptot(nu)=0d0
         do i=3,nexternal
           Ptot(nu)=Ptot(nu)+momenta(nu,i)
-        enddo 
-      enddo 
+        enddo
+      enddo
       minv=dsqrt(Ptot(0)**2-Ptot(1)**2-Ptot(2)**2-Ptot(3)**2)
-      
+
       CALL MFILL(1,200, minv, fct*weight)
       CALL MFILL(1,-200, minv, fct**2*weight)
 
@@ -75,11 +75,11 @@ cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCcc
       subroutine histo_final(num_channel)
 c
 c     argument
-c   
+c
       integer num_per
 c
 c     local
-c      
+c
       integer i,num_iter,j,k
       character*30 BUFFER
       character istring
@@ -88,9 +88,9 @@ c     gobal
 c
       double precision GeVbin, etabin, xbin
       common/to_bin/ GeVbin, etabin, xbin
-c     
+c
 c     include histo globlal
-c      
+c
       include 'dbook.inc'
 
       do k=1,NHistovar
@@ -104,7 +104,7 @@ c     if (i.eq.2) istring='2'
             call MOPERA(k, i, '*',-i,i,1d0,1d0) !contains final estimation of integral
 
             if(i.ne.1) then
-               call MOPERA(k,i, '+',1,1,1d0,1d0) 
+               call MOPERA(k,i, '+',1,1,1d0,1d0)
                call MOPERA(k, -i, '+',-1,-1,1d0,1d0)
             endif
 
@@ -137,7 +137,7 @@ c     if (i.eq.2) istring='2'
          CALL MPRINT(k, -1)
          CALL MTOP(k, -1,50,'  M_INV  (GeV)     '
      &        ,'d P/d M_inv   ','log')
-c     
+c
          close(98)
          close(99)
       enddo
@@ -149,11 +149,11 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       implicit none
 c
 c     argument
-c   
+c
       integer channel_pos
 c
 c     local
-c      
+c
       integer i,num_iter,j,k
       character*30 BUFFER
       character istring
@@ -162,13 +162,13 @@ c     gobal
 c
       double precision GeVbin, etabin, xbin
       common/to_bin/ GeVbin, etabin, xbin
-c     
+c
 c     include histo globlal
-c      
+c
       include 'dbook.inc'
 c      call MFINAL(i)
 c      call MFINAL(-1*i)
-      
+
       do k=1,NHistoVar
 
       call MFINAL(k, 200)
@@ -190,4 +190,3 @@ c      call MFINAL(-1*i)
       enddo
       return
       end
-

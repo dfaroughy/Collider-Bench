@@ -52,10 +52,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
-      
+
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine analysis_fill(p,istatus,ipdg,wgts,ibody)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -199,7 +199,7 @@ c
         if(ptpair.gt.0) call HwU_fill(l+20,(log10(ptpair)),WGTS)
       endif
 
- 999  return      
+ 999  return
       end
 
 
@@ -215,7 +215,7 @@ c
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

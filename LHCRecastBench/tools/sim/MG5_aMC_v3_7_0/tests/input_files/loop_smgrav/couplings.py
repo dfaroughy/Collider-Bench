@@ -440,11 +440,3 @@ GC_1090 = Coupling(name = 'GC_1090',
 GC_1096 = Coupling(name = 'GC_1096',
                  value = '-ytau',
                  order = {'QED':1})
-
-
-
-
-
-
-
-

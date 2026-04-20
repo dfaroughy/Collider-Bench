@@ -7,31 +7,31 @@ c**                                                                    **
 c************************************************************************
 
       program testprog
-      
+
       call setpara('param_card.dat')
 
 
-      
+
       call printout
 
       end
 
 c$$$c
 c$$$c     program testing the running. need to modify the makefile accordingly
-c$$$c      
+c$$$c
 c$$$      program testprog
 c$$$      implicit none
-c$$$c     define the function that run alphas 
+c$$$c     define the function that run alphas
 c$$$      DOUBLE PRECISION ALPHAS
 c$$$      EXTERNAL ALPHAS
 c$$$c     get the value of gs
 c$$$      include '../coupl.inc'
-c$$$c     for initialization of the running      
+c$$$c     for initialization of the running
 c$$$      include "../alfas.inc"
-c$$$c     include parameter from the run_card (usefull for the running)      
+c$$$c     include parameter from the run_card (usefull for the running)
 c$$$      INCLUDE '../maxparticles.inc'
 c$$$c      INCLUDE '../run.inc'
-c$$$c     local 
+c$$$c     local
 c$$$      integer i
 c$$$      double precision mu,as
 c$$$
@@ -48,9 +48,9 @@ c$$$     $                fixed_ren_scale,fixed_fac_scale1, fixed_fac_scale2,
 c$$$     $                fixed_couplings, fixed_extra_scale,ickkw,nhmult,hmult,asrwgtflavor,
 c$$$     $                dynamical_scale_choice
 c$$$
-c$$$      
 c$$$
-c$$$c     read the param_card 
+c$$$
+c$$$c     read the param_card
 c$$$      call setpara('param_card.dat')
 c$$$c     define your running for as...
 c$$$      fixed_extra_scale = .false.

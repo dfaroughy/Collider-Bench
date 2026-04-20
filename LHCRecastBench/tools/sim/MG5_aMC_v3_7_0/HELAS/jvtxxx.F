@@ -1,6 +1,6 @@
       subroutine jvtxxx(vc,tc,gt,vmass,vwidth , jvt)
 c
-c This subroutine computes an off-shell vector current from 
+c This subroutine computes an off-shell vector current from
 c the coupling of two gauge bosons and a tensor boson.
 c
 c input:
@@ -12,7 +12,7 @@ c       real    vwidth         : width of output vector v'
 c
 c output:
 c       complex jvt(6)         : vector current             j^mu(v':v,T)
-c     
+c
 c- by Q.Li - OCT. 2006
 c
       implicit none
@@ -52,7 +52,7 @@ c
       ft(4,4) = tc(16)
       ft(5,1) = tc(17)
       ft(6,1) = tc(18)
- 
+
       jvt(5) = vc(5)+ft(5,1)
       jvt(6) = vc(6)+ft(6,1)
 
@@ -69,13 +69,13 @@ c
       do i=1,4
          do j=1,4
             MET(i,j) = 0.0d0
-         enddo 
+         enddo
       enddo
       MET(1,1) =  1.0d0
       MET(2,2) = -1.0d0
       MET(3,3) = -1.0d0
       MET(4,4) = -1.0d0
-      
+
       T00 = ft(1,1)-ft(2,2)-ft(3,3)-ft(4,4)
       T12 = ft(1,2) + ft(2,1)
       T13 = ft(1,3) + ft(3,1)
@@ -98,10 +98,10 @@ c
          dum   = ft(i,i)*vc(i)
          TK2V1 = TK2V1 + dum*pv2(i)
       end do
-      
+
       TKK   = rTwo*TKK
       TK2V1 = rTwo*TK2V1
-      
+
       TKK = TKK - T12*(pv1(1)*pv2(2) + pv1(2)*pv2(1))
      &          - T13*(pv1(1)*pv2(3) + pv1(3)*pv2(1))
      &          - T14*(pv1(1)*pv2(4) + pv1(4)*pv2(1))
@@ -156,7 +156,7 @@ c
      &-ft(3,3)*pv1(3)-ft(3,4)*pv1(4))
      &-MET(j,4)*(ft(4,1)*pv1(1)-ft(4,2)*pv1(2)
      &-ft(4,3)*pv1(3)-ft(4,4)*pv1(4))
-     
+
       enddo
 
       if ( vmass.ne.rZero ) then
@@ -172,13 +172,13 @@ c
      &+TKK*vc(i)
      &-K2V1*TKM(i)
      &+F/vmass**2*TK2V1*pv2(i)
-	 
+
             jvt(i)=jvt(i)*gt/dcmplx(pp2-vmass**2, vmass*vwidth )
 
          enddo
 
       else
-	
+
          do i=1,4
 
             jvt(i) = -F*T00*vc(i)
@@ -188,12 +188,12 @@ c
      &-TK2V1*(pv1(i)+pv2(i))
      &+TKK*vc(i)
      &-(K2V1+K1V1)*TKM(i)
-  
+
             jvt(i)=jvt(i)*gt/dcmplx(pp2, 0.0d0)
-            
+
          enddo
 
-         
+
       endif
 
       return

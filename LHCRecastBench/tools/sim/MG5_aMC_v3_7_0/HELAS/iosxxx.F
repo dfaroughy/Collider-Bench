@@ -11,7 +11,7 @@ c       complex gc(2)          : coupling constants                 gchf
 c
 c output:
 c       complex vertex         : amplitude                     <fo|s|fi>
-c     
+c
       implicit none
       double complex fi(6),fo(6),sc(3),gc(2),vertex
       INTEGER DIM

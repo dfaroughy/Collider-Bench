@@ -14,7 +14,7 @@
 *  nvtx - index in vertex list
 *
 ************************************************************************
-    
+
       implicit none
 
 #include "stdhep.inc"
@@ -49,12 +49,12 @@ c  set the initial list entry and call gsvert
       endif
 
 c
-c search for matches 
-c use differences rather than exact matches 
+c search for matches
+c use differences rather than exact matches
 c
-      mvtx = 0    
+      mvtx = 0
       do i=1,lvtx
-          if(abs(vhep(1,istd) - vtx_list(1,i)) .lt. 0.0001 .and. 
+          if(abs(vhep(1,istd) - vtx_list(1,i)) .lt. 0.0001 .and.
      1       abs(vhep(2,istd) - vtx_list(2,i)) .lt. 0.0001 .and.
      2       abs(vhep(3,istd) - vtx_list(3,i)) .lt. 0.0005 .and.
      3       abs(vhep(4,istd) - vtx_list(4,i)) .lt. 0.0005 ) then

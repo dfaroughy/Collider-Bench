@@ -22,7 +22,7 @@ LIBDIR=lib
 LIBDIRARCH=lib/archive
 PROCDIR=%(process_dir)s
 
-all: $(targets) 
+all: $(targets)
 
 CPPFLAGS= -I../$(INCDIR1) -I../$(INCDIR2)
 LIBS=-L../$(LIBDIRARCH) -L../lib -lpythia8 -l$(PROCDIR) -lz

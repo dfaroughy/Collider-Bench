@@ -3,7 +3,7 @@ c
 c- by RF - Feb. 2006
 c
 c This subroutine computes the off-shell vector current
-c in terms of the vector w1 and tensor jt 
+c in terms of the vector w1 and tensor jt
 c
 c     input:
 c         complex ga                  : incoming vector boson
@@ -72,4 +72,3 @@ c tensor indices the indices of the outgoing vector current
 
       return
       end
-

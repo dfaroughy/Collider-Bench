@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -58,7 +58,7 @@ class TestCmdLoop(unittest.TestCase):
         # Below the key is the name of the logger and the value is a tuple with
         # first the handlers and second the level.
         self.logger_saved_info = {}
-    
+
     def generate(self, process, model):
         """Create a process"""
         try:
@@ -72,16 +72,16 @@ class TestCmdLoop(unittest.TestCase):
         else:
             for p in process:
                 self.interface.onecmd('add process %s' % p)
-        self.interface.onecmd('output /tmp/MGPROCESS -f')      
-    
+        self.interface.onecmd('output /tmp/MGPROCESS -f')
+
     def do(self, line):
-        """ exec a line in the interface """        
+        """ exec a line in the interface """
         self.interface.exec_cmd(line)
-    
+
     @classmethod
     def setup_logFile_for_logger(cls,full_logname,restore=False,level=logging.DEBUG):
         """ Setup the logger by redirecting them all to logfiles in tmp """
-        
+
         logs = full_logname.split('.')
         lognames = [ '.'.join(logs[:(len(logs)-i)]) for i in\
                                             range(len(full_logname.split('.')))]
@@ -90,7 +90,7 @@ class TestCmdLoop(unittest.TestCase):
             cls.tmp_path = {}
 
         for logname in lognames:
-            my_logger = logging.getLogger(logname)       
+            my_logger = logging.getLogger(logname)
             if restore:
                 try:
                     if hasattr(cls, tmp_path) and logname in cls.tmp_path:
@@ -103,7 +103,7 @@ class TestCmdLoop(unittest.TestCase):
                     h.setLevel(cls.logger_saved_info[logname][2][i])
             else:
                 cls.tmp_path[logname] = tempfile.mktemp('', 'tmp', None)
-                hdlr = logging.FileHandler(cls.tmp_path[logname])     
+                hdlr = logging.FileHandler(cls.tmp_path[logname])
                 # I assume below that the orders of the handlers in my_logger.handlers
                 # remains the same after having added/removed the FileHandler
                 cls.logger_saved_info[logname] = [hdlr,my_logger.level,\
@@ -117,7 +117,7 @@ class TestCmdLoop(unittest.TestCase):
         if not restore:
             for logname in lognames:
                 logging.getLogger(logname).debug('Log of %s'%logname)
-    
+
     def notest_ML_launch_gg_ddx(self):
         """test that the output works fine for g g > d d~ [virt=QCD]"""
 
@@ -127,14 +127,14 @@ class TestCmdLoop(unittest.TestCase):
             self.generate(['g g > d d~ [virt=QCD]'], 'loop_sm')
             self.assertEqual(cmd, os.getcwd())
             self.do('launch -f')
-            
+
             # Test that the result of the run is present.
             self.assertTrue(path.isfile('/tmp/MGPROCESS/SubProcesses/P0_gg_ddx/result.dat'))
             # Test that the Helicity filter is correctly configured.
             self.assertTrue(path.isfile('/tmp/MGPROCESS/SubProcesses/P0_gg_ddx/HelFilter.dat'))
             # Test that the cmdprint log file is there
             self.assertTrue(path.isfile('/tmp/cmdprint.ext_program.log'))
-            # Test that it contains the expected output. 
+            # Test that it contains the expected output.
             # Of course I could setup a detailed regexpr to make sure the values
             # in the output are not NaN or so, but it is not really the idea of these
             # acceptance tests.
@@ -143,13 +143,13 @@ class TestCmdLoop(unittest.TestCase):
                 open('/tmp/cmdprint.ext_program.log').read()
             )
         except:
-            self.setup_logFile_for_logger('cmdprint.ext_program',restore=True)      
+            self.setup_logFile_for_logger('cmdprint.ext_program',restore=True)
             raise
         self.setup_logFile_for_logger('cmdprint.ext_program',restore=True)
 
     def test_ML_check_brs_gd_gd(self):
         """test that the brs check works fine on g d > g d"""
-        
+
         self.setup_logFile_for_logger('madgraph.check_cmd')
         try:
             cmd = os.getcwd()
@@ -166,13 +166,13 @@ class TestCmdLoop(unittest.TestCase):
             self.assertIn('BRS', res)
             self.assertIn('Passed', res)
         except:
-            self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)      
+            self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)
             raise
         self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)
 
     def test_ML_check_full_epem_ttx(self):
         """ Test that check full e+ e- > t t~ works fine """
-        
+
         self.setup_logFile_for_logger('madgraph.check_cmd')
         try:
             cmd = os.getcwd()
@@ -201,7 +201,7 @@ class TestCmdLoop(unittest.TestCase):
 
     def test_ML_check_timing_epem_ttx(self):
         """ Test that check timing e+ e- > t t~ works fine """
-        
+
         self.setup_logFile_for_logger('madgraph.check_cmd')
         try:
             cmd = os.getcwd()
@@ -219,7 +219,7 @@ class TestCmdLoop(unittest.TestCase):
             self.assertIn('Generation time total', res)
             self.assertIn('Executable size', res)
             self.assertTrue(not 'NA' in res)
-            
+
             # Now for a Reuse-run
             self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)
             self.setup_logFile_for_logger('madgraph.check_cmd')
@@ -250,7 +250,7 @@ class TestCmdLoop(unittest.TestCase):
             self.do('import model loop_sm')
             if path.isdir(pjoin(MG5DIR,'SAVEDTMP_CHECK_epem_ttx')):
                 shutil.rmtree(pjoin(MG5DIR,'SAVEDTMP_CHECK_epem_ttx'))
-            
+
             # Make sure it works for an initial run
             self.do('check profile -reuse e+ e- > t t~ [virt=QCD]')
             self.assertEqual(cmd, os.getcwd())
@@ -298,8 +298,8 @@ class TestCmdLoop(unittest.TestCase):
             self.do('import model sm')
             self.do('define l- = e- mu-')
             self.do('define l+ = e+ mu+')
-            self.do('define vl = ve vm vt')   
-            self.do('define vl~ = ve~ vm~ vt~')       
+            self.do('define vl = ve vm vt')
+            self.do('define vl~ = ve~ vm~ vt~')
             # Make sure it works for an initial run
             command = 'check cms -reuse a l- > l- vl vl~ '
             options = {'name':'acceptance_test_alm_lmvlvlx_LO',
@@ -309,7 +309,7 @@ class TestCmdLoop(unittest.TestCase):
                        'resonances':'all',
                        'recompute_width':'first_time',
                        'report':'full'}
-            self.do(command+' '.join('--%s=%s'%(opt, value) for opt, value in 
+            self.do(command+' '.join('--%s=%s'%(opt, value) for opt, value in
                                                                options.items()))
             self.assertEqual(cwd, os.getcwd())
             self.assertTrue(path.isfile(self.tmp_path['madgraph.check_cmd']))
@@ -325,7 +325,7 @@ class TestCmdLoop(unittest.TestCase):
             self.assertIn('Summary: 10/10 passed.', res)
             self.assertTrue(path.isfile(pjoin(MG5DIR,
                                          'acceptance_test_alm_lmvlvlx_LO.pkl')))
-            
+
             # Now for a reuse run using --analyze
             self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)
             self.setup_logFile_for_logger('madgraph.check_cmd')
@@ -340,13 +340,13 @@ class TestCmdLoop(unittest.TestCase):
             self.assertIn('Summary: 10/10 passed.', res)
             self.assertTrue(path.isfile(pjoin(MG5DIR,
                                          'acceptance_test_alm_lmvlvlx_LO.pkl')))
-            
+
             # Finally rerun it but this time using lambda_diff_power = 2
             self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)
             self.setup_logFile_for_logger('madgraph.check_cmd')
             os.remove(pjoin(MG5DIR,'acceptance_test_alm_lmvlvlx_LO.pkl'))
             options['diff_lambda_power']='2'
-            self.do(command+' '.join('--%s=%s'%(opt, value) for opt, value in 
+            self.do(command+' '.join('--%s=%s'%(opt, value) for opt, value in
                                                                options.items()))
             self.assertEqual(cwd, os.getcwd())
             self.assertTrue(path.isfile(self.tmp_path['madgraph.check_cmd']))
@@ -387,18 +387,18 @@ class TestCmdLoop(unittest.TestCase):
         for f in files:
             if os.path.exists(f):
                 os.remove(f)
-                
+
         output_name = 'SAVEDTMP_CHECK_acceptance_test_aem_emvevex__%s__'
-        
+
         try:
             cwd = os.getcwd()
-            
+
             # Change this when we will make the CMS-ready EW model the default
             self.do('import model loop_qcd_qed_sm')
             for mode in ['NWA','CMS']:
                 if path.isdir(pjoin(MG5DIR,output_name%mode)):
                     shutil.rmtree(pjoin(MG5DIR,output_name%mode))
-            
+
             # Make sure it works for an initial run
             command = 'check cms -reuse a e- > e- ve ve~ [virt=QCD QED] '
             options = {'name':'acceptance_test_aem_emvevex',
@@ -408,9 +408,9 @@ class TestCmdLoop(unittest.TestCase):
                        'resonances':'2',
                        'recompute_width':'first_time',
                        'report':'full'}
-            cmd = command+' '.join('--%s=%s'%(opt, value) for opt, value in 
+            cmd = command+' '.join('--%s=%s'%(opt, value) for opt, value in
                                                                 options.items())
-            
+
             #print "Running first CMS check cmd: %s" %cmd
             self.do(cmd)
             self.assertEqual(cwd, os.getcwd())
@@ -427,7 +427,7 @@ class TestCmdLoop(unittest.TestCase):
             res = open(pjoin(MG5DIR,'acceptance_test_aem_emvevex.log')).read()
             self.assertEqual(res.count('=== FAILED ==='), 0)
             self.assertEqual(res.count('=== PASSED ==='), 2)
-                        
+
             # Now for a Reuse-run with the widths modified by 1%
             self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)
             self.setup_logFile_for_logger('madgraph.check_cmd')
@@ -440,7 +440,7 @@ class TestCmdLoop(unittest.TestCase):
                         pjoin(MG5DIR,output_name%mode,'Cards','param_card.dat'))
             options['tweak']='allwidths->1.1*allwidths(widths_increased)'
             options['recompute_width']='never'
-            cmd = command+' '.join('--%s=%s'%(opt, value) for opt, value in 
+            cmd = command+' '.join('--%s=%s'%(opt, value) for opt, value in
                                                                 options.items())
             # print "Running second CMS check cmd: ",cmd
             self.do(cmd)
@@ -457,7 +457,7 @@ class TestCmdLoop(unittest.TestCase):
                      'acceptance_test_aem_emvevex_widths_increased.log')).read()
             self.assertEqual(res.count('=== FAILED ==='), 2)
             self.assertEqual(res.count('=== PASSED ==='), 0)
-        
+
             # Clean up duties
             for mode in ['NWA','CMS']:
                 shutil.rmtree(pjoin(MG5DIR,output_name%mode))
@@ -484,7 +484,7 @@ class TestCmdLoop(unittest.TestCase):
         self.setup_logFile_for_logger('madgraph.check_cmd',restore=True)
 
 class TestCmdMatchBox(IOTests.IOTestManager):
-    
+
     def setUp(self):
         """ Initialize the test """
 
@@ -496,7 +496,7 @@ class TestCmdMatchBox(IOTests.IOTestManager):
 
         # Select the Tensor Integral to include in the test
         misc.deactivate_dependence('pjfry', cmd = self.interface, log='stdout')
-        misc.deactivate_dependence('samurai', cmd = self.interface, log='stdout')        
+        misc.deactivate_dependence('samurai', cmd = self.interface, log='stdout')
         misc.deactivate_dependence('golem', cmd = self.interface, log='stdout')
         misc.activate_dependence('ninja', cmd = self.interface, log='stdout',MG5dir=MG5DIR)
         misc.activate_dependence('collier', cmd = self.interface, log='stdout',MG5dir=MG5DIR)
@@ -505,7 +505,7 @@ class TestCmdMatchBox(IOTests.IOTestManager):
     def testIO_MatchBoxOutput(self):
         r""" target: TEST/SubProcesses/P1_uux_uux/[.+\.(inc|f)]
             target: TEST/SubProcesses/P0_wpwm_wpwm/[.+\.(inc|f)]"""
-        
+
         cmd = """
         import model sm
         generate w+ w- > w+ w- @0
@@ -513,11 +513,11 @@ class TestCmdMatchBox(IOTests.IOTestManager):
         generate u u~ > u u~ [virt=QCD] @1
         output matchbox %(path)s/TEST -f
         """ % {'path': self.IOpath}
-        
+
         for line in cmd.split('\n'):
             self.interface.exec_cmd(line)
- 
-    
+
+
 #===============================================================================
 # IOTestMadLoopOutputFromInterface
 #===============================================================================
@@ -532,12 +532,12 @@ class IOTestMadLoopOutputFromInterface(IOTests.IOTestManager):
         interface.no_notification()
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
-        
+
         # Select the Tensor Integral to include in the test
         misc.deactivate_dependence('pjfry', cmd = interface, log='stdout')
-        misc.deactivate_dependence('samurai', cmd = interface, log='stdout')        
+        misc.deactivate_dependence('samurai', cmd = interface, log='stdout')
         misc.deactivate_dependence('golem', cmd = interface, log='stdout')
         misc.activate_dependence('ninja', cmd = interface, log='stdout',MG5dir=MG5DIR)
 
@@ -548,9 +548,3 @@ class IOTestMadLoopOutputFromInterface(IOTests.IOTestManager):
         IOTests.IOTest.remove_f77_function_from_file(
                     pjoin(self.IOpath,'ggttx_IOTest', 'SubProcesses','MadLoopCommons.f'),
                     'PRINT_MADLOOP_BANNER')
-        
-
-
-
-
-

@@ -28,7 +28,7 @@ c where the sc charge is defined by the flowing-OUT quantum number.
 c
 c output:
 c       complex hvs(3)         : scalar current                j(s':v,s)
-c     
+c
       implicit none
       double complex vc(6),sc(3),hvs(3),dg,qvv,qpv,gc
       double precision qv(0:3),qp(0:3),qa(0:3),smass,swidth,q2
@@ -98,9 +98,9 @@ c
       if ( swidth.eq.rZero .and. q2.eq.smass**2 ) then
          write(stdo,*)
      &        ' helas-error : hvs in hvsxxx is on smass pole'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : q     = ',qa(0),qa(1),qa(2),qa(3)
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : abs(q)= ',sqrt(abs(q2))
          hvs(1) = cZero
          return

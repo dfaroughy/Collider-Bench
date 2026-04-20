@@ -17,7 +17,7 @@ except:
        os.path.isfile(pjoin(root_path,'f2py_wrapper.f')) and \
        not os.path.isfile(pjoin(root_path,'matrix2py.so')):
         print("Trying to automatically generate the python module 'matrix2py.so' with f2py...")
-        p = subprocess.Popen(['make','matrix2py.so'], stdout=subprocess.PIPE, 
+        p = subprocess.Popen(['make','matrix2py.so'], stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE, cwd=root_path)
         (out, err) = p.communicate()
         if p.returncode or not os.path.isfile(pjoin(root_path,'matrix2py.so')):
@@ -73,7 +73,7 @@ if p[0][0] is None:
         sys.exit(0)
     try:
         for i, line in enumerate(open(pjoin(root_path,'PS.input'),'r').readlines()):
-            if i==len(p): break        
+            if i==len(p): break
             p[i]=[float(line.split()[j]) for j in range(4)]
     except:
         print("ERROR: File PS.input is malformed. Error was:\n",sys.exc_info()[0])
@@ -81,7 +81,7 @@ if p[0][0] is None:
 P =invert_momenta(p)
 # Alpha_s value
 alphas = 0.118
-# -1 means that the MadLoop averages/sum over helicity configuration. 
+# -1 means that the MadLoop averages/sum over helicity configuration.
 # If a positive integer is picked it corresponds to the position of the helicity configuration listed in the file
 # 'MadLoop5_resouces/ML5_<id>_HelConfigs.dat'
 nhel = -1 # means sum over all helicity

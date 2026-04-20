@@ -14,4 +14,3 @@ NP = CouplingOrder(name = 'NP',
 QCD = CouplingOrder(name = 'QCD',
                     expansion_order = 99,
                     hierarchy = 1)
-

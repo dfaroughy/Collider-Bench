@@ -72,4 +72,3 @@ bool_t xdr_variable(XDR *xdrs, variable_s *dbobj)
   if (!xdr_array(xdrs,(char **) &idat,&ui,ui,sizeof(int),(xdrproc_t) xdr_int)) return 0;
   return 1;
 }
-

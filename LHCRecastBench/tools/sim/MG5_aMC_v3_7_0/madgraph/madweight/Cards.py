@@ -71,16 +71,16 @@ def create_include_file(MWparam):
 #1 #########################################################################
 class Card(dict):
     """ The routine to read and treat all the card (but the run_card.dat)"""
-    
+
     #2 #########################################################################
     def __init__(self,file,type=''):
-        
+
         dict.__init__(self)
         self.info = self #retro compatibility
-        
+
         self.file=file
         self.charged = 0 # most of the file are automaticaly read, but not all
-        
+
         if not type:
             self.type=self.detect_type()
         else:
@@ -90,31 +90,31 @@ class Card(dict):
             self.read(self.file)
         elif(self.type in ['ident']):
             self.read_ident()
-        
-        
 
-    #3 #########################################################################           
+
+
+    #3 #########################################################################
     def detect_type(self):
         """detect the type of the card """
-        
+
         return self.file.split('/')[-1].split('_')[0].lower()
-        
-        
+
+
     #2 #########################################################################
     def read_card(self,name_card):
         """ DEPRECIATED """
         print("warning depreciated funtion read_card in use")
         raise Exception
         self.read(name_card)
-        
+
     #2 #########################################################################
     def read(self,name_card):
         """put all card information in a dictionary"""
-        
+
         self.charged=1
 
         p_block=re.compile(r'''^block\s+(?P<block>\w*)\s*(?P<comment>.*)''',re.I)
-        
+
         get_comment = False
         if 'madweight' in name_card.lower():
             get_comment = True
@@ -148,14 +148,14 @@ class Card(dict):
 
             if '#' in line:
                 line_content, comment= line.split('#',1)
-            else: 
+            else:
                 line_content = line
                 comment = ''
             line_content = line_content.strip()
             comment = comment.strip()
             if not line_content:
                 continue
-            
+
             #deal with line as   queue '-o test -d u'
             if "'" in line_content:
                 begin = line_content.find("'")
@@ -176,7 +176,7 @@ class Card(dict):
                 line_content=[decay_tag]+line_content[2:]+[line_content[0]]
                 if 'br' not in list(info.keys()):
                     info['br']={}
-                    
+
             #create list of dictionary
             obj=line_content[-1]
             for i in range(-2,-len(line_content)-1,-1):
@@ -187,7 +187,7 @@ class Card(dict):
                 dico['comment'] = {}
             if get_comment:
                 comments = dico['comment']
-            
+
             if len(line_content)==1:
                 dico[' ']=obj
             for i in range(0,len(line_content)-1):
@@ -216,7 +216,7 @@ class Card(dict):
     #2 #########################################################################
     def read_ident(self):
         """ read ident file only four and five column format are supported yet """
-        
+
         self.charged=1
         try:
             ff=open(self.file,'r')
@@ -243,13 +243,13 @@ class Card(dict):
                 ident[block]={tag:[name,type,value]}
             else:
                 ident[block][tag]=[name,type,value]
-                
+
         return ident
-    
 
 
-    
-   
+
+
+
 
 
     #2 #########################################################################
@@ -259,8 +259,8 @@ class Card(dict):
 
             Default value are used only if the block is defined in the card but not the entry
         """
-        
-        
+
+
         logger.debug('create file %s' % output)
         out=open(output,'w')
         out.writelines('C automatic include file for card '+self.file+' and '+card.file+'\n\n')
@@ -271,8 +271,8 @@ class Card(dict):
         elif self.type=='ident':
             info=card.info
             ident=self.info
-        
-        for block in info.keys(): 
+
+        for block in info.keys():
             if block in ident:
                 for tag in ident[block].keys():
                     if tag in info[block]:
@@ -289,8 +289,8 @@ class Card(dict):
 
             Default value are used only if the block is defined in the card but not the entry
         """
-        
-        
+
+
         logger.debug('create file %s' % output)
         out=open(output+'transfer_card.inc','w')
         out.writelines('C automatic include file for card '+self.file+' and '+card.file+'\n\n')
@@ -301,12 +301,12 @@ class Card(dict):
         elif self.type=='ident':
             info=card.info
             ident=self.info
-        
-        nb_element = 0    
-        
+
+        nb_element = 0
+
         #template = "        DATA ( %s(I), I=1,nb_tf) / %s /\n"
-        template = "        %s(%s) = %s \n"    
-        for block in info.keys(): 
+        template = "        %s(%s) = %s \n"
+        for block in info.keys():
             if block in ident:
                 for tag in ident[block].keys():
                     type_format = ident[block][tag][1]
@@ -323,7 +323,7 @@ class Card(dict):
                     # check that all element have the same number of input
                     if not nb_element:
                         nb_element = len(values)
-                    elif nb_element != len(values):    
+                    elif nb_element != len(values):
                         print(nb_element, len(values))
                         raise Exception('All input in tranfer_card.dat should have the same number of element')
 
@@ -331,9 +331,9 @@ class Card(dict):
                     out.writelines(''.join(template % (ident[block][tag][0], i+1,val)
                                            for i,val in enumerate(values)))
                     out.writelines('\n')
-                    
-                    
-                    
+
+
+
                     #if info[block].has_key(tag):
                     #    value=self.pass_in_type(info[block][tag],ident[block][tag][1])
                     #    out.writelines('        '+ident[block][tag][0]+' = '+str(value)+'\n')
@@ -341,13 +341,13 @@ class Card(dict):
                     #    value=self.pass_in_type(ident[block][tag][2],ident[block][tag][1])
                     #   out.writelines('        '+ident[block][tag][0]+' = '+str(value)+'\n')
         if nb_element ==0:
-            nb_element = 1          
+            nb_element = 1
         fsock = open(pjoin(output,'nb_tf.inc'),'w')
         fsock.write("""
         integer nb_tf
         parameter (nb_tf=%i)
         """ % nb_element)
-        
+
 
 
     #3 #########################################################################
@@ -372,13 +372,13 @@ class Card(dict):
             return value
         else:
             print('error in type for',value,type)
-            
+
     #3 #########################################################################
     def write(self, output):
 
         if isinstance(output, str):
             output = open(output, 'w')
-                
+
         header = """##########################################################################
 ##                                                                      ##
 ##                             MadWeigth                                ##
@@ -401,7 +401,7 @@ class Card(dict):
 ##########################################################################
 """
         output.write(header)
-        
+
         for key in self:
             if key == 'comment':
                 continue
@@ -414,29 +414,29 @@ class Card(dict):
                     key2 = '%s'.join(map(str, key2))
                 comment = ''
                 try:
-                    comment = self[key]['comment'][key2] 
+                    comment = self[key]['comment'][key2]
                 except Exception:
                     pass
-                    
+
                 if not isinstance(value, list):
                     value = [value]
                 for value in value:
                     output.write('    %s   %s    #%s\n' % (key2,value,comment))
-        
-        
-        
-        
-        
+
+
+
+
+
 
 
 
 
 class Particles_file(Card):
     """ all routine linked to particles.dat file """
-    
+
     #2 #########################################################################
     def __init__(self,file='./Source/MODEL/particles.dat',type=''):
-        
+
         self.charged = False
         if not os.path.exists(file):
             self.v4model = False
@@ -462,7 +462,7 @@ class Particles_file(Card):
                                             (?P<label>[\w+-~]{1,5})\s+
                                             (?P<pid>[\d-]*)\s*$''',re.VERBOSE)
             ff=open(self.file,'r')
-    
+
             particle=[]
             while 1:
                 line=ff.readline()
@@ -471,8 +471,8 @@ class Particles_file(Card):
                 pat_particle=particle_pattern.search(line)
                 if pat_particle:
                     particle.append(list(pat_particle.groups()))
-                
-            self.info={'particles':particle} 
+
+            self.info={'particles':particle}
         else:
             # UFO MODEL
             try:
@@ -481,14 +481,14 @@ class Particles_file(Card):
                 sys.path.append(pjoin(os.getcwd(), 'bin'))
                 sys.path.append(pjoin(os.getcwd(), 'bin','internal','ufomodel'))
                 import internal.ufomodel.particles as particles
-            
+
             v4_part_info = []
             done = []
             for p in particles.all_particles:
                 if p.pdg_code in done:
                     continue
                 done += [p.pdg_code,-1*p.pdg_code]
-                info = [p.name, 
+                info = [p.name,
                         p.antiname,
                         p.spin,
                         p.line,
@@ -499,17 +499,17 @@ class Particles_file(Card):
                         p.pdg_code]
                 v4_part_info.append([str(i) for i in info])
             self.info={'particles':v4_part_info}
-        
-        
+
+
     #3 #########################################################################
     def give_pid_dict(self):
         """ return a list of pid for each tag -d'ont treat multiple tag-"""
- 
+
         if not self.charged:
             self.read() #not automaticly read for the moment
         pid={}
         for data in self.info['particles']:
-            
+
             if data[0]==data[1]:
                 pid.update({data[0]:[int(data[-1])]})
             else:
@@ -523,9 +523,9 @@ class Particles_file(Card):
         """ return two dict {pid:fortran_mass_code} and {pid:fortran_width_code}
             pid value are always positive
         """
-        
-        
-        
+
+
+
         if not self.charged:
             self.read() #not automaticly read for the moment
         dict_mass={}
@@ -534,24 +534,24 @@ class Particles_file(Card):
             pid=abs(int(data[-1]))
             mass=data[-5]
             width=data[-4]
-           
+
             # Adding model prefixing
             if mass.lower() != 'zero':
                 dict_mass[pid]='mdl_%s' % mass
-            else: 
+            else:
                 dict_mass[pid] = str(mass)
             if width.lower() != 'zero':
                 dict_width[pid] = 'mdl_%s' % width
             else:
                 dict_width[pid] =  str(width)
-             
+
 #        return {1: 'ZERO', 2: 'ZERO', 3: 'ZERO', 4: 'ZERO', 5: 'MB', 6: 'MT', 11: 'ZERO', 12: 'ZERO', 13: 'ZERO', 14: 'ZERO', 15: 'MTA', 16: 'ZERO', 21: 'ZERO', 22: 'ZERO', 23: 'MZ', 24: 'MW', 25: 'MH'}, {1: 'ZERO', 2: 'ZERO', 3: 'ZERO', 4: 'ZERO', 5: 'ZERO', 6: 'WT', 11: 'ZERO', 12: 'ZERO', 13: 'ZERO', 14: 'ZERO', 15: 'ZERO', 16: 'ZERO', 21: 'ZERO', 22: 'WA', 23: 'WZ', 24: 'WW', 25: 'WH'}
 
-        return dict_mass,dict_width 
+        return dict_mass,dict_width
 
     #3 #########################################################################
     def give_pid_to_label(self):
-        """ return a dict {pid:label} 
+        """ return a dict {pid:label}
         """
 
 
@@ -562,12 +562,12 @@ class Particles_file(Card):
 #        for data in self.info['particles']:
 #            pid=abs(int(data[-1]))
 #            label=data[-2]
-            
-#            out[pid]=label
-            
-            
 
-        return out 
+#            out[pid]=label
+
+
+
+        return out
 
 def read_leshouches_file(filepos):
     """ read a leshouches.inc file and returns [list of pid] in the MG order """
@@ -577,8 +577,8 @@ def read_leshouches_file(filepos):
     pid_pat=re.compile(r'''\s*DATA\s*\(IDUP\(I,\s*\d+\s*,\s*\d+\s*\),I=\d,\s*\d+\s*\)/(?P<pid>[\-,\s\d]*)/''',re.I)
 
 
-#    mass_pat=re.compile(r'''^\s*pmass\(\s*(?P<MG_id>\d+)\s*\)\s*=\s*(?P<mass>\w+)''',re.I)   
-    
+#    mass_pat=re.compile(r'''^\s*pmass\(\s*(?P<MG_id>\d+)\s*\)\s*=\s*(?P<mass>\w+)''',re.I)
+
     dict_pid={}
     ff=open(filepos,'r')
     while 1:
@@ -595,6 +595,5 @@ def read_leshouches_file(filepos):
             ff.close()
             break
         old_line = line
-    
-    return pid_list
 
+    return pid_list

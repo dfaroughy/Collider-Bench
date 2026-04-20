@@ -397,4 +397,3 @@ muH = Parameter(name = 'muH',
                 type = 'real',
                 value = 'cmath.sqrt(lam*v**2)',
                 texname = '\\mu ')
-

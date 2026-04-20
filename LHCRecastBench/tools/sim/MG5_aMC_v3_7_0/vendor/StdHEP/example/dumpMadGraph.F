@@ -1,6 +1,6 @@
       program dumpMadGraph
 c
-c	read a MadGraph ascii file and write an ascii dump 
+c	read a MadGraph ascii file and write an ascii dump
 c
 
       implicit none
@@ -53,7 +53,7 @@ c...close event file
       close(lnhdmp)
       close(lnhpdf)
       end
-      
+
       subroutine setrup
 
 #include "heprup.inc"
@@ -71,7 +71,7 @@ C...Set PDF's of incoming beams: CTEQ 5L.
       PDFGUP(2)=PDFGUP(1)
       PDFSUP(2)=PDFSUP(1)
 
-C...Number of external processes. 
+C...Number of external processes.
       NPRUP=1
 
       XSECUP(1)=0.

@@ -41,7 +41,7 @@ def main():
                     if name == "Bash":
                         cmd = inp.get("command", "")
                         # Collapse multi-line commands into a readable summary
-                        lines = [l.strip() for l in cmd.strip().split("\n") if l.strip()]
+                        lines = [ln.strip() for ln in cmd.strip().split("\n") if ln.strip()]
                         display = " && ".join(lines)
                         # Shorten the conda activation boilerplate
                         display = display.replace(

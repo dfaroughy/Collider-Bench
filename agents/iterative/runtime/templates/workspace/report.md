@@ -2,7 +2,7 @@ Status: `CONTINUE`
 
 ## What Was Done
 
-- 
+-
 ## Status
 
 | Artifact | Status |
@@ -17,10 +17,8 @@ Status: `CONTINUE`
 | `HEPRecastData/<file_name>.yaml` |  |
 
 
-- 
+-
 
 ## Possible Issues
 
-- 
-
-
+-

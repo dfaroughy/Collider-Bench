@@ -23,7 +23,7 @@
 ##      |     +  create_map_file                                        ##
 ##      |     +  mod_content                                            ##
 ##      |     |    -  mod_with_diff                                     ##
-##      |     |    -  mod_with_fct                                      ##  
+##      |     |    -  mod_with_fct                                      ##
 ##      |     +  add_content                                            ##
 ##      |     +  write_card                                             ##
 ##      |     |    -  create_blok_text                                  ##
@@ -74,7 +74,7 @@ class Param_card:
         if run_name:
             print('starting the creation of the param_card')
             self.create_set_card(run_name)
-            
+
     #2#########################################################################
     def charge_card(self,name):
         """ charge the card """
@@ -86,7 +86,7 @@ class Param_card:
     #2#########################################################################
     def mod_content(self,line_content):
         """ modify an entry in info """
-        
+
 #        line_content_old=list(line_content)
         name_blok=line_content[1]
         tag=line_content[0]
@@ -119,19 +119,19 @@ class Param_card:
             You should prefer to use mod_with_fct (more general)
         """
         diff=line_content[-1]
-        number_of_tag=(len(line_content)-1)//2 #-1 because of the value                                                                                              
+        number_of_tag=(len(line_content)-1)//2 #-1 because of the value
         start_value=self.info[name_blok]
         for i in range(0,number_of_tag):
             start_value=prec_value[line_content[number_of_tag+i]]
         new_value=str(float(start_value)+float(diff))
 
         return [line_content[i] for i in range(0,number_of_tag)]+[new_value]
-        
+
     #3 #########################################################################
     def mod_with_fct(self,name_blok,line_content,level):
         """ modify the line content to fix the parameter in fixing the mass differences
             entry line_content doesn't content the name blok information
-        """        
+        """
 
         pat=re.compile(r'''\$(\d+)3''')
         fct=line_content[-2]
@@ -142,7 +142,7 @@ class Param_card:
             string0='self.info[self.MWparam[\'mw_parameter\'][\''+str(10*int(param_nb)+1)+'\'].split(\'_\')[-1]]' #select the blok name
             string=string0
             if type(self.MWparam['mw_parameter'][str(10*int(param_nb)+2)])==str:
-                string+='[\''+str(self.MWparam['mw_parameter'][str(10*int(param_nb)+2)])+'\']' 
+                string+='[\''+str(self.MWparam['mw_parameter'][str(10*int(param_nb)+2)])+'\']'
             else:
                 for id in self.MWparam['mw_parameter'][str(10*int(param_nb)+2)]:
                     if id[0] not in['\'','\"']:  string+='[\''+str(id)+'\']'                       # the function start with '
@@ -157,17 +157,17 @@ class Param_card:
 
         return [line_content[i] for i in range(0,len(line_content)-2)]+[str(new_value)]
 
-    #2#########################################################################                                
+    #2#########################################################################
     def add_content(self,line_content):
         """ add new content in info """
-        
+
         name_block=line_content[0]
         line_content=line_content[1:]
         #create list of dictionary
         obj=line_content[-1]
         for i in range(-2,-len(line_content)-1,-1):
             obj={line_content[i]:obj}
-                    
+
 
         #put in final data
         dico=self.info[name_block]
@@ -223,10 +223,10 @@ class Param_card:
         if decay:
             text=self.create_decay_text()
             ff.writelines(text)
-            
+
         ff.close()
         self.creating_card+=1
-        
+
     #3#########################################################################
     def create_blok_text(self,blok_name):
         """write the param_card with name $name """
@@ -239,7 +239,7 @@ class Param_card:
             sys.exit()
 
         return text+prop_text
-            
+
     #3#########################################################################
     def create_line_text(self,obj,key_tag=""):
 
@@ -255,7 +255,7 @@ class Param_card:
             for data in obj:
                 text+=data+' $ '
             text+='$\n'
-            
+
         return text
 
 
@@ -276,10 +276,10 @@ class Param_card:
             if br:
                 if key in list(br.keys()):
                     text+=self.create_br_text(br[key])
-            
+
 
         return text
-    
+
     #3#########################################################################
     def create_br_text(self,obj):
         """write the param_card with name $name """
@@ -315,28 +315,28 @@ class Param_card:
             return begin+[obj]
 
         return content
-    
+
     #2#########################################################################
     def create_set_card(self,name):
         """ create all the card from schedular in file name """
         self.creating_card=1 #tag to know card under creation
         self.wrong_generation=[] #can happen if fct is wrongly defined -> automatic desactivation
-        
+
         if type(name)==str:
             self.MWparam=MW_param.read_card(name)
         else:
             self.MWparam=name
-        
+
         if self.MWparam['mw_parameter']['2']:
-            self.file_ParamInfo=open('./Cards/info_card.dat','a')	            
+            self.file_ParamInfo=open('./Cards/info_card.dat','a')
         else:
             print('define new mapping file')
-            self.file_ParamInfo=open('./Cards/info_card.dat','w')	            
+            self.file_ParamInfo=open('./Cards/info_card.dat','w')
 
         param_list=self.create_change_tag(self.MWparam)
 
         if not self.source:
-            self.charge_card('param_card.dat')            
+            self.charge_card('param_card.dat')
         if self.MWparam['mw_parameter']['1'] == 0:
             self.check_exist()
             self.define_mapping_file()
@@ -352,13 +352,13 @@ class Param_card:
         print('we have created ',num-1,' param_card\'s')
         if self.wrong_generation:
             print('but ',len(self.wrong_generation),' are desactivated')
-                        
+
         if self.MWparam['mw_parameter']['2']:
             self.update_event_dir()
 
     #3#########################################################################
     def update_event_dir(self):
-            
+
         #update event directory
         self.file_mapping.close()
         self.MWparam.def_actif_param()
@@ -406,22 +406,22 @@ class Param_card:
             print('add card in mapping file')
             gap=self.MWparam.nb_card
             self.file_mapping=open('./Cards/mapping_card.dat','a')
-            self.file_ParamInfo=open('./Cards/info_card.dat','a')	            
+            self.file_ParamInfo=open('./Cards/info_card.dat','a')
         else:
             print('define new mapping file')
             gap=0
             self.file_mapping=open('./Cards/mapping_card.dat','w')
-            self.file_ParamInfo=open('./Cards/info_card.dat','w')	            
+            self.file_ParamInfo=open('./Cards/info_card.dat','w')
 
 
         if self.MWparam['mw_parameter']['1']==0:
             self.define_mapping_file_for0gen(gap)
         elif self.MWparam['mw_parameter']['1']==1:
-            self.define_mapping_file_for1gen(gap)	        
-        elif self.MWparam['mw_parameter']['1']==2:	       
+            self.define_mapping_file_for1gen(gap)
+        elif self.MWparam['mw_parameter']['1']==2:
             self.define_mapping_file_for2gen(gap)
-            
-            
+
+
 
 
     #3#########################################################################
@@ -440,14 +440,14 @@ class Param_card:
         syntax:
         card_nb param1 param2 ... paramX valid
         """
-        
+
         start=1+gap
         nb_new_card=1
         nb_param=1
-        while str(nb_param*10+1) in self.MWparam.info['mw_parameter']:		
+        while str(nb_param*10+1) in self.MWparam.info['mw_parameter']:
             nb_new_card*=len(self.MWparam['mw_parameter'][str(nb_param*10+3)])
             nb_param+=1
-                        
+
         for card in range(start,start+nb_new_card):
             line=str(card)+'\t'
             param_pos=self.MWparam.CardNb_to_ParameterTag(card)
@@ -460,7 +460,7 @@ class Param_card:
                 line+='0 \n'
             else:
                 line+='1 \n'
-            
+
             self.file_mapping.writelines(line)
 
     #3#########################################################################
@@ -469,12 +469,12 @@ class Param_card:
         syntax:
         card_nb param1 param2 ... paramX valid
         """
- 
+
         start=1+gap
         nb_new_card=1
         nb_param=1
-        
-        nb_block,nb_data_by_block=self.MWparam.give_block_param_info()		        
+
+        nb_block,nb_data_by_block=self.MWparam.give_block_param_info()
         for card in range(start,start+nb_data_by_block[0]):
             line=str(card)+'\t'
             for param in range(1,nb_block+1):
@@ -487,9 +487,9 @@ class Param_card:
                 line+='0 \n'
             else:
                 line+='1 \n'
-                                
+
             self.file_mapping.writelines(line)
-            
+
     #3#########################################################################
     def create_change_tag(self,info):
         """ create list of possible modification """
@@ -517,7 +517,7 @@ class Param_card:
 
         return output
 
-            
+
     #3#########################################################################
     def generated_uncorolated_card(self,param_list,num=1):
         """ create the card in a uncoralated way """
@@ -527,8 +527,8 @@ class Param_card:
             self.creating_card+=gap
         else:
             gap=0
-                                        
-        
+
+
         new_list=param_list[1:]
         for data in param_list[0]:
             self.mod_content(data)
@@ -538,11 +538,11 @@ class Param_card:
                 self.write_card('param_card_'+str(num+gap)+'.dat')
                 num=num+1
         return num
-            
 
 
-    
-            
+
+
+
     #3#########################################################################
     def generated_corolated_card(self,param_list):
         """ create the card in a coralated way """
@@ -552,21 +552,21 @@ class Param_card:
             if len(param_list[i])!=len(param_list[i+1]):
                 print("""ERROR: all parameters don't have the same number of entries""")
                 sys.exit()
-                
+
         # 2) pass in all case
         if self.MWparam['mw_parameter']['2']:
             gap=1+self.MWparam.nb_card
             self.creating_card+=gap
         else:
             gap=1
-            
+
         for i in range(0,len(param_list[0])):
             for j in range(0,len(param_list)):
                 self.mod_content(param_list[j][i])
             self.write_card('param_card_'+str(i+gap)+'.dat')
 
         return len(param_list[0])+1
-                                 
+
     #3#########################################################################
     def del_old_param(self):
         """ supress all the all param_card """
@@ -580,7 +580,7 @@ class Param_card:
     def check_exist(self):
         """ check if param_card_1 exist and copy param_card if not """
 
-        
+
         try:
             ff=open('Cards/param_card_1.dat','r')
             ff.close()

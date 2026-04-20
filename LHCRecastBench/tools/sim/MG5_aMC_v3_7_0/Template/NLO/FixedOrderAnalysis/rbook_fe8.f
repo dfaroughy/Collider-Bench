@@ -1,7 +1,7 @@
 c     --------------------------------------------------------------------
 c     RBOOK -- A simple fortran interface to ROOT histogramming
 c
-c     This file implements the FORTRAN front-end functions that call 
+c     This file implements the FORTRAN front-end functions that call
 c     the C++ back-end functions
 c
 c     (C) 31/08/2006 NIKHEF / Wouter Verkerke
@@ -38,7 +38,7 @@ c
 c - rfill(id,xval,wgt)
 c    integer id
 c    double precision xval,wgt
-c      Fills one-dimensional histogram identified by id [opened with 
+c      Fills one-dimensional histogram identified by id [opened with
 c      rbook(id,...)]; x value equal to xval, weight equal to wgt
 c
 c - rfill2(id,xval,yval,wgt)
@@ -54,7 +54,7 @@ c      ----------------------------------------------------
        character*(*) name
 
 c      -- Call C++ back end function --
-       call rinit_be_(name,len(name)) 
+       call rinit_be_(name,len(name))
 
        return
        end
@@ -64,11 +64,11 @@ c      --------------------------------------
 c      RWRIT front end -- Write to ROOT file
 c      --------------------------------------
        subroutine rwrit()
-       
+
 c      -- Call C++ back end function --
        call rwrit_be_
 
-       return 
+       return
        end
 
 
@@ -78,11 +78,11 @@ c      --------------------------------------
 c      RCLOSE front end -- Close the ROOT file
 c      --------------------------------------
        subroutine rclos()
-       
+
 c      -- Call C++ back end function --
        call rclos_be_
 
-       return 
+       return
        end
 
 
@@ -121,7 +121,7 @@ c      Keep track of the position of this histogram
 
 c      -- Call C++ back end function --
        call rbook_be_(id,name,len(name),nbin,xlo,xhi)
-      
+
        return
        end
 
@@ -138,7 +138,7 @@ c      --------------------------------------------
        nbiny = int((yhi-ylo)/(ybin*0.9999d0))
 c      -- Call C++ back end function --
        call rbook2_be_(id,name,len(name),nbinx,xlo,xhi,nbiny,ylo,yhi)
-      
+
        return
        end
 
@@ -214,19 +214,19 @@ c     PineAPPL commons
 
 c     -- Call C++ back end function --
       call ropera_be_(ih1,oper,len(oper),ih2,ih3,x,y)
-      
+
       return
       end
 
 c     -------------------------------------------
 c     ROPERA frond end -- Copy histograms
 c     ------------------------------------------
-      subroutine rcopy(ih1,ih2) 
+      subroutine rcopy(ih1,ih2)
       integer ih1,ih2
 
 c     -- Call C++ back end function --
       call rcopy_be_(ih1,ih2)
-      
+
       return
       end
 

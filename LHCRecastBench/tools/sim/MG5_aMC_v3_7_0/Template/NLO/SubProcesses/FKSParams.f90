@@ -1,6 +1,6 @@
 !====================================================================
 !
-!  Define common block with all general parameters used by MadFKS 
+!  Define common block with all general parameters used by MadFKS
 !  See their definitions in the file FKS_params.dat.
 !
 !====================================================================
@@ -124,7 +124,7 @@ contains
                   SelectedCouplingOrders(1,0) .gt. maxCouplingsSelected) then
                 write(*,*) 'SelectedCouplingOrders length should be >= 0 and <=', &
                      maxCouplingsSelected
-                stop 'Format error in FKS_params.dat.'                
+                stop 'Format error in FKS_params.dat.'
              endif
              do j = 2, maxCouplingTypes
                 SelectedCouplingOrders(j,0) = SelectedCouplingOrders(1,0)
@@ -143,12 +143,12 @@ contains
     enddo
 999 continue
     couldRead=.True.
-    goto 998      
+    goto 998
 
 676 continue
     write(*,*) 'ERROR :: MadFKS parameter file ',fileName, &
          ' could not be found or is malformed. Please specify it.'
-    stop 
+    stop
     !   Below is the code if one desires to let the code continue with
     !   a non existing or malformed parameter file
     write(*,*) 'WARNING :: The file ',fileName,' could not be ', &
@@ -161,7 +161,7 @@ contains
     if(printParam.and..not.paramPrinted) then
        write(*,*) &
             '==============================================================='
-       if (couldRead) then      
+       if (couldRead) then
           write(*,*) 'INFO: MadFKS read these parameters from ',filename
        else
           write(*,*) 'INFO: MadFKS used the default parameters.'
@@ -215,7 +215,7 @@ contains
 901 continue
   end subroutine FKSParamReader
 
-  subroutine DefaultFKSParam() 
+  subroutine DefaultFKSParam()
     ! Sets the default parameters
     implicit none
     integer i,j

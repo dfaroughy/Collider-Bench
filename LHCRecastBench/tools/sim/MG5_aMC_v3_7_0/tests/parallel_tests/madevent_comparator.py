@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -32,7 +32,7 @@ import six
 from six.moves import range
 
 pjoin = os.path.join
-# Get the grand parent directory (mg5 root) of the module real path 
+# Get the grand parent directory (mg5 root) of the module real path
 # (tests/acceptance_tests) and add it to the current PYTHONPATH to allow
 # for easy import of MG5 tools
 
@@ -72,7 +72,7 @@ class MadEventComparator(me_comparator.MEComparator):
             cpu_time1 = time.time()
             logging.info("Now running %s" % runner.name)
             if pass_proc:
-                runner.pass_proc = pass_proc 
+                runner.pass_proc = pass_proc
 
             self.results.append(runner.run(proc_list, model[i], orders))
             cpu_time2 = time.time()
@@ -93,13 +93,13 @@ class MadEventComparator(me_comparator.MEComparator):
 
         def detect_type(data):
             """check if the type is an integer/float/string"""
-            
+
 
             if data.isdigit():
                 return 'int'
             elif len(data) and data[0] == '-' and data[1:].isdigit():
                 return 'int'
-            
+
             try:
                 float(data)
                 return 'float'
@@ -111,7 +111,7 @@ class MadEventComparator(me_comparator.MEComparator):
         for proc in self.results[0]:
             if len(proc) + 1 > proc_col_size:
                 proc_col_size = len(proc) + 1
-        
+
         col_size = 17
 
         pass_test = 0
@@ -140,7 +140,7 @@ class MadEventComparator(me_comparator.MEComparator):
                 res_str += self._fixed_string_length("NAN", col_size)
                 res_str += 'failed'
                 fail_test += 1
-                failed_prop_list.append(prop) 
+                failed_prop_list.append(prop)
             else:
                 # check the type (integer/float/string)
                 type = detect_type(loc_results[0])
@@ -159,7 +159,7 @@ class MadEventComparator(me_comparator.MEComparator):
                         res_str += self._fixed_string_length("%1.10e" % diff, col_size)
                         if diff >= tolerance:
                             res_str += 'failed'
-                            failed_prop_list.append(prop) 
+                            failed_prop_list.append(prop)
                             fail_test += 1
                         else:
                             res_str += 'passed'
@@ -169,13 +169,13 @@ class MadEventComparator(me_comparator.MEComparator):
                         if value != loc_results[0]:
                             res_str += self._fixed_string_length("differ", col_size)
                             res_str += 'failed'
-                            failed_prop_list.append(prop) 
+                            failed_prop_list.append(prop)
                             fail_test += 1
                             break
                     res_str += self._fixed_string_length("identical", col_size)
                     res_str += 'passed'
                     pass_test +=1
-        
+
         res_str += "\nSummary: %i/%i passed, %i/%i failed" % \
                     (pass_test, pass_test + fail_test,
                      fail_test, pass_test + fail_test)
@@ -189,17 +189,17 @@ class MadEventComparator(me_comparator.MEComparator):
             file = open(filename, 'w')
             file.write(res_str)
             file.close()
-        
+
         return fail_test, failed_prop_list
 
 
     def assert_processes(self, test_object, tolerance = 1e-06):
-        """Run assert to check that all processes passed comparison""" 
+        """Run assert to check that all processes passed comparison"""
 
         fail_test, fail_prop = self.output_result('', tolerance)
 
         test_object.assertEqual(fail_test, 0, "Failed for processes: %s" % ', '.join(fail_prop))
-        
+
 class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
     """Base object to run comparison tests. Take standard Runner objects and
     a list of proc as an input and return detailed comparison tables in various
@@ -225,7 +225,7 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
             cpu_time1 = time.time()
             logging.info("Now running %s" % runner.name)
             if pass_proc:
-                runner.pass_proc = pass_proc 
+                runner.pass_proc = pass_proc
             self.results.append(runner.run(proc_list, model, orders))
             cpu_time2 = time.time()
             logging.info(" Done in %0.3f s" % (cpu_time2 - cpu_time1))
@@ -239,20 +239,20 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
         for runner in self.me_runners:
             logging.info("Cleaning code %s runner" % runner.name)
             runner.cleanup()
-            
+
     def output_result(self, filename=None, tolerance=3e-03):
         """Output result as a nicely formated table. If filename is provided,
         write it to the file, else to the screen. Tolerance can be adjusted."""
 
         def detect_type(data):
             """check if the type is an integer/float/string"""
-            
+
 
             if data.isdigit():
                 return 'int'
             elif len(data) and data[0] == '-' and data[1:].isdigit():
                 return 'int'
-            
+
             try:
                 float(data)
                 return 'float'
@@ -264,7 +264,7 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
         for proc in self.results[0]:
             if len(proc) + 1 > proc_col_size:
                 proc_col_size = len(proc) + 1
-        
+
         col_size = 17
 
         pass_test = 0
@@ -297,7 +297,7 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
                 res_str += self._fixed_string_length("NAN", col_size)
                 res_str += 'failed'
                 fail_test += 1
-                failed_proc_list.append(proc) 
+                failed_proc_list.append(proc)
             else:
                 # check the type (integer/float/string)
                 type = detect_type(loc_results[0])
@@ -307,7 +307,7 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
                         res_str += 'passed'
                         pass_test +=1
                     else:
-                        loc_results = [float(d) for d in loc_results]                        
+                        loc_results = [float(d) for d in loc_results]
                         diff_feyn = abs(loc_results[1] - loc_results[2]) / \
                           (loc_results[1] + loc_results[2] + 1e-99)
                         diff_unit = abs(loc_results[0] - loc_results[3]) / \
@@ -316,12 +316,12 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
                           (loc_results[0] + loc_results[1] + 1e-99)
                         diff_fixw = abs(loc_results[2] - loc_results[3]) / \
                           (loc_results[2] + loc_results[3] + 1e-99)
-                        
+
                         res_str += self._fixed_string_length("%1.10e" % diff_unit, col_size)
                         res_str += self._fixed_string_length("%1.10e" % diff_cms, col_size)
                         res_str += self._fixed_string_length("%1.10e" % diff_fixw, col_size)
                         res_str += self._fixed_string_length("%1.10e" % diff_feyn, col_size)
-                        
+
                         if diff_feyn < 4e-2 and diff_cms < 1e-2 and diff_fixw < 1e-2 and \
                          diff_unit < 4e-2:
                             pass_test += 1
@@ -336,13 +336,13 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
                         if value != loc_results[0]:
                             res_str += self._fixed_string_length("differ", col_size)
                             res_str += 'failed'
-                            failed_proc_list.append(proc) 
+                            failed_proc_list.append(proc)
                             fail_test += 1
                             break
                     res_str += self._fixed_string_length("identical", col_size)
                     res_str += 'passed'
                     pass_test +=1
-        
+
         res_str += "\nSummary: %i/%i passed, %i/%i failed" % \
                     (pass_test, pass_test + fail_test,
                      fail_test, pass_test + fail_test)
@@ -356,12 +356,12 @@ class MadEventComparatorGauge(me_comparator.MEComparatorGauge):
             file = open(filename, 'w')
             file.write(res_str)
             file.close()
-        
+
         return fail_test, failed_proc_list
 
 
     def assert_processes(self, test_object, tolerance = 1e-06):
-        """Run assert to check that all processes passed comparison""" 
+        """Run assert to check that all processes passed comparison"""
 
         fail_test, fail_prop = self.output_result('', tolerance)
 
@@ -375,14 +375,14 @@ class FakeRunner(object):
      setup_flag = False
      name = 'Store'
      type = 'Store'
-     model_dir = os.path.join(MG5DIR,'models')   
-     
+     model_dir = os.path.join(MG5DIR,'models')
+
      def cleanup(self):
          pass
 
 class MadEventRunner(object):
     """Base class to containing default function to setup, run and access results
-    produced with a specific ME generator. 
+    produced with a specific ME generator.
     """
 
     temp_dir_name = ""
@@ -408,7 +408,7 @@ class MadEventRunner(object):
         pass
 
     def get_result(self, proc_id):
-        """Return the result (i.e., ME value for a particular PS point) for a 
+        """Return the result (i.e., ME value for a particular PS point) for a
         specific process identified with its id."""
 
         return self.proc_list[proc_id]
@@ -417,8 +417,8 @@ class MadEventRunner(object):
         """Perform some clean up procedure to leave the ME code directory in
         the same state as it was initially (e.g., remove temp dirs, ...)
         """
-        pass 
-            
+        pass
+
 
 class MG5Runner(MadEventRunner):
     """Runner object for the MG5 Matrix Element generator."""
@@ -426,7 +426,7 @@ class MG5Runner(MadEventRunner):
     mg5_path = ""
     name = 'MadGraph v5'
     type = 'v5'
-        
+
 
     def setup(self, mg5_path, temp_dir=None):
         """Wrapper for the mg4 setup, also initializing the mg5 path variable"""
@@ -435,10 +435,10 @@ class MG5Runner(MadEventRunner):
 
         if not temp_dir:
             i=0
-            while os.path.exists(os.path.join(mg5_path, 
+            while os.path.exists(os.path.join(mg5_path,
                                               "p_ME_test_%s_%s" % (self.type, i))):
                 i += 1
-            temp_dir = "p_ME_test_%s_%s" % (self.type, i)         
+            temp_dir = "p_ME_test_%s_%s" % (self.type, i)
 
         self.temp_dir_name = temp_dir
 
@@ -447,11 +447,11 @@ class MG5Runner(MadEventRunner):
         the specified model, the specified maximal coupling orders and a certain
         energy for incoming particles (for decay, incoming particle is at rest).
         """
-        self.res_list = [] # ensure that to be void, and avoid pointer problem 
+        self.res_list = [] # ensure that to be void, and avoid pointer problem
         self.proc_list = proc_list
         self.model = model
         self.orders = orders
-        self.non_zero = 0 
+        self.non_zero = 0
 
         dir_name = os.path.join(self.mg5_path, self.temp_dir_name)
 
@@ -509,21 +509,21 @@ class MG5Runner(MadEventRunner):
         v5_string += "set cut_decays True\n"
         v5_string += "set ickkw 0\n"
         v5_string += "set xqcut 0\n"
-        v5_string += "survey run_01; refine 0.01; refine 0.01\n" 
+        v5_string += "survey run_01; refine 0.01; refine 0.01\n"
         #v5_string += "print_results\n"
         return v5_string
-    
+
     def get_values(self):
-    
+
         dir_name = os.path.join(self.mg5_path, self.temp_dir_name)
-        SubProc=[name for name in os.listdir(dir_name + '/SubProcesses') 
-                 if name[0]=='P' and 
+        SubProc=[name for name in os.listdir(dir_name + '/SubProcesses')
+                 if name[0]=='P' and
                  os.path.isdir(dir_name + '/SubProcesses/'+name) and \
                   name[1].isdigit()]
 
         output = {}
-        
-        #Part1: number of SubProcesses                                                                                                                           
+
+        #Part1: number of SubProcesses
         numsubProc={}
         for name in SubProc :
             tag=name.split('_')[0][1:]
@@ -550,7 +550,7 @@ class MG5Runner(MadEventRunner):
                         channel = G[1:]
                         for line in open(filepath):
                             splitline=line.split()
-                            cross += float(splitline[9]) 
+                            cross += float(splitline[9])
                             break
                 output['cross_'+name] = str(cross)
             else:
@@ -560,18 +560,18 @@ class MG5Runner(MadEventRunner):
                     output['cross_'+name]=splitline[0]
                     #print( "found %s %s" % (splitline[0], splitline[1]))
         else:
-            return output   
-        
+            return output
+
         filepath = dir_name+'/HTML/run_01/results.html'
-        text = open(filepath).read()    
-        
+        text = open(filepath).read()
+
         #id="#P1_qq_ll" href=#P1_qq_ll onClick="check_link('#P1_qq_ll','#P1_qq_ll','#P1_qq_ll')"> 842.9
         info = re.findall(r'id="\#(?P<a1>\w*)" href=\#(?P=a1) onClick="check_link\(\'\#(?P=a1)\',\'\#(?P=a1)\',\'\#(?P=a1)\'\)">\s* ([\d.e+-]*)', text)
         for name,value in info:
             output['cross_'+name] = value
-            
 
-        
+
+
         return output
 
 class MG5OldRunner(MG5Runner):
@@ -580,7 +580,7 @@ class MG5OldRunner(MG5Runner):
     mg5_path = ""
     name = 'v5 Ref'
     type = 'v5_ref'
-    
+
     def format_mg5_proc_card(self, proc_list, model, orders):
         """Create a proc_card.dat string following v5 conventions."""
 
@@ -595,17 +595,17 @@ class MG5OldRunner(MG5Runner):
                      os.path.join(self.mg5_path, self.temp_dir_name)
         v5_string += "launch -f \n"
         return v5_string
-    
+
     def run(self, proc_list, model, orders={}):
         """Execute MG5 on the list of processes mentioned in proc_list, using
         the specified model, the specified maximal coupling orders and a certain
         energy for incoming particles (for decay, incoming particle is at rest).
         """
-        self.res_list = [] # ensure that to be void, and avoid pointer problem 
+        self.res_list = [] # ensure that to be void, and avoid pointer problem
         self.proc_list = proc_list
         self.model = model
         self.orders = orders
-        self.non_zero = 0 
+        self.non_zero = 0
         dir_name = os.path.join(self.mg5_path, self.temp_dir_name)
 
         # Create a proc_card.dat in the v5 format
@@ -620,19 +620,19 @@ class MG5OldRunner(MG5Runner):
 
         # Run mg5
         logging.info("Running MG5")
-        devnull = open(os.devnull,'w') 
+        devnull = open(os.devnull,'w')
 
         if logging.root.level >=20:
             subprocess.call([pjoin(self.mg5_path,'bin','mg5_aMC'), proc_card_location],
                         stdout=devnull, stderr=devnull)
-        else:       
+        else:
             subprocess.call([pjoin(self.mg5_path,'bin','mg5_aMC'), proc_card_location])
         os.remove(proc_card_location)
 
         values = self.get_values()
         self.res_list.append(values)
         return values
-    
+
 class MG5gaugeRunner(MG5Runner):
     """Runner object for the MG5 Matrix Element generator."""
 
@@ -642,7 +642,7 @@ class MG5gaugeRunner(MG5Runner):
         self.mg5_path = ""
         self.name = 'MG_%s_%s' %(self.cms, self.gauge)
         self.type = '%s_%s' %(self.cms, self.gauge)
-    
+
     def format_mg5_proc_card(self, proc_list, model, orders):
         """Create a proc_card.dat string following v5 conventions."""
 
@@ -662,7 +662,7 @@ class MG5gaugeRunner(MG5Runner):
         v5_string += "launch \n"
         v5_string += "set SDE_strategy 1\n"
         v5_string += "set nevents 1k\n"
-        
+
         v5_string += 'set complex_mass_scheme False \n'
         v5_string += 'set gauge unitary'
         return v5_string

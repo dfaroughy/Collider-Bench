@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Unit test library for the various properties of objects in 
+"""Unit test library for the various properties of objects in
    loop_helas_objects.py"""
 
 from __future__ import absolute_import
@@ -67,13 +67,13 @@ _proc_file_path = os.path.join(_mgme_file_path, 'UNITTEST_proc')
 # IOExportMadLoopUTest
 #===============================================================================
 class IOExportMadLoopAcceptanceTest(test_loop_exporters.IOExportMadLoopUnitTest):
-    """Test class for the loop exporter modules. It uses hardcoded output 
+    """Test class for the loop exporter modules. It uses hardcoded output
     for the comparisons."""
 
     def testIO_AcceptanceProcOutputIOTests(self, load_only=False):
       """ Run the iotests """
-      
-      self.load_IOTestsAcceptance()      
+
+      self.load_IOTestsAcceptance()
       if not load_only:
           # Set it to True if you want info during the regular test_manager.py runs
           self.runIOTests(verbose=False)
@@ -83,19 +83,19 @@ class IOExportMadLoopAcceptanceTest(test_loop_exporters.IOExportMadLoopUnitTest)
         if not hasattr(self, 'models') or \
            not hasattr(self, 'fortran_models') or \
            not hasattr(self, 'loop_exporters'):\
-           
+
             self.models = { \
-                'loop_sm' : import_ufo.import_model('loop_sm') 
+                'loop_sm' : import_ufo.import_model('loop_sm')
                           }
             self.fortran_models = {
                 'fortran_model' : helas_call_writers.FortranUFOHelasCallWriter(\
-                                                         self.models['loop_sm']) 
+                                                         self.models['loop_sm'])
                                   }
-            
+
             self.loop_exporters = {
                 'default' : loop_exporters.LoopProcessExporterFortranSA(\
                                    _proc_file_path,
-                                  {'clean':False, 'complex_mass':False, 
+                                  {'clean':False, 'complex_mass':False,
                                    'export_format':'madloop','mp':True,
                                    'loop_dir':_loop_file_path,
                                    'cuttools_dir':_cuttools_file_path,
@@ -106,7 +106,7 @@ class IOExportMadLoopAcceptanceTest(test_loop_exporters.IOExportMadLoopUnitTest)
                 'optimized' : loop_exporters.\
                                   LoopProcessOptimizedExporterFortranSA(\
                                   _proc_file_path,
-                                  {'clean':False, 'complex_mass':False, 
+                                  {'clean':False, 'complex_mass':False,
                                    'export_format':'madloop','mp':True,
                                    'loop_dir':_loop_file_path,
                                    'cuttools_dir':_cuttools_file_path,
@@ -129,4 +129,3 @@ class IOExportMadLoopAcceptanceTest(test_loop_exporters.IOExportMadLoopUnitTest)
                                        particles_ids = [21,21,-24,6,-5],
                                        exporters = ['default','optimized'],
                                        orders = {'QCD': 2, 'QED': 1} )
-

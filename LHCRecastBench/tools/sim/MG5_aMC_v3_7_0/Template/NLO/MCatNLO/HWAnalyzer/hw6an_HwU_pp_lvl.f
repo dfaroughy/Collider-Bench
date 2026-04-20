@@ -33,7 +33,7 @@ C----------------------------------------------------------------------
       real * 8 bin,xmi,xms,pi
       PARAMETER (PI=3.14159265358979312D0)
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -85,7 +85,7 @@ c *average* to the total cross section, so no extra weight needed
       xnorm=1d3
 c Collect accumulated results
       call finalize_histograms(nevhep)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)
@@ -148,7 +148,7 @@ C EFFECT, SO THROW THE EVENT AWAY
           CALL HWVSUM(4,PHEP(1,IHEP),PSUM,PSUM)
           ICHSUM=ICHSUM+ICHRG(IDHW(IHEP))
         ENDIF
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID=IDHW(IHEP)
         ID1=IDHEP(IHEP)
         ISL=ABS(ID1).EQ.IDENT
@@ -232,7 +232,7 @@ C CHECK MOMENTUM AND CHARGE CONSERVATION
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

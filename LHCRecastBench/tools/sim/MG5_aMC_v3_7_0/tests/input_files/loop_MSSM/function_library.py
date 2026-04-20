@@ -69,4 +69,3 @@ cond = Function(name = 'cond',
 reglog = Function(name = 'reglog',
                 arguments = ('z'),
                 expression = '(0.0 if z==0.0 else cmath.log(z))')
-

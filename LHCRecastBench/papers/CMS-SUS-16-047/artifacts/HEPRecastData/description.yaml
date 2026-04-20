@@ -1,14 +1,14 @@
 ---
 data_file: obs_pTmiss_distribution_lowHT.yaml
 name: pTmiss distribution low-HT bin
-task: | 
-  Fill null histogram values with event counts normalized to luminosity 35.9 fb^-1. 
-  In the rightmost bin include ALL events with pTmiss > 600 GeV. 
+task: |
+  Fill null histogram values with event counts normalized to luminosity 35.9 fb^-1.
+  In the rightmost bin include ALL events with pTmiss > 600 GeV.
   Do not modify bin edges.
 description: |
   pTmiss distribution for events passing the photon + MET selection in the low-HT
-  bin (HT^gamma < 2000 GeV, EE, |∆φ|>0.3). 
-Signal benchmarks: 
+  bin (HT^gamma < 2000 GeV, EE, |∆φ|>0.3).
+Signal benchmarks:
  - T5Wg (gluino 1600 GeV, gaugino 100 GeV).
  - T6gg (squark 1750 GeV, neutralino 1650 GeV).
 keywords:
@@ -19,14 +19,14 @@ keywords:
 ---
 data_file: obs_pTmiss_distribution_highHT.yaml
 name: pTmiss distribution high-HT bin
-task: | 
-  Fill null histogram values with event counts normalized to luminosity 35.9 fb^-1. 
-  In the rightmost bin include ALL events with pTmiss > 600 GeV. 
+task: |
+  Fill null histogram values with event counts normalized to luminosity 35.9 fb^-1.
+  In the rightmost bin include ALL events with pTmiss > 600 GeV.
   Do not modify bin edges.
 description: |
   pTmiss distribution for events passing the photon + MET selection in the high-HT
-  bin (HT^gamma > 2000 GeV, EE, |∆φ|>0.3).  
-Signal benchmarks: 
+  bin (HT^gamma > 2000 GeV, EE, |∆φ|>0.3).
+Signal benchmarks:
  - T5Wg (gluino 1600 GeV, gaugino 100 GeV).
  - T6gg (squark 1750 GeV, neutralino 1650 GeV).
 keywords:

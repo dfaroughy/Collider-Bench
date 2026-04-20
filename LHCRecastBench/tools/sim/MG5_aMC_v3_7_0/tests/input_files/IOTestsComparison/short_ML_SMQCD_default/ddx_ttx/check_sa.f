@@ -6,9 +6,9 @@ C     IT USES A SIMPLE PHASE SPACE GENERATOR
 C     *****************************************************************
 C     ********
       IMPLICIT NONE
-C     
-C     CONSTANTS  
-C     
+C
+C     CONSTANTS
+C
       REAL*8 ZERO
       PARAMETER (ZERO=0D0)
 
@@ -19,17 +19,17 @@ C
       PARAMETER (NPSPOINTS = 4)
 
 C     integer nexternal and number particles (incoming+outgoing) in
-C      the me 
+C      the me
       INTEGER NEXTERNAL, NINCOMING
       PARAMETER (NEXTERNAL=4,NINCOMING=2)
 
       CHARACTER(512) MADLOOPRESOURCEPATH
 
-C     
+C
 C     INCLUDE FILES
-C     
-C     the include file with the values of the parameters and masses   
-C        
+C
+C     the include file with the values of the parameters and masses
+C
       INCLUDE 'coupl.inc'
 C     particle masses
       REAL*8 PMASS(NEXTERNAL)
@@ -38,28 +38,28 @@ C     integer    n_max_cg
       INCLUDE 'nsqso_born.inc'
       INCLUDE 'nsquaredSO.inc'
 
-C     
+C
 C     LOCAL
-C     
+C
       INTEGER I,J,K
 C     four momenta. Energy is the zeroth component.
       REAL*8 P(0:3,NEXTERNAL)
       INTEGER MATELEM_ARRAY_DIM
       REAL*8 , ALLOCATABLE :: MATELEM(:,:)
       REAL*8 SQRTS,AO2PI,TOTMASS
-C     sqrt(s)= center of mass energy 
+C     sqrt(s)= center of mass energy
       REAL*8 PIN(0:3), POUT(0:3)
       CHARACTER*120 BUFF(NEXTERNAL)
       INTEGER RETURNCODE, UNITS, TENS, HUNDREDS
       INTEGER NSQUAREDSO_LOOP
       REAL*8 , ALLOCATABLE :: PREC_FOUND(:)
 
-C     
+C
 C     GLOBAL VARIABLES
-C     
+C
 C     This is from ML code for the list of split orders selected by
 C     the process definition
-C     
+C
       INTEGER NLOOPCHOSEN
       CHARACTER*20 CHOSEN_LOOP_SO_INDICES(NSQUAREDSO)
       LOGICAL CHOSEN_LOOP_SO_CONFIGS(NSQUAREDSO)
@@ -69,22 +69,22 @@ C
       LOGICAL CHOSEN_BORN_SO_CONFIGS(NSQSO_BORN)
       COMMON/ML5_0_CHOSEN_BORN_SQSO/CHOSEN_BORN_SO_CONFIGS
 
-C     
+C
 C     SAVED VARIABLES
-C     
+C
       LOGICAL INIT
       DATA INIT/.TRUE./
       COMMON/INITCHECKSA/INIT
-C     
+C
 C     EXTERNAL
-C     
+C
       REAL*8 DOT
       EXTERNAL DOT
 
-C     
+C
 C     BEGIN CODE
-C     
-C     
+C
+C
 
       IF (INIT) THEN
         INIT=.FALSE.
@@ -94,9 +94,9 @@ C
         ALLOCATE(PREC_FOUND(0:NSQUAREDSO_LOOP))
 
 C       INITIALIZATION CALLS
-C       
+C
 C       Call to initialize the values of the couplings, masses and
-C        widths 
+C        widths
 C       used in the evaluation of the matrix element. The primary
 C        parameters of the
 C       models are read from Cards/param_card.dat. The secondary
@@ -132,13 +132,13 @@ C      chosen
       AO2PI=G**2/(8.D0*(3.14159265358979323846D0**2))
 
       WRITE(*,*) 'AO2PI=',AO2PI
-C     Now use a simple multipurpose PS generator (RAMBO) just to get a 
+C     Now use a simple multipurpose PS generator (RAMBO) just to get a
 C     RANDOM set of four momenta of given masses pmass(i) to be used
-C      to evaluate 
-C     the madgraph matrix-element.       
+C      to evaluate
+C     the madgraph matrix-element.
 C     Alternatevely, here the user can call or set the four momenta at
 C      his will, see below.
-C     
+C
       IF(NINCOMING.EQ.1) THEN
         SQRTS=PMASS(1)
       ELSE
@@ -231,15 +231,15 @@ C        optimized mode)
 C       CALL ML5_0_SET_COUPLINGORDERS_TARGET(SOTARGET)
 
 
-C       
+C
 C       Now we can call the matrix element
-C       
+C
         CALL ML5_0_SLOOPMATRIX_THRES(P,MATELEM,-1.0D0,PREC_FOUND
      $   ,RETURNCODE)
 
-C       
-C       write the information on the four momenta 
-C       
+C
+C       write the information on the four momenta
+C
         IF (K.EQ.NPSPOINTS) THEN
           WRITE (*,*)
           WRITE (*,*) ' Phase space point:'
@@ -308,13 +308,13 @@ C
             WRITE (*,*) (CHOSEN_LOOP_SO_INDICES(I),I=1,NLOOPCHOSEN)
           ENDIF
           WRITE (*,*) '---------------------------------'
-          WRITE (*,*) 'Matrix element born   = ', MATELEM(0,0), 
+          WRITE (*,*) 'Matrix element born   = ', MATELEM(0,0),
      $     ' GeV^',-(2*NEXTERNAL-8)
-          WRITE (*,*) 'Matrix element finite = ', MATELEM(1,0), 
+          WRITE (*,*) 'Matrix element finite = ', MATELEM(1,0),
      $     ' GeV^',-(2*NEXTERNAL-8)
-          WRITE (*,*) 'Matrix element 1eps   = ', MATELEM(2,0), 
+          WRITE (*,*) 'Matrix element 1eps   = ', MATELEM(2,0),
      $     ' GeV^',-(2*NEXTERNAL-8)
-          WRITE (*,*) 'Matrix element 2eps   = ', MATELEM(3,0), 
+          WRITE (*,*) 'Matrix element 2eps   = ', MATELEM(3,0),
      $     ' GeV^',-(2*NEXTERNAL-8)
           WRITE (*,*) '---------------------------------'
           IF (MATELEM(0,0).NE.0.0D0) THEN
@@ -367,18 +367,18 @@ C
       ENDDO
 
 C     C
-C     C      Copy down here (or read in) the four momenta as a string. 
-C     C      
+C     C      Copy down here (or read in) the four momenta as a string.
 C     C
-C     buff(1)=" 1   0.5630480E+04  0.0000000E+00  0.0000000E+00 
+C     C
+C     buff(1)=" 1   0.5630480E+04  0.0000000E+00  0.0000000E+00
 C      0.5630480E+04"
 C     buff(2)=" 2   0.5630480E+04  0.0000000E+00  0.0000000E+00
 C      -0.5630480E+04"
 C     buff(3)=" 3   0.5466073E+04  0.4443190E+03  0.2446331E+04
 C      -0.4864732E+04"
-C     buff(4)=" 4   0.8785819E+03 -0.2533886E+03  0.2741971E+03 
+C     buff(4)=" 4   0.8785819E+03 -0.2533886E+03  0.2741971E+03
 C      0.7759741E+03"
-C     buff(5)=" 5   0.4916306E+04 -0.1909305E+03 -0.2720528E+04 
+C     buff(5)=" 5   0.4916306E+04 -0.1909305E+03 -0.2720528E+04
 C      0.4088757E+04"
 C     C
 C     C      Here the k,E,px,py,pz are read from the string into the
@@ -389,19 +389,19 @@ C     C
 C     do i=1,nexternal
 C     read (buff(i),*) k, P(0,i),P(1,i),P(2,i),P(3,i)
 C     enddo
-C     
+C
 C     C print the momenta out
-C     
+C
 C     do i=1,nexternal
-C     write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i), 
+C     write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i),
 C     &dsqrt(dabs(DOT(p(0,i),p(0,i))))
 C     enddo
-C     
+C
 C     CALL SLOOPMATRIX(P,MATELEM)
-C     
+C
 C     write (*,*) "-------------------------------------------------"
 C     write (*,*) "Matrix element = ", MATELEM(1), "
-C      GeV^",-(2*nexternal-8)      
+C      GeV^",-(2*nexternal-8)
 C     write (*,*) "-------------------------------------------------"
 
       DEALLOCATE(MATELEM)
@@ -425,7 +425,7 @@ C     *************************************************************
       SUBROUTINE GET_MOMENTA(ENERGY,PMASS,P)
 C     auxiliary function to change convention between madgraph and
 C      rambo
-C     four momenta.         
+C     four momenta.
       IMPLICIT NONE
       INTEGER NEXTERNAL, NINCOMING
       PARAMETER (NEXTERNAL=4,NINCOMING=2)
@@ -489,27 +489,27 @@ C     write (*,*) e1+e2,mom
 C     *****************************************************************
 C     *****
 C     RAMBO                                         *
-C     RA(NDOM)  M(OMENTA)  B(EAUTIFULLY)  O(RGANIZED)                 
+C     RA(NDOM)  M(OMENTA)  B(EAUTIFULLY)  O(RGANIZED)
 C      *
 C     *
-C     A DEMOCRATIC MULTI-PARTICLE PHASE SPACE GENERATOR               
+C     A DEMOCRATIC MULTI-PARTICLE PHASE SPACE GENERATOR
 C      *
-C     AUTHORS:  S.D. ELLIS,  R. KLEISS,  W.J. STIRLING                
+C     AUTHORS:  S.D. ELLIS,  R. KLEISS,  W.J. STIRLING
 C      *
-C     THIS IS VERSION 1.0 -  WRITTEN BY R. KLEISS                     
+C     THIS IS VERSION 1.0 -  WRITTEN BY R. KLEISS
 C      *
-C     -- ADJUSTED BY HANS KUIJF, WEIGHTS ARE LOGARITHMIC (20-08-90)   
+C     -- ADJUSTED BY HANS KUIJF, WEIGHTS ARE LOGARITHMIC (20-08-90)
 C      *
 C     *
-C     N  = NUMBER OF PARTICLES                                        
+C     N  = NUMBER OF PARTICLES
 C      *
-C     ET = TOTAL CENTRE-OF-MASS ENERGY                                
+C     ET = TOTAL CENTRE-OF-MASS ENERGY
 C      *
-C     XM = PARTICLE MASSES ( DIM=NEXTERNAL-nincoming )                
+C     XM = PARTICLE MASSES ( DIM=NEXTERNAL-nincoming )
 C      *
-C     P  = PARTICLE MOMENTA ( DIM=(4,NEXTERNAL-nincoming) )           
+C     P  = PARTICLE MOMENTA ( DIM=(4,NEXTERNAL-nincoming) )
 C      *
-C     WT = WEIGHT OF THE EVENT                                        
+C     WT = WEIGHT OF THE EVENT
 C      *
 C     *****************************************************************
 C     *****
@@ -522,7 +522,7 @@ C     *****
      $ ,E(NEXTERNAL-NINCOMING),V(NEXTERNAL-NINCOMING),IWARN(5)
       SAVE ACC,ITMAX,IBEGIN,IWARN
       DATA ACC/1.D-14/,ITMAX/6/,IBEGIN/0/,IWARN/5*0/
-C     
+C
 C     INITIALIZATION STEP: FACTORIALS FOR THE PHASE SPACE WEIGHT
       IF(IBEGIN.NE.0) GOTO 103
       IBEGIN=1
@@ -533,12 +533,12 @@ C     INITIALIZATION STEP: FACTORIALS FOR THE PHASE SPACE WEIGHT
  101  Z(K)=Z(K-1)+PO2LOG-2.*LOG(DFLOAT(K-2))
       DO 102 K=3,(NEXTERNAL-NINCOMING)
  102  Z(K)=(Z(K)-LOG(DFLOAT(K-1)))
-C     
+C
 C     CHECK ON THE NUMBER OF PARTICLES
  103  IF(N.GT.1.AND.N.LT.101) GOTO 104
       PRINT 1001,N
       STOP
-C     
+C
 C     CHECK WHETHER TOTAL ENERGY IS SUFFICIENT; COUNT NONZERO MASSES
  104  XMT=0.
       NM=0
@@ -548,9 +548,9 @@ C     CHECK WHETHER TOTAL ENERGY IS SUFFICIENT; COUNT NONZERO MASSES
       IF(XMT.LE.ET) GOTO 201
       PRINT 1002,XMT,ET
       STOP
-C     
+C
 C     THE PARAMETER VALUES ARE NOW ACCEPTED
-C     
+C
 C     GENERATE N MASSLESS MOMENTA IN INFINITE PHASE SPACE
  201  DO 202 I=1,N
       R1=RN(1)
@@ -563,7 +563,7 @@ C     GENERATE N MASSLESS MOMENTA IN INFINITE PHASE SPACE
       Q(3,I)=Q(4,I)*C
       Q(2,I)=Q(4,I)*S*COS(F)
  202  Q(1,I)=Q(4,I)*S*SIN(F)
-C     
+C
 C     CALCULATE THE PARAMETERS OF THE CONFORMAL TRANSFORMATION
       DO 203 I=1,4
  203  R(I)=0.
@@ -576,14 +576,14 @@ C     CALCULATE THE PARAMETERS OF THE CONFORMAL TRANSFORMATION
       G=R(4)/RMAS
       A=1./(1.+G)
       X=ET/RMAS
-C     
+C
 C     TRANSFORM THE Q'S CONFORMALLY INTO THE P'S
       DO 207 I=1,N
       BQ=B(1)*Q(1,I)+B(2)*Q(2,I)+B(3)*Q(3,I)
       DO 206 K=1,3
  206  P(K,I)=X*(Q(K,I)+B(K)*(Q(4,I)+A*BQ))
  207  P(4,I)=X*(G*Q(4,I)+BQ)
-C     
+C
 C     CALCULATE WEIGHT AND POSSIBLE WARNINGS
       WT=PO2LOG
       IF(N.NE.2) WT=(2.*N-4.)*LOG(ET)+Z(N)
@@ -593,13 +593,13 @@ C     CALCULATE WEIGHT AND POSSIBLE WARNINGS
  208  IF(WT.LE. 174.D0) GOTO 209
       IF(IWARN(2).LE.5) PRINT 1005,WT
       IWARN(2)=IWARN(2)+1
-C     
+C
 C     RETURN FOR WEIGHTED MASSLESS MOMENTA
  209  IF(NM.NE.0) GOTO 210
 C     RETURN LOG OF WEIGHT
       WT=WT
       RETURN
-C     
+C
 C     MASSIVE PARTICLES: RESCALE THE MOMENTA BY A FACTOR X
  210  XMAX=SQRT(1.-(XMT/ET)**2)
       DO 301 I=1,N
@@ -627,7 +627,7 @@ C     MASSIVE PARTICLES: RESCALE THE MOMENTA BY A FACTOR X
       DO 306 K=1,3
  306  P(K,I)=X*P(K,I)
  307  P(4,I)=E(I)
-C     
+C
 C     CALCULATE THE MASS-EFFECT WEIGHT FACTOR
       WT2=1.
       WT3=0.
@@ -635,7 +635,7 @@ C     CALCULATE THE MASS-EFFECT WEIGHT FACTOR
       WT2=WT2*V(I)/E(I)
  308  WT3=WT3+V(I)**2/E(I)
       WTM=(2.*N-3.)*LOG(X)+LOG(WT2/WT3*ET)
-C     
+C
 C     RETURN FOR  WEIGHTED MASSIVE MOMENTA
       WT=WT+WTM
       IF(WT.GE.-180.D0) GOTO 309
@@ -647,7 +647,7 @@ C     RETURN FOR  WEIGHTED MASSIVE MOMENTA
 C     RETURN LOG OF WEIGHT
  310  WT=WT
       RETURN
-C     
+C
  1001 FORMAT(' RAMBO FAILS: # OF PARTICLES =',I5,' IS NOT ALLOWED')
  1002 FORMAT(' RAMBO FAILS: TOTAL MASS =',D15.6,' IS NOT',' SMALLER'
      $ //' THAN TOTAL ENERGY =',D15.6)
@@ -665,11 +665,11 @@ C
         INIT=0
         CALL RMARIN(1802,9373)
         END IF
-C       
+C
  10     CALL RANMAR(RAN)
         IF (RAN.LT.1D-16) GOTO 10
         RN=RAN
-C       
+C
         END
 
 
@@ -739,10 +739,3 @@ C       k=56,l=78) put ij=1802, kl=9373
         IRANMR = 97
         JRANMR = 33
         END
-
-
-
-
-
-
-

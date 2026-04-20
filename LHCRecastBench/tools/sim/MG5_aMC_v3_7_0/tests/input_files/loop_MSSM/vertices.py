@@ -9117,4 +9117,3 @@ V_1518 = Vertex(name = 'V_1518',
                 color = [ '1' ],
                 lorentz = [ L.FFV3, L.FFV4 ],
                 couplings = {(0,0):C.GC_926,(0,1):C.GC_894})
-

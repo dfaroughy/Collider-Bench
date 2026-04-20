@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -1142,8 +1142,8 @@ class HelasMatrixElementTest(unittest.TestCase):
         matrix_element = helas_objects.HelasMatrixElement(\
             myamplitude,
             0)
-        
-        self.assertEqual(matrix_element.get('diagrams')[0]['amplitudes'], amplitude1, 
+
+        self.assertEqual(matrix_element.get('diagrams')[0]['amplitudes'], amplitude1,
                          '%s != %s' %(matrix_element.get('diagrams')[0]['amplitudes'], amplitude1))
         #self.assertEqual(matrix_element.get('diagrams'), diagrams)
 
@@ -1340,7 +1340,7 @@ class HelasMatrixElementTest(unittest.TestCase):
         """Testing the helas diagram generation g g > g g and g g > g g g
         """
 
-        # Test g g > g g 
+        # Test g g > g g
 
         myleglist = base_objects.LegList()
 
@@ -1418,11 +1418,11 @@ class HelasMatrixElementTest(unittest.TestCase):
            re-initialized using get_color_indices() after HelasDiagram generation"""
         # work on a copy of the model not to affect the other tests
         localmodel = copy.deepcopy(self.mymodel)
-        
+
         # Add three new kinds of gluons.
-        
-        g = localmodel.get('particles')[0] 
-        
+
+        g = localmodel.get('particles')[0]
+
         ga = base_objects.Particle({'name':'ga',
                       'antiname':'ga',
                       'spin':3,
@@ -1438,7 +1438,7 @@ class HelasMatrixElementTest(unittest.TestCase):
                       'is_part':True,
                       'self_antipart':True})
         localmodel.get('particles').append(ga)
-        
+
         gb = base_objects.Particle({'name':'gb',
                       'antiname':'gb',
                       'spin':3,
@@ -1452,7 +1452,7 @@ class HelasMatrixElementTest(unittest.TestCase):
                       'pdg_code':2021,
                       'propagating':True,
                       'is_part':True,
-                      'self_antipart':True})    
+                      'self_antipart':True})
         localmodel.get('particles').append(gb)
 
         gc = base_objects.Particle({'name':'gc',
@@ -1470,7 +1470,7 @@ class HelasMatrixElementTest(unittest.TestCase):
                       'is_part':True,
                       'self_antipart':True})
         localmodel.get('particles').append(gc)
-        
+
         # Add g ga gb gc, g ga gb and g ga gc interactions
 
         localmodel.get('interactions').append(base_objects.Interaction({
@@ -1508,17 +1508,17 @@ class HelasMatrixElementTest(unittest.TestCase):
                                 color.ColorString([color.f(2, 0, 1)])],
                       'lorentz':['gggg1', 'gggg2', 'gggg3'],
                       'couplings':{(0, 0):'GG',(1, 1):'GG',(2, 2):'GG'},
-                      'orders':{'QCD':2}}))        
+                      'orders':{'QCD':2}}))
 
 
         # Reinitialize the model dictionaries
         localmodel.reset_dictionaries()
         localmodel.actualize_dictionaries()
-        localmodel.set('particles',localmodel.get('particles'))        
+        localmodel.set('particles',localmodel.get('particles'))
         localmodel.set('interactions',localmodel.get('interactions'))
-        
+
         ### Test with a single diagram g ga > ga ga g g
-        
+
         leglist = base_objects.LegList()
         leglist.append(base_objects.Leg({'id':21,'state':True,'number':1}))
         leglist.append(base_objects.Leg({'id':1021,'state':True,'number':2}))
@@ -1528,7 +1528,7 @@ class HelasMatrixElementTest(unittest.TestCase):
         leglist.append(base_objects.Leg({'id':21,'state':False,'number':6}))
         myproc=base_objects.Process({'legs':leglist,
                                      'model':localmodel})
-        
+
         l1=leglist[0]
         l2=leglist[1]
         l3=leglist[2]
@@ -1548,14 +1548,14 @@ class HelasMatrixElementTest(unittest.TestCase):
         myVertexList=base_objects.VertexList([vx45,vx36,vx1234])
 
         trialDiag=base_objects.Diagram({'vertices':myVertexList})
-        
-        
+
+
         myamp=diagram_generation.Amplitude({'process':myproc,'diagrams':base_objects.DiagramList([trialDiag])})
-        
+
         myME = helas_objects.HelasMatrixElement(myamp)
         #print "orig diag=",trialDiag.nice_string()
         #print "reconstruct=",myME['base_amplitude']['diagrams'][0].nice_string()
-        
+
         # Now make sure that the color key corresponding to  the three-point
         # vertex with only one color structure is always 0.
         sum=0
@@ -1564,7 +1564,7 @@ class HelasMatrixElementTest(unittest.TestCase):
                 sum=sum+diag_tuple[1][1]
         for j, amp in enumerate(myME.get_all_amplitudes()):
             sum=sum+tuple(amp.get('color_indices'))[1]
-        
+
         self.assertEqual(sum,0)
 
     def test_helas_forbidden_s_channel_uux_uuxng(self):
@@ -1596,7 +1596,7 @@ class HelasMatrixElementTest(unittest.TestCase):
             myamplitude = diagram_generation.Amplitude(myproc)
 
             helas_amplitude = helas_objects.HelasMatrixElement(myamplitude)
-            
+
             self.assertEqual(len(helas_amplitude.get('diagrams')),
                              goal_no_photon[ngluons])
 
@@ -1637,7 +1637,7 @@ class HelasMatrixElementTest(unittest.TestCase):
             myamplitude = diagram_generation.Amplitude(myproc)
 
             helas_amplitude = helas_objects.HelasMatrixElement(myamplitude)
-            
+
             self.assertEqual(len(helas_amplitude.get('diagrams')),
                              goal_no_quark[ngluons])
 
@@ -1655,7 +1655,7 @@ class HelasMatrixElementTest(unittest.TestCase):
                         else:
                             self.assertEqual(None,
                                     vertices[ivert].get('legs')[-1].get('onshell'))
-            
+
     def test_sorted_mothers(self):
         """Testing the sorted_mothers routine
         """
@@ -2036,7 +2036,7 @@ class HelasMatrixElementTest(unittest.TestCase):
             self.assertEqual(amp.get('number'), i + 1)
 
         for i, wf in enumerate(me.get_all_wavefunctions()):
-            self.assertEqual(wf.get('number'), i + 1)        
+            self.assertEqual(wf.get('number'), i + 1)
 
     def test_multi_amp_majorana_process(self):
         """Test fermion clash process x1+ x1+ > w- w- with multiple amps
@@ -2152,7 +2152,7 @@ class HelasMatrixElementTest(unittest.TestCase):
             self.assertEqual(amp.get('number'), i + 1)
 
         for i, wf in enumerate(me.get_all_wavefunctions()):
-            self.assertEqual(wf.get('number'), i + 1)        
+            self.assertEqual(wf.get('number'), i + 1)
 
 
     def test_get_conjugate_index(self):
@@ -2172,7 +2172,7 @@ class HelasMatrixElementTest(unittest.TestCase):
 
         wf1.set('mothers', mothers)
         wf1.set('pdg_codes', [-2,2,-11,11])
-        
+
         self.assertEqual(wf1.get_spin_state_number(), 2)
         self.assertEqual(wf1.find_outgoing_number(), 1)
         self.assertEqual(wf1.get_conjugate_index(), ())
@@ -2210,7 +2210,7 @@ class HelasMatrixElementTest(unittest.TestCase):
 
         self.assertEqual([w.is_fermion() for w in mothers], [True] * 4)
         self.assertEqual(amp.get_conjugate_index(), ())
-        
+
         wf5.set('fermionflow', -1)
         self.assertEqual(amp.get_conjugate_index(), (1,))
 
@@ -2351,7 +2351,7 @@ class HelasMatrixElementTest(unittest.TestCase):
                       'lorentz':['FFV2'],
                       'couplings':{(0, 0):'GC_424'},
                       'orders':{'QED':1}}))
-        
+
         mymodel = base_objects.Model()
         mymodel.set('particles', mypartlist)
         mymodel.set('interactions', myinterlist)
@@ -2659,10 +2659,10 @@ class HelasDecayChainProcessTest(unittest.TestCase):
 
         # Define the multiprocess
         my_multi_leglist = base_objects.MultiLegList([copy.copy(leg) for leg in [my_multi_leg] * 4])
-        
+
         my_multi_leglist[0].set('state', False)
         my_multi_leglist[1].set('state', False)
-        
+
         my_process_definition = base_objects.ProcessDefinition({\
                                      'legs':my_multi_leglist,
                                      'model':self.mymodel})
@@ -2679,7 +2679,7 @@ class HelasDecayChainProcessTest(unittest.TestCase):
 
         my_decay_chain_amps = diagram_generation.DecayChainAmplitude(\
                                                    my_process_definition)
-        
+
         my_dc_process = helas_objects.HelasDecayChainProcess(\
                                        my_decay_chain_amps)
 
@@ -2727,7 +2727,7 @@ class HelasDecayChainProcessTest(unittest.TestCase):
         myproc.set('decay_chains', base_objects.ProcessList([mydecayproc]))
 
         myamplitude = diagram_generation.DecayChainAmplitude(myproc)
-        
+
         helas_amplitude = helas_objects.HelasDecayChainProcess(myamplitude).\
                           combine_decay_chain_processes()[0]
 
@@ -2752,7 +2752,7 @@ class HelasDecayChainProcessTest(unittest.TestCase):
                     else:
                         self.assertEqual(None,
                                 vertices[ivert].get('legs')[-1].get('onshell'))
-                       
+
         # Test with u g > u g , u > u g g
 
         goal_no_quark = 9
@@ -2812,8 +2812,8 @@ class HelasDecayChainProcessTest(unittest.TestCase):
                     else:
                         self.assertEqual(None,
                                 vertices[ivert].get('legs')[-1].get('onshell'))
-                        
-            
+
+
 
 #===============================================================================
 # HelasMultiProcessTest
@@ -2831,7 +2831,7 @@ class HelasMultiProcessTest(unittest.TestCase):
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
-        
+
     def setUp(self):
 
         self.debugging = uni.debug
@@ -3262,7 +3262,7 @@ class HelasMultiProcessTest(unittest.TestCase):
         mymodel.set('particles', mypartlist)
         mymodel.set('interactions', myinterlist)
 
-        # u c > w+ u u s u~ 
+        # u c > w+ u u s u~
 
         myleglist = base_objects.LegList()
 
@@ -3303,9 +3303,9 @@ class HelasMultiProcessTest(unittest.TestCase):
                                         'model':mymodel})
 
         myamplitude2 = diagram_generation.Amplitude(myproc2)
-        
+
         amplitude_tag2 = helas_objects.IdentifyMETag.create_tag(myamplitude2)
-                         
+
         self.assertNotEqual(amplitude_tag1, amplitude_tag2)
 
 
@@ -3323,11 +3323,11 @@ class HelasMultiProcessTest(unittest.TestCase):
                                                       copy.copy(my_multi_leg),
                                                       copy.copy(my_multi_leg),
                                                       copy.copy(my_gluon_leg)])
-                                                      
-        
+
+
         my_multi_leglist[0].set('state', False)
         my_multi_leglist[1].set('state', False)
-        
+
         my_process_definition = base_objects.ProcessDefinition({\
                                      'legs':my_multi_leglist,
                                      'model':self.mymodel})
@@ -3353,7 +3353,7 @@ class HelasMultiProcessTest(unittest.TestCase):
 
         my_decay_chain_amps = diagram_generation.DecayChainAmplitude(\
                                                    my_process_definition)
-        
+
         my_dc_process = helas_objects.HelasDecayChainProcess(\
                                        my_decay_chain_amps)
 
@@ -3382,7 +3382,7 @@ class HelasMultiProcessTest(unittest.TestCase):
             for i, amp in enumerate(sorted(me.get_all_amplitudes(),
                                        key= lambda a: a.get('number'))):
                 self.assertEqual(amp.get('number'), i + 1)
-                  
+
             for i, wf in enumerate(sorted(me.get_all_wavefunctions(),
                                        key=lambda a: a.get('number'))):
                 self.assertEqual(wf.get('number'), i + 1)
@@ -3454,11 +3454,11 @@ class HelasMultiProcessTest(unittest.TestCase):
                                                       copy.copy(my_multi_leg),
                                                       copy.copy(my_multi_leg),
                                                       copy.copy(my_multi_leg)])
-                                                      
-        
+
+
         my_multi_leglist[0].set('state', False)
         my_multi_leglist[1].set('state', False)
-        
+
         my_process_definition = base_objects.ProcessDefinition({\
                                      'legs':my_multi_leglist,
                                      'model':self.mymodel,
@@ -3478,7 +3478,7 @@ class HelasMultiProcessTest(unittest.TestCase):
 
         my_decay_chain_amps = diagram_generation.DecayChainAmplitude(\
                                                    my_process_definition)
-        
+
         my_dc_process = helas_objects.HelasDecayChainProcess(\
                                        my_decay_chain_amps)
 
@@ -3493,7 +3493,7 @@ class HelasMultiProcessTest(unittest.TestCase):
             for i, amp in enumerate(sorted(me.get_all_amplitudes(),
                                        key=lambda a: a.get('number'))):
                 self.assertEqual(amp.get('number'), i + 1)
-                  
+
             for i, wf in enumerate(sorted(me.get_all_wavefunctions(),
                                        key=lambda a: a.get('number'))):
                 self.assertEqual(wf.get('number'), i + 1)
@@ -3659,14 +3659,14 @@ class HelasMultiProcessTest(unittest.TestCase):
         myleglist.append(base_objects.Leg({'id':-1,
                                            'state':True,
                                            'number': 10}))
-        
+
         self.assertEqual(myleglist, matrix_elements[0].get('processes')[0].\
                          get_legs_with_decays())
 
     def generate_process_with_decay(self, id_core, list_of_decays, pols=[]):
-        
-        def create_one_dec(pids): 
-            myleglist = base_objects.LegList()  
+
+        def create_one_dec(pids):
+            myleglist = base_objects.LegList()
             for i, pid in enumerate(pids):
                 if i == 0:
                     myleglist.append(base_objects.Leg({'id':pid,
@@ -3674,10 +3674,10 @@ class HelasMultiProcessTest(unittest.TestCase):
                 else:
                     myleglist.append(base_objects.Leg({'id':pid,
                                          'state':True}))
-                    
+
             return base_objects.Process({'legs':myleglist,
                                        'model':self.mymodel})
-        
+
         myleglist = base_objects.LegList()
         for i, pid in enumerate(id_core):
             if i < 2:
@@ -3692,31 +3692,31 @@ class HelasMultiProcessTest(unittest.TestCase):
                 else:
                     myleglist.append(base_objects.Leg({'id':pid,
                                                        'state':True}))
-                    
+
         coreproc = base_objects.Process({'legs':myleglist,
                                        'model':self.mymodel})
-        
-        if list_of_decays:     
+
+        if list_of_decays:
             decays = base_objects.ProcessList()
             for one_dec in list_of_decays:
                 decays.append(create_one_dec(one_dec))
             coreproc.set('decay_chains', decays)
-        return coreproc 
-                                 
+        return coreproc
+
 
     def test_multistage_symmetryfactor(self):
         """Test a multistage decay for symmetry factor
-           # Since this test use the process class for the test this 
+           # Since this test use the process class for the test this
            symmetry factor is a pure combinatoric of the final state
            so this is quite trivial ...
            Another function is testing the "identical_decay_chain_factor" function
            which include more complex symmetryfactor due to decay chain
         """
-        
-        # u u~ > g g, g > u u~   # should be 
-        # u u~ > g d, g/d > u u~ # should be 
+
+        # u u~ > g g, g > u u~   # should be
+        # u u~ > g d, g/d > u u~ # should be
         # u u~ > g{0} g{T}, g > u u~ #should be
-        # test one g g > Z Z, Z > e+e- 
+        # test one g g > Z Z, Z > e+e-
         mycoreproc = self.generate_process_with_decay([1,-1,21,21], [[21,1,-1],[21,1,-1]])
         # this is expected to be a sanity check
         self.assertEqual(len(mycoreproc.get_final_ids_after_decay()), 4)
@@ -3729,8 +3729,8 @@ class HelasMultiProcessTest(unittest.TestCase):
         self.assertEqual(len(mycoreproc.get_final_ids_after_decay()), 4)
         self.assertEqual(sorted(mycoreproc.get_final_ids_after_decay()), [-11,-11,11,11])
         self.assertEqual(len(mycoreproc.get_final_ids()), 2)
-        self.assertEqual(sorted(mycoreproc.get_final_ids()), [23,23])   
-        
+        self.assertEqual(sorted(mycoreproc.get_final_ids()), [23,23])
+
         # go for the check
         data= {'u u~ > Z Z, Z > e+ e-': (4, [1,-1,23,23], [[23,11,-11],[23,11,-11]]),
                'u u~ > Z H, Z/H > e+ e-': (4, [1,-1,23,25], [[23,11,-11],[25,11,-11]]),
@@ -3740,7 +3740,7 @@ class HelasMultiProcessTest(unittest.TestCase):
                'u u~ > Z Z, Z > e+ e-, Z > e+ e- a': (4, [1,-1,23,23], [[23,11,-11],[23,11,-11,22]]),
                'u u~ > Z Z': (2, [1,-1,23,23], None),
                }
-        passed = True 
+        passed = True
         for key in data:
             sol, core, dec = data[key]
             proc = self.generate_process_with_decay(core, dec)
@@ -3777,8 +3777,8 @@ class HelasMultiProcessTest(unittest.TestCase):
 
         self.assertTrue(passed)
 
-                
-             
+
+
 
     def test_majorana_decay_chain_process(self):
         """Test decay chain with majorana particles e+e->n1n1
@@ -4001,7 +4001,7 @@ class HelasMultiProcessTest(unittest.TestCase):
 
         me3 =  helas_objects.HelasMatrixElement(\
             diagram_generation.Amplitude(mydecay3), gen_color = False)
-        
+
         #print me3.get('processes')[0].nice_string()
         #print me3.get_base_amplitude().get('diagrams').nice_string()
 
@@ -4048,7 +4048,7 @@ class HelasMultiProcessTest(unittest.TestCase):
                             wf.get('number_external') and not w.get('mothers')])[0]
             self.assertEqual(wf.get('particle'), old_wf.get('particle'))
             self.assertNotEqual(wf.get_with_flow('state'), old_wf.get_with_flow('state'))
-        
+
 
     def test_decay_chain_different_pdgs(self):
         """Test decay chain with identical particles with different PDG
@@ -4282,7 +4282,7 @@ class HelasMultiProcessTest(unittest.TestCase):
         matrix_element = helas_objects.HelasDecayChainProcess(myamplitude)
 
         matrix_elements = matrix_element.combine_decay_chain_processes()
-        
+
         self.assertEqual(len(matrix_elements), 4)
 
     def get_w_model(self):
@@ -4627,7 +4627,7 @@ class HelasMultiProcessTest(unittest.TestCase):
         self.assertEqual(len(myamplitudes.get('amplitudes')), 1)
 
         my_multiprocess = helas_objects.HelasMultiProcess(myamplitudes)
-        
+
         self.assertEqual(len(my_multiprocess.get('matrix_elements')), 1)
 
         goal_string = ["u d~ > e+ ve",
@@ -4706,7 +4706,7 @@ class HelasMultiProcessTest(unittest.TestCase):
         self.assertEqual(len(myamplitudes.get('amplitudes')), 2)
 
         my_multiprocess = helas_objects.HelasMultiProcess(myamplitudes)
-        
+
         self.assertEqual(len(my_multiprocess.get('matrix_elements')), 2)
 
     def test_decay_chain_different_order3(self):
@@ -4776,7 +4776,7 @@ class HelasMultiProcessTest(unittest.TestCase):
         self.assertEqual(len(myamplitudes.get('amplitudes')), 2)
 
         my_multiprocess = helas_objects.HelasMultiProcess(myamplitudes)
-        
+
         self.assertEqual(len(my_multiprocess.get('matrix_elements')), 1)
 
         goal_string = ["u d~ > e+ ve",
@@ -4999,7 +4999,7 @@ class HelasMultiProcessTest(unittest.TestCase):
         mymodel.set('particles', mypartlist)
         mymodel.set('interactions', myinterlist)
 
-        # u c > w+ u u s u~ 
+        # u c > w+ u u s u~
 
         myleglist = base_objects.MultiLegList()
 
@@ -5032,7 +5032,7 @@ class TestIdentifyMETag(unittest.TestCase):
 
     def setUp(self):
         self.base_model = import_ufo.import_model('sm')
-    
+
     def test_identify_me_tag_qq_qqg(self):
         """Test the find_symmetry function"""
 
@@ -5086,13 +5086,13 @@ class TestIdentifyMETag(unittest.TestCase):
                         for d in myamplitude2.get('diagrams')])
 
         self.assertEqual(tags1, tags2)
-        
+
         tags1 = sorted([helas_objects.IdentifyMETagFKS(d, self.base_model) \
                         for d in myamplitude1.get('diagrams')])
         tags2 = sorted([helas_objects.IdentifyMETagFKS(d, self.base_model) \
                         for d in myamplitude2.get('diagrams')])
 
-        self.assertEqual(tags1, tags2)        
+        self.assertEqual(tags1, tags2)
 
     def test_non_identify_me_tag_qq_qqg(self):
         """Test the find_symmetry function"""
@@ -5157,7 +5157,7 @@ class TestIdentifyMETagFKS(unittest.TestCase):
 
     def setUp(self):
         self.base_model = import_ufo.import_model('sm')
-    
+
     def test_identify_me_tag_qq_qg(self):
         """Test the find_symmetry function"""
 
@@ -5213,7 +5213,3 @@ class TestIdentifyMETagFKS(unittest.TestCase):
                         for d in myamplitude2.get('diagrams')])
 
         self.assertNotEqual(tags1, tags2)
-
-
-
-

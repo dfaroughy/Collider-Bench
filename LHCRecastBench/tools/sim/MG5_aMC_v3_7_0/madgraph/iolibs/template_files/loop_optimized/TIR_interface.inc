@@ -1,14 +1,14 @@
 	  SUBROUTINE %(proc_prefix)sTIRLOOP(I_SQSO,I_LOOPGROUP,I_LIB,NLOOPLINE,PL,M2L,RANK,RES,STABLE)
-C  
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and TIR.
-C  
+C
 %(process_lines)s
-C  
-C  
-C CONSTANTS 
-C 
+C
+C
+C CONSTANTS
+C
       INTEGER NLOOPGROUPS
       PARAMETER (NLOOPGROUPS=%(nloop_groups)d)
 C     These are constants related to the split orders
@@ -25,8 +25,8 @@ C     These are constants related to the split orders
       INTEGER TIR_CACHE_SIZE
       include 'tir_cache_size.inc'
 ## }
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       INTEGER I_SQSO,I_LOOPGROUP,I_LIB
       INTEGER NLOOPLINE, RANK
@@ -35,11 +35,11 @@ C
       %(real_dp_format)s REF_P
       %(real_dp_format)s PDEN(0:3,NLOOPLINE-1)
       %(mass_dp_format)s M2L(NLOOPLINE)
-      %(complex_dp_format)s M2LCT(0:NLOOPLINE-1)	  
+      %(complex_dp_format)s M2LCT(0:NLOOPLINE-1)
       %(complex_dp_format)s RES(3)
-	  LOGICAL STABLE	  
-C  
-C LOCAL VARIABLES 
+	  LOGICAL STABLE
+C
+C LOCAL VARIABLES
 C
 	  INTEGER I, J, K
 	  INTEGER NLOOPCOEFS
@@ -53,7 +53,7 @@ c This variable will be used to detect changes in the TIR library used so as to 
        %(complex_dp_format)s TIRCOEFS(0:LOOPMAXCOEFS-1,3),TIRCOEFSERRORS(0:LOOPMAXCOEFS-1,3)
        %(complex_dp_format)s PJCOEFS(0:LOOPMAXCOEFS-1,3)
 ## if(TIRCaching){
-       integer TIR_CACHE_INDEX 
+       integer TIR_CACHE_INDEX
        %(complex_dp_format)s TIRCOEFS_CACHING(3,0:LOOPMAXCOEFS-1,NLOOPGROUPS,TIR_CACHE_SIZE)
        SAVE TIRCOEFS_CACHING
 ## }
@@ -198,11 +198,11 @@ C NUMBER OF INDEPEDENT LOOPCOEFS FOR RANK=RANK
 	  ELSE
 	    TIR_CACHE_INDEX = %(proc_prefix)sTIRCACHE_INDEX(CTMODE)
 C This way whenever the CTMode exceeds the cache size it rolls back to the beginning and MadLoop will have taken care of having re-initialized TIR_DONE between labels 200 and 205 in loop_matrix.f
-		TIR_CACHE_INDEX = MOD(TIR_CACHE_INDEX-1,TIR_CACHE_SIZE)+1 
+		TIR_CACHE_INDEX = MOD(TIR_CACHE_INDEX-1,TIR_CACHE_SIZE)+1
 	  ENDIF
 
 	  IF(.NOT.TIR_DONE(I_LOOPGROUP,TIR_CACHE_INDEX))THEN
-## } 
+## }
       SELECT CASE(MLReductionLib(I_LIB))
       CASE(2)
 C     PJFry++
@@ -220,7 +220,7 @@ C     IREGI
 ## if(iregi_available){
       CALL IMLOOP(CTMODE,IREGIMODE,NLOOPLINE,LOOPMAXCOEFS,RANK,PDEN,M2L,MU_R,PJCOEFS,STABLE)
 C     CONVERT TO MADLOOP CONVENTION
-      CALL %(proc_prefix)sCONVERT_IREGI_COEFFS(RANK,PJCOEFS,TIRCOEFS)  
+      CALL %(proc_prefix)sCONVERT_IREGI_COEFFS(RANK,PJCOEFS,TIRCOEFS)
 ## } else {
       WRITE(*,*) 'ERROR:: IREGI is not interfaced.'
       STOP
@@ -231,7 +231,7 @@ C     COLLIER
       CALL %(proc_prefix)sCOLLIERLOOP(CTMODE,NLOOPLINE,RANK,PL,PDEN,M2L,TIRCOEFS,TIRCOEFSERRORS)
 C     Shift the TIR coefficients by the corresponding COLLIER error if in CTMODE 2.
 	  if (COLLIERUseInternalStabilityTest.and.CTMODE.eq.2) THEN
-C       We add here the numerical inaccuracies linearly to be conservative 
+C       We add here the numerical inaccuracies linearly to be conservative
 	    DO I=1,3
       	  DO J=0,NLOOPCOEFS-1
 		    TIRCOEFS(J,I)=TIRCOEFS(J,I)+TIRCOEFSERRORS(J,I)
@@ -304,7 +304,7 @@ C     ENDIF
       INTEGER I,J,K
 
       IF (CTMode.ne.2.and.CTMode.ne.5) THEN
-        RETURN 
+        RETURN
       ENDIF
 
       IF (NLOOPLINE.le.2) THEN
@@ -358,7 +358,7 @@ C     ENDIF
       INTEGER I,J,K
 
       IF (CTMode.ne.2.and.CTMode.ne.5) THEN
-        RETURN 
+        RETURN
       ENDIF
 
       IF (NLOOPLINE.le.2) THEN
@@ -398,26 +398,26 @@ C     ENDIF
       end
 
 	  SUBROUTINE %(proc_prefix)sINITTIR()
-C 
+C
 C INITIALISATION OF TIR
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 	  %(real_dp_format)s THRS
 	  LOGICAL EXT_NUM_FOR_R1
-C  
-C GLOBAL VARIABLES 
+C
+C GLOBAL VARIABLES
 C
 	  include 'MadLoopParams.inc'
 	  LOGICAL CTINIT, TIRINIT, GOLEMINIT, SAMURAIINIT, NINJAINIT,COLLIERINIT
 	  COMMON/REDUCTIONCODEINIT/CTINIT,TIRINIT,GOLEMINIT,SAMURAIINIT,NINJAINIT,COLLIERINIT
-	  
+
 C ----------
 C BEGIN CODE
 C ----------
 
 C DEFAULT PARAMETERS FOR TIR
-C -------------------------------  
+C -------------------------------
 C THRS1 IS THE PRECISION LIMIT BELOW WHICH THE MP ROUTINES ACTIVATES
 C USE THE SAME MADLOOP PARAMETER IN CUTTOOLS AND TIR
 C IT IS NECESSARY TO INITIALIZE CT BECAUSE IREGI USES THE VERSION OF ONELOOP
@@ -496,14 +496,14 @@ C  QP EVALUATION, ONLY CUTTOOLS
 		J_LIB=0
 		SELECT_LIBINDEX=LIBINDEX
 		DO WHILE(J_LIB.EQ.0)
-		   DO I=1,QP_NLOOPLIB	
+		   DO I=1,QP_NLOOPLIB
 		      IF(INDEX_QP_TOOLS(I).EQ.SELECT_LIBINDEX)THEN
 		        J_LIB=I
 		        EXIT
 		      ENDIF
 		   ENDDO
 		   IF(J_LIB.EQ.0)THEN
-              SELECT_LIBINDEX=SELECT_LIBINDEX+1		
+              SELECT_LIBINDEX=SELECT_LIBINDEX+1
               IF(SELECT_LIBINDEX.GT.NLOOPLIB.OR.MLReductionLib(SELECT_LIBINDEX).EQ.0)SELECT_LIBINDEX=1
 		   ENDIF
 		ENDDO
@@ -538,7 +538,7 @@ C  DP EVALUATION
 		     STOP 'No dp loop library can deal with this integral'
 		  ENDIF
 		  LIBNUM=MLReductionLib(I_LIB)
-		ENDDO 
+		ENDDO
 	    ENDIF
 	    RETURN
 	  END
@@ -556,7 +556,7 @@ C  DP EVALUATION
 
 	    LOGICAL TIR_DONE(NLOOPGROUPS,0:TIR_CACHE_SIZE)
 	    COMMON/%(proc_prefix)sTIRCACHING/TIR_DONE
-        
+
 		DO I=0,TIR_CACHE_SIZE
 		  DO J=1,NLOOPGROUPS
             TIR_DONE(J,I)=.FALSE.
@@ -583,6 +583,6 @@ C This way, the CTMode 4 and 5 are sent to 3 and 4 respectively.
 		ENDIF
 
 C In principle if we wanted to cache other modes or rotations, we could do it here
-	    RETURN 
+	    RETURN
       END
 ## }

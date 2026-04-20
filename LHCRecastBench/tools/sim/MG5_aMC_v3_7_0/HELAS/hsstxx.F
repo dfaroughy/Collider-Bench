@@ -1,6 +1,6 @@
       subroutine hsstxx(tc1,sc,gt,xm,xw,jts)
 c
-c- by RF - Feb. 2006 
+c- by RF - Feb. 2006
 c
 c This subroutine computes an off-shell tensor current from the tts coupling.
 c

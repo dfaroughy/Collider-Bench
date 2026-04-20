@@ -6,7 +6,7 @@ c  Set the dimension of the wavefunctions.
 c
 c====================================================================
 c
- 
+
       integer DIM
 
 c Set the dimension of the wavefunctions to an arbitrary length
@@ -28,4 +28,3 @@ c
 c demension tensor particle:
 c      parameter ( DIM_T=18 )
 c
-

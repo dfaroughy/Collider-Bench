@@ -22,7 +22,7 @@ C...convert from PDG numbering scheme to QQ numbering scheme
           if(ID.EQ.IDPDGQ(IT)) qqtran = IT
         enddo
         if(ID.EQ.0 .or. qqtran.eq.-21 )then
-          qqtran = -21 
+          qqtran = -21
           write(lnhout,*) ' QQTRAN: particle ID translation is invalid'
         endif
       else

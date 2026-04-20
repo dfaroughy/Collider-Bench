@@ -6,5 +6,3 @@
 from __future__ import absolute_import
 from .object_library import all_decays, Decay
 from . import particles as P
-
-

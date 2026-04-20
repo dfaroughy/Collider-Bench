@@ -2,35 +2,35 @@ C     ===========================================
 C     ===== Beginning of CutTools Interface =====
 C     ===========================================
       SUBROUTINE %(proc_prefix)sCTLOOP(NLOOPLINE,PL,M2L,RANK,RES,STABLE)
-C  
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and CutTools.
-C  
+C
 %(process_lines)s
-C  
-C  
-C CONSTANTS 
-C  
+C
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       LOGICAL checkPConservation
       PARAMETER (checkPConservation=.TRUE.)
       %(real_dp_format)s NORMALIZATION
       PARAMETER (NORMALIZATION = 1.D0/(16.D0*3.14159265358979323846D0**2))
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       INTEGER NLOOPLINE, RANK
       %(real_dp_format)s PL(0:3,NLOOPLINE)
       %(real_dp_format)s PCT(0:3,0:NLOOPLINE-1),ABSPCT(0:3)
       %(real_dp_format)s REF_P
       %(mass_dp_format)s M2L(NLOOPLINE)
-      %(complex_dp_format)s M2LCT(0:NLOOPLINE-1)	  
+      %(complex_dp_format)s M2LCT(0:NLOOPLINE-1)
       %(complex_dp_format)s RES(3)
-	  LOGICAL STABLE	  
-C  
-C LOCAL VARIABLES 
+	  LOGICAL STABLE
+C
+C LOCAL VARIABLES
 C
 	  %(complex_dp_format)s R1, ACC
 	  INTEGER I, J, K
@@ -124,15 +124,15 @@ C     WRITE(*,*) 'CutTools: Loop ID',ID,' =',RES(1),RES(2),RES(3)
       END
 
 	  SUBROUTINE %(proc_prefix)sINITCT()
-C 
+C
 C INITIALISATION OF CUTTOOLS
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
 	  %(real_dp_format)s THRS
 	  LOGICAL EXT_NUM_FOR_R1
-C  
-C GLOBAL VARIABLES 
+C
+C GLOBAL VARIABLES
 C
 	  include 'MadLoopParams.inc'
 C ----------
@@ -140,7 +140,7 @@ C BEGIN CODE
 C ----------
 
 C DEFAULT PARAMETERS FOR CUTTOOLS
-C -------------------------------  
+C -------------------------------
 C THRS1 IS THE PRECISION LIMIT BELOW WHICH THE MP ROUTINES ACTIVATES
 	  THRS=CTSTABTHRES
 C LOOPLIB SET WHAT LIBRARY CT USES
@@ -150,7 +150,7 @@ C 3 -> QCDLOOP
       LOOPLIB=CTLOOPLIBRARY
 C MADLOOP'S NUMERATOR IN THE OPEN LOOP IS MUCH FASTER THAN THE RECONSTRUCTED ONE IN CT. SO WE BETTER USE MADLOOP ONE IN THIS CASE.
       EXT_NUM_FOR_R1=.TRUE.
-C -------------------------------	  
+C -------------------------------
 
 C The initialization below is for CT v1.8.+
       CALL CTSINIT(THRS,LOOPLIB,EXT_NUM_FOR_R1)
@@ -159,7 +159,7 @@ C      CALL CTSINIT(THRS,LOOPLIB)
 
 	  END
 
-	  SUBROUTINE %(proc_prefix)sBUILD_KINEMATIC_MATRIX(NLOOPLINE,P_LOOP,M2L,S_MAT) 
+	  SUBROUTINE %(proc_prefix)sBUILD_KINEMATIC_MATRIX(NLOOPLINE,P_LOOP,M2L,S_MAT)
 C
 C       Helper function that compute the loop kinematic matrix with proper thresholds
 C       NLOOPLINE : Number of loop lines
@@ -173,7 +173,7 @@ C
     	%(real_dp_format)s P_LOOP(NLOOPLINE,0:3)
     	%(complex_dp_format)s M2L(NLOOPLINE)
     	%(complex_dp_format)s S_MAT(NLOOPLINE,NLOOPLINE)
-C    
+C
 C    	GLOBAL VARIABLES
 C
      	include 'MadLoopParams.inc'
@@ -190,7 +190,7 @@ C     	----------
 
      	do i=1,NLOOPLINE
        	  do j=1,NLOOPLINE
-            
+
 		    if(i.eq.j)then
 	          s_mat(i,j)=-(M2L(i)+M2L(j))
 	        else
@@ -231,7 +231,7 @@ C             Here, we chose to base the threshold only on the energy component
 
 	  END
 
-	  SUBROUTINE %(proc_prefix)sMP_BUILD_KINEMATIC_MATRIX(NLOOPLINE,P_LOOP,M2L,S_MAT) 
+	  SUBROUTINE %(proc_prefix)sMP_BUILD_KINEMATIC_MATRIX(NLOOPLINE,P_LOOP,M2L,S_MAT)
 C
 C       Helper function that compute the loop kinematic matrix with proper thresholds
 C       NLOOPLINE : Number of loop lines
@@ -245,7 +245,7 @@ C
     	%(real_mp_format)s P_LOOP(NLOOPLINE,0:3)
     	%(complex_mp_format)s M2L(NLOOPLINE)
     	%(complex_mp_format)s S_MAT(NLOOPLINE,NLOOPLINE)
-C    
+C
 C    	GLOBAL VARIABLES
 C
      	include 'MadLoopParams.inc'
@@ -262,7 +262,7 @@ C     	----------
 
      	do i=1,NLOOPLINE
        	  do j=1,NLOOPLINE
-            
+
 		    if(i.eq.j)then
 	          s_mat(i,j)=-(M2L(i)+M2L(j))
 	        else
@@ -310,21 +310,21 @@ C     ===== Beginning of Samurai interface  =====
 C     ===========================================
 
       SUBROUTINE %(proc_prefix)sSAMURAI_LOOP(NLOOPLINE,PL,M2L,RANK,RES,STABLE)
-C    
+C
 C     Module used
 C
       use msamurai
-      IMPLICIT NONE	  
-C  
+      IMPLICIT NONE
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and Samurai.
-C  
+C
 %(process_lines)s
-C  
-C  
-C CONSTANTS 
-C  
+C
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       LOGICAL checkPConservation
@@ -334,8 +334,8 @@ C
 	  INTEGER SAM_REDUCTION_STEPS
 C     This tells Samurai to perform the reduction all the way to tadpoles.
 	  PARAMETER (SAM_REDUCTION_STEPS=1)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       INTEGER NLOOPLINE, RANK
       %(real_dp_format)s PL(0:3,NLOOPLINE)
@@ -343,11 +343,11 @@ C
       %(real_dp_format)s REF_P
       %(real_dp_format)s P_SAM(0:NLOOPLINE-1,4)
       %(mass_dp_format)s M2L(NLOOPLINE)
-      %(complex_dp_format)s M2L_SAM(0:NLOOPLINE-1)	  
+      %(complex_dp_format)s M2L_SAM(0:NLOOPLINE-1)
       %(complex_dp_format)s RES(3), SAM_RES(-2:0)
-	  LOGICAL STABLE	  
-C  
-C LOCAL VARIABLES 
+	  LOGICAL STABLE
+C
+C LOCAL VARIABLES
 C
 	  %(complex_dp_format)s R1, ACC
 	  INTEGER I, J, K
@@ -399,7 +399,7 @@ C  CONVERT THE MASSES TO BE COMPLEX
 
 C  CONVERT THE MOMENTA FLOWING IN THE LOOP LINES TO SAMURAI CONVENTIONS
       do I=0,3
-        ABSP_TMP(I)=0.D0		
+        ABSP_TMP(I)=0.D0
         do J=0,(NLOOPLINE-1)
           P_TMP(I,J)=0.D0
         enddo
@@ -442,7 +442,7 @@ C     In samurai, the first index is the momentum one (with energy last) and the
         P_SAM(I,1) = P_TMP(1,I)
         P_SAM(I,2) = P_TMP(2,I)
         P_SAM(I,3) = P_TMP(3,I)
-        P_SAM(I,4) = P_TMP(0,I)        
+        P_SAM(I,4) = P_TMP(0,I)
       ENDDO
 
 C     Optionally one can set the kinematic matrix fo samurai
@@ -465,9 +465,9 @@ C     WRAPPER for the loop numerator function in Samurai.
 C     =====================================================
       FUNCTION %(proc_prefix)sSAMURAI_LOOPNUM(icut_dummy,Q_IN,mu2_dummy)
       implicit none
-C     
-C     ARGUMENTS 
-C     
+C
+C     ARGUMENTS
+C
       %(complex_dp_format)s %(proc_prefix)sSAMURAI_LOOPNUM
       integer icut_dummy
       %(real_dp_format)s mu2_dummy
@@ -487,7 +487,7 @@ C
 
 
 	  SUBROUTINE %(proc_prefix)sSET_SAMURAI_S_MAT(NLOOPLINE,P_LOOP_IN,M2L)
-C    
+C
 C     Module used
 C
       use mgetkin, only: s_mat
@@ -498,14 +498,14 @@ C
 	  %(complex_dp_format)s M2L(NLOOPLINE)
       %(real_dp_format)s P_LOOP_IN(0:3,0:NLOOPLINE-1)
 C
-C LOCAL VARIABLES 
+C LOCAL VARIABLES
 C
       INTEGER I,J,K
 	  %(real_dp_format)s P_LOOP(NLOOPLINE,0:3)
-	  %(complex_dp_format)s S_MAT_OUT(NLOOPLINE,NLOOPLINE)	  
+	  %(complex_dp_format)s S_MAT_OUT(NLOOPLINE,NLOOPLINE)
 C
 C BEGIN CODE
-C 
+C
       DO I=1,NLOOPLINE
 	    DO J=0,3
 		  P_LOOP(I,J)=P_LOOP_IN(J,I-1)
@@ -521,32 +521,32 @@ C
 		  S_MAT(I,J) = S_MAT_OUT(I,J)
 		ENDDO
 	  ENDDO
-	  
+
 	  END
 
 	  SUBROUTINE %(proc_prefix)sINITIALIZESAMURAI()
-C    
+C
 C     Module used
 C
       use msamurai
-C 
-C INITIALISATION OF SAMURAI 
-C  
-C LOCAL VARIABLES 
+C
+C INITIALISATION OF SAMURAI
+C
+C LOCAL VARIABLES
 C
       INTEGER SAM_verbosity
       INTEGER LOOPLIB, STABILITYTEST
       character*4 NumeratorForm
-C  
-C GLOBAL VARIABLES 
+C
+C GLOBAL VARIABLES
 C
 	  include 'MadLoopParams.inc'
 C ----------
 C BEGIN CODE
 C ----------
 
-C     DEFAULT PARAMETERS FOR SAMURAI 
-C     -------------------------------  
+C     DEFAULT PARAMETERS FOR SAMURAI
+C     -------------------------------
 C     LOOPLIB SET WHAT LIBRARY SAMURAI USES
 C     1 -> LOOPTOOLS
 C     2 -> AVH
@@ -592,20 +592,20 @@ C     ===== Beginning of Ninja interface  =====
 C     ===========================================
 
       SUBROUTINE %(proc_prefix)sNINJA_LOOP(NLOOPLINE,PL,M2L,RANK,RES,STABLE)
-C    
+C
 C     Module used
 C
       use mninja
-C  
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and Ninja.
-C  
+C
 %(process_lines)s
-C  
-C  
-C CONSTANTS 
-C  
+C
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       LOGICAL checkPConservation
@@ -618,21 +618,21 @@ C     These are constants related to the split orders
       INTEGER NSQUAREDSO
       PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
       include 'loop_max_coefs.inc'
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       INTEGER NLOOPLINE, RANK
       %(real_dp_format)s PL(0:3,NLOOPLINE)
       %(mass_dp_format)s M2L(NLOOPLINE)
       %(complex_dp_format)s RES(3)
-	  LOGICAL STABLE	  
-C  
-C LOCAL VARIABLES 
+	  LOGICAL STABLE
+C
+C LOCAL VARIABLES
 C
       %(real_dp_format)s P_TMP(0:3,0:NLOOPLINE-1),ABSP_TMP(0:3)
       %(real_dp_format)s REF_P
       %(real_dp_format)s P_NINJA(0:3,NLOOPLINE)
-      %(real_dp_format)s P_S_MAT(NLOOPLINE,0:3)	  
+      %(real_dp_format)s P_S_MAT(NLOOPLINE,0:3)
       %(mass_dp_format)s M2L_NINJA(NLOOPLINE)
       %(complex_dp_format)s NINJA_RES(0:2)
 	  %(complex_dp_format)s R1
@@ -643,7 +643,7 @@ C
       %(complex_dp_format)s S_MAT(NLOOPLINE,NLOOPLINE)
       %(real_dp_format)s REAL_S_MAT(NLOOPLINE,NLOOPLINE)
 
-      INTEGER CURR_MAXCOEF	  
+      INTEGER CURR_MAXCOEF
 	  %(complex_dp_format)s, ALLOCATABLE :: TENSORCOEFS(:)
 
 C
@@ -711,7 +711,7 @@ C  CONVERT THE MOMENTA FLOWING IN THE LOOP LINES TO NINJA CONVENTIONS
       ref_p = max(ABSP_TMP(0), ABSP_TMP(1),ABSP_TMP(2),ABSP_TMP(3))
        do I=0,3
            ABSP_TMP(I) = MAX(ref_p*1e-6, ABSP_TMP(I))
-       enddo 
+       enddo
 
       if (checkPConservation.and.ref_p.gt.1d-8) then
         if ((P_TMP(0,0)/ABSP_TMP(0)).gt.1.d-6) then
@@ -787,7 +787,7 @@ c      call ninja_tensor_evaluate(TENSORCOEFS,NLOOPLINE,RANK,P_NINJA,M2L,MU_R**2
 C     If a floating point exception was found in Ninja (e.g. exactly zero gram. det.)
 C     Then warn loop_matrix.f so that it will flag this kinematic point as unstable no matter what.
       IF (NINJA_STATUS.EQ.NINJA_UNSTABLE_KINEMATICS) THEN
-	    FPE_IN_DP_REDUCTION = .TRUE. 
+	    FPE_IN_DP_REDUCTION = .TRUE.
 	  ENDIF
 
 C     Make sure to deallocate the tensor of coefficients
@@ -812,20 +812,20 @@ C
 C Quadruple precision version of loop_ninja
 C
       SUBROUTINE %(proc_prefix)sMP_NINJA_LOOP(NLOOPLINE,PL,M2L,RANK,RES,STABLE)
-C    
+C
 C     Module used
 C
       use mninja
-C  
+C
 %(info_lines)s
-C 
+C
 C Interface between MG5 and Ninja.
-C  
+C
 %(process_lines)s
-C  
-C  
-C CONSTANTS 
-C  
+C
+C
+C CONSTANTS
+C
 	  INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       LOGICAL checkPConservation
@@ -838,22 +838,22 @@ C     These are constants related to the split orders
       INTEGER NSQUAREDSO
       PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
       include 'loop_max_coefs.inc'
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       INTEGER NLOOPLINE, RANK
       %(real_mp_format)s PL(0:3,NLOOPLINE)
       %(mass_dp_format)s M2L(NLOOPLINE)
       %(complex_dp_format)s RES(3)
-	  LOGICAL STABLE	  
-C  
-C LOCAL VARIABLES 
+	  LOGICAL STABLE
+C
+C LOCAL VARIABLES
 C
       %(real_mp_format)s NINJA_SCALE
       %(real_mp_format)s P_TMP(0:3,0:NLOOPLINE-1), ABSP_TMP(0:3)
       %(real_dp_format)s REF_P
       real(KI_QNIN) MP_P_NINJA(0:3,NLOOPLINE)
-      %(real_mp_format)s MP_P(0:3,NLOOPLINE)	  
+      %(real_mp_format)s MP_P(0:3,NLOOPLINE)
       %(real_mp_format)s P_S_MAT(NLOOPLINE,0:3)
       %(complex_mp_format)s MP_M2L(NLOOPLINE)
       complex(KI_QNIN) MP_M2L_NINJA(NLOOPLINE)
@@ -869,7 +869,7 @@ C
       %(real_mp_format)s MP_REAL_S_MAT(NLOOPLINE,NLOOPLINE)
       real(KI_QNIN) MP_REAL_S_MAT_NINJA(NLOOPLINE,NLOOPLINE)
 
-      INTEGER CURR_MAXCOEF	  
+      INTEGER CURR_MAXCOEF
 	  %(complex_mp_format)s, ALLOCATABLE :: MP_TENSORCOEFS(:)
 	  complex(KI_QNIN), ALLOCATABLE :: MP_NINJA_TENSORCOEFS(:)
 
@@ -1036,7 +1036,7 @@ c      call ninja_tensor_evaluate(MP_NINJA_TENSORCOEFS,NLOOPLINE,RANK,MP_P_NINJA
 C     If a floating point exception was found in Ninja (e.g. exactly zero gram. det.)
 C     Then warn loop_matrix.f so that it will flag this kinematic point as unstable no matter what.
       IF (NINJA_STATUS.EQ.NINJA_UNSTABLE_KINEMATICS) THEN
-	    FPE_IN_QP_REDUCTION = .TRUE. 
+	    FPE_IN_QP_REDUCTION = .TRUE.
 	  ENDIF
 
 C     Typecast the result back
@@ -1065,25 +1065,25 @@ C     Make sure to deallocate the tensor of coefficients
 C     WRITE(*,*) 'QP Ninja:  Loop ID',ID,' =',RES(1),RES(2),RES(3)
       END
 ## } else {
-C 
+C
 C The Ninja version installed does not support quadruple precision
 C so that the corresponding subroutines are not output.
 C
 ## }
 
 	  SUBROUTINE %(proc_prefix)sINITNINJA()
-C    
+C
 C     Module used
 C
-      use mninja 
-C 
-C     Initialization of Ninja 
-C  
-C LOCAL VARIABLES 
+      use mninja
+C
+C     Initialization of Ninja
+C
+C LOCAL VARIABLES
 C
       INTEGER LOOPLIB
-C  
-C GLOBAL VARIABLES 
+C
+C GLOBAL VARIABLES
 C
 	  include 'MadLoopParams.inc'
 C ----------

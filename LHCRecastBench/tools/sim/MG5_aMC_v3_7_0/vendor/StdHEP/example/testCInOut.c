@@ -18,7 +18,7 @@ double calcEnergy(int j);
 int main(void)
 {
    int nout, nin;
-   
+
    mcfioC_Init();
    nout = write_events();
    nin = read_events();

@@ -29,10 +29,10 @@ c   Check that the file lun is opened
         write(*,*) 'readgrid: Error, unit ',lun,' not opened'
         stop
       endif
-      
+
       ebeam1=0
       ebeam2=0
-      
+
 c...Check that the grid is correct
       read(lun,'(a)',ERR=999,END=999) buf
       do while(buf(1:1).eq.'#'.or.buf.eq.'')
@@ -82,7 +82,7 @@ c...read grid points
             write(*,*) ' (gluon is 0 or 21)'
             stop
           endif
-          if(iabs(kfl).eq.5) then 
+          if(iabs(kfl).eq.5) then
             ipoints=2
           else
             ipoints=1
@@ -128,7 +128,7 @@ c...read grid points
       character*20 temp
 
       temp=string
-      do while(temp(1:1) .eq. ' '.or.temp(1:1).eq.'''') 
+      do while(temp(1:1) .eq. ' '.or.temp(1:1).eq.'''')
 	temp=temp(2:len(temp))
       end do
       first=temp(1:index(temp,' ')-1)

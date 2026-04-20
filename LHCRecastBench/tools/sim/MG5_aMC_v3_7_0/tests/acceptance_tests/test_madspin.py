@@ -40,18 +40,18 @@ class TestMadSpin(unittest.TestCase):
     """test that we can launch everything from a single file"""
 
     def setUp(self):
-        
+
         self.debuging = unittest.debug
         if self.debuging:
             self.path = pjoin(MG5DIR, 'MS_TEST')
             if os.path.exists(self.path):
                 shutil.rmtree(self.path)
-            os.mkdir(self.path) 
+            os.mkdir(self.path)
         else:
             self.path = tempfile.mkdtemp(prefix='ms_test_mg5')
-        self.run_dir = pjoin(self.path, 'MGPROC') 
-        
-    
+        self.run_dir = pjoin(self.path, 'MGPROC')
+
+
     def tearDown(self):
 
         if not self.debuging:
@@ -61,9 +61,9 @@ class TestMadSpin(unittest.TestCase):
 
     def test_hepmc_decay(self):
         """ """
-        
+
         cwd = os.getcwd()
-        
+
         files.cp(pjoin(MG5DIR, 'tests', 'input_files', 'test.hepmc.gz'), self.path)
 
 
@@ -78,7 +78,7 @@ class TestMadSpin(unittest.TestCase):
         decay k0 > xr xr a
         launch
         """ % (MG5DIR, MG5DIR)
-        
+
         fsock.write(text)
         fsock.close()
 
@@ -98,7 +98,7 @@ class TestMadSpin(unittest.TestCase):
         self.assertTrue(os.path.exists(pjoin(self.path, 'test_decayed.lhe.gz')))
         lhe = lhe_parser.EventFile(pjoin(self.path, 'test_decayed.lhe.gz'))
         self.assertEqual(10, len(lhe))
-        
+
         nb_dec = 0
         nb_photon = 0
         for event in lhe:
@@ -109,15 +109,15 @@ class TestMadSpin(unittest.TestCase):
                     nb_dec +=1
                 if particle.pdg ==22:
                     nb_photon += 1
-                    
+
         self.assertEqual(nb_dec, 116)
         self.assertEqual(nb_photon, 116)
 
     def test_lhe_none_decay(self):
         """ """
-        
+
         cwd = os.getcwd()
-        
+
         files.cp(pjoin(MG5DIR, 'tests', 'input_files', 'test_spinmode_none.lhe.gz'), self.path)
 
 
@@ -128,7 +128,7 @@ class TestMadSpin(unittest.TestCase):
         decay z > mu+ mu-
         launch
         """
-        
+
         fsock.write(text)
         fsock.close()
 
@@ -149,7 +149,7 @@ class TestMadSpin(unittest.TestCase):
         self.assertTrue(os.path.exists(pjoin(self.path, 'test_spinmode_none_decayed.lhe.gz')))
         lhe = lhe_parser.EventFile(pjoin(self.path, 'test_spinmode_none_decayed.lhe.gz'))
         self.assertEqual(100, len(lhe))
-        
+
         nb_dec = 0
         nb_muon = 0
         for event in lhe:
@@ -168,9 +168,9 @@ class TestMadSpin(unittest.TestCase):
 
     def test_madspin_spin_only(self):
         """ """
-        
+
         cwd = os.getcwd()
-        
+
         files.cp(pjoin(MG5DIR, 'tests', 'input_files', 'test_spinmode_none.lhe.gz'), self.path)
 
 
@@ -180,7 +180,7 @@ class TestMadSpin(unittest.TestCase):
         set onlyhelicity True
         launch
         """
-        
+
         fsock.write(text)
         fsock.close()
 
@@ -201,9 +201,9 @@ class TestMadSpin(unittest.TestCase):
         self.assertTrue(os.path.exists(pjoin(self.path, 'test_spinmode_none_decayed.lhe.gz')))
         lhe = lhe_parser.EventFile(pjoin(self.path, 'test_spinmode_none_decayed.lhe.gz'))
         self.assertEqual(100, len(lhe))
-        
+
         nb_dec = 0
-        nb_notdec = 0 
+        nb_notdec = 0
         nb_muon = 0
         pol = {0:0, -1:0,1:0, 9:9}
         for event in lhe:
@@ -216,8 +216,8 @@ class TestMadSpin(unittest.TestCase):
                     continue
                 if particle.pdg == 23:
                     if particle.status == 1:
-                        nb_notdec += 1    
-                    else: 
+                        nb_notdec += 1
+                    else:
                         nb_dec += 1
                 if particle.pdg == 13:
                     nb_muon += 1
@@ -225,11 +225,10 @@ class TestMadSpin(unittest.TestCase):
                 self.assertIn(int(particle.helicity), pol)
                 pol[int(particle.helicity)] +=1
             self.assertEqual(muon_in, 0)
-        
+
         self.assertEqual(nb_notdec, 100)
         self.assertEqual(nb_dec, 89)
         self.assertEqual(nb_muon, 0)
         import math
         self.assertLess(abs(pol[1]-pol[-1]), 2 * math.sqrt(pol[1]))
         self.assertLess(pol[0], pol[-1])
-         

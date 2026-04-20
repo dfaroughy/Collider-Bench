@@ -34,7 +34,7 @@ C----------------------------------------------------------------------
       real * 8 xmi,xms,pi
       PARAMETER (PI=3.14159265358979312D0)
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -99,7 +99,7 @@ c Collect accumulated results. IEVTTOT is such that we need to multiply
 c the results by this factor
       xnorm=ievttot
       call finalize_histograms(nevhep)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)
@@ -175,7 +175,7 @@ C EFFECT, SO THROW THE EVENT AWAY
       IFV=0
       NN=0
       DO 100 IHEP=1,NHEP
-        IST=ISTHEP(IHEP)      
+        IST=ISTHEP(IHEP)
         ID1=IDHEP(IHEP)
         IF(ID1.EQ.IDENT)THEN
           IV=IHEP
@@ -279,7 +279,7 @@ C
         if(ptv.gt.0) call HwU_fill(l+3,log10(ptv),WWW)
         call HwU_fill(l+4,yv,WWW)
         call HwU_fill(l+5,etav,WWW)
-        
+
         call HwU_fill(l+6,m_vj1,WWW)
         if(njet.gt.1) call HwU_fill(l+7,m_vj2,WWW)
         call HwU_fill(l+8,pt_vj1,WWW)
@@ -370,7 +370,7 @@ c
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

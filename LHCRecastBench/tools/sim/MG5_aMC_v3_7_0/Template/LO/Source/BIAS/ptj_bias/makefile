@@ -18,6 +18,5 @@ ptj_bias: ptj_bias.o
 # List of the requirements for this module.
 # 'VALID' is the keyword that *must* be returned if everything is in order.
 #
-requirements:	
+requirements:
 	@echo "VALID"
-

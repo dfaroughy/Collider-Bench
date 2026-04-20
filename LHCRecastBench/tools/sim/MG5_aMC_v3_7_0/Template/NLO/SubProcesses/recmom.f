@@ -1,4 +1,4 @@
-      subroutine recombine_momenta(R, etaph, reco_l, reco_q, p_in, 
+      subroutine recombine_momenta(R, etaph, reco_l, reco_q, p_in,
      $pdg_in, is_nextph_iso, p_out, pdg_out, is_nextph_iso_reco)
       implicit none
       ! recombine photons with the closest fermion if the distance is
@@ -6,7 +6,7 @@
       ! means no cut). Output a new set of momenta and pdgs corresponding
       ! to the recombined particles. If recombination occurs the photon
       ! disappears from the output particles
-      ! If isolated photons exist (is_nextph_iso(i)=True), they are not 
+      ! If isolated photons exist (is_nextph_iso(i)=True), they are not
       ! used for the recombination
       ! arguments
       include 'nexternal.inc'
@@ -35,7 +35,7 @@ c      common / photon / is_nextph_iso,nphiso,pgamma_iso
       ! Save for reco photon isolation
       logical is_nextph_iso_reco(nexternal)
 c      common / photon_reco / is_nextph_iso_reco
-      ! 
+      !
       integer times_reco
       common/to_times_reco/ times_reco
       REAL*8 pt,eta
@@ -51,14 +51,14 @@ c      common / photon_reco / is_nextph_iso_reco
       ! check if we want to recombine with leptons
       if (reco_l) then
           nl = 3
-      else 
+      else
           nl = 0
       endif
 
       ! check if we want to recombine with quarks
       if (reco_q) then
           nq = 5
-      else 
+      else
           nq = 0
       endif
 
@@ -150,7 +150,7 @@ c Define iso_in as the iso input from photon isolation
         is_nextph_iso_reco(i)=iso_out(i)
       enddo
 
-      return 
+      return
       end
 
 
@@ -160,7 +160,7 @@ c Define iso_in as the iso input from photon isolation
       subroutine recombine_momenta_notagph(R, etaph, reco_l, reco_q, p_in, pdg_in, p_out, pdg_out)
       implicit none
       ! wraps recombine_momenta, it provides a function interface
-      ! for the case where no tagged photon exist 
+      ! for the case where no tagged photon exist
       ! (mostly for backward complatibility)
       ! arguments
       include 'nexternal.inc'
@@ -172,10 +172,10 @@ c Define iso_in as the iso input from photon isolation
 
       is_iso_photon_in(:) = .false.
 
-      call recombine_momenta(R, etaph, reco_l, reco_q, p_in, 
+      call recombine_momenta(R, etaph, reco_l, reco_q, p_in,
      $pdg_in, is_iso_photon_in, p_out, pdg_out, is_iso_photon_out)
 
-      return 
+      return
       end
 
 

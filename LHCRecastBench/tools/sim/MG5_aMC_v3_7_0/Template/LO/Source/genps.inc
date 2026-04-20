@@ -33,13 +33,13 @@ c      REAL*8 LIMHEL
 c      PARAMETER(LIMHEL=1e-8) -> pass in the run_card.dat
       INTEGER MAXTRIES
       PARAMETER(MAXTRIES=25)
-C     To pass the helicity configuration chosen by the DiscreteSampler to 
+C     To pass the helicity configuration chosen by the DiscreteSampler to
 C     matrix<i>.f
       double precision hel_jacobian
 	  INTEGER HEL_PICKED
 	  COMMON/HEL_PICKED/HEL_PICKED,hel_jacobian
 	  integer ee_picked
-c same for MC for ee case	  
+c same for MC for ee case
 	  double precision ee_jacobian
 	  COMMON/EE_PICKED/EE_PICKED,ee_jacobian
 c**********************************************************************************

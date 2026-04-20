@@ -5,14 +5,13 @@
 ! Previously set by "Tune:pp = 21".
 include                             = tunes/Monash2013.cmnd ! based on Monash
 PDF:pSet                            = 13       ! NNPDF23_lo_as_0130_qed
-SigmaProcess:alphaSvalue            = 0.140 
-TimeShower:alphaSvalue              = 0.127 
-SpaceShower:alphaSvalue             = 0.127 
-SpaceShower:pT0Ref                  = 1.56  
-SpaceShower:pTmaxFudge              = 0.91  
-SpaceShower:pTdampFudge             = 1.05  
+SigmaProcess:alphaSvalue            = 0.140
+TimeShower:alphaSvalue              = 0.127
+SpaceShower:alphaSvalue             = 0.127
+SpaceShower:pT0Ref                  = 1.56
+SpaceShower:pTmaxFudge              = 0.91
+SpaceShower:pTdampFudge             = 1.05
 MultipartonInteractions:alphaSvalue = 0.126
-MultipartonInteractions:pT0Ref      = 2.09  
-BeamRemnants:primordialKThard       = 1.88  
-ColourReconnection:range            = 1.71  
-
+MultipartonInteractions:pT0Ref      = 2.09
+BeamRemnants:primordialKThard       = 1.88
+ColourReconnection:range            = 1.71

@@ -12,7 +12,7 @@ c       complex gc             : coupling constant                 gvvhh
 c
 c output:
 c       complex vertex         : amplitude            gamma(v1,v2,s1,s2)
-c     
+c
       implicit none
       double complex v1(6),v2(6),s1(3),s2(3),gc,vertex
 
@@ -82,7 +82,7 @@ c
      &     +abs(v1(6)+v2(6)+s1(3)+s2(3)).ge.pm*epsi ) then
          write(stdo,*)
      &        ' helas-error : v1,v2,s1,s2 in vvssxx'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : have not balanced momenta'
        endif
        if ( gc.eq.cZero ) then

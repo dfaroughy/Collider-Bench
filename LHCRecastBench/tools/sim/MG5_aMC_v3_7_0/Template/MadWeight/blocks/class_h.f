@@ -1,7 +1,7 @@
       subroutine class_h(x,p1,p2)
 c***************************************************************************
 c     ECS in CLASS H
-c  
+c
 c
 c***************************************************************************
       implicit none
@@ -116,7 +116,7 @@ c     First evaluated the total momentum in the LAB frame
         enddo
       pboost(j)=Ptot(j)
       enddo
- 
+
 c     Then calculate the momenta in the CMS frame
       pboost(1)=-pboost(1)
       pboost(2)=-pboost(2)
@@ -168,7 +168,7 @@ c     Evaluate the initial momenta in the LAB frame
 c
 c     flux factor
 c
-      jac_loc=jac_loc/(2d0*S*x1*x2)  ! flux 
+      jac_loc=jac_loc/(2d0*S*x1*x2)  ! flux
       jac=jac*jac_loc
 
       return

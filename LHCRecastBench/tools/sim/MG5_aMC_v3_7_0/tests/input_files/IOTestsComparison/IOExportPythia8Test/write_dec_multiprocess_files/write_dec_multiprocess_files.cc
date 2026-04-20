@@ -38,8 +38,8 @@
 # *   Decay: z > u u~ WEIGHTED<=2
 
 //--------------------------------------------------------------------------
-// Initialize process. 
-  
+// Initialize process.
+
 void Sigma_sm_gd_ddxd::initProc() {
 // Instantiate the model class and set parameters that stay fixed during run
     pars = Parameters_sm::getInstance();
@@ -60,12 +60,12 @@ jamp2[6] = new double[1];
 jamp2[7] = new double[1];
 jamp2[8] = new double[1];
 jamp2[9] = new double[1];
-} 
+}
 
 //--------------------------------------------------------------------------
-// Evaluate |M|^2, part independent of incoming flavour. 
+// Evaluate |M|^2, part independent of incoming flavour.
 
-void Sigma_sm_gd_ddxd::sigmaKin() { 
+void Sigma_sm_gd_ddxd::sigmaKin() {
     // Set the parameters which change event by event
     pars->setDependentParameters(particleDataPtr, coupSUSYPtr, slhaPtr, alpS);
     pars->setDependentCouplings();
@@ -174,7 +174,7 @@ t[19]=matrix_gux_zux_z_uux();
   jhel = 0;
   sum_hel=min(sum_hel, ngood);
 }
-else              
+else
 {
 // Only use the "good" helicities
   for(int j=0; j < sum_hel; j++){
@@ -226,9 +226,9 @@ for (int i=0;i < nprocesses; i++)
 }
 
 //--------------------------------------------------------------------------
-// Evaluate |M|^2, including incoming flavour dependence. 
+// Evaluate |M|^2, including incoming flavour dependence.
 
-double Sigma_sm_gd_ddxd::sigmaHat() {  
+double Sigma_sm_gd_ddxd::sigmaHat() {
     // Select between the different processes
 if(id1 == -3 && id2 == 21){
 // Add matrix elements for processes with beams (-3, 21)
@@ -288,7 +288,7 @@ else {
 
 void Sigma_sm_gd_ddxd::setIdColAcol() {
     if(id1 == -3 && id2 == 21){
-// Pick one of the flavor combinations 
+// Pick one of the flavor combinations
 int flavors[3][3] = {{3,-3,-3},{2,-2,-3},{1,-1,-3}};
 vector<double> probs;
 double sum = matrix_element[17]+matrix_element[16]+matrix_element[15];
@@ -301,7 +301,7 @@ id4 = flavors[choice][1];
 id5 = flavors[choice][2];
 }
 else if(id1 == -2 && id2 == 21){
-// Pick one of the flavor combinations 
+// Pick one of the flavor combinations
 int flavors[3][3] = {{3,-3,-2},{1,-1,-2},{2,-2,-2}};
 vector<double> probs;
 double sum = matrix_element[18]+matrix_element[18]+matrix_element[19];
@@ -314,7 +314,7 @@ id4 = flavors[choice][1];
 id5 = flavors[choice][2];
 }
 else if(id1 == -1 && id2 == 21){
-// Pick one of the flavor combinations 
+// Pick one of the flavor combinations
 int flavors[3][3] = {{3,-3,-1},{2,-2,-1},{1,-1,-1}};
 vector<double> probs;
 double sum = matrix_element[17]+matrix_element[16]+matrix_element[15];
@@ -327,7 +327,7 @@ id4 = flavors[choice][1];
 id5 = flavors[choice][2];
 }
 else if(id1 == 1 && id2 == 21){
-// Pick one of the flavor combinations 
+// Pick one of the flavor combinations
 int flavors[3][3] = {{2,-2,1},{3,-3,1},{1,-1,1}};
 vector<double> probs;
 double sum = matrix_element[11]+matrix_element[12]+matrix_element[10];
@@ -340,7 +340,7 @@ id4 = flavors[choice][1];
 id5 = flavors[choice][2];
 }
 else if(id1 == 2 && id2 == 21){
-// Pick one of the flavor combinations 
+// Pick one of the flavor combinations
 int flavors[3][3] = {{3,-3,2},{1,-1,2},{2,-2,2}};
 vector<double> probs;
 double sum = matrix_element[13]+matrix_element[13]+matrix_element[14];
@@ -353,7 +353,7 @@ id4 = flavors[choice][1];
 id5 = flavors[choice][2];
 }
 else if(id1 == 3 && id2 == 21){
-// Pick one of the flavor combinations 
+// Pick one of the flavor combinations
 int flavors[3][3] = {{2,-2,3},{1,-1,3},{3,-3,3}};
 vector<double> probs;
 double sum = matrix_element[11]+matrix_element[10]+matrix_element[12];
@@ -629,7 +629,7 @@ setColAcol(colors[ic][0],colors[ic][1],colors[ic][2],colors[ic][3],colors[ic][4]
 }
 
 //--------------------------------------------------------------------------
-// Evaluate weight for angles of decay products in process 
+// Evaluate weight for angles of decay products in process
 
 double Sigma_sm_gd_ddxd::weightDecay(Event& process, int iResBeg, int iResEnd) {
     // Just use isotropic decay (default)
@@ -646,7 +646,7 @@ void Sigma_sm_gd_ddxd::calculate_wavefunctions(const int perm[], const int hel[]
 // Calculate wavefunctions for all processes
 double p[nexternal][4];
 int i;
- 
+
 // Convert Pythia 4-vectors to double[]
 for(i=0;i < nexternal;i++){
     p[i][0] = pME[i].e();
@@ -693,7 +693,7 @@ FFV1_2_0(w[10],w[12],w[8],pars->GUZ1,pars->GUZ2,amp[17]);
 
 
 }
-double Sigma_sm_gd_ddxd::matrix_gd_zd_z_ddx() { 
+double Sigma_sm_gd_ddxd::matrix_gd_zd_z_ddx() {
 
 // Local variables
 const int ngraphs = 2;
@@ -722,11 +722,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[0][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gd_zd_z_uux() { 
+double Sigma_sm_gd_ddxd::matrix_gd_zd_z_uux() {
 
 // Local variables
 const int ngraphs = 2;
@@ -755,11 +755,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[1][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gd_zd_z_ssx() { 
+double Sigma_sm_gd_ddxd::matrix_gd_zd_z_ssx() {
 
 // Local variables
 const int ngraphs = 2;
@@ -788,11 +788,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[2][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gu_zu_z_ddx() { 
+double Sigma_sm_gd_ddxd::matrix_gu_zu_z_ddx() {
 
 // Local variables
 const int ngraphs = 2;
@@ -821,11 +821,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[3][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gu_zu_z_uux() { 
+double Sigma_sm_gd_ddxd::matrix_gu_zu_z_uux() {
 
 // Local variables
 const int ngraphs = 2;
@@ -854,11 +854,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[4][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gdx_zdx_z_ddx() { 
+double Sigma_sm_gd_ddxd::matrix_gdx_zdx_z_ddx() {
 
 // Local variables
 const int ngraphs = 2;
@@ -887,11 +887,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[5][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gdx_zdx_z_uux() { 
+double Sigma_sm_gd_ddxd::matrix_gdx_zdx_z_uux() {
 
 // Local variables
 const int ngraphs = 2;
@@ -920,11 +920,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[6][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gdx_zdx_z_ssx() { 
+double Sigma_sm_gd_ddxd::matrix_gdx_zdx_z_ssx() {
 
 // Local variables
 const int ngraphs = 2;
@@ -953,11 +953,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[7][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gux_zux_z_ddx() { 
+double Sigma_sm_gd_ddxd::matrix_gux_zux_z_ddx() {
 
 // Local variables
 const int ngraphs = 2;
@@ -986,11 +986,11 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[8][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
 
-double Sigma_sm_gd_ddxd::matrix_gux_zux_z_uux() { 
+double Sigma_sm_gd_ddxd::matrix_gux_zux_z_uux() {
 
 // Local variables
 const int ngraphs = 2;
@@ -1019,7 +1019,6 @@ for(int i=0;i < ncolor; i++){
 // Store the leading color flows for choice of color
 for(int i=0;i < ncolor; i++)
     jamp2[9][i] += real(jamp[i]*conj(jamp[i]));
-    
+
 return matrix;
 }
-

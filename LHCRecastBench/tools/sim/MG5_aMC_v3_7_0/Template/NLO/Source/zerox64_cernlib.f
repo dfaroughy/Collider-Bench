@@ -1,8 +1,8 @@
 C This is zerox64.F of CERN libraries, stripped of pre-compiler
 C instructions by SF, 26/7/2014.
 C Error messages are also suppressed, and replaced by a return
-C integer (IERR), which is set to zero when no errors are encountered. 
-C When IERR#0, the function assumes a value equal to -1.d20. 
+C integer (IERR), which is set to zero when no errors are encountered.
+C When IERR#0, the function assumes a value equal to -1.d20.
 C These manipulations implied that lines #124 and 125
 C in this file have been interchanged
 *

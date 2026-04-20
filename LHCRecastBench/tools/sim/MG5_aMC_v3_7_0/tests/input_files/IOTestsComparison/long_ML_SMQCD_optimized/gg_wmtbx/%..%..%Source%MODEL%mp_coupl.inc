@@ -44,5 +44,3 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $ ,MP__UV_3GT,MP__UV_GQQB,MP__UV_GQQT,MP__UV_BMASS,MP__UV_TMASS
      $ ,MP__UVWFCT_B_0,MP__UVWFCT_T_0,MP__UVWFCT_G_1,MP__UVWFCT_G_2
      $ ,MP__GC_11
-
-

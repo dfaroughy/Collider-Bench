@@ -2,18 +2,18 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
 
-"""Unit test library for the various properties of objects in 
+"""Unit test library for the various properties of objects in
    loop_helas_objects.py"""
 
 from __future__ import absolute_import
@@ -56,9 +56,9 @@ _input_file_path = os.path.join(_file_path, os.path.pardir, os.path.pardir,
 #===============================================================================
 class LoopHelasMatrixElementTest(unittest.TestCase):
     """Test class for all functions related to the LoopHelasMatrixElement"""
-    
+
     myloopmodel = loop_base_objects.LoopModel()
-    
+
     def setUp(self):
         """load the NLO toy model"""
 
@@ -66,11 +66,11 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
 #            _input_file_path,'LoopModelTest'))
         self.myloopmodel = models.import_full_model(os.path.join(\
             _input_file_path,'LoopSMTest'))
-        
+
     def test_get_aloha_input(self):
-        """ Check that the function aloha_get_input in the class 
+        """ Check that the function aloha_get_input in the class
         HelasWavefunction and HelasAmplitude behaves as expected """
-        
+
         d_helas_wf = helas_objects.HelasWavefunction({
                                 'particle':self.myloopmodel.get_particle(1),
                                 'number':1,
@@ -89,23 +89,23 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                 'state':'final',
                                 'pdg_codes':[1,-1,21],
                                 'interaction_id':18})
-        
+
         g_helas_wf.set('mothers',helas_objects.HelasWavefunctionList(\
                                                    [antid_helas_wf,d_helas_wf]))
-        
+
         a_opt_input = g_helas_wf.get_aloha_info(optimized_output=True)
         a_def_input = g_helas_wf.get_aloha_info(optimized_output=False)
-        
+
         self.assertEqual(a_opt_input,(('FFV1', 'FFV2', 'FFV3'), ('L1', 'P0'), 3))
         self.assertEqual(a_def_input,(('FFV1', 'FFV2', 'FFV3'), ('L', 'P0'), 3))
-        
+
     def test_get_analytic_info(self):
         """ Check that the function get_analytic_info and compute_analytic
         info in the class HelasWavefunction behaves as expected """
 
         alohaModel = create_aloha.AbstractALOHAModel(self.myloopmodel.get('modelpath'))
         alohaModel.add_Lorentz_object(self.myloopmodel.get('lorentz'))
-        
+
         d_helas_wf = helas_objects.HelasWavefunction({
                                 'particle':self.myloopmodel.get_particle(1),
                                 'number':1,
@@ -124,10 +124,10 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                 'state':'intermediate',
                                 'pdg_codes':[1,-1,21],
                                 'interaction_id':18})
-        
+
         g_helas_wf.set('mothers',helas_objects.HelasWavefunctionList(\
                                                    [antid_helas_wf,d_helas_wf]))
-        
+
         final_d_helas_wf = helas_objects.HelasWavefunction({
                                 'particle':self.myloopmodel.get_particle(1),
                                 'number':3,
@@ -141,16 +141,16 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                 'lorentz':['FFV1','FFV2'],
                                 'interaction_id':18,
                                 'state':'final'})
-        
+
         final_antid_helas_wf.set('mothers',helas_objects.HelasWavefunctionList(\
                                                  [g_helas_wf,final_d_helas_wf]))
 
-        
+
         # First make sure that, alone, with an alohaModel, the wavefunction can
         # return some analytic information.
         for (lwf, trgt_interaction_rank, trgt_wavefunction_rank) in \
             [(antid_helas_wf,0,0),(g_helas_wf,1,1),(final_antid_helas_wf,0,1)]:
-            
+
             wf_rank = lwf.get_analytic_info('wavefunction_rank', \
                                                         alohaModel = alohaModel)
             self.assertEqual(wf_rank,trgt_wavefunction_rank)
@@ -159,24 +159,24 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                                         alohaModel = alohaModel)
             self.assertEqual(inter_rank,trgt_interaction_rank)
             self.assertIn('interaction_rank', list(lwf['analytic_info'].keys()))
-            
+
             # Now make sure it is recovered without the alohaModel (so that the
             # caching works
             wf_rank = lwf.get_analytic_info('wavefunction_rank')
-            self.assertEqual(wf_rank,trgt_wavefunction_rank)        
+            self.assertEqual(wf_rank,trgt_wavefunction_rank)
             inter_rank = lwf.get_analytic_info('interaction_rank')
             self.assertEqual(inter_rank,trgt_interaction_rank)
-            
+
         for lwf in [antid_helas_wf,g_helas_wf,final_antid_helas_wf]:
             # Clean up for the next tests
             lwf['analytic_info'] = {}
-        
+
         myProcess = base_objects.Process({'model':self.myloopmodel})
-        
-        
+
+
         # Build a loopME by hand. I know, it looks very complicated and...
         # ... in fact, it is very involved.
-        
+
         myLoopHelasAmp = loop_helas_objects.LoopHelasAmplitude({
                         'amplitudes':helas_objects.HelasAmplitudeList([
                             helas_objects.HelasAmplitude({
@@ -200,27 +200,27 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
         for (lwf, trgt_interaction_rank, trgt_wavefunction_rank) in \
             [(antid_helas_wf,0,0),(g_helas_wf,1,1),(final_antid_helas_wf,0,1)]:
             wf_rank = lwf.get_analytic_info('wavefunction_rank')
-            self.assertEqual(wf_rank,trgt_wavefunction_rank)        
+            self.assertEqual(wf_rank,trgt_wavefunction_rank)
             inter_rank = lwf.get_analytic_info('interaction_rank')
             self.assertEqual(inter_rank,trgt_interaction_rank)
-            
+
         # Check that it works for the loop amplitude too
         wf_rank = myLoopHelasAmp.get_analytic_info('wavefunction_rank')
         self.assertEqual(wf_rank,1)
         inter_rank = myLoopHelasAmp.get_analytic_info('interaction_rank')
-        self.assertEqual(inter_rank,0)        
-            
+        self.assertEqual(inter_rank,0)
+
         for lwf in [antid_helas_wf,g_helas_wf,final_antid_helas_wf]:
-            # Clean up for the test that follows            
+            # Clean up for the test that follows
             lwf['analytic_info'] = {}
 
-        # Also check the the compute_all_analytic_information works when one 
+        # Also check the the compute_all_analytic_information works when one
         # provides its own aloha model
         myLoopME.compute_all_analytic_information(alohaModel)
         for (lwf, trgt_interaction_rank, trgt_wavefunction_rank) in \
             [(antid_helas_wf,0,0),(g_helas_wf,1,1),(final_antid_helas_wf,0,1)]:
             wf_rank = lwf.get_analytic_info('wavefunction_rank')
-            self.assertEqual(wf_rank,trgt_wavefunction_rank)        
+            self.assertEqual(wf_rank,trgt_wavefunction_rank)
             inter_rank = lwf.get_analytic_info('interaction_rank')
             self.assertEqual(inter_rank,trgt_interaction_rank)
 
@@ -237,26 +237,26 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
         the Amplitude given in argument. It does so by basically checking
         that the reconstructed (loop_)base_objects.(Loop)Diagram correctly match
         the original one used. The optional user arguments are:
-        selection: list specifying what diagrams should be checked 
+        selection: list specifying what diagrams should be checked
         mode: In 'individual' mode, a new matrix element is created for each
               diagram tested while in 'collective' mode, a single matrix element
               creates all the HelasDiagrams for the selection so that the dynamic
               effects of wavefunction recycling are tested.
         verbose: To display some informations on the diagram checked.
         checkColor: To also check the color generation"""
-       
+
         alldiags=Amplitude['diagrams']
         # By default, try them all
         if not selection:
             if mode=='individual':
                 DiagProcessed=list(range(len(alldiags)))
             elif mode=='collective':
-                DiagProcessed=[len(alldiags)-1]                
+                DiagProcessed=[len(alldiags)-1]
             else:
                 raise Error("Mode can only be 'individual' or 'collective'")
         else:
             DiagProcessed=selection
-            
+
         for idiag in DiagProcessed:
             diagSelection=base_objects.DiagramList()
             selectionStart=0
@@ -270,7 +270,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                     diagSelection=base_objects.DiagramList(alldiags[idiag[0]:idiag[1]+1])
                     selectionStart=idiag[0]
                 else:
-                    raise Error("Selection must be a list of integers or 2-tuple of integers.")                                        
+                    raise Error("Selection must be a list of integers or 2-tuple of integers.")
             else:
                 raise Error("Mode can only be 'individual' or 'collective'")
             Amplitude.set('diagrams',diagSelection)
@@ -301,7 +301,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
 
             diagIndex=0
             for i, diag in enumerate(diagSelection):
-                if verbose: 
+                if verbose:
                     print("============")
                     print("Checking diag",selectionStart+i,"with type :",\
                       diag.nice_string())
@@ -318,10 +318,10 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                 # Initialize some quantities for the tests
                 origDiagNVertices=len(diag['vertices'])
 
-                # Check of the loop diagram    
+                # Check of the loop diagram
                 self.assertEqual(len(reconstructedDiags[0]['vertices']),\
                              origDiagNVertices)
-                
+
                 if checkColor:
                     numEntries=1
                     for vert in diag['vertices']:
@@ -363,14 +363,14 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
         the (loop)Amplitude given in argument. It does so by basically checking
         that the reconstructed (loop_)base_objects.(Loop)Diagram correctly match
         the original one used. The optional user arguments are:
-        selection: list specifying what diagrams should be checked 
+        selection: list specifying what diagrams should be checked
         mode: In 'individual' mode, a new matrix element is created for each
               diagram tested while in 'collective' mode, a single matrix element
               creates all the HelasDiagrams for the selection so that the dynamic
               effects of wavefunction recycling are tested.
         verbose: To display some informations on the diagram checked.
         checkColor: To also check the color generation of the tested diagrams"""
-       
+
         alldiags=loopAmplitude['born_diagrams']
         alldiags.extend(loopAmplitude['loop_diagrams'])
         alldiags.extend(loopAmplitude['loop_UVCT_diagrams'])
@@ -379,12 +379,12 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
             if mode=='individual':
                 DiagProcessed=list(range(len(alldiags)))
             elif mode=='collective':
-                DiagProcessed=[len(alldiags)-1]                
+                DiagProcessed=[len(alldiags)-1]
             else:
                 raise Error("Mode can only be 'individual' or 'collective'")
         else:
             DiagProcessed=selection
-            
+
         for idiag in DiagProcessed:
             diagSelection=base_objects.DiagramList()
             selectionStart=0
@@ -398,10 +398,10 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                     diagSelection=base_objects.DiagramList(alldiags[idiag[0]:idiag[1]+1])
                     selectionStart=idiag[0]
                 else:
-                    raise Error("Selection must be a list of integers or 2-tuple of integers.")                                        
+                    raise Error("Selection must be a list of integers or 2-tuple of integers.")
             else:
                 raise Error("Mode can only be 'individual' or 'collective'")
-            
+
   #          diagSelection = base_objects.DiagramList(\
   #            [diag for diag in diagSelection if not isinstance(diag,\
   #             loop_base_objects.LoopUVCTDiagram) and diag['type']!=0])
@@ -457,7 +457,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                     born_amp_number_apparition=[]
                     for jamp in born_color_amplitudes:
                         born_amp_number_apparition.extend([a[1] for a in jamp])
-                
+
                 if bornDiagSelected and (loopDiagSelected or loopUVCTDiagSelected):
                     col_matrix=color_amp.ColorMatrix(loop_col_basis,\
                                                        born_col_basis)
@@ -475,12 +475,12 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                         print("color matrix born_vs_born =",col_matrix)
                     self.assertEqual(len(col_matrix),len(born_col_basis)**2)
                 myloopME.set('color_matrix',col_matrix)
-                
+
             diagIndex=0
             bornColorDiagIndex=0
-            loopColorDiagIndex=0            
+            loopColorDiagIndex=0
             for i, diag in enumerate(diagSelection):
-                if verbose: 
+                if verbose:
                     print("============")
                     if isinstance(diag,loop_base_objects.LoopUVCTDiagram):
                         print("Checking diag #",selectionStart+i," with type UVCT and interaction ids ",\
@@ -521,8 +521,8 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                             this_loop_colorize_obj=loop_colorize_obj[loopColorDiagIndex:
                               loopColorDiagIndex+shift+1]
                             this_born_colorize_obj=[]
-                            loopColorDiagIndex+=shift+1                         
-                
+                            loopColorDiagIndex+=shift+1
+
                 if verbose: print("Reconstructed loop diag :",\
                   reconstructedDiags[0].nice_string())
                 # Initialize some quantities for the tests
@@ -535,11 +535,11 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                             structNVertices=structNVertices+\
                   len([vert for vert in loopAmplitude['structure_repository'][structID]['vertices']\
                        if vert['id']!=0])
-                
-                # Check of the loop diagram    
+
+                # Check of the loop diagram
                 self.assertEqual(len(reconstructedDiags[0]['vertices']),\
                              origDiagNVertices+structNVertices)
-            
+
                 origStructListlength=len(loopAmplitude['structure_repository'])
                 if not isinstance(reconstructedDiags[0], loop_base_objects.LoopUVCTDiagram) \
                    and reconstructedDiags[0]['type']!=0:
@@ -553,7 +553,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                     # And that the structure repository is left untouched
                     self.assertEqual(origStructListlength,\
                                  len(loopAmplitude['structure_repository']))
-            
+
                 # Check CT diagrams
                 if not isinstance(diag, loop_base_objects.LoopUVCTDiagram) \
                    and diag.get('CT_vertices'):
@@ -637,7 +637,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                     contribution_list.append(j)
                             if verbose:
                                 print("UVCT amplitude number",amp['number'],\
-                                "contributes to the following born color basis elements",contribution_list)                        
+                                "contributes to the following born color basis elements",contribution_list)
                     else:
                         structEntries=1
                         for tagElem in diag['canonical_tag']:
@@ -660,7 +660,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                         for loopamp in myloopME['diagrams'][i].get_loop_amplitudes():
                             loop_amps.extend(loopamp['amplitudes'])
                         # Commented because it is only true when there is only one
-                        # lorentz structure per vertex.                        
+                        # lorentz structure per vertex.
                         #self.assertEqual(len(loop_amps),\
                         #          len(this_loop_colorize_obj[0].keys()))
                         # Check that the loop amplitudes attributes 'color_indices' are in the
@@ -680,7 +680,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                             if verbose:
                                 print("Loop amplitude number",amp['number'],\
                                 "contributes to the following loop color basis elements",contribution_list)
-                        # Check the number of key entries for the counter-terms                        
+                        # Check the number of key entries for the counter-terms
                         if diag.get('CT_vertices'):
                             # We don't want to count twice the counterterms with same ID
                             self.assertEqual(len(set(vert.get('id') for vert in \
@@ -690,7 +690,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                             ctverts=copy.copy(diag.get('CT_vertices'))
                             ctverts=sorted(ctverts, key=lambda vert: vert['id'])
                             for ct_number in range(1,len(reconstructedDiags)):
-                                ct_vert=ctverts[ct_number-1]                                
+                                ct_vert=ctverts[ct_number-1]
                                 nCTColor=len(process['model'].get('interaction_dict')[ct_vert['id']].get('color'))
                                 if nCTColor==0: nCTColor=1
                                 if verbose:
@@ -701,7 +701,7 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                 ct_amps=[a for a in myloopME['diagrams'][i].get_ct_amplitudes() \
                                   if a['interaction_id']==ct_vert['id']]
                                 # Commented because it is only true when there is only one
-                                # lorentz structure per vertex.      
+                                # lorentz structure per vertex.
                                 #self.assertEqual(len(ct_amps),\
                                 #  len(this_loop_colorize_obj[ct_number].keys()))
                                 # Check that the ct amplitudes attributes 'color_indices' are in the
@@ -721,8 +721,8 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                     if verbose:
                                         print("CT amplitude number",amp['number'],\
                                         "contributes to the following loop color basis elements",contribution_list)
-        return myloopME                                                                              
-    
+        return myloopME
+
     def test_helas_diagrams_ddx_uux(self):
         """Test the generation of the helas diagrams for the process dd~>uu
         """
@@ -736,23 +736,23 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                          'state':True}))
         myleglist.append(base_objects.Leg({'id':-2,
                                          'state':True}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
-                
+
         myloopproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{'QED':0},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
@@ -776,28 +776,28 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
-        
+
         myloopproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
-        
+
         #print "CT interaction considered=",self.myloopmodel.get_interaction(8)
         #self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc,selection=[(152,155)],verbose=True)
         self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc)
-        
+
     def test_helas_diagrams_gg_ggg(self):
-        """Test the generation of all the helas diagrams for the loop process 
+        """Test the generation of all the helas diagrams for the loop process
            gg > ggg. This test is quite time consuming (30 sec) so it is
            commented out by default.
         """
@@ -818,30 +818,30 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
-        
+
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
-        
+
         # Skip the lengthy check for the equivalent NLO process
         return
-    
+
         myloopproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
-        
+
         self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc)
 
     def test_helas_diagrams_gg_wpwmttx(self):
-        """Test the generation of all the helas diagrams for the loop process 
+        """Test the generation of all the helas diagrams for the loop process
            gg > w+w-tt~ for which Fabio got an error in the color keys at
            helas generation time.
         """
@@ -865,31 +865,31 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'model':self.myloopmodel,
                                         'orders':{'WEIGHTE':6},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
-        
+
         # Skip the lengthy check for the equivalent NLO process
         return
-        
+
         myloopproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{'WEIGHTED':6},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
-        
+
         #print "CT interaction considered=",self.myloopmodel.get_interaction(8)
         #self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc,selection=[(152,155)],verbose=True)
         self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc)
 
     def test_helas_diagrams_gd_gd(self):
-        """Test the generation of all the helas diagrams for the loop process 
+        """Test the generation of all the helas diagrams for the loop process
            gd > gd.
         """
 
@@ -907,11 +907,11 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
-        
+
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
 
         # Skip the lengthy check for the equivalent NLO process
@@ -922,27 +922,27 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'orders':{},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
-        
+
         ME=self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc)
-        target_lorentz=[(('VVVV1',), ('L','P0'), 1), (('FFV1',), (), 1), 
+        target_lorentz=[(('VVVV1',), ('L','P0'), 1), (('FFV1',), (), 1),
                         (('R2_GG_1', 'R2_GG_3'), (), 0), (('VVV1',), ('L','P0'), 1),
                         (('FFV1',), ('L',), 1), (('FFV1',), (), 0),
-                        (('GHGHG',), ('L',), 1), (('VVV1',), (), 0), 
-                        (('R2_GG_1',), (), 0), (('FFV1',), (), 2), 
-                        (('GHGHG',), ('L',), 2), 
+                        (('GHGHG',), ('L',), 1), (('VVV1',), (), 0),
+                        (('R2_GG_1',), (), 0), (('FFV1',), (), 2),
+                        (('GHGHG',), ('L',), 2),
                         (('R2_GG_1', 'R2_GG_2'), (), 0), (('VVV1',), ('P0',), 1),
                         (('FFV1',), ('L','P0'), 3), (('FFV1',), ('P0',), 3),
-                        (('FFV1',), ('L',), 2), (('VVVV4',), ('L','P0'), 1), 
+                        (('FFV1',), ('L',), 2), (('VVVV4',), ('L','P0'), 1),
                         (('R2_QQ_1',), (), 0), (('VVVV3',), ('L','P0'), 1)]
         self.assertEqual(set(target_lorentz),set(ME.get_used_lorentz()))
 
     def test_helas_diagrams_gd_ggd(self):
 
-        """Test the generation of all the helas diagrams for the loop process 
+        """Test the generation of all the helas diagrams for the loop process
            gd > ggd. This test is quite time consuming (30 sec) so it is
            commented out by default.
         """
@@ -963,11 +963,11 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
-        
+
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
 
         # Skip the lengthy check for the equivalent NLO process
@@ -978,16 +978,16 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'orders':{},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
-        
+
         self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc)
 
     def test_helas_diagrams_ud_ggdu(self):
 
-        """Test the generation of all the helas diagrams for the loop process 
+        """Test the generation of all the helas diagrams for the loop process
            ud > ggdu. This test is quite time consuming (1min) so it is
            commented out by default.
         """
@@ -1005,16 +1005,16 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                          'state':True}))
         myleglist.append(base_objects.Leg({'id':2,
                                          'state':True}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
-        
+
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
 
         # Skip the lengthy check for the equivalent NLO process
@@ -1025,16 +1025,16 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'orders':{},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
-        
+
         self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc)
-        
+
     def test_helas_diagrams_dxd_gz(self):
 
-        """Test the generation of all the helas diagrams for the loop process 
+        """Test the generation of all the helas diagrams for the loop process
            d~d > gz.
         """
 
@@ -1047,16 +1047,16 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                          'state':True}))
         myleglist.append(base_objects.Leg({'id':23,
                                          'state':True}))
-        
+
         myproc = base_objects.Process({'legs':myleglist,
                                         'model':self.myloopmodel,
                                         'orders':{},
                                         'squared_orders':{}})
-    
+
         myamplitude = diagram_generation.Amplitude()
         myamplitude.set('process', myproc)
         myamplitude.generate_diagrams()
-        
+
         self.check_HME_individual_diag_sanity(myamplitude,myproc)
 
         # Skip the lengthy check for the equivalent NLO process
@@ -1067,9 +1067,9 @@ class LoopHelasMatrixElementTest(unittest.TestCase):
                                         'orders':{},
                                         'perturbation_couplings':['QCD',],
                                         'squared_orders':{}})
-    
+
         myloopamplitude = loop_diagram_generation.LoopAmplitude()
         myloopamplitude.set('process', myloopproc)
         myloopamplitude.generate_diagrams()
-        
+
         self.check_LHME_individual_diag_sanity(myloopamplitude,myloopproc)

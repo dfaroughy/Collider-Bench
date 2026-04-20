@@ -24,8 +24,8 @@ from pathlib import Path
 import yaml
 
 
-
 # ── Cost & token extraction from session log ────────────────────────────────
+
 
 def extract_session_stats(agent_dir: Path) -> dict:
     """Extract cost, token, and timing stats from the session log."""
@@ -70,7 +70,9 @@ def extract_session_stats(agent_dir: Path) -> dict:
                     if isinstance(block, dict) and block.get("type") == "tool_use":
                         stats["tool_calls"] += 1
                         name = block.get("name", "unknown")
-                        stats["tool_calls_by_type"][name] = stats["tool_calls_by_type"].get(name, 0) + 1
+                        stats["tool_calls_by_type"][name] = (
+                            stats["tool_calls_by_type"].get(name, 0) + 1
+                        )
 
                         # Count analysis runs
                         if name == "Bash":
@@ -95,8 +97,10 @@ def extract_session_stats(agent_dir: Path) -> dict:
                         if isinstance(block, dict) and block.get("type") == "tool_result":
                             rc = block.get("content", "")
                             if isinstance(rc, str) and (
-                                "Traceback" in rc or "exit code 1" in rc.lower()
-                                or rc.startswith("Error") or rc.startswith("ERROR")
+                                "Traceback" in rc
+                                or "exit code 1" in rc.lower()
+                                or rc.startswith("Error")
+                                or rc.startswith("ERROR")
                             ):
                                 stats["errors_encountered"] += 1
 
@@ -129,6 +133,7 @@ def extract_session_stats(agent_dir: Path) -> dict:
 
 
 # ── Rubric checkpoints ──────────────────────────────────────────────────────
+
 
 def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
     """Evaluate agent against a weighted rubric of checkpoints."""
@@ -168,12 +173,16 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
             if has_filled:
                 break
 
-    checkpoints.append({
-        "name": "Code executes",
-        "weight": 0.15,
-        "score": 1.0 if has_filled else (0.5 if has_code else 0.0),
-        "detail": "Filled HEPRecastData" if has_filled else ("Code exists but no filled data" if has_code else "No code"),
-    })
+    checkpoints.append(
+        {
+            "name": "Code executes",
+            "weight": 0.15,
+            "score": 1.0 if has_filled else (0.5 if has_code else 0.0),
+            "detail": "Filled HEPRecastData"
+            if has_filled
+            else ("Code exists but no filled data" if has_code else "No code"),
+        }
+    )
 
     # 2. Correct datasets found (15%)
     datasets_path = agent_dir / "datasets.yaml"
@@ -193,12 +202,14 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
             pass
 
     ds_score = min(1.0, n_with_source / max(n_datasets, 1)) if n_datasets > 0 else 0.0
-    checkpoints.append({
-        "name": "Datasets discovered",
-        "weight": 0.15,
-        "score": ds_score,
-        "detail": f"{n_with_source}/{n_datasets} with files, {n_with_xsec} with cross sections",
-    })
+    checkpoints.append(
+        {
+            "name": "Datasets discovered",
+            "weight": 0.15,
+            "score": ds_score,
+            "detail": f"{n_with_source}/{n_datasets} with files, {n_with_xsec} with cross sections",
+        }
+    )
 
     # 3. Event selection matches paper — shape score (20%)
     # 4. Normalization correct (20%)
@@ -211,10 +222,11 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
     if recast_data_dir.exists() and has_filled:
         try:
             from LHCRecastBench.evaluation.score import score_recast
+
             scores = score_recast(arxiv_id, str(recast_data_dir))
             yield_score = scores.get("overall_score", 0.0)
             shape_score = scores.get("overall_shape", 0.0)
-            norm_score  = scores.get("overall_normalization", 0.0)
+            norm_score = scores.get("overall_normalization", 0.0)
             for table in scores.get("tables", []):
                 for s in table.get("series", []):
                     if "normalization" in s:
@@ -225,26 +237,32 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
         except Exception:
             pass
 
-    checkpoints.append({
-        "name": "Event selection (shape)",
-        "weight": 0.20,
-        "score": shape_score,
-        "detail": f"Shape score: {shape_score:.2f}",
-    })
+    checkpoints.append(
+        {
+            "name": "Event selection (shape)",
+            "weight": 0.20,
+            "score": shape_score,
+            "detail": f"Shape score: {shape_score:.2f}",
+        }
+    )
 
-    checkpoints.append({
-        "name": "Normalization",
-        "weight": 0.20,
-        "score": norm_score,
-        "detail": f"Ratio: {norm_ratio:.3f}" if norm_ratio else "N/A",
-    })
+    checkpoints.append(
+        {
+            "name": "Normalization",
+            "weight": 0.20,
+            "score": norm_score,
+            "detail": f"Ratio: {norm_ratio:.3f}" if norm_ratio else "N/A",
+        }
+    )
 
-    checkpoints.append({
-        "name": "Yield within tolerance",
-        "weight": 0.20,
-        "score": yield_score,
-        "detail": f"Bins passing: {yield_score:.0%}",
-    })
+    checkpoints.append(
+        {
+            "name": "Yield within tolerance",
+            "weight": 0.20,
+            "score": yield_score,
+            "detail": f"Bins passing: {yield_score:.0%}",
+        }
+    )
 
     # 6. Documentation (10%)
     # Scored on report.md only. Size-graded: a stub report scores low, a
@@ -263,12 +281,14 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
             doc_score = 0.3
         doc_detail = f"report.md: {size} bytes"
 
-    checkpoints.append({
-        "name": "Documentation",
-        "weight": 0.10,
-        "score": doc_score,
-        "detail": doc_detail,
-    })
+    checkpoints.append(
+        {
+            "name": "Documentation",
+            "weight": 0.10,
+            "score": doc_score,
+            "detail": doc_detail,
+        }
+    )
 
     # Weighted total
     total = sum(cp["weight"] * cp["score"] for cp in checkpoints)
@@ -280,6 +300,7 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
 
 
 # ── Combined evaluation ─────────────────────────────────────────────────────
+
 
 def evaluate_agent(agent_dir: Path, arxiv_id: str) -> dict:
     """Full evaluation: rubric + cost + efficiency."""
@@ -329,6 +350,7 @@ def evaluate_agent(agent_dir: Path, arxiv_id: str) -> dict:
 
 # ── Display ─────────────────────────────────────────────────────────────────
 
+
 def print_single(result: dict) -> None:
     parts = Path(result["agent_dir"]).parts
     run_name = "/".join(parts[-3:]) if len(parts) >= 3 else result["agent_dir"]
@@ -338,18 +360,20 @@ def print_single(result: dict) -> None:
     print(f"  {'=' * 65}")
 
     # Rubric
-    print(f"\n  Rubric Checkpoints:")
+    print("\n  Rubric Checkpoints:")
     print(f"  {'─' * 65}")
     for cp in result["rubric"]["checkpoints"]:
         bar = "#" * int(cp["score"] * 10)
         bar_empty = "." * (10 - len(bar))
-        print(f"  {cp['name']:<28s} [{bar}{bar_empty}] {cp['score']:.2f} x {cp['weight']:.0%}  {cp['detail']}")
+        print(
+            f"  {cp['name']:<28s} [{bar}{bar_empty}] {cp['score']:.2f} x {cp['weight']:.0%}  {cp['detail']}"
+        )
     print(f"  {'─' * 65}")
     print(f"  Rubric Score: {result['rubric']['rubric_score']:.1%}")
 
     # Cost
     cost = result["cost"]
-    print(f"\n  Cost:")
+    print("\n  Cost:")
     if cost["usd"]:
         print(f"    API cost:       ${cost['usd']:.2f}")
     if cost["duration_wall_s"]:
@@ -361,7 +385,7 @@ def print_single(result: dict) -> None:
 
     # Tokens
     tok = result["tokens"]
-    print(f"\n  Tokens:")
+    print("\n  Tokens:")
     print(f"    Input (new):    {tok['input']:>10,}  <- billed at full rate")
     print(f"    Output:         {tok['output']:>10,}  <- billed at full rate")
     print(f"    Cache creation: {tok['cache_creation']:>10,}  <- billed at 1.25x input")
@@ -371,7 +395,7 @@ def print_single(result: dict) -> None:
 
     # Activity
     act = result["activity"]
-    print(f"\n  Activity:")
+    print("\n  Activity:")
     print(f"    Turns:          {act['num_turns']}")
     print(f"    Tool calls:     {act['tool_calls']}")
     print(f"    Errors:         {act['errors_encountered']}")
@@ -383,7 +407,7 @@ def print_single(result: dict) -> None:
     # Efficiency
     eff = result["efficiency"]
     if eff:
-        print(f"\n  Efficiency:")
+        print("\n  Efficiency:")
         if "cost_per_point" in eff:
             print(f"    $/point:        ${eff['cost_per_point']:.2f}")
         if "tokens_per_point" in eff:
@@ -395,7 +419,9 @@ def print_single(result: dict) -> None:
 
 
 def print_comparison(results: list[dict]) -> None:
-    print(f"\n  {'Run':<40s} {'Rubric':>7s} {'Cost':>7s} {'Turns':>6s} {'Tokens':>10s} {'Time':>7s} {'$/pt':>6s}")
+    print(
+        f"\n  {'Run':<40s} {'Rubric':>7s} {'Cost':>7s} {'Turns':>6s} {'Tokens':>10s} {'Time':>7s} {'$/pt':>6s}"
+    )
     print(f"  {'─' * 90}")
 
     for r in results:
@@ -404,18 +430,27 @@ def print_comparison(results: list[dict]) -> None:
         run_name = run_name[:40]
 
         rubric = f"{r['rubric']['rubric_score']:.1%}"
-        cost = f"${r['cost']['usd']:.2f}" if r['cost']['usd'] else "—"
+        cost = f"${r['cost']['usd']:.2f}" if r["cost"]["usd"] else "—"
         turns = str(r["activity"]["num_turns"])
-        tokens = f"{r['tokens']['total_billed']:,}" if r['tokens']['total_billed'] else "—"
-        time_min = f"{r['cost']['duration_wall_s']/60:.0f}m" if r['cost']['duration_wall_s'] else "—"
-        cpp = f"${r['efficiency'].get('cost_per_point', 0):.2f}" if r['efficiency'].get('cost_per_point') else "—"
+        tokens = f"{r['tokens']['total_billed']:,}" if r["tokens"]["total_billed"] else "—"
+        time_min = (
+            f"{r['cost']['duration_wall_s']/60:.0f}m" if r["cost"]["duration_wall_s"] else "—"
+        )
+        cpp = (
+            f"${r['efficiency'].get('cost_per_point', 0):.2f}"
+            if r["efficiency"].get("cost_per_point")
+            else "—"
+        )
 
-        print(f"  {run_name:<40s} {rubric:>7s} {cost:>7s} {turns:>6s} {tokens:>10s} {time_min:>7s} {cpp:>6s}")
+        print(
+            f"  {run_name:<40s} {rubric:>7s} {cost:>7s} {turns:>6s} {tokens:>10s} {time_min:>7s} {cpp:>6s}"
+        )
 
     print()
 
 
 # ── CLI ─────────────────────────────────────────────────────────────────────
+
 
 def _save_to_eval_dir(agent_dir: str, payload) -> Path | None:
     """Write JSON into <run_dir>/eval/rubric_scorer.json.
@@ -448,7 +483,7 @@ def main():
             print(json.dumps(results, indent=2))
         else:
             print_comparison(results)
-        for d, r in zip(args.compare, results):
+        for d, r in zip(args.compare, results, strict=False):
             _save_to_eval_dir(d, r)
     elif args.agent_dir:
         result = evaluate_agent(args.agent_dir, args.arxiv)

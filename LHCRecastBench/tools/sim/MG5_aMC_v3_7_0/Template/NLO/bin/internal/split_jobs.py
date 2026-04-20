@@ -12,7 +12,7 @@ class SplitJobsError(Exception):
 
 max_events = {'H' :0, 'S': 0, 'F': 0, 'V': 0, 'B': 0}
 
-#read the nevents_unweighted file 
+#read the nevents_unweighted file
 nevents_file = open('nevents_unweighted')
 nevents_lines = nevents_file.read().split('\n')
 nevents_file.close()
@@ -27,7 +27,7 @@ for line in nevents_lines:
         xsec = float(line.split()[2])
         jobs.append({'dir': dir, 'channel': chann, 'type': ev_type, \
                 'nevts': nevts, 'xsec': xsec, 'line' : line})
-        tot_events += nevts 
+        tot_events += nevts
         try:
             max_events[ev_type] = max(max_events[ev_type], nevts)
         except KeyError:
@@ -49,7 +49,7 @@ for (k, max_n) in max_events.items():
 
 if len(sys.argv) == 2:
     # read from the passed argument
-    new_max = int(sys.argv[1]) 
+    new_max = int(sys.argv[1])
     for k in max_events.keys():
         max_dict[k] = new_max
 
@@ -61,7 +61,7 @@ while True:
             job['nsplit'] = 1
     ntot_dict = {}
     for k in max_dict.keys():
-        ntot_dict[k] = sum(d['nsplit'] for d in jobs if d['type'] == k) 
+        ntot_dict[k] = sum(d['nsplit'] for d in jobs if d['type'] == k)
     print('This will give:')
     for k, tot in ntot_dict.items():
         if tot:
@@ -71,12 +71,12 @@ while True:
     yes = eval(input('Is this acceptable? (1: yes 0: no) '))
     if yes == 1:
         break
-    
+
     for (k, max_n) in max_events.items():
         if max_n:
-            print('Found %s-events' % k) 
+            print('Found %s-events' % k)
             print('Max %s-events per channel found is %d' % (k, max_n))
-            new_max = eval(input('Give new maximum if you want to split jobs ')) 
+            new_max = eval(input('Give new maximum if you want to split jobs '))
             max_dict[k] = new_max
 
 
@@ -120,10 +120,10 @@ for job in jobs:
             nevts_file = open(nevts_filename, 'w')
             nevts_file.write('%d\n' % split_nevts)
             nevts_file.close()
-            tar_dict[job['dir']].add(nevts_filename, 
+            tar_dict[job['dir']].add(nevts_filename,
                     arcname=os.path.split(nevts_filename)[1])
             os.remove(nevts_filename)
-        
+
     print('%s, %s, Original %d, after splitting %d' % (job['dir'], job['channel'], job['nevts'], job_events))
 
 
@@ -133,10 +133,5 @@ new_nevents_file.close()
 
 for dir in dirs:
     tar_dict[dir].close()
-        
+
 print('Done, total %d events' %  tot_events)
-
-
-    
-
-    

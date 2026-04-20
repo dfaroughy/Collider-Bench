@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -46,7 +46,7 @@ _input_file_path = os.path.join(_file_path, os.path.pardir, os.path.pardir,
 
 def loadLoopToyModel():
     """Setup the Loop Toy QCD model with d,dx,u,ux and the gluon"""
-    
+
     mypartlist = base_objects.ParticleList()
     myinterlist = base_objects.InteractionList()
     myloopmodel = loop_base_objects.LoopModel()
@@ -64,11 +64,11 @@ def loadLoopToyModel():
                   'charge':0.,
                   'pdg_code':21,
                   #'propagating':True,
-                  'propagator':0,                                             
+                  'propagator':0,
                   'is_part':True,
                   'counterterm':{('QCD', ((6,),)): {0: 'UVWfct_G_1', -1: 'UVWfct_G_1_1eps'}, ('QCD', ((5,),)): {0: 'UVWfct_G_0', -1: 'UVWfct_G_0_1eps'}},
                   'self_antipart':True}))
-    
+
     # A quark U and its antiparticle
     mypartlist.append(base_objects.Particle({'name':'u',
                   'antiname':'u~',
@@ -82,7 +82,7 @@ def loadLoopToyModel():
                   'charge':2. / 3.,
                   'pdg_code':2,
                   #'propagating':True,
-                  'propagator':'',                                             
+                  'propagator':'',
                   'is_part':True,
                   'self_antipart':False}))
     antiu = copy.copy(mypartlist[1])
@@ -108,7 +108,7 @@ def loadLoopToyModel():
     antid.set('is_part', False)
 
     myloopmodel.set('particles', mypartlist)
-    myloopmodel.set('couplings', ['QCD'])        
+    myloopmodel.set('couplings', ['QCD'])
     myloopmodel.set('interactions', myinterlist)
     myloopmodel.set('perturbation_couplings', ['QCD'])
     myloopmodel.set('order_hierarchy', {'QCD':1})
@@ -121,15 +121,15 @@ def loadLoopToyModel():
 
 class LoopUFOImportTest(unittest.TestCase):
     """Test class to check that the import of the loop UFO model is correct."""
-    
+
     hardcoded_loopmodel = loop_base_objects.LoopModel()
     imported_loopmodel = loop_base_objects.LoopModel()
-    
+
     def setUp(self):
-        """load the hardcoded NLO toy model to compare against the imported 
+        """load the hardcoded NLO toy model to compare against the imported
             one"""
-        
-        self.hardcoded_loopmodel = loadLoopToyModel() 
+
+        self.hardcoded_loopmodel = loadLoopToyModel()
         # Make sure to move the pickle first in order not to load it
         if os.path.exists(os.path.join(\
             _input_file_path,'loop_ToyModel','model.pkl')):
@@ -143,13 +143,13 @@ class LoopUFOImportTest(unittest.TestCase):
             _input_file_path,'LoopSMTest'))
         self.imported_loopmodel.actualize_dictionaries()
         self.hardcoded_loopmodel.actualize_dictionaries()
-    
+
     def test_loadingLoopToyModel(self):
         """ Several test on the correctness of the model imported.
         Initially the idea was to compare against the hardcoded model but it
         is too tidious to copy it down. So only a few characteristics are tested
         """
-        
+
         self.assertEqual(self.imported_loopmodel['perturbation_couplings'],\
                          ['QCD',])
         self.assertEqual(len(self.imported_loopmodel.get('interactions')),205)
@@ -178,4 +178,3 @@ class LoopUFOImportTest(unittest.TestCase):
         for key in self.hardcoded_loopmodel['particles'][0].keys():
             self.assertEqual(self.imported_loopmodel['particles'][6][key],\
                          self.hardcoded_loopmodel['particles'][0][key])
-        

@@ -16,14 +16,14 @@ c     $        ,' |T@QCD2QED2 ',' |T@QCD0QED4 ',' |T@QCD6QED0 '
 c     $        ,' |T@QCD4QED2 ',' |T@QCD2QED4 ',' |T@QCD0QED6 '
 c     $        ,' |T@QCD8QED0 ',' |T@QCD6QED2 ',' |T@QCD4QED4 '
 c     $        ,' |T@QCD2QED6 ',' |T@QCD0QED8 '
-c     
-c     See also line 376 in this file 
+c
+c     See also line 376 in this file
       call HwU_inithist(nwgt,weights_info)
       do i=1,4
 C if the splitorders are histogrammed one by one, uncomment what the
-C following line and comment the one above. 
+C following line and comment the one above.
 C Note that the sudakov corrections will not be done order by order
-C      do i=1,16 
+C      do i=1,16
 
       l=(i-1)*55
 c transverse momenta
@@ -95,7 +95,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 
@@ -129,7 +129,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       is_nextph_iso(:) = .false.
 
-c First, try to recombine photons with leptons      
+c First, try to recombine photons with leptons
       if (.not.quarkphreco) then
          write (*,*) 'quark-photon recombination is turned off. '/
      $        /'Do need it'
@@ -141,7 +141,7 @@ c First, try to recombine photons with leptons
          stop
       endif
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
-     $                       p, iPDG, is_nextph_iso, 
+     $                       p, iPDG, is_nextph_iso,
      $                       p_reco, iPDG_reco, is_nextph_iso_reco)
 
 c Put all (light) QCD partons(+photon) in momentum array for jet clustering.
@@ -155,13 +155,13 @@ c Put all (light) QCD partons(+photon) in momentum array for jet clustering.
             enddo
          endif
       enddo
-      
+
 C---CLUSTER THE EVENT
       palg  = jetalgo
       rfj   = jetradius
       sycut = ptj
       yjmax = etaj
-      
+
 c******************************************************************************
 c     call FASTJET to get all the jets
 c
@@ -274,7 +274,7 @@ c Look for the other physics objects
       if (iem.ne.0 .and. iep.ne.0 .and. imm.ne.0 .and. imp.ne.0) then
          ptepemmpmm=getptv4_4(p_reco(0,iem),p_reco(0,iep),p_reco(0,imm),p_reco(0,imp))
          Mepemmpmm=getinvm4_4(p_reco(0,iem),p_reco(0,iep),p_reco(0,imm),p_reco(0,imp))
-      endif      
+      endif
       if (ive.ne.0 .and. iep.ne.0 .and. imm.ne.0 .and. ivm.ne.0) then
          ptepvemmvm=getptv4_4(p_reco(0,iep),p_reco(0,ive),p_reco(0,imm),p_reco(0,ivm))
          Mepvemmvm=getinvm4_4(p_reco(0,iep),p_reco(0,ive),p_reco(0,imm),p_reco(0,ivm))
@@ -309,14 +309,14 @@ c Look for the other physics objects
          enddo
       endif
 
-      
+
 c missing Et
       if (ive.ne.0 .and. ivm.ne.0) then
          etmiss=getptv4_2(p_reco(0,ivm),p_reco(0,ive))
       elseif (ive.ne.0 .or. ivm.ne.0) then
          etmiss=getptv4(p_reco(0,ive+ivm))
       endif
-      
+
       if (ih1.ne.0)pth(1)=getptv4(p_reco(0,ih1))
       if (ih2.ne.0)pth(2)=getptv4(p_reco(0,ih2))
       if (ih1.ne.0 .and. ih2.ne.0) then
@@ -379,7 +379,7 @@ c
          HTreco=HTreco+getptv4(pjet(0,i))
       enddo
       if (ive.ne.0 .or. ivm.ne.0) HTreco=HTreco+etmiss
-         
+
       do i=1,4
 c      do i=1,16
          l=(i-1)*55
@@ -406,9 +406,9 @@ c         if (i.eq.16.and.orders_tag_plot.ne.800) cycle
 
 
 
-c total rate         
+c total rate
          call HwU_fill(l+ 1,1d0,wgts)
-c transverse momenta         
+c transverse momenta
          if (il .ge.1) call HwU_fill(l+ 2,l10(ptlep(1)),wgts)
          if (il .ge.2) call HwU_fill(l+ 3,l10(ptlep(2)),wgts)
          if (il .ge.3) call HwU_fill(l+ 4,l10(ptlep(3)),wgts)
@@ -423,7 +423,7 @@ c transverse momenta
             if (ptepem.gt.ptmpmm) then
                call HwU_fill(l+16,l10(ptepem),wgts)
                call HwU_fill(l+17,l10(ptmpmm),wgts)
-            else 
+            else
               call HwU_fill(l+17,l10(ptepem),wgts)
                call HwU_fill(l+16,l10(ptmpmm),wgts)
             endif
@@ -511,7 +511,7 @@ c HT
          call HwU_fill(l+55,l10(HTreco),wgts)
       enddo
 
- 999  return      
+ 999  return
       end
 
 
@@ -525,7 +525,7 @@ c HT
       endif
       return
       end
-      
+
       function getrapidity(en,pl)
       implicit none
       real*8 getrapidity,en,pl,tiny,xplus,xminus,y
@@ -893,4 +893,3 @@ c
 
       return
       end
-

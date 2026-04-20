@@ -5,19 +5,19 @@ C     IT USES A SIMPLE PHASE SPACE GENERATOR
 C     Fabio Maltoni - 3rd Febraury 2007
 C **************************************************************************
       IMPLICIT NONE
-C     
-C     CONSTANTS  
-C     
+C
+C     CONSTANTS
+C
       REAL*8 ZERO
       PARAMETER (ZERO=0D0)
       INTEGER NSPLITORDERS
       PARAMETER (NSPLITORDERS=%(nSplitOrders)d)
-C     
+C
 C     INCLUDE FILES
-C     
-C ---  the include file with the values of the parameters and masses	
+C
+C ---  the include file with the values of the parameters and masses
       INCLUDE "coupl.inc"
-C integer nexternal and number particles (incoming+outgoing) in the me 
+C integer nexternal and number particles (incoming+outgoing) in the me
       INTEGER NEXTERNAL, NINCOMING
       PARAMETER (NEXTERNAL=%(nexternal)d,NINCOMING=%(nincoming)d)
 C ---  particle masses
@@ -26,32 +26,32 @@ C ---  particle masses
 C ---  integer    n_max_cg
       INCLUDE "ngraphs.inc"     !how many diagrams (could be useful to know...)
 
-C     
+C
 C     LOCAL
-C     
+C
       INTEGER I,J,K
       REAL*8 P(0:3,NEXTERNAL)   ! four momenta. Energy is the zeroth component.
       REAL*8 SQRTS ! sqrt(s)= center of mass energy
-      REAL*8 MATELEM, MATELEMS(0:NSPLITORDERS)        
+      REAL*8 MATELEM, MATELEMS(0:NSPLITORDERS)
       REAL*8 PIN(0:3), POUT(0:3)
       CHARACTER*120 BUFF(NEXTERNAL)
 
       integer NChosen
       character*20 chosen_so_indices(NSPLITORDERS)
 
-C     
+C
 C     EXTERNAL
-C     
+C
       REAL*8 DOT
       EXTERNAL DOT
 
       LOGICAL CHOSEN_SO_CONFIGS(NSPLITORDERS)
       COMMON/CHOSEN_BORN_SQSO/CHOSEN_SO_CONFIGS
-      
+
 C -----
 C     BEGIN CODE
 C -----
-C     
+C
 c     Start by initializing what is the squared split orders indices chosen
       NCHOSEN=0
       DO I=1,NSPLITORDERS
@@ -62,8 +62,8 @@ c     Start by initializing what is the squared split orders indices chosen
       ENDDO
 
 C ---  INITIALIZATION CALLS
-C     
-c ---  Call to initialize the values of the couplings, masses and widths 
+C
+c ---  Call to initialize the values of the couplings, masses and widths
 c     used in the evaluation of the matrix element. The primary parameters of the
 c     models are read from Cards/param_card.dat. The secondary parameters are calculated
 c     in Source/MODEL/couplings.f. The values are stored in common blocks that are listed
@@ -77,11 +77,11 @@ c     in coupl.inc .
         TOTALMASS = TOTALMASS + PMASS(I)
       ENDDO
 
-c ---  Now use a simple multipurpose PS generator (RAMBO) just to get a 
-c     RANDOM set of four momenta of given masses pmass(i) to be used to evaluate 
-c     the madgraph matrix-element.       
+c ---  Now use a simple multipurpose PS generator (RAMBO) just to get a
+c     RANDOM set of four momenta of given masses pmass(i) to be used to evaluate
+c     the madgraph matrix-element.
 c     Alternatevely, here the user can call or set the four momenta at his will, see below.
-c     	
+c
       IF(nincoming.EQ.1) THEN
          SQRTS=PMASS(1)
       ELSE
@@ -93,9 +93,9 @@ c
 
       call printout()
 
-      CALL GET_MOMENTA(SQRTS,PMASS,P)	
+      CALL GET_MOMENTA(SQRTS,PMASS,P)
 c
-c	  write the information on the four momenta 
+c	  write the information on the four momenta
 c
       write (*,*)
       write (*,*) " Phase space point:"
@@ -107,7 +107,7 @@ c
       enddo
       write (*,*) "-----------------------------"
 
-c     
+c
 c     Now we can call the matrix element!
 c
       CALL %(proc_prefix)sSMATRIX_SPLITORDERS(P,MATELEMS)
@@ -118,12 +118,12 @@ c
         write (*,*) "Selected squared coupling orders combination for the sum below:"
         write (*,*) (chosen_so_indices(I),I=1,NCHOSEN)
       endif
-      write (*,*) "Total Matrix element = ", MATELEM, " GeV^",-(2*nexternal-8)	
+      write (*,*) "Total Matrix element = ", MATELEM, " GeV^",-(2*nexternal-8)
       write (*,*) "-----------------------------"
 
 c c
-c c      Copy down here (or read in) the four momenta as a string. 
-c c      
+c c      Copy down here (or read in) the four momenta as a string.
+c c
 c c
 c      buff(1)=" 1   0.5630480E+04  0.0000000E+00  0.0000000E+00  0.5630480E+04"
 c      buff(2)=" 2   0.5630480E+04  0.0000000E+00  0.0000000E+00 -0.5630480E+04"
@@ -142,21 +142,21 @@ c
 c c- print the momenta out
 c
 c      do i=1,nexternal
-c         write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i), 
+c         write (*,'(i2,1x,5e15.7)') i, P(0,i),P(1,i),P(2,i),P(3,i),
 c     .dsqrt(dabs(DOT(p(0,i),p(0,i))))
 c      enddo
 c
 c      CALL SMATRIX(P,MATELEM)
 c
 c      write (*,*) "-------------------------------------------------"
-c      write (*,*) "Matrix element = ", MATELEM, " GeV^",-(2*nexternal-8)	
+c      write (*,*) "Matrix element = ", MATELEM, " GeV^",-(2*nexternal-8)
 c      write (*,*) "-------------------------------------------------"
 
       end
-	
-	  
-	  
-	  
+
+
+
+
 	   double precision function dot(p1,p2)
 C ****************************************************************************
 C     4-Vector Dot product
@@ -169,9 +169,9 @@ C ****************************************************************************
 
 	  SUBROUTINE GET_MOMENTA(ENERGY,PMASS,P)
 C ---- auxiliary function to change convention between madgraph and rambo
-c ---- four momenta. 	  
+c ---- four momenta.
 	  IMPLICIT NONE
-C integer nexternal and number particles (incoming+outgoing) in the me 
+C integer nexternal and number particles (incoming+outgoing) in the me
         INTEGER NEXTERNAL, NINCOMING
         PARAMETER (NEXTERNAL=%(nexternal)d,NINCOMING=%(nincoming)d)
 C	  ARGUMENTS
@@ -200,34 +200,34 @@ C         LOCAL
             P(1,2)=0d0
             P(2,2)=0d0
             P(3,2)=-mom
-             
+
             call rambo(nexternal-2,energy,pmass(nincoming+1),prambo,WGT)
             DO I=3, NEXTERNAL
-               P(0,I)=PRAMBO(4,I-2)	
+               P(0,I)=PRAMBO(4,I-2)
                P(1,I)=PRAMBO(1,I-2)
                P(2,I)=PRAMBO(2,I-2)
-               P(3,I)=PRAMBO(3,I-2)	
+               P(3,I)=PRAMBO(3,I-2)
             ENDDO
-             
-          elseif(nincoming.eq.1) then 
-             
+
+          elseif(nincoming.eq.1) then
+
              P(0,1)=energy
              P(1,1)=0d0
              P(2,1)=0d0
              P(3,1)=0d0
-             
+
              call rambo(nexternal-1,energy,pmass(2),prambo,WGT)
              DO I=2, NEXTERNAL
-                P(0,I)=PRAMBO(4,I-1)	
+                P(0,I)=PRAMBO(4,I-1)
                 P(1,I)=PRAMBO(1,I-1)
                 P(2,I)=PRAMBO(2,I-1)
-                P(3,I)=PRAMBO(3,I-1)	
+                P(3,I)=PRAMBO(3,I-1)
              ENDDO
           endif
-          
+
 	  RETURN
 	  END
-      
+
 
       SUBROUTINE RAMBO(N,ET,XM,P,WT)
 C ***********************************************************************
@@ -246,7 +246,7 @@ C *    P  = PARTICLE MOMENTA ( DIM=(4,NEXTERNAL-nincoming) )            *
 C *    WT = WEIGHT OF THE EVENT                                         *
 C ***********************************************************************
       IMPLICIT REAL*8(A-H,O-Z)
-C integer nexternal and number particles (incoming+outgoing) in the me 
+C integer nexternal and number particles (incoming+outgoing) in the me
       INTEGER NEXTERNAL, NINCOMING
       PARAMETER (NEXTERNAL=%(nexternal)d,NINCOMING=%(nincoming)d)
       DIMENSION XM(NEXTERNAL-NINCOMING),P(4,NEXTERNAL-NINCOMING)
@@ -425,7 +425,7 @@ C * In this version RVEC is a double precision variable.
       IF(UNI .LT. 0D0) UNI = UNI + 1D0
       RVEC = UNI
       END
- 
+
       SUBROUTINE RMARIN(IJ,KL)
 C *     -----------------
 C * Initializing routine for RANMAR, must be called before generating
@@ -463,9 +463,3 @@ C * k=56,l=78) put ij=1802, kl=9373
       IRANMR = 97
       JRANMR = 33
       END
-
-
-
-
-
-

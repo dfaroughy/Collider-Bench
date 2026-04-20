@@ -1,21 +1,21 @@
 #! /usr/bin/env python3
 ################################################################################
-# Copyright (c) 2012 The MadGraph Development team and Contributors             
+# Copyright (c) 2012 The MadGraph Development team and Contributors
 #
-# This file is a part of the MadGraph 5 project, an application which           
-# automatically generates Feynman diagrams and matrix elements for arbitrary    
-# high-energy processes in the Standard Model and beyond.                       
+# This file is a part of the MadGraph 5 project, an application which
+# automatically generates Feynman diagrams and matrix elements for arbitrary
+# high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph license which should accompany this             
-# distribution.                                                                 
-#                                                                               
-# For more information, please visit: http://madgraph.phys.ucl.ac.be            
-#                                                                               
+# It is subject to the MadGraph license which should accompany this
+# distribution.
+#
+# For more information, please visit: http://madgraph.phys.ucl.ac.be
+#
 ################################################################################
 from __future__ import division
 from __future__ import absolute_import
 import math
-import os 
+import os
 import sys
 import subprocess
 from six.moves import map
@@ -26,7 +26,7 @@ class RunningMW(object):
     def __init__(self, card_nb, first_event, nb_events, evt_file, mw_int_points, \
                  log_level, sample_nb):
         """store the data"""
-        
+
         self.card_nb = int(card_nb)
         self.first_event = int(first_event)
         self.evtfile = evt_file
@@ -39,27 +39,27 @@ class RunningMW(object):
         else:
             self.debug = False
         self.sample_nb = int(sample_nb)
-        
+
         self.current_event = -1
         self.last_line = ''
         self.nb_line_by_event = 0
-        
+
         restrict_path = evt_file.replace('verif','restrict%i' % self.card_nb).replace('.lhco','.dat')
         if os.path.exists(restrict_path):
             allow = list(map(int, open(restrict_path).read().split()))
             self.allow_event = lambda x: int(x) in allow
         else:
             self.allow_event = lambda x: True
-    
+
     class output_handler(object):
-        
+
         def __init__(self, card_nb, sample_nb):
             self.fsock = open('output_%s_%s.xml' % (card_nb, sample_nb), 'w')
             self.fsock.write('<card id=\'%s\'>\n' % card_nb)
 
         def  __enter__(self):
             return self.fsock
-            
+
         def __exit__(self, type, value, traceback):
             if type is None:
                 self.fsock.write('</card>\n')
@@ -80,14 +80,14 @@ class RunningMW(object):
                     subprocess.call('./comp_madweight', stdout=open('log.txt','w'))
                 else:
                     print('submit in debug mode')
-                
+
                     os.system('echo "./comp_madweight" > log.txt')
                     os.system('bash log.txt')
                 self.get_one_job_result()
-    
+
     def get_next_event(self, create=True, update_event_nb=True):
         """prepare the verif.lhco"""
-    
+
 
 
         if self.current_event == -1:
@@ -95,18 +95,18 @@ class RunningMW(object):
             self.current_event +=1
             for i in range(self.first_event):
                 self.get_next_event(False)
-        
+
         if update_event_nb:
             self.current_event +=1
             if self.current_event >= self.first_event + self.nb_events + 1:
                 return False
-        
+
         evt = self.last_line
-        self.last_line = '' 
+        self.last_line = ''
         if evt:
             nb_line = 1
         else:
-            nb_line = 0    
+            nb_line = 0
         for line in self.input_file:
             nb_line +=1
             if not self.nb_line_by_event:
@@ -123,8 +123,8 @@ class RunningMW(object):
 
 
         if not evt:
-            return False    
-        
+            return False
+
 
         try:
             self.lhco_number = int(evt.split('\n')[0].split()[1])
@@ -139,7 +139,7 @@ class RunningMW(object):
             nblhco = ''.join(i for i in nblhco if i.isdigit())
             if not nblhco:
                 nblhco = '1'
-            
+
             evt[0] = ' '.join([id, nblhco,trigger])
             evt = '\n'.join(evt)
         if self.allow_event(self.lhco_number):
@@ -150,14 +150,14 @@ class RunningMW(object):
                 fsock.close()
         else:
             return self.get_next_event(create, update_event_nb=False)
-            
+
         return evt
 
     def get_one_job_result(self):
         """collect the associate result and update the final output file"""
-        
+
         #fsock = open('output_%s_%s.xml' % (self.card_nb, self.sample_nb), 'a')
-        
+
         weight = Weight(self.lhco_number, log_level)
         weight.get()
         weight.write(self.fsock)
@@ -170,25 +170,25 @@ class TFsets(dict):
         self.value = 0
         self.error = 0
         self.tf_set = tf_set
-        
+
         dict.__init__(self)
-    
+
     def add(self, perm_id, channel_id, value, error, perm_order):
-        
+
         if perm_id in self:
             perm_obj = self[perm_id]
         else:
             perm_obj = Permutation(perm_id, perm_order)
             self[perm_id] = perm_obj
         perm_obj.add(channel_id, value, error)
-                
+
     def write(self, fsock, log_level):
         """ """
-                
+
         self.value, self.error = self.calculate_total()
         fsock.write('%s<tfset id=\'%s\' value=\'%s\' error=\'%s\'>' % \
                         (' '*self.nb_space,self.tf_set, self.value, self.error))
-        
+
         if log_level in ['permutation','channel', 'iterations', 'full']:
             fsock.write('\n')
             perm_ids = list(self.keys())
@@ -199,11 +199,11 @@ class TFsets(dict):
             fsock.write('%s</tfset>' % (' ' * self.nb_space))
         else:
             fsock.write('</tfset>\n')
-            
+
     def calculate_total(self):
-        
+
         if self.value:
-            return self.value, self.error 
+            return self.value, self.error
         total = 0
         total_error = 0
         if '0' in list(self.keys()):
@@ -211,26 +211,26 @@ class TFsets(dict):
             return self.value, self.error
         else:
             for perm in self.values():
-                value, error =  perm.calculate_total() 
+                value, error =  perm.calculate_total()
                 total += value
                 total_error += error**2
         self.value = total / len(self)
-        self.error = math.sqrt(total_error) / len(self) 
-        
+        self.error = math.sqrt(total_error) / len(self)
+
         return self.value, self.error
 
 class Weight(dict):
-    
+
     def __init__(self, lhco_number, log_level):
         self.log_level = log_level
         self.value = 0
         self.error = 0
         self.lhco_number = lhco_number
         dict.__init__(self)
-        self.log = ''        
-    
+        self.log = ''
+
     def get(self):
-        
+
         #1. get the weight, error for this object
         try:
             ff=open('weights.out','r')
@@ -247,11 +247,11 @@ class Weight(dict):
         os.remove('weights.out')
         #2. details
         self.get_details()
-            
+
         #3 full log
         if self.log_level == 'full':
             self.log = open('log.txt').read().replace('<','!>')
-        
+
     def get_details(self):
         """ """
         try:
@@ -269,12 +269,12 @@ class Weight(dict):
                 tfsets = TFsets(tf_id)
                 self[tf_id] = tfsets
             else:
-                tfsets = self[tf_id] 
+                tfsets = self[tf_id]
             tfsets.add(perm_id, channel_id, value, error, perm_order)
-                    
+
     def write(self, fsock):
-        """ """ 
-        
+        """ """
+
         fsock.write('<event id=\'%s\' value=\'%s\' error=\'%s\'>\n' % \
                     (self.lhco_number, self.value, self.error))
         tfsets = list(self.keys())
@@ -282,15 +282,15 @@ class Weight(dict):
         for tf_id in tfsets:
             self[tf_id].write(fsock, self.log_level)
         if 'full' == self.log_level:
-            fsock.write('\n    <log>\n%s\n</log>\n' % self.log)#.replace('\n','\n<br></br>')) 
-        fsock.write('</event>\n')        
-    
+            fsock.write('\n    <log>\n%s\n</log>\n' % self.log)#.replace('\n','\n<br></br>'))
+        fsock.write('</event>\n')
+
     def __str__(self):
         return 'Weight(%s)' % self.value
-    
+
     def __repr__(self):
         return 'Weight(%s)' % self.value
-            
+
 class Permutation(dict):
     nb_space=8
     def __init__(self, perm_id, perm_order):
@@ -299,26 +299,26 @@ class Permutation(dict):
         self.error2 = 0
         self.id = perm_id
         self.perm_order = ' '.join(perm_order)
-        
+
         dict.__init__(self)
-    
+
     def add(self, channel_id, value, error):
-        
-        self[channel_id] = Channel(channel_id, value, error) 
-                
+
+        self[channel_id] = Channel(channel_id, value, error)
+
     def write(self, fsock, log_level):
         """ """
-        
+
         self.value, self.error = self.calculate_total()
         if self.id =='0':
             tag = 'all'
         else:
             tag = self.id
-        
+
         fsock.write('%s<permutation id=\'%s\' value=\'%s\' error=\'%s\'>\n%s%s' % \
             (' '*self.nb_space, tag, self.value, self.error,
              ' '*(self.nb_space+2), self.perm_order))
-        
+
         if log_level in ['channel', 'iterations', 'full']:
             fsock.write('\n')
             ids = list(self.keys())
@@ -330,9 +330,9 @@ class Permutation(dict):
             fsock.write('%s</permutation>\n' % (' '*self.nb_space))
         else:
             fsock.write('</permutation>\n')
-            
+
     def calculate_total(self):
-        
+
         if self.value:
             self.error = math.sqrt(self.error2)
             return self.value, self.error
@@ -344,8 +344,8 @@ class Permutation(dict):
         self.value = total
         self.error2 = error
         self.error = math.sqrt(self.error2)
-        return total, self.error   
-    
+        return total, self.error
+
 class Channel(object):
     """ """
     nb_space=12
@@ -354,17 +354,17 @@ class Channel(object):
         self.channel_id = channel_id
         self.value = float(value)
         self.error = float(error)
-    
+
     def write(self, fsock, log_level):
-        
+
         fsock.write('%s<channel id=\'%s\' value=\'%s\' error=\'%s\'></channel>' %
                     (' '*self.nb_space,self.channel_id, self.value, self.error))
 
 if __name__ == '__main__':
-    try:                                                                                                                                                                                                   
-        card_nb, first_event, nb_event, evt, mw_int_points, log_level, sample_nb = sys.argv[1:]                                                                                                            
-    except:                                                                                                                                                                                                
-        card_nb, first_event, nb_event, evt, mw_int_points, log_level, sample_nb = open('arguments').read().split() 
+    try:
+        card_nb, first_event, nb_event, evt, mw_int_points, log_level, sample_nb = sys.argv[1:]
+    except:
+        card_nb, first_event, nb_event, evt, mw_int_points, log_level, sample_nb = open('arguments').read().split()
     else:
         fsock = open('arguments', 'w')
         fsock.write(' '.join(sys.argv[1:]))

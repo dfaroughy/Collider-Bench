@@ -18,7 +18,7 @@ C     may be a dummy function, depending on the process
 
 
       INTEGER FUNCTION GET_EXTRA_CNT_COLOR(ICNT,IPART)
-C     return the color of the ipart-th particle of 
+C     return the color of the ipart-th particle of
 C     counterterm icnt
       INTEGER ICNT IPART
       INCLUDE 'nexternal.inc'
@@ -45,7 +45,7 @@ C     counterterm icnt
 
 
       INTEGER FUNCTION GET_EXTRA_CNT_PDG(ICNT,IPART)
-C     return the pdg id of the ipart-th particle of 
+C     return the pdg id of the ipart-th particle of
 C     counterterm icnt
       INTEGER ICNT IPART
       INCLUDE 'nexternal.inc'
@@ -72,7 +72,7 @@ C     counterterm icnt
 
 
       DOUBLE PRECISION FUNCTION GET_EXTRA_CNT_CHARGE(ICNT,IPART)
-C     return the charge id of the ipart-th particle of 
+C     return the charge id of the ipart-th particle of
 C     counterterm icnt
       INTEGER ICNT IPART
       INCLUDE 'nexternal.inc'
@@ -96,4 +96,3 @@ C     counterterm icnt
 
       RETURN
       END
-

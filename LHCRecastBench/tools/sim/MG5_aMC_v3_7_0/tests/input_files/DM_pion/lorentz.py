@@ -7,7 +7,7 @@ from __future__ import absolute_import
 from object_library import all_lorentz, Lorentz
 
 try:
-   import form_factors as ForFac 
+   import form_factors as ForFac
 except ImportError:
    pass
 
@@ -179,4 +179,3 @@ VVVV9 = Lorentz(name = 'VVVV9',
 VVVV10 = Lorentz(name = 'VVVV10',
                  spins = [ 3, 3, 3, 3 ],
                  structure = 'Metric(1,4)*Metric(2,3) + Metric(1,3)*Metric(2,4) + Metric(1,2)*Metric(3,4)')
-

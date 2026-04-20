@@ -27,7 +27,7 @@ c MAPCONFIG())
       include 'configs_and_props_decl.inc'
       save mapconfig_d,iforest_d,sprop_d,tprid_d,pmass_d,pwidth_d,pow_d
       include "pmass.inc"
-c     
+c
       if (max_branch_used.gt.max_branch) then
          write (*,*) 'ERROR in configs_and_props_inc_chooser:'/
      $        /' increase max_branch',max_branch,max_branch_used
@@ -107,7 +107,7 @@ c fks.inc information
       integer extra_cnt, isplitorder_born, isplitorder_cnt
       common /c_extra_cnt/extra_cnt, isplitorder_born, isplitorder_cnt
       include 'orders.inc'
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
       logical is_aorg(nexternal)
       common /c_is_aorg/is_aorg
@@ -158,7 +158,7 @@ c
             ch_i=particle_charge(i_fks)
             ch_j=particle_charge(j_fks)
             particle_tag_born(i) = particle_tag(j_fks)
-            call get_mother_col_charge(i_type,ch_i,j_type,ch_j,m_type,ch_m) 
+            call get_mother_col_charge(i_type,ch_i,j_type,ch_j,m_type,ch_m)
             particle_type_born(i)=m_type
             particle_charge_born(i)=ch_m
          elseif (i.ne.max(i_fks,j_fks)) then
@@ -167,7 +167,7 @@ c
             particle_charge_born(i)=particle_charge(i)
          endif
       enddo
-      
+
       do i = 1, nsplitorders
          split_type(i) = split_type_d(nFKSprocess,i)
       enddo
@@ -192,7 +192,7 @@ c leshouche.inc information
       include 'leshouche_decl.inc'
       common/c_leshouche_idup_d/ idup_d
       save mothup_d, icolup_d, niprocs_d
-      
+
 c
       if (maxproc_used.gt.maxproc) then
          write (*,*) 'ERROR in leshouche_inc_chooser: increase maxproc',
@@ -269,7 +269,7 @@ C read the various information from the configs_and_props_info.dat file
             if (buff(:1).ne.'D') then
               write(*,*) 'ERROR #1 in read_configs_and_props_info',
      1                    i,j,k,ndau,buff
-              stop 
+              stop
             endif
             read(buff(2:),*) dau
             iforest_d(i,idau,j,k) = dau
@@ -287,7 +287,7 @@ C read the various information from the configs_and_props_info.dat file
         else if (buff(:1).eq.'M') then
         ! pmass and pwidth
           read(buff(2:),*) i,j,k,id
-        ! M  i   j   k  id -> gives id of particle of which 
+        ! M  i   j   k  id -> gives id of particle of which
         ! the mass/width is stored in PMASS/WIDTH_D(i,j,k)
           pmass_d(i,j,k) = get_mass_from_id(id)
           pwidth_d(i,j,k) = get_width_from_id(id)
@@ -301,7 +301,7 @@ C read the various information from the configs_and_props_info.dat file
  999  continue
       close(78)
 
-      return 
+      return
       end
 
 
@@ -378,7 +378,7 @@ c born_leshouche.inc file.
  999  continue
       close(78)
 
-      return 
+      return
       end
 
 
@@ -394,8 +394,8 @@ C the type and charges of the mother particle
 
       common/fks_indices/i_fks,j_fks
 
-      if (abs(i_type).eq.abs(j_type) .and. 
-     &    abs(ch_i).eq.abs(ch_j) .and. 
+      if (abs(i_type).eq.abs(j_type) .and.
+     &    abs(ch_i).eq.abs(ch_j) .and.
      &    abs(i_type).gt.1) then
         ! neutral color octet splitting
          m_type=8
@@ -408,7 +408,7 @@ C the type and charges of the mother particle
      &                 i_fks,j_fks,i_type,j_type
             stop
          endif
-      elseif (abs(i_type).eq.abs(j_type) .and. 
+      elseif (abs(i_type).eq.abs(j_type) .and.
      &        dabs(ch_i).eq.dabs(ch_j).and.abs(i_type).eq.1) then
         ! neutral color singlet splitting
          m_type=1
@@ -566,5 +566,3 @@ c initial state gluon splitting (gluon is j_fks):  g -> XX
       write(*,*) 'SPLIT TYPE USED:', split_type_used
       return
       end
-
-

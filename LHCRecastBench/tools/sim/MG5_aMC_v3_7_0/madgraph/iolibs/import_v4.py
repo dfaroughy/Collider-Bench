@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -53,16 +53,16 @@ def import_model(model_path, mgme_dir = MG4DIR, absolute=True, web=True):
             found = import_ufo.import_model_from_db(model_path_old, local_dir=True)
         else:
             found = import_ufo.import_model_from_db(model_path_old+'_v4', local_dir=True)
-             
+
         if found and absolute:
             return import_model(model_path_old, mgme_dir, absolute, web=False)
 
         else:
             raise
-        
+
     files_list = [os.path.join(model_path, 'particles.dat'),\
                   os.path.join(model_path, 'interactions.dat')]
-    
+
     for filepath in files_list:
         if not os.path.isfile(filepath):
             if not absolute:
@@ -70,7 +70,7 @@ def import_model(model_path, mgme_dir = MG4DIR, absolute=True, web=True):
                                                                     (model_path))
             else:
                 return import_model(model_path_old, mgme_dir, False)
-                                                                
+
     # use pickle files if defined
     if files.is_uptodate(os.path.join(model_path, 'model.pkl'), files_list):
         model = save_load_object.load_from_file( \
@@ -79,17 +79,17 @@ def import_model(model_path, mgme_dir = MG4DIR, absolute=True, web=True):
         if 'version_tag' in model and model.get('version_tag') == os.path.realpath(model_path) + str(misc.get_pkg_info()):
             return model, model_path
 
-    model = base_objects.Model()    
+    model = base_objects.Model()
     model.set('particles',files.read_from_file( \
                                   os.path.join(model_path, 'particles.dat'),
                                   read_particles_v4))
-    
+
     model.set('interactions',files.read_from_file( \
                                   os.path.join(model_path, 'interactions.dat'),
                                   read_interactions_v4,
                                   model['particles']))
-    
-    model.set('name', os.path.split(model_path)[-1])  
+
+    model.set('name', os.path.split(model_path)[-1])
 
     # save in a pickle files to fasten future usage
     if ReadWrite:
@@ -98,9 +98,9 @@ def import_model(model_path, mgme_dir = MG4DIR, absolute=True, web=True):
         except Exception:
             logger.warning("fail to write %s. This is perfectly fine will just prevent speed boost in future load of this model" %\
                            os.path.join(model_path, 'model.pkl'))
-    return model, model_path  
+    return model, model_path
 
-    
+
 def find_model_path(model_path, mgme_dir, absolute=True):
     """Find the path to the model, starting with path model_path."""
 
@@ -119,15 +119,15 @@ def find_model_path(model_path, mgme_dir, absolute=True):
 
     # Try to build the valid path
     path_possibilities = [os.path.join(mgme_dir, 'Models', model_path),
-                         os.path.join(mgme_dir, 'models', model_path + "_v4"),    
-                         os.path.join(mgme_dir, 'models', model_path)            
+                         os.path.join(mgme_dir, 'models', model_path + "_v4"),
+                         os.path.join(mgme_dir, 'models', model_path)
                          ]
 
     for path in path_possibilities:
         if os.path.exists(path) and \
                         not os.path.exists(os.path.join(path, 'particles.py')):
             return path
-    
+
     # No valid path found
     raise InvalidCmd("Path %s is not a valid pathname" % model_path)
 
@@ -241,13 +241,13 @@ def read_interactions_v4(fsock, ref_part_list):
                 for str_name in values:
                     curr_part = ref_part_list.get_copy(str_name.lower())
                     if isinstance(curr_part, Particle):
-                        # Look at the total number of strings, stop if 
-                        # anyway not enough, required if a variable name 
+                        # Look at the total number of strings, stop if
+                        # anyway not enough, required if a variable name
                         # corresponds to a particle! (eg G)
                         if len(values) >= 2 * len(part_list) + 1:
                             part_list.append(curr_part)
                         else: break
-                    # also stops if string does not correspond to 
+                    # also stops if string does not correspond to
                     # a particle name
                     else: break
 
@@ -266,7 +266,7 @@ def read_interactions_v4(fsock, ref_part_list):
                 # Give color structure
                 # Order particles according to color
                 # Don't consider singlets
-                color_parts = sorted(enumerate(part_list), 
+                color_parts = sorted(enumerate(part_list),
                                      key=lambda p: p[1].get_color())
                 color_ind = [(i, part.get_color()) for i, part in \
                              color_parts if part.get_color() !=1]
@@ -317,11 +317,11 @@ def read_interactions_v4(fsock, ref_part_list):
                     #cs3.coeff = fractions.Fraction(-1)
                     myinter.set('color', [cs1, cs2, cs3])
 #   The following line are expected to be correct but not physical validations
-#    have been performed. So we keep it commented for the moment.                    
+#    have been performed. So we keep it commented for the moment.
 #                elif colors == [3, 3, 3]:
 #                    my_color_string = color.ColorString(\
 #                        [color.Epsilon(ind[0], ind[1], ind[2])])
-#                    myinter.set('color', [my_color_string])                    
+#                    myinter.set('color', [my_color_string])
 #                elif colors == [-3, -3, -3]:
 #                    my_color_string = color.ColorString(\
 #                        [color.EpsilonBar(ind[0], ind[1], ind[2])])
@@ -357,7 +357,7 @@ def read_interactions_v4(fsock, ref_part_list):
                    part_list[1].get('self_antipart'):
                     myinter.set('lorentz', ['go'])
 
-                # If extra flag, add this to Lorentz    
+                # If extra flag, add this to Lorentz
                 if len(values) > 3 * len(part_list) - 4:
                     myinter.get('lorentz')[0] = \
                                       myinter.get('lorentz')[0]\
@@ -388,23 +388,23 @@ def read_interactions_v4(fsock, ref_part_list):
                                               (1, 1):values[len(part_list)],
                                               (2, 2):values[len(part_list)]})
                 elif myinter.get('lorentz')[0] == 'WWWW':
-                    # Need special treatment of v4 SM WWWW couplings since 
+                    # Need special treatment of v4 SM WWWW couplings since
                     # MG5 can only have one coupling per Lorentz structure
                     myinter.set('couplings', {(0, 0):\
-                                              'sqrt(' + 
+                                              'sqrt(' +
                                               values[len(part_list)] + \
                                              '**2+' + \
                                               values[len(part_list) + 1] + \
                                               '**2)'})
                 else: #if myinter.get('lorentz')[0] == 'WWVV':
-                    # Need special treatment of v4 SM WWVV couplings since 
+                    # Need special treatment of v4 SM WWVV couplings since
                     # MG5 can only have one coupling per Lorentz structure
                     myinter.set('couplings', {(0, 0):values[len(part_list)] + \
                                              '*' + \
                                               values[len(part_list) + 1]})
                     #raise Interaction.PhysicsObjectError, \
                     #    "Only FR-style 4-vertices implemented."
-                
+
                 # SPECIAL TREATMENT OF COLOR
                 # g g sq sq (two different color structures, same Lorentz)
                 if spin_array == [3, 3, 1, 1] and colors == [-3, 3, 8, 8]:
@@ -439,7 +439,7 @@ def read_interactions_v4(fsock, ref_part_list):
 # read_proc_card.dat (mg4 format)
 #===============================================================================
 def read_proc_card_v4(fsock):
-    """A simple function reading the files in fsock and returning a 
+    """A simple function reading the files in fsock and returning a
     ProcCardv4Reader object. This function authorize to have the same syntax as
     for the other files treatment"""
 
@@ -450,19 +450,19 @@ class ParticleError(InvalidCmd):
     """ A class to carch the error"""
     pass
 
-class WrongFileFormat(InvalidCmd): 
+class WrongFileFormat(InvalidCmd):
     """A specific class error for wrong V4 proc_card"""
     pass
 
 class ProcCardv4Reader(object):
     """read a proc_card.dat in the mg4 format and creates the equivalent routine
     for mg5"""
-    
+
     #tag in the proc_card.dat which split the proc_card content
-        
+
     # line pattern (remove comment at the end of the line)
     pat_line = re.compile(r"""^\s*(?P<info>[^\#]*?)\s*(\#|$)""", re.DOTALL)
-    
+
     def __init__(self, fsock):
         """init the variable"""
 
@@ -473,19 +473,19 @@ class ProcCardv4Reader(object):
         self.couplings_name = set() # set of mandatory couplings
         self.process_path = os.path.realpath(os.path.join(
                                         os.path.dirname(fsock.name), os.pardir))
-        
+
         # Reading the files and store the information in string format.
         self.analyze_v4_proc_card(fsock)
 
-    
+
     def analyze_v4_proc_card(self, fsock):
         """read the file and fullfill the variable with mg4 line"""
-        
+
         proc_card = fsock.read()
 
         # store process information
         process_open = False
-        
+
         process_re = re.search(\
             r"^# Begin\s+PROCESS.*?^(?P<process>.*)^# End\s+PROCESS",
             proc_card, re.MULTILINE|re.DOTALL)
@@ -510,7 +510,7 @@ class ProcCardv4Reader(object):
         process_lines = process_re.group('process').split('\n')
 
         for line in process_lines:
-            # an 'end_coup' stop the current process, 
+            # an 'end_coup' stop the current process,
             #    'done' finish the list of process
             analyze_line = self.pat_line.search(line)
             if analyze_line:
@@ -524,9 +524,9 @@ class ProcCardv4Reader(object):
                     process_open = False
                 elif 'done' not in data:
                     self.process[-1].add_coupling(data)
-         
+
         self.model = model_re.group('model')
-                
+
         multiparticles_lines = multiparticles_re.group('multiparticles').split('\n')
 
         for line in multiparticles_lines:
@@ -538,30 +538,30 @@ class ProcCardv4Reader(object):
                 data = line.split()
                 self.particles_name.add(data[0].lower())
                 self.multipart.append(line)
-        
-    
+
+
     def extract_command_lines(self, model):
-        """Return the MG5 command line corresponding to this proc_card 
-        the MG5 command import model is skipped (since the model should be 
+        """Return the MG5 command line corresponding to this proc_card
+        the MG5 command import model is skipped (since the model should be
         loaded -it is one of the argument-)"""
-         
+
         # extract useful information of the model
         self.extract_info_from_model(model)
-        
+
         # use the model information for the splitting in particles of the mg4
         #process line.
         for process in self.process:
             process.analyze_process(self.particles_name)
-        
+
         #Now we are in position to write the lines call
-        lines = []    
+        lines = []
         #first write the lines associate to the multiparticls definition
         if self.multipart:
             lines.append('# Define multiparticle labels')
         for multipart in self.multipart:
             data = self.separate_particle(multipart, self.particles_name)
             lines.append('define ' + ' '.join(data))
-        
+
         # secondly define the lines associate with diagram
         if self.process:
             lines.append('# Specify process(es) to run')
@@ -572,20 +572,20 @@ class ProcCardv4Reader(object):
             else:
                 lines.append('add process %s' % \
                                   process.mg5_process_line(self.couplings_name))
-        
+
         #finally export the madevent output
         lines.append('# Output processes to MadEvent directory')
         lines.append('output -f')
-        
+
         return lines
-        
-        
+
+
     def extract_info_from_model(self, model):
         """ creates the self.particles_name (list of all valid name)
             and self.couplings_name (list of all couplings)"""
-        
-        # add in self.particles_name (it contains normally the mulpart name 
-        #already) all the valid name of particle of the model    
+
+        # add in self.particles_name (it contains normally the mulpart name
+        #already) all the valid name of particle of the model
         for particle in model['particles']:
             self.particles_name.add(particle['name'])
             self.particles_name.add(particle['antiname'])
@@ -595,7 +595,7 @@ class ProcCardv4Reader(object):
             for coupling in interaction['orders'].keys():
                 self.couplings_name.add(coupling)
 
-    
+
     @staticmethod
     def separate_particle(line, possible_str):
         """ for a list of concatanate variable return a list of particle name"""
@@ -605,11 +605,11 @@ class ProcCardv4Reader(object):
         # The procedure to find particles is the following
         #  - check if the combination of 4 string form a valid particle name
         #    if it is, move of 4 characters and check for the next particles.
-        #    if not try with 3, 2, 1 
+        #    if not try with 3, 2, 1
         #    if still not -> exit.
-        
-        pos = 0        # current starting position 
-        old_pos = -1   # check that we don't have infinite loop    
+
+        pos = 0        # current starting position
+        old_pos = -1   # check that we don't have infinite loop
         line += '     '  #add 4 blank for security
         while pos < len(line) - 4:
             #Check for infinite loop
@@ -623,22 +623,22 @@ class ProcCardv4Reader(object):
             if line[pos] in [' ', '\n', '\t']:
                 pos += 1
                 continue
-            
+
             # try to find a match at 4(then 3/2/1) characters
             for i in range(4, 0, -1):
                 if line[pos:pos + i] in possible_str:
                     out.append(line[pos:pos + i])
                     pos = pos + i
                     break
-                
+
         return out
-    
+
 class ProcessInfo(object):
     """This is the basic object for storing process information"""
-    
+
     def __init__(self, line):
         """Initialize information"""
-            
+
         self.particles = [] # list tuple (level, particle)
         self.couplings = {} # coupling -> max_order
         self.decays = []    # ProcessInfo of the decays
@@ -646,11 +646,11 @@ class ProcessInfo(object):
         self.s_forbid = []  # list of particles forbids in s channel
         self.forbid = []     # list of particles forbids
         self.line = line    # initialization line
-        
+
         self.is_mg5_valid = False
         #some shortcut
         self.separate_particle = ProcCardv4Reader.separate_particle
-    
+
     def analyze_process(self, particles_name):
         """Add a line information
             two format are possible (decay chains or not)
@@ -664,7 +664,7 @@ class ProcessInfo(object):
             split = line.split('@')
             line = split[0]
             self.tag = split[1]
-            
+
 
         # check if we have a MG5 format
         if '/mg5/' in line:
@@ -678,7 +678,7 @@ class ProcessInfo(object):
         # extract (S-)forbidden particle
         pos_forbid = line.find('/')
         pos_sforbid = line.find('$')
-        
+
         # Select the restrictions (pos is -1 if not defined)
         #and remove the restrictions from the line
         if pos_forbid != -1 and pos_sforbid != -1:
@@ -704,23 +704,23 @@ class ProcessInfo(object):
             self.s_forbid = self.separate_particle(line[pos_sforbid + 1:], \
                                                                  particles_name)
             line = line[:pos_sforbid]
-            
-        # Deal with decay chains, returns lines whitout the decay (and treat 
+
+        # Deal with decay chains, returns lines whitout the decay (and treat
         #the different decays.
         if '(' in line:
             line = self.treat_decay_chain(line, particles_name)
-            
+
         #define the level of each particle
         level_content = line.split('>')
         for level, data in enumerate(level_content):
             particles = self.separate_particle(data, particles_name)
             if particles:
                 [self.particles.append((level, name)) for name in particles]
-            
-            
+
+
     def treat_decay_chain(self, line, particles_name):
         """Split the information of the decays into a tree of ProcessInfo."""
-            
+
         level = 0 #depth of the decay chain
         out_line = '' # core process
         for character in line:
@@ -747,26 +747,26 @@ class ProcessInfo(object):
             else:
                 out_line += character
         return out_line
-        
+
     def add_coupling(self, line):
         """Add the coupling information to the process"""
         data = line.split('=')
         self.couplings[data[0]] = int(data[1])
-        
-    
+
+
     def add_restrictions(self, forbid, s_forbid, couplings):
         """Associate some restriction to this diagram"""
-        
+
         self.forbid = forbid
         self.s_forbid = s_forbid
         self.couplings = couplings
 
     def mg5_process_line(self, model_coupling):
         """Return a valid mg5 format for this process """
-        
+
         if self.is_mg5_valid:
             return self.line
-        
+
         text = ''
         # Write the process
         cur_level = 0
@@ -789,7 +789,7 @@ class ProcessInfo(object):
                 text = text.rstrip() + ', (%s) ' % decay_text.strip()
             else:
                 text = text.rstrip() + ', %s ' % decay_text.strip()
-        
+
         # write the tag
         if self.tag:
             text += '@%s ' % self.tag
@@ -799,9 +799,9 @@ class ProcessInfo(object):
                 text += '@0 '
             #write the rules associate to the couplings
             text += self.mg5_couplings_line(model_coupling, len(self.particles))
-        
+
         return text.rstrip()
-    
+
     def mg5_couplings_line(self, model_coupling, nb_part):
         """Return the assignment of coupling for this process"""
 
@@ -813,9 +813,5 @@ class ProcessInfo(object):
             else:
                 # if not define put to zero (mg4 default)
                 out += '%s=0 ' % coupling
-        
-        return out 
-    
-    
-    
-    
+
+        return out

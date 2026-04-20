@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -34,7 +34,7 @@ contains
 ! Finite 1-loop scalar 4-point function for complex internal masses
 ! Based on the formulas from
 !   Dao Thi Nhung and Le Duc Ninh, arXiv:0902.0325 [hep-ph]
-!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979 
+!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979
 !*******************************************************************
    use avh_olo_forIREGI_box ,only: base,casetable,ll=>permtable
    include 'avh_olo_complex.h90'
@@ -417,7 +417,7 @@ contains
      call solabc_rcc( z1,z2 ,areal(aa),bb,cc )
      rea  = sgnRe(aa)
      rez1 = areal(z1)
-     rez2 = areal(z2) 
+     rez2 = areal(z2)
      imz1 = aimag(z1) ! sign(Im(a*z1*z2)) = simc
      imz2 = aimag(z2)
      hh = abs(EPSN2*rez1)
@@ -469,14 +469,14 @@ contains
 ! where
 !                          /     / 1-y \       / 1-z \ \
 !      R1(y,z) = ln(y-z) * | log |-----| - log |-----| |
-!                          \     \ -y  /       \ -z  / / 
+!                          \     \ -y  /       \ -z  / /
 !
 !                      /    y-z \       /    y-z \
 !                - Li2 |1 - ----| + Li2 |1 - ----|
 !                      \    -z  /       \    1-z /
 !
 !                                     / 1-y1 \       / 1-y2 \
-!                                 log |------| - log |------| 
+!                                 log |------| - log |------|
 ! input fy1y2 should be equal to      \  -y1 /       \  -y2 /
 !                                 ---------------------------
 !                                           y1 - y2
@@ -514,9 +514,9 @@ contains
           - (-logc(q1z*q2z)/2 + logc(qonv((y2-1)/y2)) &
                                     + logc(qonv(-zz)) )*logc2(q1z/q2z)/(y2-zz)
    elseif (h12.le.hz2.and.hz2.le.hz1) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )        
+     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )
    elseif (h12.le.hz1.and.hz1.le.hz2) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )        
+     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )
    else!if(hz1.lt.h12.or.hz2.lt.h12) then ! |y2-z|,|y1-z| < |y1-y2|
      rslt = 0
      if (hz1.ne.RZRO) rslt = rslt + (y1-zz)*logc( q1z )*r0fun( y1,zz )
@@ -545,7 +545,7 @@ contains
    function r0fun( y1,y2 ) result(rslt)
 !*******************************************************************
 !      / 1-y1 \       / 1-y2 \
-!  log |------| - log |------| 
+!  log |------| - log |------|
 !      \  -y1 /       \  -y2 /
 !  ---------------------------
 !            y1 - y2
@@ -566,12 +566,12 @@ contains
    function plnr( y1,y2 ,p1,p2 ,aa,bb,cc ) result(rslt)
 !*******************************************************************
 !                   /   a    \          /   a    \
-!            p1*log |--------| - p2*log |--------| 
+!            p1*log |--------| - p2*log |--------|
 !                   \ b*y1+c /          \ b*y2+c /
 ! 2*pi*imag* -------------------------------------
 !                           y1 - y2
-! 
-! p1,p2 are logical, to be interpreted as 0,1 in the formula above 
+!
+! p1,p2 are logical, to be interpreted as 0,1 in the formula above
 !*******************************************************************
    include 'avh_olo_complex.h90'
      ,intent(in) :: y1,y2 ,aa,bb,cc

@@ -1,36 +1,36 @@
       subroutine hepnmg(ID,CHAUG)
-c									       
+c
 c  HEPNMG --
 c
 C...Purpose: to give the particle/parton name as a character string.
 c
 c SCCS ID: hepnmg.f 1.1 4/6/92
-c						
-c Copyright (c) 1991 Universities Research Association, Inc.		        
-c All rights reserved.							        
-c 									        
-c This material resulted from work developed under a Government Contract and    
-c is subject to the following license:  The Government r~gh~nins a paid-up,       
-c nonexclusive, irrevocable worldwide license to reproduce, prepare derivative  
-c works, perform publicly and display publicly by or for the Government,        
-c including the right to distribute to other Government contractors.  Neither   
-c the United States nor the United States Department of Energy, nor any of      
-c their employees, makes any warrenty, express or implied, or assumes any       
-c legal liability or responsibility for the accuracy, completeness, or          
-c usefulness of any information, apparatus, product, or process disclosed, or   
-c represents that its use would not infringe privately owned rights.            
-c                                        				        
-c Written by Paul Lebrun & Lynn Garren					                                                                   
 c
-c	Arguments : 
+c Copyright (c) 1991 Universities Research Association, Inc.
+c All rights reserved.
+c
+c This material resulted from work developed under a Government Contract and
+c is subject to the following license:  The Government r~gh~nins a paid-up,
+c nonexclusive, irrevocable worldwide license to reproduce, prepare derivative
+c works, perform publicly and display publicly by or for the Government,
+c including the right to distribute to other Government contractors.  Neither
+c the United States nor the United States Department of Energy, nor any of
+c their employees, makes any warrenty, express or implied, or assumes any
+c legal liability or responsibility for the accuracy, completeness, or
+c usefulness of any information, apparatus, product, or process disclosed, or
+c represents that its use would not infringe privately owned rights.
+c
+c Written by Paul Lebrun & Lynn Garren
+c
+c	Arguments :
 c
 c	ID  :Standard particle name See Convention in Particle Data book,
 c		Physics LetterB vol 239, p. III.67
 c
-c	CHAUG : Null terminated Character string, the name of 
+c	CHAUG : Null terminated Character string, the name of
 c		particle, using Greek fonts, as defined in module StringUtils.c
 c		Limited to 30 characters
-c	
+c
       IMPLICIT NONE
 
       INTEGER ID, IDEX, IDA, IDQ1, IDQ2, IDQ3, LEN, LEM, KQN

@@ -171,7 +171,7 @@
 
 
 
-*DECK POLFIT      
+*DECK POLFIT
       SUBROUTINE POLFIT (N, X, Y, W, MAXDEG, NDEG, EPS, R, IERR, A)
 c
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -303,7 +303,7 @@ C   900315  CALLs to XERROR changed to CALLs to XERMSG.  (THJ)
 C   920501  Reformatted the REFERENCES section.  (WRB)
 C   920527  Corrected erroneous statements in DESCRIPTION.  (WRB)
 C***  END PROLOGUE  POLFIT
-      IMPLICIT DOUBLE PRECISION (A-H, O-Z) 
+      IMPLICIT DOUBLE PRECISION (A-H, O-Z)
       DOUBLE PRECISION TEMD1,TEMD2
       DIMENSION X(*), Y(*), W(*), R(*), A(*), YP(0)
       DIMENSION CO(4,3)
@@ -404,7 +404,7 @@ C
       else
          goto 27
       endif
-      
+
 C
 C INCREMENT DEGREE
 C
@@ -618,7 +618,7 @@ C   900315  CALLs to XERROR changed to CALLs to XERMSG.  (THJ)
 C   900510  Convert XERRWV calls to XERMSG calls.  (RWC)
 C   920501  Reformatted the REFERENCES section.  (WRB)
 C***  END PROLOGUE  PVALUE
-      IMPLICIT DOUBLE PRECISION (A-H, O-Z) 
+      IMPLICIT DOUBLE PRECISION (A-H, O-Z)
       DIMENSION YP(*),A(*)
       CHARACTER*8 XERN1, XERN2
 C***FIRST EXECUTABLE STATEMENT  PVALUE
@@ -717,4 +717,3 @@ C
       stop 1
       RETURN
       END
-      

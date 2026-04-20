@@ -26,7 +26,7 @@
 *			       VMS-style command line to something Unix-like.  *
 *			       Limitations: no abbreviations, some syntax      *
 *			       information is lost so some errors will yield   *
-*			       strange results.				       * 
+*			       strange results.				       *
 *									       *
 *	 rint   	   - Returns the integer (represented as a double      *
 *			       precision number) nearest its double argument.  *
@@ -93,7 +93,7 @@ static void addArgChar(int *argc, char *argv[], char c);
 char *StrDescToNul(struct dsc$descriptor_s *vmsString)
 {
     char *str;
-    
+
     if (vmsString->dsc$b_dtype != DSC$K_DTYPE_T || vmsString->dsc$b_class !=
     	    DSC$K_CLASS_S)
     	fprintf(stderr,"Warning from StrDescToNul: descriptor class/type = %d/%d\n%s",
@@ -110,12 +110,12 @@ struct dsc$descriptor_s *NulStrToDesc(char *nulTString)
     struct dsc$descriptor_s *vmsString;
     int strLen;
     char *tmp;
-    
+
     strLen = strlen(nulTString);
     if (strLen > 32767)
     	fprintf(stderr,"Warning from NulStrToDesc: string > 32767 bytes\n");
     vmsString = malloc(sizeof(struct dsc$descriptor_s) + strLen + 1);
-    vmsString->dsc$a_pointer = ((char *)vmsString) 
+    vmsString->dsc$a_pointer = ((char *)vmsString)
 				+ sizeof(struct dsc$descriptor_s);
     tmp = strcpy(vmsString->dsc$a_pointer, nulTString);
     vmsString->dsc$w_length = strLen;
@@ -127,7 +127,7 @@ struct dsc$descriptor_s *NulStrToDesc(char *nulTString)
 struct dsc$descriptor_s *NulStrWrtDesc(char *nulTString, int strLen)
 {
     struct dsc$descriptor_s *vmsString;
-    
+
     if (strLen > 32767)
     	fprintf(stderr,"Warning from NulStrToDesc: string > 32767 bytes\n");
     memset(nulTString, 0, strLen);
@@ -179,7 +179,7 @@ void ConvertVMSCommandLine(int *argc, char **argv[])
     cmdLineDesc = NulStrWrtDesc(cmdLine, MAX_CMD_LENGTH);
     lib$get_foreign(cmdLineDesc, 0, &cmdLineLen, 0);
     FreeStrDesc(cmdLineDesc);
-    
+
     /* begin a new argv and argc, but preserve the original argv[0]
        which is not returned by lib$get_foreign */
     oldArg0 = (*argv)[0];
@@ -247,9 +247,9 @@ static void addArgChar(int *argc, char *argv[], char c)
     	*strPtr++ = tolower(c);
     }
 }
-	
+
 /*
- * VMSFileScan -- Routine to call LIB$FILE_SCAN for filenames on VMS systems 
+ * VMSFileScan -- Routine to call LIB$FILE_SCAN for filenames on VMS systems
  *
  *	Returns: integer value >= 0, the number of files returned in namelist
  *			       = -1, an error was returned from LIB$FILE_SCAN
@@ -263,8 +263,8 @@ static void addArgChar(int *argc, char *argv[], char c)
  *	    select:   user supplied function (or NULL) to call to select
  *		         which filenames are to be included in dirname array.
  *		         If NULL, all filenames will be included.
- *	    fnf:      specify INCLUDE_FNF, EXCLUDE_FNF, or NOT_ERR_FNF 
- *			 INCLUDE_FNF: the resultant file specification is 
+ *	    fnf:      specify INCLUDE_FNF, EXCLUDE_FNF, or NOT_ERR_FNF
+ *			 INCLUDE_FNF: the resultant file specification is
  *				passed on to select() routine for returning
  *				in namelist, even though the file doesn't exist
  *			 EXCLUDE_FNF: return -1 (error) if dirname doesn't exist
@@ -308,7 +308,7 @@ int VMSFileScan(char *dirname, char *(*namelist[]), int (*select)(), int fnf)
     Fnf = fnf;
     Namelist = malloc(sizeof(char *) * MAX_NUM_FILES);
     *namelist = 0;
-    stat = lib$file_scan(DirFAB, successRtn, errRtn, &Context); 
+    stat = lib$file_scan(DirFAB, successRtn, errRtn, &Context);
 
     if (stat != RMS$_NORMAL && stat != RMS$_FNF && stat != RMS$_NMF) {
 	fprintf(stderr, "Error calling LIB$FILE_SCAN: %s\n",
@@ -330,13 +330,13 @@ static void successRtn(struct FAB *dirFab)
     dirFab->fab$l_nam->nam$l_rsa[dirFab->fab$l_nam->nam$b_rsl] = '\0';
 
     /* if user's select routine returns value != 0, then put into name list */
-    if (SelectRoutine == NULL || 
+    if (SelectRoutine == NULL ||
 		(*SelectRoutine)(dirFab->fab$l_nam->nam$l_rsa)) {
 	++NumFilesFound;
 	Namelist[NumFilesFound-1] = malloc(dirFab->fab$l_nam->nam$b_rsl+1);
 	strcpy(Namelist[NumFilesFound-1], dirFab->fab$l_nam->nam$l_rsa);
 	/* printf("File: %s included\n", dirFab->fab$l_nam->nam$l_rsa); */
-	
+
     }
 }
 
@@ -354,7 +354,7 @@ void VMSFileScanDone(void)
 {
     if (DirFAB != NULL) {
     	int s;
-	if ((s=lib$file_scan_end(DirFAB, &Context)) != RMS$_NORMAL 
+	if ((s=lib$file_scan_end(DirFAB, &Context)) != RMS$_NORMAL
 			&& s != SS$_NORMAL)
     	    fprintf(stderr, "Error calling LIB$FILE_SCAN_END: %s\n",
     	    		strerror(EVMSERR,s));
@@ -392,7 +392,7 @@ int ProcAlive(const unsigned int pID)
     getJPID.endList    = 0;
     jpiStat = sys$getjpiw(1,&pID,0,&getJPID,0,0,0);
     /* printf("in ProcAlive - jpiStat = %d, pid = %X\n", jpiStat, pID); */
-    if (jpiStat == SS$_NORMAL || jpiStat == SS$_NOPRIV 
+    if (jpiStat == SS$_NORMAL || jpiStat == SS$_NOPRIV
 		|| jpiStat == SS$_SUSPENDED)
 	return 1;			/* process exists	  */
     if (jpiStat == SS$_NONEXPR)

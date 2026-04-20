@@ -7,8 +7,8 @@
 #include "Pythia.h"
 %(include_lines)s
 
-using namespace Pythia8; 
- 
+using namespace Pythia8;
+
 int main() {
 
   // Number of events to generate and to list. Max number of errors.
@@ -43,18 +43,18 @@ int main() {
   // Begin event loop.
   int iAbort = 0;
   for (int iEvent = 0; iEvent < nEvent; ++iEvent) {
-    if (iEvent%%(max(1,nEvent/20)) == 0) 
+    if (iEvent%%(max(1,nEvent/20)) == 0)
       cout << " Now begin event " << iEvent << "\n";
 
     // Generate events. Quit if many failures.
     if (!pythia.next()) {
       if (++iAbort < nAbort) continue;
-      cout << " Event generation aborted prematurely, owing to error!\n"; 
+      cout << " Event generation aborted prematurely, owing to error!\n";
       break;
     }
- 
+
     // List first few events.
-    if (iEvent < nList) { 
+    if (iEvent < nList) {
       pythia.info.list();
       pythia.process.list();
       pythia.event.list();

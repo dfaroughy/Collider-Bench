@@ -61,7 +61,7 @@ static bool_t xdr_PhaseParticle(XDR *xdrs, PhaseParticle *particles);
 static bool_t xdr_PhaseEvent(XDR *xdrs, PhaseEvent *event)
 {
     int i;
-    
+
     if (xdrs->x_op == XDR_FREE)		/* nothing to free */
     	return (TRUE);
     if     (xdr_int(xdrs, &event->eventNum) &&
@@ -84,7 +84,7 @@ static bool_t xdr_PhaseEvent(XDR *xdrs, PhaseEvent *event)
 
 static bool_t xdr_PhaseParticle(XDR *xdrs, PhaseParticle *particles)
 {
-    return (xdr_long(xdrs, &particles->id) && 
+    return (xdr_long(xdrs, &particles->id) &&
             xdr_int(xdrs, &particles->stable) &&
             xdr_double(xdrs, &particles->px) &&
             xdr_double(xdrs, &particles->py) &&

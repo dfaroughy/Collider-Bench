@@ -21,8 +21,8 @@ CF2PY intent(in) :: value
       include '../Source/MODEL/coupl.inc'
       include '../Source/MODEL/mp_coupl.inc'
       include '../Source/MODEL/mp_input.inc'
-      
-      SELECT CASE (name)   
+
+      SELECT CASE (name)
          %(parameter_setup)s
          CASE DEFAULT
             write(*,*) 'no parameter matching', name
@@ -30,15 +30,15 @@ CF2PY intent(in) :: value
 
       return
       end
-      
+
       subroutine f77_update_all_coup()
       implicit none
       call coup()
       call printout()
-      return 
+      return
       end
- 
- 
+
+
 
       subroutine f77_smatrixhel(pdgs, procid, npdg, p, ALPHAS, SCALES2, nhel, ANS, RETURNCODE)
       IMPLICIT NONE
@@ -61,10 +61,10 @@ CF2PY double precision, intent(in) :: SCALES2
 
       return
       end
-  
+
       subroutine f77_get_pdg_order(OUT, ALLPROC)
       IMPLICIT NONE
-CF2PY INTEGER, intent(out) :: OUT(%(nb_me)i,%(maxpart)i)  
+CF2PY INTEGER, intent(out) :: OUT(%(nb_me)i,%(maxpart)i)
 CF2PY INTEGER, intent(out) :: ALLPROC(%(nb_me)i)
       INTEGER OUT(%(nb_me)i,%(maxpart)i), PDGS(%(nb_me)i,%(maxpart)i)
       INTEGER ALLPROC(%(nb_me)i),PIDs(%(nb_me)i)
@@ -74,7 +74,7 @@ CF2PY INTEGER, intent(out) :: ALLPROC(%(nb_me)i)
       ALLPROC = PIDS
       RETURN
       END
-      
+
       subroutine f77_get_prefix(PREFIX)
       IMPLICIT NONE
 CF2PY CHARACTER*20, intent(out) :: PREFIX(%(nb_me)i)
@@ -82,5 +82,4 @@ CF2PY CHARACTER*20, intent(out) :: PREFIX(%(nb_me)i)
       DATA PREF / '%(prefix)s'/
       PREFIX = PREF
       RETURN
-      END 
-  
+      END

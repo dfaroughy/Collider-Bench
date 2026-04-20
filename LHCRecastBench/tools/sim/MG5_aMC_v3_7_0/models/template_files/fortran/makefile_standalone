@@ -38,7 +38,7 @@ $(LIBDIR)$(LIBRARY_SHARED): $(MODEL)
 	$(FC) -shared -o $@ $^ $(LDFLAGS)
 
 shared: $(LIBDIR)$(LIBRARY_SHARED)
-clean: 
+clean:
 	$(RM) *.o $(LIBDIR)$(LIBRARY)
 
 couplings.o: ../maxparticles.inc ../run.inc ../cuts.inc
@@ -53,4 +53,3 @@ couplings.o: ../maxparticles.inc ../run.inc ../cuts.inc
 	echo "        logical fixed_extra_scale" > ../cuts.inc
 	echo "        integer maxjetflavor" >> ../cuts.inc
 	echo "        double precision mue_ref_fixed, mue_over_ref" >> ../cuts.inc
-	

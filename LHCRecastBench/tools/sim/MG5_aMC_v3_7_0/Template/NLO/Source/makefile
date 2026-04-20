@@ -14,7 +14,7 @@ GENERIC = $(alfas_functions).o rw_routines.o kin_functions.o		\
 
 ifneq ("$(wildcard ./RUNNING)","")
 	LINKLIBS += -lrunning
-	LIBS += $(LIBDIR)librunning.$(libext) 
+	LIBS += $(LIBDIR)librunning.$(libext)
 endif
 
 
@@ -41,14 +41,14 @@ $(LIBDIR)libgeneric.a: $(GENERIC)
 	ranlib libgeneric.a
 	mv libgeneric.a $(LIBDIR)
 	cp -f extra_weights.mod $(LIBDIR)
-	rm -f $(alfas_functions).o 
+	rm -f $(alfas_functions).o
 
 setrun.o: run_card.inc extra_weights.o
 	$(FC) $(FFLAGS) -c -o setrun.o setrun.f
 
 $(LIBDIR)libpdf.a: PDF
 	rm -f $(LIBDIR)libpdf.a
-	cd PDF; make	
+	cd PDF; make
 
 ifneq (,$(filter edff chff, $(pdlabel)))
 $(LIBDIR)libgammaUPC.$(libext): PDF/gammaUPC
@@ -60,11 +60,11 @@ endif
 
 $(LIBDIR)libcernlib.a: CERNLIB
 	rm -f $(LIBDIR)libcernlib.a
-	cd CERNLIB; make	
+	cd CERNLIB; make
 
 $(LIBDIR)libmodel.a: MODEL param_card.inc
 	rm -f $(LIBDIR)libmodel.a
-	cd MODEL; make	
+	cd MODEL; make
 
 run_card.inc: ../Cards/run_card.dat
 	../bin/aMCatNLO treatcards run
@@ -87,7 +87,7 @@ $(LIBDIR)libiregi.a: $(IREGIDIR)
 	cd $(IREGIDIR); make
 	ln -sf ../Source/$(IREGIDIR)libiregi.a $(LIBDIR)libiregi.a
 
-StdHEP: $(MCATNLOLIBDIR)libstdhep.a  
+StdHEP: $(MCATNLOLIBDIR)libstdhep.a
 
 $(MCATNLOLIBDIR)libstdhep.a: $(STDHEPDIR)
 	cd $(STDHEPDIR); make all

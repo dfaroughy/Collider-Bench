@@ -1,5 +1,5 @@
 !
-! Copyright (C) 2015 Andreas van Hameren. 
+! Copyright (C) 2015 Andreas van Hameren.
 !
 ! This file is part of OneLOop-3.6.
 !
@@ -50,7 +50,7 @@ end module
 module avh_olo_forCutTools_units
   implicit none
 ! By default these values are set to 6. However, they can potentially clog
-! the logs so we want to force them off, unless explicitely turned on 
+! the logs so we want to force them off, unless explicitely turned on
   integer :: eunit=0
   integer :: wunit=0
   integer :: munit=0
@@ -79,13 +79,13 @@ end module
 
 
 module avh_olo_forCutTools_dp_kinds
-  integer ,parameter :: kindr2=kind(1d0) 
+  integer ,parameter :: kindr2=kind(1d0)
 end module
 
 
 module avh_olo_forCutTools_dp_arrays
   use avh_olo_forCutTools_units
-  use avh_olo_forCutTools_dp_kinds 
+  use avh_olo_forCutTools_dp_kinds
   implicit none
   private
   public :: shift1,shift2,shift3,resize,enlarge
@@ -115,10 +115,10 @@ module avh_olo_forCutTools_dp_arrays
 contains
 
   subroutine shift1_r( xx ,nn )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: nn
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:)
   integer ,parameter :: dm=1
   integer :: lb(dm),ub(dm)
@@ -159,10 +159,10 @@ contains
   end subroutine
 
   subroutine shift2_r( xx ,nn )
-  real(kindr2) &  
+  real(kindr2) &
           ,allocatable ,intent(inout) :: xx(:,:)
   integer              ,intent(in   ) :: nn
-  real(kindr2) &  
+  real(kindr2) &
           ,allocatable :: tt(:,:)
   integer ,parameter :: dm=2
   integer :: lb(dm),ub(dm)
@@ -203,10 +203,10 @@ contains
   end subroutine
 
   subroutine shift3_r( xx ,nn )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:,:,:)
   integer        ,intent(in   ) :: nn
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:,:,:)
   integer ,parameter :: dm=3
   integer :: lb(dm),ub(dm)
@@ -246,12 +246,12 @@ contains
   deallocate(tt)
   end subroutine
 
- 
+
   subroutine resize1_r( xx ,l1,u1 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: l1,u1
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:)
   integer :: lb(1),ub(1)
   if (.not.allocated(xx)) then
@@ -266,13 +266,13 @@ contains
   lb(1)=max(l1,lb(1)) ;ub(1)=min(u1,ub(1))
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine resize2_r( xx ,l1,u1 ,l2,u2 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:,:)
   integer        ,intent(in   ) :: l1,u1,l2,u2
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:,:)
   integer :: lb(2),ub(2)
   if (.not.allocated(xx)) then
@@ -289,14 +289,14 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 
   subroutine enlarge1_r( xx ,l1,u1 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: l1,u1
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:)
   integer :: lb(1),ub(1)
   if (.not.allocated(xx)) then
@@ -316,13 +316,13 @@ contains
   allocate( xx(min(l1,lb(1)):max(u1,ub(1))) )
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine enlarge2_r( xx ,l1,u1 ,l2,u2 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:,:)
   integer        ,intent(in   ) :: l1,u1,l2,u2
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:,:)
   integer :: lb(2),ub(2)
   if (.not.allocated(xx)) then
@@ -346,7 +346,7 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 end module
 
@@ -380,14 +380,14 @@ contains
 !***********************************************************************
   use avh_olo_forCutTools_units
   logical ,intent(out) :: newprc
-  integer :: ndec                                  
-  if (prcpar.eq.1) then                    
-    newprc = .false.                             
-    return                                       
+  integer :: ndec
+  if (prcpar.eq.1) then
+    newprc = .false.
+    return
   endif
-  prcpar = 1                                   
+  prcpar = 1
   call set_epsn
-  newprc = .true.                              
+  newprc = .true.
   RZRO=0
   RONE=1
   IMAG=cmplx(0,1,kind=kind(IMAG))
@@ -403,11 +403,11 @@ contains
   contains
 !
   subroutine set_epsn
-  EPSN = epsilon(EPSN)                         
-  ndec = -log10(EPSN)                            
-  ndecim(prcpar) = ndec                          
-  epsilo(prcpar) = EPSN                        
-  neglig(prcpar) = EPSN*10**(ndec/7)       
+  EPSN = epsilon(EPSN)
+  ndec = -log10(EPSN)
+  ndecim(prcpar) = ndec
+  epsilo(prcpar) = EPSN
+  neglig(prcpar) = EPSN*10**(ndec/7)
   end subroutine
 !
   end subroutine
@@ -452,7 +452,7 @@ contains
     :: rslt
   rslt = xx
   end function
-  
+
   function acmplx_rr(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn two reals into one complex
@@ -463,7 +463,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_ri(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn a real and an integer into one complex
@@ -475,7 +475,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_ir(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn an integer and a real into one complex
@@ -487,7 +487,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_c(zz) result(rslt)
 !***********************************************************************
 ! Replaces the real part of zz by its absolute value
@@ -503,7 +503,7 @@ contains
   yy = aimag(zz)
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
 end module
 
 
@@ -523,7 +523,7 @@ module avh_olo_forCutTools_dp_print
 contains
 
   function printc( zz ,ndec ) result(rslt)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: zz
   integer,optional,intent(in) :: ndec
   character((ndecim(prcpar)+nxtr+novh)*2+3) :: rslt
@@ -540,14 +540,14 @@ contains
   end function
 
   function printr( xx_in ,ndec_in ) result(rslt)
-  real(kindr2) &  
+  real(kindr2) &
                   ,intent(in) :: xx_in
   integer,optional,intent(in) :: ndec_in
   character(ndecim(prcpar)+nxtr+novh  ) :: rslt
   character(ndecim(prcpar)+nxtr+novh+1) :: cc
   character(10) :: aa,bb
   integer :: ndec
-  double precision :: xx     
+  double precision :: xx
   xx = xx_in
   if (present(ndec_in)) then ;ndec=ndec_in
                         else ;ndec=ndecim(prcpar)+nxtr
@@ -570,7 +570,7 @@ contains
   aa = '(i'//trim(aa)//')'
   write(cc,aa) ii ;cc=adjustl(cc)
   if (cc(1:1).ne.'-') then ;rslt=' '//cc
-  else                     ;rslt=cc 
+  else                     ;rslt=cc
   endif
   end function
 
@@ -616,11 +616,11 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! negative imaginary.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: xim,xre
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -642,13 +642,13 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! imaginary and has the same sign as  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sgn
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: xim,xre
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -670,12 +670,12 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! imaginary and has the same sign as  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: sgn
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: xim,xre,hh
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -699,16 +699,16 @@ contains
 ! Also returns  dd = aa*(x1-x2)
 ! If  imode=/=0  it uses  dd  as input as value of  sqrt(b^2-4*a*c)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out)   :: x1,x2
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(inout) :: dd
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb,cc
   integer         ,intent(in) :: imode
-  complex(kindr2) &   
+  complex(kindr2) &
     :: qq,hh
-  real(kindr2) &  
+  real(kindr2) &
     :: r1,r2
 
   if (aa.eq.CZRO) then
@@ -751,9 +751,9 @@ contains
 !*******************************************************************
   intent(out) :: x1,x2
   intent(in ) :: aa,bb,cc
-  complex(kindr2) &   
+  complex(kindr2) &
     :: x1,x2,bb,cc ,t1,t2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,xx,yy,pp,qq,uu,vv,pq1,pq2,uv1,uv2,dd,xd1,xd2,yd1,yd2 &
       ,gg,hh,rx1,rx2,ix1,ix2
   if (aa.eq.RZRO) then
@@ -819,13 +819,13 @@ contains
 ! If  Im(rr)  is zero, then  |rr| > 1/|rr| .
 ! Also returns  dd = rr - 1/rr .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rr,dd
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: qq
-  complex(kindr2) &   
+  complex(kindr2) &
     :: r2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,bb
   integer :: ir,ik
   dd = sqrt(qq*qq-4)
@@ -862,15 +862,15 @@ contains
 !*******************************************************************
 ! Like rfun, but now  dd  is input, which may get a minus sign
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out)   :: rr
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(inout) :: dd
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: qq
-  complex(kindr2) &   
+  complex(kindr2) &
     :: r2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,bb
   integer :: ir,ik
   rr = qq+dd
@@ -910,13 +910,13 @@ contains
 !   - theta( Im(a))*theta( Im(b))*theta(-Im(c))
 ! where a,b,c are interpreted as a+i|eps|sa, b+i|eps|sb, c+i|eps|sc
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb,cc
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sa,sb,sc
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: ima,imb,imc
   ima = aimag(aa)
   imb = aimag(bb)
@@ -941,11 +941,11 @@ contains
 !   - theta( Im(a))*theta( Im(b))*theta(-Im(c))
 ! where a,b,c are interpreted as a+i|eps|sa, b+i|eps|sb, c+i|eps|sc
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb,cc
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: ima,imb,imc
   ima = sgnIm(aa)
   imb = sgnIm(bb)
@@ -961,11 +961,11 @@ contains
 !*******************************************************************
 ! eta3(aa,b1,c1) - eta3(aa,b2,c2)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,b1,c1 ,b2,c2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: imaa,imb1,imc1,imb2,imc2
   imaa = sgnIm(aa)
   imb1 = sgnIm(b1)
@@ -998,13 +998,13 @@ contains
 ! The same as  eta3, but with  c=a*b, so that
 !   eta(a,b) = log(a*b) - log(a) - log(b)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sa,sb
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rea,reb,ima,imb,imab
   rea = areal(aa)  ;ima = aimag(aa)
   reb = areal(bb)  ;imb = aimag(bb)
@@ -1021,15 +1021,15 @@ contains
     rslt = 0
   endif
   end function
- 
+
   function eta2_0( aa ,bb ) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rea,reb,ima,imb,imab
   rea = areal(aa)  ;ima = aimag(aa)
   reb = areal(bb)  ;imb = aimag(bb)
@@ -1044,18 +1044,18 @@ contains
   else
     rslt = 0
   endif
-  end function 
+  end function
 
 
   function kallen( p1,p2,p3 ) result(rslt)
 !*******************************************************************
 !  p1^2 + p2^2 + p3^2 - 2*p1*p2 - 2*p2*p3 - 2*p3*p1
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,y1,y2,y3
-  real(kindr2) &  
+  real(kindr2) &
     :: b1,b2,b3
   y1=p2*p3 ;b1=areal(y1)
   y2=p3*p1 ;b2=areal(y2)
@@ -1073,10 +1073,10 @@ contains
   function sgnIm_c(zz) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: zz
   integer :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: imz
   imz = aimag(zz)
   if (imz.ge.RZRO) then ;rslt= 1
@@ -1087,11 +1087,11 @@ contains
   function sgnIm_ci(zz,ii) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: zz
   integer ,intent(in) :: ii
   integer :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: imz
   imz = aimag(zz)
   if     (imz.gt.RZRO) then ;rslt= 1
@@ -1103,10 +1103,10 @@ contains
   function sgnRe_c(zz) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: zz
   integer :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rez
   rez = zz
   if (rez.ge.RZRO) then ;rslt= 1
@@ -1117,7 +1117,7 @@ contains
   function sgnRe_r(rez) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: rez
   integer :: rslt
   if (rez.ge.RZRO) then ;rslt= 1
@@ -1128,7 +1128,7 @@ contains
   function sgnRe_ri(rez,ii) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: rez
   integer ,intent(in) :: ii
   integer :: rslt
@@ -1144,7 +1144,7 @@ end module
 module avh_olo_forCutTools_dp_olog
 !***********************************************************************
 ! Provides the functions
-!   olog(x,n) = log(x) + n*pi*imag  
+!   olog(x,n) = log(x) + n*pi*imag
 !   olog1(x,n) = olog(x,n)/(x-1)
 !   olog2(x,n) = ( olog1(x,n) - 1 )/(x-1)
 !   olog3(x,n) = ( olog2(x,n) + 1/2 )/(x-1)
@@ -1159,7 +1159,7 @@ module avh_olo_forCutTools_dp_olog
   private
   public :: update_olog,olog,olog1,olog2,olog3
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: thrs(:,:)
   integer,allocatable,save :: ntrm(:,:)
   integer,parameter :: nStp=6
@@ -1183,7 +1183,7 @@ contains
 !***********************************************************************
 !***********************************************************************
   use avh_olo_forCutTools_dp_arrays
-  real(kindr2) &  
+  real(kindr2) &
     :: tt
   integer :: nn,mm,ii,jj
 !  real(kind(1d0)) :: xx(6) !DEBUG
@@ -1218,7 +1218,7 @@ contains
     if (ntrm(ii,prcpar).le.1) then
       do jj=1,ii
         ntrm(jj,prcpar) = ntrm(ii,prcpar)
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif
@@ -1240,12 +1240,12 @@ contains
   function log_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,iyy
 !
@@ -1287,7 +1287,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = 2 * ( z + z^3/3 + z^5/5 + z^7/7 + ... )  
+! rslt = 2 * ( z + z^3/3 + z^5/5 + z^7/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -1303,12 +1303,12 @@ contains
   function log_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rr
   integer :: jj
 !
@@ -1328,12 +1328,12 @@ contains
   function log1_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -1371,7 +1371,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = 2/(y+1) * ( 1 + z^2/3 + z^4/5 + z^6/7 + ... )  
+! rslt = 2/(y+1) * ( 1 + z^2/3 + z^4/5 + z^6/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -1387,12 +1387,12 @@ contains
   function log1_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rr,yy
   integer :: jj
 !  include 'avh_olo_dp_real.h90'
@@ -1426,10 +1426,10 @@ contains
   function log2_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
   rslt = log2_c(xx*CONE,iph)
   end function
@@ -1438,12 +1438,12 @@ contains
   function log2_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -1479,7 +1479,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = -1/(y+1) + 2/(y+1)^2 * ( z/3 + z^3/5 + z^5/7 + ... )  
+! rslt = -1/(y+1) + 2/(y+1)^2 * ( z/3 + z^3/5 + z^5/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -1495,10 +1495,10 @@ contains
   function log3_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
   rslt = log3_c(xx*CONE,iph)
   end function
@@ -1507,12 +1507,12 @@ contains
   function log3_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2,HLF
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -1570,7 +1570,7 @@ end module
 module avh_olo_forCutTools_dp_dilog
 !***********************************************************************
 !                     /1    ln(1-zz*t)
-!   dilog(xx,iph) = - |  dt ---------- 
+!   dilog(xx,iph) = - |  dt ----------
 !                     /0        t
 ! with  zz = 1 - xx*exp(imag*pi*iph)  [pi, NOT 2*pi]
 !
@@ -1588,14 +1588,14 @@ module avh_olo_forCutTools_dp_dilog
   private
   public :: update_dilog,dilog
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: coeff(:)
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: thrs(:,:)
   integer,allocatable,save :: ntrm(:,:)
   integer,parameter :: nStp=6
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable :: bern(:),fact(:)
 
   interface dilog
@@ -1607,7 +1607,7 @@ contains
   subroutine update_dilog
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     :: tt
   integer :: nn,ii,jj
   logical :: highestSoFar
@@ -1654,7 +1654,7 @@ contains
     if (ntrm(ii,prcpar).le.2) then
       do jj=1,ii
         ntrm(jj,prcpar) = max(2,ntrm(ii,prcpar))
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif
@@ -1723,12 +1723,12 @@ contains
   function dilog_c(xx,iph) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,lyy,loy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: rex,imx,az
   integer :: ii,jj,ntwo,odd,nn
   logical :: r_gt_1 , y_lt_h
@@ -1751,7 +1751,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   r_gt_1 = (rex*rex+imx*imx.gt.RONE)
   lyy = log(yy)
   if (odd.ne.0) yy = -yy
@@ -1770,7 +1770,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -1799,12 +1799,12 @@ contains
   function dilog_r(xx,iph) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: yy,lyy,loy,zz,z2,liox,az
   integer :: jj,ii,ntwo,odd,nn
   logical :: r_gt_1 , y_lt_h
@@ -1818,7 +1818,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   if (yy.eq.RONE.and.odd.eq.0) then
     if (ntwo.ne.0) then
       if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop dilog_r: ' &
@@ -1848,7 +1848,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -1879,12 +1879,12 @@ contains
 !*******************************************************************
 !*******************************************************************
   use avh_olo_forCutTools_dp_olog
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: x1,x2
   integer ,intent(in) :: i1,i2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,y1,y2 ,ff,gg,logr1,logr2,logo1,logo2,r1,r2,rr
-  real(kindr2) &  
+  real(kindr2) &
     :: eps ,re1,im1,re2,im2,a1,a2,aa,ao1,ao2
   integer :: j1,j2,ii,nn,oo
   integer,parameter :: pp(-1:1,-1:1)=&
@@ -2033,14 +2033,14 @@ contains
 !*******************************************************************
 !*******************************************************************
   use avh_olo_forCutTools_dp_olog
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: x1,x2
   integer ,intent(in) :: i1,i2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: y1,y2 ,ff,gg,logr1,logr2,logo1,logo2
-  real(kindr2) &  
+  real(kindr2) &
     :: eps,r1,r2,rr,ro1,ro2
   integer :: j1,j2,ii,nn,oo
 !
@@ -2168,11 +2168,11 @@ contains
 ! ( f(z1)-f(z2) )/( z1-z2 ), where
 ! f(z)= z + c0*z^2 + c1*z^3 + c2*z^5 + c3*z^7 + ...
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: z1,z2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt,yy,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: az
   integer :: ii,nn
   az = max(abs(z1),abs(z2))
@@ -2203,7 +2203,7 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 
   function sumterms_r( z1,z2 ) result(rslt)
@@ -2211,11 +2211,11 @@ contains
 ! ( f(z1)-f(z2) )/( z1-z2 ), where
 ! f(z)= z + c0*z^2 + c1*z^3 + c2*z^5 + c3*z^7 + ...
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: z1,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: rslt,yy,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: az
   integer :: ii,nn
   az = max(abs(z1),abs(z2))
@@ -2239,16 +2239,16 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 end module
 
 
 module avh_olo_forCutTools_dp_bnlog
 !***********************************************************************
-!                      /1    
-!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x) 
-!                      /0 
+!                      /1
+!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x)
+!                      /0
 !***********************************************************************
   use avh_olo_forCutTools_units
   use avh_olo_forCutTools_dp_prec
@@ -2260,9 +2260,9 @@ module avh_olo_forCutTools_dp_bnlog
   private
   public :: update_bnlog,bnlog
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: coeff(:,:)
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: thrs(:,:,:)
   integer,allocatable,save :: ntrm(:,:,:)
   integer,parameter :: nStp=6
@@ -2285,7 +2285,7 @@ contains
   subroutine update_bnlog
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     :: tt
   integer :: nn,ii,jj,n1,nmax,irank
   logical :: highestSoFar
@@ -2319,7 +2319,7 @@ contains
     if (prcpar.gt.1) then ;nn=ntrm(nStp,irank,prcpar-1)-1
                      else ;nn=n1
     endif
-!  
+!
     do
       nn = nn+1
       if (highestSoFar.and.nn.gt.ubound(coeff,1)) call update_coeff( 2*nn )
@@ -2329,7 +2329,7 @@ contains
     enddo
 !
     if (nn.gt.nmax) nmax=nn
-!  
+!
     ntrm(nStp,irank,prcpar) = nn
     thrs(nStp,irank,prcpar) = tt
     nn = max(1,nint(nn*1d0/nStp))
@@ -2338,7 +2338,7 @@ contains
       if (ntrm(ii,irank,prcpar).le.n1) then
         do jj=1,ii
           ntrm(jj,irank,prcpar) = max(n1,ntrm(ii,irank,prcpar))
-          thrs(jj,irank,prcpar) = 0 
+          thrs(jj,irank,prcpar) = 0
         enddo
         exit
       endif
@@ -2347,9 +2347,9 @@ contains
       tt = (EPSN*abs(coeff(n1,irank)/coeff(jj,irank)))**(tt/(jj-n1))
       thrs(ii,irank,prcpar) = tt
     enddo
-!  
+!
   enddo!irank=1,nrank
-!  
+!
   if (highestSoFar) call resize( coeff ,2,nmax ,0,rank )
 !
 !  do ii=lbound(thrs,3),ubound(thrs,3)        !DEBUG
@@ -2372,7 +2372,7 @@ contains
 !*******************************************************************
   integer ,intent(in) :: ncf
   integer :: ii,jj
-  real(kindr2) &  
+  real(kindr2) &
     :: fact,tt(rank)
 !
   call enlarge( coeff ,2,ncf ,0,rank )
@@ -2408,11 +2408,11 @@ contains
 !*******************************************************************
 !*******************************************************************
   integer ,intent(in) :: irank
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt,yy,omx
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: ii,nn
 !
@@ -2482,12 +2482,12 @@ contains
 !*******************************************************************
 !*******************************************************************
   integer ,intent(in) :: irank
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: sgn
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: yy,aa,omx
   integer :: ii,nn
   logical :: y_lt_0
@@ -2508,7 +2508,7 @@ contains
 !
   yy = 1-1/xx
   y_lt_0 = (yy.lt.RZRO)
-  if (y_lt_0) then 
+  if (y_lt_0) then
     yy = log(-yy)
     aa = sqrt(yy*yy+ONEPI*ONEPI)
   else
@@ -2555,7 +2555,7 @@ contains
   enddo
   rslt = -(irank+1)*aa*yy*(yy*xx)**(irank+1)
   if (y_lt_0) rslt = rslt + sgn*omx*IPI
-!  
+!
   end function
 
 end module
@@ -2574,7 +2574,7 @@ module avh_olo_forCutTools_dp_qmplx
   public :: operator (*) ,operator (/)
 
   type :: qmplx_type
-  complex(kindr2) &   
+  complex(kindr2) &
           :: c
   integer :: p
   end type
@@ -2600,12 +2600,12 @@ contains
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz  becomes the
 ! sign of  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sgn
   type(qmplx_type) :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -2630,11 +2630,11 @@ contains
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz  becomes the
 ! sign of  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
   integer         ,intent(in) :: sgn
   type(qmplx_type) :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -2658,10 +2658,10 @@ contains
 ! Determine  zz,iz  such that  xx = zz*exp(iz*imag*pi)  and  Re(zz)
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz=1
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
   type(qmplx_type) :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -2705,7 +2705,7 @@ contains
   function directly(xx,ix) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
   integer         ,intent(in) :: ix
   type(qmplx_type) :: rslt
@@ -2719,16 +2719,16 @@ contains
 ! Returns the number of the Riemann-sheet (times 2) for the complex
 ! number  xx*exp(ix*imag*pi) . The real part of xx is assumed to be
 ! positive or zero. Examples:
-! xx=1+imag, ix=-1 -> ii= 0 
-! xx=1+imag, ix= 1 -> ii= 2 
-! xx=1-imag, ix=-1 -> ii=-2 
-! xx=1-imag, ix= 1 -> ii= 0 
+! xx=1+imag, ix=-1 -> ii= 0
+! xx=1+imag, ix= 1 -> ii= 2
+! xx=1-imag, ix=-1 -> ii=-2
+! xx=1-imag, ix= 1 -> ii= 0
 ! xx=1     , ix= 1 -> ii= 0  convention that log(-1)=pi on
 ! xx=1     , ix=-1 -> ii=-2  the principal Riemann-sheet
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
   integer :: ii,jj
-  real(kindr2) &  
+  real(kindr2) &
     :: xim
   jj = mod(xx%p,2)
   ii = xx%p-jj
@@ -2743,9 +2743,9 @@ contains
 
   function prduct_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -2759,12 +2759,12 @@ contains
 
   function prduct_qr(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: xx
   type(qmplx_type) :: zz
   zz%c = yy%c*abs(xx)
@@ -2773,9 +2773,9 @@ contains
 
   function ratio_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the ratio  zz  of  yy  and  xx  
+! Return the ratio  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -2791,7 +2791,7 @@ contains
 !*******************************************************************
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: xx
   type(qmplx_type) :: zz
   zz%c = yy%c/abs(xx)
@@ -2804,7 +2804,7 @@ contains
 ! log(xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = olog(acmplx(xx%c),xx%p)
   rslt = olog(xx%c,xx%p)
@@ -2815,7 +2815,7 @@ contains
 ! log(xx)/(1-xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = -olog1(acmplx(xx%c),xx%p)
   rslt = -olog1(xx%c,xx%p)
@@ -2826,7 +2826,7 @@ contains
 !  ( log(xx)/(1-xx) + 1 )/(1-xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = olog2(acmplx(xx%c),xx%p)
   rslt = olog2(xx%c,xx%p)
@@ -2835,11 +2835,11 @@ contains
   function li2c(xx) result(rslt)
 !*******************************************************************
 !    /1    ln(1-(1-xx)*t)
-!  - |  dt -------------- 
+!  - |  dt --------------
 !    /0        t
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = dilog(acmplx(xx%c),xx%p)
   rslt = dilog(xx%c,xx%p)
@@ -2850,7 +2850,7 @@ contains
 ! ( li2(xx) - li2(yy) )/(xx-yy)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx,yy
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = dilog( acmplx(xx%c),xx%p ,acmplx(yy%c),yy%p )
 !  write(*,*) 'li2c2 x:',xx%c,xx%p !DEBUG
@@ -2880,11 +2880,11 @@ contains
 !*******************************************************************
 ! The 1-loop scalar 1-point function.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: amm,rmu2
 !
   rslt(2) = 0
@@ -2906,16 +2906,16 @@ contains
 !   rslt(:,2) = A0000  etc.
 ! For input  rank  only  rslt(:,0:rank/2)  is filled.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:,0:)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: amm,rmu2
   integer ,intent(in) :: rank
-  complex(kindr2) &   
+  complex(kindr2) &
     :: aa
-  real(kindr2) &  
+  real(kindr2) &
     :: bb
   integer :: ii
 !
@@ -2964,15 +2964,15 @@ contains
 
   subroutine bub0( b0 &
                   ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
   integer :: rank
 !
@@ -3016,31 +3016,31 @@ contains
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
   endif
 !
   end subroutine
 
   subroutine bub1( b1,b0 &
                   ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
       return
     endif
   endif
@@ -3048,28 +3048,28 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
+  b1(2) = 0
+  b1(1) =-CONE/2
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
+      b1(0) =-lna/2
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
+      b1(0) =-( lna - bnlog(1,x1) )/2
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
@@ -3080,12 +3080,12 @@ contains
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
+      b1(0) =-( lna*2 + 2 )/4
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
@@ -3094,8 +3094,8 @@ contains
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
     if (switch) then
       x2=m0;m0=m1;m1=x2
       b1(0) =-b0(0)-b1(0)
@@ -3106,26 +3106,26 @@ contains
 
   subroutine bub11( b11,b00,b1,b0 &
                    ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
       return
     endif
   endif
@@ -3133,71 +3133,71 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
+      b1(0) =-lna/2
+      b11(0) = lna/3
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
+  rank = 0
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -3208,28 +3208,28 @@ contains
 
   subroutine bub111( b111,b001,b11,b00,b1,b0 &
                     ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b111(0:2),b001(0:2),b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
-      b001(0)=0 ;b001(1)=0 ;b001(2)=0 
-      b111(0)=0 ;b111(1)=0 ;b111(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
+      b001(0)=0 ;b001(1)=0 ;b001(2)=0
+      b111(0)=0 ;b111(1)=0 ;b111(2)=0
       return
     endif
   endif
@@ -3237,82 +3237,82 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
-  b111(2) = 0      
-  b111(1) =-CONE/4 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
+  b111(2) = 0
+  b111(1) =-CONE/4
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
-      b111(0) =-lna/4 
+      b1(0) =-lna/2
+      b11(0) = lna/3
+      b111(0) =-lna/4
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
-      b111(0) =-( lna - bnlog(3,x1) )/4 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
+      b111(0) =-( lna - bnlog(3,x1) )/4
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
-      b111(0) =-( lna*4 + 2 )/16 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
+      b111(0) =-( lna*4 + 2 )/16
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
-      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
+      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
-    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
+    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
-  rank = 1 
+  rank = 0
+  rank = 1
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -3326,32 +3326,32 @@ contains
 
   subroutine bub1111( b1111,b0011,b0000,b111,b001,b11,b00,b1,b0 &
                     ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b1111(0:2),b0011(0:2),b0000(0:2) &
                    ,b111(0:2),b001(0:2),b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
-      b001(0)=0 ;b001(1)=0 ;b001(2)=0 
-      b111(0)=0 ;b111(1)=0 ;b111(2)=0 
-      b0000(0)=0 ;b0000(1)=0 ;b0000(2)=0 
-      b0011(0)=0 ;b0011(1)=0 ;b0011(2)=0 
-      b1111(0)=0 ;b1111(1)=0 ;b1111(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
+      b001(0)=0 ;b001(1)=0 ;b001(2)=0
+      b111(0)=0 ;b111(1)=0 ;b111(2)=0
+      b0000(0)=0 ;b0000(1)=0 ;b0000(2)=0
+      b0011(0)=0 ;b0011(1)=0 ;b0011(2)=0
+      b1111(0)=0 ;b1111(1)=0 ;b1111(2)=0
       return
     endif
   endif
@@ -3359,93 +3359,93 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
-  b111(2) = 0      
-  b111(1) =-CONE/4 
-  b1111(2) = 0      
-  b1111(1) = CONE/5 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
+  b111(2) = 0
+  b111(1) =-CONE/4
+  b1111(2) = 0
+  b1111(1) = CONE/5
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
-      b111(0) =-lna/4 
-      b1111(0) = lna/5 
+      b1(0) =-lna/2
+      b11(0) = lna/3
+      b111(0) =-lna/4
+      b1111(0) = lna/5
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
-      b111(0) =-( lna - bnlog(3,x1) )/4 
-      b1111(0) = ( lna - bnlog(4,x1) )/5 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
+      b111(0) =-( lna - bnlog(3,x1) )/4
+      b1111(0) = ( lna - bnlog(4,x1) )/5
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
-      b111(0) =-( lna*4 + 2 )/16 
-      b1111(0) = ( lna*5 + 2 )/25 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
+      b111(0) =-( lna*4 + 2 )/16
+      b1111(0) = ( lna*5 + 2 )/25
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
-      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16 
-      b1111(0) = ( (lna-bnlog(4,x1))*5 + 1 )/25 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
+      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16
+      b1111(0) = ( (lna-bnlog(4,x1))*5 + 1 )/25
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
-    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4 
-    b1111(0) = ( lna - bnlog(4,x1) - bnlog(4,x2) )/5 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
+    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4
+    b1111(0) = ( lna - bnlog(4,x1) - bnlog(4,x2) )/5
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
-  rank = 1 
-  rank = 2 
+  rank = 0
+  rank = 1
+  rank = 2
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -3472,15 +3472,15 @@ contains
 
   subroutine dbub0( rslt &
                    ,pp,m0,m1 ,app,am0,am1 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0,m1
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0,am1
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ch,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: ax1,ax2,ax1x2,maxa
   type(qmplx_type) :: q1,q2,q1o,q2o
   integer :: sgn
@@ -3497,7 +3497,7 @@ contains
       rslt = 1/(6*m1)
     else
       ch = m0/m1
-      rslt = ( CONE/2 - ch*olog3(ch,0) )/m1 
+      rslt = ( CONE/2 - ch*olog3(ch,0) )/m1
     endif
   elseif (am1.eq.RZRO) then
     rslt =-1/pp
@@ -3587,14 +3587,14 @@ contains
 ! with  k1^2=m2, k2^2=pp, (k1+k2)^2=m3.
 ! m2,m3 should NOT be identically 0d0.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cm2,cm3,cpp
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q23,qm3,q32
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm2,sm3,k23,r23,d23,cc
 !
    sm2 = mysqrt(cm2)
@@ -3629,16 +3629,16 @@ contains
 !
 ! with  p2=k2^2, p3=(k1+k2)^2.
 ! mm should NOT be identically 0d0,
-! and p2 NOR p3 should be identical to mm. 
+! and p2 NOR p3 should be identical to mm.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp2,cp3,cm3
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q13,q23,qm3,x1,x2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r23
 !
    r13 = cm3-cp3
@@ -3664,16 +3664,16 @@ contains
 !
 ! with  k1^2 = 0 , k2^2 = m3  and  (k1+k2)^2 = p3.
 ! mm should NOT be identically 0d0,
-! and pp should NOT be identical to mm. 
+! and pp should NOT be identical to mm.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cm3
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q13,qm3,qxx
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,logm,z2,z1,z0,cc
 !
    r13 = cm3-cp3
@@ -3681,7 +3681,7 @@ contains
    qm3 = qonv(cm3,-1)
    logm = logc( qm3/rmu2 )
    qxx = qm3/q13
-   z2 = 1 
+   z2 = 1
    z2 = z2/2
    z1 = logc(qxx)
    z0 = PISQo24 + z1*z1/2 - li2c(qxx)
@@ -3702,13 +3702,13 @@ contains
 ! with  k1^2 = (k1+k2)^2 = m3.
 ! mm should NOT be identically 0d0.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cm3
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: zm
 !
    zm = 1/(2*cm3)
@@ -3737,15 +3737,15 @@ contains
 ! IR-singular case is returned.
 !*******************************************************************
    use avh_olo_forCutTools_dp_olog
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp(3)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: ap(3),rmu2
-  real(kindr2) &  
+  real(kindr2) &
      :: pp(3),rp1,rp2,rp3
-  complex(kindr2) &   
+  complex(kindr2) &
      :: log2,log3
    integer :: icase,i1,i2,i3
 !
@@ -3798,14 +3798,14 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p1,p2,p3
    type(qmplx_type) :: q23,q24,q34,qx1,qx2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r23,r24,r34,aa,bb,cc,dd,x1,x2
-  real(kindr2) &  
+  real(kindr2) &
      :: hh
 !
    r23 = -p1
@@ -3845,15 +3845,15 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
-     ,intent(in)  :: p1i,p2i,p3i ,m3i 
+  complex(kindr2) &
+     ,intent(in)  :: p1i,p2i,p3i ,m3i
    type(qmplx_type) :: q23,q24,q34,qm4,qx1,qx2,qss
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p2,p3,p4,p12,p23,m4,sm2,sm3,sm4 &
                      ,aa,bb,cc,dd,x1,x2,r23,r24,r34
-  real(kindr2) &  
+  real(kindr2) &
      :: mhh
    logical :: r24Not0,r34Not0
 !
@@ -3932,12 +3932,12 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p1i,p2i,p3i ,m2i,m3i
    type(qmplx_type) :: q23,q34,q24,qm2,qm3,qm4,qx1,qx2,qss,qy1,qy2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p2,p3,p23,m2,m4,sm2,sm3,sm4,aa,bb,cc,dd,x1,x2 &
                      ,r23,k24,r34,r24,d24
    logical :: r23Not0,r34Not0
@@ -4000,7 +4000,7 @@ contains
 !
    rslt(0) = li2c2( qy1*qm2 ,qy2*qm2 )/r24*sm2
 !
-   if (x2.ne.CZRO) then ! better to put a threshold on cc 
+   if (x2.ne.CZRO) then ! better to put a threshold on cc
      rslt(0) = rslt(0) + ( logc2( qy1/qy2 )*logc( qy1*qy2/(qm2*qm2) ) &
                           -logc2( qx1/qx2 )*logc( qx1*qx2/(qm4*qm4) ) )/(x2*2)
    endif
@@ -4028,15 +4028,15 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p1i,p2i,p3i,m1i,m2i,m3i
    type(qmplx_type) :: q12,q13,q23,qm1,qm2,qm3,qx1,qx2,qz1,qz2,qtt
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p1,p2,p3,m1,m2,m3,sm1,sm2,sm3,aa,bb,cc,dd,x1,x2 &
-                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23 
-  real(kindr2) &  
+                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23
+  real(kindr2) &
      :: h1,h2,h3
 !
    h1 = -aimag(m1i)
@@ -4111,27 +4111,27 @@ contains
 !
    rslt(0) = rslt(0)/(aa*sm1*sm2*sm3)
    end subroutine
-   
+
 
    subroutine trif3HV( rslt ,pp,mm ,ap ,smax ,lam )
 !*******************************************************************
 ! Finite 1-loop scalar 3-point function with all internal masses
 ! non-zero. Based on the fomula of 't Hooft & Veltman
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: pp(3),mm(3)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: ap(3),smax
-  complex(kindr2) &   
+  complex(kindr2) &
      ,optional ,intent(in) :: lam
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p1,p2,p3,m1,m2,m3,slam,yy
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm1,sm2,sm3
    type(qmplx_type) :: qm1,qm2,qm3
-  real(kindr2) &  
+  real(kindr2) &
      :: a12,a23,a31,thrs,a1,a2,a3
 !
 ! Order squared momenta, first one smallest
@@ -4174,7 +4174,7 @@ contains
    m1 = m1 - abs(areal(m1))*IEPS
    m2 = m2 - abs(areal(m2))*IEPS
    m3 = m3 - abs(areal(m3))*IEPS
-!       
+!
    if (a1.gt.thrs) then ! 3 non-zero squared momenta
      if (present(lam)) then ;slam=lam
                        else ;slam=kallen(p1,p2,p3)
@@ -4244,15 +4244,15 @@ contains
 ! function below.
 ! t4  should be  sqrt(lambda(aa,t2,t3))
 !***************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
        ,intent(in) :: aa,s1,s2,t1
-  complex(kindr2) &   
+  complex(kindr2) &
        ,optional,intent(in) :: t2,t3
-  complex(kindr2) &   
+  complex(kindr2) &
        ,optional,intent(inout) :: t4
-  complex(kindr2) &   
+  complex(kindr2) &
        :: rslt ,cc,bb,dd,y0,y1,y2,zz,hh,alpha
-  real(kindr2) &  
+  real(kindr2) &
        :: rez,arez,aimz
      type(qmplx_type) :: q1,q2
 !
@@ -4294,9 +4294,9 @@ contains
 !**************************************************
 ! int( ( ln(a*y+b) - ln(a*y0+b) )/(y-y0) ,y=0..1 )
 !**************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
        ,intent(in) :: aa,bb,y0
-  complex(kindr2) &   
+  complex(kindr2) &
        :: rslt ,y1,hh
      type(qmplx_type) :: q1
      y1 = -bb/aa
@@ -4358,13 +4358,13 @@ contains
 ! with  k1^2=m2, k2^2=p2, k3^2=p3, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p12,p23 ,m2,m3,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp12,cp23,cm2,cm3,cm4,sm1,sm2,sm3,sm4 &
                      ,r13,r23,r24,r34,d23,d24,d34,log24,cc
    type(qmplx_type) :: q13,q23,q24,q34,qss,qy1,qy2,qz1,qz2
@@ -4397,7 +4397,7 @@ contains
    q24 = qonv(r24,-1)
    q34 = qonv(r34,-1)
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box16: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -4437,13 +4437,13 @@ contains
 ! with  k1^2=m2, k2^2=p2, k3^2=p3, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p12,p23 ,m2,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp12,cp23,cm2,cm4,sm1,sm2,sm3,sm4 &
                      ,r13,r23,r24,r34,d24,log24,cc
    type(qmplx_type) :: q13,q23,q24,q34,qss,qz1,qz2
@@ -4471,7 +4471,7 @@ contains
    r34 = (    cm4-cp3 )/(sm3*sm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box15: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -4513,13 +4513,13 @@ contains
 ! with  k1^2=m2, k2^2=m2, k3^2=m4, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp12,cp23,cm2,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm2,sm4,r24,d24,cc
 !
    if (cp12.eq.CZRO) then
@@ -4533,7 +4533,7 @@ contains
    sm4 = mysqrt(cm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box14: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -4561,17 +4561,17 @@ contains
 ! p4 should NOT be identical to m4
 ! p2 should NOT be identical to m3
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p4,p12,p23,m3,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp4,cp12,cp23,cm3,cm4,sm3,sm4,sm1,sm2 &
              ,r13,r14,r23,r24,r34,d34,cc,logd,li2d,loge,li2f,li2b,li2e
    type(qmplx_type) :: q13,q14,q23,q24,q34,qy1,qy2
-  real(kindr2) &  
+  real(kindr2) &
      :: h1,h2
 !
    if (p12.eq.m3) then
@@ -4610,7 +4610,7 @@ contains
    q14 = qonv(r14,-1)
    q23 = qonv(r23,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
    qy1 = q14*q23/q13/q24
    logd = logc2(qy1     )/(r13*r24)
@@ -4644,13 +4644,13 @@ contains
 ! m3,m4 should NOT be indentiallcy 0d0
 ! p4 should NOT be identical to m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cp4,cp12,cp23,cm3,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm3,sm4,sm1,sm2,r13,r14,r24,r34,d34,cc &
                      ,log13,log14,log24,log34,li2f,li2b,li2d
    type(qmplx_type) :: q13,q14,q24,q34,qyy
@@ -4681,12 +4681,12 @@ contains
    q13 = qonv(r13,-1)
    q14 = qonv(r14,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
-   log13 = logc(q13) 
-   log14 = logc(q14) 
-   log24 = logc(q24) 
-   log34 = logc(q34) 
+   log13 = logc(q13)
+   log14 = logc(q14)
+   log24 = logc(q24)
+   log34 = logc(q34)
 !
    qyy = q14/q13
    li2f = li2c(qyy*q34)
@@ -4716,13 +4716,13 @@ contains
 ! with  k1^2=0, k2^2=m3, k3^2=p3, (k1+k2+k3)^2=m4
 ! m3,m4 should NOT be indentiallcy 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cp12,cp23,cm3,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm3,sm4,sm1,sm2,r13,r24,r34,d34 &
                      ,cc,log13,log24,log34
 !
@@ -4748,9 +4748,9 @@ contains
    r24 = (cm4-cp23)/(sm2*sm4)
    call rfun( r34,d34 ,(cm3+cm4-cp3 )/(sm3*sm4) )
 !
-   log13 = logc(qonv(r13,-1)) 
-   log24 = logc(qonv(r24,-1)) 
-   log34 = logc(qonv(r34,-1)) 
+   log13 = logc(qonv(r13,-1))
+   log24 = logc(qonv(r24,-1))
+   log34 = logc(qonv(r34,-1))
 !
    rslt(2) = 1
    rslt(1) = -log13-log24
@@ -4775,16 +4775,16 @@ contains
 ! p2 should NOT be identically 0d0
 ! p4 should NOT be identical to m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p4,p12,p23,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp4,cp12,cp23,cm4,r13,r14,r23,r24,r34,z1,z0
    type(qmplx_type) :: q13,q14,q23,q24,q34,qm4,qxx,qx1,qx2
-  real(kindr2) &  
+  real(kindr2) &
      :: h1,h2
 !
    if (p12.eq.CZRO) then
@@ -4855,13 +4855,13 @@ contains
 ! m4 should NOT be identically 0d0
 ! p2 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp2,cp3,cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: logm,log12,log23,li12,li23,z2,z1,z0,cc &
                      ,r13,r23,r24,r34
    type(qmplx_type) :: q13,q23,q24,q34,qm4,qxx
@@ -4921,16 +4921,16 @@ contains
 ! mm should NOT be identically 0d0
 ! p3 NOR p4 should be identically m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cp4,cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q14,q24,q34,qm4,qxx,qx1,qx2,qx3
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r14,r24,r34,z1,z0,cc
-  real(kindr2) &  
+  real(kindr2) &
      :: rmu2
 !
    if (cp12.eq.CZRO) then
@@ -4988,14 +4988,14 @@ contains
 ! m3 should NOT be identically 0d0
 ! p4 should NOT be identically m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp4,cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q14,q24,qm4
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r14,r24,logm,log12,log23,log4,li423 &
                      ,z2,z1,z0,cc
 !
@@ -5048,14 +5048,14 @@ contains
 ! with  k1^2=k2^2=0, k3^2=(k1+k2+k3)^2=m4
 ! m3 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q24,qm4
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r24,logm,log1,log2,z2,z1,z0,cc
 !
    if (cp12.eq.CZRO) then
@@ -5101,16 +5101,16 @@ contains
 !
 ! with  k1^2=k3^2=0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
-     ,intent(in)  :: p2,p4,p5,p6 
-  real(kindr2) &  
+  complex(kindr2) &
+     ,intent(in)  :: p2,p4,p5,p6
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q2,q4,q5,q6,q26,q54,qy
-  complex(kindr2) &   
+  complex(kindr2) &
      :: logy
-  real(kindr2) &  
+  real(kindr2) &
      :: rmu2
 !
    rmu2 = rmu*rmu
@@ -5143,16 +5143,16 @@ contains
 !
 ! with  k1^2=0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p4,p5,p6
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) ::q2,q3,q4,q5,q6 ,q25,q64,qy,qz
-  complex(kindr2) &   
+  complex(kindr2) &
      :: logy
-  real(kindr2) &  
+  real(kindr2) &
      :: rmu2
 !
    rmu2 = rmu*rmu
@@ -5197,16 +5197,16 @@ contains
 !*******************************************************************
    use avh_olo_forCutTools_dp_olog
    use avh_olo_forCutTools_dp_dilog
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp(6)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: api(6),rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: log3,log4,log5,log6,li24,li25,li26 &
                      ,li254,li263
-  real(kindr2) &  
+  real(kindr2) &
      :: rp1,rp2,rp3,rp4,rp5,rp6,pp(6),ap(6),gg,ff,hh,arg,rmu2
    integer :: icase,sf,sgn,i3,i4,i5,i6
    integer ,parameter :: base(4)=(/8,4,2,1/)
@@ -5273,15 +5273,15 @@ contains
      log6 = olog(abs(rp6/rmu2),i6)
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg*( 2 )
@@ -5300,15 +5300,15 @@ contains
      li263 = dilog( abs(rp3/rp6) ,i3-i6 )
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg
@@ -5333,21 +5333,21 @@ contains
    endif
    end subroutine
 
-  
+
   subroutine boxf0( rslt ,p1,p2,p3,p4,p12,p23 )
 !*******************************************************************
 ! Finite 1-loop scalar 4-point function with all internal masses
 ! equal zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qss
-  complex(kindr2) &   
+  complex(kindr2) &
     :: aa,bb,cc,dd,x1,x2,ss,r12,r13,r14,r23,r24,r34
-  real(kindr2) &  
+  real(kindr2) &
     :: hh
 !
   r12 = -p1  !  p1
@@ -5355,7 +5355,7 @@ contains
   r14 = -p4  !  p1+p2+p3
   r23 = -p2  !  p2
   r24 = -p23 !  p2+p3
-  r34 = -p3  !  p3      
+  r34 = -p3  !  p3
 !
   aa = r34*r24
 !
@@ -5404,17 +5404,17 @@ contains
 ! non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23 ,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
-  complex(kindr2) &   
+  complex(kindr2) &
     :: smm,sm4,aa,bb,cc,dd,x1,x2,r12,r13,r14,r23,r24,r34
   logical :: r12zero,r13zero,r14zero
 !
   sm4 = mysqrt(m4)
-  smm = abs(sm4) 
+  smm = abs(sm4)
 !
   r12 = ( m4-p4 -p4 *IEPS )/(smm*sm4)
   r13 = ( m4-p23-p23*IEPS )/(smm*sm4)
@@ -5493,9 +5493,9 @@ contains
 ! masses non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m2,m4
   call boxf2( rslt ,p12,p2,p23,p4,p1,p3 ,m2,m4 )
   end subroutine
@@ -5507,12 +5507,12 @@ contains
 ! masses non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m3,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
-  complex(kindr2) &   
+  complex(kindr2) &
     :: smm,sm3,sm4,aa,bb,cc,dd,x1,x2 &
                     ,r12,r13,r14,r23,r24,r34,d14,k14
   logical :: r12zero,r13zero,r24zero,r34zero
@@ -5600,7 +5600,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r24/r12
     endif
     if (.not.r12zero.and..not.r13zero) then
-      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2 
+      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2
     endif
   endif
 !
@@ -5613,9 +5613,9 @@ contains
 ! Finite 1-loop scalar 4-point function with three internal masses
 ! non-zero.
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: pp(6),mm(4)
   integer :: j
   integer ,parameter :: ip(6)=(/4,5,2,6,3,1/)
@@ -5639,12 +5639,12 @@ contains
 ! non-zero, and m3=0. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34,qy1,qy2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: sm1,sm2,sm3,sm4 ,aa,bb,cc,dd,x1,x2 &
                     ,r12,r13,r14,r23,r24,r34,d12,d14,d24,k12,k14,k24
   logical ::r13zero,r23zero,r34zero
@@ -5726,7 +5726,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r34/r13
     endif
   else
-    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2 
+    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2
   endif
 !
   rslt(0) = -rslt(0)/(aa*sm1*sm2*sm3*sm4)
@@ -5739,17 +5739,17 @@ contains
 ! non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m3,m4
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qy1,qy2,qtt
-  complex(kindr2) &   
+  complex(kindr2) &
     :: sm1,sm2,sm3,sm4 ,aa,bb,cc,dd,x1,x2,tt &
                     ,k12,k13,k14,k23,k24,k34 &
                     ,r12,r13,r14,r23,r24,r34 &
                     ,d12,d13,d14,d23,d24,d34
-  real(kindr2) &  
+  real(kindr2) &
     :: h1,h2
 !
   sm1 = mysqrt(m1)
@@ -5839,20 +5839,20 @@ contains
 ! Finite 1-loop scalar 4-point function for complex internal masses
 ! Based on the formulas from
 !   Dao Thi Nhung and Le Duc Ninh, arXiv:0902.0325 [hep-ph]
-!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979 
+!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979
 !*******************************************************************
    use avh_olo_forCutTools_dp_box ,only: base,casetable,ll=>permtable
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: pp_in(6),mm_in(4)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: ap_in(6),smax
-  complex(kindr2) &   
+  complex(kindr2) &
      :: pp(6),mm(4)
-  real(kindr2) &  
+  real(kindr2) &
      :: ap(6),aptmp(6),rem,imm,hh
-  complex(kindr2) &   
+  complex(kindr2) &
      :: a,b,c,d,e,f,g,h,j,k,dpe,epk,x1,x2,sdnt,o1,j1,e1 &
        ,dek,dpf,def,dpk,abc,bgj,jph,cph
    integer :: icase,jcase,ii
@@ -5996,9 +5996,9 @@ contains
 !
 ! jj should have negative imaginary part
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: aa,cc,gg,hh ,dd,ee,ff,jj ,dpe,dpj,dpf
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,kk,ll,nn,y1,y2,sdnt
 !
 !
@@ -6024,9 +6024,9 @@ contains
 !
 ! jj should have negative imaginary part
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: aa,cc,gg,hh ,dd,ee,ff,jj,dpe
-  complex(kindr2) &   
+  complex(kindr2) &
      ::rslt ,kk,ll,nn,y1,y2,sdnt
 !
 !
@@ -6050,12 +6050,12 @@ contains
 ! | dx |  dy ------------------------------------------------------
 ! /0   /0    (g*x + h*x + j)*(a*x^2 + b*y^2 + c*xy + d*x + e*y + f)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: aa,bb,cc ,gin,hin ,dd,ee,ff ,jin ,dpe ,dpf
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,gg,hh,jj,zz(2),beta,tmpa(2),tmpb(2) &
        ,tmpc(2),kiz(2),ll,nn,kk,y1,y2,yy(2,2),sdnt
-  real(kindr2) &  
+  real(kindr2) &
      :: ab1,ab2,ac1,ac2,abab,acac,abac,det,ap1,ap2 &
                   ,apab,apac,x1(2,2),x2(2,2),xmin
    integer :: iz,iy,izmin,sj
@@ -6173,11 +6173,11 @@ contains
 !
 ! y1i,y2i should have a non-zero imaginary part
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) ::  y1i,y2i ,dd,ee ,aa,bb,cin
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,y1,y2,fy1y2,z1,z2,tmp,cc
-  real(kindr2) &  
+  real(kindr2) &
      ::rea,reb,rez1,rez2,imz1,imz2,simc,hh
 !
 !
@@ -6217,7 +6217,7 @@ contains
      call solabc_rcc( z1,z2 ,areal(aa),bb,cc )
      rea  = sgnRe(aa)
      rez1 = areal(z1)
-     rez2 = areal(z2) 
+     rez2 = areal(z2)
      imz1 = aimag(z1) ! sign(Im(a*z1*z2)) = simc
      imz2 = aimag(z2)
      hh = abs(EPSN2*rez1)
@@ -6269,24 +6269,24 @@ contains
 ! where
 !                          /     / 1-y \       / 1-z \ \
 !      R1(y,z) = ln(y-z) * | log |-----| - log |-----| |
-!                          \     \ -y  /       \ -z  / / 
+!                          \     \ -y  /       \ -z  / /
 !
 !                      /    y-z \       /    y-z \
 !                - Li2 |1 - ----| + Li2 |1 - ----|
 !                      \    -z  /       \    1-z /
 !
 !                                     / 1-y1 \       / 1-y2 \
-!                                 log |------| - log |------| 
+!                                 log |------| - log |------|
 ! input fy1y2 should be equal to      \  -y1 /       \  -y2 /
 !                                 ---------------------------
 !                                           y1 - y2
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: y1,y2,zz,fy1y2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,oz
    type(qmplx_type) :: q1z,q2z,qq
-  real(kindr2) &  
+  real(kindr2) &
      :: h12,hz1,hz2,hzz,hoz
    logical :: zzsmall,ozsmall
 !
@@ -6313,9 +6313,9 @@ contains
           - (-logc(q1z*q2z)/2 + logc(qonv((y2-1)/y2)) &
                                     + logc(qonv(-zz)) )*logc2(q1z/q2z)/(y2-zz)
    elseif (h12.le.hz2.and.hz2.le.hz1) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )        
+     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )
    elseif (h12.le.hz1.and.hz1.le.hz2) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )        
+     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )
    else!if(hz1.lt.h12.or.hz2.lt.h12) then ! |y2-z|,|y1-z| < |y1-y2|
      rslt = 0
      if (hz1.ne.RZRO) rslt = rslt + (y1-zz)*logc( q1z )*r0fun( y1,zz )
@@ -6344,16 +6344,16 @@ contains
    function r0fun( y1,y2 ) result(rslt)
 !*******************************************************************
 !      / 1-y1 \       / 1-y2 \
-!  log |------| - log |------| 
+!  log |------| - log |------|
 !      \  -y1 /       \  -y2 /
 !  ---------------------------
 !            y1 - y2
 !
 ! y1,y2 should have non-zero imaginary parts
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: y1,y2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,oy1,oy2
 !
    oy1 = 1-y1
@@ -6366,17 +6366,17 @@ contains
    function plnr( y1,y2 ,p1,p2 ,aa,bb,cc ) result(rslt)
 !*******************************************************************
 !                   /   a    \          /   a    \
-!            p1*log |--------| - p2*log |--------| 
+!            p1*log |--------| - p2*log |--------|
 !                   \ b*y1+c /          \ b*y2+c /
 ! 2*pi*imag* -------------------------------------
 !                           y1 - y2
-! 
-! p1,p2 are logical, to be interpreted as 0,1 in the formula above 
+!
+! p1,p2 are logical, to be interpreted as 0,1 in the formula above
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: y1,y2 ,aa,bb,cc
    logical         ,intent(in) :: p1,p2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,x1,x2,xx
    type(qmplx_type) :: q1,q2
 !
@@ -6429,13 +6429,13 @@ module avh_olo_forCutTools_dp
   public :: olo
   public :: olo_get_scale ,olo_get_onshell ,olo_get_precision
 !
-  integer ,public ,parameter :: olo_kind=kindr2    
+  integer ,public ,parameter :: olo_kind=kindr2
 !
-  real(kindr2) &  
+  real(kindr2) &
          ,save :: onshellthrs
   logical,save :: nonzerothrs = .false.
 !
-  real(kindr2) &  
+  real(kindr2) &
          ,save :: muscale
 !
   character(99) ,parameter :: warnonshell=&
@@ -6446,28 +6446,28 @@ module avh_olo_forCutTools_dp
 !
   interface olo_a0
     module procedure a0_r,a0rr,a0_c,a0cr
-  end interface 
+  end interface
   interface olo_an
     module procedure an_r,anrr,an_c,ancr
-  end interface 
+  end interface
   interface olo_b0
     module procedure b0rr,b0rrr,b0rc,b0rcr,b0cc,b0ccr
-  end interface 
+  end interface
   interface olo_db0
     module procedure db0rr,db0rrr,db0rc,db0rcr,db0cc,db0ccr
-  end interface 
+  end interface
   interface olo_b11
     module procedure b11rr,b11rrr,b11rc,b11rcr,b11cc,b11ccr
-  end interface 
+  end interface
   interface olo_bn
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
-  end interface 
+  end interface
   interface olo_c0
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
-  end interface 
+  end interface
   interface olo_d0
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 !
   interface olo
     module procedure a0_r,a0rr,a0_c,a0cr
@@ -6477,11 +6477,11 @@ module avh_olo_forCutTools_dp
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 
 contains
 
- 
+
   subroutine init( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -6503,8 +6503,8 @@ contains
   if (.not.nonzerothrs) onshellthrs = neglig(prcpar)
 !
   end subroutine
- 
- 
+
+
   recursive subroutine olo_precision( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -6516,7 +6516,7 @@ contains
   if (initz) then
     call init( ndec )
   else
-    call set_precision( newprc )       
+    call set_precision( newprc )
     if (newprc) then
       call update_olog
       call update_dilog
@@ -6526,7 +6526,7 @@ contains
   endif
   end subroutine
 
- 
+
   subroutine olo_unit( val ,message )
 !*******************************************************************
 !*******************************************************************
@@ -6537,8 +6537,8 @@ contains
   else                       ;call set_unit( 'all'   ,val )
   endif
   end subroutine
- 
- 
+
+
   subroutine olo_scale( val )
 !*******************************************************************
 !*******************************************************************
@@ -6546,8 +6546,8 @@ contains
   if (initz) call init
   muscale = convert(val)
   end subroutine
- 
- 
+
+
   subroutine olo_onshell( thrs )
 !*******************************************************************
 !*******************************************************************
@@ -6594,7 +6594,7 @@ contains
   if (present(iunit)) nunit = iunit
   if (nunit.le.0) return
 !
-  write(nunit,*) 'MESSAGE from OneLOop: real kind parameter =',trim(myprint(kindr2)) 
+  write(nunit,*) 'MESSAGE from OneLOop: real kind parameter =',trim(myprint(kindr2))
   write(nunit,*) 'MESSAGE from OneLOop: number of decimals  =',trim(myprint(ndecim(prcpar)))
 !
   if (nonzerothrs) then
@@ -6606,12 +6606,12 @@ contains
   write(nunit,*) 'MESSAGE from OneLOop: default scale (mu, not mu^2) =',trim(myprint(muscale,12))
 !
   end subroutine
- 
- 
+
+
 !*******************************************************************
 !
 !           C   / d^(Dim)q
-! rslt = ------ | -------- 
+! rslt = ------ | --------
 !        i*pi^2 / (q^2-mm)
 !
 ! with  Dim = 4-2*eps
@@ -6630,20 +6630,20 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -6674,22 +6674,22 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -6720,20 +6720,20 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: mm
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -6764,22 +6764,22 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -6811,22 +6811,22 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: mm
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -6859,24 +6859,24 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -6909,22 +6909,22 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: mm
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -6957,24 +6957,24 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -7026,16 +7026,16 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -7070,7 +7070,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7104,18 +7104,18 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -7150,7 +7150,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7184,16 +7184,16 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -7222,7 +7222,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7256,18 +7256,18 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -7296,7 +7296,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7330,16 +7330,16 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -7353,7 +7353,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7387,18 +7387,18 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -7412,7 +7412,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7450,16 +7450,16 @@ contains
   use avh_olo_forCutTools_dp_bub ,only: dbub0
   use avh_olo_forCutTools_dp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -7494,7 +7494,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7543,18 +7543,18 @@ contains
   use avh_olo_forCutTools_dp_bub ,only: dbub0
   use avh_olo_forCutTools_dp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -7589,7 +7589,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7638,16 +7638,16 @@ contains
   use avh_olo_forCutTools_dp_bub ,only: dbub0
   use avh_olo_forCutTools_dp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -7676,7 +7676,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7725,18 +7725,18 @@ contains
   use avh_olo_forCutTools_dp_bub ,only: dbub0
   use avh_olo_forCutTools_dp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -7765,7 +7765,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7814,16 +7814,16 @@ contains
   use avh_olo_forCutTools_dp_bub ,only: dbub0
   use avh_olo_forCutTools_dp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -7837,7 +7837,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7886,18 +7886,18 @@ contains
   use avh_olo_forCutTools_dp_bub ,only: dbub0
   use avh_olo_forCutTools_dp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -7911,7 +7911,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -7980,16 +7980,16 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -8024,7 +8024,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8067,18 +8067,18 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -8113,7 +8113,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8156,16 +8156,16 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -8194,7 +8194,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8237,18 +8237,18 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -8277,7 +8277,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8320,16 +8320,16 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -8343,7 +8343,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8386,18 +8386,18 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -8411,7 +8411,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8455,17 +8455,17 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -8500,7 +8500,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8585,19 +8585,19 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -8632,7 +8632,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8717,17 +8717,17 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -8756,7 +8756,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8841,19 +8841,19 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -8882,7 +8882,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -8967,17 +8967,17 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -8991,7 +8991,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -9076,19 +9076,19 @@ contains
 !
   use avh_olo_forCutTools_dp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -9102,7 +9102,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -9207,22 +9207,22 @@ contains
   use avh_olo_forCutTools_dp_tri
   use avh_olo_forCutTools_dp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -9259,7 +9259,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -9369,24 +9369,24 @@ contains
   use avh_olo_forCutTools_dp_tri
   use avh_olo_forCutTools_dp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -9423,7 +9423,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -9533,22 +9533,22 @@ contains
   use avh_olo_forCutTools_dp_tri
   use avh_olo_forCutTools_dp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -9579,7 +9579,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -9689,24 +9689,24 @@ contains
   use avh_olo_forCutTools_dp_tri
   use avh_olo_forCutTools_dp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -9737,7 +9737,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -9847,22 +9847,22 @@ contains
   use avh_olo_forCutTools_dp_tri
   use avh_olo_forCutTools_dp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -9886,7 +9886,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -9996,24 +9996,24 @@ contains
   use avh_olo_forCutTools_dp_tri
   use avh_olo_forCutTools_dp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -10037,7 +10037,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -10155,8 +10155,8 @@ contains
 !         C = pi^eps * mu^(2*eps)
 !             * GAMMA(1-2*eps)/GAMMA(1-eps)^2/GAMMA(1+eps)
 !
-! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2, 
-!         p12=(k1+k2)^2, p23=(k2+k3)^2, 
+! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2,
+!         p12=(k1+k2)^2, p23=(k2+k3)^2,
 !         m1,m2,m3,m4=squared masses
 ! output: rslt(0) = eps^0   -coefficient
 !         rslt(1) = eps^(-1)-coefficient
@@ -10170,22 +10170,22 @@ contains
   use avh_olo_forCutTools_dp_box
   use avh_olo_forCutTools_dp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -10238,7 +10238,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -10443,24 +10443,24 @@ contains
   use avh_olo_forCutTools_dp_box
   use avh_olo_forCutTools_dp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -10513,7 +10513,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -10718,22 +10718,22 @@ contains
   use avh_olo_forCutTools_dp_box
   use avh_olo_forCutTools_dp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -10780,7 +10780,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -10985,24 +10985,24 @@ contains
   use avh_olo_forCutTools_dp_box
   use avh_olo_forCutTools_dp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -11049,7 +11049,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -11254,22 +11254,22 @@ contains
   use avh_olo_forCutTools_dp_box
   use avh_olo_forCutTools_dp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -11309,7 +11309,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -11514,24 +11514,24 @@ contains
   use avh_olo_forCutTools_dp_box
   use avh_olo_forCutTools_dp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -11571,7 +11571,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -11776,13 +11776,13 @@ end module
 
 
 module avh_olo_forCutTools_qp_kinds
-  integer ,parameter :: kindr2=16 
+  integer ,parameter :: kindr2=16
 end module
 
 
 module avh_olo_forCutTools_qp_arrays
   use avh_olo_forCutTools_units
-  use avh_olo_forCutTools_qp_kinds 
+  use avh_olo_forCutTools_qp_kinds
   implicit none
   private
   public :: shift1,shift2,shift3,resize,enlarge
@@ -11812,10 +11812,10 @@ module avh_olo_forCutTools_qp_arrays
 contains
 
   subroutine shift1_r( xx ,nn )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: nn
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:)
   integer ,parameter :: dm=1
   integer :: lb(dm),ub(dm)
@@ -11856,10 +11856,10 @@ contains
   end subroutine
 
   subroutine shift2_r( xx ,nn )
-  real(kindr2) &  
+  real(kindr2) &
           ,allocatable ,intent(inout) :: xx(:,:)
   integer              ,intent(in   ) :: nn
-  real(kindr2) &  
+  real(kindr2) &
           ,allocatable :: tt(:,:)
   integer ,parameter :: dm=2
   integer :: lb(dm),ub(dm)
@@ -11900,10 +11900,10 @@ contains
   end subroutine
 
   subroutine shift3_r( xx ,nn )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:,:,:)
   integer        ,intent(in   ) :: nn
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:,:,:)
   integer ,parameter :: dm=3
   integer :: lb(dm),ub(dm)
@@ -11943,12 +11943,12 @@ contains
   deallocate(tt)
   end subroutine
 
- 
+
   subroutine resize1_r( xx ,l1,u1 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: l1,u1
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:)
   integer :: lb(1),ub(1)
   if (.not.allocated(xx)) then
@@ -11963,13 +11963,13 @@ contains
   lb(1)=max(l1,lb(1)) ;ub(1)=min(u1,ub(1))
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine resize2_r( xx ,l1,u1 ,l2,u2 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:,:)
   integer        ,intent(in   ) :: l1,u1,l2,u2
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:,:)
   integer :: lb(2),ub(2)
   if (.not.allocated(xx)) then
@@ -11986,14 +11986,14 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 
   subroutine enlarge1_r( xx ,l1,u1 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: l1,u1
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:)
   integer :: lb(1),ub(1)
   if (.not.allocated(xx)) then
@@ -12013,13 +12013,13 @@ contains
   allocate( xx(min(l1,lb(1)):max(u1,ub(1))) )
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine enlarge2_r( xx ,l1,u1 ,l2,u2 )
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable ,intent(inout) :: xx(:,:)
   integer        ,intent(in   ) :: l1,u1,l2,u2
-  real(kindr2) &  
+  real(kindr2) &
     ,allocatable :: tt(:,:)
   integer :: lb(2),ub(2)
   if (.not.allocated(xx)) then
@@ -12043,7 +12043,7 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 end module
 
@@ -12077,14 +12077,14 @@ contains
 !***********************************************************************
   use avh_olo_forCutTools_units
   logical ,intent(out) :: newprc
-  integer :: ndec                                  
-  if (prcpar.eq.1) then                    
-    newprc = .false.                             
-    return                                       
+  integer :: ndec
+  if (prcpar.eq.1) then
+    newprc = .false.
+    return
   endif
-  prcpar = 1                                   
+  prcpar = 1
   call set_epsn
-  newprc = .true.                              
+  newprc = .true.
   RZRO=0
   RONE=1
   IMAG=cmplx(0,1,kind=kind(IMAG))
@@ -12100,11 +12100,11 @@ contains
   contains
 !
   subroutine set_epsn
-  EPSN = epsilon(EPSN)                         
-  ndec = -log10(EPSN)                            
-  ndecim(prcpar) = ndec                          
-  epsilo(prcpar) = EPSN                        
-  neglig(prcpar) = EPSN*10**(ndec/7)       
+  EPSN = epsilon(EPSN)
+  ndec = -log10(EPSN)
+  ndecim(prcpar) = ndec
+  epsilo(prcpar) = EPSN
+  neglig(prcpar) = EPSN*10**(ndec/7)
   end subroutine
 !
   end subroutine
@@ -12149,7 +12149,7 @@ contains
     :: rslt
   rslt = xx
   end function
-  
+
   function acmplx_rr(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn two reals into one complex
@@ -12160,7 +12160,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_ri(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn a real and an integer into one complex
@@ -12172,7 +12172,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_ir(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn an integer and a real into one complex
@@ -12184,7 +12184,7 @@ contains
     :: rslt
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
   function acmplx_c(zz) result(rslt)
 !***********************************************************************
 ! Replaces the real part of zz by its absolute value
@@ -12200,7 +12200,7 @@ contains
   yy = aimag(zz)
   rslt = cmplx(xx,yy,kind=kind(rslt))
   end function
-  
+
 end module
 
 
@@ -12220,7 +12220,7 @@ module avh_olo_forCutTools_qp_print
 contains
 
   function printc( zz ,ndec ) result(rslt)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: zz
   integer,optional,intent(in) :: ndec
   character((ndecim(prcpar)+nxtr+novh)*2+3) :: rslt
@@ -12237,14 +12237,14 @@ contains
   end function
 
   function printr( xx_in ,ndec_in ) result(rslt)
-  real(kindr2) &  
+  real(kindr2) &
                   ,intent(in) :: xx_in
   integer,optional,intent(in) :: ndec_in
   character(ndecim(prcpar)+nxtr+novh  ) :: rslt
   character(ndecim(prcpar)+nxtr+novh+1) :: cc
   character(10) :: aa,bb
   integer :: ndec
-  double precision :: xx     
+  double precision :: xx
   xx = xx_in
   if (present(ndec_in)) then ;ndec=ndec_in
                         else ;ndec=ndecim(prcpar)+nxtr
@@ -12267,7 +12267,7 @@ contains
   aa = '(i'//trim(aa)//')'
   write(cc,aa) ii ;cc=adjustl(cc)
   if (cc(1:1).ne.'-') then ;rslt=' '//cc
-  else                     ;rslt=cc 
+  else                     ;rslt=cc
   endif
   end function
 
@@ -12313,11 +12313,11 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! negative imaginary.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: xim,xre
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -12339,13 +12339,13 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! imaginary and has the same sign as  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sgn
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: xim,xre
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -12367,12 +12367,12 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! imaginary and has the same sign as  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: sgn
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: xim,xre,hh
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -12396,16 +12396,16 @@ contains
 ! Also returns  dd = aa*(x1-x2)
 ! If  imode=/=0  it uses  dd  as input as value of  sqrt(b^2-4*a*c)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out)   :: x1,x2
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(inout) :: dd
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb,cc
   integer         ,intent(in) :: imode
-  complex(kindr2) &   
+  complex(kindr2) &
     :: qq,hh
-  real(kindr2) &  
+  real(kindr2) &
     :: r1,r2
 
   if (aa.eq.CZRO) then
@@ -12448,9 +12448,9 @@ contains
 !*******************************************************************
   intent(out) :: x1,x2
   intent(in ) :: aa,bb,cc
-  complex(kindr2) &   
+  complex(kindr2) &
     :: x1,x2,bb,cc ,t1,t2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,xx,yy,pp,qq,uu,vv,pq1,pq2,uv1,uv2,dd,xd1,xd2,yd1,yd2 &
       ,gg,hh,rx1,rx2,ix1,ix2
   if (aa.eq.RZRO) then
@@ -12516,13 +12516,13 @@ contains
 ! If  Im(rr)  is zero, then  |rr| > 1/|rr| .
 ! Also returns  dd = rr - 1/rr .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rr,dd
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: qq
-  complex(kindr2) &   
+  complex(kindr2) &
     :: r2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,bb
   integer :: ir,ik
   dd = sqrt(qq*qq-4)
@@ -12559,15 +12559,15 @@ contains
 !*******************************************************************
 ! Like rfun, but now  dd  is input, which may get a minus sign
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out)   :: rr
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(inout) :: dd
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: qq
-  complex(kindr2) &   
+  complex(kindr2) &
     :: r2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,bb
   integer :: ir,ik
   rr = qq+dd
@@ -12607,13 +12607,13 @@ contains
 !   - theta( Im(a))*theta( Im(b))*theta(-Im(c))
 ! where a,b,c are interpreted as a+i|eps|sa, b+i|eps|sb, c+i|eps|sc
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb,cc
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sa,sb,sc
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: ima,imb,imc
   ima = aimag(aa)
   imb = aimag(bb)
@@ -12638,11 +12638,11 @@ contains
 !   - theta( Im(a))*theta( Im(b))*theta(-Im(c))
 ! where a,b,c are interpreted as a+i|eps|sa, b+i|eps|sb, c+i|eps|sc
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb,cc
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: ima,imb,imc
   ima = sgnIm(aa)
   imb = sgnIm(bb)
@@ -12658,11 +12658,11 @@ contains
 !*******************************************************************
 ! eta3(aa,b1,c1) - eta3(aa,b2,c2)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,b1,c1 ,b2,c2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: imaa,imb1,imc1,imb2,imc2
   imaa = sgnIm(aa)
   imb1 = sgnIm(b1)
@@ -12695,13 +12695,13 @@ contains
 ! The same as  eta3, but with  c=a*b, so that
 !   eta(a,b) = log(a*b) - log(a) - log(b)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sa,sb
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rea,reb,ima,imb,imab
   rea = areal(aa)  ;ima = aimag(aa)
   reb = areal(bb)  ;imb = aimag(bb)
@@ -12718,15 +12718,15 @@ contains
     rslt = 0
   endif
   end function
- 
+
   function eta2_0( aa ,bb ) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: aa,bb
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rea,reb,ima,imb,imab
   rea = areal(aa)  ;ima = aimag(aa)
   reb = areal(bb)  ;imb = aimag(bb)
@@ -12741,18 +12741,18 @@ contains
   else
     rslt = 0
   endif
-  end function 
+  end function
 
 
   function kallen( p1,p2,p3 ) result(rslt)
 !*******************************************************************
 !  p1^2 + p2^2 + p3^2 - 2*p1*p2 - 2*p2*p3 - 2*p3*p1
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,y1,y2,y3
-  real(kindr2) &  
+  real(kindr2) &
     :: b1,b2,b3
   y1=p2*p3 ;b1=areal(y1)
   y2=p3*p1 ;b2=areal(y2)
@@ -12770,10 +12770,10 @@ contains
   function sgnIm_c(zz) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: zz
   integer :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: imz
   imz = aimag(zz)
   if (imz.ge.RZRO) then ;rslt= 1
@@ -12784,11 +12784,11 @@ contains
   function sgnIm_ci(zz,ii) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: zz
   integer ,intent(in) :: ii
   integer :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: imz
   imz = aimag(zz)
   if     (imz.gt.RZRO) then ;rslt= 1
@@ -12800,10 +12800,10 @@ contains
   function sgnRe_c(zz) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: zz
   integer :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rez
   rez = zz
   if (rez.ge.RZRO) then ;rslt= 1
@@ -12814,7 +12814,7 @@ contains
   function sgnRe_r(rez) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: rez
   integer :: rslt
   if (rez.ge.RZRO) then ;rslt= 1
@@ -12825,7 +12825,7 @@ contains
   function sgnRe_ri(rez,ii) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: rez
   integer ,intent(in) :: ii
   integer :: rslt
@@ -12841,7 +12841,7 @@ end module
 module avh_olo_forCutTools_qp_olog
 !***********************************************************************
 ! Provides the functions
-!   olog(x,n) = log(x) + n*pi*imag  
+!   olog(x,n) = log(x) + n*pi*imag
 !   olog1(x,n) = olog(x,n)/(x-1)
 !   olog2(x,n) = ( olog1(x,n) - 1 )/(x-1)
 !   olog3(x,n) = ( olog2(x,n) + 1/2 )/(x-1)
@@ -12856,7 +12856,7 @@ module avh_olo_forCutTools_qp_olog
   private
   public :: update_olog,olog,olog1,olog2,olog3
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: thrs(:,:)
   integer,allocatable,save :: ntrm(:,:)
   integer,parameter :: nStp=6
@@ -12880,7 +12880,7 @@ contains
 !***********************************************************************
 !***********************************************************************
   use avh_olo_forCutTools_qp_arrays
-  real(kindr2) &  
+  real(kindr2) &
     :: tt
   integer :: nn,mm,ii,jj
 !  real(kind(1d0)) :: xx(6) !DEBUG
@@ -12915,7 +12915,7 @@ contains
     if (ntrm(ii,prcpar).le.1) then
       do jj=1,ii
         ntrm(jj,prcpar) = ntrm(ii,prcpar)
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif
@@ -12937,12 +12937,12 @@ contains
   function log_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,iyy
 !
@@ -12984,7 +12984,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = 2 * ( z + z^3/3 + z^5/5 + z^7/7 + ... )  
+! rslt = 2 * ( z + z^3/3 + z^5/5 + z^7/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -13000,12 +13000,12 @@ contains
   function log_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rr
   integer :: jj
 !
@@ -13025,12 +13025,12 @@ contains
   function log1_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -13068,7 +13068,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = 2/(y+1) * ( 1 + z^2/3 + z^4/5 + z^6/7 + ... )  
+! rslt = 2/(y+1) * ( 1 + z^2/3 + z^4/5 + z^6/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -13084,12 +13084,12 @@ contains
   function log1_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: rr,yy
   integer :: jj
 !  include 'avh_olo_qp_real.h90'
@@ -13123,10 +13123,10 @@ contains
   function log2_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
   rslt = log2_c(xx*CONE,iph)
   end function
@@ -13135,12 +13135,12 @@ contains
   function log2_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -13176,7 +13176,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = -1/(y+1) + 2/(y+1)^2 * ( z/3 + z^3/5 + z^5/7 + ... )  
+! rslt = -1/(y+1) + 2/(y+1)^2 * ( z/3 + z^3/5 + z^5/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -13192,10 +13192,10 @@ contains
   function log3_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
   rslt = log3_c(xx*CONE,iph)
   end function
@@ -13204,12 +13204,12 @@ contains
   function log3_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,zz,z2,HLF
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -13267,7 +13267,7 @@ end module
 module avh_olo_forCutTools_qp_dilog
 !***********************************************************************
 !                     /1    ln(1-zz*t)
-!   dilog(xx,iph) = - |  dt ---------- 
+!   dilog(xx,iph) = - |  dt ----------
 !                     /0        t
 ! with  zz = 1 - xx*exp(imag*pi*iph)  [pi, NOT 2*pi]
 !
@@ -13285,14 +13285,14 @@ module avh_olo_forCutTools_qp_dilog
   private
   public :: update_dilog,dilog
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: coeff(:)
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: thrs(:,:)
   integer,allocatable,save :: ntrm(:,:)
   integer,parameter :: nStp=6
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable :: bern(:),fact(:)
 
   interface dilog
@@ -13304,7 +13304,7 @@ contains
   subroutine update_dilog
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     :: tt
   integer :: nn,ii,jj
   logical :: highestSoFar
@@ -13351,7 +13351,7 @@ contains
     if (ntrm(ii,prcpar).le.2) then
       do jj=1,ii
         ntrm(jj,prcpar) = max(2,ntrm(ii,prcpar))
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif
@@ -13420,12 +13420,12 @@ contains
   function dilog_c(xx,iph) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,yy,lyy,loy,zz,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: rex,imx,az
   integer :: ii,jj,ntwo,odd,nn
   logical :: r_gt_1 , y_lt_h
@@ -13448,7 +13448,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   r_gt_1 = (rex*rex+imx*imx.gt.RONE)
   lyy = log(yy)
   if (odd.ne.0) yy = -yy
@@ -13467,7 +13467,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -13496,12 +13496,12 @@ contains
   function dilog_r(xx,iph) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: yy,lyy,loy,zz,z2,liox,az
   integer :: jj,ii,ntwo,odd,nn
   logical :: r_gt_1 , y_lt_h
@@ -13515,7 +13515,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   if (yy.eq.RONE.and.odd.eq.0) then
     if (ntwo.ne.0) then
       if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop dilog_r: ' &
@@ -13545,7 +13545,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -13576,12 +13576,12 @@ contains
 !*******************************************************************
 !*******************************************************************
   use avh_olo_forCutTools_qp_olog
-  complex(kindr2) &   
+  complex(kindr2) &
           ,intent(in) :: x1,x2
   integer ,intent(in) :: i1,i2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt ,y1,y2 ,ff,gg,logr1,logr2,logo1,logo2,r1,r2,rr
-  real(kindr2) &  
+  real(kindr2) &
     :: eps ,re1,im1,re2,im2,a1,a2,aa,ao1,ao2
   integer :: j1,j2,ii,nn,oo
   integer,parameter :: pp(-1:1,-1:1)=&
@@ -13730,14 +13730,14 @@ contains
 !*******************************************************************
 !*******************************************************************
   use avh_olo_forCutTools_qp_olog
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: x1,x2
   integer ,intent(in) :: i1,i2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: y1,y2 ,ff,gg,logr1,logr2,logo1,logo2
-  real(kindr2) &  
+  real(kindr2) &
     :: eps,r1,r2,rr,ro1,ro2
   integer :: j1,j2,ii,nn,oo
 !
@@ -13865,11 +13865,11 @@ contains
 ! ( f(z1)-f(z2) )/( z1-z2 ), where
 ! f(z)= z + c0*z^2 + c1*z^3 + c2*z^5 + c3*z^7 + ...
 !***********************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: z1,z2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt,yy,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: az
   integer :: ii,nn
   az = max(abs(z1),abs(z2))
@@ -13900,7 +13900,7 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 
   function sumterms_r( z1,z2 ) result(rslt)
@@ -13908,11 +13908,11 @@ contains
 ! ( f(z1)-f(z2) )/( z1-z2 ), where
 ! f(z)= z + c0*z^2 + c1*z^3 + c2*z^5 + c3*z^7 + ...
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: z1,z2
-  real(kindr2) &  
+  real(kindr2) &
     :: rslt,yy,zz
-  real(kindr2) &  
+  real(kindr2) &
     :: az
   integer :: ii,nn
   az = max(abs(z1),abs(z2))
@@ -13936,16 +13936,16 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 end module
 
 
 module avh_olo_forCutTools_qp_bnlog
 !***********************************************************************
-!                      /1    
-!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x) 
-!                      /0 
+!                      /1
+!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x)
+!                      /0
 !***********************************************************************
   use avh_olo_forCutTools_units
   use avh_olo_forCutTools_qp_prec
@@ -13957,9 +13957,9 @@ module avh_olo_forCutTools_qp_bnlog
   private
   public :: update_bnlog,bnlog
 
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: coeff(:,:)
-  real(kindr2) &  
+  real(kindr2) &
          ,allocatable,save :: thrs(:,:,:)
   integer,allocatable,save :: ntrm(:,:,:)
   integer,parameter :: nStp=6
@@ -13982,7 +13982,7 @@ contains
   subroutine update_bnlog
 !***********************************************************************
 !***********************************************************************
-  real(kindr2) &  
+  real(kindr2) &
     :: tt
   integer :: nn,ii,jj,n1,nmax,irank
   logical :: highestSoFar
@@ -14016,7 +14016,7 @@ contains
     if (prcpar.gt.1) then ;nn=ntrm(nStp,irank,prcpar-1)-1
                      else ;nn=n1
     endif
-!  
+!
     do
       nn = nn+1
       if (highestSoFar.and.nn.gt.ubound(coeff,1)) call update_coeff( 2*nn )
@@ -14026,7 +14026,7 @@ contains
     enddo
 !
     if (nn.gt.nmax) nmax=nn
-!  
+!
     ntrm(nStp,irank,prcpar) = nn
     thrs(nStp,irank,prcpar) = tt
     nn = max(1,nint(nn*1d0/nStp))
@@ -14035,7 +14035,7 @@ contains
       if (ntrm(ii,irank,prcpar).le.n1) then
         do jj=1,ii
           ntrm(jj,irank,prcpar) = max(n1,ntrm(ii,irank,prcpar))
-          thrs(jj,irank,prcpar) = 0 
+          thrs(jj,irank,prcpar) = 0
         enddo
         exit
       endif
@@ -14044,9 +14044,9 @@ contains
       tt = (EPSN*abs(coeff(n1,irank)/coeff(jj,irank)))**(tt/(jj-n1))
       thrs(ii,irank,prcpar) = tt
     enddo
-!  
+!
   enddo!irank=1,nrank
-!  
+!
   if (highestSoFar) call resize( coeff ,2,nmax ,0,rank )
 !
 !  do ii=lbound(thrs,3),ubound(thrs,3)        !DEBUG
@@ -14069,7 +14069,7 @@ contains
 !*******************************************************************
   integer ,intent(in) :: ncf
   integer :: ii,jj
-  real(kindr2) &  
+  real(kindr2) &
     :: fact,tt(rank)
 !
   call enlarge( coeff ,2,ncf ,0,rank )
@@ -14105,11 +14105,11 @@ contains
 !*******************************************************************
 !*******************************************************************
   integer ,intent(in) :: irank
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt,yy,omx
-  real(kindr2) &  
+  real(kindr2) &
     :: aa,rex,imx
   integer :: ii,nn
 !
@@ -14179,12 +14179,12 @@ contains
 !*******************************************************************
 !*******************************************************************
   integer ,intent(in) :: irank
-  real(kindr2) &  
+  real(kindr2) &
           ,intent(in) :: xx
   integer ,intent(in) :: sgn
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: yy,aa,omx
   integer :: ii,nn
   logical :: y_lt_0
@@ -14205,7 +14205,7 @@ contains
 !
   yy = 1-1/xx
   y_lt_0 = (yy.lt.RZRO)
-  if (y_lt_0) then 
+  if (y_lt_0) then
     yy = log(-yy)
     aa = sqrt(yy*yy+ONEPI*ONEPI)
   else
@@ -14252,7 +14252,7 @@ contains
   enddo
   rslt = -(irank+1)*aa*yy*(yy*xx)**(irank+1)
   if (y_lt_0) rslt = rslt + sgn*omx*IPI
-!  
+!
   end function
 
 end module
@@ -14271,7 +14271,7 @@ module avh_olo_forCutTools_qp_qmplx
   public :: operator (*) ,operator (/)
 
   type :: qmplx_type
-  complex(kindr2) &   
+  complex(kindr2) &
           :: c
   integer :: p
   end type
@@ -14297,12 +14297,12 @@ contains
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz  becomes the
 ! sign of  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: sgn
   type(qmplx_type) :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -14327,11 +14327,11 @@ contains
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz  becomes the
 ! sign of  sgn .
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
   integer         ,intent(in) :: sgn
   type(qmplx_type) :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -14355,10 +14355,10 @@ contains
 ! Determine  zz,iz  such that  xx = zz*exp(iz*imag*pi)  and  Re(zz)
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz=1
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
   type(qmplx_type) :: rslt
-  real(kindr2) &  
+  real(kindr2) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -14402,7 +14402,7 @@ contains
   function directly(xx,ix) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in) :: xx
   integer         ,intent(in) :: ix
   type(qmplx_type) :: rslt
@@ -14416,16 +14416,16 @@ contains
 ! Returns the number of the Riemann-sheet (times 2) for the complex
 ! number  xx*exp(ix*imag*pi) . The real part of xx is assumed to be
 ! positive or zero. Examples:
-! xx=1+imag, ix=-1 -> ii= 0 
-! xx=1+imag, ix= 1 -> ii= 2 
-! xx=1-imag, ix=-1 -> ii=-2 
-! xx=1-imag, ix= 1 -> ii= 0 
+! xx=1+imag, ix=-1 -> ii= 0
+! xx=1+imag, ix= 1 -> ii= 2
+! xx=1-imag, ix=-1 -> ii=-2
+! xx=1-imag, ix= 1 -> ii= 0
 ! xx=1     , ix= 1 -> ii= 0  convention that log(-1)=pi on
 ! xx=1     , ix=-1 -> ii=-2  the principal Riemann-sheet
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
   integer :: ii,jj
-  real(kindr2) &  
+  real(kindr2) &
     :: xim
   jj = mod(xx%p,2)
   ii = xx%p-jj
@@ -14440,9 +14440,9 @@ contains
 
   function prduct_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -14456,12 +14456,12 @@ contains
 
   function prduct_qr(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: xx
   type(qmplx_type) :: zz
   zz%c = yy%c*abs(xx)
@@ -14470,9 +14470,9 @@ contains
 
   function ratio_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the ratio  zz  of  yy  and  xx  
+! Return the ratio  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -14488,7 +14488,7 @@ contains
 !*******************************************************************
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in) :: xx
   type(qmplx_type) :: zz
   zz%c = yy%c/abs(xx)
@@ -14501,7 +14501,7 @@ contains
 ! log(xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = olog(acmplx(xx%c),xx%p)
   rslt = olog(xx%c,xx%p)
@@ -14512,7 +14512,7 @@ contains
 ! log(xx)/(1-xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = -olog1(acmplx(xx%c),xx%p)
   rslt = -olog1(xx%c,xx%p)
@@ -14523,7 +14523,7 @@ contains
 !  ( log(xx)/(1-xx) + 1 )/(1-xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = olog2(acmplx(xx%c),xx%p)
   rslt = olog2(xx%c,xx%p)
@@ -14532,11 +14532,11 @@ contains
   function li2c(xx) result(rslt)
 !*******************************************************************
 !    /1    ln(1-(1-xx)*t)
-!  - |  dt -------------- 
+!  - |  dt --------------
 !    /0        t
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = dilog(acmplx(xx%c),xx%p)
   rslt = dilog(xx%c,xx%p)
@@ -14547,7 +14547,7 @@ contains
 ! ( li2(xx) - li2(yy) )/(xx-yy)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx,yy
-  complex(kindr2) &   
+  complex(kindr2) &
     :: rslt
 !  rslt = dilog( acmplx(xx%c),xx%p ,acmplx(yy%c),yy%p )
 !  write(*,*) 'li2c2 x:',xx%c,xx%p !DEBUG
@@ -14577,11 +14577,11 @@ contains
 !*******************************************************************
 ! The 1-loop scalar 1-point function.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: amm,rmu2
 !
   rslt(2) = 0
@@ -14603,16 +14603,16 @@ contains
 !   rslt(:,2) = A0000  etc.
 ! For input  rank  only  rslt(:,0:rank/2)  is filled.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:,0:)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: amm,rmu2
   integer ,intent(in) :: rank
-  complex(kindr2) &   
+  complex(kindr2) &
     :: aa
-  real(kindr2) &  
+  real(kindr2) &
     :: bb
   integer :: ii
 !
@@ -14661,15 +14661,15 @@ contains
 
   subroutine bub0( b0 &
                   ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
   integer :: rank
 !
@@ -14713,31 +14713,31 @@ contains
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
   endif
 !
   end subroutine
 
   subroutine bub1( b1,b0 &
                   ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
       return
     endif
   endif
@@ -14745,28 +14745,28 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
+  b1(2) = 0
+  b1(1) =-CONE/2
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
+      b1(0) =-lna/2
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
+      b1(0) =-( lna - bnlog(1,x1) )/2
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
@@ -14777,12 +14777,12 @@ contains
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
+      b1(0) =-( lna*2 + 2 )/4
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
@@ -14791,8 +14791,8 @@ contains
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
     if (switch) then
       x2=m0;m0=m1;m1=x2
       b1(0) =-b0(0)-b1(0)
@@ -14803,26 +14803,26 @@ contains
 
   subroutine bub11( b11,b00,b1,b0 &
                    ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
       return
     endif
   endif
@@ -14830,71 +14830,71 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
+      b1(0) =-lna/2
+      b11(0) = lna/3
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
+  rank = 0
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -14905,28 +14905,28 @@ contains
 
   subroutine bub111( b111,b001,b11,b00,b1,b0 &
                     ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b111(0:2),b001(0:2),b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
-      b001(0)=0 ;b001(1)=0 ;b001(2)=0 
-      b111(0)=0 ;b111(1)=0 ;b111(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
+      b001(0)=0 ;b001(1)=0 ;b001(2)=0
+      b111(0)=0 ;b111(1)=0 ;b111(2)=0
       return
     endif
   endif
@@ -14934,82 +14934,82 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
-  b111(2) = 0      
-  b111(1) =-CONE/4 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
+  b111(2) = 0
+  b111(1) =-CONE/4
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
-      b111(0) =-lna/4 
+      b1(0) =-lna/2
+      b11(0) = lna/3
+      b111(0) =-lna/4
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
-      b111(0) =-( lna - bnlog(3,x1) )/4 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
+      b111(0) =-( lna - bnlog(3,x1) )/4
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
-      b111(0) =-( lna*4 + 2 )/16 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
+      b111(0) =-( lna*4 + 2 )/16
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
-      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
+      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
-    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
+    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
-  rank = 1 
+  rank = 0
+  rank = 1
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -15023,32 +15023,32 @@ contains
 
   subroutine bub1111( b1111,b0011,b0000,b111,b001,b11,b00,b1,b0 &
                     ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b1111(0:2),b0011(0:2),b0000(0:2) &
                    ,b111(0:2),b001(0:2),b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0i,m1i
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
-      b001(0)=0 ;b001(1)=0 ;b001(2)=0 
-      b111(0)=0 ;b111(1)=0 ;b111(2)=0 
-      b0000(0)=0 ;b0000(1)=0 ;b0000(2)=0 
-      b0011(0)=0 ;b0011(1)=0 ;b0011(2)=0 
-      b1111(0)=0 ;b1111(1)=0 ;b1111(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
+      b001(0)=0 ;b001(1)=0 ;b001(2)=0
+      b111(0)=0 ;b111(1)=0 ;b111(2)=0
+      b0000(0)=0 ;b0000(1)=0 ;b0000(2)=0
+      b0011(0)=0 ;b0011(1)=0 ;b0011(2)=0
+      b1111(0)=0 ;b1111(1)=0 ;b1111(2)=0
       return
     endif
   endif
@@ -15056,93 +15056,93 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
-  b111(2) = 0      
-  b111(1) =-CONE/4 
-  b1111(2) = 0      
-  b1111(1) = CONE/5 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
+  b111(2) = 0
+  b111(1) =-CONE/4
+  b1111(2) = 0
+  b1111(1) = CONE/5
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
-      b111(0) =-lna/4 
-      b1111(0) = lna/5 
+      b1(0) =-lna/2
+      b11(0) = lna/3
+      b111(0) =-lna/4
+      b1111(0) = lna/5
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
-      b111(0) =-( lna - bnlog(3,x1) )/4 
-      b1111(0) = ( lna - bnlog(4,x1) )/5 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
+      b111(0) =-( lna - bnlog(3,x1) )/4
+      b1111(0) = ( lna - bnlog(4,x1) )/5
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
-      b111(0) =-( lna*4 + 2 )/16 
-      b1111(0) = ( lna*5 + 2 )/25 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
+      b111(0) =-( lna*4 + 2 )/16
+      b1111(0) = ( lna*5 + 2 )/25
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
-      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16 
-      b1111(0) = ( (lna-bnlog(4,x1))*5 + 1 )/25 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
+      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16
+      b1111(0) = ( (lna-bnlog(4,x1))*5 + 1 )/25
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
-    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4 
-    b1111(0) = ( lna - bnlog(4,x1) - bnlog(4,x2) )/5 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
+    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4
+    b1111(0) = ( lna - bnlog(4,x1) - bnlog(4,x2) )/5
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
-  rank = 1 
-  rank = 2 
+  rank = 0
+  rank = 1
+  rank = 2
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -15169,15 +15169,15 @@ contains
 
   subroutine dbub0( rslt &
                    ,pp,m0,m1 ,app,am0,am1 )
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp,m0,m1
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: app,am0,am1
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ch,x1,x2,lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: ax1,ax2,ax1x2,maxa
   type(qmplx_type) :: q1,q2,q1o,q2o
   integer :: sgn
@@ -15194,7 +15194,7 @@ contains
       rslt = 1/(6*m1)
     else
       ch = m0/m1
-      rslt = ( CONE/2 - ch*olog3(ch,0) )/m1 
+      rslt = ( CONE/2 - ch*olog3(ch,0) )/m1
     endif
   elseif (am1.eq.RZRO) then
     rslt =-1/pp
@@ -15284,14 +15284,14 @@ contains
 ! with  k1^2=m2, k2^2=pp, (k1+k2)^2=m3.
 ! m2,m3 should NOT be identically 0d0.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cm2,cm3,cpp
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q23,qm3,q32
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm2,sm3,k23,r23,d23,cc
 !
    sm2 = mysqrt(cm2)
@@ -15326,16 +15326,16 @@ contains
 !
 ! with  p2=k2^2, p3=(k1+k2)^2.
 ! mm should NOT be identically 0d0,
-! and p2 NOR p3 should be identical to mm. 
+! and p2 NOR p3 should be identical to mm.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp2,cp3,cm3
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q13,q23,qm3,x1,x2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r23
 !
    r13 = cm3-cp3
@@ -15361,16 +15361,16 @@ contains
 !
 ! with  k1^2 = 0 , k2^2 = m3  and  (k1+k2)^2 = p3.
 ! mm should NOT be identically 0d0,
-! and pp should NOT be identical to mm. 
+! and pp should NOT be identical to mm.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cm3
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q13,qm3,qxx
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,logm,z2,z1,z0,cc
 !
    r13 = cm3-cp3
@@ -15378,7 +15378,7 @@ contains
    qm3 = qonv(cm3,-1)
    logm = logc( qm3/rmu2 )
    qxx = qm3/q13
-   z2 = 1 
+   z2 = 1
    z2 = z2/2
    z1 = logc(qxx)
    z0 = PISQo24 + z1*z1/2 - li2c(qxx)
@@ -15399,13 +15399,13 @@ contains
 ! with  k1^2 = (k1+k2)^2 = m3.
 ! mm should NOT be identically 0d0.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cm3
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: zm
 !
    zm = 1/(2*cm3)
@@ -15434,15 +15434,15 @@ contains
 ! IR-singular case is returned.
 !*******************************************************************
    use avh_olo_forCutTools_qp_olog
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp(3)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: ap(3),rmu2
-  real(kindr2) &  
+  real(kindr2) &
      :: pp(3),rp1,rp2,rp3
-  complex(kindr2) &   
+  complex(kindr2) &
      :: log2,log3
    integer :: icase,i1,i2,i3
 !
@@ -15495,14 +15495,14 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p1,p2,p3
    type(qmplx_type) :: q23,q24,q34,qx1,qx2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r23,r24,r34,aa,bb,cc,dd,x1,x2
-  real(kindr2) &  
+  real(kindr2) &
      :: hh
 !
    r23 = -p1
@@ -15542,15 +15542,15 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
-     ,intent(in)  :: p1i,p2i,p3i ,m3i 
+  complex(kindr2) &
+     ,intent(in)  :: p1i,p2i,p3i ,m3i
    type(qmplx_type) :: q23,q24,q34,qm4,qx1,qx2,qss
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p2,p3,p4,p12,p23,m4,sm2,sm3,sm4 &
                      ,aa,bb,cc,dd,x1,x2,r23,r24,r34
-  real(kindr2) &  
+  real(kindr2) &
      :: mhh
    logical :: r24Not0,r34Not0
 !
@@ -15629,12 +15629,12 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p1i,p2i,p3i ,m2i,m3i
    type(qmplx_type) :: q23,q34,q24,qm2,qm3,qm4,qx1,qx2,qss,qy1,qy2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p2,p3,p23,m2,m4,sm2,sm3,sm4,aa,bb,cc,dd,x1,x2 &
                      ,r23,k24,r34,r24,d24
    logical :: r23Not0,r34Not0
@@ -15697,7 +15697,7 @@ contains
 !
    rslt(0) = li2c2( qy1*qm2 ,qy2*qm2 )/r24*sm2
 !
-   if (x2.ne.CZRO) then ! better to put a threshold on cc 
+   if (x2.ne.CZRO) then ! better to put a threshold on cc
      rslt(0) = rslt(0) + ( logc2( qy1/qy2 )*logc( qy1*qy2/(qm2*qm2) ) &
                           -logc2( qx1/qx2 )*logc( qx1*qx2/(qm4*qm4) ) )/(x2*2)
    endif
@@ -15725,15 +15725,15 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p1i,p2i,p3i,m1i,m2i,m3i
    type(qmplx_type) :: q12,q13,q23,qm1,qm2,qm3,qx1,qx2,qz1,qz2,qtt
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p1,p2,p3,m1,m2,m3,sm1,sm2,sm3,aa,bb,cc,dd,x1,x2 &
-                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23 
-  real(kindr2) &  
+                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23
+  real(kindr2) &
      :: h1,h2,h3
 !
    h1 = -aimag(m1i)
@@ -15808,27 +15808,27 @@ contains
 !
    rslt(0) = rslt(0)/(aa*sm1*sm2*sm3)
    end subroutine
-   
+
 
    subroutine trif3HV( rslt ,pp,mm ,ap ,smax ,lam )
 !*******************************************************************
 ! Finite 1-loop scalar 3-point function with all internal masses
 ! non-zero. Based on the fomula of 't Hooft & Veltman
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: pp(3),mm(3)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: ap(3),smax
-  complex(kindr2) &   
+  complex(kindr2) &
      ,optional ,intent(in) :: lam
-  complex(kindr2) &   
+  complex(kindr2) &
      :: p1,p2,p3,m1,m2,m3,slam,yy
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm1,sm2,sm3
    type(qmplx_type) :: qm1,qm2,qm3
-  real(kindr2) &  
+  real(kindr2) &
      :: a12,a23,a31,thrs,a1,a2,a3
 !
 ! Order squared momenta, first one smallest
@@ -15871,7 +15871,7 @@ contains
    m1 = m1 - abs(areal(m1))*IEPS
    m2 = m2 - abs(areal(m2))*IEPS
    m3 = m3 - abs(areal(m3))*IEPS
-!       
+!
    if (a1.gt.thrs) then ! 3 non-zero squared momenta
      if (present(lam)) then ;slam=lam
                        else ;slam=kallen(p1,p2,p3)
@@ -15941,15 +15941,15 @@ contains
 ! function below.
 ! t4  should be  sqrt(lambda(aa,t2,t3))
 !***************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
        ,intent(in) :: aa,s1,s2,t1
-  complex(kindr2) &   
+  complex(kindr2) &
        ,optional,intent(in) :: t2,t3
-  complex(kindr2) &   
+  complex(kindr2) &
        ,optional,intent(inout) :: t4
-  complex(kindr2) &   
+  complex(kindr2) &
        :: rslt ,cc,bb,dd,y0,y1,y2,zz,hh,alpha
-  real(kindr2) &  
+  real(kindr2) &
        :: rez,arez,aimz
      type(qmplx_type) :: q1,q2
 !
@@ -15991,9 +15991,9 @@ contains
 !**************************************************
 ! int( ( ln(a*y+b) - ln(a*y0+b) )/(y-y0) ,y=0..1 )
 !**************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
        ,intent(in) :: aa,bb,y0
-  complex(kindr2) &   
+  complex(kindr2) &
        :: rslt ,y1,hh
      type(qmplx_type) :: q1
      y1 = -bb/aa
@@ -16055,13 +16055,13 @@ contains
 ! with  k1^2=m2, k2^2=p2, k3^2=p3, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p12,p23 ,m2,m3,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp12,cp23,cm2,cm3,cm4,sm1,sm2,sm3,sm4 &
                      ,r13,r23,r24,r34,d23,d24,d34,log24,cc
    type(qmplx_type) :: q13,q23,q24,q34,qss,qy1,qy2,qz1,qz2
@@ -16094,7 +16094,7 @@ contains
    q24 = qonv(r24,-1)
    q34 = qonv(r34,-1)
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box16: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -16134,13 +16134,13 @@ contains
 ! with  k1^2=m2, k2^2=p2, k3^2=p3, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p12,p23 ,m2,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp12,cp23,cm2,cm4,sm1,sm2,sm3,sm4 &
                      ,r13,r23,r24,r34,d24,log24,cc
    type(qmplx_type) :: q13,q23,q24,q34,qss,qz1,qz2
@@ -16168,7 +16168,7 @@ contains
    r34 = (    cm4-cp3 )/(sm3*sm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box15: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -16210,13 +16210,13 @@ contains
 ! with  k1^2=m2, k2^2=m2, k3^2=m4, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp12,cp23,cm2,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm2,sm4,r24,d24,cc
 !
    if (cp12.eq.CZRO) then
@@ -16230,7 +16230,7 @@ contains
    sm4 = mysqrt(cm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box14: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -16258,17 +16258,17 @@ contains
 ! p4 should NOT be identical to m4
 ! p2 should NOT be identical to m3
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p4,p12,p23,m3,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp4,cp12,cp23,cm3,cm4,sm3,sm4,sm1,sm2 &
              ,r13,r14,r23,r24,r34,d34,cc,logd,li2d,loge,li2f,li2b,li2e
    type(qmplx_type) :: q13,q14,q23,q24,q34,qy1,qy2
-  real(kindr2) &  
+  real(kindr2) &
      :: h1,h2
 !
    if (p12.eq.m3) then
@@ -16307,7 +16307,7 @@ contains
    q14 = qonv(r14,-1)
    q23 = qonv(r23,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
    qy1 = q14*q23/q13/q24
    logd = logc2(qy1     )/(r13*r24)
@@ -16341,13 +16341,13 @@ contains
 ! m3,m4 should NOT be indentiallcy 0d0
 ! p4 should NOT be identical to m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cp4,cp12,cp23,cm3,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm3,sm4,sm1,sm2,r13,r14,r24,r34,d34,cc &
                      ,log13,log14,log24,log34,li2f,li2b,li2d
    type(qmplx_type) :: q13,q14,q24,q34,qyy
@@ -16378,12 +16378,12 @@ contains
    q13 = qonv(r13,-1)
    q14 = qonv(r14,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
-   log13 = logc(q13) 
-   log14 = logc(q14) 
-   log24 = logc(q24) 
-   log34 = logc(q34) 
+   log13 = logc(q13)
+   log14 = logc(q14)
+   log24 = logc(q24)
+   log34 = logc(q34)
 !
    qyy = q14/q13
    li2f = li2c(qyy*q34)
@@ -16413,13 +16413,13 @@ contains
 ! with  k1^2=0, k2^2=m3, k3^2=p3, (k1+k2+k3)^2=m4
 ! m3,m4 should NOT be indentiallcy 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cp12,cp23,cm3,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: sm3,sm4,sm1,sm2,r13,r24,r34,d34 &
                      ,cc,log13,log24,log34
 !
@@ -16445,9 +16445,9 @@ contains
    r24 = (cm4-cp23)/(sm2*sm4)
    call rfun( r34,d34 ,(cm3+cm4-cp3 )/(sm3*sm4) )
 !
-   log13 = logc(qonv(r13,-1)) 
-   log24 = logc(qonv(r24,-1)) 
-   log34 = logc(qonv(r34,-1)) 
+   log13 = logc(qonv(r13,-1))
+   log24 = logc(qonv(r24,-1))
+   log34 = logc(qonv(r34,-1))
 !
    rslt(2) = 1
    rslt(1) = -log13-log24
@@ -16472,16 +16472,16 @@ contains
 ! p2 should NOT be identically 0d0
 ! p4 should NOT be identical to m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p4,p12,p23,m4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: cp2,cp3,cp4,cp12,cp23,cm4,r13,r14,r23,r24,r34,z1,z0
    type(qmplx_type) :: q13,q14,q23,q24,q34,qm4,qxx,qx1,qx2
-  real(kindr2) &  
+  real(kindr2) &
      :: h1,h2
 !
    if (p12.eq.CZRO) then
@@ -16552,13 +16552,13 @@ contains
 ! m4 should NOT be identically 0d0
 ! p2 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp2,cp3,cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: logm,log12,log23,li12,li23,z2,z1,z0,cc &
                      ,r13,r23,r24,r34
    type(qmplx_type) :: q13,q23,q24,q34,qm4,qxx
@@ -16618,16 +16618,16 @@ contains
 ! mm should NOT be identically 0d0
 ! p3 NOR p4 should be identically m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp3,cp4,cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q14,q24,q34,qm4,qxx,qx1,qx2,qx3
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r14,r24,r34,z1,z0,cc
-  real(kindr2) &  
+  real(kindr2) &
      :: rmu2
 !
    if (cp12.eq.CZRO) then
@@ -16685,14 +16685,14 @@ contains
 ! m3 should NOT be identically 0d0
 ! p4 should NOT be identically m4
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp4,cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q14,q24,qm4
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r14,r24,logm,log12,log23,log4,li423 &
                      ,z2,z1,z0,cc
 !
@@ -16745,14 +16745,14 @@ contains
 ! with  k1^2=k2^2=0, k3^2=(k1+k2+k3)^2=m4
 ! m3 should NOT be identically 0d0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp12,cp23,cm4
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q24,qm4
-  complex(kindr2) &   
+  complex(kindr2) &
      :: r13,r24,logm,log1,log2,z2,z1,z0,cc
 !
    if (cp12.eq.CZRO) then
@@ -16798,16 +16798,16 @@ contains
 !
 ! with  k1^2=k3^2=0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
-     ,intent(in)  :: p2,p4,p5,p6 
-  real(kindr2) &  
+  complex(kindr2) &
+     ,intent(in)  :: p2,p4,p5,p6
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q2,q4,q5,q6,q26,q54,qy
-  complex(kindr2) &   
+  complex(kindr2) &
      :: logy
-  real(kindr2) &  
+  real(kindr2) &
      :: rmu2
 !
    rmu2 = rmu*rmu
@@ -16840,16 +16840,16 @@ contains
 !
 ! with  k1^2=0
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: p2,p3,p4,p5,p6
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: rmu
    type(qmplx_type) ::q2,q3,q4,q5,q6 ,q25,q64,qy,qz
-  complex(kindr2) &   
+  complex(kindr2) &
      :: logy
-  real(kindr2) &  
+  real(kindr2) &
      :: rmu2
 !
    rmu2 = rmu*rmu
@@ -16894,16 +16894,16 @@ contains
 !*******************************************************************
    use avh_olo_forCutTools_qp_olog
    use avh_olo_forCutTools_qp_dilog
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: cp(6)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: api(6),rmu
-  complex(kindr2) &   
+  complex(kindr2) &
      :: log3,log4,log5,log6,li24,li25,li26 &
                      ,li254,li263
-  real(kindr2) &  
+  real(kindr2) &
      :: rp1,rp2,rp3,rp4,rp5,rp6,pp(6),ap(6),gg,ff,hh,arg,rmu2
    integer :: icase,sf,sgn,i3,i4,i5,i6
    integer ,parameter :: base(4)=(/8,4,2,1/)
@@ -16970,15 +16970,15 @@ contains
      log6 = olog(abs(rp6/rmu2),i6)
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg*( 2 )
@@ -16997,15 +16997,15 @@ contains
      li263 = dilog( abs(rp3/rp6) ,i3-i6 )
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg
@@ -17030,21 +17030,21 @@ contains
    endif
    end subroutine
 
-  
+
   subroutine boxf0( rslt ,p1,p2,p3,p4,p12,p23 )
 !*******************************************************************
 ! Finite 1-loop scalar 4-point function with all internal masses
 ! equal zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qss
-  complex(kindr2) &   
+  complex(kindr2) &
     :: aa,bb,cc,dd,x1,x2,ss,r12,r13,r14,r23,r24,r34
-  real(kindr2) &  
+  real(kindr2) &
     :: hh
 !
   r12 = -p1  !  p1
@@ -17052,7 +17052,7 @@ contains
   r14 = -p4  !  p1+p2+p3
   r23 = -p2  !  p2
   r24 = -p23 !  p2+p3
-  r34 = -p3  !  p3      
+  r34 = -p3  !  p3
 !
   aa = r34*r24
 !
@@ -17101,17 +17101,17 @@ contains
 ! non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23 ,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
-  complex(kindr2) &   
+  complex(kindr2) &
     :: smm,sm4,aa,bb,cc,dd,x1,x2,r12,r13,r14,r23,r24,r34
   logical :: r12zero,r13zero,r14zero
 !
   sm4 = mysqrt(m4)
-  smm = abs(sm4) 
+  smm = abs(sm4)
 !
   r12 = ( m4-p4 -p4 *IEPS )/(smm*sm4)
   r13 = ( m4-p23-p23*IEPS )/(smm*sm4)
@@ -17190,9 +17190,9 @@ contains
 ! masses non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m2,m4
   call boxf2( rslt ,p12,p2,p23,p4,p1,p3 ,m2,m4 )
   end subroutine
@@ -17204,12 +17204,12 @@ contains
 ! masses non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m3,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
-  complex(kindr2) &   
+  complex(kindr2) &
     :: smm,sm3,sm4,aa,bb,cc,dd,x1,x2 &
                     ,r12,r13,r14,r23,r24,r34,d14,k14
   logical :: r12zero,r13zero,r24zero,r34zero
@@ -17297,7 +17297,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r24/r12
     endif
     if (.not.r12zero.and..not.r13zero) then
-      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2 
+      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2
     endif
   endif
 !
@@ -17310,9 +17310,9 @@ contains
 ! Finite 1-loop scalar 4-point function with three internal masses
 ! non-zero.
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: pp(6),mm(4)
   integer :: j
   integer ,parameter :: ip(6)=(/4,5,2,6,3,1/)
@@ -17336,12 +17336,12 @@ contains
 ! non-zero, and m3=0. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34,qy1,qy2
-  complex(kindr2) &   
+  complex(kindr2) &
     :: sm1,sm2,sm3,sm4 ,aa,bb,cc,dd,x1,x2 &
                     ,r12,r13,r14,r23,r24,r34,d12,d14,d24,k12,k14,k24
   logical ::r13zero,r23zero,r34zero
@@ -17423,7 +17423,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r34/r13
     endif
   else
-    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2 
+    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2
   endif
 !
   rslt(0) = -rslt(0)/(aa*sm1*sm2*sm3*sm4)
@@ -17436,17 +17436,17 @@ contains
 ! non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:2) 
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:2)
+  complex(kindr2) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m3,m4
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qy1,qy2,qtt
-  complex(kindr2) &   
+  complex(kindr2) &
     :: sm1,sm2,sm3,sm4 ,aa,bb,cc,dd,x1,x2,tt &
                     ,k12,k13,k14,k23,k24,k34 &
                     ,r12,r13,r14,r23,r24,r34 &
                     ,d12,d13,d14,d23,d24,d34
-  real(kindr2) &  
+  real(kindr2) &
     :: h1,h2
 !
   sm1 = mysqrt(m1)
@@ -17536,20 +17536,20 @@ contains
 ! Finite 1-loop scalar 4-point function for complex internal masses
 ! Based on the formulas from
 !   Dao Thi Nhung and Le Duc Ninh, arXiv:0902.0325 [hep-ph]
-!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979 
+!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979
 !*******************************************************************
    use avh_olo_forCutTools_qp_box ,only: base,casetable,ll=>permtable
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in)  :: pp_in(6),mm_in(4)
-  real(kindr2) &  
+  real(kindr2) &
      ,intent(in)  :: ap_in(6),smax
-  complex(kindr2) &   
+  complex(kindr2) &
      :: pp(6),mm(4)
-  real(kindr2) &  
+  real(kindr2) &
      :: ap(6),aptmp(6),rem,imm,hh
-  complex(kindr2) &   
+  complex(kindr2) &
      :: a,b,c,d,e,f,g,h,j,k,dpe,epk,x1,x2,sdnt,o1,j1,e1 &
        ,dek,dpf,def,dpk,abc,bgj,jph,cph
    integer :: icase,jcase,ii
@@ -17693,9 +17693,9 @@ contains
 !
 ! jj should have negative imaginary part
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: aa,cc,gg,hh ,dd,ee,ff,jj ,dpe,dpj,dpf
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,kk,ll,nn,y1,y2,sdnt
 !
 !
@@ -17721,9 +17721,9 @@ contains
 !
 ! jj should have negative imaginary part
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: aa,cc,gg,hh ,dd,ee,ff,jj,dpe
-  complex(kindr2) &   
+  complex(kindr2) &
      ::rslt ,kk,ll,nn,y1,y2,sdnt
 !
 !
@@ -17747,12 +17747,12 @@ contains
 ! | dx |  dy ------------------------------------------------------
 ! /0   /0    (g*x + h*x + j)*(a*x^2 + b*y^2 + c*xy + d*x + e*y + f)
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: aa,bb,cc ,gin,hin ,dd,ee,ff ,jin ,dpe ,dpf
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,gg,hh,jj,zz(2),beta,tmpa(2),tmpb(2) &
        ,tmpc(2),kiz(2),ll,nn,kk,y1,y2,yy(2,2),sdnt
-  real(kindr2) &  
+  real(kindr2) &
      :: ab1,ab2,ac1,ac2,abab,acac,abac,det,ap1,ap2 &
                   ,apab,apac,x1(2,2),x2(2,2),xmin
    integer :: iz,iy,izmin,sj
@@ -17870,11 +17870,11 @@ contains
 !
 ! y1i,y2i should have a non-zero imaginary part
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) ::  y1i,y2i ,dd,ee ,aa,bb,cin
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,y1,y2,fy1y2,z1,z2,tmp,cc
-  real(kindr2) &  
+  real(kindr2) &
      ::rea,reb,rez1,rez2,imz1,imz2,simc,hh
 !
 !
@@ -17914,7 +17914,7 @@ contains
      call solabc_rcc( z1,z2 ,areal(aa),bb,cc )
      rea  = sgnRe(aa)
      rez1 = areal(z1)
-     rez2 = areal(z2) 
+     rez2 = areal(z2)
      imz1 = aimag(z1) ! sign(Im(a*z1*z2)) = simc
      imz2 = aimag(z2)
      hh = abs(EPSN2*rez1)
@@ -17966,24 +17966,24 @@ contains
 ! where
 !                          /     / 1-y \       / 1-z \ \
 !      R1(y,z) = ln(y-z) * | log |-----| - log |-----| |
-!                          \     \ -y  /       \ -z  / / 
+!                          \     \ -y  /       \ -z  / /
 !
 !                      /    y-z \       /    y-z \
 !                - Li2 |1 - ----| + Li2 |1 - ----|
 !                      \    -z  /       \    1-z /
 !
 !                                     / 1-y1 \       / 1-y2 \
-!                                 log |------| - log |------| 
+!                                 log |------| - log |------|
 ! input fy1y2 should be equal to      \  -y1 /       \  -y2 /
 !                                 ---------------------------
 !                                           y1 - y2
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: y1,y2,zz,fy1y2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,oz
    type(qmplx_type) :: q1z,q2z,qq
-  real(kindr2) &  
+  real(kindr2) &
      :: h12,hz1,hz2,hzz,hoz
    logical :: zzsmall,ozsmall
 !
@@ -18010,9 +18010,9 @@ contains
           - (-logc(q1z*q2z)/2 + logc(qonv((y2-1)/y2)) &
                                     + logc(qonv(-zz)) )*logc2(q1z/q2z)/(y2-zz)
    elseif (h12.le.hz2.and.hz2.le.hz1) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )        
+     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )
    elseif (h12.le.hz1.and.hz1.le.hz2) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )        
+     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )
    else!if(hz1.lt.h12.or.hz2.lt.h12) then ! |y2-z|,|y1-z| < |y1-y2|
      rslt = 0
      if (hz1.ne.RZRO) rslt = rslt + (y1-zz)*logc( q1z )*r0fun( y1,zz )
@@ -18041,16 +18041,16 @@ contains
    function r0fun( y1,y2 ) result(rslt)
 !*******************************************************************
 !      / 1-y1 \       / 1-y2 \
-!  log |------| - log |------| 
+!  log |------| - log |------|
 !      \  -y1 /       \  -y2 /
 !  ---------------------------
 !            y1 - y2
 !
 ! y1,y2 should have non-zero imaginary parts
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: y1,y2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,oy1,oy2
 !
    oy1 = 1-y1
@@ -18063,17 +18063,17 @@ contains
    function plnr( y1,y2 ,p1,p2 ,aa,bb,cc ) result(rslt)
 !*******************************************************************
 !                   /   a    \          /   a    \
-!            p1*log |--------| - p2*log |--------| 
+!            p1*log |--------| - p2*log |--------|
 !                   \ b*y1+c /          \ b*y2+c /
 ! 2*pi*imag* -------------------------------------
 !                           y1 - y2
-! 
-! p1,p2 are logical, to be interpreted as 0,1 in the formula above 
+!
+! p1,p2 are logical, to be interpreted as 0,1 in the formula above
 !*******************************************************************
-  complex(kindr2) &   
+  complex(kindr2) &
      ,intent(in) :: y1,y2 ,aa,bb,cc
    logical         ,intent(in) :: p1,p2
-  complex(kindr2) &   
+  complex(kindr2) &
      :: rslt ,x1,x2,xx
    type(qmplx_type) :: q1,q2
 !
@@ -18126,13 +18126,13 @@ module avh_olo_forCutTools_qp
   public :: olo
   public :: olo_get_scale ,olo_get_onshell ,olo_get_precision
 !
-  integer ,public ,parameter :: olo_kind=kindr2    
+  integer ,public ,parameter :: olo_kind=kindr2
 !
-  real(kindr2) &  
+  real(kindr2) &
          ,save :: onshellthrs
   logical,save :: nonzerothrs = .false.
 !
-  real(kindr2) &  
+  real(kindr2) &
          ,save :: muscale
 !
   character(99) ,parameter :: warnonshell=&
@@ -18143,28 +18143,28 @@ module avh_olo_forCutTools_qp
 !
   interface olo_a0
     module procedure a0_r,a0rr,a0_c,a0cr
-  end interface 
+  end interface
   interface olo_an
     module procedure an_r,anrr,an_c,ancr
-  end interface 
+  end interface
   interface olo_b0
     module procedure b0rr,b0rrr,b0rc,b0rcr,b0cc,b0ccr
-  end interface 
+  end interface
   interface olo_db0
     module procedure db0rr,db0rrr,db0rc,db0rcr,db0cc,db0ccr
-  end interface 
+  end interface
   interface olo_b11
     module procedure b11rr,b11rrr,b11rc,b11rcr,b11cc,b11ccr
-  end interface 
+  end interface
   interface olo_bn
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
-  end interface 
+  end interface
   interface olo_c0
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
-  end interface 
+  end interface
   interface olo_d0
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 !
   interface olo
     module procedure a0_r,a0rr,a0_c,a0cr
@@ -18174,11 +18174,11 @@ module avh_olo_forCutTools_qp
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 
 contains
 
- 
+
   subroutine init( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -18200,8 +18200,8 @@ contains
   if (.not.nonzerothrs) onshellthrs = neglig(prcpar)
 !
   end subroutine
- 
- 
+
+
   recursive subroutine olo_precision( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -18213,7 +18213,7 @@ contains
   if (initz) then
     call init( ndec )
   else
-    call set_precision( newprc )       
+    call set_precision( newprc )
     if (newprc) then
       call update_olog
       call update_dilog
@@ -18223,7 +18223,7 @@ contains
   endif
   end subroutine
 
- 
+
   subroutine olo_unit( val ,message )
 !*******************************************************************
 !*******************************************************************
@@ -18234,8 +18234,8 @@ contains
   else                       ;call set_unit( 'all'   ,val )
   endif
   end subroutine
- 
- 
+
+
   subroutine olo_scale( val )
 !*******************************************************************
 !*******************************************************************
@@ -18243,8 +18243,8 @@ contains
   if (initz) call init
   muscale = convert(val)
   end subroutine
- 
- 
+
+
   subroutine olo_onshell( thrs )
 !*******************************************************************
 !*******************************************************************
@@ -18291,7 +18291,7 @@ contains
   if (present(iunit)) nunit = iunit
   if (nunit.le.0) return
 !
-  write(nunit,*) 'MESSAGE from OneLOop: real kind parameter =',trim(myprint(kindr2)) 
+  write(nunit,*) 'MESSAGE from OneLOop: real kind parameter =',trim(myprint(kindr2))
   write(nunit,*) 'MESSAGE from OneLOop: number of decimals  =',trim(myprint(ndecim(prcpar)))
 !
   if (nonzerothrs) then
@@ -18303,12 +18303,12 @@ contains
   write(nunit,*) 'MESSAGE from OneLOop: default scale (mu, not mu^2) =',trim(myprint(muscale,12))
 !
   end subroutine
- 
- 
+
+
 !*******************************************************************
 !
 !           C   / d^(Dim)q
-! rslt = ------ | -------- 
+! rslt = ------ | --------
 !        i*pi^2 / (q^2-mm)
 !
 ! with  Dim = 4-2*eps
@@ -18327,20 +18327,20 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -18371,22 +18371,22 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -18417,20 +18417,20 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: mm
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -18461,22 +18461,22 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadp
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -18508,22 +18508,22 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: mm
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -18556,24 +18556,24 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -18606,22 +18606,22 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: mm
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -18654,24 +18654,24 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: tadpn
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: mm
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss
-  real(kindr2) &  
+  real(kindr2) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -18723,16 +18723,16 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -18767,7 +18767,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -18801,18 +18801,18 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -18847,7 +18847,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -18881,16 +18881,16 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -18919,7 +18919,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -18953,18 +18953,18 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -18993,7 +18993,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19027,16 +19027,16 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -19050,7 +19050,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19084,18 +19084,18 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -19109,7 +19109,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19147,16 +19147,16 @@ contains
   use avh_olo_forCutTools_qp_bub ,only: dbub0
   use avh_olo_forCutTools_qp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -19191,7 +19191,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19240,18 +19240,18 @@ contains
   use avh_olo_forCutTools_qp_bub ,only: dbub0
   use avh_olo_forCutTools_qp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -19286,7 +19286,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19335,16 +19335,16 @@ contains
   use avh_olo_forCutTools_qp_bub ,only: dbub0
   use avh_olo_forCutTools_qp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -19373,7 +19373,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19422,18 +19422,18 @@ contains
   use avh_olo_forCutTools_qp_bub ,only: dbub0
   use avh_olo_forCutTools_qp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -19462,7 +19462,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19511,16 +19511,16 @@ contains
   use avh_olo_forCutTools_qp_bub ,only: dbub0
   use avh_olo_forCutTools_qp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -19534,7 +19534,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19583,18 +19583,18 @@ contains
   use avh_olo_forCutTools_qp_bub ,only: dbub0
   use avh_olo_forCutTools_qp_olog ,only: olog
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2,ch
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -19608,7 +19608,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19677,16 +19677,16 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -19721,7 +19721,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19764,18 +19764,18 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -19810,7 +19810,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19853,16 +19853,16 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -19891,7 +19891,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -19934,18 +19934,18 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -19974,7 +19974,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20017,16 +20017,16 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -20040,7 +20040,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20083,18 +20083,18 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub11
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -20108,7 +20108,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20152,17 +20152,17 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -20197,7 +20197,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20282,19 +20282,19 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  complex(kindr2) &   
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  complex(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -20329,7 +20329,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20414,17 +20414,17 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -20453,7 +20453,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20538,19 +20538,19 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -20579,7 +20579,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20664,17 +20664,17 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -20688,7 +20688,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20773,19 +20773,19 @@ contains
 !
   use avh_olo_forCutTools_qp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  complex(kindr2) &   
-    ,intent(out) :: rslt(0:,0:)   
-  real(kindr2) &  
+  complex(kindr2) &
+    ,intent(out) :: rslt(0:,0:)
+  real(kindr2) &
     ,intent(in)  :: pp
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2
-  real(kindr2) &  
-   ,intent(in)  :: rmu       
+  real(kindr2) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss,r1,r2
-  real(kindr2) &  
+  real(kindr2) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -20799,7 +20799,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -20904,22 +20904,22 @@ contains
   use avh_olo_forCutTools_qp_tri
   use avh_olo_forCutTools_qp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -20956,7 +20956,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -21066,24 +21066,24 @@ contains
   use avh_olo_forCutTools_qp_tri
   use avh_olo_forCutTools_qp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -21120,7 +21120,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -21230,22 +21230,22 @@ contains
   use avh_olo_forCutTools_qp_tri
   use avh_olo_forCutTools_qp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -21276,7 +21276,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -21386,24 +21386,24 @@ contains
   use avh_olo_forCutTools_qp_tri
   use avh_olo_forCutTools_qp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -21434,7 +21434,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -21544,22 +21544,22 @@ contains
   use avh_olo_forCutTools_qp_tri
   use avh_olo_forCutTools_qp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -21583,7 +21583,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -21693,24 +21693,24 @@ contains
   use avh_olo_forCutTools_qp_tri
   use avh_olo_forCutTools_qp_auxfun ,only: kallen
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(3)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(3)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(3),rr(3),lambda
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -21734,7 +21734,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -21852,8 +21852,8 @@ contains
 !         C = pi^eps * mu^(2*eps)
 !             * GAMMA(1-2*eps)/GAMMA(1-eps)^2/GAMMA(1+eps)
 !
-! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2, 
-!         p12=(k1+k2)^2, p23=(k2+k3)^2, 
+! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2,
+!         p12=(k1+k2)^2, p23=(k2+k3)^2,
 !         m1,m2,m3,m4=squared masses
 ! output: rslt(0) = eps^0   -coefficient
 !         rslt(1) = eps^(-1)-coefficient
@@ -21867,22 +21867,22 @@ contains
   use avh_olo_forCutTools_qp_box
   use avh_olo_forCutTools_qp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -21935,7 +21935,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -22140,24 +22140,24 @@ contains
   use avh_olo_forCutTools_qp_box
   use avh_olo_forCutTools_qp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -22210,7 +22210,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -22415,22 +22415,22 @@ contains
   use avh_olo_forCutTools_qp_box
   use avh_olo_forCutTools_qp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -22477,7 +22477,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -22682,24 +22682,24 @@ contains
   use avh_olo_forCutTools_qp_box
   use avh_olo_forCutTools_qp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -22746,7 +22746,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -22951,22 +22951,22 @@ contains
   use avh_olo_forCutTools_qp_box
   use avh_olo_forCutTools_qp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -23006,7 +23006,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -23211,24 +23211,24 @@ contains
   use avh_olo_forCutTools_qp_box
   use avh_olo_forCutTools_qp_boxc
 !
-  complex(kindr2) &   
+  complex(kindr2) &
     ,intent(out) :: rslt(0:2)
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  real(kindr2) &  
+  real(kindr2) &
     ,intent(in)  :: m1,m2,m3,m4
-  real(kindr2) &  
-    ,intent(in)  :: rmu      
+  real(kindr2) &
+    ,intent(in)  :: rmu
 !
-  real(kindr2) &  
+  real(kindr2) &
     :: pp(6)
-  real(kindr2) &  
+  real(kindr2) &
     :: mm(4)
-  complex(kindr2) &   
+  complex(kindr2) &
     :: ss(6),rr(4)
-  real(kindr2) &  
+  real(kindr2) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  real(kindr2) &  
+  real(kindr2) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -23268,7 +23268,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -23474,7 +23474,7 @@ end module
 
 module avh_olo_forCutTools_mp_arrays
   use avh_olo_forCutTools_units
-  use mpmodule     
+  use mpmodule
   implicit none
   private
   public :: shift1,shift2,shift3,resize,enlarge
@@ -23504,10 +23504,10 @@ module avh_olo_forCutTools_mp_arrays
 contains
 
   subroutine shift1_r( xx ,nn )
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: nn
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable :: tt(:)
   integer ,parameter :: dm=1
   integer :: lb(dm),ub(dm)
@@ -23548,10 +23548,10 @@ contains
   end subroutine
 
   subroutine shift2_r( xx ,nn )
-  type(mp_real) & 
+  type(mp_real) &
           ,allocatable ,intent(inout) :: xx(:,:)
   integer              ,intent(in   ) :: nn
-  type(mp_real) & 
+  type(mp_real) &
           ,allocatable :: tt(:,:)
   integer ,parameter :: dm=2
   integer :: lb(dm),ub(dm)
@@ -23592,10 +23592,10 @@ contains
   end subroutine
 
   subroutine shift3_r( xx ,nn )
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable ,intent(inout) :: xx(:,:,:)
   integer        ,intent(in   ) :: nn
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable :: tt(:,:,:)
   integer ,parameter :: dm=3
   integer :: lb(dm),ub(dm)
@@ -23635,12 +23635,12 @@ contains
   deallocate(tt)
   end subroutine
 
- 
+
   subroutine resize1_r( xx ,l1,u1 )
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: l1,u1
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable :: tt(:)
   integer :: lb(1),ub(1)
   if (.not.allocated(xx)) then
@@ -23655,13 +23655,13 @@ contains
   lb(1)=max(l1,lb(1)) ;ub(1)=min(u1,ub(1))
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine resize2_r( xx ,l1,u1 ,l2,u2 )
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable ,intent(inout) :: xx(:,:)
   integer        ,intent(in   ) :: l1,u1,l2,u2
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable :: tt(:,:)
   integer :: lb(2),ub(2)
   if (.not.allocated(xx)) then
@@ -23678,14 +23678,14 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 
   subroutine enlarge1_r( xx ,l1,u1 )
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable ,intent(inout) :: xx(:)
   integer        ,intent(in   ) :: l1,u1
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable :: tt(:)
   integer :: lb(1),ub(1)
   if (.not.allocated(xx)) then
@@ -23705,13 +23705,13 @@ contains
   allocate( xx(min(l1,lb(1)):max(u1,ub(1))) )
   xx(lb(1):ub(1)) = tt(lb(1):ub(1))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
   subroutine enlarge2_r( xx ,l1,u1 ,l2,u2 )
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable ,intent(inout) :: xx(:,:)
   integer        ,intent(in   ) :: l1,u1,l2,u2
-  type(mp_real) & 
+  type(mp_real) &
     ,allocatable :: tt(:,:)
   integer :: lb(2),ub(2)
   if (.not.allocated(xx)) then
@@ -23735,7 +23735,7 @@ contains
   xx(lb(1):ub(1),lb(2):ub(2)) = &
   tt(lb(1):ub(1),lb(2):ub(2))
   deallocate(tt)
-  end subroutine 
+  end subroutine
 
 end module
 
@@ -23770,37 +23770,37 @@ contains
   use avh_olo_forCutTools_units
   use avh_olo_forCutTools_mp_arrays
   logical ,intent(out) :: newprc
-  integer ,intent(in) :: ndec                     
-  integer :: i0,i1,ii                             
-  if (allocated(ndecim)) then                     
-    i0 = 0                                        
-    i1 = 1+ubound(ndecim,1)                       
-    do ;if (i0+1.eq.i1) exit                      
-      ii = (i0+i1)/2                              
-      if     (ndecim(ii).gt.ndec) then            
-        i1 = ii                                   
-      elseif (ndecim(ii).lt.ndec) then            
-        i0 = ii                                   
-      else                                        
-        exit                                      
-      endif                                       
-    enddo                                         
+  integer ,intent(in) :: ndec
+  integer :: i0,i1,ii
+  if (allocated(ndecim)) then
+    i0 = 0
+    i1 = 1+ubound(ndecim,1)
+    do ;if (i0+1.eq.i1) exit
+      ii = (i0+i1)/2
+      if     (ndecim(ii).gt.ndec) then
+        i1 = ii
+      elseif (ndecim(ii).lt.ndec) then
+        i0 = ii
+      else
+        exit
+      endif
+    enddo
     newprc = (ndecim(ii).ne.ndec)
     if (newprc) then
-      prcpar = i0+1                              
-      call shift1( ndecim ,prcpar )               
-      call shift1( epsilo ,prcpar )               
-      call shift1( neglig ,prcpar )               
-      call set_epsn          
-    else           
+      prcpar = i0+1
+      call shift1( ndecim ,prcpar )
+      call shift1( epsilo ,prcpar )
+      call shift1( neglig ,prcpar )
+      call set_epsn
+    else
       prcpar = ii
-      EPSN = epsilo(prcpar)                       
-    endif                                         
-  else                                            
-    allocate(ndecim(1:1),epsilo(1:1),neglig(1:1)) 
-    call set_epsn            
-    newprc = .true.                               
-  endif                                           
+      EPSN = epsilo(prcpar)
+    endif
+  else
+    allocate(ndecim(1:1),epsilo(1:1),neglig(1:1))
+    call set_epsn
+    newprc = .true.
+  endif
   if (prcpar.eq.ubound(ndecim,1)) then
     RZRO=0
     RONE=1
@@ -23820,11 +23820,11 @@ contains
   subroutine set_epsn
   type(mp_real) &
     :: ten
-  ten = 10                                       
-  EPSN = ten**(-ndec)                            
-  ndecim(prcpar) = ndec                         
-  epsilo(prcpar) = EPSN                         
-  neglig(prcpar) = EPSN*ten**(ndec/7)            
+  ten = 10
+  EPSN = ten**(-ndec)
+  ndecim(prcpar) = ndec
+  epsilo(prcpar) = EPSN
+  neglig(prcpar) = EPSN*ten**(ndec/7)
   end subroutine
 !
   end subroutine
@@ -23869,7 +23869,7 @@ contains
     :: rslt
   rslt = xx
   end function
-  
+
   function acmplx_rr(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn two reals into one complex
@@ -23880,7 +23880,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_ri(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn a real and an integer into one complex
@@ -23892,7 +23892,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_ir(xx,yy) result(rslt)
 !***********************************************************************
 ! Turn an integer and a real into one complex
@@ -23904,7 +23904,7 @@ contains
     :: rslt
   rslt = xx + yy*IMAG
   end function
-  
+
   function acmplx_c(zz) result(rslt)
 !***********************************************************************
 ! Replaces the real part of zz by its absolute value
@@ -23920,7 +23920,7 @@ contains
   yy = aimag(zz)
   rslt = xx + yy*IMAG
   end function
-  
+
 end module
 
 
@@ -23940,7 +23940,7 @@ module avh_olo_forCutTools_mp_print
 contains
 
   function printc( zz ,ndec ) result(rslt)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: zz
   integer,optional,intent(in) :: ndec
   character((ndecim(prcpar)+nxtr+novh)*2+3) :: rslt
@@ -23957,14 +23957,14 @@ contains
   end function
 
   function printr( xx_in ,ndec_in ) result(rslt)
-  type(mp_real) & 
+  type(mp_real) &
                   ,intent(in) :: xx_in
   integer,optional,intent(in) :: ndec_in
   character(ndecim(prcpar)+nxtr+novh  ) :: rslt
   character(ndecim(prcpar)+nxtr+novh+1) :: cc
   character(10) :: aa,bb
   integer :: ndec
-  real(kind(1d0)) :: xx 
+  real(kind(1d0)) :: xx
   xx = xx_in
   if (present(ndec_in)) then ;ndec=ndec_in
                         else ;ndec=ndecim(prcpar)+nxtr
@@ -23987,7 +23987,7 @@ contains
   aa = '(i'//trim(aa)//')'
   write(cc,aa) ii ;cc=adjustl(cc)
   if (cc(1:1).ne.'-') then ;rslt=' '//cc
-  else                     ;rslt=cc 
+  else                     ;rslt=cc
   endif
   end function
 
@@ -24033,11 +24033,11 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! negative imaginary.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: xx
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,zz
-  type(mp_real) & 
+  type(mp_real) &
     :: xim,xre
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -24059,13 +24059,13 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! imaginary and has the same sign as  sgn .
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: xx
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: sgn
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,zz
-  type(mp_real) & 
+  type(mp_real) &
     :: xim,xre
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -24087,12 +24087,12 @@ contains
 ! If  Im(xx)  is equal zero and  Re(xx)  is negative, the result is
 ! imaginary and has the same sign as  sgn .
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: xx
   integer ,intent(in) :: sgn
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,zz
-  type(mp_real) & 
+  type(mp_real) &
     :: xim,xre,hh
   xim = aimag(xx)
   if (xim.eq.RZRO) then
@@ -24116,16 +24116,16 @@ contains
 ! Also returns  dd = aa*(x1-x2)
 ! If  imode=/=0  it uses  dd  as input as value of  sqrt(b^2-4*a*c)
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out)   :: x1,x2
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(inout) :: dd
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: aa,bb,cc
   integer         ,intent(in) :: imode
-  type(mp_complex) &  
+  type(mp_complex) &
     :: qq,hh
-  type(mp_real) & 
+  type(mp_real) &
     :: r1,r2
 
   if (aa.eq.CZRO) then
@@ -24168,9 +24168,9 @@ contains
 !*******************************************************************
   intent(out) :: x1,x2
   intent(in ) :: aa,bb,cc
-  type(mp_complex) &  
+  type(mp_complex) &
     :: x1,x2,bb,cc ,t1,t2
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,xx,yy,pp,qq,uu,vv,pq1,pq2,uv1,uv2,dd,xd1,xd2,yd1,yd2 &
       ,gg,hh,rx1,rx2,ix1,ix2
   if (aa.eq.RZRO) then
@@ -24236,13 +24236,13 @@ contains
 ! If  Im(rr)  is zero, then  |rr| > 1/|rr| .
 ! Also returns  dd = rr - 1/rr .
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rr,dd
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: qq
-  type(mp_complex) &  
+  type(mp_complex) &
     :: r2
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,bb
   integer :: ir,ik
   dd = sqrt(qq*qq-4)
@@ -24279,15 +24279,15 @@ contains
 !*******************************************************************
 ! Like rfun, but now  dd  is input, which may get a minus sign
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out)   :: rr
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(inout) :: dd
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: qq
-  type(mp_complex) &  
+  type(mp_complex) &
     :: r2
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,bb
   integer :: ir,ik
   rr = qq+dd
@@ -24327,13 +24327,13 @@ contains
 !   - theta( Im(a))*theta( Im(b))*theta(-Im(c))
 ! where a,b,c are interpreted as a+i|eps|sa, b+i|eps|sb, c+i|eps|sc
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: aa,bb,cc
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: sa,sb,sc
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: ima,imb,imc
   ima = aimag(aa)
   imb = aimag(bb)
@@ -24358,11 +24358,11 @@ contains
 !   - theta( Im(a))*theta( Im(b))*theta(-Im(c))
 ! where a,b,c are interpreted as a+i|eps|sa, b+i|eps|sb, c+i|eps|sc
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: aa,bb,cc
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: ima,imb,imc
   ima = sgnIm(aa)
   imb = sgnIm(bb)
@@ -24378,11 +24378,11 @@ contains
 !*******************************************************************
 ! eta3(aa,b1,c1) - eta3(aa,b2,c2)
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: aa,b1,c1 ,b2,c2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: imaa,imb1,imc1,imb2,imc2
   imaa = sgnIm(aa)
   imb1 = sgnIm(b1)
@@ -24415,13 +24415,13 @@ contains
 ! The same as  eta3, but with  c=a*b, so that
 !   eta(a,b) = log(a*b) - log(a) - log(b)
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: aa,bb
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: sa,sb
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: rea,reb,ima,imb,imab
   rea = areal(aa)  ;ima = aimag(aa)
   reb = areal(bb)  ;imb = aimag(bb)
@@ -24438,15 +24438,15 @@ contains
     rslt = 0
   endif
   end function
- 
+
   function eta2_0( aa ,bb ) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: aa,bb
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: rea,reb,ima,imb,imab
   rea = areal(aa)  ;ima = aimag(aa)
   reb = areal(bb)  ;imb = aimag(bb)
@@ -24461,18 +24461,18 @@ contains
   else
     rslt = 0
   endif
-  end function 
+  end function
 
 
   function kallen( p1,p2,p3 ) result(rslt)
 !*******************************************************************
 !  p1^2 + p2^2 + p3^2 - 2*p1*p2 - 2*p2*p3 - 2*p3*p1
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: p1,p2,p3
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,y1,y2,y3
-  type(mp_real) & 
+  type(mp_real) &
     :: b1,b2,b3
   y1=p2*p3 ;b1=areal(y1)
   y2=p3*p1 ;b2=areal(y2)
@@ -24490,10 +24490,10 @@ contains
   function sgnIm_c(zz) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: zz
   integer :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: imz
   imz = aimag(zz)
   if (imz.ge.RZRO) then ;rslt= 1
@@ -24504,11 +24504,11 @@ contains
   function sgnIm_ci(zz,ii) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: zz
   integer ,intent(in) :: ii
   integer :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: imz
   imz = aimag(zz)
   if     (imz.gt.RZRO) then ;rslt= 1
@@ -24520,10 +24520,10 @@ contains
   function sgnRe_c(zz) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: zz
   integer :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: rez
   rez = zz
   if (rez.ge.RZRO) then ;rslt= 1
@@ -24534,7 +24534,7 @@ contains
   function sgnRe_r(rez) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: rez
   integer :: rslt
   if (rez.ge.RZRO) then ;rslt= 1
@@ -24545,7 +24545,7 @@ contains
   function sgnRe_ri(rez,ii) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: rez
   integer ,intent(in) :: ii
   integer :: rslt
@@ -24561,7 +24561,7 @@ end module
 module avh_olo_forCutTools_mp_olog
 !***********************************************************************
 ! Provides the functions
-!   olog(x,n) = log(x) + n*pi*imag  
+!   olog(x,n) = log(x) + n*pi*imag
 !   olog1(x,n) = olog(x,n)/(x-1)
 !   olog2(x,n) = ( olog1(x,n) - 1 )/(x-1)
 !   olog3(x,n) = ( olog2(x,n) + 1/2 )/(x-1)
@@ -24576,7 +24576,7 @@ module avh_olo_forCutTools_mp_olog
   private
   public :: update_olog,olog,olog1,olog2,olog3
 
-  type(mp_real) & 
+  type(mp_real) &
          ,allocatable,save :: thrs(:,:)
   integer,allocatable,save :: ntrm(:,:)
   integer,parameter :: nStp=6
@@ -24600,7 +24600,7 @@ contains
 !***********************************************************************
 !***********************************************************************
   use avh_olo_forCutTools_mp_arrays
-  type(mp_real) & 
+  type(mp_real) &
     :: tt
   integer :: nn,mm,ii,jj
 !  real(kind(1d0)) :: xx(6) !DEBUG
@@ -24635,7 +24635,7 @@ contains
     if (ntrm(ii,prcpar).le.1) then
       do jj=1,ii
         ntrm(jj,prcpar) = ntrm(ii,prcpar)
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif
@@ -24657,12 +24657,12 @@ contains
   function log_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,yy,zz,z2
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,rex,imx
   integer :: nn,ii,iyy
 !
@@ -24704,7 +24704,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = 2 * ( z + z^3/3 + z^5/5 + z^7/7 + ... )  
+! rslt = 2 * ( z + z^3/3 + z^5/5 + z^7/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -24720,12 +24720,12 @@ contains
   function log_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: rr
   integer :: jj
 !
@@ -24745,12 +24745,12 @@ contains
   function log1_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,yy,zz,z2
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -24788,7 +24788,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = 2/(y+1) * ( 1 + z^2/3 + z^4/5 + z^6/7 + ... )  
+! rslt = 2/(y+1) * ( 1 + z^2/3 + z^4/5 + z^6/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -24804,12 +24804,12 @@ contains
   function log1_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: rr,yy
   integer :: jj
 !  include 'avh_olo_mp_real.h90'
@@ -24843,10 +24843,10 @@ contains
   function log2_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
   rslt = log2_c(xx*CONE,iph)
   end function
@@ -24855,12 +24855,12 @@ contains
   function log2_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,yy,zz,z2
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -24896,7 +24896,7 @@ contains
                                 else ;nn=ntrm(1,prcpar)
   endif
 ! convergence acceleration using  z=(y-1)/(y+1)
-! rslt = -1/(y+1) + 2/(y+1)^2 * ( z/3 + z^3/5 + z^5/7 + ... )  
+! rslt = -1/(y+1) + 2/(y+1)^2 * ( z/3 + z^3/5 + z^5/7 + ... )
   zz = zz/(yy+1)
   z2 = zz*zz
   aa = 2
@@ -24912,10 +24912,10 @@ contains
   function log3_r(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
   rslt = log3_c(xx*CONE,iph)
   end function
@@ -24924,12 +24924,12 @@ contains
   function log3_c(xx,iph) result(rslt)
 !***********************************************************************
 !***********************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,yy,zz,z2,HLF
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,rex,imx
   integer :: nn,ii,jj
 !
@@ -24987,7 +24987,7 @@ end module
 module avh_olo_forCutTools_mp_dilog
 !***********************************************************************
 !                     /1    ln(1-zz*t)
-!   dilog(xx,iph) = - |  dt ---------- 
+!   dilog(xx,iph) = - |  dt ----------
 !                     /0        t
 ! with  zz = 1 - xx*exp(imag*pi*iph)  [pi, NOT 2*pi]
 !
@@ -25005,14 +25005,14 @@ module avh_olo_forCutTools_mp_dilog
   private
   public :: update_dilog,dilog
 
-  type(mp_real) & 
+  type(mp_real) &
          ,allocatable,save :: coeff(:)
-  type(mp_real) & 
+  type(mp_real) &
          ,allocatable,save :: thrs(:,:)
   integer,allocatable,save :: ntrm(:,:)
   integer,parameter :: nStp=6
 
-  type(mp_real) & 
+  type(mp_real) &
          ,allocatable :: bern(:),fact(:)
 
   interface dilog
@@ -25024,7 +25024,7 @@ contains
   subroutine update_dilog
 !***********************************************************************
 !***********************************************************************
-  type(mp_real) & 
+  type(mp_real) &
     :: tt
   integer :: nn,ii,jj
   logical :: highestSoFar
@@ -25071,7 +25071,7 @@ contains
     if (ntrm(ii,prcpar).le.2) then
       do jj=1,ii
         ntrm(jj,prcpar) = max(2,ntrm(ii,prcpar))
-        thrs(jj,prcpar) = 0 
+        thrs(jj,prcpar) = 0
       enddo
       exit
     endif
@@ -25140,12 +25140,12 @@ contains
   function dilog_c(xx,iph) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,yy,lyy,loy,zz,z2
-  type(mp_real) & 
+  type(mp_real) &
     :: rex,imx,az
   integer :: ii,jj,ntwo,odd,nn
   logical :: r_gt_1 , y_lt_h
@@ -25168,7 +25168,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   r_gt_1 = (rex*rex+imx*imx.gt.RONE)
   lyy = log(yy)
   if (odd.ne.0) yy = -yy
@@ -25187,7 +25187,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -25216,12 +25216,12 @@ contains
   function dilog_r(xx,iph) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: xx
   integer ,intent(in) :: iph
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: yy,lyy,loy,zz,z2,liox,az
   integer :: jj,ii,ntwo,odd,nn
   logical :: r_gt_1 , y_lt_h
@@ -25235,7 +25235,7 @@ contains
 !
   odd = mod(jj,2)
   ntwo = jj-odd
-! 
+!
   if (yy.eq.RONE.and.odd.eq.0) then
     if (ntwo.ne.0) then
       if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop dilog_r: ' &
@@ -25265,7 +25265,7 @@ contains
   endif
 !
   az = abs(zz)
-! if (az.gt.thrs(6,prcpar)) ERROR az to big 
+! if (az.gt.thrs(6,prcpar)) ERROR az to big
   if     (az.ge.thrs(5,prcpar)) then ;nn=ntrm(6,prcpar)
   elseif (az.ge.thrs(4,prcpar)) then ;nn=ntrm(5,prcpar)
   elseif (az.ge.thrs(3,prcpar)) then ;nn=ntrm(4,prcpar)
@@ -25296,12 +25296,12 @@ contains
 !*******************************************************************
 !*******************************************************************
   use avh_olo_forCutTools_mp_olog
-  type(mp_complex) &  
+  type(mp_complex) &
           ,intent(in) :: x1,x2
   integer ,intent(in) :: i1,i2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt ,y1,y2 ,ff,gg,logr1,logr2,logo1,logo2,r1,r2,rr
-  type(mp_real) & 
+  type(mp_real) &
     :: eps ,re1,im1,re2,im2,a1,a2,aa,ao1,ao2
   integer :: j1,j2,ii,nn,oo
   integer,parameter :: pp(-1:1,-1:1)=&
@@ -25450,14 +25450,14 @@ contains
 !*******************************************************************
 !*******************************************************************
   use avh_olo_forCutTools_mp_olog
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: x1,x2
   integer ,intent(in) :: i1,i2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: y1,y2 ,ff,gg,logr1,logr2,logo1,logo2
-  type(mp_real) & 
+  type(mp_real) &
     :: eps,r1,r2,rr,ro1,ro2
   integer :: j1,j2,ii,nn,oo
 !
@@ -25585,11 +25585,11 @@ contains
 ! ( f(z1)-f(z2) )/( z1-z2 ), where
 ! f(z)= z + c0*z^2 + c1*z^3 + c2*z^5 + c3*z^7 + ...
 !***********************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: z1,z2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt,yy,zz
-  type(mp_real) & 
+  type(mp_real) &
     :: az
   integer :: ii,nn
   az = max(abs(z1),abs(z2))
@@ -25620,7 +25620,7 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 
   function sumterms_r( z1,z2 ) result(rslt)
@@ -25628,11 +25628,11 @@ contains
 ! ( f(z1)-f(z2) )/( z1-z2 ), where
 ! f(z)= z + c0*z^2 + c1*z^3 + c2*z^5 + c3*z^7 + ...
 !***********************************************************************
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: z1,z2
-  type(mp_real) & 
+  type(mp_real) &
     :: rslt,yy,zz
-  type(mp_real) & 
+  type(mp_real) &
     :: az
   integer :: ii,nn
   az = max(abs(z1),abs(z2))
@@ -25656,16 +25656,16 @@ contains
     yy = z2*yy
     zz = z1*zz+yy
   enddo
-  end function  
+  end function
 
 end module
 
 
 module avh_olo_forCutTools_mp_bnlog
 !***********************************************************************
-!                      /1    
-!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x) 
-!                      /0 
+!                      /1
+!   bnlog(n,x) = (n+1) |  dt t^n ln(1-t/x)
+!                      /0
 !***********************************************************************
   use avh_olo_forCutTools_units
   use avh_olo_forCutTools_mp_prec
@@ -25677,9 +25677,9 @@ module avh_olo_forCutTools_mp_bnlog
   private
   public :: update_bnlog,bnlog
 
-  type(mp_real) & 
+  type(mp_real) &
          ,allocatable,save :: coeff(:,:)
-  type(mp_real) & 
+  type(mp_real) &
          ,allocatable,save :: thrs(:,:,:)
   integer,allocatable,save :: ntrm(:,:,:)
   integer,parameter :: nStp=6
@@ -25702,7 +25702,7 @@ contains
   subroutine update_bnlog
 !***********************************************************************
 !***********************************************************************
-  type(mp_real) & 
+  type(mp_real) &
     :: tt
   integer :: nn,ii,jj,n1,nmax,irank
   logical :: highestSoFar
@@ -25736,7 +25736,7 @@ contains
     if (prcpar.gt.1) then ;nn=ntrm(nStp,irank,prcpar-1)-1
                      else ;nn=n1
     endif
-!  
+!
     do
       nn = nn+1
       if (highestSoFar.and.nn.gt.ubound(coeff,1)) call update_coeff( 2*nn )
@@ -25746,7 +25746,7 @@ contains
     enddo
 !
     if (nn.gt.nmax) nmax=nn
-!  
+!
     ntrm(nStp,irank,prcpar) = nn
     thrs(nStp,irank,prcpar) = tt
     nn = max(1,nint(nn*1d0/nStp))
@@ -25755,7 +25755,7 @@ contains
       if (ntrm(ii,irank,prcpar).le.n1) then
         do jj=1,ii
           ntrm(jj,irank,prcpar) = max(n1,ntrm(ii,irank,prcpar))
-          thrs(jj,irank,prcpar) = 0 
+          thrs(jj,irank,prcpar) = 0
         enddo
         exit
       endif
@@ -25764,9 +25764,9 @@ contains
       tt = (EPSN*abs(coeff(n1,irank)/coeff(jj,irank)))**(tt/(jj-n1))
       thrs(ii,irank,prcpar) = tt
     enddo
-!  
+!
   enddo!irank=1,nrank
-!  
+!
   if (highestSoFar) call resize( coeff ,2,nmax ,0,rank )
 !
 !  do ii=lbound(thrs,3),ubound(thrs,3)        !DEBUG
@@ -25789,7 +25789,7 @@ contains
 !*******************************************************************
   integer ,intent(in) :: ncf
   integer :: ii,jj
-  type(mp_real) & 
+  type(mp_real) &
     :: fact,tt(rank)
 !
   call enlarge( coeff ,2,ncf ,0,rank )
@@ -25825,11 +25825,11 @@ contains
 !*******************************************************************
 !*******************************************************************
   integer ,intent(in) :: irank
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: xx
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt,yy,omx
-  type(mp_real) & 
+  type(mp_real) &
     :: aa,rex,imx
   integer :: ii,nn
 !
@@ -25899,12 +25899,12 @@ contains
 !*******************************************************************
 !*******************************************************************
   integer ,intent(in) :: irank
-  type(mp_real) & 
+  type(mp_real) &
           ,intent(in) :: xx
   integer ,intent(in) :: sgn
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: yy,aa,omx
   integer :: ii,nn
   logical :: y_lt_0
@@ -25925,7 +25925,7 @@ contains
 !
   yy = 1-1/xx
   y_lt_0 = (yy.lt.RZRO)
-  if (y_lt_0) then 
+  if (y_lt_0) then
     yy = log(-yy)
     aa = sqrt(yy*yy+ONEPI*ONEPI)
   else
@@ -25972,7 +25972,7 @@ contains
   enddo
   rslt = -(irank+1)*aa*yy*(yy*xx)**(irank+1)
   if (y_lt_0) rslt = rslt + sgn*omx*IPI
-!  
+!
   end function
 
 end module
@@ -25991,7 +25991,7 @@ module avh_olo_forCutTools_mp_qmplx
   public :: operator (*) ,operator (/)
 
   type :: qmplx_type
-  type(mp_complex) &  
+  type(mp_complex) &
           :: c
   integer :: p
   end type
@@ -26017,12 +26017,12 @@ contains
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz  becomes the
 ! sign of  sgn .
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: xx
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: sgn
   type(qmplx_type) :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -26047,11 +26047,11 @@ contains
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz  becomes the
 ! sign of  sgn .
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: xx
   integer         ,intent(in) :: sgn
   type(qmplx_type) :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -26075,10 +26075,10 @@ contains
 ! Determine  zz,iz  such that  xx = zz*exp(iz*imag*pi)  and  Re(zz)
 ! is positive. If  Im(x)=0  and  Re(x)<0  then  iz=1
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: xx
   type(qmplx_type) :: rslt
-  type(mp_real) & 
+  type(mp_real) &
     :: xre,xim
   xre = areal(xx)
   if (xre.ge.RZRO) then
@@ -26122,7 +26122,7 @@ contains
   function directly(xx,ix) result(rslt)
 !*******************************************************************
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in) :: xx
   integer         ,intent(in) :: ix
   type(qmplx_type) :: rslt
@@ -26136,16 +26136,16 @@ contains
 ! Returns the number of the Riemann-sheet (times 2) for the complex
 ! number  xx*exp(ix*imag*pi) . The real part of xx is assumed to be
 ! positive or zero. Examples:
-! xx=1+imag, ix=-1 -> ii= 0 
-! xx=1+imag, ix= 1 -> ii= 2 
-! xx=1-imag, ix=-1 -> ii=-2 
-! xx=1-imag, ix= 1 -> ii= 0 
+! xx=1+imag, ix=-1 -> ii= 0
+! xx=1+imag, ix= 1 -> ii= 2
+! xx=1-imag, ix=-1 -> ii=-2
+! xx=1-imag, ix= 1 -> ii= 0
 ! xx=1     , ix= 1 -> ii= 0  convention that log(-1)=pi on
 ! xx=1     , ix=-1 -> ii=-2  the principal Riemann-sheet
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
   integer :: ii,jj
-  type(mp_real) & 
+  type(mp_real) &
     :: xim
   jj = mod(xx%p,2)
   ii = xx%p-jj
@@ -26160,9 +26160,9 @@ contains
 
   function prduct_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -26176,12 +26176,12 @@ contains
 
   function prduct_qr(yy,xx) result(zz)
 !*******************************************************************
-! Return the product  zz  of  yy  and  xx  
+! Return the product  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: xx
   type(qmplx_type) :: zz
   zz%c = yy%c*abs(xx)
@@ -26190,9 +26190,9 @@ contains
 
   function ratio_qq(yy,xx) result(zz)
 !*******************************************************************
-! Return the ratio  zz  of  yy  and  xx  
+! Return the ratio  zz  of  yy  and  xx
 ! keeping track of (the multiple of pi of) the phase %p such that
-! the real part of  zz%c  remains positive 
+! the real part of  zz%c  remains positive
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy,xx
   type(qmplx_type) :: zz
@@ -26208,7 +26208,7 @@ contains
 !*******************************************************************
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: yy
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in) :: xx
   type(qmplx_type) :: zz
   zz%c = yy%c/abs(xx)
@@ -26221,7 +26221,7 @@ contains
 ! log(xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
 !  rslt = olog(acmplx(xx%c),xx%p)
   rslt = olog(xx%c,xx%p)
@@ -26232,7 +26232,7 @@ contains
 ! log(xx)/(1-xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
 !  rslt = -olog1(acmplx(xx%c),xx%p)
   rslt = -olog1(xx%c,xx%p)
@@ -26243,7 +26243,7 @@ contains
 !  ( log(xx)/(1-xx) + 1 )/(1-xx)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
 !  rslt = olog2(acmplx(xx%c),xx%p)
   rslt = olog2(xx%c,xx%p)
@@ -26252,11 +26252,11 @@ contains
   function li2c(xx) result(rslt)
 !*******************************************************************
 !    /1    ln(1-(1-xx)*t)
-!  - |  dt -------------- 
+!  - |  dt --------------
 !    /0        t
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
 !  rslt = dilog(acmplx(xx%c),xx%p)
   rslt = dilog(xx%c,xx%p)
@@ -26267,7 +26267,7 @@ contains
 ! ( li2(xx) - li2(yy) )/(xx-yy)
 !*******************************************************************
   type(qmplx_type) ,intent(in) :: xx,yy
-  type(mp_complex) &  
+  type(mp_complex) &
     :: rslt
 !  rslt = dilog( acmplx(xx%c),xx%p ,acmplx(yy%c),yy%p )
 !  write(*,*) 'li2c2 x:',xx%c,xx%p !DEBUG
@@ -26297,11 +26297,11 @@ contains
 !*******************************************************************
 ! The 1-loop scalar 1-point function.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: mm
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: amm,rmu2
 !
   rslt(2) = 0
@@ -26323,16 +26323,16 @@ contains
 !   rslt(:,2) = A0000  etc.
 ! For input  rank  only  rslt(:,0:rank/2)  is filled.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:,0:)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: mm
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: amm,rmu2
   integer ,intent(in) :: rank
-  type(mp_complex) &  
+  type(mp_complex) &
     :: aa
-  type(mp_real) & 
+  type(mp_real) &
     :: bb
   integer :: ii
 !
@@ -26381,15 +26381,15 @@ contains
 
   subroutine bub0( b0 &
                   ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b0(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp,m0i,m1i
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: am0,am1,maxm
   integer :: rank
 !
@@ -26433,31 +26433,31 @@ contains
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
   endif
 !
   end subroutine
 
   subroutine bub1( b1,b0 &
                   ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b1(0:2),b0(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp,m0i,m1i
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
       return
     endif
   endif
@@ -26465,28 +26465,28 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
+  b1(2) = 0
+  b1(1) =-CONE/2
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
+      b1(0) =-lna/2
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
+      b1(0) =-( lna - bnlog(1,x1) )/2
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
@@ -26497,12 +26497,12 @@ contains
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
+      b1(0) =-( lna*2 + 2 )/4
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
@@ -26511,8 +26511,8 @@ contains
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
     if (switch) then
       x2=m0;m0=m1;m1=x2
       b1(0) =-b0(0)-b1(0)
@@ -26523,26 +26523,26 @@ contains
 
   subroutine bub11( b11,b00,b1,b0 &
                    ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp,m0i,m1i
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
       return
     endif
   endif
@@ -26550,71 +26550,71 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
+      b1(0) =-lna/2
+      b11(0) = lna/3
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
+  rank = 0
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -26625,28 +26625,28 @@ contains
 
   subroutine bub111( b111,b001,b11,b00,b1,b0 &
                     ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b111(0:2),b001(0:2),b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp,m0i,m1i
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
-      b001(0)=0 ;b001(1)=0 ;b001(2)=0 
-      b111(0)=0 ;b111(1)=0 ;b111(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
+      b001(0)=0 ;b001(1)=0 ;b001(2)=0
+      b111(0)=0 ;b111(1)=0 ;b111(2)=0
       return
     endif
   endif
@@ -26654,82 +26654,82 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
-  b111(2) = 0      
-  b111(1) =-CONE/4 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
+  b111(2) = 0
+  b111(1) =-CONE/4
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
-      b111(0) =-lna/4 
+      b1(0) =-lna/2
+      b11(0) = lna/3
+      b111(0) =-lna/4
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
-      b111(0) =-( lna - bnlog(3,x1) )/4 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
+      b111(0) =-( lna - bnlog(3,x1) )/4
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
-      b111(0) =-( lna*4 + 2 )/16 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
+      b111(0) =-( lna*4 + 2 )/16
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
-      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
+      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
-    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
+    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
-  rank = 1 
+  rank = 0
+  rank = 1
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -26743,32 +26743,32 @@ contains
 
   subroutine bub1111( b1111,b0011,b0000,b111,b001,b11,b00,b1,b0 &
                     ,pp,m0i,m1i ,app,am0i,am1i ,rmu2 )
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b1111(0:2),b0011(0:2),b0000(0:2) &
                    ,b111(0:2),b001(0:2),b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp,m0i,m1i
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: app,am0i,am1i,rmu2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: m0,m1,a0(0:2,0:1),lna,x1,x2,lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: am0,am1,maxm
-  logical :: switch 
+  logical :: switch
   integer :: rank
 !
   maxm = max(am0i,am1i)
   if (maxm.eq.RZRO) then
     if (app.eq.RZRO) then
       b0(0)=0 ;b0(1)=0 ;b0(2)=0
-      b1(0)=0 ;b1(1)=0 ;b1(2)=0 
-      b00(0)=0 ;b00(1)=0 ;b00(2)=0 
-      b11(0)=0 ;b11(1)=0 ;b11(2)=0 
-      b001(0)=0 ;b001(1)=0 ;b001(2)=0 
-      b111(0)=0 ;b111(1)=0 ;b111(2)=0 
-      b0000(0)=0 ;b0000(1)=0 ;b0000(2)=0 
-      b0011(0)=0 ;b0011(1)=0 ;b0011(2)=0 
-      b1111(0)=0 ;b1111(1)=0 ;b1111(2)=0 
+      b1(0)=0 ;b1(1)=0 ;b1(2)=0
+      b00(0)=0 ;b00(1)=0 ;b00(2)=0
+      b11(0)=0 ;b11(1)=0 ;b11(2)=0
+      b001(0)=0 ;b001(1)=0 ;b001(2)=0
+      b111(0)=0 ;b111(1)=0 ;b111(2)=0
+      b0000(0)=0 ;b0000(1)=0 ;b0000(2)=0
+      b0011(0)=0 ;b0011(1)=0 ;b0011(2)=0
+      b1111(0)=0 ;b1111(1)=0 ;b1111(2)=0
       return
     endif
   endif
@@ -26776,93 +26776,93 @@ contains
   if (am1i.ge.maxm) then
     m0=m0i ;am0=am0i
     m1=m1i ;am1=am1i
-    switch = .false. 
+    switch = .false.
   else
     m0=m1i ;am0=am1i
     m1=m0i ;am1=am0i
-    switch = .true. 
+    switch = .true.
   endif
 !
   b0(2) = 0
   b0(1) = CONE
-  b1(2) = 0      
-  b1(1) =-CONE/2 
-  b11(2) = 0      
-  b11(1) = CONE/3 
-  b111(2) = 0      
-  b111(1) =-CONE/4 
-  b1111(2) = 0      
-  b1111(1) = CONE/5 
+  b1(2) = 0
+  b1(1) =-CONE/2
+  b11(2) = 0
+  b11(1) = CONE/3
+  b111(2) = 0
+  b111(1) =-CONE/4
+  b1111(2) = 0
+  b1111(1) = CONE/5
 !
   if (app.eq.RZRO) then
     if (abs(m0-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = lna
-      b1(0) =-lna/2 
-      b11(0) = lna/3 
-      b111(0) =-lna/4 
-      b1111(0) = lna/5 
+      b1(0) =-lna/2
+      b11(0) = lna/3
+      b111(0) =-lna/4
+      b1111(0) = lna/5
     else
       lna = -logc(qonv(m1/rmu2,-1))
       x1 = (m1-am1*IEPS)/(m1-m0)
       b0(0) =   lna - bnlog(0,x1)
-      b1(0) =-( lna - bnlog(1,x1) )/2 
-      b11(0) = ( lna - bnlog(2,x1) )/3 
-      b111(0) =-( lna - bnlog(3,x1) )/4 
-      b1111(0) = ( lna - bnlog(4,x1) )/5 
+      b1(0) =-( lna - bnlog(1,x1) )/2
+      b11(0) = ( lna - bnlog(2,x1) )/3
+      b111(0) =-( lna - bnlog(3,x1) )/4
+      b1111(0) = ( lna - bnlog(4,x1) )/5
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
     else
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   elseif (am0.eq.RZRO) then
     if (abs(pp-m1).le.am1*EPSN*10) then
       lna = -logc(qonv(m1/rmu2,-1))
       b0(0) = ( lna   + 2 )
-      b1(0) =-( lna*2 + 2 )/4 
-      b11(0) = ( lna*3 + 2 )/9 
-      b111(0) =-( lna*4 + 2 )/16 
-      b1111(0) = ( lna*5 + 2 )/25 
+      b1(0) =-( lna*2 + 2 )/4
+      b11(0) = ( lna*3 + 2 )/9
+      b111(0) =-( lna*4 + 2 )/16
+      b1111(0) = ( lna*5 + 2 )/25
     else
       lna = -logc(qonv((m1-pp)/rmu2,-1))
       x1  = (pp-m1+am1*IEPS)/pp
       b0(0) = ( lna-bnlog(0,x1) + 1 )
-      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4 
-      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9 
-      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16 
-      b1111(0) = ( (lna-bnlog(4,x1))*5 + 1 )/25 
+      b1(0) =-( (lna-bnlog(1,x1))*2 + 1 )/4
+      b11(0) = ( (lna-bnlog(2,x1))*3 + 1 )/9
+      b111(0) =-( (lna-bnlog(3,x1))*4 + 1 )/16
+      b1111(0) = ( (lna-bnlog(4,x1))*5 + 1 )/25
     endif
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   else
     lna = -logc(qonv(m0/rmu2,-1))
     call solabc( x1,x2 ,lambda ,pp ,(m1-m0)-pp ,m0-am0*IEPS ,0 )
-    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) ) 
-    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2 
-    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3 
-    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4 
-    b1111(0) = ( lna - bnlog(4,x1) - bnlog(4,x2) )/5 
+    b0(0) = ( lna - bnlog(0,x1) - bnlog(0,x2) )
+    b1(0) =-( lna - bnlog(1,x1) - bnlog(1,x2) )/2
+    b11(0) = ( lna - bnlog(2,x1) - bnlog(2,x2) )/3
+    b111(0) =-( lna - bnlog(3,x1) - bnlog(3,x2) )/4
+    b1111(0) = ( lna - bnlog(4,x1) - bnlog(4,x2) )/5
     if (switch) then
       x2=m0;m0=m1;m1=x2
-      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0) 
-      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0) 
-      b11(0) = b11(0)+2*b1(0)+b0(0) 
+      b1111(0) =-b1111(0)-4*b111(0)-6*b11(0)-4*b1(0)-b0(0)
+      b111(0) =-b111(0)-3*b11(0)-3*b1(0)-b0(0)
+      b11(0) = b11(0)+2*b1(0)+b0(0)
       b1(0) =-b0(0)-b1(0)
     endif
   endif
 !
-  rank = 0 
-  rank = 1 
-  rank = 2 
+  rank = 0
+  rank = 1
+  rank = 2
   call tadpn( a0 ,rank ,m1 ,am1 ,rmu2 )
   x1 = (m1-m0)-pp
   x2 = 2*m0
@@ -26889,15 +26889,15 @@ contains
 
   subroutine dbub0( rslt &
                    ,pp,m0,m1 ,app,am0,am1 )
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp,m0,m1
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: app,am0,am1
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ch,x1,x2,lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: ax1,ax2,ax1x2,maxa
   type(qmplx_type) :: q1,q2,q1o,q2o
   integer :: sgn
@@ -26914,7 +26914,7 @@ contains
       rslt = 1/(6*m1)
     else
       ch = m0/m1
-      rslt = ( CONE/2 - ch*olog3(ch,0) )/m1 
+      rslt = ( CONE/2 - ch*olog3(ch,0) )/m1
     endif
   elseif (am1.eq.RZRO) then
     rslt =-1/pp
@@ -27004,14 +27004,14 @@ contains
 ! with  k1^2=m2, k2^2=pp, (k1+k2)^2=m3.
 ! m2,m3 should NOT be identically 0d0.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cm2,cm3,cpp
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q23,qm3,q32
-  type(mp_complex) &  
+  type(mp_complex) &
      :: sm2,sm3,k23,r23,d23,cc
 !
    sm2 = mysqrt(cm2)
@@ -27046,16 +27046,16 @@ contains
 !
 ! with  p2=k2^2, p3=(k1+k2)^2.
 ! mm should NOT be identically 0d0,
-! and p2 NOR p3 should be identical to mm. 
+! and p2 NOR p3 should be identical to mm.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp2,cp3,cm3
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q13,q23,qm3,x1,x2
-  type(mp_complex) &  
+  type(mp_complex) &
      :: r13,r23
 !
    r13 = cm3-cp3
@@ -27081,16 +27081,16 @@ contains
 !
 ! with  k1^2 = 0 , k2^2 = m3  and  (k1+k2)^2 = p3.
 ! mm should NOT be identically 0d0,
-! and pp should NOT be identical to mm. 
+! and pp should NOT be identical to mm.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp3,cm3
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu2
    type(qmplx_type) :: q13,qm3,qxx
-  type(mp_complex) &  
+  type(mp_complex) &
      :: r13,logm,z2,z1,z0,cc
 !
    r13 = cm3-cp3
@@ -27098,7 +27098,7 @@ contains
    qm3 = qonv(cm3,-1)
    logm = logc( qm3/rmu2 )
    qxx = qm3/q13
-   z2 = 1 
+   z2 = 1
    z2 = z2/2
    z1 = logc(qxx)
    z0 = PISQo24 + z1*z1/2 - li2c(qxx)
@@ -27119,13 +27119,13 @@ contains
 ! with  k1^2 = (k1+k2)^2 = m3.
 ! mm should NOT be identically 0d0.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cm3
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu2
-  type(mp_complex) &  
+  type(mp_complex) &
      :: zm
 !
    zm = 1/(2*cm3)
@@ -27154,15 +27154,15 @@ contains
 ! IR-singular case is returned.
 !*******************************************************************
    use avh_olo_forCutTools_mp_olog
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp(3)
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: ap(3),rmu2
-  type(mp_real) & 
+  type(mp_real) &
      :: pp(3),rp1,rp2,rp3
-  type(mp_complex) &  
+  type(mp_complex) &
      :: log2,log3
    integer :: icase,i1,i2,i3
 !
@@ -27215,14 +27215,14 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p1,p2,p3
    type(qmplx_type) :: q23,q24,q34,qx1,qx2
-  type(mp_complex) &  
+  type(mp_complex) &
      :: r23,r24,r34,aa,bb,cc,dd,x1,x2
-  type(mp_real) & 
+  type(mp_real) &
      :: hh
 !
    r23 = -p1
@@ -27262,15 +27262,15 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
-     ,intent(in)  :: p1i,p2i,p3i ,m3i 
+  type(mp_complex) &
+     ,intent(in)  :: p1i,p2i,p3i ,m3i
    type(qmplx_type) :: q23,q24,q34,qm4,qx1,qx2,qss
-  type(mp_complex) &  
+  type(mp_complex) &
      :: p2,p3,p4,p12,p23,m4,sm2,sm3,sm4 &
                      ,aa,bb,cc,dd,x1,x2,r23,r24,r34
-  type(mp_real) & 
+  type(mp_real) &
      :: mhh
    logical :: r24Not0,r34Not0
 !
@@ -27349,12 +27349,12 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p1i,p2i,p3i ,m2i,m3i
    type(qmplx_type) :: q23,q34,q24,qm2,qm3,qm4,qx1,qx2,qss,qy1,qy2
-  type(mp_complex) &  
+  type(mp_complex) &
      :: p2,p3,p23,m2,m4,sm2,sm3,sm4,aa,bb,cc,dd,x1,x2 &
                      ,r23,k24,r34,r24,d24
    logical :: r23Not0,r34Not0
@@ -27417,7 +27417,7 @@ contains
 !
    rslt(0) = li2c2( qy1*qm2 ,qy2*qm2 )/r24*sm2
 !
-   if (x2.ne.CZRO) then ! better to put a threshold on cc 
+   if (x2.ne.CZRO) then ! better to put a threshold on cc
      rslt(0) = rslt(0) + ( logc2( qy1/qy2 )*logc( qy1*qy2/(qm2*qm2) ) &
                           -logc2( qx1/qx2 )*logc( qx1*qx2/(qm4*qm4) ) )/(x2*2)
    endif
@@ -27445,15 +27445,15 @@ contains
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 ! by sending one internal mass to infinity.
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p1i,p2i,p3i,m1i,m2i,m3i
    type(qmplx_type) :: q12,q13,q23,qm1,qm2,qm3,qx1,qx2,qz1,qz2,qtt
-  type(mp_complex) &  
+  type(mp_complex) &
      :: p1,p2,p3,m1,m2,m3,sm1,sm2,sm3,aa,bb,cc,dd,x1,x2 &
-                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23 
-  type(mp_real) & 
+                     ,k12,k13,k23,r12,r13,r23,d12,d13,d23
+  type(mp_real) &
      :: h1,h2,h3
 !
    h1 = -aimag(m1i)
@@ -27528,27 +27528,27 @@ contains
 !
    rslt(0) = rslt(0)/(aa*sm1*sm2*sm3)
    end subroutine
-   
+
 
    subroutine trif3HV( rslt ,pp,mm ,ap ,smax ,lam )
 !*******************************************************************
 ! Finite 1-loop scalar 3-point function with all internal masses
 ! non-zero. Based on the fomula of 't Hooft & Veltman
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: pp(3),mm(3)
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: ap(3),smax
-  type(mp_complex) &  
+  type(mp_complex) &
      ,optional ,intent(in) :: lam
-  type(mp_complex) &  
+  type(mp_complex) &
      :: p1,p2,p3,m1,m2,m3,slam,yy
-  type(mp_complex) &  
+  type(mp_complex) &
      :: sm1,sm2,sm3
    type(qmplx_type) :: qm1,qm2,qm3
-  type(mp_real) & 
+  type(mp_real) &
      :: a12,a23,a31,thrs,a1,a2,a3
 !
 ! Order squared momenta, first one smallest
@@ -27591,7 +27591,7 @@ contains
    m1 = m1 - abs(areal(m1))*IEPS
    m2 = m2 - abs(areal(m2))*IEPS
    m3 = m3 - abs(areal(m3))*IEPS
-!       
+!
    if (a1.gt.thrs) then ! 3 non-zero squared momenta
      if (present(lam)) then ;slam=lam
                        else ;slam=kallen(p1,p2,p3)
@@ -27661,15 +27661,15 @@ contains
 ! function below.
 ! t4  should be  sqrt(lambda(aa,t2,t3))
 !***************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
        ,intent(in) :: aa,s1,s2,t1
-  type(mp_complex) &  
+  type(mp_complex) &
        ,optional,intent(in) :: t2,t3
-  type(mp_complex) &  
+  type(mp_complex) &
        ,optional,intent(inout) :: t4
-  type(mp_complex) &  
+  type(mp_complex) &
        :: rslt ,cc,bb,dd,y0,y1,y2,zz,hh,alpha
-  type(mp_real) & 
+  type(mp_real) &
        :: rez,arez,aimz
      type(qmplx_type) :: q1,q2
 !
@@ -27711,9 +27711,9 @@ contains
 !**************************************************
 ! int( ( ln(a*y+b) - ln(a*y0+b) )/(y-y0) ,y=0..1 )
 !**************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
        ,intent(in) :: aa,bb,y0
-  type(mp_complex) &  
+  type(mp_complex) &
        :: rslt ,y1,hh
      type(qmplx_type) :: q1
      y1 = -bb/aa
@@ -27775,13 +27775,13 @@ contains
 ! with  k1^2=m2, k2^2=p2, k3^2=p3, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p2,p3,p12,p23 ,m2,m3,m4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: cp2,cp3,cp12,cp23,cm2,cm3,cm4,sm1,sm2,sm3,sm4 &
                      ,r13,r23,r24,r34,d23,d24,d34,log24,cc
    type(qmplx_type) :: q13,q23,q24,q34,qss,qy1,qy2,qz1,qz2
@@ -27814,7 +27814,7 @@ contains
    q24 = qonv(r24,-1)
    q34 = qonv(r34,-1)
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box16: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -27854,13 +27854,13 @@ contains
 ! with  k1^2=m2, k2^2=p2, k3^2=p3, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p2,p3,p12,p23 ,m2,m4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: cp2,cp3,cp12,cp23,cm2,cm4,sm1,sm2,sm3,sm4 &
                      ,r13,r23,r24,r34,d24,log24,cc
    type(qmplx_type) :: q13,q23,q24,q34,qss,qz1,qz2
@@ -27888,7 +27888,7 @@ contains
    r34 = (    cm4-cp3 )/(sm3*sm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box15: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -27930,13 +27930,13 @@ contains
 ! with  k1^2=m2, k2^2=m2, k3^2=m4, (k1+k2+k3)^2=m4
 ! m2,m4 should NOT be identically 0d0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp12,cp23,cm2,cm4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: sm2,sm4,r24,d24,cc
 !
    if (cp12.eq.CZRO) then
@@ -27950,7 +27950,7 @@ contains
    sm4 = mysqrt(cm4)
    call rfun( r24,d24 ,(cm2+cm4-cp23)/(sm2*sm4) )
 !
-   if (r24.eq.-CONE) then 
+   if (r24.eq.-CONE) then
      if (eunit.gt.0) write(eunit,*) 'ERROR in OneLOop box14: ' &
        ,'threshold singularity, returning 0'
      rslt(0)=0 ;rslt(1)=0 ;rslt(2)=0
@@ -27978,17 +27978,17 @@ contains
 ! p4 should NOT be identical to m4
 ! p2 should NOT be identical to m3
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p2,p3,p4,p12,p23,m3,m4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: cp2,cp3,cp4,cp12,cp23,cm3,cm4,sm3,sm4,sm1,sm2 &
              ,r13,r14,r23,r24,r34,d34,cc,logd,li2d,loge,li2f,li2b,li2e
    type(qmplx_type) :: q13,q14,q23,q24,q34,qy1,qy2
-  type(mp_real) & 
+  type(mp_real) &
      :: h1,h2
 !
    if (p12.eq.m3) then
@@ -28027,7 +28027,7 @@ contains
    q14 = qonv(r14,-1)
    q23 = qonv(r23,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
    qy1 = q14*q23/q13/q24
    logd = logc2(qy1     )/(r13*r24)
@@ -28061,13 +28061,13 @@ contains
 ! m3,m4 should NOT be indentiallcy 0d0
 ! p4 should NOT be identical to m4
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp3,cp4,cp12,cp23,cm3,cm4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: sm3,sm4,sm1,sm2,r13,r14,r24,r34,d34,cc &
                      ,log13,log14,log24,log34,li2f,li2b,li2d
    type(qmplx_type) :: q13,q14,q24,q34,qyy
@@ -28098,12 +28098,12 @@ contains
    q13 = qonv(r13,-1)
    q14 = qonv(r14,-1)
    q24 = qonv(r24,-1)
-   q34 = qonv(r34,-1) 
+   q34 = qonv(r34,-1)
 !
-   log13 = logc(q13) 
-   log14 = logc(q14) 
-   log24 = logc(q24) 
-   log34 = logc(q34) 
+   log13 = logc(q13)
+   log14 = logc(q14)
+   log24 = logc(q24)
+   log34 = logc(q34)
 !
    qyy = q14/q13
    li2f = li2c(qyy*q34)
@@ -28133,13 +28133,13 @@ contains
 ! with  k1^2=0, k2^2=m3, k3^2=p3, (k1+k2+k3)^2=m4
 ! m3,m4 should NOT be indentiallcy 0d0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp3,cp12,cp23,cm3,cm4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: sm3,sm4,sm1,sm2,r13,r24,r34,d34 &
                      ,cc,log13,log24,log34
 !
@@ -28165,9 +28165,9 @@ contains
    r24 = (cm4-cp23)/(sm2*sm4)
    call rfun( r34,d34 ,(cm3+cm4-cp3 )/(sm3*sm4) )
 !
-   log13 = logc(qonv(r13,-1)) 
-   log24 = logc(qonv(r24,-1)) 
-   log34 = logc(qonv(r34,-1)) 
+   log13 = logc(qonv(r13,-1))
+   log24 = logc(qonv(r24,-1))
+   log34 = logc(qonv(r34,-1))
 !
    rslt(2) = 1
    rslt(1) = -log13-log24
@@ -28192,16 +28192,16 @@ contains
 ! p2 should NOT be identically 0d0
 ! p4 should NOT be identical to m4
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p2,p3,p4,p12,p23,m4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: cp2,cp3,cp4,cp12,cp23,cm4,r13,r14,r23,r24,r34,z1,z0
    type(qmplx_type) :: q13,q14,q23,q24,q34,qm4,qxx,qx1,qx2
-  type(mp_real) & 
+  type(mp_real) &
      :: h1,h2
 !
    if (p12.eq.CZRO) then
@@ -28272,13 +28272,13 @@ contains
 ! m4 should NOT be identically 0d0
 ! p2 should NOT be identically 0d0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp2,cp3,cp12,cp23,cm4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: logm,log12,log23,li12,li23,z2,z1,z0,cc &
                      ,r13,r23,r24,r34
    type(qmplx_type) :: q13,q23,q24,q34,qm4,qxx
@@ -28338,16 +28338,16 @@ contains
 ! mm should NOT be identically 0d0
 ! p3 NOR p4 should be identically m4
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp3,cp4,cp12,cp23,cm4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q14,q24,q34,qm4,qxx,qx1,qx2,qx3
-  type(mp_complex) &  
+  type(mp_complex) &
      :: r13,r14,r24,r34,z1,z0,cc
-  type(mp_real) & 
+  type(mp_real) &
      :: rmu2
 !
    if (cp12.eq.CZRO) then
@@ -28405,14 +28405,14 @@ contains
 ! m3 should NOT be identically 0d0
 ! p4 should NOT be identically m4
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp4,cp12,cp23,cm4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q14,q24,qm4
-  type(mp_complex) &  
+  type(mp_complex) &
      :: r13,r14,r24,logm,log12,log23,log4,li423 &
                      ,z2,z1,z0,cc
 !
@@ -28465,14 +28465,14 @@ contains
 ! with  k1^2=k2^2=0, k3^2=(k1+k2+k3)^2=m4
 ! m3 should NOT be identically 0d0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp12,cp23,cm4
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q13,q24,qm4
-  type(mp_complex) &  
+  type(mp_complex) &
      :: r13,r24,logm,log1,log2,z2,z1,z0,cc
 !
    if (cp12.eq.CZRO) then
@@ -28518,16 +28518,16 @@ contains
 !
 ! with  k1^2=k3^2=0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
-     ,intent(in)  :: p2,p4,p5,p6 
-  type(mp_real) & 
+  type(mp_complex) &
+     ,intent(in)  :: p2,p4,p5,p6
+  type(mp_real) &
      ,intent(in)  :: rmu
    type(qmplx_type) :: q2,q4,q5,q6,q26,q54,qy
-  type(mp_complex) &  
+  type(mp_complex) &
      :: logy
-  type(mp_real) & 
+  type(mp_real) &
      :: rmu2
 !
    rmu2 = rmu*rmu
@@ -28560,16 +28560,16 @@ contains
 !
 ! with  k1^2=0
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: p2,p3,p4,p5,p6
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: rmu
    type(qmplx_type) ::q2,q3,q4,q5,q6 ,q25,q64,qy,qz
-  type(mp_complex) &  
+  type(mp_complex) &
      :: logy
-  type(mp_real) & 
+  type(mp_real) &
      :: rmu2
 !
    rmu2 = rmu*rmu
@@ -28614,16 +28614,16 @@ contains
 !*******************************************************************
    use avh_olo_forCutTools_mp_olog
    use avh_olo_forCutTools_mp_dilog
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: cp(6)
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: api(6),rmu
-  type(mp_complex) &  
+  type(mp_complex) &
      :: log3,log4,log5,log6,li24,li25,li26 &
                      ,li254,li263
-  type(mp_real) & 
+  type(mp_real) &
      :: rp1,rp2,rp3,rp4,rp5,rp6,pp(6),ap(6),gg,ff,hh,arg,rmu2
    integer :: icase,sf,sgn,i3,i4,i5,i6
    integer ,parameter :: base(4)=(/8,4,2,1/)
@@ -28690,15 +28690,15 @@ contains
      log6 = olog(abs(rp6/rmu2),i6)
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg*( 2 )
@@ -28717,15 +28717,15 @@ contains
      li263 = dilog( abs(rp3/rp6) ,i3-i6 )
      sf = sgnRe(ff)
      sgn = 0
-       arg = rp4*ff 
+       arg = rp4*ff
        if (arg.lt.RZRO) sgn = sf
        li24 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp5*ff 
+       arg = rp5*ff
        if (arg.lt.RZRO) sgn = sf
        li25 = dilog(abs(arg),sgn)
      sgn = 0
-       arg = rp6*ff 
+       arg = rp6*ff
        if (arg.lt.RZRO) sgn = sf
        li26 = dilog(abs(arg),sgn)
      rslt(2) = gg
@@ -28750,21 +28750,21 @@ contains
    endif
    end subroutine
 
-  
+
   subroutine boxf0( rslt ,p1,p2,p3,p4,p12,p23 )
 !*******************************************************************
 ! Finite 1-loop scalar 4-point function with all internal masses
 ! equal zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:2) 
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:2)
+  type(mp_complex) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qss
-  type(mp_complex) &  
+  type(mp_complex) &
     :: aa,bb,cc,dd,x1,x2,ss,r12,r13,r14,r23,r24,r34
-  type(mp_real) & 
+  type(mp_real) &
     :: hh
 !
   r12 = -p1  !  p1
@@ -28772,7 +28772,7 @@ contains
   r14 = -p4  !  p1+p2+p3
   r23 = -p2  !  p2
   r24 = -p23 !  p2+p3
-  r34 = -p3  !  p3      
+  r34 = -p3  !  p3
 !
   aa = r34*r24
 !
@@ -28821,17 +28821,17 @@ contains
 ! non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:2) 
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:2)
+  type(mp_complex) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23 ,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
-  type(mp_complex) &  
+  type(mp_complex) &
     :: smm,sm4,aa,bb,cc,dd,x1,x2,r12,r13,r14,r23,r24,r34
   logical :: r12zero,r13zero,r14zero
 !
   sm4 = mysqrt(m4)
-  smm = abs(sm4) 
+  smm = abs(sm4)
 !
   r12 = ( m4-p4 -p4 *IEPS )/(smm*sm4)
   r13 = ( m4-p23-p23*IEPS )/(smm*sm4)
@@ -28910,9 +28910,9 @@ contains
 ! masses non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:2) 
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:2)
+  type(mp_complex) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m2,m4
   call boxf2( rslt ,p12,p2,p23,p4,p1,p3 ,m2,m4 )
   end subroutine
@@ -28924,12 +28924,12 @@ contains
 ! masses non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:2) 
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:2)
+  type(mp_complex) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m3,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34
-  type(mp_complex) &  
+  type(mp_complex) &
     :: smm,sm3,sm4,aa,bb,cc,dd,x1,x2 &
                     ,r12,r13,r14,r23,r24,r34,d14,k14
   logical :: r12zero,r13zero,r24zero,r34zero
@@ -29017,7 +29017,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r24/r12
     endif
     if (.not.r12zero.and..not.r13zero) then
-      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2 
+      rslt(0) = rslt(0) + logc2( qx1/qx2 )*logc( q12*q13/q23 )/x2
     endif
   endif
 !
@@ -29030,9 +29030,9 @@ contains
 ! Finite 1-loop scalar 4-point function with three internal masses
 ! non-zero.
 !*******************************************************************
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:2) 
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:2)
+  type(mp_complex) &
     ,intent(in) :: pp(6),mm(4)
   integer :: j
   integer ,parameter :: ip(6)=(/4,5,2,6,3,1/)
@@ -29056,12 +29056,12 @@ contains
 ! non-zero, and m3=0. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:2) 
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:2)
+  type(mp_complex) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m4
   type(qmplx_type) :: qx1,qx2,qss,q12,q13,q14,q23,q24,q34,qy1,qy2
-  type(mp_complex) &  
+  type(mp_complex) &
     :: sm1,sm2,sm3,sm4 ,aa,bb,cc,dd,x1,x2 &
                     ,r12,r13,r14,r23,r24,r34,d12,d14,d24,k12,k14,k24
   logical ::r13zero,r23zero,r34zero
@@ -29143,7 +29143,7 @@ contains
       rslt(0) = rslt(0) + li2c2( qx1*qss ,qx2*qss )*r34/r13
     endif
   else
-    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2 
+    rslt(0) = rslt(0) - logc2( qx1/qx2 )*logc( q23/q24/q34 )/x2
   endif
 !
   rslt(0) = -rslt(0)/(aa*sm1*sm2*sm3*sm4)
@@ -29156,17 +29156,17 @@ contains
 ! non-zero. Based on the formulas from
 ! A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B367(1991)637-656
 !*******************************************************************
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:2) 
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:2)
+  type(mp_complex) &
     ,intent(in) :: p1,p2,p3,p4,p12,p23,m1,m2,m3,m4
   type(qmplx_type) :: q12,q13,q14,q23,q24,q34,qx1,qx2,qy1,qy2,qtt
-  type(mp_complex) &  
+  type(mp_complex) &
     :: sm1,sm2,sm3,sm4 ,aa,bb,cc,dd,x1,x2,tt &
                     ,k12,k13,k14,k23,k24,k34 &
                     ,r12,r13,r14,r23,r24,r34 &
                     ,d12,d13,d14,d23,d24,d34
-  type(mp_real) & 
+  type(mp_real) &
     :: h1,h2
 !
   sm1 = mysqrt(m1)
@@ -29256,20 +29256,20 @@ contains
 ! Finite 1-loop scalar 4-point function for complex internal masses
 ! Based on the formulas from
 !   Dao Thi Nhung and Le Duc Ninh, arXiv:0902.0325 [hep-ph]
-!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979 
+!   G. 't Hooft and M.J.G. Veltman, Nucl.Phys.B153:365-401,1979
 !*******************************************************************
    use avh_olo_forCutTools_mp_box ,only: base,casetable,ll=>permtable
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in)  :: pp_in(6),mm_in(4)
-  type(mp_real) & 
+  type(mp_real) &
      ,intent(in)  :: ap_in(6),smax
-  type(mp_complex) &  
+  type(mp_complex) &
      :: pp(6),mm(4)
-  type(mp_real) & 
+  type(mp_real) &
      :: ap(6),aptmp(6),rem,imm,hh
-  type(mp_complex) &  
+  type(mp_complex) &
      :: a,b,c,d,e,f,g,h,j,k,dpe,epk,x1,x2,sdnt,o1,j1,e1 &
        ,dek,dpf,def,dpk,abc,bgj,jph,cph
    integer :: icase,jcase,ii
@@ -29413,9 +29413,9 @@ contains
 !
 ! jj should have negative imaginary part
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in) :: aa,cc,gg,hh ,dd,ee,ff,jj ,dpe,dpj,dpf
-  type(mp_complex) &  
+  type(mp_complex) &
      :: rslt ,kk,ll,nn,y1,y2,sdnt
 !
 !
@@ -29441,9 +29441,9 @@ contains
 !
 ! jj should have negative imaginary part
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in) :: aa,cc,gg,hh ,dd,ee,ff,jj,dpe
-  type(mp_complex) &  
+  type(mp_complex) &
      ::rslt ,kk,ll,nn,y1,y2,sdnt
 !
 !
@@ -29467,12 +29467,12 @@ contains
 ! | dx |  dy ------------------------------------------------------
 ! /0   /0    (g*x + h*x + j)*(a*x^2 + b*y^2 + c*xy + d*x + e*y + f)
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in) :: aa,bb,cc ,gin,hin ,dd,ee,ff ,jin ,dpe ,dpf
-  type(mp_complex) &  
+  type(mp_complex) &
      :: rslt ,gg,hh,jj,zz(2),beta,tmpa(2),tmpb(2) &
        ,tmpc(2),kiz(2),ll,nn,kk,y1,y2,yy(2,2),sdnt
-  type(mp_real) & 
+  type(mp_real) &
      :: ab1,ab2,ac1,ac2,abab,acac,abac,det,ap1,ap2 &
                   ,apab,apac,x1(2,2),x2(2,2),xmin
    integer :: iz,iy,izmin,sj
@@ -29590,11 +29590,11 @@ contains
 !
 ! y1i,y2i should have a non-zero imaginary part
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in) ::  y1i,y2i ,dd,ee ,aa,bb,cin
-  type(mp_complex) &  
+  type(mp_complex) &
      :: rslt ,y1,y2,fy1y2,z1,z2,tmp,cc
-  type(mp_real) & 
+  type(mp_real) &
      ::rea,reb,rez1,rez2,imz1,imz2,simc,hh
 !
 !
@@ -29634,7 +29634,7 @@ contains
      call solabc_rcc( z1,z2 ,areal(aa),bb,cc )
      rea  = sgnRe(aa)
      rez1 = areal(z1)
-     rez2 = areal(z2) 
+     rez2 = areal(z2)
      imz1 = aimag(z1) ! sign(Im(a*z1*z2)) = simc
      imz2 = aimag(z2)
      hh = abs(EPSN2*rez1)
@@ -29686,24 +29686,24 @@ contains
 ! where
 !                          /     / 1-y \       / 1-z \ \
 !      R1(y,z) = ln(y-z) * | log |-----| - log |-----| |
-!                          \     \ -y  /       \ -z  / / 
+!                          \     \ -y  /       \ -z  / /
 !
 !                      /    y-z \       /    y-z \
 !                - Li2 |1 - ----| + Li2 |1 - ----|
 !                      \    -z  /       \    1-z /
 !
 !                                     / 1-y1 \       / 1-y2 \
-!                                 log |------| - log |------| 
+!                                 log |------| - log |------|
 ! input fy1y2 should be equal to      \  -y1 /       \  -y2 /
 !                                 ---------------------------
 !                                           y1 - y2
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in) :: y1,y2,zz,fy1y2
-  type(mp_complex) &  
+  type(mp_complex) &
      :: rslt ,oz
    type(qmplx_type) :: q1z,q2z,qq
-  type(mp_real) & 
+  type(mp_real) &
      :: h12,hz1,hz2,hzz,hoz
    logical :: zzsmall,ozsmall
 !
@@ -29730,9 +29730,9 @@ contains
           - (-logc(q1z*q2z)/2 + logc(qonv((y2-1)/y2)) &
                                     + logc(qonv(-zz)) )*logc2(q1z/q2z)/(y2-zz)
    elseif (h12.le.hz2.and.hz2.le.hz1) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )        
+     rslt = fy1y2*logc( q1z ) - r0fun( y2,zz )*logc2( q1z/q2z )
    elseif (h12.le.hz1.and.hz1.le.hz2) then ! |y1-y2| < |y2-z| < |y1-z|
-     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )        
+     rslt = fy1y2*logc( q2z ) - r0fun( y1,zz )*logc2( q2z/q1z )
    else!if(hz1.lt.h12.or.hz2.lt.h12) then ! |y2-z|,|y1-z| < |y1-y2|
      rslt = 0
      if (hz1.ne.RZRO) rslt = rslt + (y1-zz)*logc( q1z )*r0fun( y1,zz )
@@ -29761,16 +29761,16 @@ contains
    function r0fun( y1,y2 ) result(rslt)
 !*******************************************************************
 !      / 1-y1 \       / 1-y2 \
-!  log |------| - log |------| 
+!  log |------| - log |------|
 !      \  -y1 /       \  -y2 /
 !  ---------------------------
 !            y1 - y2
 !
 ! y1,y2 should have non-zero imaginary parts
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in) :: y1,y2
-  type(mp_complex) &  
+  type(mp_complex) &
      :: rslt ,oy1,oy2
 !
    oy1 = 1-y1
@@ -29783,17 +29783,17 @@ contains
    function plnr( y1,y2 ,p1,p2 ,aa,bb,cc ) result(rslt)
 !*******************************************************************
 !                   /   a    \          /   a    \
-!            p1*log |--------| - p2*log |--------| 
+!            p1*log |--------| - p2*log |--------|
 !                   \ b*y1+c /          \ b*y2+c /
 ! 2*pi*imag* -------------------------------------
 !                           y1 - y2
-! 
-! p1,p2 are logical, to be interpreted as 0,1 in the formula above 
+!
+! p1,p2 are logical, to be interpreted as 0,1 in the formula above
 !*******************************************************************
-  type(mp_complex) &  
+  type(mp_complex) &
      ,intent(in) :: y1,y2 ,aa,bb,cc
    logical         ,intent(in) :: p1,p2
-  type(mp_complex) &  
+  type(mp_complex) &
      :: rslt ,x1,x2,xx
    type(qmplx_type) :: q1,q2
 !
@@ -29846,13 +29846,13 @@ module avh_olo_forCutTools_mp
   public :: olo
   public :: olo_get_scale ,olo_get_onshell ,olo_get_precision
 !
- integer ,public ,parameter :: olo_kind=kind(1d0) 
+ integer ,public ,parameter :: olo_kind=kind(1d0)
 !
-  type(mp_real) & 
+  type(mp_real) &
          ,save :: onshellthrs
   logical,save :: nonzerothrs = .false.
 !
-  type(mp_real) & 
+  type(mp_real) &
          ,save :: muscale
 !
   character(99) ,parameter :: warnonshell=&
@@ -29863,28 +29863,28 @@ module avh_olo_forCutTools_mp
 !
   interface olo_a0
     module procedure a0_r,a0rr,a0_c,a0cr
-  end interface 
+  end interface
   interface olo_an
     module procedure an_r,anrr,an_c,ancr
-  end interface 
+  end interface
   interface olo_b0
     module procedure b0rr,b0rrr,b0rc,b0rcr,b0cc,b0ccr
-  end interface 
+  end interface
   interface olo_db0
     module procedure db0rr,db0rrr,db0rc,db0rcr,db0cc,db0ccr
-  end interface 
+  end interface
   interface olo_b11
     module procedure b11rr,b11rrr,b11rc,b11rcr,b11cc,b11ccr
-  end interface 
+  end interface
   interface olo_bn
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
-  end interface 
+  end interface
   interface olo_c0
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
-  end interface 
+  end interface
   interface olo_d0
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 !
   interface olo
     module procedure a0_r,a0rr,a0_c,a0cr
@@ -29894,11 +29894,11 @@ module avh_olo_forCutTools_mp
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 
 contains
 
- 
+
   subroutine init( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -29920,8 +29920,8 @@ contains
   if (.not.nonzerothrs) onshellthrs = neglig(prcpar)
 !
   end subroutine
- 
- 
+
+
   recursive subroutine olo_precision( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -29933,7 +29933,7 @@ contains
   if (initz) then
     call init( ndec )
   else
-   call set_precision( ndec ,newprc ) 
+   call set_precision( ndec ,newprc )
     if (newprc) then
       call update_olog
       call update_dilog
@@ -29943,7 +29943,7 @@ contains
   endif
   end subroutine
 
- 
+
   subroutine olo_unit( val ,message )
 !*******************************************************************
 !*******************************************************************
@@ -29954,8 +29954,8 @@ contains
   else                       ;call set_unit( 'all'   ,val )
   endif
   end subroutine
- 
- 
+
+
   subroutine olo_scale( val )
 !*******************************************************************
 !*******************************************************************
@@ -29963,8 +29963,8 @@ contains
   if (initz) call init
   muscale = convert(val)
   end subroutine
- 
- 
+
+
   subroutine olo_onshell( thrs )
 !*******************************************************************
 !*******************************************************************
@@ -30011,7 +30011,7 @@ contains
   if (present(iunit)) nunit = iunit
   if (nunit.le.0) return
 !
- write(nunit,*) 'MESSAGE from OneLOop: operating at arbitrary precision'            
+ write(nunit,*) 'MESSAGE from OneLOop: operating at arbitrary precision'
   write(nunit,*) 'MESSAGE from OneLOop: number of decimals  =',trim(myprint(ndecim(prcpar)))
 !
   if (nonzerothrs) then
@@ -30023,12 +30023,12 @@ contains
   write(nunit,*) 'MESSAGE from OneLOop: default scale (mu, not mu^2) =',trim(myprint(muscale,12))
 !
   end subroutine
- 
- 
+
+
 !*******************************************************************
 !
 !           C   / d^(Dim)q
-! rslt = ------ | -------- 
+! rslt = ------ | --------
 !        i*pi^2 / (q^2-mm)
 !
 ! with  Dim = 4-2*eps
@@ -30047,20 +30047,20 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadp
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: mm
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -30091,22 +30091,22 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadp
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: mm
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -30137,20 +30137,20 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadp
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: mm
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -30181,22 +30181,22 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadp
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: mm
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop a0: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -30228,22 +30228,22 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadpn
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_complex) &
     ,intent(in)  :: mm
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -30276,24 +30276,24 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadpn
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_complex) &
     ,intent(in)  :: mm
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -30326,22 +30326,22 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadpn
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_real) & 
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_real) &
     ,intent(in)  :: mm
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   am = abs(mm)
 !
@@ -30374,24 +30374,24 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: tadpn
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_real) & 
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_real) &
     ,intent(in)  :: mm
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss
-  type(mp_real) & 
+  type(mp_real) &
     :: am,hh,mulocal,mulocal2
   integer :: ii
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop An: '//warnonshell
   if (initz) call init
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   am = abs(mm)
 !
@@ -30443,16 +30443,16 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -30487,7 +30487,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -30521,18 +30521,18 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -30567,7 +30567,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -30601,16 +30601,16 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -30639,7 +30639,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -30673,18 +30673,18 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -30713,7 +30713,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -30747,16 +30747,16 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -30770,7 +30770,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -30804,18 +30804,18 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(25+99) ,parameter :: warning=&
                      'WARNING from OneLOop b0: '//warnonshell
@@ -30829,7 +30829,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -30867,16 +30867,16 @@ contains
   use avh_olo_forCutTools_mp_bub ,only: dbub0
   use avh_olo_forCutTools_mp_olog ,only: olog
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2,ch
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -30911,7 +30911,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -30960,18 +30960,18 @@ contains
   use avh_olo_forCutTools_mp_bub ,only: dbub0
   use avh_olo_forCutTools_mp_olog ,only: olog
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2,ch
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -31006,7 +31006,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31055,16 +31055,16 @@ contains
   use avh_olo_forCutTools_mp_bub ,only: dbub0
   use avh_olo_forCutTools_mp_olog ,only: olog
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2,ch
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -31093,7 +31093,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31142,18 +31142,18 @@ contains
   use avh_olo_forCutTools_mp_bub ,only: dbub0
   use avh_olo_forCutTools_mp_olog ,only: olog
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2,ch
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -31182,7 +31182,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31231,16 +31231,16 @@ contains
   use avh_olo_forCutTools_mp_bub ,only: dbub0
   use avh_olo_forCutTools_mp_olog ,only: olog
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2,ch
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -31254,7 +31254,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31303,18 +31303,18 @@ contains
   use avh_olo_forCutTools_mp_bub ,only: dbub0
   use avh_olo_forCutTools_mp_olog ,only: olog
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2,ch
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2,ssr2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop db0: '//warnonshell
@@ -31328,7 +31328,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31397,16 +31397,16 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub11
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -31441,7 +31441,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31484,18 +31484,18 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub11
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -31530,7 +31530,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31573,16 +31573,16 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub11
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -31611,7 +31611,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31654,18 +31654,18 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub11
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -31694,7 +31694,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31737,16 +31737,16 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub11
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -31760,7 +31760,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31803,18 +31803,18 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub11
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: b11(0:2),b00(0:2),b1(0:2),b0(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop b11: '//warnonshell
@@ -31828,7 +31828,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -31872,17 +31872,17 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -31917,7 +31917,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32002,19 +32002,19 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_complex) &  
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_complex) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -32049,7 +32049,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32134,17 +32134,17 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_real) & 
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -32173,7 +32173,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32258,19 +32258,19 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_real) & 
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -32299,7 +32299,7 @@ contains
   endif
   am2 = abs(am2) + abs(hh)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32384,17 +32384,17 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_real) & 
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -32408,7 +32408,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32493,19 +32493,19 @@ contains
 !
   use avh_olo_forCutTools_mp_bub ,only: bub0,bub1,bub11,bub111,bub1111
 !
-  type(mp_complex) &  
-    ,intent(out) :: rslt(0:,0:)   
-  type(mp_real) & 
+  type(mp_complex) &
+    ,intent(out) :: rslt(0:,0:)
+  type(mp_real) &
     ,intent(in)  :: pp
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2
-  type(mp_real) & 
-   ,intent(in)  :: rmu       
+  type(mp_real) &
+   ,intent(in)  :: rmu
   integer,intent(in) :: rank
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss,r1,r2
-  type(mp_real) & 
+  type(mp_real) &
     :: app,am1,am2,hh,mulocal,mulocal2
   character(26+99) ,parameter :: warning=&
                      'WARNING from OneLOop bn: '//warnonshell
@@ -32519,7 +32519,7 @@ contains
   am1 = abs(m1)
   am2 = abs(m2)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32624,22 +32624,22 @@ contains
   use avh_olo_forCutTools_mp_tri
   use avh_olo_forCutTools_mp_auxfun ,only: kallen
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: p1,p2,p3
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: pp(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(3),rr(3),lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -32676,7 +32676,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32786,24 +32786,24 @@ contains
   use avh_olo_forCutTools_mp_tri
   use avh_olo_forCutTools_mp_auxfun ,only: kallen
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: p1,p2,p3
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3
-  type(mp_real) & 
-    ,intent(in)  :: rmu      
+  type(mp_real) &
+    ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: pp(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(3),rr(3),lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -32840,7 +32840,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -32950,22 +32950,22 @@ contains
   use avh_olo_forCutTools_mp_tri
   use avh_olo_forCutTools_mp_auxfun ,only: kallen
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(3),rr(3),lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -32996,7 +32996,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -33106,24 +33106,24 @@ contains
   use avh_olo_forCutTools_mp_tri
   use avh_olo_forCutTools_mp_auxfun ,only: kallen
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3
-  type(mp_real) & 
-    ,intent(in)  :: rmu      
+  type(mp_real) &
+    ,intent(in)  :: rmu
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(3),rr(3),lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -33154,7 +33154,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -33264,22 +33264,22 @@ contains
   use avh_olo_forCutTools_mp_tri
   use avh_olo_forCutTools_mp_auxfun ,only: kallen
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2,m3
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(3)
-  type(mp_real) & 
+  type(mp_real) &
     :: mm(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(3),rr(3),lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -33303,7 +33303,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -33413,24 +33413,24 @@ contains
   use avh_olo_forCutTools_mp_tri
   use avh_olo_forCutTools_mp_auxfun ,only: kallen
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2,m3
-  type(mp_real) & 
-    ,intent(in)  :: rmu      
+  type(mp_real) &
+    ,intent(in)  :: rmu
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(3)
-  type(mp_real) & 
+  type(mp_real) &
     :: mm(3)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(3),rr(3),lambda
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(3),am(3),as(3),ar(3),hh,s1r2,s2r3,s3r3
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2
   integer :: icase,ii
   character(25+99) ,parameter :: warning=&
@@ -33454,7 +33454,7 @@ contains
     if (am(ii).gt.smax) smax = am(ii)
   enddo
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -33572,8 +33572,8 @@ contains
 !         C = pi^eps * mu^(2*eps)
 !             * GAMMA(1-2*eps)/GAMMA(1-eps)^2/GAMMA(1+eps)
 !
-! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2, 
-!         p12=(k1+k2)^2, p23=(k2+k3)^2, 
+! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2,
+!         p12=(k1+k2)^2, p23=(k2+k3)^2,
 !         m1,m2,m3,m4=squared masses
 ! output: rslt(0) = eps^0   -coefficient
 !         rslt(1) = eps^(-1)-coefficient
@@ -33587,22 +33587,22 @@ contains
   use avh_olo_forCutTools_mp_box
   use avh_olo_forCutTools_mp_boxc
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: pp(6)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(4)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(6),rr(4)
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -33655,7 +33655,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -33860,24 +33860,24 @@ contains
   use avh_olo_forCutTools_mp_box
   use avh_olo_forCutTools_mp_boxc
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3,m4
-  type(mp_real) & 
-    ,intent(in)  :: rmu      
+  type(mp_real) &
+    ,intent(in)  :: rmu
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     :: pp(6)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(4)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(6),rr(4)
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -33930,7 +33930,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -34135,22 +34135,22 @@ contains
   use avh_olo_forCutTools_mp_box
   use avh_olo_forCutTools_mp_boxc
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(6)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(4)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(6),rr(4)
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -34197,7 +34197,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -34402,24 +34402,24 @@ contains
   use avh_olo_forCutTools_mp_box
   use avh_olo_forCutTools_mp_boxc
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(in)  :: m1,m2,m3,m4
-  type(mp_real) & 
-    ,intent(in)  :: rmu      
+  type(mp_real) &
+    ,intent(in)  :: rmu
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(6)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: mm(4)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(6),rr(4)
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -34466,7 +34466,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -34671,22 +34671,22 @@ contains
   use avh_olo_forCutTools_mp_box
   use avh_olo_forCutTools_mp_boxc
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2,m3,m4
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(6)
-  type(mp_real) & 
+  type(mp_real) &
     :: mm(4)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(6),rr(4)
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -34726,7 +34726,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = muscale 
+  mulocal = muscale
 !
   mulocal2 = mulocal*mulocal
 !
@@ -34931,24 +34931,24 @@ contains
   use avh_olo_forCutTools_mp_box
   use avh_olo_forCutTools_mp_boxc
 !
-  type(mp_complex) &  
+  type(mp_complex) &
     ,intent(out) :: rslt(0:2)
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: p1,p2,p3,p4,p12,p23
-  type(mp_real) & 
+  type(mp_real) &
     ,intent(in)  :: m1,m2,m3,m4
-  type(mp_real) & 
-    ,intent(in)  :: rmu      
+  type(mp_real) &
+    ,intent(in)  :: rmu
 !
-  type(mp_real) & 
+  type(mp_real) &
     :: pp(6)
-  type(mp_real) & 
+  type(mp_real) &
     :: mm(4)
-  type(mp_complex) &  
+  type(mp_complex) &
     :: ss(6),rr(4)
-  type(mp_real) & 
+  type(mp_real) &
     :: smax,ap(6),am(4),as(6),ar(4),s1r2,s2r2,s2r3,s3r4,s4r4
-  type(mp_real) & 
+  type(mp_real) &
     :: mulocal,mulocal2,small,hh,min13,min24,min56
   integer :: icase,ii,jj
   logical :: useboxc
@@ -34988,7 +34988,7 @@ contains
   enddo
   small = small*neglig(prcpar)
 !
-  mulocal = rmu     
+  mulocal = rmu
 !
   mulocal2 = mulocal*mulocal
 !
@@ -35229,33 +35229,33 @@ contains
   end subroutine
 
   subroutine olo_precision( ndec )
-  use avh_olo_forCutTools_dp ,only: dp_sub=>olo_precision 
-  use avh_olo_forCutTools_qp ,only: qp_sub=>olo_precision 
-  use avh_olo_forCutTools_mp ,only: mp_sub=>olo_precision 
+  use avh_olo_forCutTools_dp ,only: dp_sub=>olo_precision
+  use avh_olo_forCutTools_qp ,only: qp_sub=>olo_precision
+  use avh_olo_forCutTools_mp ,only: mp_sub=>olo_precision
   integer ,intent(in) :: ndec
-  call dp_sub( ndec ) 
-  call qp_sub( ndec ) 
-  call mp_sub( ndec ) 
+  call dp_sub( ndec )
+  call qp_sub( ndec )
+  call mp_sub( ndec )
   end subroutine
 
   subroutine olo_scale( val )
-  use avh_olo_forCutTools_dp ,only: dp_sub=>olo_scale 
-  use avh_olo_forCutTools_qp ,only: qp_sub=>olo_scale 
-  use avh_olo_forCutTools_mp ,only: mp_sub=>olo_scale 
+  use avh_olo_forCutTools_dp ,only: dp_sub=>olo_scale
+  use avh_olo_forCutTools_qp ,only: qp_sub=>olo_scale
+  use avh_olo_forCutTools_mp ,only: mp_sub=>olo_scale
   real(kind(1d0)) ,intent(in) :: val
-  call dp_sub( val ) 
-  call qp_sub( val ) 
-  call mp_sub( val ) 
+  call dp_sub( val )
+  call qp_sub( val )
+  call mp_sub( val )
   end subroutine
 
   subroutine olo_onshell( val )
-  use avh_olo_forCutTools_dp ,only: dp_sub=>olo_onshell 
-  use avh_olo_forCutTools_qp ,only: qp_sub=>olo_onshell 
-  use avh_olo_forCutTools_mp ,only: mp_sub=>olo_onshell 
+  use avh_olo_forCutTools_dp ,only: dp_sub=>olo_onshell
+  use avh_olo_forCutTools_qp ,only: qp_sub=>olo_onshell
+  use avh_olo_forCutTools_mp ,only: mp_sub=>olo_onshell
   real(kind(1d0)) ,intent(in) :: val
-  call dp_sub( val ) 
-  call qp_sub( val ) 
-  call mp_sub( val ) 
+  call dp_sub( val )
+  call qp_sub( val )
+  call mp_sub( val )
   end subroutine
 
   subroutine olo_setting( iunit )

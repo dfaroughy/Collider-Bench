@@ -17,7 +17,7 @@ c************************************************************************
 
       integer maxpara
       parameter (maxpara=1000)
-      
+
       integer npara
       character*20 param(maxpara),value(maxpara)
 
@@ -30,6 +30,3 @@ c************************************************************************
       return
 
       end
-
-
-

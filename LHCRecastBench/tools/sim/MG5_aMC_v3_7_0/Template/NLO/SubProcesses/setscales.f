@@ -10,7 +10,7 @@ c (muR_over_ref, muF1_over_ref, muF2_over_ref, QES_over_ref).
 c The reference scale is either a fixed value, given in run_card.dat
 c (muR_ref_fixed, muF1_ref_fixed, muF2_ref_fixed, QES_ref_fixed),
 c or is computed dynamically, by the functions:
-c  
+c
 c   function muR_ref_dynamic(pp)
 c   function muF_ref_dynamic(pp)
 c   function QES_ref_dynamic(pp)
@@ -26,11 +26,11 @@ c
 c The bodies of the functions above are independent of each other.
 c The easiest way to set them all equal is that of choosing
 c imurtype=1, imuftype=1, and iQEStype=1 (these parameters are
-c local to the bodies of the correspondent functions). This 
+c local to the bodies of the correspondent functions). This
 c will set the function above equal to the return value of
 c   function scale_global_reference(pp)
 c which again can be found in this file
-c 
+c
 c When calling set_alphaS for the first time, that routine will print
 c out the numerical values of the scales, and a string which is supposed
 c to give the functional form used for the reference scales. This will
@@ -57,7 +57,7 @@ c (mostly in run.inc, and one  in coupl.inc)
       include "run.inc"
       include "coupl.inc"
       include "timing_variables.inc"
-      
+
       double precision xp(0:3,nexternal)
       double precision dummy,dummyQES,dummies(2)
       integer i,j
@@ -153,7 +153,7 @@ cc         call setpara('param_card.dat')
 
       call cpu_time(tAfter)
       t_coupl=t_coupl+(tAfter-tBefore)
-      
+
  200  format(1x,a,2(1x,d12.6),2x,f4.2)
 
       return
@@ -162,7 +162,7 @@ cc         call setpara('param_card.dat')
 
       subroutine set_ren_scale(pp,muR)
 c Sets the value of the renormalization scale, returned as muR.
-c For backward compatibility, computes the value of alpha_S, and sets 
+c For backward compatibility, computes the value of alpha_S, and sets
 c the value of variable scale in common block /to_scale/
       implicit none
       include 'genps.inc'
@@ -178,7 +178,7 @@ c the value of variable scale in common block /to_scale/
      #                         muF2_id_str,QES_id_str
       character*80 temp_scale_id
       common/ctemp_scale_id/temp_scale_id
-c this is to avoid too low dynamic scales      
+c this is to avoid too low dynamic scales
       double precision minscaleR
       parameter (minscaleR=2d0)
 c After recomputing alphaS, be sure to set 'calculatedBorn' to false
@@ -280,7 +280,7 @@ c of the colorless system (as returned by clustering)
          write (*,*) "imurtype=3 not possible in setscales.f: "/
      $        /"need to check number of Born orders."
          stop 1
-         
+
 c geometric mean (to reweight alphaS)
          tmp1=0d0
          tmp2=1d0
@@ -367,7 +367,7 @@ c Note: the old version returned the factorization scales squared
      #                         muF2_id_str,QES_id_str
       character*80 temp_scale_id,temp_scale_id2
       common/ctemp_scale_id/temp_scale_id
-c this is to avoid too low dynamic scales      
+c this is to avoid too low dynamic scales
       double precision minscaleF
       parameter (minscaleF=2d0)
 c
@@ -446,7 +446,7 @@ c
 
       subroutine set_QES_scale(pp,QES)
 c Sets the value of the Ellis-Sexton scale, returned as QES.
-c For backward compatibility, sets the value of variable QES2 
+c For backward compatibility, sets the value of variable QES2
 c (Ellis-Sexton scale squared) in common block /COUPL_ES/
       implicit none
       include 'genps.inc'
@@ -463,7 +463,7 @@ c (Ellis-Sexton scale squared) in common block /COUPL_ES/
      #                         muF2_id_str,QES_id_str
       character*80 temp_scale_id
       common/ctemp_scale_id/temp_scale_id
-c this is to avoid too low dynamic scales      
+c this is to avoid too low dynamic scales
       double precision minscaleES
       parameter (minscaleES=2d0)
 c
@@ -546,11 +546,11 @@ c Special for analytic resummation in veto'ed cross sections:
          tmp=ptj
          temp_scale_id='NLO+NNLL veto scale: ptj_max'
       elseif(dynamical_scale_choice.eq.1) then
-c         Total transverse energy of the event.         
+c         Total transverse energy of the event.
           tmp=0d0
           do i=3,nexternal
              tmp=tmp+et(pp(0,i))
-          enddo      
+          enddo
           temp_scale_id='sum_i eT(i), i=final state'
       elseif(dynamical_scale_choice.eq.2) then
 c         sum of the transverse mass divide
@@ -572,7 +572,7 @@ c         m^2+pt^2=p(0)^2-p(3)^2=(p(0)+p(3))*(p(0)-p(3))
        elseif(dynamical_scale_choice.eq.-2) then
 c     fixed scale
           tmp=muR_ref_fixed
-          temp_scale_id='fixed scale'          
+          temp_scale_id='fixed scale'
       elseif(dynamical_scale_choice.eq.10.or.dynamical_scale_choice.eq.0) then
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cc      USER-DEFINED SCALE: ENTER YOUR CODE HERE                                 cc
@@ -593,4 +593,3 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c
       return
       end
-

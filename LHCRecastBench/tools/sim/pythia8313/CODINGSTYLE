@@ -257,7 +257,7 @@ A) Standard html concepts:
 <h2></h2> a subheader, one on top each separate xml file;
 <h3></h3> a subsubheader, giving (indexed) main subdivisions of an xml file;
 <h4></h4> a subsubsubheader;
-<hr/> a horizontal ruler line, to separate very distinct parts of a page; 
+<hr/> a horizontal ruler line, to separate very distinct parts of a page;
 <br/> a new line;
 <p/> a new paragraph;
 <ol></ol> an ordered list, with <li> items;

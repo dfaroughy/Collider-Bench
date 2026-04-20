@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 ####################################################################################################
 ####################################################################################################
 ##                                                                                                ##
@@ -31,7 +31,7 @@
 ##   '_' : indicates begin of option in special tag, use freely if you are not in this case       ##
 ##   '+' : for splitting different option value (use freely elsewhere)                            ##
 ##                                                                                                ##
-##  This is the special expression authorized in NAME (all start with S-)                         ##                                            
+##  This is the special expression authorized in NAME (all start with S-)                         ##
 ##                                                                                                ##
 ##  S-END:(only in rule) add the text in end (no tag needed)                                      ##
 ##  S-DEl:(in mod_file) supress this part of the file                                             ##
@@ -93,13 +93,13 @@
 ##     01/06/10: - make the modification inside a unknow blok                                     ##
 ##               - add a test suite for MadWeight case                                            ##
 ##                                                                                                ##
-##     29/09/09: - differentiate $b$...$b$ from $B$...$B$ (gestion of end of line)                ## 
+##     29/09/09: - differentiate $b$...$b$ from $B$...$B$ (gestion of end of line)                ##
 ##                                                                                                ##
 ##     22/05/09: - add decomment option                                                           ##
 ##               - ensure that all end of line use tag \n                                         ##
 ##                                                                                                ##
 ##     11/11/08: - modify documentation                                                           ##
-##               - authorize differate affectation with B-DIFF                                    ## 
+##               - authorize differate affectation with B-DIFF                                    ##
 ##                                                                                                ##
 ##     31/01/08: - pass in object                                                                 ##
 ##               - add S-comment super tag                                                        ##
@@ -125,7 +125,7 @@
 ##    |    + mod_all_file                                                                         ##
 ##    |    |    +    mod_one_file                                                                 ##
 ##    |    |    +    mod_one_text                                                                 ##
-##    |    |    +     +  treat_begin_end_line                                                     ## 
+##    |    |    +     +  treat_begin_end_line                                                     ##
 ##    |    + extract_modif                                                                        ##
 ##    |    + return_mod_text                                                                      ##
 ##    |    |    +    comment_text                                                                 ##
@@ -167,14 +167,14 @@ def mod_file(mod_file,rule_file='',write='',opt={}):
             else:
                mod_obj=Mod_file(opt=opt)
                for i in range(0,len(mod_file)):
-                   mod_obj.mod_one_file(mod_file[i],rule_file[i],write[i])        
+                   mod_obj.mod_one_file(mod_file[i],rule_file[i],write[i])
     else:
         mod_obj=Mod_file(mod_file,opt=opt)
 
 # 1 ###############################################################
 def mod_text(text,rule_file='',write=''):
 
-    
+
     mod_obj=Mod_file()
     mod_obj.file='input text'
     text=mod_obj.mod_one_text(text,rule_file,write)
@@ -201,17 +201,17 @@ class Mod_file:
         if opt:
             for key,value in opt.items():
                 exec('self.'+key+'='+str(value)+'')
-        
+
         if main_file:
             #main_dir is the directory of the main_file
             self.d_rule=os.path.dirname(os.path.realpath(main_file))
             self.d_main=self.d_rule
             self.mod_all_file(os.path.basename(main_file))
         if rule_file:
-            self.extract_modif(rule_file)            
+            self.extract_modif(rule_file)
 
 
-            
+
     # 2 ###############################################################
     def   mod_all_file(self,rule_pos):
         """ apply modification following manager main_file """
@@ -234,7 +234,7 @@ class Mod_file:
                 if obj_opt.group('opt')=='main_dir':
                     self.d_main=os.path.join(self.d_main,obj_opt.group('value'))
                     self.go_to_main_dir()
-                                         
+
             obj_pat=Pattern.search(line)
             if obj_pat:
                 self.mod_one_file(obj_pat.group('file'),obj_pat.group('rule'),obj_pat.group('write'))
@@ -263,7 +263,7 @@ class Mod_file:
     # 3 ###############################################################
     def  mod_one_text(self,text,rule_file='',write=''):
         """ modify the text with rule_file instruction output will be place in write (same file by default)"""
-    
+
         self.go_to_main_dir()
 
         #print "modify ",mod_file.split('/')[-1]
@@ -290,7 +290,7 @@ class Mod_file:
         for key in self.dico.keys():
             if key.startswith('S-DECOMMENT_'):
                 text=self.return_mod_text(key,text)
-                
+
         ##treat replacment
         text_list=replace.split(text)
         text_to_write=text_list.pop(0)
@@ -300,7 +300,7 @@ class Mod_file:
             text_to_write2=self.return_mod_text(tag,'')
             text_to_write3=text_list.pop(0)
             text_to_write=self.treat_begin_end_line(maj,text_to_write,text_to_write2,text_to_write3)
-            
+
         ##treat block part
         text_list=begin_end.split(text_to_write)
         text_to_write=text_list.pop(0)
@@ -315,7 +315,7 @@ class Mod_file:
                 mod_text=self.return_mod_text(tag,text)
             text_next=text_list.pop(0)
             text_to_write=self.treat_begin_end_line(maj,text_to_write,mod_text,text_next)
-            
+
 
         ## treat end file:
         if "S-END" in self.dico:
@@ -370,14 +370,14 @@ class Mod_file:
 
         return text_to_write
 
-        
 
-        
-        
+
+
+
             #############################################################################
             #                          Extract rule information                         #
             #############################################################################
-            
+
     # 2 ###############################################################
     def extract_modif(self,rule_file):
         """put the information in a dictionary"""
@@ -409,17 +409,17 @@ class Mod_file:
                 try:
                     tag=begin.search(line).group('tag')
                 except:
-                    tag=special_begin.search(line).group('tag')                
+                    tag=special_begin.search(line).group('tag')
                 if rec_mode:
                     print('error in ',rule_file,' wrong termination for ',tag,' rule')
                     sys.exit()
                 rec_mode=1
-                continue        
+                continue
             if end.search(line) or special_end.search(line):
                 try:
                     tag=end.search(line).group('tag')
                 except:
-                    tag=special_end.search(line).group('tag')             
+                    tag=special_end.search(line).group('tag')
                 if rec_mode==0:
                     print('error in ',rule_file,'no initial tag:', tag)
                     sys.exit()
@@ -443,16 +443,16 @@ class Mod_file:
         return self.dico
 
 
-                                  
+
             #############################################################################
             #                               tag treatment                               #
             #############################################################################
 
-    # 2 ###############################################################            
+    # 2 ###############################################################
     def return_mod_text(self,tag,text):
             """ by default return the text linked to tag
                 special tag are S-TAG_OPT: OPT=OPT1+OPT2+OPT3+..."""
-            
+
             special_tag=re.compile(r'''S-(?P<tag>[^ \t\n\r\f\v_]+)_?(?P<opt>[^\t\n\r\f\v]*)''') # S-TAG_OPT
 
             if not special_tag.search(tag):
@@ -468,7 +468,7 @@ class Mod_file:
                         output = '$B$ '+tag+' $E$'
                     self.failed=1
                     return output
-                    
+
             #SPECIAL TAG CASE
             short_tag=special_tag.search(tag).group('tag')
             opt=special_tag.search(tag).group('opt').split('+')
@@ -482,7 +482,7 @@ class Mod_file:
                     opt2.append(old+part)
                     old=''
             opt=opt2
-            
+
             tag=short_tag.lower()
             if tag=='comment':
                 text=self.comment_text(text,opt[0])
@@ -495,9 +495,9 @@ class Mod_file:
                     text=self.regexp_text(text,opt[0],opt[1],opt[2])
             elif tag=='decomment':
                 text=self.decomment_text(text,opt[0])
-                    
+
             return text
-            
+
     # 3 ###############################################################
     def comment_text(self,text,comment_tag):
         """ add comment_tag before each line """
@@ -506,11 +506,11 @@ class Mod_file:
         #print [text.split('\n')]
         #print text
         #print text.replace('\n','\n'+comment_tag+'\t')
-        
+
         text=comment_tag+'|\t'+text.replace('\n','\n'+comment_tag+'|\t')
         if text[-3:]=="|\t\n":
             text=text[-3:]
-        text=text.replace('\t','    ')      
+        text=text.replace('\t','    ')
         text2=''
         for line in text.split('\n'):
             if line=='':
@@ -524,7 +524,7 @@ class Mod_file:
             else:
                 line+='\n'
             text2+=line
-            
+
         line=comment_tag+'+'+71*'-'+'+\n'
 
         return line+text2+line+'\n'
@@ -566,7 +566,7 @@ class Mod_file:
 
         return end_text
         return end_text
-    
+
     # 3 ###############################################################
     def del_text(self,text):
         return ''
@@ -595,16 +595,16 @@ class Mod_file:
             ############################################################################
             #                          positioning routine                             #
             ############################################################################
-            
-    # 2 ###############################################################            
+
+    # 2 ###############################################################
     def back_to_init_dir(self):
         os.chdir(self.d_init)
-        
-    # 2 ###############################################################        
+
+    # 2 ###############################################################
     def go_to_main_dir(self):
         os.chdir(self.d_main)
 
-  
+
 #########################################################################################################
 #  TEST #################################################################################################
 #########################################################################################################
@@ -615,7 +615,7 @@ if '__main__' == __name__:
     from . import create_run
     import unittest
     import os, shutil
-    
+
 
     class TestMod_file(unittest.TestCase):
         """ Test the the mod routines works correctly on MadWeight """
@@ -638,7 +638,7 @@ if '__main__' == __name__:
 
             file_to_mod='./SubProcesses/cuts.bk'
             rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
-            #modify file                                            
+            #modify file
             mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
             self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
             self.assertEqual(create_run.bw_cut_is_active('cuts.mod'),1)
@@ -666,7 +666,7 @@ if '__main__' == __name__:
             rule= './Source/MadWeight/mod_file/mod_cuts'
             mod_file(file_to_mod,rule, write='./SubProcesses/cuts.mod')
             self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
-            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'),1)            
+            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'),1)
             self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
 
             file_to_mod='./SubProcesses/cuts.mod'
@@ -699,7 +699,7 @@ if '__main__' == __name__:
 
             file_to_mod='./SubProcesses/cuts.bk'
             rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-            #modify file                                                                                                                                                                   
+            #modify file
             mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
             self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
             self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
@@ -710,30 +710,6 @@ if '__main__' == __name__:
             self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
             self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
             self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
- 
-            rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
-            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-            self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
-            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
-            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-
-            rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-            self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
-            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
-            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-
-            rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
-            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-            self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
-            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
-            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-
-            rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
-            self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
-            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
-            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
 
             rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
             mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
@@ -753,7 +729,31 @@ if '__main__' == __name__:
             self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
             self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
 
-            # Next one will Fail but is not supose to be called whitout check of the second 
+            rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
+            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+            self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
+            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
+            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+            rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
+            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+            self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
+            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
+            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+            rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
+            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+            self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
+            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
+            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+            rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
+            mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
+            self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
+            self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
+            self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
+
+            # Next one will Fail but is not supose to be called whitout check of the second
             #rule='./Source/MadWeight/mod_file/suppress_cuts_MG'
             #mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
             #self.assertEqual(create_run.cut_is_active('cuts.mod'), 0)
@@ -774,12 +774,12 @@ if '__main__' == __name__:
 
             file_to_mod='./SubProcesses/cuts.mod'
             rule='./Source/MadWeight/mod_file/suppress_BW_cuts'
-            #modify file                                                                                                                                                                   
+            #modify file
             mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
             self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
             self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 0)
             self.assertFalse('\n$B$' in open('./SubProcesses/cuts.mod').read())
-            
+
             mod_file(file_to_mod,rule,opt={'nowarning':"""['PASSCUTS','MW_NEW_DEF','DESACTIVATE_BW_CUT']"""}, write='./SubProcesses/cuts.mod')
             self.assertEqual(create_run.cut_is_active('cuts.mod'), 1)
             self.assertEqual(create_run.bw_cut_is_active('cuts.mod'), 1)
@@ -824,5 +824,3 @@ if '__main__' == __name__:
 
 
     unittest.main()
-
-

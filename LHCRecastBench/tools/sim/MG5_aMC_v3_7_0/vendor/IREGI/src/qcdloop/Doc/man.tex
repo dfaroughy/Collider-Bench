@@ -39,7 +39,7 @@ the definition of the integrals is as follows
 &&\nn \\
 &&
 I^{D}_4(p_1^2,p_2^2,p_3^2,p_4^2;s_{12},s_{23};m_1^2,m_2^2,m_3^2,m_4^2)
-= 
+=
 \frac{\mu^{4-D}}{i \pi^{\frac{D}{2}}\cG}
 \nn \\
 &&
@@ -48,13 +48,13 @@ I^{D}_4(p_1^2,p_2^2,p_3^2,p_4^2;s_{12},s_{23};m_1^2,m_2^2,m_3^2,m_4^2)
 {(l^2-m_1^2+i\varepsilon)
 ((l+q_1)^2-m_2^2+i\varepsilon)
 ((l+q_2)^2-m_3^2+i\varepsilon)
-((l+q_3)^2-m_4^2+i\varepsilon)}\,, \nn 
+((l+q_3)^2-m_4^2+i\varepsilon)}\,, \nn
 \end{eqnarray}
 The divergences of the integrals are regulated by dimensional
 regularization, $D=4-2 \epsilon$ and we have removed the overall
 constant which occurs in $D$-dimensional integrals
 \beq
-\cG\equiv\frac{\Gamma^2(1-\e)\Gamma(1+\e)}{\Gamma(1-2\e)} = 
+\cG\equiv\frac{\Gamma^2(1-\e)\Gamma(1+\e)}{\Gamma(1-2\e)} =
 \frac{1}{\Gamma(1-\e)} +{\cal O}(\e^3) =
 1-\e \gamma+\e^2\Big[\frac{\gamma^2}{2}-\frac{\pi^2}{12}\Big]
 +{\cal O}(\e^3)\,.
@@ -64,15 +64,15 @@ constant which occurs in $D$-dimensional integrals
 The numerical code returns the three complex coefficients in the
 Laurent series, for any $N$-point integral
 \beq
-I_N^D = \frac{a_{-2}}{\e^2}+\frac{a_{-1}}{\e^1}+a_0\,,\hspace{.5cm} N\leq 4 \,. 
+I_N^D = \frac{a_{-2}}{\e^2}+\frac{a_{-1}}{\e^1}+a_0\,,\hspace{.5cm} N\leq 4 \,.
 \nn
 \eeq
 %
-As a first thing one should call the ql-initialization subroutine 
+As a first thing one should call the ql-initialization subroutine
 \begin{verbatim}
       subroutine qlinit
 \end{verbatim}
-which calls the ff-initialization subroutine as well. 
+which calls the ff-initialization subroutine as well.
 
 The four scalar integrals, (tadpole, bubble, triangle, box) can then be
 evaluated by calling the following four fortran functions.  The
@@ -81,17 +81,17 @@ arguments of those four functions are defined as follows,
       double complex function qlI1(m1,mu2,ep)
       double precision msq,musq
       integer ep
-C     mi=m(i)^2 is the square of the mass of the propagator i 
+C     mi=m(i)^2 is the square of the mass of the propagator i
 C     mu2 is the square of the scale mu
 C     ep=-2,-1,0 chooses the term in the Laurent series.
       .....
 \end{verbatim}
 \begin{verbatim}
-      double complex function qlI2(p1,m1,m2,mu2,ep) 
+      double complex function qlI2(p1,m1,m2,mu2,ep)
       double precision p1,m1,m2,mu2
       integer ep
-C     p1=psq(1) is the squared four-momentum of the external particle i 
-C     mi=m(i)^2, i=1,2 are the squares of the mass of the propagator i 
+C     p1=psq(1) is the squared four-momentum of the external particle i
+C     mi=m(i)^2, i=1,2 are the squares of the mass of the propagator i
 C     mu2 is the square of the scale mu
 C     ep=-2,-1,0 chooses the appropriate term in the Laurent series.
       .....
@@ -121,7 +121,7 @@ C     ep=-2,-1,0 chooses the term in the Laurent series.
 \begin{figure}
 \includegraphics[angle=270,scale=0.55]{tot}
 \caption{Tadpole, bubble, triangle and box scalar integrals}
-\label{btbtfig} 
+\label{btbtfig}
 \end{figure}
 
 Thus the call to the function

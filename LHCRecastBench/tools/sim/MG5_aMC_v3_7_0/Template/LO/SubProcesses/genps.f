@@ -47,7 +47,7 @@ c     Local
 c
 c
 c     External
-c     
+c
 c
 c     Global
 c
@@ -71,7 +71,7 @@ c
 c     Routine to generate 4 momentum based on tree-level decomposition
 c     using generalized s,t,u variables as integration variables. Need to
 c     describe different configurations using variable iforest.
-c     
+c
 c     INPUTS:    iconfig   == Current configuration working on
 c                mincfig   == First configuration to include
 c                maxcfig   == Last configuration to include
@@ -91,7 +91,7 @@ c     x(ndim), x(ndim-2),.... are the phi angles.
 c**************************************************************************
       use DiscreteSampler
       implicit none
-c     
+c
 c     Constants
 c
       include 'genps.inc'
@@ -137,7 +137,7 @@ c
       double precision tau_m, tau_w, t1, t2
       double precision get_ee_expo
 
-      
+
 c
 c     External
 c
@@ -192,18 +192,18 @@ c      COMMON/TO_PDF/LHAID,PDLABEL,EPA_LABEL, pdsublabel
 
       double precision omx_ee(2)
       common /to_ee_omx1/ omx_ee
-      
+
       save ndim,nfinal,nbranch,nparticles
 
       integer jfig,k
 
       double precision cm_rap
       logical set_cm_rap
-      common/to_cm_rap/set_cm_rap,cm_rap      
+      common/to_cm_rap/set_cm_rap,cm_rap
 
 
       double precision x1_ee, x2_ee
-      
+
 c     External function
       double precision SumDot
       external SumDot
@@ -259,7 +259,7 @@ c
                set_cm_rap=.true.
             endif
 c        lpp1=+-3 or +-4 and lpp2 as well
-c        For ISR/beamstrhalung case         
+c        For ISR/beamstrhalung case
          else if (pdlabel.eq.'dressed') then
             if (spole(ndim-1).gt.0d0.and.swidth(ndim-1).gt.0d0) then
                call ntuple(R,0.0d0,1.0d0,0,iconfig)
@@ -269,9 +269,9 @@ c        For ISR/beamstrhalung case
             else
                ee_picked = 1
             endif
-            
+
             if(ee_picked.eq.2) then
-               call sample_get_x(sjac,x(ndim-1),ndim-1,mincfig,smin/stot,1d0)               
+               call sample_get_x(sjac,x(ndim-1),ndim-1,mincfig,smin/stot,1d0)
                xtau = x(ndim-1)
                if(nexternal .eq. 3) then
                   x(ndim-1) = pmass(3)*pmass(3)/stot
@@ -288,9 +288,9 @@ c           Set shat
                s(-nbranch) = xbk(1)*xbk(2)*stot
                x1_ee = Xbk(1)
                x2_ee =  Xbk(2)
-            else   
+            else
 c        ! for dressed ee collisions the generation is different
-c        ! wrt the pp case. In the pp case, tau and y_cm are generated, 
+c        ! wrt the pp case. In the pp case, tau and y_cm are generated,
 c        ! while in the ee case x1 and x2 are generated first.
                call sample_get_x(sjac,x(ndim-1),ndim-1,mincfig,0d0,1d0)
                call sample_get_x(sjac,x(ndim),ndim,mincfig,0d0,1d0)
@@ -300,14 +300,14 @@ c        ! while in the ee case x1 and x2 are generated first.
                s(-nbranch) =  x1_ee * x2_ee * stot
                xbk(1)   = x1_ee
                xbk(2)   = x2_ee
-c        ! now we are done. We must call the following function 
+c        ! now we are done. We must call the following function
 c        ! in order to (re-)generate tau and ycm
-c        ! from x1 and x2. It also (re-)checks that tau_born 
+c        ! from x1 and x2. It also (re-)checks that tau_born
 c        ! is pysical, and otherwise sets xjac0=-1000
-               call get_y_from_x12(x1_ee, x2_ee, omx_ee(1), cm_rap) 
+               call get_y_from_x12(x1_ee, x2_ee, omx_ee(1), cm_rap)
                set_cm_rap=.true.
             endif
-        ! multiply the jacobian by a multichannel factor if the 
+        ! multiply the jacobian by a multichannel factor if the
         ! generation with resonances is also possible
            if (spole(ndim-1).gt.0d0.and.swidth(ndim-1).gt.0d0) then
                tau_m = spole(ndim-1)
@@ -318,7 +318,7 @@ c               if (dabs(x1_ee * x2_ee-tau_m).lt.5*tau_w)then
 c               else
 c                  t2=0d0
 c               endif
-               
+
                if (ee_picked.eq.1) then
                   sjac = sjac * t1 / (t1+t2)
                else
@@ -331,7 +331,7 @@ c               endif
 c-----
 c tjs 5/24/2010 for 2->1 process
 c-------
-           call sample_get_x(sjac,x(ndim-1),ndim-1,mincfig,0d0,1d0)               
+           call sample_get_x(sjac,x(ndim-1),ndim-1,mincfig,0d0,1d0)
            xtau = x(ndim-1)
             if(nexternal .eq. 3) then
                x(ndim-1) = pmass(3)*pmass(3)/stot
@@ -369,7 +369,7 @@ c        Set CM rapidity for use in the rap() function
          cm_rap=.5d0*dlog((p0+p3)/(p0-p3))
          set_cm_rap=.true.
 c        Set shat
-         s(-nbranch) = x(ndim)*stot         
+         s(-nbranch) = x(ndim)*stot
       elseif (abs(lpp(2)) .ge. 1) then
          call sample_get_x(sjac,x(ndim),ndim,mincfig,0d0,1d0)
          xbk(2) = x(ndim)
@@ -380,7 +380,7 @@ c        Set CM rapidity for use in the rap() function
          cm_rap=.5d0*dlog((p0+p3)/(p0-p3))
          set_cm_rap=.true.
 c        Set shat
-         s(-nbranch) =  x(ndim)*stot         
+         s(-nbranch) =  x(ndim)*stot
       else
 c        Set CM rapidity for use in the rap() function
          p0=ebeam(1) + ebeam(2)
@@ -502,7 +502,7 @@ c                  xx(3*nbranch-3,jconfig)= x
 
 
                if (maxcfig-mincfig .gt. 0) then
-               
+
                   pwgt(jconfig)=max(sjac*jac*pswgt*wgt,1d-99)
                   prb(jconfig,jpnt,jplace)=1d0/pwgt(jconfig)
                   tprb = tprb + prb(jconfig,jpnt,jplace)*alpha(jconfig)
@@ -534,7 +534,7 @@ c
          flux  = flux / (2d0*pi)**(3 * nfinal - 4)
 c
 c     Make sure all the invarients are reasonable
-c         
+c
 
          do i=1,invar
             x(i)=xx(i)
@@ -560,11 +560,11 @@ c            if (fprb(i,jpnt,jplace) .eq. 0d0) then
                fprb(i,jpnt,jplace)=fprb(i,jpnt,jplace)/tprb
             endif
          enddo
-         
-         
+
+
 c         write(123,'(2i6,1e15.5)') jpnt,jplace
-c         write(123,'(5e15.9)') (fprb(i,jpnt,jplace),i=1,invar) 
-c         write(123,'(5e15.9)') (prb(i,jpnt,jplace),i=1,maxcfig) 
+c         write(123,'(5e15.9)') (fprb(i,jpnt,jplace),i=1,invar)
+c         write(123,'(5e15.9)') (prb(i,jpnt,jplace),i=1,maxcfig)
 
 c
 c     Return the 4 momentum if things worked.
@@ -586,7 +586,7 @@ c         write(*,'(11f7.4)')(x(i),i=1,invar)
          endif
       else                    !Failed cuts
 c         write(*,*) 'Failed cuts'
-         p1(0,1)=-99           
+         p1(0,1)=-99
       endif
 c
 c     comment out everything funny here
@@ -718,7 +718,7 @@ c************************************************************************
       implicit none
 c
 c     Constants
-c      
+c
       include 'genps.inc'
       include 'nexternal.inc'
       double precision pi            , one
@@ -786,10 +786,10 @@ c
       if (abs(tstrategy).eq.1) then
          iopposite = 2
       endif
-      
+
       do while(itree(1,-ns_channel) .ne. iopposite .and.ns_channel.lt.nbranch)
-         m(-ns_channel)=0d0                 
-         ns_channel=ns_channel+1         
+         m(-ns_channel)=0d0
+         ns_channel=ns_channel+1
       enddo
       ns_channel=ns_channel - 1
       nt_channel=nbranch-ns_channel-1
@@ -832,7 +832,7 @@ c     Check for NAN - ja 3/11
 c         write(*,*) ibranch,sqrt(smin),sqrt(smax)
 c
 c        Choose the appropriate s given our constraints smin,smax
-c     
+c
          call sample_get_x(wgt,x(-ibranch),-ibranch,iconfig,
      &        smin/stot,smax/stot)
          s(ibranch) = x(-ibranch)*stot
@@ -865,8 +865,8 @@ c
       enddo
 
       if (nt_channel .eq. 0 .and. nincoming .eq. 2) then
-         s(-nbranch+1)=s(-nbranch) 
-         m(-nbranch+1)=m(-nbranch)      !Basic s-channel has s_hat 
+         s(-nbranch+1)=s(-nbranch)
+         m(-nbranch+1)=m(-nbranch)      !Basic s-channel has s_hat
          p(0,-nbranch+1) = m(-nbranch+1)!and 0 momentum
          p(1,-nbranch+1) = 0d0
          p(2,-nbranch+1) = 0d0
@@ -894,7 +894,7 @@ c
          totmass=totmass-m(itree(2,ibranch))      !for remaining particles
          smin = totmass**2                        !This affects t_min/max
          smax = (m(ibranch) - m(itree(2,ibranch)))**2
-         
+
          if (smin .gt. smax) then
             jac=-3d0
             return
@@ -915,27 +915,27 @@ c         write(*,*) 'Using s',nbranch-1+(-ibranch)*2
       enddo
       m(-nbranch) = m(itree(2,-nbranch))
 c
-c     Now perform the t-channel decay sequence. Most of this comes from: 
+c     Now perform the t-channel decay sequence. Most of this comes from:
 c     Particle Kinematics Chapter 6 section 3 page 166
 c
 c     From here, on we can just pretend this is a 2->2 scattering with
 c     Pa                    + Pb     -> P1          + P2
 
       if (tstrategy.eq.-2.or.tstrategy.eq.-1) then
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc  
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cc       T-channel ping-pong strategy starting with 2
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-         
-c     No -flipping case:      
+
+c     No -flipping case:
 c      p(0,itree(ibranch,1)) + p(0,2) -> p(0,ibranch)+ p(0,itree(ibranch,2))
 c       -  M(ibranch) is the total mass available (Pa+Pb)^2
 c       - M(ibranch-1) is the mass of P2  (all the remaining particles)
 c
 c     With flipping case
 c      p(0,itree(ibranch,1)) + pother -> p(0,ibranch)+ p(0,itree(ibranch,2))
-c       - pother = p(0,itree(ibranch,1)) -p(0,itree(ibranch,2))         
+c       - pother = p(0,itree(ibranch,1)) -p(0,itree(ibranch,2))
 c       - M(ibranch) is the total mass available (Pa+Pb)^2
-c       - M(ibranch-1) is the mass of P2  (all the remaining particles)      
+c       - M(ibranch-1) is the mass of P2  (all the remaining particles)
 c
 c     This assumes that P(0, ibranch) is set to the T-channel propa (likely)
 c      do ibranch = -ns_channel-1,-nbranch,-1
@@ -975,7 +975,7 @@ c$$$         write(*,*) 'Pa', P(0,itree(1, ibranch)),P(1,itree(1, ibranch)),P(2,
 c$$$         if (ibranch.ne.-ns_channel-1) then
 c$$$            write(*,*) 'Pb', P(0,iopposite),P(1,iopposite),P(2,iopposite), P(3,iopposite)
 c$$$            do i=0,3
-c$$$               pother(i) = P(i,itree(1, ibranch)) + P(i,ibranch+1) 
+c$$$               pother(i) = P(i,itree(1, ibranch)) + P(i,ibranch+1)
 c$$$            enddo
 c$$$         else
 c$$$            write(*,*) 'Pb', P(0,2),P(1,2),P(2,2),P(3,2)
@@ -990,14 +990,14 @@ c$$$         write(*,*) 'DSQRT(s1) = ', m(ibranch), DSQRT(dot(pother, pother))
 c$$$c         if (m(ibranch)**2.ne.dot(pother, pother)) stop 1
 c$$$         write(*,*) 'm12= Pd**2 = ', m12 ,DSQRT(m12)
 c$$$         write(*,*) 'mn2 = Pc**2 =', mn2, DSQRT(mn2)
-         
+
 C     WRITE(*,*) 'Enertering yminmax',sqrt(s1),sqrt(m12),sqrt(mn2)
-         
+
          call yminmax(s1,0d0,m12,ma2,mb2,mn2,tmin,tmax)
 c         call yminmax(s1,0d0,m12,ma2,mb2,smax,tmin_temp,tmax_temp)
 c         if (tmin_temp.lt.tmin) tmin = tmin_temp
 c         if (tmax_temp.gt.tmax) tmax = tmax_temp
-         
+
 c
 c     Call for 0<x<1
 c
@@ -1018,7 +1018,7 @@ c      if ((tmax-tmin)/stot.gt.0.1)then
 c            call sample_get_x(wgt,x(-ibranch),-ibranch,iconfig,
 c     $           0d0, 1d0)
 c         t = stot*(-x(-ibranch))
-      
+
 c      else if (tmax/stot.gt.-0.01.and.tmin/stot.lt.-0.02)then
 c         set tmax to 0. The idea is to be sure to be able to hit zero
 c         and not to be block by numerical inacuracy
@@ -1050,11 +1050,11 @@ c
          phi = 2d0*pi*x(nbranch+(-ibranch-1)*2)
          jac = jac*(tmax-tmin)*2d0*pi /2d0 ! I need /2d0 if -1<x<1
 
-         
+
 c
 c     Finally generate the momentum. The call is of the form
 c     pa+pb -> p1+ p2; t=(pa-p1)**2;   pr = pa-p1
-c     gentcms(pa,pb,t,phi,m1,m2,p1,pr) 
+c     gentcms(pa,pb,t,phi,m1,m2,p1,pr)
 c
          if (itree(1,ibranch).gt.-ns_channel-1)then
             mi2 = m(itree(1,ibranch))**2
@@ -1080,7 +1080,7 @@ c$$$         write(*,*) 'pr', p(0,ibranch),p(1,ibranch),p(2,ibranch),p(3,ibranch
 c$$$         write(*,*) 'pa-pc', p(0,itree(1,ibranch))-p(0,itree(2,ibranch)),p(1,itree(1,ibranch))-p(1,itree(2,ibranch))
 
 
-         
+
          if (jac .lt. 0d0) then
 c            nerr=nerr+1
 c            if(nerr.le.5)
@@ -1091,7 +1091,7 @@ c     $           write(*,*) 'Failed gentcms',iconfig,ibranch
          pswgt = pswgt/(4d0*dsqrt(lambda(s1,ma2,mb2)))
       enddo
 
-c     
+c
 c     We need to get the momentum of the last external particle.
 c     This should just be the sum of p(0,2) and the remaining
 c     momentum from our last t channel 2->2
@@ -1122,7 +1122,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cc       T-channel One side eat all strategy ending with 2
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c
-c     Now perform the t-channel decay sequence. Most of this comes from: 
+c     Now perform the t-channel decay sequence. Most of this comes from:
 c     Particle Kinematics Chapter 6 section 3 page 166
 c
 c     From here, on we can just pretend this is a 2->2 scattering with
@@ -1149,7 +1149,7 @@ c         write(*,*) 'Enertering yminmax',sqrt(s1),sqrt(m12),sqrt(mn2)
              write(*,*)        '                       |           '
              write(*,*) tstrategy, '-----------T---------- m=', m(ibranch-1), ibranch-1
              write(*,*) 'S', dsqrt(s1), 'm_top=', dsqrt(mb2), 'M_bottom', dsqrt(ma2)
-             
+
 c     write(*,*) m(1), m(2), m(3), m(4), m(5)
             write(*,*) 'Pa', P(0,itree(1, ibranch)),P(1,itree(1, ibranch)),P(2,itree(1, ibranch)),P(3,itree(1, ibranch))
          endif
@@ -1167,7 +1167,7 @@ c
 c         write(*,*) 'tmin, tmax',tmin,tmax
          if(.false.) then
             ! NOT VALIDATED METHOD, momenta are ok but not jacobian
-            
+
             call sample_get_x(wgt,x(-ibranch),-ibranch,iconfig,
      $        0d0, 1d0)
             costh= 2d0*x(-ibranch)-1d0
@@ -1184,7 +1184,7 @@ c         write(*,*) 'tmin, tmax',tmin,tmax
          DO I=0,3
             pboost(I) = P(I,tstrategy) + P(I,itree(1, ibranch))
          ENDDO
-         
+
          call boostm(p(0,itree(2,ibranch)),pboost,m(itree(2,ibranch)),p(0,itree(2,ibranch)))
          call boostm(pother,pboost,m(ibranch),pother)
 
@@ -1209,12 +1209,12 @@ c         write(*,*) 'tmin, tmax',tmin,tmax
             ptemp(i) = pother(i) + p(i,itree(2,ibranch))
          enddo
          write(*,*) 'p1+p2', ptemp(0), ptemp(1), ptemp(2), ptemp(3), dsqrt(dot(ptemp, ptemp))
-         
+
          write(*,*) 'Tchannel'
          I = ibranch
          write(*,*) 'p(',I,',)', p(0,i), p(1,i), p(2,i), p(3,i), dot(p(0,I), p(0,I))
          endif
-         
+
          pswgt = pswgt/(4d0*dsqrt(lambda(s1,ma2,mb2)))
 
       else
@@ -1228,7 +1228,7 @@ c         endif
          call sample_get_x(wgt,x(-ibranch),-ibranch,iconfig,
      $        -tmax/stot, -tmin/stot)
          t = stot*(-x(-ibranch))
-         
+
 
 c         if ((tmax-tmin)/stot.gt.0.1)then
 c            call sample_get_x(wgt,x(-ibranch),-ibranch,iconfig,
@@ -1270,7 +1270,7 @@ c
 c
 c     Finally generate the momentum. The call is of the form
 c     pa+pb -> p1+ p2; t=(pa-p1)**2;   pr = pa-p1
-c     gentcms(pa,pb,t,phi,m1,m2,p1,pr) 
+c     gentcms(pa,pb,t,phi,m1,m2,p1,pr)
 c
 
          if (itree(1,ibranch).gt.-ns_channel-1)then
@@ -1303,7 +1303,7 @@ c
       enddo
 
 
-      
+
       else
          write(*,*) 'not supported tstrategy'
          stop 2
@@ -1317,7 +1317,7 @@ c     Now generate momentum for all intermediate and final states
 c     being careful to calculate from more massive to less massive states
 c     so the last states done are the final particle states.
 c
-c      do i = -ns_channel,-1      
+c      do i = -ns_channel,-1
 c      ix=0
 c      if (nt_channel .eq. 0) ix=-1
       do i = -nbranch+nt_channel+(nincoming-1),-1         !Loop over all s-channel poles
@@ -1359,7 +1359,7 @@ c$$$      write(*,*) 'p5 expected', pother(0), pother(1),pother(2),pother(3)
       if (.not. pass) jac = -99
       end
 
-         
+
       subroutine gen_s(x,smin,smax,spole,swidth,s,jac,pass)
 c*************************************************************************
 c     Given a random number x, the limits smin and smax and also
@@ -1380,7 +1380,7 @@ c
       include 'cuts.inc'
 c
 c     Local
-c     
+c
       logical warned0
 c
 c     Data
@@ -1391,7 +1391,7 @@ c  Begin Code
 c-----
       if (dsqrt_shatmax.ne.-1d0)then
           smax = min(smax, dsqrt_shatmax**2)
-      endif 
+      endif
 
       pass=.true.
       if (jac .eq. 0 .and. .not. warned0) then
@@ -1548,7 +1548,7 @@ c
 c     Local
 c
       double precision y1,y2,yr,ysqr
-c     
+c
 c     External
 c
       double precision lambda
@@ -1584,7 +1584,7 @@ c
       logical pass
 c
 c     Local
-c     
+c
       logical warned0
 c
 c     Data
@@ -1727,7 +1727,7 @@ C     IF THERE IS NO S CHANNEL POLE USE BELOW:
 
         ! then pick either x1 or x2 and generate it the usual way;
         ! Note that:
-        ! - setting xmin=sqrt(tau_born) ensures that the largest 
+        ! - setting xmin=sqrt(tau_born) ensures that the largest
         !    bjorken x is being generated.
         ! -  there is a jacobian for x1 x2 -> tau x1(2)
         ! -  we must include the factor 1/(1-x)^get_ee_expo,
@@ -1745,7 +1745,7 @@ C     IF THERE IS NO S CHANNEL POLE USE BELOW:
           omx_ee(1) = 1d0 - x1
           sjacobi = sjacobi / x2 * 2d0  / (1d0-x1)**get_ee_expo()
        endif
-      
+
 
       END
 
@@ -1769,14 +1769,14 @@ C     -----------------------------------------
 
       integer ids(nexternal)
       integer i,j
-      logical trivial_boost 
+      logical trivial_boost
 
 c     uncompress
       call mapid(frame_id, ids)
       pboost(:) = 0d0
       p2(:,:) = 0d0
 c     avoid trivial boost (check only for  0 0 1 1 1... so sum of the
-c     final state. 1 1 0 0 0 .... should not go within this function   
+c     final state. 1 1 0 0 0 .... should not go within this function
       trivial_boost=.true.
       do i=1,nexternal
         if (i.le.nincoming)then
@@ -1805,12 +1805,12 @@ c     find the boost momenta --sum of particles--
             enddo
          endif
       enddo
-      do j=1,3	
+      do j=1,3
           Pboost(j) = -1 * Pboost(j)
-      enddo	    
+      enddo
       do i=1, nexternal
          call boostx(p1(0,i), pboost, p2(0,i))
-      enddo   
+      enddo
       return
       end
 
@@ -1827,7 +1827,7 @@ c     include 'run.inc'
 
       double precision p(0:3, nexternal)
       integer config
-      
+
 
       integer iforest(2,-max_branch:-1,lmaxconfigs)
       integer tstrategy(lmaxconfigs)
@@ -1844,7 +1844,7 @@ c     include 'run.inc'
        integer sde_strat ! 1 means standard single diagram enhancement strategy,
 c      	      	      	   2 means approximation by the	denominator of the propagator
        common/TO_CHANNEL_STRAT/tmin_for_channel,	sde_strat
-      
+
       integer            mapconfig(0:lmaxconfigs), this_config
       common/to_mconfigs/mapconfig, this_config
 
@@ -1861,7 +1861,7 @@ c      	      	      	   2 means approximation by the	denominator of the propaga
       integer nb_tchannel
       integer nbranch
       double precision tmp, tmp2
-      
+
       double precision ZERO
       parameter (ZERO=0d0)
       double precision prmass(-nexternal:0,lmaxconfigs)
@@ -1872,19 +1872,19 @@ c      	      	      	   2 means approximation by the	denominator of the propaga
       data first_time /.true./
 
       double precision Mass, Width
-      
+
       include 'configs.inc'
 
       if(sde_strat.eq.1.and.tmin_for_channel.eq.-1)then
          get_channel_cut = 1d0
          return
       endif
-      
+
       if (first_time) then
          include 'props.inc'
          first_time=.false.
       endif
-      
+
       do i = 1, nexternal
          do j =0,3
             ptemp(j,i) = p(j,i)
@@ -1905,13 +1905,13 @@ c      write(*,*) 'T-channel found: ',nb_tchannel
 
 
 
-      
+
       get_channel_cut = 1.
       if (nb_tchannel.lt.2.and.sde_strat.eq.1)then
          get_channel_cut = 1.
          return
       endif
-      
+
       do i = 1, nexternal-3
          d1 = iforest(1, -i, config)
          d2 = iforest(2, -i, config)
@@ -1934,7 +1934,7 @@ c      write(*,*) 'T-channel found: ',nb_tchannel
                get_channel_cut = get_channel_cut / (t-Mass**2+stot*1d-10)**2
             endif
 c            write(*,*) i, "t, Mass, fact", t, Mass, ((t-Mass)*(t+Mass))**2,get_channel_cut
-            t = t/stot 
+            t = t/stot
             if (t.lt.tmin_for_channel)then
                 get_channel_cut = get_channel_cut * exp((t-tmin_for_channel)/(t+1))
 c               get_channel_cut = get_channel_cut * (t+1)/(1+tmin_for_channel)
@@ -1948,7 +1948,7 @@ c               get_channel_cut = get_channel_cut * (2*tmin_for_channel-t)/tmin_
                Width = prwidth(-i, config)
                tmp = (t-Mass**2)
                tmp2 = Mass*Width
-               get_channel_cut = get_channel_cut/(tmp**2 + tmp2**2) 
+               get_channel_cut = get_channel_cut/(tmp**2 + tmp2**2)
             endif
 c            write(*,*) i, "s, Mass, Width, fact", t, Mass, Width, (((t-Mass)*(t+Mass) )**2 + Width**2*Mass**2), get_channel_cut
          endif
@@ -1958,7 +1958,7 @@ c      write(*,*) 'final for config', config, get_channel_cut
       end
 
 
-      subroutine get_y_from_x12(x1, x2, omx, ycm) 
+      subroutine get_y_from_x12(x1, x2, omx, ycm)
       implicit none
       double precision x1, x2, omx(2), tau, ycm
       double precision ylim
@@ -1984,7 +1984,7 @@ c      write(*,*) 'final for config', config, get_channel_cut
       if (1d0-x2.gt.tolerance) then
          lx2 = dlog(x2)
       else if (omx(2).lt.tolerance**5)then
-         lx2=0d0         
+         lx2=0d0
       else
         lx2 = -omx(2)-omx(2)**2/2d0-omx(2)**3/3d0-omx(2)**4/4d0-omx(2)**5/5d0
       endif
@@ -2000,14 +2000,14 @@ c      ycmhat = ycm / ylim
         ycm = 0d0
       endif
 
-      return 
+      return
       end
 
       subroutine generate_x_ee(rnd, xmin, x, omx, jac)
       implicit none
       ! generates the momentum fraction with importance
       !  sampling suitable for ee collisions
-      ! rnd is generated uniformly in [0,1], 
+      ! rnd is generated uniformly in [0,1],
       ! x is generated according to (1 -rnd)^-expo, starting
       ! from xmin
       ! jac is the corresponding jacobian
@@ -2030,13 +2030,11 @@ c      ycmhat = ycm / ylim
           stop 1
         endif
       endif
-      jac = jac/(1d0-expo) 
+      jac = jac/(1d0-expo)
       ! then rescale it between xmin and 1
       x = x * (1d0 - xmin) + xmin
       omx = omx * (1d0 - xmin)
       jac = jac * (1d0 - xmin)**(1d0-expo)
 
-      return 
+      return
       end
-
-

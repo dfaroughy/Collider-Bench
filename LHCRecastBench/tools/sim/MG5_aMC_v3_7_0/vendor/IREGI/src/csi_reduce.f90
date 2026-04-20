@@ -96,7 +96,7 @@ CONTAINS
           RETURN
        ENDIF
     ENDIF
-    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR 
+    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR
     IF(NLOOPLINE.EQ.1.AND.indices(1).EQ.1)THEN
        IF(ABS(M2L(1)).LT.EPS)THEN
           IF(idim.NE.-2)THEN
@@ -117,7 +117,7 @@ CONTAINS
           ENDIF
        ENDIF
     ENDIF
-    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR 
+    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR
     IF(NLOOPLINE.EQ.2.AND.idim.EQ.0)THEN
        ! One should not but the two IF together
        ! Otherwise, it will not pass in ML5
@@ -492,7 +492,7 @@ CONTAINS
        IF(RECYCLING)item%value(1:4)=si(1:4)
        RETURN
     ENDIF
-    
+
     ! Eq .23 in hep - ph/0303184 v3
     IF(ABS(detR).GE.EPS.AND.ABS(detS).LT.EPS)THEN
        CALL CMNXNINV(NLOOPLINE,RMATRIX(1:NLOOPLINE,1:NLOOPLINE),&

@@ -25,12 +25,12 @@ edit:
 	../src/avh_pc_exe.py "case" "LTVSNge26" "$(WITHLT)$(LTVSNge26)" "tmp_$(FILE)"
 
 ifeq ($(WITHLT),yes)
-compile: 
+compile:
 	$(FC) $(FFLAGS) -I$(OLOHOME) -o example.exe tmp_$(FILE) \
 	-L$(LTHOME) -l$(LTLIB) \
 	-L$(OLOHOME) -l$(OLOLIB)
 else
-compile: 
+compile:
 	$(FC) $(FFLAGS) -I$(OLOHOME) -o example.exe tmp_$(FILE) \
 	-L$(OLOHOME) -l$(OLOLIB)
 endif

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2011 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -132,7 +132,7 @@ is_bbar      = F    # T if bb~ production             !ONLY FOR HERWIG6!
 # be placed in HWAnalyzer or analogous MCatNLO subfolders).            *
 # Please use files in those folders as examples.                       *
 #***********************************************************************
-EXTRALIBS    = stdhep Fmcfio     # Extra-libraries (not LHAPDF) 
+EXTRALIBS    = stdhep Fmcfio     # Extra-libraries (not LHAPDF)
                                  # Default: "stdhep Fmcfio"
                                  # PYTHIA > 8.200 may require library dl
 EXTRAPATHS   = ../lib            # Path to the extra-libraries
@@ -144,7 +144,7 @@ ANALYSE      =                   # User's analysis and histogramming
                                  # and use spaces to separate files)
 
 """
-            TestShowerCard.card = shower_card.ShowerCard(text, testing = True) 
+            TestShowerCard.card = shower_card.ShowerCard(text, testing = True)
 
             text_analyse = \
 """#***********************************************************************
@@ -247,7 +247,7 @@ is_bbar      = F    # T if bb~ production             !ONLY FOR HERWIG6!
 # be placed in HWAnalyzer or analogous MCatNLO subfolders).            *
 # Please use files in those folders as examples.                       *
 #***********************************************************************
-EXTRALIBS    = stdhep Fmcfio     # Extra-libraries (not LHAPDF) 
+EXTRALIBS    = stdhep Fmcfio     # Extra-libraries (not LHAPDF)
                                  # Default: "stdhep Fmcfio"
                                  # PYTHIA > 8.200 may require library dl
 EXTRAPATHS   = ../lib            # Path to the extra-libraries
@@ -259,7 +259,7 @@ ANALYSE      =                   # User's analysis and histogramming
                                  # and use spaces to separate files)
 
 """
-            TestShowerCard.card_analyse = shower_card.ShowerCard(text_analyse, testing = True) 
+            TestShowerCard.card_analyse = shower_card.ShowerCard(text_analyse, testing = True)
 
 
     def test_shower_card_py8(self):
@@ -343,7 +343,7 @@ EXTRA_LINE=""
         for a, b in zip(text.split('\n'), goal.split('\n')):
             self.assertEqual(a,b)
         self.assertEqual(text, goal)
-    
+
     def test_shower_card_hwpp(self):
         """test that the hwpp card is correctly written"""
         goal = \
@@ -557,11 +557,11 @@ PYUTI="mcatnlo_pyan_stdhep.o"
         new_text = old_card.set_param('ue_enabled', '1', write_to=True)
         new_card = shower_card.ShowerCard(new_text, testing=True)
         self.assertTrue(new_card['ue_enabled'])
-    
+
     def test_shower_card_write(self):
 
-        #check that the banner can be written    
-        import io    
+        #check that the banner can be written
+        import io
         fsock = io.StringIO()
         self.card.write(fsock)
         #fsock.close()

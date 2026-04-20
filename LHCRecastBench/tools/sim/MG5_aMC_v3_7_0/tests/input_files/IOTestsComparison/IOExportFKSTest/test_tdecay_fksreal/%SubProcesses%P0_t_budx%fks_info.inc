@@ -31,13 +31,13 @@ C     Extra cnt: if the real emission needs an extra cnt (g/a >
 C      qqbar), then
 C     this is the id of the extra cnt. Otherwise it should be set to 0.
 C     If not 0, store also the position in the splitorders array of
-C      the 
+C      the
 C     coupling corresponding to the splitting type
       DATA EXTRA_CNT_D / 0, 0, 0 /
       DATA ISPLITORDER_BORN_D / 0, 0, 0 /
       DATA ISPLITORDER_CNT_D / 0, 0, 0 /
 
-C     
+C
 C     Particle type:
 C     octet = 8, triplet = 3, singlet = 1
       DATA (PARTICLE_TYPE_D(1, IPOS), IPOS=1, NEXTERNAL) / 3, 3, 3, -3
@@ -47,37 +47,35 @@ C     octet = 8, triplet = 3, singlet = 1
       DATA (PARTICLE_TYPE_D(3, IPOS), IPOS=1, NEXTERNAL) / 3, 3, 3, -3
      $ , 8 /
 
-C     
+C
 C     Particle type according to PDG:
-C     
+C
       DATA (PDG_TYPE_D(1, IPOS), IPOS=1, NEXTERNAL) / 6, 5, 2, -1, 21 /
       DATA (PDG_TYPE_D(2, IPOS), IPOS=1, NEXTERNAL) / 6, 5, 2, -1, 21 /
       DATA (PDG_TYPE_D(3, IPOS), IPOS=1, NEXTERNAL) / 6, 5, 2, -1, 21 /
 
-C     
+C
 C     Particle charge:
 C     charge is set 0. with QCD corrections, which is irrelevant
-      DATA (PARTICLE_CHARGE_D(1, IPOS), IPOS=1, NEXTERNAL) /  
-     $  0.666666666666667D0,  -0.333333333333333D0,  
-     $  0.666666666666667D0,   0.333333333333333D0,  
+      DATA (PARTICLE_CHARGE_D(1, IPOS), IPOS=1, NEXTERNAL) /
+     $  0.666666666666667D0,  -0.333333333333333D0,
+     $  0.666666666666667D0,   0.333333333333333D0,
      $  0.000000000000000D0 /
-      DATA (PARTICLE_CHARGE_D(2, IPOS), IPOS=1, NEXTERNAL) /  
-     $  0.666666666666667D0,  -0.333333333333333D0,  
-     $  0.666666666666667D0,   0.333333333333333D0,  
+      DATA (PARTICLE_CHARGE_D(2, IPOS), IPOS=1, NEXTERNAL) /
+     $  0.666666666666667D0,  -0.333333333333333D0,
+     $  0.666666666666667D0,   0.333333333333333D0,
      $  0.000000000000000D0 /
-      DATA (PARTICLE_CHARGE_D(3, IPOS), IPOS=1, NEXTERNAL) /  
-     $  0.666666666666667D0,  -0.333333333333333D0,  
-     $  0.666666666666667D0,   0.333333333333333D0,  
+      DATA (PARTICLE_CHARGE_D(3, IPOS), IPOS=1, NEXTERNAL) /
+     $  0.666666666666667D0,  -0.333333333333333D0,
+     $  0.666666666666667D0,   0.333333333333333D0,
      $  0.000000000000000D0 /
 
-C     
+C
 C     Tagged particles:
-C     
+C
       DATA (PARTICLE_TAG_D(1, IPOS), IPOS=1, NEXTERNAL) / .FALSE.,
      $  .FALSE., .FALSE., .FALSE., .FALSE. /
       DATA (PARTICLE_TAG_D(2, IPOS), IPOS=1, NEXTERNAL) / .FALSE.,
      $  .FALSE., .FALSE., .FALSE., .FALSE. /
       DATA (PARTICLE_TAG_D(3, IPOS), IPOS=1, NEXTERNAL) / .FALSE.,
      $  .FALSE., .FALSE., .FALSE., .FALSE. /
-
-

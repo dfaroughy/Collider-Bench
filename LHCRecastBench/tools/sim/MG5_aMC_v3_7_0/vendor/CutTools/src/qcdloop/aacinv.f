@@ -130,7 +130,7 @@
 	ci4(1) = +cdel2*(1/fdel3)
 *
 	cdel2 = cfpij4(5,5)*cfpij4(7,7) - cfpij4(5,7)**2
-	if ( lwarn .and. absc(cdel2).lt.xloss*absc(cfpij4(5,7)**2) ) 
+	if ( lwarn .and. absc(cdel2).lt.xloss*absc(cfpij4(5,7)**2) )
      +		then
 	    ier0 = ier
 	    call ffwarn(263,ier0,cdel2,absc(cfpij4(5,7)**2))

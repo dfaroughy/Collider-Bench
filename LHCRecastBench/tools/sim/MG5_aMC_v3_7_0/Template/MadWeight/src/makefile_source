@@ -8,15 +8,15 @@ include make_opts
 
 # Source files
 
-PROCESS= hfill.o matrix.o myamp.o 
+PROCESS= hfill.o matrix.o myamp.o
 
-DSAMPLE = dsample.o ranmar.o 
+DSAMPLE = dsample.o ranmar.o
 
 HBOOK = hfill.o hcurve.o hbook1.o hbook2.o
 
 GENERIC = $(alfas_functions).o transpole.o \
            rw_routines.o kin_functions.o open_file.o  setrun.o \
-          run_printout.o 
+          run_printout.o
 
 INCLUDEF= coupl.inc genps.inc hbook.inc DECAY/decay.inc psample.inc cluster.inc sudgrid.inc
 
@@ -41,21 +41,21 @@ $(LIBDIR)libgeneric.$(libext): $(GENERIC)
 $(LIBDIR)libdhelas.$(libext): DHELAS
 	cd DHELAS; make
 $(LIBDIR)libpdf.$(libext): PDF
-	cd PDF; make	
+	cd PDF; make
 $(LIBDIR)libcernlib.$(libext): CERNLIB
-	cd CERNLIB; make	
+	cd CERNLIB; make
 $(LIBDIR)libmodel.$(libext): MODEL
-	cd MODEL; make	
-$(LIBDIR)libblocks.$(libext): 
-	cd MadWeight/blocks; make	
-$(LIBDIR)libtools.$(libext): 
-	cd MadWeight/tools; make	
-$(LIBDIR)libTF.$(libext): MadWeight/transfer_function/transfer_function.o MadWeight/transfer_function/nb_tf.inc 
-	cd MadWeight/transfer_function; make	
+	cd MODEL; make
+$(LIBDIR)libblocks.$(libext):
+	cd MadWeight/blocks; make
+$(LIBDIR)libtools.$(libext):
+	cd MadWeight/tools; make
+$(LIBDIR)libTF.$(libext): MadWeight/transfer_function/transfer_function.o MadWeight/transfer_function/nb_tf.inc
+	cd MadWeight/transfer_function; make
 
 # Binaries
 
-$(BINDIR)sum_html: sum_html.o 
+$(BINDIR)sum_html: sum_html.o
 	$(FC) $(FFLAGS) -o $@ $^
 $(BINDIR)gen_ximprove: gen_ximprove.o ranmar.o rw_routines.o open_file.o
 	$(FC) $(FFLAGS) -o $@ $^

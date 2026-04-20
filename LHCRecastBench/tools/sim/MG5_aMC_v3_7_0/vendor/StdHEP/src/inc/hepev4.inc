@@ -9,9 +9,9 @@ c
      1              spinlh(3,NMXHEP), icolorflowlh(2,NMXHEP), idruplh
       save /hepev4/
 
-C idruplh            : The identity of the current process, 
+C idruplh            : The identity of the current process,
 C                      as given by the LPRUP codes.
-C eventweightlh      : The event weight:  
+C eventweightlh      : The event weight:
 C                      Equal to (total cross section)/(total generated)
 C                      for the output of Pythia, Herwig, etc.
 C alphaqedlh         : QED coupling alpha_em.

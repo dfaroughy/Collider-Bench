@@ -5,7 +5,7 @@ c
 c 1. PDF set
 c 2. Collider parameters
 c 3. cuts
-c---------------------------------------------------------------------- 
+c----------------------------------------------------------------------
       implicit none
 c
 c     include
@@ -27,7 +27,7 @@ c
       common/to_param_card_name/param_card_name
 c
 c     local
-c     
+c
       integer npara
       character*20 param(maxpara),value(maxpara)
       character*20 ctemp
@@ -82,7 +82,7 @@ c     if no matching ensure that no pdfreweight are done
       if (ickkw.eq.0) pdfwgt = .false.
 
       q2fact(1) = sf1**2      ! fact scale**2 for pdf1
-      q2fact(2) = sf2**2      ! fact scale**2 for pdf2     
+      q2fact(2) = sf2**2      ! fact scale**2 for pdf2
 
       if(pb1.ne.0d0)then
          if (abs(lpp(1)).eq.1.or.abs(lpp(1)).eq.2)then
@@ -99,7 +99,7 @@ c     if no matching ensure that no pdfreweight are done
          pol(2)=sign(1+abs(pb2)/100d0,pb2)
       endif
 
-      
+
       if(pb1.ne.0d0.and.lpp(1).eq.0) pol(1)=sign(1+abs(pb1)/100d0,pb1)
       if(pb2.ne.0d0.and.lpp(2).eq.0) pol(2)=sign(1+abs(pb2)/100d0,pb2)
 
@@ -220,7 +220,7 @@ C-------------------------------------------------
      $   'iww',
      $   'edff',
      $   'chff',
-     $   'dressed', 
+     $   'dressed',
      $   'mrs02nl',
      $   'mrs02nn',
      $   'cteq4_m',
@@ -232,7 +232,7 @@ C-------------------------------------------------
      $   'cteq5m1',
      $   'cteq6_m',
      $   'cteq6_l',
-     $   'cteq6l1',     
+     $   'cteq6l1',
      $   'nn23lo',
      $   'nn23lo1',
      $   'nn23nlo'/
@@ -270,7 +270,7 @@ C-------------------------------------------------
         return
       endif
 
-      
+
       mpdf=-1
       do i=1,npdfs
         if(pdfin(1:len_trim(pdfin)) .eq. pdflabs(i))then

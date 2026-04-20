@@ -9,14 +9,14 @@ C
       COMMON /TO_AUTO_CUTS/
      &     PTJ ,PTB ,PTA ,PTL ,PTONIUM, ! pt
      &     EJ  ,EB  ,EA  ,EL  , ! energy
-     &     ETAJ,ETAB,ETAA,ETAL,ETAONIUM, ! rapidity 
+     &     ETAJ,ETAB,ETAA,ETAL,ETAONIUM, ! rapidity
      &     DRJJ,DRAJ,DRBJ,DRJL, ! delta R
      &     DRBB,DRAB,DRBL,
      &     DRAA,DRAL,
      &     DRLL,
      &     MMJJ,MMLL,MMAA,MMBB ! invariant masses of opposite sign
 
-C     
+C
 C     MIN/MAX cuts
 C
       REAL*8 PTJmax ,PTBmax ,PTAmax ,PTLmax    ! max pt
@@ -24,7 +24,7 @@ C
       REAL*8 ETAJmin,ETABmin,ETAAmin,ETALmin   ! min rap
       REAL*8 DRJJmax,DRBBmax,DRLLmax,DRAAmax
       REAL*8 DRBJmax,DRAJmax,DRJLmax,DRABmax,DRBLmax,DRALmax
-      REAL*8 MMJJmax,MMLLmax,MMAAmax,MMBBmax !max inv mass 
+      REAL*8 MMJJmax,MMLLmax,MMAAmax,MMBBmax !max inv mass
       REAL*8 MMNL,MMNLMAX ! invariant mass of all leptons
       integer cutuse
       REAL*8 ptj1min,ptj2min,ptj3min,ptj4min
@@ -38,7 +38,7 @@ C
       REAL*8 ptllmin,ptllmax
       integer maxjetflavor
       REAl*8 dsqrt_shat,dsqrt_shatmax
-	
+
       COMMON /to_min_max_cuts/
      &     PTJmax,PTBmax,PTAmax,PTLmax,
      &     EJmax,EBmax,EAmax,ELmax,
@@ -93,6 +93,3 @@ C COMMON BLOCK FOR JET MEASURE CUTS: DURHAM KT
 C COMMON BLOCK FOR PYTHIA JET MEASURE CUT
       REAL*8 PT_LUND
       COMMON /PYTHIA_MEASURE_CUTS/ PT_LUND
-      
-      
-      

@@ -23,7 +23,7 @@ c where all the bosons are defined by the flowing-OUT quantum number.
 c
 c output:
 c       complex jvv(6)         : vector current            j^mu(v:v1,v2)
-c     
+c
       implicit none
       double complex v1(6),v2(6),jvv(6),j12(0:3),js,dg
       double complex sv1,sv2,s11,s12,s21,s22,v12
@@ -33,7 +33,7 @@ c
 
       double precision rZero
       parameter( rZero = 0.0d0 )
- 
+
 #ifdef HELAS_CHECK
       integer stdo
       parameter( stdo = 6 )
@@ -93,7 +93,7 @@ c
       if ( vwidth.eq.rZero .and. s.eq.vm2 ) then
          write(stdo,*)
      &        ' helas-error : jvv in jvvxxx is on vmass pole'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : q     = ',q(0),q(1),q(2),q(3)
          write(stdo,*)
      &        '             : abs(q)= ',sqrt(abs(s))
@@ -128,7 +128,7 @@ c     Fabio's implementation of the fixed width
          cm2=dcmplx( vm2, -vmass*vwidth )
 c     js = (v12*(-m1+m2) +s11*s12 -s21*s22)/vm2
          js = (v12*(-m1+m2) +s11*s12 -s21*s22)/cm2
-        
+
          dg = -g/dcmplx( s-vm2, vmass*vwidth )
 
 c  For the running width, use below instead of the above dg.

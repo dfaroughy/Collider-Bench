@@ -31,7 +31,7 @@ c*******************************************************************************
      2 ' routines'/
      3 ' --------------------------------------------------------',
      4 '-------')
-   
+
       write(ilun,1002)
 1002  format(/
      1 ' For Streams '/
@@ -51,7 +51,7 @@ c*******************************************************************************
      6 '   MCFIO_NUMEVTS : Total number of events encode/decoded',
      7 ' so far.'/
      8 '   MCFIO_NUMBLOCK: The number of blocks defined in the file.')
-    
+
       write(ilun,1003)
 1003  format(
      1 '   MCFIO_BLOCKIDS: The I.D. of the block defined in the file.'/
@@ -63,7 +63,7 @@ c*******************************************************************************
      4 ' was written '/
      5 '   MCFIO_TITLE: The title (255 Characters max) for the job '/
      6 '   MCFIO_COMMENT: The comment (255 Characters max) for the job')
- 
+
       write(ilun,1004)
 1004  format(/
      1 ' For Sequential Access only '/
@@ -74,18 +74,18 @@ c*******************************************************************************
      4 '   MCFIO_MINLREC: Minumum Record length'/
      5 '   MCFIO_NUMRECORDS: The number of records in the current',
      5 ' event'/
-     6 '   MCFIO_RECORDLENGTHS: The record lengths for the current', 
+     6 '   MCFIO_RECORDLENGTHS: The record lengths for the current',
      6 ' event'/
      7 '   MCFIO_DEVICENAME: The device name opened by the stream '/
      8 '                     (character string, 255 l.)')
- 
+
       write(ilun,1005)
 1005  format(/
      1 ' For Direct Access only '/
      2 ' ----------------------- '/
      2 '   MCFIO_FILENAME: The UNIX file name opened by the stream '/
      3 '                   (character string, 255 l.)')
-   
+
       write(ilun,1006)
 1006  format(/
      1 ' For Events '/
@@ -97,7 +97,7 @@ c*******************************************************************************
      7 '   MCFIO_RUNNUMBER: The Run Number for this event. '/
      8 '   MCFIO_TRIGGERMASK: The Trigger Mask for this event. '/
      9 '   MCFIO_VERSION: The 4-Character version of the event header')
-   
+
       write(ilun,1007)
 1007  format(/
      1 ' For Blocks '/

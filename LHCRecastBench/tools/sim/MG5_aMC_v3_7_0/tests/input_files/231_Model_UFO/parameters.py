@@ -1158,4 +1158,3 @@ I9a3 = Parameter(name = 'I9a3',
                  type = 'complex',
                  value = '1',
                  texname = '\\text{I9a3}')
-

@@ -15,11 +15,11 @@ c output:
 c       complex vertex         : amplitude             gamma(va,vb,vc,T)
 c
 c- by Q.Li - OCT. 2006
-c     
+c
       implicit none
       double complex va(6), vb(6), vc(6),  tc(18), gt, vertex
       double precision gc
- 
+
       double complex ft(6,4)
       double complex T00, T12, T13, T14, T23, T24, T34
       double complex V1V2,V1V3,V2V3, K1V2, K1V3, K2V1
@@ -35,7 +35,7 @@ c
       parameter( rZero = 0.0d0, rTwo = 2.0d0 )
       parameter( cZero = ( 0.0d0, 0.0d0 ) )
 
-      
+
       ft(1,1) = tc(1)
       ft(1,2) = tc(2)
       ft(1,3) = tc(3)
@@ -74,17 +74,17 @@ c
       p31(2) = pvc(2)-pva(2)
       p31(3) = pvc(3)-pva(3)
       p31(4) = pvc(4)-pva(4)
-      
+
       p12(1) = pva(1)-pvb(1)
       p12(2) = pva(2)-pvb(2)
       p12(3) = pva(3)-pvb(3)
       p12(4) = pva(4)-pvb(4)
-      
+
       p23(1) = pvb(1)-pvc(1)
       p23(2) = pvb(2)-pvc(2)
       p23(3) = pvb(3)-pvc(3)
       p23(4) = pvb(4)-pvc(4)
-      
+
       T00 = ft(1,1)-ft(2,2)-ft(3,3)-ft(4,4)
       T12 = ft(1,2) + ft(2,1)
       T13 = ft(1,3) + ft(3,1)
@@ -125,9 +125,9 @@ c
 
       TKV2 = rtwo*(ft(1,1)*p31(1)*vb(1)+ft(2,2)*p31(2)*vb(2)
      &+ft(3,3)*p31(3)*vb(3)+ft(4,4)*p31(4)*vb(4))
-     
+
       TKV3 = rtwo*(ft(1,1)*p12(1)*vc(1)+ft(2,2)*p12(2)*vc(2)
-     &+ft(3,3)*p12(3)*vc(3)+ft(4,4)*p12(4)*vc(4))	
+     &+ft(3,3)*p12(3)*vc(3)+ft(4,4)*p12(4)*vc(4))
 
 
       TV12 = TV12 - T12*(va(1)*vb(2) + va(2)*vb(1))

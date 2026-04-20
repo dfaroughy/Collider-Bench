@@ -1,6 +1,6 @@
       subroutine stdlst
 C
-C    list particle ID for stdhep 
+C    list particle ID for stdhep
 C
 #include "stdlun.inc"
       integer id1,id2,itmp1,itmp2
@@ -59,7 +59,7 @@ C...SUSY
                  write(lnhout,1101) id1,hnam1,itmp1
                else
                  call hepnam(id2,hnam2)
-                 write(lnhout,1102) 
+                 write(lnhout,1102)
      1                     id1,hnam1,itmp1,id2,hnam2,itmp2
                endif
              endif
@@ -71,7 +71,7 @@ C...R-hadrons [m=1]
           do j=1,9
             do i=1,9
               do h=0,9
-c.. l=0        	 
+c.. l=0
                  if(h.eq.0 .or. h.eq.6 .or. h.eq.9 )then
         	   id1=1000000+1000*h+100*i+10*j+k
         	   itmp1=hepcmp(id1)
@@ -83,12 +83,12 @@ c.. l=0
                        write(lnhout,1101) id1,hnam1,itmp1
                      else
                        call hepnam(id2,hnam2)
-                       write(lnhout,1102) 
+                       write(lnhout,1102)
      1                     id1,hnam1,itmp1,id2,hnam2,itmp2
                      endif
                    endif
                  endif
-c.. l=9        	 
+c.. l=9
         	 id1=1000000+90000+1000*h+100*i+10*j+k
         	 itmp1=hepcmp(id1)
         	 if(itmp1.gt.0)then
@@ -99,7 +99,7 @@ c.. l=9
                      write(lnhout,1101) id1,hnam1,itmp1
                    else
                      call hepnam(id2,hnam2)
-                     write(lnhout,1102) 
+                     write(lnhout,1102)
      1                     id1,hnam1,itmp1,id2,hnam2,itmp2
                    endif
                  endif
@@ -124,7 +124,7 @@ C...technicolor, etc.
                        write(lnhout,1101) id1,hnam1,itmp1
                      else
                        call hepnam(id2,hnam2)
-                       write(lnhout,1102) 
+                       write(lnhout,1102)
      1                     id1,hnam1,itmp1,id2,hnam2,itmp2
                      endif
                    endif

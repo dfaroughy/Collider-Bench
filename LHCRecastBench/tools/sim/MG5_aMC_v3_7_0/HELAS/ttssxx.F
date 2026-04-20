@@ -1,6 +1,6 @@
       subroutine ttssxx(tc1,tc2,sc1,sc2,g1,g2,vertex)
 c
-c- by RF - Mar. 2006 
+c- by RF - Mar. 2006
 c
 c This subroutine computes an amplitude of the tts coupling.
 c
@@ -59,7 +59,7 @@ c     &                       + tc1(16) * tc2(16)
 
       else
       vertex = (0D0,0D0)
-      endif      
+      endif
 
 
       return

@@ -13,11 +13,11 @@ CF2PY INTENT(IN) :: PATH
       IMPLICIT NONE
 CF2PY intent(in) :: name
 CF2PY intent(in) :: value
- 
+
         CHARACTER*512 NAME
         DOUBLE PRECISION VALUE
         CALL F77_CHANGE_PARA(NAME, VALUE)
- 
+
         RETURN
         END
 
@@ -56,12 +56,12 @@ CF2PY double precision, intent(in) :: SCALES2
       DOUBLE PRECISION ANS, ALPHAS, SCALES2
       CALL F77_SMATRIXHEL(PDGS, PROCID, NPDG, P,
      & alphas, scales2, nhel, ans, returncode)
-      return 
+      return
       end
 
       SUBROUTINE GET_PDG_ORDER(OUT, ALLPROC)
       IMPLICIT NONE
-CF2PY INTEGER, intent(out) :: OUT(%(nb_me)i,%(maxpart)i)  
+CF2PY INTEGER, intent(out) :: OUT(%(nb_me)i,%(maxpart)i)
 CF2PY INTEGER, intent(out) :: ALLPROC(%(nb_me)i)
       INTEGER OUT(%(nb_me)i,%(maxpart)i)
       INTEGER ALLPROC(%(nb_me)i)
@@ -77,5 +77,3 @@ CF2PY CHARACTER*20, intent(out) :: PREFIX(%(nb_me)i)
       call f77_get_prefix(prefix)
       RETURN
       END
-
-

@@ -16,7 +16,7 @@ c       real    zwidth         : width of Z
 c
 c output:
 c       complex j3(6)          : W3 current             j^mu(<fo|w3|fi>)
-c     
+c
       implicit none
       double complex fi(6),fo(6),j3(6),gaf(2),gzf(2)
       double complex c0l,c1l,c2l,c3l,csl,c0r,c1r,c2r,c3r,csr,dz,ddif
@@ -61,14 +61,14 @@ c
       if ( gaf(1).ne.gaf(2) ) then
          write(stdo,*)
      &        ' helas-warn  : gaf in j3xxxx is non-standard coupling'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : gaf = ( ',gaf(1),gaf(2),' )'
       endif
       if ( abs(gzf(1))*abs(gzf(2)).gt.rZero .or.
      &     abs(gzf(1)).le.abs(gzf(2))           ) then
          write(stdo,*)
      &        ' helas-warn  : gzf in j3xxxx is non-standard coupling'
-         write(stdo,*) 
+         write(stdo,*)
      &        '             : gzf = ( ',gzf(1),gzf(2),' )'
       endif
       if ( zmass.le.rZero ) then
@@ -153,7 +153,7 @@ c     csl = (q(0)*c0l-q(1)*c1l-q(2)*c2l-q(3)*c3l)/zm2
 c     csr = (q(0)*c0r-q(1)*c1r-q(2)*c2r-q(3)*c3r)/zm2
       csl = (q(0)*c0l-q(1)*c1l-q(2)*c2l-q(3)*c3l)/cm2
       csr = (q(0)*c0r-q(1)*c1r-q(2)*c2r-q(3)*c3r)/cm2
-      
+
       j3(1) =  gz3l*dz*(c0l-csl*q(0))+ga3l*c0l*da
      &       + gn*(c0r*ddif+csr*q(0)*dz)
       j3(2) =  gz3l*dz*(c1l-csl*q(1))+ga3l*c1l*da

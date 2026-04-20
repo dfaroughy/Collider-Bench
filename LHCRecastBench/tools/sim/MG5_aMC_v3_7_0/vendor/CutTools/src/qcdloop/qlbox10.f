@@ -70,4 +70,3 @@ c                  [     2           2          2                  ]
      .  *log(1d0-ga*p3sq/msq)
       return
       end
-

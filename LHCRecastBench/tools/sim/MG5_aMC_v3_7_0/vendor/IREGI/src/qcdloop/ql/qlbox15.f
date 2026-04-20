@@ -33,7 +33,7 @@ C----Nucl.\ Phys.\  B {\bf 338}, 349 (1990).
      . si,m2sqbar,m4sqbar,ieps,iepyy,iepyi,yy,yi,imxs,rexs
       double complex xs,cxs(3),qlcLi2omx2,fac,Ires(-2:0),qllnrat,xlog,
      . cln,cyy,cyi
- 
+
       m2sq=Y(2,2)
       m4sq=Y(4,4)
       m2sqbar=2d0*Y(2,3)
@@ -44,14 +44,14 @@ C-----Assign s and t so as to agree with notation of BD
       m2=sqrt(m2sq)
       m4=sqrt(m4sq)
 
-C     iepsi gives the sign of the imaginary part of K   
-      call qlkfn(cxs,ieps,-si,m2,m4)     
+C     iepsi gives the sign of the imaginary part of K
+      call qlkfn(cxs,ieps,-si,m2,m4)
       xs=cxs(1)
 
-C     Deal with non-singular special cases first 
+C     Deal with non-singular special cases first
       if (qlzero(m2sqbar) .and. qlnonzero(m4sqbar)) then
          call qlratreal(m4*m2sqbar,m2*m4sqbar,yi,iepyi)
-         cyi = dcmplx(yi) 
+         cyi = dcmplx(yi)
          fac=xs/(cone-xs**2)/dcmplx((-m2*m4*ta))
          xlog=cln(xs,ieps)
          Ires(-2)=czip
@@ -63,8 +63,8 @@ C     Deal with non-singular special cases first
      .   -qlcLi2omx2(1d0/xs,cyi,-ieps,iepyi)
           goto 20
       elseif (qlzero(m4sqbar) .and. qlnonzero(m2sqbar)) then
-         call qlratreal(m2*m4sqbar,m4*m2sqbar,yy,iepyy)      
-         cyy = dcmplx(yy) 
+         call qlratreal(m2*m4sqbar,m4*m2sqbar,yy,iepyy)
+         cyy = dcmplx(yy)
          fac=xs/(cone-xs**2)/dcmplx((-m2*m4*ta))
          xlog=cln(xs,ieps)
          Ires(-2)=czip
@@ -82,8 +82,8 @@ C     Deal with non-singular special cases first
           stop
       endif
 
-      call qlratreal(m2*m4sqbar,m4*m2sqbar,yy,iepyy)      
-      rexs=dreal(xs) 
+      call qlratreal(m2*m4sqbar,m4*m2sqbar,yy,iepyy)
+      rexs=dreal(xs)
       imxs=dimag(xs)
 C----deal with s=(m2-m4)^2
       if ((qlzero(rexs-1d0)) .and. (qlzero(imxs))) then
@@ -113,6 +113,3 @@ C----deal with s .ne. (m2-m4)^2
       enddo
       return
       end
-
-
-

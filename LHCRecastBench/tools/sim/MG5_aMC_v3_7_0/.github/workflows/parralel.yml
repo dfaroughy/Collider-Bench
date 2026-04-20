@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       message:
-        description: 'running parralel test'     
+        description: 'running parralel test'
         required: true
 
 env:
@@ -113,7 +113,7 @@ jobs:
             cp Template/LO/Source/.make_opts Template/LO/Source/make_opts
             ./tests/test_manager.py test_gauge_6_e90 -pP -t0 -l INFO
 
-            
+
 
   test_short_cross_pol:
     # The type of runner that the job will run on
@@ -218,5 +218,3 @@ jobs:
 #            echo "f2py_compiler = $(which f2py)" >> input/mg5_configuration.txt
 #            cp Template/LO/Source/.make_opts Template/LO/Source/make_opts
 #            ./tests/test_manager.py test_short_mw.* -pP -t0 -l INFO
-
-

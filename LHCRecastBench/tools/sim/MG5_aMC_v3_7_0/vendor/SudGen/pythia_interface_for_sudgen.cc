@@ -5,7 +5,7 @@
 using namespace std;
 using namespace Pythia8;
 
-extern "C" { 
+extern "C" {
 
   // set up a global instance of pythia8 and dire
   Pythia pythia;
@@ -17,14 +17,14 @@ extern "C" {
       stringstream s;
 
       if ( i+1 == 6
-        || i+1 == 7 
-        || i+1 == 8 
-        || i+1 == 9 
-        || i+1 == 10 
-        || i+1 == 17 
-        || i+1 == 18 
-        || i+1 == 19 
-        || i+1 == 20) continue; 
+        || i+1 == 7
+        || i+1 == 8
+        || i+1 == 9
+        || i+1 == 10
+        || i+1 == 17
+        || i+1 == 18
+        || i+1 == 19
+        || i+1 == 20) continue;
 
       s << i+1 << ":m0 =" << masses[i];
       pythia.readString(s.str());
@@ -109,4 +109,3 @@ extern "C" {
 
 
 }
-

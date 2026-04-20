@@ -7,7 +7,7 @@
 * replaced P(I,J) with PHEP(J,I) J=1-4
 * replaced V(I,J) with VHEP(J,I) J=1-4
 *
-* JETSET feature that is not supported: MSTU(33)=1 is used to set 
+* JETSET feature that is not supported: MSTU(33)=1 is used to set
 *        the vertex to zero before boosting
 *
 C...Purpose: to perform rotations and boosts.

@@ -24,7 +24,7 @@ INCLUDEPATHS, ANALYSE variables.  For example, to shower p p > h HERWIG6
 events with the ready-to-use mcatnlo_hwan_pp_h.f analysis, a typical setup is
   EXTRALIBS = stdc++ fastjet
   EXTRAPATHS = <path-to-fastjet>/lib
-  INCLUDEPATHS = <path-to-fastjet>/include 
+  INCLUDEPATHS = <path-to-fastjet>/include
   ANALYSE = mcatnlo_hwan_pp_h.o mcatnlo_hbook_gfortran8.o myfastjetfortran.o
 If the user has Fastjet in her/his own PATH, it is not necessary to fill
 the EXTRAPATHS and INCLUDEPATHS variables. The use of FastJet, and of file

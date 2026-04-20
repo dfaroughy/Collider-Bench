@@ -1,4 +1,4 @@
-#ifndef MGONGPUNVTX_H 
+#ifndef MGONGPUNVTX_H
 #define MGONGPUNVTX_H 1
 
 // Provides macros for simply use of NVTX, if a compiler macro USE_NVTX is defined.

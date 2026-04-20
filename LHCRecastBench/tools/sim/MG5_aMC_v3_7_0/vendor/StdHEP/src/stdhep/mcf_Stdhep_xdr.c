@@ -55,16 +55,16 @@ bool_t xdr_stdhep_(XDR *xdrs, int *blockid,
 {
 /*  Translate the HEPEVT temporary COMMON block from the STDHEP package to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, mcfio will allocate the space for the 
+    directly the COMMON.  Also, mcfio will allocate the space for the
     string version.  */
-    
+
     unsigned int nn, nn2, nn4, nn5, nnw, nnw2, nnw4, nnw5;
     int *idat;
     double *dat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE))  {
        if (*blockid != MCFIO_STDHEP) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
        }
@@ -84,16 +84,16 @@ bool_t xdr_stdhep_(XDR *xdrs, int *blockid,
 
        if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
        strncpy(version[0],stdver_.stdhep_ver, 4);
-       } 
-      
+       }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) &&
      	      xdr_int(xdrs, &(stdtmp_.nevhept)) &&
               xdr_int(xdrs, &(stdtmp_.nhept))) == FALSE) return FALSE;
-              
+
      if ((xdrs->x_op == XDR_DECODE) && ( *blockid != MCFIO_STDHEP) ) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -111,12 +111,12 @@ bool_t xdr_stdhep_(XDR *xdrs, int *blockid,
                 &nnw2, 2*NMXHEP, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (double *)  stdtmp_.phept;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nnw5, 5*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nnw5, 5*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = (double *) stdtmp_.vhept;
      if     ( xdr_array(xdrs, (char **)    &dat,
                 &nnw4, 4*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
      return TRUE;
-}   
+}
 
 bool_t xdr_stdhep_multi_(XDR *xdrs, int *blockid,
  				 int *ntot, char** version)
@@ -124,20 +124,20 @@ bool_t xdr_stdhep_multi_(XDR *xdrs, int *blockid,
 {
 /*  Translate the HEPEVT COMMON block from the STDHEP package to/from
     an XDR stream. Note that we do not allocate memory, because we fill
-    directly the COMMON.  Also, mcfio will allocate the space for the 
-    string version. 
+    directly the COMMON.  Also, mcfio will allocate the space for the
+    string version.
     Also translate the HEPEV2 COMMON block from the STDHEP package to/from
     an XDR stream. HEPEV2 contains multiple interaction information */
-    
+
     unsigned int nn, nn2, nn4, nn5, nnw, nnw2, nnw4, nnw5, nmlt, nnmlt;
     int i;
     int *idat;
     char *vers;
     double *dat;
-    
+
     if ((xdrs->x_op == XDR_ENCODE) || (xdrs->x_op == XDR_MCFIOCODE))  {
        if (*blockid != MCFIO_STDHEPM) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
        }
@@ -154,16 +154,16 @@ bool_t xdr_stdhep_multi_(XDR *xdrs, int *blockid,
        *ntot = 6 * sizeof(int) + 3 * nn + 2 * nn2 + nn4 + nn5 + 3 * nmlt;
        if (xdrs->x_op == XDR_MCFIOCODE) return TRUE;
        strncpy(version[0],stdver_.stdhep_ver, 4);
-       } 
-      
+       }
+
      if     ( (xdr_int(xdrs, blockid) &&
      	      xdr_int(xdrs, ntot) &&
      	      xdr_string(xdrs, version, MCF_XDR_VERSION_LENGTH) &&
      	      xdr_int(xdrs, &(hepevt_.nevhep)) &&
               xdr_int(xdrs, &(hepevt_.nhep))) == FALSE) return FALSE;
-              
+
      if ((xdrs->x_op == XDR_DECODE) && ( *blockid != MCFIO_STDHEPM) ) {
-          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ", 
+          fprintf (stderr, "mcf_Stdhep_xdr: Inconsistent Blockid %d \n ",
            (*blockid));
           return FALSE;
      }
@@ -181,26 +181,26 @@ bool_t xdr_stdhep_multi_(XDR *xdrs, int *blockid,
                 &nnw2, 2*NMXHEP, sizeof(int), xdr_int) == FALSE) return FALSE;
      dat = (double *)  hepevt_.phep;
      if     ( xdr_array(xdrs,  (char **)   &dat,
-                &nnw5, 5*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE; 
+                &nnw5, 5*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
      dat = (double *) hepevt_.vhep;
      if     ( xdr_array(xdrs, (char **)    &dat,
                 &nnw4, 4*NMXHEP, sizeof(double), xdr_double) == FALSE) return FALSE;
      /*
-     ** V2.02 Upgrade : adding Multiple interactions. 
-     */ 
-     vers = *version;          
+     ** V2.02 Upgrade : adding Multiple interactions.
+     */
+     vers = *version;
      if ((strcmp(vers,"1.05") == 0)  && (xdrs->x_op == XDR_DECODE)) {
            hepev2_.nmulti = -1;
            return TRUE;
-     }      
+     }
      if ( xdr_int(xdrs, &(hepev2_.nmulti)) == FALSE) return FALSE;
      idat = hepev2_.jmulti;
      if     ( xdr_array(xdrs, (char **)   &idat,
          &nnw, NMXHEP, sizeof(int), xdr_int) == FALSE) return FALSE;
      /*
      ** V4.04 Upgrade : adding more Multiple interaction information
-     */ 
-     if (((strcmp(vers,"2.") > 0) || (strcmp(vers,"3.") > 0)) 
+     */
+     if (((strcmp(vers,"2.") > 0) || (strcmp(vers,"3.") > 0))
             && (xdrs->x_op == XDR_DECODE)) {
 	   for (i = 0; i <= NMXMLT; i++) {
 	       hepev3_.nevmulti[i] = 0;
@@ -208,9 +208,9 @@ bool_t xdr_stdhep_multi_(XDR *xdrs, int *blockid,
 	       hepev3_.mltstr[i] = 0;
 	   }
            return TRUE;
-     }      
+     }
      if (((strcmp(vers,"4.00") == 0) || (strcmp(vers,"4.01") == 0) ||
-          (strcmp(vers,"4.02") == 0) || (strcmp(vers,"4.03") == 0) )  
+          (strcmp(vers,"4.02") == 0) || (strcmp(vers,"4.03") == 0) )
             && (xdrs->x_op == XDR_DECODE)) {
 	   for (i = 0; i <= NMXMLT; i++) {
 	       hepev3_.nevmulti[i] = 0;
@@ -218,7 +218,7 @@ bool_t xdr_stdhep_multi_(XDR *xdrs, int *blockid,
 	       hepev3_.mltstr[i] = 0;
 	   }
            return TRUE;
-     }      
+     }
      idat = hepev3_.nevmulti;
      if     ( xdr_array(xdrs, (char **)   &idat,
             &nnmlt, NMXMLT, sizeof(int), xdr_int) == FALSE) return FALSE;
@@ -229,6 +229,4 @@ bool_t xdr_stdhep_multi_(XDR *xdrs, int *blockid,
      if     ( xdr_array(xdrs, (char **)   &idat,
             &nnmlt, NMXMLT, sizeof(int), xdr_int) == FALSE) return FALSE;
      return TRUE;
-}   
-
-
+}

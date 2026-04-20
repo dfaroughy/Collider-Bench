@@ -28,10 +28,10 @@
 ##          - a delta functions for the rest                            ##
 ##########################################################################
 ##                                                                      ##
-##   Syntax/variables:                                                  ## 
+##   Syntax/variables:                                                  ##
 ##                                                                      ##
 ##  - a definition for transfer functions should define the variable tf ##
-##    while a definition for the width shoud define the variable width  ##                               
+##    while a definition for the width shoud define the variable width  ##
 ##	- You can use all standard f77 functions. (All variables are	##
 ##		in double precision format). 	                        ##
 ##	- The experimental event is  defined by the variable pexp(i)    ##
@@ -69,5 +69,3 @@
 
 # everything in delta => nothing to write
 </file>
-
-

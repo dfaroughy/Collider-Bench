@@ -45,9 +45,9 @@
 
       subroutine avh_oni_rat(zz,iz ,yy,iy ,xx,ix)
 *  ********************************************************************
-*  * Return the ratio  zz  of  yy  and  xx  
+*  * Return the ratio  zz  of  yy  and  xx
 *  * keeping track of (the multiple of pi of) the phase  iz  such that
-*  * the real part of  zz  remains positive 
+*  * the real part of  zz  remains positive
 *  ********************************************************************
       implicit none
       double complex zz,yy,xx
@@ -177,7 +177,7 @@
       avh_oni_pi = pi
       end
 
- 
+
       function avh_oni_prec()
 *  ********************************************************************
 *  * the smallest number  prec  satisfying  1+prec = dexp(dlog(1+prec))

@@ -1,6 +1,6 @@
 #
 # architecture specific information for StdHep makefiles
-# 
+#
 
 # Check for ../../../make_opts which can potentially overwrite FC
 ifeq ($(wildcard ../../../make_opts), ../../../make_opts)
@@ -69,7 +69,7 @@ endif
 ifeq "$(UNAME)" "IRIX64"
     CC=cc
     CPP = /lib/cpp
-    CFLAGS= $(DFLG) -n32 -mips3 
+    CFLAGS= $(DFLG) -n32 -mips3
     FFLAGS= $(DFLG) -n32 -mips3
     KPPFLAGS= -C -P -DIRIX -DUNIX
     BIGGER_STRINGS=-Wf,-XNl6000
@@ -79,7 +79,7 @@ ifeq "$(UNAME)" "Darwin"
     CC=gcc
     CPP=gcc -E
     CFLAGS= $(DFLG)  -I/sw/include -m$(MBITS)
-    FFLAGS= $(DFLG) -fno-second-underscore 
+    FFLAGS= $(DFLG) -fno-second-underscore
     KPPFLAGS= -C -P -DLinux -DUNIX
     LOCAL = -lSystem -lcc_dynamic -ldl
     #BUILD_SHARED = true
@@ -105,7 +105,7 @@ endif
 ifeq "$(UNAME)" "OSF1"
     CC=cc
     CPP = /usr/lib/cpp
-    CFLAGS= $(DFLG) 
+    CFLAGS= $(DFLG)
     CXFLAGS = -DUSE_DIRENT -DFUNCPROTO -DXTFUNCPROTO
     FFLAGS= $(DFLG) -fpe2 -check underflow -check overflow
     KPPFLAGS= -C -P -DOSF1 -DUNIX
@@ -115,8 +115,8 @@ endif
 ifeq "$(UNAME)" "SunOS"
     CC=/opt/SUNWspro/bin/cc
     CPP = /usr/ccs/lib/cpp
-    CFLAGS= $(DFLG) -I/usr/openwin/include 
-    CXFLAGS = -Xa -I/usr/openwin/include -I/usr/dt/include -DMOTIF12 
+    CFLAGS= $(DFLG) -I/usr/openwin/include
+    CXFLAGS = -Xa -I/usr/openwin/include -I/usr/dt/include -DMOTIF12
     FFLAGS= $(DFLG)
     KPPFLAGS= -C -P -DSunOS -DUNIX
     ##LOCAL= -L/opt/SUNWspro/lib -lm -lnsl -lsocket -lF77 -lM77 -ldbxFintr -lsunmath -R/opt/SUNWspro/lib

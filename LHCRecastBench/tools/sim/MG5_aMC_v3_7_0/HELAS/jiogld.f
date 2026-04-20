@@ -4,8 +4,8 @@ c
       subroutine jiogld(fi,fo,gc,vmass,vwidth,idecay , jio)
 c
 c This subroutine computes an off-shell vector current for the NLSP-
-c Goldstino vertex from an external fermion pair. The vector boson 
-c propagator is given in feynman gauge for a massless vector and in 
+c Goldstino vertex from an external fermion pair. The vector boson
+c propagator is given in feynman gauge for a massless vector and in
 c unitary gauge for a massive vector. The h.c. of the NLSP decay is
 c handled via the input parameter idecay (picks out correct
 c Goldstino momentum).

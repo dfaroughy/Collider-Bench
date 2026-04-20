@@ -10,8 +10,8 @@ c On 16/7/2003, post-MRST99 and -CTEQ5 sets have been added. All the new
 c set have not been included in PDFLIB, and their labelling scheme is
 c defined in mcatnlo_mlmtopdf.f. Group=10 corresponds to Alekhin
 c
-c On 16/5/2002, common block and function names (not related to PDFLIB) 
-c have been modified, inserting fk88 or ifk88 in front, to avoid conflicts 
+c On 16/5/2002, common block and function names (not related to PDFLIB)
+c have been modified, inserting fk88 or ifk88 in front, to avoid conflicts
 c when this interface is used in large packages
 c
 c On 2/6/2002, condition on unrecognized parm(i) value removed, being
@@ -28,7 +28,7 @@ c (group,set)=(6,3); in this case, current pdflib version has all quarks
 c multiplied by 4 and antiquarks multiplied by 2 (4/2 is the factor of 2
 c mentioned before). This bug is not present here. Thus, be careful: a code
 c that corrects this bug when linked to pdflib will get it wrong when
-c using this interface 
+c using this interface
 c
 c
 c
@@ -205,7 +205,7 @@ c Returns x*pdf; pdg format
 c
       q2=scale**2
       q2sngl=sngl(q2)
-      xsngl=sngl(x)      
+      xsngl=sngl(x)
       call mlmpdf(ndns,ih,q2sngl,xsngl,fx,nlf)
       do i=-nlf,nlf
         fx(i)=xsngl*fx(i)
@@ -222,7 +222,7 @@ c pdflib: 1=down, 2=up; mlm: 1=up, 2=down
 c proton
         continue
       elseif(ih.eq.3)then
-c pion: pdflib sets upv=dnv, usea=dsea=str, and we assume a pi-: 
+c pion: pdflib sets upv=dnv, usea=dsea=str, and we assume a pi-:
 c thus we check what follows
         if(verbose)then
           if( abs(fx(1)-fx(-2)).gt.1.e-3 .or.
@@ -241,7 +241,7 @@ c here, down<-->downbar; in this way, the pdflib condition up=down is fulfilled
           fx(-1)=fx(1)
           fx(1)=tmp
         endif
-c photon: instead of correcting bugs, they insist on having 
+c photon: instead of correcting bugs, they insist on having
 c dxpdf(1)=2*dxpdf(-1), dxpdf(2)=2*dxpdf(-2)
       elseif(ih.eq.4)then
         if(verbose)then
@@ -306,7 +306,7 @@ c Returns x*pdf
 c
       q2=scale**2
       q2sngl=sngl(q2)
-      xsngl=sngl(x)      
+      xsngl=sngl(x)
       call mlmpdf(ndns,ih,q2sngl,xsngl,fx,nlf)
       do i=-nlf,nlf
         fx(i)=xsngl*fx(i)
@@ -323,7 +323,7 @@ c proton: up=upv+usea, upbar=usea, dn=dnv+dsea, dnbar=dsea, str=strange
         chm=dble(fx(4))
         bot=dble(fx(5))
       elseif(ih.eq.3)then
-c pion: pdflib sets upv=dnv, usea=dsea=str, and we assume a pi+: 
+c pion: pdflib sets upv=dnv, usea=dsea=str, and we assume a pi+:
 c thus we check what follows
         if(verbose)then
           if( abs(fx(1)-fx(-2)).gt.1.e-3 .or.
@@ -535,7 +535,7 @@ c ************************** photon sets *****************************
 c
 c DG
       ndnsmap(3,2,1)=40
-c ACFGP and AFG 
+c ACFGP and AFG
       ndnsmap(3,6,2)=41
       ndnsmap(3,6,3)=42
 c GRV

@@ -37,7 +37,7 @@ import array
 
 import madgraph.core.base_objects as MG
 import madgraph.various.misc as misc
-import MadSpin.decay as madspin 
+import MadSpin.decay as madspin
 import models.import_ufo as import_ufo
 
 
@@ -57,16 +57,16 @@ class TestBanner(unittest.TestCase):
         model=mybanner.get("model")
         self.assertEqual(process,"p p > t t~ @1")
         self.assertEqual(model,"sm")
-        
-    
+
+
     def test_get_final_state_particle(self):
         """test that we find the final state particles correctly"""
 
         cmd = Cmd.MasterCmd()
         cmd.do_import('sm')
         fct = lambda x: cmd.get_final_part(x)
-        
-        # 
+
+        #
         self.assertEqual(set([11, -11]), fct('p p > e+ e-'))
         self.assertEqual(set([11, 24]), fct('p p > w+ e-'))
         self.assertEqual(set([11, 24]), fct('p p > W+ e-'))
@@ -79,7 +79,7 @@ class TestBanner(unittest.TestCase):
 
         cmd = Cmd.MasterCmd()
         cmd.do_import('sm')
-        
+
         # Note the ; at the end of the line is important!
         #1 simple case
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~', 't> w+b', cmd._curr_model)
@@ -96,7 +96,7 @@ class TestBanner(unittest.TestCase):
         #4 test with already present decay chain
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~, t > w+ b @0 --no_warning=duplicate', 't~ > w+b', cmd._curr_model)
         self.assertEqual(['generate p p > t t~, t~ > w+b, ( t > w+ b , t~ > w+b) @0  --no_warning=duplicate;'],[out])
-        
+
         #4 test with already present decay chain
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~, t > w+ b, t~ > w- b~ @0 --no_warning=duplicate', 'w >  all all', cmd._curr_model)
         self.assertEqual(['generate p p > t t~, w >  all all, ( t > w+ b, w >  all all), ( t~ > w- b~ , w >  all all) @0 --no_warning=duplicate;'],[out])
@@ -104,21 +104,21 @@ class TestBanner(unittest.TestCase):
         #6 case with noborn=QCD
         # This is technically not yet supported by MS, but it is nice that this functions supports it.
         out = madspin.decay_all_events.get_proc_with_decay('generate g g > h QED=1 [noborn=QCD]', 'h > b b~', cmd._curr_model)
-        self.assertEqual(['add process g g > h QED=1 [sqrvirt=QCD], h > b b~  --no_warning=duplicate;'], 
-                         [out]) 
+        self.assertEqual(['add process g g > h QED=1 [sqrvirt=QCD], h > b b~  --no_warning=duplicate;'],
+                         [out])
 
         # simple case but failing initial implementation. Handle it now but raising a critical message [mute here]
         with misc.MuteLogger(['decay'], [60]):
             out = madspin.decay_all_events.get_proc_with_decay('p p > t t~', 't~ > w- b~  QCD=99, t > w+ b  QCD=99', cmd._curr_model)
             self.assertEqual(['add process p p > t t~, t~ > w- b~  QCD=99, t > w+ b  QCD=99  --no_warning=duplicate;'],[out])
-        
+
         self.assertRaises(Exception, madspin.decay_all_events.get_proc_with_decay, 'generate p p > t t~, (t> w+ b, w+ > e+ ve)')
 
     def test_get_proc_with_decay_NLO(self):
 
         cmd = Cmd.MasterCmd()
         cmd.do_import('sm')
-        
+
         #1 simple case
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~ [QCD]', 't> w+b', cmd._curr_model)
         self.assertEqual(['add process p p > t t~, t> w+b  --no_warning=duplicate',
@@ -159,41 +159,41 @@ class TestBanner(unittest.TestCase):
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~ QED=1 [LOonly=QCD QED]', 't> w+b', cmd._curr_model)
         self.assertEqual(['add process p p > t t~ QED=1, t> w+b  --no_warning=duplicate'],
                          out.split(';')[:-1])
-        
-        
+
+
         #6 case with all=QCD
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~ QED=1 [all=QCD]', 't> w+b', cmd._curr_model)
         self.assertEqual(['add process p p > t t~ QED=1, t> w+b  --no_warning=duplicate',
                           'define pert_QCD = -4 -3 -2 -1 1 2 3 4 21',
                           'add process p p > t t~ pert_QCD QED=1, t> w+b  --no_warning=duplicate'],
-                         out.split(';')[:-1])       
+                         out.split(';')[:-1])
 
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~ QED=1 [ all= QCD]', 't> w+b', cmd._curr_model)
-         
+
         self.assertEqual(['add process p p > t t~ QED=1, t> w+b  --no_warning=duplicate',
                           'define pert_QCD = -4 -3 -2 -1 1 2 3 4 21',
                           'add process p p > t t~ pert_QCD QED=1, t> w+b  --no_warning=duplicate'],
-                         out.split(';')[:-1])       
+                         out.split(';')[:-1])
 
         #6 case with virt=QCD, technically not valid but I like that the function can do it
         out = madspin.decay_all_events.get_proc_with_decay('generate p p > t t~ QED=1 [virt=QCD]', 't> w+b', cmd._curr_model)
         self.assertEqual(['add process p p > t t~ QED=1 [virt=QCD], t> w+b  --no_warning=duplicate'],
-                         out.split(';')[:-1])       
+                         out.split(';')[:-1])
 
-          
+
 
 
 class TestEvent(unittest.TestCase):
     """Test class for the reading of the lhe input file"""
-    
-    
+
+
     def test_madspin_event(self):
         """check the reading/writting of the events inside MadSpin"""
-        
+
         inputfile = open(pjoin(MG5DIR, 'tests', 'input_files', 'madspin_event.lhe'))
-        
+
         events = madspin.Event(inputfile)
-        
+
         # First event
         event = events.get_next_event()
         self.assertEqual(event, 1)
@@ -204,15 +204,15 @@ class TestEvent(unittest.TestCase):
 -6 -212.77359 -34.66934 359.4546 453.4437 173
 21 15.169561 -13.75551 -31.52123 37.59628 0.7499895
 """)
-#        21 0.0 0.0 586.83954 586.84002    0.750577236977    
-#21 0.0 0.0 -182.0876 182.08914    0.748887294316    
-#6 197.60403 48.424858 76.818601 277.88922    173.00000459    
-#-6 -212.77359 -34.669345 359.45458 453.44366    172.999981581    
-#21 15.169561 -13.755513 -31.521232 37.59628    0.749989476383 
-        self.assertEqual(event.get_tag(), (((21, 21), (-6, 6, 21)), [[21, 21], [6, -6, 21]]))   
+#        21 0.0 0.0 586.83954 586.84002    0.750577236977
+#21 0.0 0.0 -182.0876 182.08914    0.748887294316
+#6 197.60403 48.424858 76.818601 277.88922    173.00000459
+#-6 -212.77359 -34.669345 359.45458 453.44366    172.999981581
+#21 15.169561 -13.755513 -31.521232 37.59628    0.749989476383
+        self.assertEqual(event.get_tag(), (((21, 21), (-6, 6, 21)), [[21, 21], [6, -6, 21]]))
         event.assign_scale_line("8 3 0.1 125 0.1 0.3")
         event.change_wgt(factor=0.4)
-        
+
         self.assertEqual(event.string_event().split('\n'), """<event>
   8      3 +4.0000000e-02 1.25000000e+02 1.00000000e-01 3.00000000e-01
        21 -1    0    0  503  502 +0.00000000000e+00 +0.00000000000e+00 +5.86839540000e+02  5.86840020000e+02  7.50000000000e-01 0.0000e+00 0.0000e+00
@@ -232,15 +232,15 @@ class TestEvent(unittest.TestCase):
    <wgt id='1008'>  +1.5316000e+02 </wgt>
    <wgt id='1009'>  +1.9254800e+02 </wgt>
 </rwgt>
-</event> 
+</event>
 """.split('\n'))
-        
+
         # Second event
-        event = events.get_next_event()    
+        event = events.get_next_event()
         self.assertEqual(event, 1)
         event =events
         self.assertEqual(event.get_tag(), (((21, 21), (-6, 6, 21)), [[21, 21], [6, 21, -6]]))
-                
+
         self.assertEqual(event.string_event().split('\n'), """<event>
   5     66 +3.2366351e+02 4.39615290e+02 7.54677160e-03 1.02860750e-01
        21 -1    0    0  503  502 +0.00000000000e+00 +0.00000000000e+00 +1.20582240000e+03  1.20582260000e+03  7.50000000000e-01 0.0000e+00 0.0000e+00
@@ -267,13 +267,13 @@ class TestEvent(unittest.TestCase):
    <wgt id='1008'> 0.38076e+03 </wgt>
    <wgt id='1009'> 0.48987e+03 </wgt>
   </rwgt>
-</event> 
+</event>
 """.split('\n'))
-        
+
         # Third event ! Not existing
         event = events.get_next_event()
         self.assertEqual(event, "no_event")
-        
+
 
 
 
@@ -309,20 +309,20 @@ class TestEvent(unittest.TestCase):
 #                   3: {'branchings': [{'index_propa': -1, 'type': 't', 'index_d2': 4, \
 #                'index_d1': 1}, {'index_propa': -2, 'type': 't', 'index_d2': 3, 'index_d1': -1}],\
 #                 'get_id': {}, 'get_momentum': {}, 'get_mass2': {}}}
-#        
+#
 #        self.assertEqual(topo,topo_test)
-#  
+#
 #
 #        p_string='0.5000000E+03  0.0000000E+00  0.0000000E+00  0.5000000E+03  \n'
 #        p_string+='0.5000000E+03  0.0000000E+00  0.0000000E+00 -0.5000000E+03 \n'
 #        p_string+='0.5000000E+03  0.1040730E+03  0.4173556E+03 -0.1872274E+03 \n'
-#        p_string+='0.5000000E+03 -0.1040730E+03 -0.4173556E+03  0.1872274E+03 \n'        
+#        p_string+='0.5000000E+03 -0.1040730E+03 -0.4173556E+03  0.1872274E+03 \n'
 #
-#       
+#
 #        os.chdir(pjoin(path_for_me,'production_me','SubProcesses',prod_name))
 #        executable_prod="./check"
 #        external = Popen(executable_prod, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
-# 
+#
 #        external.stdin.write(p_string)
 #
 #        info = int(external.stdout.readline())
@@ -333,12 +333,12 @@ class TestEvent(unittest.TestCase):
 #
 #        prod_values=prod_values.split()
 #        prod_values_test=['0.59366146660637686', '7.5713552297679376', '12.386583104018380', '34.882849897228873']
-#        self.assertEqual(prod_values,prod_values_test)               
+#        self.assertEqual(prod_values,prod_values_test)
 #        external.terminate()
 #
 #
 #        os.chdir(temp_dir)
-#        
+#
 #        p_string='0.5000000E+03  0.0000000E+00  0.0000000E+00  0.5000000E+03 \n'
 #        p_string+='0.5000000E+03  0.0000000E+00  0.0000000E+00 -0.5000000E+03 \n'
 #        p_string+='0.8564677E+02 -0.8220633E+01  0.3615807E+02 -0.7706033E+02 \n'
@@ -353,12 +353,12 @@ class TestEvent(unittest.TestCase):
 #        external = Popen(executable_decay, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 #        external.stdin.write(p_string)
 #
-#        nb_output =1 
+#        nb_output =1
 #        decay_value = ' '.join([external.stdout.readline() for i in range(nb_output)])
 #
 #        decay_value=decay_value.split()
 #        decay_value_test=['3.8420345719455465E-017']
-#        for i in range(len(decay_value)): 
+#        for i in range(len(decay_value)):
 #            self.assertAlmostEqual(eval(decay_value[i]),eval(decay_value_test[i]))
 #        os.chdir(curr_dir)
 #        external.terminate()
@@ -366,5 +366,3 @@ class TestEvent(unittest.TestCase):
 #        shutil.rmtree(pjoin(path_for_me,'full_me'))
 #        os.remove(pjoin(path_for_me,'param_card.dat'))
 #        os.environ['GFORTRAN_UNBUFFERED_ALL']='n'
-
-        

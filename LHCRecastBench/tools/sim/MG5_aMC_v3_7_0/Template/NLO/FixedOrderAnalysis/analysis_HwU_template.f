@@ -11,7 +11,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine analysis_begin(nwgt,weights_info)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c This subroutine is called once at the start of each run. Here the
-c histograms should be declared. 
+c histograms should be declared.
 c
 c Declare the histograms using 'HwU_book'.
 c     o) The first argument is an integer that labels the histogram. In
@@ -57,7 +57,7 @@ c file to convert them to a postscript histogram file.
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 

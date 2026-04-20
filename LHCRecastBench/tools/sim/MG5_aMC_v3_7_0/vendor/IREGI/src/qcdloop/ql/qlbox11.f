@@ -64,7 +64,7 @@ C----deal with real roots
       ln43p=qllnrat(x43p,x43pm1)
       ln43m=qllnrat(x43m,x43mm1)
       else
-      call qlratgam(rat2p,rat2m,ieps2,p3sq,m4sq,m3sq)      
+      call qlratgam(rat2p,rat2m,ieps2,p3sq,m4sq,m3sq)
       ln43p=cln(rat2p,ieps2)
       ln43m=cln(rat2m,ieps2)
 
@@ -86,4 +86,3 @@ C----deal with real roots
       enddo
       return
       end
-

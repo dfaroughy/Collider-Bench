@@ -8,25 +8,25 @@ C
 
 c-------------------
 c     START THE CODE
-c-------------------      
+c-------------------
 
       nloop=2 ! NLO running unless set otherwise
 
 C
 c  MRST2002
-c  1     NLO   0.1197    0.00949 
+c  1     NLO   0.1197    0.00949
 c  2     NNLO  0.1154    0.00685
-C  
+C
 c      if     (pdlabel .eq. 'mrs02nl') then
-c      asmz=0.1197d0 
+c      asmz=0.1197d0
 c      elseif     (pdlabel .eq. 'mrs02nn') then
 c      asmz=0.1154d0
 C
 c  MRST2001
-c  1     alf119  central gluon, a_s       323      0.119    0.00927  
-c  2     alf117  lower a_s                290      0.117    0.00953  
-c  3     alf121  higher a_s               362      0.121    0.00889  
-c  4     j121    better fit to jet data   353      0.121    0.00826  
+c  1     alf119  central gluon, a_s       323      0.119    0.00927
+c  2     alf117  lower a_s                290      0.117    0.00953
+c  3     alf121  higher a_s               362      0.121    0.00889
+c  4     j121    better fit to jet data   353      0.121    0.00826
 C
 c      elseif     (pdlabel .eq. 'mrs0119') then
 c      asmz=0.119d0
@@ -77,11 +77,11 @@ c      elseif (pdlabel .eq. 'mrs9912') then
 c      asmz=0.1175d0
 C
 C MRS98
-C    ft08a  central gluon, a_s  300      0.1175   0.00561  
-C    ft09a  higher gluon        300      0.1175   0.00510  
-C    ft11a  lower gluon         300      0.1175   0.00408  
-C    ft24a  lower a_s           229      0.1125   0.00586  
-C    ft23a  higher a_s          383      0.1225   0.00410  
+C    ft08a  central gluon, a_s  300      0.1175   0.00561
+C    ft09a  higher gluon        300      0.1175   0.00510
+C    ft11a  lower gluon         300      0.1175   0.00408
+C    ft24a  lower a_s           229      0.1125   0.00586
+C    ft23a  higher a_s          383      0.1225   0.00410
 C
 c      elseif (pdlabel .eq. 'mrs98z1') then
 c      asmz=0.1175d0
@@ -99,14 +99,14 @@ c      asmz=0.1170d0
 c-- modified - DEBUG
 c      asmz=0.1175d0
 c      write(6,*) 'alpha_s(MZ) for mrs98ht has been modified from'
-c      write(6,*) 'the inherent 0.1170 to a new value of 0.1175'    
+c      write(6,*) 'the inherent 0.1170 to a new value of 0.1175'
 C
 C  MRS98LO
-C    lo05a  central gluon, a_s  174      0.1250   0.01518  
-C    lo09a  higher gluon        174      0.1250   0.01616  
-C    lo10a  lower gluon         174      0.1250   0.01533  
-C    lo01a  lower a_s           136      0.1200   0.01652  
-C    lo07a  higher a_s          216      0.1300   0.01522  
+C    lo05a  central gluon, a_s  174      0.1250   0.01518
+C    lo09a  higher gluon        174      0.1250   0.01616
+C    lo10a  lower gluon         174      0.1250   0.01533
+C    lo01a  lower a_s           136      0.1200   0.01652
+C    lo07a  higher a_s          216      0.1300   0.01522
 C
 c      elseif (pdlabel .eq. 'mrs98l1') then
 c      asmz=0.125d0
@@ -149,7 +149,7 @@ c      elseif (pdlabel .eq. 'cteq4_m') then
 c      asmz=0.116d0
 c      elseif (pdlabel .eq. 'cteq4_d') then
 c      asmz=0.116d0
-c      elseif (pdlabel .eq. 'cteq4_l') then 
+c      elseif (pdlabel .eq. 'cteq4_l') then
 c      asmz=0.132d0
 c      nloop=1
 c      elseif (pdlabel .eq. 'cteq4a1') then
@@ -219,7 +219,7 @@ C   2    CTEQ6D   Standard DIS scheme     0.118     326   226    cteq6d.tbl
 C   3    CTEQ6L   Leading Order           0.118**   326** 226    cteq6l.tbl
 C   4    CTEQ6L1  Leading Order           0.130**   215** 165    cteq6l1.tbl
 C
-C Note:CTEQ6L1 uses the LO running alpha_s 
+C Note:CTEQ6L1 uses the LO running alpha_s
 C
       if (pdlabel .eq. 'cteq6_m') then
       asmz=0.118d0
@@ -240,33 +240,33 @@ c---------------------------------------------------------------
 
 C
 C NNPDF2.3 sets
-C   1      NNPDF2.3QED LO  QCD+QED  alphas(MZ) = 0.119       NNPDF23_lo_as_0119_qed_mem0.grid 
-C   2      NNPDF2.3QED LO  QCD+QED  alphas(MZ) = 0.130       NNPDF23_lo_as_0130_qed_mem0.grid 
+C   1      NNPDF2.3QED LO  QCD+QED  alphas(MZ) = 0.119       NNPDF23_lo_as_0119_qed_mem0.grid
+C   2      NNPDF2.3QED LO  QCD+QED  alphas(MZ) = 0.130       NNPDF23_lo_as_0130_qed_mem0.grid
 C   3      NNPDF2.3QED NLO  QCD+QED  alphas(MZ) = 0.119       NNPDF23_nlo_as_0130_qed_mc_mem0.grid  -- Positive Definite set
 C
       elseif (pdlabel .eq. 'nn23lo') then
-      call NNPDFDriver('NNPDF23_lo_as_0119_qed_mem0.grid')      
+      call NNPDFDriver('NNPDF23_lo_as_0119_qed_mem0.grid')
       call NNinitPDF(0)
       asmz=0.119d0
 
       elseif (pdlabel .eq. 'nn23lo1') then
-      call NNPDFDriver('NNPDF23_lo_as_0130_qed_mem0.grid')      
+      call NNPDFDriver('NNPDF23_lo_as_0130_qed_mem0.grid')
       call NNinitPDF(0)
       asmz=0.130d0
 
       elseif (pdlabel .eq. 'nn23nlo') then
-      call NNPDFDriver('NNPDF23nlo_as_0119_qed_mem0.grid')      
+      call NNPDFDriver('NNPDF23nlo_as_0119_qed_mem0.grid')
       call NNinitPDF(0)
       asmz=0.119d0
 
 c---------------------------------------------------------------
 c---------------------------------------------------------------
       elseif (pdlabel.eq.'eva'.or.pdlabel.eq.'iww'.or.pdlabel.eq.'none') then
-            asmz=asmz            
+            asmz=asmz
       else
          asmz=0.118d0
 c     do not crash anymore since arbitrary PDF can be added for lepton collision
-c     and that validity of the pdf is checked at python level anyway          
+c     and that validity of the pdf is checked at python level anyway
 c
 c         write(6,*) 'Unimplemented distribution= ',pdlabel
 c          write(6,*) 'Implemented are: ',
@@ -280,8 +280,6 @@ c       pdlabel='cteq6l1'
 c       asmz=0.130d0
 c       nloop=1
 c       Call SetCtq6(4)
-      endif      
+      endif
       return
       end
- 
-

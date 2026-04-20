@@ -1,7 +1,7 @@
       PROGRAM PYXTRA
 C...Long example how to interface user-defined processes to PYTHIA
-C...based on the Les Houches commonblock agreement. Generates events 
-C...of several different kinds, to test the new code under varied 
+C...based on the Les Houches commonblock agreement. Generates events
+C...of several different kinds, to test the new code under varied
 C...conditions, but kinematics selection and cross sections are
 C...completely unphysical.
 
@@ -12,7 +12,7 @@ C...Double precision and integer declarations.
 #include "hepeup.inc"
 #include "heprup.inc"
 #include "stdlun.inc"
- 
+
 C...Standard PYTHIA commonblocks.
 #include "pyjets.inc"
 #include "pydat1.inc"
@@ -83,7 +83,7 @@ C.....Opening stdhep file for writing
       if(lok.ne.0) write(lnhout,*)
      1        ' Problem opening file '
 
-C          Write Stdhep begin-run record   
+C          Write Stdhep begin-run record
       call stdxwrt(100,istr,lok)
       if(lok.ne.0) write(lnhout,*)
      1        ' Problem writing stdhep begin run record'
@@ -92,7 +92,7 @@ C...Event loop; generate event; check it was obtained or quit.
       DO 130 IEV=1,NEV
         CALL PYEVNT
         CALL LUNHEP(1)
-        IF(MSTI(51).EQ.1) GOTO 140  
+        IF(MSTI(51).EQ.1) GOTO 140
 
         IF(IEV.LT.10) THEN
          CALL PYLIST(7)
@@ -104,7 +104,7 @@ C...Event loop; generate event; check it was obtained or quit.
               CALL PYLIST(2)
            ENDIF
         ENDIF
- 
+
 C.......Write one event
         call stdxwrt(1,istr,lok)
 
@@ -117,7 +117,7 @@ C...Statistics and histograms.
 
 C          Fill Stdhep common block 1 with run information
       call stdflpyxsec(nev)
-C          Write end-of-run record  
+C          Write end-of-run record
       call stdxwrt(200,istr,lok)
       if(lok.ne.0) write(lnhout,*) ' Problem writing end run record'
 
@@ -126,16 +126,16 @@ c...close event file
       call stdxend(istr)
       close(lnhpdf)
       END
-   
+
 C*********************************************************************
- 
+
 C...UPINIT
 C...Routine to be called by user to set up user-defined processes.
 C...Code below only intended as example, without any claim of realism.
 C...Especially it shows what info needs to be put in HEPRUP.
- 
+
       SUBROUTINE UPINIT
- 
+
 C...Double precision and integer declarations.
       IMPLICIT NONE
 
@@ -159,22 +159,22 @@ C...Set incoming beams: Tevatron Run II.
       EBMUP(2)=980D0
 
 C...Set PDF's of incoming beams: CTEQ 5L.
-C...Note that Pythia will not look at PDFGUP and PDFSUP.  
+C...Note that Pythia will not look at PDFGUP and PDFSUP.
       PDFGUP(1)=4
       PDFSUP(1)=46
       PDFGUP(2)=PDFGUP(1)
       PDFSUP(2)=PDFSUP(1)
-      
+
 C...If you want Pythia to use PDFLIB, you have to set it by hand.
 C...(You also have to ensure that the dummy routines
-C...PDFSET, STRUCTM and STRUCTP in Pythia are not linked.)      
+C...PDFSET, STRUCTM and STRUCTP in Pythia are not linked.)
 C      MSTP(52)=2
 C      MSTP(51)=1000*PDFGUP(1)+PDFSUP(1)
 
 C...Decide on weighting strategy: unweighted on input.
       IDWTUP=MODE
 
-C...Number of external processes. 
+C...Number of external processes.
       NPRUP=1
 
 C.....read through data file to find maximum weight....only first time
@@ -214,7 +214,7 @@ C.....read through data file to find maximum weight....only first time
  778   CONTINUE
        rewind(lnhpdf)
        write(lnhout,*) ' For unweighting, scaled maximum by ',SCALEF
-       write(lnhout,*) ' Number of Events with wt > wtmax ',NGRT, 
+       write(lnhout,*) ' Number of Events with wt > wtmax ',NGRT,
      $ ' out of ',IMAX
        write(lnhout,*) ' Total Cross Section with wt > wtmax ',WTGRT
        write(lnhout,*) ' Relative to total ',WTGRT/XSTOT
@@ -227,13 +227,13 @@ C.....read through data file to find maximum weight....only first time
       RETURN
       END
 C*********************************************************************
- 
+
 C...UPEVNT
 C...Sample routine to generate events of various kinds.
 C...Not intended to be realistic, but rather to show in closed
 C...and understandable form what such a routine might look like.
 C...Especially it shows what info needs to be put in HEPEUP.
- 
+
       SUBROUTINE UPEVNT
 
 C...Double precision and integer declarations.
@@ -289,7 +289,7 @@ C
          ENDIF
         ELSEIF(ISTUP(IC)*ISTUP(IJ).EQ.-1) THEN
          IF(IDC1.EQ.IC1.OR.IDC2.EQ.IC2) THEN
-          QTMP=SMDOT5(PUP(1,IJ),PUP(1,IC))          
+          QTMP=SMDOT5(PUP(1,IJ),PUP(1,IC))
           QMIN=MIN(QMIN,QTMP)
          ENDIF
         ENDIF
@@ -297,7 +297,7 @@ C
       ENDDO
 
       SCALUP=QMIN
-      
+
 c      write(lnhout,*) ' scalup = ',scalup
 C.....Add mothers for l+ l- and l nu_l pairs
       IJ=3
@@ -308,7 +308,7 @@ C.....Add mothers for l+ l- and l nu_l pairs
       IDA=ABS(ID)
       write(lnhout,*) ij,ida,nup
       IF(IDA.GE.11.AND.IDA.LE.16.AND.IJ.LT.NUP) THEN
-       IF(ICOLUP(1,IJ).EQ.0 .AND. ICOLUP(2,IJ).EQ.0) THEN        
+       IF(ICOLUP(1,IJ).EQ.0 .AND. ICOLUP(2,IJ).EQ.0) THEN
         IDP=IDUP(IJ+1)
         IDPA=ABS(IDP)
         IMO=0
@@ -355,7 +355,7 @@ C.......
         MOTHUP(2,IJ+2)=IJ
         TEST=PUP(1,IJ)**2+PUP(2,IJ)**2+PUP(3,IJ)**2-PUP(4,IJ)**2
         IF(TEST.LE.0D0) THEN
-         PUP(5,IJ)=DSQRT(-TEST)         
+         PUP(5,IJ)=DSQRT(-TEST)
         ELSEIF(DABS(TEST).LT.1D-4) THEN
          PUP(5,IJ)=0D0
         ELSE
@@ -365,8 +365,8 @@ C.......
         IJ=IJ+2
        ENDIF
       ENDIF
-        
-       
+
+
  998  CONTINUE
       IJ=IJ+1
       IF(IJ.GT.NUP) GOTO 999
@@ -399,4 +399,3 @@ C
 
       RETURN
       END
-

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -19,7 +19,7 @@ import six
 StringIO = six
 import copy
 import fractions
-import os 
+import os
 import sys
 import tempfile
 import glob
@@ -56,11 +56,11 @@ class IOExportFKSTest(IOTests.IOTestManager):
             opt['ninja'] = None
             opt['collier'] = None
             with misc.TMP_variable(interface, 'options', opt):
-                interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+                interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
-        
+
         if model.endswith('CMS'):
             run_cmd('set complex_mass_scheme')
             model = model[:-3]
@@ -106,7 +106,7 @@ class IOExportFKSTest(IOTests.IOTestManager):
     @IOTests.createIOTest()
     def testIO_test_pptt_fksrealew(self):
         r""" target: SubProcesses/[P0.*\/.+\.(inc|f)]"""
-        self.generate(['p p > t t~ QED^2=0 QCD^2=4 [real=QED]'], 'sm', 
+        self.generate(['p p > t t~ QED^2=0 QCD^2=4 [real=QED]'], 'sm',
                       multiparticles = ['p = u u~ d d~ s s~ c c~ g a'])
 
 
@@ -118,7 +118,7 @@ class TestFKSOutput(unittest.TestCase):
 
     def tearDown(self):
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
@@ -132,25 +132,25 @@ class TestFKSOutput(unittest.TestCase):
         path = tempfile.mkdtemp('', 'TMPWTest', None)
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
-        
+
         run_cmd('set low_mem_multicore_nlo_generation True')
         run_cmd('generate p p > e+ ve QED^2=4 QCD^2=0 [QCD]')
         run_cmd('output %s' % os.path.join(path, 'W-newway'))
         run_cmd('set low_mem_multicore_nlo_generation False')
         run_cmd('generate p p > e+ ve QED^2=4 QCD^2=0 [QCD]')
         run_cmd('output %s' % os.path.join(path, 'W-oldway'))
-        
+
         # the P0 dirs
         for oldf in \
           (glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', '*.f')) + \
            [os.path.join(path, 'W-oldway', 'SubProcesses', 'proc_characteristics')]):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -162,8 +162,8 @@ class TestFKSOutput(unittest.TestCase):
         for oldf in \
           (glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', 'V0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', 'V0*', '*.f'))):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -180,25 +180,25 @@ class TestFKSOutput(unittest.TestCase):
         path = tempfile.mkdtemp('', 'TMPWTest', None)
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
-        
+
         run_cmd('set low_mem_multicore_nlo_generation True')
         run_cmd('generate p p > e+ ve QED^2=4 QCD^2=0 [QED]')
         run_cmd('output %s' % os.path.join(path, 'W-newway'))
         run_cmd('set low_mem_multicore_nlo_generation False')
         run_cmd('generate p p > e+ ve QED^2=4 QCD^2=0 [QED]')
         run_cmd('output %s' % os.path.join(path, 'W-oldway'))
-        
+
         # the P0 dirs
         for oldf in \
           (glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', '*.f')) + \
            [os.path.join(path, 'W-oldway', 'SubProcesses', 'proc_characteristics')]):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -210,8 +210,8 @@ class TestFKSOutput(unittest.TestCase):
         for oldf in \
           (glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', 'V0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', 'V0*', '*.f'))):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -229,11 +229,11 @@ class TestFKSOutput(unittest.TestCase):
         path = tempfile.mkdtemp('', 'TMPWTest', None)
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
-        
+
         run_cmd('define p3 = d s b d~ s~ b~ a')
         run_cmd('set low_mem_multicore_nlo_generation True')
         run_cmd('generate p3 p3 > e+ e- QED^2=4 QCD^2=0 [QED]')
@@ -241,14 +241,14 @@ class TestFKSOutput(unittest.TestCase):
         run_cmd('set low_mem_multicore_nlo_generation False')
         run_cmd('generate p3 p3 > e+ e- QED^2=4 QCD^2=0 [QED]')
         run_cmd('output %s' % os.path.join(path, 'Z-oldway'))
-        
+
         # the P0 dirs
         for oldf in \
           (glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', '*.f')) + \
            [os.path.join(path, 'Z-oldway', 'SubProcesses', 'proc_characteristics')]):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -260,8 +260,8 @@ class TestFKSOutput(unittest.TestCase):
         for oldf in \
           (glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', 'V0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', 'V0*', '*.f'))):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -278,11 +278,11 @@ class TestFKSOutput(unittest.TestCase):
         path = tempfile.mkdtemp('', 'TMPWTest', None)
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
-        
+
         run_cmd('define p3 = d s b d~ s~ b~')
         run_cmd('set low_mem_multicore_nlo_generation True')
         run_cmd('generate p3 p3 > e+ e- QED^2=4 QCD^2=0 [QCD]')
@@ -290,14 +290,14 @@ class TestFKSOutput(unittest.TestCase):
         run_cmd('set low_mem_multicore_nlo_generation False')
         run_cmd('generate p3 p3 > e+ e- QED^2=4 QCD^2=0 [QCD]')
         run_cmd('output %s' % os.path.join(path, 'Z-oldway'))
-        
+
         # the P0 dirs
         for oldf in \
           (glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', '*.f')) + \
            [os.path.join(path, 'Z-oldway', 'SubProcesses', 'proc_characteristics')]):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -309,8 +309,8 @@ class TestFKSOutput(unittest.TestCase):
         for oldf in \
           (glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', 'V0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'Z-oldway', 'SubProcesses', 'P0*', 'V0*', '*.f'))):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -326,11 +326,11 @@ class TestFKSOutput(unittest.TestCase):
         path = tempfile.mkdtemp('', 'TMPWTest', None)
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
-        
+
 
         run_cmd('set low_mem_multicore_nlo_generation True')
         run_cmd('generate p p > w+ j [LOonly=QCD]')
@@ -338,14 +338,14 @@ class TestFKSOutput(unittest.TestCase):
         run_cmd('set low_mem_multicore_nlo_generation False')
         run_cmd('generate p p > w+ j [LOonly=QCD]')
         run_cmd('output %s' % os.path.join(path, 'W-oldway'))
-                
+
         # the P0 dirs
         for oldf in \
           (glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', '*.f')) + \
            [os.path.join(path, 'W-oldway', 'SubProcesses', 'proc_characteristics')]):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -357,8 +357,8 @@ class TestFKSOutput(unittest.TestCase):
         for oldf in \
           (glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', 'V0*', '*.inc')) + \
            glob.glob(os.path.join(path, 'W-oldway', 'SubProcesses', 'P0*', 'V0*', '*.f'))):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -366,12 +366,12 @@ class TestFKSOutput(unittest.TestCase):
             for old_l, new_l in zip(open(oldf), open(newf)):
                 self.assertEqual(old_l, new_l)
 
-        # the Source dir 
+        # the Source dir
         for oldf in \
           (glob.glob(os.path.join(path, 'W-oldway', 'Source', '*.inc')) + \
            glob.glob(os.path.join(path, 'W-oldway', 'Source', '*.f'))):
-            
-            if os.path.islink(oldf): 
+
+            if os.path.islink(oldf):
                 continue
 
             newf = oldf.replace('oldway', 'newway')
@@ -382,13 +382,13 @@ class TestFKSOutput(unittest.TestCase):
 
     @test_manager.bypass_for_py3
     def test_w_nlo_gen_gosam(self):
-        """check that the new generation mode works when gosam is set 
-        for p p > w [QCD] 
+        """check that the new generation mode works when gosam is set
+        for p p > w [QCD]
         """
         path = tempfile.mkdtemp('', 'TMPWTest', None)
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
 
         interface = MGCmd.MasterCmd()
@@ -411,6 +411,3 @@ class TestFKSOutput(unittest.TestCase):
             run_cmd('set OLP MadLoop')
 
         shutil.rmtree(path)
-
-
-

@@ -3,7 +3,7 @@ c**********************************************************************
 c     This routine transfers evenly spaced x values between 0 and 1
 c     to y values with a pole at y=pole with width width and returns
 c     the appropriate jacobian for this.  If x<del or x>1-del, uses
-c     a linear transformation.  This ensures ability to cover entire 
+c     a linear transformation.  This ensures ability to cover entire
 c     region, even away from B.W.
 c
 c     If pole<0 then assumes have sqrt(1d0/(x^2+a^2)) type pole
@@ -81,7 +81,7 @@ c            x = .5d0*(1d0-x)
 c-------
 c    tjs 3/5/2011  Perform 1/x transformation  using y=xo^(1-x)
 c-------
-      elseif(pole .eq. -15d0 .and. width .gt. 0d0) then !1/x   limit of width         
+      elseif(pole .eq. -15d0 .and. width .gt. 0d0) then !1/x   limit of width
 c         if (x .lt. width) then      !No transformation below cutoff
          xc = width
          xc = 1d0/(1d0-log(width))
@@ -101,7 +101,7 @@ c         write(*,*) 'Transpole called',x,y
             y=x
          else
 c---------
-c   tjs 5/1/2008  modified for any y=x^-n transformation       
+c   tjs 5/1/2008  modified for any y=x^-n transformation
 c-----------
             z = 1d0 - x + width
             b = ( 1d0-width) / (width**(pole+1d0) - 1d0)
@@ -116,7 +116,7 @@ c            x = 1d0-x+width
 c            y=width/x
 c            jac = jac*width/(x*x)
 c------------------------------------
-            
+
 
 c            write(*,*) 'trans',x,width/(x*x)
          endif
@@ -197,7 +197,7 @@ c
       double precision z,zmin,zmax,xmin,xmax,ez
       double precision pole,width,y,xc
       double precision a,b
-      double precision xgmin,xgmax       ! these should be identical 
+      double precision xgmin,xgmax       ! these should be identical
       parameter (xgmin=-1d0, xgmax=1d0)  ! to the ones in genps.inc
 c-----
 c  Begin Code
@@ -205,7 +205,7 @@ c-----
       pole=pole1
       width=width1
       y = y1
-      if (pole .gt. 0d0) then                   !BW 
+      if (pole .gt. 0d0) then                   !BW
          if (width.lt.pole*small_width_treatment)then
             width = pole * small_width_treatment
             jac = jac * width/width1
@@ -279,11 +279,11 @@ c            write(*,*) "untrans",x,y,z
             x=y
          else
 c---------
-c   tjs 5/1/2008  modified for any y=x^-n transformation       
+c   tjs 5/1/2008  modified for any y=x^-n transformation
 c-----------
             b = ( 1d0-width) / (width**(pole+1d0) - 1d0)
             a = width - b
-            z = ((y-a)/b)**(1d0/(pole+1)) 
+            z = ((y-a)/b)**(1d0/(pole+1))
             x = 1d0 - z + width
             jac = jac * abs((pole+1d0) * b * z**(pole))
 

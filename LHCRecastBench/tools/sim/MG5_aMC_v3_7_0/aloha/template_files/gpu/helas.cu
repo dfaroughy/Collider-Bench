@@ -128,10 +128,10 @@ __device__ void ipzxxx(const fptype* allmomenta, const int& nhel, const int& nsf
   // E = P3 (E>0)
 #ifdef __CUDACC__
       const int ievt = blockDim.x * blockIdx.x + threadIdx.x; // index of event (thread) in grid
-#endif  
+#endif
   //const fptype& pvec0 = pIparIp4Ievt( allmomenta, ipar, 0, ievt );
   const fptype& pvec3 = pIparIp4Ievt( allmomenta, ipar, 3, ievt );
-  
+
   fi[0] = cxtype (-pvec3 * nsf, -pvec3 * nsf);
   fi[1] = cxtype (0.,0.);
   int nh = nhel * nsf;
@@ -162,7 +162,7 @@ __device__ void imzxxx(const fptype* allmomenta, const int& nhel, const int& nsf
   //printf("p3 %f", pvec[2]);
 #ifdef __CUDACC__
       const int ievt = blockDim.x * blockIdx.x + threadIdx.x; // index of event (thread) in grid
-#endif  
+#endif
   const fptype& pvec3 = pIparIp4Ievt( allmomenta, ipar, 3, ievt );
   fi[0] = cxtype (pvec3 * nsf, -pvec3 * nsf);
   fi[1] = cxtype (0., 0.);
@@ -178,7 +178,7 @@ __device__ void imzxxx(const fptype* allmomenta, const int& nhel, const int& nsf
   }else{
      fi[2] = chi;
      fi[5] = fi[1];
-  }    
+  }
 }
 
 __device__ void ixzxxx(const fptype* allmomenta, const int& nhel, const int& nsf,
@@ -196,7 +196,7 @@ __device__ void ixzxxx(const fptype* allmomenta, const int& nhel, const int& nsf
   //int ip, im, nh;
 #ifdef __CUDACC__
       const int ievt = blockDim.x * blockIdx.x + threadIdx.x; // index of event (thread) in grid
-#endif  
+#endif
   const fptype& pvec0 = pIparIp4Ievt( allmomenta, ipar, 0, ievt );
   const fptype& pvec1 = pIparIp4Ievt( allmomenta, ipar, 1, ievt );
   const fptype& pvec2 = pIparIp4Ievt( allmomenta, ipar, 2, ievt );
@@ -236,7 +236,7 @@ __device__ void vxxxxx(const fptype* allmomenta, const fptype& vmass, const int&
                  const int ievt,
 #endif
                  const int ipar )          // input: particle# out of npar
-{		 
+{
   fptype hel, hel0, pt, pt2, pp, pzpt, emp, sqh;
   int nsvahl;
 
@@ -426,7 +426,7 @@ __device__ void opzxxx(const fptype* allmomenta, const int& nhel, const int& nsf
   // E = PZ
 #ifdef __CUDACC__
       const int ievt = blockDim.x * blockIdx.x + threadIdx.x; // index of event (thread) in grid
-#endif  
+#endif
    const fptype& pvec3 = pIparIp4Ievt( allmomenta, ipar, 3, ievt );
 
   fo[0] = cxtype (pvec3 * nsf, pvec3 * nsf);
@@ -460,7 +460,7 @@ __device__ void omzxxx(const fptype* allmomenta, const int& nhel, const int& nsf
   // E = -PZ (E>0)
 #ifdef __CUDACC__
       const int ievt = blockDim.x * blockIdx.x + threadIdx.x; // index of event (thread) in grid
-#endif  
+#endif
   const fptype& pvec3 = pIparIp4Ievt( allmomenta, ipar, 3, ievt );
   fo[0] = cxtype (-pvec3 * nsf, pvec3 * nsf);
   fo[1] = cxtype (0., 0.);
@@ -492,7 +492,7 @@ __device__ void oxzxxx(const fptype* allmomenta, const int& nhel, const int& nsf
   // PT > 0
 #ifdef __CUDACC__
       const int ievt = blockDim.x * blockIdx.x + threadIdx.x; // index of event (thread) in grid
-#endif  
+#endif
       const fptype& p0 = pIparIp4Ievt( allmomenta, ipar, 0, ievt );
       const fptype& p1 = pIparIp4Ievt( allmomenta, ipar, 1, ievt );
       const fptype& p2 = pIparIp4Ievt( allmomenta, ipar, 2, ievt );

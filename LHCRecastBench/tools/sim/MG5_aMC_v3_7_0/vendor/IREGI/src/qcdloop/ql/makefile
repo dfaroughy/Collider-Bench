@@ -6,7 +6,7 @@ LIBRARY	      = libqcdloop.a
 
 
 # -----------------------------------------------------------------------------
-# Specify the object files. 
+# Specify the object files.
 
 OBJS = \
 ./qlinit.o \
@@ -71,12 +71,12 @@ OBJS = \
 ./qlxpicheck.o \
 
 
-$(LIBRARY):	$(OBJS) 
-		ar cru $(LIBRARY) $(OBJS) 
+$(LIBRARY):	$(OBJS)
+		ar cru $(LIBRARY) $(OBJS)
 		ranlib $(LIBRARY)
- 
 
-.f.o:	
+
+.f.o:
 		$(FC) $(F77FLAGS)  -c $*.f
 
 
@@ -89,8 +89,8 @@ all:		$(LIBRARY)
 
 # -----------------------------------------------------------------------------
 
-PRJS =      $(OBJS:.o=.f) 
-PRJSF =      $(OBJS:.o=.f) 
+PRJS =      $(OBJS:.o=.f)
+PRJSF =      $(OBJS:.o=.f)
 
 clean:
 	- rm -f *.o *.s *.prj *.a *~ core
@@ -98,5 +98,3 @@ clean:
 # -----------------------------------------------------------------------------
 
 # DO NOT DELETE
-
-

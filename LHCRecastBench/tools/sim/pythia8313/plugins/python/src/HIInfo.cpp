@@ -75,7 +75,7 @@
 struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 	using Pythia8::HIUserHooks::HIUserHooks;
 
-	void init(int a0, int a1) override { 
+	void init(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "init");
 		if (overload) {
@@ -88,7 +88,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::init(a0, a1);
 	}
-	bool hasImpactParameterGenerator() const override { 
+	bool hasImpactParameterGenerator() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "hasImpactParameterGenerator");
 		if (overload) {
@@ -101,7 +101,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::hasImpactParameterGenerator();
 	}
-	class std::shared_ptr<class Pythia8::ImpactParameterGenerator> impactParameterGenerator() const override { 
+	class std::shared_ptr<class Pythia8::ImpactParameterGenerator> impactParameterGenerator() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "impactParameterGenerator");
 		if (overload) {
@@ -114,7 +114,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::impactParameterGenerator();
 	}
-	bool hasProjectileModel() const override { 
+	bool hasProjectileModel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "hasProjectileModel");
 		if (overload) {
@@ -127,7 +127,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::hasProjectileModel();
 	}
-	class std::shared_ptr<class Pythia8::NucleusModel> projectileModel() const override { 
+	class std::shared_ptr<class Pythia8::NucleusModel> projectileModel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "projectileModel");
 		if (overload) {
@@ -140,7 +140,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::projectileModel();
 	}
-	bool hasTargetModel() const override { 
+	bool hasTargetModel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "hasTargetModel");
 		if (overload) {
@@ -153,7 +153,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::hasTargetModel();
 	}
-	class std::shared_ptr<class Pythia8::NucleusModel> targetModel() const override { 
+	class std::shared_ptr<class Pythia8::NucleusModel> targetModel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "targetModel");
 		if (overload) {
@@ -166,7 +166,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::targetModel();
 	}
-	bool hasSubCollisionModel() override { 
+	bool hasSubCollisionModel() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "hasSubCollisionModel");
 		if (overload) {
@@ -179,7 +179,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::hasSubCollisionModel();
 	}
-	class std::shared_ptr<class Pythia8::SubCollisionModel> subCollisionModel() override { 
+	class std::shared_ptr<class Pythia8::SubCollisionModel> subCollisionModel() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "subCollisionModel");
 		if (overload) {
@@ -192,7 +192,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::subCollisionModel();
 	}
-	bool hasEventOrdering() const override { 
+	bool hasEventOrdering() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "hasEventOrdering");
 		if (overload) {
@@ -205,7 +205,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::hasEventOrdering();
 	}
-	double eventOrdering(const class Pythia8::Event & a0, const class Pythia8::Info & a1) override { 
+	double eventOrdering(const class Pythia8::Event & a0, const class Pythia8::Info & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "eventOrdering");
 		if (overload) {
@@ -218,7 +218,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::eventOrdering(a0, a1);
 	}
-	bool canFixIsoSpin() const override { 
+	bool canFixIsoSpin() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "canFixIsoSpin");
 		if (overload) {
@@ -231,7 +231,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::canFixIsoSpin();
 	}
-	bool fixIsoSpin(class Pythia8::EventInfo & a0) override { 
+	bool fixIsoSpin(class Pythia8::EventInfo & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "fixIsoSpin");
 		if (overload) {
@@ -244,7 +244,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::fixIsoSpin(a0);
 	}
-	bool canShiftEvent() const override { 
+	bool canShiftEvent() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "canShiftEvent");
 		if (overload) {
@@ -257,7 +257,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::canShiftEvent();
 	}
-	class Pythia8::EventInfo & shiftEvent(class Pythia8::EventInfo & a0) const override { 
+	class Pythia8::EventInfo & shiftEvent(class Pythia8::EventInfo & a0) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "shiftEvent");
 		if (overload) {
@@ -270,7 +270,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::shiftEvent(a0);
 	}
-	bool canForceHadronLevel() const override { 
+	bool canForceHadronLevel() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "canForceHadronLevel");
 		if (overload) {
@@ -283,7 +283,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::canForceHadronLevel();
 	}
-	bool forceHadronLevel(class Pythia8::Pythia & a0) override { 
+	bool forceHadronLevel(class Pythia8::Pythia & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "forceHadronLevel");
 		if (overload) {
@@ -296,7 +296,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		}
 		return HIUserHooks::forceHadronLevel(a0);
 	}
-	bool canFindRecoilers() const override { 
+	bool canFindRecoilers() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "canFindRecoilers");
 		if (overload) {
@@ -310,7 +310,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 		return HIUserHooks::canFindRecoilers();
 	}
 	using _binder_ret_0 = class std::vector<int, class std::allocator<int> >;
-	_binder_ret_0 findRecoilers(const class Pythia8::Event & a0, bool a1, int a2, int a3, const class Pythia8::Vec4 & a4, const class Pythia8::Vec4 & a5) const override { 
+	_binder_ret_0 findRecoilers(const class Pythia8::Event & a0, bool a1, int a2, int a3, const class Pythia8::Vec4 & a4, const class Pythia8::Vec4 & a5) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HIUserHooks *>(this), "findRecoilers");
 		if (overload) {
@@ -329,7 +329,7 @@ struct PyCallBack_Pythia8_HIUserHooks : public Pythia8::HIUserHooks {
 struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 	using Pythia8::HeavyIons::HeavyIons;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "init");
 		if (overload) {
@@ -342,7 +342,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"HeavyIons::init\"");
 	}
-	bool next() override { 
+	bool next() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "next");
 		if (overload) {
@@ -355,7 +355,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"HeavyIons::next\"");
 	}
-	bool setKinematics(double a0) override { 
+	bool setKinematics(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "setKinematics");
 		if (overload) {
@@ -368,7 +368,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return HeavyIons::setKinematics(a0);
 	}
-	bool setKinematics(double a0, double a1) override { 
+	bool setKinematics(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "setKinematics");
 		if (overload) {
@@ -381,7 +381,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return HeavyIons::setKinematics(a0, a1);
 	}
-	bool setKinematics(double a0, double a1, double a2, double a3, double a4, double a5) override { 
+	bool setKinematics(double a0, double a1, double a2, double a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "setKinematics");
 		if (overload) {
@@ -394,7 +394,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return HeavyIons::setKinematics(a0, a1, a2, a3, a4, a5);
 	}
-	bool setKinematics(class Pythia8::Vec4 a0, class Pythia8::Vec4 a1) override { 
+	bool setKinematics(class Pythia8::Vec4 a0, class Pythia8::Vec4 a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "setKinematics");
 		if (overload) {
@@ -407,7 +407,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return HeavyIons::setKinematics(a0, a1);
 	}
-	bool setBeamIDs(int a0, int a1) override { 
+	bool setBeamIDs(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "setBeamIDs");
 		if (overload) {
@@ -420,7 +420,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return HeavyIons::setBeamIDs(a0, a1);
 	}
-	void stat() override { 
+	void stat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "stat");
 		if (overload) {
@@ -433,7 +433,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return HeavyIons::stat();
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -446,7 +446,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return PhysicsBase::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "onBeginEvent");
 		if (overload) {
@@ -459,7 +459,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "onEndEvent");
 		if (overload) {
@@ -472,7 +472,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons *>(this), "onStat");
 		if (overload) {
@@ -491,7 +491,7 @@ struct PyCallBack_Pythia8_HeavyIons : public Pythia8::HeavyIons {
 struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::InfoGrabber {
 	using Pythia8::HeavyIons::InfoGrabber::InfoGrabber;
 
-	bool initAfterBeams() override { 
+	bool initAfterBeams() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "initAfterBeams");
 		if (overload) {
@@ -504,7 +504,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::initAfterBeams();
 	}
-	bool canModifySigma() override { 
+	bool canModifySigma() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canModifySigma");
 		if (overload) {
@@ -517,7 +517,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canModifySigma();
 	}
-	double multiplySigmaBy(const class Pythia8::SigmaProcess * a0, const class Pythia8::PhaseSpace * a1, bool a2) override { 
+	double multiplySigmaBy(const class Pythia8::SigmaProcess * a0, const class Pythia8::PhaseSpace * a1, bool a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "multiplySigmaBy");
 		if (overload) {
@@ -530,7 +530,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::multiplySigmaBy(a0, a1, a2);
 	}
-	bool canBiasSelection() override { 
+	bool canBiasSelection() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canBiasSelection");
 		if (overload) {
@@ -543,7 +543,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canBiasSelection();
 	}
-	double biasSelectionBy(const class Pythia8::SigmaProcess * a0, const class Pythia8::PhaseSpace * a1, bool a2) override { 
+	double biasSelectionBy(const class Pythia8::SigmaProcess * a0, const class Pythia8::PhaseSpace * a1, bool a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "biasSelectionBy");
 		if (overload) {
@@ -556,7 +556,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::biasSelectionBy(a0, a1, a2);
 	}
-	double biasedSelectionWeight() override { 
+	double biasedSelectionWeight() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "biasedSelectionWeight");
 		if (overload) {
@@ -569,7 +569,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::biasedSelectionWeight();
 	}
-	bool canVetoProcessLevel() override { 
+	bool canVetoProcessLevel() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoProcessLevel");
 		if (overload) {
@@ -582,7 +582,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoProcessLevel();
 	}
-	bool doVetoProcessLevel(class Pythia8::Event & a0) override { 
+	bool doVetoProcessLevel(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoProcessLevel");
 		if (overload) {
@@ -595,7 +595,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoProcessLevel(a0);
 	}
-	bool canSetLowEnergySigma(int a0, int a1) const override { 
+	bool canSetLowEnergySigma(int a0, int a1) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canSetLowEnergySigma");
 		if (overload) {
@@ -608,7 +608,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canSetLowEnergySigma(a0, a1);
 	}
-	double doSetLowEnergySigma(int a0, int a1, double a2, double a3, double a4) const override { 
+	double doSetLowEnergySigma(int a0, int a1, double a2, double a3, double a4) const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doSetLowEnergySigma");
 		if (overload) {
@@ -621,7 +621,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doSetLowEnergySigma(a0, a1, a2, a3, a4);
 	}
-	bool canVetoResonanceDecays() override { 
+	bool canVetoResonanceDecays() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoResonanceDecays");
 		if (overload) {
@@ -634,7 +634,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoResonanceDecays();
 	}
-	bool doVetoResonanceDecays(class Pythia8::Event & a0) override { 
+	bool doVetoResonanceDecays(class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoResonanceDecays");
 		if (overload) {
@@ -647,7 +647,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoResonanceDecays(a0);
 	}
-	bool canVetoPT() override { 
+	bool canVetoPT() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoPT");
 		if (overload) {
@@ -660,7 +660,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoPT();
 	}
-	double scaleVetoPT() override { 
+	double scaleVetoPT() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "scaleVetoPT");
 		if (overload) {
@@ -673,7 +673,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::scaleVetoPT();
 	}
-	bool doVetoPT(int a0, const class Pythia8::Event & a1) override { 
+	bool doVetoPT(int a0, const class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoPT");
 		if (overload) {
@@ -686,7 +686,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoPT(a0, a1);
 	}
-	bool canVetoStep() override { 
+	bool canVetoStep() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoStep");
 		if (overload) {
@@ -699,7 +699,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoStep();
 	}
-	int numberVetoStep() override { 
+	int numberVetoStep() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "numberVetoStep");
 		if (overload) {
@@ -712,7 +712,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::numberVetoStep();
 	}
-	bool doVetoStep(int a0, int a1, int a2, const class Pythia8::Event & a3) override { 
+	bool doVetoStep(int a0, int a1, int a2, const class Pythia8::Event & a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoStep");
 		if (overload) {
@@ -725,7 +725,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoStep(a0, a1, a2, a3);
 	}
-	bool canVetoMPIStep() override { 
+	bool canVetoMPIStep() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoMPIStep");
 		if (overload) {
@@ -738,7 +738,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoMPIStep();
 	}
-	int numberVetoMPIStep() override { 
+	int numberVetoMPIStep() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "numberVetoMPIStep");
 		if (overload) {
@@ -751,7 +751,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::numberVetoMPIStep();
 	}
-	bool doVetoMPIStep(int a0, const class Pythia8::Event & a1) override { 
+	bool doVetoMPIStep(int a0, const class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoMPIStep");
 		if (overload) {
@@ -764,7 +764,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoMPIStep(a0, a1);
 	}
-	bool canVetoPartonLevelEarly() override { 
+	bool canVetoPartonLevelEarly() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoPartonLevelEarly");
 		if (overload) {
@@ -777,7 +777,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoPartonLevelEarly();
 	}
-	bool doVetoPartonLevelEarly(const class Pythia8::Event & a0) override { 
+	bool doVetoPartonLevelEarly(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoPartonLevelEarly");
 		if (overload) {
@@ -790,7 +790,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoPartonLevelEarly(a0);
 	}
-	bool retryPartonLevel() override { 
+	bool retryPartonLevel() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "retryPartonLevel");
 		if (overload) {
@@ -803,7 +803,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::retryPartonLevel();
 	}
-	bool canVetoPartonLevel() override { 
+	bool canVetoPartonLevel() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoPartonLevel");
 		if (overload) {
@@ -816,7 +816,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoPartonLevel();
 	}
-	bool doVetoPartonLevel(const class Pythia8::Event & a0) override { 
+	bool doVetoPartonLevel(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoPartonLevel");
 		if (overload) {
@@ -829,7 +829,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoPartonLevel(a0);
 	}
-	bool canSetResonanceScale() override { 
+	bool canSetResonanceScale() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canSetResonanceScale");
 		if (overload) {
@@ -842,7 +842,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canSetResonanceScale();
 	}
-	double scaleResonance(int a0, const class Pythia8::Event & a1) override { 
+	double scaleResonance(int a0, const class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "scaleResonance");
 		if (overload) {
@@ -855,7 +855,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::scaleResonance(a0, a1);
 	}
-	bool canVetoISREmission() override { 
+	bool canVetoISREmission() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoISREmission");
 		if (overload) {
@@ -868,7 +868,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoISREmission();
 	}
-	bool doVetoISREmission(int a0, const class Pythia8::Event & a1, int a2) override { 
+	bool doVetoISREmission(int a0, const class Pythia8::Event & a1, int a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoISREmission");
 		if (overload) {
@@ -881,7 +881,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoISREmission(a0, a1, a2);
 	}
-	bool canVetoFSREmission() override { 
+	bool canVetoFSREmission() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoFSREmission");
 		if (overload) {
@@ -894,7 +894,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoFSREmission();
 	}
-	bool doVetoFSREmission(int a0, const class Pythia8::Event & a1, int a2, bool a3) override { 
+	bool doVetoFSREmission(int a0, const class Pythia8::Event & a1, int a2, bool a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoFSREmission");
 		if (overload) {
@@ -907,7 +907,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoFSREmission(a0, a1, a2, a3);
 	}
-	bool canVetoMPIEmission() override { 
+	bool canVetoMPIEmission() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoMPIEmission");
 		if (overload) {
@@ -920,7 +920,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoMPIEmission();
 	}
-	bool doVetoMPIEmission(int a0, const class Pythia8::Event & a1) override { 
+	bool doVetoMPIEmission(int a0, const class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoMPIEmission");
 		if (overload) {
@@ -933,7 +933,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoMPIEmission(a0, a1);
 	}
-	bool canReconnectResonanceSystems() override { 
+	bool canReconnectResonanceSystems() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canReconnectResonanceSystems");
 		if (overload) {
@@ -946,7 +946,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canReconnectResonanceSystems();
 	}
-	bool doReconnectResonanceSystems(int a0, class Pythia8::Event & a1) override { 
+	bool doReconnectResonanceSystems(int a0, class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doReconnectResonanceSystems");
 		if (overload) {
@@ -959,7 +959,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doReconnectResonanceSystems(a0, a1);
 	}
-	bool canChangeFragPar() override { 
+	bool canChangeFragPar() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canChangeFragPar");
 		if (overload) {
@@ -972,7 +972,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canChangeFragPar();
 	}
-	void setStringEnds(const class Pythia8::StringEnd * a0, const class Pythia8::StringEnd * a1, class std::vector<int, class std::allocator<int> > a2) override { 
+	void setStringEnds(const class Pythia8::StringEnd * a0, const class Pythia8::StringEnd * a1, class std::vector<int, class std::allocator<int> > a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "setStringEnds");
 		if (overload) {
@@ -985,7 +985,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::setStringEnds(a0, a1, a2);
 	}
-	bool doChangeFragPar(class Pythia8::StringFlav * a0, class Pythia8::StringZ * a1, class Pythia8::StringPT * a2, int a3, double a4, class std::vector<int, class std::allocator<int> > a5, const class Pythia8::StringEnd * a6) override { 
+	bool doChangeFragPar(class Pythia8::StringFlav * a0, class Pythia8::StringZ * a1, class Pythia8::StringPT * a2, int a3, double a4, class std::vector<int, class std::allocator<int> > a5, const class Pythia8::StringEnd * a6) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doChangeFragPar");
 		if (overload) {
@@ -998,7 +998,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doChangeFragPar(a0, a1, a2, a3, a4, a5, a6);
 	}
-	bool canVetoFragmentation() override { 
+	bool canVetoFragmentation() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoFragmentation");
 		if (overload) {
@@ -1011,7 +1011,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoFragmentation();
 	}
-	bool doVetoFragmentation(class Pythia8::Particle a0, const class Pythia8::StringEnd * a1) override { 
+	bool doVetoFragmentation(class Pythia8::Particle a0, const class Pythia8::StringEnd * a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoFragmentation");
 		if (overload) {
@@ -1024,7 +1024,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoFragmentation(a0, a1);
 	}
-	bool doVetoFragmentation(class Pythia8::Particle a0, class Pythia8::Particle a1, const class Pythia8::StringEnd * a2, const class Pythia8::StringEnd * a3) override { 
+	bool doVetoFragmentation(class Pythia8::Particle a0, class Pythia8::Particle a1, const class Pythia8::StringEnd * a2, const class Pythia8::StringEnd * a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoFragmentation");
 		if (overload) {
@@ -1037,7 +1037,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoFragmentation(a0, a1, a2, a3);
 	}
-	bool doVetoFinalTwo(class Pythia8::Particle a0, class Pythia8::Particle a1, const class Pythia8::StringEnd * a2, const class Pythia8::StringEnd * a3) override { 
+	bool doVetoFinalTwo(class Pythia8::Particle a0, class Pythia8::Particle a1, const class Pythia8::StringEnd * a2, const class Pythia8::StringEnd * a3) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoFinalTwo");
 		if (overload) {
@@ -1050,7 +1050,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoFinalTwo(a0, a1, a2, a3);
 	}
-	bool canVetoAfterHadronization() override { 
+	bool canVetoAfterHadronization() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canVetoAfterHadronization");
 		if (overload) {
@@ -1063,7 +1063,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canVetoAfterHadronization();
 	}
-	bool doVetoAfterHadronization(const class Pythia8::Event & a0) override { 
+	bool doVetoAfterHadronization(const class Pythia8::Event & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doVetoAfterHadronization");
 		if (overload) {
@@ -1076,7 +1076,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doVetoAfterHadronization(a0);
 	}
-	bool canSetImpactParameter() const override { 
+	bool canSetImpactParameter() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "canSetImpactParameter");
 		if (overload) {
@@ -1089,7 +1089,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::canSetImpactParameter();
 	}
-	double doSetImpactParameter() override { 
+	double doSetImpactParameter() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "doSetImpactParameter");
 		if (overload) {
@@ -1102,7 +1102,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::doSetImpactParameter();
 	}
-	bool onEndHadronLevel(class Pythia8::HadronLevel & a0, class Pythia8::Event & a1) override { 
+	bool onEndHadronLevel(class Pythia8::HadronLevel & a0, class Pythia8::Event & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "onEndHadronLevel");
 		if (overload) {
@@ -1115,7 +1115,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::onEndHadronLevel(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -1128,7 +1128,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return UserHooks::onInitInfoPtr();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "onBeginEvent");
 		if (overload) {
@@ -1141,7 +1141,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "onEndEvent");
 		if (overload) {
@@ -1154,7 +1154,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HeavyIons::InfoGrabber *>(this), "onStat");
 		if (overload) {
@@ -1173,7 +1173,7 @@ struct PyCallBack_Pythia8_HeavyIons_InfoGrabber : public Pythia8::HeavyIons::Inf
 struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 	using Pythia8::Angantyr::Angantyr;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "init");
 		if (overload) {
@@ -1186,7 +1186,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::init();
 	}
-	bool next() override { 
+	bool next() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "next");
 		if (overload) {
@@ -1199,7 +1199,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::next();
 	}
-	bool setKinematics(double a0) override { 
+	bool setKinematics(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "setKinematics");
 		if (overload) {
@@ -1212,7 +1212,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::setKinematics(a0);
 	}
-	bool setKinematics(double a0, double a1) override { 
+	bool setKinematics(double a0, double a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "setKinematics");
 		if (overload) {
@@ -1225,7 +1225,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::setKinematics(a0, a1);
 	}
-	bool setKinematics(double a0, double a1, double a2, double a3, double a4, double a5) override { 
+	bool setKinematics(double a0, double a1, double a2, double a3, double a4, double a5) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "setKinematics");
 		if (overload) {
@@ -1238,7 +1238,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::setKinematics(a0, a1, a2, a3, a4, a5);
 	}
-	bool setKinematics(class Pythia8::Vec4 a0, class Pythia8::Vec4 a1) override { 
+	bool setKinematics(class Pythia8::Vec4 a0, class Pythia8::Vec4 a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "setKinematics");
 		if (overload) {
@@ -1251,7 +1251,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::setKinematics(a0, a1);
 	}
-	bool setBeamIDs(int a0, int a1) override { 
+	bool setBeamIDs(int a0, int a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "setBeamIDs");
 		if (overload) {
@@ -1264,7 +1264,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::setBeamIDs(a0, a1);
 	}
-	void onInitInfoPtr() override { 
+	void onInitInfoPtr() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "onInitInfoPtr");
 		if (overload) {
@@ -1277,7 +1277,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return Angantyr::onInitInfoPtr();
 	}
-	void stat() override { 
+	void stat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "stat");
 		if (overload) {
@@ -1290,7 +1290,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return HeavyIons::stat();
 	}
-	void onBeginEvent() override { 
+	void onBeginEvent() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "onBeginEvent");
 		if (overload) {
@@ -1303,7 +1303,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return PhysicsBase::onBeginEvent();
 	}
-	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override { 
+	void onEndEvent(enum Pythia8::PhysicsBase::Status a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "onEndEvent");
 		if (overload) {
@@ -1316,7 +1316,7 @@ struct PyCallBack_Pythia8_Angantyr : public Pythia8::Angantyr {
 		}
 		return PhysicsBase::onEndEvent(a0);
 	}
-	void onStat() override { 
+	void onStat() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::Angantyr *>(this), "onStat");
 		if (overload) {

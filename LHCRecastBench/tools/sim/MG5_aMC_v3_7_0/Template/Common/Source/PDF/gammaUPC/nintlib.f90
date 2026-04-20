@@ -48,7 +48,7 @@ CONTAINS
     !
     !    Input, integer ( kind = 4 ) DIM_NUM, the spatial dimension.
     !
-    !    Input, integer ( kind = 4 ) ORDER, the number of points used 
+    !    Input, integer ( kind = 4 ) ORDER, the number of points used
     !    in the 1D rule.
     !
     !    Input, real ( kind = 8 ) XTAB(ORDER), the abscissas of the 1D rule.
@@ -72,9 +72,9 @@ CONTAINS
     REAL(KIND(1d0)),DIMENSION(order),INTENT(IN)::weight
     REAL(KIND(1d0)),DIMENSION(dim_num)::x
     REAL(KIND(1d0)),DIMENSION(order),INTENT(IN)::xtab
-    
+
     eval_num = 0
-    
+
     IF(dim_num.LT.1)THEN
        WRITE( *, '(a)' ) ' '
        WRITE( *, '(a)' ) 'BOX_ND - Fatal error!'
@@ -82,7 +82,7 @@ CONTAINS
        WRITE( *, '(a,i8)' ) '  DIM_NUM = ', dim_num
        STOP
     ENDIF
-    
+
     IF( order.LT.1)THEN
        WRITE( *, '(a)' ) ' '
        WRITE( *, '(a)' ) 'BOX_ND - Fatal error!'
@@ -164,7 +164,7 @@ CONTAINS
     !
     !    Input, integer ( kind = 4 ) EVAL_NUM, the number of function evaluations.
     !
-    !    Input/output, integer ( kind = 4 ) SEED, a seed for the random 
+    !    Input/output, integer ( kind = 4 ) SEED, a seed for the random
     !    number generator.
     !
     !    Output, real ( kind = 8 ) RES, the approximate value of the integral.
@@ -199,7 +199,7 @@ CONTAINS
     RETURN
   END SUBROUTINE monte_carlo_nd
 
-  
+
   SUBROUTINE p5_nd(func,dim_num,a,b,res,eval_num)
     !*****************************************************************************
     !
@@ -306,19 +306,19 @@ CONTAINS
 
     sum2 = 0.0D+00
     sum3 = 0.0D+00
-    
+
     DO i=1,dim_num
 
        work(i) = 0.5D+00 * ( ( a(i) + b(i) ) + a3 * ( b(i) - a(i) ) )
        sum2 = sum2 + func ( dim_num, work )
        eval_num = eval_num + 1
-       
+
        work(i) = 0.5D+00 * ( ( a(i) + b(i) ) - a3 * ( b(i) - a(i) ) )
        sum2 = sum2 + func ( dim_num, work )
        eval_num = eval_num + 1
-       
+
        work(i) = 0.5D+00 * ( a(i) + b(i) )
-       
+
     ENDDO
 
     IF(1.LT.dim_num)THEN
@@ -342,7 +342,7 @@ CONTAINS
                 ENDDO
 
                 a5 = -a5
-                
+
                 IF( 0.0D+00.LE.a5 )THEN
                    EXIT
                 ENDIF
@@ -526,13 +526,13 @@ CONTAINS
     !
     !  Local Parameters:
     !
-    !    Local, integer ( kind = 4 ) IWORK(DIM_NUM), a pointer used to generate 
+    !    Local, integer ( kind = 4 ) IWORK(DIM_NUM), a pointer used to generate
     !    all the points X in the product region.
     !
-    !    Local, integer ( kind = 4 ) IWORK2(IT_MAX), a counter of the number of 
+    !    Local, integer ( kind = 4 ) IWORK2(IT_MAX), a counter of the number of
     !    points used at each step of the Romberg iteration.
     !
-    !    Local, integer ( kind = 4 ) SUB_NUM2(DIM_NUM), the number of subintervals 
+    !    Local, integer ( kind = 4 ) SUB_NUM2(DIM_NUM), the number of subintervals
     !    used in each direction, a refinement of the user's input SUB_NUM.
     !
     !    Local, real ( kind = 8 ) TABLE(IT_MAX), the difference table.
@@ -665,9 +665,9 @@ CONTAINS
           ENDIF
 
           it = it + 1
-          
+
           sub_num2(1:dim_num) = iwork2(it) * sub_num2(1:dim_num)
-          
+
           CYCLE
 
        ENDIF
@@ -712,7 +712,7 @@ CONTAINS
 
     RETURN
   END SUBROUTINE romberg_nd
-  
+
   SUBROUTINE sample_nd(func,k1,k2,dim_num,est1,err1,dev1,est2, &
        err2,dev2,eval_num)
     !*****************************************************************************
@@ -768,7 +768,7 @@ CONTAINS
     !    Input, integer ( kind = 4 ) K1, the beginning index for the iteration.
     !    1 <= K1 <= K2.
     !
-    !    Input, integer ( kind = 4 ) K2, the final index for the iteration.  
+    !    Input, integer ( kind = 4 ) K2, the final index for the iteration.
     !    K1 <= K2.  Increasing K2 increases the accuracy of the calculation,
     !    but vastly increases the work and running time of the code.
     !
@@ -897,7 +897,7 @@ CONTAINS
     be(1:dim_num) = al(1:dim_num)
     ga(1:dim_num) = al(1:dim_num)
     dex(1:dim_num) = 0.0D+00
-    
+
     DO k = k1, k2
 
        ak = DBLE(k)
@@ -910,7 +910,7 @@ CONTAINS
        akn = ak**dim_num
        t = DSQRT(ak**dim_num)*ak
        bk = 1.0D+00 / ak
-       
+
        DO
 
           key = key + 1
@@ -929,7 +929,7 @@ CONTAINS
                 ENDIF
 
                 dex(j) = 0.0D+00
-                
+
              ENDDO
 
              IF(.NOT.more )THEN
@@ -979,12 +979,12 @@ CONTAINS
           eval_num = eval_num + 1
           y4 = func ( dim_num, p4 )
           eval_num = eval_num + 1
-          
+
           s1 = s1 + y1 + y2
           d1 = d1 + ( y1 - y2 )**2
           s2 = s2 + y3 + y4
           d2 = d2 + ( y1 + y3 - y2 - y4 )**2
-          
+
        ENDDO
 
        est1(k) = 0.5D+00 * s1 / akn
@@ -1114,7 +1114,7 @@ CONTAINS
     DO
 
        k = 1
-       
+
        w1 = 1.0D+00
        DO i = 1, dim_num
           m1 = iwork(i)
@@ -1129,7 +1129,7 @@ CONTAINS
 
           iwork(k) = 1
           k = k + 1
-          
+
           IF(dim_num.LT.k)THEN
              RETURN
           ENDIF
@@ -1193,7 +1193,7 @@ CONTAINS
     n = values(6)
     s = values(7)
     mm = values(8)
-    
+
     IF(h.LT.12)THEN
        ampm = 'AM'
     ELSEIF(h.EQ.12)THEN
@@ -1302,7 +1302,7 @@ CONTAINS
 
        x(1:n) = m1
        rank = 1
-       
+
     ELSE
 
        rank = rank + 1

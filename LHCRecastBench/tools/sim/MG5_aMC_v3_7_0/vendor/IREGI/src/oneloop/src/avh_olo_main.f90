@@ -1,5 +1,5 @@
 !!
-!! Copyright (C) 2014 Andreas van Hameren. 
+!! Copyright (C) 2014 Andreas van Hameren.
 !!
 !! This file is part of OneLOop-3.4.
 !!
@@ -61,25 +61,25 @@ module avh_olo_forIREGI
 !
   interface olo_a0
     module procedure a0_r,a0rr,a0_c,a0cr
-  end interface 
+  end interface
   interface olo_an
     module procedure an_r,anrr,an_c,ancr
-  end interface 
+  end interface
   interface olo_b0
     module procedure b0rr,b0rrr,b0rc,b0rcr,b0cc,b0ccr
-  end interface 
+  end interface
   interface olo_b11
     module procedure b11rr,b11rrr,b11rc,b11rcr,b11cc,b11ccr
-  end interface 
+  end interface
   interface olo_bn
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
-  end interface 
+  end interface
   interface olo_c0
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
-  end interface 
+  end interface
   interface olo_d0
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 !
   interface olo
     module procedure a0_r,a0rr,a0_c,a0cr
@@ -89,11 +89,11 @@ module avh_olo_forIREGI
     module procedure bnrr,bnrrr,bnrc,bnrcr,bncc,bnccr
     module procedure c0rr,c0rrr,c0rc,c0rcr,c0cc,c0ccr
     module procedure d0rr,d0rrr,d0rc,d0rcr,d0cc,d0ccr
-  end interface 
+  end interface
 
 contains
 
- 
+
   subroutine init( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -115,8 +115,8 @@ contains
   if (.not.nonzerothrs) onshellthrs = neglig(prcpar)
 !
   end subroutine
- 
- 
+
+
   recursive subroutine olo_precision( ndec )
 !*******************************************************************
 !*******************************************************************
@@ -141,7 +141,7 @@ contains
   endif
   end subroutine
 
- 
+
   subroutine olo_unit( val ,message )
 !*******************************************************************
 !*******************************************************************
@@ -152,8 +152,8 @@ contains
   else                       ;call set_unit( 'all'   ,val )
   endif
   end subroutine
- 
- 
+
+
   subroutine olo_scale( val )
 !*******************************************************************
 !*******************************************************************
@@ -161,8 +161,8 @@ contains
   if (initz) call init
   muscale = convert(val)
   end subroutine
- 
- 
+
+
   subroutine olo_onshell( thrs )
 !*******************************************************************
 !*******************************************************************
@@ -224,12 +224,12 @@ contains
   write(nunit,*) 'MESSAGE from OneLOop: default scale (mu, not mu^2) =',trim(myprint(muscale,12))
 !
   end subroutine
- 
- 
+
+
 !*******************************************************************
 !
 !           C   / d^(Dim)q
-! rslt = ------ | -------- 
+! rslt = ------ | --------
 !        i*pi^2 / (q^2-mm)
 !
 ! with  Dim = 4-2*eps
@@ -445,8 +445,8 @@ contains
 !         C = pi^eps * mu^(2*eps)
 !             * GAMMA(1-2*eps)/GAMMA(1-eps)^2/GAMMA(1+eps)
 !
-! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2, 
-!         p12=(k1+k2)^2, p23=(k2+k3)^2, 
+! input:  p1=k1^2, p2=k2^2, p3=k3^2, p4=(k1+k2+k3)^2,
+!         p12=(k1+k2)^2, p23=(k2+k3)^2,
 !         m1,m2,m3,m4=squared masses
 ! output: rslt(0) = eps^0   -coefficient
 !         rslt(1) = eps^(-1)-coefficient

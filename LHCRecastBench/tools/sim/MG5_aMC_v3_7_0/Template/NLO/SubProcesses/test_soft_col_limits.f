@@ -5,7 +5,7 @@ c     identical configurations and specifies which ones can be skipped
 c*****************************************************************************
       use mint_module
       implicit none
-      include 'genps.inc'      
+      include 'genps.inc'
       include 'nexternal.inc'
       include 'nFKSconfigs.inc'
       include 'fks_info.inc'
@@ -127,7 +127,7 @@ c-----
          write(*,*) 'Enter alpha, beta for G_soft'
          write(*,*) '  Enter alpha<0 to set G_soft=1 (no ME soft)'
          read (*,*) alsf,besf
-         
+
          write(*,*) 'Enter alpha, beta for G_azi'
          write(*,*) '  Enter alpha>0 to set G_azi=0 (no azi corr)'
          read (*,*) alazi,beazi
@@ -140,7 +140,7 @@ c-----
       write(*,*) 'Enter number of tests for soft and collinear limits'
       read (*,*) nsofttests,ncolltests
 
-      
+
       if (ilim.eq.0 .or. ilim.eq.1) then
          write(*,*) '  '
          write(*,*) '  '
@@ -188,7 +188,7 @@ c
       nndim=ndim
 
 
-      call setcuts              !Sets up cuts 
+      call setcuts              !Sets up cuts
 c When doing hadron-hadron collision reduce the effect collision energy.
 c Note that tests are always performed at fixed energy with Bjorken x=1.
       totmass = 0.0d0
@@ -219,13 +219,13 @@ c Note that tests are always performed at fixed energy with Bjorken x=1.
       if (lpp(2).ne.0) ebeam(2)=max(ebeam(2)
      $     /(nb_proton(2)+nb_neutron(2))/20d0,totmass)
 
-      
+
       write(*,*)'  '
       write(*,*)'  '
       write(*,*)"Enter graph number (iconfig), "
      &     //"'0' loops over all graphs"
       read(*,*) iconfig_in
-      
+
       if (iconfig_in.eq.0) then
          bs_min=1
          bs_max=mapconfig(0)
@@ -236,7 +236,7 @@ c Note that tests are always performed at fixed energy with Bjorken x=1.
          bs_min=iconfig_in
          bs_max=iconfig_in
       endif
-      
+
       do iconfig=bs_min,bs_max  ! Born configurations
          ichan=1
          iconfigs(1)=iconfig
@@ -276,7 +276,7 @@ c Note that tests are always performed at fixed energy with Bjorken x=1.
             cycle
          endif
          call sborn(p_born,wgt1)
-      
+
          write (*,*) ''
          write (*,*) ''
          write (*,*) ''
@@ -526,7 +526,7 @@ c
             write (*,*) 'No collinear test for massive j_fks'
             goto 123
          endif
-         
+
          softtest=.false.
          colltest=.true.
 
@@ -572,7 +572,7 @@ c
             if(ilim.eq.0)then
                call xmcsubt_wrap(p1_cnt(0,1,1),xi_i_fks_cnt(1),one,fx)
             else
-               call sreal(p1_cnt(0,1,1),xi_i_fks_cnt(1),one,fx) 
+               call sreal(p1_cnt(0,1,1),xi_i_fks_cnt(1),one,fx)
             endif
             fxl(1)=fx*jac_cnt(1)
             wfxl(1)=jac_cnt(1)
@@ -612,7 +612,7 @@ c
                lxp(l,nexternal+1)=p_i_fks_cnt(l,1)
                xp(1,l,nexternal+1)=p_i_fks_ev(l)
             enddo
-            
+
             do i=2,imax
                y_ij_fks_fix=1-0.1d0**i
                wgt=1d0
@@ -621,7 +621,7 @@ c
                if (ilim.eq.2) then
                   calculatedBorn=.false.
                   call set_cms_stuff(1)
-                  call sreal(p1_cnt(0,1,1),xi_i_fks_cnt(1),one,fx) 
+                  call sreal(p1_cnt(0,1,1),xi_i_fks_cnt(1),one,fx)
                   fxl(i)=fx*jac_cnt(1)
                   wfxl(i)=jac_cnt(1)
                   do iamp=1,amp_split_size
@@ -686,7 +686,7 @@ c
                      write(*,*) 'RETURN CODE', iret
                   endif
                enddo
-c     
+c
                write(80,*)'  '
                write(80,*)'****************************'
                write(80,*)'  '
@@ -740,21 +740,20 @@ c
                 endif
             enddo
          endif
-         
+
  123     continue
-         
+
       enddo                     ! Loop over Born configurations
       enddo                     ! Loop over nFKSprocess
 
 
       return
  401  format('     Soft test ',i2,' PASSED. Fraction of failures: ',
-     & f4.2) 
+     & f4.2)
  402  format('     Soft test ',I2,' FAILED. Fraction of failures: ',
-     & f4.2) 
+     & f4.2)
  501  format('Collinear test ',i2,' PASSED. Fraction of failures: ',
-     & f4.2) 
+     & f4.2)
  502  format('Collinear test ',I2,' FAILED. Fraction of failures: ',
-     & f4.2) 
+     & f4.2)
       end
-

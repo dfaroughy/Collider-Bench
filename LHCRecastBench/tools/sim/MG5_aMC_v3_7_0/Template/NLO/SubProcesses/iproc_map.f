@@ -26,7 +26,7 @@ c absolute value).
       integer id_current(nexternal,maxproc),id_first(nexternal,maxproc)
      $     ,nequal,equal_to(maxproc,fks_configs)
      $     ,equal_to_inverse(maxproc,fks_configs)
-      logical split_type(nsplitorders) 
+      logical split_type(nsplitorders)
       common /c_split_type/split_type
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     This is the common block that this subroutine fills
@@ -34,7 +34,7 @@ c     This is the common block that this subroutine fills
      $     ,etoi(maxproc,fks_configs),maxproc_found
       common/cproc_combination/iproc_save,eto,etoi,maxproc_found
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-      
+
       !MZ safety stop
       if (split_type(QCD_pos).and.split_type(QED_pos)) then
           write(*,*) 'IPROCMAP: NOT IMPLEMENTED'
@@ -61,7 +61,7 @@ c     gluon splitting
                   elseif(abs(idup(i_fks,j)).eq.21.or.idup(i_fks,j).eq.22) then
 c     final state gluon emitted
                      id_current(i,j)=idup(j_fks,j)
-                  elseif(idup(j_fks,j).eq.21.or.idup(j_fks,j).eq.22) then 
+                  elseif(idup(j_fks,j).eq.21.or.idup(j_fks,j).eq.22) then
 c     intial state g->qqbar splitting
                      id_current(i,j)=-idup(i_fks,j)
                   else
@@ -179,7 +179,7 @@ c case.
             enddo
          endif
 c Print the map to the screen
-         if (nFKSprocess.eq.1) 
+         if (nFKSprocess.eq.1)
      &        write (*,*) '================================'
          if (nFKSprocess.eq.1) write (*,*) 'process combination map '
      &        //'(specified per FKS dir):'
@@ -195,7 +195,7 @@ c Print the map to the screen
             write (*,'(i4)', advance="no") etoi(j,nFKSprocess)
          enddo
          write (*,'(a)') ''
-         if (nFKSprocess.eq.fks_configs) 
+         if (nFKSprocess.eq.fks_configs)
      &        write (*,*) '================================'
       enddo
       return
@@ -225,7 +225,7 @@ c Print the map to the screen
 *     npdflumi is the number of pdf luminosities in this particular process
       integer npdflumi,kpdflumi,ilumi
       integer nproc(mxpdflumi)
-      
+
       integer pdgs(2,max_nproc,mxpdflumi)
       integer flavour_map(fks_configs)
       common/c_flavour_map/flavour_map
@@ -246,7 +246,7 @@ c Print the map to the screen
 
 *     Open the file with the information on the initial states map
       open(unit=71,status="old",file="initial_states_map.dat")
-      
+
 *     Read the file using a buffer
       do
          read (71,'(a)',err=100,end=100) buffer ! Jump to line 100 when all lines read
@@ -294,9 +294,9 @@ c Print the map to the screen
 
 *     checks
       if(flav_map_debug) then
-         write(6,*) "" 
-         write(6,*) " check reading of initial_state_map.data " 
-         write(6,*) "" 
+         write(6,*) ""
+         write(6,*) " check reading of initial_state_map.data "
+         write(6,*) ""
          write(6,*)" kpdflumi,nproc(kpdflumi),"/
      $        /"((pdgs(i,j,kpdflumi),i=1,2),j=1,nproc(kpdflumi)"
          do kpdflumi=1,npdflumi
@@ -340,13 +340,13 @@ c Print the map to the screen
       do nFKSprocess=1,fks_configs
 *     Initialization
          flavour_map(nFKSprocess)=0
-         
+
 *     Get the relevant lumis of this fks configuration
          call leshouche_inc_chooser()
 
          if(flav_map_debug) then
             write(6,*) " "
-            write(6,*) " nFKSprocess  = ",nFKSprocess 
+            write(6,*) " nFKSprocess  = ",nFKSprocess
             write(6,*) " maxproc_used = ",maxproc_used
             write(6,*) " niprocs      = ",niprocs
             do l=1,niprocs
@@ -377,7 +377,7 @@ c Print the map to the screen
                do ll=1,niprocs
                   if ( ( pdgs(1,l,kpdflumi).eq.
      1                 IDUP(1,ll).and.pdgs(2,l,kpdflumi).
-     2                 eq.IDUP(2,ll) ) ) 
+     2                 eq.IDUP(2,ll) ) )
      4                 then
                      found_appl(l)=.true.
                      found_mg(ll)=.true.
@@ -410,7 +410,7 @@ c Print the map to the screen
             endif
          enddo
          if (nmatch_total.ne.nFKSprocess) then
-            write(6,*) 
+            write(6,*)
      1           "Problem with setup_flavourmap in iproc_map.f"
             write(6,*) "nFKSprocess = ",nFKSprocess
             write(6,*)" flavour_map(nFKSprocess)= ",
@@ -418,7 +418,7 @@ c Print the map to the screen
             stop
          endif
       enddo
-      
+
 *     Check flavor map properly initialized
 *     All the entries of flavour_map(1:nFKSprocess) must be from
 *     1 to npdflumi

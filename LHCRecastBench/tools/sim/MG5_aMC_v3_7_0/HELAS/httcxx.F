@@ -1,7 +1,7 @@
       subroutine httcxx(tc1,tc2,gc,mass,width,jsc)
 c
-c- by RF - Mar. 2006 
-c  CP3  Modified Nov. 2009 
+c- by RF - Mar. 2006
+c  CP3  Modified Nov. 2009
 
 c This subroutine computes an off-shell scalar from the tts coupling.
 c
@@ -27,7 +27,7 @@ c      PARAMETER(DIM=18)
       double complex vertex,dj,gc(2)
       double precision mass,width,q2,q(4)
 
-c Take the inner product between the tensor particles. The 
+c Take the inner product between the tensor particles. The
 c Note that the tensor particle is antisymmetric, thus all diagonal terms
 c are zero.
 
@@ -83,14 +83,14 @@ c are zero.
 
       dj = -gc(1) /dcmplx( q2-mass**2, mass*width )
 
-      jsc(1) = dj* ( T1(1,2)*T2(1,2) - T1(2,1)*T2(1,2) 
-     -  + T1(1,3)*T2(1,3) - 
-     -  T1(3,1)*T2(1,3) + T1(1,4)*T2(1,4) - T1(4,1)*T2(1,4) - 
-     -  T1(1,2)*T2(2,1) + T1(2,1)*T2(2,1) - T1(2,3)*T2(2,3) + 
-     -  T1(3,2)*T2(2,3) - T1(2,4)*T2(2,4) + T1(4,2)*T2(2,4) - 
-     -  T1(1,3)*T2(3,1) + T1(3,1)*T2(3,1) + T1(2,3)*T2(3,2) - 
-     -  T1(3,2)*T2(3,2) - T1(3,4)*T2(3,4) + T1(4,3)*T2(3,4) - 
-     -  T1(1,4)*T2(4,1) + T1(4,1)*T2(4,1) + T1(2,4)*T2(4,2) - 
+      jsc(1) = dj* ( T1(1,2)*T2(1,2) - T1(2,1)*T2(1,2)
+     -  + T1(1,3)*T2(1,3) -
+     -  T1(3,1)*T2(1,3) + T1(1,4)*T2(1,4) - T1(4,1)*T2(1,4) -
+     -  T1(1,2)*T2(2,1) + T1(2,1)*T2(2,1) - T1(2,3)*T2(2,3) +
+     -  T1(3,2)*T2(2,3) - T1(2,4)*T2(2,4) + T1(4,2)*T2(2,4) -
+     -  T1(1,3)*T2(3,1) + T1(3,1)*T2(3,1) + T1(2,3)*T2(3,2) -
+     -  T1(3,2)*T2(3,2) - T1(3,4)*T2(3,4) + T1(4,3)*T2(3,4) -
+     -  T1(1,4)*T2(4,1) + T1(4,1)*T2(4,1) + T1(2,4)*T2(4,2) -
      -  T1(4,2)*T2(4,2) + T1(3,4)*T2(4,3) - T1(4,3)*T2(4,3)
      &                                           )
 

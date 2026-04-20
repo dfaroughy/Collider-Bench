@@ -19,7 +19,7 @@
 * Fermilab Nirvana GUI Library						       *
 * October 30, 1991							       *
 *									       *
-* Written by Paul  Lebrun & Marc Edel						       * 
+* Written by Paul  Lebrun & Marc Edel						       *
 *									       *
 *******************************************************************************/
 /*
@@ -43,11 +43,11 @@ typedef struct _nodehep {
 #define TREEDISPCODE 2
 
 /*
-* Top level routine 
+* Top level routine
 */
     void DispTree(Widget w, StdHepWindow *window);
     void FreeTree(nodehep *node);
     void ShowTree(StdHepWindow *window,
 	                       nodehep *pnode, Widget super_node);
-    nodehep *SearchNodes(nodehep *node, int stdi);                       
-    void CloseHepTreeWindow(Widget w, StdHepWindow *window);	    
+    nodehep *SearchNodes(nodehep *node, int stdi);
+    void CloseHepTreeWindow(Widget w, StdHepWindow *window);

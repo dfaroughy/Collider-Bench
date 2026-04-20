@@ -2,17 +2,17 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
 #
 ################################################################################
-"""Unit test library for the routine creating the points position for the 
+"""Unit test library for the routine creating the points position for the
     diagram drawing and for the creation of the EPS file."""
 
 from __future__ import division
@@ -32,7 +32,7 @@ import pickle
 
 import madgraph.core.base_objects as base_objects
 import madgraph.core.drawing as drawing
-import tests.unit_tests.core.test_drawing as test_drawing 
+import tests.unit_tests.core.test_drawing as test_drawing
 import madgraph.iolibs.drawing_eps as draw_eps
 import madgraph.iolibs.import_v4 as import_v4
 import madgraph.iolibs.files as files
@@ -43,7 +43,7 @@ _file_path = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 
 def define_model():
     global _model
-    
+
     if test_drawing._model:
         _model = test_drawing._model
     else:
@@ -55,12 +55,12 @@ def define_model():
 #===============================================================================
 class TestDrawingOption(unittest.TestCase):
     """Sanity check for all combination of option. This check on a small sample
-    of diagram that no line have zero lenght and that we don't have any line 
+    of diagram that no line have zero lenght and that we don't have any line
     crossing for any combination of option."""
 
     def setUp(self):
         """Basic building of the object needed to build the test"""
-        
+
         if not hasattr(self, 'store_diagram'):
             filehandler = open(os.path.join(_file_path, \
                                 '../input_files/test_draw.obj'), 'rb')
@@ -69,16 +69,16 @@ class TestDrawingOption(unittest.TestCase):
             _model
         except:
             define_model()
-            
-    
+
+
     def schedular(self, diagram):
         """Test that the DrawingEPS returns valid result"""
-        
+
         horizontal_list = [True, False]
         external_list = [0, 1, 1.5]
         contract_unpropa_list = [True, False]
         max_size_list = [0, 1.8]
-        
+
         opt = drawing.DrawOption()
         for horizontal in horizontal_list:
             opt.set('horizontal', horizontal)
@@ -88,7 +88,7 @@ class TestDrawingOption(unittest.TestCase):
                     opt.set('contract_non_propagating', contract_unpropa)
                     for max_size in max_size_list:
                         opt.set('max_size', max_size)
-                        
+
                         plot = draw_eps.EpsDiagramDrawer(diagram, \
                                         '__testdiag__.eps', model=_model, \
                                          amplitude='')
@@ -97,38 +97,38 @@ class TestDrawingOption(unittest.TestCase):
                                     plot.diagram._debug_has_intersection())
                         for line in plot.diagram.lineList:
                             self.assertNotAlmostEqual(line.get_length(), 0)
-                            
+
     def test_option_6g(self):
         """Test that gg>6g is fine with all options"""
         diagram = self.store_diagram['g g > g g g g g g'][73]
         self.schedular(diagram)
-        
+
     def test_option_6g_second(self):
         """Test that gg>6g is fine with all options"""
         diagram = self.store_diagram['g g > g g g g g g'][2556]
-        self.schedular(diagram)   
-        
+        self.schedular(diagram)
+
     def test_option_multi_type(self):
         """Test that t h > t g W+ W-  is fine with all options"""
-        diagram = self.store_diagram['t h > t g w+ w-'][0] 
-        self.schedular(diagram)        
-          
+        diagram = self.store_diagram['t h > t g w+ w-'][0]
+        self.schedular(diagram)
+
 #===============================================================================
 # TestDrawingS_EPS
 #===============================================================================
 class TestDrawingS_EPS(unittest.TestCase):
     """ Class testing if we can create the files in the EPS mode for a set
         of diagrams.
-    
+
     This test the following two points:
     1) can we create the output file?
     2) can we convert him in pdf? (Imagemagick is needed for this)
         checking that the file is valid."""
 
-    
+
     def setUp(self):
         """Charge a diagram to draw"""
-        
+
         if not hasattr(self, 'store_diagram'):
             filehandler = open(os.path.join(_file_path, \
                                 '../input_files/test_draw.obj'), 'rb')
@@ -144,7 +144,7 @@ class TestDrawingS_EPS(unittest.TestCase):
 
         self.plot = draw_eps.MultiEpsDiagramDrawer(self.diagram, '__testdiag__.eps', \
                                           model=_model, amplitude='')
-        
+
     def test_blob(self):
         """ test if the blob are written correctly """
         #prepare everything
@@ -155,18 +155,18 @@ class TestDrawingS_EPS(unittest.TestCase):
 
         plot.convert_diagram()
         plot.initialize()
-        
+
         nb_blob =0
-        for i, vertex in enumerate(plot.diagram.vertexList): 
+        for i, vertex in enumerate(plot.diagram.vertexList):
             plot.text = ''
             plot.draw_vertex(vertex, bypass= ['QCD'])
             if '1.0 Fblob' in plot.text:
                 nb_blob += 1
         self.assertEqual(nb_blob, 4)
-            
-    
+
+
     def output_is_valid(self, position, pdf_check=True):
-        """Test if the output files exist. 
+        """Test if the output files exist.
         Additionally if pdf_check is on True
         check if we can convert the output file in pdf. Finally delete files."""
 
@@ -187,10 +187,10 @@ class TestDrawingS_EPS(unittest.TestCase):
             os.remove(filename + '.pdf')
         os.remove(position)
         return
-    
+
     def test_schedular(self):
         """Test the multidiagram drawing"""
-        
+
         opt = drawing.DrawOption()
         self.setUp()
         self.plot.draw(opt=opt)
@@ -221,7 +221,7 @@ if __name__ == '__main__':
     process_diag['OUTPUT: u u~ > w+ w- e+ e-'] = [0]
     process_diag['w+ w- > w+ w- z z'] = [7,9,10]
     process_diag['OUTPUT: w+ w- > w+ w- z z'] = [7,9,10]
-    
+
     from madgraph.interface.master_interface import MasterCmdS
     cmd = MasterCmd()
     cmd.exec_cmd('import model %s/models/sm' % root_path)
@@ -229,8 +229,8 @@ if __name__ == '__main__':
     #                                    '../input_files/v4_sm_particles.dat'))
     #cmd.do_import('model_v4 ' + os.path.join(_file_path, \
     #                                '../input_files/v4_sm_interactions.dat'))
-    cmd._curr_model = _model 
-    
+    cmd._curr_model = _model
+
     # Create the diagrams
     diag_content = {}
     for gen_line, pos_list in process_diag.items():
@@ -247,7 +247,7 @@ if __name__ == '__main__':
             #cmd.export.generate_matrix_elements()
             try:
                 cmd.do_output('/tmp/MGPROC -f')
-            except: 
+            except:
                 pass
         #Look for decay chains
         if ',' in gen_line:
@@ -256,24 +256,19 @@ if __name__ == '__main__':
             matrix_elements = \
             helas_objects.HelasDecayChainProcess(amp).combine_decay_chain_processes()
             if matrix_elements:
-                amplitude = matrix_elements[0].get('base_amplitude')     
+                amplitude = matrix_elements[0].get('base_amplitude')
         else:
             amplitude = cmd._curr_amps[0]
         print(len(amplitude['diagrams']))
-            
-                                                    
+
+
         diag_content[gen_line] = {}
         for pos in pos_list:
             diag_content[gen_line][pos] = amplitude['diagrams'][pos]
 
 
-    # Store the diagrams  
+    # Store the diagrams
     file_test_diagram = open(os.path.join(_file_path , \
                                     '../input_files/test_draw.obj'), 'w')
     pickle.dump(diag_content, file_test_diagram)
     print('done')
-
-
-
-
-

@@ -1,4 +1,4 @@
-#ifndef MGONGPUTIMER_H 
+#ifndef MGONGPUTIMER_H
 #define MGONGPUTIMER_H 1
 
 #include <chrono>

@@ -22,7 +22,7 @@
 	// Define "zero"
 	zero=0;
 	ZERO=0;
-	// Prepare a vector for indices 
+	// Prepare a vector for indices
 	vector<int> indices(2,0);
 	%(set_independent_parameters)s
     }
@@ -53,4 +53,3 @@
 	cout << "%(model_name)s model couplings dependent on event kinematics:" << endl;
 	%(print_dependent_couplings)s
     }
-

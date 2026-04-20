@@ -46,7 +46,7 @@ if (sum_hel == 0 || ntry < 10){
   jhel = 0;
   sum_hel=min(sum_hel, ngood);
 }
-else              
+else
 {
 // Only use the "good" helicities
   for(int j=0; j < sum_hel; j++){
@@ -65,5 +65,3 @@ else
 
 for (int i=0;i < nprocesses; i++)
     matrix_element[i] /= denominators[i];
-
-

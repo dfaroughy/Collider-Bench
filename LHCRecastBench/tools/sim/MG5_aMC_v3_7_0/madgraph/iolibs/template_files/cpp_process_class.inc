@@ -10,13 +10,13 @@ public:
   // Constructor.
   CPPProcess() {}
 
-  // Initialize process. 
-  virtual void initProc(string param_card_name); 
+  // Initialize process.
+  virtual void initProc(string param_card_name);
 
   // Calculate flavour-independent parts of cross section.
   virtual void sigmaKin();
 
-  // Evaluate sigmaHat(sHat). 
+  // Evaluate sigmaHat(sHat).
   virtual double sigmaHat();
 
   // Info on the subprocess.

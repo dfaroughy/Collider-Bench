@@ -12,7 +12,7 @@ c imode=0:
 c When called with imode=0 the routine integrates the absolute value of the function
 c and sets up a grid xgrid(0:50,ndim) such that in each ndim-1 dimensional slice
 c (i.e. xgrid(m-1,n)<xx(n)<xgrid(m,n)) the contribution of the integral is the same
-c the array xgrid is setup at this stage; ans and err are the integral and its error 
+c the array xgrid is setup at this stage; ans and err are the integral and its error
 c
 c imode=1 (in fact #0)
 c When called with imode=1, the routine performs the integral of the function fun
@@ -32,7 +32,7 @@ c quantities that only depend upon dimensions that have ifold=1, and do not chan
 c in each group of folded call. The values returned by fun in a sequence of folded
 c calls with ifirst=0 and ifirst=1 are not used. The function itself must accumulate
 c the values, and must return them when called with ifirst=2.
-c 
+c
 
       subroutine mint(fun,ndim,ncalls0,nitmax,imode,
      #     xgrid,xint,ymax,ans,err,old_grid,accuracy)
@@ -265,7 +265,7 @@ c for example, starting from ndim=3, kkk=(1,1,1), iii=(2,3,2)
 c subsequent calls to nextlexi return
 c         kkk(1)      kkk(2)      kkk(3)    iret
 c 0 calls   1           1           1       0
-c 1         1           1           2       0    
+c 1         1           1           2       0
 c 2         1           2           1       0
 c 3         1           2           2       0
 c 4         1           3           1       0

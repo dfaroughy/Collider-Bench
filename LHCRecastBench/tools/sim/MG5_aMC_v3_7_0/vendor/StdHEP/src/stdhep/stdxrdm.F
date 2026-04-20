@@ -67,41 +67,41 @@ c...what blocks are in this event?
       call mcfio_InfoEventInt(istream,MCFIO_BLOCKIDS,blkids)
       do i=1,numblocks
         if(blkids(i).eq.MCFIO_STDHEP)then
-c...fill stdhep common 
+c...fill stdhep common
           if(mcfio_block(istream,MCFIO_STDHEP,xdr_stdhep) .eq. -1)
      1          go to 700
           ilbl = 1
           call stdtcopy(2,istream,lok)
           if(lok.eq.0) nstdrd = nstdrd + 1
         elseif(blkids(i).eq.MCFIO_STDHEPM)then
-          write (lnhout,702) 
-c...zero stdhep common 
+          write (lnhout,702)
+c...zero stdhep common
           call stdzero
-c...fill stdhep common 
+c...fill stdhep common
           if(mcfio_block(istream,MCFIO_STDHEPM,xdr_stdhep_multi)
      1         .eq. -1) go to 700
           ilbl = 2
           nstdrd = nstdrd + 1
         elseif(blkids(i).eq.MCFIO_STDHEP4)then
-c...fill stdhep common 
+c...fill stdhep common
           if(mcfio_block(istream,MCFIO_STDHEP4,xdr_stdhep_4) .eq. -1)
      1          go to 700
           ilbl = 4
           call stdtcopy(2,istream,lok)
           if(lok.eq.0) nstdrd = nstdrd + 1
         elseif(blkids(i).eq.MCFIO_STDHEP4M)then
-          write (lnhout,702) 
-c...zero stdhep common 
+          write (lnhout,702)
+c...zero stdhep common
           call stdzero
-c...fill stdhep common 
+c...fill stdhep common
           if(mcfio_block(istream,MCFIO_STDHEP4M,xdr_stdhep_4_multi)
      1         .eq. -1) go to 700
           ilbl = 5
           nstdrd = nstdrd + 1
         elseif(blkids(i).eq.MCFIO_STDHEPCXX)then
-c...zero stdhep common 
+c...zero stdhep common
 c          call stdzero
-          write (lnhout,703) 
+          write (lnhout,703)
 c...fill stdevent struct
 c          if(mcfio_block(istream,MCFIO_STDHEPCXX,xdr_stdhep_cxx)
 c     1         .eq. -1) go to 700
@@ -124,7 +124,7 @@ c...Les Houches event - fill heprup common
         endif
       enddo
       return
-      
+
   700 write (lnhout,701)
       lok=1
       return

@@ -1,6 +1,6 @@
 #
 # architecture specific information for StdHep makefiles
-# 
+#
 
 # Check for ../../../make_opts which can potentially overwrite FC
 ifeq ($(wildcard ../../../make_opts), ../../../make_opts)
@@ -55,7 +55,7 @@ ifeq "$(UNAME)" "IRIX64"
 endif
 ifeq "$(UNAME)" "Linux"
     CC=gcc
-    CFLAGS= $(DFLG) -I/usr/X11R6/include 
+    CFLAGS= $(DFLG) -I/usr/X11R6/include
     FFLAGS= $(DFLG) -fno-second-underscore
     MXTLIBS = -L/usr/X11R6/lib -lXm -lX11 -lXt -lXp -lXext -lm
     BUILD_SHARED = true
@@ -71,7 +71,7 @@ ifeq "$(UNAME)" "Darwin"
 endif
 ifeq "$(UNAME)" "OSF1"
     CC=cc
-    CFLAGS= $(DFLG) 
+    CFLAGS= $(DFLG)
     FFLAGS= $(DFLG) -fpe2 -check underflow -check overflow
     MXTLIBS = -lXm -lXt -lX11 -lm -lfor -lots
     MAP = -Wl,-m > $@.map 2>&1

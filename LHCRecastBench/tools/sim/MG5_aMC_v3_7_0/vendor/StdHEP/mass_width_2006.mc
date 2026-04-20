@@ -5,7 +5,7 @@
 * for use in Monte Carlo programs.
 *
 * Parameter values given as ranges have been converted to central values
-* and errors for the following parameters: u-quark and d-quark masses, 
+* and errors for the following parameters: u-quark and d-quark masses,
 * f(0)(600), f(0)(1370) and omega(1420) masses and widths, and
 * f(0)(980), a(0)(980), a(1)(1260), and pi(1300) widths.
 *
@@ -20,7 +20,7 @@
 *       2 -  9 \ Monte Carlo particle numbers as described in the "Review of
 *      10 - 17 | Particle Physics". Charge states appear, as appropriate,
 *      18 - 25 | from left-to-right in the order -, 0, +, ++.
-*      26 - 33 / 
+*      26 - 33 /
 *           34   blank
 *      35 - 49   central value of the mass or width (double precision)
 *           50   blank

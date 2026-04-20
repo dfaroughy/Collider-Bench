@@ -6,7 +6,7 @@ c
 c            *P3(blob) * P2 (visible) m2=0 !!!
 c           *         *
 c        *************
-c        r2      r1   * 
+c        r2      r1   *
 c                      * P1 (visible)
 c
 c     |P1| and |P2| must be left unfactorized, MV_r1, MV_r2 are aligned.
@@ -159,14 +159,14 @@ c     & +h10*E1c(j)+h20*E2c(j)+h00
 c       enddo
 
 
-c---------------------------------------------------------------------------------------------------     
+c---------------------------------------------------------------------------------------------------
 c     At this stage, we have got (max) four solution for E1, E2, but
 c     some of them are complex. The following  loop over the 4 solutions
 c     determines which sol is real.
 c     In the two vectors (E1(1),E1(2),E1(3),E1(4)) and  (E2(1),E2(2),E2(3),E2(4))
 c     the real solutions are set in first positions. The other component
-c     are set to -1.  
-c---------------------------------------------------------------------------------------------------     
+c     are set to -1.
+c---------------------------------------------------------------------------------------------------
 c
       k=0
       do j=1,4
@@ -187,7 +187,7 @@ c      write(*,*) 'imag ',i_part1
      & dabs(dble(E2c(j))).gt.1.0D+5*dabs(i_part2 ).and.
      &      dble(E1c(j)).gt.0d0.and.dble(E2c(j)).gt.0d0) then
 
-c       write(*,*) 'we have a real number'   
+c       write(*,*) 'we have a real number'
 
 
             k=k+1 ! count the number of good sol
@@ -198,7 +198,7 @@ c      pause
           endif
       enddo
 
-      if (k.eq.0) then 
+      if (k.eq.0) then
         jac=-1d0
       return
       elseif (k.eq.1) then
@@ -256,7 +256,7 @@ c        call ntuple(rand,0.0,1.0,max_particles)
       p1_p2=-(E3-f23)/(E3-f13)
 
 c
-c     solve the equation 
+c     solve the equation
 c     p1_p2 * |p2|^2 + p1_ti*|p2|-delta_ma2/2/(1-f12)=0
 c
 
@@ -305,20 +305,20 @@ c            call ntuple(rand,0.0,1.0,p1)
               normp2=sol(index_sol)
               normp1=p1sol(index_sol)
               jac_factor=2d0
-          elseif (p1sol(1).gt.0d0.and.p1sol(2).le.0d0) then  
+          elseif (p1sol(1).gt.0d0.and.p1sol(2).le.0d0) then
               normp2=sol(1)
               normp1=p1sol(1)
-          elseif (p1sol(1).le.0d0.and.p1sol(2).gt.0d0) then  
+          elseif (p1sol(1).le.0d0.and.p1sol(2).gt.0d0) then
               normp2=sol(2)
               normp1=p1sol(2)
-          else 
+          else
             momenta(0,p1)=-1d0
             jac=-1d0
           endif
         else                                                 ! 0 sol
           momenta(0,p1)=-1d0
           jac=-1d0
-          return 
+          return
         endif
       endif
 
@@ -339,7 +339,7 @@ c            call ntuple(rand,0.0,1.0,p1)
 c
 c     compute missing momentum
 c
-       misspx=misspx-momenta(1,p1)- momenta(1,p2) 
+       misspx=misspx-momenta(1,p1)- momenta(1,p2)
        misspy=misspy-momenta(2,p1)-momenta(2,p2)
        Etot=Etot+momenta(0,p1)+momenta(0,p2)
        pztot=pztot+momenta(3,p1)+momenta(3,p2)
@@ -350,8 +350,8 @@ c
 
       inv_jac=4d0*((normp1*normp2/momenta(0,p1)-normp2*f12)*
      & (E3-f23)-(E3*normp1/momenta(0,p1)-f13)*
-     & (momenta(0,p1)-f12*normp1)) 
-      
+     & (momenta(0,p1)-f12*normp1))
+
 c      write(*,*) 'jac ', jac_loc
 
       jac=jac*jac_loc/dabs(inv_jac)
@@ -360,4 +360,3 @@ c      write(*,*) 'jac_factor ', jac_factor
 
       return
       end
-

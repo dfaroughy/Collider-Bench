@@ -19,7 +19,7 @@ def clean(lines):
             del lines[nn]
         elif re.search(r'![\|\]\?]',lines[nn]):
             lines[nn] = re.sub(r'!.*','',lines[nn])
-        nn = nn-1  
+        nn = nn-1
 
 def case(option,value,lines):
     """
@@ -105,4 +105,3 @@ def incl(srcdir,lines):
                lines.insert(nn+jj,ljne)
                jj = jj+1
         nn = nn+1
-

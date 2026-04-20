@@ -15,4 +15,3 @@ C--- define Heaviside theta function (=1 for x>0) and (0 for x < 0)
      . -impi*dcmplx((htheta(-x)-htheta(-y)))
       return
       end
-

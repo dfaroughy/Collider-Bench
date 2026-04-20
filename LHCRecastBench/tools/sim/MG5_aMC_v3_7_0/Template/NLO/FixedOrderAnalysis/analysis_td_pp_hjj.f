@@ -17,7 +17,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       real*8 vetomin, vetomax
       integer nbinveto
       common /to_veto_hist/vetomin,vetomax,nbinveto
-c      
+c
       call inihist
       vetomin = 0d0
       vetomax = 100d0
@@ -254,7 +254,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
       enddo
       call close_topdrawer_file
-      return                
+      return
       end
 
 
@@ -338,11 +338,11 @@ c Put all (light) QCD partons in momentum array for jet clustering.
          if (abs(ipdg(j)).le.5 .or. ipdg(j).eq.21) then
             nQCD=nQCD+1
             do i=0,3
-               pQCD(i,nQCD)=p(i,j) 
+               pQCD(i,nQCD)=p(i,j)
             enddo
          endif
       enddo
-      
+
 C---CLUSTER THE EVENT
       palg  = -1.d0
       rfj   = 0.4d0
@@ -414,7 +414,7 @@ C now look for jets within the rapidity cuts
 c look for veto jet with y cuts
             if (ij3y.gt.0.and.
      &           yjet(i).gt.min(yjet(ij1y),yjet(ij2y)).and.
-     &           yjet(i).lt.max(yjet(ij1y),yjet(ij2y)).and.ijvetoy.eq.0) 
+     &           yjet(i).lt.max(yjet(ij1y),yjet(ij2y)).and.ijvetoy.eq.0)
      &           ijvetoy = i
          endif
       enddo
@@ -426,7 +426,7 @@ c Nason-Oleari cuts (hep-ph/0911.5299)
 
 c this is the loop for w-o / w vbf cuts
       do i=1,2
-      if(i.eq.1) then 
+      if(i.eq.1) then
          ij1 = 1
          ij2 = 2
          ij3 = 3
@@ -512,9 +512,9 @@ c
      &                ptj2.ge.ptj_tag .and.
      &                abs(yj1-yj2).ge.deltay12 .and.
      &                yj1*yj2.le.0d0 .and.
-     &                mj1j2.ge.mj1j2min 
+     &                mj1j2.ge.mj1j2min
 
-      if(i.eq.1) then 
+      if(i.eq.1) then
          flag=.true.
       endif
 
@@ -561,8 +561,8 @@ c
             call mfill(l+ 37,DphiHj1,www)
             call mfill(l+ 40,DRHj1,www)
             call mfill(l+ 47,ptrel_j1,www)
-         endif 
-         
+         endif
+
          if(njet.ge.2)then
             call mfill(l+ 12,ptj2,www)
             call mfill(l+ 13,ptj2,www)
@@ -587,7 +587,7 @@ c
             call mfill(l+ 44,Dyj1j2,www)
             call mfill(l+ 48,ptrel_j2,www)
          endif
-         
+
          if(njet.ge.3)then
             call mfill(l+ 17,ptj3,www)
             call mfill(l+ 18,ptj3,www)
@@ -615,7 +615,7 @@ c
       enddo
       enddo
 
- 999  return      
+ 999  return
       end
 
 
@@ -928,4 +928,3 @@ c
 
       return
       end
-

@@ -340,4 +340,3 @@ H1 = Particle(pdg_code = 9000008,
               GhostNumber = 0,
               LeptonNumber = 0,
               Y = 0)
-

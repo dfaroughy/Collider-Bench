@@ -13,7 +13,7 @@ c       real    swidth         : width of OUTPUT scalar s'
 c
 c output:
 c       complex hst(3)         : scalar current              j(s':s1,s2)
-c     
+c
       implicit none
       INTEGER DIM
       PARAMETER(DIM=18)
@@ -32,7 +32,7 @@ c
 
 
       dg = gc /dcmplx( q2-smass**2, smass*swidth )
-      
+
 
       hst(1) = dg*s1(1)*t2(1)
 

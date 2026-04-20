@@ -14,4 +14,3 @@ EFT = CouplingOrder(name = 'EFT',
 QED = CouplingOrder(name = 'QED',
                     expansion_order = 99,
                     hierarchy = 1)
-

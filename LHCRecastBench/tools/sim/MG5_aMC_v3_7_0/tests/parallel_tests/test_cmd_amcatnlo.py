@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -54,13 +54,13 @@ pjoin = os.path.join
 #===============================================================================
 class MECmdShell(IOTests.IOTestManager):
     """this treats all the command not related to MG_ME"""
-    
+
     loadtime = time.time()
-    
-    
+
+
     def setUp(self):
         self.debugging = unittest.debug
-        
+
         if not self.debugging:
             self.tmpdir = tempfile.mkdtemp(prefix='amc')
             #if os.path.exists(self.tmpdir):
@@ -72,20 +72,20 @@ class MECmdShell(IOTests.IOTestManager):
                 shutil.rmtree(pjoin(MG5DIR, 'TEST_AMC'))
             os.mkdir(pjoin(MG5DIR, 'TEST_AMC'))
             self.tmpdir = pjoin(MG5DIR, 'TEST_AMC')
-            
+
         self.path = pjoin(self.tmpdir,'MGProcess')
     def tearDown(self):
         if not self.debugging:
             shutil.rmtree(self.tmpdir)
-    
-    
+
+
     def generate(self, process, model, multiparticles=[]):
         """Create a process"""
 
         def run_cmd(cmd):
-            interface.exec_cmd(cmd, errorhandling=False, printcmd=False, 
+            interface.exec_cmd(cmd, errorhandling=False, printcmd=False,
                                precmd=True, postcmd=True)
-            
+
 
         try:
             shutil.rmtree(self.path)
@@ -94,7 +94,7 @@ class MECmdShell(IOTests.IOTestManager):
 
         interface = MGCmd.MasterCmd()
         interface.no_notification()
-        
+
         run_cmd('import model %s' % model)
         for multi in multiparticles:
             run_cmd('define %s' % multi)
@@ -124,12 +124,12 @@ class MECmdShell(IOTests.IOTestManager):
 
     @staticmethod
     def join_path(*path):
-        """join path and treat spaces"""     
+        """join path and treat spaces"""
         combine = os.path.join(*path)
-        return combine.replace(' ','\\ ')        
-    
+        return combine.replace(' ','\\ ')
+
     def do(self, line):
-        """ exec a line in the cmd under test """        
+        """ exec a line in the cmd under test """
         self.cmd_line.exec_cmd(line, errorhandling=False,precmd=True)
 
 
@@ -170,7 +170,7 @@ class MECmdShell(IOTests.IOTestManager):
     def test_short_check_eejjj_lo_lhapdf(self):
         """test that e+ e- > j j j with pdlabel='lhapdf' runs ignoring the lhapdf setting
         """
-        
+
         cmd = os.getcwd()
         self.generate('e+ e- > p p p [real=QCD]', 'sm' )
         self.assertEqual(cmd, os.getcwd())
@@ -187,7 +187,7 @@ class MECmdShell(IOTests.IOTestManager):
         self.assertEqual(card['ebeam1'], 500)
         self.assertEqual(card['ebeam2'], 500)
         card.write('%s/Cards/run_card.dat' % self.path)
-        
+
 
         self.do('calculate_xsect -f LO')
         self.do('quit')
@@ -266,7 +266,7 @@ class MECmdShell(IOTests.IOTestManager):
 
     def generate_production(self):
         """production"""
-        
+
         if os.path.exists('%s/Cards/proc_card_mg5.dat' % self.path):
             proc_path = '%s/Cards/proc_card_mg5.dat' % self.path
             if 'p p > e+ ve [QCD]' in open(proc_path).read():
@@ -275,7 +275,7 @@ class MECmdShell(IOTests.IOTestManager):
                         self.cmd_line.exec_cmd('quit')
                     os.system('rm -rf %s/RunWeb' % self.path)
                     os.system('rm -rf %s/Events/run_01' % self.path)
-                    os.system('rm -rf %s/Events/run_01_LO' % self.path)                        
+                    os.system('rm -rf %s/Events/run_01_LO' % self.path)
                     self.cmd_line = NLOCmd.aMCatNLOCmdShell(me_dir= '%s' % self.path)
                     self.cmd_line.run_cmd('set automatic_html_opening False --no_save')
 
@@ -285,7 +285,7 @@ class MECmdShell(IOTests.IOTestManager):
                     open('%s/Cards/run_card_default.dat' % self.path, 'w').write(card)
                     os.system('cp  %s/Cards/run_card_default.dat %s/Cards/run_card.dat'% (self.path, self.path))
                     os.system('cp  %s/Cards/shower_card_default.dat %s/Cards/shower_card.dat'% (self.path, self.path))
-                    
+
                     return
 
         cmd = os.getcwd()
@@ -366,15 +366,15 @@ class MECmdShell(IOTests.IOTestManager):
         self.do('compile -f')
 
         #with misc.chdir(pjoin(self.path,'SubProcesses','P0_gb~_tt~tg')):
-        #    misc.call(, 
-        #              stdout = open(os.devnull, 'w'))   
+        #    misc.call(,
+        #              stdout = open(os.devnull, 'w'))
 
 
         #start = time.time()
         #self.do('launch aMC@NLO -fp')
         # test the lhe event file exists
 
-    
+
 
     def test_short_launch_amcatnlo_name(self):
         """tests if the p p > e+ ve process works specifying the run name.
@@ -397,7 +397,7 @@ class MECmdShell(IOTests.IOTestManager):
     def test_short_calculate_xsect_script(self):
         """test if the calculate_xsect script in the bin directory
         works fine"""
-        
+
         self.generate_production()
         misc.call([sys.executable, pjoin('.','bin','calculate_xsect'), '-f'], cwd='%s' % self.path,
                 stdout = open(os.devnull, 'w'))
@@ -410,10 +410,10 @@ class MECmdShell(IOTests.IOTestManager):
         self.assertTrue(os.path.exists('%s/Events/run_01/alllogs_1.html' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/res_0.txt' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/res_1.txt' % self.path))
-        
+
 
     def test_short_generate_events_shower_scripts(self):
-        """test if the generate_events and successively the shower script in 
+        """test if the generate_events and successively the shower script in
         the bin directory works fine.
         Also check the splitting of the shower for bot hep and top output"""
 
@@ -458,8 +458,8 @@ class MECmdShell(IOTests.IOTestManager):
         self.assertTrue(os.path.exists('%s/Events/run_01/events_HERWIG6_2__4.hep.gz' % self.path))
 
         # 2) top output
-        shower_card = shower_card.replace('EXTRALIBS    = stdhep Fmcfio', 'EXTRALIBS    =')  
-        shower_card = shower_card.replace('ANALYSE      =', 'ANALYSE      = mcatnlo_hwan_pp_lvl.o mcatnlo_hbook_gfortran8.o')  
+        shower_card = shower_card.replace('EXTRALIBS    = stdhep Fmcfio', 'EXTRALIBS    =')
+        shower_card = shower_card.replace('ANALYSE      =', 'ANALYSE      = mcatnlo_hwan_pp_lvl.o mcatnlo_hbook_gfortran8.o')
         open('%s/Cards/shower_card.dat' % self.path, 'w').write(shower_card)
         self.cmd_line.run_cmd('shower run_01 -f')
         self.assertTrue(os.path.exists('%s/Events/run_01/plot_HERWIG6_1_0.tar.gz' % self.path))
@@ -474,9 +474,9 @@ class MECmdShell(IOTests.IOTestManager):
 
 
     def test_short_generate_events_name(self):
-        """test if the generate_events and successively the shower script in 
+        """test if the generate_events and successively the shower script in
         the bin directory works fine"""
-        
+
         self.generate_production()
         # to check that the cleaning of files work well
         os.system('touch %s/SubProcesses/P0_udx_epve/GF1' % self.path)
@@ -496,14 +496,14 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_short_generate_events_nlo_py6pt_stdhep(self):
         """check that py6pt event generation works in this case"""
-        
+
         self.generate_production()
 
         #change to py6
         card = open('%s/Cards/run_card.dat' % self.path).read()
-        open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace('HERWIG6', 'PYTHIA6PT'))       
-        self.do('generate_events -f')        
-        
+        open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace('HERWIG6', 'PYTHIA6PT'))
+        self.do('generate_events -f')
+
         # test the lhe event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01/events.lhe.gz' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/summary.txt' % self.path))
@@ -524,22 +524,22 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_short_check_generate_events_nlo_py6pt_fsr(self):
         """check that py6pt event generation stops in this case (because of fsr)"""
-        
+
         cmd = os.getcwd()
         self.generate('e+ e- > t t~ [real=QCD]', 'sm')
         #change to py6
         card = open('%s/Cards/run_card.dat' % self.path).read()
-        open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace('HERWIG6', 'PYTHIA6PT'))       
-        #self.do('generate_events -f')        
+        open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace('HERWIG6', 'PYTHIA6PT'))
+        #self.do('generate_events -f')
         self.assertRaises(NLOCmd.aMCatNLOError, self.do, 'generate_events -f')
 
-        
+
     def test_short_generate_events_nlo_hw6_stdhep(self):
         """test the param_card created is correct"""
-        
+
         self.generate_production()
         self.do('generate_events aMC@NLO -f')
-        
+
         # test the lhe event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01/events.lhe.gz' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/summary.txt' % self.path))
@@ -555,15 +555,15 @@ class MECmdShell(IOTests.IOTestManager):
 
     def test_short_generate_events_nlo_hw6_split(self):
         """test the param_card created is correct"""
-        
+
         cmd = os.getcwd()
         self.generate(['p p > e+ ve [QCD]'], 'loop_sm')
         self.assertEqual(cmd, os.getcwd())
         #change splitevent generation
         card = open('%s/Cards/run_card.dat' % self.path).read()
         open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace(' -1 = nevt_job', ' 1000 = nevt_job'))
-        self.do('generate_events aMC@NLO -fp')        
-        
+        self.do('generate_events aMC@NLO -fp')
+
         # test the lhe event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01/events.lhe.gz' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/summary.txt' % self.path))
@@ -573,18 +573,18 @@ class MECmdShell(IOTests.IOTestManager):
         self.assertTrue(os.path.exists('%s/Events/run_01/alllogs_0.html' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/alllogs_1.html' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/alllogs_2.html' % self.path))
-        
+
 
     def test_short_generate_events_nlo_py6_stdhep(self):
         """test the param_card created is correct"""
-        
+
         self.generate_production()
         #change to py6
         card = open('%s/Cards/run_card.dat' % self.path).read()
         open('%s/Cards/run_card.dat' % self.path, 'w').write(card.replace('HERWIG6', 'PYTHIA6Q'))
-        
-        self.do('generate_events aMC@NLO -f')        
-        
+
+        self.do('generate_events aMC@NLO -f')
+
         # test the lhe event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01/events.lhe.gz' % self.path))
         self.assertTrue(os.path.exists('%s/Events/run_01/summary.txt' % self.path))
@@ -596,11 +596,11 @@ class MECmdShell(IOTests.IOTestManager):
         self.assertTrue(os.path.exists('%s/Events/run_01/alllogs_2.html' % self.path))
         # test the hep event file exists
         self.assertTrue(os.path.exists('%s/Events/run_01/events_PYTHIA6Q_0.hep.gz' % self.path))
-        
-        
+
+
     @test_manager.bypass_for_py3
     def test_short_jet_veto_xsec(self):
-        """tests the jet-veto cross section at NNLL+NLO"""    
+        """tests the jet-veto cross section at NNLL+NLO"""
 
         self.generate_production()
 
@@ -629,9 +629,9 @@ class MECmdShell(IOTests.IOTestManager):
 
 
     def load_result(self, run_name):
-        
+
         import madgraph.iolibs.save_load_object as save_load_object
         import madgraph.madevent.gen_crossxhtml as gen_crossxhtml
-        
+
         result = save_load_object.load_from_file('%s/HTML/results.pkl' % self.path)
         return result[run_name]

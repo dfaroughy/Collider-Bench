@@ -7,12 +7,12 @@
 % Feynman diagrams. (c) 1992
 % Version 2.7 (c) 1993
 %
-% Comments and questions to 
+% Comments and questions to
 %  D.J.Summers@uk.ac.durham
 %
 
-/Fnopoints 10 def 
-/Fr 2.5 def 
+/Fnopoints 10 def
+/Fr 2.5 def
 /pi 3.14159265359 def
 
 /Frmod {dup 360 div floor 360 mul sub} def
@@ -25,7 +25,7 @@ div Fr mul def /Fyl Fby Fdist div Fr mul def
 /Fxt Fby Fdist div Fr mul def /Fyt Fbx neg
 Fdist div Fr mul def } def
 
-/Fstraight 
+/Fstraight
 {/Fshape exch def /Ftype exch def /Fy2 exch
 def /Fx2 exch def /Fy1 exch def /Fx1 exch def
 Fx2 Fx1 sub Fy2 Fy1 sub Fbasis /Fttype 1
@@ -176,7 +176,7 @@ def} if Fe 0 gt Fth2 Fth1 gt and {/Fth2 Fth2
 Fxc Fyc Frr Fth1 Fth2 Fe 0 gt {arcn} {arc}
 ifelse stroke } def
 
-/Fblob 
+/Fblob
 {/Fshade exch def newpath Fr mul 0 360 arc gsave
 1 Fshade sub setgray fill grestore stroke} def
 
@@ -283,7 +283,7 @@ flattenpath pathbbox Fcharheight 10 div dup
 1 roll newpath moveto pop lineto stroke
 grestore show currentpoint pop} def
 
-/Funderline 
+/Funderline
 {exch 0 moveto gsave dup true charpath
 flattenpath pathbbox pop exch Fcharheight
 10 div dup 2 div setlinewidth
@@ -294,14 +294,14 @@ grestore show currentpoint pop} def
 /it /Times-Italic findfont def
 /sy /Symbol findfont def
 
-/wedge 
+/wedge
 /{ /ystop exch def /xstop exch def /ystart exch def
-/xstart exch def /delx xstop xstart sub def /dely 
-ystop ystart sub def /dist delx dup mul dely dup 
+/xstart exch def /delx xstop xstart sub def /dely
+ystop ystart sub def /dist delx dup mul dely dup
 mul add sqrt def /halfdist dist 2 div def
-/angle dely delx atan def xstart ystart moveto 
+/angle dely delx atan def xstart ystart moveto
 angle rotate 0 halfdist rlineto dist halfdist
-neg rlineto dist neg halfdist neg rlineto 
+neg rlineto dist neg halfdist neg rlineto
 0 halfdist rlineto }def
 
 /ch_photon
@@ -316,27 +316,27 @@ neg rlineto dist neg halfdist neg rlineto
 /x2 xmid xunit 4.8 mul add def
 /y2 ymid yunit 4.8 mul add def
 /y2 ymid yunit 4.8 mul add def
-xstart ystart x1 y1 1 Fphoton 
+xstart ystart x1 y1 1 Fphoton
 x2 y2 xstop ystop 1 Fphoton
-/x1 xmid xunit -5.2 mul add def 
+/x1 xmid xunit -5.2 mul add def
 /y1 ymid yunit -5.2 mul add def
-/x2 xmid xunit 5.2 mul add def 
+/x2 xmid xunit 5.2 mul add def
 /y2 ymid yunit 5.2 mul add def
 gsave x1 y1 x2 y2 wedge fill grestore} def
 
-/ch_higgs 
+/ch_higgs
 { /ystop exch def /xstop exch def /ystart exch def
-/xstart exch def 
+/xstart exch def
 /xmid xstart xstop add 2 div def
 /ymid ystart ystop add 2 div def
 /dx xstop xstart sub def /dy ystop ystart sub def
 /length dx dup mul dy dup mul add sqrt def
 /xunit dx length div def /yunit dy length div def
-/x1 xmid xunit -4.8 mul add def 
+/x1 xmid xunit -4.8 mul add def
 /y1 ymid yunit -4.8 mul add def
-/x2 xmid xunit 4.8 mul add def 
+/x2 xmid xunit 4.8 mul add def
 /y2 ymid yunit 4.8 mul add def
-xstart ystart x1 y1 Fhiggs 
+xstart ystart x1 y1 Fhiggs
 x2 y2 xstop ystop Fhiggs
 /x1 xmid xunit -5.2 mul add def
 /y1 ymid yunit -5.2 mul add def
@@ -348,4 +348,3 @@ gsave x1 y1 x2 y2 wedge fill grestore} def
 %%Page:       1       1
 %%PageBoundingBox:-20 -20 600 800
 %%PageFonts: Helvetica
-

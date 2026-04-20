@@ -3,23 +3,23 @@ C   Main subroutine
 C --=========================================--
 
 	  SUBROUTINE %(proc_prefix)sSLOOPMATRIX(P_USER,ANS)
-C  
+C
 %(info_lines)s
 C
 C Returns amplitude squared summed/avg over colors
 c and helicities for the point in phase space P(0:3,NEXTERNAL)
 c and external lines W(0:6,NEXTERNAL)
-C  
+C
 %(process_lines)s
 C
 C Modules
 C
-      use %(proc_prefix)sPOLYNOMIAL_CONSTANTS      
+      use %(proc_prefix)sPOLYNOMIAL_CONSTANTS
 C
       IMPLICIT NONE
 C
 C USER CUSTOMIZABLE OPTIONS
-C 
+C
 ## if(ComputeColorFlows) {
 C The variables below are just used in the context of a JAMP consistency check turned off by default.
       %(real_dp_format)s JAMP_DOUBLECHECK_THRES
@@ -31,7 +31,7 @@ C        ME_COMPUTATION_FROM_JAMP = Amplitudes are first projected onto color fl
 C     When setting both computation method to .TRUE., their systematic comparisons will be printed out.
 ## if(LoopInduced) {
       DATA DIRECT_ME_COMPUTATION/.FALSE./
-c     When using this MadLoop output for integration with MadEvent, ME_COMPUTATION_FROM_JAMP *must* be set to .True. because it is necessary to compute the AMP2 setting up the multichanneling. 
+c     When using this MadLoop output for integration with MadEvent, ME_COMPUTATION_FROM_JAMP *must* be set to .True. because it is necessary to compute the AMP2 setting up the multichanneling.
       DATA ME_COMPUTATION_FROM_JAMP/.TRUE./
 ## } else {
       DATA DIRECT_ME_COMPUTATION/.TRUE./
@@ -41,7 +41,7 @@ c     When using this MadLoop output for integration with MadEvent, ME_COMPUTATI
 C     This parameter is designed for the check timing command of MG5. It skips the loop reduction.
       LOGICAL SKIPLOOPEVAL
       PARAMETER (SKIPLOOPEVAL=.FALSE.)
-C     For timing checks. Stops the code after having only initialized its arrays from the external data files 
+C     For timing checks. Stops the code after having only initialized its arrays from the external data files
 	  LOGICAL BOOTANDSTOP
       PARAMETER (BOOTANDSTOP=.FALSE.)
 ## if(TIRCaching) {
@@ -50,7 +50,7 @@ C To change memory foot-print of MadLoop, you can change this parameter to be 0,
 C Notice that this will impact MadLoop speed performances in the context of stability checks.
       include 'tir_cache_size.inc'
 ## }
-C  
+C
 C CONSTANTS
 C
       CHARACTER*512 paramFName,HelConfigFName,LoopFilterFName
@@ -113,9 +113,9 @@ C     Only CutTools or possibly Ninja (if installed with qp support) provide QP
 	  DATA MAXSTABILITYLENGTH/20/
 	  common/%(proc_prefix)sstability_tests/maxstabilitylength
 
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P_USER(0:3,NEXTERNAL)
 C
 C The zeroth component of the second dimension is the result summed over all
@@ -130,9 +130,9 @@ c
 c It is however somehow academical. This is why ANS_DIMENSION is not just NSQSO but rather MAX(NSQSO,NSQSO_BORN)
 C
 	  %(real_dp_format)s ANS(0:3,0:ANS_DIMENSION)
-C  
-C LOCAL VARIABLES 
-C  
+C
+C LOCAL VARIABLES
+C
       INTEGER I,J,K,L,H,HEL_MULT,I_QP_LIB,DUMMY
 
       CHARACTER*512 ParamFN,HelConfigFN,LoopFilterFN,ColorNumFN,ColorDenomFN,HelFilterFN
@@ -146,9 +146,9 @@ C
 
 	  INTEGER CTMODEINIT_BU
 	  %(real_dp_format)s MLSTABTHRES_BU
-	  INTEGER NEWHELREF	  
-	  LOGICAL HEL_INCONSISTENT	  
-      %(real_dp_format)s P(0:3,NEXTERNAL)	  
+	  INTEGER NEWHELREF
+	  LOGICAL HEL_INCONSISTENT
+      %(real_dp_format)s P(0:3,NEXTERNAL)
 C DP_RES STORES THE DOUBLE PRECISION RESULT OBTAINED FROM DIFFERENT EVALUATION METHODS IN ORDER TO ASSESS STABILITY.
 C THE STAB_STAGE COUNTER I CORRESPONDANCE GOES AS FOLLOWS
 C  I=1 -> ORIGINAL PS, CTMODE=1
@@ -161,7 +161,7 @@ C IF UNSTABLE IT GOES TO THE SAME PATTERN BUT STAB_INDEX IS THEN I+20.
 	  LOGICAL DOING_QP_EVALS
       INTEGER STAB_INDEX,BASIC_CT_MODE
 
-## if(LoopInduced){	  
+## if(LoopInduced){
 C This is used for loop-induced where the reference scale for comparisons is inferred from the first 100 points at most (notice that the weight of a  given kinematic configuration can appear more than once because of the stability tests).
 C When changing this parameter, make sure to correspondingly update the parameter with the same name in MadLoopCommons.f.
       INTEGER MAXNREF_EVALS
@@ -169,7 +169,7 @@ C When changing this parameter, make sure to correspondingly update the paramete
       %(real_dp_format)s REF_EVALS(MAXNREF_EVALS)
       DATA REF_EVALS/MAXNREF_EVALS*ZERO/
       INTEGER NPSPOINTS
-      DATA NPSPOINTS/0/      
+      DATA NPSPOINTS/0/
 ## }
 
 	  %(real_dp_format)s ACC(0:NSQUAREDSO)
@@ -237,9 +237,9 @@ C
 ## if(LoopInduced){
 	  %(real_dp_format)s Median
 ## }
-C  
+C
 C GLOBAL VARIABLES
-C 
+C
       include 'process_info.inc'
       include 'unique_id.inc'
       %(include_vector)s
@@ -299,7 +299,7 @@ C     AGAIN BELOW, MP_PS IS THE FIXED (POSSIBLY IMPROVED) MP PS POINT AND MP_P I
 	  common/%(proc_prefix)sMP_PSPOINT/MP_PS,MP_P
 
 	  %(real_dp_format)s LSCALE
-	  INTEGER CTMODE	  
+	  INTEGER CTMODE
       common/%(proc_prefix)sCT/LSCALE,CTMODE
 	  LOGICAL MP_PS_SET
 	  DATA MP_PS_SET/.FALSE./
@@ -322,7 +322,7 @@ C     Typically, the hel_offset is 10000
 	  INTEGER USERHEL
 	  DATA USERHEL/-1/
 	  common/%(proc_prefix)sUSERCHOICE/USERHEL
-	  
+
 C     This integer can be accessed by an external user to set its target squared split order.
 C     If set to a value different than -1, the code will try to avoid computing anything which
 C     does not contribute to contributions of squared split orders SQSO_TARGET and below.
@@ -333,9 +333,9 @@ C     The following logical are used to broadcast the fact that the target 'requ
 C     loop split orders contributions have been reached already and the rest can be skipped.
 	  LOGICAL UVCT_REQ_SO_DONE,MP_UVCT_REQ_SO_DONE,CT_REQ_SO_DONE,MP_CT_REQ_SO_DONE,LOOP_REQ_SO_DONE,MP_LOOP_REQ_SO_DONE,CTCALL_REQ_SO_DONE,FILTER_SO
 	  DATA UVCT_REQ_SO_DONE/.FALSE./
-	  DATA MP_UVCT_REQ_SO_DONE/.FALSE./	  
+	  DATA MP_UVCT_REQ_SO_DONE/.FALSE./
 	  DATA CT_REQ_SO_DONE/.FALSE./
-	  DATA MP_CT_REQ_SO_DONE/.FALSE./	  
+	  DATA MP_CT_REQ_SO_DONE/.FALSE./
 	  DATA LOOP_REQ_SO_DONE/.FALSE./
 	  DATA MP_LOOP_REQ_SO_DONE/.FALSE./
 	  DATA CTCALL_REQ_SO_DONE/.FALSE./
@@ -363,7 +363,7 @@ C     This can be accessed with the SET_FORBID_HEL_DOUBLECHECK subroutine of Mad
 	  common/%(proc_prefix)sAMPS/AMP
 ## }
 	  %(complex_dp_format)s W(20,NWAVEFUNCS)
-	  common/%(proc_prefix)sW/W  
+	  common/%(proc_prefix)sW/W
 
       %(complex_mp_format)s MPW(20,NWAVEFUNCS)
 	  common/%(proc_prefix)sMP_W/MPW
@@ -401,7 +401,7 @@ C This flag is used to prevent the re-computation of the OpenLoop coefficients w
       %(complex_dp_format)s LOOPRES(3,NSQUAREDSO,NLOOPGROUPS)
 	  LOGICAL S(NSQUAREDSO,NLOOPGROUPS)
 	  common/%(proc_prefix)sLOOPRES/LOOPRES,S
-	  
+
 	  INTEGER CF_D(NCOLORROWS,%(color_matrix_size)s)
 	  INTEGER CF_N(NCOLORROWS,%(color_matrix_size)s)
 	  common/%(proc_prefix)sCF/CF_D,CF_N
@@ -410,19 +410,19 @@ C This flag is used to prevent the re-computation of the OpenLoop coefficients w
 	  common/%(proc_prefix)sHELCONFIGS/HELC
 
 	  %(real_dp_format)s PREC,USER_STAB_PREC
-	  DATA USER_STAB_PREC/-1.0d0/	  
+	  DATA USER_STAB_PREC/-1.0d0/
 	  COMMON/%(proc_prefix)sUSER_STAB_PREC/USER_STAB_PREC
 
 C     Return codes H,T,U correspond to the hundreds, tens and units
 C     building returncode, i.e.
 C     RETURNCODE=100*RET_CODE_H+10*RET_CODE_T+RET_CODE_U
-	  
+
       INTEGER RET_CODE_H,RET_CODE_T,RET_CODE_U
 	  %(real_dp_format)s ACCURACY(0:NSQUAREDSO)
 	  DATA (ACCURACY(I),I=0,NSQUAREDSO)/NSQUAREDSOP1*1.0d0/
 	  DATA RET_CODE_H,RET_CODE_T,RET_CODE_U/1,1,0/
 	  common/%(proc_prefix)sACC/ACCURACY,RET_CODE_H,RET_CODE_T,RET_CODE_U
-	  
+
 	  LOGICAL MP_DONE_ONCE
 	  DATA MP_DONE_ONCE/.FALSE./
 	  common/%(proc_prefix)sMP_DONE_ONCE/MP_DONE_ONCE
@@ -452,7 +452,7 @@ C     For example, the reading of the filters must be done independently by each
 	  INTEGER NROTATIONS_DP_BU,NROTATIONS_QP_BU
 
       LOGICAL FPE_IN_DP_REDUCTION, FPE_IN_QP_REDUCTION
-	  data FPE_IN_DP_REDUCTION, FPE_IN_QP_REDUCTION/.FALSE.,.FALSE./      
+	  data FPE_IN_DP_REDUCTION, FPE_IN_QP_REDUCTION/.FALSE.,.FALSE./
 	  COMMON/%(proc_prefix)sFPE_IN_REDUCTION/FPE_IN_DP_REDUCTION, FPE_IN_QP_REDUCTION
 
 C     This array specify potential special requirements on the helicities to
@@ -478,7 +478,7 @@ IF(ML_INIT) THEN
     COLLIERComputeIRpoles = COLLIER_IR_POLE_COMPUTATION_CHOICE
   ENDIF
   IF (FORBID_HEL_DOUBLECHECK) THEN
-    DoubleCheckHelicityFilter = .False. 
+    DoubleCheckHelicityFilter = .False.
   ENDIF
 
 C Make sure that HELFILTERLEVEL is at most 1 if the beam is polarized
@@ -541,7 +541,7 @@ C SKIP THE ONES THAT NOT AVAILABLE
 	    QP_TOOLS_AVAILABLE=.TRUE.
       ENDIF
       INDEX_QP_TOOLS(J)=I
-     ENDIF	
+     ENDIF
   ENDDO
 
 C Setup the file paths
@@ -553,16 +553,16 @@ C Setup the file paths
   CALL JOINPATH(TMP,COLORDENOMFNAME,COLORDENOMFN)
   CALL JOINPATH(TMP,HELFILTERFNAME,HELFILTERFN)
 
-  CALL %(proc_prefix)sSET_N_EVALS(N_DP_EVAL,N_QP_EVAL)  
+  CALL %(proc_prefix)sSET_N_EVALS(N_DP_EVAL,N_QP_EVAL)
 
 C Make sure that the loop filter is disabled when there is spin-2 particles for 2>1 or 1>2 processes
   if(MAX_SPIN_EXTERNAL_PARTICLE.gt.3.AND.(NEXTERNAL.LE.3.AND.HelicityFilterLevel.NE.0)) THEN
     WRITE(*,*) '##INFO: Helicity filter deactivated for 2>1 processes involving spin 2 particles.'
-    HelicityFilterLevel = 0	
+    HelicityFilterLevel = 0
 C   We write a dummy filter for structural reasons here
     OPEN(1, FILE=HelFilterFN, err=6116, status='NEW',action='WRITE')
     DO I=1,NCOMB
-      WRITE(1,*) 1  
+      WRITE(1,*) 1
     ENDDO
 6116  CONTINUE
     CLOSE(1)
@@ -574,7 +574,7 @@ OPEN(1, FILE=ColorNumFN, err=104, status='OLD',           action='READ')
   ENDDO
   GOTO 105
 104  CONTINUE
-  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorNumFactors.dat. File not found' 
+  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorNumFactors.dat. File not found'
 105  CONTINUE
 CLOSE(1)
 OPEN(1, FILE=ColorDenomFN, err=106, status='OLD',           action='READ')
@@ -583,7 +583,7 @@ OPEN(1, FILE=ColorDenomFN, err=106, status='OLD',           action='READ')
   ENDDO
   GOTO 107
 106  CONTINUE
-  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorDenomFactors.dat. File not found' 
+  STOP 'Color factors could not be initialized from file %(proc_prefix)sColorDenomFactors.dat. File not found'
 107  CONTINUE
 CLOSE(1)
 OPEN(1, FILE=HelConfigFN, err=108, status='OLD',                  action='READ')
@@ -592,7 +592,7 @@ OPEN(1, FILE=HelConfigFN, err=108, status='OLD',                  action='READ')
   ENDDO
   GOTO 109
 108  CONTINUE
-  STOP 'Color helictiy configurations could not be initialized from file %(proc_prefix)sHelConfigs.dat. File not found' 
+  STOP 'Color helictiy configurations could not be initialized from file %(proc_prefix)sHelConfigs.dat. File not found'
 109  CONTINUE
 CLOSE(1)
 
@@ -636,7 +636,7 @@ if(MAX_SPIN_EXTERNAL_PARTICLE.gt.3.AND.USERHEL.NE.-1) THEN
      WRITE(*,*) '##WARNING: Evaluation of a specific helicity was asked for this PS point, and there is a spin-2 (or higher) particle in the external states.'
 	 WRITE(*,*) '##WARNING: As a result, MadLoop disabled the Lorentz rotation test for this phase-space point only.'
 	 WRITE(*,*) '##WARNING: Further warning of that type suppressed.'
-     WARNED_LORENTZ_STAB_TEST_OFF = .TRUE. 
+     WARNED_LORENTZ_STAB_TEST_OFF = .TRUE.
    ENDIF
    NROTATIONS_QP=0
    NROTATIONS_DP=0
@@ -707,11 +707,11 @@ ENDDO
 C First compute the borns, it will store them in ANS(0,I)
 C It is left untouched for the rest of MadLoop evaluation.
 C Notice that the squared split order index I does NOT
-C correspond to the same ordering of J for the loop ME 
-C results stored in ANS(K,J), with K in [1-3].The ordering 
-C of each can be obtained with ML5SOINDEX_FOR_SQUARED_ORDERS 
-C and SQSOINDEX_FROM_ORDERS for the loop ME and born ME 
-C respectively. For this to work, we assume that there is 
+C correspond to the same ordering of J for the loop ME
+C results stored in ANS(K,J), with K in [1-3].The ordering
+C of each can be obtained with ML5SOINDEX_FOR_SQUARED_ORDERS
+C and SQSOINDEX_FROM_ORDERS for the loop ME and born ME
+C respectively. For this to work, we assume that there is
 C always more squared split orders in the loop ME than in the
 C born ME, which is practically always true. In any case, only
 C the split_order summed value I=0 is used in ML5 code.
@@ -726,7 +726,7 @@ ENDDO
 
 ## if(LoopInduced){
 C For loop-induced, the reference for comparison is set later from the total contribution of the previous PS point considered.
-C But you can edit here the value to be used for the first PS points.    
+C But you can edit here the value to be used for the first PS points.
 IF (NPSPOINTS.EQ.0) THEN
   REF=1.0D-50
 ELSE
@@ -786,7 +786,7 @@ IF (WriteOutFilters) THEN
 IF ((HelicityFilterLevel.ne.0).AND.(.NOT. CHECKPHASE).AND.(.NOT.FOUNDHELFILTER)) THEN
 OPEN(1, FILE=HelFilterFN, err=110, status='NEW',action='WRITE')
   DO I=1,NCOMB
-    WRITE(1,*) GOODHEL(I)  
+    WRITE(1,*) GOODHEL(I)
   ENDDO
 110  CONTINUE
   CLOSE(1)
@@ -971,7 +971,7 @@ ENDDO
 
 DO I=1,NLOOPGROUPS
   DO J=1,3
-    DO K=1,NSQUAREDSO  
+    DO K=1,NSQUAREDSO
       LOOPRES(J,K,I)=(0.0d0,0.0d0)
 	ENDDO
   ENDDO
@@ -1015,7 +1015,7 @@ ENDIF
 
 DO H=1,NCOMB
   IF ((HELPICKED.EQ.H).OR.((HELPICKED.EQ.-1).AND.(CHECKPHASE.OR.(.NOT.HELDOUBLECHECKED).OR.(GOODHEL(H).GT.-HELOFFSET.AND.GOODHEL(H).NE.0)))) THEN
-  
+
 C  Handle the possible requirement of specific polarizations
   IF ((.NOT.CHECKPHASE).AND.HELDOUBLECHECKED.AND.POLARIZATIONS(0,0).eq.0.AND.(.NOT.%(proc_prefix)sIS_HEL_SELECTED(H))) THEN
     CYCLE
@@ -1024,31 +1024,31 @@ C  Handle the possible requirement of specific polarizations
   DO I=1,NEXTERNAL
     NHEL(I)=HELC(I,H)
   ENDDO
-  
+
   UVCT_REQ_SO_DONE=.FALSE.
   CT_REQ_SO_DONE=.FALSE.
   LOOP_REQ_SO_DONE=.FALSE.
- 
+
   IF (.NOT.CHECKPHASE.AND.HELDOUBLECHECKED.AND.HELPICKED.EQ.-1) THEN
     HEL_MULT=GOODHEL(H)
   ELSE
     HEL_MULT=1
   ENDIF
- 
+
 ## if(AmplitudeReduction){
   CTCALL_REQ_SO_DONE=.FALSE.
-  
+
 C The coefficient were already computed previously with another CTMode, so we can skip them
   IF (SKIP_LOOPNUM_COEFS_CONSTRUCTION) THEN
     GOTO 4000
   ENDIF
-  
+
   DO I=1,NLOOPGROUPS
     DO J=0,LOOPMAXCOEFS-1
       LOOPCOEFS(J,I)=(0.0d0,0.0d0)
     ENDDO
   ENDDO
-  
+
   DO K=1,3
     DO I=1,NLOOPAMPS
       AMPL(K,I)=(0.0d0,0.0d0)
@@ -1065,7 +1065,7 @@ c Helas calls for the counterterm of type 'UVtree' in the UFO.
 c These are generated irrespectively of the produced loops.
 c In general, only wavefunction renormalization counterterms
 c (if needed by the loop UFO model) are of this type.
-c Quite often and in principle for all loop UFO models from 
+c Quite often and in principle for all loop UFO models from
 c FeynRules, there are none of these type of counterterms.
   %(uvct_helas_calls)s
 3000 CONTINUE
@@ -1074,7 +1074,7 @@ c FeynRules, there are none of these type of counterterms.
 ## if(not AmplitudeReduction) {
   DO J=1,NBORNAMPS
     CTEMP = 2.0d0*HEL_MULT*DCONJG(AMP(J))
-    DO I=1,NCTAMPS	
+    DO I=1,NCTAMPS
 	  CFTOT=DCMPLX(CF_N(I,J)/DBLE(ABS(CF_D(I,J))),0.0d0)
       IF(CF_D(I,J).LT.0) CFTOT=CFTOT*IMAG1
       ITEMP = %(proc_prefix)sML5SQSOINDEX(%(proc_prefix)sML5SOINDEX_FOR_LOOP_AMP(I),%(proc_prefix)sML5SOINDEX_FOR_BORN_AMP(J))
@@ -1088,7 +1088,7 @@ c FeynRules, there are none of these type of counterterms.
     ENDDO
   ENDDO
 ## }
-  
+
   %(coef_construction)s
 4000 CONTINUE
   LOOP_REQ_SO_DONE=.TRUE.
@@ -1186,7 +1186,7 @@ C     Make sure that that no polarization constraint filters out this helicity
       IF (POLARIZATIONS(0,0).eq.-1.or.%(proc_prefix)sIS_HEL_SELECTED(H)) THEN
 C       If both computational method is used, then we must just update RES_FROM_JAMP
         DO K=0,3
-          DO I=0,NSQUAREDSO        
+          DO I=0,NSQUAREDSO
             RES_FROM_JAMP(K,I)=RES_FROM_JAMP(K,I)+BUFFRES(K,I)
           ENDDO
         ENDDO
@@ -1304,7 +1304,7 @@ DO I=1,NLOOPGROUPS
     ENDIF
   ENDDO
   IF((CTMODERUN.NE.-1).AND..NOT.CHECKPHASE.AND.(.NOT.LTEMP)) THEN
-    WRITE(*,*) '##W03 WARNING Contribution ',I,' is unstable.'           
+    WRITE(*,*) '##W03 WARNING Contribution ',I,' is unstable.'
   ENDIF
 ENDDO
 
@@ -1385,7 +1385,7 @@ C             Make sure we have paired this hel config to the same one last PS p
 	              WRITE(*,*) '##I01 INFO Initialization starting over because of inconsistency in the helicity filter setup.'
 	              NTRY=0
 		        ELSE
-				  HEL_INCONSISTENT=.TRUE. 
+				  HEL_INCONSISTENT=.TRUE.
 				ENDIF
 			  ENDIF
 			ENDIF
@@ -1512,7 +1512,7 @@ C and wait for a point for which the evaluation isn't be zero.
 ## if(LoopInduced){
 ELSE
 C When not in checking mode, update the ref for the first MAXNREF_EVALS points (The ref. scale could still be used after this stage if BYPASS_CHECK was set to true at some point using SLOOPMATRIX_THRES).
-C Is is possible to simply remove the if statement below to have a running reference scale which always depends on the MAXNREF_EVALS *last* evaluations. 
+C Is is possible to simply remove the if statement below to have a running reference scale which always depends on the MAXNREF_EVALS *last* evaluations.
     if (NPSPOINTS.LE.MAXNREF_EVALS) THEN
 	  TMPR = ABS(ANS(1,0)) + ABS(ANS(2,0)) + ABS(ANS(3,0))
 	  IF (TMPR.ne.0.0d0) THEN
@@ -1559,7 +1559,7 @@ IF (DIRECT_ME_COMPUTATION.AND.ME_COMPUTATION_FROM_JAMP) THEN
 C We should finish by the summed orders
     I = MOD(J,NSQUAREDSO+1)
     IF (I.EQ.0) THEN
-      WRITE(*,*) ' > Checking the sum of all chosen squared split orders'    
+      WRITE(*,*) ' > Checking the sum of all chosen squared split orders'
     ELSE
       WRITE(*,*) ' > Checking squared split order #',I
     ENDIF
@@ -1579,14 +1579,14 @@ C We should finish by the summed orders
 		  ENDIF
         ENDDO
 	  ENDIF
-      IF (K.eq.0) WRITE(*,*) ' || Born :' 
-      IF (K.eq.1) WRITE(*,*) ' || Finite part :' 
-      IF (K.eq.2) WRITE(*,*) ' || Single pole residue :' 
-      IF (K.eq.3) WRITE(*,*) ' || Double pole residue :' 
+      IF (K.eq.0) WRITE(*,*) ' || Born :'
+      IF (K.eq.1) WRITE(*,*) ' || Finite part :'
+      IF (K.eq.2) WRITE(*,*) ' || Single pole residue :'
+      IF (K.eq.3) WRITE(*,*) ' || Double pole residue :'
       WRITE(*,*) ' --> Direct result        =',ANS(K,I)
       WRITE(*,*) ' --> Computed from JAMPS  =',RES_FROM_JAMP(K,I)
       IF((RES_FROM_JAMP(K,I)+ANS(K,I)).EQ.0.0d0) THEN
-        TMPR = ABS(RES_FROM_JAMP(K,I)-ANS(K,I))      
+        TMPR = ABS(RES_FROM_JAMP(K,I)-ANS(K,I))
       ELSE
         TMPR = ABS((ANS(K,I)-RES_FROM_JAMP(K,I))/((ANS(K,I)+RES_FROM_JAMP(K,I))/2.0d0))
       ENDIF
@@ -1601,7 +1601,7 @@ ENDIF
 ## }
 
 IF(.NOT.CHECKPHASE.AND.HELDOUBLECHECKED.AND.(CTMODERUN.EQ.-1)) THEN
-  STAB_INDEX=STAB_INDEX+1  
+  STAB_INDEX=STAB_INDEX+1
   IF(DOING_QP_EVALS.AND.LOOPLIBS_QPAVAILABLE(MLReductionLib(I_LIB))) THEN
 C   Only run over the reduction algorithms which support quadruple precision
     DO I=0,NSQUAREDSO
@@ -1617,7 +1617,7 @@ C   Only run over the reduction algorithms which support quadruple precision
 	ENDDO
   ENDIF
 
-  IF(DOING_QP_EVALS.AND.LOOPLIBS_QPAVAILABLE(MLReductionLib(I_LIB))) THEN	
+  IF(DOING_QP_EVALS.AND.LOOPLIBS_QPAVAILABLE(MLReductionLib(I_LIB))) THEN
       BASIC_CT_MODE=4
   ELSE
       BASIC_CT_MODE=1
@@ -1627,7 +1627,7 @@ C BEGINNING OF THE DEFINITIONS OF THE DIFFERENT EVALUATION METHODS
 
   IF(.NOT.EVAL_DONE(2)) THEN
 	EVAL_DONE(2)=.TRUE.
-	IF(LOOPLIBS_DIRECTEST(MLReductionLib(I_LIB)))THEN 
+	IF(LOOPLIBS_DIRECTEST(MLReductionLib(I_LIB)))THEN
 	  CTMODE=BASIC_CT_MODE+1
 	  goto 300
     ELSE
@@ -1650,7 +1650,7 @@ C     If some TIR library would not support the loop direction test (they all do
   ENDIF
 
   CTMODE=BASIC_CT_MODE
-  
+
   IF(.NOT.EVAL_DONE(3).AND. ((DOING_QP_EVALS.AND.NRotations_QP.GE.1).OR.((.NOT.DOING_QP_EVALS).AND.NRotations_DP.GE.1)) ) THEN
 	EVAL_DONE(3)=.TRUE.
 	CALL %(proc_prefix)sROTATE_PS(PS,P,1)
@@ -1683,7 +1683,7 @@ C   the result cannot be trusted at all and we hardset all accuracies to 1.0
 	  ACCURACY(I)=ACC(I)
 	ENDDO
 	RET_CODE_H=3
-	RET_CODE_U=SET_RET_CODE_U(MLReductionLib(I_LIB),.TRUE.,.TRUE.)	
+	RET_CODE_U=SET_RET_CODE_U(MLReductionLib(I_LIB),.TRUE.,.TRUE.)
 	IF(MAXVAL(ACC).GE.MLSTABTHRES) THEN
 	  I_QP_LIB=I_QP_LIB+1
 	  IF(I_QP_LIB.GT.QP_NLOOPLIB.OR.INDEX_QP_TOOLS(I_QP_LIB).EQ.0)THEN
@@ -1692,10 +1692,10 @@ C   the result cannot be trusted at all and we hardset all accuracies to 1.0
 	  NEPS=NEPS+1
       CALL %(proc_prefix)sCOMPUTE_ACCURACY(DP_RES,N_DP_EVAL,TEMP1,TEMP)
       CALL %(proc_prefix)sCOMPUTE_ACCURACY(QP_RES,N_QP_EVAL,ACC,ANS)
-	  IF(NEPS.LE.10) THEN	  
+	  IF(NEPS.LE.10) THEN
         WRITE(*,*) '##W03 WARNING An unstable PS point was',       ' detected.'
         IF(FPE_IN_QP_REDUCTION) THEN
-          WRITE(*,*) '## The last QP reduction was deemed unstable because a floating point exception was encountered.'        
+          WRITE(*,*) '## The last QP reduction was deemed unstable because a floating point exception was encountered.'
         ENDIF
 		IF (NSQUAREDSO.NE.1) THEN
 		  WRITE(*,*) '##Accuracies for each split order, starting with the summed case'
@@ -1718,9 +1718,9 @@ C   the result cannot be trusted at all and we hardset all accuracies to 1.0
 		  ENDIF
 		ENDDO
 	    WRITE(*,*) 'PS point specification :'
-	    WRITE(*,*) 'Renormalization scale MU_R=',MU_R	
+	    WRITE(*,*) 'Renormalization scale MU_R=',MU_R
 	    DO I=1,NEXTERNAL
-          WRITE (*,'(i2,1x,4e27.17)') i, P(0,i),P(1,i),P(2,i),P(3,i) 
+          WRITE (*,'(i2,1x,4e27.17)') i, P(0,i),P(1,i),P(2,i),P(3,i)
         ENDDO
 	  ENDIF
 	  IF(NEPS.EQ.10) THEN
@@ -1758,7 +1758,7 @@ C   the result cannot be trusted at all and we hardset all accuracies to 1.0
 	        I_LIB=INDEX_QP_TOOLS(1)
 C       A new reduction tool will be used. Reinitialize the FPE flags.
 	    FPE_IN_DP_REDUCTION=.False.
-	    FPE_IN_QP_REDUCTION=.False.	    
+	    FPE_IN_QP_REDUCTION=.False.
 		I_QP_LIB=1
 		DOING_QP_EVALS=.TRUE.
 	  	EVAL_DONE(1)=.TRUE.
@@ -1793,7 +1793,7 @@ C       A new reduction tool will be used. Reinitialize the FPE flags.
                WRITE(*,*) '##W03 WARNING An unstable PS point was',       ' detected.'
 	           WRITE(*,*) '##W03 WARNING No quadruple precision will be used.'
                IF(FPE_IN_DP_REDUCTION) THEN
-                 WRITE(*,*) '## The last DP reduction was deemed unstable because a floating point exception was encountered.'        
+                 WRITE(*,*) '## The last DP reduction was deemed unstable because a floating point exception was encountered.'
                ENDIF
                CALL %(proc_prefix)sCOMPUTE_ACCURACY(DP_RES,N_DP_EVAL,ACC,ANS)
                IF (NSQUAREDSO.NE.1) THEN
@@ -1828,8 +1828,8 @@ C       A new reduction tool will be used. Reinitialize the FPE flags.
 	    ACCURACY(I)=ACC(I)
 	  ENDDO
       	  RET_CODE_H=2
-	  RET_CODE_U=SET_RET_CODE_U(MLReductionLib(I_LIB),.FALSE.,.TRUE.)	
-	  ENDIF	
+	  RET_CODE_U=SET_RET_CODE_U(MLReductionLib(I_LIB),.FALSE.,.TRUE.)
+	  ENDIF
   ENDIF
 ELSE
   RET_CODE_H=1
@@ -1862,7 +1862,7 @@ C Notice that this filtering using CHOSEN_SO_CONFIGS happens
 C here only while everywhere else one always considers the sum.
 DO J=1,3
   ANS(J,0)=0.0d0
-ENDDO	
+ENDDO
 DO I=1,NSQUAREDSO
   IF (CHOSEN_SO_CONFIGS(I)) THEN
     DO J=1,3
@@ -1874,7 +1874,7 @@ ENDDO
 C Reinitialize the default threshold if it was specified by the user
 IF (USER_STAB_PREC.GT.0.0d0) THEN
   MLSTABTHRES=MLSTABTHRES_BU
-  CTMODEINIT=CTMODEINIT_BU  
+  CTMODEINIT=CTMODEINIT_BU
 ENDIF
 
 C Reinitialize the Lorentz test if it had been disabled because spin-2 particles are in the external states.
@@ -1929,9 +1929,9 @@ C --=========================================--
 
       LOGICAL FUNCTION %(proc_prefix)sIS_HEL_SELECTED(HELID)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NCOMB
@@ -1956,12 +1956,12 @@ C
 C     ----------
 C     BEGIN CODE
 C     ----------
-      
+
       %(proc_prefix)sIS_HEL_SELECTED = .True.
       if (POLARIZATIONS(0,0).eq.-1) THEN
         RETURN
       ENDIF
-      
+
       DO I=1,NEXTERNAL
         IF (POLARIZATIONS(I,0).eq.-1) THEN
           CYCLE
@@ -1984,20 +1984,20 @@ C     ----------
 
 	  logical function %(proc_prefix)sIsZero(toTest, reference_value, loop, soindex)
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NLOOPGROUPS
 	  PARAMETER (NLOOPGROUPS=%(nloop_groups)d)
 	  INTEGER    NSQUAREDSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
 	  %(real_dp_format)s toTest, reference_value
 	  integer loop, soindex
-C  
-C GLOBAL 
+C
+C GLOBAL
 C
       INCLUDE 'MadLoopParams.inc'
       %(complex_dp_format)s LOOPRES(3,NSQUAREDSO,NLOOPGROUPS)
@@ -2013,10 +2013,10 @@ C ----------
 	  else
 	    %(proc_prefix)sIsZero=((abs(toTest)/abs(reference_value)).lt.ZEROTHRES)
 	  endif
-      
+
 	  IF(loop.NE.-1) THEN
 	    IF((.NOT.%(proc_prefix)sIsZero).AND.(.NOT.S(soindex,loop))) THEN
-	      write(*,*) '##W01 WARNING Contribution ',loop,' of split order ',soindex,' is detected as contributing with CR=',(abs(toTest)/abs(reference_value)),' but is unstable.' 
+	      write(*,*) '##W01 WARNING Contribution ',loop,' of split order ',soindex,' is detected as contributing with CR=',(abs(toTest)/abs(reference_value)),' but is unstable.'
 	    ENDIF
 	  ENDIF
 
@@ -2028,18 +2028,18 @@ C     This function compares the result from two different helicity configuratio
 C     It returns 0 if they are not related and (+/-wgt) if A=(+/-wgt)*B.
 C     For now, the only wgt implemented is the integer 1 or -1.
 C     If useMax is .TRUE., it uses all implemented weights no matter what is HELINITSTARTOVER
-C   
+C
 C CONSTANTS
 C
       integer MAX_WGT_TO_TRY
 	  parameter (MAX_WGT_TO_TRY=2)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
 	  %(real_dp_format)s resA(3), resB(3)
 	  %(real_dp_format)s ref
 	  logical useMax
-C  
+C
 C LOCAL VARIABLES
 C
       LOGICAL %(proc_prefix)sIsZero
@@ -2071,7 +2071,7 @@ C If the helicity can be constructed progressively while allowing inconsistency,
 			ENDIF
 C         Be looser for helicity comparison, so bring a factor 100
 		  ELSEIF(.NOT.%(proc_prefix)sIsZero(ABS((resA(J)/resB(J))-DBLE(WGT_TO_TRY(I))),1.0d0,-1,-1)) THEN
-		    GOTO 1231		    
+		    GOTO 1231
 		  ENDIF
 		ENDDO
 		%(proc_prefix)sISSAME = WGT_TO_TRY(I)
@@ -2082,21 +2082,21 @@ C         Be looser for helicity comparison, so bring a factor 100
 
       SUBROUTINE %(proc_prefix)scompute_accuracy(fulllist, length, acc, estimate)
       implicit none
-C  
-C PARAMETERS 
+C
+C PARAMETERS
 C
       integer maxstabilitylength
 	  common/%(proc_prefix)sstability_tests/maxstabilitylength
       INTEGER    NSQUAREDSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
-C  
-C ARGUMENTS 
+C
+C ARGUMENTS
 C
       real*8 fulllist(3,0:NSQUAREDSO,maxstabilitylength)
       integer length
       real*8 acc(0:NSQUAREDSO), estimate(0:3,0:NSQUAREDSO)
-C  
-C LOCAL VARIABLES 
+C
+C LOCAL VARIABLES
 C
       logical mask(maxstabilitylength)
 	  logical mask3(3)
@@ -2162,7 +2162,7 @@ C       The following is used instead
 		if (avg.ne.0.0d0) then
           acc(k)  = acc(k) / ( ABS(AVG) / 3.0d0)
 		endif
-        
+
 C       When using COLLIER with the internal stability test, the first evaluation is typically more reliable so we do not want to use the average but rather the first evaluation.
 		IF (MLREDUCTIONLIB(I_LIB).eq.7.and.COLLIERUseInternalStabilityTest) THEN
 		  DO I=1,3
@@ -2191,7 +2191,7 @@ c       If NaN are present in the evaluation, automatically set the accuracy to 
       end
 
       SUBROUTINE %(proc_prefix)sSET_N_EVALS(N_DP_EVALS,N_QP_EVALS)
- 
+
 	  IMPLICIT NONE
 	  INTEGER N_DP_EVALS, N_QP_EVALS
 
@@ -2223,13 +2223,13 @@ C THIS SUBROUTINE SIMPLY SET THE GLOBAL PS CONFIGURATION GLOBAL VARIABLES FROM A
 
 	    DO I=1,NEXTERNAL
 	      DO J=0,3
-    	    MP_PS(J,I)=P(J,I) 
+    	    MP_PS(J,I)=P(J,I)
     	  ENDDO
   	    ENDDO
   	    CALL %(proc_prefix)sMP_IMPROVE_PS_POINT_PRECISION(MP_PS)
   	    DO I=1,NEXTERNAL
     	  DO J=0,3
-      	  	MP_P(J,I)=MP_PS(J,I) 
+      	  	MP_P(J,I)=MP_PS(J,I)
     	  ENDDO
   	  	ENDDO
 
@@ -2243,7 +2243,7 @@ C --=========================================--
       SUBROUTINE %(proc_prefix)sGET_NSQSO_LOOP(NSQSO)
 C
 C     Simple subroutine returning the number of squared split order
-C     contributions returned in ANS when calling sloopmatrix 
+C     contributions returned in ANS when calling sloopmatrix
 C
       INTEGER    NSQUAREDSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
@@ -2262,9 +2262,9 @@ c     array when calling MadLoop, this subroutine returns its dimension
 C
       INTEGER    NSQUAREDSO
 	  PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
-	  INTEGER ANS_DIM 
+	  INTEGER ANS_DIM
 
-	  %(get_nsqso_born)s 
+	  %(get_nsqso_born)s
 
 	  ANS_DIM=MAX(NSQSO_BORN,NSQUAREDSO)
 
@@ -2369,7 +2369,7 @@ C -----------
 C BEGIN CODE
 C -----------
 	  IF (AMPID.gt.NBORNAMPS) THEN
-	    WRITE(*,*) 'ERROR:: Born amplitude ID ',AMPID,' above the maximum ',NBORNAMPS	
+	    WRITE(*,*) 'ERROR:: Born amplitude ID ',AMPID,' above the maximum ',NBORNAMPS
       ENDIF
 	  %(proc_prefix)sML5SOINDEX_FOR_BORN_AMP = BORNAMPORDERS(AMPID)
 
@@ -2396,7 +2396,7 @@ C -----------
 C BEGIN CODE
 C -----------
 	  IF (AMPID.gt.NLOOPAMPS) THEN
-	    WRITE(*,*) 'ERROR:: Loop amplitude ID ',AMPID,' above the maximum ',NLOOPAMPS	
+	    WRITE(*,*) 'ERROR:: Loop amplitude ID ',AMPID,' above the maximum ',NLOOPAMPS
 	  ENDIF
 	  %(proc_prefix)sML5SOINDEX_FOR_LOOP_AMP = LOOPAMPORDERS(AMPID)
 
@@ -2405,13 +2405,13 @@ C -----------
 
       INTEGER FUNCTION %(proc_prefix)sML5SQSOINDEX(ORDERINDEXA, ORDERINDEXB)
 C
-C This functions plays the role of the interference matrix. It can be hardcoded or 
+C This functions plays the role of the interference matrix. It can be hardcoded or
 C made more elegant using hashtables if its execution speed ever becomes a relevant
-C factor. From two split order indices, it return the corresponding index in the squared 
+C factor. From two split order indices, it return the corresponding index in the squared
 c order canonical ordering.
 C
 C CONSTANTS
-C      
+C
       INTEGER    NSO, NSQUAREDSO, NAMPSO
 	  PARAMETER (NSO=%(nSO)d, NSQUAREDSO=%(nSquaredSO)d, NAMPSO=%(nAmpSO)d)
 C
@@ -2457,7 +2457,7 @@ C LOCAL VARIABLES
 C
       INTEGER I
 	  INTEGER SQPLITORDERS(NSQSO,NSO)
-	  COMMON/%(proc_prefix)sML5SQPLITORDERS/SQPLITORDERS	  
+	  COMMON/%(proc_prefix)sML5SQPLITORDERS/SQPLITORDERS
 C
 C BEGIN CODE
 C
@@ -2622,7 +2622,7 @@ C
       	LOGICAL AUTOMATIC_CACHE_CLEARING
       	DATA AUTOMATIC_CACHE_CLEARING/.TRUE./
       	COMMON/%(proc_prefix)sRUNTIME_OPTIONS/AUTOMATIC_CACHE_CLEARING
-      	
+
 	    INTEGER N_DP_EVAL, N_QP_EVAL
 	    COMMON/%(proc_prefix)sN_EVALS/N_DP_EVAL,N_QP_EVAL
 
@@ -2631,7 +2631,7 @@ C
 ## } else {
 
 		AUTOMATIC_CACHE_CLEARING = ONOFF
-		
+
 		IF (NRotations_DP.ne.0.or.NRotations_QP.ne.0) THEN
 		  WRITE(*,*) 'Warning: One cannot remove the TIR cache automatic clearing while at the same time keeping Lorentz rotations for stability tests.'
 		  WRITE(*,*) 'MadLoop will therefore automatically set NRotations_DP and NRotations_QP to 0.'
@@ -2641,7 +2641,7 @@ C
 		ENDIF
 ## }
 	  END SUBROUTINE
-	  
+
 	  SUBROUTINE %(proc_prefix)sSET_COUPLINGORDERS_TARGET(SOTARGET)
 	  IMPLICIT NONE
 C
@@ -2685,7 +2685,7 @@ C     ----------
         LEG_POLARIZATIONS(0)=-1
         DO I=1,5
           LEG_POLARIZATIONS(I)=-10000
-        ENDDO      
+        ENDDO
       ELSE
         LEG_POLARIZATIONS(0)=1
         LEG_POLARIZATIONS(1)=LEG_POLARIZATION
@@ -2699,9 +2699,9 @@ C     ----------
 
       SUBROUTINE %(proc_prefix)sSET_LEG_POLARIZATIONS(LEG_ID, LEG_POLARIZATIONS)
       IMPLICIT NONE
-C     
+C
 C     CONSTANTS
-C     
+C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER NPOLENTRIES
@@ -2745,7 +2745,7 @@ C     ----------
           POLARIZATIONS(LEG_ID,I)=LEG_POLARIZATIONS(I)
         ENDDO
         DO I=LEG_POLARIZATIONS(0)+1,5
-          POLARIZATIONS(LEG_ID,I)=-10000        
+          POLARIZATIONS(LEG_ID,I)=-10000
         ENDDO
       ENDIF
 
@@ -2779,7 +2779,7 @@ C     ----------
 
       SUBROUTINE %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS)
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NEXTERNAL
@@ -2787,9 +2787,9 @@ C
       INTEGER    NSQUAREDSO
       PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
       %(get_nsqso_born)s
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P(0:3,NEXTERNAL)
 	  INTEGER ANS_DIMENSION
 	  PARAMETER(ANS_DIMENSION=MAX(NSQSO_BORN,NSQUAREDSO))
@@ -2805,16 +2805,16 @@ C ----------
 
       SUBROUTINE %(proc_prefix)sSLOOPMATRIXHEL_THRES(P,HEL,ANS,PREC_ASKED,PREC_FOUND,RET_CODE)
 	  IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NSQUAREDSO
       PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P(0:3,NEXTERNAL)
       %(get_nsqso_born)s
       INTEGER ANS_DIMENSION
@@ -2847,7 +2847,7 @@ C ----------
       CALL %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS)
 	  IF(ALWAYS_TEST_STABILITY.AND.(H.eq.1.OR.ACCURACY(0).lt.0.0d0)) THEN
 	    BYPASS_CHECK = .TRUE.
-        CALL %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS) 
+        CALL %(proc_prefix)sSLOOPMATRIXHEL(P,HEL,ANS)
 	    BYPASS_CHECK = .FALSE.
 C       Make sure we correctly return an initialization-type T code
 		IF (T.eq.2) T=4
@@ -2856,7 +2856,7 @@ C       Make sure we correctly return an initialization-type T code
 
 C Reset it to default value not to affect next runs
 	  USER_STAB_PREC = -1.0d0
-	  
+
       DO I=0,NSQUAREDSO
 	    PREC_FOUND(I)=ACCURACY(I)
 	  ENDDO
@@ -2871,7 +2871,7 @@ C     P(0:3, Nexternal)  double  :: Kinematic configuration (E,px,py,pz)
 C     PEC_ASKED          double  :: Target relative accuracy, -1 for default
 C
 C     Outputs are:
-C     ANS(3)             double  :: Result (finite, single pole, double pole) 
+C     ANS(3)             double  :: Result (finite, single pole, double pole)
 C     PREC_FOUND         double  :: Relative accuracy estimated for the result
 C                                   Returns -1 if no stab test could be performed.
 C	  RET_CODE			 integer :: Return code. See below for details
@@ -2916,26 +2916,26 @@ C         Stable with Ninja in double precision
 C     U == 8
 C         Stable with Ninja in quadruple precision
 C     U == 9
-C         Stable with CutTools in quadruple precision.         
+C         Stable with CutTools in quadruple precision.
 C
       IMPLICIT NONE
-C  
+C
 C CONSTANTS
 C
       INTEGER    NEXTERNAL
       PARAMETER (NEXTERNAL=%(nexternal)d)
       INTEGER    NSQUAREDSO
       PARAMETER (NSQUAREDSO=%(nSquaredSO)d)
-C  
-C ARGUMENTS 
-C  
+C
+C ARGUMENTS
+C
       %(real_dp_format)s P(0:3,NEXTERNAL)
       %(get_nsqso_born)s
       INTEGER ANS_DIMENSION
       PARAMETER(ANS_DIMENSION=MAX(NSQSO_BORN,NSQUAREDSO))
       %(real_dp_format)s ANS(0:3,0:ANS_DIMENSION)
 	  %(real_dp_format)s PREC_ASKED,PREC_FOUND(0:NSQUAREDSO)
-	  INTEGER RET_CODE	  
+	  INTEGER RET_CODE
 C
 C LOCAL VARIABLES
 C
@@ -2959,7 +2959,7 @@ C ----------
       USER_STAB_PREC = PREC_ASKED
       CALL %(proc_prefix)sSLOOPMATRIX(P,ANS)
 	  IF(ALWAYS_TEST_STABILITY.AND.(H.eq.1.OR.ACCURACY(0).lt.0.0d0)) THEN
-	    BYPASS_CHECK = .TRUE.	  
+	    BYPASS_CHECK = .TRUE.
         CALL %(proc_prefix)sSLOOPMATRIX(P,ANS)
 		BYPASS_CHECK = .FALSE.
 C     Make sure we correctly return an initialization-type T code
@@ -2969,13 +2969,13 @@ C     Make sure we correctly return an initialization-type T code
 
 C Reset it to default value not to affect next runs
 	  USER_STAB_PREC = -1.0d0
-      DO I=0,NSQUAREDSO	  
+      DO I=0,NSQUAREDSO
 	    PREC_FOUND(I)=ACCURACY(I)
 	  ENDDO
 	  RET_CODE=100*H+10*T+U
 
 	  END
-	  
+
 C The subroutine below perform clean-up duties for MadLoop like de-allocating
 c arrays
 	  SUBROUTINE %(proc_prefix)sEXIT_MADLOOP()

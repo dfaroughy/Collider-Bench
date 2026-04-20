@@ -7,17 +7,17 @@
 #Name anti_Name Spin Linetype Mass Width Color Label Model
 #xxx xxxx SFV WSDC str str STO str PDG code
 
-ve ve~ F S ZERO ZERO S ve 12
-vm vm~ F S ZERO ZERO S vm 14
+ve ve~ F S ZERO ZERO S ve 12
+vm vm~ F S ZERO ZERO S vm 14
 vt vt~ F S ZERO ZERO S vt 16
-e- e+ F S Me ZERO S e 11
-m- m+ F S MM ZERO S m 13
+e- e+ F S Me ZERO S e 11
+m- m+ F S MM ZERO S m 13
 tt- tt+ F S MTA ZERO S tt 15
-u u~ F S MU ZERO T u 2
-c c~ F S MC ZERO T c 4
+u u~ F S MU ZERO T u 2
+c c~ F S MC ZERO T c 4
 t t~ F S MT WT T t 6
-d d~ F S MD ZERO T d 1
-s s~ F S MS ZERO T s 3
+d d~ F S MD ZERO T d 1
+s s~ F S MS ZERO T s 3
 b b~ F S MB ZERO T b 5
 a a V W ZERO ZERO S a 22
 z z V W MZ WZ S Z 23

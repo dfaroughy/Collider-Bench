@@ -39,9 +39,9 @@ c
      1              spint(3,NMXHEP), icolorflowt(2,NMXHEP), idrupt
       save /tmpev4/
 
-C idrupt            : The identity of the current process, 
+C idrupt            : The identity of the current process,
 C                      as given by the LPRUP codes.
-C eventweightt      : The event weight:  
+C eventweightt      : The event weight:
 C                      Equal to (total cross section)/(total generated)
 C                      for the output of Pythia, Herwig, etc.
 C scalet            : Scale Q of the event.

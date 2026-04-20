@@ -41,10 +41,10 @@ bool plot_tree(const char* quantity, const char* plotdim = 0, bool log = true)
     events->SetLineWidth(2);
     events->SetLineColor(i+2);
     events->SetLineStyle(i+2);
-    
-    if(log) 
+
+    if(log)
       sprintf(tmp1,"log10(%s)>>%s%i%s",quantity,quantity,i,plotdim);
-    else 
+    else
       sprintf(tmp1,"%s>>%s%i%s",quantity,quantity,i,plotdim);
     sprintf(tmp2,"%e*(Npart==%i)",Xsecfact,i);
 
@@ -92,4 +92,3 @@ bool plot_tree(const char* quantity, const char* plotdim = 0, bool log = true)
   c1->SaveAs(tmp2);
   return true;
 }
-

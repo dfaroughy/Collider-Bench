@@ -10,7 +10,7 @@ and (a80) error message.  The first two lines are skipped.
   8 ffc1lg: warning: the combination 1-z*log(1-1/z) id unstable.
   9 ffcayl: warning: not enough terms in Taylor expansion, may be serious.
  10 ffcb0p: warning: cancellation in dotproduct s1.s2
- 11 ffcot2: warning: cancellation in dotproduct p.si 
+ 11 ffcot2: warning: cancellation in dotproduct p.si
  12 ffcdbp: warning: not enough terms in Taylor expansion, may be serious
  13 ffcdbp: warning: cancellations in case one mass equal to zero
  14 ffxb0p: warning: instability in case one mass zero, may be solved later.
@@ -251,7 +251,7 @@ and (a80) error message.  The first two lines are skipped.
 247 ffcdna: warning: cancellations in C
 248 ffcdna: warning: cancellations between z1 and alpha
 249 ffcdna: warning: cancellations between z2 and alpha
-250 ffcdna: warning: cancellations in 1 + r*x1 
+250 ffcdna: warning: cancellations in 1 + r*x1
 251 ffcdna: warning: cancellations in 1 + r*x2
 252 ffcdna: warning: cancellations between r*x1 and r*x2
 263 aaxix4: warning: cancellations in inverse matrix del3; can be cured
@@ -291,4 +291,3 @@ and (a80) error message.  The first two lines are skipped.
 297 aabrem: warning: cancellations in del2
 298 aaxbx:  warning: cancellations in B2
 299 aaxbx:  warning: cancellations in B1
-

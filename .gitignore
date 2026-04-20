@@ -26,6 +26,9 @@ dist/
 *.swp
 .DS_Store
 
+# Claude Code per-project settings (permissions allowlists, hooks — user-specific)
+.claude/
+
 # Large archival directory — not part of the active tree.
 old/
 

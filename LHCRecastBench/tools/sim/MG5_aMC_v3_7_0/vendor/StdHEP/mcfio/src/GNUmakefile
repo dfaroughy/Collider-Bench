@@ -43,21 +43,21 @@ CL_BROWSER_SRC = mcf_BrowseMainPanel mcf_BrowseMainMenu \
                mcf_BrowseHelp  mcf_BrowseMainProgram \
                mcf_BrowseUtil1 mcf_BrowseUtil2
 CL_BROWSER_OBJS   = $(addsuffix $(SFX).o,$(CL_BROWSER_SRC))
-               
+
 LIBLIST = $(LIBDIR)/libFmcfio$(SFX).a
 ifdef BUILD_SHARED
   LIBLIST += $(LIBDIR)/libFmcfio$(SFX).$(SHEXT)
   SHCL_F_OBJS   = $(patsubst %$(SFX).o,%$(SHX)$(SFX).o,$(CL_F_OBJS))
 endif
-               
+
 #--------------------------
 
-all: $(LIBLIST) 
+all: $(LIBLIST)
 
 ntu: $(BINDIR)/ntuBuild$(SFX) $(BINDIR)/ntuBrowser$(SFX)
 
-$(LIBDIR)/libFmcfio$(SFX).a: $(CL_F_OBJS) 
-	$(AR) -urs $(LIBDIR)/libFmcfio$(SFX).a $(CL_F_OBJS) 
+$(LIBDIR)/libFmcfio$(SFX).a: $(CL_F_OBJS)
+	$(AR) -urs $(LIBDIR)/libFmcfio$(SFX).a $(CL_F_OBJS)
 
 $(LIBDIR)/libFmcfio$(SFX).$(SHEXT): $(SHCL_F_OBJS)
 	@echo Creating shared library $@ ...
@@ -79,12 +79,12 @@ $(BINDIR)/ntuBrowser$(SFX): $(CL_BROWSER_OBJS) $(CL_NTUBLD_OBJS) $(LIBDIR)/libFm
 	$(CL_NTUBLD_OBJS) \
 	$(LIBDIR)/libFmcfio$(SFX).a $(HLIB) \
         $(MXTLIBS)
-        
+
 clean:
-	rm -f *.o 
-	       
+	rm -f *.o
+
 realclean:
-	rm -f *.o 
+	rm -f *.o
 	rm -f $(LIBDIR)/libFmcfio*
 	rm -f $(BINDIR)/ntuBuild $(BINDIR)/ntuBuild_g
 	rm -f $(BINDIR)/ntuBrowser $(BINDIR)/ntuBrowser_g
@@ -135,10 +135,10 @@ mcfio_Direct.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Direct.h
 mcfio_SeqDummy.o:mcfio_Sequential.h
 mcfio_Util1.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Direct.h \
                 mcfio_Sequential.h
-mcfio_block.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Block.h              
+mcfio_block.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Block.h
 mcf_evt_xdr_g.o: mcf_xdr.h
 mcfio_Direct_g.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Direct.h
 mcfio_SeqDummy_g.o:mcfio_Sequential.h
 mcfio_Util1_g.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Direct.h \
                 mcfio_Sequential.h
-mcfio_block_g.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Block.h              
+mcfio_block_g.o: mcf_xdr.h mcfio_Dict.h mcfio_Util1.h mcfio_Block.h

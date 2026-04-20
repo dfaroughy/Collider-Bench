@@ -20,7 +20,7 @@ c********************************************************************
       parameter (pi = 3.1415926d0)
 c
 c     Arguments
-c      
+c
       integer lun
       integer nexternal, ic(7,*)
       logical done
@@ -52,7 +52,7 @@ c
       common/bias/bias_weight,impact_xsec
 c-----
 c  Begin Code
-c-----     
+c-----
       buff=' '
       done=.false.
       if (.not. banner_open) then
@@ -70,7 +70,7 @@ c-----
      $     (p(j,i),j=1,3),p(0,i),p(4,i),xdum1,xdum2
          ic(7,i)=xdum2
       enddo
-      
+
 c     Clustering scales
       read(lun,'(a)',end=99,err=99) buff
       if (lhe_version.lt.3d0)then
@@ -130,13 +130,13 @@ c     Clustering info
       return
  99   done=.true.
       return
- 55   format(i3,5e19.11)         
+ 55   format(i3,5e19.11)
       end
 
       subroutine write_event_to_stream(evt_record,P,wgt,nexternal,ic,
      &     ievent,scale,aqcd, aqed,buff,u_syst,s_buff,nclus,buffclus)
 c********************************************************************
-C     This an *exact* copy of write_event, except that it writes it 
+C     This an *exact* copy of write_event, except that it writes it
 C     to a character array argument as opposed to an I/O stream.
 c********************************************************************
       implicit none
@@ -150,7 +150,7 @@ c
       parameter (pi = 3.1415926d0)
 c
 c     Arguments
-c      
+c
       character*(maxEventLength) evt_record
       integer ievent
       integer nexternal, ic(7,*)
@@ -175,7 +175,7 @@ c
 
 c-----
 c  Begin Code
-c-----     
+c-----
 c      aqed= gal(1)*gal(1)/4d0/pi
 c      aqcd = g*g/4d0/pi
       write(largeBuff,'(a)') '<event>'
@@ -204,7 +204,7 @@ c      aqcd = g*g/4d0/pi
           evt_record=trim(evt_record)//CHAR(13)//CHAR(10)//trim(largeBuff)
           write(largeBuff,'(a)') '</rwgt>'
           evt_record=trim(evt_record)//CHAR(13)//CHAR(10)//trim(largeBuff)
-      endif 
+      endif
       if(u_syst)then
          do i=1,7
             write(largeBuff,'(a)') s_buff(i)(1:len_trim(s_buff(i)))
@@ -250,7 +250,7 @@ c
       parameter (pi = 3.1415926d0)
 c
 c     Arguments
-c      
+c
       integer lun, ievent
       integer nexternal, ic(7,*)
       double precision P(0:4,*),wgt
@@ -273,7 +273,7 @@ c
 
 c-----
 c  Begin Code
-c-----     
+c-----
 c      aqed= gal(1)*gal(1)/4d0/pi
 c      aqcd = g*g/4d0/pi
 
@@ -284,13 +284,13 @@ c      aqcd = g*g/4d0/pi
      $     (p(j,i),j=1,3),p(0,i),p(4,i),0.,real(ic(7,i))
       enddo
       if(buff(1:7).eq.'<scales') write(lun,'(a)') buff(1:len_trim(buff))
-      if(buff(1:1).eq.'#') write(lun,'(a)') buff(1:len_trim(buff))      
+      if(buff(1:1).eq.'#') write(lun,'(a)') buff(1:len_trim(buff))
       if(.not.impact_xsec) then
           write(lun,'(a)') '<rwgt>'
           write(lun,'(a16,1e15.7,a6)') "<wgt id='bias'> ",bias_weight,
      $                                                          "</wgt>"
           write(lun,'(a)') '</rwgt>'
-      endif 
+      endif
       if(u_syst)then
          do i=1,7
             write(lun,'(a)') s_buff(i)(1:len_trim(s_buff(i)))
@@ -327,11 +327,11 @@ c
 
 c-----
 c  Begin Code
-c-----     
+c-----
 c      write(*,*) 'Writing comments'
       if (banner_open) then
          rewind(lun_ban)
-         do while (.true.) 
+         do while (.true.)
             read(lun_ban,'(a)',end=99,err=99) buff
             write(lun,'(a)') buff
 c            write(*,*) buff
@@ -340,4 +340,3 @@ c            write(*,*) buff
          banner_open = .false.
       endif
       end
-

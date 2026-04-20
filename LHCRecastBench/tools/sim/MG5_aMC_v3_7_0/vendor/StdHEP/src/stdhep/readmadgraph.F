@@ -2,7 +2,7 @@
 
 C...Double precision and integer declarations.
       implicit none
-      
+
       real version
 
 #include "hepeup.inc"

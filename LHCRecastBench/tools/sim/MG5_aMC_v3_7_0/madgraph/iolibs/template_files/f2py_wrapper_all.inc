@@ -8,7 +8,7 @@ C     PY ((3, -3), (-6, 6)) : (3, -3, 6, -6) # M1_ 1
      $  NHEL, ANS)
       IMPLICIT NONE
 C     ALPHAS is given at scale2 (SHOULD be different of 0 for loop
-C      induced, ignore for LO)  
+C      induced, ignore for LO)
 
 CF2PY double precision, intent(in), dimension(0:3,npdg) :: p
 CF2PY integer, intent(in), dimension(npdg) :: pdgs
@@ -23,7 +23,7 @@ CF2PY double precision, intent(in) :: SCALE2
       DOUBLE PRECISION ANS, ALPHAS,SCALE2
 
       call %(f2py_prefix)sf77_smatrixhel(pdgs, procid, npdg, p, alphas, scale2, nhel, ans)
-       
+
       RETURN
       END
 
@@ -129,4 +129,3 @@ CF2PY integer, intent(in) :: new_value
 
 
       %(nhel)s
-

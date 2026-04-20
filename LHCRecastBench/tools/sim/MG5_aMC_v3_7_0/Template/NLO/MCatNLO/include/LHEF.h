@@ -39,7 +39,7 @@ struct XMLTag {
    * Convenient alias for npos.
    */
   static const pos_t end = std::string::npos;
-  
+
 
   /**
    * The destructor also destroys any sub-tags.
@@ -152,7 +152,7 @@ struct XMLTag {
 
       if ( leftover ) *leftover += str.substr(curr, begin - curr);
       if ( begin == end || begin > str.length() - 3 || str[begin + 1] == '/' )
-	return tags; 
+	return tags;
 
       pos_t close = str.find(">", curr);
       if ( close == end ) return tags;
@@ -242,7 +242,7 @@ struct XSecInfo {
   /**
    * Intitialize default values.
    */
-  XSecInfo(): neve(-1), maxweight(1.0), meanweight(1.0), negweights(false), 
+  XSecInfo(): neve(-1), maxweight(1.0), meanweight(1.0), negweights(false),
 	      varweights(false) {}
 
   /**
@@ -250,10 +250,10 @@ struct XSecInfo {
    */
   XSecInfo(const XMLTag & tag) : neve(-1), maxweight(1.0), meanweight(1.0),
 				 negweights(false), varweights(false) {
-    if ( !tag.getattr("neve", neve) ) 
+    if ( !tag.getattr("neve", neve) )
       throw std::runtime_error("Found xsecinfo tag without neve attribute "
 			       "in Les Houches Event File.");
-    if ( !tag.getattr("totxsec", totxsec) ) 
+    if ( !tag.getattr("totxsec", totxsec) )
       throw std::runtime_error("Found xsecinfo tag without totxsec "
 			       "attribute in Les Houches Event File.");
     tag.getattr("maxweight", maxweight);
@@ -474,7 +474,7 @@ struct Cut {
     return p[3] < 0.0? -std::numeric_limits<double>::max():
       std::numeric_limits<double>::max();
   }
-    
+
   /**
    * Return the true rapidity of a particle with momentum \a p.
    */
@@ -488,7 +488,7 @@ struct Cut {
     return p[3] < 0.0? -std::numeric_limits<double>::max():
       std::numeric_limits<double>::max();
   }
-    
+
   /**
    * Return the delta-R of a particle pair with momenta \a p1 and \a p2.
    */
@@ -1585,7 +1585,7 @@ public:
    * Saved information about pdfs if different in a selected weight.
    */
   std::pair<int,int> PDFSUPsave;
-  
+
 
   /**
    * Contents of the scales tag
@@ -1854,7 +1854,7 @@ public:
       outsideBlock += currentLine + "\n";
 
     if ( currentLine.find("<eventgroup") != std::string::npos ) {
-      std::vector<XMLTag*> tags = XMLTag::findXMLTags(currentLine + 
+      std::vector<XMLTag*> tags = XMLTag::findXMLTags(currentLine +
 						       "</eventgroup>");
       if ( tags.empty() )
 	throw std::runtime_error("Found incomplete eventgroup tag in "
@@ -1888,7 +1888,7 @@ public:
 
 
     if ( !getline()  ) return false;
-    
+
     // We found an event. The first line determines how many
     // subsequent particle lines we have.
     std::istringstream iss(currentLine);
@@ -1934,7 +1934,7 @@ public:
       if ( tag.name == "weights" ) {
 	eup.weights.clear();
 	eup.weights.resize(heprup.weightinfo.size() + 1, std::make_pair(eup.XWGTUP, (WeightInfo*)(0)));
-	for ( int i = 1, N = eup.weights.size(); i < N; ++i ) 
+	for ( int i = 1, N = eup.weights.size(); i < N; ++i )
 	  eup.weights[i].second =  &heprup.weightinfo[i - 1];
 	eup.weights.front().first = eup.XWGTUP;
 	double w = 0.0;
@@ -1962,7 +1962,7 @@ public:
 
     }
     return true;
-    
+
   }
 
 protected:
@@ -2180,7 +2180,7 @@ public:
 
     if ( heprup.cuts.size() > 0 ) {
       file << "<cutsinfo>" << std::endl;
-    
+
       for ( std::map<std::string, std::set<long> >::iterator ptit =
 	      heprup.ptypes.begin(); ptit !=  heprup.ptypes.end(); ++ptit ) {
 	file << "<ptype name=\"" << ptit->first << "\">";
@@ -2287,7 +2287,7 @@ public:
 	file << "<clustering>" << std::endl;
 	for ( int i = 0, N = eup.clustering.size(); i < N; ++i )
 	  eup.clustering[i].print(file);
-	file << "</clustering>" << std::endl;	
+	file << "</clustering>" << std::endl;
       }
 
       eup.pdfinfo.print(file);
@@ -2394,9 +2394,9 @@ private:
 
 /** \example LHEFCat.cc This is a main function which simply reads a
     Les Houches Event File from the standard input and writes it again
-    to the standard output. 
+    to the standard output.
     This file can be downloaded from
-    <A HREF="http://www.thep.lu.se/~leif/LHEF/LHEFCat.cc">here</A>. 
+    <A HREF="http://www.thep.lu.se/~leif/LHEF/LHEFCat.cc">here</A>.
     There is also a sample
     <A HREF="http://www.thep.lu.se/~leif/LHEF/ttV_unweighted_events.lhe">event
     file</A>

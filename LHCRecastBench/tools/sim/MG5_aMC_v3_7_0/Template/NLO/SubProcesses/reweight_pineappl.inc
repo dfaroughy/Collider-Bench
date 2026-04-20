@@ -8,4 +8,3 @@ c The following is introduced since this file may be included in codes
 c that need not know nexternal. Make sure that maxparticles>=nexternal
       integer maxparticles
       parameter (maxparticles=20)
-

@@ -53,7 +53,7 @@
 struct PyCallBack_Pythia8_ExternalNucleusModel : public Pythia8::ExternalNucleusModel {
 	using Pythia8::ExternalNucleusModel::ExternalNucleusModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ExternalNucleusModel *>(this), "init");
 		if (overload) {
@@ -67,7 +67,7 @@ struct PyCallBack_Pythia8_ExternalNucleusModel : public Pythia8::ExternalNucleus
 		return ExternalNucleusModel::init();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ExternalNucleusModel *>(this), "generate");
 		if (overload) {
@@ -80,7 +80,7 @@ struct PyCallBack_Pythia8_ExternalNucleusModel : public Pythia8::ExternalNucleus
 		}
 		return ExternalNucleusModel::generate();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ExternalNucleusModel *>(this), "initGeometry");
 		if (overload) {
@@ -93,7 +93,7 @@ struct PyCallBack_Pythia8_ExternalNucleusModel : public Pythia8::ExternalNucleus
 		}
 		return NucleusModel::initGeometry();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ExternalNucleusModel *>(this), "setPN");
 		if (overload) {
@@ -106,7 +106,7 @@ struct PyCallBack_Pythia8_ExternalNucleusModel : public Pythia8::ExternalNucleus
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ExternalNucleusModel *>(this), "setMN");
 		if (overload) {
@@ -119,7 +119,7 @@ struct PyCallBack_Pythia8_ExternalNucleusModel : public Pythia8::ExternalNucleus
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ExternalNucleusModel *>(this), "produceIon");
 		if (overload) {
@@ -138,7 +138,7 @@ struct PyCallBack_Pythia8_ExternalNucleusModel : public Pythia8::ExternalNucleus
 struct PyCallBack_Pythia8_HardCoreModel : public Pythia8::HardCoreModel {
 	using Pythia8::HardCoreModel::HardCoreModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardCoreModel *>(this), "init");
 		if (overload) {
@@ -151,7 +151,7 @@ struct PyCallBack_Pythia8_HardCoreModel : public Pythia8::HardCoreModel {
 		}
 		return NucleusModel::init();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardCoreModel *>(this), "initGeometry");
 		if (overload) {
@@ -164,7 +164,7 @@ struct PyCallBack_Pythia8_HardCoreModel : public Pythia8::HardCoreModel {
 		}
 		return NucleusModel::initGeometry();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardCoreModel *>(this), "setPN");
 		if (overload) {
@@ -177,7 +177,7 @@ struct PyCallBack_Pythia8_HardCoreModel : public Pythia8::HardCoreModel {
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardCoreModel *>(this), "setMN");
 		if (overload) {
@@ -190,7 +190,7 @@ struct PyCallBack_Pythia8_HardCoreModel : public Pythia8::HardCoreModel {
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardCoreModel *>(this), "produceIon");
 		if (overload) {
@@ -204,7 +204,7 @@ struct PyCallBack_Pythia8_HardCoreModel : public Pythia8::HardCoreModel {
 		return NucleusModel::produceIon();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HardCoreModel *>(this), "generate");
 		if (overload) {
@@ -223,7 +223,7 @@ struct PyCallBack_Pythia8_HardCoreModel : public Pythia8::HardCoreModel {
 struct PyCallBack_Pythia8_WoodsSaxonModel : public Pythia8::WoodsSaxonModel {
 	using Pythia8::WoodsSaxonModel::WoodsSaxonModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WoodsSaxonModel *>(this), "init");
 		if (overload) {
@@ -236,7 +236,7 @@ struct PyCallBack_Pythia8_WoodsSaxonModel : public Pythia8::WoodsSaxonModel {
 		}
 		return WoodsSaxonModel::init();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WoodsSaxonModel *>(this), "initGeometry");
 		if (overload) {
@@ -250,7 +250,7 @@ struct PyCallBack_Pythia8_WoodsSaxonModel : public Pythia8::WoodsSaxonModel {
 		return WoodsSaxonModel::initGeometry();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WoodsSaxonModel *>(this), "generate");
 		if (overload) {
@@ -263,7 +263,7 @@ struct PyCallBack_Pythia8_WoodsSaxonModel : public Pythia8::WoodsSaxonModel {
 		}
 		return WoodsSaxonModel::generate();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WoodsSaxonModel *>(this), "setPN");
 		if (overload) {
@@ -276,7 +276,7 @@ struct PyCallBack_Pythia8_WoodsSaxonModel : public Pythia8::WoodsSaxonModel {
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WoodsSaxonModel *>(this), "setMN");
 		if (overload) {
@@ -289,7 +289,7 @@ struct PyCallBack_Pythia8_WoodsSaxonModel : public Pythia8::WoodsSaxonModel {
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::WoodsSaxonModel *>(this), "produceIon");
 		if (overload) {
@@ -308,7 +308,7 @@ struct PyCallBack_Pythia8_WoodsSaxonModel : public Pythia8::WoodsSaxonModel {
 struct PyCallBack_Pythia8_GLISSANDOModel : public Pythia8::GLISSANDOModel {
 	using Pythia8::GLISSANDOModel::GLISSANDOModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GLISSANDOModel *>(this), "init");
 		if (overload) {
@@ -321,7 +321,7 @@ struct PyCallBack_Pythia8_GLISSANDOModel : public Pythia8::GLISSANDOModel {
 		}
 		return GLISSANDOModel::init();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GLISSANDOModel *>(this), "initGeometry");
 		if (overload) {
@@ -335,7 +335,7 @@ struct PyCallBack_Pythia8_GLISSANDOModel : public Pythia8::GLISSANDOModel {
 		return GLISSANDOModel::initGeometry();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GLISSANDOModel *>(this), "generate");
 		if (overload) {
@@ -348,7 +348,7 @@ struct PyCallBack_Pythia8_GLISSANDOModel : public Pythia8::GLISSANDOModel {
 		}
 		return WoodsSaxonModel::generate();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GLISSANDOModel *>(this), "setPN");
 		if (overload) {
@@ -361,7 +361,7 @@ struct PyCallBack_Pythia8_GLISSANDOModel : public Pythia8::GLISSANDOModel {
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GLISSANDOModel *>(this), "setMN");
 		if (overload) {
@@ -374,7 +374,7 @@ struct PyCallBack_Pythia8_GLISSANDOModel : public Pythia8::GLISSANDOModel {
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GLISSANDOModel *>(this), "produceIon");
 		if (overload) {
@@ -393,7 +393,7 @@ struct PyCallBack_Pythia8_GLISSANDOModel : public Pythia8::GLISSANDOModel {
 struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 	using Pythia8::HOShellModel::HOShellModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HOShellModel *>(this), "init");
 		if (overload) {
@@ -407,7 +407,7 @@ struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 		return HOShellModel::init();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HOShellModel *>(this), "generate");
 		if (overload) {
@@ -420,7 +420,7 @@ struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 		}
 		return HOShellModel::generate();
 	}
-	class Pythia8::Vec4 generateNucleon() const override { 
+	class Pythia8::Vec4 generateNucleon() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HOShellModel *>(this), "generateNucleon");
 		if (overload) {
@@ -433,7 +433,7 @@ struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 		}
 		return HOShellModel::generateNucleon();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HOShellModel *>(this), "initGeometry");
 		if (overload) {
@@ -446,7 +446,7 @@ struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 		}
 		return NucleusModel::initGeometry();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HOShellModel *>(this), "setPN");
 		if (overload) {
@@ -459,7 +459,7 @@ struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HOShellModel *>(this), "setMN");
 		if (overload) {
@@ -472,7 +472,7 @@ struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HOShellModel *>(this), "produceIon");
 		if (overload) {
@@ -491,7 +491,7 @@ struct PyCallBack_Pythia8_HOShellModel : public Pythia8::HOShellModel {
 struct PyCallBack_Pythia8_HulthenModel : public Pythia8::HulthenModel {
 	using Pythia8::HulthenModel::HulthenModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HulthenModel *>(this), "init");
 		if (overload) {
@@ -505,7 +505,7 @@ struct PyCallBack_Pythia8_HulthenModel : public Pythia8::HulthenModel {
 		return HulthenModel::init();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HulthenModel *>(this), "generate");
 		if (overload) {
@@ -518,7 +518,7 @@ struct PyCallBack_Pythia8_HulthenModel : public Pythia8::HulthenModel {
 		}
 		return HulthenModel::generate();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HulthenModel *>(this), "initGeometry");
 		if (overload) {
@@ -531,7 +531,7 @@ struct PyCallBack_Pythia8_HulthenModel : public Pythia8::HulthenModel {
 		}
 		return NucleusModel::initGeometry();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HulthenModel *>(this), "setPN");
 		if (overload) {
@@ -544,7 +544,7 @@ struct PyCallBack_Pythia8_HulthenModel : public Pythia8::HulthenModel {
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HulthenModel *>(this), "setMN");
 		if (overload) {
@@ -557,7 +557,7 @@ struct PyCallBack_Pythia8_HulthenModel : public Pythia8::HulthenModel {
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::HulthenModel *>(this), "produceIon");
 		if (overload) {
@@ -576,7 +576,7 @@ struct PyCallBack_Pythia8_HulthenModel : public Pythia8::HulthenModel {
 struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 	using Pythia8::GaussianModel::GaussianModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GaussianModel *>(this), "init");
 		if (overload) {
@@ -590,7 +590,7 @@ struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 		return GaussianModel::init();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GaussianModel *>(this), "generate");
 		if (overload) {
@@ -603,7 +603,7 @@ struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 		}
 		return GaussianModel::generate();
 	}
-	class Pythia8::Vec4 generateNucleon() const override { 
+	class Pythia8::Vec4 generateNucleon() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GaussianModel *>(this), "generateNucleon");
 		if (overload) {
@@ -616,7 +616,7 @@ struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 		}
 		return GaussianModel::generateNucleon();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GaussianModel *>(this), "initGeometry");
 		if (overload) {
@@ -629,7 +629,7 @@ struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 		}
 		return NucleusModel::initGeometry();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GaussianModel *>(this), "setPN");
 		if (overload) {
@@ -642,7 +642,7 @@ struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GaussianModel *>(this), "setMN");
 		if (overload) {
@@ -655,7 +655,7 @@ struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::GaussianModel *>(this), "produceIon");
 		if (overload) {
@@ -674,7 +674,7 @@ struct PyCallBack_Pythia8_GaussianModel : public Pythia8::GaussianModel {
 struct PyCallBack_Pythia8_ClusterModel : public Pythia8::ClusterModel {
 	using Pythia8::ClusterModel::ClusterModel;
 
-	bool init() override { 
+	bool init() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ClusterModel *>(this), "init");
 		if (overload) {
@@ -688,7 +688,7 @@ struct PyCallBack_Pythia8_ClusterModel : public Pythia8::ClusterModel {
 		return ClusterModel::init();
 	}
 	using _binder_ret_0 = class std::vector<class Pythia8::Nucleon, class std::allocator<class Pythia8::Nucleon> >;
-	_binder_ret_0 generate() const override { 
+	_binder_ret_0 generate() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ClusterModel *>(this), "generate");
 		if (overload) {
@@ -701,7 +701,7 @@ struct PyCallBack_Pythia8_ClusterModel : public Pythia8::ClusterModel {
 		}
 		return ClusterModel::generate();
 	}
-	bool initGeometry() override { 
+	bool initGeometry() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ClusterModel *>(this), "initGeometry");
 		if (overload) {
@@ -714,7 +714,7 @@ struct PyCallBack_Pythia8_ClusterModel : public Pythia8::ClusterModel {
 		}
 		return NucleusModel::initGeometry();
 	}
-	void setPN(const class Pythia8::Vec4 & a0) override { 
+	void setPN(const class Pythia8::Vec4 & a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ClusterModel *>(this), "setPN");
 		if (overload) {
@@ -727,7 +727,7 @@ struct PyCallBack_Pythia8_ClusterModel : public Pythia8::ClusterModel {
 		}
 		return NucleusModel::setPN(a0);
 	}
-	void setMN(double a0) override { 
+	void setMN(double a0) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ClusterModel *>(this), "setMN");
 		if (overload) {
@@ -740,7 +740,7 @@ struct PyCallBack_Pythia8_ClusterModel : public Pythia8::ClusterModel {
 		}
 		return NucleusModel::setMN(a0);
 	}
-	class Pythia8::Particle produceIon() override { 
+	class Pythia8::Particle produceIon() override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::ClusterModel *>(this), "produceIon");
 		if (overload) {
@@ -759,7 +759,7 @@ struct PyCallBack_Pythia8_ClusterModel : public Pythia8::ClusterModel {
 struct PyCallBack_Pythia8_SubCollisionModel : public Pythia8::SubCollisionModel {
 	using Pythia8::SubCollisionModel::SubCollisionModel;
 
-	bool init(int a0, int a1, double a2) override { 
+	bool init(int a0, int a1, double a2) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SubCollisionModel *>(this), "init");
 		if (overload) {
@@ -773,7 +773,7 @@ struct PyCallBack_Pythia8_SubCollisionModel : public Pythia8::SubCollisionModel 
 		return SubCollisionModel::init(a0, a1, a2);
 	}
 	using _binder_ret_0 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_0 minParm() const override { 
+	_binder_ret_0 minParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SubCollisionModel *>(this), "minParm");
 		if (overload) {
@@ -787,7 +787,7 @@ struct PyCallBack_Pythia8_SubCollisionModel : public Pythia8::SubCollisionModel 
 		pybind11::pybind11_fail("Tried to call pure virtual function \"SubCollisionModel::minParm\"");
 	}
 	using _binder_ret_1 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_1 defParm() const override { 
+	_binder_ret_1 defParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SubCollisionModel *>(this), "defParm");
 		if (overload) {
@@ -801,7 +801,7 @@ struct PyCallBack_Pythia8_SubCollisionModel : public Pythia8::SubCollisionModel 
 		pybind11::pybind11_fail("Tried to call pure virtual function \"SubCollisionModel::defParm\"");
 	}
 	using _binder_ret_2 = class std::vector<double, class std::allocator<double> >;
-	_binder_ret_2 maxParm() const override { 
+	_binder_ret_2 maxParm() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SubCollisionModel *>(this), "maxParm");
 		if (overload) {
@@ -814,7 +814,7 @@ struct PyCallBack_Pythia8_SubCollisionModel : public Pythia8::SubCollisionModel 
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"SubCollisionModel::maxParm\"");
 	}
-	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override { 
+	class Pythia8::SubCollisionSet getCollisions(class Pythia8::Nucleus & a0, class Pythia8::Nucleus & a1) override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SubCollisionModel *>(this), "getCollisions");
 		if (overload) {
@@ -827,7 +827,7 @@ struct PyCallBack_Pythia8_SubCollisionModel : public Pythia8::SubCollisionModel 
 		}
 		pybind11::pybind11_fail("Tried to call pure virtual function \"SubCollisionModel::getCollisions\"");
 	}
-	struct Pythia8::SubCollisionModel::SigEst getSig() const override { 
+	struct Pythia8::SubCollisionModel::SigEst getSig() const override {
 		pybind11::gil_scoped_acquire gil;
 		pybind11::function overload = pybind11::get_overload(static_cast<const Pythia8::SubCollisionModel *>(this), "getSig");
 		if (overload) {

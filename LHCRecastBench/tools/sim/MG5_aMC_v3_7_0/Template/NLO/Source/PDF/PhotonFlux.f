@@ -21,13 +21,13 @@ c   provided by Tomasz Pierzchala - UCL
 C     // x = omega/E = (E-E')/E
       if (x.lt.1) then
          q2min= xin*xin*x*x/(1-x)
-         if(q2min.lt.q2max) then 
+         if(q2min.lt.q2max) then
             f = alpha/2d0/PI*
      &           (2d0*xin*xin*x*(-1/q2min+1/q2max)+
      &           (2-2d0*x+x*x)/x*dlog(q2max/q2min))
-            
+
          else
-           f = 0. 
+           f = 0.
          endif
       else
          f= 0.
@@ -51,11 +51,11 @@ c      write (*,*) x,dsqrt(q2min),dsqrt(q2max),f
 
       alpha = .0072992701
       qz = 0.71
-    
+
 C     // x = omega/E = (E-E')/E
       if (x.lt.1) then
          qmi= xin*xin*x*x/(1-x)
-         if(qmi.lt.q2max) then          
+         if(qmi.lt.q2max) then
             f = alpha/PI*(phi_f(x,q2max/qz)-phi_f(x,qmi/qz))*(1-x)/x
          else
             f=0.
@@ -84,4 +84,3 @@ C     // x = omega/E = (E-E')/E
      $b*b*b/(3*qq1*qq1*qq1))
       phi_f= f
       end
-  

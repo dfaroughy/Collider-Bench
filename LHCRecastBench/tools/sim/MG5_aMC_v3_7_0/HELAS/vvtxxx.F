@@ -14,7 +14,7 @@ c output:
 c       complex vertex         : amplitude                gamma(v1,v2,T)
 c
 c- by Q.Li - OCT. 2006
-c     
+c
       implicit none
       double complex v1(6), v2(6), tc(18), gt, vertex
       double precision vmass
@@ -35,7 +35,7 @@ c     new
       parameter( rZero = 0.0d0, rTwo = 2.0d0 )
       parameter( cZero = ( 0.0d0, 0.0d0 ) )
 
-      
+
       ft(1,1) = tc(1)
       ft(1,2) = tc(2)
       ft(1,3) = tc(3)
@@ -138,11 +138,11 @@ C      vertex = F*TVV + V1V2*TKK - K2V1*TK1V2 - K1V2*TK2V1
 
 c     new, additonal gauge fixing term in Feyman gauge
       if ( vmass.eq.rZero ) then
-         vertex = vertex 
+         vertex = vertex
      &+(ft(1,1)-ft(2,2)-ft(3,3)-ft(4,4))*(K1V1*K1V2+K2V1*K2V2+K1V1*K2V2)
-     &-K1V1*TK1V2-K2V2*TK2V1	   
-      endif	
-c     new    
+     &-K1V1*TK1V2-K2V2*TK2V1
+      endif
+c     new
 
       vertex = vertex * gt
 

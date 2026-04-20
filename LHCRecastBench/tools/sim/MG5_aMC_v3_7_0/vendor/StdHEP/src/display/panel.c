@@ -73,21 +73,21 @@ static void quarksCB(Widget w, PhaseWindow *window, caddr_t call_data);
 static void hadronsCB(Widget w, PhaseWindow *window, caddr_t call_data);
 static void wzCB(Widget w, PhaseWindow *window, caddr_t call_data);
 static void userRoutineCB(Widget w, PhaseWindow *window, caddr_t call_data);
-static void viewRotXPosCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void viewRotYPosCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void viewRotZPosCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void viewRotXNegCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void viewRotYNegCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void viewRotZNegCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void coordRotXPosCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void coordRotYPosCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void coordRotZPosCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void coordRotXNegCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void coordRotYNegCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void coordRotZNegCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void scaleUpCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void scaleDownCB(Widget w, PhaseWindow *window, caddr_t call_data); 
-static void resetRotationCB(Widget w, PhaseWindow *window, caddr_t call_data); 
+static void viewRotXPosCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void viewRotYPosCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void viewRotZPosCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void viewRotXNegCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void viewRotYNegCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void viewRotZNegCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void coordRotXPosCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void coordRotYPosCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void coordRotZPosCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void coordRotXNegCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void coordRotYNegCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void coordRotZNegCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void scaleUpCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void scaleDownCB(Widget w, PhaseWindow *window, caddr_t call_data);
+static void resetRotationCB(Widget w, PhaseWindow *window, caddr_t call_data);
 static void scaleExposeCB(Widget w, PhaseWindow *window, caddr_t call_data);
 static void resizeCB(Widget w, PhaseWindow *window, caddr_t call_data);
 static void redisplayCB(Widget w, PhaseWindow *window, caddr_t call_data);
@@ -110,7 +110,7 @@ PhaseWindow *CreatePanel(Display *display, int setsEventNum,
 
     /* Allocate some memory for the new window data structure */
     window = (PhaseWindow *)XtMalloc(sizeof(PhaseWindow));
-    
+
     /* Create an toplevel shell to hold the window */
     ac = 0;
     XtSetArg(al[ac], XmNtitle, windowTitle); ac++;
@@ -118,7 +118,7 @@ PhaseWindow *CreatePanel(Display *display, int setsEventNum,
     XtSetArg(al[ac], XmNiconName, windowTitle); ac++;
     appShell = XtAppCreateShell ("phase", "Phase",
 		applicationShellWidgetClass, display, al, ac);
-    	    
+
     /*
     ** create a main window holding a menu bar and a form with the rest of
     ** the window contents.
@@ -134,7 +134,7 @@ PhaseWindow *CreatePanel(Display *display, int setsEventNum,
 
     /* add the window to the global window list */
     AddToWindowList((StdHepWindow *) window);
-    
+
     /* realize all of the widgets in the new window */
     XtRealizeWidget(appShell);
 
@@ -177,7 +177,7 @@ PhaseWindow *CreatePanel(Display *display, int setsEventNum,
 /*
 ** Add a window to the the window list.
 */
-void AddToWindowList(StdHepWindow *window) 
+void AddToWindowList(StdHepWindow *window)
 {
     StdHepWindow *temp;
 
@@ -209,12 +209,12 @@ int NWindows()
 {
     StdHepWindow *win;
     int n;
-    
+
     for (win=WindowList, n=0; win!=NULL; win=win->next, n++);
     return n;
 }
 
-static void closeCB (Widget w, PhaseWindow *window, caddr_t call_data) 
+static void closeCB (Widget w, PhaseWindow *window, caddr_t call_data)
 {
     CloseWindow((StdHepWindow *) window);
 }
@@ -241,18 +241,18 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     XtSetArg(args[ac], XmNmarginHeight, 0); ac++;
     form = XmCreateForm(parent, "form", args, ac);
     XtManageChild(form);
-  
+
     if (hasEventBar) {
         ac = 0;
 	XtSetArg(args[ac], XmNleftAttachment, XmATTACH_FORM); ac++;
 	XtSetArg(args[ac], XmNrightAttachment, XmATTACH_FORM); ac++;
 	eventCtrlFrame = XmCreateFrame(form, "eventCtrlFrame", args, ac);
 	XtManageChild(eventCtrlFrame);
-        
+
         ac = 0;
 	eventCtrlForm = XmCreateForm(eventCtrlFrame, "eventCtrlForm", args, ac);
 	XtManageChild(eventCtrlForm);
-	
+
         ac = 0;
 	XtSetArg(args[ac], XmNtopAttachment, XmATTACH_FORM); ac++;
 	XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_FORM); ac++;
@@ -261,7 +261,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
 					    args, ac);
 	XmStringFree(s1);
 	XtManageChild(eventNumLabel);
-	
+
 	ac = 0;
 	XtSetArg(args[ac], XmNarrowDirection, XmARROW_UP); ac++;
 	XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
@@ -269,12 +269,12 @@ static Widget createContents(Widget parent, PhaseWindow *window,
 	XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_FORM); ac++;
 	XtSetArg(args[ac], XmNleftWidget, eventNumLabel); ac++;
 	upArrow = XmCreateArrowButton(eventCtrlForm, "upArrow", args, ac);
-        XtAddCallback(upArrow, XmNactivateCallback, 
-        		(XtCallbackProc) nextEvtCB, window); 
+        XtAddCallback(upArrow, XmNactivateCallback,
+        		(XtCallbackProc) nextEvtCB, window);
 	XtManageChild(upArrow);
-	
+
 	ac = 0;
-	
+
 	sprintf(ctmp,"  %d  ", ac);
 	XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING(ctmp))); ac++;
 	XtSetArg(args[ac], XmNcolumns, 7); ac++;
@@ -284,7 +284,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
 	                           eventCtrlForm, "eventNumText",
 					    args, ac);
 	XtManageChild(eventNumText);
-	
+
 	ac = 0;
 	XtSetArg(args[ac], XmNarrowDirection, XmARROW_DOWN); ac++;
 	XtSetArg(args[ac], XmNleftAttachment, XmATTACH_WIDGET); ac++;
@@ -293,9 +293,9 @@ static Widget createContents(Widget parent, PhaseWindow *window,
 	XtSetArg(args[ac], XmNleftWidget, eventNumText); ac++;
 	downArrow = XmCreateArrowButton(eventCtrlForm, "downArrow", args, ac);
         XtAddCallback(downArrow, XmNactivateCallback,
-                        (XtCallbackProc) previousEvtCB, window); 
+                        (XtCallbackProc) previousEvtCB, window);
 	XtManageChild(downArrow);
-	
+
 	ac = 0;
 	XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING(eventBarText))); ac++;
 	XtSetArg(args[ac], XmNrightAttachment, XmATTACH_FORM); ac++;
@@ -307,7 +307,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
 	XmStringFree(s1);
 	XtManageChild(eventCtrlText);
     }
-    
+
     /* Create a Form for the controls along the left edge of window */
     ac = 0;
     if (hasEventBar) {
@@ -335,7 +335,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     XtSetArg(args[ac], XmNtopWidget, dispModeLabel); ac++;
     displayMode = XmCreateRowColumn(controls, "displayMode", args, ac);
     XtManageChild(displayMode);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNpacking, XmPACK_COLUMN); ac++;
     XtSetArg(args[ac], XmNspacing, 0); ac++;
@@ -343,12 +343,12 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     XtSetArg(args[ac], XmNtopWidget, displayMode); ac++;
     stability = XmCreateRowColumn(controls, "stability", args, ac);
     XtManageChild(stability);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("Particle Types"))); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
     XtSetArg(args[ac], XmNtopWidget, stability); ac++;
-    particleTypeLabel = (Widget) XmCreateLabelGadget(controls, 
+    particleTypeLabel = (Widget) XmCreateLabelGadget(controls,
                                         "particleTypeLabel",
     					    args, ac);
     XmStringFree(s1);
@@ -362,10 +362,10 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     XtSetArg(args[ac], XmNtopWidget, particleTypeLabel); ac++;
     particleType = XmCreateRowColumn(controls, "particleType", args, ac);
     XtManageChild(particleType);
- 
+
     ac = 0;
     XtSetArg(args[ac], XmNpacking, XmPACK_COLUMN); ac++;
-    XtSetArg(args[ac], XmNadjustLast, False); ac++;    
+    XtSetArg(args[ac], XmNadjustLast, False); ac++;
     XtSetArg(args[ac], XmNspacing, 0); ac++;
     XtSetArg(args[ac], XmNnumColumns, (short)3); ac++;
     XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -436,8 +436,8 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     XtAddCallback(widget, XmNactivateCallback, \
                   (XtCallbackProc) cb, window); \
     XtManageChild(widget);
- 
-    ROTATE_BTN("viewRotXPos", "viewRotXPos", viewRotXPosCB) 
+
+    ROTATE_BTN("viewRotXPos", "viewRotXPos", viewRotXPosCB)
     ROTATE_BTN("viewRotXNeg", "viewRotXNeg", viewRotXNegCB)
     ROTATE_BTN("coordRotXPos", "coordRotXPos", coordRotXPosCB)
     ROTATE_BTN("coordRotXNeg", "coordRotXNeg", coordRotXNegCB)
@@ -460,7 +460,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     XtManageChild(scaleFrame);
     trackInfoFrame = XmCreateFrame(stats, "trackInfoFrame", args, ac);
     XtManageChild(trackInfoFrame);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNpacking, XmPACK_COLUMN); ac++;
     XtSetArg(args[ac], XmNentryAlignment, XmALIGNMENT_CENTER); ac++;
@@ -473,14 +473,14 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     XtAddCallback(scaleArea, XmNexposeCallback,
                   (XtCallbackProc) scaleExposeCB, window);
     XtManageChild(scaleArea);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNlabelString, (s1=MKSTRING("x"))); ac++;
     XtSetArg(args[ac], XmNmarginHeight, 0); ac++;
     scaleLabel = (Widget) XmCreateLabelGadget(scaleRC, "scaleLabel", args, ac);
     XmStringFree(s1);
     XtManageChild(scaleLabel);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNalignment, XmALIGNMENT_BEGINNING); ac++;
     XtSetArg(args[ac], XmNrecomputeSize, False); ac++;
@@ -490,7 +490,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
                                               "trackInfo", args, ac);
     XmStringFree(s1);
     XtManageChild(trackInfo);
-    
+
     ac = 0;
     XtSetArg(args[ac], XmNshowAxes, True); ac++;
     XtSetArg(args[ac], XmNperspectiveOn, True); ac++;
@@ -510,7 +510,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
                    (XtCallbackProc) resizeCB, window);
     XtAddCallback(spin, XmNredisplayCallback,
                      (XtCallbackProc)  redisplayCB, window);
-    XtAddCallback(spin, XmNbtn2Callback, 
+    XtAddCallback(spin, XmNbtn2Callback,
                        (XtCallbackProc) spinSelectCB, window);
 
     window->spin = spin;
@@ -519,7 +519,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     window->statsLabel = trackInfo;
     window->scaleArea = scaleArea;
     window->scaleLabel = scaleLabel;
-    
+
     window->stable = True;
     window->unstable = True;
     window->charged = True;
@@ -531,7 +531,7 @@ static Widget createContents(Widget parent, PhaseWindow *window,
     window->quarks = True;
     window->hadrons = True;
     window->wz = True;
-    
+
     return(form);
 }
 
@@ -636,116 +636,116 @@ static void viewRotXPosCB(Widget w, PhaseWindow *window, caddr_t call_data)
     SpinStopSpinning(window->spin);
     SpinViewRotateX(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void viewRotYPosCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateY(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void viewRotZPosCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateZ(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void viewRotXNegCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateX(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void viewRotYNegCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateY(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void viewRotZNegCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinViewRotateZ(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void coordRotXPosCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateX(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void coordRotYPosCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateY(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void coordRotZPosCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateZ(window->spin, window->buttonRotateDegrees);
 }
- 
+
 static void coordRotXNegCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateX(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void coordRotYNegCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateY(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void coordRotZNegCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinCoordRotateZ(window->spin, 0.-window->buttonRotateDegrees);
 }
- 
+
 static void scaleUpCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinSetScale(window->spin, SpinGetScale(window->spin) * (5./4.));
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void scaleDownCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinSetScale(window->spin, SpinGetScale(window->spin) * (4./5.));
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void resetRotationCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     SpinStopSpinning(window->spin);
     SpinRestore(window->spin);
 }
- 
+
 static void scaleExposeCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void resizeCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     DrawScale((StdHepWindow *) window);
 }
- 
+
 static void redisplayCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     ShowSelectedTrack((StdHepWindow *) window);
     UpdateRotationPanel((StdHepWindow *) window);
 }
- 
+
 static void spinSelectCB(Widget w, PhaseWindow *window, SpinCallbackStruct *cb)
 {
     int particleIndex;
-    
+
     particleIndex = FindTrack((StdHepWindow *) window,
                     cb->event->xbutton.x,cb->event->xbutton.y);
     SelectTrack((StdHepWindow *) window, particleIndex);
 }
- 
+
 static void nextEvtCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     int ievt = window->event.eventNum;
@@ -758,7 +758,7 @@ static void nextEvtCB(Widget w, PhaseWindow *window, caddr_t call_data)
      }
     GetSetStdHep((StdHepWindow *) window, ievt);
 }
- 
+
 static void previousEvtCB(Widget w, PhaseWindow *window, caddr_t call_data)
 {
     int ievt = window->event.eventNum;
@@ -770,5 +770,4 @@ static void previousEvtCB(Widget w, PhaseWindow *window, caddr_t call_data)
         return;
      }
     GetSetStdHep((StdHepWindow *) window, ievt);
-} 
-
+}

@@ -54,7 +54,7 @@ C CHECK WHETHER TOTAL ENERGY IS SUFFICIENT; COUNT NONZERO MASSES
       PRINT 1002,XMT,ET
       STOP
 
-  201 CONTINUE 
+  201 CONTINUE
       if (lflag.eq.1) then
         w0= exp((2.*N-4.)*LOG(ET)+Z(N))
         do j= 1,N

@@ -12,7 +12,7 @@ c       real    g(2)           : V boson mass          m_V
 c
 c output:
 c       complex vertex         : amplitude            gamma(wm,wp,tc)
-c     
+c
       implicit none
       double complex wm(18), wp(18), tc(18), vertex,g(2)
       double precision vmass

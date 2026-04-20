@@ -1,6 +1,6 @@
       subroutine qlI4sub2ma(xpi,musq,Ival)
       implicit none
-C---  Calculates the boxes with two adjacent internal mass 
+C---  Calculates the boxes with two adjacent internal mass
 
 C     Uses the ordering for the routine xpi wanted by FF
 C     psq(1) lies between msq(1) and msq(2) and so on
@@ -17,25 +17,25 @@ C     xpi(13) = +xpi(5)-xpi(6)+xpi(7)-xpi(8)+xpi(9)+xpi(10)
       integer ier
       logical qlzero,qlnonzero
 
-      call qlYcalc(xpi,Y,Yalt) 
-     
+      call qlYcalc(xpi,Y,Yalt)
+
       if    ((qlzero(Y(1,2)))
-     . .and. (qlzero(Y(2,3))) 
+     . .and. (qlzero(Y(2,3)))
      . .and. (qlzero(Y(1,4)))) then
          call qlbox11(Y,musq,Ival)
 
       elseif((qlzero(Y(1,2)))
-     . .and. (qlzero(Y(2,3))) 
+     . .and. (qlzero(Y(2,3)))
      . .and. (qlnonzero(Y(1,4)))) then
          call qlbox12(Y,musq,Ival)
 
       elseif((qlzero(Yalt(1,2)))
-     . .and. (qlzero(Yalt(2,3))) 
+     . .and. (qlzero(Yalt(2,3)))
      . .and. (qlnonzero(Yalt(1,4)))) then
          call qlbox12(Yalt,musq,Ival)
-         
+
       elseif((qlzero(Y(1,2)))
-     . .and. (qlnonzero(Y(2,3))) 
+     . .and. (qlnonzero(Y(2,3)))
      . .and. (qlnonzero(Y(1,4)))) then
          call qlbox13(Y,musq,Ival)
       else

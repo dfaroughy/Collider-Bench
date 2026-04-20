@@ -59,19 +59,19 @@ class MyReader {
 	  }
 	}
       }
-      
+
     }
   }
 
 
   void lhef_read_wgts_(double (cwgt_ww[1024])) {
-    
+
     // Read events
     if (reader.readEvent()) {
       std::string svec[16],isvec[4],refstr;
       std::stringstream ss;
       int i,j;
-  
+
       // Read aMCatNLO extra informations
       ss << reader.eventComments;
       for (i=0; i<=15; i++) ss >> svec[i];

@@ -1,9 +1,9 @@
-    name           pdflabel     Data file         as(Mz)       nloop    
+    name           pdflabel     Data file         as(Mz)       nloop
 ---------------------------------------------------------------------
-          
+
  MRST2002NLO       mrs02nl     mrst2002nlo.dat    0.1197         2
  MRST2002NNLO      mrs02nn     mrst2002nnlo.dat   0.1154         2
- 
+
  MRST2001-cg       mrs0119     alf119.dat         0.119          2
  MRST2001-lg       mrs0117     alf117.dat         0.117          2
  MRST2001-hg       mrs0121     alf121.dat         0.121          2
@@ -70,12 +70,7 @@
 
 
 ---------------------------------------------------------------------
-          
+
  NNPDF23NLO        nn23nlo     NNPDF23nlo_as_0119_qed_mem0.grid  0.119  2
  NNPDF23LO         nn23lo      NNPDF23_lo_as_0119_qed_mem0.grid  0.119  2
  NNPDF23LO1        nn23lo1     NNPDF23_lo_as_0130_qed_mem0.grid  0.130  1
-  
-
-
- 
-

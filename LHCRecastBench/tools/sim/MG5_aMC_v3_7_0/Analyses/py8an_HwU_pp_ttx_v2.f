@@ -34,7 +34,7 @@ C----------------------------------------------------------------------
       PARAMETER (PI=3.14159265358979312D0)
       integer j,kk,l,i,nnn
 c
-c     The type suffix of the histogram title, with syntax 
+c     The type suffix of the histogram title, with syntax
 c     |T@<type_name> is semantic in the HwU format. It allows for
 c     various filtering when using the histogram.py module
 c     (see comment at the beginning of this file).
@@ -74,7 +74,7 @@ c for the uncertainty estimate
        call HwU_book(l+10,'m t-j',      20,0d0,1500d0)
        call HwU_book(l+11,'dr(t,j)',    20,0d0,10d0)
        call HwU_book(l+12,'pt(j1) ',    20,log10(0.1d0),log10(3000d0))
-       call HwU_book(l+13,'pt(j2) ',    20,log10(0.1d0),log10(3000d0)) 
+       call HwU_book(l+13,'pt(j2) ',    20,log10(0.1d0),log10(3000d0))
        call HwU_book(l+14,'pt(j3) ',    20,log10(0.1d0),log10(1000d0))
       enddo
  999  END
@@ -93,7 +93,7 @@ c Collect accumulated results. IEVTTOT is such that we need to multiply
 c the results by this factor
       xnorm=ievttot
       call finalize_histograms(nevhep)
-c Write the histograms to disk. 
+c Write the histograms to disk.
       open (unit=99,file='MADatNLO.HwU',status='unknown')
       call HwU_output(99,xnorm)
       close (99)
@@ -119,7 +119,7 @@ c      implicit none
      # etaq1,getpseudorap,etaq2,azi,azinorm,qqm,dr,yqq
       DOUBLE PRECISION XPTQ(5),XPTB(5),XPLP(5),XPNU(5),XPBQ(5),XPLM(5),
      # XPNB(5),XPBB(5),p_t(1:4),p_tx(1:4),pttx(1:4),
-     # mtt,pt_t,pt_tx,pt_ttx,yt,ytx,yttx,var 
+     # mtt,pt_t,pt_tx,pt_ttx,yt,ytx,yttx,var
       DOUBLE PRECISION YPBQBB(4),YPLPLM(4),YPBQLM(4),YPBBLP(4),
      # YPBQNB(4),YPBBNU(4),YPTQTB(4)
       REAL*8 PI
@@ -173,9 +173,9 @@ C EFFECT, SO THROW THE EVENT AWAY
       IQ2=0
       NN=0
       DO 100 IHEP=1,NHEP
-C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM 
+C UNCOMMENT THE FOLLOWING WHEN REMOVING THE CHECK ON MOMENTUM
 C        IF(IQ1*IQ2.EQ.1) GOTO 11
-        IST=ISTHEP(IHEP) 
+        IST=ISTHEP(IHEP)
         ID1=IDHEP(IHEP)
         IF(ID1.EQ.6)THEN
 C FOUND A TOP; KEEP ONLY THE FIRST ON RECORD
@@ -238,19 +238,19 @@ C---CLUSTER THE EVENT
             if (ptjet(i).gt.ptjet(i-1)) then
                write (*,*) "Error 1: jets should be ordered in pt"
                WRITE(*,*)'ERROR 501 IN PYANAL'
-               STOP 
+               STOP
             endif
          endif
       enddo
 
-      
+
       DO IJ=1,4
          p_tj(IJ)=XPTQ(IJ)
          if(njet.gt.0) p_tj(IJ)=p_tj(IJ)+pjet(IJ,1)
       ENDDO
- 
-      
-      
+
+
+
       m_tj = getinvm(p_tj(4),p_tj(1),p_tj(2),p_tj(3))
 
       dr_tj=0d0
@@ -259,14 +259,14 @@ C---CLUSTER THE EVENT
      $             ,pjet(4,1),pjet(1,1),pjet(2,1),pjet(3,1))
       endif
       mtt    = getinvm(pttx(4),pttx(1),pttx(2),pttx(3))
-    
+
       pt_t   = dsqrt(p_t(1)**2 + p_t(2)**2)
       pt_tx  = dsqrt(p_tx(1)**2 + p_tx(2)**2)
       pt_ttx = dsqrt(pttx(1)**2 + pttx(2)**2)
       yt  = getrapidity(p_t(4), p_t(3))
       ytx = getrapidity(p_tx(4), p_tx(3))
       yttx= getrapidity(pttx(4), pttx(3))
-  
+
       var=1.d0
       do i=1,1
          l=(i-1)*14
@@ -284,7 +284,7 @@ C---CLUSTER THE EVENT
          if(njet.gt.0) call HwU_fill(l+12,dlog10(ptjet(1)),www)
          if(njet.gt.1) call HwU_fill(l+13,dlog10(ptjet(2)),www)
          if(njet.gt.2) call HwU_fill(l+14,dlog10(ptjet(3)),www)
-      enddo      
+      enddo
       call HwU_add_points
 c
  999  return

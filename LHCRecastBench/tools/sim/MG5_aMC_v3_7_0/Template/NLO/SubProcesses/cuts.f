@@ -59,7 +59,7 @@ c are filled from the PDG codes (iPDG array) in this function.
      $,is_a_ph(nexternal),is_nph_iso(nexternal),is_nextph_iso(nexternal)
      $,is_nextph_iso_reco(nexternal)
       logical is_a_lp_reco(nexternal),is_a_lm_reco(nexternal)
-      logical passcuts_leptons, passcuts_unlops_jv, passcuts_photons, 
+      logical passcuts_leptons, passcuts_unlops_jv, passcuts_photons,
      $        passcuts_jets, passcuts_pdgs,passcuts_fxfx
       logical dummy_cuts
       passcuts_user=.true. ! event is okay; otherwise it is changed
@@ -85,23 +85,23 @@ C***************************************************************
      $     p, iPDG, is_nextph_iso,  p_reco, iPDG_reco, is_nextph_iso_reco)
 
       ! Apply the reco lepton cuts
-      passcuts_user = passcuts_user .and. 
+      passcuts_user = passcuts_user .and.
      $                  passcuts_leptons(p_reco,istatus,ipdg_reco,is_a_lp_reco,is_a_lm_reco)
       if (.not.passcuts_user) return
 
-      ! Find the reco QCD partons including 
+      ! Find the reco QCD partons including
       ! A. All photons if gamma_is_j is on
       ! B. Non-iso, non-reco photons if reco is on
       call identify_QCD_partons(is_nextph_iso_reco,p_reco,istatus,ipdg_reco,is_a_j,pQCD,nQCD)
 
       ! Apply the UNLOPS/JetVeto cuts
-      passcuts_user = passcuts_user .and. 
+      passcuts_user = passcuts_user .and.
      $                  passcuts_unlops_jv(p_reco,istatus,ipdg_reco,pQCD,nQCD,ickkw)
       if (.not.passcuts_user) return
 
       ! Apply the Jet cuts
       if (ickkw.ne.3) then
-         passcuts_user = passcuts_user .and. 
+         passcuts_user = passcuts_user .and.
      $                  passcuts_jets(p_reco,pQCD,nQCD,pgamma,nph,is_nph_iso,ickkw)
          if (.not.passcuts_user) return
       else
@@ -111,7 +111,7 @@ C***************************************************************
       endif
 
       ! Apply PDG specific cuts
-      passcuts_user = passcuts_user .and. 
+      passcuts_user = passcuts_user .and.
      $                  passcuts_pdgs(p_reco,istatus,ipdg_reco)
       if (.not.passcuts_user) return
 
@@ -123,7 +123,7 @@ C***************************************************************
 C     advise way to implement user-defined cuts:
 C     define the function dummy_cuts in a file
 C      (template in SubProcesses/dummy_fct.f)
-C     then in the run_card set the custom_fct variable to [PATH_TO_THE_FILE_CONTAINING_THE_FCT]      
+C     then in the run_card set the custom_fct variable to [PATH_TO_THE_FILE_CONTAINING_THE_FCT]
       passcuts_user = dummy_cuts(P,istatus,ipdg)
 c$$$C EXAMPLE: cut on top quark pT
 c$$$C          Note that PDG specific cut are more optimised than simple user cut
@@ -227,7 +227,7 @@ c Photon isolation
       common/to_split_type_used/split_type_used
 
       integer n_needed_photons
- 
+
       passcuts_photons = .true.
 
 c
@@ -257,7 +257,7 @@ c find the photons
             endif
          enddo
          if(nph.eq.0) return
-         
+
          if(isoEM)then
             nem=nph
             do k=1,nem
@@ -274,7 +274,7 @@ c find the photons
                endif
             enddo
          endif
-         
+
          nphiso=0
 
          j=0
@@ -282,7 +282,7 @@ c Loop over all photons
          do while(j.lt.nph)
 
             j=j+1
-            is_nph_iso(j)=.False. 
+            is_nph_iso(j)=.False.
             ptg=pt(pgamma(0,j))
             if(ptg.lt.ptgmin)then
                cycle
@@ -292,7 +292,7 @@ c Loop over all photons
                   cycle
                endif
             endif
-         
+
 c Isolate from hadronic energy
             do i=1,nPART
                drlist(i)=sngl(iso_getdrv40(pgamma(0,j),pPART(0,i)))
@@ -315,7 +315,7 @@ c Isolate from hadronic energy
                endif
             enddo
             if(.not.isolated)cycle
-            
+
 c Isolate from EM energy
             if(isoEM.and.nem.gt.1)then
                do i=1,nem
@@ -355,7 +355,7 @@ c First of list must be the photon: check this, and drop it
              enddo
 
              do i=nincoming+1,nexternal
-               if ( ipdg(i).eq.22 .and. 
+               if ( ipdg(i).eq.22 .and.
      $              pt(p(0,i)).eq.pt(pgamma_iso(0,nphiso)) ) then
                  is_nextph_iso(i)=.True.
                endif
@@ -366,7 +366,7 @@ c End of loop over photons
 
 C now check that there are enough photons
          if (split_type_used(QED_pos)) then
-         ! if the process has QED splittings, use the 
+         ! if the process has QED splittings, use the
          ! get_n_tagged_photons function
              n_needed_photons = get_n_tagged_photons()
      $                              - get_n_tagged_photons_initial()
@@ -398,9 +398,9 @@ C now check that there are enough photons
       logical is_iso(nexternal)
       REAL*8 pt,eta
       external pt,eta
-      include "run.inc" 
+      include "run.inc"
       include "cuts.inc"
-      integer i, j 
+      integer i, j
       integer need_matching_S(nexternal),need_matching_H(nexternal)
      $     ,need_matching_cuts(nexternal)
       common /c_need_matching/ need_matching_S,need_matching_H
@@ -483,7 +483,7 @@ c Second apply the actual ptj cut on the minimum FxFx_ren_scales(i)
       endif
       return
       end
-      
+
       logical function passcuts_jets(p,pQCD,nQCD,pgamma,nph,is_nph_iso,ickkw)
       implicit none
       include 'nexternal.inc'
@@ -580,7 +580,7 @@ c Apply the jet cuts
       include "cuts.inc"
       double precision p_unlops(0:3,nexternal)
       logical passUNLOPScuts
-      integer i, j 
+      integer i, j
 
       REAL*8 pt
       external pt
@@ -751,10 +751,10 @@ C
                   return
                endif
             endif
-         enddo  
+         enddo
       enddo
-      return  
-      end 
+      return
+      end
 
 
 C***************************************************************
@@ -828,7 +828,7 @@ c Fill the arrays (momenta, status and PDG):
          ipdg(i)=idup(i,1)
          if (ipdg(i).eq.-21) ipdg(i)=21
       enddo
-c Call the actual cuts function  
+c Call the actual cuts function
       passcuts = passcuts_user(pp,istatus,ipdg)
       call cpu_time(tAfter)
       t_cuts=t_cuts+(tAfter-tBefore)
@@ -1199,7 +1199,7 @@ c
       double precision p1(0:4),p2(0:4),dsign
 c
 c     Local
-c      
+c
       integer i
       double precision ptot(0:3)
 c
@@ -1256,7 +1256,7 @@ c
 
 c     NOTE:   subroutine bias_weight_function has been moved to file dummy_fct.f
 c     The recommended way to edit this file is now via the user_hook functionality of the run_card
-c     (entry custom_fct of the run_card)  
+c     (entry custom_fct of the run_card)
 
       integer function get_n_tagged_photons()
       implicit none
@@ -1289,6 +1289,3 @@ c     (entry custom_fct of the run_card)
 
       return
       end
-
-
-

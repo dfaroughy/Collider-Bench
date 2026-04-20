@@ -87,7 +87,7 @@
 -------------------------------------------------------------------------------
  8-Mar-2001		Lynn Garren
      Use Herwig 6.2 and Pythia 6.155
-     Use PDG 2000 numbering.  
+     Use PDG 2000 numbering.
          [changes f_0(1710), rho(2150), pi_2(2100), f_0(2020), f_0(2060),
 	  f_0(2200), and eta(2225) and adds pi_1(1600), a_1(1640),
 	  a_2(1660), a_2(1750), and psi(3836)]
@@ -142,7 +142,7 @@ STDHEP 4.04
 STDHEP 4.03
      Isajet 7.37 support (no changes necessary).
      bug fix for qqtran and stdtcopy
-     new machine readable PDG mass table 
+     new machine readable PDG mass table
 -------------------------------------------------------------------------------
  13-May-98		Lynn Garren
 STDHEP 4.02
@@ -190,7 +190,7 @@ STDHEP 3.03
 -------------------------------------------------------------------------------
   3-Apr-96		Lynn Garren
 STDHEP 3.02
-     Compile OSF1 version with floating point checking on 
+     Compile OSF1 version with floating point checking on
      (Needed for QQ interface)
 -------------------------------------------------------------------------------
   8-Feb-96		Lynn Garren

@@ -54,8 +54,8 @@ def del_file():
     for file in del_list:
         if file!='' and '*' not in file:
             os.system('rm '+ file)
-                
+
 if(__name__=="__main__"):
     "expand the MadWeight program"
-    
+
     expand_all()

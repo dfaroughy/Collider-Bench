@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2009 The MadGraph5_aMC@NLO Development team and Contributors
 #
-# This file is a part of the MadGraph5_aMC@NLO project, an application which 
+# This file is a part of the MadGraph5_aMC@NLO project, an application which
 # automatically generates Feynman diagrams and matrix elements for arbitrary
 # high-energy processes in the Standard Model and beyond.
 #
-# It is subject to the MadGraph5_aMC@NLO license which should accompany this 
+# It is subject to the MadGraph5_aMC@NLO license which should accompany this
 # distribution.
 #
 # For more information, visit madgraph.phys.ucl.ac.be and amcatnlo.web.cern.ch
@@ -46,7 +46,7 @@ class TestDiagramSymmetry(unittest.TestCase):
 
     def setUp(self):
         self.base_model = import_ufo.import_model('sm')
-    
+
     def test_find_symmetry_epem_aaa(self):
         """Test the find_symmetry function"""
 
@@ -80,7 +80,7 @@ class TestDiagramSymmetry(unittest.TestCase):
         evaluator = process_checks.MatrixElementEvaluator(self.base_model,
                                                           auth_skipping = True,
                                                           reuse = True)
-        
+
         p, w_rambo = evaluator.get_momenta(process)
         me_value, amp2_org = evaluator.evaluate_matrix_element(\
                                           matrix_element, p)
@@ -92,7 +92,7 @@ class TestDiagramSymmetry(unittest.TestCase):
             me_value, amp2 = evaluator.evaluate_matrix_element(matrix_element,
                                                                new_p)
             self.assertAlmostEqual(amp2[isym], amp2_org[-sym-1])
-        
+
     def test_find_symmetry_qq_qqg_with_subprocess_group(self):
         """Test the find_symmetry function for subprocess groups"""
 
@@ -168,7 +168,7 @@ class TestDiagramSymmetry(unittest.TestCase):
                                                        'model':self.base_model})
         my_amplitude = diagram_generation.Amplitude(my_process)
         amplitudes.append(my_amplitude)
-        
+
         for dect in decayt:
             my_top_decaylegs = base_objects.LegList([\
                 base_objects.Leg({'id': id, 'state': True}) for id in dect])
@@ -178,7 +178,7 @@ class TestDiagramSymmetry(unittest.TestCase):
                                                   'is_decay_chain': True})
             my_decayt = diagram_generation.DecayChainAmplitude(my_decayt_proc)
             decay_amps.append(my_decayt)
-            
+
         for dectx in decaytx:
             # Define the multiprocess
             my_topx_decaylegs = base_objects.LegList([\
@@ -186,12 +186,12 @@ class TestDiagramSymmetry(unittest.TestCase):
             my_topx_decaylegs[0].set('state', False)
             my_decaytx_proc = base_objects.Process({'legs':my_topx_decaylegs,
                                               'model':self.base_model,
-                                              'is_decay_chain': True}) 
-            
+                                              'is_decay_chain': True})
+
             my_decaytx = diagram_generation.DecayChainAmplitude(my_decaytx_proc)
-            decay_amps.append(my_decaytx)                   
-                
-                
+            decay_amps.append(my_decaytx)
+
+
 
         amplitudes = diagram_generation.DecayChainAmplitudeList([\
                 diagram_generation.DecayChainAmplitude({\
@@ -208,16 +208,16 @@ class TestDiagramSymmetry(unittest.TestCase):
 
         symmetry, perms, ident_perms = diagram_symmetry.find_symmetry(\
                                                 subproc_group)
-        
-        sol_perms = [list(range(8)), list(range(8)), [0,1,5,6,7,2,3,4]]  
+
+        sol_perms = [list(range(8)), list(range(8)), [0,1,5,6,7,2,3,4]]
 
         self.assertEqual(len([s for s in symmetry if s > 0]), 2)
         self.assertEqual(symmetry, [1, 1, -2])
 
         self.assertEqual(perms, sol_perms)
-        
-        
-        
+
+
+
     def test_find_symmetry_decay_chain_with_subprocess_group(self):
         """Test the find_symmetry function for subprocess groups"""
 
@@ -311,5 +311,3 @@ class TestDiagramSymmetry(unittest.TestCase):
 
         for amp, new_amp in zip(amp2, new_amp2):
             self.assertAlmostEqual(amp, new_amp, 10)
-            
-        

@@ -1754,4 +1754,3 @@ vu = Parameter(name = 'vu',
                type = 'real',
                value = 'vev*cmath.sin(beta)',
                texname = 'v_u')
-

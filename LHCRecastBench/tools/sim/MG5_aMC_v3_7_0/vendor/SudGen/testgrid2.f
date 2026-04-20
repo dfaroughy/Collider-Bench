@@ -1,6 +1,6 @@
 c gfortran -o testgrid2 testgrid2.f sudakov.f dfint.f kerset.f
 c
-c Parameters must set by hand equal to those hardwired in gridsudgen.f 
+c Parameters must set by hand equal to those hardwired in gridsudgen.f
 c or given in input to that code.
 c If changes occur there, they must be implemented here as well
 c
@@ -367,7 +367,7 @@ c Results at nearest nodal values
       goto 400
  300  continue
       write(6,*)'enter id, itype'
-      read(5,*)id,itype 
+      read(5,*)id,itype
       write(6,*)'enter 1 to plot as a function of st'
       write(6,*)'      2 to plot as a function of xm'
       read(5,*)iplot

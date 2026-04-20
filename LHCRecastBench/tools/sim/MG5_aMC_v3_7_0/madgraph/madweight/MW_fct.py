@@ -34,7 +34,7 @@ class Multi_list(list):
 
         if not self: #test void input
             return [[]]
-        
+
         len_vector=[]
         status_vector=[]
         for i in range(0,len(self)):
@@ -65,9 +65,9 @@ class Multi_list(list):
                     break
             if (curent_pos==len(status_vector)):
                 break
-                
+
         return solution
-        
+
     def extract_vector(self,pos_list):
         """ return the list of element corresponding at position in pos_list """
 
@@ -80,7 +80,7 @@ class Multi_list(list):
             solution.append(self[i][pos_list[i]])
 
         return solution
-        
+
 
     def give_list_possiblity(self,list,opt=''):
         """ return all permutation of list where each element belongs to corresponding list of the multilist
@@ -88,8 +88,8 @@ class Multi_list(list):
             example: multilist=[ [a,b,c],[a,b,d],[c,d] ]
                      list=[a,b,c]
                         ->return=[ [a,b,c],[b,a,c] ]
-                        
-                     multilist=[ [a,b,c],[a,b,d],[a,c,d] ]   
+
+                     multilist=[ [a,b,c],[a,b,d],[a,c,d] ]
                      list=[a,b,d]
                         ->return=[ [a,b,d],[b,a,d],[b,d,a] ]
 
@@ -113,16 +113,16 @@ class Multi_list(list):
                     value=eval('perm[i].'+opt)
                     if value not in self[i]:
                         find=0
-                        break                    
+                        break
             if find:
                 sol.append(perm)
         return sol
-                
-        
-        
 
 
-        
+
+
+
+
 
 
 
@@ -161,9 +161,9 @@ def put_in_fortran_format(text):
                 out+='\n'
     else:
         out=put_line_in_fortran_format(text)
-        
+
     return out
-    
+
 def put_line_in_fortran_format(text):
     "take formula and split in 50-90 columns"
 
@@ -176,9 +176,9 @@ def put_line_in_fortran_format(text):
     if(text[:6]!="      "):
         try:
             a=int(text[:6]) #test for tag
-        except:                  
+        except:
             text="       "+text
- 
+
     #delete final space
     while (text[-1]==" "):
         text=text[:-1]
@@ -206,7 +206,7 @@ def put_line_in_fortran_format(text):
                 text="     &"+text[tag:]
             else:
                 text="     &!"+text[tag:]
-        
+
     out+=text
 
     return out
@@ -281,11 +281,11 @@ cases are handled, but never can be sure..."""
 
 def get_perms_from_id(pid_list, bjet_is_jet):
     """ """
-    
+
     assert isinstance(pid_list, list)
 
     assert isinstance(bjet_is_jet, bool) or bjet_is_jet in [0,1]
-    
+
     list_id = []
     for i,pid in enumerate(pid_list):
         if abs(pid) in [1,2,3,4]:
@@ -299,22 +299,22 @@ def get_perms_from_id(pid_list, bjet_is_jet):
             list_id.append('%s_%s' % (i, pid))
         else:
             list_id.append(pid)
-    
+
     #get the id permutations
     return  get_all_permutations(list_id)
 
 def get_all_permutations(cat_list):
     """ """
-    
+
     # create the category names and the id to permute for each category
     nb_cat = collections.defaultdict(list)
     for i,cat in enumerate(cat_list):
         nb_cat[cat].append(i+1) #+1 in order to be in Fortan convention
     cat_names = list(nb_cat.keys())
     # build an iterator for each category
-    iterator = dict([(cat, itertools.permutations(value)) 
+    iterator = dict([(cat, itertools.permutations(value))
                                                for cat,value in nb_cat.items()])
-        
+
     permutations = [] # all possibility
     current = 0       # position of the last modify category
     #initialize all iterator to have starting point value
@@ -323,7 +323,7 @@ def get_all_permutations(cat_list):
     while current < len(iterator):
         #store the current value
         perm = []
-        curr = copy.deepcopy(current_value)        
+        curr = copy.deepcopy(current_value)
         for cat in cat_list:
             perm.append(curr[cat].pop(0))
         permutations.append(perm)
@@ -341,5 +341,5 @@ def get_all_permutations(cat_list):
                 current_value[cat] = list(new_val)
                 current = 0
                 break
-                
+
     return permutations

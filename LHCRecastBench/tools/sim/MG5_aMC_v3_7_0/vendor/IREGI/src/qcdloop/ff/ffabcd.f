@@ -27,7 +27,7 @@
 *									*
 *	Output:	del4d2			see above			*
 *									*
-***#]*comment:*********************************************************** 
+***#]*comment:***********************************************************
 *  #[ declarations:
 	implicit none
 *
@@ -61,7 +61,7 @@
      +		   0,3,4,0,7,0/
 *	data isign/1,1,1,0,1,0,
 *     +		   1,1,1,0,1,0/
-*  #] declarations: 
+*  #] declarations:
 *  #[ initialisaties:
 	if ( ifirst .eq. 0 ) then
 	    ifirst = ifirst + 1
@@ -70,7 +70,7 @@
 	    ldet(4) = .FALSE.
 	endif
 	xa = xpi(4)**2
-*  #] initialisaties: 
+*  #] initialisaties:
 *  #[ check input:
 	if ( ltest ) then
 	    if ( abs(isji) .ne. 1 ) print *,'ff2d22: error: abs(isji)',
@@ -79,7 +79,7 @@
      +		' /= 1',islk
 	    if ( ns .ne. 10 ) print *,'ffabcd: only valid for ns=10!!'
 	endif
-*  #] check input: 
+*  #] check input:
 *  #[ prepare input:
 	i = in
 	j = jn
@@ -116,7 +116,7 @@
 *	    isji = islk
 *	    islk = ii
 *	endif
-*  #] prepare input: 
+*  #] prepare input:
 *  #[ special cases:
 	if ( k .eq. 3 ) then
 	    xb = 0
@@ -178,7 +178,7 @@
 	    xd = -xpi(4)*s(1)/sdel2s
 	    goto 800
 	endif
-*  #] special cases: 
+*  #] special cases:
 *  #[ normal case b:
 *
 *	First term:
@@ -359,7 +359,7 @@
 	endif
    90	continue
 	xb = somb/del2s
-*  #] normal case b: 
+*  #] normal case b:
 *  #[ normal case d:
 	call ff3dl2(s(1),xpi,dpipj,piDpj, 4, i,j,ji,isji, k,l,lk,islk,
      +						4, 3,4,7,+1, 10, ier)
@@ -376,7 +376,7 @@
 	endif
 *	if ( lwrite ) print *,'  somd = ',somd,s(1),s(2)
 	xd = -somd/sdel2s
-*  #] normal case d: 
+*  #] normal case d:
 *  #[ normal case c:
   800	continue
 	s(1) = xb - xd
@@ -389,7 +389,7 @@
 	if ( lwrite ) print *,'b-d,b+d,b,d: ',s(1),s(2),xb,xd
   220	continue
 	xc = som/xa
-*  #] normal case c: 
+*  #] normal case c:
 *  #[ check output:
   900	continue
 	if ( ltest ) then
@@ -491,11 +491,10 @@
 		xd = xdp
 	    endif
 	endif
-*  #] check output: 
+*  #] check output:
 *  #[ and tne final answer:
   990	continue
 	call ffroot(dum,aijkl,xa,xb,xc,xd,ier)
-*  #] and tne final answer: 
-*###] ffabcd: 
+*  #] and tne final answer:
+*###] ffabcd:
 	end
-

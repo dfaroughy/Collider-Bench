@@ -450,49 +450,49 @@ AxialZDown = Parameter(name = 'AxialZDown',
               texname = 'AxialZdown')
 
 VectorZUp = Parameter(name = 'VectorZUp',
-              nature = 'internal',                      
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*((cw*ee)/(2.*sw))+(5.0/2.0)*(-(ee*sw)/(6.*cw))',
               texname = 'AxialZUp')
 
 VectorZDown = Parameter(name = 'VectorZDown',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*(-(cw*ee)/(2.*sw))+(-1.0/2.0)*(-(ee*sw)/(6.*cw))',
               texname = 'AxialZdown')
 
 VectorAUp = Parameter(name = 'VectorAUp',
-              nature = 'internal',                      
+              nature = 'internal',
               type = 'real',
               value = '(2*ee)/3.',
               texname = 'VectorAUp')
 
 VectorADown = Parameter(name = 'VectorADown',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '-(ee)/3.',
               texname = 'VectorADown')
 
 VectorWmDxU = Parameter(name = 'VectorWmDxU',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'VectorWmDxU')
 
 AxialWmDxU = Parameter(name = 'AxialWmDxU',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(-1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'AxialWmDxU')
 
 VectorWpUxD = Parameter(name = 'VectorWpUxD',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '(1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'VectorWpUxD')
 
 AxialWpUxD = Parameter(name = 'AxialWpUxD',
-              nature = 'internal',                        
+              nature = 'internal',
               type = 'real',
               value = '-(1.0/2.0)*((ee)/(sw*cmath.sqrt(2)))',
               texname = 'AxialWpUxD')

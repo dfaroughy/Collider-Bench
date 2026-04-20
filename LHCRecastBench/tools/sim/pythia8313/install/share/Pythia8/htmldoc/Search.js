@@ -5,21 +5,21 @@
 
 // Function to search the Pythia 8 HTML documentation.
 $(function() {
-    
+
     // Search result format.
     var resultFormat = _.template(
 	'<a href="<%=result.link%>" target="page"><%=result.name%></a>');
-    
+
     // Search input.
     var searchInput = $('#search-input');
     searchInput.keyup(searchIndex).on('search', searchIndex);
-    
+
     // Search result.
     var searchResult = {
 	$field: $('#search-input'), $list: $('#search-result'),
 	length: 0, nohide: false, input: ''
     }
-    
+
     // Load the search index.
     var code = $('script[src*=Search]');
     var load = document.createElement('script');

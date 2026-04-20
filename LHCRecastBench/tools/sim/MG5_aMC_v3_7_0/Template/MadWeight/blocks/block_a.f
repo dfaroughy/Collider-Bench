@@ -6,7 +6,7 @@ c
 c            *P4     *P3    * P2
 c           *      *       *
 c     *********************
-c     MV_r3  MV_r2  MV_r1  * 
+c     MV_r3  MV_r2  MV_r1  *
 c                           * P1 (missing)
 c
 c     the whole momentum p1 is fixed to reproduce MV_r1, MV_r2, MV_r3
@@ -76,7 +76,7 @@ c      pause
       E4=momenta(0,p4)
 
 c     Express the change of variables as
-c       | a1 |   | b11 b12 b13| | P1x |   | C1 | 
+c       | a1 |   | b11 b12 b13| | P1x |   | C1 |
 c       | a2 | = | b21 b22 b23| | P1y | + | C2 | E1
 c       | a3 |   | b31 b32 b33| | P1z | + | C3 |
 
@@ -87,7 +87,7 @@ c       | a3 |   | b31 b32 b33| | P1z | + | C3 |
      & -2d0*dot(momenta(0,p2),momenta(0,p4))
      & -2d0*dot(momenta(0,p3),momenta(0,p4))
 c
-      detB=8d0*(p2z*p3y*p4x-p2y*p3z*p4x-p2z*p3x*p4y+p2x*p3z*p4y 
+      detB=8d0*(p2z*p3y*p4x-p2y*p3z*p4x-p2z*p3x*p4y+p2x*p3z*p4y
      & + p2y*p3x*p4z - p2x*p3y*p4z)
 c
       MinvB(1,1)=(-4d0*p3z*p4y + 4d0*p3y*p4z)/detB
@@ -105,7 +105,7 @@ c
       Mc(3)=2d0*momenta(0,p4)
 c
 c     Inverse the system
-c       | p1x |   | p1x_ti+p1x_E1*E1 | 
+c       | p1x |   | p1x_ti+p1x_E1*E1 |
 c       | p1y | = | p1y_ti+p1y_E1*E1 |
 c       | p1z |   | p1z_ti+p1z_E1*E1 |
 c
@@ -116,10 +116,10 @@ c
       p1x_E1=-MinvB(1,1)*Mc(1)-MinvB(1,2)*Mc(2)-MinvB(1,3)*Mc(3)
       p1y_E1=-MinvB(2,1)*Mc(1)-MinvB(2,2)*Mc(2)-MinvB(2,3)*Mc(3)
       p1z_E1=-MinvB(3,1)*Mc(1)-MinvB(3,2)*Mc(2)-MinvB(3,3)*Mc(3)
-c    
-c     solve the mass shell equation 
-c    
-c     E1^2-|P1|^2=m_1^2   <=>   E1^2-b*E1+c=0 
+c
+c     solve the mass shell equation
+c
+c     E1^2-|P1|^2=m_1^2   <=>   E1^2-b*E1+c=0
 c
       jac_factor=1d0
       dem=1d0-P1x_E1**2-P1y_E1**2-P1z_E1**2
@@ -136,7 +136,7 @@ c
         b=-(2d0*P1x_ti*P1x_E1+2d0*P1y_ti*P1y_E1+2d0*P1z_ti*P1z_E1)/dem
         c=-(P1x_ti**2+P1y_ti**2+P1z_ti**2+mvir2(p1))/dem
         rho=b**2-4d0*c
- 
+
         if (rho.eq.0d0.and.b.lt.0d0) then   ! 1 sol
           momenta(0,p1)=-b/2d0
           jac_factor=1d0
@@ -153,7 +153,7 @@ c          call ntuple(rand,0.0,1.0,p1)
         else                                ! 0 sol
           momenta(0,p1)=-1d0
           jac=-1d0
-          return 
+          return
         endif
       endif
 c
@@ -189,18 +189,17 @@ c
 c      jac_loc=jac_loc*sin_theta_miss*normP1sq       ! PS weight for the initial set of variable
                    !  the factor 2*E1 has been removed since it factorizes with the factor 2E1 in the PS param.
 c
-      invjac=-16*(E4*(p1z*p2y*p3x - p1y*p2z*p3x - 
+      invjac=-16*(E4*(p1z*p2y*p3x - p1y*p2z*p3x -
      -        p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z)
-     -      + E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + 
-     -     E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y + 
-     -     E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + 
-     -     (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + 
-     -     E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - 
+     -      + E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x +
+     -     E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +
+     -     E2*p1x*p3z*p4y - E1*p2x*p3z*p4y +
+     -     (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z +
+     -     E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y -
      -        p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z))
 
-      jac_loc=jac_factor/dabs(invjac)     
-      jac=jac*jac_loc   
+      jac_loc=jac_factor/dabs(invjac)
+      jac=jac*jac_loc
 
       return
       end
-

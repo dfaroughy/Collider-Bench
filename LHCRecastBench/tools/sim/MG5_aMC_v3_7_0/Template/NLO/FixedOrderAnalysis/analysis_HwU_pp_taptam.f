@@ -28,7 +28,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 
@@ -92,9 +92,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          call HwU_fill(l+3,yh,wgts)
          call HwU_fill(l+4,pth,wgts)
       enddo
- 999  return      
+ 999  return
       end
-      
+
       function getrapidity(en,pl)
       implicit none
       real*8 getrapidity,en,pl,tiny,xplus,xminus,y
@@ -107,10 +107,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y
       return
       end
-

@@ -1,5 +1,5 @@
 CMS                 ! parameter set name
-70                  ! eta cells in calorimeter  
+70                  ! eta cells in calorimeter
 70                  ! phi cells in calorimeter
 0.087               ! eta width of calorimeter cells  |eta| < 3
 0.0897597901        ! phi width of calorimeter cells

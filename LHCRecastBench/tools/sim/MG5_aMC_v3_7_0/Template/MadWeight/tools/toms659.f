@@ -1128,7 +1128,7 @@ C     ..
 C
 C     CHECK THAT THE USER IS NOT CHEATING !
 C
-      IF (L.GT.MAXCOL) then 
+      IF (L.GT.MAXCOL) then
 
         WRITE(*,*) MAXCOL
         STOP ' TOO MANY CALLS ON GOSOBL'

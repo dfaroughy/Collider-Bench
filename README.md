@@ -106,6 +106,32 @@ python -m pytest tests/test_workspace.py -v
 
 The suite is offline and fast (~2 s). It covers: config parsing, workspace build, prompt rendering, sandbox wrapping, runner command construction. It does **not** invoke any LLM or SLURM — see [`tests/README.md`](tests/README.md) for why.
 
+## Developer setup
+
+After cloning:
+
+```bash
+pip install pre-commit
+pre-commit install            # installs the git hook (one-time per clone)
+```
+
+From then on, every `git commit` runs the hooks in [`.pre-commit-config.yaml`](.pre-commit-config.yaml): whitespace cleanup, YAML validation, `ruff` lint + format, secrets scan. Commits with violations are rejected until fixed (most are auto-fixed in place — just `git add` and retry).
+
+Ad-hoc run on the whole tree:
+
+```bash
+pre-commit run --all-files
+```
+
+## Continuous integration
+
+[`.github/workflows/test.yml`](.github/workflows/test.yml) runs on every push and PR to `main`:
+
+- **`pytest`** on Python 3.10 / 3.11 / 3.12 (matrix).
+- **`pre-commit`** on all files (fails the job if any hook would make a change).
+
+CI runners don't have `claude` / `codex` / `bwrap` installed; the tests that depend on them self-skip cleanly.
+
 ## See also
 
 - [`agent_runtime/SANDBOX.md`](agent_runtime/SANDBOX.md) — sandbox backend contract, how to add a new one (Docker/Podman/Shifter).

@@ -26,7 +26,7 @@ double Random::ranmar(){
   if(uni < 0) uni = uni + 1;
   return uni;
 }
- 
+
 void Random::rmarin(int ij, int kl){
 /*     -----------------
  * initializing routine for ranmar, must be called before generating
@@ -71,7 +71,7 @@ double rn(int idummy){
     init=0;
     rand.rmarin(1802,9373);
   }
-  
+
   while(true){
     ran = rand.ranmar();
     if (ran>1e-16) break;
@@ -79,11 +79,11 @@ double rn(int idummy){
   return ran;
 }
 
-vector<double*> get_momenta(int ninitial, double energy, 
+vector<double*> get_momenta(int ninitial, double energy,
 			    vector<double> masses, double& wgt)
 {
 //---- auxiliary function to change convention between MadGraph5_aMC@NLO and rambo
-//---- four momenta. 	  
+//---- four momenta.
   int nexternal = masses.size();
   int nfinal = nexternal - ninitial;
   double e2=pow(energy, 2);
@@ -108,10 +108,10 @@ vector<double*> get_momenta(int ninitial, double energy,
     cout << "Rambo needs 1 or 2 incoming particles" << endl;
     exit(-1);
   }
-  
+
   if(nfinal == 1)
     energy = m1;
-        
+
   double m2 = masses[1];
 
   double mom = sqrt((pow(e2,2) - 2*e2*pow(m1,2) + pow(m1,4) - 2*e2*pow(m2,2) -
@@ -129,7 +129,7 @@ vector<double*> get_momenta(int ninitial, double energy,
   p[1][1] = 0;
   p[1][2] = 0;
   p[1][3] = -mom;
-  
+
   if (nfinal == 1){
     p.push_back(new double[4]);
     p[2][0] = energy;
@@ -307,5 +307,3 @@ vector<double*> rambo(double et, vector<double>& xm, double& wt){
 // return log of weight
   return p;
 }
-
-

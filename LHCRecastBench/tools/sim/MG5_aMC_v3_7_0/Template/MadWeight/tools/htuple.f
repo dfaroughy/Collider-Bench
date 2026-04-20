@@ -4,8 +4,8 @@ c
 c
 c     This is a modified version for use with multi-pole integrations
 c     it allows you to get the same set of random numbers several times
-c     (1 for each configuration) jj tells it what configuration to use, 
-c     so if you always put jj=1, you basically get the old version of 
+c     (1 for each configuration) jj tells it what configuration to use,
+c     so if you always put jj=1, you basically get the old version of
 c     ntuple out. It is currently configued to have maxconfig=25.
 c     Modified by Tim Stelzer July 5 1995
 c
@@ -42,7 +42,7 @@ c    it is not necessary to have a < b.  If a=b, the returned value, x,
 c    will always be equal to a.
 c
 c 3) The sequences for different values of i are independent. They
-c    cycle with different periods ranging from ~ 4M numbers 
+c    cycle with different periods ranging from ~ 4M numbers
 c    through 147M numbers, covering numbers of precision 23-27 bits
 c    appropriate for the mantissa of a single precision real value.
 c
@@ -126,7 +126,7 @@ c
       data koffset/
      .     0,   25,   41,   52,   61,   69,   76,   83,   90,   96,
      .     102,  108,  114,  120,  126,  131,  136,  141,  146,  151,
-     .     156,  161,  166,  171,  176/  
+     .     156,  161,  166,  171,  176/
 
       data mix_offset/
      .     0,    2,    5,   10,   17,   28,   41,   58,   77,  100,
@@ -202,7 +202,7 @@ c
 c         write(*,*) 'Warning htuple modified for 1 configuration only'
 c         write(*,*) 'Using htuple configuration ',jconfig
          first_time=.false.
-c     
+c
 c        to use multiple configurations need to use line
         jj = jconfig
 c
@@ -242,4 +242,3 @@ c      if (i .gt. ndim) i=i-ndim   !For different configurations
       x = a + (b-a) * accum(offset+j,jj)
 c      write(*,'(2i6,1f15.8)') jj,i,x
       end
-

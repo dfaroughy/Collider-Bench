@@ -1,5 +1,5 @@
 c**************************************************************
-c    run.inc 
+c    run.inc
 c**************************************************************
 c
 c     Scales
@@ -22,7 +22,7 @@ c
 c      integer nevents, gevents
 c
 c     BW treatment
-c      
+c
       double precision bwcutoff
       common/to_bwcutoff/ bwcutoff
 c

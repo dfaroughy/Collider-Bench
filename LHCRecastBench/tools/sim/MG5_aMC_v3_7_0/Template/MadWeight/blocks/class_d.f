@@ -16,7 +16,7 @@ c***************************************************************************
       include '../../../SubProcesses/phasespace.inc'
 c
 c     arguments
-c      
+c
       integer p1,p2,p3,p4,p5,p6,r1,r2,r3,r4
 c
 c     parameters
@@ -140,27 +140,27 @@ c
        p34z=momenta(3,p3)+momenta(3,p4)
        p56z=momenta(3,p5)+momenta(3,p6)
 c
-c---------------------------------------------------------------------------------------------------     
+c---------------------------------------------------------------------------------------------------
 c      the reduced change of variables can be expressed as
-c 
-c      (new) = alpha * (previous) + beta0 + E1*beta1 + E2* beta2 
+c
+c      (new) = alpha * (previous) + beta0 + E1*beta1 + E2* beta2
 c
 c      with (previous) = 4x1 = (p1x,p1y,p1z,p2z)^t
-c           (new)=4x1 = ( p13^2-mvir13**2,p134^2-mvir134**2,p25^2-mvir25**2,p256^2-mvir256**2 )^t    
-c                           (->new is (0,0,0,0)^t !!)           
+c           (new)=4x1 = ( p13^2-mvir13**2,p134^2-mvir134**2,p25^2-mvir25**2,p256^2-mvir256**2 )^t
+c                           (->new is (0,0,0,0)^t !!)
 c           beta0, beta1, beta2 = 4x1
 c           alpha = 4x4
 c
-c      SO, 
-c      (previous)= - alpha^(-1) ( beta0 + E1*beta1 + E2* beta2  ) 
+c      SO,
+c      (previous)= - alpha^(-1) ( beta0 + E1*beta1 + E2* beta2  )
 c---------------------------------------------------------------------------------------------------
 c
-       beta0(1)=mvir2(p1)+mvir2(p3)-mvir2(r1)       
-       beta0(2)=mvir2(p1)+m34sq-mvir2(r3)  
+       beta0(1)=mvir2(p1)+mvir2(p3)-mvir2(r1)
+       beta0(2)=mvir2(p1)+m34sq-mvir2(r3)
        beta0(3)=mvir2(p2)+mvir2(p5)
-     &       -2d0*miss_px*p5x-2d0*miss_py*p5y-mvir2(r2)        
+     &       -2d0*miss_px*p5x-2d0*miss_py*p5y-mvir2(r2)
        beta0(4)=mvir2(p2)+m56sq
-     &       -2d0*miss_px*p56x-2d0*miss_py*p56y-mvir2(r4)        
+     &       -2d0*miss_px*p56x-2d0*miss_py*p56y-mvir2(r4)
 c
        beta1(1)=2d0*E3
        beta1(2)=2d0*E34
@@ -174,9 +174,9 @@ c       if (j.ne.3.and.j.ne.4) write(*,*) 'beta1',j,' : ', beta1(j)
 c       if (j.ne.1.and.j.ne.2) write(*,*) 'beta2',j,' : ', beta2(j)
 c       enddo
 
-       det_alpha=-16d0*p34z*p3y*p56z*p5x + 16d0*p34y*p3z*p56z*p5x + 
-     -   16d0*p34z*p3x*p56z*p5y - 16d0*p34x*p3z*p56z*p5y + 
-     -   16d0*p34z*p3y*p56x*p5z - 16d0*p34y*p3z*p56x*p5z - 
+       det_alpha=-16d0*p34z*p3y*p56z*p5x + 16d0*p34y*p3z*p56z*p5x +
+     -   16d0*p34z*p3x*p56z*p5y - 16d0*p34x*p3z*p56z*p5y +
+     -   16d0*p34z*p3y*p56x*p5z - 16d0*p34y*p3z*p56x*p5z -
      -   16d0*p34z*p3x*p56y*p5z + 16d0*p34x*p3z*p56y*p5z
 
 c        write(*,*) 'det_alpha', det_alpha
@@ -197,23 +197,23 @@ c
        inv_alpha(1,3)=(8d0*(-p34z*p3y + p34y*p3z)*p56z  )/det_alpha
        inv_alpha(2,3)=(8d0*p56z*(p34z*p3x - p34x*p3z  ))/det_alpha
        inv_alpha(3,3)=(8d0*(-p34y*p3x + p34x*p3y)*p56z )/det_alpha
-       inv_alpha(4,3)=(-8d0*p34z*p3y*p56x + 8d0*p34y*p3z*p56x 
+       inv_alpha(4,3)=(-8d0*p34z*p3y*p56x + 8d0*p34y*p3z*p56x
      &   + 8d0*p34z*p3x*p56y - 8d0*p34x*p3z*p56y  )/det_alpha
 c
        inv_alpha(1,4)=(8d0*p34z*p3y*p5z-8d0*p34y*p3z*p5z )/det_alpha
        inv_alpha(2,4)=(8d0*(-p34z*p3x + p34x*p3z)*p5z  )/det_alpha
        inv_alpha(3,4)=(8d0*p5z*(p34y*p3x- p34x*p3y ))/det_alpha
-       inv_alpha(4,4)=(8d0*(p34z*p3y*p5x - p34y*p3z*p5x - 
+       inv_alpha(4,4)=(8d0*(p34z*p3y*p5x - p34y*p3z*p5x -
      &  p34z*p3x*p5y + p34x*p3z*p5y)  )/det_alpha
 c
-c---------------------------------------------------------------------------------------------------     
+c---------------------------------------------------------------------------------------------------
 c      Now, the variables p1x,p1y,p1z,p2x,p2y,p2z
-c      can be expressed as a combili of E1,E2 
+c      can be expressed as a combili of E1,E2
 c      + an independant term (=ti)
 c
 c      for example,
-c           p1x = p1x_ti + p1x_E1 * E1 + p1x_E2 * E2       
-c---------------------------------------------------------------------------------------------------     
+c           p1x = p1x_ti + p1x_E1 * E1 + p1x_E2 * E2
+c---------------------------------------------------------------------------------------------------
 c
        p1x_ti=-inv_alpha(1,1)*beta0(1)-inv_alpha(1,2)*beta0(2)
      & -inv_alpha(1,3)*beta0(3)-inv_alpha(1,4)*beta0(4)
@@ -229,7 +229,7 @@ c
      & -inv_alpha(3,3)*beta0(3)-inv_alpha(3,4)*beta0(4)
        p1z_E1=-inv_alpha(3,1)*beta1(1)-inv_alpha(3,2)*beta1(2)
        p1z_E2=-inv_alpha(3,3)*beta2(3)-inv_alpha(3,4)*beta2(4)
-c 
+c
        p2z_ti=-inv_alpha(4,1)*beta0(1)-inv_alpha(4,2)*beta0(2)
      & -inv_alpha(4,3)*beta0(3)-inv_alpha(4,4)*beta0(4)
        p2z_E1=-inv_alpha(4,1)*beta1(1)-inv_alpha(4,2)*beta1(2)
@@ -261,7 +261,7 @@ c
        p2y_E1=-p1y_E1
        p2y_E2=-p1y_E2
 c
-c---------------------------------------------------------------------------------------------------     
+c---------------------------------------------------------------------------------------------------
 c      define the coefficients of the two quadratic equations
 c
 c      E1^2-p1x^2-p1y^2-p1z^2-m1^2=0   (1)
@@ -271,7 +271,7 @@ c      <=>
 c
 c      g11 E1^2 +g22 E2^2 + g12 E1*E2 + g10 E1 + g20 *E2 + g00 = 0   (1)
 c      h11 E1^2 +h22 E2^2 + h12 E1*E2 + h10 E1 + h20 *E2 + h00 = 0   (2)
-c---------------------------------------------------------------------------------------------------     
+c---------------------------------------------------------------------------------------------------
 c
        g11=1d0-p1x_E1**2-p1y_E1**2-p1z_E1**2
        g22=-p1x_E2**2-p1y_E2**2-p1z_E2**2
@@ -330,14 +330,14 @@ c     & +h10*E1c(j)+h20*E2c(j)+h00
 c       enddo
 
 
-c---------------------------------------------------------------------------------------------------     
+c---------------------------------------------------------------------------------------------------
 c     At this stage, we have got (max) four solution for E1, E2, but
 c     some of them are complex. The following  loop over the 4 solutions
 c     determines which sol is real.
 c     In the two vectors (E1(1),E1(2),E1(3),E1(4)) and  (E2(1),E2(2),E2(3),E2(4))
 c     the real solutions are set in first positions. The other component
-c     are set to -1.  
-c---------------------------------------------------------------------------------------------------     
+c     are set to -1.
+c---------------------------------------------------------------------------------------------------
 c
       k=0
       do j=1,4
@@ -358,14 +358,14 @@ c      write(*,*) 'imag ',i_part1, i_part2
      & dabs(dble(E2c(j))).gt.1.0D+5*dabs(i_part2 ).and.
      &      dble(E1c(j)).gt.0d0.and.dble(E2c(j)).gt.0d0) then
 
-c       write(*,*) 'we have a real number'   
+c       write(*,*) 'we have a real number'
 c
 c       determine the fraction of initial energies
 c
 
       p1z=p1z_ti+p1z_E1*dble(E1c(j))+p1z_E2*dble(E2c(j))
       p2z=p2z_ti+p2z_E1*dble(E1c(j))+p2z_E2*dble(E2c(j))
- 
+
       x1=((Etot+dble(E1c(j))+dble(E2c(j)))+(pztot+P1z+P2z))/sqrts
       x2=((Etot+dble(E1c(j))+dble(E2c(j)))-(pztot+P1z+P2z))/sqrts
 
@@ -385,7 +385,7 @@ c      pause
       enddo
 
       IDUM=0
-      if (k.eq.0) then 
+      if (k.eq.0) then
         jac=-1d0
       return
       elseif (k.eq.1) then
@@ -445,7 +445,7 @@ c
       p2x=p2x_ti+p2x_E1*E1+p2x_E2*E2
       p2y=p2y_ti+p2y_E1*E1+p2y_E2*E2
       p2z=p2z_ti+p2z_E1*E1+p2z_E2*E2
-    
+
       momenta(0,p1)=E1
       momenta(1,p1)=p1x
       momenta(2,p1)=p1y
@@ -457,41 +457,41 @@ c
       momenta(3,p2)=p2z
 
 c
-c       define jac of the transformation    [inv_jac]=E^8, 
+c       define jac of the transformation    [inv_jac]=E^8,
 c       include jac factor for change x1,x2 -> Etot, pztot
 c
       inv_jac=    -32d0*(E3*(E5*
-     -         (p34z*(p1y*p2z*p56x - p1x*p2z*p56y - p1y*p2x*p56z + 
-     -              p1x*p2y*p56z) + 
-     -           p1z*(-(p2z*p34y*p56x) + p2z*p34x*p56y - 
-     -              p2y*p34x*p56z + p2x*p34y*p56z)) + 
+     -         (p34z*(p1y*p2z*p56x - p1x*p2z*p56y - p1y*p2x*p56z +
+     -              p1x*p2y*p56z) +
+     -           p1z*(-(p2z*p34y*p56x) + p2z*p34x*p56y -
+     -              p2y*p34x*p56z + p2x*p34y*p56z)) +
      -        (E56*p2z - E2*p56z)*
-     -         (p1z*p34y*p5x - p1y*p34z*p5x - p1z*p34x*p5y + 
-     -           p1x*p34z*p5y) + 
-     -        (E56*(p1z*p2y*p34x - p1z*p2x*p34y + p1y*p2x*p34z - 
-     -              p1x*p2y*p34z) + 
-     -           E2*(p1z*p34y*p56x - p1y*p34z*p56x - p1z*p34x*p56y + 
-     -              p1x*p34z*p56y))*p5z) + 
-     -     E34*(E5*p2z*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y + 
-     -           p1x*p3z*p56y) + 
-     -        E5*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z - 
-     -           p1x*p2y*p3z)*p56z - 
+     -         (p1z*p34y*p5x - p1y*p34z*p5x - p1z*p34x*p5y +
+     -           p1x*p34z*p5y) +
+     -        (E56*(p1z*p2y*p34x - p1z*p2x*p34y + p1y*p2x*p34z -
+     -              p1x*p2y*p34z) +
+     -           E2*(p1z*p34y*p56x - p1y*p34z*p56x - p1z*p34x*p56y +
+     -              p1x*p34z*p56y))*p5z) +
+     -     E34*(E5*p2z*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y +
+     -           p1x*p3z*p56y) +
+     -        E5*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z -
+     -           p1x*p2y*p3z)*p56z -
      -        (E56*p2z - E2*p56z)*
      -         (p1z*p3y*p5x - p1y*p3z*p5x - p1z*p3x*p5y + p1x*p3z*p5y)
-     -          - (E56*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z - 
-     -              p1x*p2y*p3z) + 
-     -           E2*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y + 
-     -              p1x*p3z*p56y))*p5z) + 
-     -     E1*(E5*(p2z*(-(p34z*p3y*p56x) + p34y*p3z*p56x + 
-     -              p34z*p3x*p56y - p34x*p3z*p56y) + 
-     -           (-(p2y*p34z*p3x) + p2x*p34z*p3y + p2y*p34x*p3z - 
-     -              p2x*p34y*p3z)*p56z) + 
+     -          - (E56*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z -
+     -              p1x*p2y*p3z) +
+     -           E2*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y +
+     -              p1x*p3z*p56y))*p5z) +
+     -     E1*(E5*(p2z*(-(p34z*p3y*p56x) + p34y*p3z*p56x +
+     -              p34z*p3x*p56y - p34x*p3z*p56y) +
+     -           (-(p2y*p34z*p3x) + p2x*p34z*p3y + p2y*p34x*p3z -
+     -              p2x*p34y*p3z)*p56z) +
      -        (E56*p2z - E2*p56z)*
-     -         (p34z*p3y*p5x - p34y*p3z*p5x - p34z*p3x*p5y + 
-     -           p34x*p3z*p5y) + 
-     -        (E56*(p2y*p34z*p3x - p2x*p34z*p3y - p2y*p34x*p3z + 
-     -              p2x*p34y*p3z) + 
-     -           E2*(p34z*p3y*p56x - p34y*p3z*p56x - p34z*p3x*p56y + 
+     -         (p34z*p3y*p5x - p34y*p3z*p5x - p34z*p3x*p5y +
+     -           p34x*p3z*p5y) +
+     -        (E56*(p2y*p34z*p3x - p2x*p34z*p3y - p2y*p34x*p3z +
+     -              p2x*p34y*p3z) +
+     -           E2*(p34z*p3y*p56x - p34y*p3z*p56x - p34z*p3x*p56y +
      -              p34x*p3z*p56y))*p5z))*s
 c
        if (dabs(inv_jac).gt.thres) then
@@ -568,7 +568,7 @@ c     Evaluate the initial momenta in the LAB frame
       call boostx(CMS_mom(0,2),pboost,momenta(0,2))
 
 c     correction from the measure to translate the weight to the CM frame
-c     ONLY if isr = 2 
+c     ONLY if isr = 2
 
       if (isr_mode.eq.2) then
       measureLAB=1d0
@@ -595,7 +595,7 @@ c      write(*,*) "mt ", dsqrt(dot(momenta(0,r4),momenta(0,r4)))
 c
 c     flux factor
 c
-      jac_loc=jac_loc/(2d0*S*x1*x2)  ! flux 
+      jac_loc=jac_loc/(2d0*S*x1*x2)  ! flux
       jac=jac*jac_loc
 
 c

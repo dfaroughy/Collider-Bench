@@ -87,19 +87,19 @@ c
         else
         print *, "OUT CASE"
         stop
-        endif 
+        endif
 
-       vertex =dcmplx( PTT2-YMASS**2, YMASS*YWIDTH )* 
+       vertex =dcmplx( PTT2-YMASS**2, YMASS*YWIDTH )*
      & ( t1(1)*tc2(1)+t1(6)*tc2(6)+t1(11)*tc2(11)+t1(16)*tc2(16)
      & - t1(2)*tc2(2)-t1(3)*tc2(3)-t1(4)*tc2(4)
      & - t1(5)*tc2(5)-t1(9)*tc2(9)-t1(13)*tc2(13)
      & +t1(7)*tc2(7)+t1(8)*tc2(8)+t1(10)*tc2(10)
      & +t1(12)*tc2(12)+t1(14)*tc2(14)+t1(15)*tc2(15)
      & )
-     & *dsqrt( 
+     & *dsqrt(
      &2.0d0*Pi*8.0d0*Pi  ! to compensate the decay phase factor
      &* PADD/L_ADD**NADD*xmass**(NADD-1)  ! density factor for d=4 case
-     &/2.0d0/xmass)   ! dm=dm^2/2/m    
+     &/2.0d0/xmass)   ! dm=dm^2/2/m
 
       return
       end

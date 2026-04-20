@@ -77,14 +77,14 @@ class ML5MSSMQCDTest(unittest.TestCase):
 
     # The tests below probe one quite long process at a time individually, so
     # one can better manage them.
-    
+
     #===========================================================================
     # First the long checks against results available in Hard-Coded Reference
     #===========================================================================
 #   ('g g > t1 t1~',{'QCD':2,'QED':0},['QCD'],{'QCD':6,'QED':0})
     def test_long_mssm_vs_stored_HCR_gg_t1t1x_QCD(self):
         proc = 'gg_t1t1x_mssm_QCD'
-        compare_processes(self,[HCR_processes_long_dic[proc]], 
+        compare_processes(self,[HCR_processes_long_dic[proc]],
                model = self.test_model_name, pickle_file = 'hcr_%s.pkl'%proc,
                filename = 'ptest_long_mssm_vs_HCR_%s'%proc, chosen_runner = 'HCR')
 
@@ -95,7 +95,7 @@ class ML5MSSMQCDTest(unittest.TestCase):
                model = self.test_model_name, pickle_file = 'hcr_%s.pkl'%proc,
                filename = 'ptest_long_mssm_vs_HCR_%s'%proc, chosen_runner = 'HCR')
 
-#   ('u u~ > t1 t1~',{'QCD':2,'QED':0},['QCD'],{'QCD':6,'QED':0}) 
+#   ('u u~ > t1 t1~',{'QCD':2,'QED':0},['QCD'],{'QCD':6,'QED':0})
     def test_long_mssm_vs_stored_HCR_uux_t1t1x_QCD(self):
         proc = 'uux_t1t1x_mssm_QCD'
         compare_processes(self,[HCR_processes_long_dic[proc]],
@@ -152,8 +152,8 @@ class ML5MSSMQCDTest(unittest.TestCase):
         compare_processes(self,[HCR_processes_long_dic[proc]],
                                model = self.test_model_name, pickle_file = 'hcr_%s.pkl'%proc,
                                filename = 'ptest_long_sm_vs_hcr_%s'%proc, chosen_runner = 'HCR',
-                               loop_induced = True)    
-        
+                               loop_induced = True)
+
 
 if '__main__' == __name__:
     # Get full logging info
@@ -162,9 +162,9 @@ if '__main__' == __name__:
     logging.getLogger('madgraph').setLevel(logging.INFO)
     logging.getLogger('cmdprint').setLevel(logging.INFO)
     logging.getLogger('tutorial').setLevel(logging.ERROR)
-        
+
     logging.basicConfig(level=logging.INFO)
-    
+
     # save hard-coded reference results
     # Replace here the path of your HCR output file
     HCRpath = '/Users/erdissshaw/Works/FLibatM/check-ML/OutputML'
@@ -172,7 +172,7 @@ if '__main__' == __name__:
     model = 'loop_MSSM-parallel_test_gogo'
     #model = 'loop_qcd_qed_sm_Gmu-parallel_test_WW'
     #model = 'loop_qcd_qed_sm_Gmu-parallel_test_ZZ'
-    #model = 'loop_qcd_qed_sm_Gmu-parallel_test_WZ' 
+    #model = 'loop_qcd_qed_sm_Gmu-parallel_test_WZ'
     for savefile in HCR_processes_long_dic.keys():
         res_list = []
         proc_list = []
@@ -190,12 +190,11 @@ if '__main__' == __name__:
         runner.setup(proc_list,res_list,model)
         ML5MSSMQCDTest.create_pickle(proc_list,pickle_file,runner,ref_runner=None,\
                                 model=runner.model,energy=runner.energy)
-        #loop_me_comparator.LoopPickleRunner.store_comparison( 
+        #loop_me_comparator.LoopPickleRunner.store_comparison(
         #    os.path.join(_pickle_path,pickle_file),
         #    [runner.proc_list,runner.res_list],
         #    runner.model,runner.name,energy=runner.energy)
-    
-    # runner=save_load_object.load_from_file(os.path.join(_pickle_path,"hcr_gg_ttxh_QED.pkl"))  
+
+    # runner=save_load_object.load_from_file(os.path.join(_pickle_path,"hcr_gg_ttxh_QED.pkl"))
     unittest.main() # necessary for unittest
     #ml5ew = ML5EWTest()
-        

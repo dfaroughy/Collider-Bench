@@ -1,4 +1,4 @@
-c ************************************************************************* 
+c *************************************************************************
 c
 c This file contains the routines used by the MC@NLO to integrate the
 c NLO cross sections, and to generate weighted/unweighted events.
@@ -13,7 +13,7 @@ c See the comments at the beginning of the bodies of these routines.
 c
 c ------------------------------ SIDE EFFECTS -----------------------------
 c
-c When the user is interested in generating weighted events, he can access 
+c When the user is interested in generating weighted events, he can access
 c the Vegas weight by inserting in the integrand function the following
 c common block:
 c      COMMON /CBSWGT/BSEWGT
@@ -30,26 +30,26 @@ c information on the sign of FF0 must be passed by the user to BASES/SPRING
 c by inserting the common block
 c      COMMON /CBSSGN/BSFSGN
 c in the body of FF, where BSFSGN is such that FF0=BSFSGN*FF (thus,
-c BSFSGN is either +1 or -1). Tipically, the definition of BSFSGN is 
-c the last line of code in the body of the function. 
+c BSFSGN is either +1 or -1). Tipically, the definition of BSFSGN is
+c the last line of code in the body of the function.
 c
 c ------------------------------ EVENT RECORD -----------------------------
 c
-c After SPRING successfully generates an event, it calls (from RUN_OF_SPRING) 
-c the routine 
+c After SPRING successfully generates an event, it calls (from RUN_OF_SPRING)
+c the routine
 c      SPRFIN
-c The user must use this routine to finalize his computation: selecting 
+c The user must use this routine to finalize his computation: selecting
 c (on statistical basis) a given flavour/color/kinematics configuration,
 c if the event corresponds to several configurations, and writing the
 c event on file. It must be stressed that SPRFIN is called
 c immediately after SPRING has gone through the input function FF in
 c the generation of an event: thus, FF must pass all the relevant
 c quantities to SPRFIN through common blocks.
-c 
-c ************************************************************************* 
-c 
-c 
-c 
+c
+c *************************************************************************
+c
+c
+c
 c
       subroutine run_bases(ff,prefix,ndim,nwild,ncall,it1,it2,ac1,ac2,
      #                    res,sig,resneg,signeg,ctime,itd1,itd2,iseed,
@@ -76,11 +76,11 @@ c  iseed:  the initial seed for random number generation
 c  iwrite: if equal to zero, bases does NOT write prefix_bs.data
 c  ircall: the actual number of sampling points per iteration (bases output)
 c
-c ******************************** WARNING ******************************** 
+c ******************************** WARNING ********************************
 c Resneg and signeg return sensible results only if the common block
 c      COMMON /CBSSGN/BSFSGN
 c is inserted in the body of the integrand function ff
-c ******************************** WARNING ******************************** 
+c ******************************** WARNING ********************************
 c Bases has been modified in order to output weighted events, thus
 c avoiding the use of spring. For this option to work, the common block
 c      COMMON /CBSWGT/BSEWGT
@@ -89,7 +89,7 @@ c
 c In the case of the wild variables, bases saves the probability
 c information for each hypercube associated to those variables;
 c this is crucial when spring is attached. If a variable is not
-c wild, the information on the shape of the integrand is lost 
+c wild, the information on the shape of the integrand is lost
 c during the phase of event generation.
 c Bases also leaves to the user the choice of whether a variable
 c is optimized (i.e., the grid is iteratively adjusted), or not.
@@ -140,9 +140,9 @@ c  ndim:   the dimension of the space that contains the support of ff
 c  nwild:  the number of wild variables
 c  iseed:  the initial seed for random number generation
 c
-c ******************************** WARNING ******************************** 
-c For the event to be finalised (for example, written on file), 
-c the routine 
+c ******************************** WARNING ********************************
+c For the event to be finalised (for example, written on file),
+c the routine
 c      SPRFIN
 c must be written by the user; the relevant information is passed
 c from FF to SPRFIN by means of common blocks
@@ -300,7 +300,7 @@ C
 *        INTV = ( 0 / 1 / any ) = ( Batch / Batch(Unix) / Interactive )
 *        IPNT = ( 0 / any ) = ( IBM Type / Ascii printer )
       COMMON /BSCNTL/ INTV, IPNT, NLOOP, MLOOP
- 
+
        COMMON/NINFO/ NODEID, NUMNOD
        COMMON /BDATE/ IDATE(3),ITIME(2)
 *            IDATE(1) : year        ITIME(1) : hour
@@ -309,25 +309,25 @@ C
       REAL*4 TIMEBS,TIMINT,TIMESP,TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME1/ TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME2/ TIMEBS(0:2),TIMINT,TIMESP(0:2)
- 
+
 *-------------------------------------------------
 *     Check the parameters defined by user
 *------------------------------------------------------
- 
+
       CALL BSCHCK
- 
+
 * ---------------------------------------------------------------
 *          Initialize timer
 * ---------------------------------------------------------------
- 
+
        CALL BSDATE
- 
+
        JFLAG  = 0
        LU     = 6
        IF( INTV .GT. 1 ) THEN
            CALL BSPRNT( LU, 1, IDUM1, IDUM2 )
        ENDIF
- 
+
 C  -----------------------------------------------------
 C     Defining grids
 C  -----------------------------------------------------
@@ -335,20 +335,20 @@ C  -----------------------------------------------------
        DO 100 I = 1, NWILD
           IG(I) = 1
   100  CONTINUE
- 
+
        CALL BSETGU
- 
+
        IF( INTV .GT. 1 ) THEN
            CALL BSPRNT( LU, 4, IDUM1, IDUM2 )
        ENDIF
- 
+
        CALL BSUTIM( 0, 2 )
- 
+
 *     ===================
        CALL BSINTG( FXN )
 *     ===================        For a parallel computer
 C                                      CALL BSCAST( JFLAG, 1 )
- 
+
 *  ----------------------------------------------------
 *     Accumulation to make probability distribution
 *  ----------------------------------------------------
@@ -363,10 +363,10 @@ C                                      CALL BSCAST( JFLAG, 1 )
        IT2   = ITF
        SNEG     = AVGINEG
        SIGMANEG = SDNEG
- 
+
        CALL BSUTIM( 0, 2 )
        TIMEB2 = RTIME
- 
+
        IF( NERROR .GT. 0 ) THEN
            WRITE(6,9900)
  9900      FORMAT(1X,'****************************************',
@@ -398,11 +398,11 @@ C                                      CALL BSCAST( JFLAG, 1 )
      .           /1X,'****************************************',
      .               '***************************************')
        ENDIF
- 
+
        IF( INTV .GT. 1 ) THEN
            CALL BSPRNT( LU, 2, IDUM1, IDUM2 )
        ENDIF
- 
+
        RETURN
        END
 
@@ -417,22 +417,22 @@ C                                      CALL BSCAST( JFLAG, 1 )
 *        Coded by S.Kawabata        Oct. '85                           *
 *                                                                      *
 ************************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER ( MXDIM = 50)
       COMMON /BPARM1/ XL(MXDIM),XU(MXDIM),NDIM,NWILD,
      .               IG(MXDIM),NCALL
       COMMON /BPARM2/ ACC1,ACC2,ITMX1,ITMX2
- 
+
       COMMON /BASE0/ JFLAG,IBASES
       COMMON /BASE1/ XLT(MXDIM),XUT(MXDIM),NDIMT,NWILDT,
      .               IGT(MXDIM),NCALLT
       COMMON /BASE2/ ACC1T,ACC2T,ITMX1T,ITMX2T
       COMMON /BSCNTL/ INTV, IPNT, NLOOP, MLOOP
       COMMON /XHCNTL/ LOCK
- 
+
       LOCK  = 1
- 
+
       IF( IBASES .NE.  1 ) THEN
           WRITE(6,9000)
  9000     FORMAT(
@@ -445,8 +445,8 @@ C                                      CALL BSCAST( JFLAG, 1 )
      .    /5X,'*************************************************')
           STOP
       ENDIF
- 
- 
+
+
       IF( NDIM .LT. 1) THEN
           WRITE(6,9100)
  9100     FORMAT(
@@ -459,9 +459,9 @@ C                                      CALL BSCAST( JFLAG, 1 )
      .    /5X,'*************************************************')
           STOP
       ENDIF
- 
+
       NDIMT = NDIM
- 
+
       DO 200 I = 1,NDIM
          IF( XU(I) .LE. -1.0D37) THEN
              WRITE(6,9200) I,I
@@ -475,11 +475,11 @@ C                                      CALL BSCAST( JFLAG, 1 )
      .       /5X,'*************************************************')
              STOP
          ENDIF
- 
+
          IGT(I)  = IG(I)
          XLT(I)  = XL(I)
          XUT(I)  = XU(I)
- 
+
   200 CONTINUE
 C
 C  Change the maximum number of the wild variables
@@ -509,10 +509,10 @@ C 10 ===> 15
      .    /5X,'*                                               *',
      .    /5X,'*************************************************')
       ENDIF
- 
+
       NWILDT = NWILD
       NCALLT = NCALL
- 
+
       ITMX1T = ITMX1
       ITMX2T = ITMX2
       ACC1T  = ACC1
@@ -550,7 +550,7 @@ C
       COMMON /BASE6/ D(NDMX,MXDIM),
      .               ALPH,XSAVE(NDMX,MXDIM),XTI,XTSI,XACC,ITSX
       COMMON /BRCALL/ING,INPG,INSP
- 
+
       DIMENSION  XIN(NDMX)
       DATA  ONE/ 1.0D0/
 C
@@ -577,11 +577,11 @@ C==> Determine NPG: Number of sampling points per subhypercube
           ING    = NG
           INPG   = NPG
           INSP   = NSP
- 
+
           XI(1,1)= ONE
           MA(1)  = 1
           DX(1)  = XU(1)-XL(1)
- 
+
           IF( NDIM .GT. 1 ) THEN
               DO 130 J = 2,NDIM
                  XI(1,J)= ONE
@@ -660,7 +660,7 @@ C
       REAL*4 STIME
       COMMON /BSRSLT/AVGI,SD,CHI2A,STIME,ITG,ITF
 *
- 
+
       DIMENSION  XIN(NDMX),R(NDMX),DT(MXDIM),DDX(NDMX)
       DATA  ONE/1.0D0/,ZERO/0.0D0/,N0/0/,N1/1/
 *
@@ -692,11 +692,11 @@ C
               ENDIF
           ENDIF
       ENDIF
- 
+
 C======= SMOOTHING THE FUNCTION D(I,J)
 C
         CLOGE   = 1.0D0/LOG(10.0D0)
- 
+
         NDM     = ND-1
         DO 780 J= N1,NDIM
          IF( IG(J) .EQ. 1 ) THEN
@@ -713,7 +713,7 @@ C
 C
 C=========== REDEFINE THE GRID
 C
- 
+
           DTLOG   = LOG(DT(J))
           DT10    = CLOGE*DTLOG
           RC    = ZERO
@@ -798,25 +798,25 @@ C
 *           by S.Kawabata    March 1994 at KEK
 *                                                                     *
 ***********************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       REAL*4 STIME
       COMMON /BSRSLT/AVGI,SD,CHI2A,STIME,ITG,ITF
- 
+
 *  Print Title
- 
+
       CALL BSPRNT( LU, 1, IDUM1, IDUM2 )
- 
+
 *  Print Bases parameters
- 
+
       CALL BSPRNT( LU, 4, IDUM1, IDUM2 )
- 
+
 *  Print Computing time information
- 
+
       CALL BSPRNT( LU, 3, IDUM1, IDUM2 )
- 
+
 *  Print Convergency Behaviors
- 
+
       DO 100 ISTEP = 0, 1
          ITX  = ITG
          IF( ISTEP .EQ. 1 ) ITX = ITF
@@ -824,10 +824,10 @@ C
       IF( ITX .GT. 0 ) THEN
 
          CALL BSPRNT( LU, 8, ITX, ISTEP )
- 
+
       ENDIF
   100 CONTINUE
- 
+
       RETURN
       END
 
@@ -864,13 +864,13 @@ C
 * Modified by S. Frixione in order to exclude the built-in             *
 * histogramming package. The common block bfxlhisto has been added     *
 ************************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER (MXDIM = 50, NDMX = 50 )
       COMMON /BPARM1/ XL(MXDIM),XU(MXDIM),NDIM,NWILD,
      .               IG(MXDIM),NCALL
       COMMON /BPARM2/ ACC1,ACC2,ITMX1,ITMX2
- 
+
       COMMON /BASE0/ JFLAG,IBASES
       COMMON /BASE6/ D(NDMX,MXDIM),
      .               ALPH,XSAVE(NDMX,MXDIM),XTI,XTSI,XACC,IGOPT
@@ -891,15 +891,15 @@ C
        CALL BSTIME( TIME0, 0 )
        TIMEB1 = TIME0
        TIMINT = 0
- 
+
 *     Histogram buffer initialization
        IF(LHISTO)THEN
          LU  = 6
          CALL BHINIT( LU )
        ENDIF
- 
+
 *=========================================================
- 
+
 * (1) Set the parameters INTV and IPNT
        INTV  = 2
        IPNT  = 1
@@ -915,7 +915,7 @@ C
 *          NODEID = 0
 *          NUMNOD = 1
 *      ENDIF
- 
+
 C---------------------------------------------------------------
 C (5)  Set initial seeds of random number generator
 c Modified by SF: this is now in init_of_bases
@@ -938,17 +938,17 @@ C
           IG(I) = 1
           XU(I)  = -1.0D37
   100  CONTINUE
- 
+
 *    Initialization of computing time table of BASES
        DO 200 I = 0, 2
           TIMEBS(I) = 0.0
   200  CONTINUE
- 
+
 *-------------------------------------------
 *      Don't change IBASES from this value
 *-------------------------------------------
        IBASES =  1
- 
+
        RETURN
        END
 
@@ -978,7 +978,7 @@ C
 * added in order to deal with weighted events; it must be inserted    *
 * also in the integrand function.                                     *
 ***********************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
 
       EXTERNAL FXN
@@ -1010,10 +1010,10 @@ C
 *        INTV = ( 0 / 1 / any ) = ( Batch / Batch(Unix) / Interactive )
 *        IPNT = ( 0 / any ) = ( IBM Type / Ascii printer )
       COMMON /BSCNTL/ INTV, IPNT, NLOOP, MLOOP
- 
+
       REAL*8  X(MXDIM)
       INTEGER KG(MXDIM),IA(MXDIM)
- 
+
       COMMON/NINFO/ NODEID, NUMNOD
       REAL*4 TIMEBS,TIMINT,TIMESP,TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME1/ TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
@@ -1027,18 +1027,18 @@ C     INTEGER NEFF(2)
 *     Parameters for checking convergency
 *
       DATA ACLMT,FC / 25.0D0, 5.0D0 /
- 
- 
+
+
       DATA  ONE/ 1.0D0/, ZERO/0.0D0/, LU / 6/
       DATA  N0/0/, N1/1/, HUNDRT/100.0D0/
- 
+
 ************************************************************************
 *                       Initialization Part
 ************************************************************************
 *=======================================================================
 *          Determine the number of hypercubes NSP
 *=======================================================================
- 
+
       XND     = ND
       NSP     = NG**NWILD
       XJAC    = 1.0D0
@@ -1049,7 +1049,7 @@ C     INTEGER NEFF(2)
       DXG     = 1.0D0/NG
       DV2G    = DXG**(2*NWILD)/NPG/NPG/(NPG-1)
       DXG     = DXG*XND
- 
+
       IF( NSP .EQ. 1 ) THEN
 *=======================================================================
 *           Determination of the number of sampling points
@@ -1094,7 +1094,7 @@ C     INTEGER NEFF(2)
       NER3    = N0
       SUMTI   = ZERO
       SUMTSI  = ZERO
- 
+
       IF(JFLAG .EQ. N0 .OR. JFLAG .EQ. N1 ) THEN
 *-----------------------------------------------------------------------
 *        JFLAG = 0  : The first trial of the grid optim. step
@@ -1145,16 +1145,16 @@ C         ENDIF
 C
 C         IT1   = IT + 1
       ENDIF
- 
+
 *------- Set the expected accuracy and the max. iteration number -------
- 
+
       ITMX   = ITMX1
       ACC    = ACC1*0.01D0
       IF( ISTEP .EQ. N1 ) THEN
          ITMX = ITMX2
          ACC  = ACC2*0.01D0
       ENDIF
- 
+
 *-------- Print the title of the convergency behavior table -----------
 *                  in the interactive mode
       IF( INTV .GT. 1 ) THEN
@@ -1163,11 +1163,11 @@ C         IT1   = IT + 1
 *         -----------------------------------
       ENDIF
       NEGFLG     = 0
- 
+
 *    =====================
       CALL BSUTIM( 0, 2 )
 *    =====================
- 
+
 *********************************************************************
 *               Main Integration Loop
 *********************************************************************
@@ -1177,7 +1177,7 @@ C         IT1   = IT + 1
 *=======================================================================
 *                 Initialization for the iteration
 *=======================================================================
- 
+
          SCALLS  = SCALLS + CALLS
          NGOOD   = N0
          NEGTIV  = N0
@@ -1185,17 +1185,17 @@ C         IT1   = IT + 1
          TSI     = TI
          TINEG   = ZERO
          TSINEG  = TINEG
- 
+
          IF( ISTEP .EQ. N0 ) THEN
              DO 200 J= N1,NDIM
              DO 200 I=1,ND
                 D(I,J)= TI
   200        CONTINUE
          ENDIF
- 
+
          NODEX  = NODEID
          IF( NODEID .EQ. 0 )  NODEX = NUMNOD
- 
+
 *---------------------------------------------------------------------
 *        Distributing hyper cubes to NumNode nodes
 *           NCNODE(1,NODEX)   : 1st cube number for the node NODEX
@@ -1203,14 +1203,14 @@ C         IT1   = IT + 1
 *                    NODEX    : node number 1 => NumNode(=0)
 *                    NODEX    : node number 1 => NumNode(=0)
 *---------------------------------------------------------------------
- 
+
          NSP1  = NCNODE(1,NODEX)
          NSP2  = NCNODE(2,NODEX)
 *                                 Dummy loopfor a parallel processor
 C                                 IF( NSP1 .GT. 1 ) THEN
 C                                     CALL DRLOOP( NDIM*NPG*(NSP1-1) )
 C                                 ENDIF
- 
+
 *=====================================================================
 *      Loop for hypercube from NSP1 to NSP2 in the NodeX-th node
 *=====================================================================
@@ -1229,7 +1229,7 @@ C                                 ENDIF
   210           CONTINUE
             ENDIF
             KG(NWILD)     = NP/MA(NWILD) + 1
- 
+
 *---------------------------------------------------------------------
 *       If number of hypercubes is only one,
 *        Distributing sampling points to NumNode nodes
@@ -1237,14 +1237,14 @@ C                                 ENDIF
 *           NPNODE(2,NODEX)   : Last sample point for the node NODEX
 *                    NODEX    : node number 1 => NumNode(=0)
 *---------------------------------------------------------------------
- 
+
             NPG1  = NPNODE(1,NODEX)
             NPG2  = NPNODE(2,NODEX)
 *                                 Dummy loop for a parallel processor
 C                                 IF( NPG1 .GT. 1 ) THEN
 C                                     CALL DRLOOP( NDIM*(NPG1-1) )
 C                                 ENDIF
- 
+
 *=====================================================================
 *          Loop for sampling points from NPG1 to NPG2
 *                in the single hypercube case
@@ -1255,7 +1255,7 @@ C                                 ENDIF
 *---------------------------------------------------------------------
 *        Determine the integration variables by random numbers
 *---------------------------------------------------------------------
- 
+
                WGT   = XJAC
                DO 250 J= 1,NDIM
                   IF( J .LE. NWILD ) THEN
@@ -1287,7 +1287,7 @@ c the grid optimisation step
 *-----------------------------------------------------------------------
 *             Check the value of the integrand
 *-----------------------------------------------------------------------
- 
+
                IF( FXG .NE. 0.0 ) THEN
                    NGOOD = NGOOD + 1
                    IF( ISTEP .EQ. 1 ) THEN
@@ -1309,11 +1309,11 @@ c the grid optimisation step
                        ENDIF
                    ENDIF
                ENDIF
- 
+
 *-----------------------------------------------------------------------
 *              Accumulation of FXG and FXG*FXG
 *-----------------------------------------------------------------------
- 
+
                F2    = FXG*FXG
                FB    = FB + FXG
                F2B   = F2B + F2
@@ -1339,11 +1339,11 @@ C                                     CALL BSDSUM(  FB, 1 )
 C                                     CALL BSDSUM( F2B, 1 )
 C                                 ENDIF
 *-----------------------------------------------------------------------
- 
+
 *-----------------------------------------------------------------------
 *         Calculate the estimate and variance in the hypercube
 *-----------------------------------------------------------------------
- 
+
             F2B   = DSQRT(F2B*NPG)
             F2S   = (F2B-FB)*(F2B+FB)
             TI    = TI+FB
@@ -1360,25 +1360,25 @@ C                                 ENDIF
 C                                 IF( NSP2 .LT. NSP ) THEN
 C                                     CALL DRLOOP(NDIM*NPG*(NSP-NSP2))
 C                                 ENDIF
- 
+
 *                                 Global sum of efficiency and frequency
 *                                     of negative valued function
 C                                 NEFF(1) = NGOOD
 C                                 NEFF(2) = NEGTIV
 C                                 CALL BSISUM( NEFF, 2 )
- 
+
 C                                 TX(1) = TI
 C                                 TX(2) = TSI
 C                                 IF( NSP .EQ. 1 ) THEN
 C                                     CALL BSDSUM(   TX, 2 )
 C                                 ENDIF
- 
+
 *                                 Global sum of grid information
 C                                 IF( ISTEP .EQ. 0 ) THEN
 C                                     NOWORK = NDMX*NDIM
 C                                     CALL BSDSUM(    D, NOWORK )
 C                                 ENDIF
- 
+
 *=====================================================================
 *           Compute Result of this Iteration
 *=====================================================================
@@ -1391,12 +1391,12 @@ C                                 ENDIF
          ENDIF
 *       -------------
 *--------------------------------------------------------------------
- 
+
 C        TI     = TX(1)
 C        TSI    = TX(2)
 C        NGOOD  = NEFF(1)
 C        NEGTIV = NEFF(2)
- 
+
          TI    = TI/CALLS
          TSI   = TSI*DV2G
          TINEG    = TINEG/CALLS
@@ -1407,7 +1407,7 @@ C        NEGTIV = NEFF(2)
 **
          TI2   = TI*TI
          TI2NEG   = TINEG*TINEG
- 
+
          IF( NGOOD .LE. 10 ) THEN
 *           --------------------------------
              CALL BSPRNT( LU, 9, IDUM1, IDUM2 )
@@ -1415,9 +1415,9 @@ C        NEGTIV = NEFF(2)
 *            *****************
                    STOP
 *            *****************
- 
+
          ENDIF
- 
+
 *--------------------------------------------------------------------
 *               Calculate the cumulative result
 *--------------------------------------------------------------------
@@ -1435,11 +1435,11 @@ C        NEGTIV = NEFF(2)
          SCHINEG  = SCHINEG+TI2NEG*WGTNEG
          AVGINEG  = SINEG/SWGTNEG
          SDNEG    = DSQRT(ONE/SWGTNEG)
- 
+
 *---------------------------------------------------------------------
 *             Save the results in the buffer
 *---------------------------------------------------------------------
- 
+
          TSI   = DSQRT(TSI)
          ITX         = MOD( IT, ITM)
          IF( ITX .EQ. 0 ) ITX = ITM
@@ -1452,18 +1452,18 @@ C        NEGTIV = NEFF(2)
          TACC              = ABS(TSI/TI*HUNDRT)
          TSTD (ITX,ISTEP)  = TACC
          PCNT (ITX,ISTEP)  = ABS(SD/AVGI*HUNDRT)
- 
+
 *----------------------------------------------------------------------
 *                  Check cumulative accuracy
 *----------------------------------------------------------------------
- 
+
          IF( NODEID .EQ. 0 ) THEN
- 
+
 *-------------------  Check cumulative accuracy -----------------------
- 
+
              SDAV  = SD/AVGI
              IF((ABS(SDAV) .LE. ACC)) NEND = N1
- 
+
              IF( ISTEP .EQ. N1 ) THEN
                  IF( TACC .GT. ACLMT ) THEN
                      IF( NER1 .EQ. 0 ) THEN
@@ -1472,7 +1472,7 @@ C        NEGTIV = NEFF(2)
  9900                    FORMAT('* (',I1,') Temp. accuracy of it-#',
      .                         I3,' is too large comparing to',
      .                         F6.2,' percent.',6X,'*')
-                         WRITE(ERROR(2,NERROR),9901) TACC,ACLMT 
+                         WRITE(ERROR(2,NERROR),9901) TACC,ACLMT
  9901                    FORMAT('*',8X,'Temp. accuracy (',
      .                         F7.4,' % )  >>   (',
      .                         F7.4,' % )',23X,'*')
@@ -1498,7 +1498,7 @@ C        NEGTIV = NEFF(2)
 *patch end
                               RE = TI/ORDER
                               RE1 = AVTI
-                              AC  = FDEVI 
+                              AC  = FDEVI
 *patch TI:1995/08/25
                               ARE1 = ABS(AVTI)
                               AAC  = ABS(FDEVI)
@@ -1515,13 +1515,13 @@ C        NEGTIV = NEFF(2)
 *patch end
                               RE1 = AVTI/ORDR1
                               AC  = AC/ORDR1
-                              WRITE(ERROR(2,NERROR),9911) RE,IORDR, 
-     .                                          RE1,AC,IORDR1 
+                              WRITE(ERROR(2,NERROR),9911) RE,IORDR,
+     .                                          RE1,AC,IORDR1
  9911                         FORMAT('*        Temp. Estimate (',
      .                         F10.6,' E',I3,')  >  (',F10.6,'+',F8.6,
      .                         ' ) E',I3,', or',1X,'*')
-                              WRITE(ERROR(3,NERROR),9912) RE,IORDR, 
-     .                                          RE1,AC,IORDR1 
+                              WRITE(ERROR(3,NERROR),9912) RE,IORDR,
+     .                                          RE1,AC,IORDR1
  9912                         FORMAT('*        Temp. Estimate (',
      .                         F10.6,' E',I3,')  <  (',F10.6,'-',F8.6,
      .                         ' ) E',I3,5X,'*')
@@ -1542,15 +1542,15 @@ C        NEGTIV = NEFF(2)
                              CALL BSORDR( ARE1, FX2, ORDER, IORDR)
 *patch end;
                              RE1 = TSI/ORDER
-                             AC  = FDEVI 
+                             AC  = FDEVI
 *patch TI:1995/08/25
                              AAC  = ABS(FDEVI)
 *                            CALL BSORDR( AC, FX2, ORDR1, IORDR1)
                              CALL BSORDR( AAC, FX2, ORDR1, IORDR1)
 *patch end;
                              AC  = AC/ORDR1
-                             WRITE(ERROR(2,NERROR),9921) RE1,IORDR, 
-     .                                         AC,IORDR1 
+                             WRITE(ERROR(2,NERROR),9921) RE1,IORDR,
+     .                                         AC,IORDR1
  9921                        FORMAT('*        Temp. Error (',
      .                         F10.6,' E',I3,')  >  (',F10.6,
      .                         ' E',I3,')',18X,'*')
@@ -1566,16 +1566,16 @@ C        NEGTIV = NEFF(2)
                  FDEVI  = FC*AVTSI
              ENDIF
          ENDIF
- 
+
 *------------------------------------------- for a parallel processor
- 
+
 *                                  Broadcast
 C                                  CALL BSCAST( NEND, 1 )
- 
+
 *----------------------------------------------------------------------
 *        Smoothing the Distribution D(I,J) and refine the grids
 *----------------------------------------------------------------------
- 
+
          IF( ISTEP .LE. N0 ) THEN
              IF( IT .EQ. ITMX ) NEND = N1
 *           ---------------------
@@ -1585,19 +1585,19 @@ C                                  CALL BSCAST( NEND, 1 )
 *       ==========================
          CALL BSUTIM( 0, ISTEP )
 *       ==========================
- 
+
          TIME (ITX,ISTEP)  = TIMINT
          STIME             = TIMINT
- 
+
 *---- Print the convergency behavior table in the interactive mode ----
          IF( INTV .GT. 1 ) THEN
 *            ---------------------------------
               CALL BSPRNT ( LU, 6, ISTEP, IDUM2 )
 *            ---------------------------------
          ENDIF
- 
+
          IF( NEND .EQ. N1 ) GO TO 600
- 
+
 *       ======================
          CALL BSUTIM( 0, 2 )
 *       ======================
@@ -1606,7 +1606,7 @@ C                                  CALL BSCAST( NEND, 1 )
 *======
       IT    = IT - N1
       NEND  = N1
- 
+
 ***********************************************************************
 *                   Termination of BASES
 ***********************************************************************
@@ -1614,17 +1614,17 @@ C                                  CALL BSCAST( NEND, 1 )
   600 CONTINUE
 *======
 *---------------------------------------------- For a parallel computer
- 
+
 *                                 Global sum of histograms
 C                                 CALL BHSUM
 *                                 Global sum of probabilities
 C                                 CALL BSDSUM(  DXD, NSP )
 *                                 Global sum of the max.value in each HC
 C                                 CALL BSDSUM(  DXP, NSP )
- 
- 
+
+
 *======================= End of the step ? ============================
- 
+
       IF( NEND .EQ. N1 ) THEN
           IF( INTV .GT. 1 ) THEN
 *            ---------------------------------
@@ -1642,7 +1642,7 @@ C                                 CALL BSDSUM(  DXP, NSP )
 *    ======================
        CALL BSUTIM( 0, 2 )
 *    ======================
- 
+
       RETURN
       END
 
@@ -1662,16 +1662,16 @@ C                                 CALL BSDSUM(  DXP, NSP )
 *                                                                     *
 *     S. Kawabata   March '94                                         *
 ***********************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER (ITM = 50)
       REAL*4 TIME, EFF, WRONG, TRSLT, TSTD, PCNT
       COMMON /BASE5/ ITRAT(ITM,0:1),TIME(ITM,0:2),EFF(ITM,0:1),
      .               WRONG(ITM,0:1),RESLT(ITM,0:1),ACSTD(ITM,0:1),
      .               TRSLT(ITM,0:1),TSTD(ITM,0:1),PCNT(ITM,0:1)
- 
+
       CALL BSTCNV( TIME(I,ISTEP), IH, MN, IS1, IS2 )
- 
+
       RE  = RESLT(I,ISTEP)
       AC  = ABS(ACSTD(I,ISTEP))
       ARE = ABS(RE)
@@ -1689,8 +1689,8 @@ C                                 CALL BSDSUM(  DXP, NSP )
  9631 FORMAT(I4,I4,F6.2,1P,E11.3, 0P,1X,F6.3,
      .              F10.6,'(+-',F8.6,')E',I3.2,1X,F6.3,
      .          1X,I3,':',I2,':',I2,'.',I2.2)
- 
- 
+
+
       RETURN
       END
 
@@ -1714,10 +1714,10 @@ C*((Author))                                                           *
 C*  S.Kawabata                                                         *
 C*                                                                     *
 C***********************************************************************
- 
+
       SUBROUTINE BSORDR(VAL, F2, ORDER, IORDR)
       IMPLICIT REAL*8 (A-H,O-Z)
- 
+
       IF( VAL .NE. 0.0 ) THEN
           ORDER    =  LOG10( VAL )
           IORDR    =  INT( ORDER )
@@ -1729,7 +1729,7 @@ C***********************************************************************
           ORDER  = 1.0D0
           F2    = 0.0D0
       ENDIF
- 
+
       RETURN
       END
 
@@ -1747,7 +1747,7 @@ C***********************************************************************
 *     S. Kawabata   May 1992                                          *
 *     Last update   March 1994                                        *
 ***********************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER (MXDIM = 50, NDMX = 50, LENG = 32768)
       COMMON /BASE0/ JFLAG,IBASES
@@ -1783,13 +1783,13 @@ C***********************************************************************
 *
       DATA  ICH / 'Convergency Behavior for the Grid Optimization Step',
      .            'Convergency Behavior for the Integration Step      '/
- 
+
       IF( NODEID .NE. 0 ) RETURN
       CN = CHAR(12)
- 
+
       GO TO ( 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 ), ID
 C----------------------------------------------------------- BSMAIN
- 
+
   100 IF( IPNT .EQ. 0 ) THEN
           WRITE(LU,9600)
  9600     FORMAT(/1H1,/1H )
@@ -1814,10 +1814,10 @@ C----------------------------------------------------------- BSMAIN
      ./8X,'*                   BASES Version 5.1                    *',
      ./8X,'*           coded by S.Kawabata KEK, March 1994          *',
      ./8X,'**********************************************************')
- 
+
           RETURN
 C----------------------------------------------------------- BSMAIN
- 
+
   200     IF( IPNT .EQ. 0 ) THEN
               WRITE(LU,9600)
           ELSE
@@ -1826,14 +1826,14 @@ C----------------------------------------------------------- BSMAIN
           WRITE(LU,9300)
  9300     FORMAT(20X,
      .         '****** END OF BASES *********')
- 
+
 C----------------------------------------------------------- BSMAIN
- 
+
   300 CONTINUE
       WRITE(LU,9305)
  9305 FORMAT(
      .//5X,'<<   Computing Time Information   >>')
- 
+
 *     WRITE(LU,9310) (IDATE(I),I=1,3),(ITIME(J),J=1,2)
 *9310 FORMAT(/15X,'Start at: ',I2,'/',I2,'/',I2,2X,I2.2,':',I2.2)
 *     CALL BSDATE
@@ -1860,9 +1860,9 @@ C----------------------------------------------------------- BSMAIN
       WRITE(LU,9376) EXTIM
  9376 FORMAT(19X,'Expected time for 1000 events :',F10.2,' Sec')
       RETURN
- 
+
 C----------------------------------------------------------- BASES
- 
+
   400 NSP   = NG**NWILD
       MCALL = NSP*NPG
       WRITE(LU,9400) NDIM,NWILD,MCALL,NCALL,ND,NG,NSP
@@ -1903,10 +1903,10 @@ C----------------------------------------------------------- BASES
      .//5X,' (4) Parameters for the integration step',
      . /5X,'     Max.# of iterations: ITMX2 =',I9,
      . /5X,'     Expected accuracy  : Acc2  =',F9.4,' %')
- 
+
           RETURN
 C----------------------------------------------------------- BASES
- 
+
   500    IF( INTV .LE. 1 )    RETURN
          ISTEP  = IP1
          IF( IPNT .EQ. 0 ) THEN
@@ -1928,29 +1928,29 @@ C----------------------------------------------------------- BASES
          WRITE(LU,9570)
  9570    FORMAT(1X,7('----------'),'--------')
          RETURN
- 
+
 C----------------------------------------------------------- BASES
- 
+
   600    IF( INTV .LE. 1 ) RETURN
          ISTEP  = IP1
          ITX = MOD( IT, ITM)
          IF( ITX .EQ. 0 ) ITX = ITM
- 
+
          CALL BSLIST( LU, ITX, ISTEP )
- 
+
          RETURN
- 
+
   700    IF( INTV .LE. 1 ) RETURN
          WRITE(LU,9570)
- 
+
          RETURN
 C----------------------------------------------------------- BASES
- 
+
   800    ITJ    = IP1
          ISTEP  = IP2
          ITX  = MOD( ITJ, ITM )
          IF( ITX .EQ. 0 ) ITX = ITM
- 
+
          IF( ITRAT(1,ISTEP) .EQ. 1 ) THEN
              NDEV   = 1
          ELSE
@@ -1965,7 +1965,7 @@ C----------------------------------------------------------- BASES
   610        CONTINUE
              IF( ITST .EQ. 1 ) NDEV = 1
          ENDIF
- 
+
          IF( IPNT .EQ. 0 ) THEN
              WRITE(LU,9600)
          ELSE
@@ -1976,32 +1976,32 @@ C----------------------------------------------------------- BASES
          WRITE(LU,9570)
          WRITE(LU,9550)
          WRITE(LU,9570)
- 
+
   625    IF( NDEV .EQ. 1 ) THEN
              ITST = 1
              ITFN = ITX
          ENDIF
- 
+
          DO 650 I = ITST, ITFN
- 
+
             CALL BSLIST( LU, I, ISTEP )
- 
+
   650    CONTINUE
          NDEV  = NDEV - 1
          IF( NDEV .GT. 0 ) GO TO 625
          WRITE(LU,9570)
- 
+
       RETURN
- 
+
 C----------------------------------------------------------- BASES
- 
+
   900 WRITE(LU,9950)
  9950 FORMAT(1X,'******** FATAL ERROR IN BASES **************',
      .      /1X,'There are no enough good points in this iteration.',
      .      /1X,'Process was terminated due to this error.')
- 
+
       RETURN
- 
+
 C-----------------------------------------------------------------
  1000 LOOP = IP1
       IF( IP2 .NE. 0 ) THEN
@@ -2019,7 +2019,7 @@ C-----------------------------------------------------------------
      .                     '  It1  It2 ( H: M: Sec )',
      .     /10X,5('----------'),'------')
       ENDIF
- 
+
       RE  = AVGI
       AC  = ABS(SD)
       ARE = ABS(RE)
@@ -2035,7 +2035,7 @@ C-----------------------------------------------------------------
  9660 FORMAT(10X,I6,F10.6,'(+-',F8.6,')E',I3.2,2I5,
      .        1X,I3,':',I2,':',I2,'.',I2.2,
      .      /10X,5('----------'),'------')
- 
+
       RETURN
       END
 
@@ -2077,8 +2077,8 @@ C
 *     S.Kawabata    June '90 at KEK                                    *
 *                                                                      *
 ************************************************************************
- 
- 
+
+
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER (MXDIM = 50, NDMX = 50, LENG = 32768)
       COMMON /BASE1/ ND1(5*MXDIM+3)
@@ -2099,7 +2099,7 @@ C     COMMON /BASE2/ ND2(6)
 *    .               WRONG(ITM,0:1),RESLT(ITM,0:1),ACSTD(ITM,0:1),
 *    .               TRSLT(ITM,0:1),TSTD(ITM,0:1),PCNT(ITM,0:1)
       COMMON /RANDM/ ND6(45)
- 
+
       PARAMETER ( NHS = 50, NSC = 50 )
       COMMON /PLOTH/ NPH(18*(NHS+NSC)+29),NW
       COMMON /PLOTB/ IBUF( 281*NHS + 2527*NSC )
@@ -2108,15 +2108,15 @@ C     COMMON /BASE2/ ND2(6)
 *    .              NHIST, MAPL(4,NHS),
 *    .              NSCAT, MAPD(4,NSC),
 *    .              NW
- 
+
       COMMON/NINFO/ NODEID, NUMNOD
- 
+
       IF( NODEID .NE. 0 ) RETURN
- 
+
       REWIND LUN
       READ(LUN) ND1,ND3,ND4,ND5,ND6,NPH
 C     READ(LUN) ND1,ND2,ND3,ND4,ND5,ND6,NPH
- 
+
       READ(LUN) NW,(IBUF(I),I=1,NW)
 C
       RETURN
@@ -2139,12 +2139,12 @@ C
 * (Author)
 *    S.Kawabata 1992 June 15
 ************************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       REAL*4 TIME
       INTEGER  HOUR
       DATA HOUR, MINUT, N100/ 360000, 6000, 100 /
- 
+
       ISEC  = TIME*N100
       IH    = 0
       MN    = IH
@@ -2161,32 +2161,32 @@ C
       ENDIF
       IS1  = ISEC/N100
       IS2  = MOD( ISEC, N100)
- 
+
       RETURN
       END
 
 
       SUBROUTINE BSUTIM( JOB, ID )
- 
+
 C     COMMON/NINFO/ NODEID, NUMNOD
       COMMON /BTIME1/ TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME2/ TIMEBS(0:2),TIMINT,TIMESP(0:2)
- 
+
 *  Prior to call thisroutine, BSTIME( TIME0, 1 ) should be called
 *  for initialize the time offset TIME0.
 *
 *     print *,'bsutim .. job, id ',job,id
       CALL BSTIME( RTIME, 1)
       DTIME      = RTIME - TIME0
- 
+
       IF( JOB .EQ. 0 ) THEN
 *       For BASES computing time
 *         ID  = 0  : Grid defining step
 *               1  : Integration step
 *               2  : Others
- 
+
           TIMEBS(ID) = TIMEBS(ID) + DTIME
- 
+
           IF( ID .LE. 1 ) THEN
               TIMINT = TIMINT + DTIME
           ENDIF
@@ -2195,13 +2195,13 @@ C     COMMON/NINFO/ NODEID, NUMNOD
 *         ID  = 0  : Event generation
 *               1  : Overhead
 *               2  : Others
- 
+
           TIMESP(ID) = TIMESP(ID) + DTIME
- 
+
       ENDIF
- 
+
       TIME0      = RTIME
- 
+
       RETURN
       END
 
@@ -2217,7 +2217,7 @@ C     COMMON/NINFO/ NODEID, NUMNOD
 *     S.Kawabata  June '90 at KEK                                      *
 *                                                                      *
 ************************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER (MXDIM = 50, NDMX = 50, LENG = 32768)
       COMMON /BASE1/ ND1(5*MXDIM+3)
@@ -2238,7 +2238,7 @@ C     COMMON /BASE2/ ND2(6)
 *    .               WRONG(ITM,0:1),RESLT(ITM,0:1),ACSTD(ITM,0:1),
 *    .               TRSLT(ITM,0:1),TSTD(ITM,0:1),PCNT(ITM,0:1)
       COMMON /RANDM/ ND6(45)
- 
+
       PARAMETER ( NHS = 50, NSC = 50 )
       COMMON /PLOTH/ NPH(18*(NHS+NSC)+29),NW
       COMMON /PLOTB/ IBUF( 281*NHS + 2527*NSC )
@@ -2247,11 +2247,11 @@ C     COMMON /BASE2/ ND2(6)
 *    .              NHIST, MAPL(4,NHS),
 *    .              NSCAT, MAPD(4,NSC),
 *    .              NW
- 
+
       COMMON/NINFO/ NODEID, NUMNOD
- 
+
       IF( NODEID .NE. 0 ) RETURN
- 
+
       REWIND LUN
       WRITE(LUN) ND1,ND3,ND4,ND5,ND6,NPH
 C     WRITE(LUN) ND1,ND2,ND3,ND4,ND5,ND6,NPH
@@ -2272,25 +2272,25 @@ C*((Arguement))                                                       *
 C*  ISEED: Seed                                                       *
 C*                                                                    *
 C**********************************************************************
- 
+
 *     REAL FUNCTION DRN*8(ISEED)
       DOUBLE PRECISION FUNCTION DRN(ISEED)
- 
+
       COMMON/RANDM/RDM(31),RM1,RM2,IA1,IC1,M1,IX1,
      .                             IA2,IC2,M2,IX2,
      .                             IA3,IC3,M3,IX3
- 
+
 C Generate Next number in sequence
- 
+
       IX1    = MOD( IA1*IX1+IC1, M1 )
       IX2    = MOD( IA2*IX2+IC2, M2 )
       IX3    = MOD( IA3*IX3+IC3, M3 )
       J      = 1 + (31*IX3)/M3
       DRN    = RDM(J)
       RDM(J) = ( FLOAT(IX1)+FLOAT(IX2)*RM2 )*RM1
- 
+
 C Omit following statement if function arguement passed by value:
- 
+
       ISEED = IX1
       RETURN
       END
@@ -2308,13 +2308,13 @@ C*((Arguement))                                                       *
 C*  ISEED: SEED                                                       *
 C*                                                                    *
 C**********************************************************************
- 
+
       SUBROUTINE DRNSET( ISEED )
- 
+
       COMMON/RANDM/RDM(31),RM1,RM2,IA1,IC1,M1,IX1,
      .                             IA2,IC2,M2,IX2,
      .                             IA3,IC3,M3,IX3
- 
+
       IA1 =    1279
       IC1 =  351762
       M1  = 1664557
@@ -2324,9 +2324,9 @@ C**********************************************************************
       IA3 =   15091
       IC3 =    6171
       M3  =   29201
- 
+
 C Initialization
- 
+
       IX1  = MOD( ISEED, M1 )
       IX1  = MOD( IA1*IX1+IC1, M1 )
       IX2  = MOD( IX1, M2 )
@@ -2339,7 +2339,7 @@ C Initialization
          IX2   = MOD( IA2*IX2+IC2, M2 )
          RDM(J)= ( FLOAT(IX1)+FLOAT(IX2)*RM2 )*RM1
   100 CONTINUE
- 
+
       RETURN
       END
 c
@@ -2409,7 +2409,7 @@ c time, and this could force the code to crash, but it could also
 c lead to incorrect results without notice.
 c
 c A new common block /sprng0/ispring has therefore been introduced,
-c which controls the initialization of spring. 
+c which controls the initialization of spring.
 ************************************************************************
 *    ==================================                                *
       SUBROUTINE SPRING(FUNC, MXTRY, MXEVTS )
@@ -2427,7 +2427,7 @@ c which controls the initialization of spring.
 * mis-generations, now issued only after the mis-generations are       *
 * than 1% of the total number events to be generated                   *
 ************************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       EXTERNAL FUNC
       COMMON/SPRNG0/ISPRING
@@ -2439,10 +2439,10 @@ c which controls the initialization of spring.
      .               ND,NG,NPG,MA(MXDIM)
       COMMON /BDATE/ IDATE(3),ITIME(2)
       COMMON /BSCNTL/ INTV, IPNT, NLOOP, MLOOP
- 
+
       COMMON /SPRNG1/ XND, DXG, XJAC, DXMAX, NSP
       COMMON /SPRNG2/ MXTRYP,NEVENT, NTRIAL,MISS
- 
+
       REAL*4 TIMEBS,TIMINT,TIMESP,TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME1/ TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME2/ TIMEBS(0:2),TIMINT,TIMESP(0:2)
@@ -2460,20 +2460,20 @@ c which controls the initialization of spring.
 *                                                                      *
 c       IF( IBASES .GT. 0 ) THEN
        IF( ISPRING .GT. 0 ) THEN
- 
+
            CALL SPCHCK
- 
+
            CALL BSTIME( TIME0, 0 )
            TIMES1 = TIME0
- 
+
            MXTRYP = MXTRY
            INTV   = 0
 c           IBASES = 0
            ISPRING = 0
            MISFLG = 0
- 
+
            CALL BSDATE
- 
+
            DO 10 I = 0,2
               TIMESP(I) = 0.0
    10      CONTINUE
@@ -2485,7 +2485,7 @@ c           IBASES = 0
             MISS    = 0
             NEVENT  = 0
             NTRIAL  = 0
- 
+
 
             IF(LHISTO)THEN
               CALL SHINIT( MXTRY1 )
@@ -2498,7 +2498,7 @@ c           IBASES = 0
             XND     = ND
             DXG     = XND/NG
             NSP     = NG**NWILD
- 
+
 *///// DEBUG
 *       MCALL   = NSP*NPG
 *       CALL BSPRNT( 4, MCALL, IDUM2, IDUM3, IDUM4 )
@@ -2547,19 +2547,19 @@ c      IF( IBASES .EQ. 1 ) THEN
 *     =====================
   500  CALL BSUTIM( 1, 1 )
 *     =====================
- 
+
 *     ==================================
         CALL SPRGEN( FUNC, MXTRY, IRET)
 *     ==================================
- 
+
 *     =====================
        CALL BSUTIM( 1, 0 )
 *     =====================
- 
+
       IF(LHISTO)THEN
         CALL SHFILL( IRET )
       ENDIF
- 
+
       IF( IRET .LE. MXTRY ) THEN
           NTRIAL =NTRIAL + IRET
           NEVENT = NEVENT + 1
@@ -2603,7 +2603,7 @@ c      IF( IBASES .EQ. 1 ) THEN
 *     =====================
   600  CALL BSUTIM( 1, 1 )
 *     =====================
- 
+
       RETURN
       END
 
@@ -2618,19 +2618,19 @@ c      IF( IBASES .EQ. 1 ) THEN
 *        Coded by S.Kawabata      April  '94                           *
 *                                                                      *
 ************************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER ( MXDIM = 50)
       COMMON /BPARM1/ XL(MXDIM),XU(MXDIM),NDIM,NWILD,
      .               IG(MXDIM),NCALL
       COMMON /BPARM2/ ACC1,ACC2,ITMX1,ITMX2
- 
+
       COMMON /BASE0/ JFLAG,IBASES
       COMMON /BASE1/ XLT(MXDIM),XUT(MXDIM),NDIMT,NWILDT,
      .               IGT(MXDIM),NCALLT
       COMMON /BASE2/ ACC1T,ACC2T,ITMX1T,ITMX2T
       COMMON /BSCNTL/ INTV, IPNT, NLOOP, MLOOP
- 
+
       IF( NDIM .NE. NDIMT ) THEN
           WRITE(6,9100) NDIM,NDIMT
  9100     FORMAT(
@@ -2644,7 +2644,7 @@ c      IF( IBASES .EQ. 1 ) THEN
      .    /5X,'*************************************************')
           STOP
       ENDIF
- 
+
       IF( NWILD .NE. NWILDT ) THEN
           WRITE(6,9110) NWILD,NWILDT
  9110     FORMAT(
@@ -2658,7 +2658,7 @@ c      IF( IBASES .EQ. 1 ) THEN
      .    /5X,'*************************************************')
           STOP
       ENDIF
- 
+
       DO 200 I = 1,NDIM
          IF( XL(I) .NE. XLT(I) ) THEN
              WRITE(6,9200) I,XL(I),I,XLT(I)
@@ -2689,7 +2689,7 @@ c      IF( IBASES .EQ. 1 ) THEN
              STOP
          ENDIF
   200 CONTINUE
- 
+
       RETURN
       END
 
@@ -2712,13 +2712,13 @@ c      IF( IBASES .EQ. 1 ) THEN
 * Modified by S. Frixione in order to exclude the built-in            *
 * histogramming package. The common block bfxlhisto has been added    *
 ***********************************************************************
- 
+
       IMPLICIT REAL*8 (A-H,O-Z)
       COMMON /BDATE/ IDATE(3),ITIME(2)
       COMMON /BSCNTL/ INTV, IPNT, NLOOP, MLOOP
- 
+
       COMMON /SPRNG2/ MXTRY,NEVENT, NTRIAL, MISS
- 
+
       PARAMETER ( NHS = 50, NSC = 50 )
       INTEGER*4 XHASH,DHASH,NHIST,MAPL,IFBASE,NSCAT,MAPD
 *     COMMON/PLOTH/ XHASH(ILH,13),DHASH(IDH,14),IFBASE(ILH),
@@ -2729,16 +2729,16 @@ c      IF( IBASES .EQ. 1 ) THEN
      .              NHIST, MAPL(4,NHS),
      .              NSCAT, MAPD(4,NSC),
      .              NW
- 
+
       REAL*4 TIMEBS,TIMINT,TIMESP,TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME1/ TIME0,RTIME,TIMEB1,TIMEB2,TIMES1
       COMMON /BTIME2/ TIMEBS(0:2),TIMINT,TIMESP(0:2)
       REAL*4 XTIME
       LOGICAL LHISTO
       COMMON/BFXLHISTO/LHISTO
- 
+
       CHARACTER*1 CN
- 
+
        IF( IPNT .EQ. 0 ) THEN
            WRITE(LU,9300)
        ELSE
@@ -2777,11 +2777,11 @@ c      IF( IBASES .EQ. 1 ) THEN
      .         /5X,'GO time for event generation  =',F10.3,' Seconds',
      .         /5X,'Max. number of trials MXTRY   =',I10,' per event',
      .         /5X,'Number of mis-generations     =',I10,' times')
- 
+
       IF(LHISTO)THEN
         CALL SPHIST( LU )
       ENDIF
- 
+
       RETURN
       END
 
@@ -2811,9 +2811,9 @@ C
      .               IG(MXDIM),NCALL
       COMMON /BASE4/ XI(NDMX,MXDIM),DX(MXDIM),DXD(LENG),DXP(LENG),
      .               ND,NG,NPG,MA(MXDIM)
- 
+
       COMMON /SPRNG1/ XND, DXG, XJAC, DXMAX, NSP
- 
+
       LOGICAL LHISTO
       COMMON/BFXLHISTO/LHISTO
       DIMENSION Y(MXDIM),KG(MXDIM)
@@ -2846,7 +2846,7 @@ C
        FMAX  = DXP(IC)
 C
        IX    = IC-1
- 
+
        KG(NWILD) = IX/MA(NWILD) + 1
        IF( NWILD .GT. 1 ) THEN
            DO 400 J = 1,NWILD-1
@@ -2920,9 +2920,9 @@ C
         ENDIF
 C
   600 CONTINUE
- 
+
       NTRY  = MXTRY + 1
- 
+
   700 RETURN
       END
 c

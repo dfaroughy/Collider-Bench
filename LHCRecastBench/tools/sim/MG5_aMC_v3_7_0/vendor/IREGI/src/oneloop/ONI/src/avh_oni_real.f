@@ -162,7 +162,7 @@
       nunit = unit_in
       end
 *
-      integer function avh_oni_print() 
+      integer function avh_oni_print()
       implicit none
       integer                   nunit
       common/avh_oni_print_com/ nunit

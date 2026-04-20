@@ -31,4 +31,3 @@ c If .true., multiplies MC subtraction terms by S_ev
 c If .true., reads CKKW scale from cuts.f
       logical UseCKKW
       parameter (UseCKKW=.false.)
-

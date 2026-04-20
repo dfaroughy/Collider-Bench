@@ -51,7 +51,7 @@ CONTAINS
        si(1:4)=DCMPLX(0d0)
        RETURN
     ENDIF
-    ! remove (..,0,...) 
+    ! remove (..,0,...)
     DO i=1,NLOOPLINE
        IF(indices(i).EQ.0)THEN
           indices1(1:i-1)=indices(1:i-1)
@@ -91,7 +91,7 @@ CONTAINS
           RETURN
        ENDIF
     ENDIF
-    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR 
+    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR
     IF(NLOOPLINE.EQ.1.AND.indices(1).EQ.1)THEN
        IF(ABS(M2L(1)).LT.EPS)THEN
           IF(idim.NE.-2)THEN
@@ -114,7 +114,7 @@ CONTAINS
 !       CALL I0C1(M2L,si(1:4))
 !       RETURN
     ENDIF
-    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR 
+    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR
     IF(NLOOPLINE.EQ.2.AND.idim.EQ.0)THEN
        ! One should not but the two IF together
        ! Otherwise, it will not pass in ML5
@@ -168,7 +168,7 @@ CONTAINS
           ENDIF
        ENDIF
 
-       ! if idim <0 
+       ! if idim <0
        ! D<4, Eq .15 in hep-ph/0303184v3.
        IF(idim.LT.0)THEN
           idim0=idim+2
@@ -257,7 +257,7 @@ CONTAINS
           IF(RECYCLING)item%value(1:4)=si(1:4)
           RETURN
        ENDIF
-       ! Eq .19 in hep - ph/0303184 v3 
+       ! Eq .19 in hep - ph/0303184 v3
        IF(idim.EQ.0)THEN
           CALL MNXNINV(NLOOPLINE,RMATRIX(1:NLOOPLINE,1:NLOOPLINE),&
                INVRMATRIX(1:NLOOPLINE,1:NLOOPLINE),ok_flag)
@@ -308,7 +308,7 @@ CONTAINS
           IF(RECYCLING)item%value(1:4)=si(1:4)
           RETURN
        ENDIF
-       ! Eq .21 in hep - ph/0303184 v3 
+       ! Eq .21 in hep - ph/0303184 v3
        IF(idim.GT.0)THEN
           CALL MNXNINV(NLOOPLINE,RMATRIX(1:NLOOPLINE,1:NLOOPLINE),&
                INVRMATRIX(1:NLOOPLINE,1:NLOOPLINE),ok_flag)
@@ -370,7 +370,7 @@ CONTAINS
                      temp*scalar_integral_reduce2(NLOOPLINE,idim0,indices00,PijMatrix,M2L)
                 indices00(j)=indices00(j)+1
              ENDDO
-             siz0(i,1:4)=siz0(i,1:4)*prefactor**(-1)             
+             siz0(i,1:4)=siz0(i,1:4)*prefactor**(-1)
           ENDDO
           si(1:4)=cldot(NLOOPLINE,4,siz0(1:NLOOPLINE,1:4),&
                INVRMATRIX(lind,1:NLOOPLINE))
@@ -444,7 +444,7 @@ CONTAINS
        RETURN
     ENDIF
 
-    ! Eq .22 in hep - ph/0303184 v3 
+    ! Eq .22 in hep - ph/0303184 v3
     IF(ABS(detR).LT.EPS.AND.ABS(detS).GE.EPS)THEN
        z0(0)=1d0
        z0(1:NLOOPLINE)=0d0
@@ -484,7 +484,7 @@ CONTAINS
        RETURN
     ENDIF
 
-    ! Eq .23 in hep - ph/0303184 v3 
+    ! Eq .23 in hep - ph/0303184 v3
     IF(ABS(detR).GE.EPS.AND.ABS(detS).LT.EPS)THEN
        CALL MNXNINV(NLOOPLINE,RMATRIX(1:NLOOPLINE,1:NLOOPLINE),&
             INVRMATRIX(1:NLOOPLINE,1:NLOOPLINE),ok_flag)
@@ -529,7 +529,7 @@ CONTAINS
        maxtemp=MAXVAL(ABS(z0(0:NLOOPLINE)))
        maxtemp=MAX(maxtemp,1d-99)
        IF(ABS(c)/maxtemp.GE.EPS)THEN
-          ! Eq .26 in hep - ph/0303184 v3 
+          ! Eq .26 in hep - ph/0303184 v3
           z(1:NLOOPLINE)=z(1:NLOOPLINE)/c
           maxtemp=MAXVAL(ABS(z(1:NLOOPLINE)))
           maxtemp=MAX(maxtemp,1d-99)
@@ -544,7 +544,7 @@ CONTAINS
           IF(RECYCLING)item%value(1:4)=si(1:4)
           RETURN
        ELSE
-          ! Eq .28 in hep - ph/0303184 v3 
+          ! Eq .28 in hep - ph/0303184 v3
           j=1
           DO i=2,NLOOPLINE
              IF(ABS(z(j))/maxtemp.LT.EPS.OR.(ABS(z(i))/maxtemp.GE.EPS&
@@ -669,7 +669,7 @@ CONTAINS
        ENDIF
        !ENDIF
     ENDIF
-    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR 
+    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR
     IF(NLOOPLINE.EQ.1.AND.indices(1).EQ.1)THEN
        IF(ABS(M2L(1)).LT.EPS)THEN
           IF(idim.NE.-2)THEN
@@ -692,7 +692,7 @@ CONTAINS
 !       CALL I0C1(M2L,si(1:4))
 !       RETURN
     ENDIF
-    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR 
+    ! NLOOPLINE<= 2 to avoid the mixing of UV and IR
     IF(NLOOPLINE.EQ.2.AND.idim.EQ.0)THEN
        ! One should not but the two IF together
        ! Otherwise, it will not pass in ML5
@@ -1067,7 +1067,7 @@ CONTAINS
        IF(RECYCLING)item%value(1:4)=si(1:4)
        RETURN
     ENDIF
-    
+
     ! Eq .23 in hep - ph/0303184 v3
     IF(ABS(detR).GE.EPS.AND.ABS(detS).LT.EPS)THEN
        CALL MNXNINV(NLOOPLINE,RMATRIX(1:NLOOPLINE,1:NLOOPLINE),&

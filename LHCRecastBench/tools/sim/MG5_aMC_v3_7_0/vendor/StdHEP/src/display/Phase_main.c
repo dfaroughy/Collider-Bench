@@ -24,7 +24,7 @@ void main (int argc, char **argv)
 {
     XtAppContext context;
     Display *display;
-    
+
     /*
     ** Initialize toolkit and open display.
     */
@@ -36,7 +36,7 @@ void main (int argc, char **argv)
 	XtWarning("phase: Can't open display");
 	exit(0);
     }
-    
+
     /*
     ** Create an event display panel
     */
@@ -46,4 +46,3 @@ void main (int argc, char **argv)
     */
     XtAppMainLoop (context);
 }
-

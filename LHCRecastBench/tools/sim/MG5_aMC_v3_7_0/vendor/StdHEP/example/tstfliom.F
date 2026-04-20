@@ -69,4 +69,3 @@ C---   Book histograms.
       call hbook1(33,'mltstr',20,0.,20.,0.)
       return
       end
-

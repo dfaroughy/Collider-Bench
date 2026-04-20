@@ -11,7 +11,7 @@ c       real    gc             : coupling constant                    gv
 c
 c output:
 c       complex vertex         : amplitude               gamma(s1,s2,s3)
-c     
+c
       implicit none
       INTEGER DIM
       PARAMETER(DIM=18)
