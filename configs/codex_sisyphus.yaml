@@ -1,0 +1,19 @@
+# Usage:
+#   scripts/run-agent --config configs/codex_sisyphus.yaml
+#   scripts/run-agent --config configs/codex_sisyphus.yaml --effort high --max-iters 3
+
+extends: base.yaml
+
+agent:   sisyphus
+paper:   CMS-SUS-16-047
+runner:  codex
+model:   gpt-5.4
+effort:  high
+max_iters: 5
+min_iters: 3
+
+# Critic + planner roles reuse the same codex model for now — codex has no
+# cheap-tier equivalent to Sonnet that we can swap in without changing providers.
+critic_model:   gpt-5.4
+critic_effort:  low
+planner_effort: low

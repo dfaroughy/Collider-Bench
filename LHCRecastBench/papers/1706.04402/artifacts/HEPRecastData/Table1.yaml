@@ -1,0 +1,562 @@
+dependent_variables:
+- header: {name: Lost lepton}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 6.2}
+    value: 53.9
+  - errors:
+    - {label: stat+syst, symerror: 2.4}
+    value: 14.2
+  - errors:
+    - {label: stat+syst, symerror: 0.9}
+    value: 2.9
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 1.7
+  - errors:
+    - {label: stat+syst, symerror: 0.01}
+    value: 0.02
+  - errors:
+    - {label: stat+syst, symerror: 0.01}
+    value: 0.01
+  - errors:
+    - {label: stat+syst, symerror: 30}
+    value: 346
+  - errors:
+    - {label: stat+syst, symerror: 7.9}
+    value: 66.3
+  - errors:
+    - {label: stat+syst, symerror: 2.8}
+    value: 12.1
+  - errors:
+    - {label: stat+syst, symerror: 1.5}
+    value: 3.4
+  - errors:
+    - {label: stat+syst, symerror: 2.8}
+    value: 5.9
+  - errors:
+    - {label: stat+syst, symerror: 4.3}
+    value: 26.0
+  - errors:
+    - {label: stat+syst, symerror: 2.6}
+    value: 10.4
+  - errors:
+    - {label: stat+syst, symerror: 0.9}
+    value: 1.7
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 1.1
+  - errors:
+    - {label: stat+syst, symerror: 5.9}
+    value: 43.0
+  - errors:
+    - {label: stat+syst, symerror: 2.0}
+    value: 9.1
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 1.4}
+    value: 4.4
+  - errors:
+    - {label: stat+syst, symerror: 0.17}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 2.3}
+    value: 9.5
+  - errors:
+    - {label: stat+syst, symerror: 1.8}
+    value: 5.9
+  - errors:
+    - {label: stat+syst, symerror: 1.3}
+    value: 3.8
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 0.8
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.2
+- header: {name: 1$l$ (top)}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 13.2}
+    value: 13.2
+  - errors:
+    - {label: stat+syst, symerror: 2.3}
+    value: 2.3
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 3.1}
+    value: 3.1
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 1.7}
+    value: 1.7
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 0.8
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 0.7
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 0.7
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: $<0.1$
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.1
+- header: {name: 1$l$ (not from top)}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 2.5}
+    value: 7.2
+  - errors:
+    - {label: stat+syst, symerror: 1.4}
+    value: 4.1
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 1.7
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.8
+  - errors:
+    - {label: stat+syst, symerror: 2.2}
+    value: 5.6
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 1.6
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 0.9
+  - errors:
+    - {label: stat+syst, symerror: 8.6}
+    value: 9.7
+  - errors:
+    - {label: stat+syst, symerror: 1.7}
+    value: 2.5
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 3.0}
+    value: 7.5
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 1.6
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 1.0
+  - errors:
+    - {label: stat+syst, symerror: 3.0}
+    value: 5.7
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 1.2
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 1.3}
+    value: 3.1
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.9}
+    value: 1.1
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 0.7
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 1.0
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.5
+- header: {name: '$Z\to\nu\bar{\nu}$'}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 1.2}
+    value: 4.7
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 2.1
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 1.6
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 0.7
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 1.5
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.1
+  - errors:
+    - {label: stat+syst, symerror: 3.9}
+    value: 14.4
+  - errors:
+    - {label: stat+syst, symerror: 1.2}
+    value: 4.4
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 1.8
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.9}
+    value: 3.0
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 1.2
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.5
+  - errors:
+    - {label: stat+syst, symerror: 0.03}
+    value: 0.09
+  - errors:
+    - {label: stat+syst, symerror: 2.2}
+    value: 8.3
+  - errors:
+    - {label: stat+syst, symerror: 1.1}
+    value: 3.9
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.3
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 1.1
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.2
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 3.0
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 2.7
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 2.0
+  - errors:
+    - {label: stat+syst, symerror: 0.3}
+    value: 0.7
+  - errors:
+    - {label: stat+syst, symerror: 0.1}
+    value: 0.4
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.5
+- header: {name: Total background}
+  values:
+  - errors:
+    - {label: stat+syst, symerror: 6.8}
+    value: 65.8
+  - errors:
+    - {label: stat+syst, symerror: 2.9}
+    value: 20.5
+  - errors:
+    - {label: stat+syst, symerror: 1.3}
+    value: 6.4
+  - errors:
+    - {label: stat+syst, symerror: 0.8}
+    value: 2.4
+  - errors:
+    - {label: stat+syst, symerror: 2.4}
+    value: 8.9
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 1.9
+  - errors:
+    - {label: stat+syst, symerror: 0.5}
+    value: 1.0
+  - errors:
+    - {label: stat+syst, symerror: 34}
+    value: 383
+  - errors:
+    - {label: stat+syst, symerror: 8.5}
+    value: 75.5
+  - errors:
+    - {label: stat+syst, symerror: 2.9}
+    value: 15.0
+  - errors:
+    - {label: stat+syst, symerror: 1.5}
+    value: 4.1
+  - errors:
+    - {label: stat+syst, symerror: 2.9}
+    value: 6.6
+  - errors:
+    - {label: stat+syst, symerror: 6.2}
+    value: 39.7
+  - errors:
+    - {label: stat+syst, symerror: 2.8}
+    value: 13.7
+  - errors:
+    - {label: stat+syst, symerror: 1.1}
+    value: 3.1
+  - errors:
+    - {label: stat+syst, symerror: 1.0}
+    value: 2.2
+  - errors:
+    - {label: stat+syst, symerror: 7.2}
+    value: 58.7
+  - errors:
+    - {label: stat+syst, symerror: 2.4}
+    value: 14.7
+  - errors:
+    - {label: stat+syst, symerror: 0.6}
+    value: 1.5
+  - errors:
+    - {label: stat+syst, symerror: 1.9}
+    value: 8.9
+  - errors:
+    - {label: stat+syst, symerror: 0.2}
+    value: 0.6
+  - errors:
+    - {label: stat+syst, symerror: 2.7}
+    value: 14.3
+  - errors:
+    - {label: stat+syst, symerror: 2.1}
+    value: 10.0
+  - errors:
+    - {label: stat+syst, symerror: 1.5}
+    value: 6.3
+  - errors:
+    - {label: stat+syst, symerror: 1.0}
+    value: 2.4
+  - errors:
+    - {label: stat+syst, symerror: 0.7}
+    value: 1.9
+  - errors:
+    - {label: stat+syst, symerror: 0.4}
+    value: 1.3
+- header: {name: Data}
+  values:
+  - {value: ' 72 '}
+  - {value: ' 24 '}
+  - {value: ' 6 '}
+  - {value: ' 2 '}
+  - {value: ' 6 '}
+  - {value: ' 3 '}
+  - {value: ' 2 '}
+  - {value: ' 343 '}
+  - {value: ' 68 '}
+  - {value: ' 13 '}
+  - {value: ' 6 '}
+  - {value: ' 2 '}
+  - {value: ' 38 '}
+  - {value: ' 8 '}
+  - {value: ' 2 '}
+  - {value: ' 1 '}
+  - {value: ' 65 '}
+  - {value: ' 23 '}
+  - {value: ' 1 '}
+  - {value: ' 9 '}
+  - {value: ' 0 '}
+  - {value: ' 12 '}
+  - {value: ' 9 '}
+  - {value: ' 3 '}
+  - {value: ' 0 '}
+  - {value: ' 0 '}
+  - {value: ' 2 '}
+independent_variables:
+- header: {name: '$N_{jets}$'}
+  values:
+  - {value: ' $\leq3$ '}
+  - {value: ' $\leq3$ '}
+  - {value: ' $\leq3$ '}
+  - {value: ' $\leq3$ '}
+  - {value: ' $\leq3$ '}
+  - {value: ' $\leq3$ '}
+  - {value: ' $\leq3$ '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+  - {value: ' $\geq$4 '}
+- header: {name: '$t_{\mathrm{mod}}$'}
+  values:
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' $\leq0$ '}
+  - {value: ' 0--10 '}
+  - {value: ' 0--10 '}
+  - {value: ' 0--10 '}
+  - {value: ' 0--10 '}
+  - {value: ' 0--10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+  - {value: ' $>$10 '}
+- header: {name: '$M_{lb}$', units: GeV}
+  values:
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $>$175 '}
+  - {value: ' $>$175 '}
+  - {value: ' $>$175 '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $>$175 '}
+  - {value: ' $>$175 '}
+  - {value: ' $>$175 '}
+  - {value: ' $>$175 '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $>$175 '}
+  - {value: ' $>$175 '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $\leq175$ '}
+  - {value: ' $>$175 '}
+  - {value: ' $>$175 '}
+- header: {name: '$E_{T}^{\text{miss}}$', units: GeV}
+  values:
+  - {value: ' 250--350 '}
+  - {value: ' 350--450 '}
+  - {value: ' 450--600 '}
+  - {value: ' $>$600 '}
+  - {value: ' 250--450 '}
+  - {value: ' 450--600 '}
+  - {value: ' $>$600 '}
+  - {value: ' 250--350 '}
+  - {value: ' 350--450 '}
+  - {value: ' 450--550 '}
+  - {value: ' 550--650 '}
+  - {value: ' $>$650 '}
+  - {value: ' 250--350 '}
+  - {value: ' 350--450 '}
+  - {value: ' 450--550 '}
+  - {value: ' $>$550 '}
+  - {value: ' 250--350 '}
+  - {value: ' 350--550 '}
+  - {value: ' $>$550 '}
+  - {value: ' 250--450 '}
+  - {value: ' $>$450 '}
+  - {value: ' 250--350 '}
+  - {value: ' 350--450 '}
+  - {value: ' 450--600 '}
+  - {value: ' $>$600 '}
+  - {value: ' 250--450 '}
+  - {value: ' $>$450 '}

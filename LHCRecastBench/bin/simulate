@@ -1,0 +1,488 @@
+#!/usr/bin/env bash
+# Run simulation tools (MG5, Pythia8, Delphes) with provenance tracking.
+#
+# All inputs and outputs are archived under workspace/sim/<run_id>/
+# so the full generation chain is preserved per agent.
+#
+# Usage:
+#   simulate mg5 proc_card.dat                                # MG5 parton-level (parallel via nb_core in run_card)
+#   simulate pythia8 events.lhe [--parallel 32]               # Pythia8 showering (split-and-merge)
+#   simulate delphes events.hepmc [--card cms] [--parallel 32] # Delphes detector sim (split-and-merge + hadd)
+#   simulate info                                             # show available models & cards
+#
+# The agent can also call the tools directly — this wrapper just ensures
+# outputs land in sim/<run_id>/ and cards are archived for provenance.
+
+set -uo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)}"
+SIM_DIR="${REPO_ROOT}/benchmark/tools/sim"
+MG5_DIR="${SIM_DIR}/MG5_aMC_v3_7_0"
+DELPHES_DIR="${SIM_DIR}/delphes"
+
+# Activate conda if not already active
+if ! python3 -c "import uproot" 2>/dev/null; then
+  source "${REPO_ROOT}/benchmark/shell/agent_env.sh"
+  activate_cms_analysis 2>/dev/null || true
+fi
+
+set -e
+
+# ── Create a numbered run directory in workspace/sim/ ──
+next_run_dir() {
+  local base="${1:-sim}"
+  local tool="${2:-run}"
+  mkdir -p "${base}"
+  local n=1
+  while [[ -d "${base}/run_${tool}_$(printf '%03d' $n)" ]]; do
+    n=$((n + 1))
+  done
+  local d="${base}/run_${tool}_$(printf '%03d' $n)"
+  mkdir -p "$d"
+  echo "$d"
+}
+
+SUBCMD="${1:-help}"
+shift || true
+
+case "${SUBCMD}" in
+
+  # ── MG5: parton-level generation ──
+  mg5)
+    CARD="${1:?Usage: simulate mg5 <proc_card.dat>}"
+    shift
+    if [[ ! -f "${CARD}" ]]; then
+      echo "ERROR: proc card not found: ${CARD}" >&2
+      exit 1
+    fi
+
+    RUN_DIR=$(next_run_dir sim mg5)
+    cp "${CARD}" "${RUN_DIR}/proc_card.dat"
+    echo "simulate: MG5 run in ${RUN_DIR}"
+    echo "simulate: proc card archived at ${RUN_DIR}/proc_card.dat"
+
+    # Rewrite output and launch paths in the proc card to land inside RUN_DIR
+    TMPCARD="${RUN_DIR}/proc_card_patched.dat"
+    # Extract original output dir name to also patch launch commands
+    ORIG_OUTPUT=$(grep -oP '^output\s+\K\S+' "${RUN_DIR}/proc_card.dat" | head -1)
+    sed -e "s|^output .*|output ${RUN_DIR}/mg5_output|" \
+        -e "s|^launch ${ORIG_OUTPUT}|launch ${RUN_DIR}/mg5_output|" \
+        "${RUN_DIR}/proc_card.dat" > "${TMPCARD}"
+
+    python3 "${MG5_DIR}/bin/mg5_aMC" "${TMPCARD}" "$@" 2>&1 | tee "${RUN_DIR}/mg5.log"
+
+    # Find the LHE file
+    LHE=$(find "${RUN_DIR}" -name "unweighted_events.lhe*" -type f | head -1)
+    if [[ -n "${LHE}" ]]; then
+      # Decompress if needed
+      if [[ "${LHE}" == *.gz ]]; then
+        gunzip -f "${LHE}"
+        LHE="${LHE%.gz}"
+      fi
+      echo "simulate: LHE events at ${LHE}"
+      NEVT=$(grep -c "<event>" "${LHE}" || echo 0)
+      echo "simulate: ${NEVT} events generated"
+    else
+      echo "simulate: WARNING — no LHE file found"
+    fi
+    ;;
+
+  # ── Delphes: fast detector simulation (parallel split-and-merge) ──
+  delphes)
+    INPUT="${1:?Usage: simulate delphes <events.hepmc> [--card cms] [--parallel N]}"
+    shift
+    CARD="cms"
+    NPARALLEL=1
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        --card)     CARD="$2"; shift 2 ;;
+        --parallel) NPARALLEL="$2"; shift 2 ;;
+        *) echo "Unknown arg: $1" >&2; exit 1 ;;
+      esac
+    done
+
+    if [[ ! -f "${INPUT}" ]]; then
+      echo "ERROR: input not found: ${INPUT}" >&2
+      exit 1
+    fi
+
+    # Resolve card alias
+    declare -A CARDS=(
+      ["cms"]="${DELPHES_DIR}/cards/delphes_card_CMS.tcl"
+      ["atlas"]="${DELPHES_DIR}/cards/delphes_card_ATLAS.tcl"
+      ["cms_pileup"]="${DELPHES_DIR}/cards/delphes_card_CMS_PileUp.tcl"
+    )
+    if [[ -n "${CARDS[$CARD]+_}" ]]; then
+      CARD_PATH="${CARDS[$CARD]}"
+    elif [[ -f "${CARD}" ]]; then
+      CARD_PATH="${CARD}"
+    else
+      echo "ERROR: card not found: ${CARD}. Available: ${!CARDS[*]}" >&2
+      exit 1
+    fi
+
+    RUN_DIR=$(next_run_dir sim delphes)
+    cp "${CARD_PATH}" "${RUN_DIR}/delphes_card.tcl"
+    OUTPUT="${RUN_DIR}/delphes_output.root"
+
+    echo "simulate: Delphes run in ${RUN_DIR}"
+    echo "simulate: card: $(basename ${CARD_PATH})"
+    echo "simulate: input: ${INPUT}"
+
+    export LD_LIBRARY_PATH="${DELPHES_DIR}:${LD_LIBRARY_PATH:-}"
+
+    # Pick the right binary based on input format
+    if [[ "${INPUT}" == *.hepmc3 ]] || head -1 "${INPUT}" | grep -q "HepMC::Version 3"; then
+      BIN="${DELPHES_DIR}/DelphesHepMC3"
+    else
+      BIN="${DELPHES_DIR}/DelphesHepMC2"
+    fi
+
+    if [[ "${NPARALLEL}" -le 1 ]]; then
+      # Single-threaded
+      "${BIN}" "${CARD_PATH}" "${OUTPUT}" "${INPUT}" 2>&1 | tee "${RUN_DIR}/delphes.log"
+    else
+      # Split HepMC → N Delphes → hadd merge
+      echo "simulate: parallel Delphes with ${NPARALLEL} workers"
+      CHUNKS_DIR="${RUN_DIR}/chunks"
+      mkdir -p "${CHUNKS_DIR}"
+
+      # Split HepMC file by event count
+      python3 - "${INPUT}" "${CHUNKS_DIR}" "${NPARALLEL}" << 'SPLIT_EOF'
+import sys
+from pathlib import Path
+
+infile = sys.argv[1]
+outdir = Path(sys.argv[2])
+n_chunks = int(sys.argv[3])
+
+# Count events
+n_events = 0
+with open(infile) as f:
+    for line in f:
+        if line.startswith("E ") or line.startswith("E\t"):
+            n_events += 1
+
+per_chunk = max(1, n_events // n_chunks)
+print(f"  {n_events} events, {per_chunk} per chunk")
+
+# Split
+chunk_idx = 0
+evt_in_chunk = 0
+out = None
+header_lines = []
+in_header = True
+
+with open(infile) as f:
+    for line in f:
+        is_event_start = line.startswith("E ") or line.startswith("E\t")
+
+        if in_header:
+            header_lines.append(line)
+            if is_event_start:
+                in_header = False
+                # Open first chunk, write header, then this event line
+                out = open(outdir / f"chunk_{chunk_idx:03d}.hepmc", "w")
+                out.writelines(header_lines[:-1])  # header without this line
+                out.write(line)
+                evt_in_chunk = 1
+            continue
+
+        if is_event_start:
+            evt_in_chunk += 1
+            if evt_in_chunk > per_chunk and chunk_idx < n_chunks - 1:
+                # Close current chunk with footer
+                out.write("HepMC::Asciiv3-END_EVENT_LISTING\n")
+                out.close()
+                chunk_idx += 1
+                evt_in_chunk = 1
+                out = open(outdir / f"chunk_{chunk_idx:03d}.hepmc", "w")
+                out.writelines(header_lines[:-1])
+
+        if out:
+            out.write(line)
+
+if out:
+    out.close()
+
+print(f"  Split into {chunk_idx + 1} chunk files")
+SPLIT_EOF
+
+      # Run Delphes on each chunk in parallel
+      PIDS=()
+      for chunk in "${CHUNKS_DIR}"/chunk_*.hepmc; do
+        chunk_name=$(basename "${chunk}" .hepmc)
+        chunk_out="${CHUNKS_DIR}/${chunk_name}.root"
+        "${BIN}" "${CARD_PATH}" "${chunk_out}" "${chunk}" > "${CHUNKS_DIR}/${chunk_name}.log" 2>&1 &
+        PIDS+=($!)
+        echo "  launched Delphes on ${chunk_name} (PID $!)"
+      done
+
+      # Wait for all
+      FAILED=0
+      for pid in "${PIDS[@]}"; do
+        if ! wait "$pid"; then
+          FAILED=$((FAILED + 1))
+        fi
+      done
+      echo "  All Delphes jobs done (${FAILED} failed)"
+
+      # Merge with hadd
+      ROOT_FILES=("${CHUNKS_DIR}"/chunk_*.root)
+      if [[ ${#ROOT_FILES[@]} -gt 0 ]]; then
+        hadd -f "${OUTPUT}" "${ROOT_FILES[@]}" 2>&1 | tail -3
+        echo "simulate: merged ${#ROOT_FILES[@]} files -> ${OUTPUT}"
+        # Clean up temp chunks
+        rm -rf "${CHUNKS_DIR}"
+        echo "  Cleaned up chunk files"
+      else
+        echo "simulate: ERROR — no ROOT output files produced" >&2
+        exit 1
+      fi
+    fi
+
+    echo "simulate: output at ${OUTPUT}"
+    ;;
+
+  # ── Pythia8: shower LHE events (parallel split-and-merge) ──
+  pythia8)
+    INPUT="${1:?Usage: simulate pythia8 <events.lhe> [--parallel N]}"
+    shift
+    NPARALLEL="${ANALYSIS_NCPUS:-$(nproc 2>/dev/null || echo 8)}"
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        --parallel) NPARALLEL="$2"; shift 2 ;;
+        *) echo "Unknown arg: $1" >&2; exit 1 ;;
+      esac
+    done
+
+    if [[ ! -f "${INPUT}" ]]; then
+      echo "ERROR: LHE file not found: ${INPUT}" >&2
+      exit 1
+    fi
+
+    # Decompress if needed
+    if [[ "${INPUT}" == *.gz ]]; then
+      gunzip -f "${INPUT}"
+      INPUT="${INPUT%.gz}"
+    fi
+
+    RUN_DIR=$(next_run_dir sim pythia8)
+    OUTPUT="${RUN_DIR}/events.hepmc"
+    CHUNKS_DIR="${RUN_DIR}/chunks"
+    mkdir -p "${CHUNKS_DIR}"
+
+    echo "simulate: Pythia8 showering in ${RUN_DIR}"
+    echo "simulate: input: ${INPUT}"
+    echo "simulate: parallel: ${NPARALLEL} workers"
+
+    # ── Step A: Split LHE file ──
+    python3 - "${INPUT}" "${CHUNKS_DIR}" "${NPARALLEL}" << 'SPLIT_EOF'
+import sys
+from pathlib import Path
+
+lhe_input, outdir, n_parallel = sys.argv[1], Path(sys.argv[2]), int(sys.argv[3])
+
+header_lines, events, current_event, in_event = [], [], [], False
+with open(lhe_input) as f:
+    for line in f:
+        if "<event>" in line:
+            in_event = True
+            current_event = [line]
+        elif "</event>" in line:
+            current_event.append(line)
+            events.append(current_event)
+            current_event = []
+            in_event = False
+        elif in_event:
+            current_event.append(line)
+        else:
+            header_lines.append(line)
+
+footer = ""
+for i, line in enumerate(header_lines):
+    if "</LesHouchesEvents>" in line:
+        footer = "".join(header_lines[i:])
+        header_lines = header_lines[:i]
+        break
+header = "".join(header_lines)
+
+n_events = len(events)
+per_chunk = max(1, n_events // n_parallel)
+print(f"  {n_events} events, ~{per_chunk} per chunk")
+
+n_written = 0
+for i in range(n_parallel):
+    start = i * per_chunk
+    chunk_events = events[start:] if i == n_parallel - 1 else events[start:start + per_chunk]
+    if not chunk_events:
+        break
+    with open(outdir / f"chunk_{i:03d}.lhe", "w") as f:
+        f.write(header)
+        for evt in chunk_events:
+            f.writelines(evt)
+        f.write(footer)
+    n_written += 1
+
+print(f"  Split into {n_written} chunks")
+SPLIT_EOF
+
+    # ── Step B: Shower each chunk as a separate subprocess ──
+    echo "  Showering chunks in parallel..."
+    PIDS=()
+    for CHUNK_LHE in "${CHUNKS_DIR}"/chunk_*.lhe; do
+      CHUNK_NAME=$(basename "${CHUNK_LHE}" .lhe)
+      CHUNK_HEPMC="${CHUNKS_DIR}/${CHUNK_NAME}.hepmc"
+      CHUNK_LOG="${CHUNKS_DIR}/${CHUNK_NAME}.log"
+
+      python3 - "${CHUNK_LHE}" "${CHUNK_HEPMC}" > "${CHUNK_LOG}" 2>&1 << 'SHOWER_EOF' &
+import sys
+import pythia8
+import pyhepmc
+import os
+
+lhe_in = sys.argv[1]
+hepmc_out = sys.argv[2]
+xmldir = os.environ.get("CONDA_PREFIX", "") + "/share/Pythia8/xmldoc"
+
+pythia = pythia8.Pythia(xmldir, False)
+pythia.readString("Beams:frameType = 4")
+pythia.readString(f"Beams:LHEF = {lhe_in}")
+pythia.readString("Main:timesAllowErrors = 50")
+pythia.readString("Tune:ee = 7")
+pythia.readString("Tune:pp = 14")
+pythia.init()
+
+n_ok = 0
+with pyhepmc.open(hepmc_out, "w") as writer:
+    while True:
+        if not pythia.next():
+            if pythia.info.atEndOfFile():
+                break
+            continue
+        n_ok += 1
+        event = pythia.event
+        evt = pyhepmc.GenEvent(pyhepmc.Units.GEV, pyhepmc.Units.MM)
+        evt.event_number = n_ok
+        v = pyhepmc.GenVertex()
+        evt.add_vertex(v)
+        for j in range(1, event.size()):
+            p = event[j]
+            if not p.isFinal() and p.statusHepMC() != 4:
+                continue
+            gp = pyhepmc.GenParticle(
+                pyhepmc.FourVector(p.px(), p.py(), p.pz(), p.e()),
+                p.id(), p.statusHepMC()
+            )
+            gp.generated_mass = p.m()
+            if p.statusHepMC() == 4:
+                v.add_particle_in(gp)
+            else:
+                v.add_particle_out(gp)
+        writer.write(evt)
+
+pythia.stat()
+print(f"Showered {n_ok} events -> {hepmc_out}")
+sys.exit(0)
+SHOWER_EOF
+      PIDS+=($!)
+      echo "    launched ${CHUNK_NAME} (PID $!)"
+    done
+
+    # Wait for all
+    FAILED=0
+    for pid in "${PIDS[@]}"; do
+      if ! wait "$pid"; then
+        FAILED=$((FAILED + 1))
+      fi
+    done
+    echo "  All Pythia8 jobs done (${FAILED} failed)"
+
+    # ── Step C: Merge HepMC outputs ──
+    echo "  Merging HepMC files..."
+    python3 - "${OUTPUT}" "${CHUNKS_DIR}" << 'MERGE_EOF'
+import sys, os, shutil
+from pathlib import Path
+
+output = sys.argv[1]
+chunks_dir = Path(sys.argv[2])
+hepmc_chunks = sorted(chunks_dir.glob("chunk_*.hepmc"))
+
+tmp = output + ".tmp"
+total = 0
+with open(tmp, "w") as out:
+    out.write("HepMC::Version 3.03.01\n")
+    out.write("HepMC::Asciiv3-START_EVENT_LISTING\n")
+    for hf in hepmc_chunks:
+        with open(hf) as inp:
+            for line in inp:
+                if line.startswith("HepMC::"):
+                    continue
+                if line.startswith("E "):
+                    total += 1
+                out.write(line)
+    out.write("HepMC::Asciiv3-END_EVENT_LISTING\n")
+os.replace(tmp, output)
+print(f"  Merged: {total} events from {len(hepmc_chunks)} chunks")
+MERGE_EOF
+
+    # ── Step D: Clean up temp chunks ──
+    rm -rf "${CHUNKS_DIR}"
+    echo "  Cleaned up chunk files"
+
+    echo "simulate: output at ${OUTPUT}"
+    ;;
+
+  # ── Info: show available tools and models ──
+  info)
+    echo "=== Simulation Tools ==="
+    echo ""
+    echo "MadGraph5 v3.7.0: ${MG5_DIR}"
+    echo "  Models:"
+    for d in "${MG5_DIR}/models"/*/; do
+      name=$(basename "$d")
+      [[ "$name" == "__pycache__" || "$name" == "template_files" ]] && continue
+      # Try to find what's interesting about this model
+      desc=""
+      if [[ -f "$d/particles.py" ]]; then
+        # Show particles with PDG code > 25 or > 1000000 (BSM)
+        exotic=$(python3 -c "
+import re
+with open('$d/particles.py') as f: txt = f.read()
+for m in re.finditer(r\"pdg_code\s*=\s*(\d+).*?name\s*=\s*'([^']+)'\", txt, re.DOTALL):
+    pdg, name = int(m.group(1)), m.group(2)
+    if pdg > 25 and pdg not in range(1,7) and name not in ('ve','vm','vt','ve~','vm~','vt~'):
+        print(name, end=',')
+" 2>/dev/null | head -c 80)
+        [[ -n "$exotic" ]] && desc=" — ${exotic%,}"
+      fi
+      echo "    ${name}${desc}"
+    done
+    echo ""
+    echo "Delphes: ${DELPHES_DIR}"
+    echo "  Cards:"
+    for f in "${DELPHES_DIR}/cards"/delphes_card_*.tcl; do
+      echo "    $(basename "$f")"
+    done
+    echo ""
+    echo "Pythia8: import pythia8 (conda, use in Python directly)"
+    echo "HepMC3: import pyhepmc (conda, use in Python directly)"
+    ;;
+
+  help|*)
+    echo "Usage: simulate <subcommand> [args]"
+    echo ""
+    echo "Subcommands:"
+    echo "  mg5 <proc_card.dat>                                  Run MG5 parton-level generation"
+    echo "  pythia8 <events.lhe> [--parallel N]                  Shower LHE events (parallel split-and-merge)"
+    echo "  delphes <events.hepmc> [--card cms] [--parallel N]   Run Delphes detector simulation"
+    echo "  info                                                 Show available models and cards"
+    echo ""
+    echo "All runs are archived in sim/run_<tool>_NNN/ with full provenance."
+    echo ""
+    echo "Example full chain:"
+    echo "  simulate mg5 proc_card.dat"
+    echo "  simulate pythia8 sim/run_mg5_001/mg5_output/Events/run_01/unweighted_events.lhe --parallel 32"
+    echo "  simulate delphes sim/run_pythia8_001/events.hepmc --card cms --parallel 32"
+    ;;
+esac

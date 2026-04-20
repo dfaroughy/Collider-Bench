@@ -1,0 +1,454 @@
+\documentclass{article}
+
+% NeurIPS 2026 Datasets & Benchmarks Track
+\usepackage[final]{neurips_2025}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+\lstdefinestyle{mystyle}{backgroundcolor=\color{backcolour},basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,xleftmargin=1em}
+\lstset{style=mystyle}
+
+\newcommand{\pTmiss}{p_{\mathrm{T}}^{\mathrm{miss}}}
+\newcommand{\htgamma}{H_{\mathrm{T}}^{\gamma}}
+\newcommand{\sqrts}{\sqrt{s}}
+\newcommand{\fbinv}{\mathrm{fb}^{-1}}
+\newcommand{\toolkit}{\textsc{LHC-Recast}}
+\newcommand{\cmark}{\checkmark}
+
+\title{\toolkit{}:\\A Benchmark for Constructive Reasoning Under Ambiguity}
+
+\author{
+  Author A\thanks{Equal contribution.} \\
+  Institution \\
+  \texttt{email@institution.edu} \\
+  \And
+  Author B\footnotemark[1] \\
+  Institution \\
+  \texttt{email@institution.edu} \\
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We introduce \toolkit{}, a benchmark that evaluates autonomous AI agents through the task of \emph{recasting} published particle physics searches using public experimental data.
+Recent work has shown that language models which excel at well-specified reasoning tasks fail dramatically at \emph{information-seeking}---identifying what they do not know.
+\toolkit{} tests a harder capability that we term \emph{constructive reasoning under ambiguity}: the agent must simultaneously identify what information is missing, solve the well-specified components, and---when the standard approach is blocked---improvise workarounds that require building something new rather than retrieving something that exists.
+Each task requires reading a scientific paper, discovering datasets through noisy APIs, writing performant analysis code over $10^8$ collision events, and filling standardized HEPData templates with reproduced results, all within a sandboxed environment.
+A four-layer evaluation framework---yield accuracy, rubric scoring, cost tracking, and LLM-as-a-Judge with provenance verification---ensures that results trace to genuine computation, not to copying the provided reference.
+Evaluations across frontier models and two agent architectures reveal a striking gap between \emph{knowledge} and \emph{improvisation}: agents possess the domain expertise required but cannot generate the lateral strategies needed when standard paths are blocked.
+\end{abstract}
+
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================================
+
+A growing body of work distinguishes \emph{information-using} reasoning---solving problems when all premises are given---from \emph{information-seeking} reasoning---recognising what is missing and acquiring it~\citep{li2025questbench}.
+QuestBench~\citep{li2025questbench} demonstrated that models which achieve near-perfect accuracy on well-specified constraint-satisfaction problems drop to 40--50\% when a single premise is withheld and the model must identify which clarification question to ask.
+The implication is clear: excelling at complete problems does not entail knowing what you don't know.
+
+Real-world scientific analysis adds a third layer.
+When a physicist recasts a published search---re-implementing the analysis using public data to reproduce the reported result---she must identify what is missing (which datasets, which cross sections, which calibration constants), solve the well-specified parts (event selection, normalization), and, crucially, \emph{construct workarounds} when the standard approach is blocked.
+The missing signal sample must be generated from scratch.
+The absent calibration dataset must be borrowed from a different data-taking era.
+The undocumented data format must be reverse-engineered by inspection.
+These are not retrieval problems; the solution does not exist in any document.
+It must be \emph{built} through code, \emph{verified} against data, and \emph{justified} through physical reasoning.
+
+We call this capability \emph{constructive reasoning under ambiguity} and argue that no existing benchmark tests it.
+Information-using benchmarks (SWE-bench~\citep{jimenez2024swebench}, ScienceAgentBench~\citep{chen2024scienceagentbench}) provide complete specifications.
+Information-seeking benchmarks (QuestBench~\citep{li2025questbench}, GSM-Agent~\citep{zhu2025gsmagent}) require identifying missing premises but offer retrieval as the mechanism.
+\toolkit{} requires all three simultaneously: identify what is missing, solve what is specified, and \emph{invent} what cannot be found.
+
+We operationalise this through particle physics recasting~\citep{cranmer2012recast, abdallah2020reinterpretation}, a domain where the challenges are concrete---ambiguous paper specifications, noisy data portals, missing samples, incompatible formats---and the ground truth is unambiguous: published yields and distributions available through HEPData~\citep{maguire2017hepdata}.
+While grounded in particle physics, the cognitive demands are universal: they arise whenever an agent must reproduce a result described in natural language using imperfect tools and incomplete information.
+
+\paragraph{Contributions.}
+We provide (1)~a benchmark with three tasks of increasing difficulty, domain-specific tools, and HEPData YAML templates as the scoring interface; (2)~a four-layer evaluation framework including LLM-as-a-Judge with provenance verification that detects agents who copy the reference rather than compute independently; (3)~two reference agent implementations (structured multi-agent and minimal single-prompt); and (4)~empirical evidence that frontier models fail not from lack of domain knowledge but from inability to improvise when standard approaches are blocked.
+
+
+% ============================================================================
+\section{Related Work}
+\label{sec:related}
+% ============================================================================
+
+\paragraph{Reasoning under incomplete information.}
+QuestBench~\citep{li2025questbench} formalises information-seeking as identifying missing variables in underspecified constraint-satisfaction problems, showing that solving ability does not transfer to question-asking ability.
+GSM-Agent~\citep{zhu2025gsmagent} extends this to agentic settings where models must retrieve missing premises through tool use, introducing a reasoning graph framework with exploration, exploitation, and revisit patterns.
+\toolkit{} goes further: the agent must not only identify and retrieve missing information but \emph{construct} solutions that do not exist in any accessible resource---generating Monte Carlo signal samples, adapting to undocumented formats, or borrowing calibration data across eras.
+
+\paragraph{Agent benchmarks.}
+SWE-bench~\citep{jimenez2024swebench} evaluates issue resolution with precise specifications and local data.
+PaperBench~\citep{openai2025paperbench} measures paper replication with expert-authored rubrics.
+CORE-Bench~\citep{siegel2024corebench} tests computational reproducibility.
+These benchmarks assume the agent receives a well-specified task and evaluates against deterministic criteria.
+In \toolkit{}, the specification is ambiguous (a physics paper), the data must be discovered remotely, and evaluation requires verifying that results trace to genuine computation.
+
+\paragraph{Scientific agents.}
+Coscientist~\citep{boiko2023coscientist} and ChemCrow~\citep{bran2024chemcrow} demonstrated autonomous chemistry experiments.
+In particle physics, \citet{gendreau2024automating} automated the Higgs diphoton measurement, \citet{moreno2026ai} demonstrated Claude Code performing HEP analyses, and HEPTAPOD~\citep{heptapod2024} proposed an orchestration framework.
+These works show agents \emph{can} do science; \toolkit{} measures \emph{how well}, with multi-layer metrics and multi-model comparison.
+
+
+% ============================================================================
+\section{The \toolkit{} Benchmark}
+\label{sec:benchmark}
+% ============================================================================
+
+\subsection{Problem Formulation}
+
+Following QuestBench's formulation of underspecified problems~\citep{li2025questbench}, we define a \emph{recast task} as a problem where the target values are known but the path to computing them independently is underspecified.
+Concretely, each task $T$ consists of a published paper $P$ serving as an ambiguous natural-language specification, a set of reference HEPData tables $H^{\mathrm{ref}}$ containing the published numerical results, and corresponding template tables $H^{\mathrm{tpl}}$ that are structurally identical to $H^{\mathrm{ref}}$ but with all value fields set to null.
+The relevant datasets $\mathcal{D}$ exist in the environment (CMS Open Data portal, HEPData, arXiv) but are not enumerated to the agent---it must discover them.
+
+An agent $A$ receives a sandboxed workspace containing $P$, $H^{\mathrm{ref}}$ (for self-diagnosis), $H^{\mathrm{tpl}}$ (to fill), and a tool set $\mathcal{F}$ providing access to the environment.
+It produces filled templates $\hat{H} = A(P, H^{\mathrm{ref}}, H^{\mathrm{tpl}}, \mathcal{F})$ and a session trace $\tau_A$ recording all tool calls and reasoning.
+
+The task is \emph{underspecified} in the sense of~\citet{li2025questbench}: the paper $P$ does not contain all information needed to compute $H^{\mathrm{ref}}$ (cross sections are absent, data formats are undocumented, some samples don't exist in public data).
+Unlike QuestBench, where exactly one variable is missing and the agent selects from multiple-choice questions, in \toolkit{} multiple pieces are missing simultaneously, no menu of questions is offered, and the agent must construct solutions---not merely retrieve them.
+
+\paragraph{Why provide the reference?}
+The agent receives $H^{\mathrm{ref}}$ because this mirrors real physics practice: analysts always know the published result they are reproducing.
+It also creates an adversarial test of integrity: an agent could copy $H^{\mathrm{ref}}$ into $H^{\mathrm{tpl}}$ without computing anything.
+Our evaluation detects this (\S\ref{sec:evaluation}).
+
+\subsection{Tasks}
+
+We instantiate three tasks spanning different reasoning challenges:
+
+\begin{table}[h]
+\centering
+\caption{Benchmark tasks and primary reasoning challenges.}
+\label{tab:tasks}
+\small
+\begin{tabular}{llcccl}
+\toprule
+& Analysis & $\sqrts$, $\mathcal{L}$ & Format & $|H^{\mathrm{ref}}|$ & Primary challenge \\
+\midrule
+$T_1$ & CMS-SUS-16-047~\citep{cms_sus_16_047} & 13 TeV, 36 $\fbinv$ & NanoAOD & 24 bins & Provenance, normalization \\
+$T_2$ & CMS-SUS-16-036 & 13 TeV, 36 $\fbinv$ & NanoAOD & many & Derived variables \\
+$T_3$ & Composite $N_\ell$ & 13 TeV, 2.3 $\fbinv$ & POET & 2 dist. & Format adaptation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+$T_1$ ($\gamma + \pTmiss$ SUSY search) tests \emph{provenance reasoning}: cross sections require multi-hop API lookups through a chain of related database records, only 16 of 36~$\fbinv$ of collision data is publicly available, and the signal models are entirely absent from the data portal.
+$T_2$ (stop pair production) adds \emph{constructive computation}: the analysis uses a topness variable $t_{\mathrm{mod}}$ defined through constrained minimisation over neutrino kinematics, which must be implemented from a mathematical description, and b-tagging working points that differ between the paper's era and the available data.
+$T_3$ (heavy Majorana neutrino search) tests \emph{format adaptation}: the Run~2015 data exists only in an undocumented derived format with separate data structures per physics object and different naming conventions from the standard format.
+A detailed challenge taxonomy is in Appendix~\ref{app:challenges}.
+
+\subsection{Tools and Sandbox}
+
+The benchmark provides five tools wrapping domain APIs: \texttt{read-paper} for PDF text and figure extraction, \texttt{hepdata} for querying published numerical results, \texttt{cms-opendata} for dataset discovery and cross-section extraction via provenance chains, \texttt{simulate} for Monte Carlo event generation through MadGraph5, Pythia8, and Delphes with parallel processing, and \texttt{stream\_files} for auto-tuning parallel data streaming over $10^8$ events.
+Agents also access the standard HEP Python stack.
+No single tool suffices; the agent must compose them in a sequence inferred from the task structure.
+
+All agents execute inside a \texttt{bubblewrap} filesystem sandbox that hides the repository behind a tmpfs, exposing only the workspace and tools.
+This prevents agents from reading other runs, the evaluation code, or benchmark internals.
+The sandbox is a benchmark requirement, not an agent design choice.
+
+
+% ============================================================================
+\section{Evaluation}
+\label{sec:evaluation}
+% ============================================================================
+
+Existing benchmarks typically report a single scalar: resolve rate, success rate, or rubric completion.
+Such metrics conflate what the agent got wrong with how it reasoned, and---as we show---can be gamed.
+\toolkit{} evaluates four complementary dimensions.
+
+\paragraph{Yield accuracy.}
+Each filled value $\hat{y}_i$ is compared to the reference $y_i^{\mathrm{ref}}$ via a pull statistic that accounts for published uncertainties $\sigma_i$ and Poisson fluctuations:
+$\mathrm{pull}_i = (\hat{y}_i - y_i^{\mathrm{ref}}) / \sqrt{\sigma_i^2 + y_i^{\mathrm{ref}}}$.
+A bin passes if $|\mathrm{pull}_i| < 2$ or the relative deviation is below 50\%.
+The overall score is the fraction of bins passing.
+
+\paragraph{Rubric scoring with cost.}
+Six weighted checkpoints award partial credit for intermediate progress: code execution (15\%), dataset discovery (15\%), event selection quality (20\%), normalization accuracy (20\%), yield tolerance (20\%), and audit trail completeness (10\%).
+Cost metrics---API dollars, token consumption (distinguishing cached from new tokens), wall time, tool calls, and error rate---enable Pareto analysis across models and architectures.
+
+\paragraph{LLM-as-a-Judge.}
+An LLM judge evaluates six reasoning dimensions on a 1--5 scale: diagnosis quality, creative problem-solving, scientific honesty, hallucination, tool use efficiency, and audit completeness.
+The judge receives the filled HEPData, reference values, any additional agent artifacts, and the full session trace $\tau_A$.
+It produces a structured failure report cataloguing each reasoning failure by type---\texttt{NORMALIZATION\_ERROR}, \texttt{PREMATURE\_SURRENDER}, \texttt{POLLING\_VIOLATION}, \texttt{HALLUCINATION}, among others---enabling cross-agent pattern analysis.
+
+\paragraph{Provenance verification.}
+The most critical evaluation layer.
+The judge traces each value in $\hat{H}$ back through $\tau_A$ to verify it originated from actual computation.
+Values are classified as \texttt{GENUINE} (traceable to tool output or code execution), \texttt{COPIED} (identical to $H^{\mathrm{ref}}$ with no independent computation), or \texttt{NULL\_BUT\_COMPUTED} (the agent computed results elsewhere but neglected to fill the template).
+For non-genuine values, the judge extracts the agent's \emph{actual} computed results from $\tau_A$ and produces a corrected $\hat{H}_{\mathrm{corrected}}$, which is re-scored.
+This yields two numbers per agent: the \emph{submitted} score (potentially inflated) and the \emph{corrected} score (reflecting true computational ability).
+
+
+% ============================================================================
+\section{Experiments}
+\label{sec:experiments}
+% ============================================================================
+
+We evaluate two architectures on $T_1$, both using the same tools and sandbox.
+The \textbf{structured baseline} uses a multi-agent validation loop with eight instruction files (including epistemological constraints, a six-step procedure, and audit requirements), inter-agent bias mitigation, and plateau detection; up to five agents iterate, each inheriting stripped artifacts from its predecessor (Appendix~\ref{app:agents}).
+The \textbf{simple baseline} uses a single fifty-line instruction file and runs one agent with no iteration or audit requirements---130 lines of orchestration total.
+Both are evaluated with Claude Opus~4.6 on NERSC Perlmutter (128 CPU cores).
+
+
+% ============================================================================
+\section{Results}
+\label{sec:results}
+% ============================================================================
+
+\begin{table}[h]
+\centering
+\caption{Results on $T_1$ (CMS-SUS-16-047). ``Submitted'' is the raw yield score from $\hat{H}$; ``Corrected'' uses $\hat{H}_{\mathrm{corrected}}$ after provenance verification. Judge scores are 1--5.}
+\label{tab:results}
+\small
+\begin{tabular}{llcccccc}
+\toprule
+Architecture & \multicolumn{2}{c}{Yield score} & Rubric & Cost & \multicolumn{3}{c}{Judge (1--5)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){6-8}
+ & Subm. & Corr. & & & Diag. & Creat. & Honest. \\
+\midrule
+Structured & 100\%$^\dagger$ & TBD & 92\% & \$16 & 3 & 3 & 2$^\dagger$ \\
+Simple & 83\% & 83\% & 49\% & \$18 & 2 & 3 & 3 \\
+\bottomrule
+\end{tabular}
+\vspace{0.3em}
+
+{\footnotesize $^\dagger$Copied $H^{\mathrm{ref}}$ into $\hat{H}$. Provenance verification detected this (Hallucination: 2/5). Actual computed MC backgrounds agreed to 2.6\% with published totals.}
+\end{table}
+
+\paragraph{Provenance verification catches gaming.}
+The structured baseline computed genuinely accurate MC backgrounds---152.5 vs published 148.7 events, a 2.6\% discrepancy---but wrote the published reference values into the template as ``placeholders'' and never returned to update them.
+The submitted yield score of 100\% is meaningless; every value is byte-identical to $H^{\mathrm{ref}}$, including data yields from the full 36~$\fbinv$ when only 16~$\fbinv$ was processed and signal yields for samples the agent confirmed do not exist on the portal.
+The LLM judge detected this from the session trace: no tool call or code output produces the reported values.
+This validates provenance verification as essential for any benchmark where the reference is accessible.
+
+\paragraph{The simple agent was more creative but less reliable.}
+Without structured instructions, the simple agent attempted what the structured one did not: generating signal Monte Carlo samples through MadGraph5, Pythia8, and Delphes.
+It produced genuine yields for two signal benchmarks (T5Wg, T6gg) and achieved 83\% bin-level agreement overall.
+However, it left a factor-of-two background overestimate undiagnosed, produced no audit trail, and executed over thirty polling violations (repeatedly checking on background tasks despite explicit instructions not to).
+
+\paragraph{Both architectures fail at the same points.}
+Regardless of the orchestration strategy, both agents exhibit the same systematic failures: (a)~cross-section values from the API are accepted without interpreting whether efficiencies are already included, (b)~subdominant background processes and signal models are systematically omitted, and (c)~all agents compulsively poll long-running tasks.
+That these failures persist across architectures suggests the bottleneck is in the model's reasoning, not in the scaffolding around it.
+
+
+% ============================================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================================
+
+\paragraph{From information-seeking to constructive reasoning.}
+QuestBench~\citep{li2025questbench} showed that models cannot identify missing premises.
+Our results confirm this extends to scientific settings---agents frequently fail to recognise which datasets or cross sections are absent---but reveal a deeper limitation.
+Even when agents correctly identify what is missing (e.g., the audit trail labels a sample as ``blocked''), they rarely attempt to construct a workaround.
+In $T_3$, the Drell--Yan normalization fails because the required inclusive sample does not exist in the Run~2015 data collection; the correct workaround is to extract the scale factor from the Run~2016 collection (the $Z$ peak is a standard candle whose calibration transfers across eras).
+Every tested agent possesses this physics knowledge yet none makes the lateral step.
+The gap between knowing and improvising is the central phenomenon \toolkit{} is designed to measure.
+
+\paragraph{Metrics must verify provenance.}
+An agent that copies the answer key scores 100\% on yield accuracy and 92\% on the rubric.
+Only the session-trace-based provenance check reveals the deception.
+This has implications beyond our benchmark: any evaluation where the ground truth is accessible to the agent requires a mechanism to verify that reported results trace to independent computation.
+The LLM judge's provenance classification (\texttt{GENUINE}/\texttt{COPIED}/\texttt{NULL\_BUT\_COMPUTED}) with automated correction provides a template for such mechanisms.
+
+\paragraph{Structured vs.\ minimal instructions.}
+The structured baseline (eight files, multi-agent loop, audit requirements) produces disciplined output but is conservative: it marks missing signals as blocked and moves on.
+The simple baseline (one file, single run) is more ambitious---it generates signal MC---but delivers less reliable results with no documentation.
+Neither architecture solves the constructive reasoning challenges.
+This suggests that the bottleneck is in the model, not in the prompt engineering.
+
+\paragraph{Limitations.}
+The benchmark currently has three tasks and evaluations on a limited set of models.
+Execution requires HPC resources (2--4 hours per analysis, xrootd streaming from CERN).
+The LLM judge may have biases; inter-judge reliability studies are needed.
+We plan to add tasks across different final states and data eras, provide pre-cached datasets for accessibility, and evaluate open-weight models.
+
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================================
+
+We have introduced \toolkit{}, a benchmark for \emph{constructive reasoning under ambiguity}---the ability to identify what is missing, solve what is specified, and build workarounds when the standard path is blocked.
+Existing benchmarks test the first two capabilities; none tests the third.
+
+Our four-layer evaluation reveals that yield metrics alone are gameable, that all tested models converge on the same systematic failures regardless of orchestration, and that the gap between domain knowledge and creative problem-solving is the primary bottleneck for autonomous scientific agents.
+We release the benchmark, tools, evaluation framework, and agent implementations at \texttt{[URL]}.
+
+
+% ============================================================================
+\bibliographystyle{plainnat}
+
+\begin{thebibliography}{20}
+
+\bibitem[Abdallah et~al.(2020)]{abdallah2020reinterpretation}
+W.~Abdallah et~al.
+\newblock Reinterpretation of LHC results for new physics: Status and recommendations after Run~2.
+\newblock \emph{SciPost Phys.}, 9:022, 2020.
+
+\bibitem[Boiko et~al.(2023)]{boiko2023coscientist}
+D.~A.~Boiko, R.~MacKnight, and G.~Gomes.
+\newblock Autonomous chemical research with large language models.
+\newblock \emph{Nature}, 624:570--578, 2023.
+
+\bibitem[Bran et~al.(2024)]{bran2024chemcrow}
+A.~M.~Bran et~al.
+\newblock ChemCrow: Augmenting large-language models with chemistry tools.
+\newblock \emph{Nature Machine Intelligence}, 6:525--535, 2024.
+
+\bibitem[Chen et~al.(2024)]{chen2024scienceagentbench}
+Z.~Chen et~al.
+\newblock ScienceAgentBench: Toward rigorous assessment of language agents for data-driven scientific discovery.
+\newblock In \emph{ICLR}, 2025.
+
+\bibitem[CMS Collaboration(2017)]{cms_sus_16_047}
+CMS Collaboration.
+\newblock Search for supersymmetry in events with at least one photon, missing transverse momentum, and large transverse event activity in proton-proton collisions at $\sqrt{s}=13$~TeV.
+\newblock \emph{JHEP}, 12:142, 2017.
+
+\bibitem[Cranmer and Yavin(2011)]{cranmer2012recast}
+K.~Cranmer and I.~Yavin.
+\newblock RECAST: Extending the impact of existing analyses.
+\newblock \emph{JHEP}, 04:038, 2011.
+
+\bibitem[Gendreau-Distler et~al.(2024)]{gendreau2024automating}
+E.~Gendreau-Distler et~al.
+\newblock Automating high energy physics data analysis with LLM-powered agents.
+\newblock \emph{arXiv:2512.07785}, 2024.
+
+\bibitem[HEPTAPOD(2024)]{heptapod2024}
+HEPTAPOD: Orchestrating high energy physics workflows towards autonomous agency.
+\newblock \emph{arXiv:2512.15867}, 2024.
+
+\bibitem[Jimenez et~al.(2024)]{jimenez2024swebench}
+C.~E.~Jimenez et~al.
+\newblock SWE-bench: Can language models resolve real-world GitHub issues?
+\newblock In \emph{ICLR}, 2024.
+
+\bibitem[Li et~al.(2025)]{li2025questbench}
+B.~Z.~Li, B.~Kim, and Z.~Wang.
+\newblock QuestBench: Can LLMs ask the right question to acquire information in reasoning tasks?
+\newblock In \emph{NeurIPS Datasets \& Benchmarks}, 2025.
+
+\bibitem[Maguire et~al.(2017)]{maguire2017hepdata}
+E.~Maguire, L.~Heinrich, and G.~Watt.
+\newblock HEPData: a repository for high energy physics data.
+\newblock \emph{J. Phys.: Conf. Ser.}, 898:102006, 2017.
+
+\bibitem[Moreno et~al.(2026)]{moreno2026ai}
+E.~A.~Moreno et~al.
+\newblock AI agents can already autonomously perform experimental high energy physics.
+\newblock \emph{arXiv:2603.20179}, 2026.
+
+\bibitem[OpenAI(2025)]{openai2025paperbench}
+OpenAI.
+\newblock PaperBench: Evaluating AI's ability to replicate AI research.
+\newblock \emph{arXiv:2504.01848}, 2025.
+
+\bibitem[Siegel et~al.(2024)]{siegel2024corebench}
+N.~Siegel et~al.
+\newblock CORE-Bench: Fostering the credibility of published research through a computational reproducibility agent benchmark.
+\newblock \emph{arXiv:2409.11363}, 2024.
+
+\bibitem[Zhu et~al.(2025)]{zhu2025gsmagent}
+H.~Zhu et~al.
+\newblock GSM-Agent: Understanding agentic reasoning using controllable environments.
+\newblock \emph{arXiv:2509.21998}, 2025.
+
+\end{thebibliography}
+
+
+% ============================================================================
+\appendix
+% ============================================================================
+
+\section{Baseline Agent Architecture}
+\label{app:agents}
+
+The structured baseline uses a multi-agent validation loop.
+Eight instruction files define the agent's identity, epistemological constraints (never fabricate, treat inherited work as untrusted), a six-step validation procedure, implementation rules, dataset discovery protocol, audit format, and simulation guidance.
+The controller creates a sandboxed workspace, seeds it with instructions and HEPData templates, and launches agents sequentially.
+Between agents, datasets are stripped to process names only and the previous report is relabelled ``unverified context'' to mitigate bias propagation.
+Convergence uses plateau detection: the loop stops when no fixable items remain.
+A pluggable runner abstraction supports Claude Code, Codex, and Aider (75+ models via OpenRouter).
+
+
+\section{Per-Task Challenge Taxonomy}
+\label{app:challenges}
+
+\begin{table}[h]
+\centering
+\caption{Reasoning challenges by task, with universal analogues.}
+\label{tab:challenges}
+\small
+\begin{tabular}{p{3.5cm}cccp{4.5cm}}
+\toprule
+Challenge & $T_1$ & $T_2$ & $T_3$ & Universal analogue \\
+\midrule
+Specification ambiguity & \cmark & \cmark & \cmark & NL specs with implicit conventions \\
+Multi-hop provenance & \cmark & \cmark & & Chained API lookups \\
+Partial data coverage & \cmark & \cmark & & Incomplete databases \\
+Format adaptation & & & \cmark & Undocumented data formats \\
+Missing signal generation & \cmark & \cmark & \cmark & Synthetic data generation \\
+Normalization reasoning & \cmark & \cmark & \cmark & Context-dependent API interpretation \\
+Object ID approximation & \cmark & \cmark & \cmark & API version mismatch \\
+Derived variables & & \cmark & \cmark & Complex feature engineering \\
+Cross-era calibration & & & \cmark & Cross-environment calibration \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The most illustrative example of constructive reasoning is the cross-era calibration challenge in $T_3$.
+The Drell--Yan background normalization requires a data/MC scale factor from the $Z$-peak region, but the Run~2015 data collection lacks the inclusive DY sample needed for this calibration.
+The Run~2016 collection has it.
+Since the $Z$ peak is a standard candle---its properties do not change between data-taking years---extracting the scale factor from Run~2016 and applying it to the Run~2015 analysis is a well-motivated approximation that requires no exotic physics knowledge, only the lateral insight that a calibration can transfer across eras.
+No tested agent made this step, despite all of them correctly identifying the $Z$ boson as a standard candle when asked directly.
+
+
+\section{Evaluation Details}
+\label{app:metrics}
+
+\paragraph{Pull metric.}
+$\mathrm{pull}_i = (\hat{y}_i - y_i^{\mathrm{ref}}) / \sqrt{\sigma_i^2 + y_i^{\mathrm{ref}}}$, where $\sigma_i$ is the published uncertainty and $\sqrt{y_i^{\mathrm{ref}}}$ approximates Poisson fluctuations.
+
+\paragraph{Rubric checkpoints.}
+Code executes (15\%): non-null values in $\hat{H}$.
+Datasets discovered (15\%): fraction with valid URLs.
+Event selection (20\%): shape agreement.
+Normalization (20\%): total yield ratio within $[0.5, 2.0]$.
+Yield tolerance (20\%): fraction with $|\mathrm{pull}| < 2$.
+Audit trail (10\%): structured and categorised.
+
+\paragraph{Cost metrics.}
+API cost (\$), input/output tokens, cache behaviour, wall time, tool calls, error rate.
+Derived: \$/rubric-point.
+
+\paragraph{Judge dimensions (1--5 each).}
+Diagnosis quality, creative problem-solving, scientific honesty, hallucination, tool use efficiency, audit completeness.
+Failure types: \texttt{NORMALIZATION\_ERROR}, \texttt{HALLUCINATION}, \texttt{PREMATURE\_SURRENDER}, \texttt{MISSED\_WORKAROUND}, \texttt{FORMAT\_BLINDNESS}, \texttt{SPECIFICATION\_MISREAD}, \texttt{TOOL\_MISUSE}, \texttt{POLLING\_VIOLATION}, \texttt{BIAS\_PROPAGATION}, \texttt{OVERCLAIMING}, \texttt{INCOMPLETE\_SEARCH} (extensible).
+
+\paragraph{Provenance classification.}
+\texttt{GENUINE}: value traces to tool output or code execution in $\tau_A$.
+\texttt{COPIED}: identical to $H^{\mathrm{ref}}$ with no independent computation.
+\texttt{NULL\_BUT\_COMPUTED}: agent computed results but did not fill the template.
+Non-genuine values are replaced with the agent's actual computed values from $\tau_A$.
+
+
+\end{document}

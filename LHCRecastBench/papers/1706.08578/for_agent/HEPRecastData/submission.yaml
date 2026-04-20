@@ -1,0 +1,96 @@
+additional_resources:
+- {description: DOI of the article, location: 'http://www.sciencedirect.com/science/article/pii/S0370269317308936?via%3Dihub'}
+- {description: arXive, location: 'https://arxiv.org/abs/1706.08578v3'}
+comment: |
+  CERN-LHC. Search for physics beyond the standard model in the final state with two same-flavour leptons (electrons or muons) and two quarks produced in proton-proton collisions at a center of mass energy of 13 TeV.
+
+  The data correspond to an integrated luminosity of 2.3 /fb. The results of the measurement are interpreted in the framework of a heavy Majorana neutrino stems from a composite-fermion scenario.
+hepdata_doi: 10.17182/hepdata.80512.v1
+---
+data_file: data1.yaml
+description: Invariant mass distribution of two electrons and one large-radius jet.
+  The events are selected accordingly to the signal region slection in the electron
+  channel described in the paper.
+keywords:
+- name: reactions
+  values: [P P --> E E Q Q]
+- name: observables
+  values: [DN/DM]
+- name: cmenergies
+  values: [13000.0]
+location: Data from figure 4 left
+name: Table 1
+table_doi: 10.17182/hepdata.80512.v1/t1
+---
+data_file: data2.yaml
+description: Invariant mass distribution of two muons and one large-radius jet. The
+  events are selected accordingly to the signal region slection in the muon channel
+  described in the paper.
+keywords:
+- name: reactions
+  values: [P P --> MU MU Q Q]
+- name: observables
+  values: [DN/DM]
+- name: cmenergies
+  values: [13000.0]
+location: Data from figure 4 right
+name: Table 2
+table_doi: 10.17182/hepdata.80512.v1/t2
+---
+data_file: data3.yaml
+description: 95% CL upper limits on the product of the production cross section $\sigma(pp\to
+  N_e)$ and the branching ratio $B(N_e \to e q \bar{q}^{\prime})$ in electron channel,
+  compared with theoretical predictions for HCMN model calculated with CalcHEP.
+keywords:
+- name: reactions
+  values: [P P --> E E Q Q]
+- name: observables
+  values: [CLS]
+- name: cmenergies
+  values: [13000.0]
+location: Data from figure 5 left
+name: Table 3
+table_doi: 10.17182/hepdata.80512.v1/t3
+---
+data_file: data4.yaml
+description: 95% CL upper limits on the product of the production cross section $\sigma(pp\to
+  N_\mu)$ and the branching ratio $B(N_\mu\to \mu q\bar{q}^{\prime})$ in electron
+  channel, compared with theoretical predictions for HCMN model calculated with CalcHEP.
+keywords:
+- name: reactions
+  values: [P P --> MU MU Q Q]
+- name: observables
+  values: [CLS]
+- name: cmenergies
+  values: [13000.0]
+location: Data from figure 5 right
+name: Table 4
+table_doi: 10.17182/hepdata.80512.v1/t4
+---
+data_file: data5.yaml
+description: The 95% CL exclusion curve in the parameters' space, obtained in the
+  analysis of the electron channel.
+keywords:
+- name: reactions
+  values: [P P --> E E Q Q]
+- name: observables
+  values: [CLS]
+- name: cmenergies
+  values: [13000.0]
+location: Data from figure 6 left
+name: Table 5
+table_doi: 10.17182/hepdata.80512.v1/t5
+---
+data_file: data6.yaml
+description: The 95% CL exclusion curve in the parameters' space, obtained in the
+  analysis of the muon channel.
+keywords:
+- name: reactions
+  values: [P P --> MU MU Q Q]
+- name: observables
+  values: [CLS]
+- name: cmenergies
+  values: [13000.0]
+location: Data from figure 6 right
+name: Table 6
+table_doi: 10.17182/hepdata.80512.v1/t6

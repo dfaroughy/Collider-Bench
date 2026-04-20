@@ -1,0 +1,106 @@
+independent_variables:
+- header: {name: fourlepton invariant mass, units: GEV}
+  values:
+  - {low: 0, high: 200}
+  - {low: 200, high: 300}
+  - {low: 300, high: 400}
+  - {low: 400, high: 500}
+  - {low: 500, high: 600}
+  - {low: 600, high: 800}
+  - {low: 800, high: 1000}
+  - {low: 1000, high: 1200}
+  - {low: 1200, high: 1400}
+dependent_variables:
+- header: {name: Number of entries per bin}
+  qualifiers:
+  - {name: Process, value: QCD P P --> Z0 Z0 JET JET (BORN)}
+  values:
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.176 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.220, plus: +0.220} }
+    - {label: 'JES (exp.)', asymerror: {minus: -1.043, plus: +1.277} }
+    - {label: 'JER (exp.)', asymerror: {minus: -0.469, plus: +0.459} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.039, plus: +0.040} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -1.714, plus: +1.896} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.284, plus: +0.283} }
+    - {label: 'Luminosity (exp.)', symerror: 0.228 }     
+    value: 8.787
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.803 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -1.141, plus: +1.141} }
+    - {label: 'JES (exp.)', asymerror: {minus: -3.985, plus: +4.718} }
+    - {label: 'JER (exp.)', asymerror: {minus: -1.893, plus: +1.730} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.075, plus: +0.071} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -7.973, plus: +8.545} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -1.299, plus: +1.279} }
+    - {label: 'Luminosity (exp.)', symerror: 1.043 }     
+    value: 40.13
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.318 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.543, plus: +0.543} }  
+    - {label: 'JES (exp.)', asymerror: {minus: -1.278, plus: +1.450} }
+    - {label: 'JER (exp.)', asymerror: {minus: -0.565, plus: +0.533} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.032, plus: +0.023} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -3.101, plus: +3.155} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.525, plus: +0.526} }
+    - {label: 'Luminosity (exp.)', symerror: 0.414 }     
+    value: 15.91
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.133 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.252, plus: +0.252} } 
+    - {label: 'JES (exp.)', asymerror: {minus: -0.477, plus: +0.589} }
+    - {label: 'JER (exp.)', asymerror: {minus: -0.214, plus: +0.172} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.028, plus: +0.029} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -1.311, plus: +1.268} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.235, plus: +0.237} }
+    - {label: 'Luminosity (exp.)', symerror: 0.172 }     
+    value: 6.63
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.063 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.130, plus: +0.130} }
+    - {label: 'JES (exp.)', asymerror: {minus: -0.183, plus: +0.231} }
+    - {label: 'JER (exp.)', asymerror: {minus: -0.065, plus: +0.084} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.022, plus: +0.024} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -0.636, plus: +0.585} }    
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.113, plus: +0.117} }
+    - {label: 'Luminosity (exp.)', symerror: 0.082 }     
+    value: 3.147
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.048 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.106, plus: +0.106} }
+    - {label: 'JES (exp.)', asymerror: {minus: -0.137, plus: +0.165} }
+    - {label: 'JER (exp.)', asymerror: {minus: -0.045, plus: +0.054} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.022, plus: +0.022} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -0.466, plus: +0.398} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.098, plus: +0.095} }
+    - {label: 'Luminosity (exp.)', symerror: 0.062 }     
+    value: 2.397
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.015 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.037, plus: +0.037} }
+    - {label: 'JES (exp.)', asymerror: {minus: -0.037, plus: +0.047} }
+    - {label: 'JER (exp.)', asymerror: {minus: -0.015, plus: +0.019} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.007, plus: +0.008} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -0.155, plus: +0.132} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.038, plus: +0.041} }
+    - {label: 'Luminosity (exp.)', symerror: 0.02 }     
+    value: 0.766
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.006 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.015, plus: +0.015} }
+    - {label: 'JES (exp.)', asymerror: {minus: -0.012, plus: +0.025} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.001, plus: +0.001} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -0.060, plus: +0.053} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.015, plus: +0.017} }
+    - {label: 'Luminosity (exp.)', symerror: 0.008 }     
+    value: 0.303
+  - errors: 
+    - {label: 'Trigger (exp.)', symerror: 0.005 }     
+    - {label: 'Lepton efficiency (exp.)', asymerror: {minus: -0.012, plus: +0.012} }
+    - {label: 'JES (exp.)', asymerror: {minus: -0.016, plus: +0.015} }
+    - {label: 'PU (exp.)', asymerror: {minus: -0.005, plus: +0.004} }
+    - {label: 'QCD scales (theo.)', asymerror: {minus: -0.046, plus: +0.029} }
+    - {label: 'PDF (theo.)', asymerror: {minus: -0.019, plus: +0.018} }
+    - {label: 'Luminosity (exp.)', symerror: 0.006 }     
+    value: 0.232
+

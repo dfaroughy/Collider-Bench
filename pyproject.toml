@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lhc-recast"
+version = "0.1.0"
+description = "LHC-Recast benchmark and agent infrastructure for CMS paper recasting."
+requires-python = ">=3.10"
+readme = "README.md"
+authors = [{ name = "Darius Faroughy", email = "dariusfar@gmail.com" }]
+
+dependencies = [
+    "pyyaml>=6",
+    "numpy>=1.24",
+    "awkward>=2",
+    "uproot>=5",
+    "hist",
+    "mplhep",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "pytest-xdist",
+]
+
+[project.scripts]
+# Convenience entry points — the production path is still `scripts/run-agent`,
+# which also handles Perlmutter salloc/srun wrapping.
+lhc-recast-simple    = "agents.simple.run:main"
+lhc-recast-baseline  = "agents.baseline.run:main"
+lhc-recast-iterative = "agents.iterative.runtime.controller.recast_loop:main"
+lhc-recast-sisyphus  = "agents.sisyphus.runtime.controller.sisyphus_loop:main"
+
+[tool.setuptools.packages.find]
+# Three top-level packages: runtime, benchmark, and the agents namespace.
+include = ["agent_runtime*", "LHCRecastBench*", "agents*"]
+exclude = ["recast_*", "old*", "runs*", "draft*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Fast smoke suite — don't swallow stdout, fail on the first network/file error.
+addopts = "-ra --strict-markers"

@@ -1,0 +1,123 @@
+---
+additional_resources:
+- {location: "http://cms-results.web.cern.ch/cms-results/public-results/publications/SMP-17-006/", description: "web page with auxiliary material"}
+  
+comment: "CERN LHC. A measurement of vector boson scattering and constraints on anomalous quartic gauge couplings from events with two Z bosons and two jets are presented. The analysis is based on a data sample of proton-proton collisions at √s= 13 TeV collected with the CMS detector and corresponding to an integrated luminosity of 35.9 fb−1. The measurement is performed in the decay channel where each Z boson decays to either a pair of electrons or a pair of muons. The fiducial region is defined as: ptLepton > 5 GeV, |etaLepton|< 2.5,pTj1 > 30 GeV, |etaj1| < 4.7, pTj2 > 30 GeV, |etaj2|< 4.7, mjj > 100 GeV."
+---
+name: "Table 1"
+description: "Measured and expected fiducial cross-sections."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [SIG]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Cross Section, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table1.yaml
+---
+name: "Table 2"
+description: "Data from Table 2. Observed and expected exclusion limits for the aQGC parameters at 95% CL, without any form factors."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [Coupling]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table2.yaml
+---
+name: "Table 3"
+description: "Data from Fig.4. Observed yields of four lepton invariant mass distribution. The last bin includes overflow."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [invariant mass]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table3.yaml
+---
+name: "Table 4"
+description: "Data from Fig.4. Expected yields of four lepton invariant mass distribution for the EW ZZjj signal process. The last bin includes overflow."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [invariant mass]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table4.yaml
+---
+name: "Table 5"
+description: "Data from Fig.4. Expected yields of four lepton invariant mass distribution for the mixed EW-QCD qqZZjj background. The last bin includes overflow."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [invariant mass]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table5.yaml
+---
+name: "Table 6"
+description: "Data from Fig.4. Expected yields of four lepton invariant mass distribution for the mixed EW-QCD ggZZjj background. The last bin includes overflow."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [invariant mass]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table6.yaml
+---
+name: "Table 7"
+description: "Data from Fig.4. Expected yields of four lepton invariant mass distribution for the WWZ background. The last bin includes overflow."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [invariant mass]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table7.yaml
+---
+name: "Table 8"
+description: "Data from Fig.4. Expected yields of four lepton invariant mass distribution for the ttZ background. The last bin includes overflow."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [invariant mass]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table8.yaml
+---
+name: "Table 9"
+description: "Data from Fig.4. Expected yields of four lepton invariant mass distribution for the Z+X reducible background. The last bin includes overflow."
+keywords:
+- name: reactions
+  values: [P P --> Z Z JET JET]
+- name: observables
+  values: [invariant mass]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Electroweak, Anomalous coupling, Vector boson scattering, Proton-Proton Scattering, ZZ production]
+data_file: Table9.yaml
+---

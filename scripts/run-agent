@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# Unified agent launcher.
+#
+# Reads `agent:` from the --config YAML (following `extends:` chains) and
+# dispatches to the right agent module via run_with_compute. --agent NAME
+# on the CLI overrides the config value.
+#
+# Usage:
+#   run-agent --config configs/claude_simple.yaml
+#   run-agent --config configs/claude_iterative.yaml --effort high
+#   run-agent --agent baseline --paper-ref 1707.06193 --runner claude
+#   run-agent --config configs/claude_simple.yaml --compute perlmutter
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
+source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
+
+# Conda activation is needed before we can call `python` to parse the config.
+if ! activate_cms_analysis; then
+  bootstrap_cms_analysis
+fi
+ensure_python_modules
+
+# ── Parse --agent (consumed) and --config (forwarded) ──────────────────────
+AGENT=""
+CONFIG=""
+FORWARDED=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --agent)      AGENT="$2"; shift 2 ;;
+    --agent=*)    AGENT="${1#--agent=}"; shift ;;
+    --config)     CONFIG="$2"; FORWARDED+=("$1" "$2"); shift 2 ;;
+    --config=*)   CONFIG="${1#--config=}"; FORWARDED+=("$1"); shift ;;
+    *)            FORWARDED+=("$1"); shift ;;
+  esac
+done
+
+# ── Resolve agent from config (follow extends: chain) ──────────────────────
+if [[ -z "${AGENT}" && -n "${CONFIG}" ]]; then
+  AGENT="$(python - "${CONFIG}" <<'PY'
+import sys, yaml
+from pathlib import Path
+p = Path(sys.argv[1]).resolve()
+seen = set()
+while p not in seen:
+    if not p.exists():
+        sys.exit(f"run-agent: config not found: {p}")
+    seen.add(p)
+    raw = yaml.safe_load(p.read_text()) or {}
+    if not isinstance(raw, dict):
+        sys.exit(f"run-agent: {p}: top-level YAML must be a mapping")
+    if raw.get("agent"):
+        print(raw["agent"])
+        break
+    parent = raw.get("extends")
+    if not parent:
+        break
+    p = (p.parent / parent).resolve()
+PY
+)"
+fi
+
+if [[ -z "${AGENT}" ]]; then
+  echo "run-agent: --agent NAME required, or set \`agent:\` in --config." >&2
+  echo "  Known agents: simple, baseline, iterative, sisyphus" >&2
+  echo "  Example: bin/run-agent --config configs/claude_simple.yaml" >&2
+  exit 2
+fi
+
+case "${AGENT}" in
+  simple)    PY_MODULE="agents.simple.run" ;;
+  baseline)  PY_MODULE="agents.baseline.run" ;;
+  iterative) PY_MODULE="agents.iterative.runtime.controller.recast_loop" ;;
+  sisyphus)  PY_MODULE="agents.sisyphus.runtime.controller.sisyphus_loop" ;;
+  *)
+    echo "run-agent: unknown agent '${AGENT}'. Must be simple|baseline|iterative|sisyphus." >&2
+    exit 2 ;;
+esac
+
+export PY_MODULE
+run_with_compute "${FORWARDED[@]+"${FORWARDED[@]}"}"

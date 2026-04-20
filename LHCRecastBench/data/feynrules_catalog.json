@@ -1,0 +1,3679 @@
+{
+  "source": "https://feynrules.irmp.ucl.ac.be",
+  "built_at": "2026-04-12T01:05:44Z",
+  "categories": [
+    {
+      "slug": "StandardModel",
+      "name": "Standard Model",
+      "models": [
+        {
+          "slug": "FeynArtsInterface",
+          "title": "FeynArts Interface",
+          "description": "FeynArts is a Mathematica package for the generation and visualization of Feynman diagrams and amplitudes. The source code can be downloaded from \u200bwww.feynarts.de.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FeynArtsInterface",
+          "attachments": []
+        },
+        {
+          "slug": "MadGraphInterface",
+          "title": "MadGraph Interface",
+          "description": "MadGraph /MadEvent is a software that allows you to generate amplitudes and events for any process (with up to 9 external particles) in any model. The source code can be downloaded from \u200bmadgraph.phys.ucl.ac.be.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MadGraphInterface",
+          "attachments": []
+        },
+        {
+          "slug": "CalcHepInterface",
+          "title": "CalcHEP/CompHEP",
+          "description": "\u200bCalcHep and \u200bCompHEP are packages for calculation of Feynman diagrams, integration over multi-particle phase space and generating events.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/CalcHepInterface",
+          "attachments": []
+        },
+        {
+          "slug": "SherpaInterface",
+          "title": "Sherpa",
+          "description": "Sherpa is a multi-purpose event generator that can be used to generate events in various physics models both at the parton and hadron level. The program can account for parton showering and hadronisation, and, where appropriate, also underlying events.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/SherpaInterface",
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "slug": "SimpleExtensions",
+      "name": "Simple Extensions of the SM",
+      "models": [
+        {
+          "slug": "331",
+          "title": "The 3-3-1 model",
+          "description": "The 331 model is a simple extension of the SM based on the gauge group SU(3)_C x SU(3)_L x U(1)_X. There are different versions of this model which can be characterized by a parameter called beta. Models with different beta have new particles with different electric charges. But in general, they all have the same features. i) Unlike the SM that anomaly cancellation is fulfilled within each generat",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/331",
+          "attachments": [
+            {
+              "filename": "331.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/331/331.fr"
+            },
+            {
+              "filename": "331_-1.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/331/331_-1.fr"
+            },
+            {
+              "filename": "331_1.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/331/331_1.fr"
+            },
+            {
+              "filename": "331_-3.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/331/331_-3.fr"
+            },
+            {
+              "filename": "331_3.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/331/331_3.fr"
+            },
+            {
+              "filename": "331.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/331/331.nb"
+            }
+          ]
+        },
+        {
+          "slug": "yyALP",
+          "title": "yyALP",
+          "description": "Photon-induced production of two ALPs: one short-lived that decays into leptons (electrons, muons and taus) and one long-lived that does not decay.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/yyALP",
+          "attachments": [
+            {
+              "filename": "yyALP_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/yyALP/yyALP_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "ALRM_general",
+          "title": "The most general Alternative Left-Right Symmetric Model",
+          "description": "In collaboration with Mariana Frank and \u00d6zer \u00d6zdal. See \u200barXiv:1911.12883 [hep-ph]. This implementation is the most general one of the model.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ALRM_general",
+          "attachments": [
+            {
+              "filename": "alrsm.unitarity.ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM_general/alrsm.unitarity.ufo.tgz"
+            },
+            {
+              "filename": "alrsm.unitarity.ch.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM_general/alrsm.unitarity.ch.tgz"
+            },
+            {
+              "filename": "ALRM_BF_uni_v2.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM_general/ALRM_BF_uni_v2.fr"
+            }
+          ]
+        },
+        {
+          "slug": "ALRM",
+          "title": "Alternative Left-Right Symmetric Model",
+          "description": "Department of Mathematics, Faculty of Science, Cairo University, 12613 Giza, Egypt Center for Fundamental Physics (CFP), Zewail City of Science and Technology, Sheikh Zayed, 12588 Giza, Egypt",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ALRM",
+          "attachments": [
+            {
+              "filename": "ggaa_alrm_sm_reco.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ggaa_alrm_sm_reco.png"
+            },
+            {
+              "filename": "ppaa_alrm_sm_reco.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ppaa_alrm_sm_reco.png"
+            },
+            {
+              "filename": "ALRM_LO.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO.fr"
+            },
+            {
+              "filename": "ALRM_LO_UFO.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO_UFO.tar.xz"
+            },
+            {
+              "filename": "ALRM_LO_TeX.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO_TeX.tar.xz"
+            },
+            {
+              "filename": "ALRM_LO_CH.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO_CH.tar.xz"
+            },
+            {
+              "filename": "ALRM_LO_FA.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO_FA.tar.xz"
+            },
+            {
+              "filename": "ALRM_LO_SH.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO_SH.tar.xz"
+            },
+            {
+              "filename": "ALRM_LO_MD.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO_MD.tar.xz"
+            },
+            {
+              "filename": "ALRM_LO_WO.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO_WO.tar.xz"
+            },
+            {
+              "filename": "ALRM_LO.tar.xz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALRM/ALRM_LO.tar.xz"
+            }
+          ]
+        },
+        {
+          "slug": "topBSM",
+          "title": "Axigluon model",
+          "description": "In addition, the new model files provide the width of the particles (there is no need for them to be computed separately). Also, the constraint on the particle masses were lifted (the previous version provided certain couplings only for certain mass ranges, and the couplings themselves were expressed only as series expansions). The new model provides the exact expressions for all masses.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/topBSM",
+          "attachments": [
+            {
+              "filename": "topBSM.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/topBSM/topBSM.nb"
+            },
+            {
+              "filename": "topBSM.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/topBSM/topBSM.fr"
+            },
+            {
+              "filename": "thu.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/topBSM/thu.nb"
+            },
+            {
+              "filename": "thu.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/topBSM/thu.fr"
+            }
+          ]
+        },
+        {
+          "slug": "ChernSimonsPortal",
+          "title": "Chern-Simons portal",
+          "description": "The Chern-Simons portal extends the Standard Model by adding a new vector particle with zero electric charge, the X boson, interacting with the Standard Model electroweak gauge bosons, W, Z, and photon, via pseudo Chern-Simons current [1][2]. Brief description of the model is given in the \u200bfile.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ChernSimonsPortal",
+          "attachments": [
+            {
+              "filename": "Chern_simons_portal__brief_description.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ChernSimonsPortal/Chern_simons_portal__brief_description.pdf"
+            },
+            {
+              "filename": "Chern-Simons-Portal.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ChernSimonsPortal/Chern-Simons-Portal.fr"
+            },
+            {
+              "filename": "ChernSimons_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ChernSimonsPortal/ChernSimons_UFO.zip"
+            },
+            {
+              "filename": "ChernSimons.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ChernSimonsPortal/ChernSimons.nb"
+            }
+          ]
+        },
+        {
+          "slug": "Octet_tcgg",
+          "title": "Coloron Model",
+          "description": "This model introduces a heavy scalar color octet, the coloron. It is produced through gluon fusion and decays to a top quark and a charm quark.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/Octet_tcgg",
+          "attachments": [
+            {
+              "filename": "Coloron.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/Coloron.png"
+            },
+            {
+              "filename": "proc_card_mg5.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/proc_card_mg5.dat"
+            },
+            {
+              "filename": "run_card.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/run_card.dat"
+            },
+            {
+              "filename": "Octet-tcgg-new.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/Octet-tcgg-new.zip"
+            },
+            {
+              "filename": "ColoronDouble1.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/ColoronDouble1.png"
+            },
+            {
+              "filename": "ColoronDouble2.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/ColoronDouble2.png"
+            },
+            {
+              "filename": "Colorong.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/Colorong.png"
+            },
+            {
+              "filename": "Colorong2.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Octet_tcgg/Colorong2.png"
+            }
+          ]
+        },
+        {
+          "slug": "modcolorS_trip",
+          "title": "Color Triplet",
+          "description": "This model introduces a heavy hadronic resonance with fractional electric charge (color triplet). The color triplet is produced in quark-quark collisions (not quark-antiquark) and decays to a top quark and a bottom quark.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/modcolorS_trip",
+          "attachments": [
+            {
+              "filename": "ColorResSig1.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/modcolorS_trip/ColorResSig1.png"
+            },
+            {
+              "filename": "proc_card_mg5.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/modcolorS_trip/proc_card_mg5.dat"
+            },
+            {
+              "filename": "run_card.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/modcolorS_trip/run_card.dat"
+            },
+            {
+              "filename": "resonanceWidth.C",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/modcolorS_trip/resonanceWidth.C"
+            },
+            {
+              "filename": "modcolorS_trip.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/modcolorS_trip/modcolorS_trip.zip"
+            }
+          ]
+        },
+        {
+          "slug": "DMsimp",
+          "title": "Simplified DM models",
+          "description": "The mixed spin-0 mediator model is a LO model for MadDM with the inclusion of effective ggY and aaY couplings.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/DMsimp",
+          "attachments": [
+            {
+              "filename": "dm_s_spin0.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/dm_s_spin0.fr"
+            },
+            {
+              "filename": "dm_s_spin0_ew.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/dm_s_spin0_ew.fr"
+            },
+            {
+              "filename": "dm_s_spin1.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/dm_s_spin1.fr"
+            },
+            {
+              "filename": "dm_s_spin1_ew.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/dm_s_spin1_ew.fr"
+            },
+            {
+              "filename": "dm_s_spin2.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/dm_s_spin2.fr"
+            },
+            {
+              "filename": "edm_s_spin0.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/edm_s_spin0.fr"
+            },
+            {
+              "filename": "edm_s_spin1.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/edm_s_spin1.fr"
+            },
+            {
+              "filename": "Cabibbo.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/Cabibbo.rst"
+            },
+            {
+              "filename": "DiagonalCKM.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DiagonalCKM.rst"
+            },
+            {
+              "filename": "Massless_5f.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/Massless_5f.rst"
+            },
+            {
+              "filename": "DMsimp_s_spin0.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0.nb"
+            },
+            {
+              "filename": "DMsimp_s_spin1.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1.nb"
+            },
+            {
+              "filename": "edm_s_spin0.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/edm_s_spin0.nb"
+            },
+            {
+              "filename": "edm_s_spin1.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/edm_s_spin1.nb"
+            },
+            {
+              "filename": "DMsimp_s_spin0.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_5f_ybMSbar.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_5f_ybMSbar.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_4f_ybMSbar.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_4f_ybMSbar.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1_v2.1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_v2.1.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin2_v1.1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin2_v1.1.zip"
+            },
+            {
+              "filename": "eDMsimp_s_spin0.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/eDMsimp_s_spin0.zip"
+            },
+            {
+              "filename": "eDMsimp_s_spin1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/eDMsimp_s_spin1.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1_MD_v2.0.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_MD_v2.0.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_MD_v1.1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_MD_v1.1.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_mixed_MD.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_mixed_MD.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1_MO_v2.0.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_MO_v2.0.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_MO_v1.1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_MO_v1.1.zip"
+            },
+            {
+              "filename": "DMsimp_UFO.2.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_UFO.2.zip"
+            },
+            {
+              "filename": "DMsimp_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_UFO.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_UFO.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_UFO.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1_LO_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_LO_UFO.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_LO_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_LO_UFO.zip"
+            },
+            {
+              "filename": "note.2.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/note.2.pdf"
+            },
+            {
+              "filename": "note.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/note.pdf"
+            },
+            {
+              "filename": "DMsimp_s_spin1_LO_CH.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_LO_CH.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin0_LO_CH.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin0_LO_CH.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1_v2.0.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_v2.0.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1_v1.0.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1_v1.0.zip"
+            },
+            {
+              "filename": "DMsimp_s_spin1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DMsimp/DMsimp_s_spin1.zip"
+            }
+          ]
+        },
+        {
+          "slug": "DY-SM",
+          "title": "DY SM extension",
+          "description": "We consider new spin-0, 1, and 2 resonances that can contribute to the s-channel Drell-Yan processes p,p->l+,l-,X and p,p->l,v,X where l is a charged lepton, v is a neutrino or antineutrino and X is the inclusive hadronic remnants. We implement the most general Lagrangian between these new bosons and the SM fermions and gluons allowed by Lorentz, quantum chromodynamic and electromagnetic invarianc",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/DY-SM",
+          "attachments": [
+            {
+              "filename": "DY-SM-FR.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DY-SM/DY-SM-FR.tgz"
+            },
+            {
+              "filename": "DY-SM.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DY-SM/DY-SM.pdf"
+            },
+            {
+              "filename": "SMplus.nb.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DY-SM/SMplus.nb.gz"
+            },
+            {
+              "filename": "SM-DY-CH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DY-SM/SM-DY-CH.tgz"
+            },
+            {
+              "filename": "dy_sm_fr.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DY-SM/dy_sm_fr.tgz"
+            },
+            {
+              "filename": "SM-DY.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/DY-SM/SM-DY.pdf"
+            }
+          ]
+        },
+        {
+          "slug": "EffLRSM",
+          "title": "Effective Left-Right Symmetric Model",
+          "description": "In collaboration with Olivier Mattelaer and Manimala Mitra [ 1 ], and Manimala Mitra, Darren Scott, and Michael Spannowsky [ 2 ].",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/EffLRSM",
+          "attachments": [
+            {
+              "filename": "EffLRSM_NLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/EffLRSM/EffLRSM_NLO.tgz"
+            },
+            {
+              "filename": "effLRSM.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/EffLRSM/effLRSM.fr"
+            },
+            {
+              "filename": "effLRSMnlo.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/EffLRSM/effLRSMnlo.nb"
+            },
+            {
+              "filename": "EffLRSMnlo_Files.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/EffLRSM/EffLRSMnlo_Files.tgz"
+            },
+            {
+              "filename": "EffLRSMnlo_FilesWithUFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/EffLRSM/EffLRSMnlo_FilesWithUFO.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "FourFermionbbll",
+          "title": "Effective four-fermion bbll interactions",
+          "description": "Department of Physics, Technion: Israel Institute of Technology Haifa, Israel",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FourFermionbbll",
+          "attachments": [
+            {
+              "filename": "bbll_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourFermionbbll/bbll_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "FourFermionFCNCtqll",
+          "title": "Effective four-fermion tqll interactions",
+          "description": "(1) Department of Physics, Technion: Israel Institute of Technology Haifa, Israel",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FourFermionFCNCtqll",
+          "attachments": [
+            {
+              "filename": "4fermion-tqll-models.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourFermionFCNCtqll/4fermion-tqll-models.zip"
+            }
+          ]
+        },
+        {
+          "slug": "FourFermionttll",
+          "title": "Effective four-fermion ttll interactions",
+          "description": "(1) Experimental Physics Department, CERN, Geneva, Switzerland",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FourFermionttll",
+          "attachments": [
+            {
+              "filename": "%E2%80%8B4fermion-ttll-models.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourFermionttll/%25E2%2580%258B4fermion-ttll-models.zip"
+            }
+          ]
+        },
+        {
+          "slug": "FourthGeneration",
+          "title": "Fourth generation model",
+          "description": "This model is an extension of the SM, where a new fourth generation of fermions, a t' and a b' with SM couplings, is added. The CKM matrix is a generic 3x3 matrix. The particle content and the vertices of the model are summarized in the following pdf file.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FourthGeneration",
+          "attachments": [
+            {
+              "filename": "4th_Generation_Complex_CKM.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4th_Generation_Complex_CKM.pdf"
+            },
+            {
+              "filename": "4Gen.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4Gen.fr"
+            },
+            {
+              "filename": "4Gen.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4Gen.nb"
+            },
+            {
+              "filename": "4th_Generation_Complex_CKM-CH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4th_Generation_Complex_CKM-CH.tgz"
+            },
+            {
+              "filename": "4th_Generation_Complex_CKM_FA.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4th_Generation_Complex_CKM_FA.tgz"
+            },
+            {
+              "filename": "4th_Generation_Complex_CKM_MG.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4th_Generation_Complex_CKM_MG.tgz"
+            },
+            {
+              "filename": "4th_Generation_Complex_CKM_SH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4th_Generation_Complex_CKM_SH.tgz"
+            },
+            {
+              "filename": "4th_Generation_Complex_CKM_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FourthGeneration/4th_Generation_Complex_CKM_UFO.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "GeneralU1",
+          "title": "General U(1) Model",
+          "description": "This is the FeynRules model file for the generic $U(1)_X$ model. Contains three massive Majorana neutrinos and a scalar. All the SM particles and new scalar are charged under the new gauge $U(1)_X$. After solving the anomaly cancelation equations we can write the $U(1)_X$ charges of the chaged fermions in the model as a linear combination of the $U(1)_Y$ and $U(1)_{\\rm B-L}$. We express these char",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/GeneralU1",
+          "attachments": [
+            {
+              "filename": "U1XGeneric.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralU1/U1XGeneric.fr"
+            },
+            {
+              "filename": "U1Xgeneric.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralU1/U1Xgeneric.nb"
+            },
+            {
+              "filename": "U1XGeneric_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralU1/U1XGeneric_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "GeorgiMachacekModel",
+          "title": "Georgi-Machacek Model",
+          "description": "The Georgi-Machacek (GM) model was proposed in 1985 [1] as a plausible scenario for EWSB with interesting collider signatures. In this model, the scalar sector of the Standard Model (SM) is extended by the addition of one complex and one real SU(2) triplet. The hypercharge assignments of the triplets allows for a custodial SU(2) symmetry to be imposed upon the scalar potential, so that rho=1 is pr",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/GeorgiMachacekModel",
+          "attachments": [
+            {
+              "filename": "GM_FR.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeorgiMachacekModel/GM_FR.tar.gz"
+            },
+            {
+              "filename": "GM_UFO_LO_EFF.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeorgiMachacekModel/GM_UFO_LO_EFF.tar.gz"
+            },
+            {
+              "filename": "GM_UFO_NLO_EFF.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeorgiMachacekModel/GM_UFO_NLO_EFF.tar.gz"
+            },
+            {
+              "filename": "GM_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeorgiMachacekModel/GM_UFO.tar.gz"
+            },
+            {
+              "filename": "GM-CH.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeorgiMachacekModel/GM-CH.tar.gz"
+            },
+            {
+              "filename": "GM.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeorgiMachacekModel/GM.tar.gz"
+            },
+            {
+              "filename": "GM_UFO_nlo.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeorgiMachacekModel/GM_UFO_nlo.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "2HDM",
+          "title": "General 2HDM",
+          "description": "The two-Higgs-doublet model (2HDM) has been extensively studied for more than twenty years now, even though it has often been only considered as the scalar sector of some larger model, like the MSSM or some Little Higgs models for example. The general 2HDM considered here already displays by itself an interesting phenomenology that justifies its study like, for example, new sources of CP violation",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/2HDM",
+          "attachments": [
+            {
+              "filename": "2HDM.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDM.tar.gz"
+            },
+            {
+              "filename": "Masslessbuttb.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/Masslessbuttb.rst"
+            },
+            {
+              "filename": "FlavorSym.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/FlavorSym.rst"
+            },
+            {
+              "filename": "CPconserving.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/CPconserving.rst"
+            },
+            {
+              "filename": "2HDMtbsbma.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDMtbsbma.fr"
+            },
+            {
+              "filename": "typeIItbeta.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/typeIItbeta.rst"
+            },
+            {
+              "filename": "THDM.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/THDM.nb"
+            },
+            {
+              "filename": "2HDM.nlo",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDM.nlo"
+            },
+            {
+              "filename": "2HDMfull.nlo",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDMfull.nlo"
+            },
+            {
+              "filename": "2HDM_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDM_UFO.tar.gz"
+            },
+            {
+              "filename": "2HDM_NLO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDM_NLO.tar.gz"
+            },
+            {
+              "filename": "2HDMtII_NLO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDMtII_NLO.tar.gz"
+            },
+            {
+              "filename": "2HDM5F_NLO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDM5F_NLO.tar.gz"
+            },
+            {
+              "filename": "2HDM_UFO.tar.2.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2HDM/2HDM_UFO.tar.2.gz"
+            }
+          ]
+        },
+        {
+          "slug": "HeavyScalarED",
+          "title": "Heavy Scalar Effective Model",
+          "description": "In addition to the SM particle contents, we add one heavy scalar which might come from the second doublet etc. We focus on the effective couplings to the vector bosons, which are related to EWSB, and add following operators with both dim-6 and dim-4:",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HeavyScalarED",
+          "attachments": [
+            {
+              "filename": "HeavyScalar_EFT_FR.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyScalarED/HeavyScalar_EFT_FR.tar.gz"
+            },
+            {
+              "filename": "HeavyScalar_EFT_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyScalarED/HeavyScalar_EFT_UFO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "HeavyN",
+          "title": "Heavy Neutrino",
+          "description": "This effective/simplified model extends the Standard Model (SM) field content by introducing three right-handed (RH) neutrinos, which are singlets under the SM gauge symmetry (no color, weak isospin, or weak hypercharge charges). Each RH neutrino possesses one RH Majorana mass. After electroweak symmetry breaking, the Lagrangian with three heavy Majorana neutrinos Ni (for i=1,2,3) is given by [ 6 ",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HeavyN",
+          "attachments": [
+            {
+              "filename": "SM_HeavyN_NLO_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_NLO_UFO.tgz"
+            },
+            {
+              "filename": "SM_HeavyN_Gen3Mass_NLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_Gen3Mass_NLO.tgz"
+            },
+            {
+              "filename": "SM_HeavyN_CKM_AllMasses_LO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_CKM_AllMasses_LO.tgz"
+            },
+            {
+              "filename": "heavyN.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/heavyN.fr"
+            },
+            {
+              "filename": "heavyN_NLO.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/heavyN_NLO.nb"
+            },
+            {
+              "filename": "SM_HeavyN_Files.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_Files.tgz"
+            },
+            {
+              "filename": "SM_HeavyN_FilesWithUFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_FilesWithUFO.tgz"
+            },
+            {
+              "filename": "SM_HeavyN_Dirac_NLO_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_Dirac_NLO_UFO.tgz"
+            },
+            {
+              "filename": "SM_HeavyN_Dirac_CKM_Masses_LO_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_Dirac_CKM_Masses_LO_UFO.tgz"
+            },
+            {
+              "filename": "heavyN_Dirac.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/heavyN_Dirac.fr"
+            },
+            {
+              "filename": "SM_HeavyN_vSMEFTdim6_NLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_vSMEFTdim6_NLO.tgz"
+            },
+            {
+              "filename": "SM_HeavyN_vSMEFTdim6_XLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_vSMEFTdim6_XLO.tgz"
+            },
+            {
+              "filename": "heavyN_vSMEFTdim6.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/heavyN_vSMEFTdim6.fr"
+            },
+            {
+              "filename": "SM_HeavyN_Dirac_LO_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/SM_HeavyN_Dirac_LO_UFO.tgz"
+            },
+            {
+              "filename": "heavyN.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/heavyN.nb"
+            },
+            {
+              "filename": "Seesaw_TypeI.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/Seesaw_TypeI.tgz"
+            },
+            {
+              "filename": "Seesaw_TypeI_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/Seesaw_TypeI_UFO.tgz"
+            },
+            {
+              "filename": "Seesaw_TypeI_WithUFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyN/Seesaw_TypeI_WithUFO.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "HNLs",
+          "title": "Heavy Neutral Leptons",
+          "description": "A complete derivation and description of the model can be found in \u200bEur.Phys.J.C 81 (2021) 1, 78 (\u200b2007.03701v4). Please cite accordingly when making use of these model files.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HNLs",
+          "attachments": [
+            {
+              "filename": "effective_HeavyN_Dirac.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HNLs/effective_HeavyN_Dirac.fr"
+            },
+            {
+              "filename": "effective_HeavyN_Majorana.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HNLs/effective_HeavyN_Majorana.fr"
+            },
+            {
+              "filename": "README.txt",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HNLs/README.txt"
+            },
+            {
+              "filename": "generate_form_Factors.py",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HNLs/generate_form_Factors.py"
+            }
+          ]
+        },
+        {
+          "slug": "HAHM",
+          "title": "Hidden Abelian Higgs Model",
+          "description": "Author: David Curtin, based on earlier version of the Hidden Abelian Higgs Model by Claude Duhr (see below).",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HAHM",
+          "attachments": [
+            {
+              "filename": "HAHM_MG5model_v1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HAHM/HAHM_MG5model_v1.zip"
+            },
+            {
+              "filename": "HAHM_MG5model_v2.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HAHM/HAHM_MG5model_v2.zip"
+            },
+            {
+              "filename": "HAHM_MG5model_v3.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HAHM/HAHM_MG5model_v3.zip"
+            },
+            {
+              "filename": "HAHM_variableMW_v4_YUKseparate.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HAHM/HAHM_variableMW_v4_YUKseparate.zip"
+            },
+            {
+              "filename": "HAHM_MG5model_v5_allyuk.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HAHM/HAHM_MG5model_v5_allyuk.zip"
+            },
+            {
+              "filename": "HAHM_updated_MGmodel_documentation.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HAHM/HAHM_updated_MGmodel_documentation.pdf"
+            }
+          ]
+        },
+        {
+          "slug": "HECO",
+          "title": "HECO",
+          "description": "High-Electric-Charge Objects (HECOs) can be pair-produced via Drell-Yan and photon-fusion processes. Due to the large coupling, the perturbation theory breaks down. Nevertheless, one can resum the QED corrections at a UV fixed point for high electric charge and mass values. The UFO models provided here describe both Photon Fusion and Drell-Yan processes, by including such resummation effects for s",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HECO",
+          "attachments": [
+            {
+              "filename": "heco_spinhalf_withZ0.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HECO/heco_spinhalf_withZ0.tar.gz"
+            },
+            {
+              "filename": "heco_spinhalf_photononly.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HECO/heco_spinhalf_photononly.tar.gz"
+            },
+            {
+              "filename": "heco_spinzero_resum.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HECO/heco_spinzero_resum.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "Hillmodel",
+          "title": "Hill Model",
+          "description": "The Hill model consists in the standard model to which a new scalar sector is added, the so-called Hill-field. The Hill-field couples only to the SM Higgs boson, in such a way that that non diagonal mass terms are generated. After diagonalisation of the mass matrix, the SM Higgs field and the Hill field mix into two new scalar fields h1 and h2.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/Hillmodel",
+          "attachments": [
+            {
+              "filename": "HillModel.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Hillmodel/HillModel.fr"
+            },
+            {
+              "filename": "Hill.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Hillmodel/Hill.nb"
+            },
+            {
+              "filename": "HillModel.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Hillmodel/HillModel.nb"
+            },
+            {
+              "filename": "HillModel.tex",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Hillmodel/HillModel.tex"
+            }
+          ]
+        },
+        {
+          "slug": "InertDoublet",
+          "title": "Inert Doublet Model",
+          "description": "(work done in part at the Deutsches Elektronen-Synchrotron (DESY), Hamburg, Germany)",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/InertDoublet",
+          "attachments": [
+            {
+              "filename": "IDMload.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/InertDoublet/IDMload.nb"
+            },
+            {
+              "filename": "InertDoublet.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/InertDoublet/InertDoublet.tar.gz"
+            },
+            {
+              "filename": "InertDoublet_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/InertDoublet/InertDoublet_UFO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "kkg_FV",
+          "title": "Flavor-violating KK gluon",
+          "description": "This model allows for FCNC interactions of the Kaluza-Klein gluon and in particular focuses on the flavor-violating decay of the KKg to a top quark and a charm quark.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/kkg_FV",
+          "attachments": [
+            {
+              "filename": "KKg.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/KKg.png"
+            },
+            {
+              "filename": "proc_card_mg5.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/proc_card_mg5.dat"
+            },
+            {
+              "filename": "run_card.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/run_card.dat"
+            },
+            {
+              "filename": "kkg_FV.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/kkg_FV.zip"
+            }
+          ]
+        },
+        {
+          "slug": "FICPLHC",
+          "title": "Simplified Freeze-in models",
+          "description": "Genevieve Belanger, Nishita Desai, Andreas Goudelis, Julia Harz, Andre Lessa, Jose Miguel No, Alexander Pukhov, Sezen Sekmen, Dipan Sengupta, Bryan Zaldivar, Jose Zurita",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FICPLHC",
+          "attachments": [
+            {
+              "filename": "modeldescription.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FICPLHC/modeldescription.pdf"
+            },
+            {
+              "filename": "LesHouchesModelFreezeIn-leptons.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FICPLHC/LesHouchesModelFreezeIn-leptons.tar.gz"
+            },
+            {
+              "filename": "LesHouchesModelFreezeIn-up.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FICPLHC/LesHouchesModelFreezeIn-up.tar.gz"
+            },
+            {
+              "filename": "LesHouchesModelFreezeIn-down.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FICPLHC/LesHouchesModelFreezeIn-down.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "LQDM",
+          "title": "Leptoquarks + dark matter",
+          "description": "A FeynRules implementation of the minimal model with scalar leptoquarks and dark matter",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/LQDM",
+          "attachments": [
+            {
+              "filename": "model_Representation.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LQDM/model_Representation.png"
+            },
+            {
+              "filename": "Lagrangian.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LQDM/Lagrangian.png"
+            },
+            {
+              "filename": "FR_blocks.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LQDM/FR_blocks.png"
+            },
+            {
+              "filename": "LQDM_FR.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LQDM/LQDM_FR.tar.gz"
+            },
+            {
+              "filename": "LQDM_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LQDM/LQDM_UFO.tar.gz"
+            },
+            {
+              "filename": "LQDM_LANHEP.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LQDM/LQDM_LANHEP.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "B-L-SM",
+          "title": "Minimal Zp models",
+          "description": "as a U(1) extension of the SM with 3 RH neutrinos and a singlet scalar.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/B-L-SM",
+          "attachments": [
+            {
+              "filename": "minimal_Zp.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/minimal_Zp.fr"
+            },
+            {
+              "filename": "minimal_Zp.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/minimal_Zp.nb"
+            },
+            {
+              "filename": "B-L.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/B-L.fr"
+            },
+            {
+              "filename": "B-L.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/B-L.nb"
+            },
+            {
+              "filename": "B-L-3.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/B-L-3.nb"
+            },
+            {
+              "filename": "B-L_4.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/B-L_4.fr"
+            },
+            {
+              "filename": "B-L-4_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/B-L-4_UFO.zip"
+            },
+            {
+              "filename": "B-L-N_4.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/B-L-N_4.fr"
+            },
+            {
+              "filename": "B-L-N-4_UFO.2.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/B-L-SM/B-L-N-4_UFO.2.zip"
+            }
+          ]
+        },
+        {
+          "slug": "MDMmodel",
+          "title": "Minimal Dilaton Model",
+          "description": "This model is an extension of the SM by introducing a linearized singlet dilaton field S and a vector-like top partner T with the same quantum number as the right-handed top quark. The low energy effective Lagrangian of the MDM is given by [1] [2] [3]:",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MDMmodel",
+          "attachments": [
+            {
+              "filename": "the%20low%20energy%20effective%20Lagrangian%20of%20the%20MDM.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MDMmodel/the%2520low%2520energy%2520effective%2520Lagrangian%2520of%2520the%2520MDM.png"
+            },
+            {
+              "filename": "MDM.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MDMmodel/MDM.fr"
+            },
+            {
+              "filename": "MDM.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MDMmodel/MDM.nb"
+            },
+            {
+              "filename": "Minimal-Dilaton-Model-CH.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MDMmodel/Minimal-Dilaton-Model-CH.tar.gz"
+            },
+            {
+              "filename": "Minimal_Dilaton_Model_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MDMmodel/Minimal_Dilaton_Model_UFO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "MinimalLeptonPortalDM",
+          "title": "Minimal Lepton Portal Dark Matter",
+          "description": "A FeynRules implementation of the minimal lepton portal dark-matter model",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MinimalLeptonPortalDM",
+          "attachments": [
+            {
+              "filename": "Feynrules.2.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MinimalLeptonPortalDM/Feynrules.2.zip"
+            },
+            {
+              "filename": "MLDM_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MinimalLeptonPortalDM/MLDM_UFO.zip"
+            },
+            {
+              "filename": "MLDM_CH.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MinimalLeptonPortalDM/MLDM_CH.zip"
+            },
+            {
+              "filename": "MLDM_FA.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MinimalLeptonPortalDM/MLDM_FA.zip"
+            }
+          ]
+        },
+        {
+          "slug": "MLFVtIIIseesaw",
+          "title": "MLFVtIIIseesaw",
+          "description": "We consider a Minimal Lepton Flavor Violation (MLFV) Type III see-saw model whose particle content is that of the standard model extended with two Well fermion triplets. We neglected lepton number violation interactions, as well as mass splittings in the heavy states the are suppressed in MLFV models. In this scenario the flavor structure of the couplings of the triplet fermions to the Standard Mo",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MLFVtIIIseesaw",
+          "attachments": [
+            {
+              "filename": "mlfvt3ss.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MLFVtIIIseesaw/mlfvt3ss.tgz"
+            },
+            {
+              "filename": "yuk_mlfv_typeIII-see-saw.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MLFVtIIIseesaw/yuk_mlfv_typeIII-see-saw.nb"
+            }
+          ]
+        },
+        {
+          "slug": "MonopoleDY",
+          "title": "MonopoleDY",
+          "description": "Dirac magnetic monopoles can be generated by Drell-Yan process or photon fusion process. The UFO models shown here describe both the processes and generate the corresponding LHE files. These models were tested for three spin cases (0, 1/2 and 1) and two processes (photon fusion and Drell-Yan). In the models attached in this page, there are two different couplings used:",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MonopoleDY",
+          "attachments": [
+            {
+              "filename": "mono_spinhalf.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MonopoleDY/mono_spinhalf.tar"
+            },
+            {
+              "filename": "mono_spinhalf_beta.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MonopoleDY/mono_spinhalf_beta.tar"
+            },
+            {
+              "filename": "mono_spinone.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MonopoleDY/mono_spinone.tar"
+            },
+            {
+              "filename": "mono_spinone_beta.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MonopoleDY/mono_spinone_beta.tar"
+            },
+            {
+              "filename": "mono_spinzero.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MonopoleDY/mono_spinzero.tar"
+            },
+            {
+              "filename": "mono_spinzero_beta.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MonopoleDY/mono_spinzero_beta.tar"
+            }
+          ]
+        },
+        {
+          "slug": "Monotops",
+          "title": "Monotops",
+          "description": "This model is an extension of the SM, including additional interactions with additional fields so that monotop signatures at colliders are made possible. It follows the model constructed in the paper",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/Monotops",
+          "attachments": [
+            {
+              "filename": "monotops.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/monotops.fr"
+            },
+            {
+              "filename": "MonoTops.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/MonoTops.nb"
+            },
+            {
+              "filename": "monotops_FA.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/monotops_FA.tgz"
+            },
+            {
+              "filename": "monotops_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/monotops_UFO.tgz"
+            },
+            {
+              "filename": "S1LHC.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S1LHC.lhe.tgz"
+            },
+            {
+              "filename": "S2LHC.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S2LHC.lhe.tgz"
+            },
+            {
+              "filename": "S3LHC.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S3LHC.lhe.tgz"
+            },
+            {
+              "filename": "S4LHC.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S4LHC.lhe.tgz"
+            },
+            {
+              "filename": "S5LHC.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S5LHC.lhe.tgz"
+            },
+            {
+              "filename": "S1TeV.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S1TeV.lhe.tgz"
+            },
+            {
+              "filename": "S2TeV.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S2TeV.lhe.tgz"
+            },
+            {
+              "filename": "S3TeV.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S3TeV.lhe.tgz"
+            },
+            {
+              "filename": "S4TeV.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S4TeV.lhe.tgz"
+            },
+            {
+              "filename": "S5TeV.lhe.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Monotops/S5TeV.lhe.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "pNG",
+          "title": "pNG",
+          "description": "pseudo-Nambu-Goldstone (pNG) dark matter in a complex scalar singlet model with a softly broken global U(1) symmetry.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/pNG",
+          "attachments": [
+            {
+              "filename": "SM_with_pNG.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pNG/SM_with_pNG.fr"
+            },
+            {
+              "filename": "SM_with_pNG.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pNG/SM_with_pNG.nb"
+            },
+            {
+              "filename": "CalcHEP_files.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pNG/CalcHEP_files.zip"
+            },
+            {
+              "filename": "UFO_files.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pNG/UFO_files.zip"
+            },
+            {
+              "filename": "UFO_files_py3.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pNG/UFO_files_py3.zip"
+            },
+            {
+              "filename": "FeynArts_files.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pNG/FeynArts_files.zip"
+            }
+          ]
+        },
+        {
+          "slug": "ScotoSinglet",
+          "title": "ScotoSinglet",
+          "description": "The ScotoSinglet Model: A Scalar Singlet Extension of the Scotogenic Model",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ScotoSinglet",
+          "attachments": [
+            {
+              "filename": "ScSM_FeynRules.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ScotoSinglet/ScSM_FeynRules.zip"
+            },
+            {
+              "filename": "load_ScSM_real.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ScotoSinglet/load_ScSM_real.nb"
+            },
+            {
+              "filename": "ScSM_CalcHEP.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ScotoSinglet/ScSM_CalcHEP.zip"
+            }
+          ]
+        },
+        {
+          "slug": "2IDM3N",
+          "title": "A Scotogenic Model with Two Inert Doublets",
+          "description": "Description: The SM is extended by two inert scalar doublets and three Majorana singlet fermions. The model addresses the neutrino oscillation data and dark matter candidate can be a scalar or a Majorana fermion.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/2IDM3N",
+          "attachments": [
+            {
+              "filename": "2IDM3N.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2IDM3N/2IDM3N.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "Sextets",
+          "title": "Sextet diquarks",
+          "description": "This model is an extension of the SM, including a scalar diquark with quantum numbers",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/Sextets",
+          "attachments": [
+            {
+              "filename": "Sextet_Diquarks.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Sextets/Sextet_Diquarks.pdf"
+            },
+            {
+              "filename": "SextetDiquarks.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Sextets/SextetDiquarks.fr"
+            },
+            {
+              "filename": "Sextet.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Sextets/Sextet.nb"
+            },
+            {
+              "filename": "MFV.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Sextets/MFV.rst"
+            },
+            {
+              "filename": "Sextet_Diquarks_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Sextets/Sextet_Diquarks_UFO.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "368sextets",
+          "title": "Multiple sextets",
+          "description": "This page documents the implementation in FeynRules of a minimal addition to the Standard Model featuring complex scalars and Dirac fermions in the six-dimensional (sextet, 6) representation of SU(3).The defining characteristic of this model is the coupling of these sextets to a gluon and some quark, which is possible because the direct product of the fundamental (3) and adjoint (8) representation",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/368sextets",
+          "attachments": [
+            {
+              "filename": "368sextets.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/368sextets/368sextets.nb"
+            },
+            {
+              "filename": "368sextets.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/368sextets/368sextets.zip"
+            },
+            {
+              "filename": "368sextets.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/368sextets/368sextets.fr"
+            }
+          ]
+        },
+        {
+          "slug": "SLQrules",
+          "title": "SLQrules",
+          "description": "We published a description of this project and the resulting Feynman rules for scalar leptoquarks in \u200bArXiv:2105.04844. Please cite this article (\u200bCrivellin:2021tmz) when using any of the contents provided here.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/SLQrules",
+          "attachments": [
+            {
+              "filename": "SLQrules.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SLQrules/SLQrules.fr"
+            },
+            {
+              "filename": "SM.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SLQrules/SM.fr"
+            },
+            {
+              "filename": "SLQrules.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SLQrules/SLQrules.nb"
+            },
+            {
+              "filename": "UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SLQrules/UFO.zip"
+            },
+            {
+              "filename": "FeynArts.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SLQrules/FeynArts.zip"
+            },
+            {
+              "filename": "SLQrules.2.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SLQrules/SLQrules.2.fr"
+            }
+          ]
+        },
+        {
+          "slug": "StandardModelScalars",
+          "title": "Standard model + Scalars",
+          "description": "This model is an extension of the SM, where a new scalar sector is added. This new sector consists in an O(n) symmetric model that only interacts with itself and with the SM Higgs boson.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/StandardModelScalars",
+          "attachments": [
+            {
+              "filename": "SMScalars.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SMScalars.fr"
+            },
+            {
+              "filename": "SMScalars.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SMScalars.nb"
+            },
+            {
+              "filename": "SM_Plus_Scalars.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SM_Plus_Scalars.pdf"
+            },
+            {
+              "filename": "SM_Plus_Scalars-CH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SM_Plus_Scalars-CH.tgz"
+            },
+            {
+              "filename": "SM_Plus_Scalars_FA.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SM_Plus_Scalars_FA.tgz"
+            },
+            {
+              "filename": "SM_Plus_Scalars_MG.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SM_Plus_Scalars_MG.tgz"
+            },
+            {
+              "filename": "SM_Plus_Scalars_SH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SM_Plus_Scalars_SH.tgz"
+            },
+            {
+              "filename": "SM_Plus_Scalars_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SM_Plus_Scalars_UFO.tgz"
+            },
+            {
+              "filename": "SMScalar.tex",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/StandardModelScalars/SMScalar.tex"
+            }
+          ]
+        },
+        {
+          "slug": "pSPSS",
+          "title": "Phenomenological symmetry protected seesaw scenario",
+          "description": "Authors: Stefan Antusch, Jan Hajer, Bruno Oliveira, Johannes Rosskopp",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/pSPSS",
+          "attachments": [
+            {
+              "filename": "pSPSS.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pSPSS/pSPSS.fr"
+            },
+            {
+              "filename": "pSPSS_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/pSPSS/pSPSS_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "SMWeinberg",
+          "title": "Standard model + Weinberg operator",
+          "description": "In collaboration with Benjamin Fuks, Jonas Neundorf, Krisztian Peters, and Matthias Saimpert",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/SMWeinberg",
+          "attachments": [
+            {
+              "filename": "SMWeinbergNLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergNLO.tgz"
+            },
+            {
+              "filename": "SMWeinbergNLO_4FS.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergNLO_4FS.tgz"
+            },
+            {
+              "filename": "SMWeinbergXLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergXLO.tgz"
+            },
+            {
+              "filename": "SMWeinbergXLO_4FS.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergXLO_4FS.tgz"
+            },
+            {
+              "filename": "weinberg_NLO.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/weinberg_NLO.fr"
+            },
+            {
+              "filename": "sm.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/sm.fr"
+            },
+            {
+              "filename": "smWeinberg_NLO_public.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/smWeinberg_NLO_public.nb"
+            },
+            {
+              "filename": "diagonalCKM.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/diagonalCKM.rst"
+            },
+            {
+              "filename": "Massless_4f.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/Massless_4f.rst"
+            },
+            {
+              "filename": "Massless_5f.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/Massless_5f.rst"
+            }
+          ]
+        },
+        {
+          "slug": "TopHeavyRes",
+          "title": "Top-philic resonances",
+          "description": "This databased contains the reference for the top-philic models used in Ref. [1]. More precisely, we enclosed a set of UFO files:",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/TopHeavyRes",
+          "attachments": [
+            {
+              "filename": "SimplifiedModels_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/SimplifiedModels_UFO.zip"
+            },
+            {
+              "filename": "4topEFT_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/4topEFT_UFO.zip"
+            },
+            {
+              "filename": "4topEFT.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/4topEFT.fr"
+            },
+            {
+              "filename": "VectorSinglet.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/VectorSinglet.fr"
+            },
+            {
+              "filename": "PseudoScalarSinglet.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/PseudoScalarSinglet.fr"
+            },
+            {
+              "filename": "ScalarSinglet.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/ScalarSinglet.fr"
+            },
+            {
+              "filename": "ScalarOctet.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/ScalarOctet.fr"
+            },
+            {
+              "filename": "PseudoScalarOctet.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/PseudoScalarOctet.fr"
+            },
+            {
+              "filename": "VectorOctet.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/VectorOctet.fr"
+            },
+            {
+              "filename": "FR_Run_vf.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/FR_Run_vf.nb"
+            },
+            {
+              "filename": "sgluonsFull_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopHeavyRes/sgluonsFull_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "Top-Philic-Zprime",
+          "title": "Top-philic Zprime",
+          "description": "We consider a color singlet vector particle (V1) which dominantly couples to top and anti-top. Assuming that all other interactions are weak, the relevant interaction is given by the following renormalizable Lagrangian",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/Top-Philic-Zprime",
+          "attachments": [
+            {
+              "filename": "Lag3.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/Lag3.pdf"
+            },
+            {
+              "filename": "Top_Philic.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/Top_Philic.fr"
+            },
+            {
+              "filename": "Top_Philic_UFO_gen.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/Top_Philic_UFO_gen.nb"
+            },
+            {
+              "filename": "Top_Philic_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/Top_Philic_UFO.zip"
+            },
+            {
+              "filename": "dfasd.001.jpeg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/dfasd.001.jpeg"
+            },
+            {
+              "filename": "Lag.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/Lag.png"
+            },
+            {
+              "filename": "Lag2.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/Lag2.png"
+            },
+            {
+              "filename": "Lag3.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Top-Philic-Zprime/Lag3.png"
+            }
+          ]
+        },
+        {
+          "slug": "Triplets",
+          "title": "Triplet diquarks",
+          "description": "This model is an extension of the SM, including a scalar diquark with quantum numbers",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/Triplets",
+          "attachments": [
+            {
+              "filename": "Triplet_Diquarks.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/Triplet_Diquarks.pdf"
+            },
+            {
+              "filename": "TripletDiquarks.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/TripletDiquarks.fr"
+            },
+            {
+              "filename": "TripletDiquarks.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/TripletDiquarks.nb"
+            },
+            {
+              "filename": "MFV.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/MFV.rst"
+            },
+            {
+              "filename": "Triplet_Diquarks_FA.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/Triplet_Diquarks_FA.tgz"
+            },
+            {
+              "filename": "Triplet_Diquarks_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/Triplet_Diquarks_UFO.tgz"
+            },
+            {
+              "filename": "SextetDiquarks.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/SextetDiquarks.fr"
+            },
+            {
+              "filename": "SextetDiquarks.2.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/SextetDiquarks.2.fr"
+            },
+            {
+              "filename": "SextetDiquarks.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/SextetDiquarks.nb"
+            },
+            {
+              "filename": "Sextet_Diquarks.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/Sextet_Diquarks.pdf"
+            },
+            {
+              "filename": "Sextet_Diquarks.2.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/Sextet_Diquarks.2.pdf"
+            },
+            {
+              "filename": "Sextet_Diquarks_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/Sextet_Diquarks_UFO.tgz"
+            },
+            {
+              "filename": "MFV.2.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Triplets/MFV.2.rst"
+            }
+          ]
+        },
+        {
+          "slug": "TypeIIISeeSaw",
+          "title": "Type III See-Saw Model",
+          "description": "This model describes the minimal realisation of the Type III seesaw. It is an extension of the Standard Model where a fermionic SU(2) triplet is added to the matter content in order to give mass to one neutrino via a seesaw mechanism. The fermionic triplet is introduced under the form of a heavy Dirac charged lepton tr+/- and a heavy Majorana neutral lepton tr0. For an exhaustive description of th",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/TypeIIISeeSaw",
+          "attachments": [
+            {
+              "filename": "typeIIIseesaw1.1.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TypeIIISeeSaw/typeIIIseesaw1.1.fr"
+            },
+            {
+              "filename": "formats.inc",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TypeIIISeeSaw/formats.inc"
+            },
+            {
+              "filename": "typeIIIseesaw.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TypeIIISeeSaw/typeIIIseesaw.nb"
+            },
+            {
+              "filename": "typeIIIseesaw1.0.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TypeIIISeeSaw/typeIIIseesaw1.0.fr"
+            }
+          ]
+        },
+        {
+          "slug": "VLQ",
+          "title": "VLQ",
+          "description": "This model is an extension of the Standard Model (SM) with new top partners, intended for model-independent searches of Vector-Like quarks. The corresponding FeynRules implementation is based on a minimal effective Lagrangian description, which provides a direct connection between experimental observables and the new quark couplings. All fields and parameters are defined accordingly to the paramet",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/VLQ",
+          "attachments": [
+            {
+              "filename": "Parameters.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/Parameters.pdf"
+            },
+            {
+              "filename": "VLQ.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/VLQ.fr"
+            },
+            {
+              "filename": "VLQ.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/VLQ.nb"
+            },
+            {
+              "filename": "Lagrangian.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/Lagrangian.png"
+            },
+            {
+              "filename": "Branching.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/Branching.png"
+            },
+            {
+              "filename": "Massless.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/Massless.rst"
+            },
+            {
+              "filename": "LagrangianChromo.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/LagrangianChromo.png"
+            },
+            {
+              "filename": "VLQ_UFO.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/VLQ_UFO.tar"
+            },
+            {
+              "filename": "VLQ_FA.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/VLQ_FA.tar"
+            },
+            {
+              "filename": "VLQ_Chromomagnetic.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/VLQ_Chromomagnetic.fr"
+            },
+            {
+              "filename": "VLQ_Chromomagnetic_UFO.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/VLQ_Chromomagnetic_UFO.tar"
+            },
+            {
+              "filename": "VLQ-CH.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLQ/VLQ-CH.tar"
+            }
+          ]
+        },
+        {
+          "slug": "VecLepQrk",
+          "title": "VecLepQrk",
+          "description": "To create this vector leptoquark (LQ) model we need to add the extra Lagrangian terms to the usual Standard Model (SM) Lagrangian. These terms include the leptoquark with its coupling to the SM particles and the QCD interaction terms for the LQ production. Therefore the final Lagrangian for this model, as described in Ref. [1] becomes",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/VecLepQrk",
+          "attachments": [
+            {
+              "filename": "LQLagrangian.PNG",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VecLepQrk/LQLagrangian.PNG"
+            },
+            {
+              "filename": "1.5TeVLQModel.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VecLepQrk/1.5TeVLQModel.fr"
+            },
+            {
+              "filename": "1.5_TeV_Leptoquark_Model_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VecLepQrk/1.5_TeV_Leptoquark_Model_UFO.zip"
+            },
+            {
+              "filename": "15TeVLQ.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VecLepQrk/15TeVLQ.nb"
+            },
+            {
+              "filename": "1.5TeVLQ.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VecLepQrk/1.5TeVLQ.zip"
+            }
+          ]
+        },
+        {
+          "slug": "LeptoQuark",
+          "title": "Vector-leptoquark model",
+          "description": "This model is an extension of the SM featuring a vector leptoquark (U1~(3,1)2/3), a colored vector (G'~(8,1)0), and a SM singlet (Z'~(1,1)0) as new heavy mediators. An extension of the model including vector-like fermions coupling to the new heavy gauge bosons is included. The implementation of the heavy vector bosons is based on \"High-pT Signatures in Vector-Leptoquark Models\" (\u200barXiv:1901.10480)",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/LeptoQuark",
+          "attachments": [
+            {
+              "filename": "vector_LQ.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/vector_LQ.fr"
+            },
+            {
+              "filename": "coloron.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/coloron.fr"
+            },
+            {
+              "filename": "Zprime.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/Zprime.fr"
+            },
+            {
+              "filename": "VLferm.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/VLferm.fr"
+            },
+            {
+              "filename": "Massless.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/Massless.rst"
+            },
+            {
+              "filename": "model_gen.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/model_gen.nb"
+            },
+            {
+              "filename": "widths.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/widths.nb"
+            },
+            {
+              "filename": "vector_LQ_UFO.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/vector_LQ_UFO.tar"
+            },
+            {
+              "filename": "vector_LQ_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LeptoQuark/vector_LQ_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "Wprime",
+          "title": "Wprime",
+          "description": "This model is an extension of the SM, including additional interaction of fermions to a W' boson following the lowest-order effective Lagrangian described in Refs. [1] [2]:",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/Wprime",
+          "attachments": [
+            {
+              "filename": "weff.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Wprime/weff.fr"
+            },
+            {
+              "filename": "WEff.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Wprime/WEff.nb"
+            },
+            {
+              "filename": "weff.ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/Wprime/weff.ufo.tgz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "SusyModels",
+      "name": "Supersymmetric Models",
+      "models": [
+        {
+          "slug": "MSSM",
+          "title": "MSSM",
+          "description": "One popular Beyond the Standard Model theory is the Minimal Supersymmetric Standard Model (MSSM). Its main features are to link bosons with fermions and unify internal and external symmetries. Moreover, it allows for a stabilization of the gap between the Planck and the electroweak scale and for gauge coupling unification at high energies, provides a dark matter candidate as the lightest supersymm",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MSSM",
+          "attachments": [
+            {
+              "filename": "mssm.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/mssm.fr"
+            },
+            {
+              "filename": "sps1a.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a.dat"
+            },
+            {
+              "filename": "sps1a_wo.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a_wo.dat"
+            },
+            {
+              "filename": "MSSM.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/MSSM.nb"
+            },
+            {
+              "filename": "susy1.0.1.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/susy1.0.1.tgz"
+            },
+            {
+              "filename": "FRT_paramcard.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/FRT_paramcard.dat"
+            },
+            {
+              "filename": "SUSY.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/SUSY.nb"
+            },
+            {
+              "filename": "sps1a_ch.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a_ch.tgz"
+            },
+            {
+              "filename": "sps1a_fa.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a_fa.tgz"
+            },
+            {
+              "filename": "sps1a_mg.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a_mg.tgz"
+            },
+            {
+              "filename": "sps1a_ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a_ufo.tgz"
+            },
+            {
+              "filename": "sps1a_wo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a_wo.tgz"
+            },
+            {
+              "filename": "sps1a_tex.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/sps1a_tex.tgz"
+            },
+            {
+              "filename": "validation.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/validation.tgz"
+            },
+            {
+              "filename": "translator2.2.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSM/translator2.2.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "NMSSM",
+          "title": "NMSSM",
+          "description": "Our NMSSM implementation in FeynRules is general in the sense that it is keeping all the flavour-violating and helicity-mixing terms in the Lagrangian and also all the possible additional CP-violating phases. In order to deal in a transparent way with the more than 100 parameters, our implementation follows the commonly used universal set of conventions provided by the Supersymmetry Les Houches Ac",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/NMSSM",
+          "attachments": [
+            {
+              "filename": "nmssm.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/nmssm.fr"
+            },
+            {
+              "filename": "p1.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1.dat"
+            },
+            {
+              "filename": "p1_wo.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1_wo.dat"
+            },
+            {
+              "filename": "NMSSM.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/NMSSM.nb"
+            },
+            {
+              "filename": "p1_ch.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1_ch.tgz"
+            },
+            {
+              "filename": "p1_fa.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1_fa.tgz"
+            },
+            {
+              "filename": "p1_mg.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1_mg.tgz"
+            },
+            {
+              "filename": "p1_ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1_ufo.tgz"
+            },
+            {
+              "filename": "p1_wo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1_wo.tgz"
+            },
+            {
+              "filename": "p1_tex.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/p1_tex.tgz"
+            },
+            {
+              "filename": "valid.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/valid.dat"
+            },
+            {
+              "filename": "validation.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NMSSM/validation.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "RPVMSSM",
+          "title": "RPV-MSSM",
+          "description": "Our implementation keeps all the flavour-violating and helicity-mixing terms in the Lagrangian and also all the possible additional CP-violating phases. In order to deal in a transparent way with the more than 100 parameters, it follows the commonly used universal set of conventions provided by the Supersymmetry Les Houches Accord. The possible Higgs-lepton mixing terms are not included in the pre",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/RPVMSSM",
+          "attachments": [
+            {
+              "filename": "rpvmssm.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/rpvmssm.fr"
+            },
+            {
+              "filename": "af1.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/af1.dat"
+            },
+            {
+              "filename": "af1_wo.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/af1_wo.dat"
+            },
+            {
+              "filename": "RPV.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/RPV.nb"
+            },
+            {
+              "filename": "af1_ch.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/af1_ch.tgz"
+            },
+            {
+              "filename": "af1_fa.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/af1_fa.tgz"
+            },
+            {
+              "filename": "af1_mg.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/af1_mg.tgz"
+            },
+            {
+              "filename": "af1_ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/af1_ufo.tgz"
+            },
+            {
+              "filename": "af1_tex.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RPVMSSM/af1_tex.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "RMSSM",
+          "title": "R-MSSM",
+          "description": "Our MRSSM implementation in FeynRules is general in the sense that it is keeping all the flavour-violating and helicity-mixing terms in the Lagrangian and also all the possible additional CP-violating phases. In order to deal in a transparent way with the more than 100 parameters, our implementation follows a set of conventions derived from those provided by the Supersymmetry Les Houches Accord.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/RMSSM",
+          "attachments": [
+            {
+              "filename": "mrssm.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RMSSM/mrssm.fr"
+            },
+            {
+              "filename": "spectrum.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RMSSM/spectrum.dat"
+            },
+            {
+              "filename": "MRSSM.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RMSSM/MRSSM.nb"
+            }
+          ]
+        },
+        {
+          "slug": "goldstino",
+          "title": "gld-grv",
+          "description": "The model contains an automated computation of the supercurrent using the superspace module of FeynRules. The supercurrent is then coupled to the gravitino and goldstino fields. More information can be found in",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/goldstino",
+          "attachments": [
+            {
+              "filename": "gldgrv.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/goldstino/gldgrv.fr"
+            },
+            {
+              "filename": "gldgrv.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/goldstino/gldgrv.nb"
+            },
+            {
+              "filename": "gldgrv.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/goldstino/gldgrv.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "MSSMD",
+          "title": "MSSMD",
+          "description": "The model is based on MSSM from the model database, but adding a dark sector, U(1)D. The dark sector is broken, giving rise to light dark photon, ad, that weakly couples to the SM particles via a small kinetic mixing with photons. The lightest neutralino in MSSM, n1, is no longer stable and can decay via processes such as n1 \u2192 nd + ad, where nd is a light dark neutralino. In this model, ad is medi",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MSSMD",
+          "attachments": [
+            {
+              "filename": "MSSMD.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSMD/MSSMD.fr"
+            },
+            {
+              "filename": "sps1a.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSMD/sps1a.dat"
+            },
+            {
+              "filename": "MSSMD.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSMD/MSSMD.nb"
+            },
+            {
+              "filename": "MSSMD_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MSSMD/MSSMD_UFO.zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ExtraDimModels",
+      "name": "Extra-dimensional Models",
+      "models": [
+        {
+          "slug": "2GravitonsSM",
+          "title": "2GravitonsSM",
+          "description": "Gravitons minimally coupled to Standard Model (SM) is described by the theory of SM with weak gravitational perturbations of Minkowski space, in which graviton is suppressed by a factor of two over Planck scale (denoted as kappa).",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/2GravitonsSM",
+          "attachments": [
+            {
+              "filename": "2GravitonsSM.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2GravitonsSM/2GravitonsSM.fr"
+            },
+            {
+              "filename": "2GravitonsSM.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/2GravitonsSM/2GravitonsSM.nb"
+            }
+          ]
+        },
+        {
+          "slug": "kkg_FV",
+          "title": "Flavor-violating KK gluon",
+          "description": "This model allows for FCNC interactions of the Kaluza-Klein gluon and in particular focuses on the flavor-violating decay of the KKg to a top quark and a charm quark.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/kkg_FV",
+          "attachments": [
+            {
+              "filename": "KKg.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/KKg.png"
+            },
+            {
+              "filename": "proc_card_mg5.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/proc_card_mg5.dat"
+            },
+            {
+              "filename": "run_card.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/run_card.dat"
+            },
+            {
+              "filename": "kkg_FV.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/kkg_FV/kkg_FV.zip"
+            }
+          ]
+        },
+        {
+          "slug": "HeavyScalarED",
+          "title": "Heavy Scalar Effective Model",
+          "description": "In addition to the SM particle contents, we add one heavy scalar which might come from the second doublet etc. We focus on the effective couplings to the vector bosons, which are related to EWSB, and add following operators with both dim-6 and dim-4:",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HeavyScalarED",
+          "attachments": [
+            {
+              "filename": "HeavyScalar_EFT_FR.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyScalarED/HeavyScalar_EFT_FR.tar.gz"
+            },
+            {
+              "filename": "HeavyScalar_EFT_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HeavyScalarED/HeavyScalar_EFT_UFO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "ThreeSiteModel",
+          "title": "Mimimal Higgsless Model (3-Site Model)",
+          "description": "This implementation is based on an earlier implementation done in collaboration with Alexander Belyaev which can be found \u200bhere.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ThreeSiteModel",
+          "attachments": [
+            {
+              "filename": "3-Site-v1.4.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-v1.4.tgz"
+            },
+            {
+              "filename": "3-Site.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site.pdf"
+            },
+            {
+              "filename": "3-Site-Model.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-Model.pdf"
+            },
+            {
+              "filename": "Example-v1.0.nb.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/Example-v1.0.nb.tar.gz"
+            },
+            {
+              "filename": "CS-strong.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-strong.jpg"
+            },
+            {
+              "filename": "CS-ffAW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAW.jpg"
+            },
+            {
+              "filename": "CS-llll.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-llll.jpg"
+            },
+            {
+              "filename": "CS-ffAA.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAA.jpg"
+            },
+            {
+              "filename": "CS-ffZW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffZW.jpg"
+            },
+            {
+              "filename": "CS-llqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-llqq.jpg"
+            },
+            {
+              "filename": "CS-ffAZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAZ.jpg"
+            },
+            {
+              "filename": "CS-ffWW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffWW.jpg"
+            },
+            {
+              "filename": "CS-lnln.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-lnln.jpg"
+            },
+            {
+              "filename": "CS-ffZZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffZZ.jpg"
+            },
+            {
+              "filename": "CS-VVVV-charged.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-VVVV-charged.jpg"
+            },
+            {
+              "filename": "CS-lnqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-lnqq.jpg"
+            },
+            {
+              "filename": "CS-VVVV-neutral.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-VVVV-neutral.jpg"
+            },
+            {
+              "filename": "PS-strong.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-strong.jpg"
+            },
+            {
+              "filename": "PS-ffAW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAW.jpg"
+            },
+            {
+              "filename": "PS-llll.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-llll.jpg"
+            },
+            {
+              "filename": "PS-ffAA.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAA.jpg"
+            },
+            {
+              "filename": "PS-ffZW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffZW.jpg"
+            },
+            {
+              "filename": "PS-llqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-llqq.jpg"
+            },
+            {
+              "filename": "PS-ffAZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAZ.jpg"
+            },
+            {
+              "filename": "PS-ffWW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffWW.jpg"
+            },
+            {
+              "filename": "PS-lnln.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-lnln.jpg"
+            },
+            {
+              "filename": "PS-ffZZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffZZ.jpg"
+            },
+            {
+              "filename": "PS-VVVV-charged",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-charged"
+            },
+            {
+              "filename": "PS-lnqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-lnqq.jpg"
+            },
+            {
+              "filename": "PS-VVVV-neutral.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-neutral.jpg"
+            },
+            {
+              "filename": "3-Site-v1.3.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-v1.3.tar.gz"
+            },
+            {
+              "filename": "PS-VVVV-charged.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-charged.jpg"
+            }
+          ]
+        },
+        {
+          "slug": "MUED",
+          "title": "Minimal UED",
+          "description": "One popular approach to solve the Hierarchy Problem of the Standard Model is to extend space-time to higher dimensions. In this framework, the usual four-dimensional space-time is contained in a four-dimensional brane embedded in a large structure with N additional dimensions, the bulk.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/MUED",
+          "attachments": [
+            {
+              "filename": "MUED.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MUED/MUED.tar.gz"
+            },
+            {
+              "filename": "MUED.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MUED/MUED.nb"
+            },
+            {
+              "filename": "ValidationMUED.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MUED/ValidationMUED.jpg"
+            },
+            {
+              "filename": "ValidationGauge.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MUED/ValidationGauge.jpg"
+            },
+            {
+              "filename": "MUED_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/MUED/MUED_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "LED",
+          "title": "Large Extra Dimensions",
+          "description": "One popular aproach to solve the Hierarchy Problem of the Standard Model is to extend space-time to higher dimensions. In this framework, the usual four-dimensional space-time is contained in a four-dimensional brane embedded in a large structure with N additional dimensions, the bulk.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/LED",
+          "attachments": [
+            {
+              "filename": "LED.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LED/LED.fr"
+            },
+            {
+              "filename": "LED.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/LED/LED.nb"
+            }
+          ]
+        },
+        {
+          "slug": "CHEIDI",
+          "title": "Compact HEIDI",
+          "description": "The model can be used either via the standalone bundle HEIDI_bundle.fr or via the 'pure' model file HEIDI.fr. Please note that the latter does not include Heidi.m and Hdecay.m which therefore have to be downloaded (see above) and put into the mathematica search path separately. The model is intended to be used on top of SM.fr, e.g. via LoadModel[\"SM/SM.fr\", \"HEIDI.fr\"]. Prior to loading, several f",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/CHEIDI",
+          "attachments": [
+            {
+              "filename": "HEIDI.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/CHEIDI/HEIDI.fr"
+            },
+            {
+              "filename": "Heidi.m",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/CHEIDI/Heidi.m"
+            },
+            {
+              "filename": "Hdecay.m",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/CHEIDI/Hdecay.m"
+            },
+            {
+              "filename": "HEIDI_bundle.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/CHEIDI/HEIDI_bundle.fr"
+            }
+          ]
+        },
+        {
+          "slug": "RSmodel",
+          "title": "Randall-Sundrum model",
+          "description": "One popular approach to solve the Hierarchy Problem of the Standard Model is to extend space-time to higher dimensions. In this framework, the usual four-dimensional space-time is contained in a four-dimensional brane embedded in a large structure with N additional dimensions, the bulk.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/RSmodel",
+          "attachments": [
+            {
+              "filename": "RS.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RSmodel/RS.fr"
+            },
+            {
+              "filename": "RS.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/RSmodel/RS.nb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "EffectiveModels",
+      "name": "Strongly Coupled and Effective Field Theories",
+      "models": [
+        {
+          "slug": "ALPsEFT",
+          "title": "Axion-Like Particles",
+          "description": "a) Departamento de F\u00edsica Te\u00f3rica and Instituto de F\u00edsica Te\u00f3rica, Universidad Aut\u00f3noma de Madrid, Spain b) NBIA and Discovery Center, Niels Bohr Institute, University of Copenhagen, Denmark c) Department of Physics and Astronomy, University of Sussex, UK d) Centre for Cosmology, Particle Physics and Phenomenology (CP3), Universit\u00e9 catholique de Louvain, Belgium e) Department of Physics, King\u2019s Co",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ALPsEFT",
+          "attachments": [
+            {
+              "filename": "ALP_chiral_Feynrules.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALPsEFT/ALP_chiral_Feynrules.tar.gz"
+            },
+            {
+              "filename": "ALP_linear_Feynrules.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALPsEFT/ALP_linear_Feynrules.tar.gz"
+            },
+            {
+              "filename": "ALPs_EFT.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALPsEFT/ALPs_EFT.nb"
+            },
+            {
+              "filename": "ALP_chiral_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALPsEFT/ALP_chiral_UFO.tar.gz"
+            },
+            {
+              "filename": "ALP_linear_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ALPsEFT/ALP_linear_UFO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "AnomalousGaugeCoupling",
+          "title": "Anomalous Gauge Boson Couplings",
+          "description": "We concentrate on anomalous quartic interaction among the electroweak gauge bosons that do not have a triple vertex associated to it. We describe these interactions using dimension eight effective operators assuming that the recently observed Higgs boson belongs to a SU(2)L doublet; see the file quartic.pdf for further details. This model is an extension of the Standard Model (SM) implemented at h",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/AnomalousGaugeCoupling",
+          "attachments": [
+            {
+              "filename": "quartic.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quartic.pdf"
+            },
+            {
+              "filename": "quartic_ls01.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quartic_ls01.nb"
+            },
+            {
+              "filename": "quartic_lt89.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quartic_lt89.nb"
+            },
+            {
+              "filename": "quartic.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quartic.fr"
+            },
+            {
+              "filename": "SM_LS0_LS1_CH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LS0_LS1_CH.tgz"
+            },
+            {
+              "filename": "SM_LT8_LT9_CH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LT8_LT9_CH.tgz"
+            },
+            {
+              "filename": "Massless.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/Massless.rst"
+            },
+            {
+              "filename": "Cabibbo.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/Cabibbo.rst"
+            },
+            {
+              "filename": "quartic_lt89.2.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quartic_lt89.2.nb"
+            },
+            {
+              "filename": "SM_LS0_LS1_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LS0_LS1_UFO.tgz"
+            },
+            {
+              "filename": "SM_LS0_LS1_FA.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LS0_LS1_FA.tgz"
+            },
+            {
+              "filename": "SM_LT8_LT9_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LT8_LT9_UFO.tgz"
+            },
+            {
+              "filename": "SM_LT8_LT9_FA.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LT8_LT9_FA.tgz"
+            },
+            {
+              "filename": "SM_LT012_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LT012_UFO.tgz"
+            },
+            {
+              "filename": "SM_LM0123_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LM0123_UFO.tgz"
+            },
+            {
+              "filename": "SM_LT5_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LT5_UFO.tgz"
+            },
+            {
+              "filename": "SM_LT6_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LT6_UFO.tgz"
+            },
+            {
+              "filename": "SM_LT7_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LT7_UFO.tgz"
+            },
+            {
+              "filename": "SM_LS012_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LS012_UFO.tgz"
+            },
+            {
+              "filename": "SM_LM4.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LM4.tgz"
+            },
+            {
+              "filename": "SM_LM5.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LM5.tgz"
+            },
+            {
+              "filename": "SM_LM7.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LM7.tgz"
+            },
+            {
+              "filename": "all.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/all.tgz"
+            },
+            {
+              "filename": "SM_LS012_LM017_LT012_Ind5_UFO_June19.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/SM_LS012_LM017_LT012_Ind5_UFO_June19.tar.gz"
+            },
+            {
+              "filename": "April2020.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/April2020.tgz"
+            },
+            {
+              "filename": "quartic21.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quartic21.tgz"
+            },
+            {
+              "filename": "quarticCKM21.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quarticCKM21.tgz"
+            },
+            {
+              "filename": "quartic21v2.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quartic21v2.tgz"
+            },
+            {
+              "filename": "quarticCKM21v2.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/AnomalousGaugeCoupling/quarticCKM21v2.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "BSMCharacterisation",
+          "title": "BSM Characterisation",
+          "description": "The BSM Characterisation (BSMC) model is an extension of the Higgs Characterisation (HC) model and is based on the Standard Model (SM) effective-field-theory (EFT) Lagrangian in the mass-eigen basis.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/BSMCharacterisation",
+          "attachments": [
+            {
+              "filename": "BSMC_v2.2.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/BSMC_v2.2.fr"
+            },
+            {
+              "filename": "SM_BSMC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/SM_BSMC.fr"
+            },
+            {
+              "filename": "Massless.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/Massless.rst"
+            },
+            {
+              "filename": "BSMC.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/BSMC.nb"
+            },
+            {
+              "filename": "BSMC_v2.2.ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/BSMC_v2.2.ufo.tgz"
+            },
+            {
+              "filename": "MB.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/MB.fr"
+            },
+            {
+              "filename": "SM_MB.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/SM_MB.fr"
+            },
+            {
+              "filename": "MB.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/MB.nb"
+            },
+            {
+              "filename": "mb_full.ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/mb_full.ufo.tgz"
+            },
+            {
+              "filename": "BSMC_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/BSMC_UFO.zip"
+            },
+            {
+              "filename": "BSMC_v2.1.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/BSMC_v2.1.fr"
+            },
+            {
+              "filename": "BSMC.ufo.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/BSMCharacterisation/BSMC.ufo.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "dim6top",
+          "title": "Complete top-quark EFT implementation",
+          "description": "Under the umbrella of the LHC TOP WG, common standards and prescriptions were established for the EFT interpretation of top-quark measurements at the LHC. They are summarized in the note at \u200bhttps://arxiv.org/abs/1802.07237. Details concerning the present UFO model implementation are provided in Appendix B.1.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/dim6top",
+          "attachments": [
+            {
+              "filename": "dim6top.m",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/dim6top/dim6top.m"
+            },
+            {
+              "filename": "dim6top.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/dim6top/dim6top.fr"
+            },
+            {
+              "filename": "dim6top_each_coupling_order.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/dim6top/dim6top_each_coupling_order.fr"
+            },
+            {
+              "filename": "dim6top_LO_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/dim6top/dim6top_LO_UFO.tar.gz"
+            },
+            {
+              "filename": "dim6top_LO_UFO_each_coupling_order.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/dim6top/dim6top_LO_UFO_each_coupling_order.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "NLSM",
+          "title": "Chiral perturbation theory",
+          "description": "Most of the processes involving the pseudoscalar mesons happen at scales at which pertubative QCD cannot be trusted anymore. Despite our resulting incapacity to compute their properties directly from the fundamental Lagrangian, the shape of the effective Lagrangian can be inferred using the global approximate chiral symmetry of QCD.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/NLSM",
+          "attachments": [
+            {
+              "filename": "ChiPT.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NLSM/ChiPT.fr"
+            },
+            {
+              "filename": "ChiPT.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NLSM/ChiPT.nb"
+            },
+            {
+              "filename": "FromFA.m",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NLSM/FromFA.m"
+            }
+          ]
+        },
+        {
+          "slug": "EFTmassbasis",
+          "title": "EFT mass basis",
+          "description": "Visit the Trac open source project athttp://trac.edgewall.org/",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/EFTmassbasis",
+          "attachments": []
+        },
+        {
+          "slug": "4topEFT",
+          "title": "Effective model for 4 top production",
+          "description": "$\\mathcal{O}_{R} = \\!\\left( \\bar{t}_R \\gamma^\\mu t_R \\right) \\!\\left( \\bar{t}_R \\gamma_\\mu t_R \\right)$ $\\mathcal{O}_{L}^{(1)} = \\!\\left( \\bar{Q}_L \\gamma^\\mu Q_L \\right) \\!\\left( \\bar{Q}_L \\gamma_\\mu Q_L \\right)$ $\\mathcal{O}_{L}^{(8)} = \\!\\left( \\bar{Q}_L \\gamma^\\mu T^A Q_L \\right) \\!\\left( \\bar{Q}_L \\gamma_\\mu T^A Q_L \\right)$ $\\mathcal{O}_{B}^{(1)} = \\!\\left( \\bar{Q}_L \\gamma_\\mu Q_L \\right) \\",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/4topEFT",
+          "attachments": [
+            {
+              "filename": "4topEFT.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/4topEFT/4topEFT.tar.gz"
+            },
+            {
+              "filename": "4topEFT.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/4topEFT/4topEFT.fr"
+            }
+          ]
+        },
+        {
+          "slug": "EWdim6",
+          "title": "Effective model for weak gauge boson production",
+          "description": "This FeynRules model is the implementation of the weak boson effective field theory described in \u200barXiv:1205.4231 [hep-ph]. Namely, the model contains all the five dimension-six operators that modify the triple gauge boson vertices. Their coefficients can be set in the param_card.dat. The parameters in the param_card are the full coefficients, i.e. $c_i/\\Lambda^2$ and are in TeV-2. The name are se",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/EWdim6",
+          "attachments": [
+            {
+              "filename": "EWdim6.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/EWdim6/EWdim6.fr"
+            }
+          ]
+        },
+        {
+          "slug": "YqHEFT",
+          "title": "Effective modifications of the quark Yukawas",
+          "description": "This model is an extension of the SM, including dim-6 effective operators which generate modifications to the Higgs Yukawa couplings to quarks, as described in Ref [1] :",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/YqHEFT",
+          "attachments": [
+            {
+              "filename": "YqHEFT.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/YqHEFT/YqHEFT.fr"
+            },
+            {
+              "filename": "DiagonalCKM.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/YqHEFT/DiagonalCKM.rst"
+            },
+            {
+              "filename": "YqHEFT_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/YqHEFT/YqHEFT_UFO.zip"
+            },
+            {
+              "filename": "YqHEFT.2.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/YqHEFT/YqHEFT.2.fr"
+            }
+          ]
+        },
+        {
+          "slug": "HiggsTopCurrents",
+          "title": "Effective top-Higgs interactions",
+          "description": "In the HiggsTopCurrents model, the Standard Model is extended to include three dimension-6 operators constructed multiplying the Higgs current times a current formed with the third generation quark doublet qL = (tL, bL) or the right-handed top tR (weak eigenstates). The Lagrangian is which defines the new parameters {cL1, cL3, cR, cutoff}. If the parameter cutoff is set equal to the electroweak VE",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HiggsTopCurrents",
+          "attachments": [
+            {
+              "filename": "Lagrangian.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsTopCurrents/Lagrangian.png"
+            },
+            {
+              "filename": "validation.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsTopCurrents/validation.pdf"
+            },
+            {
+              "filename": "HiggsTopCurrents.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsTopCurrents/HiggsTopCurrents.tar.gz"
+            },
+            {
+              "filename": "HiggsTopCurrents.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsTopCurrents/HiggsTopCurrents.fr"
+            }
+          ]
+        },
+        {
+          "slug": "FCHiggs",
+          "title": "FCNC Higgs interactions",
+          "description": "where $\\Lambda$ is the new physics energy scale, $O_i$ is for the various six-dimensional operators in consideration and $c_i$ are relative couplings.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FCHiggs",
+          "attachments": [
+            {
+              "filename": "thu.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FCHiggs/thu.fr"
+            },
+            {
+              "filename": "thu.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FCHiggs/thu.nb"
+            }
+          ]
+        },
+        {
+          "slug": "GeneralFCNTop",
+          "title": "FCNC Top interactions",
+          "description": "This model is an extension of the Standard Model (SM) that describes in a general way the flavour changing neutral interactions of the top quark with other particles of the SM. The implementation in FeynRules was done in the context of an effective field theory using dimension-six gauge invariant operators. This provides a direct connection between experimental observ-ables and the new anomalous c",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/GeneralFCNTop",
+          "attachments": [
+            {
+              "filename": "leff.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/leff.png"
+            },
+            {
+              "filename": "lfcnc.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/lfcnc.png"
+            },
+            {
+              "filename": "logos.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/logos.png"
+            },
+            {
+              "filename": "topFCNC.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/topFCNC.nb"
+            },
+            {
+              "filename": "topFCNC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/topFCNC.fr"
+            },
+            {
+              "filename": "topFCNC_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/topFCNC_UFO.zip"
+            },
+            {
+              "filename": "ufo_model_description.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/ufo_model_description.pdf"
+            },
+            {
+              "filename": "demo.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/demo.png"
+            },
+            {
+              "filename": "gulbenkian.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/gulbenkian.jpg"
+            },
+            {
+              "filename": "lip.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/lip.pdf"
+            },
+            {
+              "filename": "LOGO_FCUP.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/LOGO_FCUP.jpg"
+            },
+            {
+              "filename": "lip.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/GeneralFCNTop/lip.jpg"
+            }
+          ]
+        },
+        {
+          "slug": "FCNC4F",
+          "title": "Four-fermion FCNC",
+          "description": "Department of Physics, Technion: Israel Institute of Technology Haifa, Israel",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/FCNC4F",
+          "attachments": [
+            {
+              "filename": "bsll_5FS_full.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FCNC4F/bsll_5FS_full.zip"
+            },
+            {
+              "filename": "bsll_5FS_non-diagonal.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/FCNC4F/bsll_5FS_non-diagonal.zip"
+            }
+          ]
+        },
+        {
+          "slug": "HiggsCharacterisation",
+          "title": "HiggsCharacterisation",
+          "description": "This is a model file for the characterisation of the boson recently discovered at the LHC. Our effective lagrangian consists of the SM (except for the Higgs itself), expressed through the physical degrees of freedom present below the EWSB scale, plus a new bosonic state X(JP) with spin/parity assignments JP = 0+, 0-, 1+, 1-, or 2+. The new state can couple to SM particles via interactions of the l",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HiggsCharacterisation",
+          "attachments": [
+            {
+              "filename": "HC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC.fr"
+            },
+            {
+              "filename": "SM_HC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/SM_HC.fr"
+            },
+            {
+              "filename": "Massless.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/Massless.rst"
+            },
+            {
+              "filename": "Cabibbo.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/Cabibbo.rst"
+            },
+            {
+              "filename": "HC.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC.nb"
+            },
+            {
+              "filename": "HC_UFO_v4.1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_UFO_v4.1.zip"
+            },
+            {
+              "filename": "README",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/README"
+            },
+            {
+              "filename": "HC_NLO_X0_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_NLO_X0_UFO.zip"
+            },
+            {
+              "filename": "HiggsCharacterization.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HiggsCharacterization.fr"
+            },
+            {
+              "filename": "note_HC.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/note_HC.pdf"
+            },
+            {
+              "filename": "HiggsCharac_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HiggsCharac_UFO.zip"
+            },
+            {
+              "filename": "HiggsCharacterisation.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HiggsCharacterisation.fr"
+            },
+            {
+              "filename": "SM_HC3.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/SM_HC3.fr"
+            },
+            {
+              "filename": "HC_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_UFO.zip"
+            },
+            {
+              "filename": "HC_NLO_X0_UFO.2.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_NLO_X0_UFO.2.zip"
+            },
+            {
+              "filename": "HC_NLO_X0_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_NLO_X0_UFO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "HEL",
+          "title": "Higgs Effective Lagrangian",
+          "description": "The model we have implemented is based on the description given \u200bhere and on the parametrization adopted \u200bhere. The Lagrangian consists of an extension of the SM Lagrangian with terms of dimension up to six comprising",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HEL",
+          "attachments": [
+            {
+              "filename": "HEL.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HEL/HEL.fr"
+            },
+            {
+              "filename": "HEL.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HEL/HEL.nb"
+            },
+            {
+              "filename": "lagrangian.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HEL/lagrangian.dat"
+            },
+            {
+              "filename": "vertices.dat",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HEL/vertices.dat"
+            },
+            {
+              "filename": "HEL_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HEL/HEL_UFO.tar.gz"
+            },
+            {
+              "filename": "HELv7-CH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HEL/HELv7-CH.tgz"
+            }
+          ]
+        },
+        {
+          "slug": "HiggsEffectiveTheory",
+          "title": "Higgs effective theory",
+          "description": "This model describes the effective coupling of the Higgs boson to gluons and photons. The effective theory is obtained by integrating out the top-quark loop through which the higgs couples to gluons and photons. The corresponding effective theory for a pseudo-scalar is also included.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HiggsEffectiveTheory",
+          "attachments": [
+            {
+              "filename": "HiggsEffective.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/HiggsEffective.fr"
+            },
+            {
+              "filename": "HiggsEffective.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/HiggsEffective.nb"
+            },
+            {
+              "filename": "Higgs_Effective_Couplings.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/Higgs_Effective_Couplings.pdf"
+            },
+            {
+              "filename": "Higgs_Effective_Couplings-CH.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/Higgs_Effective_Couplings-CH.tgz"
+            },
+            {
+              "filename": "Higgs_Effective_Couplings_FA.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/Higgs_Effective_Couplings_FA.tgz"
+            },
+            {
+              "filename": "Higgs_Effective_Couplings_MG.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/Higgs_Effective_Couplings_MG.tgz"
+            },
+            {
+              "filename": "Higgs_Effective_Couplings_UFO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/Higgs_Effective_Couplings_UFO.tgz"
+            },
+            {
+              "filename": "HiggsEffective.tex",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsEffectiveTheory/HiggsEffective.tex"
+            }
+          ]
+        },
+        {
+          "slug": "ThreeSiteModel",
+          "title": "Mimimal Higgsless Model (3-Site Model)",
+          "description": "This implementation is based on an earlier implementation done in collaboration with Alexander Belyaev which can be found \u200bhere.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ThreeSiteModel",
+          "attachments": [
+            {
+              "filename": "3-Site-v1.4.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-v1.4.tgz"
+            },
+            {
+              "filename": "3-Site.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site.pdf"
+            },
+            {
+              "filename": "3-Site-Model.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-Model.pdf"
+            },
+            {
+              "filename": "Example-v1.0.nb.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/Example-v1.0.nb.tar.gz"
+            },
+            {
+              "filename": "CS-strong.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-strong.jpg"
+            },
+            {
+              "filename": "CS-ffAW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAW.jpg"
+            },
+            {
+              "filename": "CS-llll.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-llll.jpg"
+            },
+            {
+              "filename": "CS-ffAA.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAA.jpg"
+            },
+            {
+              "filename": "CS-ffZW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffZW.jpg"
+            },
+            {
+              "filename": "CS-llqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-llqq.jpg"
+            },
+            {
+              "filename": "CS-ffAZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAZ.jpg"
+            },
+            {
+              "filename": "CS-ffWW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffWW.jpg"
+            },
+            {
+              "filename": "CS-lnln.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-lnln.jpg"
+            },
+            {
+              "filename": "CS-ffZZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffZZ.jpg"
+            },
+            {
+              "filename": "CS-VVVV-charged.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-VVVV-charged.jpg"
+            },
+            {
+              "filename": "CS-lnqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-lnqq.jpg"
+            },
+            {
+              "filename": "CS-VVVV-neutral.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-VVVV-neutral.jpg"
+            },
+            {
+              "filename": "PS-strong.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-strong.jpg"
+            },
+            {
+              "filename": "PS-ffAW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAW.jpg"
+            },
+            {
+              "filename": "PS-llll.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-llll.jpg"
+            },
+            {
+              "filename": "PS-ffAA.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAA.jpg"
+            },
+            {
+              "filename": "PS-ffZW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffZW.jpg"
+            },
+            {
+              "filename": "PS-llqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-llqq.jpg"
+            },
+            {
+              "filename": "PS-ffAZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAZ.jpg"
+            },
+            {
+              "filename": "PS-ffWW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffWW.jpg"
+            },
+            {
+              "filename": "PS-lnln.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-lnln.jpg"
+            },
+            {
+              "filename": "PS-ffZZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffZZ.jpg"
+            },
+            {
+              "filename": "PS-VVVV-charged",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-charged"
+            },
+            {
+              "filename": "PS-lnqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-lnqq.jpg"
+            },
+            {
+              "filename": "PS-VVVV-neutral.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-neutral.jpg"
+            },
+            {
+              "filename": "3-Site-v1.3.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-v1.3.tar.gz"
+            },
+            {
+              "filename": "PS-VVVV-charged.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-charged.jpg"
+            }
+          ]
+        },
+        {
+          "slug": "NJLComposite",
+          "title": "NJL Composite Model",
+          "description": "The model utilizes four-fermion interactions in its Lagrangian to characterize interactions among Standard Model (SM) elementary fermions at the ultraviolet (UV) cutoff. These interactions, following the Nambu\u2013Jona-Lasinio (NJL) or Einstein-Cartan type, effectively represent more fundamental interactions in the UV completion. The incorporation of effective four-fermion interactions stems from a th",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/NJLComposite",
+          "attachments": [
+            {
+              "filename": "NJL_MODEL_LQ.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NJLComposite/NJL_MODEL_LQ.fr"
+            },
+            {
+              "filename": "NJL_Model_LQ.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NJLComposite/NJL_Model_LQ.nb"
+            },
+            {
+              "filename": "NJLCompositeModel-LQ_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NJLComposite/NJLCompositeModel-LQ_UFO.zip"
+            }
+          ]
+        },
+        {
+          "slug": "NTGC",
+          "title": "nTGC Effective theory",
+          "description": "The NTGC model contains the CP-even and the three CP-odd independent dimension-eight operators affecting nTGC and assuming that the gauge boson are coupled to massless fermions or are on-shell. The dimension-eight operator have been truncated to contain only 3-points vertices to fasten the extraction of the UFO and limit it size.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/NTGC",
+          "attachments": [
+            {
+              "filename": "NTGC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NTGC/NTGC.fr"
+            },
+            {
+              "filename": "NTGC.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NTGC/NTGC.tar.gz"
+            },
+            {
+              "filename": "NTGC_NLO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/NTGC/NTGC_NLO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "SILH",
+          "title": "Strongly Interacting Light Higgs",
+          "description": "The Strongly-Ineracting Light Higgs (SILH) model is an effective theory of a possible strong sector responsible for the electroweak symmetry breaking (EWSB).",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/SILH",
+          "attachments": [
+            {
+              "filename": "SILH.2.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SILH/SILH.2.fr"
+            },
+            {
+              "filename": "SILH.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SILH/SILH.fr"
+            }
+          ]
+        },
+        {
+          "slug": "TechniColor",
+          "title": "Technicolor",
+          "description": "Jeppe R. Andersen, Oleg Antipin and Marco Nardecchia helped in the validation.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/TechniColor",
+          "attachments": [
+            {
+              "filename": "MWT_101030.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TechniColor/MWT_101030.fr"
+            },
+            {
+              "filename": "MWT_ch.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TechniColor/MWT_ch.zip"
+            },
+            {
+              "filename": "MWT_mg.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TechniColor/MWT_mg.zip"
+            },
+            {
+              "filename": "MWT_Calculator.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TechniColor/MWT_Calculator.zip"
+            },
+            {
+              "filename": "HiggsEffective.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TechniColor/HiggsEffective.fr"
+            },
+            {
+              "filename": "MWT_HEC_Calculator.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TechniColor/MWT_HEC_Calculator.zip"
+            },
+            {
+              "filename": "MWT_101030.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TechniColor/MWT_101030.nb"
+            }
+          ]
+        },
+        {
+          "slug": "TFCNC",
+          "title": "TFCNC",
+          "description": "This model is an extension of the Standard Model (SM), intended for the study of flavor-changing neutral Higgs interactions in the framework of two Higgs doublet models [1]. More general parametrizations can be found in the context of effective field theories [2]. As a generic framework, the following interactions are added to the SM Lagrangian where H is a generic CP-even scalar boson, and the re",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/TFCNC",
+          "attachments": [
+            {
+              "filename": "Lagrangian.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TFCNC/Lagrangian.png"
+            },
+            {
+              "filename": "TFCNC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TFCNC/TFCNC.fr"
+            },
+            {
+              "filename": "TFCNC.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TFCNC/TFCNC.nb"
+            },
+            {
+              "filename": "TFCNC_UFO.tar",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TFCNC/TFCNC_UFO.tar"
+            }
+          ]
+        },
+        {
+          "slug": "SMEFT",
+          "title": "The SMEFT in the Warsaw basis",
+          "description": "NBIA and Discovery Center, Niels Bohr Institute, University of Copenhagen",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/SMEFT",
+          "attachments": [
+            {
+              "filename": "SMEFTsim_general_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_general_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_general_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_general_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_MFV_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_MFV_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_MFV_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_MFV_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_U35_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_U35_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_U35_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_U35_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_top_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_top_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_top_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_top_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_topU3l_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_topU3l_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_topU3l_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_topU3l_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim-setA-v2.1.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setA-v2.1.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim-setA.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setA.nb"
+            },
+            {
+              "filename": "SMEFTsim-setB_v13.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setB_v13.zip"
+            },
+            {
+              "filename": "SMEFTsim-setB_v13.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setB_v13.nb"
+            },
+            {
+              "filename": "SMEFTsim_A_general_alphaScheme_UFO_v2.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_general_alphaScheme_UFO_v2.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_general_MwScheme_UFO_v2.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_general_MwScheme_UFO_v2.tar.gz"
+            },
+            {
+              "filename": "SMEFT_alpha_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFT_alpha_UFO.zip"
+            },
+            {
+              "filename": "SMEFT_mW_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFT_mW_UFO.zip"
+            },
+            {
+              "filename": "SMEFTsim_A_MFV_alphaScheme_UFO_v2.1.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_MFV_alphaScheme_UFO_v2.1.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_MFV_MwScheme_UFO_v2.1.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_MFV_MwScheme_UFO_v2.1.tar.gz"
+            },
+            {
+              "filename": "SMEFT_alpha_MFV_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFT_alpha_MFV_UFO.zip"
+            },
+            {
+              "filename": "SMEFT_mW_MFV_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFT_mW_MFV_UFO.zip"
+            },
+            {
+              "filename": "SMEFTsim_A_U35_alphaScheme_UFO_v2.1.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_U35_alphaScheme_UFO_v2.1.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_U35_MwScheme_UFO_v2.1.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_U35_MwScheme_UFO_v2.1.tar.gz"
+            },
+            {
+              "filename": "SMEFT_alpha_FLU_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFT_alpha_FLU_UFO.zip"
+            },
+            {
+              "filename": "SMEFT_mW_FLU_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFT_mW_FLU_UFO.zip"
+            },
+            {
+              "filename": "SMEFTsim-setB.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setB.zip"
+            },
+            {
+              "filename": "SMEFTsim-setB.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setB.nb"
+            },
+            {
+              "filename": "SMEFTsim_A_general_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_general_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_general_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_general_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_MFV_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_MFV_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_MFV_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_MFV_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_U35_alphaScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_U35_alphaScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_U35_MwScheme_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_U35_MwScheme_UFO.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim-setB_v11.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setB_v11.zip"
+            },
+            {
+              "filename": "SMEFTsim-setA.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setA.zip"
+            },
+            {
+              "filename": "SMEFTsim_A_MFV_alphaScheme_UFO_v2.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_MFV_alphaScheme_UFO_v2.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_MFV_MwScheme_UFO_v2.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_MFV_MwScheme_UFO_v2.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_U35_alphaScheme_UFO_v2.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_U35_alphaScheme_UFO_v2.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim_A_U35_MwScheme_UFO_v2.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim_A_U35_MwScheme_UFO_v2.tar.gz"
+            },
+            {
+              "filename": "SMEFTsim-setA_v2.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT/SMEFTsim-setA_v2.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "SMEFT_BGFM",
+          "title": "The SMEFT with the BGF method",
+          "description": "Following \u200barXiv:1803.08001 we implement the Standard Model Effective Field Theory (SMEFT) dimension six operators gauge fixed using the background field method (see e.g. \u200bAbbott, Introduction to the Background Field Method). The implementation of the model is elaborated in \u200barXiv:2010.15852, and is verified in both this paper and \u200barXiv:2010.08451 where the one-loop Ward identities are checked fo",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/SMEFT_BGFM",
+          "attachments": [
+            {
+              "filename": "SMEFT_BGFM.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT_BGFM/SMEFT_BGFM.zip"
+            },
+            {
+              "filename": "SMEFT_BGFM_wAnc.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT_BGFM/SMEFT_BGFM_wAnc.zip"
+            },
+            {
+              "filename": "SMEFT_BGFM_1.1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMEFT_BGFM/SMEFT_BGFM_1.1.zip"
+            }
+          ]
+        },
+        {
+          "slug": "TopBNV",
+          "title": "Top Baryon violation",
+          "description": "The model contains baryon-(and lepton)-number-violating (BNV) four-fermion interactions like tb\u03bcc, tbue, t\u03c4du. These interactions for instance lead to the t\u2192b\u0305c\u0305\u03bc\u207a decay and ub\u2192t\u0305e\u207a single top production in association with a single lepton.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/TopBNV",
+          "attachments": [
+            {
+              "filename": "operators-s-t.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopBNV/operators-s-t.png"
+            },
+            {
+              "filename": "operators-1-5.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopBNV/operators-1-5.png"
+            },
+            {
+              "filename": "operators-relations.png",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopBNV/operators-relations.png"
+            },
+            {
+              "filename": "check_matrix_element.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopBNV/check_matrix_element.tar.gz"
+            },
+            {
+              "filename": "bnv_mediator_ufo.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopBNV/bnv_mediator_ufo.tar.gz"
+            },
+            {
+              "filename": "generate_model.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopBNV/generate_model.tar.gz"
+            },
+            {
+              "filename": "bnv-ufo.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopBNV/bnv-ufo.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "TopEffTh",
+          "title": "Top Effective theory",
+          "description": "The top effective theory model contains all the dimension-six operators affecting top pair production, single top pair production and top decay by interfering with the SM amplitudes.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/TopEffTh",
+          "attachments": [
+            {
+              "filename": "TopEffTh.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopEffTh/TopEffTh.fr"
+            },
+            {
+              "filename": "TEttbar.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopEffTh/TEttbar.nb"
+            },
+            {
+              "filename": "singletop.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopEffTh/singletop.nb"
+            },
+            {
+              "filename": "topdecay.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopEffTh/topdecay.nb"
+            }
+          ]
+        },
+        {
+          "slug": "TopFCNC",
+          "title": "Top Effective theory for FCNC",
+          "description": "The top effective theory model contains the dimension-six operators affecting top flavor changing processes. The UFO model can be used for computation at the NLO in QCD.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/TopFCNC",
+          "attachments": [
+            {
+              "filename": "TopFCNC.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopFCNC/TopFCNC.tar.gz"
+            },
+            {
+              "filename": "TopEFTFCNC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/TopFCNC/TopEFTFCNC.fr"
+            }
+          ]
+        },
+        {
+          "slug": "VLC_LN",
+          "title": "Vector-like Confinement Model",
+          "description": "This is the FeynRules model file for Vector Like Confinement model with fermions L+N described in \u200barXiv:1508.01112 and \u200barXiv:1805.12578. It contains a triplet of vectors (technirho) and a triplet of scalar (technipions) which decays through anomalous couplings into SM gauge bosons",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/VLC_LN",
+          "attachments": [
+            {
+              "filename": "VLC.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLC_LN/VLC.zip"
+            },
+            {
+              "filename": "VLC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/VLC_LN/VLC.fr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "MiscellaneousModels",
+      "name": "Miscellaneous",
+      "models": [
+        {
+          "slug": "ThreeSiteModel",
+          "title": "Mimimal Higgsless Model (3-Site Model)",
+          "description": "This implementation is based on an earlier implementation done in collaboration with Alexander Belyaev which can be found \u200bhere.",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/ThreeSiteModel",
+          "attachments": [
+            {
+              "filename": "3-Site-v1.4.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-v1.4.tgz"
+            },
+            {
+              "filename": "3-Site.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site.pdf"
+            },
+            {
+              "filename": "3-Site-Model.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-Model.pdf"
+            },
+            {
+              "filename": "Example-v1.0.nb.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/Example-v1.0.nb.tar.gz"
+            },
+            {
+              "filename": "CS-strong.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-strong.jpg"
+            },
+            {
+              "filename": "CS-ffAW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAW.jpg"
+            },
+            {
+              "filename": "CS-llll.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-llll.jpg"
+            },
+            {
+              "filename": "CS-ffAA.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAA.jpg"
+            },
+            {
+              "filename": "CS-ffZW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffZW.jpg"
+            },
+            {
+              "filename": "CS-llqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-llqq.jpg"
+            },
+            {
+              "filename": "CS-ffAZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffAZ.jpg"
+            },
+            {
+              "filename": "CS-ffWW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffWW.jpg"
+            },
+            {
+              "filename": "CS-lnln.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-lnln.jpg"
+            },
+            {
+              "filename": "CS-ffZZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-ffZZ.jpg"
+            },
+            {
+              "filename": "CS-VVVV-charged.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-VVVV-charged.jpg"
+            },
+            {
+              "filename": "CS-lnqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-lnqq.jpg"
+            },
+            {
+              "filename": "CS-VVVV-neutral.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/CS-VVVV-neutral.jpg"
+            },
+            {
+              "filename": "PS-strong.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-strong.jpg"
+            },
+            {
+              "filename": "PS-ffAW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAW.jpg"
+            },
+            {
+              "filename": "PS-llll.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-llll.jpg"
+            },
+            {
+              "filename": "PS-ffAA.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAA.jpg"
+            },
+            {
+              "filename": "PS-ffZW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffZW.jpg"
+            },
+            {
+              "filename": "PS-llqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-llqq.jpg"
+            },
+            {
+              "filename": "PS-ffAZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffAZ.jpg"
+            },
+            {
+              "filename": "PS-ffWW.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffWW.jpg"
+            },
+            {
+              "filename": "PS-lnln.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-lnln.jpg"
+            },
+            {
+              "filename": "PS-ffZZ.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-ffZZ.jpg"
+            },
+            {
+              "filename": "PS-VVVV-charged",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-charged"
+            },
+            {
+              "filename": "PS-lnqq.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-lnqq.jpg"
+            },
+            {
+              "filename": "PS-VVVV-neutral.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-neutral.jpg"
+            },
+            {
+              "filename": "3-Site-v1.3.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/3-Site-v1.3.tar.gz"
+            },
+            {
+              "filename": "PS-VVVV-charged.jpg",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/ThreeSiteModel/PS-VVVV-charged.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "NLOModels",
+      "name": "NLO",
+      "models": [
+        {
+          "slug": "HiggsCharacterisation",
+          "title": "more details",
+          "description": "This is a model file for the characterisation of the boson recently discovered at the LHC. Our effective lagrangian consists of the SM (except for the Higgs itself), expressed through the physical degrees of freedom present below the EWSB scale, plus a new bosonic state X(JP) with spin/parity assignments JP = 0+, 0-, 1+, 1-, or 2+. The new state can couple to SM particles via interactions of the l",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/HiggsCharacterisation",
+          "attachments": [
+            {
+              "filename": "HC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC.fr"
+            },
+            {
+              "filename": "SM_HC.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/SM_HC.fr"
+            },
+            {
+              "filename": "Massless.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/Massless.rst"
+            },
+            {
+              "filename": "Cabibbo.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/Cabibbo.rst"
+            },
+            {
+              "filename": "HC.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC.nb"
+            },
+            {
+              "filename": "HC_UFO_v4.1.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_UFO_v4.1.zip"
+            },
+            {
+              "filename": "README",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/README"
+            },
+            {
+              "filename": "HC_NLO_X0_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_NLO_X0_UFO.zip"
+            },
+            {
+              "filename": "HiggsCharacterization.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HiggsCharacterization.fr"
+            },
+            {
+              "filename": "note_HC.pdf",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/note_HC.pdf"
+            },
+            {
+              "filename": "HiggsCharac_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HiggsCharac_UFO.zip"
+            },
+            {
+              "filename": "HiggsCharacterisation.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HiggsCharacterisation.fr"
+            },
+            {
+              "filename": "SM_HC3.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/SM_HC3.fr"
+            },
+            {
+              "filename": "HC_UFO.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_UFO.zip"
+            },
+            {
+              "filename": "HC_NLO_X0_UFO.2.zip",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_NLO_X0_UFO.2.zip"
+            },
+            {
+              "filename": "HC_NLO_X0_UFO.tar.gz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/HiggsCharacterisation/HC_NLO_X0_UFO.tar.gz"
+            }
+          ]
+        },
+        {
+          "slug": "SMWeinberg",
+          "title": "more details",
+          "description": "In collaboration with Benjamin Fuks, Jonas Neundorf, Krisztian Peters, and Matthias Saimpert",
+          "wiki_url": "https://feynrules.irmp.ucl.ac.be/wiki/SMWeinberg",
+          "attachments": [
+            {
+              "filename": "SMWeinbergNLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergNLO.tgz"
+            },
+            {
+              "filename": "SMWeinbergNLO_4FS.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergNLO_4FS.tgz"
+            },
+            {
+              "filename": "SMWeinbergXLO.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergXLO.tgz"
+            },
+            {
+              "filename": "SMWeinbergXLO_4FS.tgz",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/SMWeinbergXLO_4FS.tgz"
+            },
+            {
+              "filename": "weinberg_NLO.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/weinberg_NLO.fr"
+            },
+            {
+              "filename": "sm.fr",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/sm.fr"
+            },
+            {
+              "filename": "smWeinberg_NLO_public.nb",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/smWeinberg_NLO_public.nb"
+            },
+            {
+              "filename": "diagonalCKM.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/diagonalCKM.rst"
+            },
+            {
+              "filename": "Massless_4f.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/Massless_4f.rst"
+            },
+            {
+              "filename": "Massless_5f.rst",
+              "url": "https://feynrules.irmp.ucl.ac.be/raw-attachment/wiki/SMWeinberg/Massless_5f.rst"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

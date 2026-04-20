@@ -1,0 +1,6 @@
+# Shared defaults. Per-agent configs pull these in via `extends: base.yaml`.
+compute:  perlmutter
+account:  m4539
+cpus:     128
+walltime: "04:00:00"
+qos:      interactive

@@ -1,0 +1,36 @@
+# Agent run outputs — frozen artifacts, not source of truth.
+recast_*/
+runs/
+
+# Python bytecode / cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Codex session state (auto-seeded by CodexRunner into workspace/.codex_home/)
+.codex_home/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Large archival directory — not part of the active tree.
+old/
+
+# LaTeX draft scratch
+draft/*.aux
+draft/*.log
+draft/*.out
+draft/*.synctex.gz

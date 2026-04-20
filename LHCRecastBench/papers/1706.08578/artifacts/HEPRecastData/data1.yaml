@@ -1,0 +1,125 @@
+dependent_variables:
+- header: {name: data, units: events}
+  values:
+  - errors:
+    - {label: stat, symerror: 0}
+    value: 3
+  - errors:
+    - {label: stat, symerror: 0}
+    value: 19
+  - errors:
+    - {label: stat, symerror: 0}
+    value: 14
+  - errors:
+    - {label: stat, symerror: 0}
+    value: 20
+  - errors:
+    - {label: stat, symerror: 0}
+    value: 8
+  - errors:
+    - {label: stat, symerror: 0}
+    value: 0
+  - errors:
+    - {label: stat, symerror: 0}
+    value: 0
+- header: {name: background, units: events}
+  values:
+  - errors:
+    - {label: stat, symerror: 0.641029}
+    - {label: syst, symerror: 0.624307}
+    value: 0.765138
+  - errors:
+    - {label: stat, symerror: 2.89323}
+    - {label: syst, symerror: 3.43738}
+    value: 16.0366
+  - errors:
+    - {label: stat, symerror: 2.68488}
+    - {label: syst, symerror: 3.27469}
+    value: 15.5446
+  - errors:
+    - {label: stat, symerror: 2.3878}
+    - {label: syst, symerror: 3.05552}
+    value: 12.6566
+  - errors:
+    - {label: stat, symerror: 1.61329}
+    - {label: syst, symerror: 2.11356}
+    value: 5.55022
+  - errors:
+    - {label: stat, symerror: 0.38601}
+    - {label: syst, symerror: 0.759599}
+    value: 0.836422
+  - errors:
+    - {label: stat, symerror: 0}
+    - {label: syst, symerror: 0}
+    value: 0
+- header: {name: 'signal($\Lambda$=9 TeV $M_{N_e}$=1.5 TeV)', units: events}
+  values:
+  - errors:
+    - {label: stat, symerror: 0.000243009}
+    - {label: syst, symerror: 9.72036e-06}
+    value: 0.000243009
+  - errors:
+    - {label: stat, symerror: 0.000840277}
+    - {label: syst, symerror: 0.0001339632}
+    value: 0.00334908
+  - errors:
+    - {label: stat, symerror: 0.0021305}
+    - {label: syst, symerror: 0.000841892}
+    value: 0.0210473
+  - errors:
+    - {label: stat, symerror: 0.00756002}
+    - {label: syst, symerror: 0.01071968}
+    value: 0.267992
+  - errors:
+    - {label: stat, symerror: 0.0187422}
+    - {label: syst, symerror: 0.0658236}
+    value: 1.64559
+  - errors:
+    - {label: stat, symerror: 0.034785}
+    - {label: syst, symerror: 0.2265536}
+    value: 5.66384
+  - errors:
+    - {label: stat, symerror: 0.0211007}
+    - {label: syst, symerror: 0.0835476}
+    value: 2.08869
+- header: {name: 'signal($\Lambda$=9 TeV $M_{N_e}$=2.5 TeV)', units: events}
+  values:
+  - errors:
+    - {label: stat, symerror: 0}
+    - {label: syst, symerror: 0}
+    value: 0
+  - errors:
+    - {label: stat, symerror: 9.13691e-05}
+    - {label: syst, symerror: 6.29252e-06}
+    value: 0.000157313
+  - errors:
+    - {label: stat, symerror: 0.000238204}
+    - {label: syst, symerror: 4.29296e-05}
+    value: 0.00107324
+  - errors:
+    - {label: stat, symerror: 0.000689146}
+    - {label: syst, symerror: 0.0003615472}
+    value: 0.00903868
+  - errors:
+    - {label: stat, symerror: 0.00229211}
+    - {label: syst, symerror: 0.00400764}
+    value: 0.100191
+  - errors:
+    - {label: stat, symerror: 0.00769949}
+    - {label: syst, symerror: 0.0450008}
+    value: 1.12502
+  - errors:
+    - {label: stat, symerror: 0.00794679}
+    - {label: syst, symerror: 0.0480556}
+    value: 1.20139
+independent_variables:
+- header: {name: '$M_{eeJ}$', units: GeV}
+  values:
+  - {high: 600, low: 400}
+  - {high: 800, low: 600}
+  - {high: 1000, low: 800}
+  - {high: 1400, low: 1000}
+  - {high: 2000, low: 1400}
+  - {high: 3500, low: 2000}
+  - {high: 10000, low: 3500}
+name: data1.yaml

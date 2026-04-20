@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)}"
+source "${REPO_ROOT}/benchmark/shell/agent_env.sh"
+
+if ! activate_cms_analysis; then
+  bootstrap_cms_analysis
+fi
+ensure_python_modules
+
+cd "${REPO_ROOT}"
+exec python -m benchmark.tools.CLI.feynrules "$@"

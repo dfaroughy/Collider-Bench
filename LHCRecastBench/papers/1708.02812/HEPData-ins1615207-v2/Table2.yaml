@@ -1,0 +1,30 @@
+dependent_variables:
+- header: {name: Observed 95% CL interval, units: TeV^-4}
+  qualifiers:
+  - {name: Lumi, value: 35.9 fb^-1}
+  - {name: SQRT(S), units: GeV, value: '13000.0'}
+  values:
+  - {value: '[-0.46,0.44]'}
+  - {value: '[-0.61,0.61]'}
+  - {value: '[-1.2,1.2]'}
+  - {value: '[-0.84,0.84]'}
+  - {value: '[-1.8,1.8]'}
+- header: {name: Expected 95% CL interval, units: TeV^-4}
+  qualifiers:
+  - {name: Lumi, value: 35.9 fb^-1}
+  - {name: SQRT(S), units: GeV, value: '13000.0'}
+  values:
+  - {value: '[-0.53,0.51]'}
+  - {value: '[-0.72,0.71]'}
+  - {value: '[-1.4,1.4]'}
+  - {value: '[-0.99,0.99]'}
+  - {value: '[-2.1,2.1]'}
+independent_variables:
+- header: {name: Coupling}
+  values:
+  - {value: fT0/Lambda^4}
+  - {value: fT1/Lambda^4}
+  - {value: fT2/Lambda^4}
+  - {value: fT8/Lambda^4}
+  - {value: fT9/Lambda^4}
+

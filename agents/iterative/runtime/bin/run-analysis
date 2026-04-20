@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../../../.." && pwd)}"
+source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
+
+if ! activate_cms_analysis; then
+  bootstrap_cms_analysis
+fi
+
+# ── Make tools/ importable without sys.path hacks ─────────────────────────
+export PYTHONPATH="${REPO_ROOT}:${PYTHONPATH:-}"
+
+# ── Prevent duplicate runs ────────────────────────────────────────────────
+# Use flock on an open fd instead of a PID check: kernel-level file locks
+# survive across PID namespaces (bwrap --unshare-pid makes PIDs non-portable)
+# and release automatically when this process exits, so a SIGKILL'd previous
+# run won't leave a stale lock.
+LOCKFILE=".analysis.lock"
+exec 9>"$LOCKFILE"
+if ! flock -n 9; then
+  echo "  ERROR: analysis.py is already running. Wait for it to finish." >&2
+  echo "  (lock held on $LOCKFILE)" >&2
+  exit 1
+fi
+echo $$ > "$LOCKFILE"   # advisory — lock is the fd, file contents are just for debugging
+trap "rm -f $LOCKFILE" EXIT
+
+# ── Pre-flight checks ─────────────────────────────────────────────────────
+python -c "
+from agent_runtime.preflight import check_analysis
+check_analysis('datasets.yaml', 'analysis.py')
+"
+
+# ── Set up environment for performance ────────────────────────────────────
+NCPUS=$(nproc 2>/dev/null || echo 4)
+export ANALYSIS_NCPUS="${NCPUS}"
+export ANALYSIS_TIMEOUT=14400
+export PYTHONUNBUFFERED=1
+
+echo "  Runtime: ${NCPUS} CPUs, timeout=${ANALYSIS_TIMEOUT}s"
+
+# ── Run the analysis with timeout ─────────────────────────────────────────
+START_TIME=$(python -c "import time; print(time.time())")
+
+timeout "${ANALYSIS_TIMEOUT}" python analysis.py "$@"
+EXIT_CODE=$?
+
+if [ ${EXIT_CODE} -eq 124 ]; then
+    echo ""
+    echo "  ERROR: analysis.py exceeded the ${ANALYSIS_TIMEOUT}s timeout."
+    echo "  Use vectorized awkward array operations and parallel file processing."
+    echo "  Import: from LHCRecastBench.tools.streaming import stream_files"
+    echo ""
+fi
+
+# ── Post-flight summary ──────────────────────────────────────────────────
+python -c "
+from agent_runtime.preflight import print_postflight
+print_postflight(${START_TIME})
+"
+
+exit ${EXIT_CODE}
