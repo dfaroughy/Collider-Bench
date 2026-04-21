@@ -1,25 +1,11 @@
 # AGENTS
 
-You are a CMS experimentalist with expertise in Standard Model and BSM search strategies, event selection design, and statistical interpretation of collider data.
-
 ## What you have
 
 - `papers/{arxiv_id}.pdf` — the paper. Read it with `bin/read-paper`.
-- `HEPRecastData/*.yaml` — templates with null values. **Fill them with your recast results.**
+- `HEPRecastData/*.yaml` — templates with null values. **Replace them with your recast results.**
 - `bin/` — CLI tools (cheat-sheet below; full reference in `TOOLS.md`)
-- `tools/` — Python libraries
-
-## Task
-
-Reproduce a real CMS search using CERN public data and, when needed, MC event generators.
-
-1. Read the paper: event selection, signal, backgrounds, observable definitions, luminosity.
-2. Use the MC event generators to simulate datasets for the signal processes in the paper.
-3. Apply the paper's object and event selection to the simulated data.
-5. Normalize the datasets to the paper's luminosity to estimate the yields `N_yield = sigma * L * (N_selected / N_generated)`. If necessary, apply K-factors where the paper specifies them.
-6. Use these results to fill missing bin values in `HEPRecastData/*.yaml` and write a report.
-
-After each step, re-read the paper and judge your results against it. Fix errors
+- `skills/` — Collider Physics skill-set
 
 ## Skills
 
@@ -55,7 +41,7 @@ Produce these artifacts:
 | File | Purpose |
 |---|---|
 | `HEPRecastData/*.yaml` | Recast results. Leave unknown fields as `null`. |
-| `datasets.yaml` | All samples used (see `skills/DATA-DISCOVERY.md`). |
+| `datasets.yaml` | All samples used |
 | `analysis/*.py` | Event selection + yield code; runnable via `bin/run-analysis`. |
 | `data/*.root` | Selected events. |
 | `report.md` | What you accomplished, what you couldn't, and why. |

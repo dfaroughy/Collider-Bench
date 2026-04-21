@@ -260,6 +260,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "walltime": (str,),
     "qos": (str,),
     "sandbox": (str,),
+    "task": (str,),
     # Sisyphus agent: separate model / effort for the planner and critic roles.
     "critic_model": (str,),
     "critic_effort": (str, int),
@@ -271,6 +272,7 @@ _ALLOWED_RUNNERS = {"claude", "codex", "aider"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high"}
 _ALLOWED_SANDBOX = {"auto", "bwrap", "none"}
+_ALLOWED_TASKS = {"validate", "simulate", "recast"}
 
 
 def validate_config(cfg: dict, source: str = "<config>") -> None:
@@ -328,6 +330,9 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
         raise ValueError(
             f"{source}: sandbox={sandbox!r}; must be one of {sorted(_ALLOWED_SANDBOX)}"
         )
+    task = cfg.get("task")
+    if task is not None and task not in _ALLOWED_TASKS:
+        raise ValueError(f"{source}: task={task!r}; must be one of {sorted(_ALLOWED_TASKS)}")
 
 
 # ── Config loading ─────────────────────────────────────────────────────────
@@ -526,7 +531,7 @@ def finalize_run_info(
 # ── Fail-fast input validation ─────────────────────────────────────────────
 
 
-def validate_launch_inputs(repo_root: Path, paper_ref: str) -> None:
+def validate_launch_inputs(repo_root: Path, paper_ref: str, task: str = "recast") -> None:
     """Validate prerequisites before doing any workspace setup. Raises on failure.
 
     Named to not collide with the per-agent `preflight.py` module (which runs
@@ -534,9 +539,23 @@ def validate_launch_inputs(repo_root: Path, paper_ref: str) -> None:
     """
     if not paper_ref:
         raise ValueError("paper_ref is required (set `paper:` in --config or pass --paper-ref)")
-    for_agent = repo_root / "LHCRecastBench" / "papers" / paper_ref / "for_agent"
-    if not for_agent.is_dir():
+    paper_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref
+    shared = paper_dir / "shared"
+    if not shared.is_dir():
         raise FileNotFoundError(
-            f"Paper inputs missing: {for_agent}\n"
-            f"  Create the for_agent/ directory for {paper_ref} before launching."
+            f"Paper shared inputs missing: {shared}\n"
+            f"  Expected layout: LHCRecastBench/papers/{paper_ref}/shared/papers/{paper_ref}.pdf"
         )
+    task_dir = paper_dir / "tasks" / task
+    if not task_dir.is_dir():
+        available = (
+            sorted(p.name for p in (paper_dir / "tasks").iterdir() if p.is_dir())
+            if (paper_dir / "tasks").is_dir()
+            else []
+        )
+        raise FileNotFoundError(
+            f"Task missing: {task_dir}\n" f"  Available tasks for {paper_ref}: {available}"
+        )
+    for required in (task_dir / "TASK.md", task_dir / "templates" / "HEPRecastData"):
+        if not required.exists():
+            raise FileNotFoundError(f"Missing {required}")

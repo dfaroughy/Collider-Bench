@@ -81,14 +81,16 @@ def _has_filled_hepdata(ws: Path) -> bool:
     return False
 
 
-def _score_iteration(iter_dir: Path, paper_ref: str) -> tuple[bool | None, dict]:
+def _score_iteration(
+    iter_dir: Path, paper_ref: str, task: str = "recast"
+) -> tuple[bool | None, dict]:
     hep = iter_dir / "HEPRecastData"
     if not hep.is_dir():
         return None, {}
     try:
         from LHCRecastBench.evaluation.score import score_recast
 
-        scores = score_recast(paper_ref, str(hep))
+        scores = score_recast(paper_ref, str(hep), task=task)
     except Exception as exc:
         print(f"  scoring failed: {exc}")
         return None, {}
@@ -141,8 +143,10 @@ def _run_in_sandbox(
 # ── Planner ────────────────────────────────────────────────────────────────
 
 
-def _setup_planner_workspace(repo_root: Path, run_dir: Path, paper_ref: str) -> Path:
-    """Create a small workspace containing paper PDF, template YAMLs, PLANNER.md."""
+def _setup_planner_workspace(
+    repo_root: Path, run_dir: Path, paper_ref: str, task: str = "recast"
+) -> Path:
+    """Create a small workspace containing paper PDF, template YAMLs, PLANNER.md, TASK.md."""
     ws = run_dir / "planner_workspace"
     if ws.exists():
         shutil.rmtree(ws)
@@ -152,23 +156,23 @@ def _setup_planner_workspace(repo_root: Path, run_dir: Path, paper_ref: str) -> 
     roles_dir = repo_root / "agents" / "sisyphus" / "runtime" / "roles"
     shutil.copy2(roles_dir / "PLANNER.md", ws / "PLANNER.md")
 
+    # Benchmark task card — the planner reads this to know what the executor
+    # is supposed to produce.
+    paper_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref
+    task_dir = paper_dir / "tasks" / task
+    task_md = task_dir / "TASK.md"
+    if task_md.is_file():
+        shutil.copy2(task_md, ws / "TASK.md")
+
     # Paper PDF
-    pdf = (
-        repo_root
-        / "LHCRecastBench"
-        / "papers"
-        / paper_ref
-        / "for_agent"
-        / "papers"
-        / f"{paper_ref}.pdf"
-    )
+    pdf = paper_dir / "shared" / "papers" / f"{paper_ref}.pdf"
     papers = ws / "papers"
     papers.mkdir()
     if pdf.exists():
         shutil.copy2(pdf, papers / f"{paper_ref}.pdf")
 
-    # Null-valued templates (what the executor must fill)
-    tmpl_src = repo_root / "LHCRecastBench" / "papers" / paper_ref / "for_agent" / "HEPRecastData"
+    # Null-valued templates for the selected task
+    tmpl_src = task_dir / "templates" / "HEPRecastData"
     if tmpl_src.is_dir():
         shutil.copytree(tmpl_src, ws / "HEPRecastData_templates")
 
@@ -185,11 +189,12 @@ def _run_planner(
     model: str | None,
     effort_max_tokens: int,
     sandbox_choice: str | None,
+    task: str = "recast",
 ) -> Path | None:
     """Run the planner. Returns path to the promoted plan.md, or None on failure."""
     from .roles import build_planner_prompt
 
-    ws = _setup_planner_workspace(repo_root, run_dir, paper_ref)
+    ws = _setup_planner_workspace(repo_root, run_dir, paper_ref, task=task)
     prompt = build_planner_prompt(paper_ref)
     (ws / "prompt.txt").write_text(prompt)
     output_file = ws / "session_log.txt"
@@ -228,11 +233,13 @@ def _run_planner(
 # ── Executor ───────────────────────────────────────────────────────────────
 
 
-def _init_executor_workspace(repo_root: Path, run_dir: Path, paper_ref: str) -> Path:
+def _init_executor_workspace(
+    repo_root: Path, run_dir: Path, paper_ref: str, task: str = "recast"
+) -> Path:
     """Fresh executor workspace at <run_dir>/workspace/."""
     from agent_runtime.workspace import build_workspace
 
-    return build_workspace(repo_root, "sisyphus", paper_ref, run_dir.name)
+    return build_workspace(repo_root, "sisyphus", paper_ref, run_dir.name, task=task)
 
 
 def _seed_executor_workspace(
@@ -331,6 +338,7 @@ def _setup_critic_workspace(
     iter_dir: Path,
     plan_path: Path | None,
     paper_ref: str,
+    task: str = "recast",
 ) -> Path:
     """Assemble a read-mostly workspace with copies of the artifacts + reference."""
     ws = iter_dir / "critic_workspace"
@@ -364,22 +372,34 @@ def _setup_critic_workspace(
     if hep_src.is_dir():
         shutil.copytree(hep_src, artifacts / "HEPRecastData")
 
-    # Paper reference answers
-    ref_src = repo_root / "LHCRecastBench" / "papers" / paper_ref / "artifacts" / "HEPRecastData"
+    # Paper reference answers (task-specific).
+    ref_src = (
+        repo_root
+        / "LHCRecastBench"
+        / "papers"
+        / paper_ref
+        / "tasks"
+        / task
+        / "reference"
+        / "HEPRecastData"
+    )
     if ref_src.is_dir():
         ref_dest = ws / "reference" / "HEPRecastData_reference"
         ref_dest.parent.mkdir()
         shutil.copytree(ref_src, ref_dest)
 
-    # Plan + paper
+    # Plan + paper + TASK.md so the critic grounds its review in the benchmark contract.
     if plan_path is not None and plan_path.exists():
         shutil.copy2(plan_path, ws / "plan.md")
+    task_md = repo_root / "LHCRecastBench" / "papers" / paper_ref / "tasks" / task / "TASK.md"
+    if task_md.is_file():
+        shutil.copy2(task_md, ws / "TASK.md")
     pdf = (
         repo_root
         / "LHCRecastBench"
         / "papers"
         / paper_ref
-        / "for_agent"
+        / "shared"
         / "papers"
         / f"{paper_ref}.pdf"
     )
@@ -401,11 +421,12 @@ def _run_critic(
     model: str | None,
     effort_max_tokens: int,
     sandbox_choice: str | None,
+    task: str = "recast",
 ) -> Path | None:
     """Run the critic for a given archived iteration. Returns critique.md path or None."""
     from .roles import build_critic_prompt
 
-    ws = _setup_critic_workspace(repo_root, iter_dir, plan_path, paper_ref)
+    ws = _setup_critic_workspace(repo_root, iter_dir, plan_path, paper_ref, task=task)
     prompt = build_critic_prompt(paper_ref, iter_index)
     (ws / "prompt.txt").write_text(prompt)
     output_file = ws / "session_log.txt"
@@ -463,6 +484,12 @@ def main() -> int:
     parser.add_argument("--critic-effort", default=None)
     parser.add_argument("--planner-effort", default=None)
     parser.add_argument("--sandbox", default=None, choices=["auto", "bwrap", "none"])
+    parser.add_argument(
+        "--task",
+        default=None,
+        choices=["validate", "simulate", "recast"],
+        help="Benchmark task (default: recast).",
+    )
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parents[4]
@@ -484,8 +511,9 @@ def main() -> int:
     args.paper_ref = args.paper_ref or cfg.get("paper")
     if not args.paper_ref:
         parser.error("--paper-ref is required (CLI or config)")
+    args.task = args.task or cfg.get("task") or "recast"
     try:
-        validate_launch_inputs(repo_root, args.paper_ref)
+        validate_launch_inputs(repo_root, args.paper_ref, args.task)
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
 
@@ -516,6 +544,7 @@ def main() -> int:
     run_info["max_thinking_tokens"] = exec_max_thinking
     run_info["max_iters"] = args.max_iters
     run_info["sandbox"] = args.sandbox or "auto"
+    run_info["task"] = args.task
     run_info["critic_model"] = args.critic_model or None
     run_info["critic_effort"] = args.critic_effort
     run_info["planner_effort"] = args.planner_effort
@@ -544,6 +573,7 @@ def main() -> int:
         model=args.critic_model or args.model or None,
         effort_max_tokens=planner_max_thinking,
         sandbox_choice=args.sandbox,
+        task=args.task,
     )
 
     # ── Iteration loop ─────────────────────────────────────────────────────
@@ -608,7 +638,9 @@ def main() -> int:
         for iter_index in range(args.max_iters):
             try:
                 iter_name = f"iter_{iter_index:03d}"
-                sandbox_ws = _init_executor_workspace(repo_root, recast_path, paper_ref)
+                sandbox_ws = _init_executor_workspace(
+                    repo_root, recast_path, paper_ref, task=args.task
+                )
                 _seed_executor_workspace(sandbox_ws, plan_path, previous_iter)
 
                 _run_executor(
@@ -638,7 +670,7 @@ def main() -> int:
                 sandbox_ws = None
                 iter_dir = archived
 
-                overall_pass, scores = _score_iteration(iter_dir, paper_ref)
+                overall_pass, scores = _score_iteration(iter_dir, paper_ref, task=args.task)
                 overall_score = scores.get("overall_score", 0.0) if scores else 0.0
                 status = _parse_status(iter_dir / "report.md")
                 print(
@@ -694,6 +726,7 @@ def main() -> int:
                     model=args.critic_model or args.model or None,
                     effort_max_tokens=critic_max_thinking,
                     sandbox_choice=args.sandbox,
+                    task=args.task,
                 )
 
                 previous_iter = iter_dir

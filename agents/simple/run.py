@@ -20,15 +20,14 @@ from agent_runtime.launch import launch_single_run
 
 def build_prompt(paper_ref: str) -> str:
     return (
-        f"You are recasting CMS paper {paper_ref} using public CMS Open Data.\n"
+        f"You are recasting CMS paper {paper_ref}.\n"
         "\n"
-        "Read agent_context/AGENTS.md first, then agent_context/TOOLS.md for CLI\n"
-        "tool details. Follow AGENTS.md step by step.\n"
+        "Read these in order:\n"
+        "  1. agent_context/TASK.md   — the benchmark's task for this run.\n"
+        "  2. agent_context/AGENTS.md — your role and how to work.\n"
+        "  3. agent_context/TOOLS.md  — CLI tool reference.\n"
         "\n"
-        "Fill the null values in HEPRecastData/*.yaml with your recast results.\n"
-        "If you want to consult published HEPData tables, query them via bin/hepdata.\n"
-        "\n"
-        "Everything you need is in this directory. Do not look outside it.\n"
+        "Everything you need is in this directory.\n"
         "\n"
         "Run bin/run-analysis synchronously via Bash (never run_in_background, never &).\n"
         "It has a 4-hour internal timeout; blocking on it is safe and expected.\n"

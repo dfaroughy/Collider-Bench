@@ -17,7 +17,7 @@ Every evaluator reads from the same workspace layout:
   session_log.txt            # Claude stream-json (used by LLM judge + rubric)
 ```
 
-Reference values live in `LHCRecastBench/papers/<arxiv>/artifacts/HEPRecastData/`. Evaluators match by filename (`submission.yaml` and `description.yaml` are always skipped).
+Reference values live in `LHCRecastBench/papers/<arxiv>/tasks/<task>/reference/HEPRecastData/` — task-specific so `validate` / `simulate` / `recast` each compare against their own subset. Evaluators match by filename (`submission.yaml` and `description.yaml` are always skipped).
 
 ## The four evaluators
 
@@ -37,14 +37,29 @@ pull = (recast - reference) / total_err
 
 Top-line: `n_pass / n_filled`, `overall_score`, `overall_pass` (≥ 0.5).
 
-**Shape/normalization decomposition.** Same YAMLs, per series, on the index-aligned (both-non-null) subset:
+**Shape/normalization decomposition — Baker-Cousins likelihood ratio.** Per series, on the index-aligned (both-non-null) subset. The full Baker-Cousins statistic decomposes algebraically into a shape-only and a normalization-only piece (the total is their sum exactly, not just asymptotically):
 
-- **Shape score** = `exp(-chi2_per_bin / 2)` after normalizing both distributions to unit area. Variance per bin combines Poisson (`ref_norm / ref_sum`) with the published systematic (`(ref_err / ref_sum)^2`).
-- **Normalization score** = `max(0, 1 - |log10(sum_recast / sum_ref)|)`. Ratio 1 → 1.0; ratio 10× → 0.0.
-- **Combined** = `sqrt(shape · norm)`.
-- **Diagnosis**: `GOOD` / `SHAPE OK, NORM BAD` / `SHAPE BAD, NORM OK` / `BOTH BAD` — bad norm usually means a missed K-factor or luminosity error, bad shape usually means a selection mismodel.
+```
+λ_total  = 2·Σ [ O·ln(O/E) − (O − E) ]        ~ χ²(N)     goodness of fit
+λ_shape  = 2·Σ O·ln(O/Ê)     where Ê = α·E    ~ χ²(N−1)   shape only (α = ΣO/ΣE)
+λ_norm   = 2·[ ΣO·ln(ΣO/ΣE) − (ΣO − ΣE) ]     ~ χ²(1)     total only
+```
 
-Paper-level rollups: `overall_shape`, `overall_normalization`, `overall_combined` (series averages).
+Each λ yields a p-value via `scipy.stats.chi2.sf(λ, dof)` and an effective sigma `z = √λ`. The **rubric-feeding score** is the bounded monotone `exp(−z / 5)` — gentler than the raw p-value (which saturates at zero for modest deviations on high-stat samples), still a calibrated statistical quantity. At `z=5` → 0.37; `z=10` → 0.14.
+
+Per-series fields in `score.json`:
+
+- `shape`: `{lambda, dof, lambda_per_dof, z, p_value, score}` + nested `ks: {stat, p_value, n_eff}` as a secondary diagnostic
+- `normalization`: `{lambda, dof=1, z, p_value, score, ratio, log10_ratio}` — ratio and log10 ratio kept for human readability (physicists read "2× off" more naturally than "z=8.3")
+- `total`: `{bc_stat, dof, z, p_value}` — the full GoF statistic
+- `combined` = √(shape.score · norm.score)
+- `diagnosis`: `GOOD` / `SHAPE OK, NORM BAD` / `SHAPE BAD, NORM OK` / `BOTH BAD`
+
+Paper-level rollups: `overall_shape`, `overall_normalization`, `overall_combined` (means of per-series rubric scores).
+
+**Why BC, not Pearson?** BC reduces to Pearson χ² at high counts (Taylor expansion of `2·O·ln(O/E) − 2(O−E)` around `O=E` is `(O−E)²/E + O(…)³`) but handles low/zero-count bins correctly: `0·ln(0) ≡ 0`, no divide-by-zero, still asymptotically χ²-distributed. In HEP histograms with mixed high-yield peaks and near-zero tails it's the safer default.
+
+**Caveat on the Poisson assumption.** Our "observations" are weighted yields (σ×L×ε), not integer event counts. BC's log-likelihood is derived for Poisson data; using it on weighted yields is the standard HEP approximation and fine for ranking. A more rigorous variant transforms yields to effective counts `N_eff = yield² / σ²_yield` using published errors; we may add that if low-stat series show systematic bias.
 
 ```bash
 python -m LHCRecastBench.evaluation.score 1707.06193 --recast-dir <ws>/HEPRecastData
@@ -132,7 +147,9 @@ eval/
 - **No integer floor on Poisson fallback.** When no error is stated, `sqrt(|ref_val|)` is used verbatim. Reference values are rescaled expected yields (often fractional), so flooring would make every small-yield bin trivially pass.
 - **Bin alignment is by-index, not by-filter.** A joint mask over (ref, rec) pairs preserves bin-to-bin correspondence on sparse references.
 - **Zero-expectation bins are scored, not skipped.** `ref == 0` demands `rec ≈ 0`; wrong predictions fail rather than being silently dropped.
-- **Shape includes systematics.** `shape_chi2` builds `Var = Poisson + (sys/ref_sum)^2`. A background with loose published uncertainty gets appropriately loose tolerance.
+- **Shape is the BC likelihood ratio, not Pearson χ².** BC reduces to Pearson at high counts but is well-defined at zero-expectation bins and is asymptotically χ²-distributed at lower counts. Per-bin uncertainty enters via the Poisson likelihood itself — no explicit `Var = Poisson + sys²` term is needed.
+- **Rubric score is a bounded z-score, not a raw p-value.** `rubric = exp(−√λ / 5)`. The p-value is reported alongside for the statistical reading; the bounded score gives the rubric a usable gradient when p-values saturate at zero.
+- **`λ_total = λ_shape + λ_norm` is an algebraic identity, not an asymptotic approximation.** Falls out cleanly from profiling α = ΣO/ΣE over the Poisson log-likelihood.
 - **`file_urls` and `file_dirs` both count.** A correctly generated local signal (no xrootd URL, just `sim/<proc>/`) is not penalised as "missing dataset".
 - **The OR pass criterion is intentional.** `|pull| < 2 OR rel_diff < 50%`. Either statistical agreement or gross-accuracy agreement suffices. The shape/norm decomposition separates "close enough per bin" from "off by a factor".
 - **Multiple evaluators because no single number tells the truth.** `overall_score` is gameable by copying; the judge's provenance check catches that. `score_corrected` is the accuracy number that survives cheating.

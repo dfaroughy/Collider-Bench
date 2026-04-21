@@ -58,6 +58,12 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
         choices=["auto", "bwrap", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
+    parser.add_argument(
+        "--task",
+        default=None,
+        choices=["validate", "simulate", "recast"],
+        help="Which benchmark task to run (default: recast).",
+    )
     parser.add_argument("--run-name", default="", help="Custom run directory name")
     return parser.parse_args(argv), parser
 
@@ -75,6 +81,7 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     args.model = args.model or cfg.get("model") or ""
     args.effort = args.effort or cfg.get("effort") or "medium"
     args.sandbox = args.sandbox or cfg.get("sandbox")
+    args.task = args.task or cfg.get("task") or "recast"
     return cfg
 
 
@@ -118,13 +125,13 @@ def _run_in_sandbox(
         cleanup()
 
 
-def _score(workspace: Path, paper_ref: str) -> dict:
+def _score(workspace: Path, paper_ref: str, task: str = "recast") -> dict:
     recast_dir = workspace / "HEPRecastData"
     if not recast_dir.exists():
         return {"error": "No HEPRecastData directory"}
     from LHCRecastBench.evaluation.score import score_recast
 
-    return score_recast(paper_ref, str(recast_dir))
+    return score_recast(paper_ref, str(recast_dir), task=task)
 
 
 def launch_single_run(
@@ -147,7 +154,7 @@ def launch_single_run(
     effort_label, max_thinking = resolve_effort(args.effort)
 
     try:
-        validate_launch_inputs(repo_root, paper_ref)
+        validate_launch_inputs(repo_root, paper_ref, args.task)
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
 
@@ -173,6 +180,7 @@ def launch_single_run(
             "effort": effort_label,
             "max_thinking_tokens": max_thinking,
             "sandbox": args.sandbox or "auto",
+            "task": args.task,
         }
     )
 
@@ -181,7 +189,7 @@ def launch_single_run(
         f"Agent ID: {info['agent_id']}   "
         f"(effort={effort_label}, max_thinking_tokens={max_thinking})"
     )
-    workspace = build_workspace(repo_root, agent_name, paper_ref, run_name)
+    workspace = build_workspace(repo_root, agent_name, paper_ref, run_name, task=args.task)
     recast_path = workspace.parent
     write_run_info(recast_path, info)
     print(f"Workspace: {workspace}")
@@ -210,7 +218,7 @@ def launch_single_run(
         )
 
         print("\nScoring results...")
-        scores = _score(workspace, paper_ref)
+        scores = _score(workspace, paper_ref, args.task)
         eval_dir = recast_path / "eval"
         eval_dir.mkdir(exist_ok=True)
         (eval_dir / "score.json").write_text(json.dumps(scores, indent=2))

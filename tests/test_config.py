@@ -36,6 +36,16 @@ def test_yaml_bool_guard():
         validate_config({"compute": True}, source="<test>")
 
 
+def test_task_key_accepts_valid_values():
+    for task in ("validate", "simulate", "recast"):
+        validate_config({"agent": "simple", "paper": "1707.06193", "task": task})
+
+
+def test_task_key_rejects_invalid_values():
+    with pytest.raises(ValueError, match="task"):
+        validate_config({"agent": "simple", "paper": "1707.06193", "task": "bogus"})
+
+
 def test_extends_chain_resolved():
     """Non-base configs should inherit compute/account/qos from base.yaml."""
     cfg = load_config(str(CONFIG_DIR / "claude_simple.yaml"))

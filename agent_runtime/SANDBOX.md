@@ -77,7 +77,7 @@ Add `"podman"` to `_ALLOWED_SANDBOX` in [`agent_runtime/naming.py`](../agent_run
 ## Contract every backend must honour
 
 1. **`<workspace>` is the only rw path under the repo.** Nothing in `repo_root/` (other than the bound-in workspace) should be writable.
-2. **`LHCRecastBench/` is readable but `LHCRecastBench/papers/` and `LHCRecastBench/evaluation/` are hidden.** Reference answers live in `papers/*/artifacts/`; the judge rubric lives under `evaluation/`. Both would let the agent cheat.
+2. **`LHCRecastBench/` is readable but `LHCRecastBench/papers/` and `LHCRecastBench/evaluation/` are hidden.** Reference answers live in `papers/*/tasks/*/reference/`; the judge rubric lives under `evaluation/`. Both would let the agent cheat.
 3. **`/tmp` is fresh.** Prevents cross-run leakage and signals.
 4. **Every `Path` in `extra_ro_binds` is mounted read-only.** The launcher uses this to re-expose Python packages (`agent_runtime/`, per-agent `runtime/`) hidden by rule #1.
 5. **`cleanup()` is safe to call once after the wrapped process exits**, including on failure. Return `lambda: None` if nothing needs restoring.

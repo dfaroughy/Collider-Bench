@@ -101,7 +101,9 @@ def render_score(score: dict | None) -> list[str]:
         out.append(f"| Combined (geo mean) | {_fmt_num(score['overall_combined'])} |")
     out.append("")
 
-    # Per-series table — only worth showing if the run hit > 1 series
+    # Per-series Baker-Cousins breakdown. The "score" columns are the bounded
+    # rubric scores (exp(−z/5)); p-values and z are reported alongside for
+    # the statistical reading.
     rows: list[tuple[str, dict]] = []
     for t in score.get("tables", []):
         if "error" in t:
@@ -111,18 +113,62 @@ def render_score(score: dict | None) -> list[str]:
                 continue
             rows.append((f"{t['table']}/{s['name']}", s))
     if rows:
-        out.append("<details><summary>Per-series breakdown</summary>\n")
-        out.append("| Series | Bins pass | Shape | Norm | Combined | Diagnosis |")
+        out.append("<details><summary>Per-series breakdown (Baker-Cousins)</summary>\n")
+        out.append(
+            "| Series | Bins pass | Shape score (z, p) | Norm score (z, p, ratio) | Combined | Diagnosis |"
+        )
         out.append("|---|---|---:|---:|---:|---|")
         for name, s in rows:
             bins = f"{_fmt_int(s['n_pass'])}/{_fmt_int(s['n_filled'])} ({_fmt_pct(s.get('score'))})"
+            sh = s["shape"]
+            nm = s["normalization"]
+            shape_cell = (
+                f"{_fmt_num(sh['score'])} "
+                f"(z={_fmt_num(sh.get('z'))}, p={_fmt_p(sh.get('p_value'))})"
+            )
+            norm_cell = (
+                f"{_fmt_num(nm['score'])} "
+                f"(z={_fmt_num(nm.get('z'))}, p={_fmt_p(nm.get('p_value'))}, "
+                f"ratio={_fmt_num(nm.get('ratio'))})"
+            )
             out.append(
-                f"| `{name}` | {bins} | {_fmt_num(s['shape']['score'])} | "
-                f"{_fmt_num(s['normalization']['score'])} | "
+                f"| `{name}` | {bins} | {shape_cell} | {norm_cell} | "
                 f"{_fmt_num(s['combined'])} | {s.get('diagnosis', '—')} |"
             )
         out.append("\n</details>\n")
+
+        # Full-table goodness-of-fit, surfaced as its own block.
+        total_rows = [
+            (n, s["total"]) for n, s in rows if "total" in s and isinstance(s.get("total"), dict)
+        ]
+        if total_rows:
+            out.append(
+                "<details><summary>Full goodness-of-fit (λ_total = λ_shape + λ_norm)</summary>\n"
+            )
+            out.append("| Series | λ_total | dof | z | p |")
+            out.append("|---|---:|---:|---:|---:|")
+            for n, t in total_rows:
+                out.append(
+                    f"| `{n}` | {_fmt_num(t.get('bc_stat'))} | {_fmt_int(t.get('dof'))} | "
+                    f"{_fmt_num(t.get('z'))} | {_fmt_p(t.get('p_value'))} |"
+                )
+            out.append("\n</details>\n")
     return out
+
+
+def _fmt_p(p) -> str:
+    """Format a p-value: 4 significant figures for p ≥ 1e-4, else scientific."""
+    if p is None:
+        return "—"
+    try:
+        v = float(p)
+    except (TypeError, ValueError):
+        return "—"
+    if v == 0:
+        return "< 1e-300"
+    if v >= 1e-4:
+        return f"{v:.4f}"
+    return f"{v:.2e}"
 
 
 def render_corrected(corrected: dict | None, score: dict | None) -> list[str]:

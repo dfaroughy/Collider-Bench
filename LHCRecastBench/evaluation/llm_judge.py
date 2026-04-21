@@ -46,8 +46,8 @@ JUDGE_RUBRIC_PATH = Path(__file__).parent / "judge_rubric.md"
 PAPERS_DIR = Path(__file__).resolve().parent.parent / "papers"
 
 
-def _reference_dir(arxiv_id: str) -> Path:
-    return PAPERS_DIR / arxiv_id / "artifacts" / "HEPRecastData"
+def _reference_dir(arxiv_id: str, task: str = "recast") -> Path:
+    return PAPERS_DIR / arxiv_id / "tasks" / task / "reference" / "HEPRecastData"
 
 
 def _write_corrected_hepdata(
@@ -274,6 +274,7 @@ def run_judge(
     artifacts: list[Path] | None = None,
     model: str = "claude-opus-4-6",
     output_dir: Path | None = None,
+    task: str = "recast",
 ) -> dict:
     """Run the LLM judge.
 
@@ -297,7 +298,7 @@ def run_judge(
     recast_yaml = _load_hepdata_summary(recast_dir) if recast_dir else "(not provided)"
     reference_yaml = "(not available)"
     if arxiv_id:
-        ref_dir = _reference_dir(arxiv_id)
+        ref_dir = _reference_dir(arxiv_id, task)
         reference_yaml = _load_hepdata_summary(ref_dir)
 
     # Load additional artifacts
@@ -434,12 +435,12 @@ def run_judge(
             try:
                 from LHCRecastBench.evaluation.score import score_recast
 
-                corrected_scores = score_recast(arxiv_id, str(corrected_dir))
+                corrected_scores = score_recast(arxiv_id, str(corrected_dir), task=task)
                 scores["corrected_score"] = corrected_scores
                 (output_dir / "score_corrected.json").write_text(
                     json.dumps(corrected_scores, indent=2)
                 )
-                submitted_scores = score_recast(arxiv_id, str(recast_dir))
+                submitted_scores = score_recast(arxiv_id, str(recast_dir), task=task)
                 scores["submitted_score"] = submitted_scores
 
                 sub_pct = submitted_scores.get("overall_score", 0)
@@ -559,6 +560,11 @@ def main():
     )
 
     parser.add_argument("--model", default="claude-opus-4-6", help="Judge model")
+    parser.add_argument(
+        "--task",
+        default="recast",
+        help="Task name (validate|simulate|recast) — selects the reference set.",
+    )
     parser.add_argument("--json", action="store_true", help="Output raw JSON")
     parser.add_argument("--extract-only", action="store_true", help="Only extract session summary")
     args = parser.parse_args()
@@ -613,6 +619,7 @@ def main():
         artifacts=args.artifacts,
         model=args.model,
         output_dir=args.output_dir,
+        task=args.task,
     )
 
     # Always persist the judge's output (or the error payload). run_judge

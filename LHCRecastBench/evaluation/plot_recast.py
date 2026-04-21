@@ -32,8 +32,8 @@ PAPERS_DIR = Path(__file__).resolve().parent.parent / "papers"
 plt.style.use(hep.style.CMS)
 
 
-def _reference_dir(arxiv_id: str) -> Path:
-    return PAPERS_DIR / arxiv_id / "artifacts" / "HEPRecastData"
+def _reference_dir(arxiv_id: str, task: str = "recast") -> Path:
+    return PAPERS_DIR / arxiv_id / "tasks" / task / "reference" / "HEPRecastData"
 
 
 def _extract_series(data: dict) -> list[dict]:
@@ -265,8 +265,8 @@ def plot_table(
     return written
 
 
-def plot_recast(arxiv_id: str, recast_dir: str) -> dict:
-    ref_dir = _reference_dir(arxiv_id)
+def plot_recast(arxiv_id: str, recast_dir: str, task: str = "recast") -> dict:
+    ref_dir = _reference_dir(arxiv_id, task)
     recast_path = Path(recast_dir)
 
     if not ref_dir.exists():
@@ -302,9 +302,14 @@ def main():
     parser = argparse.ArgumentParser(description="Plot CMS vs recast distributions.")
     parser.add_argument("--arxiv", required=True)
     parser.add_argument("--recast-dir", required=True, help="Path to filled HEPRecastData/")
+    parser.add_argument(
+        "--task",
+        default="recast",
+        help="Task name (validate|simulate|recast) — selects the reference set.",
+    )
     args = parser.parse_args()
 
-    result = plot_recast(args.arxiv, args.recast_dir)
+    result = plot_recast(args.arxiv, args.recast_dir, task=args.task)
     if "error" in result:
         print(f"ERROR: {result['error']}")
         return

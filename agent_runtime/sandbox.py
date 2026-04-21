@@ -172,7 +172,7 @@ class NoneSandbox(Sandbox):
     Use on platforms without bwrap (macOS, restricted Linux distros) or for
     free-range debugging. The agent can read and write anything the calling
     user can. Do NOT use for benchmark runs — reference answers in
-    LHCRecastBench/papers/<arxiv>/artifacts/ are visible and the agent can cheat.
+    LHCRecastBench/papers/<arxiv>/tasks/*/reference/ are visible and the agent can cheat.
     """
 
     name = "none"

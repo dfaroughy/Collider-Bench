@@ -135,8 +135,12 @@ def extract_session_stats(agent_dir: Path) -> dict:
 # ── Rubric checkpoints ──────────────────────────────────────────────────────
 
 
-def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
-    """Evaluate agent against a weighted rubric of checkpoints."""
+def evaluate_rubric(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dict:
+    """Evaluate agent against a weighted rubric of checkpoints.
+
+    task selects which tasks/<task>/reference/HEPRecastData/ the accuracy
+    checkpoints (shape, normalization, yield) are scored against.
+    """
 
     checkpoints = []
 
@@ -223,7 +227,7 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
         try:
             from LHCRecastBench.evaluation.score import score_recast
 
-            scores = score_recast(arxiv_id, str(recast_data_dir))
+            scores = score_recast(arxiv_id, str(recast_data_dir), task=task)
             yield_score = scores.get("overall_score", 0.0)
             shape_score = scores.get("overall_shape", 0.0)
             norm_score = scores.get("overall_normalization", 0.0)
@@ -302,11 +306,11 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str) -> dict:
 # ── Combined evaluation ─────────────────────────────────────────────────────
 
 
-def evaluate_agent(agent_dir: Path, arxiv_id: str) -> dict:
+def evaluate_agent(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dict:
     """Full evaluation: rubric + cost + efficiency."""
     agent_dir = Path(agent_dir)
 
-    rubric = evaluate_rubric(agent_dir, arxiv_id)
+    rubric = evaluate_rubric(agent_dir, arxiv_id, task)
     stats = extract_session_stats(agent_dir)
 
     # Derive efficiency metrics
@@ -474,11 +478,16 @@ def main():
     parser.add_argument("--agent-dir", help="Single agent directory to evaluate")
     parser.add_argument("--compare", nargs="+", help="Multiple agent directories to compare")
     parser.add_argument("--arxiv", required=True, help="arXiv ID for rubric scoring")
+    parser.add_argument(
+        "--task",
+        default="recast",
+        help="Task name (validate|simulate|recast) — selects the reference set.",
+    )
     parser.add_argument("--json", action="store_true", help="Output raw JSON")
     args = parser.parse_args()
 
     if args.compare:
-        results = [evaluate_agent(d, args.arxiv) for d in args.compare]
+        results = [evaluate_agent(d, args.arxiv, args.task) for d in args.compare]
         if args.json:
             print(json.dumps(results, indent=2))
         else:
@@ -486,7 +495,7 @@ def main():
         for d, r in zip(args.compare, results, strict=False):
             _save_to_eval_dir(d, r)
     elif args.agent_dir:
-        result = evaluate_agent(args.agent_dir, args.arxiv)
+        result = evaluate_agent(args.agent_dir, args.arxiv, args.task)
         if args.json:
             print(json.dumps(result, indent=2))
         else:

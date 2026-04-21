@@ -2,7 +2,7 @@
 """Iterative agent loop: run the simple agent repeatedly until it converges.
 
 Each iteration:
-  1. Sets up a fresh workspace from agents/simple/ and LHCRecastBench/papers/<arxiv>/for_agent/.
+  1. Sets up a fresh workspace from agents/simple/ + LHCRecastBench/papers/<arxiv>/{shared,tasks/<task>/}.
   2. Seeds inherited artifacts from the previous iteration (analysis.py, status.md,
      datasets.yaml, partially filled HEPRecastData/).
   3. Runs the simple agent inside a bwrap sandbox.
@@ -62,7 +62,9 @@ def _parse_status(report_path: Path) -> str:
     return match.group(1).upper() if match else "CONTINUE"
 
 
-def _score_iteration(iter_dir: Path, paper_ref: str) -> tuple[bool | None, dict]:
+def _score_iteration(
+    iter_dir: Path, paper_ref: str, task: str = "recast"
+) -> tuple[bool | None, dict]:
     """Score the archived iteration. Writes score.json into the iteration dir."""
     try:
         from LHCRecastBench.evaluation.score import score_recast
@@ -70,7 +72,7 @@ def _score_iteration(iter_dir: Path, paper_ref: str) -> tuple[bool | None, dict]
         recast_dir = iter_dir / "HEPRecastData"
         if not recast_dir.exists():
             return None, {}
-        scores = score_recast(paper_ref, str(recast_dir))
+        scores = score_recast(paper_ref, str(recast_dir), task=task)
         (iter_dir / "score.json").write_text(json.dumps(scores, indent=2))
         return scores.get("overall_pass"), scores
     except Exception as exc:
@@ -168,8 +170,9 @@ def _seed_workspace(
     previous_iter: Path | None,
     paper_ref: str | None,
     iter_index: int,
+    task: str = "recast",
 ) -> None:
-    """Copy agent_context/, for_agent/, and inherit from prior iteration."""
+    """Copy agent_context/ + shared/ + task-specific templates + inherit from prior iteration."""
     # Agent instructions come from agents/simple/ (AGENTS.md, TOOLS.md) — the
     # iterative agent re-uses the simple agent's minimal guidance.
     simple_dir = repo_root / "agents" / "simple"
@@ -186,13 +189,14 @@ def _seed_workspace(
             text = text.replace("{arxiv_id}", paper_ref)
         dest.write_text(text)
 
-    # Per-paper inputs (paper PDF, efficiency ROOT, null HEPRecastData templates).
-    # papers/ is symlinked — sandbox.py replaces the symlink with an RO bind
-    # mount, avoiding a fresh ~1MB PDF copy per iteration.
+    # Per-paper inputs (paper PDF, efficiency ROOT) from shared/; TASK.md +
+    # templates/HEPRecastData/ from tasks/<task>/. papers/ is symlinked so the
+    # PDF isn't duplicated per iteration.
     if paper_ref:
-        for_agent = repo_root / "LHCRecastBench" / "papers" / paper_ref / "for_agent"
-        if for_agent.is_dir():
-            for item in for_agent.iterdir():
+        paper_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref
+        shared = paper_dir / "shared"
+        if shared.is_dir():
+            for item in shared.iterdir():
                 dest = sandbox / item.name
                 if item.is_dir() and item.name == "papers":
                     dest.symlink_to(item.resolve())
@@ -200,6 +204,19 @@ def _seed_workspace(
                     shutil.copytree(item, dest, dirs_exist_ok=True)
                 else:
                     shutil.copy2(item, dest)
+        task_dir = paper_dir / "tasks" / task
+        templates_src = task_dir / "templates" / "HEPRecastData"
+        if templates_src.is_dir():
+            dest_hep = sandbox / "HEPRecastData"
+            if dest_hep.exists():
+                shutil.rmtree(dest_hep)
+            shutil.copytree(templates_src, dest_hep)
+        task_md = task_dir / "TASK.md"
+        if task_md.is_file():
+            text = task_md.read_text()
+            if paper_ref:
+                text = text.replace("{arxiv_id}", paper_ref)
+            (agent_context / "TASK.md").write_text(text)
 
     # Inheritance from the previous iteration
     if previous_iter is not None:
@@ -243,13 +260,12 @@ def _seed_workspace(
 
 def _build_prompt(paper_ref: str | None, iter_index: int, has_prior: bool) -> str:
     parts = [
-        f"You are recasting CMS paper {paper_ref or '<unknown>'} using public CMS Open Data.",
+        f"You are recasting CMS paper {paper_ref or '<unknown>'}.",
         "",
-        "Read agent_context/AGENTS.md first, then agent_context/TOOLS.md for CLI",
-        "tool details. Follow AGENTS.md step by step.",
-        "",
-        "Fill the null values in HEPRecastData/*.yaml with your recast results.",
-        "If you want to consult published HEPData tables, query them via bin/hepdata.",
+        "Read these in order:",
+        "  1. agent_context/AGENTS.md — your role and how to work.",
+        "  2. agent_context/TASK.md   — the benchmark's task for this run.",
+        "  3. agent_context/TOOLS.md  — CLI tool reference.",
         "",
         "Everything you need is in this directory. Do not look outside it.",
         "",
@@ -358,6 +374,12 @@ def main() -> int:
         choices=["auto", "bwrap", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
+    parser.add_argument(
+        "--task",
+        default=None,
+        choices=["validate", "simulate", "recast"],
+        help="Benchmark task (default: recast).",
+    )
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parents[4]
@@ -379,8 +401,9 @@ def main() -> int:
     args.paper_ref = args.paper_ref or cfg.get("paper")
     if not args.paper_ref:
         parser.error("--paper-ref is required (either on the CLI or via --config <yaml>:paper)")
+    args.task = args.task or cfg.get("task") or "recast"
     try:
-        validate_launch_inputs(repo_root, args.paper_ref)
+        validate_launch_inputs(repo_root, args.paper_ref, args.task)
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
     args.runner = args.runner or cfg.get("runner") or "claude"
@@ -403,6 +426,7 @@ def main() -> int:
     run_info["max_thinking_tokens"] = max_thinking
     run_info["max_iters"] = args.max_iters
     run_info["sandbox"] = args.sandbox or "auto"
+    run_info["task"] = args.task
 
     recast_path = repo_root / "runs" / recast_dir
     recast_path.mkdir(parents=True, exist_ok=True)
@@ -415,8 +439,8 @@ def main() -> int:
         f"max_thinking_tokens={max_thinking})"
     )
 
-    # Paper PDF — mirrors simple/run.py's behavior
-    papers_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref / "for_agent" / "papers"
+    # Paper PDF — fetch once into the shared location if missing.
+    papers_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref / "shared" / "papers"
     papers_dir.mkdir(parents=True, exist_ok=True)
     pdf_path = papers_dir / f"{paper_ref}.pdf"
     if not pdf_path.exists():
@@ -490,6 +514,7 @@ def main() -> int:
                 previous_iter=previous_iter,
                 paper_ref=paper_ref,
                 iter_index=iter_index,
+                task=args.task,
             )
 
             prompt = _build_prompt(
@@ -528,7 +553,7 @@ def main() -> int:
             iter_dir = archived
 
             # Score
-            overall_pass, scores = _score_iteration(iter_dir, paper_ref)
+            overall_pass, scores = _score_iteration(iter_dir, paper_ref, task=args.task)
             overall_score = scores.get("overall_score", 0.0) if scores else 0.0
             status = _parse_status(iter_dir / "report.md")
             print(f"  {iter_name}: score={overall_score:.0%}, pass={overall_pass}, status={status}")

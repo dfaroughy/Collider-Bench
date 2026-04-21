@@ -65,15 +65,18 @@ if [ -z "$ARXIV" ]; then
     echo "ERROR: paper_ref missing from $INFO" >&2
     exit 1
 fi
+# Task from run_info.json; older runs that predate task-aware scoring fall
+# back to "recast" so they keep scoring against the full reference.
+TASK=$(python -c "import json,sys; print((json.load(open(sys.argv[1])).get('task') or 'recast').strip())" "$INFO")
 
 export PYTHONPATH="${REPO_ROOT}:${PYTHONPATH:-}"
 
-echo "=== Evaluating $WS (paper $ARXIV, from run_info.json) ==="
+echo "=== Evaluating $WS (paper $ARXIV, task $TASK, from run_info.json) ==="
 
-python -m LHCRecastBench.evaluation.score         "$ARXIV" --recast-dir "$WS/HEPRecastData"
-python -m LHCRecastBench.evaluation.rubric_scorer --arxiv "$ARXIV" --agent-dir  "$WS"
-python -m LHCRecastBench.evaluation.plot_recast   --arxiv "$ARXIV" --recast-dir "$WS/HEPRecastData"
-python -m LHCRecastBench.evaluation.llm_judge     --arxiv "$ARXIV" --agent-dir  "$WS"
+python -m LHCRecastBench.evaluation.score         "$ARXIV" --recast-dir "$WS/HEPRecastData" --task "$TASK"
+python -m LHCRecastBench.evaluation.rubric_scorer --arxiv "$ARXIV" --agent-dir  "$WS" --task "$TASK"
+python -m LHCRecastBench.evaluation.plot_recast   --arxiv "$ARXIV" --recast-dir "$WS/HEPRecastData" --task "$TASK"
+python -m LHCRecastBench.evaluation.llm_judge     --arxiv "$ARXIV" --agent-dir  "$WS" --task "$TASK"
 
 # Scorers write to <WS>/../eval/. For iter dirs (WS=.../validation/iter_NNN)
 # that lands in validation/eval/, which clobbers across iters — move it into
