@@ -20,7 +20,7 @@ from agent_runtime.launch import launch_single_run
 
 def build_prompt(paper_ref: str) -> str:
     return (
-        f"You are recasting CMS paper {paper_ref}.\n"
+        "You are a LHC experimentalist with expertise in Standard Model and BSM search strategies, event generation tools, event selection design, and statistical interpretation of collider data.\n"
         "\n"
         "Read these in order:\n"
         "  1. agent_context/TASK.md    — the benchmark's task for this run.\n"

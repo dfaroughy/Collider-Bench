@@ -91,12 +91,17 @@ def build_workspace(
     for script in (agent_dir / "runtime" / "bin").iterdir():
         (bin_dir / script.name).symlink_to(script)
 
-    # Agent instructions (AGENTS.md, TOOLS.md, SOUL.md, skills/*.md, ...)
+    # Agent instructions (AGENTS.md, SOUL.md, skills/*.md, ...).  TOOLS.md
+    # is *not* sourced from the agent dir — it's the canonical index
+    # seeded from the benchmark (see below), so per-agent copies are
+    # skipped to avoid drift.
     agent_context = workspace / "agent_context"
     agent_context.mkdir()
     for src in agent_dir.rglob("*.md"):
         rel = src.relative_to(agent_dir)
         if rel.parts[0] == "runtime":
+            continue
+        if rel.name == "TOOLS.md":
             continue
         dest = agent_context / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
@@ -104,6 +109,13 @@ def build_workspace(
         if paper_ref:
             text = text.replace("{arxiv_id}", paper_ref)
         dest.write_text(text)
+
+    # Canonical TOOLS.md — single source of truth, same for every agent.
+    # Per-tool deep docs live at LHCRecastBench/tools/CLI/<TOOL>.md and
+    # agents pull them on demand with `bin/<tool> --doc`.
+    tools_index = benchmark_dir / "tools" / "TOOLS.md"
+    if tools_index.is_file():
+        shutil.copy2(tools_index, agent_context / "TOOLS.md")
 
     # Benchmark-provided task spec — copied into agent_context so it sits
     # alongside AGENTS.md and the agent's own instructions.

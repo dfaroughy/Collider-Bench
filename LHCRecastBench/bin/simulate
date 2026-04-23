@@ -16,13 +16,19 @@
 set -uo pipefail
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)}"
-SIM_DIR="${REPO_ROOT}/benchmark/tools/sim"
+DOC="${REPO_ROOT}/LHCRecastBench/tools/CLI/SIMULATE.md"
+
+case "${1:-}" in
+  --doc) exec cat "${DOC}" ;;
+esac
+
+SIM_DIR="${REPO_ROOT}/LHCRecastBench/tools/sim"
 MG5_DIR="${SIM_DIR}/MG5_aMC_v3_7_0"
 DELPHES_DIR="${SIM_DIR}/delphes"
 
 # Activate conda if not already active
 if ! python3 -c "import uproot" 2>/dev/null; then
-  source "${REPO_ROOT}/benchmark/shell/agent_env.sh"
+  source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
   activate_cms_analysis 2>/dev/null || true
 fi
 

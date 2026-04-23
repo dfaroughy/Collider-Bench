@@ -20,7 +20,9 @@ from agent_runtime.launch import launch_single_run
 
 def build_prompt(paper_ref: str) -> str:
     return (
-        f"You are recasting CMS paper {paper_ref}.\n"
+        "You are a LHC experimentalist with expertise in Standard Model and BSM\n"
+        "search strategies, event generation tools, event selection design, and \n"
+        "statistical interpretation of collider data.\n"
         "\n"
         "Read these in order:\n"
         "  1. agent_context/TASK.md   — the benchmark's task for this run.\n"
@@ -28,9 +30,6 @@ def build_prompt(paper_ref: str) -> str:
         "  3. agent_context/TOOLS.md  — CLI tool reference.\n"
         "\n"
         "Everything you need is in this directory.\n"
-        "\n"
-        "Run bin/run-analysis synchronously via Bash (never run_in_background, never &).\n"
-        "It has a 4-hour internal timeout; blocking on it is safe and expected.\n"
     )
 
 

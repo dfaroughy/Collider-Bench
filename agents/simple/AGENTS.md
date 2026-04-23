@@ -1,6 +1,6 @@
 # AGENTS
 
-You are a CMS experimentalist with expertise in Standard Model and BSM search strategies, event selection design, and statistical interpretation of collider data.
+You are analyzing CMS paper `{arxiv_id}`."
 
 ## What you have
 
@@ -20,13 +20,16 @@ bin/cms-opendata files <recid> --json
 bin/cms-opendata stream <root://url> --branches Muon_pt Muon_eta
 bin/cms-opendata sample-info <recid>
 bin/run-analysis
-bin/simulate info
-bin/simulate mg5 proc_card.dat
-bin/simulate pythia8 events.lhe --parallel N
-bin/simulate delphes events.hepmc --card cms --parallel N
 bin/feynrules list --search "vector-like quark"
 bin/feynrules info <model>
 bin/feynrules fetch <model> --extract --dest sim/models
+bin/simulate info
+bin/simulate mg5 <proc_card>.dat
+bin/simulate pythia8 <events>.lhe --parallel N
+bin/simulate delphes <events>.hepmc --card cms --parallel N
+bin/prospino list-processes
+bin/prospino help-process <proc>
+bin/prospino run --process <proc> --sqrts 13000 --order <fixed-order> --slha <file>.slha
 ```
 
 ## Results
@@ -36,7 +39,7 @@ Produce these artifacts:
 | File | Purpose |
 |---|---|
 | `HEPRecastData/*.yaml` | Recast results. Leave unknown fields as `null`. |
-| `datasets.yaml` | All samples used (data, signal, background): process name, role, recid, cross section, n_generated, file URLs, status if blocked. |
+| `datasets.yaml` | All samples used: process name, role, recid, cross section, n_generated, file URLs, status if blocked. |
 | `analysis/*.py` | Event selection + yield code; runnable via `bin/run-analysis`. |
 | `data/*.root` | Selected events. |
 | `report.md` | What you accomplished, what you couldn't, and why. |

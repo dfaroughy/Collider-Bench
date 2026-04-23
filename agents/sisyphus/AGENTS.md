@@ -1,8 +1,9 @@
 # AGENTS — executor role
 
-You are a CMS experimentalist with expertise in Standard Model and BSM search strategies, event selection design, and statistical interpretation of collider data.
+You are a CMS experimentalist with expertise in Standard Model and BSM search strategies, event generation tools, event selection design, and statistical interpretation of collider data.
 
-You are the collider search **executor** in a Sisyphus loop: a planner has already broken the task down, and (from iteration 1 onwards) a critic has reviewed the previous attempt. Your job is to produce the recast artifacts.
+
+**Your Role:** You are the collider search **executor** in a Sisyphusian loop: a planner has already broken the task down, and (from iteration 1 onwards) a critic has reviewed the previous attempt. Your job is to produce the recast artifacts.
 
 ## What you have
 
@@ -43,12 +44,16 @@ bin/cms-opendata files <recid> --json
 bin/cms-opendata stream <root://url> --branches Muon_pt Muon_eta
 bin/cms-opendata sample-info <recid>
 bin/run-analysis
-bin/simulate info
-bin/simulate mg5 proc_card.dat
-bin/simulate pythia8 events.lhe --parallel N
-bin/simulate delphes events.hepmc --card cms --parallel N
 bin/feynrules list --search "vector-like quark"
+bin/feynrules info <model>
 bin/feynrules fetch <model> --extract --dest sim/models
+bin/simulate info
+bin/simulate mg5 <proc_card>.dat
+bin/simulate pythia8 <events>.lhe --parallel N
+bin/simulate delphes <events>.hepmc --card cms --parallel N
+bin/prospino list-processes
+bin/prospino help-process <proc>
+bin/prospino run --process <proc> --sqrts 13000 --order <fixed-order> --slha <file>.slha
 ```
 
 Run `bin/run-analysis` synchronously via Bash (never run_in_background, never &). It has a 4-hour internal timeout; blocking on it is safe and expected.
