@@ -307,6 +307,7 @@ def _run_agent(
     output_file: Path,
     max_thinking_tokens: int | None = None,
     sandbox: str | None = None,
+    effort_label: str | None = None,
 ) -> None:
     ws = output_file.parent
     inner_cmd = runner.build_command(
@@ -315,6 +316,7 @@ def _run_agent(
         model,
         allowlist=None,
         max_thinking_tokens=max_thinking_tokens,
+        effort_label=effort_label,
     )
 
     env = os.environ.copy()
@@ -366,7 +368,9 @@ def main() -> int:
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Model override")
     parser.add_argument(
-        "--effort", default=None, help="Reasoning effort: low | medium | high | <int tokens>"
+        "--effort",
+        default=None,
+        help="Reasoning effort: low | medium | high | max | xhigh | <int tokens>",
     )
     parser.add_argument(
         "--sandbox",
@@ -378,7 +382,7 @@ def main() -> int:
         "--task",
         default=None,
         choices=["validate", "simulate", "recast"],
-        help="Benchmark task (default: recast).",
+        help="Benchmark task (default: simulate).",
     )
     args = parser.parse_args()
 
@@ -401,7 +405,7 @@ def main() -> int:
     args.paper_ref = args.paper_ref or cfg.get("paper")
     if not args.paper_ref:
         parser.error("--paper-ref is required (either on the CLI or via --config <yaml>:paper)")
-    args.task = args.task or cfg.get("task") or "recast"
+    args.task = args.task or cfg.get("task") or "simulate"
     try:
         validate_launch_inputs(repo_root, args.paper_ref, args.task)
     except (FileNotFoundError, ValueError) as exc:
@@ -419,6 +423,7 @@ def main() -> int:
         paper_ref=paper_ref,
         agent_name="iterative",
         model_name=args.model or args.runner,
+        task=args.task,
     )
     recast_dir = run_info["run_dir"]
     run_info["runner"] = args.runner
@@ -533,6 +538,7 @@ def main() -> int:
                 output_file=output_file,
                 max_thinking_tokens=max_thinking,
                 sandbox=args.sandbox,
+                effort_label=effort_label,
             )
 
             # Soft validation — log what's missing but don't abort

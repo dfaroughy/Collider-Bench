@@ -3,8 +3,8 @@
 #   scripts/run-agent --config configs/codex_simple.yaml --effort high
 
 agent:   simple
-paper:   CMS-SUS-16-047
+paper:   CMS-SUS-16-046
 runner:  codex
 model:   gpt-5.4
-effort:  medium              # low | medium | high | <int tokens>
+effort:  xhigh               # low | medium | high | xhigh | <int tokens>
 extends: base.yaml

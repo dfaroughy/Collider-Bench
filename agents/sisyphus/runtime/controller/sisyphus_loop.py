@@ -112,6 +112,7 @@ def _run_in_sandbox(
     allowlist: str | None,
     sandbox: str | None,
     extra_ro_binds: list[Path] | None = None,
+    effort_label: str | None = None,
 ) -> None:
     inner_cmd = runner.build_command(
         prompt,
@@ -119,6 +120,7 @@ def _run_in_sandbox(
         model,
         allowlist=allowlist,
         max_thinking_tokens=max_thinking_tokens,
+        effort_label=effort_label,
     )
     env = os.environ.copy()
     env["PATH"] = str(workspace / "bin") + ":" + env.get("PATH", "")
@@ -190,6 +192,7 @@ def _run_planner(
     effort_max_tokens: int,
     sandbox_choice: str | None,
     task: str = "recast",
+    effort_label: str | None = None,
 ) -> Path | None:
     """Run the planner. Returns path to the promoted plan.md, or None on failure."""
     from .roles import build_planner_prompt
@@ -209,6 +212,7 @@ def _run_planner(
             model,
             output_file,
             max_thinking_tokens=effort_max_tokens,
+            effort_label=effort_label,
             allowlist="Read Write Glob Grep",
             sandbox=sandbox_choice,
         )
@@ -306,6 +310,7 @@ def _run_executor(
     model: str | None,
     max_thinking_tokens: int | None,
     sandbox_choice: str | None,
+    effort_label: str | None = None,
 ) -> None:
     from .roles import build_executor_prompt
 
@@ -324,6 +329,7 @@ def _run_executor(
         model,
         output_file,
         max_thinking_tokens=max_thinking_tokens,
+        effort_label=effort_label,
         allowlist=None,
         sandbox=sandbox_choice,
         extra_ro_binds=[sisy_runtime, simple_runtime, shared_runtime],
@@ -422,6 +428,7 @@ def _run_critic(
     effort_max_tokens: int,
     sandbox_choice: str | None,
     task: str = "recast",
+    effort_label: str | None = None,
 ) -> Path | None:
     """Run the critic for a given archived iteration. Returns critique.md path or None."""
     from .roles import build_critic_prompt
@@ -443,6 +450,7 @@ def _run_critic(
             model,
             output_file,
             max_thinking_tokens=effort_max_tokens,
+            effort_label=effort_label,
             allowlist="Read Write Glob Grep",
             sandbox=sandbox_choice,
         )
@@ -478,7 +486,9 @@ def main() -> int:
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Main executor model")
     parser.add_argument(
-        "--effort", default=None, help="Executor reasoning effort (low|medium|high|<int>)"
+        "--effort",
+        default=None,
+        help="Executor reasoning effort (low|medium|high|max|xhigh|<int>)",
     )
     parser.add_argument("--critic-model", default=None)
     parser.add_argument("--critic-effort", default=None)
@@ -488,7 +498,7 @@ def main() -> int:
         "--task",
         default=None,
         choices=["validate", "simulate", "recast"],
-        help="Benchmark task (default: recast).",
+        help="Benchmark task (default: simulate).",
     )
     args = parser.parse_args()
 
@@ -511,7 +521,7 @@ def main() -> int:
     args.paper_ref = args.paper_ref or cfg.get("paper")
     if not args.paper_ref:
         parser.error("--paper-ref is required (CLI or config)")
-    args.task = args.task or cfg.get("task") or "recast"
+    args.task = args.task or cfg.get("task") or "simulate"
     try:
         validate_launch_inputs(repo_root, args.paper_ref, args.task)
     except (FileNotFoundError, ValueError) as exc:
@@ -529,14 +539,15 @@ def main() -> int:
 
     paper_ref = args.paper_ref
     exec_effort_label, exec_max_thinking = resolve_effort(args.effort)
-    _, critic_max_thinking = resolve_effort(args.critic_effort)
-    _, planner_max_thinking = resolve_effort(args.planner_effort)
+    critic_effort_label, critic_max_thinking = resolve_effort(args.critic_effort)
+    planner_effort_label, planner_max_thinking = resolve_effort(args.planner_effort)
 
     # Run directory and metadata
     run_info = generate_run_info(
         paper_ref=paper_ref,
         agent_name="sisyphus",
         model_name=args.model or args.runner,
+        task=args.task,
     )
     recast_dir = run_info["run_dir"]
     run_info["runner"] = args.runner
@@ -574,6 +585,7 @@ def main() -> int:
         effort_max_tokens=planner_max_thinking,
         sandbox_choice=args.sandbox,
         task=args.task,
+        effort_label=planner_effort_label,
     )
 
     # ── Iteration loop ─────────────────────────────────────────────────────
@@ -652,6 +664,7 @@ def main() -> int:
                     runner=runner,
                     model=args.model or None,
                     max_thinking_tokens=exec_max_thinking,
+                    effort_label=exec_effort_label,
                     sandbox_choice=args.sandbox,
                 )
 
@@ -727,6 +740,7 @@ def main() -> int:
                     effort_max_tokens=critic_max_thinking,
                     sandbox_choice=args.sandbox,
                     task=args.task,
+                    effort_label=critic_effort_label,
                 )
 
                 previous_iter = iter_dir

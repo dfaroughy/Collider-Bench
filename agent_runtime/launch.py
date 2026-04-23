@@ -50,7 +50,9 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Model override")
     parser.add_argument(
-        "--effort", default=None, help="Reasoning effort: low | medium | high | <int tokens>"
+        "--effort",
+        default=None,
+        help="Reasoning effort: low | medium | high | max | xhigh | <int tokens>",
     )
     parser.add_argument(
         "--sandbox",
@@ -62,7 +64,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
         "--task",
         default=None,
         choices=["validate", "simulate", "recast"],
-        help="Which benchmark task to run (default: recast).",
+        help="Which benchmark task to run (default: simulate).",
     )
     parser.add_argument("--run-name", default="", help="Custom run directory name")
     return parser.parse_args(argv), parser
@@ -81,7 +83,7 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     args.model = args.model or cfg.get("model") or ""
     args.effort = args.effort or cfg.get("effort") or "medium"
     args.sandbox = args.sandbox or cfg.get("sandbox")
-    args.task = args.task or cfg.get("task") or "recast"
+    args.task = args.task or cfg.get("task") or "simulate"
     return cfg
 
 
@@ -94,6 +96,7 @@ def _run_in_sandbox(
     max_thinking_tokens: int | None,
     sandbox: str | None,
     extra_ro_binds: list[Path],
+    effort_label: str | None = None,
 ) -> None:
     from agent_runtime.sandbox import sandbox_command
 
@@ -104,6 +107,7 @@ def _run_in_sandbox(
         model,
         allowlist=None,
         max_thinking_tokens=max_thinking_tokens,
+        effort_label=effort_label,
     )
     env = os.environ.copy()
     env["PATH"] = str(workspace / "bin") + ":" + env.get("PATH", "")
@@ -172,6 +176,7 @@ def launch_single_run(
             paper_ref=paper_ref,
             agent_name=agent_name,
             model_name=args.model or args.runner,
+            task=args.task,
         )
         run_name = info["run_dir"]
     info.update(
@@ -215,6 +220,7 @@ def launch_single_run(
             max_thinking_tokens=max_thinking,
             sandbox=args.sandbox,
             extra_ro_binds=extra_ro_binds,
+            effort_label=effort_label,
         )
 
         print("\nScoring results...")

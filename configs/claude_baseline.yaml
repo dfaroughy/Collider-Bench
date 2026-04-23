@@ -6,5 +6,5 @@ agent:   baseline
 paper:   CMS-SUS-16-047
 runner:   claude
 model:    claude-opus-4-7
-effort:   medium              # low | medium | high | <int tokens>
+effort:   max              # low | medium | high | <int tokens>
 extends: base.yaml

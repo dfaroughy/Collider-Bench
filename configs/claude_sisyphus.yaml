@@ -10,7 +10,7 @@ runner:  claude
 model:   claude-opus-4-7
 effort:  1500
 max_iters: 5
-min_iters: 1
+min_iters: 3
 
 # Critic + planner roles run on a cheaper model to keep loop cost bounded.
 critic_model:   claude-sonnet-4-6

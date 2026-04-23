@@ -4,7 +4,7 @@ Usage:
     from agent_runtime.sandbox import sandbox_command
 
     cmd, cleanup = sandbox_command(
-        workspace=Path("recast_.../workspace"),
+        workspace=Path("runs/simulate_.../workspace"),
         repo_root=Path("."),
         inner_cmd=["claude", "-p", "...", "--dangerously-skip-permissions"],
         extra_ro_binds=[Path(".../agent_runtime")],

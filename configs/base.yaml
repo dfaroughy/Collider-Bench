@@ -1,4 +1,5 @@
 # Shared defaults. Per-agent configs pull these in via `extends: base.yaml`.
+task:     simulate        # Benchmark task: validate | simulate | recast.
 compute:  perlmutter
 account:  m4539
 cpus:     128

@@ -1,7 +1,7 @@
 """Shared helpers for naming recast run directories.
 
-Format:  recast_<paper_ref>_<agent_name>_<model_name>_<Adj><Physicist>_<hex8>
-Example: recast_1707.06193_simple_claude-opus-4-7_QuantumFeynman_a1b2c3d4
+Format:  <task>_<paper_ref>_<agent_name>_<model_name>_<Adj><Physicist>_<hex8>
+Example: simulate_1707.06193_simple_claude-opus-4-7_QuantumFeynman_a1b2c3d4
 
 The <Adj><Physicist>_<hex8> suffix is the canonical short "agent_id" used to
 refer to a run in logs, summaries, and cross-run comparisons.
@@ -190,23 +190,27 @@ def generate_run_info(
     paper_ref: str,
     agent_name: str,
     model_name: str,
+    task: str = "simulate",
 ) -> dict:
     """Return a dict with the canonical run metadata.
 
     Keys:
       agent_id   — <Adj><Physicist>_<hex8>       (canonical short name)
       run_dir  — full directory name
-      paper_ref, agent, model                  (echoed for convenience)
+      paper_ref, agent, model, task            (echoed for convenience)
     """
+    if task not in _ALLOWED_TASKS:
+        raise ValueError(f"task={task!r}; must be one of {sorted(_ALLOWED_TASKS)}")
     hex_hash = os.urandom(8).hex()
     agent_id = physicist_bigram(hex_hash)
-    run_dir = f"recast_{paper_ref}_{agent_name}_{_normalize_model_name(model_name)}_{agent_id}"
+    run_dir = f"{task}_{paper_ref}_{agent_name}_{_normalize_model_name(model_name)}_{agent_id}"
     return {
         "agent_id": agent_id,
         "run_dir": run_dir,
         "paper_ref": paper_ref,
         "agent": agent_name,
         "model": model_name,
+        "task": task,
     }
 
 
@@ -219,6 +223,13 @@ EFFORT_THINKING_TOKENS: dict[str, int] = {
     "low": 2000,
     "medium": 8000,
     "high": 31999,
+    # "max" = alias for "high". Anthropic's extended-thinking cap for a single
+    # turn is ~32k tokens; exceeding it errors. To go higher, pass a raw int.
+    "max": 31999,
+    # "xhigh" = codex's extra-high reasoning effort (GPT-5 family). Token
+    # budget here is only used by runners that honour max_thinking_tokens
+    # (claude); CodexRunner maps this label to -c model_reasoning_effort=xhigh.
+    "xhigh": 31999,
 }
 
 
@@ -270,7 +281,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
 _ALLOWED_AGENTS = {"simple", "baseline", "iterative", "sisyphus"}
 _ALLOWED_RUNNERS = {"claude", "codex", "aider"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
-_ALLOWED_EFFORT_LABELS = {"low", "medium", "high"}
+_ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
 _ALLOWED_SANDBOX = {"auto", "bwrap", "none"}
 _ALLOWED_TASKS = {"validate", "simulate", "recast"}
 

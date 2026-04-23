@@ -11,10 +11,16 @@ import os
 import shutil
 import signal
 import subprocess
-import sys
 import time
 from abc import ABC, abstractmethod
 from pathlib import Path
+
+
+def _is_result_line(line: str) -> bool:
+    """True if this stream-json line is the session's final `result` event."""
+    # Structural match on the unambiguous `"type":"result"` key avoids a
+    # json.loads on every line — this runs in the hot path of ClaudeRunner.
+    return '"type":"result"' in line or '"type": "result"' in line
 
 
 # ── Process-group cleanup ──────────────────────────────────────────────────
@@ -104,12 +110,18 @@ class Runner(ABC):
         model: str | None,
         allowlist: str | None,
         max_thinking_tokens: int | None = None,
+        effort_label: str | None = None,
     ) -> list[str]:
         """Return the CLI command list to invoke the agent.
 
         max_thinking_tokens: reasoning budget. Passed through by runners
         that support it (e.g. Claude's --max-thinking-tokens); ignored by
         runners that don't.
+
+        effort_label: symbolic effort level ("low"|"medium"|"high"|"max"|
+        "xhigh" or "custom(N)"). Used by runners with enum-style effort
+        configs (e.g. Codex's model_reasoning_effort); ignored by runners
+        that key off max_thinking_tokens alone.
         """
 
     @abstractmethod
@@ -137,7 +149,9 @@ class ClaudeRunner(Runner):
     def name(self) -> str:
         return "claude"
 
-    def build_command(self, prompt, sandbox, model, allowlist, max_thinking_tokens=None):
+    def build_command(
+        self, prompt, sandbox, model, allowlist, max_thinking_tokens=None, effort_label=None
+    ):
         binary = _find_binary("claude", "CLAUDE_BIN")
         cmd = [
             binary,
@@ -163,40 +177,67 @@ class ClaudeRunner(Runner):
         return cmd
 
     def run(self, cmd, prompt, sandbox, env, output_file):
-        display_script = str(Path(__file__).parent / "stream_display.py")
+        # We read stream-json in-process (instead of teeing to
+        # stream_display.py) so we can watchdog the post-result hang: claude
+        # emits its final `result` event and then sometimes stalls on MCP /
+        # hook / watcher shutdown, holding the main process alive and
+        # blocking agent.wait(). Once we see `result`, arm a background
+        # timer; if the process hasn't exited by then, kill its group —
+        # that closes stdout, the for-loop sees EOF, and agent.wait()
+        # returns cleanly.
+        import threading
+
+        from agent_runtime.stream_display import render_line
 
         # start_new_session puts the agent + all children in a fresh process
-        # group; once the agent exits we can TERM/KILL any stragglers
-        # (MCP servers, IDE hooks, file watchers) that would otherwise keep
-        # the stdout pipe open and hang our wait().
+        # group so we can TERM/KILL the whole session if the main hangs.
         agent = subprocess.Popen(
             cmd,
             cwd=sandbox,
             env=env,
             stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             start_new_session=True,
+            bufsize=1,
         )
         pgid = os.getpgid(agent.pid)
-        tee = subprocess.Popen(
-            ["tee", str(output_file)],
-            stdin=agent.stdout,
-            stdout=subprocess.PIPE,
-        )
-        display = subprocess.Popen(
-            [sys.executable, display_script],
-            stdin=tee.stdout,
-        )
-        agent.stdout.close()
-        tee.stdout.close()
+
+        POST_RESULT_GRACE_S = 15.0
+        watchdog: threading.Timer | None = None
+        killed_for_hang = False
+
+        def _fire_watchdog() -> None:
+            nonlocal killed_for_hang
+            if agent.poll() is None:
+                print(
+                    f"\n[runner] claude stalled {POST_RESULT_GRACE_S:.0f}s "
+                    "after result event; terminating session.",
+                    flush=True,
+                )
+                killed_for_hang = True
+                _kill_process_group(pgid)
+
         try:
+            with open(output_file, "wb") as f:
+                assert agent.stdout is not None
+                for raw in agent.stdout:
+                    f.write(raw)
+                    f.flush()
+                    line = raw.decode("utf-8", errors="replace").rstrip()
+                    render_line(line)
+                    if watchdog is None and _is_result_line(line):
+                        watchdog = threading.Timer(POST_RESULT_GRACE_S, _fire_watchdog)
+                        watchdog.daemon = True
+                        watchdog.start()
             rc = agent.wait()
         finally:
-            # Reap any lingering children in the agent's session before we
-            # return, so the caller's process tree can exit cleanly.
+            if watchdog is not None:
+                watchdog.cancel()
             _kill_process_group(pgid)
-            display.wait()
-            tee.wait()
-        if rc != 0:
+
+        # A session we killed post-result is a successful run from the
+        # benchmark's POV — the model finished; only cleanup hung.
+        if rc != 0 and not killed_for_hang:
             raise subprocess.CalledProcessError(rc, cmd)
 
 
@@ -207,12 +248,31 @@ class CodexRunner(Runner):
     def name(self) -> str:
         return "codex"
 
-    def build_command(self, prompt, sandbox, model, allowlist, max_thinking_tokens=None):
-        # Codex CLI has no direct thinking-tokens flag; effort is ignored here.
+    def build_command(
+        self, prompt, sandbox, model, allowlist, max_thinking_tokens=None, effort_label=None
+    ):
+        # Codex has no thinking-tokens flag; it takes an enum reasoning-effort
+        # setting via -c model_reasoning_effort=<minimal|low|medium|high|xhigh>.
+        # Our "max" label is an alias for "xhigh" on codex (the highest
+        # reasoning tier the CLI accepts — GPT-5 family models support it).
+        # Unknown / custom(N) labels are omitted so codex falls back to its
+        # default.
         binary = _find_binary("codex", "CODEX_BIN")
         cmd = [binary]
         if model:
             cmd.extend(["-m", model])
+
+        codex_effort_map = {
+            "low": "low",
+            "medium": "medium",
+            "high": "high",
+            "xhigh": "xhigh",
+            "max": "xhigh",
+        }
+        codex_effort = codex_effort_map.get((effort_label or "").lower())
+        if codex_effort:
+            cmd.extend(["-c", f"model_reasoning_effort={codex_effort}"])
+
         cmd.extend(
             [
                 "-a",
@@ -223,8 +283,9 @@ class CodexRunner(Runner):
                 str(sandbox),
                 "-s",
                 "danger-full-access",
-                "-o",
-                str(sandbox / "session_log.txt"),
+                # Note: we deliberately don't pass codex's `-o` (rollout file);
+                # the transcript is captured by tee'ing stdout in .run() below,
+                # matching the ClaudeRunner contract.
                 "-",
             ]
         )
@@ -255,14 +316,25 @@ class CodexRunner(Runner):
             cwd=sandbox,
             env=env,
             stdin=subprocess.PIPE,
-            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             start_new_session=True,
         )
         pgid = os.getpgid(proc.pid)
+        # Tee codex's stdout so the transcript lands in output_file and is
+        # also visible on the terminal.
+        tee = subprocess.Popen(
+            ["tee", str(output_file)],
+            stdin=proc.stdout,
+        )
+        proc.stdout.close()
         try:
-            proc.communicate(input=prompt)
+            proc.stdin.write(prompt.encode())
+            proc.stdin.close()
+            rc = proc.wait()
         finally:
             _kill_process_group(pgid)
+            tee.wait()
             # Codex may leave large plugin caches / arg0 temp dirs behind; we
             # keep auth.json for post-run inspection but drop the bulk.
             for sub in ("tmp", "cache", "logs_2.sqlite", "logs_2.sqlite-shm", "logs_2.sqlite-wal"):
@@ -271,8 +343,8 @@ class CodexRunner(Runner):
                     shutil.rmtree(p, ignore_errors=True)
                 elif p.is_file():
                     p.unlink(missing_ok=True)
-        if proc.returncode != 0:
-            raise subprocess.CalledProcessError(proc.returncode, cmd)
+        if rc != 0:
+            raise subprocess.CalledProcessError(rc, cmd)
 
 
 class AiderRunner(Runner):
@@ -289,7 +361,9 @@ class AiderRunner(Runner):
     def name(self) -> str:
         return "aider"
 
-    def build_command(self, prompt, sandbox, model, allowlist, max_thinking_tokens=None):
+    def build_command(
+        self, prompt, sandbox, model, allowlist, max_thinking_tokens=None, effort_label=None
+    ):
         # Aider has no universal thinking-tokens flag across the 75+ model backends.
         binary = _find_binary("aider", "AIDER_BIN")
         cmd = [
