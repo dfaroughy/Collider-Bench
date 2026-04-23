@@ -22,9 +22,9 @@ For **data**, no rescaling: `N_yield = N_selected`.
 | Number | Source |
 |---|---|
 | σ for CMS Open Data MC | `bin/cms-opendata sample-info <nano-recid>` (follows to MiniAOD parent) |
-| σ for simulated signals (LO) | MG5 banner / survey log in `sim/PROC_*/run_mg5_*/` |
-| σ at NLO/NLO+NLL for SUSY signals | CMS SUSY Cross Section WG tables — consult the paper's reference list |
-| K-factors | Usually cited in the paper's "signal modeling" or "cross section" section; apply as `sigma_NLO = K * sigma_LO` |
+| σ for simulated signals (LO) | MG5 banner / survey log in `sim/PROC_*/run_mg5_*/`, or `bin/prospino run --order LO ...` |
+| σ at NLO for SUSY pair production | `bin/prospino run --process <gg\|sg\|ss\|nn\|ng\|tb\|bb\|ll\|ns\|sb> --slha <spectrum> --order NLO` — reads the SLHA spectrum you pass to MG5/Pythia, returns `xsec_pb.nlo` and `k_factor` as JSON. Cross-check against CMS SUSY Cross Section WG tables when available. |
+| K-factors | Prospino output includes `xsec_pb.k_factor = NLO/LO`. Otherwise taken from the paper's signal-modeling section; apply as `sigma_NLO = K * sigma_LO`. |
 | L | Stated in the paper (abstract or data/selection section) |
 | N_generated | `sample-info` for Open Data MC; MG5 run summary for simulated signals |
 

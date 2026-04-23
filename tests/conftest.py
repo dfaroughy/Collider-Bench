@@ -29,6 +29,7 @@ def paper_ref() -> str:
 
 @pytest.fixture
 def tmp_run_name(tmp_path_factory) -> str:
-    # Ensure test workspaces land under a name matching recast_*/ .gitignore
-    # so they're never committed even if a test forgets to clean up.
+    # Name pattern is gitignored so the dir is never committed if a test
+    # forgets to clean up. Prefix is cosmetic — tmp_path_factory already
+    # places it outside the repo.
     return f"recast_SMOKE_{os.getpid()}_{tmp_path_factory.mktemp('ws').name}"

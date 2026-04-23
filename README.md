@@ -135,6 +135,7 @@ CI runners don't have `claude` / `codex` / `bwrap` installed; the tests that dep
 ## See also
 
 - [`agent_runtime/SANDBOX.md`](agent_runtime/SANDBOX.md) — sandbox backend contract, how to add a new one (Docker/Podman/Shifter).
-- [`LHCRecastBench/BENCHMARK.md`](LHCRecastBench/BENCHMARK.md) — benchmark tool / data reference (agent-facing).
+- [`LHCRecastBench/BENCHMARK-OVERVIEW.md`](LHCRecastBench/BENCHMARK-OVERVIEW.md) — what the benchmark provides: workspace layout, task types, scoring interface (researcher-facing).
+- [`LHCRecastBench/tools/TOOLS.md`](LHCRecastBench/tools/TOOLS.md) — tool index (agent-facing; seeded into every workspace).
 - [`LHCRecastBench/evaluation/EVAL.md`](LHCRecastBench/evaluation/EVAL.md) — scoring, rubric, and judge internals.
 - [`CLAUDE.md`](CLAUDE.md) — environment notes for Claude Code assistants.

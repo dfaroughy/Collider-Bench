@@ -14,12 +14,16 @@ from agents.sisyphus.runtime.controller.roles import (
 
 
 @pytest.mark.parametrize("builder", [simple_prompt, baseline_prompt])
-def test_single_shot_prompt_contains_paper_ref(builder):
+def test_single_shot_prompt_renders(builder):
+    # paper_ref is not embedded in the prompt body anymore — it lives in
+    # agent_context/TASK.md, seeded into the workspace. Tool-specific rules
+    # (block on run-analysis, use root:// URLs, etc.) also live in
+    # agent_context/TOOLS.md rather than the prompt. Just confirm the
+    # builder renders and points the agent at the workspace docs.
     text = builder("TEST-1234")
-    assert "TEST-1234" in text
-    # Stock safety lines — the agent must be told to block on run-analysis.
-    assert "run-analysis" in text
-    assert "never run_in_background" in text or "synchronously" in text
+    assert text.strip()
+    assert "TASK.md" in text
+    assert "TOOLS.md" in text
 
 
 def test_planner_prompt_mentions_plan_md():
