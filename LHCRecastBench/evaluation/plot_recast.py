@@ -265,7 +265,12 @@ def plot_table(
     return written
 
 
-def plot_recast(arxiv_id: str, recast_dir: str, task: str = "recast") -> dict:
+def plot_recast(
+    arxiv_id: str,
+    recast_dir: str,
+    task: str = "recast",
+    eval_dir: Path | None = None,
+) -> dict:
     ref_dir = _reference_dir(arxiv_id, task)
     recast_path = Path(recast_dir)
 
@@ -274,9 +279,12 @@ def plot_recast(arxiv_id: str, recast_dir: str, task: str = "recast") -> dict:
     if not recast_path.exists():
         return {"error": f"Recast dir not found: {recast_dir}"}
 
-    # Plots land next to the other eval outputs: <run_dir>/eval/plots/
-    # (sibling of workspace/, not inside it)
-    eval_dir = recast_path.parent.parent / "eval" / "plots"
+    # Default eval_dir: sibling of the artifact dir that holds HEPRecastData.
+    # Callers (launch_eval.sh / the agent controllers) normally pass an explicit
+    # eval_dir resolved from run_info.json.
+    if eval_dir is None:
+        eval_dir = recast_path.parent.parent / "eval"
+    plots_dir = eval_dir / "plots"
 
     results = {"paper": arxiv_id, "recast_dir": str(recast_dir), "plots": []}
 
@@ -287,7 +295,7 @@ def plot_recast(arxiv_id: str, recast_dir: str, task: str = "recast") -> dict:
         if not recast_file.exists():
             results["plots"].append({"table": ref_file.stem, "error": "missing in recast"})
             continue
-        written = plot_table(ref_file, recast_file, eval_dir, arxiv_id)
+        written = plot_table(ref_file, recast_file, plots_dir, arxiv_id)
         results["plots"].append(
             {
                 "table": ref_file.stem,
@@ -299,17 +307,25 @@ def plot_recast(arxiv_id: str, recast_dir: str, task: str = "recast") -> dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Plot CMS vs recast distributions.")
-    parser.add_argument("--arxiv", required=True)
-    parser.add_argument("--recast-dir", required=True, help="Path to filled HEPRecastData/")
+    parser = argparse.ArgumentParser(
+        description="Plot CMS vs recast distributions. "
+        "arxiv and task are read from run_info.json.",
+    )
     parser.add_argument(
-        "--task",
-        default="recast",
-        help="Task name (validate|simulate|recast) — selects the reference set.",
+        "run_path",
+        help="Run directory, workspace, iter dir, or HEPRecastData dir.",
     )
     args = parser.parse_args()
 
-    result = plot_recast(args.arxiv, args.recast_dir, task=args.task)
+    from ._resolve import resolve_run
+
+    try:
+        rp = resolve_run(args.run_path)
+    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+        print(f"ERROR: {exc}")
+        return
+
+    result = plot_recast(rp.arxiv_id, str(rp.hep_dir), task=rp.task, eval_dir=rp.eval_dir)
     if "error" in result:
         print(f"ERROR: {result['error']}")
         return

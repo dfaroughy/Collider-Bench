@@ -61,6 +61,11 @@ def extract_session_stats(agent_dir: Path) -> dict:
                 msg = json.loads(line)
             except json.JSONDecodeError:
                 continue
+            # Codex session logs are plain text, not stream-json. A stray
+            # line that happens to parse as a JSON array/scalar must not
+            # blow up `.get()`.
+            if not isinstance(msg, dict):
+                continue
 
             msg_type = msg.get("type")
 
@@ -456,55 +461,43 @@ def print_comparison(results: list[dict]) -> None:
 # ── CLI ─────────────────────────────────────────────────────────────────────
 
 
-def _save_to_eval_dir(agent_dir: str, payload) -> Path | None:
-    """Write JSON into <run_dir>/eval/rubric_scorer.json.
-
-    agent_dir is the workspace (<run_dir>/workspace); eval/ is its sibling.
-    """
-    p = Path(agent_dir)
-    if not p.exists():
-        return None
-    eval_dir = p.parent / "eval"
-    eval_dir.mkdir(parents=True, exist_ok=True)
-    out = eval_dir / "rubric_scorer.json"
-    out.write_text(json.dumps(payload, indent=2))
-    return out
-
-
 def main():
     parser = argparse.ArgumentParser(
-        description="Rubric-based evaluation with cost and token metrics.",
+        description="Rubric-based evaluation with cost and token metrics. "
+        "arxiv and task are read from run_info.json.",
     )
-    parser.add_argument("--agent-dir", help="Single agent directory to evaluate")
-    parser.add_argument("--compare", nargs="+", help="Multiple agent directories to compare")
-    parser.add_argument("--arxiv", required=True, help="arXiv ID for rubric scoring")
     parser.add_argument(
-        "--task",
-        default="recast",
-        help="Task name (validate|simulate|recast) — selects the reference set.",
+        "run_path",
+        nargs="+",
+        help="Run directory, workspace, iter dir, or HEPRecastData dir. Multiple paths compare.",
     )
-    parser.add_argument("--json", action="store_true", help="Output raw JSON")
+    parser.add_argument("--json", action="store_true", help="Output raw JSON to stdout")
     args = parser.parse_args()
 
-    if args.compare:
-        results = [evaluate_agent(d, args.arxiv, args.task) for d in args.compare]
-        if args.json:
-            print(json.dumps(results, indent=2))
-        else:
-            print_comparison(results)
-        for d, r in zip(args.compare, results, strict=False):
-            _save_to_eval_dir(d, r)
-    elif args.agent_dir:
-        result = evaluate_agent(args.agent_dir, args.arxiv, args.task)
-        if args.json:
-            print(json.dumps(result, indent=2))
-        else:
-            print_single(result)
-        saved = _save_to_eval_dir(args.agent_dir, result)
-        if saved:
-            print(f"\n  Saved to {saved}")
-    else:
-        parser.error("Provide --agent-dir or --compare")
+    from ._resolve import resolve_run
+
+    results: list[tuple] = []
+    for p in args.run_path:
+        try:
+            rp = resolve_run(p)
+        except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+            print(f"  ERROR: {p}: {exc}")
+            continue
+        result = evaluate_agent(rp.artifact_dir, rp.arxiv_id, rp.task)
+        rp.eval_dir.mkdir(parents=True, exist_ok=True)
+        out = rp.eval_dir / "rubric_scorer.json"
+        out.write_text(json.dumps(result, indent=2))
+        results.append((rp, result, out))
+
+    if args.json:
+        print(json.dumps([r[1] for r in results], indent=2))
+        return
+
+    if len(results) > 1:
+        print_comparison([r[1] for r in results])
+    for _rp, result, out in results:
+        print_single(result)
+        print(f"\n  Saved to {out}")
 
 
 if __name__ == "__main__":

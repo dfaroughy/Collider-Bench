@@ -157,14 +157,14 @@ eval/
 ## Running all four on a completed workspace
 
 ```bash
-./launch_eval.sh recast_1707.06193_claude-opus-4-7_QuantumFeynman_a1b2c3d4
-# arXiv ID is read from <run_dir>/run_info.json — no need to pass it.
+./launch_eval.sh runs/simulate_1707.06193_claude-opus-4-7_QuantumFeynman_a1b2c3d4
+# arXiv ID and task are read from <run_dir>/run_info.json — no need to pass either.
 ```
 
 Equivalent explicit commands:
 
 ```bash
-WS=recast_.../workspace
+WS=runs/simulate_.../workspace
 ARX=1707.06193
 
 python -m LHCRecastBench.evaluation.score         $ARX --recast-dir $WS/HEPRecastData

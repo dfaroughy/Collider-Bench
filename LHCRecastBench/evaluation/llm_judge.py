@@ -180,6 +180,8 @@ def _extract_claude_stream_json(session_path: Path, max_chars: int) -> str:
                 msg = json.loads(line)
             except json.JSONDecodeError:
                 continue
+            if not isinstance(msg, dict):
+                continue
 
             msg_type = msg.get("type")
 
@@ -332,6 +334,13 @@ def run_judge(
     )
     import time as _time
 
+    # argv cannot contain NUL bytes. Codex plain-text session logs may carry
+    # raw NULs from binary tool outputs; strip them (and C0 control chars
+    # except tab/newline/CR) before handing the prompt to subprocess.
+    _unsafe = {chr(c) for c in range(32) if c not in (9, 10, 13)} | {"\x00", "\x7f"}
+    if any(c in _unsafe for c in prompt):
+        prompt = "".join(c for c in prompt if c not in _unsafe)
+
     t0 = _time.time()
     proc = subprocess.Popen(
         ["claude", "-p", prompt, "--model", model, "--output-format", "stream-json", "--verbose"],
@@ -352,6 +361,8 @@ def run_judge(
             try:
                 ev = json.loads(line)
             except json.JSONDecodeError:
+                continue
+            if not isinstance(ev, dict):
                 continue
             t = ev.get("type")
             if t == "assistant":
@@ -536,98 +547,68 @@ def print_scores(scores: dict) -> None:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="LLM-as-a-Judge evaluation of agent reasoning quality.",
+        description="LLM-as-a-Judge evaluation of agent reasoning quality. "
+        "arxiv and task are read from run_info.json; session logs and artifacts "
+        "are auto-discovered from the artifact dir.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    # Generic interface
     parser.add_argument(
-        "--session-logs", nargs="+", type=Path, help="Session log files (any readable format)"
+        "run_path",
+        help="Run directory, workspace, iter dir, or HEPRecastData dir.",
     )
-    parser.add_argument("--recast-dir", type=Path, help="Path to filled HEPRecastData/ directory")
-    parser.add_argument("--arxiv", help="arXiv ID (for loading reference HEPData)")
-    parser.add_argument(
-        "--artifacts",
-        nargs="*",
-        type=Path,
-        help="Additional artifact files (audit.json, report.md, etc.)",
-    )
-    parser.add_argument("--output-dir", type=Path, help="Where to save the failure report")
-
-    # Shortcut for our baseline layout
-    parser.add_argument(
-        "--agent-dir", type=Path, help="Agent directory (auto-discovers session logs and artifacts)"
-    )
-
     parser.add_argument("--model", default="claude-opus-4-6", help="Judge model")
-    parser.add_argument(
-        "--task",
-        default="recast",
-        help="Task name (validate|simulate|recast) — selects the reference set.",
-    )
     parser.add_argument("--json", action="store_true", help="Output raw JSON")
-    parser.add_argument("--extract-only", action="store_true", help="Only extract session summary")
+    parser.add_argument(
+        "--extract-only",
+        action="store_true",
+        help="Only extract session summary (does not call the judge)",
+    )
     args = parser.parse_args()
 
-    # Auto-discover from agent dir if provided
-    if args.agent_dir:
-        agent_dir = args.agent_dir
-        if not agent_dir.exists():
-            print(f"ERROR: {agent_dir} does not exist", file=sys.stderr)
-            sys.exit(1)
+    from ._resolve import resolve_run
 
-        # Find session logs (various naming conventions)
-        if not args.session_logs:
-            candidates = sorted(agent_dir.glob("session_log*.txt"))
-            if not candidates:
-                candidates = sorted(agent_dir.glob("session*.txt"))
-            args.session_logs = list(candidates)
+    try:
+        rp = resolve_run(args.run_path)
+    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        sys.exit(1)
 
-        # Find recast dir
-        if not args.recast_dir:
-            rd = agent_dir / "HEPRecastData"
-            if rd.exists():
-                args.recast_dir = rd
-
-        # Find artifacts — collect any structured output the agent produced
-        if not args.artifacts:
-            artifact_candidates = [
-                agent_dir / "report.md",
-                agent_dir / "datasets.yaml",
-                agent_dir / "results.json",
-            ]
-            args.artifacts = [p for p in artifact_candidates if p.exists()]
-
-        if not args.output_dir:
-            # eval/ lives at <run_dir>/eval, sibling of workspace/ (agent_dir)
-            args.output_dir = agent_dir.parent / "eval"
-            args.output_dir.mkdir(parents=True, exist_ok=True)
+    agent_dir = rp.artifact_dir
+    session_logs = sorted(agent_dir.glob("session_log*.txt")) or sorted(
+        agent_dir.glob("session*.txt")
+    )
+    artifacts = [
+        p
+        for p in (agent_dir / f for f in ("report.md", "datasets.yaml", "results.json"))
+        if p.exists()
+    ]
+    rp.eval_dir.mkdir(parents=True, exist_ok=True)
 
     if args.extract_only:
-        for log_path in args.session_logs or []:
+        for log_path in session_logs:
             print(f"--- {log_path.name} ---")
             print(extract_session_summary(log_path))
         return
 
-    if not args.session_logs:
-        parser.error("Provide --session-logs or --agent-dir")
+    if not session_logs:
+        print(f"ERROR: no session_log*.txt found in {agent_dir}", file=sys.stderr)
+        sys.exit(1)
 
     scores = run_judge(
-        session_logs=args.session_logs,
-        recast_dir=args.recast_dir,
-        arxiv_id=args.arxiv,
-        artifacts=args.artifacts,
+        session_logs=session_logs,
+        recast_dir=rp.hep_dir,
+        arxiv_id=rp.arxiv_id,
+        artifacts=artifacts,
         model=args.model,
-        output_dir=args.output_dir,
-        task=args.task,
+        output_dir=rp.eval_dir,
+        task=rp.task,
     )
 
     # Always persist the judge's output (or the error payload). run_judge
     # already writes judge_scores.json on success; on failure it returns an
     # {"error": ...} dict, which we also want on disk for post-hoc inspection.
-    if args.output_dir:
-        args.output_dir.mkdir(parents=True, exist_ok=True)
-        (args.output_dir / "judge_scores.json").write_text(json.dumps(scores, indent=2))
+    (rp.eval_dir / "judge_scores.json").write_text(json.dumps(scores, indent=2))
 
     if args.json:
         print(json.dumps(scores, indent=2))

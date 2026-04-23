@@ -115,13 +115,14 @@ def render_score(score: dict | None) -> list[str]:
     if rows:
         out.append("<details><summary>Per-series breakdown (Baker-Cousins)</summary>\n")
         out.append(
-            "| Series | Bins pass | Shape score (z, p) | Norm score (z, p, ratio) | Combined | Diagnosis |"
+            "| Series | Bins pass | Shape score (z, p) | Norm score (z, p, ratio) | KS (p) | Combined | Diagnosis |"
         )
-        out.append("|---|---|---:|---:|---:|---|")
+        out.append("|---|---|---:|---:|---:|---:|---|")
         for name, s in rows:
             bins = f"{_fmt_int(s['n_pass'])}/{_fmt_int(s['n_filled'])} ({_fmt_pct(s.get('score'))})"
             sh = s["shape"]
             nm = s["normalization"]
+            ks = s.get("ks", {})
             shape_cell = (
                 f"{_fmt_num(sh['score'])} "
                 f"(z={_fmt_num(sh.get('z'))}, p={_fmt_p(sh.get('p_value'))})"
@@ -131,8 +132,9 @@ def render_score(score: dict | None) -> list[str]:
                 f"(z={_fmt_num(nm.get('z'))}, p={_fmt_p(nm.get('p_value'))}, "
                 f"ratio={_fmt_num(nm.get('ratio'))})"
             )
+            ks_cell = _fmt_p(ks.get("p_value")) if ks else "—"
             out.append(
-                f"| `{name}` | {bins} | {shape_cell} | {norm_cell} | "
+                f"| `{name}` | {bins} | {shape_cell} | {norm_cell} | {ks_cell} | "
                 f"{_fmt_num(s['combined'])} | {s.get('diagnosis', '—')} |"
             )
         out.append("\n</details>\n")
@@ -319,6 +321,50 @@ def render_judge(judge: dict | None) -> list[str]:
 # ── Driver ──────────────────────────────────────────────────────────────────
 
 
+def render_trajectory(traj: dict | None) -> list[str]:
+    """Render the trajectory-judge failure-mode breakdown (TAT).
+
+    Sourced from trajectory_judge.json. See TAXONOMY.md for rubrics.
+    """
+    if traj is None:
+        return []
+    if "error" in traj:
+        return [
+            "## Trajectory judge — `trajectory_judge.json`",
+            "",
+            f"_Judge errored: {traj['error']}_",
+            "",
+        ]
+    out = ["## Trajectory failure modes — `trajectory_judge.json`", ""]
+    out.append(
+        f"_{traj.get('n_matched', 0)}/9 modes matched · judge: "
+        f"{traj.get('judge_model', '?')} · {traj.get('runtime_s', '?')}s_"
+    )
+    out.append("")
+    out.append("| Class | Modes matched | Which |")
+    out.append("|---|---:|---|")
+    for cls in ("execution", "coherence", "verification"):
+        block = (traj.get("classes") or {}).get(cls) or {}
+        matched = [m for m, v in (block.get("modes") or {}).items() if v.get("matched")]
+        out.append(
+            f"| {cls.capitalize()} | {block.get('n_matched', 0)} | "
+            f"{' '.join(f'`{m}`' for m in matched) or '—'} |"
+        )
+    out.append("")
+
+    # Evidence details for matched modes.
+    matched_modes = [(m, v) for m, v in (traj.get("modes") or {}).items() if v.get("matched")]
+    if matched_modes:
+        out.append("<details><summary>Evidence per matched mode</summary>\n")
+        for mode, v in matched_modes:
+            out.append(f"**`{mode}`** ({v.get('class', '?')})")
+            for ev in v.get("evidence", []):
+                out.append(f"- {ev}")
+            out.append("")
+        out.append("</details>\n")
+    return out
+
+
 def render_summary(run_dir: Path) -> Path:
     """Write <run_dir>/eval/summary.md from whatever JSONs exist there."""
     eval_dir = run_dir / "eval"
@@ -330,6 +376,7 @@ def render_summary(run_dir: Path) -> Path:
     corrected = _load(eval_dir / "score_corrected.json")
     rubric = _load(eval_dir / "rubric_scorer.json")
     judge = _load(eval_dir / "judge_scores.json")
+    trajectory = _load(eval_dir / "trajectory_judge.json")
 
     lines: list[str] = []
     lines += render_header(run_info, run_dir)
@@ -337,6 +384,7 @@ def render_summary(run_dir: Path) -> Path:
     lines += render_corrected(corrected, score)
     lines += render_rubric(rubric, run_info)
     lines += render_judge(judge)
+    lines += render_trajectory(trajectory)
 
     if (eval_dir / "plots").is_dir():
         lines += [
@@ -355,21 +403,22 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Render a summary.md from the JSONs under <run_dir>/eval/."
     )
-    parser.add_argument("target", help="run directory or its workspace/")
+    parser.add_argument(
+        "run_path",
+        help="Run directory, workspace, iter dir, or HEPRecastData dir.",
+    )
     args = parser.parse_args()
 
-    target = Path(args.target).resolve()
-    # Accept run_dir, run_dir/workspace, or run_dir/eval.
-    if target.name == "eval":
-        run_dir = target.parent
-    elif (target / "eval").is_dir():
-        run_dir = target
-    elif (target.parent / "eval").is_dir():
-        run_dir = target.parent
-    else:
-        sys.exit(f"render_eval: no eval/ found under {target}")
+    from ._resolve import resolve_run
 
-    out = render_summary(run_dir)
+    try:
+        rp = resolve_run(args.run_path)
+    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+        sys.exit(f"render_eval: {exc}")
+
+    # render_summary consumes "the dir that contains eval/". For single-shot
+    # that's rp.run_dir; for per-iter it's the iter dir itself (rp.eval_dir.parent).
+    out = render_summary(rp.eval_dir.parent)
     print(f"Wrote {out}")
     return 0
 

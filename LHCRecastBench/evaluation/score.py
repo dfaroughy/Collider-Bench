@@ -26,12 +26,12 @@ LHCRecastBench/papers/{arxiv}/tasks/{task}/reference/HEPRecastData/ and emits:
   Secondary shape metric
     Kolmogorov-Smirnov on unit-area CDFs with approximate p-value.
 
-All of this lives in a single JSON written to <run_dir>/eval/score.json
-(sibling of <run_dir>/workspace/).
+Output: <run_dir>/eval/score.json for single-shot layouts, or
+<iter_dir>/eval/score.json when run_path resolves to an iter.
 
 Usage:
-    python -m LHCRecastBench.evaluation.score 1707.06193 --recast-dir <ws>/HEPRecastData
-    python -m LHCRecastBench.evaluation.score 1707.06193 --compare <ws1>/HEPRecastData <ws2>/HEPRecastData
+    python -m LHCRecastBench.evaluation.score runs/simulate_<paper>_<agent>_...
+    python -m LHCRecastBench.evaluation.score runs/<run_a> runs/<run_b>   # compare
 """
 
 from __future__ import annotations
@@ -254,116 +254,78 @@ def _score_series(
     ref_errs: list,
     bins: list[dict],
 ) -> dict:
-    """Score one dependent-variable series end-to-end."""
+    """Score one dependent-variable series — summary stats only, no per-bin dump."""
     n_bins = len(ref_vals)
     series: dict = {
         "name": name,
         "n_bins": n_bins,
         "n_filled": 0,
         "n_pass": 0,
-        "bins": [],
     }
 
-    chi2 = 0.0
-    n_scored = 0
     for i in range(n_bins):
-        ref_val_raw = ref_vals[i]
         rec_val_raw = rec_vals[i] if i < len(rec_vals) else None
-        ref_err = ref_errs[i]
-
-        parts = [iv["bins"][i] for iv in bins if i < len(iv.get("bins", []))]
-        bin_label = "|".join(parts) if parts else str(i)
-        bin_result = {
-            "bin": bin_label,
-            "reference": ref_val_raw,
-            "recast": rec_val_raw,
-            "error": ref_err,
-        }
-
         if rec_val_raw is None:
-            bin_result["status"] = "MISSING"
-            series["bins"].append(bin_result)
             continue
-
         series["n_filled"] += 1
 
-        ref_val = _as_float(ref_val_raw)
+        ref_val = _as_float(ref_vals[i])
         rec_val = _as_float(rec_val_raw)
         if ref_val is None or rec_val is None:
-            # Non-numeric (e.g. LaTeX upper-limit strings like '$<0.1$') or no ref.
-            bin_result["pull"] = None
-            bin_result["rel_diff"] = None
-            bin_result["status"] = "NO_REF"
-            series["bins"].append(bin_result)
             continue
 
         if ref_val == 0:
-            # Zero-expectation bin: recast must also be ~0.
-            bin_result["pull"] = None
-            bin_result["rel_diff"] = None
             if abs(rec_val) < 1e-6:
-                bin_result["status"] = "PASS"
                 series["n_pass"] += 1
-            else:
-                bin_result["status"] = "FAIL"
-            series["bins"].append(bin_result)
             continue
 
+        ref_err = ref_errs[i]
         total_err = float(ref_err) if ref_err is not None else math.sqrt(abs(ref_val))
         pull = (rec_val - ref_val) / total_err if total_err > 0 else 0.0
         rel_diff = abs(rec_val - ref_val) / abs(ref_val)
-        passes = abs(pull) < 2.0 or rel_diff < 0.5
-
-        chi2 += pull**2
-        n_scored += 1
-        if passes:
+        if abs(pull) < 2.0 or rel_diff < 0.5:
             series["n_pass"] += 1
 
-        bin_result["pull"] = round(pull, 2)
-        bin_result["rel_diff"] = round(rel_diff, 3)
-        bin_result["status"] = "PASS" if passes else "FAIL"
-        series["bins"].append(bin_result)
-
-    if n_scored > 0:
-        series["chi2_per_bin"] = round(chi2 / n_scored, 2)
-        series["score"] = round(series["n_pass"] / n_scored, 3)
-    else:
-        series["chi2_per_bin"] = None
-        series["score"] = 0.0
+    series["score"] = (
+        round(series["n_pass"] / series["n_filled"], 3) if series["n_filled"] > 0 else 0.0
+    )
 
     # Baker-Cousins decomposition on the aligned (both-numeric) subset.
-    aligned = []
-    for i in range(min(len(ref_vals), len(rec_vals))):
-        rv, cv = _as_float(ref_vals[i]), _as_float(rec_vals[i])
-        if rv is None or cv is None:
-            continue
-        aligned.append((rv, cv))
-    if aligned:
-        ref_arr = np.array([p[0] for p in aligned], dtype=float)
-        rec_arr = np.array([p[1] for p in aligned], dtype=float)
+    aligned = [
+        (rv, cv)
+        for i in range(min(len(ref_vals), len(rec_vals)))
+        for rv, cv in [(_as_float(ref_vals[i]), _as_float(rec_vals[i]))]
+        if rv is not None and cv is not None
+    ]
+    if not aligned:
+        return series
 
-        bc = bc_statistics(rec_arr, ref_arr)
-        if "error" in bc:
-            series["bc_error"] = bc["error"]
-        else:
-            s_score = bc["shape"]["score"]
-            n_score = bc["normalization"]["score"]
-            combined = math.sqrt(s_score * n_score) if s_score > 0 and n_score > 0 else 0.0
-            if s_score > 0.7 and n_score > 0.7:
-                diagnosis = "GOOD"
-            elif s_score > 0.7:
-                diagnosis = "SHAPE OK, NORM BAD"
-            elif n_score > 0.7:
-                diagnosis = "SHAPE BAD, NORM OK"
-            else:
-                diagnosis = "BOTH BAD"
+    ref_arr = np.array([p[0] for p in aligned], dtype=float)
+    rec_arr = np.array([p[1] for p in aligned], dtype=float)
 
-            series["shape"] = bc["shape"]
-            series["shape"]["ks"] = ks_binned(rec_arr, ref_arr)
-            series["normalization"] = bc["normalization"]
-            series["total"] = bc["total"]
-            series["combined"] = round(combined, 3)
-            series["diagnosis"] = diagnosis
+    bc = bc_statistics(rec_arr, ref_arr)
+    if "error" in bc:
+        series["bc_error"] = bc["error"]
+        return series
+
+    s_score = bc["shape"]["score"]
+    n_score = bc["normalization"]["score"]
+    combined = math.sqrt(s_score * n_score) if s_score > 0 and n_score > 0 else 0.0
+    if s_score > 0.7 and n_score > 0.7:
+        diagnosis = "GOOD"
+    elif s_score > 0.7:
+        diagnosis = "SHAPE OK, NORM BAD"
+    elif n_score > 0.7:
+        diagnosis = "SHAPE BAD, NORM OK"
+    else:
+        diagnosis = "BOTH BAD"
+
+    series["shape"] = bc["shape"]
+    series["normalization"] = bc["normalization"]
+    series["total"] = bc["total"]
+    series["ks"] = ks_binned(rec_arr, ref_arr)
+    series["combined"] = round(combined, 3)
+    series["diagnosis"] = diagnosis
 
     return series
 
@@ -376,7 +338,6 @@ def _score_table(ref_data: dict, recast_data: dict, table_name: str) -> dict:
 
     result = {
         "table": table_name,
-        "bins": bins,
         "series": [],
         "n_filled": 0,
         "n_total": 0,
@@ -502,31 +463,19 @@ def print_scores(result: dict) -> None:
             n_pass = s["n_pass"]
             n_filled = s["n_filled"]
             score = s.get("score", 0)
-            chi2 = s.get("chi2_per_bin", "—")
-            extra = ""
             if "shape" in s:
-                extra = (
-                    f"  shape={s['shape']['score']:.2f}  "
-                    f"norm={s['normalization']['score']:.2f}  [{s['diagnosis']}]"
-                )
-            print(
-                f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%}), "
-                f"chi2/bin={chi2}{extra}"
-            )
-            print(f"    {'─' * 62}")
-            print(
-                f"    {'Bin':<20s} {'Recast':>10s} {'CMS':>10s} {'Pull':>7s} {'Rel%':>6s} {'':>5s}"
-            )
-            print(f"    {'─' * 62}")
-            for b in s["bins"]:
-                rec = f"{b['recast']:.2f}" if b["recast"] is not None else "null"
-                ref = f"{b['reference']}" if b["reference"] is not None else "null"
-                pull = f"{b['pull']:+.2f}" if b.get("pull") is not None else "—"
-                rel = f"{b['rel_diff']:.0%}" if b.get("rel_diff") is not None else "—"
-                status = b.get("status", "?")
+                sh = s["shape"]
+                no = s["normalization"]
+                ks = s.get("ks", {})
                 print(
-                    f"    {b['bin']:<20s} {rec:>10s} {ref:>10s} {pull:>7s} {rel:>6s} {status:>5s}"
+                    f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})  "
+                    f"shape p={sh['p_value']:.2g} (score={sh['score']:.2f})  "
+                    f"norm p={no['p_value']:.2g} (score={no['score']:.2f})  "
+                    f"KS p={ks.get('p_value', float('nan')):.2g}  "
+                    f"[{s['diagnosis']}]"
                 )
+            else:
+                print(f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})")
 
     print(f"\n  {'=' * 68}")
     print(
@@ -563,57 +512,43 @@ def print_comparison(results: list[dict]) -> None:
     print()
 
 
-def _save_to_eval_dir(recast_dir: str, payload) -> Path | None:
-    """Write JSON into <run_dir>/eval/score.json.
-
-    Given recast_dir = <run_dir>/workspace/HEPRecastData, the eval/ dir lives
-    at <run_dir>/eval/ — sibling of workspace/, not inside it.
-    """
-    workspace = Path(recast_dir).parent
-    if not workspace.exists():
-        return None
-    eval_dir = workspace.parent / "eval"
-    eval_dir.mkdir(parents=True, exist_ok=True)
-    out = eval_dir / "score.json"
-    out.write_text(json.dumps(payload, indent=2))
-    return out
-
-
 def main():
     parser = argparse.ArgumentParser(
         prog="score",
-        description="Score filled HEPData against reference: per-bin + shape/normalization.",
+        description="Score filled HEPData against reference. Pass any run path; arxiv and task are read from run_info.json.",
     )
-    parser.add_argument("arxiv_id", help="arXiv ID of the paper")
-    parser.add_argument("--recast-dir", help="Single HEPRecastData directory")
-    parser.add_argument("--compare", nargs="+", help="Multiple HEPRecastData directories")
     parser.add_argument(
-        "--task",
-        default=DEFAULT_TASK,
-        help=f"Task name (default: {DEFAULT_TASK}). Picks tasks/<task>/reference/HEPRecastData/.",
+        "run_path",
+        nargs="+",
+        help="Run directory, workspace, iter dir, or HEPRecastData dir. Multiple paths compare.",
     )
-    parser.add_argument("--json", action="store_true", help="Output raw JSON")
+    parser.add_argument("--json", action="store_true", help="Output raw JSON to stdout")
     args = parser.parse_args()
 
-    if args.compare:
-        results = [score_recast(args.arxiv_id, d, task=args.task) for d in args.compare]
-        if args.json:
-            print(json.dumps(results, indent=2))
-        else:
-            print_comparison(results)
-        for d, r in zip(args.compare, results, strict=False):
-            _save_to_eval_dir(d, r)
-    elif args.recast_dir:
-        result = score_recast(args.arxiv_id, args.recast_dir, task=args.task)
-        saved = _save_to_eval_dir(args.recast_dir, result)
-        if args.json:
-            print(json.dumps(result, indent=2))
-        else:
-            print_scores(result)
-            if saved:
-                print(f"\n  Saved to {saved}")
-    else:
-        parser.error("Provide --recast-dir or --compare")
+    from ._resolve import resolve_run
+
+    results: list[tuple] = []
+    for p in args.run_path:
+        try:
+            rp = resolve_run(p)
+        except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+            print(f"  ERROR: {p}: {exc}")
+            continue
+        result = score_recast(rp.arxiv_id, str(rp.hep_dir), task=rp.task)
+        rp.eval_dir.mkdir(parents=True, exist_ok=True)
+        out = rp.eval_dir / "score.json"
+        out.write_text(json.dumps(result, indent=2))
+        results.append((rp, result, out))
+
+    if args.json:
+        print(json.dumps([r[1] for r in results], indent=2))
+        return
+
+    if len(results) > 1:
+        print_comparison([r[1] for r in results])
+    for _rp, result, out in results:
+        print_scores(result)
+        print(f"\n  Saved to {out}")
 
 
 if __name__ == "__main__":
