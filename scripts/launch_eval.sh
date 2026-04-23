@@ -1,22 +1,77 @@
 #!/bin/bash
-# Run the full evaluation suite on a completed recast run.
+# Run the evaluation suite on a completed benchmark run.
 #
-# The arXiv ID is read from <run_dir>/run_info.json, so only the run dir (or
-# its workspace/) needs to be passed.
+# Always runs: score, rubric_scorer, plot_recast, render_eval.
+# The LLM-based judge is selectable via --judge:
+#   trajectory  (default) 9-mode failure-mode taxonomy (Terminal-Bench TAT,
+#                         trajectory_judge.json)
+#   llm                   output-correctness judge with CORRECTED provenance
+#                         check (judge_scores.json)
+#   both                  run both
+#   none                  skip LLM judging entirely (free, offline)
+#
+# Results go to <run_dir>/eval/ (or <iter_dir>/eval/ for per-iter runs);
+# arxiv and task are read from run_info.json by each tool.
 #
 # Usage:
-#   ./launch_eval.sh <recast_run_dir_or_workspace>
+#   ./launch_eval.sh <run_path>
+#   ./launch_eval.sh <run_path> --judge llm
+#   ./launch_eval.sh <run_path> --judge both
+#   ./launch_eval.sh <run_path> --judge none
 #
-# Examples:
-#   ./launch_eval.sh recast_1707.06193_simple_claude-opus-4-7_ArcaneLagrange_ab12cd34
-#   ./launch_eval.sh recast_.../workspace
+# run_path can be any of:
+#   runs/simulate_<paper>_<agent>_...                    (top-level)
+#   runs/simulate_<paper>_.../workspace                  (artifact dir)
+#   runs/simulate_<paper>_.../validation/iter_NNN        (per-iter)
+#   runs/simulate_<paper>_.../workspace/HEPRecastData    (scoring dir)
 
 set -euo pipefail
 
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 <recast_dir_or_workspace>" >&2
+usage() {
+    echo "Usage: $0 <run_path> [--judge trajectory|llm|both|none]" >&2
     exit 2
+}
+
+if [ $# -lt 1 ]; then
+    usage
 fi
+
+case "$1" in
+    -h|--help) usage ;;
+esac
+
+RUN_PATH=$1
+shift
+JUDGE=trajectory
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --judge)
+            [ $# -ge 2 ] || usage
+            JUDGE=$2
+            shift 2
+            ;;
+        --judge=*)
+            JUDGE=${1#*=}
+            shift
+            ;;
+        -h|--help)
+            usage
+            ;;
+        *)
+            echo "Unknown argument: $1" >&2
+            usage
+            ;;
+    esac
+done
+
+case "$JUDGE" in
+    trajectory|llm|both|none) ;;
+    *)
+        echo "Invalid --judge=$JUDGE (expected: trajectory|llm|both|none)" >&2
+        exit 2
+        ;;
+esac
 
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
@@ -28,69 +83,29 @@ if ! activate_cms_analysis; then
   bootstrap_cms_analysis
 fi
 
-TARGET=$1
-
-# Accept either the top-level run dir or the workspace itself.
-if [ -d "$TARGET/HEPRecastData" ]; then
-    WS="$TARGET"
-    RUN_DIR="$(dirname "$TARGET")"
-elif [ -d "$TARGET/workspace/HEPRecastData" ]; then
-    WS="$TARGET/workspace"
-    RUN_DIR="$TARGET"
-else
-    echo "ERROR: no HEPRecastData/ found under $TARGET (tried $TARGET and $TARGET/workspace)" >&2
-    exit 1
-fi
-
-# Walk up from WS to find run_info.json — handles iter dirs under
-# validation/ where run_info lives two levels above the HEPRecastData dir.
-INFO=""
-probe="$RUN_DIR"
-for _ in 1 2 3; do
-    if [ -f "$probe/run_info.json" ]; then
-        INFO="$probe/run_info.json"
-        RUN_DIR="$probe"
-        break
-    fi
-    probe="$(dirname "$probe")"
-done
-if [ -z "$INFO" ]; then
-    echo "ERROR: run_info.json not found anywhere above $TARGET." >&2
-    echo "       Either the run didn't complete setup, or this isn't a recast run dir." >&2
-    exit 1
-fi
-
-ARXIV=$(python -c "import json,sys; print((json.load(open(sys.argv[1])).get('paper_ref') or '').strip())" "$INFO")
-if [ -z "$ARXIV" ]; then
-    echo "ERROR: paper_ref missing from $INFO" >&2
-    exit 1
-fi
-# Task from run_info.json; older runs that predate task-aware scoring fall
-# back to "recast" so they keep scoring against the full reference.
-TASK=$(python -c "import json,sys; print((json.load(open(sys.argv[1])).get('task') or 'recast').strip())" "$INFO")
-
 export PYTHONPATH="${REPO_ROOT}:${PYTHONPATH:-}"
 
-echo "=== Evaluating $WS (paper $ARXIV, task $TASK, from run_info.json) ==="
+echo "=== Evaluating $RUN_PATH (judge=$JUDGE) ==="
 
-python -m LHCRecastBench.evaluation.score         "$ARXIV" --recast-dir "$WS/HEPRecastData" --task "$TASK"
-python -m LHCRecastBench.evaluation.rubric_scorer --arxiv "$ARXIV" --agent-dir  "$WS" --task "$TASK"
-python -m LHCRecastBench.evaluation.plot_recast   --arxiv "$ARXIV" --recast-dir "$WS/HEPRecastData" --task "$TASK"
-python -m LHCRecastBench.evaluation.llm_judge     --arxiv "$ARXIV" --agent-dir  "$WS" --task "$TASK"
+python -m LHCRecastBench.evaluation.score             "$RUN_PATH"
+python -m LHCRecastBench.evaluation.rubric_scorer     "$RUN_PATH"
+python -m LHCRecastBench.evaluation.plot_recast       "$RUN_PATH"
 
-# Scorers write to <WS>/../eval/. For iter dirs (WS=.../validation/iter_NNN)
-# that lands in validation/eval/, which clobbers across iters — move it into
-# the iter dir itself so each iter has its own eval/ and render_eval finds it.
-EVAL_SRC="$(dirname "$WS")/eval"
-if [[ "$(basename "$(dirname "$WS")")" == "validation" ]] && [ -d "$EVAL_SRC" ]; then
-    EVAL_DEST="$WS/eval"
-    rm -rf "$EVAL_DEST"
-    mv "$EVAL_SRC" "$EVAL_DEST"
-    python -m LHCRecastBench.evaluation.render_eval "$WS"
-    echo
-    echo "Eval outputs in $EVAL_DEST/ (see summary.md)"
-else
-    python -m LHCRecastBench.evaluation.render_eval "$RUN_DIR"
-    echo
-    echo "Eval outputs in $RUN_DIR/eval/ (see summary.md)"
-fi
+case "$JUDGE" in
+    trajectory)
+        python -m LHCRecastBench.evaluation.trajectory_judge "$RUN_PATH"
+        ;;
+    llm)
+        python -m LHCRecastBench.evaluation.llm_judge        "$RUN_PATH"
+        ;;
+    both)
+        python -m LHCRecastBench.evaluation.llm_judge        "$RUN_PATH"
+        python -m LHCRecastBench.evaluation.trajectory_judge "$RUN_PATH"
+        ;;
+    none)
+        echo "Skipping LLM judge (--judge none)"
+        ;;
+esac
+
+# render_eval resolves its own output dir from the run path.
+python -m LHCRecastBench.evaluation.render_eval       "$RUN_PATH"
