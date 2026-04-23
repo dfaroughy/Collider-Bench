@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)}"
+DOC="${REPO_ROOT}/LHCRecastBench/tools/CLI/PROSPINO.md"
+
+case "${1:-}" in
+  --doc) exec cat "${DOC}" ;;
+esac
+
+source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
+
+if ! activate_cms_analysis; then
+  bootstrap_cms_analysis
+fi
+
+cd "${REPO_ROOT}"
+exec python -m LHCRecastBench.tools.CLI.prospino "$@"

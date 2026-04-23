@@ -1,6 +1,9 @@
 # Agent run outputs — frozen artifacts, not source of truth.
-recast_*/
 runs/
+# Stray top-level run dirs (old layout, or tests that skip runs/).
+recast_*/
+simulate_*/
+validate_*/
 
 # Python bytecode / cache
 __pycache__/
@@ -37,3 +40,12 @@ draft/*.aux
 draft/*.log
 draft/*.out
 draft/*.synctex.gz
+
+# Prospino build products (reproducible from the vendored source via `make`)
+LHCRecastBench/tools/sim/prospino/**/*.o
+LHCRecastBench/tools/sim/prospino/**/*.mod
+LHCRecastBench/tools/sim/prospino/prospino_2.run
+LHCRecastBench/tools/sim/prospino/prospino.dat*
+LHCRecastBench/tools/sim/prospino/screen.out
+# Per-invocation scratch dirs created by bin/prospino
+prospino_scratch/

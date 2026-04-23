@@ -18,7 +18,9 @@ repos:
         # lint the real config files.
         files: ^configs/.*\.ya?ml$
       - id: check-added-large-files
-        args: ["--maxkb=1000"]
+        # 8 MB threshold — just enough to pass Prospino's vendored CTEQ6 PDF
+        # grid (~6 MB), which is immutable runtime data, not source code.
+        args: ["--maxkb=8000"]
       - id: check-merge-conflict
       - id: mixed-line-ending
         args: ["--fix=lf"]
