@@ -17,15 +17,18 @@ SHIPPED_CONFIGS = sorted(CONFIG_DIR.glob("*.yaml"))
 def test_config_loads_and_validates(config_path):
     cfg = load_config(str(config_path))
     # base.yaml has no `agent:` — that's intentional (it's inherited).
-    # Every other config must pin an agent.
+    # Every other config must pin an agent and a task id.
     if config_path.name != "base.yaml":
         assert cfg.get("agent") in {"simple", "baseline", "iterative", "sisyphus"}
-        assert cfg.get("paper")
+        assert cfg.get("task"), "every non-base config must set `task:` to a task id"
 
 
 def test_unknown_key_rejected():
     with pytest.raises(ValueError, match="unknown config key"):
-        validate_config({"agent": "simple", "paper": "1707.06193", "bogus_key": 1}, source="<test>")
+        validate_config(
+            {"agent": "simple", "task": "sus-16-046-simulate-TChiWg-stgamma", "bogus_key": 1},
+            source="<test>",
+        )
 
 
 def test_yaml_bool_guard():
@@ -36,14 +39,10 @@ def test_yaml_bool_guard():
         validate_config({"compute": True}, source="<test>")
 
 
-def test_task_key_accepts_valid_values():
-    for task in ("validate", "simulate", "recast"):
-        validate_config({"agent": "simple", "paper": "1707.06193", "task": task})
-
-
-def test_task_key_rejects_invalid_values():
-    with pytest.raises(ValueError, match="task"):
-        validate_config({"agent": "simple", "paper": "1707.06193", "task": "bogus"})
+def test_task_key_accepts_free_form_string():
+    """Task is now a free-form task id (validated against the filesystem later)."""
+    validate_config({"agent": "simple", "task": "sus-16-046-simulate-TChiWg-stgamma"})
+    validate_config({"agent": "simple", "task": "whatever-the-user-wants"})
 
 
 def test_extends_chain_resolved():

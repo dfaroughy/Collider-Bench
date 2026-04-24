@@ -1,0 +1,14 @@
+# Usage:
+#   scripts/run-agent --config configs/gemini_simple.yaml
+#
+# Gemini CLI auto-routes between gemini-3-pro / flash / flash-lite on the
+# server side, so `model` is usually safe left empty. Set explicitly only
+# to pin a single tier (e.g. "gemini-3-pro") for reproducibility.
+# The CLI has no reasoning-budget flag — `effort` is ignored.
+
+agent:   simple
+task:    sus-16-046-simulate-TChiWg-stgamma    # see LHCRecastBench/tasks/
+runner:  gemini
+model:   gemini-3-pro-preview  # or flash-preview / 2.5-pro / 2.5-flash / 2.5-flash-lite; "" → auto-router
+effort:  medium
+extends: base.yaml

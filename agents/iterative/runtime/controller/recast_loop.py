@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""Iterative agent loop: run the simple agent repeatedly until it converges.
+"""Iterative agent loop.
 
-Each iteration:
-  1. Sets up a fresh workspace from agents/simple/ + LHCRecastBench/papers/<arxiv>/{shared,tasks/<task>/}.
-  2. Seeds inherited artifacts from the previous iteration (analysis.py, status.md,
-     datasets.yaml, partially filled HEPRecastData/).
-  3. Runs the simple agent inside a bwrap sandbox.
-  4. Scores the filled HEPRecastData/ with score_recast.
-  5. Archives the workspace to validation/agent_NNN/.
-  6. Stops when either the score passes or max_iters is reached.
+STATUS: NOT YET MIGRATED to the tasks/ layout refactor (Phase 4 follow-up).
+This controller still references the old paper-centric paths (HEPRecastData/,
+LHCRecastBench/papers/<arxiv>/, score_recast) and will fail at runtime. It
+will be rewritten alongside the Apptainer migration. Use `simple` or
+`baseline` agents in the meantime.
 """
 
 from __future__ import annotations
@@ -27,6 +24,14 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from agent_runtime.runners import Runner, get_runner, RUNNERS
+
+
+def _migration_guard() -> None:
+    raise NotImplementedError(
+        "The iterative controller has not been migrated to the tasks/ layout yet. "
+        "Use a `simple` or `baseline` agent config for now. "
+        "Tracked as Phase 4 follow-up alongside the Apptainer migration."
+    )
 
 
 # Files the loop expects to find (none are strictly required — missing ones
@@ -347,8 +352,9 @@ def _run_agent(
 
 
 def main() -> int:
+    _migration_guard()
     parser = argparse.ArgumentParser(
-        description="Iterate the simple agent until score_recast passes or max_iters is reached.",
+        description="Iterate the simple agent until score_run passes or max_iters is reached.",
     )
     parser.add_argument(
         "--config", default="", help="YAML config file (CLI flags override; see configs/)"

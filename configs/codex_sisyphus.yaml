@@ -5,7 +5,7 @@
 extends: base.yaml
 
 agent:   sisyphus
-paper:   CMS-SUS-16-047
+task:    sus-16-047-simulate-T5Wg-highHT-pTmiss    # see LHCRecastBench/tasks/
 runner:  codex
 model:   gpt-5.4
 effort:  high

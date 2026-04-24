@@ -22,9 +22,10 @@ def repo_root() -> Path:
 
 
 @pytest.fixture(scope="session")
-def paper_ref() -> str:
-    # The benchmark ships this paper — all smoke tests use it.
-    return "CMS-SUS-16-047"
+def task_id() -> str:
+    # Canonical task for smoke tests — SUS-16-047 is the only one with real
+    # reference values in the shared pool, so scoring tests don't no-op.
+    return "sus-16-047-simulate-T5Wg-highHT-pTmiss"
 
 
 @pytest.fixture
@@ -32,4 +33,4 @@ def tmp_run_name(tmp_path_factory) -> str:
     # Name pattern is gitignored so the dir is never committed if a test
     # forgets to clean up. Prefix is cosmetic — tmp_path_factory already
     # places it outside the repo.
-    return f"recast_SMOKE_{os.getpid()}_{tmp_path_factory.mktemp('ws').name}"
+    return f"SMOKE_{os.getpid()}_{tmp_path_factory.mktemp('ws').name}"

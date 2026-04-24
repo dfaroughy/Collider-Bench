@@ -6,7 +6,7 @@ Usage:
     scripts/run-agent --config configs/claude_baseline.yaml
 
     # Direct (always runs on the current host):
-    python -m agents.baseline.run --paper-ref 1707.06193 \\
+    python -m agents.baseline.run --task sus-16-047-simulate-T5Wg-highHT-pTmiss \\
         --runner claude --model claude-opus-4-7
 """
 

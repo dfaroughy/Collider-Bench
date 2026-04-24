@@ -6,7 +6,7 @@ Usage:
     scripts/run-agent --config configs/claude_simple.yaml
 
     # Direct (always runs on the current host):
-    python -m agents.simple.run --paper-ref 1707.06193 \\
+    python -m agents.simple.run --task sus-16-046-simulate-TChiWg-STgamma \\
         --runner claude --model claude-opus-4-7
 """
 

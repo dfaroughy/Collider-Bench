@@ -1,0 +1,13 @@
+# Usage:
+#   scripts/run-agent --config configs/gemini_baseline.yaml
+#
+# Gemini CLI auto-routes between gemini-3-pro / flash / flash-lite, so
+# `model` is optional. Pin to gemini-3-pro here for reproducibility.
+# The CLI has no reasoning-budget flag — `effort` is ignored.
+
+agent:   baseline
+task:    sus-16-047-simulate-T5Wg-highHT-pTmiss    # see LHCRecastBench/tasks/
+runner:  gemini
+model:   gemini-3-pro-preview  # or flash-preview / 2.5-pro / 2.5-flash / 2.5-flash-lite; "" → auto-router
+effort:  medium
+extends: base.yaml

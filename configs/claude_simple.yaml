@@ -3,8 +3,8 @@
 #   scripts/run-agent --config configs/claude_simple.yaml --effort high   # CLI overrides
 
 agent:   simple
-paper:   CMS-SUS-16-046
-runner:   claude
-model:    claude-opus-4-7
-effort:   max              # low | medium | high | max | <int tokens>
+task:    sus-16-046-simulate-TChiWg-stgamma    # see LHCRecastBench/tasks/
+runner:  claude
+model:   claude-opus-4-7
+effort:  max              # low | medium | high | max | <int tokens>
 extends: base.yaml

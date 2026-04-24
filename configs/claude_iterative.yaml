@@ -3,7 +3,7 @@
 #   scripts/run-agent --config configs/claude_iterative.yaml --effort high --max-iters 3
 
 agent:   iterative
-paper:   CMS-SUS-16-047
+task:    sus-16-047-simulate-T5Wg-highHT-pTmiss    # see LHCRecastBench/tasks/
 runner:   claude
 model:    claude-opus-4-7
 effort:    1500

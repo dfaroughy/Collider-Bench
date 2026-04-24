@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Sisyphus recast loop.
 
+STATUS: NOT YET MIGRATED to the tasks/ layout refactor (Phase 4 follow-up).
+This controller still references the old paper-centric paths (HEPRecastData/,
+LHCRecastBench/papers/<arxiv>/, score_recast) and will fail at runtime. It
+will be rewritten alongside the Apptainer migration. Use `simple` or
+`baseline` agents in the meantime.
+
 Three roles per run:
   - Planner  — runs once at the start, writes <run_dir>/plan.md.
-  - Executor — runs every iteration, produces HEPRecastData/*, analysis.py, report.md.
+  - Executor — runs every iteration, produces results/, analysis.py, report.md.
   - Critic   — runs after every non-converged iteration, writes critique.md seeded
                into the next executor's workspace.
 
@@ -476,6 +482,11 @@ def _run_critic(
 
 
 def main() -> int:
+    raise NotImplementedError(
+        "The sisyphus controller has not been migrated to the tasks/ layout yet. "
+        "Use a `simple` or `baseline` agent config for now. "
+        "Tracked as Phase 4 follow-up alongside the Apptainer migration."
+    )
     parser = argparse.ArgumentParser(
         description="Sisyphus recast loop: planner + iter(executor→score→critic).",
     )

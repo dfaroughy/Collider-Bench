@@ -6,7 +6,9 @@ You are analyzing CMS paper `{arxiv_id}`."
 ## What you have
 
 - `papers/{arxiv_id}.pdf` — the paper. Read it with `bin/read-paper`.
-- `HEPRecastData/*.yaml` — templates with null values. **Replace them with your recast results.**
+- `results/*.yml` — histogram template with null values. **Fill the nulls in place with your recast results.**
+- `results/description.toml` — per-histogram metadata (bin definitions, luminosity, benchmark).
+- `object_efficiencies/` — detector efficiency files (if provided for this task).
 - `bin/` — CLI tools (cheat-sheet below; full reference in `TOOLS.md`)
 - `skills/` — Collider Physics skill-set
 
@@ -46,7 +48,7 @@ Produce these artifacts:
 
 | File | Purpose |
 |---|---|
-| `HEPRecastData/*.yaml` | Recast results. Leave unknown fields as `null`. |
+| `results/*.yml` | Recast histogram — fill null values in place. Leave truly unknown fields as `null`. |
 | `datasets.yaml` | All samples used |
 | `analysis/*.py` | Event selection + yield code; runnable via `bin/run-analysis`. |
 | `data/*.root` | Selected events. |

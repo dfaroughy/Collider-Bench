@@ -1,4 +1,8 @@
-"""build_workspace must produce a clean, bwrap-ready layout for every agent."""
+"""build_workspace must produce a clean, bwrap-ready layout for every agent.
+
+Post-tasks/ refactor: workspace is driven by a task_id (not paper+task enum),
+and the agent's fillable yaml lives at workspace/results/ (not HEPRecastData/).
+"""
 
 from __future__ import annotations
 
@@ -10,21 +14,19 @@ import pytest
 from agent_runtime.workspace import build_workspace
 
 
-# sisyphus uses build_workspace too, but only after moving its role cards out of
-# the top level; simple and baseline ship these top-level instructions directly.
-AGENT_NAMES = ["simple", "baseline", "sisyphus"]
-KNOWN_TASKS = ["validate", "simulate", "recast"]
+# Only single-shot agents are exercised here. Iterative/sisyphus controllers
+# haven't been migrated to the tasks/ layout yet (see their main() guards).
+AGENT_NAMES = ["simple", "baseline"]
 
 
 @pytest.fixture
-def clean_workspace(repo_root, tmp_run_name, paper_ref):
-    """Build a workspace, yield its Path, then tear it down."""
+def clean_workspace(repo_root, tmp_run_name, task_id):
+    """Build a workspace, yield a builder, then tear it down."""
     created: list = []
 
-    def make(agent: str, task: str = "recast"):
-        run_name = f"{tmp_run_name}_{agent}_{task}"
-        ws = build_workspace(repo_root, agent, paper_ref, run_name, task=task)
-        # build_workspace puts runs under repo_root/runs/<run_name>/
+    def make(agent: str):
+        run_name = f"{tmp_run_name}_{agent}"
+        ws = build_workspace(repo_root, agent, task_id, run_name)
         created.append(repo_root / "runs" / run_name)
         return ws
 
@@ -42,8 +44,9 @@ def test_workspace_layout(clean_workspace, agent):
     assert (ws / "bin").is_dir()
     assert (ws / "tools").is_symlink()
     assert (ws / "papers").is_symlink()
-    # papers/ must resolve to the shared for_agent location
-    assert "LHCRecastBench" in os.readlink(ws / "papers")
+    # papers/ must resolve to the shared paper dir under tasks/shared/
+    link = os.readlink(ws / "papers")
+    assert "tasks/shared" in link or "LHCRecastBench" in link
 
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)
@@ -55,7 +58,7 @@ def test_workspace_has_run_analysis(clean_workspace, agent):
 @pytest.mark.parametrize("agent", AGENT_NAMES)
 def test_planner_critic_role_cards_not_leaked(clean_workspace, agent):
     """PLANNER.md / CRITIC.md live under runtime/roles/ — they must not
-    appear in the executor's agent_context/ even when the agent is sisyphus."""
+    appear in the executor's agent_context/."""
     ws = clean_workspace(agent)
     ctx_files = {p.name for p in (ws / "agent_context").rglob("*.md")}
     assert "PLANNER.md" not in ctx_files
@@ -63,36 +66,33 @@ def test_planner_critic_role_cards_not_leaked(clean_workspace, agent):
 
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)
-@pytest.mark.parametrize("task", KNOWN_TASKS)
-def test_task_md_is_seeded_into_agent_context(clean_workspace, agent, task):
-    """Every workspace must carry the benchmark-provided TASK.md so the agent
-    reads it from the same path regardless of agent or task."""
-    ws = clean_workspace(agent, task=task)
+def test_task_md_is_seeded_into_agent_context(clean_workspace, agent):
+    """Every workspace carries the task's TASK.md at agent_context/TASK.md."""
+    ws = clean_workspace(agent)
     task_path = ws / "agent_context" / "TASK.md"
-    assert task_path.is_file(), f"TASK.md missing for {agent}/{task}"
-    text = task_path.read_text()
-    # Each TASK.md has a distinctive header so we can tell which task landed.
-    expected_header = {
-        "validate": "VALIDATE",
-        "simulate": "SIMULATE",
-        "recast": "RECAST",
-    }[task]
-    assert expected_header in text
+    assert task_path.is_file(), f"TASK.md missing for {agent}"
+    assert task_path.read_text().strip()
 
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)
-@pytest.mark.parametrize("task", KNOWN_TASKS)
-def test_task_templates_land_at_workspace_root(clean_workspace, agent, task):
-    """The agent fills HEPRecastData/ in the workspace — those files come
-    from tasks/<task>/templates/HEPRecastData/."""
-    ws = clean_workspace(agent, task=task)
-    hep = ws / "HEPRecastData"
-    assert hep.is_dir()
-    assert any(hep.glob("*.yaml"))
+def test_results_seeded_from_task_template(clean_workspace, agent):
+    """The agent fills results/ in place — seeded from tasks/<task_id>/template/."""
+    ws = clean_workspace(agent)
+    results = ws / "results"
+    assert results.is_dir()
+    # At least one yaml/yml for the histogram and the description.toml
+    yamls = list(results.glob("*.yml")) + list(results.glob("*.yaml"))
+    assert yamls, "results/ should contain the null-filled histogram"
+    assert (results / "description.toml").is_file()
 
 
-def test_invalid_task_raises_filenotfound(repo_root, tmp_run_name, paper_ref):
-    import pytest
+def test_task_toml_not_leaked_into_workspace(clean_workspace):
+    """task.toml is harness metadata — it must NOT end up in the workspace."""
+    ws = clean_workspace("simple")
+    assert not (ws / "task.toml").exists()
+    assert not (ws / "results" / "task.toml").exists()
 
+
+def test_invalid_task_raises_filenotfound(repo_root, tmp_run_name):
     with pytest.raises(FileNotFoundError):
-        build_workspace(repo_root, "simple", paper_ref, tmp_run_name, task="nonexistent")
+        build_workspace(repo_root, "simple", "nonexistent-task-id", tmp_run_name)

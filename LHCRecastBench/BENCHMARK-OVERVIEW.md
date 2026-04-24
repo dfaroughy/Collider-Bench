@@ -1,10 +1,9 @@
 # LHC-Recast Benchmark — what it provides
 
-Researcher-facing overview of the benchmark: what an agent receives in
-its workspace, what it's expected to produce, and how the output is
-scored. For tool-by-tool CLI reference, see
-[`tools/TOOLS.md`](tools/TOOLS.md) and run `bin/<tool> --doc` for
-individual docs.
+Researcher-facing overview: what an agent receives in its workspace, what
+it's expected to produce, and how the output is scored. For tool-by-tool
+CLI reference, see [`tools/TOOLS.md`](tools/TOOLS.md) and run
+`bin/<tool> --doc` for individual docs.
 
 ## What the benchmark provides
 
@@ -13,13 +12,35 @@ individual docs.
   fetching FeynRules UFO models, and computing NLO SUSY cross sections
   (Prospino). Full index in [`tools/TOOLS.md`](tools/TOOLS.md).
 - **Simulation binaries** (MG5 v3.7.0, Pythia 8.313, Delphes, Prospino
-  2.1) vendored under [`tools/sim/`](tools/sim/) and usable both via the
+  2.1) vendored under [`tools/sim/`](tools/sim/), usable both via the
   `bin/simulate` wrapper and directly.
 - **A parallel streaming library** —
   `from LHCRecastBench.tools.streaming import stream_files`.
-- **HEPData YAML templates** per paper + task — `HEPRecastData/`
-  with `null` values where the agent writes its recast results.
+- **HEPData YAML templates** per task — null-filled skeleton the
+  agent fills in place.
 - **Offline evaluation metrics** — see below.
+
+## Task-centric layout
+
+Each task is a self-contained unit covering one (paper, signal, histogram):
+
+```
+LHCRecastBench/tasks/
+  <task-id>/                        e.g. sus-16-046-simulate-TChiWg-stgamma
+    task.toml                       ← identity metadata (paper, type, signal, ...)
+    TASK.md                         ← agent-facing instructions
+    template/
+      description.toml              ← per-histogram kinematics + benchmark text
+      histogram_<sig>_<obs>.yml     ← null-filled skeleton the agent fills
+    artifacts/                      ← optional task-specific auxiliary files
+  shared/<paper>/                   shared across all tasks for that paper
+    paper/<paper>.pdf
+    histograms/                     ← reference ground-truth (HIDDEN from agent)
+    object_efficiencies/            ← detector efficiency files
+```
+
+Task-id format: `<paper-slug>-<type>-<signal>-<histogram-slug>` with
+type ∈ {`simulate`, `validate`} (`recast` to come).
 
 ## Agent workspace layout
 
@@ -28,56 +49,60 @@ Each run gets a fresh sandboxed workspace containing:
 ```
 <run_dir>/workspace/
   agent_context/
-    TASK.md              ← the benchmark's task spec for this run (validate|simulate|recast)
-    AGENTS.md            ← the agent's role description (per-agent)
-    TOOLS.md             ← tool index (seeded from tools/TOOLS.md)
-    SOUL.md, skills/*    ← optional per-agent guidance (baseline only)
-  bin/                   ← all CLI wrappers (symlinked from LHCRecastBench/bin/)
-  papers/                ← paper PDF (symlinked, read-only)
-  tools/                 ← full tools/ tree (read-only)
-  HEPRecastData/         ← task-specific templates, null values to fill in
-  <task-specific-shared> ← object_efficiencies/, datasets.yaml stubs, etc.
+    TASK.md                ← the task's instruction file
+    AGENTS.md              ← agent role description
+    TOOLS.md               ← canonical tool index
+    SOUL.md, skills/*      ← optional per-agent guidance (baseline only)
+  bin/                     ← all CLI wrappers
+  tools/                   ← full tools/ tree (read-only)
+  papers/                  ← symlinked paper PDF (read-only)
+  object_efficiencies/     ← copy of shared detector files + task artifacts/
+  results/                 ← copy of tasks/<task>/template/:
+                             description.toml + null-filled histogram yaml.
+                             Agent fills the nulls IN PLACE.
 ```
 
-The agent writes `analysis.py` + `report.md` in the workspace root and
-fills the `HEPRecastData/*.yaml` values. Everything else is read-only
-or seeded per-run.
+Agent also writes `analysis.py`, `report.md`, optional `sim/`, `data/`
+subdirs. Task.toml is harness metadata and is NOT exposed to the agent.
 
-## Tasks
+## Run directory layout
 
-Each paper ships one or more tasks under `papers/<arxiv>/tasks/`:
+Runs are grouped by `(runner, model)`:
 
-| Task | Expected depth |
-|---|---|
-| `validate` | Reproduce a known sanity check — minimal MC, one observable. |
-| `simulate` | Generate the signal MC and fill a subset of the HEPData tables. |
-| `recast`   | Full recast: all signal benchmarks, all observables. |
-
-The same benchmark harness drives all three; the `task:` field in the
-launch config (or `--task` CLI flag) picks which `TASK.md` + HEPRecastData
-templates + reference get seeded.
+```
+runs/
+  <runner>_<model>/
+    <task-id>_<Adj><Physicist><hex8>/
+      run_info.json        ← task_id, paper_ref, agent, runner, model, ...
+      workspace/
+      eval/                ← score.json, rubric_scorer.json, plots/, ...
+```
 
 ## Scoring interface
 
-The agent's output is the set of filled `HEPRecastData/*.yaml` files.
-Scoring compares each `value: X` in the filled YAML against the
-corresponding `value: Y` in the hidden reference under
-`papers/<arxiv>/tasks/<task>/reference/HEPRecastData/`. No custom JSON
-formats — the agent writes standard HEPData YAML.
+Each task is scored against a **single** reference histogram:
+
+- Agent output: `workspace/results/<histogram>.yml` (one series matching
+  `header_name` from `description.toml`).
+- Reference:    `LHCRecastBench/tasks/shared/<paper>/histograms/<histogram>.yaml`.
+
+Metrics applied per task:
+
+- Per-bin pulls (`pass` iff `|pull| < 2` or `rel_diff < 0.5`).
+- Baker-Cousins likelihood-ratio decomposition (shape × norm).
+- Kolmogorov–Smirnov on unit-area CDFs.
 
 ## Offline evaluation
 
-Five tools in [`evaluation/`](evaluation/), each accepting the same
-run-dir argument (see [`evaluation/EVAL.md`](evaluation/EVAL.md) for the
-full schema):
+All tools in [`evaluation/`](evaluation/) accept the same run-dir argument:
 
 | Tool | What it measures |
 |---|---|
-| `score.py` | Per-bin pulls + Baker-Cousins shape/normalization decomposition (goodness-of-fit + p-values). |
+| `score.py` | Per-bin pulls + Baker-Cousins shape/normalization + KS. |
 | `rubric_scorer.py` | Weighted checkpoint scoring + cost + token efficiency. |
-| `plot_recast.py` | Per-table step-histogram PNGs (CMS vs recast, with ratio panel). |
-| `llm_judge.py` | LLM-as-Judge reasoning evaluation (6 dimensions + CORRECTED-provenance check). |
-| `trajectory_judge.py` | 9-mode Terminal-Bench-style failure taxonomy (execution / coherence / verification). |
+| `plot_recast.py` | Step-histogram PNG (reference vs agent, with ratio panel). |
+| `llm_judge.py` | LLM-as-Judge reasoning evaluation + CORRECTED-provenance check. |
+| `trajectory_judge.py` | 9-mode Terminal-Bench-style failure taxonomy. |
 
 Drive all of them at once with `scripts/launch_eval.sh <run_dir>`; see
 [`evaluation/EVAL.md`](evaluation/EVAL.md) and
