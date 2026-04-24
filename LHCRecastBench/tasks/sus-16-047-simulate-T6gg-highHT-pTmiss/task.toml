@@ -1,0 +1,11 @@
+[task]
+id          = "sus-16-047-simulate-T6gg-highHT-pTmiss"
+paper       = "CMS-SUS-16-047"
+type        = "simulation"
+signal      = "T6gg_1750_1650"
+observable  = "highHT-pTmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "4h"
+tags       = ["SUSY", "CMS", "T6gg", "13TeV", "simplified model"]

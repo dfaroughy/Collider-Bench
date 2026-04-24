@@ -1,0 +1,13 @@
+[histogram]
+file          = "histogram_TChiWg_STgamma.yaml"       # template yaml the agent fills in
+header_name   = "TChiWg_700"         # matches the histogram column header
+task = """
+Fill null histogram values for eacfh bin with event counts normalized to
+luminosity 35.9 fb^-1. In the rightmost bin include ALL events with
+S_T^gamma > 1300 GeV. Do not modify bin edges.
+"""
+description   = "STgamma event counts for signal region events."
+benchmark     = "TChiWg, NLSP 700 GeV, Massless LSP"
+obs           = "DSIG/DSTGAMMA"
+cm_energy_gev = 13000
+luminosity_fb = 35.9

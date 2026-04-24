@@ -1,0 +1,11 @@
+[task]
+id          = "sus-16-047-validate-data-highHT-pTmiss"
+paper       = "CMS-SUS-16-047"
+type        = "validation"
+signal      = "data"
+observable  = "highHT-pTmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "4h"
+tags       = ["CMS", "13TeV", "data"]

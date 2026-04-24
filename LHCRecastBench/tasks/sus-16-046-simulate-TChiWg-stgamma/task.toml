@@ -1,0 +1,11 @@
+[task]
+id          = "sus-16-046-simulate-TChiWg-stgamma"
+paper       = "CMS-SUS-16-046"
+type        = "simulation"
+signal      = "TChiWg_700"
+observable  = "stgamma"
+
+[metadata]
+difficulty = "medium"
+walltime   = "4h"
+tags       = ["SUSY", "CMS", "TChiWg", "13TeV", "simplified model"]

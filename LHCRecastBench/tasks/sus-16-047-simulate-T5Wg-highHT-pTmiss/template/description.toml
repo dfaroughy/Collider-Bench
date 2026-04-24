@@ -1,0 +1,13 @@
+[histogram]
+file          = "histogram_T5Wg_highHT_pTmiss.yml"
+header_name   = "T5Wg_1600_100"
+task = """
+Fill null histogram values for each bin with event counts normalized to
+luminosity 35.9 fb^-1. In the rightmost bin include ALL events with
+p_T^miss > 600 GeV. Do not modify bin edges.
+"""
+description   = "pTmiss event counts in the high-HT signal region (H_T^gamma > 2000 GeV, EE, |∆φ|>0.3)."
+benchmark     = "T5Wg, gluino 1600 GeV, gaugino 100 GeV"
+obs           = "DSIG/DPTMISS"
+cm_energy_gev = 13000
+luminosity_fb = 35.9
