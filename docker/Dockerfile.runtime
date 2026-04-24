@@ -1,0 +1,35 @@
+# Our opinionated runtime layer: adds Node + gemini-cli + agent_runtime/.
+#
+# Layered on top of the vendor-neutral benchmark image. Third parties who
+# want to evaluate their own agent should use lhc-recast-bench directly
+# and skip this image.
+
+ARG BENCH_IMAGE=lhc-recast-bench:latest
+FROM ${BENCH_IMAGE}
+
+# Node goes into the conda env so the gemini-cli shebang (#!/usr/bin/env node)
+# resolves against the same Python/Node combo we use on NERSC today.
+RUN mamba install -n cms_analysis -y -c conda-forge 'nodejs>=20' \
+      && mamba clean -afy
+
+# Install gemini-cli into a dedicated prefix so it's easy to replace /
+# version-bump without touching the rest of the image.
+ENV NPM_CONFIG_PREFIX=/opt/node-global
+ENV PATH=/opt/node-global/bin:${PATH}
+RUN npm install -g @google/gemini-cli \
+      && npm cache clean --force
+
+# Runtime Python: shared workspace builder, sandbox abstraction, runners.
+COPY agent_runtime /app/agent_runtime
+COPY agents        /app/agents
+COPY configs       /app/configs
+
+ENV PYTHONPATH=/app:${PYTHONPATH}
+
+# Claude / Codex / Gemini OAuth state is NOT baked — bind-mount at runtime:
+#   --bind ~/.claude:/root/.claude
+#   --bind ~/.codex:/root/.codex
+#   --bind ~/.gemini:/root/.gemini
+
+WORKDIR /workspace
+CMD ["/bin/bash"]

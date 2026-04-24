@@ -23,8 +23,12 @@ case "${1:-}" in
 esac
 
 SIM_DIR="${REPO_ROOT}/LHCRecastBench/tools/sim"
-MG5_DIR="${SIM_DIR}/MG5_aMC_v3_7_0"
-DELPHES_DIR="${SIM_DIR}/delphes"
+# Containers (Apptainer / Docker) may override these to point at the image's
+# baked sim stack under /opt/sim/*. If unset we fall back to the repo tree.
+MG5_DIR="${MG5_DIR:-${SIM_DIR}/MG5_aMC_v3_7_0}"
+PYTHIA8_DIR="${PYTHIA8_DIR:-${SIM_DIR}/pythia8313}"
+DELPHES_DIR="${DELPHES_DIR:-${SIM_DIR}/delphes}"
+PROSPINO_DIR="${PROSPINO_DIR:-${SIM_DIR}/prospino}"
 
 # Activate conda if not already active
 if ! python3 -c "import uproot" 2>/dev/null; then

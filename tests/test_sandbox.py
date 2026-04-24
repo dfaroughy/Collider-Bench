@@ -12,6 +12,11 @@ from agent_runtime.sandbox import SANDBOXES, get_sandbox, sandbox_command
 
 @pytest.mark.parametrize("name", sorted(SANDBOXES))
 def test_backend_instantiates(name):
+    # Skip backends whose required tools aren't present on this host
+    # (e.g. apptainer on a bwrap-only box, or vice versa).
+    cls = SANDBOXES[name]
+    if not cls().available():
+        pytest.skip(f"{name} backend tools not installed")
     sb = get_sandbox(name)
     assert sb.name == name
 
