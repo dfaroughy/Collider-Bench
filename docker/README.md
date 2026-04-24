@@ -11,36 +11,53 @@ Host-mounted at run time (never baked): `LHCRecastBench/` (tasks, tools/CLI, eva
 
 ## Build
 
-From the repo root:
+The Dockerfiles produce OCI images usable by any OCI-compliant runtime —
+Docker, Podman, Apptainer, Shifter. NERSC Perlmutter ships `podman-hpc`
+(no Docker, no Apptainer); pick whichever command matches your host:
 
 ```bash
-# Benchmark layer (~4 GB, takes several minutes the first time)
+# On NERSC Perlmutter (login or compute node):
+podman-hpc build -f docker/Dockerfile.bench   -t lhc-recast-bench:latest .
+podman-hpc build -f docker/Dockerfile.runtime -t lhc-recast-runtime:latest .
+
+# On a laptop with Docker:
 docker build -f docker/Dockerfile.bench   -t lhc-recast-bench:latest .
-
-# Runtime layer (fast — just node + gemini-cli + python modules on top)
 docker build -f docker/Dockerfile.runtime -t lhc-recast-runtime:latest .
+
+# On any host with rootless podman:
+podman build -f docker/Dockerfile.bench   -t lhc-recast-bench:latest .
+podman build -f docker/Dockerfile.runtime -t lhc-recast-runtime:latest .
 ```
 
-## Convert to Apptainer SIF (for HPC use)
+First bench build: ~10 minutes (conda solve + ~650 MB sim stack COPY).
+Runtime build is fast (just Node + npm + python layer).
+Final sizes: bench ~2.9 GB, runtime ~3.1 GB.
+
+## Run one task (via our runner)
 
 ```bash
-apptainer build lhc-recast-runtime_latest.sif docker-daemon://lhc-recast-runtime:latest
+./scripts/run-agent --config configs/claude_simple.yaml --sandbox podman
 ```
 
-Or pull directly from a registry once we publish:
+(Use `--sandbox apptainer` on hosts where Apptainer is installed instead
+of podman.) The Sandbox class in
+[`agent_runtime/sandbox.py`](../agent_runtime/sandbox.py) handles all
+binds (LHCRecastBench, workspace, OAuth creds, /cvmfs, baked /opt/sim).
+`$LHC_RECAST_IMAGE` overrides the image ref (default:
+`lhc-recast-runtime:latest` resolved against the runtime's local store).
+
+## Pre-built SIF for Apptainer users (outside NERSC)
 
 ```bash
-apptainer build lhc-recast-runtime_latest.sif docker://ghcr.io/<org>/lhc-recast-runtime:latest
+# From a host with both podman and apptainer (e.g. Linux laptop):
+apptainer build lhc-recast-runtime.sif \
+    docker-daemon://localhost/lhc-recast-runtime:latest
+# Then point LHC_RECAST_IMAGE at the .sif file
+export LHC_RECAST_IMAGE=/path/to/lhc-recast-runtime.sif
 ```
 
-## Run one task (Apptainer, via our runner)
-
-```bash
-export LHC_RECAST_IMAGE=/path/to/lhc-recast-runtime_latest.sif
-./scripts/run-agent --config configs/claude_simple.yaml --sandbox apptainer
-```
-
-The `ApptainerSandbox` in [`agent_runtime/sandbox.py`](../agent_runtime/sandbox.py) takes care of all binds. If `LHC_RECAST_IMAGE` is unset it defaults to `lhc-recast-runtime:latest` (resolved by the Apptainer engine against its search path).
+Or publish to a registry (ghcr.io, Docker Hub) and `apptainer pull` from
+any host that has Apptainer.
 
 ## Run the benchmark image with your own agent
 

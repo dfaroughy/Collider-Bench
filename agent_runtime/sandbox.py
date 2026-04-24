@@ -270,24 +270,14 @@ class ApptainerSandbox(Sandbox):
         if Path("/cvmfs").is_dir():
             cmd.extend(["--bind", "/cvmfs:/cvmfs:ro"])
 
-        # Image's baked sim stack overrides whatever the host tools/sim/ has,
-        # so everyone runs identical MG5/Delphes/Pythia/Prospino versions.
-        sim_dir = bench_paths.sim_dir(repo_root)
-        for install, container_src in (
-            ("MG5_aMC_v3_7_0", "/opt/sim/MG5_aMC_v3_7_0"),
-            ("pythia8313", "/opt/sim/pythia8313"),
-            ("delphes", "/opt/sim/delphes"),
-            ("prospino", "/opt/sim/prospino"),
-        ):
-            host_target = sim_dir / install
-            if host_target.is_dir():
-                cmd.extend(["--bind", f"{container_src}:{host_target}"])
-
         for path in extra_ro_binds or []:
             if Path(path).exists():
                 cmd.extend(["--bind", f"{path}:{path}:ro"])
 
-        # Propagate the API/OAuth env vars the agent CLIs look for.
+        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV
+        # directives — bin/simulate reads them to find /opt/sim/<tool>
+        # inside the container. We only propagate the API/OAuth env vars
+        # the agent CLIs look for.
         for var in (
             "ANTHROPIC_API_KEY",
             "OPENAI_API_KEY",
@@ -301,6 +291,79 @@ class ApptainerSandbox(Sandbox):
             val = os.environ.get(var)
             if val:
                 cmd.extend(["--env", f"{var}={val}"])
+
+        cmd.append(image)
+        cmd.extend(list(inner_cmd))
+
+        return cmd, (lambda: None)
+
+
+# ── Podman / Podman-HPC (NERSC, rootless containers) ───────────────────────
+
+
+class PodmanSandbox(Sandbox):
+    """OCI-image sandbox via `podman` or `podman-hpc` (NERSC wrapper).
+
+    Same image, same bind contract as ApptainerSandbox — just a different
+    runtime. Use this when apptainer isn't installed but podman is (NERSC
+    Perlmutter: podman-hpc only).
+
+    Image ref in $LHC_RECAST_IMAGE (default: lhc-recast-runtime:latest).
+    """
+
+    name = "podman"
+
+    def available(self) -> bool:
+        return shutil.which("podman-hpc") is not None or shutil.which("podman") is not None
+
+    def _engine(self) -> str:
+        return "podman-hpc" if shutil.which("podman-hpc") else "podman"
+
+    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+        from agent_runtime import paths as bench_paths
+
+        image = os.environ.get("LHC_RECAST_IMAGE", "lhc-recast-runtime:latest")
+        benchmark_dir = bench_paths.benchmark_dir(repo_root)
+
+        cmd: list[str] = [
+            self._engine(),
+            "run",
+            "--rm",
+            "--workdir",
+            str(workspace),
+            "-v",
+            f"{workspace}:{workspace}",
+            "-v",
+            f"{benchmark_dir}:{benchmark_dir}",
+        ]
+
+        for d in (".claude", ".codex", ".gemini"):
+            host = Path.home() / d
+            if host.is_dir():
+                cmd.extend(["-v", f"{host}:/root/{d}"])
+
+        if Path("/cvmfs").is_dir():
+            cmd.extend(["-v", "/cvmfs:/cvmfs:ro"])
+
+        for path in extra_ro_binds or []:
+            if Path(path).exists():
+                cmd.extend(["-v", f"{path}:{path}:ro"])
+
+        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV —
+        # bin/simulate reads them to find /opt/sim/<tool> inside the container.
+        for var in (
+            "ANTHROPIC_API_KEY",
+            "OPENAI_API_KEY",
+            "GEMINI_API_KEY",
+            "GOOGLE_API_KEY",
+            "CODEX_HOME",
+            "CLAUDE_BIN",
+            "CODEX_BIN",
+            "GEMINI_BIN",
+        ):
+            val = os.environ.get(var)
+            if val:
+                cmd.extend(["-e", f"{var}={val}"])
 
         cmd.append(image)
         cmd.extend(list(inner_cmd))
@@ -334,26 +397,25 @@ class NoneSandbox(Sandbox):
 SANDBOXES: dict[str, type[Sandbox]] = {
     "bwrap": BwrapSandbox,
     "apptainer": ApptainerSandbox,
+    "podman": PodmanSandbox,
     "none": NoneSandbox,
-    # Add future backends here: "podman": PodmanSandbox, "docker": DockerSandbox, ...
 }
 
 
 def _auto_select() -> Sandbox:
-    """Pick the best available backend, prefer isolating ones.
+    """Pick the best available isolating backend.
 
-    Order: bwrap (fastest on Linux laptops/HPC) → apptainer (portable) → none.
-    Users with both can force apptainer via --sandbox apptainer or
-    LHC_RECAST_SANDBOX=apptainer.
+    Order: bwrap → apptainer → podman → none.
+    Users can force any via --sandbox <name> or LHC_RECAST_SANDBOX=<name>.
     """
-    for cls in (BwrapSandbox, ApptainerSandbox):
+    for cls in (BwrapSandbox, ApptainerSandbox, PodmanSandbox):
         inst = cls()
         if inst.available():
             return inst
     sys.stderr.write(
-        "sandbox: no isolating backend available (neither bwrap nor apptainer); "
+        "sandbox: no isolating backend available (bwrap, apptainer, podman all missing); "
         "falling back to 'none' (NO ISOLATION). "
-        "Install bubblewrap or apptainer, or set LHC_RECAST_SANDBOX=none to silence this.\n"
+        "Install one of them, or set LHC_RECAST_SANDBOX=none to silence this.\n"
     )
     return NoneSandbox()
 

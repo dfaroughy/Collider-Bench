@@ -7,7 +7,7 @@
 # Does NOT contain: any agent CLI, any runner scaffold, our agent_runtime,
 # our agents/, our configs/. Those live in the derived `runtime` image.
 
-FROM condaforge/mambaforge:latest
+FROM docker.io/condaforge/mambaforge:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
