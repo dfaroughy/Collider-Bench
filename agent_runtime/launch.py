@@ -125,8 +125,13 @@ def _run_in_sandbox(
         cleanup()
 
 
-def _score(workspace: Path) -> dict:
-    """Score the agent's filled histogram against its task's reference."""
+def _default_score(workspace: Path) -> dict:
+    """Default scoring hook — calls the in-repo LHCRecastBench evaluator.
+
+    Kept as a separate function so alternate scorers can be injected via
+    `launch_single_run(..., score=<callable>)`. Returns an {"error": ...}
+    dict rather than raising, so a scoring failure doesn't mask the run.
+    """
     try:
         from LHCRecastBench.evaluation._resolve import resolve_run
         from LHCRecastBench.evaluation.score import score_run
@@ -139,11 +144,16 @@ def _score(workspace: Path) -> dict:
     return score_run(rp)
 
 
+# Scoring hook type — injectable via launch_single_run(..., score=...).
+ScoreFn = Callable[[Path], dict]
+
+
 def launch_single_run(
     agent_name: str,
     build_prompt: PromptBuilder,
     repo_root: Path,
     argv: list[str] | None = None,
+    score: ScoreFn | None = None,
 ) -> int:
     """Run one agent session end-to-end. Returns exit code.
 
@@ -152,7 +162,11 @@ def launch_single_run(
     repo_root     — absolute repo root; usually Path(__file__).resolve().parents[2]
                     from the caller.
     argv          — override sys.argv for testing; None uses sys.argv[1:].
+    score         — optional scorer: (workspace) -> dict. Defaults to
+                    _default_score which calls the in-repo LHCRecastBench
+                    evaluator. Pass a no-op `lambda w: {}` to skip scoring.
     """
+    _score = score or _default_score
     args, parser = _parse_args(agent_name, argv)
     _resolve(args, parser)
     task_id = args.task

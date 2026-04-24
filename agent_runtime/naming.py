@@ -260,7 +260,9 @@ def load_task_toml(repo_root: Path, task_id: str) -> dict:
     """Read tasks/<task_id>/task.toml. Raises FileNotFoundError if absent."""
     import tomllib
 
-    path = repo_root / "LHCRecastBench" / "tasks" / task_id / "task.toml"
+    from agent_runtime import paths
+
+    path = paths.task_dir(repo_root, task_id) / "task.toml"
     if not path.is_file():
         raise FileNotFoundError(f"Missing {path}")
     return tomllib.loads(path.read_text())
@@ -598,10 +600,12 @@ def validate_launch_inputs(repo_root: Path, task_id: str) -> dict:
     Named to not collide with the per-agent `preflight.py` module (which runs
     postflight checks on the agent's produced analysis.py).
     """
+    from agent_runtime import paths
+
     if not task_id:
         raise ValueError("task is required (set `task:` in --config or pass --task)")
-    tasks_root = repo_root / "LHCRecastBench" / "tasks"
-    task_dir = tasks_root / task_id
+    tasks_root = paths.tasks_root(repo_root)
+    task_dir = paths.task_dir(repo_root, task_id)
     if not task_dir.is_dir():
         available = (
             sorted(p.name for p in tasks_root.iterdir() if p.is_dir() and p.name != "shared")
@@ -619,10 +623,9 @@ def validate_launch_inputs(repo_root: Path, task_id: str) -> dict:
     for required in (task_dir / "TASK.md", task_dir / "template"):
         if not required.exists():
             raise FileNotFoundError(f"Missing {required}")
-    shared = tasks_root / "shared" / paper_ref
+    shared = paths.shared_paper_dir(repo_root, paper_ref)
     if not shared.is_dir():
         raise FileNotFoundError(
-            f"Missing shared paper dir: {shared}\n"
-            f"  Expected: LHCRecastBench/tasks/shared/{paper_ref}/paper/{paper_ref}.pdf"
+            f"Missing shared paper dir: {shared}\n" f"  Expected: {shared}/paper/{paper_ref}.pdf"
         )
     return toml

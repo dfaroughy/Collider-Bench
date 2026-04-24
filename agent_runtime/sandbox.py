@@ -93,7 +93,9 @@ class BwrapSandbox(Sandbox):
         return shutil.which("bwrap") is not None
 
     def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
-        benchmark_dir = repo_root / "LHCRecastBench"
+        from agent_runtime import paths as bench_paths
+
+        benchmark_dir = bench_paths.benchmark_dir(repo_root)
 
         # bwrap can't mount over a symlink; swap any top-level workspace
         # symlinks (bin/papers/tools) for empty dirs, then bind the resolved
@@ -138,9 +140,9 @@ class BwrapSandbox(Sandbox):
         # carries the ground-truth histogram values, and tasks/<task-id>/template/
         # carries null-filled skeletons that were already copied into
         # workspace/results/ — hide both from the agent so it can't peek.
-        tasks_dir = benchmark_dir / "tasks"
+        tasks_dir = bench_paths.tasks_root(repo_root)
         if tasks_dir.is_dir():
-            shared_root = tasks_dir / "shared"
+            shared_root = bench_paths.shared_root(repo_root)
             if shared_root.is_dir():
                 for paper_dir in shared_root.iterdir():
                     hist = paper_dir / "histograms"
@@ -163,7 +165,7 @@ class BwrapSandbox(Sandbox):
         # does are deterministic (overwrite with the same content every run)
         # and bin/simulate redirects MG5's `output` directive into the agent
         # workspace, so the install dir sees only template/config refreshes.
-        sim_dir = benchmark_dir / "tools" / "sim"
+        sim_dir = bench_paths.sim_dir(repo_root)
         for install in ("MG5_aMC_v3_7_0", "delphes"):
             install_path = sim_dir / install
             if install_path.is_dir():
@@ -198,6 +200,114 @@ class BwrapSandbox(Sandbox):
         return cmd, cleanup
 
 
+# ── Apptainer / Singularity (portable OCI runner, HPC-friendly) ────────────
+
+
+class ApptainerSandbox(Sandbox):
+    """OCI-image sandbox via `apptainer exec`.
+
+    Pairs with docker/Dockerfile.runtime (or docker/Dockerfile.bench for a
+    vendor-neutral setup). Runs on Linux laptops, NERSC / generic HPC, and
+    anywhere else apptainer-exec is installed — same image everywhere.
+
+    Image selection:
+      $LHC_RECAST_IMAGE   — path to a .sif file or a registry ref
+                            (default: "lhc-recast-runtime:latest").
+
+    Binds:
+      - host repo_root/LHCRecastBench  → same path inside container
+        (benchmark content stays editable; tasks/, evaluation/, tools/CLI)
+      - workspace                      → same path inside container (rw)
+      - ~/.claude, ~/.codex, ~/.gemini → /root/.claude etc.  (OAuth)
+      - /cvmfs                         → /cvmfs (ro) if present
+      - baked /opt/sim/<tool>          → host .../LHCRecastBench/tools/sim/<tool>
+        — the image's baked sim stack overrides whatever the host has.
+      - any paths in extra_ro_binds
+
+    Leakage hardening is simpler than bwrap's: by bind-mounting only what
+    the agent should see, the rest of the container FS starts from the
+    image (no host leak) and the rest of the host FS is not visible.
+    """
+
+    name = "apptainer"
+
+    def available(self) -> bool:
+        return shutil.which("apptainer") is not None or shutil.which("singularity") is not None
+
+    def _engine(self) -> str:
+        return "apptainer" if shutil.which("apptainer") else "singularity"
+
+    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+        from agent_runtime import paths as bench_paths
+
+        image = os.environ.get("LHC_RECAST_IMAGE", "lhc-recast-runtime:latest")
+        benchmark_dir = bench_paths.benchmark_dir(repo_root)
+
+        cmd: list[str] = [
+            self._engine(),
+            "exec",
+            "--cleanenv",  # don't leak host env; we set what we need below
+            "--pwd",
+            str(workspace),
+            # Bind host paths to the same path inside the container so the
+            # agent's absolute-path references (e.g. from run_info.json) don't
+            # need rewriting.
+            "--bind",
+            f"{workspace}:{workspace}",
+            "--bind",
+            f"{benchmark_dir}:{benchmark_dir}",
+        ]
+
+        # OAuth credential caches — mounted rw so token refreshes persist
+        # back to the host. $HOME inside the image is /root (apptainer's
+        # default for rootless exec).
+        for d in (".claude", ".codex", ".gemini"):
+            host = Path.home() / d
+            if host.is_dir():
+                cmd.extend(["--bind", f"{host}:/root/{d}"])
+
+        # CVMFS (CMSSW, ATLAS sw, ...) — ro when available on the host.
+        if Path("/cvmfs").is_dir():
+            cmd.extend(["--bind", "/cvmfs:/cvmfs:ro"])
+
+        # Image's baked sim stack overrides whatever the host tools/sim/ has,
+        # so everyone runs identical MG5/Delphes/Pythia/Prospino versions.
+        sim_dir = bench_paths.sim_dir(repo_root)
+        for install, container_src in (
+            ("MG5_aMC_v3_7_0", "/opt/sim/MG5_aMC_v3_7_0"),
+            ("pythia8313", "/opt/sim/pythia8313"),
+            ("delphes", "/opt/sim/delphes"),
+            ("prospino", "/opt/sim/prospino"),
+        ):
+            host_target = sim_dir / install
+            if host_target.is_dir():
+                cmd.extend(["--bind", f"{container_src}:{host_target}"])
+
+        for path in extra_ro_binds or []:
+            if Path(path).exists():
+                cmd.extend(["--bind", f"{path}:{path}:ro"])
+
+        # Propagate the API/OAuth env vars the agent CLIs look for.
+        for var in (
+            "ANTHROPIC_API_KEY",
+            "OPENAI_API_KEY",
+            "GEMINI_API_KEY",
+            "GOOGLE_API_KEY",
+            "CODEX_HOME",
+            "CLAUDE_BIN",
+            "CODEX_BIN",
+            "GEMINI_BIN",
+        ):
+            val = os.environ.get(var)
+            if val:
+                cmd.extend(["--env", f"{var}={val}"])
+
+        cmd.append(image)
+        cmd.extend(list(inner_cmd))
+
+        return cmd, (lambda: None)
+
+
 # ── No-op passthrough (macOS / CI / free-range debugging) ──────────────────
 
 
@@ -223,22 +333,27 @@ class NoneSandbox(Sandbox):
 
 SANDBOXES: dict[str, type[Sandbox]] = {
     "bwrap": BwrapSandbox,
+    "apptainer": ApptainerSandbox,
     "none": NoneSandbox,
     # Add future backends here: "podman": PodmanSandbox, "docker": DockerSandbox, ...
 }
 
 
 def _auto_select() -> Sandbox:
-    """Pick the best available backend, prefer isolating ones."""
-    for cls in (BwrapSandbox,):
+    """Pick the best available backend, prefer isolating ones.
+
+    Order: bwrap (fastest on Linux laptops/HPC) → apptainer (portable) → none.
+    Users with both can force apptainer via --sandbox apptainer or
+    LHC_RECAST_SANDBOX=apptainer.
+    """
+    for cls in (BwrapSandbox, ApptainerSandbox):
         inst = cls()
         if inst.available():
             return inst
-    # Nothing isolating is installed — fall back to passthrough with a warning.
     sys.stderr.write(
-        "sandbox: no isolating backend available (bwrap not found); "
+        "sandbox: no isolating backend available (neither bwrap nor apptainer); "
         "falling back to 'none' (NO ISOLATION). "
-        "Install bubblewrap or set LHC_RECAST_SANDBOX=none to silence this.\n"
+        "Install bubblewrap or apptainer, or set LHC_RECAST_SANDBOX=none to silence this.\n"
     )
     return NoneSandbox()
 
