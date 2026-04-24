@@ -140,13 +140,14 @@ def extract_session_stats(agent_dir: Path) -> dict:
 # ── Rubric checkpoints ──────────────────────────────────────────────────────
 
 
-def evaluate_rubric(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dict:
+def evaluate_rubric(rp) -> dict:
     """Evaluate agent against a weighted rubric of checkpoints.
 
-    task selects which tasks/<task>/reference/HEPRecastData/ the accuracy
-    checkpoints (shape, normalization, yield) are scored against.
+    rp is a RunPaths — results_dir, reference_file, header_name, etc. drive
+    the shape/norm/yield checkpoints.
     """
 
+    agent_dir = rp.artifact_dir
     checkpoints = []
 
     # 1. Code executes (15%)
@@ -162,12 +163,10 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dic
     total_code_size = sum(f.stat().st_size for f in analysis_files if f.is_file())
     has_code = total_code_size > 500
 
-    recast_data_dir = agent_dir / "HEPRecastData"
+    results_dir = rp.results_dir
     has_filled = False
-    if recast_data_dir.exists():
-        for yf in recast_data_dir.glob("*.yaml"):
-            if yf.name in ("submission.yaml", "description.yaml"):
-                continue
+    if results_dir.exists():
+        for yf in list(results_dir.glob("*.yml")) + list(results_dir.glob("*.yaml")):
             try:
                 data = yaml.safe_load(yf.read_text()) or {}
                 for dep in data.get("dependent_variables", []):
@@ -228,21 +227,17 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dic
     norm_score = 0.0
     yield_score = 0.0
 
-    if recast_data_dir.exists() and has_filled:
+    if results_dir.exists() and has_filled:
         try:
-            from LHCRecastBench.evaluation.score import score_recast
+            from LHCRecastBench.evaluation.score import score_run
 
-            scores = score_recast(arxiv_id, str(recast_data_dir), task=task)
+            scores = score_run(rp)
             yield_score = scores.get("overall_score", 0.0)
             shape_score = scores.get("overall_shape", 0.0)
             norm_score = scores.get("overall_normalization", 0.0)
-            for table in scores.get("tables", []):
-                for s in table.get("series", []):
-                    if "normalization" in s:
-                        norm_ratio = s["normalization"]["ratio"]
-                        break
-                if norm_ratio is not None:
-                    break
+            series = scores.get("series") or {}
+            if "normalization" in series:
+                norm_ratio = series["normalization"]["ratio"]
         except Exception:
             pass
 
@@ -311,11 +306,11 @@ def evaluate_rubric(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dic
 # ── Combined evaluation ─────────────────────────────────────────────────────
 
 
-def evaluate_agent(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dict:
+def evaluate_agent(rp) -> dict:
     """Full evaluation: rubric + cost + efficiency."""
-    agent_dir = Path(agent_dir)
+    agent_dir = Path(rp.artifact_dir)
 
-    rubric = evaluate_rubric(agent_dir, arxiv_id, task)
+    rubric = evaluate_rubric(rp)
     stats = extract_session_stats(agent_dir)
 
     # Derive efficiency metrics
@@ -331,7 +326,8 @@ def evaluate_agent(agent_dir: Path, arxiv_id: str, task: str = "recast") -> dict
 
     return {
         "agent_dir": str(agent_dir),
-        "arxiv_id": arxiv_id,
+        "task_id": rp.task_id,
+        "paper_ref": rp.paper_ref,
         "rubric": rubric,
         "cost": {
             "usd": stats["cost_usd"],
@@ -365,7 +361,7 @@ def print_single(result: dict) -> None:
     run_name = "/".join(parts[-3:]) if len(parts) >= 3 else result["agent_dir"]
 
     print(f"\n  Rubric Evaluation: {run_name}")
-    print(f"  Paper: {result['arxiv_id']}")
+    print(f"  Task: {result.get('task_id', '?')}   Paper: {result.get('paper_ref', '?')}")
     print(f"  {'=' * 65}")
 
     # Rubric
@@ -483,7 +479,7 @@ def main():
         except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
             print(f"  ERROR: {p}: {exc}")
             continue
-        result = evaluate_agent(rp.artifact_dir, rp.arxiv_id, rp.task)
+        result = evaluate_agent(rp)
         rp.eval_dir.mkdir(parents=True, exist_ok=True)
         out = rp.eval_dir / "rubric_scorer.json"
         out.write_text(json.dumps(result, indent=2))

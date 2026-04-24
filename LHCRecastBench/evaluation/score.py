@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Unified scorer for recast results.
 
-Compares filled HEPRecastData/*.yaml against the reference in
-LHCRecastBench/papers/{arxiv}/tasks/{task}/reference/HEPRecastData/ and emits:
+Compares the agent's filled histogram at <workspace>/results/<file>.yml
+against the reference at LHCRecastBench/tasks/shared/<paper>/histograms/<file>
+and emits:
 
   Per-bin metrics (how close is each prediction?)
     - pull = (recast - ref) / ref_err
@@ -46,8 +47,6 @@ import yaml
 from scipy.stats import chi2, kstwobign
 
 
-PAPERS_DIR = Path(__file__).resolve().parent.parent / "papers"
-
 # Scale factor for the bounded rubric score: rubric = exp(-z / RUBRIC_Z_SCALE).
 # z = √λ is roughly an "effective number of sigmas of disagreement".
 # At z=5 → 0.37, z=10 → 0.14, z=20 → 0.02. Gentle enough that distinguishing
@@ -56,14 +55,6 @@ RUBRIC_Z_SCALE = 5.0
 
 
 # ── Loading ─────────────────────────────────────────────────────────────────
-
-
-DEFAULT_TASK = "recast"
-
-
-def _reference_dir(arxiv_id: str, task: str = DEFAULT_TASK) -> Path:
-    """Task-specific reference directory."""
-    return PAPERS_DIR / arxiv_id / "tasks" / task / "reference" / "HEPRecastData"
 
 
 def _load_yaml(path: Path) -> dict:
@@ -330,109 +321,80 @@ def _score_series(
     return series
 
 
-def _score_table(ref_data: dict, recast_data: dict, table_name: str) -> dict:
-    """Compare one HEPData table."""
+def _find_agent_output(results_dir: Path, data_filename: str) -> Path | None:
+    """Find the agent-filled histogram under results/.
+
+    Accepts the exact filename or either .yml/.yaml variant (agent may have
+    kept the template's extension, which differs from the shared pool's).
+    """
+    direct = results_dir / data_filename
+    if direct.is_file():
+        return direct
+    stem = Path(data_filename).stem
+    for ext in (".yml", ".yaml"):
+        alt = results_dir / f"{stem}{ext}"
+        if alt.is_file():
+            return alt
+    return None
+
+
+def score_run(rp) -> dict:
+    """Score one task's filled histogram against its reference.
+
+    `rp` is a RunPaths (from evaluation._resolve.resolve_run). Each task
+    corresponds to exactly one histogram and one series (rp.header_name);
+    anything else in the yaml is ignored.
+    """
+    ref_path = rp.reference_file
+    if not ref_path.is_file():
+        return {"error": f"Reference missing: {ref_path}"}
+    agent_path = _find_agent_output(rp.results_dir, rp.data_filename)
+    if agent_path is None:
+        return {
+            "error": (
+                f"Agent output not found: {rp.results_dir}/{rp.data_filename} "
+                f"(also tried .yml / .yaml)"
+            )
+        }
+
+    ref_data = _load_yaml(ref_path)
+    agent_data = _load_yaml(agent_path)
+
     ref_series = _extract_values(ref_data)
-    recast_series = _extract_values(recast_data)
+    agent_series = _extract_values(agent_data)
     bins = _extract_bins(ref_data)
 
-    result = {
-        "table": table_name,
-        "series": [],
-        "n_filled": 0,
-        "n_total": 0,
-        "n_pass": 0,
-    }
+    ref_s = next((s for s in ref_series if s["name"] == rp.header_name), None)
+    agent_s = next((s for s in agent_series if s["name"] == rp.header_name), None)
+    if ref_s is None:
+        return {"error": f"Series {rp.header_name!r} not in reference {ref_path.name}"}
+    if agent_s is None:
+        return {"error": f"Series {rp.header_name!r} not in agent output {agent_path.name}"}
 
-    for ref_s in ref_series:
-        rec_s = next((r for r in recast_series if r["name"] == ref_s["name"]), None)
-        if rec_s is None:
-            result["series"].append(
-                {
-                    "name": ref_s["name"],
-                    "error": f"Series '{ref_s['name']}' not found in recast",
-                }
-            )
-            continue
-        series = _score_series(
-            ref_s["name"],
-            ref_s["values"],
-            rec_s["values"],
-            ref_s["errors"],
-            bins,
-        )
-        result["series"].append(series)
-        result["n_total"] += series["n_bins"]
-        result["n_filled"] += series["n_filled"]
-        result["n_pass"] += series["n_pass"]
-
-    result["overall_score"] = (
-        round(result["n_pass"] / result["n_filled"], 3) if result["n_filled"] else 0.0
+    series = _score_series(
+        rp.header_name, ref_s["values"], agent_s["values"], ref_s["errors"], bins
     )
-    return result
 
-
-def score_recast(arxiv_id: str, recast_dir: str, task: str = DEFAULT_TASK) -> dict:
-    """Score all tables for a paper — per-bin metrics + shape/norm decomposition.
-
-    task selects which tasks/<task>/reference/HEPRecastData/ to compare against.
-    Defaults to "recast" (the full task).
-    """
-    ref_dir = _reference_dir(arxiv_id, task)
-    recast_path = Path(recast_dir)
-
-    if not ref_dir.exists():
-        available = [d.name for d in PAPERS_DIR.iterdir() if d.is_dir()]
-        return {"error": f"No reference for {arxiv_id}. Available: {available}"}
-    if not recast_path.exists():
-        return {"error": f"Recast directory not found: {recast_dir}"}
-
-    output = {
-        "paper": arxiv_id,
-        "recast_dir": str(recast_dir),
-        "tables": [],
-        "n_total": 0,
-        "n_filled": 0,
-        "n_pass": 0,
+    output: dict = {
+        "task_id": rp.task_id,
+        "paper": rp.paper_ref,
+        "header_name": rp.header_name,
+        "reference": str(ref_path),
+        "agent_output": str(agent_path),
+        "series": series,
+        "n_total": series["n_bins"],
+        "n_filled": series["n_filled"],
+        "n_pass": series["n_pass"],
+        "overall_score": series.get("score", 0.0),
+        "overall_pass": series.get("score", 0.0) >= 0.5,
     }
-
-    shape_scores: list[float] = []
-    norm_scores: list[float] = []
-
-    for ref_file in sorted(ref_dir.glob("*.yaml")):
-        if ref_file.name in ("submission.yaml", "description.yaml"):
-            continue
-        recast_file = recast_path / ref_file.name
-        if not recast_file.exists():
-            output["tables"].append(
-                {
-                    "table": ref_file.stem,
-                    "error": f"Not found in recast: {ref_file.name}",
-                }
-            )
-            continue
-        table = _score_table(_load_yaml(ref_file), _load_yaml(recast_file), ref_file.stem)
-        output["tables"].append(table)
-        output["n_total"] += table["n_total"]
-        output["n_filled"] += table["n_filled"]
-        output["n_pass"] += table["n_pass"]
-        for s in table["series"]:
-            if "shape" in s:
-                shape_scores.append(s["shape"]["score"])
-                norm_scores.append(s["normalization"]["score"])
-
-    if output["n_filled"] > 0:
-        output["overall_score"] = round(output["n_pass"] / output["n_filled"], 3)
-        output["overall_pass"] = output["overall_score"] >= 0.5
-    else:
-        output["overall_score"] = 0.0
-        output["overall_pass"] = False
-
-    if shape_scores:
-        output["overall_shape"] = round(float(np.mean(shape_scores)), 3)
-        output["overall_normalization"] = round(float(np.mean(norm_scores)), 3)
+    if "shape" in series:
+        s_score = series["shape"]["score"]
+        n_score = series["normalization"]["score"]
+        output["overall_shape"] = round(s_score, 3)
+        output["overall_normalization"] = round(n_score, 3)
         output["overall_combined"] = round(
-            math.sqrt(output["overall_shape"] * output["overall_normalization"]), 3
+            math.sqrt(s_score * n_score) if s_score > 0 and n_score > 0 else 0.0, 3
         )
 
     return output
@@ -446,36 +408,27 @@ def print_scores(result: dict) -> None:
         print(f"  ERROR: {result['error']}")
         return
 
-    print(f"\n  Recast score: {result['paper']}")
+    print(f"\n  Task: {result['task_id']}")
+    print(f"  Paper: {result['paper']}   Series: {result['header_name']}")
     print(f"  {'=' * 68}")
 
-    for table in result["tables"]:
-        if "error" in table:
-            print(f"\n  {table['table']}: {table['error']}")
-            continue
-
-        print(f"\n  {table['table']}")
-        for s in table.get("series", []):
-            if "error" in s:
-                print(f"    {s['name']}: {s['error']}")
-                continue
-
-            n_pass = s["n_pass"]
-            n_filled = s["n_filled"]
-            score = s.get("score", 0)
-            if "shape" in s:
-                sh = s["shape"]
-                no = s["normalization"]
-                ks = s.get("ks", {})
-                print(
-                    f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})  "
-                    f"shape p={sh['p_value']:.2g} (score={sh['score']:.2f})  "
-                    f"norm p={no['p_value']:.2g} (score={no['score']:.2f})  "
-                    f"KS p={ks.get('p_value', float('nan')):.2g}  "
-                    f"[{s['diagnosis']}]"
-                )
-            else:
-                print(f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})")
+    s = result["series"]
+    n_pass = s["n_pass"]
+    n_filled = s["n_filled"]
+    score = s.get("score", 0)
+    if "shape" in s:
+        sh = s["shape"]
+        no = s["normalization"]
+        ks = s.get("ks", {})
+        print(
+            f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})  "
+            f"shape p={sh['p_value']:.2g} (score={sh['score']:.2f})  "
+            f"norm p={no['p_value']:.2g} (score={no['score']:.2f})  "
+            f"KS p={ks.get('p_value', float('nan')):.2g}  "
+            f"[{s['diagnosis']}]"
+        )
+    else:
+        print(f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})")
 
     print(f"\n  {'=' * 68}")
     print(
@@ -493,17 +446,16 @@ def print_scores(result: dict) -> None:
 
 
 def print_comparison(results: list[dict]) -> None:
-    print(f"\n  {'Run':<45s} {'Pass%':>7s} {'Shape':>7s} {'Norm':>7s} {'Comb':>7s}")
-    print(f"  {'─' * 76}")
+    print(f"\n  {'Task':<52s} {'Pass%':>7s} {'Shape':>7s} {'Norm':>7s} {'Comb':>7s}")
+    print(f"  {'─' * 83}")
     for r in results:
         if "error" in r:
-            path = r.get("recast_dir", "?")
-            print(f"  {path:<45s}  {r['error']}")
+            label = r.get("task_id") or r.get("agent_output") or "?"
+            print(f"  {str(label):<52s}  {r['error']}")
             continue
-        parts = Path(r.get("recast_dir", "")).parts
-        run_name = ("/".join(parts[-4:-1]) if len(parts) >= 4 else r.get("recast_dir", ""))[:45]
+        label = str(r.get("task_id", ""))[:52]
         print(
-            f"  {run_name:<45s} "
+            f"  {label:<52s} "
             f"{r.get('overall_score', 0):>7.2f} "
             f"{r.get('overall_shape', 0):>7.2f} "
             f"{r.get('overall_normalization', 0):>7.2f} "
@@ -515,12 +467,13 @@ def print_comparison(results: list[dict]) -> None:
 def main():
     parser = argparse.ArgumentParser(
         prog="score",
-        description="Score filled HEPData against reference. Pass any run path; arxiv and task are read from run_info.json.",
+        description="Score the filled histogram against its task's reference. "
+        "Task id, paper, and data file are read from run_info.json + task.toml.",
     )
     parser.add_argument(
         "run_path",
         nargs="+",
-        help="Run directory, workspace, iter dir, or HEPRecastData dir. Multiple paths compare.",
+        help="Run directory, workspace, iter dir, or results dir. Multiple paths compare.",
     )
     parser.add_argument("--json", action="store_true", help="Output raw JSON to stdout")
     args = parser.parse_args()
@@ -534,7 +487,7 @@ def main():
         except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
             print(f"  ERROR: {p}: {exc}")
             continue
-        result = score_recast(rp.arxiv_id, str(rp.hep_dir), task=rp.task)
+        result = score_run(rp)
         rp.eval_dir.mkdir(parents=True, exist_ok=True)
         out = rp.eval_dir / "score.json"
         out.write_text(json.dumps(result, indent=2))

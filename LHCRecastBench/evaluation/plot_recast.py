@@ -27,13 +27,7 @@ import numpy as np
 import yaml
 
 
-PAPERS_DIR = Path(__file__).resolve().parent.parent / "papers"
-
 plt.style.use(hep.style.CMS)
-
-
-def _reference_dir(arxiv_id: str, task: str = "recast") -> Path:
-    return PAPERS_DIR / arxiv_id / "tasks" / task / "reference" / "HEPRecastData"
 
 
 def _extract_series(data: dict) -> list[dict]:
@@ -265,55 +259,45 @@ def plot_table(
     return written
 
 
-def plot_recast(
-    arxiv_id: str,
-    recast_dir: str,
-    task: str = "recast",
-    eval_dir: Path | None = None,
-) -> dict:
-    ref_dir = _reference_dir(arxiv_id, task)
-    recast_path = Path(recast_dir)
+def plot_recast(rp) -> dict:
+    """Plot the one task histogram: agent result vs reference."""
+    from ._resolve import RunPaths  # noqa: F401
 
-    if not ref_dir.exists():
-        return {"error": f"No reference for {arxiv_id}"}
-    if not recast_path.exists():
-        return {"error": f"Recast dir not found: {recast_dir}"}
+    ref_path = rp.reference_file
+    if not ref_path.is_file():
+        return {"error": f"Reference missing: {ref_path}"}
 
-    # Default eval_dir: sibling of the artifact dir that holds HEPRecastData.
-    # Callers (launch_eval.sh / the agent controllers) normally pass an explicit
-    # eval_dir resolved from run_info.json.
-    if eval_dir is None:
-        eval_dir = recast_path.parent.parent / "eval"
-    plots_dir = eval_dir / "plots"
+    # Find agent output (try exact, then alternate extension)
+    agent_path = rp.results_dir / rp.data_filename
+    if not agent_path.is_file():
+        stem = Path(rp.data_filename).stem
+        for ext in (".yml", ".yaml"):
+            alt = rp.results_dir / f"{stem}{ext}"
+            if alt.is_file():
+                agent_path = alt
+                break
+        else:
+            return {"error": f"Agent output not found under {rp.results_dir}"}
 
-    results = {"paper": arxiv_id, "recast_dir": str(recast_dir), "plots": []}
-
-    for ref_file in sorted(ref_dir.glob("*.yaml")):
-        if ref_file.name in ("submission.yaml", "description.yaml"):
-            continue
-        recast_file = recast_path / ref_file.name
-        if not recast_file.exists():
-            results["plots"].append({"table": ref_file.stem, "error": "missing in recast"})
-            continue
-        written = plot_table(ref_file, recast_file, plots_dir, arxiv_id)
-        results["plots"].append(
-            {
-                "table": ref_file.stem,
-                "files": [str(p) for p in written],
-            }
-        )
-
-    return results
+    plots_dir = rp.eval_dir / "plots"
+    written = plot_table(ref_path, agent_path, plots_dir, rp.paper_ref)
+    return {
+        "task_id": rp.task_id,
+        "paper": rp.paper_ref,
+        "reference": str(ref_path),
+        "agent_output": str(agent_path),
+        "files": [str(p) for p in written],
+    }
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Plot CMS vs recast distributions. "
-        "arxiv and task are read from run_info.json.",
+        description="Plot reference vs agent histogram for a task run. "
+        "Paths come from run_info.json + task.toml.",
     )
     parser.add_argument(
         "run_path",
-        help="Run directory, workspace, iter dir, or HEPRecastData dir.",
+        help="Run directory, workspace, iter dir, or results dir.",
     )
     args = parser.parse_args()
 
@@ -325,18 +309,13 @@ def main():
         print(f"ERROR: {exc}")
         return
 
-    result = plot_recast(rp.arxiv_id, str(rp.hep_dir), task=rp.task, eval_dir=rp.eval_dir)
+    result = plot_recast(rp)
     if "error" in result:
         print(f"ERROR: {result['error']}")
         return
-    print(f"\n  Plot output: {result['paper']}")
-    for p in result["plots"]:
-        if "error" in p:
-            print(f"    {p['table']}: {p['error']}")
-        else:
-            print(f"    {p['table']}: {len(p['files'])} file(s)")
-            for f in p["files"]:
-                print(f"      {f}")
+    print(f"\n  Plot output: {result['task_id']} (paper={result['paper']})")
+    for f in result.get("files", []):
+        print(f"    {f}")
     print()
 
 

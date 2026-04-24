@@ -43,11 +43,6 @@ import yaml
 
 
 JUDGE_RUBRIC_PATH = Path(__file__).parent / "judge_rubric.md"
-PAPERS_DIR = Path(__file__).resolve().parent.parent / "papers"
-
-
-def _reference_dir(arxiv_id: str, task: str = "recast") -> Path:
-    return PAPERS_DIR / arxiv_id / "tasks" / task / "reference" / "HEPRecastData"
 
 
 def _write_corrected_hepdata(
@@ -271,22 +266,23 @@ def _load_hepdata_summary(directory: Path, max_chars: int = 5000) -> str:
 
 def run_judge(
     session_logs: list[Path],
-    recast_dir: Path | None,
-    arxiv_id: str | None,
+    results_dir: Path | None,
+    reference_file: Path | None,
     artifacts: list[Path] | None = None,
     model: str = "claude-opus-4-6",
     output_dir: Path | None = None,
-    task: str = "recast",
+    rp=None,
 ) -> dict:
     """Run the LLM judge.
 
     Args:
         session_logs: list of session log files (any readable format)
-        recast_dir: path to filled HEPRecastData/ (optional)
-        arxiv_id: paper arXiv ID (for loading reference)
+        results_dir: path to the agent's filled results/ dir (optional)
+        reference_file: path to the ground-truth histogram yaml (optional)
         artifacts: optional list of additional files (audit.json, report.md, etc.)
         model: judge LLM model
         output_dir: where to save the failure report (optional)
+        rp: RunPaths, used when provenance correction re-scores the corrected dir
     """
     # Load session logs
     session_parts = []
@@ -297,11 +293,16 @@ def run_judge(
     session_summary = "\n\n".join(session_parts) if session_parts else "(no session logs provided)"
 
     # Load recast and reference HEPData
-    recast_yaml = _load_hepdata_summary(recast_dir) if recast_dir else "(not provided)"
+    recast_yaml = _load_hepdata_summary(results_dir) if results_dir else "(not provided)"
     reference_yaml = "(not available)"
-    if arxiv_id:
-        ref_dir = _reference_dir(arxiv_id, task)
-        reference_yaml = _load_hepdata_summary(ref_dir)
+    if reference_file and reference_file.is_file():
+        # _load_hepdata_summary takes a dir; wrap via a tempdir-like single-file pass.
+        import tempfile
+        import shutil as _sh
+
+        with tempfile.TemporaryDirectory() as td:
+            _sh.copy2(reference_file, Path(td) / reference_file.name)
+            reference_yaml = _load_hepdata_summary(Path(td))
 
     # Load additional artifacts
     artifacts_parts = []
@@ -436,35 +437,37 @@ def run_judge(
 
     # Handle provenance verification and correction
     provenance = scores.get("provenance_verification", {})
-    if provenance.get("status") == "CORRECTED" and output_dir and recast_dir:
-        corrected_dir = output_dir / "HEPRecastData_corrected_by_judge"
-        _write_corrected_hepdata(provenance, recast_dir, corrected_dir)
+    if provenance.get("status") == "CORRECTED" and output_dir and results_dir and rp is not None:
+        corrected_dir = output_dir / "results_corrected_by_judge"
+        _write_corrected_hepdata(provenance, results_dir, corrected_dir)
         scores["corrected_dir"] = str(corrected_dir)
 
-        # Re-score on corrected data
-        if arxiv_id:
-            try:
-                from LHCRecastBench.evaluation.score import score_recast
+        # Re-score on corrected data: clone rp pointing at corrected_dir.
+        try:
+            from dataclasses import replace as _replace
 
-                corrected_scores = score_recast(arxiv_id, str(corrected_dir), task=task)
-                scores["corrected_score"] = corrected_scores
-                (output_dir / "score_corrected.json").write_text(
-                    json.dumps(corrected_scores, indent=2)
-                )
-                submitted_scores = score_recast(arxiv_id, str(recast_dir), task=task)
-                scores["submitted_score"] = submitted_scores
+            from LHCRecastBench.evaluation.score import score_run
 
-                sub_pct = submitted_scores.get("overall_score", 0)
-                cor_pct = corrected_scores.get("overall_score", 0)
-                print("\n  Provenance correction applied:")
-                print(
-                    f"    Submitted score: {sub_pct:.0%} ({submitted_scores.get('n_pass', 0)}/{submitted_scores.get('n_filled', 0)} bins)"
-                )
-                print(
-                    f"    Corrected score: {cor_pct:.0%} ({corrected_scores.get('n_pass', 0)}/{corrected_scores.get('n_filled', 0)} bins)"
-                )
-            except Exception as e:
-                scores["corrected_score_error"] = str(e)
+            rp_corrected = _replace(rp, results_dir=corrected_dir)
+            corrected_scores = score_run(rp_corrected)
+            scores["corrected_score"] = corrected_scores
+            (output_dir / "score_corrected.json").write_text(json.dumps(corrected_scores, indent=2))
+            submitted_scores = score_run(rp)
+            scores["submitted_score"] = submitted_scores
+
+            sub_pct = submitted_scores.get("overall_score", 0)
+            cor_pct = corrected_scores.get("overall_score", 0)
+            print("\n  Provenance correction applied:")
+            print(
+                f"    Submitted score: {sub_pct:.0%} "
+                f"({submitted_scores.get('n_pass', 0)}/{submitted_scores.get('n_filled', 0)} bins)"
+            )
+            print(
+                f"    Corrected score: {cor_pct:.0%} "
+                f"({corrected_scores.get('n_pass', 0)}/{corrected_scores.get('n_filled', 0)} bins)"
+            )
+        except Exception as e:
+            scores["corrected_score_error"] = str(e)
 
     return scores
 
@@ -597,12 +600,12 @@ def main():
 
     scores = run_judge(
         session_logs=session_logs,
-        recast_dir=rp.hep_dir,
-        arxiv_id=rp.arxiv_id,
+        results_dir=rp.results_dir,
+        reference_file=rp.reference_file,
         artifacts=artifacts,
         model=args.model,
         output_dir=rp.eval_dir,
-        task=rp.task,
+        rp=rp,
     )
 
     # Always persist the judge's output (or the error payload). run_judge
