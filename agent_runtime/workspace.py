@@ -1,17 +1,19 @@
 """Shared workspace setup for agent runs.
 
-Builds a bwrap-ready workspace at <repo_root>/runs/<run_name>/workspace/ with:
-  - templates/       copied from agent_dir/runtime/templates/workspace/
-  - tools/           symlink → LHCRecastBench/tools/
-  - bin/             merged symlinks from LHCRecastBench/bin/ + agent_dir/runtime/bin/
-  - agent_context/   all *.md files under agent_dir (outside runtime/) + the
-                     task-specific TASK.md copied from the benchmark
-  - papers/          symlink → LHCRecastBench/papers/<paper>/shared/papers/
-  - HEPRecastData/   copied from LHCRecastBench/papers/<paper>/tasks/<task>/templates/
-  - shared/          task-invariant inputs (object_efficiencies/, …) copied in
+Builds a bwrap-ready workspace at <repo_root>/runs/<run_dir>/workspace/ with:
+  - templates/           agent runtime workspace stubs (report.md, datasets.yaml …)
+  - tools/               symlink → LHCRecastBench/tools/
+  - bin/                 merged symlinks from LHCRecastBench/bin/ + agent_dir/runtime/bin/
+  - agent_context/       all *.md files under agent_dir (outside runtime/) + TASK.md
+  - results/             copy of tasks/<task_id>/template/  (null-filled yamls;
+                         agent fills in place — no separate output dir)
+  - papers/              symlink → tasks/shared/<paper>/paper/
+  - object_efficiencies/ copy of tasks/shared/<paper>/object_efficiencies/
+                         merged with tasks/<task_id>/artifacts/ if present
+                         (task-specific files override shared ones)
 
-If the paper PDF is missing, it is downloaded once into the canonical shared
-location rather than the workspace.
+The per-task task.toml is intentionally NOT exposed to the agent — it is
+purely metadata for the harness.
 """
 
 from __future__ import annotations
@@ -20,60 +22,59 @@ import shutil
 import urllib.request
 from pathlib import Path
 
-# Known task names; the default matches the legacy behaviour (full recast).
-KNOWN_TASKS = ("validate", "simulate", "recast")
-DEFAULT_TASK = "recast"
+from agent_runtime.naming import load_task_toml
 
 
-def paper_task_dir(repo_root: Path, paper_ref: str, task: str) -> Path:
-    """Canonical path to a task's benchmark content."""
-    return repo_root / "LHCRecastBench" / "papers" / paper_ref / "tasks" / task
+def tasks_dir(repo_root: Path, task_id: str) -> Path:
+    """Canonical path to a task definition."""
+    return repo_root / "LHCRecastBench" / "tasks" / task_id
 
 
-def paper_shared_dir(repo_root: Path, paper_ref: str) -> Path:
-    """Canonical path to a paper's task-invariant inputs."""
-    return repo_root / "LHCRecastBench" / "papers" / paper_ref / "shared"
+def shared_dir(repo_root: Path, paper_ref: str) -> Path:
+    """Canonical path to a paper's shared inputs."""
+    return repo_root / "LHCRecastBench" / "tasks" / "shared" / paper_ref
 
 
 def build_workspace(
     repo_root: Path,
     agent_name: str,
-    paper_ref: str,
-    run_name: str,
-    task: str = DEFAULT_TASK,
+    task_id: str,
+    run_dir: str,
 ) -> Path:
-    """Create a fresh workspace under <repo_root>/runs/<run_name>/workspace.
+    """Create a fresh workspace under <repo_root>/runs/<run_dir>/workspace.
 
     agent_name must match a directory under agents/ (e.g. 'simple', 'baseline').
-    task selects which tasks/<task>/ directory of the paper to seed from.
-    Raises FileNotFoundError if the paper or task directory is missing.
-    Returns the workspace Path.
+    task_id must match a directory under LHCRecastBench/tasks/.
+    Raises FileNotFoundError if prerequisites are missing. Returns the workspace Path.
     """
     agent_dir = repo_root / "agents" / agent_name
     benchmark_dir = repo_root / "LHCRecastBench"
-    # All runs live under runs/ so they're isolated from source and
-    # already gitignored as a single tree.
-    workspace = repo_root / "runs" / run_name / "workspace"
+    workspace = repo_root / "runs" / run_dir / "workspace"
 
-    shared_dir = paper_shared_dir(repo_root, paper_ref)
-    task_dir = paper_task_dir(repo_root, paper_ref, task)
-    if not shared_dir.is_dir():
-        raise FileNotFoundError(f"Missing {shared_dir}. Create shared/ under the paper dir first.")
+    toml = load_task_toml(repo_root, task_id)
+    paper_ref = (toml.get("task") or {}).get("paper")
+    if not paper_ref:
+        raise ValueError(f"task.toml: [task].paper is required (task_id={task_id})")
+
+    task_dir = tasks_dir(repo_root, task_id)
+    shared = shared_dir(repo_root, paper_ref)
     if not task_dir.is_dir():
-        available = [p.name for p in (task_dir.parent).iterdir() if p.is_dir()]
-        raise FileNotFoundError(f"Missing {task_dir}. Available tasks for {paper_ref}: {available}")
+        raise FileNotFoundError(f"Missing task dir: {task_dir}")
+    if not shared.is_dir():
+        raise FileNotFoundError(f"Missing shared paper dir: {shared}")
+
     task_md = task_dir / "TASK.md"
-    templates_src = task_dir / "templates" / "HEPRecastData"
+    template_src = task_dir / "template"
     if not task_md.is_file():
         raise FileNotFoundError(f"Missing {task_md}")
-    if not templates_src.is_dir():
-        raise FileNotFoundError(f"Missing {templates_src}")
+    if not template_src.is_dir():
+        raise FileNotFoundError(f"Missing {template_src}")
 
     if workspace.exists():
         shutil.rmtree(workspace)
     workspace.mkdir(parents=True)
 
-    # Workspace templates (stubs like datasets.yaml, report.md)
+    # Workspace templates (stubs like datasets.yaml, report.md) from the agent
     template_dir = agent_dir / "runtime" / "templates" / "workspace"
     if template_dir.exists():
         for f in template_dir.iterdir():
@@ -91,10 +92,8 @@ def build_workspace(
     for script in (agent_dir / "runtime" / "bin").iterdir():
         (bin_dir / script.name).symlink_to(script)
 
-    # Agent instructions (AGENTS.md, SOUL.md, skills/*.md, ...).  TOOLS.md
-    # is *not* sourced from the agent dir — it's the canonical index
-    # seeded from the benchmark (see below), so per-agent copies are
-    # skipped to avoid drift.
+    # Agent instructions (AGENTS.md, SOUL.md, skills/*.md, ...). TOOLS.md comes
+    # from the benchmark (canonical index), not the per-agent copy.
     agent_context = workspace / "agent_context"
     agent_context.mkdir()
     for src in agent_dir.rglob("*.md"):
@@ -110,38 +109,52 @@ def build_workspace(
             text = text.replace("{arxiv_id}", paper_ref)
         dest.write_text(text)
 
-    # Canonical TOOLS.md — single source of truth, same for every agent.
-    # Per-tool deep docs live at LHCRecastBench/tools/CLI/<TOOL>.md and
-    # agents pull them on demand with `bin/<tool> --doc`.
+    # Canonical TOOLS.md seeded from the benchmark.
     tools_index = benchmark_dir / "tools" / "TOOLS.md"
     if tools_index.is_file():
         shutil.copy2(tools_index, agent_context / "TOOLS.md")
 
-    # Benchmark-provided task spec — copied into agent_context so it sits
-    # alongside AGENTS.md and the agent's own instructions.
+    # Task spec — copied into agent_context alongside AGENTS.md.
     task_text = task_md.read_text()
     if paper_ref:
         task_text = task_text.replace("{arxiv_id}", paper_ref)
     (agent_context / "TASK.md").write_text(task_text)
 
-    # Task-specific HEPRecastData templates — agent fills these in place.
-    shutil.copytree(templates_src, workspace / "HEPRecastData")
+    # results/ — null-filled yaml skeleton + description.toml, copied from
+    # the task's template/. Agent fills nulls in place. task.toml itself is
+    # intentionally NOT copied (harness metadata only).
+    results = workspace / "results"
+    results.mkdir()
+    for src in template_src.rglob("*"):
+        if src.is_dir():
+            continue
+        rel = src.relative_to(template_src)
+        dest = results / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dest)
 
-    # Task-invariant shared inputs: papers/ is symlinked (PDF is large and
-    # immutable); any other subdirs (object_efficiencies/, etc.) are copied.
-    for item in shared_dir.iterdir():
-        dest = workspace / item.name
-        if item.is_dir() and item.name == "papers":
-            dest.symlink_to(item.resolve())
-        elif item.is_dir():
-            shutil.copytree(item, dest, dirs_exist_ok=True)
-        else:
-            shutil.copy2(item, dest)
+    # papers/ — symlink to the shared paper dir (PDF is large and immutable).
+    shared_paper = shared / "paper"
+    if shared_paper.is_dir():
+        (workspace / "papers").symlink_to(shared_paper.resolve())
+
+    # object_efficiencies/ — copy the shared pool; overlay task-specific
+    # artifacts/ on top (task file with same name wins).
+    obj_eff = workspace / "object_efficiencies"
+    shared_eff = shared / "object_efficiencies"
+    if shared_eff.is_dir():
+        shutil.copytree(shared_eff, obj_eff, dirs_exist_ok=True)
+    task_artifacts = task_dir / "artifacts"
+    if task_artifacts.is_dir():
+        obj_eff.mkdir(exist_ok=True)
+        for src in task_artifacts.iterdir():
+            if src.is_file():
+                shutil.copy2(src, obj_eff / src.name)
 
     # Fetch the paper PDF once into the canonical shared location if missing.
-    pdf_path = shared_dir / "papers" / f"{paper_ref}.pdf"
+    pdf_path = shared / "paper" / f"{paper_ref}.pdf"
     if not pdf_path.exists():
-        pdf_path.parent.mkdir(exist_ok=True)
+        pdf_path.parent.mkdir(parents=True, exist_ok=True)
         url = f"https://arxiv.org/pdf/{paper_ref}"
         print(f"Downloading: {url}")
         urllib.request.urlretrieve(url, pdf_path)

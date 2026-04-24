@@ -124,7 +124,7 @@ class BwrapSandbox(Sandbox):
             str(benchmark_dir),
             str(benchmark_dir),
             "--tmpfs",
-            str(benchmark_dir / "papers"),  # reference answers
+            str(benchmark_dir / "papers"),  # legacy reference tree (being phased out)
             "--tmpfs",
             str(benchmark_dir / "evaluation"),  # judge rubric + scorers
             "--tmpfs",
@@ -133,6 +133,41 @@ class BwrapSandbox(Sandbox):
             "--unshare-ipc",
             "--unshare-uts",
         ]
+
+        # Shadow the new reference pool: tasks/shared/<paper>/histograms/
+        # carries the ground-truth histogram values, and tasks/<task-id>/template/
+        # carries null-filled skeletons that were already copied into
+        # workspace/results/ — hide both from the agent so it can't peek.
+        tasks_dir = benchmark_dir / "tasks"
+        if tasks_dir.is_dir():
+            shared_root = tasks_dir / "shared"
+            if shared_root.is_dir():
+                for paper_dir in shared_root.iterdir():
+                    hist = paper_dir / "histograms"
+                    if hist.is_dir():
+                        cmd.extend(["--tmpfs", str(hist)])
+            for task_dir in tasks_dir.iterdir():
+                if task_dir.name == "shared" or not task_dir.is_dir():
+                    continue
+                tmpl = task_dir / "template"
+                if tmpl.is_dir():
+                    cmd.extend(["--tmpfs", str(tmpl)])
+
+        # Some simulators (MG5, Delphes) insist on writing inside their own
+        # install tree during init — e.g. MG5 copies Template/LO/Source/make_opts
+        # into place before any user command.
+        #
+        # Ideal fix is an overlay ("writes go to tmpfs, real install untouched"),
+        # but overlayfs refuses to mount with lustre as the lowerdir on NERSC
+        # (EINVAL on userxattr). Fall back to a plain rw bind. The writes MG5
+        # does are deterministic (overwrite with the same content every run)
+        # and bin/simulate redirects MG5's `output` directive into the agent
+        # workspace, so the install dir sees only template/config refreshes.
+        sim_dir = benchmark_dir / "tools" / "sim"
+        for install in ("MG5_aMC_v3_7_0", "delphes"):
+            install_path = sim_dir / install
+            if install_path.is_dir():
+                cmd.extend(["--bind", str(install_path), str(install_path)])
         for host_path, mount_path in extra_mounts:
             cmd.extend(["--ro-bind", host_path, mount_path])
         for path in extra_ro_binds or []:

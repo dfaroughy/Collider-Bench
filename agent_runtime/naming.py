@@ -1,10 +1,11 @@
 """Shared helpers for naming recast run directories.
 
-Format:  <task>_<paper_ref>_<agent_name>_<model_name>_<Adj><Physicist>_<hex8>
-Example: simulate_1707.06193_simple_claude-opus-4-7_QuantumFeynman_a1b2c3d4
+Layout:  runs/<runner>_<model>/<task_id>_<Adj><Physicist><hex8>/...
+Example: runs/claude_opus-4-7/sus-16-046-simulate-TChiWg-STgamma_QuantumFeynmana1b2c3d4/
 
-The <Adj><Physicist>_<hex8> suffix is the canonical short "agent_id" used to
-refer to a run in logs, summaries, and cross-run comparisons.
+The <Adj><Physicist>_<hex8> form (with underscore) is the canonical "agent_id"
+used in logs and cross-run comparisons. The compact form (without underscore)
+is used only as part of the run-directory name.
 """
 
 from __future__ import annotations
@@ -162,6 +163,7 @@ PHYSICIST_LAST: list[str] = [
     "Weinberg",
     "Glashow",
     "Cabibbo",
+    "Millikan",
     "Yukawa",
     "Georgi",
     "Nambu",
@@ -171,6 +173,28 @@ PHYSICIST_LAST: list[str] = [
     "Poisson",
     "Chadwick",
     "Gamow",
+    "Kobayashi",
+    "Maskawa",
+    "Gross",
+    "Wilczek",
+    "Veltman",
+    "Sakharov",
+    "Zwicky",
+    "Politzer",
+    "Reines",
+    "Perl",
+    "Rubbia",
+    "Alvarez",
+    "Tomonaga",
+    "Schwinger",
+    "Segre",
+    "Lee",
+    "Lawrence",
+    "Wien",
+    "Bragg",
+    "Raman",
+    "Becquerel",
+    "Rontgen",
 ]
 
 
@@ -186,32 +210,60 @@ def _normalize_model_name(raw: str) -> str:
     return raw.replace("/", "-").replace(" ", "-")
 
 
+def run_group(runner_name: str, model_name: str) -> str:
+    """Directory slug grouping runs by (runner, model).
+
+    Strips a duplicated runner prefix from the model so
+    `runner=claude, model=claude-opus-4-7` becomes `claude_opus-4-7`
+    rather than `claude_claude-opus-4-7`.
+    """
+    if not model_name:
+        return runner_name
+    m = _normalize_model_name(model_name)
+    prefix = runner_name + "-"
+    if m.startswith(prefix):
+        m = m[len(prefix) :]
+    return f"{runner_name}_{m}"
+
+
 def generate_run_info(
-    paper_ref: str,
+    task_id: str,
     agent_name: str,
+    runner_name: str,
     model_name: str,
-    task: str = "simulate",
+    paper_ref: str | None = None,
 ) -> dict:
     """Return a dict with the canonical run metadata.
 
     Keys:
-      agent_id   — <Adj><Physicist>_<hex8>       (canonical short name)
-      run_dir  — full directory name
-      paper_ref, agent, model, task            (echoed for convenience)
+      agent_id  — <Adj><Physicist>_<hex8>      (canonical short name)
+      run_dir   — <runner>_<model>/<task_id>_<Adj><Physicist><hex8>
+      task_id, agent, runner, model, paper_ref (echoed for convenience)
     """
-    if task not in _ALLOWED_TASKS:
-        raise ValueError(f"task={task!r}; must be one of {sorted(_ALLOWED_TASKS)}")
     hex_hash = os.urandom(8).hex()
-    agent_id = physicist_bigram(hex_hash)
-    run_dir = f"{task}_{paper_ref}_{agent_name}_{_normalize_model_name(model_name)}_{agent_id}"
+    agent_id = physicist_bigram(hex_hash)  # "ElegantFermi_a1b2c3d4"
+    compact = agent_id.replace("_", "")  # "ElegantFermia1b2c3d4"
+    group = run_group(runner_name, model_name)
+    run_dir = f"{group}/{task_id}_{compact}"
     return {
         "agent_id": agent_id,
         "run_dir": run_dir,
-        "paper_ref": paper_ref,
+        "task_id": task_id,
         "agent": agent_name,
+        "runner": runner_name,
         "model": model_name,
-        "task": task,
+        "paper_ref": paper_ref,
     }
+
+
+def load_task_toml(repo_root: Path, task_id: str) -> dict:
+    """Read tasks/<task_id>/task.toml. Raises FileNotFoundError if absent."""
+    import tomllib
+
+    path = repo_root / "LHCRecastBench" / "tasks" / task_id / "task.toml"
+    if not path.is_file():
+        raise FileNotFoundError(f"Missing {path}")
+    return tomllib.loads(path.read_text())
 
 
 # ── Effort levels ──────────────────────────────────────────────────────────
@@ -259,7 +311,6 @@ def resolve_effort(effort: str | int | None) -> tuple[str, int]:
 ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "extends": (str,),
     "agent": (str,),
-    "paper": (str,),
     "runner": (str,),
     "model": (str,),
     "effort": (str, int),
@@ -271,7 +322,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "walltime": (str,),
     "qos": (str,),
     "sandbox": (str,),
-    "task": (str,),
+    "task": (str,),  # free-form task id (e.g. sus-16-046-simulate-TChiWg-STgamma)
     # Sisyphus agent: separate model / effort for the planner and critic roles.
     "critic_model": (str,),
     "critic_effort": (str, int),
@@ -279,11 +330,10 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
 }
 
 _ALLOWED_AGENTS = {"simple", "baseline", "iterative", "sisyphus"}
-_ALLOWED_RUNNERS = {"claude", "codex", "aider"}
+_ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
 _ALLOWED_SANDBOX = {"auto", "bwrap", "none"}
-_ALLOWED_TASKS = {"validate", "simulate", "recast"}
 
 
 def validate_config(cfg: dict, source: str = "<config>") -> None:
@@ -341,9 +391,8 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
         raise ValueError(
             f"{source}: sandbox={sandbox!r}; must be one of {sorted(_ALLOWED_SANDBOX)}"
         )
-    task = cfg.get("task")
-    if task is not None and task not in _ALLOWED_TASKS:
-        raise ValueError(f"{source}: task={task!r}; must be one of {sorted(_ALLOWED_TASKS)}")
+    # `task` is a free-form task id — validated against the filesystem in
+    # validate_launch_inputs(), not against an enum here.
 
 
 # ── Config loading ─────────────────────────────────────────────────────────
@@ -542,31 +591,38 @@ def finalize_run_info(
 # ── Fail-fast input validation ─────────────────────────────────────────────
 
 
-def validate_launch_inputs(repo_root: Path, paper_ref: str, task: str = "recast") -> None:
-    """Validate prerequisites before doing any workspace setup. Raises on failure.
+def validate_launch_inputs(repo_root: Path, task_id: str) -> dict:
+    """Validate a task_id before any workspace setup. Raises on failure.
 
+    Returns the parsed task.toml (so callers don't have to read it twice).
     Named to not collide with the per-agent `preflight.py` module (which runs
     postflight checks on the agent's produced analysis.py).
     """
-    if not paper_ref:
-        raise ValueError("paper_ref is required (set `paper:` in --config or pass --paper-ref)")
-    paper_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref
-    shared = paper_dir / "shared"
-    if not shared.is_dir():
-        raise FileNotFoundError(
-            f"Paper shared inputs missing: {shared}\n"
-            f"  Expected layout: LHCRecastBench/papers/{paper_ref}/shared/papers/{paper_ref}.pdf"
-        )
-    task_dir = paper_dir / "tasks" / task
+    if not task_id:
+        raise ValueError("task is required (set `task:` in --config or pass --task)")
+    tasks_root = repo_root / "LHCRecastBench" / "tasks"
+    task_dir = tasks_root / task_id
     if not task_dir.is_dir():
         available = (
-            sorted(p.name for p in (paper_dir / "tasks").iterdir() if p.is_dir())
-            if (paper_dir / "tasks").is_dir()
+            sorted(p.name for p in tasks_root.iterdir() if p.is_dir() and p.name != "shared")
+            if tasks_root.is_dir()
             else []
         )
         raise FileNotFoundError(
-            f"Task missing: {task_dir}\n" f"  Available tasks for {paper_ref}: {available}"
+            f"Task missing: {task_dir}\n"
+            f"  Known tasks: {available[:5]}{'...' if len(available) > 5 else ''}"
         )
-    for required in (task_dir / "TASK.md", task_dir / "templates" / "HEPRecastData"):
+    toml = load_task_toml(repo_root, task_id)
+    paper_ref = (toml.get("task") or {}).get("paper")
+    if not paper_ref:
+        raise ValueError(f"{task_dir/'task.toml'}: [task].paper is required")
+    for required in (task_dir / "TASK.md", task_dir / "template"):
         if not required.exists():
             raise FileNotFoundError(f"Missing {required}")
+    shared = tasks_root / "shared" / paper_ref
+    if not shared.is_dir():
+        raise FileNotFoundError(
+            f"Missing shared paper dir: {shared}\n"
+            f"  Expected: LHCRecastBench/tasks/shared/{paper_ref}/paper/{paper_ref}.pdf"
+        )
+    return toml

@@ -45,7 +45,10 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
         "--config", default="", help="YAML config file (CLI flags override; see configs/)"
     )
     parser.add_argument(
-        "--paper-ref", default=None, help="arXiv ID (required unless set by --config)"
+        "--task",
+        default=None,
+        help="Task id, matching a directory under LHCRecastBench/tasks/ "
+        "(e.g. sus-16-046-simulate-TChiWg-STgamma).",
     )
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Model override")
@@ -60,30 +63,23 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
         choices=["auto", "bwrap", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
-    parser.add_argument(
-        "--task",
-        default=None,
-        choices=["validate", "simulate", "recast"],
-        help="Which benchmark task to run (default: simulate).",
-    )
     parser.add_argument("--run-name", default="", help="Custom run directory name")
     return parser.parse_args(argv), parser
 
 
 def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
-    """Merge CLI args over config-file values. Validates paper inputs."""
+    """Merge CLI args over config-file values. Validates task input exists."""
     try:
         cfg = load_config(args.config)
     except ValueError as exc:
         parser.error(str(exc))
-    args.paper_ref = args.paper_ref or cfg.get("paper")
-    if not args.paper_ref:
-        parser.error("--paper-ref is required (CLI or --config <yaml>:paper)")
+    args.task = args.task or cfg.get("task")
+    if not args.task:
+        parser.error("--task is required (CLI or --config <yaml>:task)")
     args.runner = args.runner or cfg.get("runner") or "claude"
     args.model = args.model or cfg.get("model") or ""
     args.effort = args.effort or cfg.get("effort") or "medium"
     args.sandbox = args.sandbox or cfg.get("sandbox")
-    args.task = args.task or cfg.get("task") or "simulate"
     return cfg
 
 
@@ -129,13 +125,18 @@ def _run_in_sandbox(
         cleanup()
 
 
-def _score(workspace: Path, paper_ref: str, task: str = "recast") -> dict:
-    recast_dir = workspace / "HEPRecastData"
-    if not recast_dir.exists():
-        return {"error": "No HEPRecastData directory"}
-    from LHCRecastBench.evaluation.score import score_recast
-
-    return score_recast(paper_ref, str(recast_dir), task=task)
+def _score(workspace: Path) -> dict:
+    """Score the agent's filled histogram against its task's reference."""
+    try:
+        from LHCRecastBench.evaluation._resolve import resolve_run
+        from LHCRecastBench.evaluation.score import score_run
+    except ImportError as exc:
+        return {"error": f"eval import failed: {exc}"}
+    try:
+        rp = resolve_run(workspace)
+    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+        return {"error": str(exc)}
+    return score_run(rp)
 
 
 def launch_single_run(
@@ -154,47 +155,49 @@ def launch_single_run(
     """
     args, parser = _parse_args(agent_name, argv)
     _resolve(args, parser)
-    paper_ref = args.paper_ref
+    task_id = args.task
     effort_label, max_thinking = resolve_effort(args.effort)
 
     try:
-        validate_launch_inputs(repo_root, paper_ref, args.task)
+        task_toml = validate_launch_inputs(repo_root, task_id)
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
+    paper_ref = task_toml["task"]["paper"]
 
     if args.run_name:
         info = {
             "agent_id": args.run_name,
             "run_dir": args.run_name,
+            "task_id": task_id,
             "paper_ref": paper_ref,
             "agent": agent_name,
+            "runner": args.runner,
             "model": args.model or args.runner,
         }
-        run_name = args.run_name
+        run_dir = args.run_name
     else:
         info = generate_run_info(
-            paper_ref=paper_ref,
+            task_id=task_id,
             agent_name=agent_name,
+            runner_name=args.runner,
             model_name=args.model or args.runner,
-            task=args.task,
+            paper_ref=paper_ref,
         )
-        run_name = info["run_dir"]
+        run_dir = info["run_dir"]
     info.update(
         {
-            "runner": args.runner,
             "effort": effort_label,
             "max_thinking_tokens": max_thinking,
             "sandbox": args.sandbox or "auto",
-            "task": args.task,
         }
     )
 
-    print(f"Setting up workspace: {run_name}")
+    print(f"Setting up workspace: {run_dir}")
     print(
         f"Agent ID: {info['agent_id']}   "
         f"(effort={effort_label}, max_thinking_tokens={max_thinking})"
     )
-    workspace = build_workspace(repo_root, agent_name, paper_ref, run_name, task=args.task)
+    workspace = build_workspace(repo_root, agent_name, task_id, run_dir)
     recast_path = workspace.parent
     write_run_info(recast_path, info)
     print(f"Workspace: {workspace}")
@@ -224,7 +227,7 @@ def launch_single_run(
         )
 
         print("\nScoring results...")
-        scores = _score(workspace, paper_ref, args.task)
+        scores = _score(workspace)
         eval_dir = recast_path / "eval"
         eval_dir.mkdir(exist_ok=True)
         (eval_dir / "score.json").write_text(json.dumps(scores, indent=2))
