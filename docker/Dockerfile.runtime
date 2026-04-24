@@ -16,7 +16,11 @@ RUN mamba install -n cms_analysis -y -c conda-forge 'nodejs>=20' \
 # version-bump without touching the rest of the image.
 ENV NPM_CONFIG_PREFIX=/opt/node-global
 ENV PATH=/opt/node-global/bin:${PATH}
-RUN npm install -g @google/gemini-cli \
+# Agent CLIs — auth state (OAuth tokens) comes from host ~/.claude / ~/.codex /
+# ~/.gemini which the sandbox binds into /root/.claude etc at run time.
+RUN npm install -g \
+      @anthropic-ai/claude-code \
+      @google/gemini-cli \
       && npm cache clean --force
 
 # Runtime Python: shared workspace builder, sandbox abstraction, runners.
@@ -27,9 +31,10 @@ COPY configs       /app/configs
 ENV PYTHONPATH=/app:${PYTHONPATH}
 
 # Claude / Codex / Gemini OAuth state is NOT baked — bind-mount at runtime:
-#   --bind ~/.claude:/root/.claude
-#   --bind ~/.codex:/root/.codex
-#   --bind ~/.gemini:/root/.gemini
-
+#   -v ~/.claude:$HOME/.claude (etc.)
+# The sandbox (PodmanSandbox / ApptainerSandbox) uses --userns=keep-id so
+# the host UID maps through unchanged: file ownership "just works" and
+# Claude Code's "no --dangerously-skip-permissions as root" check doesn't
+# trigger because UID is never 0 inside the container.
 WORKDIR /workspace
 CMD ["/bin/bash"]

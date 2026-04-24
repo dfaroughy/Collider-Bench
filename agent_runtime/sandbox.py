@@ -240,8 +240,7 @@ class ApptainerSandbox(Sandbox):
     def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
         from agent_runtime import paths as bench_paths
 
-        image = os.environ.get("LHC_RECAST_IMAGE", "lhc-recast-runtime:latest")
-        benchmark_dir = bench_paths.benchmark_dir(repo_root)
+        image = os.environ.get("LHC_RECAST_IMAGE", "localhost/lhc-recast-runtime:latest")
 
         cmd: list[str] = [
             self._engine(),
@@ -250,21 +249,37 @@ class ApptainerSandbox(Sandbox):
             "--pwd",
             str(workspace),
             # Bind host paths to the same path inside the container so the
-            # agent's absolute-path references (e.g. from run_info.json) don't
-            # need rewriting.
+            # agent's absolute-path references (e.g. from run_info.json)
+            # don't need rewriting.
             "--bind",
             f"{workspace}:{workspace}",
+            # Selective benchmark binds. We do NOT bind the whole
+            # LHCRecastBench/ tree — that would expose the reference pool
+            # under tasks/shared/*/histograms/ and scoring code under
+            # evaluation/. Agent sees only tools/, bin/, and this run's
+            # paper PDF (via the workspace/papers symlink target).
             "--bind",
-            f"{benchmark_dir}:{benchmark_dir}",
+            f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
+            "--bind",
+            f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
+        papers_link = workspace / "papers"
+        if papers_link.is_symlink():
+            target = papers_link.resolve()
+            if target.is_dir():
+                cmd.extend(["--bind", f"{target}:{target}:ro"])
 
         # OAuth credential caches — mounted rw so token refreshes persist
-        # back to the host. $HOME inside the image is /root (apptainer's
-        # default for rootless exec).
+        # back to the host. Apptainer rootless already maps the host UID
+        # through, so host $HOME paths stay valid inside the container.
+        host_home = str(Path.home())
         for d in (".claude", ".codex", ".gemini"):
             host = Path.home() / d
             if host.is_dir():
-                cmd.extend(["--bind", f"{host}:/root/{d}"])
+                cmd.extend(["--bind", f"{host}:{host_home}/{d}"])
+        claude_json = Path.home() / ".claude.json"
+        if claude_json.is_file():
+            cmd.extend(["--bind", f"{claude_json}:{host_home}/.claude.json"])
 
         # CVMFS (CMSSW, ATLAS sw, ...) — ro when available on the host.
         if Path("/cvmfs").is_dir():
@@ -273,6 +288,12 @@ class ApptainerSandbox(Sandbox):
         for path in extra_ro_binds or []:
             if Path(path).exists():
                 cmd.extend(["--bind", f"{path}:{path}:ro"])
+
+        # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
+        # `--dangerously-skip-permissions` is allowed even if the container
+        # process runs as UID 0 (which happens on rootless podman with
+        # subuid limits that prevent keep-id mapping).
+        cmd.extend(["--env", "IS_SANDBOX=1"])
 
         # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV
         # directives — bin/simulate reads them to find /opt/sim/<tool>
@@ -293,9 +314,27 @@ class ApptainerSandbox(Sandbox):
                 cmd.extend(["--env", f"{var}={val}"])
 
         cmd.append(image)
-        cmd.extend(list(inner_cmd))
+        cmd.extend(_rewrite_host_cli_to_container(inner_cmd))
 
         return cmd, (lambda: None)
+
+
+# ── Helpers ─────────────────────────────────────────────────────────────────
+
+
+_CONTAINER_CLIS = {"claude", "codex", "gemini", "aider", "python", "python3"}
+
+
+def _rewrite_host_cli_to_container(inner_cmd: Sequence[str]) -> list[str]:
+    """If inner_cmd[0] is an absolute host path to a known agent CLI, replace
+    with the unqualified basename so the container's PATH resolves it against
+    the in-image install (e.g. /opt/node-global/bin/claude)."""
+    if not inner_cmd:
+        return list(inner_cmd)
+    head = inner_cmd[0]
+    if Path(head).is_absolute() and Path(head).name in _CONTAINER_CLIS:
+        return [Path(head).name, *inner_cmd[1:]]
+    return list(inner_cmd)
 
 
 # ── Podman / Podman-HPC (NERSC, rootless containers) ───────────────────────
@@ -322,25 +361,55 @@ class PodmanSandbox(Sandbox):
     def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
         from agent_runtime import paths as bench_paths
 
-        image = os.environ.get("LHC_RECAST_IMAGE", "lhc-recast-runtime:latest")
-        benchmark_dir = bench_paths.benchmark_dir(repo_root)
+        image = os.environ.get("LHC_RECAST_IMAGE", "localhost/lhc-recast-runtime:latest")
 
+        # Container runs as root (UID 0) by default under rootless podman —
+        # that's safe because rootless podman maps container-root to the
+        # host user, so "root" inside the container is us outside. Don't
+        # try `--userns=keep-id`: on NERSC compute nodes the subuid range
+        # doesn't cover the host UID, so the userns map fails at run time.
+        # Claude Code's "no --dangerously-skip-permissions as root" check
+        # is bypassed below via IS_SANDBOX=1.
+        host_home = str(Path.home())
         cmd: list[str] = [
             self._engine(),
             "run",
             "--rm",
             "--workdir",
             str(workspace),
+            "-e",
+            f"HOME={host_home}",
+            # Workspace: the only rw path under the repo — agent's scratch.
             "-v",
             f"{workspace}:{workspace}",
+            # Selective benchmark binds, ro. We do NOT bind the whole
+            # LHCRecastBench/ tree: that would expose the reference pool
+            # under tasks/shared/*/histograms/ and the scoring code under
+            # evaluation/. Agent sees only tools/ + bin/ + this run's
+            # paper PDF (via the workspace/papers symlink target).
             "-v",
-            f"{benchmark_dir}:{benchmark_dir}",
+            f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
+            "-v",
+            f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
 
+        # Resolve workspace/papers -> tasks/shared/<paper>/paper and bind
+        # only that directory, so the agent's paper PDF symlink works
+        # without exposing the rest of tasks/shared/<paper>/.
+        papers_link = workspace / "papers"
+        if papers_link.is_symlink():
+            target = papers_link.resolve()
+            if target.is_dir():
+                cmd.extend(["-v", f"{target}:{target}:ro"])
+
+        # OAuth creds — rw so token refresh persists back to host.
         for d in (".claude", ".codex", ".gemini"):
             host = Path.home() / d
             if host.is_dir():
-                cmd.extend(["-v", f"{host}:/root/{d}"])
+                cmd.extend(["-v", f"{host}:{host_home}/{d}"])
+        claude_json = Path.home() / ".claude.json"
+        if claude_json.is_file():
+            cmd.extend(["-v", f"{claude_json}:{host_home}/.claude.json"])
 
         if Path("/cvmfs").is_dir():
             cmd.extend(["-v", "/cvmfs:/cvmfs:ro"])
@@ -348,6 +417,12 @@ class PodmanSandbox(Sandbox):
         for path in extra_ro_binds or []:
             if Path(path).exists():
                 cmd.extend(["-v", f"{path}:{path}:ro"])
+
+        # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
+        # `--dangerously-skip-permissions` is allowed even if the container
+        # process runs as UID 0 (unavoidable under rootless podman on NERSC
+        # compute nodes because keep-id fails on subuid range limits).
+        cmd.extend(["-e", "IS_SANDBOX=1"])
 
         # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV —
         # bin/simulate reads them to find /opt/sim/<tool> inside the container.
@@ -366,7 +441,7 @@ class PodmanSandbox(Sandbox):
                 cmd.extend(["-e", f"{var}={val}"])
 
         cmd.append(image)
-        cmd.extend(list(inner_cmd))
+        cmd.extend(_rewrite_host_cli_to_container(inner_cmd))
 
         return cmd, (lambda: None)
 

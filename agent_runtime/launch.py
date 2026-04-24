@@ -60,7 +60,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--sandbox",
         default=None,
-        choices=["auto", "bwrap", "none"],
+        choices=["auto", "bwrap", "apptainer", "podman", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
     parser.add_argument("--run-name", default="", help="Custom run directory name")
