@@ -1,139 +1,157 @@
 #!/usr/bin/env python3
 """Sisyphus recast loop.
 
-STATUS: NOT YET MIGRATED to the tasks/ layout refactor (Phase 4 follow-up).
-This controller still references the old paper-centric paths (HEPRecastData/,
-LHCRecastBench/papers/<arxiv>/, score_recast) and will fail at runtime. It
-will be rewritten alongside the Apptainer migration. Use `simple` or
-`baseline` agents in the meantime.
+Three roles, all running through the same agent runner (claude / codex /
+gemini / aider) in the same sandbox + image:
 
-Three roles per run:
-  - Planner  — runs once at the start, writes <run_dir>/plan.md.
-  - Executor — runs every iteration, produces results/, analysis.py, report.md.
-  - Critic   — runs after every non-converged iteration, writes critique.md seeded
-               into the next executor's workspace.
+  - Planner  — runs ONCE at start, writes <run_root>/plan.md.
+  - Executor — runs every iteration in iter_NNN/workspace/, fills
+               results/*.yml + analysis code + report.md.
+  - Critic   — runs after every non-converged iteration in the same
+               workspace as the executor it's reviewing. Reads the
+               executor's code/report/results plus the paper, then
+               rewrites agent_context/plan.md with concrete fixes for
+               the next iteration. The updated plan.md is copied back
+               to <run_root>/plan.md as the new source of truth.
 
-The planner and critic run on a cheaper model (e.g. Sonnet) with Read+Write tools
-only; the executor runs on the main model with the full tool surface.
+The critic does NOT see eval/score.json, the reference histograms, or
+any other side channel that would leak ground truth — by construction.
+Convergence is decided by the controller from score.json, outside both
+roles' view.
 
-Workspaces
-  - <run_dir>/planner_workspace/        ephemeral, holds plan.md target
-  - <run_dir>/plan.md                   canonical (survives across iters)
-  - <run_dir>/workspace/                executor's working tree (iteration N)
-  - <run_dir>/validation/iter_NNN/      archived executor workspace
-  - <run_dir>/validation/iter_NNN/critic_workspace/   ephemeral, holds critique.md
-  - <run_dir>/validation/iter_NNN/critique.md         promoted; seeds next iter
+Layout:
+
+  runs/<runner>_<model>/<task_id>_<id>/
+    plan.md                    living document, evolves across iters
+    planner_log.txt
+    run_info.json
+    validation/
+      iter_001/
+        workspace/             built fresh per iter, post-seeded
+        session_log.txt        executor
+        critic_log.txt
+        eval/score.json
+      iter_002/...
 """
 
 from __future__ import annotations
 
 import argparse
-import atexit
 import json
 import os
-import re
 import shutil
-import signal
 import subprocess
 import sys
 import time
-from dataclasses import dataclass
 from pathlib import Path
 
-from agent_runtime.runners import Runner, get_runner, RUNNERS
+from agent_runtime.launch import _default_score
+from agent_runtime.naming import (
+    finalize_run_info,
+    generate_run_info,
+    load_config,
+    resolve_effort,
+    validate_launch_inputs,
+    write_run_info,
+)
+from agent_runtime.runners import RUNNERS, get_runner
+from agent_runtime.workspace import build_workspace
+from agents.sisyphus.runtime.controller.roles import (
+    build_critic_prompt,
+    build_executor_prompt,
+    build_planner_prompt,
+)
 
 
-EXPECTED_ARTIFACTS = [
-    "HEPRecastData",
-    "analysis.py",
-    "datasets.yaml",
-    "report.md",
-]
+DEFAULT_THRESHOLD = 0.5  # combined ≥ this and iter ≥ min_iters → converged.
 
 
-@dataclass
-class IterationResult:
-    directory: Path
-    status: str
-    score: float | None
-    overall_pass: bool | None
+# ── CLI / config ───────────────────────────────────────────────────────────
 
 
-# ── Small helpers ──────────────────────────────────────────────────────────
+def _parse_args(argv: list[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Sisyphus recast loop: planner + iter(executor → score → critic).",
+    )
+    parser.add_argument("--config", default="")
+    parser.add_argument("--task", default=None, help="Task id (e.g. sus-16-046-...)")
+    parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
+    parser.add_argument("--model", default=None)
+    parser.add_argument("--effort", default=None)
+    parser.add_argument("--critic-model", default=None)
+    parser.add_argument("--critic-effort", default=None)
+    parser.add_argument("--planner-effort", default=None)
+    parser.add_argument(
+        "--sandbox",
+        default=None,
+        choices=["auto", "bwrap", "apptainer", "podman", "none"],
+    )
+    parser.add_argument("--max-iters", type=int, default=None)
+    parser.add_argument("--min-iters", type=int, default=None)
+    parser.add_argument(
+        "--combined-threshold",
+        type=float,
+        default=None,
+        help="Stop when combined ≥ this and iter ≥ min_iters (default: 0.5)",
+    )
+    return parser.parse_args(argv)
 
 
-def _parse_status(report_path: Path) -> str:
-    if not report_path.exists():
-        return "CONTINUE"
-    m = re.search(r"Status:\s*`?(STOP|CONTINUE)`?", report_path.read_text(), re.I)
-    return m.group(1).upper() if m else "CONTINUE"
+def _resolve_config(args: argparse.Namespace) -> dict:
+    cfg = load_config(args.config) if args.config else {}
+    args.task = args.task or cfg.get("task")
+    args.runner = args.runner or cfg.get("runner") or "claude"
+    args.model = args.model or cfg.get("model") or ""
+    args.effort = args.effort or cfg.get("effort") or "medium"
+    args.critic_model = args.critic_model or cfg.get("critic_model") or args.model
+    args.critic_effort = args.critic_effort or cfg.get("critic_effort") or args.effort
+    args.planner_effort = args.planner_effort or cfg.get("planner_effort") or "low"
+    args.sandbox = args.sandbox or cfg.get("sandbox")
+    args.max_iters = args.max_iters or cfg.get("max_iters") or 5
+    args.min_iters = args.min_iters or cfg.get("min_iters") or 1
+    args.combined_threshold = (
+        args.combined_threshold
+        if args.combined_threshold is not None
+        else cfg.get("combined_threshold", DEFAULT_THRESHOLD)
+    )
+    if not args.task:
+        sys.exit("sisyphus: --task is required (CLI or --config <yaml>:task)")
+    return cfg
 
 
-def _has_analysis_code(ws: Path) -> bool:
-    if (ws / "analysis.py").exists():
-        return True
-    a = ws / "analysis"
-    return a.is_dir() and any(a.rglob("*.py"))
+# ── Sandbox invocation ─────────────────────────────────────────────────────
 
 
-def _has_filled_hepdata(ws: Path) -> bool:
-    d = ws / "HEPRecastData"
-    if not d.is_dir():
-        return False
-    for y in d.glob("*.yaml"):
-        txt = y.read_text()
-        if re.search(r"value:\s*[-+]?\d", txt):
-            return True
-    return False
-
-
-def _score_iteration(
-    iter_dir: Path, paper_ref: str, task: str = "recast"
-) -> tuple[bool | None, dict]:
-    hep = iter_dir / "HEPRecastData"
-    if not hep.is_dir():
-        return None, {}
-    try:
-        from LHCRecastBench.evaluation.score import score_recast
-
-        scores = score_recast(paper_ref, str(hep), task=task)
-    except Exception as exc:
-        print(f"  scoring failed: {exc}")
-        return None, {}
-    (iter_dir / "score.json").write_text(json.dumps(scores, indent=2))
-    return scores.get("overall_pass"), scores
-
-
-# ── Sandbox plumbing ───────────────────────────────────────────────────────
-
-
-def _run_in_sandbox(
-    repo_root: Path,
+def _run_role(
+    *,
     workspace: Path,
+    repo_root: Path,
     prompt: str,
-    runner: Runner,
+    runner_name: str,
     model: str | None,
-    output_file: Path,
-    max_thinking_tokens: int | None,
-    allowlist: str | None,
+    effort: str,
     sandbox: str | None,
+    output_file: Path,
     extra_ro_binds: list[Path] | None = None,
-    effort_label: str | None = None,
-) -> None:
+) -> int:
+    """Invoke a single agent run in the sandbox. Returns exit code (0 on
+    success). Mirrors agent_runtime.launch._run_in_sandbox."""
+    from agent_runtime.sandbox import sandbox_command
+
+    effort_label, max_thinking = resolve_effort(effort)
+    runner = get_runner(runner_name)
     inner_cmd = runner.build_command(
         prompt,
         workspace,
         model,
-        allowlist=allowlist,
-        max_thinking_tokens=max_thinking_tokens,
+        allowlist=None,
+        max_thinking_tokens=max_thinking,
         effort_label=effort_label,
     )
     env = os.environ.copy()
     env["PATH"] = str(workspace / "bin") + ":" + env.get("PATH", "")
     env["PYTHONPATH"] = str(repo_root) + ":" + env.get("PYTHONPATH", "")
     env["REPO_ROOT"] = str(repo_root)
-
-    from agent_runtime.sandbox import sandbox_command
 
     cmd, cleanup = sandbox_command(
         workspace,
@@ -144,644 +162,286 @@ def _run_in_sandbox(
     )
     try:
         runner.run(cmd, prompt, workspace, env, output_file)
+        return 0
+    except subprocess.CalledProcessError as exc:
+        print(f"  Agent exited with code {exc.returncode}", file=sys.stderr)
+        return int(exc.returncode or 1)
     finally:
         cleanup()
 
 
-# ── Planner ────────────────────────────────────────────────────────────────
+# ── Workspace seeding ──────────────────────────────────────────────────────
 
 
-def _setup_planner_workspace(
-    repo_root: Path, run_dir: Path, paper_ref: str, task: str = "recast"
-) -> Path:
-    """Create a small workspace containing paper PDF, template YAMLs, PLANNER.md, TASK.md."""
-    ws = run_dir / "planner_workspace"
-    if ws.exists():
-        shutil.rmtree(ws)
-    ws.mkdir(parents=True)
+def _seed_role_card(workspace: Path, repo_root: Path, name: str) -> None:
+    """Copy agents/sisyphus/runtime/roles/<name>.md into agent_context/.
 
-    # Role card
-    roles_dir = repo_root / "agents" / "sisyphus" / "runtime" / "roles"
-    shutil.copy2(roles_dir / "PLANNER.md", ws / "PLANNER.md")
-
-    # Benchmark task card — the planner reads this to know what the executor
-    # is supposed to produce.
-    paper_dir = repo_root / "LHCRecastBench" / "papers" / paper_ref
-    task_dir = paper_dir / "tasks" / task
-    task_md = task_dir / "TASK.md"
-    if task_md.is_file():
-        shutil.copy2(task_md, ws / "TASK.md")
-
-    # Paper PDF
-    pdf = paper_dir / "shared" / "papers" / f"{paper_ref}.pdf"
-    papers = ws / "papers"
-    papers.mkdir()
-    if pdf.exists():
-        shutil.copy2(pdf, papers / f"{paper_ref}.pdf")
-
-    # Null-valued templates for the selected task
-    tmpl_src = task_dir / "templates" / "HEPRecastData"
-    if tmpl_src.is_dir():
-        shutil.copytree(tmpl_src, ws / "HEPRecastData_templates")
-
-    # Empty target
-    (ws / "plan.md").write_text("")
-    return ws
+    build_workspace excludes everything under runtime/, so role cards
+    never auto-flow into the workspace. We seed them per-role on demand.
+    """
+    src = repo_root / "agents" / "sisyphus" / "runtime" / "roles" / f"{name}.md"
+    if src.is_file():
+        (workspace / "agent_context" / f"{name}.md").write_text(src.read_text())
 
 
-def _run_planner(
-    repo_root: Path,
-    run_dir: Path,
-    paper_ref: str,
-    runner: Runner,
-    model: str | None,
-    effort_max_tokens: int,
-    sandbox_choice: str | None,
-    task: str = "recast",
-    effort_label: str | None = None,
-) -> Path | None:
-    """Run the planner. Returns path to the promoted plan.md, or None on failure."""
-    from .roles import build_planner_prompt
-
-    ws = _setup_planner_workspace(repo_root, run_dir, paper_ref, task=task)
-    prompt = build_planner_prompt(paper_ref)
-    (ws / "prompt.txt").write_text(prompt)
-    output_file = ws / "session_log.txt"
-
-    print(f"[planner] running (model={model or 'default'}, effort≈{effort_max_tokens})")
-    try:
-        _run_in_sandbox(
-            repo_root,
-            ws,
-            prompt,
-            runner,
-            model,
-            output_file,
-            max_thinking_tokens=effort_max_tokens,
-            effort_label=effort_label,
-            allowlist="Read Write Glob Grep",
-            sandbox=sandbox_choice,
-        )
-    except subprocess.CalledProcessError as exc:
-        print(f"[planner] failed: {exc}")
-        return None
-
-    plan_src = ws / "plan.md"
-    if not plan_src.exists() or plan_src.stat().st_size == 0:
-        print("[planner] produced no plan.md — continuing without plan")
-        return None
-
-    plan_dest = run_dir / "plan.md"
-    shutil.copy2(plan_src, plan_dest)
-    # Keep the planner session log next to the run_dir for later audit
-    shutil.copy2(output_file, run_dir / "planner_session_log.txt")
-    shutil.rmtree(ws)
-    print(f"[planner] wrote {plan_dest} ({plan_dest.stat().st_size} bytes)")
-    return plan_dest
-
-
-# ── Executor ───────────────────────────────────────────────────────────────
-
-
-def _init_executor_workspace(
-    repo_root: Path, run_dir: Path, paper_ref: str, task: str = "recast"
-) -> Path:
-    """Fresh executor workspace at <run_dir>/workspace/."""
-    from agent_runtime.workspace import build_workspace
-
-    return build_workspace(repo_root, "sisyphus", paper_ref, run_dir.name, task=task)
-
-
-def _seed_executor_workspace(
+def _seed_iter_workspace(
     workspace: Path,
-    plan_path: Path | None,
-    previous_iter: Path | None,
+    plan_md: Path,
+    prev_iter_results: Path | None,
 ) -> None:
-    """Add plan.md + critique.md + prior-iter artifacts to an executor workspace."""
+    """Drop the current plan.md into agent_context/, and (if iter > 1) copy
+    the previous iter's filled results/ on top of the null template."""
     ctx = workspace / "agent_context"
-    ctx.mkdir(exist_ok=True)
-    if plan_path is not None and plan_path.exists():
-        shutil.copy2(plan_path, ctx / "plan.md")
-
-    if previous_iter is None:
-        return
-
-    # Critique from the critic's review of the previous iter
-    prev_critique = previous_iter / "critique.md"
-    if prev_critique.exists():
-        shutil.copy2(prev_critique, ctx / "critique.md")
-
-    # analysis.py / analysis/
-    prev_py = previous_iter / "analysis.py"
-    if prev_py.exists():
-        shutil.copy2(prev_py, workspace / "analysis.py")
-    prev_a = previous_iter / "analysis"
-    if prev_a.is_dir():
-        dest = workspace / "analysis"
-        if dest.exists():
-            shutil.rmtree(dest)
-        shutil.copytree(prev_a, dest)
-
-    # datasets.yaml
-    prev_ds = previous_iter / "datasets.yaml"
-    if prev_ds.exists():
-        shutil.copy2(prev_ds, workspace / "datasets.yaml")
-
-    # report.md → status.md (unverified)
-    prev_report = previous_iter / "report.md"
-    if prev_report.exists():
-        shutil.copy2(prev_report, workspace / "status.md")
-
-    # HEPRecastData (partially filled)
-    prev_hep = previous_iter / "HEPRecastData"
-    if prev_hep.is_dir():
-        dest = workspace / "HEPRecastData"
-        if dest.exists():
-            shutil.rmtree(dest)
-        shutil.copytree(prev_hep, dest)
-
-    # Prior score
-    prev_score = previous_iter / "score.json"
-    if prev_score.exists():
-        shutil.copy2(prev_score, workspace / "previous_score.json")
+    ctx.mkdir(parents=True, exist_ok=True)
+    if plan_md.is_file():
+        shutil.copy2(plan_md, ctx / "plan.md")
+    if prev_iter_results and prev_iter_results.is_dir():
+        # Overlay the prior iter's filled results on top of the null template
+        # the workspace builder placed there. Don't replace the directory
+        # (which would drop description.toml etc.).
+        for src in prev_iter_results.iterdir():
+            if src.is_file():
+                shutil.copy2(src, workspace / "results" / src.name)
 
 
-def _run_executor(
+# ── Roles ──────────────────────────────────────────────────────────────────
+
+
+def _planner_step(
     repo_root: Path,
-    workspace: Path,
+    run_root: Path,
+    agent_name: str,
+    task_id: str,
     paper_ref: str,
+    args: argparse.Namespace,
+    extra_ro_binds: list[Path],
+) -> Path:
+    """Run the planner ONCE. Returns path to <run_root>/plan.md."""
+    print("\n=== Planner ===")
+    # Build a minimal workspace under <run_root>/planner_workspace/.
+    planner_run_dir = f"{run_root.relative_to(repo_root / 'runs')}/planner_workspace_tmp"
+    # build_workspace insists on `runs/<run_dir>/workspace`, so we point
+    # it at a sub-path under run_root and grab the workspace it produces.
+    ws = build_workspace(repo_root, agent_name, task_id, planner_run_dir)
+    _seed_role_card(ws, repo_root, "PLANNER")
+    # Empty placeholder plan.md so the prompt's reference is not confusing.
+    (ws / "agent_context" / "plan.md").write_text(
+        "# (empty — planner has not written a plan yet)\n"
+    )
+    log = run_root / "planner_log.txt"
+    rc = _run_role(
+        workspace=ws,
+        repo_root=repo_root,
+        prompt=build_planner_prompt(paper_ref, task_id),
+        runner_name=args.runner,
+        model=args.model or None,
+        effort=args.planner_effort,
+        sandbox=args.sandbox,
+        output_file=log,
+        extra_ro_binds=extra_ro_binds,
+    )
+    if rc != 0:
+        print(f"  WARN: planner exit {rc}; using whatever was written")
+
+    plan_src = ws / "agent_context" / "plan.md"
+    plan_dst = run_root / "plan.md"
+    if plan_src.is_file():
+        shutil.copy2(plan_src, plan_dst)
+        print(f"  plan.md → {plan_dst}")
+    else:
+        print("  WARN: planner did not write agent_context/plan.md; seeding empty plan")
+        plan_dst.write_text("# (planner produced no plan)\n")
+    # Clean up planner workspace (stays under <run_root>/planner_workspace_tmp/)
+    return plan_dst
+
+
+def _executor_step(
+    workspace: Path,
+    repo_root: Path,
+    paper_ref: str,
+    task_id: str,
     iter_index: int,
     has_prior: bool,
-    runner: Runner,
-    model: str | None,
-    max_thinking_tokens: int | None,
-    sandbox_choice: str | None,
-    effort_label: str | None = None,
-) -> None:
-    from .roles import build_executor_prompt
-
-    prompt = build_executor_prompt(paper_ref, iter_index, has_prior)
-    (workspace / "prompt.txt").write_text(prompt)
-    output_file = workspace / "session_log.txt"
-
-    sisy_runtime = repo_root / "agents" / "sisyphus" / "runtime"
-    simple_runtime = repo_root / "agents" / "simple" / "runtime"
-    shared_runtime = repo_root / "agent_runtime"
-    _run_in_sandbox(
-        repo_root,
-        workspace,
-        prompt,
-        runner,
-        model,
-        output_file,
-        max_thinking_tokens=max_thinking_tokens,
-        effort_label=effort_label,
-        allowlist=None,
-        sandbox=sandbox_choice,
-        extra_ro_binds=[sisy_runtime, simple_runtime, shared_runtime],
+    args: argparse.Namespace,
+    extra_ro_binds: list[Path],
+    log: Path,
+) -> int:
+    print(f"\n=== Iter {iter_index:03d} executor ===")
+    return _run_role(
+        workspace=workspace,
+        repo_root=repo_root,
+        prompt=build_executor_prompt(paper_ref, task_id, iter_index, has_prior),
+        runner_name=args.runner,
+        model=args.model or None,
+        effort=args.effort,
+        sandbox=args.sandbox,
+        output_file=log,
+        extra_ro_binds=extra_ro_binds,
     )
 
 
-# ── Critic ─────────────────────────────────────────────────────────────────
-
-
-def _setup_critic_workspace(
+def _critic_step(
+    workspace: Path,
     repo_root: Path,
-    iter_dir: Path,
-    plan_path: Path | None,
     paper_ref: str,
-    task: str = "recast",
-) -> Path:
-    """Assemble a read-mostly workspace with copies of the artifacts + reference."""
-    ws = iter_dir / "critic_workspace"
-    if ws.exists():
-        shutil.rmtree(ws)
-    ws.mkdir()
-
-    # Role card
-    roles_dir = repo_root / "agents" / "sisyphus" / "runtime" / "roles"
-    shutil.copy2(roles_dir / "CRITIC.md", ws / "CRITIC.md")
-
-    # Executor artifacts
-    artifacts = ws / "artifacts"
-    artifacts.mkdir()
-    for name in (
-        "report.md",
-        "score.json",
-        "analysis.py",
-        "datasets.yaml",
-        "results.json",
-        "status.md",
-        "previous_score.json",
-    ):
-        src = iter_dir / name
-        if src.exists():
-            shutil.copy2(src, artifacts / name)
-    analysis_dir = iter_dir / "analysis"
-    if analysis_dir.is_dir():
-        shutil.copytree(analysis_dir, artifacts / "analysis")
-    hep_src = iter_dir / "HEPRecastData"
-    if hep_src.is_dir():
-        shutil.copytree(hep_src, artifacts / "HEPRecastData")
-
-    # Paper reference answers (task-specific).
-    ref_src = (
-        repo_root
-        / "LHCRecastBench"
-        / "papers"
-        / paper_ref
-        / "tasks"
-        / task
-        / "reference"
-        / "HEPRecastData"
-    )
-    if ref_src.is_dir():
-        ref_dest = ws / "reference" / "HEPRecastData_reference"
-        ref_dest.parent.mkdir()
-        shutil.copytree(ref_src, ref_dest)
-
-    # Plan + paper + TASK.md so the critic grounds its review in the benchmark contract.
-    if plan_path is not None and plan_path.exists():
-        shutil.copy2(plan_path, ws / "plan.md")
-    task_md = repo_root / "LHCRecastBench" / "papers" / paper_ref / "tasks" / task / "TASK.md"
-    if task_md.is_file():
-        shutil.copy2(task_md, ws / "TASK.md")
-    pdf = (
-        repo_root
-        / "LHCRecastBench"
-        / "papers"
-        / paper_ref
-        / "shared"
-        / "papers"
-        / f"{paper_ref}.pdf"
-    )
-    if pdf.exists():
-        shutil.copy2(pdf, ws / "paper.pdf")
-
-    # Empty target
-    (ws / "critique.md").write_text("")
-    return ws
-
-
-def _run_critic(
-    repo_root: Path,
-    iter_dir: Path,
-    paper_ref: str,
+    task_id: str,
     iter_index: int,
-    plan_path: Path | None,
-    runner: Runner,
-    model: str | None,
-    effort_max_tokens: int,
-    sandbox_choice: str | None,
-    task: str = "recast",
-    effort_label: str | None = None,
-) -> Path | None:
-    """Run the critic for a given archived iteration. Returns critique.md path or None."""
-    from .roles import build_critic_prompt
-
-    ws = _setup_critic_workspace(repo_root, iter_dir, plan_path, paper_ref, task=task)
-    prompt = build_critic_prompt(paper_ref, iter_index)
-    (ws / "prompt.txt").write_text(prompt)
-    output_file = ws / "session_log.txt"
-
-    print(
-        f"[critic ] iter {iter_index:03d} (model={model or 'default'}, effort≈{effort_max_tokens})"
+    args: argparse.Namespace,
+    extra_ro_binds: list[Path],
+    log: Path,
+) -> int:
+    print(f"\n=== Iter {iter_index:03d} critic ===")
+    _seed_role_card(workspace, repo_root, "CRITIC")
+    return _run_role(
+        workspace=workspace,
+        repo_root=repo_root,
+        prompt=build_critic_prompt(paper_ref, task_id, iter_index),
+        runner_name=args.runner,
+        model=args.critic_model or None,
+        effort=args.critic_effort,
+        sandbox=args.sandbox,
+        output_file=log,
+        extra_ro_binds=extra_ro_binds,
     )
-    try:
-        _run_in_sandbox(
-            repo_root,
-            ws,
-            prompt,
-            runner,
-            model,
-            output_file,
-            max_thinking_tokens=effort_max_tokens,
-            effort_label=effort_label,
-            allowlist="Read Write Glob Grep",
-            sandbox=sandbox_choice,
-        )
-    except subprocess.CalledProcessError as exc:
-        print(f"[critic ] failed: {exc}")
-        return None
-
-    crit_src = ws / "critique.md"
-    if not crit_src.exists() or crit_src.stat().st_size == 0:
-        print("[critic ] produced no critique.md")
-        return None
-
-    crit_dest = iter_dir / "critique.md"
-    shutil.copy2(crit_src, crit_dest)
-    # Keep session log but drop the bulky artifact copies
-    shutil.copy2(output_file, iter_dir / "critic_session_log.txt")
-    shutil.rmtree(ws)
-    print(f"[critic ] wrote {crit_dest} ({crit_dest.stat().st_size} bytes)")
-    return crit_dest
 
 
 # ── Main loop ──────────────────────────────────────────────────────────────
 
 
 def main() -> int:
-    raise NotImplementedError(
-        "The sisyphus controller has not been migrated to the tasks/ layout yet. "
-        "Use a `simple` or `baseline` agent config for now. "
-        "Tracked as Phase 4 follow-up alongside the Apptainer migration."
-    )
-    parser = argparse.ArgumentParser(
-        description="Sisyphus recast loop: planner + iter(executor→score→critic).",
-    )
-    parser.add_argument("--config", default="")
-    parser.add_argument("--paper-ref", default=None)
-    parser.add_argument("--max-iters", type=int, default=None)
-    parser.add_argument("--min-iters", type=int, default=None)
-    parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
-    parser.add_argument("--model", default=None, help="Main executor model")
-    parser.add_argument(
-        "--effort",
-        default=None,
-        help="Executor reasoning effort (low|medium|high|max|xhigh|<int>)",
-    )
-    parser.add_argument("--critic-model", default=None)
-    parser.add_argument("--critic-effort", default=None)
-    parser.add_argument("--planner-effort", default=None)
-    parser.add_argument("--sandbox", default=None, choices=["auto", "bwrap", "none"])
-    parser.add_argument(
-        "--task",
-        default=None,
-        choices=["validate", "simulate", "recast"],
-        help="Benchmark task (default: simulate).",
-    )
-    args = parser.parse_args()
-
+    args = _parse_args(None)
+    _resolve_config(args)
     repo_root = Path(__file__).resolve().parents[4]
 
-    from agent_runtime.naming import (
-        generate_run_info,
-        resolve_effort,
-        write_run_info,
-        load_config,
-        validate_launch_inputs,
-        finalize_run_info,
-    )
-
     try:
-        cfg = load_config(args.config)
-    except ValueError as exc:
-        parser.error(str(exc))
-
-    args.paper_ref = args.paper_ref or cfg.get("paper")
-    if not args.paper_ref:
-        parser.error("--paper-ref is required (CLI or config)")
-    args.task = args.task or cfg.get("task") or "simulate"
-    try:
-        validate_launch_inputs(repo_root, args.paper_ref, args.task)
+        task_toml = validate_launch_inputs(repo_root, args.task)
     except (FileNotFoundError, ValueError) as exc:
-        parser.error(str(exc))
+        sys.exit(f"sisyphus: {exc}")
+    paper_ref = task_toml["task"]["paper"]
 
-    args.runner = args.runner or cfg.get("runner") or "claude"
-    args.model = args.model or cfg.get("model") or ""
-    args.effort = args.effort or cfg.get("effort") or "medium"
-    args.critic_model = args.critic_model or cfg.get("critic_model") or args.model or ""
-    args.critic_effort = args.critic_effort or cfg.get("critic_effort") or "low"
-    args.planner_effort = args.planner_effort or cfg.get("planner_effort") or "low"
-    args.sandbox = args.sandbox or cfg.get("sandbox")
-    args.max_iters = args.max_iters if args.max_iters is not None else int(cfg.get("max_iters", 5))
-    args.min_iters = args.min_iters if args.min_iters is not None else int(cfg.get("min_iters", 1))
-
-    paper_ref = args.paper_ref
-    exec_effort_label, exec_max_thinking = resolve_effort(args.effort)
-    critic_effort_label, critic_max_thinking = resolve_effort(args.critic_effort)
-    planner_effort_label, planner_max_thinking = resolve_effort(args.planner_effort)
-
-    # Run directory and metadata
-    run_info = generate_run_info(
-        paper_ref=paper_ref,
+    info = generate_run_info(
+        task_id=args.task,
         agent_name="sisyphus",
+        runner_name=args.runner,
         model_name=args.model or args.runner,
-        task=args.task,
+        paper_ref=paper_ref,
     )
-    recast_dir = run_info["run_dir"]
-    run_info["runner"] = args.runner
-    run_info["effort"] = exec_effort_label
-    run_info["max_thinking_tokens"] = exec_max_thinking
-    run_info["max_iters"] = args.max_iters
-    run_info["sandbox"] = args.sandbox or "auto"
-    run_info["task"] = args.task
-    run_info["critic_model"] = args.critic_model or None
-    run_info["critic_effort"] = args.critic_effort
-    run_info["planner_effort"] = args.planner_effort
-
-    recast_path = repo_root / "runs" / recast_dir
-    recast_path.mkdir(parents=True, exist_ok=True)
-    validation_dir = recast_path / "validation"
-    validation_dir.mkdir(exist_ok=True)
-    write_run_info(recast_path, run_info)
-    print(f"Recast directory: {recast_dir}")
-    print(
-        f"Agent ID: {run_info['agent_id']} "
-        f"(executor effort={exec_effort_label}/{exec_max_thinking}; "
-        f"critic effort={args.critic_effort}/{critic_max_thinking}; "
-        f"planner effort={args.planner_effort}/{planner_max_thinking})"
+    info.update(
+        {
+            "effort": resolve_effort(args.effort)[0],
+            "max_iters": args.max_iters,
+            "min_iters": args.min_iters,
+            "combined_threshold": args.combined_threshold,
+            "critic_model": args.critic_model,
+            "sandbox": args.sandbox or "auto",
+        }
     )
+    run_root = repo_root / "runs" / info["run_dir"]
+    run_root.mkdir(parents=True, exist_ok=True)
+    write_run_info(run_root, info)
+    print(f"Run: {run_root}")
 
-    runner = get_runner(args.runner)
+    runtime_dir = repo_root / "agents" / "sisyphus" / "runtime"
+    shared_runtime = repo_root / "agent_runtime"
+    extra_ro_binds = [runtime_dir, shared_runtime]
 
-    # ── Planner (runs once, always) ────────────────────────────────────────
-    plan_path = _run_planner(
-        repo_root,
-        recast_path,
-        paper_ref,
-        runner,
-        model=args.critic_model or args.model or None,
-        effort_max_tokens=planner_max_thinking,
-        sandbox_choice=args.sandbox,
-        task=args.task,
-        effort_label=planner_effort_label,
-    )
-
-    # ── Iteration loop ─────────────────────────────────────────────────────
-    previous_iter: Path | None = None
-    history: list[IterationResult] = []
-    sandbox_ws: Path | None = None
-    iter_name: str | None = None
     started_at = time.time()
-    final_scores: dict | None = None
-    rc = 0
+    exit_code = 0
+    last_score: dict | None = None
 
-    def _collect_session_logs() -> list[Path]:
-        logs: list[Path] = []
-        if validation_dir.exists():
-            for d in sorted(validation_dir.iterdir()):
-                log = d / "session_log.txt"
-                if log.exists():
-                    logs.append(log)
-        planner_log = recast_path / "planner_session_log.txt"
-        if planner_log.exists():
-            logs.append(planner_log)
-        return logs
-
-    def _finalize(exit_code: int, scores: dict | None) -> None:
-        finalize_run_info(
-            recast_path,
-            exit_code=exit_code,
-            started_at=started_at,
-            scores=scores,
-            session_logs=_collect_session_logs(),
+    try:
+        # 1. Planner — once at the start.
+        plan_md = _planner_step(
+            repo_root, run_root, "sisyphus", args.task, paper_ref, args, extra_ro_binds
         )
 
-    _archive_lock = [False]
+        # 2. Iter loop.
+        prev_iter_results: Path | None = None
+        for i in range(1, args.max_iters + 1):
+            iter_dir = run_root / "validation" / f"iter_{i:03d}"
+            iter_dir.mkdir(parents=True, exist_ok=True)
 
-    def _emergency_archive(signum=None, frame=None):
-        nonlocal sandbox_ws, iter_name
-        if _archive_lock[0]:
-            return
-        _archive_lock[0] = True
-        try:
-            if sandbox_ws and sandbox_ws.exists() and iter_name:
-                (sandbox_ws / "controller_interrupt.log").write_text(
-                    f"Interrupted by signal={signum}\n"
-                )
-                dest = validation_dir / iter_name
-                if dest.exists():
-                    shutil.rmtree(dest)
-                try:
-                    shutil.move(str(sandbox_ws), str(dest))
-                    print(f"\nInterrupted. Partial work saved to {dest}")
-                except Exception:
-                    pass
-                sandbox_ws = None
-        finally:
-            _archive_lock[0] = False
+            iter_run_dir = f"{run_root.relative_to(repo_root / 'runs')}/validation/iter_{i:03d}"
+            ws = build_workspace(repo_root, "sisyphus", args.task, iter_run_dir)
+            _seed_iter_workspace(ws, plan_md, prev_iter_results)
 
-    signal.signal(signal.SIGINT, _emergency_archive)
-    signal.signal(signal.SIGTERM, _emergency_archive)
-    atexit.register(_emergency_archive)
+            # Executor
+            rc_exec = _executor_step(
+                ws,
+                repo_root,
+                paper_ref,
+                args.task,
+                i,
+                has_prior=(i > 1),
+                args=args,
+                extra_ro_binds=extra_ro_binds,
+                log=iter_dir / "session_log.txt",
+            )
+            if rc_exec != 0:
+                print(f"  Iter {i:03d}: executor exit {rc_exec}")
 
-    try:
-        for iter_index in range(args.max_iters):
-            try:
-                iter_name = f"iter_{iter_index:03d}"
-                sandbox_ws = _init_executor_workspace(
-                    repo_root, recast_path, paper_ref, task=args.task
-                )
-                _seed_executor_workspace(sandbox_ws, plan_path, previous_iter)
-
-                _run_executor(
-                    repo_root,
-                    sandbox_ws,
-                    paper_ref,
-                    iter_index,
-                    has_prior=(previous_iter is not None),
-                    runner=runner,
-                    model=args.model or None,
-                    max_thinking_tokens=exec_max_thinking,
-                    effort_label=exec_effort_label,
-                    sandbox_choice=args.sandbox,
-                )
-
-                missing = [n for n in EXPECTED_ARTIFACTS if not (sandbox_ws / n).exists()]
-                if missing:
-                    print(f"  {iter_name} missing: {missing}")
-                if not _has_analysis_code(sandbox_ws):
-                    print(f"  {iter_name} has no analysis code")
-                if not _has_filled_hepdata(sandbox_ws):
-                    print(f"  {iter_name} has no filled HEPRecastData values")
-
-                archived = validation_dir / iter_name
-                if archived.exists():
-                    shutil.rmtree(archived)
-                shutil.move(str(sandbox_ws), str(archived))
-                sandbox_ws = None
-                iter_dir = archived
-
-                overall_pass, scores = _score_iteration(iter_dir, paper_ref, task=args.task)
-                overall_score = scores.get("overall_score", 0.0) if scores else 0.0
-                status = _parse_status(iter_dir / "report.md")
+            # Score
+            scores = _default_score(ws)
+            (iter_dir / "eval").mkdir(exist_ok=True)
+            (iter_dir / "eval" / "score.json").write_text(json.dumps(scores, indent=2))
+            last_score = scores
+            combined = scores.get("overall_combined")
+            shape = scores.get("overall_shape")
+            norm = scores.get("overall_normalization")
+            if combined is not None:
                 print(
-                    f"  {iter_name}: score={overall_score:.0%}, "
-                    f"pass={overall_pass}, status={status}"
+                    f"  Iter {i:03d} score: combined={combined:.2f}  "
+                    f"shape={shape:.2f}  norm={norm:.2f}"
                 )
 
-                history.append(
-                    IterationResult(
-                        directory=iter_dir,
-                        status=status,
-                        score=overall_score,
-                        overall_pass=overall_pass,
-                    )
+            # Convergence check
+            if combined is not None and combined >= args.combined_threshold and i >= args.min_iters:
+                print(
+                    f"  CONVERGED at iter {i:03d} "
+                    f"(combined={combined:.2f} ≥ {args.combined_threshold})"
                 )
-                summary = {
-                    "paper_ref": paper_ref,
-                    "iterations": len(history),
-                    "last_iter": iter_dir.name,
-                    "last_status": status,
-                    "last_score": overall_score,
-                    "last_overall_pass": overall_pass,
-                    "history": [
-                        {
-                            "iter": h.directory.name,
-                            "status": h.status,
-                            "score": h.score,
-                            "overall_pass": h.overall_pass,
-                        }
-                        for h in history
-                    ],
-                }
-                (recast_path / "controller_summary.json").write_text(json.dumps(summary, indent=2))
+                prev_iter_results = ws / "results"
+                break
 
-                stop = overall_pass is True and len(history) >= args.min_iters
-                if stop:
-                    summary["status"] = "CONVERGED"
-                    (recast_path / "controller_summary.json").write_text(
-                        json.dumps(summary, indent=2)
-                    )
-                    print(f"\nConverged after {len(history)} iteration(s).")
-                    final_scores = scores
-                    return 0
-
-                # Not converged → run the critic to seed the next iter.
-                _run_critic(
+            # Critic — only if we'll actually run another iter.
+            if i < args.max_iters:
+                rc_crit = _critic_step(
+                    ws,
                     repo_root,
-                    iter_dir,
                     paper_ref,
-                    iter_index,
-                    plan_path=plan_path,
-                    runner=runner,
-                    model=args.critic_model or args.model or None,
-                    effort_max_tokens=critic_max_thinking,
-                    sandbox_choice=args.sandbox,
-                    task=args.task,
-                    effort_label=critic_effort_label,
+                    args.task,
+                    i,
+                    args=args,
+                    extra_ro_binds=extra_ro_binds,
+                    log=iter_dir / "critic_log.txt",
                 )
+                if rc_crit != 0:
+                    print(f"  Iter {i:03d}: critic exit {rc_crit}")
+                # The critic was supposed to overwrite agent_context/plan.md.
+                # Promote it to <run_root>/plan.md as the new source of truth.
+                new_plan = ws / "agent_context" / "plan.md"
+                if new_plan.is_file():
+                    shutil.copy2(new_plan, plan_md)
+                    print(f"  plan.md updated → {plan_md}")
+                else:
+                    print("  WARN: critic did not produce updated plan.md; reusing prior")
 
-                previous_iter = iter_dir
-                final_scores = scores
+            prev_iter_results = ws / "results"
 
-            except (KeyboardInterrupt, subprocess.CalledProcessError) as exc:
-                if sandbox_ws and sandbox_ws.exists() and iter_name:
-                    (sandbox_ws / "controller_interrupt.log").write_text(
-                        f"Interrupted: {type(exc).__name__}: {exc}\n"
-                    )
-                    dest = validation_dir / iter_name
-                    if dest.exists():
-                        shutil.rmtree(dest)
-                    shutil.move(str(sandbox_ws), str(dest))
-                    sandbox_ws = None
-                if isinstance(exc, KeyboardInterrupt):
-                    rc = 130
-                    raise
-                rc = 1
-                continue
-
-        # Loop exhausted without converging
-        summary = recast_path / "controller_summary.json"
-        if summary.exists():
-            data = json.loads(summary.read_text())
-            data["status"] = "MAX_ITERS"
-            summary.write_text(json.dumps(data, indent=2))
-        return rc
+    except BaseException:
+        exit_code = 1
+        raise
     finally:
-        _finalize(rc, final_scores)
+        finalize_run_info(
+            run_root,
+            exit_code=exit_code,
+            started_at=started_at,
+            scores=last_score,
+            session_logs=list((run_root / "validation").glob("iter_*/session_log.txt")),
+        )
+
+    print(f"\nDone. Run: {run_root}")
+    return exit_code
 
 
 if __name__ == "__main__":

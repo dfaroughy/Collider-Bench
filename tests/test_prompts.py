@@ -27,7 +27,7 @@ def test_single_shot_prompt_renders(builder):
 
 
 def test_planner_prompt_mentions_plan_md():
-    text = build_planner_prompt("TEST-1234")
+    text = build_planner_prompt("TEST-1234", "test-task-id")
     assert "TEST-1234" in text
     assert "plan.md" in text
     assert "PLANNER.md" in text
@@ -36,20 +36,21 @@ def test_planner_prompt_mentions_plan_md():
 @pytest.mark.parametrize("iter_index", [0, 1, 5])
 @pytest.mark.parametrize("has_prior", [True, False])
 def test_executor_prompt_renders(iter_index, has_prior):
-    text = build_executor_prompt("TEST-1234", iter_index, has_prior)
+    text = build_executor_prompt("TEST-1234", "test-task-id", iter_index, has_prior)
     assert "TEST-1234" in text
     assert "iteration" in text.lower()
+    assert "plan.md" in text
     if has_prior:
-        assert "critique.md" in text
-    else:
-        # Iter 0: no critique to read yet.
-        assert "critique.md" not in text
+        assert "carries forward" in text.lower() or "previous iteration" in text.lower()
 
 
 @pytest.mark.parametrize("iter_index", [0, 2])
 def test_critic_prompt_points_at_artifacts(iter_index):
-    text = build_critic_prompt("TEST-1234", iter_index)
+    text = build_critic_prompt("TEST-1234", "test-task-id", iter_index)
     assert "TEST-1234" in text
     assert "CRITIC.md" in text
-    assert "score.json" in text
-    assert "critique.md" in text
+    # Critic edits plan.md in place (no separate critique.md).
+    assert "plan.md" in text
+    # Critic must NOT see score numbers or reference values.
+    assert "score.json" not in text
+    assert "reference" in text.lower()  # the prompt explicitly says "do NOT see"
