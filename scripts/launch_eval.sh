@@ -1,7 +1,8 @@
 #!/bin/bash
 # Run the evaluation suite on a completed benchmark run.
 #
-# Always runs: score, rubric_scorer, plot_recast, render_eval.
+# Always runs: score, plot_recast, render_eval (offline, no LLM cost).
+#
 # The LLM-based judge is selectable via --judge:
 #   trajectory  (default) 9-mode failure-mode taxonomy (Terminal-Bench TAT,
 #                         trajectory_judge.json)
@@ -88,7 +89,6 @@ export PYTHONPATH="${REPO_ROOT}:${PYTHONPATH:-}"
 echo "=== Evaluating $RUN_PATH (judge=$JUDGE) ==="
 
 python -m LHCRecastBench.evaluation.score             "$RUN_PATH"
-python -m LHCRecastBench.evaluation.rubric_scorer     "$RUN_PATH"
 python -m LHCRecastBench.evaluation.plot_recast       "$RUN_PATH"
 
 case "$JUDGE" in

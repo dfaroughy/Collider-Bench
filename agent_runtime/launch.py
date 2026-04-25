@@ -152,9 +152,8 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
     """Run the offline (LLM-free) evaluators after the agent completes.
 
     Writes:
-      eval/rubric_scorer.json   — weighted checkpoints + cost + activity
-      eval/plots/*.png          — reference vs agent histogram(s) + ratio
-      eval/summary.md           — human-readable digest
+      eval/plots/*.png   — reference vs agent histogram + ratio panel
+      eval/summary.md    — human-readable digest of score.json + plots
 
     Best-effort: any single evaluator that errors is logged and the others
     still run. The LLM-based judges (trajectory_judge, llm_judge) stay
@@ -171,18 +170,6 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
         print(f"  WARN: skipping offline evals — {exc}")
         return
 
-    # Rubric scorer
-    try:
-        from LHCRecastBench.evaluation.rubric_scorer import evaluate_agent
-
-        rubric = evaluate_agent(rp)
-        (eval_dir / "rubric_scorer.json").write_text(json.dumps(rubric, indent=2))
-        rs = (rubric or {}).get("rubric", {}).get("rubric_score")
-        if rs is not None:
-            print(f"  Rubric: {rs:.1%}")
-    except Exception as exc:  # noqa: BLE001 — best-effort
-        print(f"  WARN: rubric_scorer failed: {exc}")
-
     # Plot reference vs agent
     try:
         from LHCRecastBench.evaluation.plot_recast import plot_recast
@@ -194,7 +181,7 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
     except Exception as exc:  # noqa: BLE001
         print(f"  WARN: plot_recast failed: {exc}")
 
-    # Render summary.md (reads the JSONs we just wrote)
+    # Render summary.md (reads score.json + run_info.json)
     try:
         from LHCRecastBench.evaluation.render_eval import render_summary
 
@@ -307,10 +294,14 @@ def launch_single_run(
             print(f"  ERROR: {scores['error']}")
             exit_code = 1
         else:
-            n_pass = scores.get("n_pass", 0)
             n_filled = scores.get("n_filled", 0)
-            overall = scores.get("overall_score", 0)
-            print(f"  Overall: {n_pass}/{n_filled} bins pass ({overall:.0%})")
+            n_bins = scores.get("n_bins", 0)
+            sh = scores.get("overall_shape")
+            no = scores.get("overall_normalization")
+            cb = scores.get("overall_combined")
+            print(f"  Filled: {n_filled}/{n_bins} bins")
+            if sh is not None and no is not None:
+                print(f"  Shape: {sh:.2f}   Norm: {no:.2f}   Combined: {cb:.2f}")
 
         # Offline evals: rubric + plots + summary. All cheap (no LLM calls).
         # The two LLM-based judges (trajectory_judge, llm_judge) stay opt-in

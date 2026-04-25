@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 """Render a human-readable summary.md from the JSONs in <run_dir>/eval/.
 
-Reads whatever of score.json, rubric_scorer.json, judge_scores.json,
-score_corrected.json is present. Writes eval/summary.md. Safe to run on a
-partially-evaluated run; missing sources are simply skipped.
+Reads whatever of score.json, score_corrected.json, judge_scores.json,
+trajectory_judge.json is present. Writes eval/summary.md. Safe to run on
+a partially-evaluated run; missing sources are simply skipped.
 
 Usage:
     python -m LHCRecastBench.evaluation.render_eval <run_dir_or_workspace>
-
-Example:
-    python -m LHCRecastBench.evaluation.render_eval \\
-        recast_CMS-SUS-16-047_simple_claude-opus-4-7_ArcaneLagrange_51190fe0
 """
 
 from __future__ import annotations
@@ -75,13 +71,22 @@ def render_header(run_info: dict | None, run_dir: Path) -> list[str]:
         meta += f" · **Wall:** {int(duration) // 60} min {int(duration) % 60} s"
     lines.append(meta)
     if final:
-        pass_s = "PASS" if final.get("overall_pass") else "FAIL"
-        ovr = final.get("overall_score")
-        n_pass = final.get("n_pass")
-        n_filled = final.get("n_filled")
-        lines.append(
-            f"**Final:** {_fmt_pct(ovr)} ({_fmt_int(n_pass)}/{_fmt_int(n_filled)} bins) — {pass_s}"
-        )
+        sh = final.get("shape")
+        no = final.get("normalization")
+        cb = final.get("combined")
+        nf = final.get("n_filled")
+        nb = final.get("n_bins")
+        bits = []
+        if sh is not None:
+            bits.append(f"shape {_fmt_num(sh)}")
+        if no is not None:
+            bits.append(f"norm {_fmt_num(no)}")
+        if cb is not None:
+            bits.append(f"comb {_fmt_num(cb)}")
+        if nf is not None and nb is not None:
+            bits.append(f"filled {nf}/{nb}")
+        if bits:
+            lines.append("**Final:** " + " · ".join(bits))
     lines.append("")
     return lines
 
@@ -89,11 +94,11 @@ def render_header(run_info: dict | None, run_dir: Path) -> list[str]:
 def render_score(score: dict | None) -> list[str]:
     if score is None or "error" in score:
         return []
-    out = ["## Accuracy — `score.py`", ""]
+    out = ["## Score — `score.py`", ""]
     out.append("| Metric | Value |")
     out.append("|---|---|")
     out.append(
-        f"| Bins passing | {_fmt_int(score.get('n_pass'))} / {_fmt_int(score.get('n_filled'))} ({_fmt_pct(score.get('overall_score'))}) — {'**PASS**' if score.get('overall_pass') else '**FAIL**'} |"
+        f"| Bins filled | {_fmt_int(score.get('n_filled'))} / {_fmt_int(score.get('n_bins'))} |"
     )
     if "overall_shape" in score:
         out.append(f"| Shape score | {_fmt_num(score['overall_shape'])} |")
@@ -101,60 +106,37 @@ def render_score(score: dict | None) -> list[str]:
         out.append(f"| Combined (geo mean) | {_fmt_num(score['overall_combined'])} |")
     out.append("")
 
-    # Per-series Baker-Cousins breakdown. The "score" columns are the bounded
-    # rubric scores (exp(−z/5)); p-values and z are reported alongside for
-    # the statistical reading.
-    rows: list[tuple[str, dict]] = []
-    for t in score.get("tables", []):
-        if "error" in t:
-            continue
-        for s in t.get("series", []):
-            if "error" in s or "shape" not in s:
-                continue
-            rows.append((f"{t['table']}/{s['name']}", s))
-    if rows:
-        out.append("<details><summary>Per-series breakdown (Baker-Cousins)</summary>\n")
+    # Series-level Baker-Cousins breakdown. score.json now has a single
+    # series (the task's one histogram); table-level wrapping is gone.
+    s = score.get("series") or {}
+    if "shape" in s:
+        sh = s["shape"]
+        nm = s["normalization"]
+        ks = s.get("ks", {})
+        out.append("<details><summary>Baker-Cousins decomposition</summary>\n")
+        out.append("| Component | score | z | p | extras |")
+        out.append("|---|---:|---:|---:|---|")
         out.append(
-            "| Series | Bins pass | Shape score (z, p) | Norm score (z, p, ratio) | KS (p) | Combined | Diagnosis |"
+            f"| shape | {_fmt_num(sh['score'])} | {_fmt_num(sh.get('z'))} | "
+            f"{_fmt_p(sh.get('p_value'))} | dof={_fmt_int(sh.get('dof'))} |"
         )
-        out.append("|---|---|---:|---:|---:|---:|---|")
-        for name, s in rows:
-            bins = f"{_fmt_int(s['n_pass'])}/{_fmt_int(s['n_filled'])} ({_fmt_pct(s.get('score'))})"
-            sh = s["shape"]
-            nm = s["normalization"]
-            ks = s.get("ks", {})
-            shape_cell = (
-                f"{_fmt_num(sh['score'])} "
-                f"(z={_fmt_num(sh.get('z'))}, p={_fmt_p(sh.get('p_value'))})"
-            )
-            norm_cell = (
-                f"{_fmt_num(nm['score'])} "
-                f"(z={_fmt_num(nm.get('z'))}, p={_fmt_p(nm.get('p_value'))}, "
-                f"ratio={_fmt_num(nm.get('ratio'))})"
-            )
-            ks_cell = _fmt_p(ks.get("p_value")) if ks else "—"
+        out.append(
+            f"| normalization | {_fmt_num(nm['score'])} | {_fmt_num(nm.get('z'))} | "
+            f"{_fmt_p(nm.get('p_value'))} | ratio={_fmt_num(nm.get('ratio'))} |"
+        )
+        if ks:
             out.append(
-                f"| `{name}` | {bins} | {shape_cell} | {norm_cell} | {ks_cell} | "
-                f"{_fmt_num(s['combined'])} | {s.get('diagnosis', '—')} |"
+                f"| KS | — | — | {_fmt_p(ks.get('p_value'))} | "
+                f"D={_fmt_num(ks.get('statistic'))} |"
             )
-        out.append("\n</details>\n")
-
-        # Full-table goodness-of-fit, surfaced as its own block.
-        total_rows = [
-            (n, s["total"]) for n, s in rows if "total" in s and isinstance(s.get("total"), dict)
-        ]
-        if total_rows:
+        if "total" in s and isinstance(s.get("total"), dict):
+            t = s["total"]
             out.append(
-                "<details><summary>Full goodness-of-fit (λ_total = λ_shape + λ_norm)</summary>\n"
+                f"| total | — | {_fmt_num(t.get('z'))} | {_fmt_p(t.get('p_value'))} | "
+                f"λ={_fmt_num(t.get('bc_stat'))}, dof={_fmt_int(t.get('dof'))} |"
             )
-            out.append("| Series | λ_total | dof | z | p |")
-            out.append("|---|---:|---:|---:|---:|")
-            for n, t in total_rows:
-                out.append(
-                    f"| `{n}` | {_fmt_num(t.get('bc_stat'))} | {_fmt_int(t.get('dof'))} | "
-                    f"{_fmt_num(t.get('z'))} | {_fmt_p(t.get('p_value'))} |"
-                )
-            out.append("\n</details>\n")
+        out.append(f"\n*Diagnosis:* {s.get('diagnosis', '—')}\n")
+        out.append("</details>\n")
     return out
 
 
@@ -176,82 +158,51 @@ def _fmt_p(p) -> str:
 def render_corrected(corrected: dict | None, score: dict | None) -> list[str]:
     if corrected is None or "error" in corrected:
         return []
-    out = ["## Accuracy (judge-corrected) — `score_corrected.json`", ""]
-    sub = score.get("overall_score") if score else None
-    cor = corrected.get("overall_score")
+    out = ["## Score (judge-corrected) — `score_corrected.json`", ""]
     out.append("After the judge rewrote COPIED / NULL_BUT_COMPUTED series:")
     out.append("")
     out.append("| | Submitted | Corrected |")
     out.append("|---|---:|---:|")
-    out.append(f"| Bins passing | {_fmt_pct(sub)} | {_fmt_pct(cor)} |")
     if "overall_shape" in corrected:
         out.append(
-            f"| Shape | {_fmt_num(score.get('overall_shape') if score else None)} | {_fmt_num(corrected['overall_shape'])} |"
+            f"| Shape | {_fmt_num(score.get('overall_shape') if score else None)} "
+            f"| {_fmt_num(corrected['overall_shape'])} |"
         )
         out.append(
-            f"| Normalization | {_fmt_num(score.get('overall_normalization') if score else None)} | {_fmt_num(corrected['overall_normalization'])} |"
+            f"| Normalization | {_fmt_num(score.get('overall_normalization') if score else None)} "
+            f"| {_fmt_num(corrected['overall_normalization'])} |"
+        )
+        out.append(
+            f"| Combined | {_fmt_num(score.get('overall_combined') if score else None)} "
+            f"| {_fmt_num(corrected['overall_combined'])} |"
         )
     out.append("")
     return out
 
 
-def render_rubric(rubric: dict | None, run_info: dict | None) -> list[str]:
-    if rubric is None:
+def render_run_meta(run_info: dict | None) -> list[str]:
+    """Cost / wall-time / token usage block, sourced from run_info.json."""
+    if not run_info:
         return []
-    r = rubric.get("rubric", {}) or {}
-    checkpoints = r.get("checkpoints", []) or []
-    total = r.get("rubric_score")
+    usage = run_info.get("usage") or {}
+    wall_s = run_info.get("duration_wall_s")
+    if not usage and wall_s is None:
+        return []
 
-    out = ["## Rubric — `rubric_scorer.py`", ""]
-    if checkpoints:
-        out.append("| Checkpoint | Weight | Score | Detail |")
-        out.append("|---|---:|---:|---|")
-        for c in checkpoints:
-            out.append(
-                f"| {c.get('name', '?')} | "
-                f"{_fmt_pct(c.get('weight'))} | "
-                f"{_fmt_num(c.get('score'))} | "
-                f"{c.get('detail', '—')} |"
-            )
-        if total is not None:
-            out.append(f"| **Total (weighted)** | | **{_fmt_num(total)}** | |")
-        out.append("")
-
-    cost = rubric.get("cost") or {}
-    tokens = rubric.get("tokens") or {}
-    eff = rubric.get("efficiency") or {}
-    usage = (run_info or {}).get("usage") or {}
-
-    # Prefer run_info.json["usage"] (finalized) over rubric cost (heuristic).
-    usd = usage.get("api_cost_usd") if usage else cost.get("usd")
-    wall_s = (run_info or {}).get("duration_wall_s") or cost.get("duration_wall_s")
-    tok_in = usage.get("input_tokens") if usage else tokens.get("input")
-    tok_out = usage.get("output_tokens") if usage else tokens.get("output")
-    tok_bil = usage.get("tokens_total_billed") if usage else tokens.get("total_billed")
-    n_turns = usage.get("n_turns")
-
-    has_any = any(v is not None for v in (usd, wall_s, tok_in, tok_out, tok_bil, n_turns))
-    if has_any or eff:
-        parts = []
-        if usd is not None:
-            parts.append(f"**Cost:** ${_fmt_num(usd)}")
-        if wall_s is not None:
-            parts.append(f"**Wall:** {int(wall_s) // 60} min {int(wall_s) % 60} s")
-        if n_turns is not None:
-            parts.append(f"**Turns:** {n_turns}")
-        if tok_bil is not None:
-            parts.append(f"**Billed tokens:** {_fmt_int(tok_bil)}")
-        if tok_in is not None and tok_out is not None:
-            parts.append(f"(in {_fmt_int(tok_in)} / out {_fmt_int(tok_out)})")
-        if eff.get("tokens_per_point") is not None:
-            parts.append(f"**Tokens/pt:** {_fmt_int(eff['tokens_per_point'])}")
-        if eff.get("tools_per_turn") is not None:
-            parts.append(f"**Tools/turn:** {_fmt_num(eff['tools_per_turn'])}")
-        if eff.get("error_rate") is not None:
-            parts.append(f"**Error rate:** {_fmt_pct(eff['error_rate'])}")
-        out.append(" · ".join(parts))
-        out.append("")
-    return out
+    parts = []
+    if usage.get("api_cost_usd") is not None:
+        parts.append(f"**Cost:** ${_fmt_num(usage['api_cost_usd'])}")
+    if wall_s is not None:
+        parts.append(f"**Wall:** {int(wall_s) // 60} min {int(wall_s) % 60} s")
+    if usage.get("n_turns") is not None:
+        parts.append(f"**Turns:** {usage['n_turns']}")
+    if usage.get("tokens_total_billed") is not None:
+        parts.append(f"**Billed tokens:** {_fmt_int(usage['tokens_total_billed'])}")
+    if usage.get("input_tokens") is not None and usage.get("output_tokens") is not None:
+        parts.append(
+            f"(in {_fmt_int(usage['input_tokens'])} / out {_fmt_int(usage['output_tokens'])})"
+        )
+    return ["## Run", "", " · ".join(parts), ""] if parts else []
 
 
 def render_judge(judge: dict | None) -> list[str]:
@@ -374,7 +325,6 @@ def render_summary(run_dir: Path) -> Path:
     run_info = _load(run_dir / "run_info.json")
     score = _load(eval_dir / "score.json")
     corrected = _load(eval_dir / "score_corrected.json")
-    rubric = _load(eval_dir / "rubric_scorer.json")
     judge = _load(eval_dir / "judge_scores.json")
     trajectory = _load(eval_dir / "trajectory_judge.json")
 
@@ -382,7 +332,7 @@ def render_summary(run_dir: Path) -> Path:
     lines += render_header(run_info, run_dir)
     lines += render_score(score)
     lines += render_corrected(corrected, score)
-    lines += render_rubric(rubric, run_info)
+    lines += render_run_meta(run_info)
     lines += render_judge(judge)
     lines += render_trajectory(trajectory)
 

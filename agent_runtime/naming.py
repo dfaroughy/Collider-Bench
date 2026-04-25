@@ -556,10 +556,11 @@ def finalize_run_info(
             info["duration_wall_s"] = round(time.time() - started_at, 2)
         if scores is not None:
             info["final_score"] = {
-                "overall_score": scores.get("overall_score"),
-                "overall_pass": scores.get("overall_pass"),
-                "n_pass": scores.get("n_pass"),
+                "shape": scores.get("overall_shape"),
+                "normalization": scores.get("overall_normalization"),
+                "combined": scores.get("overall_combined"),
                 "n_filled": scores.get("n_filled"),
+                "n_bins": scores.get("n_bins"),
             }
         usage_total = {
             "api_cost_usd": 0.0,

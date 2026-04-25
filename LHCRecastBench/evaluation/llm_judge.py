@@ -455,17 +455,16 @@ def run_judge(
             submitted_scores = score_run(rp)
             scores["submitted_score"] = submitted_scores
 
-            sub_pct = submitted_scores.get("overall_score", 0)
-            cor_pct = corrected_scores.get("overall_score", 0)
             print("\n  Provenance correction applied:")
-            print(
-                f"    Submitted score: {sub_pct:.0%} "
-                f"({submitted_scores.get('n_pass', 0)}/{submitted_scores.get('n_filled', 0)} bins)"
-            )
-            print(
-                f"    Corrected score: {cor_pct:.0%} "
-                f"({corrected_scores.get('n_pass', 0)}/{corrected_scores.get('n_filled', 0)} bins)"
-            )
+            for label, sc in [("Submitted", submitted_scores), ("Corrected", corrected_scores)]:
+                sh = sc.get("overall_shape")
+                no = sc.get("overall_normalization")
+                cb = sc.get("overall_combined")
+                if sh is not None and no is not None:
+                    print(
+                        f"    {label}: shape={sh:.2f}  norm={no:.2f}  combined={cb:.2f}  "
+                        f"({sc.get('n_filled', 0)}/{sc.get('n_bins', 0)} bins filled)"
+                    )
         except Exception as e:
             scores["corrected_score_error"] = str(e)
 
