@@ -55,10 +55,15 @@ def build_executor_prompt(paper_ref: str, task_id: str, iter_index: int, has_pri
             "has been updated by the critic with concrete fixes for this iteration — "
             "address them.",
         ]
+    fill_line = (
+        "Fill the null values in results/*.yml with your recast results. "
+        "Replace any prior values where you have stronger evidence."
+        if has_prior
+        else "Fill the null values in results/*.yml with your recast results."
+    )
     parts += [
         "",
-        "Fill the null values in results/*.yml with your recast results. "
-        "Replace any prior values where you have stronger evidence.",
+        fill_line,
         "",
         "Everything you need is in this workspace. Do not look outside it.",
         "",

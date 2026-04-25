@@ -63,7 +63,7 @@ from agents.sisyphus.runtime.controller.roles import (
 )
 
 
-DEFAULT_THRESHOLD = 0.5  # combined ≥ this and iter ≥ min_iters → converged.
+DEFAULT_THRESHOLD = 0.5  # min(shape, norm) ≥ this and iter ≥ min_iters → converged.
 
 
 # ── CLI / config ───────────────────────────────────────────────────────────
@@ -92,7 +92,9 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--combined-threshold",
         type=float,
         default=None,
-        help="Stop when combined ≥ this and iter ≥ min_iters (default: 0.5)",
+        help="Stop when min(shape, norm) ≥ this and iter ≥ min_iters (default: 0.5). "
+        "Requires BOTH BC axes to clear the bar — geometric mean would let one "
+        "bad axis hide behind a good one.",
     )
     return parser.parse_args(argv)
 
@@ -184,24 +186,56 @@ def _seed_role_card(workspace: Path, repo_root: Path, name: str) -> None:
         (workspace / "agent_context" / f"{name}.md").write_text(src.read_text())
 
 
+_CARRY_FORWARD_FILES = ("analysis.py", "datasets.yaml", "report.md")
+_CARRY_FORWARD_DIRS = ("analysis", "sims", "data")
+
+
 def _seed_iter_workspace(
     workspace: Path,
     plan_md: Path,
-    prev_iter_results: Path | None,
+    prev_workspace: Path | None,
 ) -> None:
     """Drop the current plan.md into agent_context/, and (if iter > 1) copy
-    the previous iter's filled results/ on top of the null template."""
+    the previous iter's outputs on top of the freshly-built workspace.
+
+    Carries forward:
+      results/**             — partially-filled histogram + any sub-files
+      analysis.py            — top-level analysis script
+      analysis/**            — multi-file analysis package
+      datasets.yaml          — sample inventory
+      report.md              — prior self-report
+      sims/, data/           — selected events / sim cards if present
+    """
     ctx = workspace / "agent_context"
     ctx.mkdir(parents=True, exist_ok=True)
     if plan_md.is_file():
         shutil.copy2(plan_md, ctx / "plan.md")
-    if prev_iter_results and prev_iter_results.is_dir():
-        # Overlay the prior iter's filled results on top of the null template
-        # the workspace builder placed there. Don't replace the directory
-        # (which would drop description.toml etc.).
-        for src in prev_iter_results.iterdir():
+
+    if not (prev_workspace and prev_workspace.is_dir()):
+        return
+
+    # results/: file + subdir overlay onto the new iter's null-filled template.
+    prev_results = prev_workspace / "results"
+    if prev_results.is_dir():
+        for src in prev_results.rglob("*"):
             if src.is_file():
-                shutil.copy2(src, workspace / "results" / src.name)
+                rel = src.relative_to(prev_results)
+                dest = workspace / "results" / rel
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dest)
+
+    # Top-level files the executor expects (TASK.md/AGENTS.md/etc. came from
+    # build_workspace; we only need to carry forward files the agent wrote).
+    for name in _CARRY_FORWARD_FILES:
+        src = prev_workspace / name
+        if src.is_file():
+            shutil.copy2(src, workspace / name)
+
+    # Whole directories (analysis package, sim outputs, data files)
+    for name in _CARRY_FORWARD_DIRS:
+        src = prev_workspace / name
+        if src.is_dir():
+            shutil.copytree(src, workspace / name, dirs_exist_ok=True)
 
 
 # ── Roles ──────────────────────────────────────────────────────────────────
@@ -356,14 +390,14 @@ def main() -> int:
         )
 
         # 2. Iter loop.
-        prev_iter_results: Path | None = None
+        prev_workspace: Path | None = None
         for i in range(1, args.max_iters + 1):
             iter_dir = run_root / "validation" / f"iter_{i:03d}"
             iter_dir.mkdir(parents=True, exist_ok=True)
 
             iter_run_dir = f"{run_root.relative_to(repo_root / 'runs')}/validation/iter_{i:03d}"
             ws = build_workspace(repo_root, "sisyphus", args.task, iter_run_dir)
-            _seed_iter_workspace(ws, plan_md, prev_iter_results)
+            _seed_iter_workspace(ws, plan_md, prev_workspace)
 
             # Executor
             rc_exec = _executor_step(
@@ -394,13 +428,20 @@ def main() -> int:
                     f"shape={shape:.2f}  norm={norm:.2f}"
                 )
 
-            # Convergence check
-            if combined is not None and combined >= args.combined_threshold and i >= args.min_iters:
+            # Convergence: BOTH shape and norm must clear the threshold
+            # (min, not the geometric mean — otherwise a perfect shape can
+            # mask a catastrophically wrong norm and vice versa).
+            if (
+                shape is not None
+                and norm is not None
+                and min(shape, norm) >= args.combined_threshold
+                and i >= args.min_iters
+            ):
                 print(
                     f"  CONVERGED at iter {i:03d} "
-                    f"(combined={combined:.2f} ≥ {args.combined_threshold})"
+                    f"(shape={shape:.2f}, norm={norm:.2f}, both ≥ {args.combined_threshold})"
                 )
-                prev_iter_results = ws / "results"
+                prev_workspace = ws
                 break
 
             # Critic — only if we'll actually run another iter.
@@ -426,18 +467,23 @@ def main() -> int:
                 else:
                     print("  WARN: critic did not produce updated plan.md; reusing prior")
 
-            prev_iter_results = ws / "results"
+            prev_workspace = ws
 
     except BaseException:
         exit_code = 1
         raise
     finally:
+        # Tally token usage across all role logs (planner + every iter's
+        # executor + critic). Non-Claude logs parse to {} which is harmless.
+        all_logs: list[Path] = [run_root / "planner_log.txt"]
+        all_logs += sorted((run_root / "validation").glob("iter_*/session_log.txt"))
+        all_logs += sorted((run_root / "validation").glob("iter_*/critic_log.txt"))
         finalize_run_info(
             run_root,
             exit_code=exit_code,
             started_at=started_at,
             scores=last_score,
-            session_logs=list((run_root / "validation").glob("iter_*/session_log.txt")),
+            session_logs=[p for p in all_logs if p.exists()],
         )
 
     print(f"\nDone. Run: {run_root}")

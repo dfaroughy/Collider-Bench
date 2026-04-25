@@ -318,6 +318,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "effort": (str, int),
     "max_iters": (int,),
     "min_iters": (int,),
+    "combined_threshold": (float, int),
     "compute": (str,),
     "account": (str,),
     "cpus": (int, str),
