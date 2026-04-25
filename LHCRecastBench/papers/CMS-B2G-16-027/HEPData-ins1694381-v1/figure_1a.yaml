@@ -1,0 +1,162 @@
+dependent_variables:
+- header:
+    name: Number of signal events ($M_{LQ}$ = 400 GeV)
+  values:
+  - value: 57.678
+  - value: 1458.3
+  - value: 4610.7
+  - value: 1038.3
+  - value: 145.35
+  - value: 43.116
+- header:
+    name: Number of signal events ($M_{LQ}$ = 900 GeV)
+  values:
+  - value: 0.033169
+  - value: 0.19915
+  - value: 0.74132
+  - value: 3.7511
+  - value: 10.469
+  - value: 57.55
+- header:
+    name: Number of signal events ($M_{LQ}$ = 1400 GeV)
+  values:
+  - value: 0
+  - value: 0.0030554
+  - value: 0.0081635
+  - value: 0.031426
+  - value: 0.060983
+  - value: 2.299
+- header:
+    name: Number of $t\overline{t}$ events
+  values:
+  - value: 6.6045
+  - value: 11.618
+  - value: 5.3286
+  - value: 4.1158
+  - value: 2.0782
+  - value: 1.9385
+- header:
+    name: Number of DY events
+  values:
+  - value: 0.019753
+  - value: 0.16432
+  - value: 0.63836
+  - value: 1.4699
+  - value: 0.64316
+  - value: 0.6648
+- header:
+    name: Number of single t events
+  values:
+  - value: 0.17521
+  - value: 0.2798
+  - value: 0.73399
+  - value: 0.1632
+  - value: 0.26641
+  - value: 0.0002698
+- header:
+    name: Number of diboson events
+  values:
+  - value: 0.92016
+  - value: 1.1775
+  - value: 1.0349
+  - value: 0.69142
+  - value: 0.22348
+  - value: 0.20422
+- header:
+    name: Number of $t\overline{t}$ + V events
+  values:
+  - value: 1.4311
+  - value: 3.8859
+  - value: 3.0228
+  - value: 1.842
+  - value: 0.50708
+  - value: 0.25645
+- header:
+    name: Number of background events
+  values:
+  - errors:
+    - asymerror:
+        minus: -1.7567
+        plus: 1.727
+      label: total uncertainty
+    value: 9.1507
+  - errors:
+    - asymerror:
+        minus: -3.4879
+        plus: 4.0348
+      label: total uncertainty
+    value: 17.126
+  - errors:
+    - asymerror:
+        minus: -2.0332
+        plus: 2.3749
+      label: total uncertainty
+    value: 10.759
+  - errors:
+    - asymerror:
+        minus: -2.1988
+        plus: 2.2984
+      label: total uncertainty
+    value: 8.2823
+  - errors:
+    - asymerror:
+        minus: -1.1229
+        plus: 1.2652
+      label: total uncertainty
+    value: 3.7183
+  - errors:
+    - asymerror:
+        minus: -1.0328
+        plus: 1.0647
+      label: total uncertainty
+    value: 3.0642
+- header:
+    name: Number of data events
+  values:
+  - errors:
+    - asymerror:
+        minus: -4.2426
+        plus: 4.2426
+      label: Poisson errors
+    value: 18.0
+  - errors:
+    - asymerror:
+        minus: -4.3589
+        plus: 4.3589
+      label: Poisson errors
+    value: 19.0
+  - errors:
+    - asymerror:
+        minus: -3.4641
+        plus: 3.4641
+      label: Poisson errors
+    value: 12.0
+  - errors:
+    - asymerror:
+        minus: -3.0
+        plus: 3.0
+      label: Poisson errors
+    value: 9.0
+  - errors:
+    - asymerror:
+        minus: -1.4142
+        plus: 1.4142
+      label: Poisson errors
+    value: 2.0
+  - errors:
+    - asymerror:
+        minus: -1.0
+        plus: 1.0
+      label: Poisson errors
+    value: 1.0
+independent_variables:
+- header:
+    name: $M_{LQ}$
+    units: GeV
+  values:
+  - value: 125.0
+  - value: 300.0
+  - value: 400.0
+  - value: 525.0
+  - value: 675.0
+  - value: 875.0

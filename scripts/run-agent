@@ -62,7 +62,7 @@ fi
 
 if [[ -z "${AGENT}" ]]; then
   echo "run-agent: --agent NAME required, or set \`agent:\` in --config." >&2
-  echo "  Known agents: simple, baseline, iterative, sisyphus" >&2
+  echo "  Known agents: simple, baseline, iterative, anneal" >&2
   echo "  Example: bin/run-agent --config configs/claude_simple.yaml" >&2
   exit 2
 fi
@@ -71,9 +71,9 @@ case "${AGENT}" in
   simple)    PY_MODULE="agents.simple.run" ;;
   baseline)  PY_MODULE="agents.baseline.run" ;;
   iterative) PY_MODULE="agents.iterative.runtime.controller.recast_loop" ;;
-  sisyphus)  PY_MODULE="agents.sisyphus.runtime.controller.sisyphus_loop" ;;
+  anneal)    PY_MODULE="agents.anneal.runtime.controller.anneal_loop" ;;
   *)
-    echo "run-agent: unknown agent '${AGENT}'. Must be simple|baseline|iterative|sisyphus." >&2
+    echo "run-agent: unknown agent '${AGENT}'. Must be simple|baseline|iterative|anneal." >&2
     exit 2 ;;
 esac
 

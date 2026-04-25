@@ -172,9 +172,17 @@ def resolve_run(target: str | Path) -> RunPaths:
     reference_file = _reference_file(paper_ref, data_filename)
 
     # Per-iter runs live under <run_dir>/validation/iter_NNN/. Scope eval output
-    # to the iter so iterations don't clobber one another.
-    is_iter = artifact_dir.parent.name == "validation" and artifact_dir.name.startswith("iter_")
-    eval_dir = (artifact_dir if is_iter else run_dir) / "eval"
+    # to the iter so iterations don't clobber one another. The artifact_dir
+    # may be the iter dir itself (legacy iterative layout) or its workspace/
+    # subdir (anneal layout) — walk up to find the iter_NNN ancestor.
+    iter_dir: Path | None = None
+    p = artifact_dir
+    while p != p.parent:
+        if p.name.startswith("iter_") and p.parent.name == "validation":
+            iter_dir = p
+            break
+        p = p.parent
+    eval_dir = (iter_dir if iter_dir is not None else run_dir) / "eval"
 
     return RunPaths(
         run_dir=run_dir,

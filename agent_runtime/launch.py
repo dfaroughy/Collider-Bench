@@ -7,7 +7,7 @@ scoring, and finalization.
 
 Agents that fit the "parse config → build workspace → run once → score →
 finalize" shape should call launch_single_run(). Agents with a custom
-control loop (iterative, sisyphus) compose from naming.py helpers
+control loop (iterative, anneal) compose from naming.py helpers
 directly.
 """
 

@@ -1,0 +1,338 @@
+dependent_variables:
+- header:
+    name: LQ pair production mass exclusion limit at 95% CL (scalar LQ)
+    units: GeV
+  qualifiers:
+  - name: SQRT(S)
+    units: TeV
+    value: 13
+  - name: LUMINOSITY
+    units: fb$^{-1}$
+    value: 35.9
+  - name: Leptoquark type
+    value: Scalar
+  - name: Limit
+    value: Observed
+  values:
+  - value: 901.61
+  - value: 1006.8
+  - value: 1091.7
+  - value: 1161.5
+  - value: 1217.3
+  - value: 1262.0
+  - value: 1303.5
+  - value: 1338.8
+  - value: 1372.2
+  - value: 1402.3
+  - value: 1427.3
+- header:
+    name: LQ pair production mass exclusion limit at 95% CL (scalar LQ)
+    units: GeV
+  qualifiers:
+  - name: SQRT(S)
+    units: TeV
+    value: 13
+  - name: LUMINOSITY
+    units: fb$^{-1}$
+    value: 35.9
+  - name: Leptoquark type
+    value: Scalar
+  - name: Limit
+    value: Expected
+  values:
+  - errors:
+    - asymerror:
+        minus: -67.388
+        plus: 66.326
+      label: 1 s.d.
+    value: 924.53
+  - errors:
+    - asymerror:
+        minus: -65.913
+        plus: 66.501
+      label: 1 s.d.
+    value: 991.9
+  - errors:
+    - asymerror:
+        minus: -73.092
+        plus: 73.52
+      label: 1 s.d.
+    value: 1072.2
+  - errors:
+    - asymerror:
+        minus: -79.47
+        plus: 80.14
+      label: 1 s.d.
+    value: 1142.5
+  - errors:
+    - asymerror:
+        minus: -82.4
+        plus: 83.9
+      label: 1 s.d.
+    value: 1200.0
+  - errors:
+    - asymerror:
+        minus: -78.68
+        plus: 80.87
+      label: 1 s.d.
+    value: 1248.6
+  - errors:
+    - asymerror:
+        minus: -83.7
+        plus: 85.13
+      label: 1 s.d.
+    value: 1292.3
+  - errors:
+    - asymerror:
+        minus: -90.84
+        plus: 83.73
+      label: 1 s.d.
+    value: 1333.9
+  - errors:
+    - asymerror:
+        minus: -87.93
+        plus: 83.63
+      label: 1 s.d.
+    value: 1365.1
+  - errors:
+    - asymerror:
+        minus: -89.86
+        plus: 74.61
+      label: 1 s.d.
+    value: 1399.0
+  - errors:
+    - asymerror:
+        minus: -88.66
+        plus: 77.46
+      label: 1 s.d.
+    value: 1424.8
+- header:
+    name: LQ pair production mass exclusion limit at 95% CL (vector LQ, $\kappa$=0)
+    units: GeV
+  qualifiers:
+  - name: SQRT(S)
+    units: TeV
+    value: 13
+  - name: LUMINOSITY
+    units: fb$^{-1}$
+    value: 35.9
+  - name: Leptoquark type
+    value: Vector ($\kappa=0$)
+  - name: Limit
+    value: Observed
+  values:
+  - value: 1194.8
+  - value: 1303.4
+  - value: 1397.9
+  - value: 1465.5
+  - value: 1515.9
+  - value: 1559.6
+  - value: 1596.6
+  - value: 1628.6
+  - value: 1658.0
+  - value: 1682.7
+  - value: 1705.0
+- header:
+    name: LQ pair production mass exclusion limit at 95% CL (vector LQ, $\kappa$=0)
+    units: GeV
+  qualifiers:
+  - name: SQRT(S)
+    units: TeV
+    value: 13
+  - name: LUMINOSITY
+    units: fb$^{-1}$
+    value: 35.9
+  - name: Leptoquark type
+    value: Vector ($\kappa=0$)
+  - name: Limit
+    value: Expected
+  values:
+  - errors:
+    - asymerror:
+        minus: -68.99
+        plus: 58.18
+      label: 1 s.d.
+    value: 1216.1
+  - errors:
+    - asymerror:
+        minus: -69.76
+        plus: 66.99
+      label: 1 s.d.
+    value: 1310.4
+  - errors:
+    - asymerror:
+        minus: -79.61
+        plus: 72.07
+      label: 1 s.d.
+    value: 1399.5
+  - errors:
+    - asymerror:
+        minus: -75.99
+        plus: 72.57
+      label: 1 s.d.
+    value: 1467.5
+  - errors:
+    - asymerror:
+        minus: -73.31
+        plus: 73.99
+      label: 1 s.d.
+    value: 1519.5
+  - errors:
+    - asymerror:
+        minus: -76.68
+        plus: 76.7
+      label: 1 s.d.
+    value: 1559.9
+  - errors:
+    - asymerror:
+        minus: -76.09
+        plus: 79.41
+      label: 1 s.d.
+    value: 1596.3
+  - errors:
+    - asymerror:
+        minus: -77.85
+        plus: 81.53
+      label: 1 s.d.
+    value: 1629.8
+  - errors:
+    - asymerror:
+        minus: -79.53
+        plus: 77.8
+      label: 1 s.d.
+    value: 1657.0
+  - errors:
+    - asymerror:
+        minus: -77.04
+        plus: 77.02
+      label: 1 s.d.
+    value: 1682.5
+  - errors:
+    - asymerror:
+        minus: -81.07
+        plus: 77.76
+      label: 1 s.d.
+    value: 1710.6
+- header:
+    name: LQ pair production mass exclusion limit at 95% CL (vector LQ, $\kappa=1$)
+    units: GeV
+  qualifiers:
+  - name: SQRT(S)
+    units: TeV
+    value: 13
+  - name: LUMINOSITY
+    units: fb$^{-1}$
+    value: 35.9
+  - name: Leptoquark type
+    value: Vector ($\kappa=1$)
+  - name: Limit
+    value: Observed
+  values:
+  - value: 1468.7
+  - value: 1612.9
+  - value: 1709.0
+  - value: 1775.1
+  - value: 1828.3
+  - value: 1872.6
+  - value: 1910.8
+  - value: 1943.3
+  - value: 1972.3
+  - value: 2000.0
+  - value: 2000.0
+- header:
+    name: LQ pair production mass exclusion limit at 95% CL (vector LQ, $\kappa=1$)
+    units: GeV
+  qualifiers:
+  - name: SQRT(S)
+    units: TeV
+    value: 13
+  - name: LUMINOSITY
+    units: fb$^{-1}$
+    value: 35.9
+  - name: Leptoquark type
+    value: Vector ($\kappa=1$)
+  - name: Limit
+    value: Expected
+  values:
+  - errors:
+    - asymerror:
+        minus: -67.89
+        plus: 67.54
+      label: 1 s.d.
+    value: 1499.6
+  - errors:
+    - asymerror:
+        minus: -77.34
+        plus: 77.76
+      label: 1 s.d.
+    value: 1625.2
+  - errors:
+    - asymerror:
+        minus: -75.15
+        plus: 77.92
+      label: 1 s.d.
+    value: 1716.8
+  - errors:
+    - asymerror:
+        minus: -78.07
+        plus: 78.76
+      label: 1 s.d.
+    value: 1782.0
+  - errors:
+    - asymerror:
+        minus: -79.48
+        plus: 77.16
+      label: 1 s.d.
+    value: 1833.7
+  - errors:
+    - asymerror:
+        minus: -83.96
+        plus: 82.5
+      label: 1 s.d.
+    value: 1877.5
+  - errors:
+    - asymerror:
+        minus: -80.61
+        plus: 85.06
+      label: 1 s.d.
+    value: 1913.8
+  - errors:
+    - asymerror:
+        minus: -81.39
+        plus: 51.16
+      label: 1 s.d.
+    value: 1948.8
+  - errors:
+    - asymerror:
+        minus: -79.23
+        plus: 25.26
+      label: 1 s.d.
+    value: 1974.7
+  - errors:
+    - asymerror:
+        minus: -82.47
+        plus: 0
+      label: 1 s.d.
+    value: 2000.0
+  - errors:
+    - asymerror:
+        minus: -54.47
+        plus: 0
+      label: 1 s.d.
+    value: 2000.0
+independent_variables:
+- header:
+    name: Branching fraction of $LQ \rightarrow t + \mu$
+    units: ''
+  values:
+  - value: 0
+  - value: 0.1
+  - value: 0.2
+  - value: 0.3
+  - value: 0.4
+  - value: 0.5
+  - value: 0.6
+  - value: 0.7
+  - value: 0.8
+  - value: 0.9
+  - value: 1.0

@@ -6,10 +6,10 @@ import pytest
 
 from agents.simple.run import build_prompt as simple_prompt
 from agents.baseline.run import build_prompt as baseline_prompt
-from agents.sisyphus.runtime.controller.roles import (
+from agents.anneal.runtime.controller.roles import (
     build_planner_prompt,
     build_executor_prompt,
-    build_critic_prompt,
+    build_examiner_prompt,
 )
 
 
@@ -45,12 +45,21 @@ def test_executor_prompt_renders(iter_index, has_prior):
 
 
 @pytest.mark.parametrize("iter_index", [0, 2])
-def test_critic_prompt_points_at_artifacts(iter_index):
-    text = build_critic_prompt("TEST-1234", "test-task-id", iter_index)
+def test_examiner_prompt_points_at_artifacts(iter_index):
+    text = build_examiner_prompt("TEST-1234", "test-task-id", iter_index)
     assert "TEST-1234" in text
-    assert "CRITIC.md" in text
-    # Critic edits plan.md in place (no separate critique.md).
+    assert "EXAMINER.md" in text
+    # Examiner edits plan.md in place (no separate critique.md).
     assert "plan.md" in text
-    # Critic must NOT see score numbers or reference values.
+    # Examiner-private memory: the running proposals log.
+    assert "proposals_log.md" in text
+    # Examiner must NOT see score numbers or reference values.
     assert "score.json" not in text
     assert "reference" in text.lower()  # the prompt explicitly says "do NOT see"
+
+
+def test_executor_prompt_includes_temperature():
+    text = build_executor_prompt("TEST-1234", "test-task-id", 1, has_prior=False, temperature=0.8)
+    assert "T=0.80" in text
+    cold = build_executor_prompt("TEST-1234", "test-task-id", 1, has_prior=False, temperature=0.0)
+    assert "T=0.00" in cold

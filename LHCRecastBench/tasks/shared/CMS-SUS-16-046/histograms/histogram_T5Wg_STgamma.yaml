@@ -1,10 +1,10 @@
 dependent_variables:
 - header: {name: T5Wg_1750_1700}
   values:
-  - {value: null}
-  - {value: null}
-  - {value: null}
-  - {value: null}
+  - {value: 267.52}
+  - {value: 102.56}
+  - {value: 58.97}
+  - {value: 59.83}
 independent_variables:
 - header: {name: STGAMMA, units: GEV}
   values:

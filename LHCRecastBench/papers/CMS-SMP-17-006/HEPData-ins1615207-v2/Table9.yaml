@@ -1,0 +1,44 @@
+independent_variables:
+- header: {name: fourlepton invariant mass, units: GEV}
+  values:
+  - {low: 0, high: 200}
+  - {low: 200, high: 300}
+  - {low: 300, high: 400}
+  - {low: 400, high: 500}
+  - {low: 500, high: 600}
+  - {low: 600, high: 800}
+  - {low: 800, high: 1000}
+  - {low: 1000, high: 1200}
+  - {low: 1200, high: 1400}
+dependent_variables:
+- header: {name: Number of entries per bin}
+  qualifiers:
+  - {name: Process, value: REDUCIBLE P P --> Z0 X}
+  values:
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.77 }
+    value: 1.924
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 1.27 }
+    value: 3.175
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.394 }
+    value: 0.986
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.19 }
+    value: 0.476
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.028 }
+    value: 0.071
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.0 }
+    value: 0.0
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.0 }
+    value: 0.0
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.039 }
+    value: 0.098
+  - errors:
+    - {label: 'normalisation (exp.)', symerror: 0.004 }
+    value: -0.011

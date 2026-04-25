@@ -326,17 +326,23 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "qos": (str,),
     "sandbox": (str,),
     "task": (str,),  # free-form task id (e.g. sus-16-046-simulate-TChiWg-STgamma)
-    # Sisyphus agent: separate model / effort for the planner and critic roles.
-    "critic_model": (str,),
-    "critic_effort": (str, int),
+    # Anneal agent: separate model / effort for the planner and examiner roles.
+    "examiner_model": (str,),
+    "examiner_effort": (str, int),
     "planner_effort": (str, int),
+    # Anneal agent: temperature schedule + stochastic rollback knobs.
+    "anneal_t0": (float, int),
+    "anneal_schedule": (str,),
+    "max_rollbacks": (int,),
+    "rollback_noise_floor": (float, int),
 }
 
-_ALLOWED_AGENTS = {"simple", "baseline", "iterative", "sisyphus"}
+_ALLOWED_AGENTS = {"simple", "baseline", "iterative", "anneal"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
-_ALLOWED_SANDBOX = {"auto", "bwrap", "none"}
+_ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "podman", "none"}
+_ALLOWED_ANNEAL_SCHEDULE = {"none", "linear", "cosine"}
 
 
 def validate_config(cfg: dict, source: str = "<config>") -> None:
@@ -393,6 +399,12 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
     if sandbox is not None and sandbox not in _ALLOWED_SANDBOX:
         raise ValueError(
             f"{source}: sandbox={sandbox!r}; must be one of {sorted(_ALLOWED_SANDBOX)}"
+        )
+    schedule = cfg.get("anneal_schedule")
+    if schedule is not None and schedule not in _ALLOWED_ANNEAL_SCHEDULE:
+        raise ValueError(
+            f"{source}: anneal_schedule={schedule!r}; "
+            f"must be one of {sorted(_ALLOWED_ANNEAL_SCHEDULE)}"
         )
     # `task` is a free-form task id — validated against the filesystem in
     # validate_launch_inputs(), not against an enum here.

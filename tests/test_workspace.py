@@ -14,7 +14,7 @@ import pytest
 from agent_runtime.workspace import build_workspace
 
 
-# Only single-shot agents are exercised here. Iterative/sisyphus controllers
+# Only single-shot agents are exercised here. Iterative/anneal controllers
 # haven't been migrated to the tasks/ layout yet (see their main() guards).
 AGENT_NAMES = ["simple", "baseline"]
 
@@ -56,13 +56,13 @@ def test_workspace_has_run_analysis(clean_workspace, agent):
 
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)
-def test_planner_critic_role_cards_not_leaked(clean_workspace, agent):
-    """PLANNER.md / CRITIC.md live under runtime/roles/ — they must not
+def test_planner_examiner_role_cards_not_leaked(clean_workspace, agent):
+    """PLANNER.md / EXAMINER.md live under runtime/roles/ — they must not
     appear in the executor's agent_context/."""
     ws = clean_workspace(agent)
     ctx_files = {p.name for p in (ws / "agent_context").rglob("*.md")}
     assert "PLANNER.md" not in ctx_files
-    assert "CRITIC.md" not in ctx_files
+    assert "EXAMINER.md" not in ctx_files
 
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)

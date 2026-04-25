@@ -1,3 +1,7 @@
+._*
+.DS_Store
+__MACOSX/
+
 # Agent run outputs — frozen artifacts, not source of truth.
 runs/
 # Stray top-level run dirs (old layout, or tests that skip runs/).

@@ -43,7 +43,8 @@ agents/
   simple/               Single-shot: one LLM call, score.
   baseline/             Single-shot with fuller agent_context + skills/.
   iterative/            Loop: re-run simple with inherited artifacts until pass.
-  sisyphus/             Three-role loop: planner → executor → critic (per iter).
+  anneal/               Three-role loop with temperature schedule + stochastic rollback:
+                        planner → executor → examiner (per iter).
 
 configs/              — YAML configs with `extends: base.yaml`
 scripts/              — run-agent dispatcher, launch_eval.sh
@@ -55,7 +56,7 @@ tests/                — pytest smoke suite (offline, no SLURM, no LLM calls)
 | Command | What it does |
 |---|---|
 | `scripts/run-agent --config configs/claude_simple.yaml` | Launch one agent on the configured paper |
-| `scripts/run-agent --config configs/claude_sisyphus.yaml --max-iters 5` | Multi-iteration sisyphus run |
+| `scripts/run-agent --config configs/claude_anneal.yaml --max-iters 5` | Multi-iteration anneal run |
 | `scripts/launch_eval.sh <run_dir>` | Score + judge + plot a finished run |
 | `python -m pytest` | Offline smoke tests |
 | `python -m LHCRecastBench.evaluation.render_eval <run_dir>` | Re-render `summary.md` from cached JSONs |
@@ -67,10 +68,11 @@ All agents share the same I/O contract: given a paper PDF + null-valued HEPRecas
 - **simple**: one Claude session, minimal guidance.
 - **baseline**: one Claude session, heavier `agent_context/` and `skills/`.
 - **iterative**: Python loop. Each iteration respawns the simple agent, inherits prior artifacts (analysis.py, datasets.yaml, HEPRecastData, score.json), stops when the score passes.
-- **sisyphus**: three-role loop.
-  - **Planner** (Sonnet, once): reads paper + templates, writes stable `plan.md`.
-  - **Executor** (Opus, each iter): the actual recast. Sees `plan.md` + prior-iter `critique.md`.
-  - **Critic** (Sonnet, after each non-converged iter): reads executor artifacts + reference + score.json, writes structured `critique.md` that seeds the next iter.
+- **anneal**: three-role loop with simulated-annealing dynamics.
+  - **Planner** (cheap tier, once): reads paper + templates, writes stable `plan.md`.
+  - **Executor** (strong tier, each iter): the actual recast. Sees `plan.md` (which the examiner keeps up-to-date in place) and a temperature blurb that nudges exploration vs. refinement.
+  - **Examiner** (cheap tier, after each non-converged iter): reads executor artifacts + paper, rewrites `plan.md` with concrete fixes, and maintains an examiner-only `proposals_log.md` of which past fixes worked. The executor never sees the proposals log; the examiner never sees the score or the reference values.
+  - **Annealing** (controller-side): a temperature schedule (`linear`/`cosine`/`none`) drives carry-forward depth (high T wipes more state) and stochastic rollback — on regression, the next iter's seed is rewound to the best-so-far iter's workspace with probability `1 - exp(-Δ/T)`, capped by `max_rollbacks`.
 
 Each role is a separate Claude process with a separate sandbox, tool allowlist, and (optionally) model.
 

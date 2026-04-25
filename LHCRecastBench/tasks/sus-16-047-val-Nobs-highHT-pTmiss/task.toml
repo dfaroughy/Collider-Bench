@@ -1,0 +1,11 @@
+[task]
+id          = "sus-16-047_val-Nobs_highHT-pTmiss"
+paper       = "CMS-SUS-16-047"
+type        = "validation"
+target      = "observed data"
+observable  = "pTmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "4h"
+tags       = ["CMS", "13TeV", "data"]

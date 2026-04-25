@@ -1,13 +1,13 @@
 # Usage:
-#   scripts/run-agent --config configs/gemini_sisyphus.yaml
-#   scripts/run-agent --config configs/gemini_sisyphus.yaml --max-iters 3
+#   scripts/run-agent --config configs/gemini_anneal.yaml
+#   scripts/run-agent --config configs/gemini_anneal.yaml --max-iters 3
 #
 # Gemini CLI has no reasoning-budget flag; effort values are ignored by the
 # runner. Model auto-routing on the server handles tier selection.
 
 extends: base.yaml
 
-agent:   sisyphus
+agent:   anneal
 task:    sus-16-047-simulate-T5Wg-highHT-pTmiss    # see LHCRecastBench/tasks/
 runner:  gemini
 model:   gemini-3-pro-preview
@@ -15,8 +15,12 @@ effort:  medium
 max_iters: 5
 min_iters: 3
 
-# Critic + planner roles reuse the same gemini model — auto-routing will
-# drop to flash / flash-lite for the lighter critic/planner turns on its own.
-critic_model:   gemini-3-pro-preview
-critic_effort:  low
-planner_effort: low
+# Examiner + planner roles reuse the same gemini model — auto-routing will
+# drop to flash / flash-lite for the lighter examiner/planner turns on its own.
+examiner_model:  gemini-3-pro-preview
+examiner_effort: low
+planner_effort:  low
+
+anneal_t0:        1.0
+anneal_schedule:  cosine
+max_rollbacks:    2

@@ -19,7 +19,7 @@ def test_config_loads_and_validates(config_path):
     # base.yaml has no `agent:` — that's intentional (it's inherited).
     # Every other config must pin an agent and a task id.
     if config_path.name != "base.yaml":
-        assert cfg.get("agent") in {"simple", "baseline", "iterative", "sisyphus"}
+        assert cfg.get("agent") in {"simple", "baseline", "iterative", "anneal"}
         assert cfg.get("task"), "every non-base config must set `task:` to a task id"
 
 
