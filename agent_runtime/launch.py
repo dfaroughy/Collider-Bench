@@ -148,6 +148,63 @@ def _default_score(workspace: Path) -> dict:
 ScoreFn = Callable[[Path], dict]
 
 
+def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
+    """Run the offline (LLM-free) evaluators after the agent completes.
+
+    Writes:
+      eval/rubric_scorer.json   — weighted checkpoints + cost + activity
+      eval/plots/*.png          — reference vs agent histogram(s) + ratio
+      eval/summary.md           — human-readable digest
+
+    Best-effort: any single evaluator that errors is logged and the others
+    still run. The LLM-based judges (trajectory_judge, llm_judge) stay
+    opt-in via scripts/launch_eval.sh because they cost subscription tokens.
+    """
+    try:
+        from LHCRecastBench.evaluation._resolve import resolve_run
+    except ImportError as exc:
+        print(f"  WARN: skipping offline evals — eval modules not importable: {exc}")
+        return
+    try:
+        rp = resolve_run(workspace)
+    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+        print(f"  WARN: skipping offline evals — {exc}")
+        return
+
+    # Rubric scorer
+    try:
+        from LHCRecastBench.evaluation.rubric_scorer import evaluate_agent
+
+        rubric = evaluate_agent(rp)
+        (eval_dir / "rubric_scorer.json").write_text(json.dumps(rubric, indent=2))
+        rs = (rubric or {}).get("rubric", {}).get("rubric_score")
+        if rs is not None:
+            print(f"  Rubric: {rs:.1%}")
+    except Exception as exc:  # noqa: BLE001 — best-effort
+        print(f"  WARN: rubric_scorer failed: {exc}")
+
+    # Plot reference vs agent
+    try:
+        from LHCRecastBench.evaluation.plot_recast import plot_recast
+
+        plot_result = plot_recast(rp)
+        files = plot_result.get("files") if isinstance(plot_result, dict) else None
+        if files:
+            print(f"  Plots: {len(files)} file(s) in {eval_dir / 'plots'}")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  WARN: plot_recast failed: {exc}")
+
+    # Render summary.md (reads the JSONs we just wrote)
+    try:
+        from LHCRecastBench.evaluation.render_eval import render_summary
+
+        # render_summary takes the dir containing eval/. Single-shot →
+        # rp.run_dir; per-iter → rp.eval_dir.parent (the iter dir).
+        render_summary(rp.eval_dir.parent)
+    except Exception as exc:  # noqa: BLE001
+        print(f"  WARN: render_eval failed: {exc}")
+
+
 def launch_single_run(
     agent_name: str,
     build_prompt: PromptBuilder,
@@ -254,6 +311,11 @@ def launch_single_run(
             n_filled = scores.get("n_filled", 0)
             overall = scores.get("overall_score", 0)
             print(f"  Overall: {n_pass}/{n_filled} bins pass ({overall:.0%})")
+
+        # Offline evals: rubric + plots + summary. All cheap (no LLM calls).
+        # The two LLM-based judges (trajectory_judge, llm_judge) stay opt-in
+        # via scripts/launch_eval.sh because they cost subscription tokens.
+        _run_offline_evals(workspace, eval_dir)
     except BaseException:
         exit_code = 1
         raise
