@@ -186,7 +186,7 @@ def evaluate_rubric(rp) -> dict:
             "name": "Code executes",
             "weight": 0.15,
             "score": 1.0 if has_filled else (0.5 if has_code else 0.0),
-            "detail": "Filled HEPRecastData"
+            "detail": "Filled results/"
             if has_filled
             else ("Code exists but no filled data" if has_code else "No code"),
         }
@@ -465,7 +465,7 @@ def main():
     parser.add_argument(
         "run_path",
         nargs="+",
-        help="Run directory, workspace, iter dir, or HEPRecastData dir. Multiple paths compare.",
+        help="Run directory, workspace, iter dir, or results dir. Multiple paths compare.",
     )
     parser.add_argument("--json", action="store_true", help="Output raw JSON to stdout")
     args = parser.parse_args()

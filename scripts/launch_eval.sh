@@ -11,7 +11,7 @@
 #   none                  skip LLM judging entirely (free, offline)
 #
 # Results go to <run_dir>/eval/ (or <iter_dir>/eval/ for per-iter runs);
-# arxiv and task are read from run_info.json by each tool.
+# task_id + paper are read from run_info.json + task.toml by each tool.
 #
 # Usage:
 #   ./launch_eval.sh <run_path>
@@ -20,10 +20,10 @@
 #   ./launch_eval.sh <run_path> --judge none
 #
 # run_path can be any of:
-#   runs/simulate_<paper>_<agent>_...                    (top-level)
-#   runs/simulate_<paper>_.../workspace                  (artifact dir)
-#   runs/simulate_<paper>_.../validation/iter_NNN        (per-iter)
-#   runs/simulate_<paper>_.../workspace/HEPRecastData    (scoring dir)
+#   runs/<runner>_<model>/<task_id>_<hex>                 (top-level)
+#   runs/<runner>_<model>/<task_id>_<hex>/workspace       (artifact dir)
+#   runs/<runner>_<model>/<task_id>_<hex>/validation/iter_NNN  (per-iter)
+#   runs/<runner>_<model>/<task_id>_<hex>/workspace/results     (scoring dir)
 
 set -euo pipefail
 
