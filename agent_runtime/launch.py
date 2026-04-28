@@ -48,7 +48,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
         "--task",
         default=None,
         help="Task id, matching a directory under LHCRecastBench/tasks/ "
-        "(e.g. sus-16-046-simulate-TChiWg-STgamma).",
+        "(e.g. sus-16-046_sim-TChiWg).",
     )
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Model override")
@@ -83,6 +83,24 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     return cfg
 
 
+_WALLTIME_RE = __import__("re").compile(r"^\s*(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?\s*$")
+
+
+def _parse_walltime_s(s: str | None) -> float | None:
+    """Convert a `task.toml [metadata].walltime` string to seconds.
+
+    Accepts "4h", "30m", "1h30m", "2h45m30s", "120s". Returns None for
+    None/empty input. Raises ValueError on malformed input.
+    """
+    if not s:
+        return None
+    m = _WALLTIME_RE.match(str(s))
+    if not m or not any(m.groups()):
+        raise ValueError(f"invalid walltime {s!r} — expected e.g. '4h', '30m', '1h30m', '120s'")
+    h, mi, sec = (int(g or 0) for g in m.groups())
+    return float(h * 3600 + mi * 60 + sec)
+
+
 def _run_in_sandbox(
     workspace: Path,
     repo_root: Path,
@@ -93,6 +111,7 @@ def _run_in_sandbox(
     sandbox: str | None,
     extra_ro_binds: list[Path],
     effort_label: str | None = None,
+    walltime_s: float | None = None,
 ) -> None:
     from agent_runtime.sandbox import sandbox_command
 
@@ -118,9 +137,14 @@ def _run_in_sandbox(
         sandbox=sandbox,
     )
     try:
-        runner.run(cmd, prompt, workspace, env, workspace / "session_log.txt")
-    except subprocess.CalledProcessError as exc:
-        print(f"  Agent exited with code {exc.returncode}", file=sys.stderr)
+        runner.run(
+            cmd,
+            prompt,
+            workspace,
+            env,
+            workspace / "session_log.txt",
+            walltime_s=walltime_s,
+        )
     finally:
         cleanup()
 
@@ -221,6 +245,14 @@ def launch_single_run(
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
     paper_ref = task_toml["task"]["paper"]
+    # Per-task walltime: kill the agent process group when this expires.
+    # `task.toml [metadata].walltime` is "4h" / "30m" / "1h30m" form.
+    # Independent of any SLURM time — useful when one slurm allocation
+    # hosts multiple tasks (array jobs, multi-run-interactive scripts).
+    try:
+        walltime_s = _parse_walltime_s((task_toml.get("metadata") or {}).get("walltime"))
+    except ValueError as exc:
+        parser.error(str(exc))
 
     if args.run_name:
         info = {
@@ -251,9 +283,17 @@ def launch_single_run(
     )
 
     print(f"Setting up workspace: {run_dir}")
+    walltime_str = (
+        f"{walltime_s/3600:.1f}h"
+        if walltime_s and walltime_s >= 3600
+        else f"{walltime_s:.0f}s"
+        if walltime_s
+        else "unbounded"
+    )
     print(
         f"Agent ID: {info['agent_id']}   "
-        f"(effort={effort_label}, max_thinking_tokens={max_thinking})"
+        f"(effort={effort_label}, max_thinking_tokens={max_thinking}, "
+        f"walltime={walltime_str})"
     )
     workspace = build_workspace(repo_root, agent_name, task_id, run_dir)
     recast_path = workspace.parent
@@ -272,17 +312,28 @@ def launch_single_run(
     scores: dict | None = None
     try:
         print(f"Running {args.runner} agent (sandbox={args.sandbox or 'auto'})...")
-        _run_in_sandbox(
-            workspace,
-            repo_root,
-            prompt,
-            runner_name=args.runner,
-            model=args.model or None,
-            max_thinking_tokens=max_thinking,
-            sandbox=args.sandbox,
-            extra_ro_binds=extra_ro_binds,
-            effort_label=effort_label,
-        )
+        try:
+            _run_in_sandbox(
+                workspace,
+                repo_root,
+                prompt,
+                runner_name=args.runner,
+                model=args.model or None,
+                max_thinking_tokens=max_thinking,
+                sandbox=args.sandbox,
+                extra_ro_binds=extra_ro_binds,
+                effort_label=effort_label,
+                walltime_s=walltime_s,
+            )
+        except subprocess.CalledProcessError as exc:
+            # Agent CLI failed (e.g. exit 127 = command not found, missing
+            # binary in the container image). Mark the run as failed but
+            # still try to score whatever the agent produced before dying.
+            print(
+                f"  Agent CLI exited with code {exc.returncode} — marking run as failed.",
+                file=sys.stderr,
+            )
+            exit_code = 1
 
         print("\nScoring results...")
         scores = _score(workspace)
@@ -302,6 +353,20 @@ def launch_single_run(
             print(f"  Filled: {n_filled}/{n_bins} bins")
             if sh is not None and no is not None:
                 print(f"  Shape: {sh:.2f}   Norm: {no:.2f}   Combined: {cb:.2f}")
+            # Agent CLIs sometimes exit cleanly (rc=0) but never reach the
+            # scoring step — e.g. Claude Code returns rc=0 with a 429 result
+            # event when the 5-hour subscription cap rejects the request, and
+            # codex/gemini have analogous "soft failure" exits. The
+            # CalledProcessError path above doesn't fire in those cases, so
+            # we demote here based on the observed output: n_filled == 0
+            # with n_bins > 0 means the agent didn't complete the task.
+            if exit_code == 0 and n_bins > 0 and n_filled == 0:
+                print(
+                    "  Agent exited cleanly but produced no filled bins — "
+                    "marking run as failed.",
+                    file=sys.stderr,
+                )
+                exit_code = 1
 
         # Offline evals: rubric + plots + summary. All cheap (no LLM calls).
         # The two LLM-based judges (trajectory_judge, llm_judge) stay opt-in

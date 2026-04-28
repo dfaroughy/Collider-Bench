@@ -1,0 +1,15 @@
+[task]
+id          = "exo-17-021_sim-RPVstop_res-incl"
+paper       = "CMS-EXO-17-021"
+type        = "simulation"
+target      = "RPVstop_jj"
+observable  = "efficiency"
+
+[metadata]
+difficulty = "medium"
+walltime   = "1h30m"
+tags       = ["SUSY", "CMS", "Stops", "13TeV", "RPV", "resonance"]
+
+[metrics]
+tolerance = 0.05
+plot = "Events/bin"

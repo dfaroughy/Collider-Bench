@@ -1,0 +1,16 @@
+[task]
+id          = "sus-16-046_shape-TChiWg"
+paper       = "CMS-SUS-16-046"
+type        = "simulation"
+target      = "TChiWg_700"
+observable  = "STgamma"
+
+[metadata]
+difficulty = "medium"
+walltime   = "45m"
+tags       = ["SUSY", "CMS", "TChiWg", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+plot = "Events/bin"
+score = "shape"

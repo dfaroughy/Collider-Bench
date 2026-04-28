@@ -3,22 +3,15 @@
 #
 # Always runs: score, plot_recast, render_eval (offline, no LLM cost).
 #
-# The LLM-based judge is selectable via --judge:
-#   trajectory  (default) 9-mode failure-mode taxonomy (Terminal-Bench TAT,
-#                         trajectory_judge.json)
-#   llm                   output-correctness judge with CORRECTED provenance
-#                         check (judge_scores.json)
-#   both                  run both
-#   none                  skip LLM judging entirely (free, offline)
+# Pass --judge to run the LLM provenance audit + trajectory narrative
+# (judge_scores.json). Without --judge, evaluation is offline-only.
 #
 # Results go to <run_dir>/eval/ (or <iter_dir>/eval/ for per-iter runs);
 # task_id + paper are read from run_info.json + task.toml by each tool.
 #
 # Usage:
 #   ./launch_eval.sh <run_path>
-#   ./launch_eval.sh <run_path> --judge llm
-#   ./launch_eval.sh <run_path> --judge both
-#   ./launch_eval.sh <run_path> --judge none
+#   ./launch_eval.sh <run_path> --judge
 #
 # run_path can be any of:
 #   runs/<runner>_<model>/<task_id>_<hex>                 (top-level)
@@ -29,7 +22,7 @@
 set -euo pipefail
 
 usage() {
-    echo "Usage: $0 <run_path> [--judge trajectory|llm|both|none]" >&2
+    echo "Usage: $0 <run_path> [--judge]" >&2
     exit 2
 }
 
@@ -43,17 +36,12 @@ esac
 
 RUN_PATH=$1
 shift
-JUDGE=trajectory
+RUN_JUDGE=0
 
 while [ $# -gt 0 ]; do
     case "$1" in
         --judge)
-            [ $# -ge 2 ] || usage
-            JUDGE=$2
-            shift 2
-            ;;
-        --judge=*)
-            JUDGE=${1#*=}
+            RUN_JUDGE=1
             shift
             ;;
         -h|--help)
@@ -65,14 +53,6 @@ while [ $# -gt 0 ]; do
             ;;
     esac
 done
-
-case "$JUDGE" in
-    trajectory|llm|both|none) ;;
-    *)
-        echo "Invalid --judge=$JUDGE (expected: trajectory|llm|both|none)" >&2
-        exit 2
-        ;;
-esac
 
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
@@ -86,26 +66,20 @@ fi
 
 export PYTHONPATH="${REPO_ROOT}:${PYTHONPATH:-}"
 
-echo "=== Evaluating $RUN_PATH (judge=$JUDGE) ==="
+if [ "$RUN_JUDGE" -eq 1 ]; then
+    echo "=== Evaluating $RUN_PATH (judge=llm) ==="
+else
+    echo "=== Evaluating $RUN_PATH (judge=off) ==="
+fi
 
 python -m LHCRecastBench.evaluation.score             "$RUN_PATH"
 python -m LHCRecastBench.evaluation.plot_recast       "$RUN_PATH"
 
-case "$JUDGE" in
-    trajectory)
-        python -m LHCRecastBench.evaluation.trajectory_judge "$RUN_PATH"
-        ;;
-    llm)
-        python -m LHCRecastBench.evaluation.llm_judge        "$RUN_PATH"
-        ;;
-    both)
-        python -m LHCRecastBench.evaluation.llm_judge        "$RUN_PATH"
-        python -m LHCRecastBench.evaluation.trajectory_judge "$RUN_PATH"
-        ;;
-    none)
-        echo "Skipping LLM judge (--judge none)"
-        ;;
-esac
+if [ "$RUN_JUDGE" -eq 1 ]; then
+    python -m LHCRecastBench.evaluation.llm_judge "$RUN_PATH"
+else
+    echo "Skipping LLM judge (pass --judge to run it)"
+fi
 
 # render_eval resolves its own output dir from the run path.
 python -m LHCRecastBench.evaluation.render_eval       "$RUN_PATH"

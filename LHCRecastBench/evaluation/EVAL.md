@@ -10,15 +10,17 @@ Every evaluator reads from the same workspace layout:
 
 ```
 <run_dir>/workspace/
-  results/<histogram>.yml      # agent's filled histogram
-  results/description.toml     # per-histogram metadata
+  results/<histogram>.yaml     # agent's filled histogram (metadata block on top,
+                               # HEPData-style histogram below — two YAML docs)
   datasets.yaml
   analysis.py | analysis/*.py
   report.md
   session_log.txt              # CLI stream-json (used by LLM judges)
 ```
 
-The reference histogram lives at `LHCRecastBench/tasks/shared/<paper>/histograms/<histogram>.yaml`. The scorer reads `task_id` from `<run_dir>/run_info.json`, picks `paper` + `data_filename` + `header_name` from `task.toml` + `description.toml`, and compares the matching series.
+The reference file lives at `LHCRecastBench/tasks/shared/<paper>/reference/<file>.yaml`. The scorer reads `task_id` from `<run_dir>/run_info.json`, picks `paper` from `task.toml`, finds `data_filename` from the single histogram file under `tasks/<task_id>/template/`, and reads `header_name` from `dependent_variables[0].header.name` of that file. The matching series in the reference is then compared.
+
+Tasks may set `[metrics].score = "shape"` in `task.toml`. For these shape-only tasks, `score.py` still reports normalization diagnostics, but `overall_combined` is the shape score alone.
 
 ## The evaluators
 
@@ -46,7 +48,7 @@ Each λ yields a p-value via `scipy.stats.chi2.sf(λ, dof)` and an effective sig
 - `series.ks`: `{stat, p_value, n_eff}` — secondary unit-area shape diagnostic
 - `series.combined` = √(shape.score · norm.score)
 - `series.diagnosis`: `GOOD` / `SHAPE OK, NORM BAD` / `SHAPE BAD, NORM OK` / `BOTH BAD`
-- top-level `overall_shape`, `overall_normalization`, `overall_combined` (mirrors of `series.*.score`)
+- top-level `overall_shape`, `overall_normalization`, `overall_combined` (`overall_combined = overall_shape` for shape-only tasks)
 - `n_filled`, `n_bins` — sanity flag for "did the agent fill anything?"
 
 **Why BC, not Pearson?** BC reduces to Pearson χ² at high counts but handles low/zero-count bins correctly (`0·ln(0) ≡ 0`, no divide-by-zero, still asymptotically χ²-distributed). In HEP histograms with mixed high-yield peaks and near-zero tails it's the safer default.
@@ -62,33 +64,40 @@ python -m LHCRecastBench.evaluation.score <run_dir_a> <run_dir_b>   # compare
 
 Produces per-table PNGs under `eval/plots/`. For each reference YAML it emits two figures:
 
-- `<stem>_yield.png` — absolute event yields (`Events / <unit>`), bin-width-divided so variable binning is honest
+- `<stem>_yield.png` — absolute event yields using the task's `[metrics].plot` setting: `Events/bin` shows raw bin contents matching the submitted `results/*.yaml` values and the scorer; `Events/GeV` shows bin-width-divided densities for visual comparison across variable-width bins
 - `<stem>_shape.png` — unit-area normalised (same, per unit area)
 
-Each figure has a top panel with step histograms (CMS solid, Recast dashed, one color per series) and a ratio sub-panel plotting `recast / CMS` per bin with a horizontal line at 1. Error bars come from the reference `symerror`. Uses `mplhep.style.CMS`; no titles, legend inside the top panel. Series with both arrays all-zero are skipped.
+Each figure has a top panel with CMS as a filled histogram, Recast as a solid step histogram, and a hatched CMS uncertainty band. The band combines the task's `[metrics].tolerance` value used in the p-value calculation with Poisson counting uncertainty in quadrature. The ratio sub-panel plots `recast / CMS` as a histogram with the matching relative uncertainty band and a horizontal line at 1. Uses `mplhep.style.CMS`; no titles, legend inside the top panel. Series with both arrays all-zero are skipped.
 
 ```bash
 python -m LHCRecastBench.evaluation.plot_recast <run_dir>
 ```
 
-### 3. `llm_judge.py` — reasoning quality + provenance verification
+### 3. `llm_judge.py` — provenance audit + trajectory narrative
 
-An LLM (Opus by default) reads the full session log, filled HEPRecastData, reference, and artifacts. Emits `eval/judge_scores.json`, `eval/judge_failure_report.md`, and — when corrections are needed — `eval/HEPRecastData_corrected_by_judge/` plus `eval/score_corrected.json`.
+An LLM (Opus by default) reads the full session log, filled `results/*.yaml`, hidden evaluator-only reference, and artifacts. Emits `eval/judge_scores.json`, `eval/judge_trajectory.md`, and — when corrections are needed — `eval/results_corrected_by_judge/` plus `eval/score_corrected.json`.
 
-**Six scoring dimensions (1–5 each):** Diagnosis Quality, Creative Problem-Solving, Scientific Honesty, Hallucination, Tool Use Efficiency, Audit Trail Completeness.
+The reference is not visible to the agent during the task. The judge must not penalize an agent for failing to compare against truth; `score.py` handles numeric agreement. The judge uses the hidden reference only to detect suspicious copying/leakage and to understand broad result scale.
 
-**Provenance verification** classifies every dependent-variable series:
+The judge has two responsibilities:
+
+1. **Provenance audit**: check that values in `results/*.yaml` reflect the agent's actual work.
+2. **Trajectory narrative**: describe how the agent reasoned, adapted, got stuck, used tools, and reported limitations.
+
+**Provenance audit** classifies every dependent-variable series:
 
 | Class | Meaning |
 |---|---|
-| `GENUINE` | Values trace to real tool output or computed result in the session |
-| `COPIED` | Values identical to the published reference with no independent computation — cheating |
-| `PARTIALLY_GENUINE` | Some bins real, others copied/fabricated |
-| `NULL_BUT_COMPUTED` | HEPRecastData left null, but the agent did compute values elsewhere (e.g. `results.json`, printed to session) — the agent forgot to fill the template |
+| `TRACEABLE` | Values trace to real tool output, code output, extraction, or documented calculation |
+| `PARTIALLY_TRACEABLE` | Some values trace to work; others are missing or unsupported |
+| `NULL_BUT_COMPUTED` | `results/*.yaml` left null, but the agent did compute values elsewhere (e.g. `results.json`, printed to session) — the agent forgot to fill the template |
+| `UNTRACEABLE` | Values appear in `results/*.yaml`, but no source is found |
+| `FABRICATED` | Values contradict the apparent computation or were invented |
+| `COPIED_OR_LEAKED` | Values match hidden reference data without visible independent computation |
 
-If the judge finds `COPIED` or `NULL_BUT_COMPUTED` series, it **writes the corrected values** into `HEPRecastData_corrected_by_judge/` and `score.py` is automatically re-run on that corrected directory (output: `score_corrected.json`). This is how the benchmark stays robust to both "100% by copying" and "0% by forgetting to fill".
+If the judge can recover the agent's actual computed values for problematic/null series, it writes them into `results_corrected_by_judge/` and `score.py` is automatically re-run on that corrected directory (output: `score_corrected.json`). Corrected values must come from the agent's own work, never from the hidden reference.
 
-**Failure report** — catalogs every reasoning failure with a type label, severity, evidence, and whether the agent self-corrected. Extensible taxonomy: `POLLING_VIOLATION`, `NORMALIZATION_ERROR`, `HALLUCINATION`, `PREMATURE_SURRENDER`, `MISSED_WORKAROUND`, `FORMAT_BLINDNESS`, `SPECIFICATION_MISREAD`, `TOOL_MISUSE`, `BIAS_PROPAGATION`, `OVERCLAIMING`, `INCOMPLETE_SEARCH`, plus new types the judge is free to coin. Rubric in [judge_rubric.md](judge_rubric.md).
+**Trajectory narrative** — gives qualitative insight into planning, tool use, scientific judgment, creative workarounds, avoidable stuck points, and honesty about limitations. It is not a rigid scorecard. Rubric in [judge_rubric.md](judge_rubric.md).
 
 ```bash
 python -m LHCRecastBench.evaluation.llm_judge <run_dir>
@@ -101,15 +110,14 @@ After all four have run, `eval/` contains:
 ```
 eval/
   score.json                           # Baker-Cousins shape/norm/total + KS p-values
-  summary.md                           # human-readable digest of the above
-  plots/                               # step-histogram PNGs (CMS vs recast, yield + shape)
+  summary.md                           # human-readable digest; shows Submitted/Audited scores when judged
+  plots/                               # CMS/recast histogram PNGs with tolerance bands (yield + shape)
     <histogram>_yield.png
     <histogram>_shape.png
-  judge_scores.json                    # (opt-in) 6-dim reasoning + provenance
-  judge_failure_report.md              # (opt-in) typed failure catalog
-  trajectory_judge.json                # (opt-in) 9-mode TAT taxonomy
+  judge_scores.json                    # (opt-in) provenance audit + trajectory JSON
+  judge_trajectory.md                  # (opt-in) rendered trajectory narrative
   results_corrected_by_judge/          # only if judge applied corrections
-  score_corrected.json                 # score.py re-run on the corrected data
+  score_corrected.json                 # score.py re-run on corrected data when overrule/action requests it
 ```
 
 ## Key design decisions
@@ -119,7 +127,7 @@ eval/
 - **Bounded score is a z-score, not a raw p-value.** `score = exp(−√λ / 5)`. The p-value is reported alongside for the statistical reading; the bounded score gives a usable gradient when p-values saturate at zero.
 - **`λ_total = λ_shape + λ_norm` is an algebraic identity, not an asymptotic approximation.** Falls out cleanly from profiling α = ΣO/ΣE over the Poisson log-likelihood.
 - **No per-bin pass/fail.** The scorer reports the Baker-Cousins triple (shape, norm, total) and KS — that's the full picture. Per-bin "passing" thresholds were dropped because they obscured the shape-vs-norm decomposition that's actually informative.
-- **Multiple evaluators because no single number tells the truth.** Shape can look fine while norm is off by 50× (or vice versa); the LLM judge's provenance check catches copying. `score_corrected` is the accuracy number that survives cheating.
+- **Multiple evaluators because no single number tells the truth.** Shape can look fine while norm is off by 50× (or vice versa); the LLM judge's provenance audit catches copying, fabrication, and unjustified post-hoc adjustments. `summary.md` reports both Submitted and Audited scores when the LLM judge has run.
 
 ## Running on a completed run
 
@@ -129,9 +137,7 @@ agent launch (`scripts/run-agent`). To re-run them on an existing run dir
 
 ```bash
 ./scripts/launch_eval.sh runs/<runner>_<model>/<task-id>_<hex>/
-./scripts/launch_eval.sh runs/.../  --judge trajectory   # add 9-mode TAT
-./scripts/launch_eval.sh runs/.../  --judge llm          # add provenance + 6-dim judge
-./scripts/launch_eval.sh runs/.../  --judge both
+./scripts/launch_eval.sh runs/.../  --judge              # add provenance audit + trajectory narrative
 ```
 
 All evaluators read task identity from `<run_dir>/run_info.json` + the

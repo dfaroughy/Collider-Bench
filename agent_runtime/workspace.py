@@ -111,9 +111,10 @@ def build_workspace(
         task_text = task_text.replace("{arxiv_id}", paper_ref)
     (agent_context / "TASK.md").write_text(task_text)
 
-    # results/ — null-filled yaml skeleton + description.toml, copied from
-    # the task's template/. Agent fills nulls in place. task.toml itself is
-    # intentionally NOT copied (harness metadata only).
+    # results/ — null-filled yaml skeleton (metadata embedded at top of
+    # the yaml itself: instructions, target, luminosity, …), copied from
+    # the task's template/. Agent fills nulls in place. task.toml itself
+    # is intentionally NOT copied (harness metadata only).
     results = workspace / "results"
     results.mkdir()
     for src in template_src.rglob("*"):

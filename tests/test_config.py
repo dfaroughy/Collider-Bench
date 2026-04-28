@@ -26,7 +26,7 @@ def test_config_loads_and_validates(config_path):
 def test_unknown_key_rejected():
     with pytest.raises(ValueError, match="unknown config key"):
         validate_config(
-            {"agent": "simple", "task": "sus-16-046-simulate-TChiWg-stgamma", "bogus_key": 1},
+            {"agent": "simple", "task": "sus-16-046_sim-TChiWg", "bogus_key": 1},
             source="<test>",
         )
 
@@ -41,13 +41,23 @@ def test_yaml_bool_guard():
 
 def test_task_key_accepts_free_form_string():
     """Task is now a free-form task id (validated against the filesystem later)."""
-    validate_config({"agent": "simple", "task": "sus-16-046-simulate-TChiWg-stgamma"})
+    validate_config({"agent": "simple", "task": "sus-16-046_sim-TChiWg"})
     validate_config({"agent": "simple", "task": "whatever-the-user-wants"})
 
 
 def test_extends_chain_resolved():
-    """Non-base configs should inherit compute/account/qos from base.yaml."""
-    cfg = load_config(str(CONFIG_DIR / "claude_simple.yaml"))
+    """Non-base configs should inherit compute/account/qos from base.yaml.
+
+    Picks any non-base shipped config; in public clones the per-vendor
+    configs are gitignored so we fall back to skipping cleanly.
+    """
+    candidates = [p for p in SHIPPED_CONFIGS if p.name != "base.yaml"]
+    if not candidates:
+        pytest.skip(
+            "no non-base configs present (public clone — vendor configs "
+            "live in the gitignored configs/{claude,codex,gemini,aider}_*.yaml)"
+        )
+    cfg = load_config(str(candidates[0]))
     # Inherited from base.yaml:
     assert cfg.get("compute") == "perlmutter"
     assert cfg.get("account")

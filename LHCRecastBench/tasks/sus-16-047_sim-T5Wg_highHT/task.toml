@@ -1,0 +1,15 @@
+[task]
+id          = "sus-16-047_sim-T5Wg_highHT"
+paper       = "CMS-SUS-16-047"
+type        = "simulation"
+target      = "T5Wg_1600_100"
+observable  = "pTmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "45m"
+tags       = ["SUSY", "CMS", "T5Wg", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+plot = "Events/bin"

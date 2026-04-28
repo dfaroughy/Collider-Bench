@@ -76,14 +76,31 @@ def test_task_md_is_seeded_into_agent_context(clean_workspace, agent):
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)
 def test_results_seeded_from_task_template(clean_workspace, agent):
-    """The agent fills results/ in place — seeded from tasks/<task_id>/template/."""
+    """The agent fills results/ in place — seeded from tasks/<task_id>/template/.
+
+    The template histogram file embeds its metadata at the top (instructions,
+    target, luminosity, …) before a `---` separator, so there is no longer a
+    standalone description.toml — both blocks live in the .yml/.yaml file.
+    """
+    import yaml
+
     ws = clean_workspace(agent)
     results = ws / "results"
     assert results.is_dir()
-    # At least one yaml/yml for the histogram and the description.toml
     yamls = list(results.glob("*.yml")) + list(results.glob("*.yaml"))
     assert yamls, "results/ should contain the null-filled histogram"
-    assert (results / "description.toml").is_file()
+    assert not (results / "description.toml").exists(), (
+        "description.toml should no longer be seeded — metadata lives "
+        "inside the histogram .yml/.yaml file itself"
+    )
+    # The seeded file must have both the metadata block and the HEPData
+    # histogram doc in it (two YAML documents).
+    docs = list(yaml.safe_load_all(yamls[0].read_text()))
+    has_meta = any(isinstance(d, dict) and "target" in d for d in docs)
+    has_hist = any(isinstance(d, dict) and "dependent_variables" in d for d in docs)
+    assert (
+        has_meta and has_hist
+    ), f"expected metadata + histogram docs in {yamls[0]}, got {len(docs)} doc(s)"
 
 
 def test_task_toml_not_leaked_into_workspace(clean_workspace):

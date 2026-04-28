@@ -1,11 +1,10 @@
 """Shared helpers for naming recast run directories.
 
-Layout:  runs/<runner>_<model>/<task_id>_<Adj><Physicist><hex8>/...
-Example: runs/claude_opus-4-7/sus-16-046-simulate-TChiWg-STgamma_QuantumFeynmana1b2c3d4/
+Layout:  runs/<runner>_<model>/<task_id>_<Adj><Physicist>_<hex8>/...
+Example: runs/claude_opus-4-7/sus-16-046_sim-TChiWg_QuantumFeynman_a1b2c3d4/
 
-The <Adj><Physicist>_<hex8> form (with underscore) is the canonical "agent_id"
-used in logs and cross-run comparisons. The compact form (without underscore)
-is used only as part of the run-directory name.
+The <Adj><Physicist>_<hex8> form is the canonical "agent_id" used in logs,
+cross-run comparisons, and the run-directory name.
 """
 
 from __future__ import annotations
@@ -237,14 +236,13 @@ def generate_run_info(
 
     Keys:
       agent_id  — <Adj><Physicist>_<hex8>      (canonical short name)
-      run_dir   — <runner>_<model>/<task_id>_<Adj><Physicist><hex8>
+      run_dir   — <runner>_<model>/<task_id>_<Adj><Physicist>_<hex8>
       task_id, agent, runner, model, paper_ref (echoed for convenience)
     """
     hex_hash = os.urandom(8).hex()
     agent_id = physicist_bigram(hex_hash)  # "ElegantFermi_a1b2c3d4"
-    compact = agent_id.replace("_", "")  # "ElegantFermia1b2c3d4"
     group = run_group(runner_name, model_name)
-    run_dir = f"{group}/{task_id}_{compact}"
+    run_dir = f"{group}/{task_id}_{agent_id}"
     return {
         "agent_id": agent_id,
         "run_dir": run_dir,
@@ -325,7 +323,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "walltime": (str,),
     "qos": (str,),
     "sandbox": (str,),
-    "task": (str,),  # free-form task id (e.g. sus-16-046-simulate-TChiWg-STgamma)
+    "task": (str,),  # free-form task id (e.g. sus-16-046_sim-TChiWg)
     # Anneal agent: separate model / effort for the planner and examiner roles.
     "examiner_model": (str,),
     "examiner_effort": (str, int),

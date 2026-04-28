@@ -1,34 +1,15 @@
 #!/usr/bin/env python3
 """LLM-as-a-Judge evaluation of agent reasoning quality.
 
-Agent-agnostic: accepts any combination of session logs, filled HEPData,
-and optional structured artifacts. The judge LLM reads whatever is provided
-and evaluates reasoning quality.
+The numeric benchmark score is computed by score.py. This judge inspects the
+agent transcript, filled results/*.yaml, report, and optional artifacts to
+evaluate reasoning quality, scientific honesty, provenance, and auditability.
+The published reference is supplied to the judge as hidden evaluator-only
+context; it was not available to the agent during the run and the judge must
+not penalize the agent for failing to compare against it.
 
 Usage:
-    # Minimal: just session logs
-    python -m LHCRecastBench.evaluation.llm_judge \
-        --session-logs agent_session.txt \
-        --recast-dir HEPRecastData/ \
-        --arxiv 1707.06193
-
-    # With optional artifacts (our baseline produces these)
-    python -m LHCRecastBench.evaluation.llm_judge \
-        --session-logs session_log.txt \
-        --recast-dir HEPRecastData/ \
-        --arxiv 1707.06193 \
-        --artifacts audit.json report.md
-
-    # Multiple session logs (multi-agent runs)
-    python -m LHCRecastBench.evaluation.llm_judge \
-        --session-logs session_agent_000.txt session_agent_001.txt \
-        --recast-dir HEPRecastData/ \
-        --arxiv 1707.06193
-
-    # Shortcut: pass agent dir (auto-discovers files, our baseline layout)
-    python -m LHCRecastBench.evaluation.llm_judge \
-        --agent-dir validation/agent_002 \
-        --arxiv 1707.06193
+    python -m LHCRecastBench.evaluation.llm_judge <run_dir_or_workspace>
 """
 
 from __future__ import annotations
@@ -45,15 +26,53 @@ import yaml
 JUDGE_RUBRIC_PATH = Path(__file__).parent / "judge_rubric.md"
 
 
-def _write_corrected_hepdata(
+def _hist_yaml_files(directory: Path) -> list[Path]:
+    """Return canonical histogram YAML files in a results/reference directory."""
+    if not directory or not directory.exists():
+        return []
+    files = sorted(directory.glob("*.yaml")) + sorted(directory.glob("*.yml"))
+    return [p for p in files if p.name != "submission.yaml"]
+
+
+def _load_yaml_docs(path: Path) -> list:
+    with open(path) as f:
+        return list(yaml.safe_load_all(f))
+
+
+def _hist_doc_index(docs: list) -> int | None:
+    for i, doc in enumerate(docs):
+        if isinstance(doc, dict) and "dependent_variables" in doc:
+            return i
+    return None
+
+
+def _dump_yaml_docs(path: Path, docs: list) -> None:
+    with open(path, "w") as f:
+        yaml.safe_dump_all(docs, f, default_flow_style=False, sort_keys=False)
+
+
+def _find_result_file(directory: Path, filename_or_stem: str) -> Path | None:
+    """Find an existing result file by exact name or stem, accepting .yaml/.yml."""
+    raw = Path(filename_or_stem)
+    candidates = [directory / raw.name]
+    stem = raw.stem if raw.suffix else raw.name
+    candidates.extend([directory / f"{stem}.yaml", directory / f"{stem}.yml"])
+    for path in candidates:
+        if path.is_file():
+            return path
+    return None
+
+
+def _write_corrected_results(
     provenance: dict,
     original_dir: Path,
     corrected_dir: Path,
 ) -> None:
-    """Write corrected HEPRecastData using judge's provenance verification.
+    """Write corrected results/*.yaml using judge provenance verification.
 
-    Copies the original files, then overwrites values where the judge
-    found COPIED series and provided corrected_values.
+    Copies the original results dir, then overwrites values where the judge
+    supplied corrected values for problematic or NULL_BUT_COMPUTED series.
+    Current task templates are two YAML documents: metadata, then histogram.
     """
     import shutil
 
@@ -65,41 +84,60 @@ def _write_corrected_hepdata(
         shutil.rmtree(corrected_dir)
     shutil.copytree(original_dir, corrected_dir)
 
-    # Check if judge provided corrected_hepdata (full YAML content)
-    corrected_hepdata = provenance.get("corrected_hepdata", {})
-    if corrected_hepdata:
-        for filename, content in corrected_hepdata.items():
-            if isinstance(content, dict):
-                out_path = corrected_dir / filename
-                yaml.dump(content, open(out_path, "w"), default_flow_style=False, sort_keys=False)
+    # Check if judge provided corrected_results (preferred) or legacy
+    # corrected_hepdata (accepted for compatibility).
+    corrected_results = provenance.get("corrected_results") or provenance.get(
+        "corrected_hepdata", {}
+    )
+    if corrected_results:
+        for filename, content in corrected_results.items():
+            out_path = _find_result_file(corrected_dir, filename) or (corrected_dir / filename)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            if isinstance(content, str):
+                out_path.write_text(content)
+            elif isinstance(content, list):
+                _dump_yaml_docs(out_path, content)
+            elif isinstance(content, dict):
+                _dump_yaml_docs(out_path, [content])
         return
 
-    # Otherwise, apply per-series corrections from provenance_verification.series
+    # Otherwise, apply per-series corrections from provenance series.
     series_info = provenance.get("series", {})
     for series_key, info in series_info.items():
-        if info.get("classification") not in ("COPIED", "NULL_BUT_COMPUTED"):
+        if info.get("classification") not in (
+            "COPIED",
+            "COPIED_OR_LEAKED",
+            "FABRICATED",
+            "PARTIALLY_TRACEABLE",
+            "NULL_BUT_COMPUTED",
+        ):
+            continue
+        if info.get("classification") == "PARTIALLY_TRACEABLE" and "corrected_values" not in info:
             continue
         corrected_values = info.get("corrected_values")
-        if corrected_values is None:
-            # No computed values available — set to null
-            corrected_values = [None] * 10  # will be truncated to actual bin count
-
-        # Parse series_key: "obs_low/BACKGROUND" -> file=obs_low.yaml, series=BACKGROUND
+        # Parse series_key: "histogram_name/series" or
+        # "histogram_name.yaml/series".
         parts = series_key.split("/")
         if len(parts) != 2:
             continue
-        filename = parts[0] + ".yaml"
+        filename = parts[0]
         series_name = parts[1]
 
-        yaml_path = corrected_dir / filename
-        if not yaml_path.exists():
+        yaml_path = _find_result_file(corrected_dir, filename)
+        if yaml_path is None:
             continue
 
         try:
-            data = yaml.safe_load(yaml_path.read_text())
-            for dep in data.get("dependent_variables", []):
+            docs = _load_yaml_docs(yaml_path)
+            idx = _hist_doc_index(docs)
+            if idx is None:
+                continue
+            hist = docs[idx]
+            for dep in hist.get("dependent_variables", []):
                 if dep.get("header", {}).get("name") == series_name:
                     values = dep.get("values", [])
+                    if corrected_values is None:
+                        corrected_values = [None] * len(values)
                     for i, entry in enumerate(values):
                         if i < len(corrected_values):
                             entry["value"] = corrected_values[i]
@@ -111,8 +149,7 @@ def _write_corrected_hepdata(
                                 err["symerror"] = None
                     break
 
-            with open(yaml_path, "w") as f:
-                yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+            _dump_yaml_docs(yaml_path, docs)
         except Exception:
             pass
 
@@ -120,10 +157,10 @@ def _write_corrected_hepdata(
 JUDGE_PROMPT_TEMPLATE = """\
 {rubric}
 
---- FILLED HEPDATA (agent's recast results) ---
-{recast_yaml}
+--- FILLED RESULTS (agent's results/*.yaml) ---
+{results_yaml}
 
---- REFERENCE HEPDATA (published CMS values) ---
+--- HIDDEN REFERENCE (published CMS values; not visible to the agent) ---
 {reference_yaml}
 
 --- ADDITIONAL ARTIFACTS ---
@@ -240,18 +277,16 @@ def _extract_claude_stream_json(session_path: Path, max_chars: int) -> str:
     return "".join(moments)
 
 
-# ── Load HEPData for context ────────────────────────────────────────────────
+# ── Load result/reference YAML for context ──────────────────────────────────
 
 
-def _load_hepdata_summary(directory: Path, max_chars: int = 5000) -> str:
-    """Load HEPData YAML files as text for the judge."""
+def _load_results_summary(directory: Path, max_chars: int = 5000) -> str:
+    """Load result YAML files as text for the judge."""
     if not directory or not directory.exists():
         return "(not available)"
 
     parts = []
-    for yf in sorted(directory.glob("*.yaml")):
-        if yf.name == "submission.yaml":
-            continue
+    for yf in _hist_yaml_files(directory):
         text = yf.read_text()
         parts.append(f"--- {yf.name} ---\n{text}\n")
 
@@ -292,17 +327,17 @@ def run_judge(
             session_parts.append(f"--- {log_path.name} ---\n{summary}")
     session_summary = "\n\n".join(session_parts) if session_parts else "(no session logs provided)"
 
-    # Load recast and reference HEPData
-    recast_yaml = _load_hepdata_summary(results_dir) if results_dir else "(not provided)"
+    # Load agent results and hidden reference data.
+    results_yaml = _load_results_summary(results_dir) if results_dir else "(not provided)"
     reference_yaml = "(not available)"
     if reference_file and reference_file.is_file():
-        # _load_hepdata_summary takes a dir; wrap via a tempdir-like single-file pass.
+        # _load_results_summary takes a dir; wrap via a tempdir-like single-file pass.
         import tempfile
         import shutil as _sh
 
         with tempfile.TemporaryDirectory() as td:
             _sh.copy2(reference_file, Path(td) / reference_file.name)
-            reference_yaml = _load_hepdata_summary(Path(td))
+            reference_yaml = _load_results_summary(Path(td))
 
     # Load additional artifacts
     artifacts_parts = []
@@ -318,7 +353,7 @@ def run_judge(
     rubric = JUDGE_RUBRIC_PATH.read_text()
     prompt = JUDGE_PROMPT_TEMPLATE.format(
         rubric=rubric,
-        recast_yaml=recast_yaml,
+        results_yaml=results_yaml,
         reference_yaml=reference_yaml,
         artifacts_text=artifacts_text,
         session_summary=session_summary,
@@ -425,9 +460,49 @@ def run_judge(
 
     scores["judge_model"] = model
 
-    # Save full judge output + extracted failure report
+    # Save full judge output + extracted trajectory narrative
     if output_dir:
         (output_dir / "judge_scores.json").write_text(json.dumps(scores, indent=2))
+    trajectory = scores.get("trajectory") or {}
+    if trajectory and output_dir:
+        report_path = output_dir / "judge_trajectory.md"
+        lines = [f"# Judge Trajectory Narrative\n\n**Judge model**: {model}\n"]
+        for key, title in [
+            ("summary", "Summary"),
+            ("planning", "Planning"),
+            ("tool_use", "Tool Use"),
+            ("scientific_judgment", "Scientific Judgment"),
+            ("honesty_and_reporting", "Honesty And Reporting"),
+            ("overall_assessment", "Overall Assessment"),
+        ]:
+            value = trajectory.get(key)
+            if value:
+                lines.append(f"\n## {title}\n\n{value}\n")
+        for key, title in [
+            ("strengths", "Strengths"),
+            ("creative_moves", "Creative Moves"),
+            ("stuck_points", "Stuck Points"),
+            ("issues", "Issues"),
+        ]:
+            items = trajectory.get(key) or []
+            if items:
+                lines.append(f"\n## {title}\n")
+                for item in items:
+                    if isinstance(item, dict):
+                        desc = item.get("description") or item.get("label") or json.dumps(item)
+                        extra = []
+                        for subkey in ("impact", "severity", "avoidable", "evidence"):
+                            if item.get(subkey) is not None:
+                                extra.append(f"{subkey}: {item[subkey]}")
+                        suffix = f" ({'; '.join(extra)})" if extra else ""
+                        lines.append(f"- {desc}{suffix}")
+                    else:
+                        lines.append(f"- {item}")
+                lines.append("")
+        report_path.write_text("\n".join(lines))
+        scores["trajectory_report_path"] = str(report_path)
+
+    # Legacy support for old judge outputs.
     failure_report = scores.get("reasoning_failure_report", "")
     if failure_report and output_dir:
         report_path = output_dir / "judge_failure_report.md"
@@ -436,10 +511,17 @@ def run_judge(
         scores["failure_report_path"] = str(report_path)
 
     # Handle provenance verification and correction
-    provenance = scores.get("provenance_verification", {})
-    if provenance.get("status") == "CORRECTED" and output_dir and results_dir and rp is not None:
+    provenance = scores.get("provenance_audit") or scores.get("provenance_verification", {})
+    overrule = provenance.get("overrule") or {}
+    overrule_action = (
+        str(overrule.get("action") or "NONE").upper() if isinstance(overrule, dict) else "NONE"
+    )
+    needs_corrected_rescore = (
+        provenance.get("status") == "CORRECTED" or overrule_action == "RESCORE_CORRECTED"
+    )
+    if needs_corrected_rescore and output_dir and results_dir and rp is not None:
         corrected_dir = output_dir / "results_corrected_by_judge"
-        _write_corrected_hepdata(provenance, results_dir, corrected_dir)
+        _write_corrected_results(provenance, results_dir, corrected_dir)
         scores["corrected_dir"] = str(corrected_dir)
 
         # Re-score on corrected data: clone rp pointing at corrected_dir.
@@ -484,6 +566,55 @@ def print_scores(scores: dict) -> None:
     print("\n  LLM Judge Evaluation")
     print(f"  Judge model: {scores.get('judge_model', '?')}")
     print(f"  {'=' * 60}")
+
+    provenance = scores.get("provenance_audit") or scores.get("provenance_verification") or {}
+    if provenance:
+        print("\n  Provenance Audit")
+        print(f"    Status: {provenance.get('status', '?')}")
+        summary = provenance.get("summary")
+        if summary:
+            print(f"    {summary}")
+        overrule = provenance.get("overrule") or {}
+        if isinstance(overrule, dict) and str(overrule.get("action") or "NONE").upper() != "NONE":
+            print(
+                f"    Overrule: {overrule.get('action')} ({overrule.get('reason', 'no reason provided')})"
+            )
+        series = provenance.get("series") or {}
+        if series:
+            buckets: dict[str, int] = {}
+            for info in series.values():
+                cls = info.get("classification", "UNKNOWN") if isinstance(info, dict) else "UNKNOWN"
+                buckets[cls] = buckets.get(cls, 0) + 1
+            print("    " + ", ".join(f"{n} {cls}" for cls, n in sorted(buckets.items())))
+
+    trajectory = scores.get("trajectory") or {}
+    if trajectory:
+        print("\n  Trajectory")
+        for key in ("summary", "overall_assessment"):
+            if trajectory.get(key):
+                print(f"    {trajectory[key]}")
+        for label, key in [
+            ("Strengths", "strengths"),
+            ("Creative moves", "creative_moves"),
+            ("Stuck points", "stuck_points"),
+            ("Issues", "issues"),
+        ]:
+            items = trajectory.get(key) or []
+            if items:
+                print(f"\n  {label}:")
+                for item in items[:5]:
+                    if isinstance(item, dict):
+                        text = item.get("description") or item.get("label") or json.dumps(item)
+                    else:
+                        text = str(item)
+                    print(f"    - {text}")
+                if len(items) > 5:
+                    print(f"    ... ({len(items) - 5} more)")
+        path = scores.get("trajectory_report_path")
+        if path:
+            print(f"\n  Full trajectory report: {path}")
+        print()
+        return
 
     dimensions = [
         ("Diagnosis Quality", "diagnosis_quality"),
@@ -550,14 +681,14 @@ def print_scores(scores: dict) -> None:
 def main():
     parser = argparse.ArgumentParser(
         description="LLM-as-a-Judge evaluation of agent reasoning quality. "
-        "arxiv and task are read from run_info.json; session logs and artifacts "
+        "task identity is read from run_info.json; session logs and artifacts "
         "are auto-discovered from the artifact dir.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
     parser.add_argument(
         "run_path",
-        help="Run directory, workspace, iter dir, or HEPRecastData dir.",
+        help="Run directory, workspace, iter dir, or results dir.",
     )
     parser.add_argument("--model", default="claude-opus-4-6", help="Judge model")
     parser.add_argument("--json", action="store_true", help="Output raw JSON")

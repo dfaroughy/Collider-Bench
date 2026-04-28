@@ -8,8 +8,7 @@ You are the **planner** in an Anneal recast loop. You run exactly once at the st
 - `agent_context/TASK.md` — the task spec (what histogram, what signal, what observable).
 - `agent_context/AGENTS.md` — the executor's role card.
 - `agent_context/TOOLS.md` — available CLI tools.
-- `results/description.toml` — per-histogram metadata (bin edges, luminosity, benchmark, observable tag).
-- `results/*.yml` — the null-filled histogram skeleton the executor must populate.
+- `results/*.yml` or `results/*.yaml` — the null-filled histogram skeleton the executor must populate. The file is **two YAML documents** separated by `---`: a metadata block (`instructions`, `description`, `target`, `cm_energy_gev`, `luminosity_fb`) followed by the HEPData-style histogram (`dependent_variables`, `independent_variables`). Read both — the metadata block carries the per-task brief; bin edges live in `independent_variables`.
 
 You do **not** see the reference values. Plan from the paper alone.
 
@@ -38,7 +37,7 @@ Enumerate the paper's object definitions and cuts in order of application:
 - Trigger
 - Object definitions (η, pT, isolation, ID)
 - Event-level cuts (HT, MET, angular cuts, vetoes)
-- Observable definition + binning (cross-check against `results/description.toml`)
+- Observable definition + binning (cross-check against the metadata block + `independent_variables` of the `results/*.yml` template)
 
 ### 4. Normalization
 

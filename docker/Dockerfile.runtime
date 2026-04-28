@@ -1,40 +1,37 @@
-# Our opinionated runtime layer: adds Node + gemini-cli + agent_runtime/.
+# Our public runtime layer: adds Node and our vendor-neutral harness Python
+# (`agent_runtime/`, the agent patterns under `agents/`, base config) on top
+# of the benchmark image.
 #
-# Layered on top of the vendor-neutral benchmark image. Third parties who
-# want to evaluate their own agent should use lhc-recast-bench directly
-# and skip this image.
+# This image is intentionally **vendor-neutral**: NO claude-code, codex,
+# gemini-cli, or any other agent-specific CLI is installed here. Anyone
+# who wants to run a specific agent against the benchmark either (a)
+# extends this image with their own CLI install, or (b) runs from outside
+# the container and uses this image only for the sim/scoring stack.
+#
+# A private overlay (`docker/Dockerfile.dev`, gitignored) extends this
+# image with the closed-source vendor CLIs we use for our internal
+# benchmark runs.
 
 ARG BENCH_IMAGE=lhc-recast-bench:latest
 FROM ${BENCH_IMAGE}
 
-# Node goes into the conda env so the gemini-cli shebang (#!/usr/bin/env node)
-# resolves against the same Python/Node combo we use on NERSC today.
+# Node 20 in the conda env — needed by any JS-based agent CLI an
+# overlay image (or a host bind-mount) might bring in.
 RUN mamba install -n cms_analysis -y -c conda-forge 'nodejs>=20' \
       && mamba clean -afy
 
-# Install gemini-cli into a dedicated prefix so it's easy to replace /
-# version-bump without touching the rest of the image.
 ENV NPM_CONFIG_PREFIX=/opt/node-global
 ENV PATH=/opt/node-global/bin:${PATH}
-# Agent CLIs — auth state (OAuth tokens) comes from host ~/.claude / ~/.codex /
-# ~/.gemini which the sandbox binds into /root/.claude etc at run time.
-RUN npm install -g \
-      @anthropic-ai/claude-code \
-      @google/gemini-cli \
-      && npm cache clean --force
 
-# Runtime Python: shared workspace builder, sandbox abstraction, runners.
+# Vendor-neutral harness Python: workspace builder, sandbox abstraction,
+# Runner ABC + registry, agent patterns (simple/baseline/iterative/anneal).
+# Concrete vendor `Runner` subclasses live in the gitignored
+# `agent_runtime/_runners_vendor.py` and are NOT shipped here.
 COPY agent_runtime /app/agent_runtime
 COPY agents        /app/agents
 COPY configs       /app/configs
 
 ENV PYTHONPATH=/app:${PYTHONPATH}
 
-# Claude / Codex / Gemini OAuth state is NOT baked — bind-mount at runtime:
-#   -v ~/.claude:$HOME/.claude (etc.)
-# The sandbox (PodmanSandbox / ApptainerSandbox) uses --userns=keep-id so
-# the host UID maps through unchanged: file ownership "just works" and
-# Claude Code's "no --dangerously-skip-permissions as root" check doesn't
-# trigger because UID is never 0 inside the container.
 WORKDIR /workspace
 CMD ["/bin/bash"]

@@ -12,7 +12,7 @@ file is the **index** — what each tool does and when to use it. See the
 | `read-paper` | Extract paper text / render figures as PNGs | `bin/read-paper --doc` |
 | `hepdata` | Query the HEPData repository for published tables | `bin/hepdata --doc` |
 | `cms-opendata` | Browse + stream CMS Open Data (data, MC, σ, cards) | `bin/cms-opendata --doc` |
-| `simulate` | MG5 / Pythia8 / Delphes wrapper with provenance | `bin/simulate --doc` |
+| `simulate` | Discovery + docs for the MG5 / Pythia / Delphes stack (call CLIs directly) | `bin/simulate --doc` |
 | `feynrules` | Browse + fetch UFO models from FeynRules wiki | `bin/feynrules --doc` |
 | `prospino` | NLO σ for SUSY pair production | `bin/prospino --doc` |
 | `run-analysis` | Execute `analysis.py` under the benchmark env | `bin/run-analysis --doc` |

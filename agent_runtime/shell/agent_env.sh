@@ -20,6 +20,11 @@ CMS_RECAST_PACKAGES=(
   mplhep
   xrootd
   fsspec-xrootd
+  # Physics tools the agent needs at runtime: PDF reading (read-paper),
+  # event-record I/O (HEPMC), parton-shower bindings.
+  pymupdf
+  pyhepmc
+  pythia8
 )
 
 load_module_stack() {

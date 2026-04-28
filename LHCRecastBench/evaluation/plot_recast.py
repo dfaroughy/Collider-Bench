@@ -3,16 +3,15 @@
 
 For each reference YAML (obs_high_ptmiss_distribution.yaml, etc.) produces
 two figures:
-    <stem>_yield.png   — event yields (Events / GeV)
+    <stem>_yield.png   — event yields (raw bin contents)
     <stem>_shape.png   — unit-area normalised
 
-Each figure has a main step-histogram panel with CMS solid + Recast dashed
-per series, and a ratio sub-panel showing recast / CMS.
+Each figure has a main histogram panel with CMS truth filled, a hatched CMS
+uncertainty band, and recast as a solid step, plus a ratio histogram sub-panel
+showing recast / CMS.
 
 Usage:
-    python -m LHCRecastBench.evaluation.plot_recast \
-        --arxiv 1707.06193 \
-        --recast-dir <workspace>/HEPRecastData
+    python -m LHCRecastBench.evaluation.plot_recast <run_dir>
 """
 
 from __future__ import annotations
@@ -22,12 +21,18 @@ import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 import mplhep as hep
 import numpy as np
 import yaml
 
 
 plt.style.use(hep.style.CMS)
+
+AXIS_LABEL_SIZE = (
+    font_manager.FontProperties(size=plt.rcParams.get("axes.labelsize", 20)).get_size_in_points()
+    / 2
+)
 
 
 def _extract_series(data: dict) -> list[dict]:
@@ -114,17 +119,69 @@ def _divide_by_width(vals: np.ndarray, edges: np.ndarray) -> np.ndarray:
     return vals / widths
 
 
+def _poisson_sigma(vals: np.ndarray) -> np.ndarray:
+    """Poisson sigma for non-negative reference bin contents."""
+    return np.sqrt(np.clip(vals, 0.0, None))
+
+
+def _draw_uncertainty_band(
+    ax,
+    edges: np.ndarray,
+    lower: np.ndarray,
+    upper: np.ndarray,
+    *,
+    color,
+    label: str | None = None,
+    zorder: float = 2.0,
+) -> None:
+    """Draw a stepped uncertainty band around a histogram."""
+    if lower.size == 0 or upper.size == 0:
+        return
+    if not np.any(np.isfinite(upper)) or np.all(upper <= 0):
+        return
+    ax.fill_between(
+        edges,
+        np.r_[lower, lower[-1]],
+        np.r_[upper, upper[-1]],
+        step="post",
+        facecolor="none",
+        edgecolor=color,
+        linewidth=0.0,
+        hatch="////",
+        alpha=0.8,
+        label=label,
+        zorder=zorder,
+    )
+
+
 def plot_table(
     ref_file: Path,
     recast_file: Path,
     out_dir: Path,
     arxiv_id: str,
+    systematic_frac: float = 0.0,
+    plot_mode: str = "Events/bin",
 ) -> list[Path]:
     """Produce <stem>_yield.png and <stem>_shape.png for one table."""
-    with open(ref_file) as f:
-        ref_data = yaml.safe_load(f)
-    with open(recast_file) as f:
-        rec_data = yaml.safe_load(f)
+    if plot_mode not in {"Events/bin", "Events/GeV"}:
+        raise ValueError(f"Unknown plot_mode {plot_mode!r}")
+
+    # Templates (and the agent's filled output) are two YAML documents
+    # (metadata + histogram); references are one. Pick the histogram doc
+    # in either case.
+    def _load_hist(path: Path) -> dict:
+        with open(path) as f:
+            docs = list(yaml.safe_load_all(f))
+        return (
+            next(
+                (d for d in docs if isinstance(d, dict) and "dependent_variables" in d),
+                None,
+            )
+            or {}
+        )
+
+    ref_data = _load_hist(ref_file)
+    rec_data = _load_hist(recast_file)
 
     edges, xname, xunits = _bin_edges(ref_data)
     if len(edges) < 2:
@@ -173,6 +230,8 @@ def plot_table(
         gs = fig.add_gridspec(2, 1, height_ratios=[3, 1], hspace=0.08)
         ax = fig.add_subplot(gs[0])
         rx = fig.add_subplot(gs[1], sharex=ax)
+        ratio_values = []
+        ratio_band_drawn = False
 
         for s in series_plots:
             c = colors[s["name"]]
@@ -181,17 +240,34 @@ def plot_table(
             err = s["err"].copy()
 
             if mode == "yield":
-                # Events / GeV: divide counts by bin width
-                ref_p = _divide_by_width(ref, edges)
-                rec_p = _divide_by_width(rec, edges)
-                err_p = _divide_by_width(err, edges)
+                if plot_mode == "Events/GeV":
+                    ref_p = _divide_by_width(ref, edges)
+                    rec_p = _divide_by_width(rec, edges)
+                    stat_p = _divide_by_width(_poisson_sigma(ref), edges)
+                else:
+                    # Raw bin-integrated yields, matching the YAML values and scorer.
+                    ref_p = ref
+                    rec_p = rec
+                    stat_p = _poisson_sigma(ref)
+                sys_p = systematic_frac * ref_p
             else:
                 # unit area: divide by integral of (counts)
                 ref_int = ref.sum()
                 rec_int = rec.sum()
                 ref_p = _divide_by_width(ref / ref_int, edges) if ref_int > 0 else ref
                 rec_p = _divide_by_width(rec / rec_int, edges) if rec_int > 0 else rec
-                err_p = _divide_by_width(err / ref_int, edges) if ref_int > 0 else err
+                stat_p = (
+                    _divide_by_width(_poisson_sigma(ref) / ref_int, edges)
+                    if ref_int > 0
+                    else np.zeros_like(ref)
+                )
+                sys_p = systematic_frac * ref_p
+
+            # The visual band represents the same tolerance used in the
+            # p-value toys, plus counting-statistical Poisson uncertainty.
+            band_sigma = np.sqrt(sys_p**2 + stat_p**2)
+            band_lower = np.clip(ref_p - band_sigma, 0.0, None)
+            band_upper = ref_p + band_sigma
 
             # Skip series where the reference integrates to zero in this mode.
             if np.all(ref_p == 0) and np.all(rec_p == 0):
@@ -200,45 +276,75 @@ def plot_table(
             hep.histplot(
                 ref_p,
                 bins=edges,
-                yerr=err_p if np.any(err_p > 0) else False,
-                histtype="step",
+                histtype="fill",
                 color=c,
-                linestyle="-",
+                alpha=0.5,
+                edgecolor="none",
                 label=f"{s['label']} (CMS)",
                 ax=ax,
+            )
+            band_label = "CMS stat. $\\oplus$ tol."
+            if systematic_frac > 0:
+                band_label = f"CMS stat. $\\oplus$ {100.0 * systematic_frac:g}% tol."
+            _draw_uncertainty_band(
+                ax,
+                edges,
+                band_lower,
+                band_upper,
+                color=c,
+                label=band_label,
+                zorder=2.5,
             )
             hep.histplot(
                 rec_p,
                 bins=edges,
                 histtype="step",
                 color=c,
-                linestyle="--",
+                linestyle="-",
                 label=f"{s['label']} (Recast)",
                 ax=ax,
             )
 
-            # Ratio: recast / CMS per bin, propagated error
+            # Ratio: recast / CMS per bin
             with np.errstate(divide="ignore", invalid="ignore"):
                 ratio = np.where(ref_p > 0, rec_p / ref_p, np.nan)
-                ratio_err = np.where(ref_p > 0, err_p / ref_p, np.nan)
-            rx.errorbar(
-                0.5 * (edges[:-1] + edges[1:]),
+            finite_ratio = ratio[np.isfinite(ratio)]
+            if finite_ratio.size:
+                ratio_values.append(finite_ratio)
+            hep.histplot(
                 ratio,
-                yerr=ratio_err,
-                fmt="o",
+                bins=edges,
+                histtype="step",
                 color=c,
-                markersize=4,
+                linestyle="-",
                 linewidth=1,
-                capsize=0,
+                ax=rx,
             )
+            if not ratio_band_drawn:
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    rel_sigma = np.where(ref_p > 0, band_sigma / ref_p, np.nan)
+                finite = rel_sigma[np.isfinite(rel_sigma)]
+                if finite.size:
+                    ratio_lower = np.clip(1.0 - rel_sigma, 0.0, None)
+                    ratio_upper = 1.0 + rel_sigma
+                    _draw_uncertainty_band(
+                        rx,
+                        edges,
+                        ratio_lower,
+                        ratio_upper,
+                        color="gray",
+                        label=None,
+                        zorder=0.5,
+                    )
+                    ratio_band_drawn = True
 
         ax.set_yscale("log")
         if mode == "yield":
-            ax.set_ylabel(f"Events / {xunits}" if xunits else "Events")
+            ax.set_ylabel(plot_mode, fontsize=AXIS_LABEL_SIZE)
         else:
             # dN/dx / N (unit integral)
             denom = f"d{xname}" if not xunits else f"d{xname}\\;[{xunits}]^{{-1}}"
-            ax.set_ylabel(f"$(1/N)\\;dN/{denom}$")
+            ax.set_ylabel(f"$(1/N)\\;dN/{denom}$", fontsize=AXIS_LABEL_SIZE)
         ax.legend(loc="upper right", fontsize=12, frameon=False, ncol=1)
         ax.tick_params(labelbottom=False)
         # Slight headroom for the legend
@@ -246,9 +352,50 @@ def plot_table(
         ax.set_ylim(ymin, ymax * 5)
 
         rx.axhline(1.0, color="gray", linewidth=1, linestyle=":")
-        rx.set_ylim(0.2, 2.0)
-        rx.set_ylabel("Recast / CMS")
-        rx.set_xlabel(xlabel)
+        if ratio_values:
+            all_ratio = np.concatenate(ratio_values)
+            ratio_band_values = []
+            for s in series_plots:
+                ref = s["ref"].copy()
+                if mode == "yield":
+                    if plot_mode == "Events/GeV":
+                        ref_p = _divide_by_width(ref, edges)
+                        stat_p = _divide_by_width(_poisson_sigma(ref), edges)
+                    else:
+                        ref_p = ref
+                        stat_p = _poisson_sigma(ref)
+                    sys_p = systematic_frac * ref_p
+                else:
+                    ref_int = ref.sum()
+                    ref_p = _divide_by_width(ref / ref_int, edges) if ref_int > 0 else ref
+                    stat_p = (
+                        _divide_by_width(_poisson_sigma(ref) / ref_int, edges)
+                        if ref_int > 0
+                        else np.zeros_like(ref)
+                    )
+                    sys_p = systematic_frac * ref_p
+                band_sigma = np.sqrt(sys_p**2 + stat_p**2)
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    rel_sigma = np.where(ref_p > 0, band_sigma / ref_p, np.nan)
+                finite = rel_sigma[np.isfinite(rel_sigma)]
+                if finite.size:
+                    ratio_band_values.append(finite)
+            if ratio_band_values:
+                all_band = np.concatenate(ratio_band_values)
+                band_lo = max(0.0, float(np.nanmin(1.0 - all_band)))
+                band_hi = float(np.nanmax(1.0 + all_band))
+            else:
+                band_lo = max(0.0, 1.0 - systematic_frac)
+                band_hi = 1.0 + systematic_frac
+            lo = max(0.0, min(float(np.nanmin(all_ratio)) * 0.8, band_lo * 0.8))
+            hi = max(2.0, float(np.nanmax(all_ratio)) * 1.2, band_hi * 1.2)
+            if hi <= lo:
+                hi = lo + 1.0
+            rx.set_ylim(lo, hi)
+        else:
+            rx.set_ylim(0.2, 2.0)
+        rx.set_ylabel("Recast / CMS", fontsize=AXIS_LABEL_SIZE)
+        rx.set_xlabel(xlabel, fontsize=AXIS_LABEL_SIZE)
         rx.grid(True, alpha=0.3)
 
         out_path = out_dir / f"{ref_file.stem}_{mode}.png"
@@ -271,7 +418,7 @@ def plot_recast(rp) -> dict:
     agent_path = rp.results_dir / rp.data_filename
     if not agent_path.is_file():
         stem = Path(rp.data_filename).stem
-        for ext in (".yml", ".yaml"):
+        for ext in (".yaml", ".yml"):
             alt = rp.results_dir / f"{stem}{ext}"
             if alt.is_file():
                 agent_path = alt
@@ -280,12 +427,23 @@ def plot_recast(rp) -> dict:
             return {"error": f"Agent output not found under {rp.results_dir}"}
 
     plots_dir = rp.eval_dir / "plots"
-    written = plot_table(ref_path, agent_path, plots_dir, rp.paper_ref)
+    systematic_frac = getattr(rp, "systematic_pct", 0.0)
+    plot_mode = getattr(rp, "plot_mode", "Events/bin")
+    written = plot_table(
+        ref_path,
+        agent_path,
+        plots_dir,
+        rp.paper_ref,
+        systematic_frac=systematic_frac,
+        plot_mode=plot_mode,
+    )
     return {
         "task_id": rp.task_id,
         "paper": rp.paper_ref,
         "reference": str(ref_path),
         "agent_output": str(agent_path),
+        "systematic_pct": systematic_frac,
+        "plot_mode": plot_mode,
         "files": [str(p) for p in written],
     }
 

@@ -5,7 +5,7 @@ the workspace root, and print a summary. Handles pre-flight checks and
 guarantees only one analysis runs at a time in the workspace.
 
 **When to use.** Every time you want to run the final (or intermediate)
-analysis pipeline that produces the HEPRecastData yields. **Do NOT**
+analysis pipeline that produces the `results/*.yaml` yields. **Do NOT**
 invoke `python3 analysis.py` directly — the env won't be active and
 imports will fail.
 

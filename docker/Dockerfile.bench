@@ -18,18 +18,47 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       zlib1g-dev libssl-dev \
       && rm -rf /var/lib/apt/lists/*
 
-# Conda env (mirrors agent_runtime/shell/agent_env.sh's CMS_RECAST_PACKAGES).
-RUN mamba create -n cms_analysis -y -c conda-forge \
-      python=3.11 \
-      pyyaml requests aiohttp \
-      uproot awkward vector \
-      numpy scipy matplotlib hist mplhep \
-      xrootd fsspec-xrootd \
-      && mamba clean -afy
+# Conda env: bit-for-bit copy of the host's `cms_analysis` env (the one
+# the old bwrap path ran against directly, which we know works).
+#
+# We could resolve the env from a curated package list, but conda-forge
+# drift bites — see prior commits where adding `root` flipped pythia8 to
+# 8.312, breaking bin/simulate's API expectations. Instead we
+# `conda pack` the host env into a tarball and unpack it inside the
+# image. Identical libs, no solver fight, no archspec workarounds.
+#
+# To regenerate the tarball:
+#   conda activate cms_analysis
+#   conda pack -n cms_analysis -o docker/cms_analysis_env.tar.gz \
+#     --compress-level 1 --n-threads 8
+#
+# (Gitignored; rebuilders need to re-pack after changing the host env.)
+COPY docker/cms_analysis_env.tar.gz /tmp/env.tar.gz
+# `--no-same-owner`: rootless podman maps the host uid (e.g. 105125) into
+# a userns where it has no name, so tar's default chown fails on every
+# file. Discarding host ownership and letting everything land as root
+# inside the image is correct here — the env is read-only metadata and
+# Python finds its libs by path, not owner.
+RUN mkdir -p /opt/conda/envs/cms_analysis \
+    && tar --no-same-owner -xzf /tmp/env.tar.gz -C /opt/conda/envs/cms_analysis \
+    && rm /tmp/env.tar.gz \
+    && /opt/conda/envs/cms_analysis/bin/conda-unpack
 
-# Default activation for every RUN/CMD in the image.
+# Default activation for every RUN/CMD in the image. CONDA_PREFIX
+# matters because pythia drivers locate the xmldoc settings DB via
+# `os.environ["CONDA_PREFIX"] + "/share/Pythia8/xmldoc"` — without it,
+# `pythia.init()` aborts with `unmatched version numbers`.
 ENV PATH=/opt/conda/envs/cms_analysis/bin:${PATH}
 ENV CONDA_DEFAULT_ENV=cms_analysis
+ENV CONDA_PREFIX=/opt/conda/envs/cms_analysis
+# LD_LIBRARY_PATH points at the conda env's lib dir so the dynamic
+# linker finds:
+#   - libCore.so.6.38 / libImt / libRIO / ... (ROOT, used by Delphes)
+#   - the conda libstdc++ (which has GLIBCXX_3.4.29+; the host system
+#     libstdc++ in mambaforge:latest is too old for Delphes-built-on-host).
+# Without this Delphes binaries fail at exec with `error while loading
+# shared libraries: libCore.so.6.38: cannot open shared object file`.
+ENV LD_LIBRARY_PATH=/opt/conda/envs/cms_analysis/lib:${LD_LIBRARY_PATH}
 
 # Vendored sim stack, baked at /opt/sim so the host's LHCRecastBench/tools/sim
 # can be shadowed by this immutable copy when the host dir doesn't ship
@@ -40,12 +69,16 @@ COPY LHCRecastBench/tools/sim/pythia8313     /opt/sim/pythia8313
 COPY LHCRecastBench/tools/sim/delphes        /opt/sim/delphes
 COPY LHCRecastBench/tools/sim/prospino       /opt/sim/prospino
 
-# Canonical env vars for sim tool lookup. bin/simulate honours these when set,
-# falling back to ${REPO_ROOT}/LHCRecastBench/tools/sim/* otherwise.
+# Canonical env vars for sim tool lookup.
 ENV MG5_DIR=/opt/sim/MG5_aMC_v3_7_0
 ENV PYTHIA8_DIR=/opt/sim/pythia8313
 ENV DELPHES_DIR=/opt/sim/delphes
 ENV PROSPINO_DIR=/opt/sim/prospino
+# Put the sim CLIs on PATH so agents can call them directly (no
+# wrapper). MG5: $MG5_DIR/bin/mg5_aMC; Delphes: $DELPHES_DIR/Delphes*
+# (no bin/ subdir — binaries are at the dir root). Pythia8 has no CLI;
+# it's exposed as the `pythia8` Python module from the conda env.
+ENV PATH=/opt/sim/MG5_aMC_v3_7_0/bin:/opt/sim/delphes:${PATH}
 
 WORKDIR /workspace
 CMD ["/bin/bash"]

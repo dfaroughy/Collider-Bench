@@ -1,0 +1,24 @@
+instructions: "Fill the 'null' bin values in dependent_variables with values proportional to your simulated bin populations. Shape-only task: absolute normalization is ignored by scoring.
+               In the rightmost bin include ALL events with S_T^gamma > 1300 GeV.
+               Do not modify bin edges.
+              "
+description: "Shape-only signal distribution for binned S_T^gamma"
+target: "T5Wg, gluino 1750 GeV, NLSP 1700 GeV, Massless LSP"
+cm_energy_gev: 13000
+luminosity_fb: 35.9
+scoring: shape_only
+---
+dependent_variables:
+- header: {name: T5Wg_1750_1700}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header: {name: STGAMMA, units: GEV}
+  values:
+  - {low: 600.0, high: 800.0}
+  - {low: 800.0, high: 1000.0}
+  - {low: 1000.0, high: 1300.0}
+  - {low: 1300.0, high: 1600.0}

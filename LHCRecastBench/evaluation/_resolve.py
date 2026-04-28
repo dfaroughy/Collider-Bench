@@ -2,7 +2,7 @@
 
 Every evaluation entry point takes a single positional `run_path`. This module
 turns that path into the concrete paths each scorer needs and pulls the task
-identity out of run_info.json + task.toml + results/description.toml.
+identity out of run_info.json + task.toml + the template histogram file.
 
 Accepted inputs (any of):
     runs/<group>/<task_id>_<hex>/                        (top-level single-shot)
@@ -14,13 +14,15 @@ Accepted inputs (any of):
 Output (RunPaths):
     run_dir        — the dir containing run_info.json
     artifact_dir   — workspace/ or iter_NNN/
-    results_dir    — <artifact_dir>/results  (agent's filled yaml + description.toml)
+    results_dir    — <artifact_dir>/results  (agent's filled yaml)
     eval_dir       — where scorer outputs go
-    task_id        — task identifier (e.g. sus-16-046-simulate-TChiWg-stgamma)
+    task_id        — task identifier (e.g. sus-16-046_sim-TChiWg)
     paper_ref      — paper (e.g. CMS-SUS-16-046)
-    reference_file — tasks/shared/<paper>/histograms/<data_file>
-    data_filename  — the histogram yaml filename (e.g. histogram_TChiWg_STgamma.yaml)
+    reference_file — tasks/shared/<paper>/reference/<data_file>
+    data_filename  — the histogram yaml filename (e.g. histogram_TChiWg.yaml)
     header_name    — series name to match inside the yaml (e.g. TChiWg_700)
+    score_mode     — "shape_norm" or "shape"
+    plot_mode      — "Events/bin" or "Events/GeV"
 """
 
 from __future__ import annotations
@@ -34,6 +36,11 @@ from pathlib import Path
 BENCHMARK_ROOT = Path(__file__).resolve().parent.parent  # .../LHCRecastBench
 TASKS_ROOT = BENCHMARK_ROOT / "tasks"
 
+# Default per-bin log-normal systematic when a task does not declare one.
+# Code default is 0.0 (statistical-only). Each task.toml in the benchmark
+# overrides this via `[metrics].tolerance` (typically 0.05).
+DEFAULT_SYSTEMATIC_PCT = 0.0
+
 
 @dataclass
 class RunPaths:
@@ -46,6 +53,9 @@ class RunPaths:
     reference_file: Path
     data_filename: str
     header_name: str
+    systematic_pct: float = DEFAULT_SYSTEMATIC_PCT
+    score_mode: str = "shape_norm"
+    plot_mode: str = "Events/bin"
 
 
 def _find_results_dir(target: Path) -> Path:
@@ -96,12 +106,21 @@ def _resolve_bare_name(t: Path) -> Path:
     return t
 
 
-def _load_task_identity(task_id: str) -> tuple[str, str, str]:
-    """Return (paper_ref, data_filename, header_name) for a task.
+def _load_task_identity(task_id: str) -> tuple[str, str, str, float, str, str]:
+    """Return (paper_ref, data_filename, header_name, systematic_pct, score_mode, plot_mode).
 
-    paper_ref comes from task.toml; data_filename + header_name come from
-    template/description.toml (agents see the same file under results/).
+    paper_ref comes from task.toml's [task].paper. data_filename is the
+    single .yaml histogram file under tasks/<task_id>/template/ (.yml is
+    accepted for legacy runs).
+    header_name is taken from dependent_variables[0].header.name inside
+    that file. systematic_pct is read from task.toml's [metrics].tolerance
+    (a per-task scoring knob, not a data attribute); falls back to
+    DEFAULT_SYSTEMATIC_PCT (0.0 = stats-only) when absent.
+    plot_mode controls the yield-panel display only; scoring always uses
+    raw bin-integrated values from the YAML.
     """
+    import yaml
+
     task_dir = TASKS_ROOT / task_id
     task_toml_path = task_dir / "task.toml"
     if not task_toml_path.is_file():
@@ -111,27 +130,78 @@ def _load_task_identity(task_id: str) -> tuple[str, str, str]:
     if not paper_ref:
         raise ValueError(f"{task_toml_path}: [task].paper missing")
 
-    desc_path = task_dir / "template" / "description.toml"
-    if not desc_path.is_file():
-        raise FileNotFoundError(f"Missing {desc_path}")
-    desc = tomllib.loads(desc_path.read_text())
-    hist = desc.get("histogram") or {}
-    data_filename = str(hist.get("file", "")).strip()
-    header_name = str(hist.get("header_name", "")).strip()
-    if not data_filename:
-        raise ValueError(f"{desc_path}: [histogram].file missing")
+    sys_pct = DEFAULT_SYSTEMATIC_PCT
+    score_mode = "shape_norm"
+    plot_mode = "Events/bin"
+    metrics_block = task_toml.get("metrics") or {}
+    if "tolerance" in metrics_block:
+        try:
+            sys_pct = float(metrics_block["tolerance"])
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                f"{task_toml_path}: [metrics].tolerance must be a number, "
+                f"got {metrics_block['tolerance']!r}"
+            ) from exc
+        if sys_pct < 0:
+            raise ValueError(
+                f"{task_toml_path}: [metrics].tolerance must be non-negative, " f"got {sys_pct}"
+            )
+    if "score" in metrics_block:
+        score_mode = str(metrics_block["score"]).strip()
+        if score_mode not in {"shape_norm", "shape"}:
+            raise ValueError(
+                f"{task_toml_path}: [metrics].score must be 'shape_norm' or 'shape', "
+                f"got {score_mode!r}"
+            )
+    if "plot" in metrics_block:
+        plot_mode = str(metrics_block["plot"]).strip()
+        if plot_mode not in {"Events/bin", "Events/GeV"}:
+            raise ValueError(
+                f"{task_toml_path}: [metrics].plot must be 'Events/bin' or 'Events/GeV', "
+                f"got {plot_mode!r}"
+            )
+
+    template_dir = task_dir / "template"
+    if not template_dir.is_dir():
+        raise FileNotFoundError(f"Missing {template_dir}")
+    candidates = sorted(list(template_dir.glob("*.yaml")) + list(template_dir.glob("*.yml")))
+    if not candidates:
+        raise FileNotFoundError(f"No histogram .yaml/.yml in {template_dir}")
+    if len(candidates) > 1:
+        raise ValueError(
+            f"Expected a single histogram file in {template_dir}; "
+            f"got {[p.name for p in candidates]}"
+        )
+    template_path = candidates[0]
+    data_filename = template_path.name
+
+    docs = list(yaml.safe_load_all(template_path.read_text()))
+    hist_doc = next(
+        (d for d in docs if isinstance(d, dict) and "dependent_variables" in d),
+        None,
+    )
+    if hist_doc is None:
+        raise ValueError(
+            f"{template_path}: no YAML document with `dependent_variables` "
+            "(expected a HEPData-style histogram doc)"
+        )
+    deps = hist_doc.get("dependent_variables") or []
+    if not deps:
+        raise ValueError(f"{template_path}: `dependent_variables` is empty")
+    header = (deps[0].get("header") or {}) if isinstance(deps[0], dict) else {}
+    header_name = str(header.get("name", "")).strip()
     if not header_name:
-        raise ValueError(f"{desc_path}: [histogram].header_name missing")
-    return paper_ref, data_filename, header_name
+        raise ValueError(f"{template_path}: dependent_variables[0].header.name missing")
+    return paper_ref, data_filename, header_name, sys_pct, score_mode, plot_mode
 
 
 def _reference_file(paper_ref: str, data_filename: str) -> Path:
-    """Locate the ground-truth histogram under tasks/shared/<paper>/histograms/.
+    """Locate the ground-truth file under tasks/shared/<paper>/reference/.
 
-    Accepts a data_filename ending in either .yml or .yaml — the shared pool
-    historically uses .yaml; task templates sometimes use .yml. Tries both.
+    Accepts a data_filename ending in either .yaml or .yml. Current tasks use
+    .yaml; .yml is accepted for legacy runs. Tries both.
     """
-    base = TASKS_ROOT / "shared" / paper_ref / "histograms"
+    base = TASKS_ROOT / "shared" / paper_ref / "reference"
     candidate = base / data_filename
     if candidate.is_file():
         return candidate
@@ -168,7 +238,14 @@ def resolve_run(target: str | Path) -> RunPaths:
     if not task_id:
         raise ValueError(f"task_id missing from {info_path}")
 
-    paper_ref, data_filename, header_name = _load_task_identity(task_id)
+    (
+        paper_ref,
+        data_filename,
+        header_name,
+        sys_pct,
+        score_mode,
+        plot_mode,
+    ) = _load_task_identity(task_id)
     reference_file = _reference_file(paper_ref, data_filename)
 
     # Per-iter runs live under <run_dir>/validation/iter_NNN/. Scope eval output
@@ -194,4 +271,7 @@ def resolve_run(target: str | Path) -> RunPaths:
         reference_file=reference_file,
         data_filename=data_filename,
         header_name=header_name,
+        systematic_pct=sys_pct,
+        score_mode=score_mode,
+        plot_mode=plot_mode,
     )

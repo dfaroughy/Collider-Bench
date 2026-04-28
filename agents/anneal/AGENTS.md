@@ -46,10 +46,11 @@ bin/run-analysis
 bin/feynrules list --search "vector-like quark"
 bin/feynrules info <model>
 bin/feynrules fetch <model> --extract --dest sim/models
-bin/simulate info
-bin/simulate mg5 <proc_card>.dat
-bin/simulate pythia8 <events>.lhe --parallel N
-bin/simulate delphes <events>.hepmc --card cms --parallel N
+bin/simulate info             # list installed models, cards, env vars
+bin/simulate --doc            # full sim guide (mg5_aMC / pythia / Delphes patterns, incl. multi-CPU pythia)
+mg5_aMC <proc_card>.dat       # parton-level (call directly, no wrapper)
+DelphesHepMC3 "$DELPHES_DIR/cards/delphes_card_CMS.tcl" out.root events.hepmc
+# Pythia: write a small Python driver (`import pythia8`) — see `bin/simulate --doc`
 bin/prospino list-processes
 bin/prospino help-process <proc>
 bin/prospino run --process <proc> --sqrts 13000 --order <fixed-order> --slha <file>.slha
