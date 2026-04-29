@@ -21,7 +21,7 @@ CONFIG_LABEL="${1:-gemini_simple}"
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"
-SANDBOX="${LHC_RECAST_SANDBOX:-bwrap}"
+SANDBOX="${LHC_RECAST_SANDBOX:-podman}"
 
 if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
