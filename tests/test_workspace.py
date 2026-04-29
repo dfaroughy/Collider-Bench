@@ -1,4 +1,4 @@
-"""build_workspace must produce a clean, bwrap-ready layout for every agent.
+"""build_workspace must produce a clean, container-ready layout for every agent.
 
 Post-tasks/ refactor: workspace is driven by a task_id (not paper+task enum),
 and the agent's fillable yaml lives at workspace/results/ (not HEPRecastData/).
