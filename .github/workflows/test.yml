@@ -29,7 +29,7 @@ jobs:
           # scoring math tests in test_score.py; everything else heavy
           # (uproot, awkward, …) lives behind the @pytest.mark.image gate
           # and stays unrun on CI.
-          pip install pyyaml pytest numpy
+          pip install pyyaml pytest numpy scipy
 
       - name: Run tests
         env:
