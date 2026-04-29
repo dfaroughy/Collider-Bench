@@ -1,0 +1,10 @@
+dependent_variables:
+- header:
+    name: TChiWg_700
+  values:
+  - value: 546.53
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive

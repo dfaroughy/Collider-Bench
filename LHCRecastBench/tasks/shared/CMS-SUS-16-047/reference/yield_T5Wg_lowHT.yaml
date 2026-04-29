@@ -1,0 +1,10 @@
+dependent_variables:
+- header:
+    name: T5Wg_1600_100
+  values:
+  - value: 1.9
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive

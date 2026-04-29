@@ -6,7 +6,7 @@
 # The CLI has no reasoning-budget flag — `effort` is ignored.
 
 agent:   baseline
-task:    sus-16-047-simulate-T5Wg-highHT-pTmiss    # see LHCRecastBench/tasks/
+task:    sus-16-047_sim-T5Wg_highHT    # see LHCRecastBench/tasks/
 runner:  gemini
 model:   gemini-3-pro-preview  # or flash-preview / 2.5-pro / 2.5-flash / 2.5-flash-lite; "" → auto-router
 effort:  medium

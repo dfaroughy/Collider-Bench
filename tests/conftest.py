@@ -25,7 +25,7 @@ def repo_root() -> Path:
 def task_id() -> str:
     # Canonical task for smoke tests — SUS-16-047 is the only one with real
     # reference values in the shared pool, so scoring tests don't no-op.
-    return "sus-16-047-simulate-T5Wg-highHT-pTmiss"
+    return "sus-16-047_sim-T5Wg_highHT"
 
 
 @pytest.fixture

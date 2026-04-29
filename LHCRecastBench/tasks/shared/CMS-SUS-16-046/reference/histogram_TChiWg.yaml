@@ -1,0 +1,14 @@
+dependent_variables:
+- header: {name: TChiWg_700}
+  values:
+  - {value: 300.66}
+  - {value: 138.28}
+  - {value: 78.88}
+  - {value: 28.71}
+independent_variables:
+- header: {name: STGAMMA, units: GEV}
+  values:
+  - {low: 600.0, high: 800.0}
+  - {low: 800.0, high: 1000.0}
+  - {low: 1000.0, high: 1300.0}
+  - {low: 1300.0, high: 1600.0}

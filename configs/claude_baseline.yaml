@@ -3,7 +3,7 @@
 #   scripts/run-agent --config configs/claude_baseline.yaml --effort high
 
 agent:   baseline
-task:    sus-16-047-simulate-T5Wg-highHT-pTmiss    # see LHCRecastBench/tasks/
+task:    sus-16-047_sim-T5Wg_highHT    # see LHCRecastBench/tasks/
 runner:   claude
 model:    claude-opus-4-7
 effort:   max              # low | medium | high | <int tokens>

@@ -7,7 +7,7 @@ scoring, and finalization.
 
 Agents that fit the "parse config → build workspace → run once → score →
 finalize" shape should call launch_single_run(). Agents with a custom
-control loop (iterative, sisyphus) compose from naming.py helpers
+control loop (iterative, anneal) compose from naming.py helpers
 directly.
 """
 
@@ -48,7 +48,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
         "--task",
         default=None,
         help="Task id, matching a directory under LHCRecastBench/tasks/ "
-        "(e.g. sus-16-046-simulate-TChiWg-STgamma).",
+        "(e.g. sus-16-046_sim-TChiWg).",
     )
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
     parser.add_argument("--model", default=None, help="Model override")
@@ -60,7 +60,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--sandbox",
         default=None,
-        choices=["auto", "bwrap", "none"],
+        choices=["auto", "bwrap", "apptainer", "podman", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
     parser.add_argument("--run-name", default="", help="Custom run directory name")
@@ -83,6 +83,24 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     return cfg
 
 
+_WALLTIME_RE = __import__("re").compile(r"^\s*(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?\s*$")
+
+
+def _parse_walltime_s(s: str | None) -> float | None:
+    """Convert a `task.toml [metadata].walltime` string to seconds.
+
+    Accepts "4h", "30m", "1h30m", "2h45m30s", "120s". Returns None for
+    None/empty input. Raises ValueError on malformed input.
+    """
+    if not s:
+        return None
+    m = _WALLTIME_RE.match(str(s))
+    if not m or not any(m.groups()):
+        raise ValueError(f"invalid walltime {s!r} — expected e.g. '4h', '30m', '1h30m', '120s'")
+    h, mi, sec = (int(g or 0) for g in m.groups())
+    return float(h * 3600 + mi * 60 + sec)
+
+
 def _run_in_sandbox(
     workspace: Path,
     repo_root: Path,
@@ -93,6 +111,7 @@ def _run_in_sandbox(
     sandbox: str | None,
     extra_ro_binds: list[Path],
     effort_label: str | None = None,
+    walltime_s: float | None = None,
 ) -> None:
     from agent_runtime.sandbox import sandbox_command
 
@@ -118,15 +137,25 @@ def _run_in_sandbox(
         sandbox=sandbox,
     )
     try:
-        runner.run(cmd, prompt, workspace, env, workspace / "session_log.txt")
-    except subprocess.CalledProcessError as exc:
-        print(f"  Agent exited with code {exc.returncode}", file=sys.stderr)
+        runner.run(
+            cmd,
+            prompt,
+            workspace,
+            env,
+            workspace / "session_log.txt",
+            walltime_s=walltime_s,
+        )
     finally:
         cleanup()
 
 
-def _score(workspace: Path) -> dict:
-    """Score the agent's filled histogram against its task's reference."""
+def _default_score(workspace: Path) -> dict:
+    """Default scoring hook — calls the in-repo LHCRecastBench evaluator.
+
+    Kept as a separate function so alternate scorers can be injected via
+    `launch_single_run(..., score=<callable>)`. Returns an {"error": ...}
+    dict rather than raising, so a scoring failure doesn't mask the run.
+    """
     try:
         from LHCRecastBench.evaluation._resolve import resolve_run
         from LHCRecastBench.evaluation.score import score_run
@@ -139,11 +168,60 @@ def _score(workspace: Path) -> dict:
     return score_run(rp)
 
 
+# Scoring hook type — injectable via launch_single_run(..., score=...).
+ScoreFn = Callable[[Path], dict]
+
+
+def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
+    """Run the offline (LLM-free) evaluators after the agent completes.
+
+    Writes:
+      eval/plots/*.png   — reference vs agent histogram + ratio panel
+      eval/summary.md    — human-readable digest of score.json + plots
+
+    Best-effort: any single evaluator that errors is logged and the others
+    still run. The LLM-based judges (trajectory_judge, llm_judge) stay
+    opt-in via scripts/launch_eval.sh because they cost subscription tokens.
+    """
+    try:
+        from LHCRecastBench.evaluation._resolve import resolve_run
+    except ImportError as exc:
+        print(f"  WARN: skipping offline evals — eval modules not importable: {exc}")
+        return
+    try:
+        rp = resolve_run(workspace)
+    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
+        print(f"  WARN: skipping offline evals — {exc}")
+        return
+
+    # Plot reference vs agent
+    try:
+        from LHCRecastBench.evaluation.plot_recast import plot_recast
+
+        plot_result = plot_recast(rp)
+        files = plot_result.get("files") if isinstance(plot_result, dict) else None
+        if files:
+            print(f"  Plots: {len(files)} file(s) in {eval_dir / 'plots'}")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  WARN: plot_recast failed: {exc}")
+
+    # Render summary.md (reads score.json + run_info.json)
+    try:
+        from LHCRecastBench.evaluation.render_eval import render_summary
+
+        # render_summary takes the dir containing eval/. Single-shot →
+        # rp.run_dir; per-iter → rp.eval_dir.parent (the iter dir).
+        render_summary(rp.eval_dir.parent)
+    except Exception as exc:  # noqa: BLE001
+        print(f"  WARN: render_eval failed: {exc}")
+
+
 def launch_single_run(
     agent_name: str,
     build_prompt: PromptBuilder,
     repo_root: Path,
     argv: list[str] | None = None,
+    score: ScoreFn | None = None,
 ) -> int:
     """Run one agent session end-to-end. Returns exit code.
 
@@ -152,7 +230,11 @@ def launch_single_run(
     repo_root     — absolute repo root; usually Path(__file__).resolve().parents[2]
                     from the caller.
     argv          — override sys.argv for testing; None uses sys.argv[1:].
+    score         — optional scorer: (workspace) -> dict. Defaults to
+                    _default_score which calls the in-repo LHCRecastBench
+                    evaluator. Pass a no-op `lambda w: {}` to skip scoring.
     """
+    _score = score or _default_score
     args, parser = _parse_args(agent_name, argv)
     _resolve(args, parser)
     task_id = args.task
@@ -163,6 +245,14 @@ def launch_single_run(
     except (FileNotFoundError, ValueError) as exc:
         parser.error(str(exc))
     paper_ref = task_toml["task"]["paper"]
+    # Per-task walltime: kill the agent process group when this expires.
+    # `task.toml [metadata].walltime` is "4h" / "30m" / "1h30m" form.
+    # Independent of any SLURM time — useful when one slurm allocation
+    # hosts multiple tasks (array jobs, multi-run-interactive scripts).
+    try:
+        walltime_s = _parse_walltime_s((task_toml.get("metadata") or {}).get("walltime"))
+    except ValueError as exc:
+        parser.error(str(exc))
 
     if args.run_name:
         info = {
@@ -193,9 +283,17 @@ def launch_single_run(
     )
 
     print(f"Setting up workspace: {run_dir}")
+    walltime_str = (
+        f"{walltime_s/3600:.1f}h"
+        if walltime_s and walltime_s >= 3600
+        else f"{walltime_s:.0f}s"
+        if walltime_s
+        else "unbounded"
+    )
     print(
         f"Agent ID: {info['agent_id']}   "
-        f"(effort={effort_label}, max_thinking_tokens={max_thinking})"
+        f"(effort={effort_label}, max_thinking_tokens={max_thinking}, "
+        f"walltime={walltime_str})"
     )
     workspace = build_workspace(repo_root, agent_name, task_id, run_dir)
     recast_path = workspace.parent
@@ -214,17 +312,28 @@ def launch_single_run(
     scores: dict | None = None
     try:
         print(f"Running {args.runner} agent (sandbox={args.sandbox or 'auto'})...")
-        _run_in_sandbox(
-            workspace,
-            repo_root,
-            prompt,
-            runner_name=args.runner,
-            model=args.model or None,
-            max_thinking_tokens=max_thinking,
-            sandbox=args.sandbox,
-            extra_ro_binds=extra_ro_binds,
-            effort_label=effort_label,
-        )
+        try:
+            _run_in_sandbox(
+                workspace,
+                repo_root,
+                prompt,
+                runner_name=args.runner,
+                model=args.model or None,
+                max_thinking_tokens=max_thinking,
+                sandbox=args.sandbox,
+                extra_ro_binds=extra_ro_binds,
+                effort_label=effort_label,
+                walltime_s=walltime_s,
+            )
+        except subprocess.CalledProcessError as exc:
+            # Agent CLI failed (e.g. exit 127 = command not found, missing
+            # binary in the container image). Mark the run as failed but
+            # still try to score whatever the agent produced before dying.
+            print(
+                f"  Agent CLI exited with code {exc.returncode} — marking run as failed.",
+                file=sys.stderr,
+            )
+            exit_code = 1
 
         print("\nScoring results...")
         scores = _score(workspace)
@@ -236,10 +345,33 @@ def launch_single_run(
             print(f"  ERROR: {scores['error']}")
             exit_code = 1
         else:
-            n_pass = scores.get("n_pass", 0)
             n_filled = scores.get("n_filled", 0)
-            overall = scores.get("overall_score", 0)
-            print(f"  Overall: {n_pass}/{n_filled} bins pass ({overall:.0%})")
+            n_bins = scores.get("n_bins", 0)
+            sh = scores.get("overall_shape")
+            no = scores.get("overall_normalization")
+            cb = scores.get("overall_combined")
+            print(f"  Filled: {n_filled}/{n_bins} bins")
+            if sh is not None and no is not None:
+                print(f"  Shape: {sh:.2f}   Norm: {no:.2f}   Combined: {cb:.2f}")
+            # Agent CLIs sometimes exit cleanly (rc=0) but never reach the
+            # scoring step — e.g. Claude Code returns rc=0 with a 429 result
+            # event when the 5-hour subscription cap rejects the request, and
+            # codex/gemini have analogous "soft failure" exits. The
+            # CalledProcessError path above doesn't fire in those cases, so
+            # we demote here based on the observed output: n_filled == 0
+            # with n_bins > 0 means the agent didn't complete the task.
+            if exit_code == 0 and n_bins > 0 and n_filled == 0:
+                print(
+                    "  Agent exited cleanly but produced no filled bins — "
+                    "marking run as failed.",
+                    file=sys.stderr,
+                )
+                exit_code = 1
+
+        # Offline evals: rubric + plots + summary. All cheap (no LLM calls).
+        # The two LLM-based judges (trajectory_judge, llm_judge) stay opt-in
+        # via scripts/launch_eval.sh because they cost subscription tokens.
+        _run_offline_evals(workspace, eval_dir)
     except BaseException:
         exit_code = 1
         raise

@@ -1,0 +1,14 @@
+dependent_variables:
+- header: {name: T2tt_500_325}
+  values:
+  - {value: 17.5}
+  - {value: 10.2}
+  - {value: 5.8}
+  - {value: 5.0}
+independent_variables:
+- header: {name: ETMISS, units: GEV}
+  values:
+  - {low: 250.0, high: 350.0}
+  - {low: 350.0, high: 450.0}
+  - {low: 450.0, high: 550.0}
+  - {low: 550.0, high: 650.0}

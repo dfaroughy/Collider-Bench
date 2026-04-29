@@ -76,26 +76,22 @@ set ebeam1 6500
 set ebeam2 6500
 done
 EOF
-bin/simulate mg5 proc_card.dat
+mg5_aMC proc_card.dat
 ```
 
-Add partonic cuts in `run_card.dat` if needed. For parallel generation, add `set nb_core N` at the top of the proc card. Output: LHE events under `sim/PROC_<signal_name>/run_mg5_NNN/`.
+Add partonic cuts in `run_card.dat` if needed. For parallel generation, add `set nb_core N` at the top of the proc card. The proc card's `output` directive controls where LHE events land (e.g. `sim/PROC_<signal_name>/`); a numbered `run_mg5_NNN/` layout under that is a useful provenance convention.
 
 ## Step 3 — Shower and hadronize (Pythia8)
 
-```bash
-bin/simulate pythia8 sim/PROC_<signal_name>/run_mg5_001/.../unweighted_events.lhe --parallel 32
-```
-
-Splits the LHE file, showers each chunk in parallel, merges HepMC output. Output: `sim/PROC_<signal_name>/run_pythia8_NNN/events.hepmc`.
+There is no Pythia CLI — write a small Python driver (`import pythia8` + `import pyhepmc`) that reads the LHE and writes a HepMC3 file. **Run `bin/simulate --doc` for the recipe**, including the multi-CPU pattern: split the LHE into N chunks, run N drivers in parallel under `xargs -P N`, then concatenate the HepMC outputs. On a 32-core node, 50k events finishes in ~30-90 s.
 
 ## Step 4 — Detector simulation (Delphes)
 
 ```bash
-bin/simulate delphes sim/PROC_<signal_name>/run_pythia8_001/events.hepmc --card cms --parallel 32
+DelphesHepMC3 "$DELPHES_DIR/cards/delphes_card_CMS.tcl" delphes_output.root events.hepmc
 ```
 
-Card aliases: `cms`, `atlas`, `cms_pileup`. Output: `sim/PROC_<signal_name>/run_delphes_NNN/delphes_output.root`.
+Use `DelphesHepMC2` if your input is HepMC2 (legacy). Cards under `$DELPHES_DIR/cards/`: `delphes_card_CMS.tcl`, `delphes_card_ATLAS.tcl`, `delphes_card_CMS_PileUp.tcl`. For multi-CPU Delphes, split the HepMC then `hadd` the ROOT outputs — see `bin/simulate --doc`.
 
 ## Reading Delphes output
 

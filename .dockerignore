@@ -1,0 +1,18 @@
+# Stripped from the COPY ... /app/... layers in docker/Dockerfile so the
+# resulting image doesn't bake in developer-local cache.
+
+agent_runtime/__pycache__/
+
+# Run outputs and ephemeral state
+runs/
+recast_*/
+simulate_*/
+validate_*/
+__pycache__/
+.pytest_cache/
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+._*

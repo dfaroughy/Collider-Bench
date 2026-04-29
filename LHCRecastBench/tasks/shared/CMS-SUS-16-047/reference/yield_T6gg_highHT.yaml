@@ -1,0 +1,10 @@
+dependent_variables:
+- header:
+    name: T6gg_1750_1650
+  values:
+  - value: 5.60543
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive

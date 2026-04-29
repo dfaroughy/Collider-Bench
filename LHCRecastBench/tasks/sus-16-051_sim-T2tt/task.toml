@@ -1,0 +1,15 @@
+[task]
+id          = "sus-16-051_sim-T2tt"
+paper       = "CMS-SUS-16-051"
+type        = "simulation"
+target      = "T2tt_1000_50"
+observable  = "ETmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "CMS", "stops", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+plot = "Events/bin"

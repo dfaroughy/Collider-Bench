@@ -1,0 +1,30 @@
+dependent_variables:
+- header: {name: Inclusive selection, units: '%'}
+  values:
+  - {value: 0.865}
+  - {value: 1.08}
+  - {value: 1.157}
+  - {value: 1.162}
+  - {value: 0.947}
+  - {value: 1.025}
+  - {value: 0.955}
+  - {value: 0.909}
+  - {value: 0.768}
+  - {value: 0.843}
+  - {value: 0.853}
+  - {value: 0.664}
+independent_variables:
+- header: {name: Stop mass, units: GeV}
+  values:
+  - {value: 400.0}
+  - {value: 500.0}
+  - {value: 600.0}
+  - {value: 700.0}
+  - {value: 800.0}
+  - {value: 900.0}
+  - {value: 1000.0}
+  - {value: 1100.0}
+  - {value: 1200.0}
+  - {value: 1300.0}
+  - {value: 1400.0}
+  - {value: 1500.0}

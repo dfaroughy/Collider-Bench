@@ -1,8 +1,19 @@
 """Agent runner abstraction.
 
-Each runner knows how to locate its CLI binary, build a command,
-and execute the agent subprocess.  To add a new backend, subclass
-Runner and register it in RUNNERS at the bottom of this file.
+Each runner knows how to locate its CLI binary, build a command, and
+execute the agent subprocess. This module defines the abstract `Runner`
+base, the `register` decorator, the `RUNNERS` registry, and `get_runner`.
+Concrete vendor runner subclasses (Claude Code, Codex, Gemini CLI, Aider)
+live in the sibling module `_runners_vendor.py`. The try-import at the
+bottom of this file registers them automatically.
+
+Adding a new backend (e.g. an OSS-model harness, a different vendor
+CLI, a local Ollama wrapper):
+  1. Subclass `Runner` and implement the three abstract members.
+  2. Decorate the class with `@register` (or call `register(MyRunner)`
+     at module bottom). The `name` property of the class becomes the
+     `--runner` flag value.
+  3. The controller will pick it up via --runner <name>.
 """
 
 from __future__ import annotations
@@ -10,7 +21,6 @@ from __future__ import annotations
 import os
 import shutil
 import signal
-import subprocess
 import time
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -51,6 +61,37 @@ def _kill_process_group(pgid: int, grace_seconds: float = 2.0) -> None:
         os.killpg(pgid, signal.SIGKILL)
     except (ProcessLookupError, PermissionError, OSError):
         pass
+
+
+def _arm_walltime_watchdog(pgid: int, walltime_s: float | None):
+    """Arm a background timer that kills `pgid` after `walltime_s`.
+
+    Returns the Timer (so the caller can cancel it on clean exit) or
+    None if no walltime was supplied. The timer prints a one-line
+    notice before killing so users can distinguish "agent ran out of
+    time" from generic CalledProcessError failures.
+
+    Used by every vendor runner to enforce the per-task walltime from
+    `task.toml [metadata].walltime`. Plays well with the runner's own
+    finally-block kill — calling _kill_process_group twice on a dead
+    group is a no-op.
+    """
+    if not walltime_s or walltime_s <= 0:
+        return None
+    import threading
+
+    def _on_timeout() -> None:
+        print(
+            f"\n[runner] task walltime ({walltime_s:.0f} s) exceeded; "
+            "terminating agent process group.",
+            flush=True,
+        )
+        _kill_process_group(pgid)
+
+    t = threading.Timer(walltime_s, _on_timeout)
+    t.daemon = True
+    t.start()
+    return t
 
 
 # ── Binary discovery ────────────────────────────────────────────────────────
@@ -132,403 +173,47 @@ class Runner(ABC):
         sandbox: Path,
         env: dict[str, str],
         output_file: Path,
+        walltime_s: float | None = None,
     ) -> None:
         """Execute the agent subprocess.
 
         Must raise subprocess.CalledProcessError on failure.
+
+        walltime_s: per-task walltime in seconds (sourced from
+        `task.toml [metadata].walltime`). When set, runners arm a
+        background timer that SIGTERM/SIGKILLs the process group on
+        expiry — pair with `_arm_walltime_watchdog` from this module.
+        Treat the post-kill non-zero exit as a normal failure (let
+        `CalledProcessError` propagate so the run is marked failed).
         """
-
-
-# ── Built-in runners ───────────────────────────────────────────────────────
-
-
-class ClaudeRunner(Runner):
-    """Anthropic Claude Code CLI."""
-
-    @property
-    def name(self) -> str:
-        return "claude"
-
-    def build_command(
-        self, prompt, sandbox, model, allowlist, max_thinking_tokens=None, effort_label=None
-    ):
-        binary = _find_binary("claude", "CLAUDE_BIN")
-        cmd = [
-            binary,
-            "-p",
-            prompt,
-            "--output-format",
-            "stream-json",
-            "--verbose",
-            "--dangerously-skip-permissions",
-            # ScheduleWakeup is an interactive-Code tool; in `-p` one-shot
-            # mode there is no harness to fire the wake-up, so calls to it
-            # just strand the session. Disallow to prevent the agent from
-            # backgrounding bin/run-analysis and "scheduling" a resume.
-            "--disallowedTools",
-            "ScheduleWakeup",
-        ]
-        if model:
-            cmd.extend(["--model", model])
-        if allowlist:
-            cmd.extend(["--allowedTools", allowlist])
-        if max_thinking_tokens:
-            cmd.extend(["--max-thinking-tokens", str(int(max_thinking_tokens))])
-        return cmd
-
-    def run(self, cmd, prompt, sandbox, env, output_file):
-        # We read stream-json in-process (instead of teeing to
-        # stream_display.py) so we can watchdog the post-result hang: claude
-        # emits its final `result` event and then sometimes stalls on MCP /
-        # hook / watcher shutdown, holding the main process alive and
-        # blocking agent.wait(). Once we see `result`, arm a background
-        # timer; if the process hasn't exited by then, kill its group —
-        # that closes stdout, the for-loop sees EOF, and agent.wait()
-        # returns cleanly.
-        import threading
-
-        from agent_runtime.stream_display import render_line
-
-        # start_new_session puts the agent + all children in a fresh process
-        # group so we can TERM/KILL the whole session if the main hangs.
-        agent = subprocess.Popen(
-            cmd,
-            cwd=sandbox,
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            start_new_session=True,
-            bufsize=1,
-        )
-        pgid = os.getpgid(agent.pid)
-
-        POST_RESULT_GRACE_S = 15.0
-        watchdog: threading.Timer | None = None
-        killed_for_hang = False
-
-        def _fire_watchdog() -> None:
-            nonlocal killed_for_hang
-            if agent.poll() is None:
-                print(
-                    f"\n[runner] claude stalled {POST_RESULT_GRACE_S:.0f}s "
-                    "after result event; terminating session.",
-                    flush=True,
-                )
-                killed_for_hang = True
-                _kill_process_group(pgid)
-
-        try:
-            with open(output_file, "wb") as f:
-                assert agent.stdout is not None
-                for raw in agent.stdout:
-                    f.write(raw)
-                    f.flush()
-                    line = raw.decode("utf-8", errors="replace").rstrip()
-                    render_line(line)
-                    if watchdog is None and _is_result_line(line):
-                        watchdog = threading.Timer(POST_RESULT_GRACE_S, _fire_watchdog)
-                        watchdog.daemon = True
-                        watchdog.start()
-            rc = agent.wait()
-        finally:
-            if watchdog is not None:
-                watchdog.cancel()
-            _kill_process_group(pgid)
-
-        # A session we killed post-result is a successful run from the
-        # benchmark's POV — the model finished; only cleanup hung.
-        if rc != 0 and not killed_for_hang:
-            raise subprocess.CalledProcessError(rc, cmd)
-
-
-class CodexRunner(Runner):
-    """OpenAI Codex CLI."""
-
-    @property
-    def name(self) -> str:
-        return "codex"
-
-    def build_command(
-        self, prompt, sandbox, model, allowlist, max_thinking_tokens=None, effort_label=None
-    ):
-        # Codex has no thinking-tokens flag; it takes an enum reasoning-effort
-        # setting via -c model_reasoning_effort=<minimal|low|medium|high|xhigh>.
-        # Our "max" label is an alias for "xhigh" on codex (the highest
-        # reasoning tier the CLI accepts — GPT-5 family models support it).
-        # Unknown / custom(N) labels are omitted so codex falls back to its
-        # default.
-        binary = _find_binary("codex", "CODEX_BIN")
-        cmd = [binary]
-        if model:
-            cmd.extend(["-m", model])
-
-        codex_effort_map = {
-            "low": "low",
-            "medium": "medium",
-            "high": "high",
-            "xhigh": "xhigh",
-            "max": "xhigh",
-        }
-        codex_effort = codex_effort_map.get((effort_label or "").lower())
-        if codex_effort:
-            cmd.extend(["-c", f"model_reasoning_effort={codex_effort}"])
-
-        cmd.extend(
-            [
-                "-a",
-                "never",
-                "exec",
-                "--json",
-                "--skip-git-repo-check",
-                "-C",
-                str(sandbox),
-                "-s",
-                "danger-full-access",
-                # Prompt is read from stdin (`-`) so long prompts aren't
-                # constrained by argv limits and we don't have to escape.
-                "-",
-            ]
-        )
-        return cmd
-
-    def run(self, cmd, prompt, sandbox, env, output_file):
-        # Codex stores session state + helper binaries under $CODEX_HOME (default
-        # ~/.codex). Two reasons to redirect it per run:
-        #   1. NERSC Perlmutter compute nodes: $HOME is autofs-mounted GPFS,
-        #      which returns ENOTSUPP (os error 524) on the directory locks
-        #      codex uses at session init.
-        #   2. bwrap tmpfs's /tmp so we can't reuse that, and ro-binds $HOME
-        #      so we can't have codex mutate the real ~/.codex under isolation.
-        # Path lives inside the workspace (which is rw-bound by bwrap) so codex
-        # can see and write to it from inside the sandbox.
-        codex_home = Path(sandbox) / ".codex_home"
-        codex_home.mkdir(exist_ok=True)
-        real_home = Path.home() / ".codex"
-        for name in ("auth.json", "config.toml"):
-            src = real_home / name
-            if src.exists():
-                shutil.copy2(src, codex_home / name)
-        env = dict(env)
-        env["CODEX_HOME"] = str(codex_home)
-
-        from agent_runtime.stream_display import render_line
-
-        proc = subprocess.Popen(
-            cmd,
-            cwd=sandbox,
-            env=env,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            start_new_session=True,
-        )
-        pgid = os.getpgid(proc.pid)
-        try:
-            # Prompt on stdin; closed before we start reading stdout so the
-            # agent sees EOF and can begin producing events immediately.
-            assert proc.stdin is not None and proc.stdout is not None
-            proc.stdin.write(prompt.encode())
-            proc.stdin.close()
-            with open(output_file, "wb") as f:
-                for raw in proc.stdout:
-                    f.write(raw)
-                    f.flush()
-                    line = raw.decode("utf-8", errors="replace").rstrip()
-                    render_line(line)
-            rc = proc.wait()
-        finally:
-            _kill_process_group(pgid)
-            # Codex may leave large plugin caches / arg0 temp dirs behind; we
-            # keep auth.json for post-run inspection but drop the bulk.
-            for sub in ("tmp", "cache", "logs_2.sqlite", "logs_2.sqlite-shm", "logs_2.sqlite-wal"):
-                p = codex_home / sub
-                if p.is_dir():
-                    shutil.rmtree(p, ignore_errors=True)
-                elif p.is_file():
-                    p.unlink(missing_ok=True)
-        if rc != 0:
-            raise subprocess.CalledProcessError(rc, cmd)
-
-
-class GeminiRunner(Runner):
-    """Google Gemini CLI (@google/gemini-cli).
-
-    Headless contract is close to Claude's: -p <prompt> plus
-    -o stream-json streams newline-delimited JSON events. Auth is via
-    ~/.gemini/oauth_creds.json (one-time `gemini` interactive login on
-    the host); runs here draw against the Google AI subscription tied
-    to that account, not a per-token API key.
-    """
-
-    @property
-    def name(self) -> str:
-        return "gemini"
-
-    def build_command(
-        self, prompt, sandbox, model, allowlist, max_thinking_tokens=None, effort_label=None
-    ):
-        # Gemini CLI exposes neither a thinking-tokens budget nor an enum
-        # reasoning-effort flag — the server-side router auto-routes between
-        # gemini-3-pro, flash, and flash-lite based on the query. We pass
-        # model through if set; otherwise let the router pick ("auto-gemini-3").
-        binary = _find_binary("gemini", "GEMINI_BIN")
-        cmd = [
-            binary,
-            "-p",
-            prompt,
-            "-o",
-            "stream-json",
-            # yolo = auto-approve all tool calls; required for headless
-            # runs inside the bwrap sandbox where we can't answer prompts.
-            "--approval-mode",
-            "yolo",
-        ]
-        if model:
-            cmd.extend(["-m", model])
-        return cmd
-
-    def run(self, cmd, prompt, sandbox, env, output_file):
-        # Gemini keeps session state, oauth creds, and a sqlite history
-        # under $GEMINI_CLI_HOME (default ~/.gemini). Mirror CodexRunner's
-        # per-run redirect so:
-        #   1. parallel runs don't race on the same state sqlite,
-        #   2. nothing mutates the real ~/.gemini under the sandbox,
-        #   3. NERSC autofs $HOME doesn't trip the CLI's file locks.
-        from agent_runtime.stream_display import render_line
-
-        # GEMINI_CLI_HOME is a HOME-like prefix: the CLI reads and writes
-        # <GEMINI_CLI_HOME>/.gemini/*, so seed the creds into the .gemini/
-        # subdir rather than directly into the prefix.
-        # GEMINI_CLI_HOME is a HOME-like prefix: the CLI reads and writes
-        # <GEMINI_CLI_HOME>/.gemini/*, so seed the creds into the .gemini/
-        # subdir rather than directly into the prefix.
-        gemini_home = Path(sandbox) / ".gemini_home"
-        gemini_state = gemini_home / ".gemini"
-        gemini_state.mkdir(parents=True, exist_ok=True)
-        real_state = Path.home() / ".gemini"
-        if real_state.is_dir():
-            for name in ("oauth_creds.json", "google_accounts.json", "installation_id"):
-                src = real_state / name
-                if src.exists():
-                    shutil.copy2(src, gemini_state / name)
-        # Rewrite settings.json: keep the auth method but disable the IDE
-        # companion probe (the CLI otherwise spams ECONNREFUSED trying to
-        # reach a VS Code extension that isn't running inside the sandbox).
-        import json as _json
-
-        host_settings = real_state / "settings.json" if real_state.is_dir() else None
-        settings: dict = {}
-        if host_settings and host_settings.exists():
-            try:
-                settings = _json.loads(host_settings.read_text())
-            except _json.JSONDecodeError:
-                settings = {}
-        settings.setdefault("security", {}).setdefault("auth", {}).setdefault(
-            "selectedType", "oauth-personal"
-        )
-        settings["ide"] = {"enabled": False}
-        (gemini_state / "settings.json").write_text(_json.dumps(settings, indent=2))
-        env = dict(env)
-        env["GEMINI_CLI_HOME"] = str(gemini_home)
-        # The CLI also reads HOME to locate ~/.gemini in some paths; keep the
-        # real HOME (bwrap doesn't tmpfs it on NERSC) so other google libs
-        # still find their caches.
-
-        agent = subprocess.Popen(
-            cmd,
-            cwd=sandbox,
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            start_new_session=True,
-        )
-        pgid = os.getpgid(agent.pid)
-
-        try:
-            with open(output_file, "wb") as f:
-                assert agent.stdout is not None
-                for raw in agent.stdout:
-                    f.write(raw)
-                    f.flush()
-                    line = raw.decode("utf-8", errors="replace").rstrip()
-                    render_line(line)
-            rc = agent.wait()
-        finally:
-            _kill_process_group(pgid)
-
-        if rc != 0:
-            raise subprocess.CalledProcessError(rc, cmd)
-
-
-class AiderRunner(Runner):
-    """Aider — open-source coding CLI supporting 75+ models via OpenRouter, Gemini, etc.
-
-    Install: pip install aider-chat
-    Models:  --model gemini/gemini-2.5-pro
-             --model openrouter/anthropic/claude-sonnet-4
-             --model deepseek/deepseek-chat
-             --model ollama/llama3
-    """
-
-    @property
-    def name(self) -> str:
-        return "aider"
-
-    def build_command(
-        self, prompt, sandbox, model, allowlist, max_thinking_tokens=None, effort_label=None
-    ):
-        # Aider has no universal thinking-tokens flag across the 75+ model backends.
-        binary = _find_binary("aider", "AIDER_BIN")
-        cmd = [
-            binary,
-            "--message",
-            prompt,
-            "--yes-always",  # auto-approve all edits and commands
-            "--no-git",  # sandbox has no git repo
-            "--no-auto-commits",  # we manage artifacts, not git
-            "--no-suggest-shell-commands",  # just run them
-        ]
-        if model:
-            cmd.extend(["--model", model])
-        return cmd
-
-    def run(self, cmd, prompt, sandbox, env, output_file):
-        proc = subprocess.Popen(
-            cmd,
-            cwd=sandbox,
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            start_new_session=True,
-        )
-        pgid = os.getpgid(proc.pid)
-        try:
-            out, _ = proc.communicate()
-        finally:
-            _kill_process_group(pgid)
-        output_file.write_text(out or "")
-        for line in (out or "").splitlines():
-            if line.startswith(">") or "─" in line or "Error" in line:
-                print(f"  {line}")
-        if proc.returncode != 0:
-            raise subprocess.CalledProcessError(proc.returncode, cmd)
 
 
 # ── Registry ────────────────────────────────────────────────────────────────
 
-RUNNERS: dict[str, type[Runner]] = {
-    "claude": ClaudeRunner,
-    "codex": CodexRunner,
-    "gemini": GeminiRunner,
-    "aider": AiderRunner,
-}
+RUNNERS: dict[str, type[Runner]] = {}
+
+
+def register(cls: type[Runner]) -> type[Runner]:
+    """Add a `Runner` subclass to the `RUNNERS` registry under its `name`."""
+    name = cls().name
+    RUNNERS[name] = cls
+    return cls
 
 
 def get_runner(name: str) -> Runner:
     """Instantiate a runner by name. Raises ValueError for unknown names."""
     cls = RUNNERS.get(name)
     if cls is None:
-        available = ", ".join(sorted(RUNNERS))
-        raise ValueError(f"Unknown runner: {name!r}. Available: {available}")
+        available = ", ".join(sorted(RUNNERS)) or "(none registered)"
+        raise ValueError(
+            f"Unknown runner: {name!r}. Available: {available}. "
+            "Add a new backend by subclassing `Runner` and calling "
+            "`register(...)` from this module."
+        )
     return cls()
+
+
+# ── Built-in runners ───────────────────────────────────────────────────────
+# Vendor `Runner` subclasses (Claude / Codex / Gemini / Aider) live in
+# `_runners_vendor.py` and self-register on import.
+from agent_runtime import _runners_vendor  # noqa: E402,F401

@@ -7,7 +7,7 @@
 # The CLI has no reasoning-budget flag — `effort` is ignored.
 
 agent:   iterative
-task:    sus-16-047-simulate-T5Wg-highHT-pTmiss    # see LHCRecastBench/tasks/
+task:    sus-16-047_sim-T5Wg_highHT    # see LHCRecastBench/tasks/
 runner:  gemini
 model:   ""                  # empty → auto-router picks available tier
 effort:  medium

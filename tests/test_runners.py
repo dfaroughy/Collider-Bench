@@ -1,4 +1,9 @@
-"""Runner build_command must produce well-formed CLI args for each backend."""
+"""Runner build_command must produce well-formed CLI args for each backend.
+
+Vendor runner subclasses live in `agent_runtime/_runners_vendor.py` and
+auto-register on import. The build_command tests skip when the underlying
+CLI binary isn't installed on the host.
+"""
 
 from __future__ import annotations
 

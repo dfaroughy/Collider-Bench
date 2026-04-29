@@ -15,14 +15,17 @@ Usage:
 Backend selection (first match wins):
     1. `sandbox=` kwarg passed by the caller
     2. `LHC_RECAST_SANDBOX` environment variable
-    3. auto-detect: bwrap if installed, else none (with a warning)
+    3. auto-detect: podman → apptainer → (warn) none
 
 Available backends:
-    bwrap   — bubblewrap user-space namespaces (Linux only; recommended)
-    none    — passthrough, no isolation (macOS / CI / debugging)
+    podman    — runs the canonical lhc-bench image (default on hosts where
+                podman / podman-hpc is installed)
+    apptainer — same image via apptainer-exec (HPC sites with no podman)
+    bwrap     — bubblewrap on host, bypasses the container; opt-in only
+    none      — passthrough, no isolation (CI / debugging)
 
-Adding a new backend (e.g. Podman, Docker, Shifter): subclass Sandbox, register
-it in SANDBOXES at the bottom of this file. See agent_runtime/SANDBOX.md.
+Adding a new backend (Docker, Shifter, …): subclass Sandbox, register it in
+SANDBOXES at the bottom of this file. See agent_runtime/SANDBOX.md.
 """
 
 from __future__ import annotations
@@ -30,9 +33,105 @@ from __future__ import annotations
 import os
 import shutil
 import sys
+import tempfile
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Callable, Iterable, Sequence
+
+
+# ── Image selection ────────────────────────────────────────────────────────
+
+_DEFAULT_IMAGE = "ghcr.io/dfaroughy/lhc-bench:latest"
+
+
+# Files copied into a per-container ephemeral $HOME so each agent run gets
+# isolated CLI state. Anything not on this list (history.jsonl, projects/,
+# sessions/, todos/, caches, telemetry, MCP needs-auth caches…) is excluded
+# so prior-run artefacts cannot leak into a benchmark run, and concurrent
+# containers don't race on shared state.
+_HOME_WHITELIST: tuple[str, ...] = (
+    # Claude Code
+    ".claude.json",
+    ".claude/.credentials.json",
+    ".claude/settings.json",
+    # Codex CLI
+    ".codex/auth.json",
+    ".codex/config.toml",
+    ".codex/installation_id",
+    # Gemini CLI
+    ".gemini/oauth_creds.json",
+    ".gemini/google_accounts.json",
+    ".gemini/installation_id",
+    ".gemini/settings.json",
+    ".gemini/trustedFolders.json",
+)
+
+
+# Subset of _HOME_WHITELIST that holds OAuth tokens. Containers may rotate
+# (refresh) these during a run; if they do, the new tokens are written into
+# the per-container staging copy. We sync them back to the host on cleanup
+# so that the next sequential run picks up the fresh tokens — otherwise the
+# OAuth refresh-token rotation kills any subsequent run with a 401.
+# Within a `%1`-throttled SLURM array this is race-free; across-lane
+# parallelism is safe because each provider's credentials live in
+# independent files.
+_HOME_CREDENTIAL_FILES: tuple[str, ...] = (
+    ".claude.json",
+    ".claude/.credentials.json",
+    ".codex/auth.json",
+    ".gemini/oauth_creds.json",
+    ".gemini/google_accounts.json",
+)
+
+
+def _prepare_isolated_home(host_home: Path) -> Path:
+    """Build a per-container staging $HOME containing only the credential
+    and config files in `_HOME_WHITELIST`.
+
+    The container is then launched with `HOME=<staging>` and the staging
+    dir bind-mounted into the container at the same path; the CLI sees a
+    pristine home with just the auth it needs and writes any session
+    state into the staging dir, which is destroyed at cleanup. The host's
+    real `~/.claude/`, `~/.codex/`, `~/.gemini/` are never touched
+    *except* for the credential files in `_HOME_CREDENTIAL_FILES`, which
+    `_sync_credentials_back_to_host` propagates back if the container
+    refreshed them mid-run.
+    """
+    staging = Path(tempfile.mkdtemp(prefix="lhc-recast-home-"))
+    for rel in _HOME_WHITELIST:
+        src = host_home / rel
+        if not src.is_file():
+            continue
+        dst = staging / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+    return staging
+
+
+def _sync_credentials_back_to_host(staging: Path, host_home: Path) -> None:
+    """Copy refreshed OAuth credential files from `staging` back to host.
+
+    OAuth refresh-token rotation: when a CLI in the container refreshes
+    its access token, the auth server invalidates the old refresh token
+    on its side. The container's staging copy now holds the new tokens;
+    the host's copy holds tokens that are dead in Anthropic/OpenAI/
+    Google's eyes. Without this sync, the *next* run starts from a
+    stale refresh token and immediately 401s on the first refresh.
+
+    We compare mtimes — only copy back when the staging file is newer
+    than the host file (i.e. the container actually wrote it). Best-
+    effort; never raises so it can't break the cleanup path.
+    """
+    for rel in _HOME_CREDENTIAL_FILES:
+        try:
+            src = staging / rel
+            host = host_home / rel
+            if not src.is_file() or not host.is_file():
+                continue
+            if src.stat().st_mtime > host.stat().st_mtime:
+                shutil.copy2(src, host)
+        except OSError:
+            pass  # never block cleanup on a credential-sync hiccup
 
 
 # ── Backend protocol ────────────────────────────────────────────────────────
@@ -93,7 +192,9 @@ class BwrapSandbox(Sandbox):
         return shutil.which("bwrap") is not None
 
     def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
-        benchmark_dir = repo_root / "LHCRecastBench"
+        from agent_runtime import paths as bench_paths
+
+        benchmark_dir = bench_paths.benchmark_dir(repo_root)
 
         # bwrap can't mount over a symlink; swap any top-level workspace
         # symlinks (bin/papers/tools) for empty dirs, then bind the resolved
@@ -124,8 +225,6 @@ class BwrapSandbox(Sandbox):
             str(benchmark_dir),
             str(benchmark_dir),
             "--tmpfs",
-            str(benchmark_dir / "papers"),  # legacy reference tree (being phased out)
-            "--tmpfs",
             str(benchmark_dir / "evaluation"),  # judge rubric + scorers
             "--tmpfs",
             "/tmp",
@@ -133,19 +232,25 @@ class BwrapSandbox(Sandbox):
             "--unshare-ipc",
             "--unshare-uts",
         ]
+        # Legacy `LHCRecastBench/papers/` tree (now under tasks/shared/) was
+        # tmpfs'd here historically. Skip the line if the path doesn't exist
+        # — bwrap fails to mount over a non-existent directory inside the
+        # ro-bound benchmark dir.
+        if (benchmark_dir / "papers").is_dir():
+            cmd.extend(["--tmpfs", str(benchmark_dir / "papers")])
 
-        # Shadow the new reference pool: tasks/shared/<paper>/histograms/
-        # carries the ground-truth histogram values, and tasks/<task-id>/template/
+        # Shadow the new reference pool: tasks/shared/<paper>/reference/
+        # carries the ground-truth values, and tasks/<task-id>/template/
         # carries null-filled skeletons that were already copied into
         # workspace/results/ — hide both from the agent so it can't peek.
-        tasks_dir = benchmark_dir / "tasks"
+        tasks_dir = bench_paths.tasks_root(repo_root)
         if tasks_dir.is_dir():
-            shared_root = tasks_dir / "shared"
+            shared_root = bench_paths.shared_root(repo_root)
             if shared_root.is_dir():
                 for paper_dir in shared_root.iterdir():
-                    hist = paper_dir / "histograms"
-                    if hist.is_dir():
-                        cmd.extend(["--tmpfs", str(hist)])
+                    ref = paper_dir / "reference"
+                    if ref.is_dir():
+                        cmd.extend(["--tmpfs", str(ref)])
             for task_dir in tasks_dir.iterdir():
                 if task_dir.name == "shared" or not task_dir.is_dir():
                     continue
@@ -163,7 +268,7 @@ class BwrapSandbox(Sandbox):
         # does are deterministic (overwrite with the same content every run)
         # and bin/simulate redirects MG5's `output` directive into the agent
         # workspace, so the install dir sees only template/config refreshes.
-        sim_dir = benchmark_dir / "tools" / "sim"
+        sim_dir = bench_paths.sim_dir(repo_root)
         for install in ("MG5_aMC_v3_7_0", "delphes"):
             install_path = sim_dir / install
             if install_path.is_dir():
@@ -198,6 +303,265 @@ class BwrapSandbox(Sandbox):
         return cmd, cleanup
 
 
+# ── Apptainer / Singularity (portable OCI runner, HPC-friendly) ────────────
+
+
+class ApptainerSandbox(Sandbox):
+    """OCI-image sandbox via `apptainer exec`.
+
+    Pairs with docker/Dockerfile (the canonical benchmark image). Runs on
+    Linux laptops, NERSC / generic HPC, and anywhere else apptainer-exec
+    is installed — same image everywhere.
+
+    Image selection:
+      $LHC_BENCH_IMAGE   — path to a .sif file or a registry ref
+                            (default: "ghcr.io/dfaroughy/lhc-bench:latest").
+
+    Binds:
+      - host repo_root/LHCRecastBench  → same path inside container
+        (benchmark content stays editable; tasks/, evaluation/, tools/CLI)
+      - workspace                      → same path inside container (rw)
+      - ~/.claude, ~/.codex, ~/.gemini → /root/.claude etc.  (OAuth)
+      - /cvmfs                         → /cvmfs (ro) if present
+      - baked /opt/sim/<tool>          → host .../LHCRecastBench/tools/sim/<tool>
+        — the image's baked sim stack overrides whatever the host has.
+      - any paths in extra_ro_binds
+
+    Leakage hardening is simpler than bwrap's: by bind-mounting only what
+    the agent should see, the rest of the container FS starts from the
+    image (no host leak) and the rest of the host FS is not visible.
+    """
+
+    name = "apptainer"
+
+    def available(self) -> bool:
+        return shutil.which("apptainer") is not None or shutil.which("singularity") is not None
+
+    def _engine(self) -> str:
+        return "apptainer" if shutil.which("apptainer") else "singularity"
+
+    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+        from agent_runtime import paths as bench_paths
+
+        image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
+
+        cmd: list[str] = [
+            self._engine(),
+            "exec",
+            "--cleanenv",  # don't leak host env; we set what we need below
+            "--pwd",
+            str(workspace),
+            # Bind host paths to the same path inside the container so the
+            # agent's absolute-path references (e.g. from run_info.json)
+            # don't need rewriting.
+            "--bind",
+            f"{workspace}:{workspace}",
+            # Selective benchmark binds. We do NOT bind the whole
+            # LHCRecastBench/ tree — that would expose the reference pool
+            # under tasks/shared/*/reference/ and scoring code under
+            # evaluation/. Agent sees only tools/, bin/, and this run's
+            # paper PDF (via the workspace/papers symlink target).
+            "--bind",
+            f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
+            "--bind",
+            f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
+        ]
+        papers_link = workspace / "papers"
+        if papers_link.is_symlink():
+            target = papers_link.resolve()
+            if target.is_dir():
+                cmd.extend(["--bind", f"{target}:{target}:ro"])
+
+        # Per-container ephemeral $HOME. The CLIs see only the whitelisted
+        # credential / config files; everything they write (session logs,
+        # transcripts, todos, caches) goes to this throwaway dir and is
+        # deleted on cleanup. Host's real $HOME is never touched, and
+        # concurrent containers don't share state.
+        staging_home = _prepare_isolated_home(Path.home())
+        cmd.extend(
+            [
+                "--bind",
+                f"{staging_home}:{staging_home}",
+                "--env",
+                f"HOME={staging_home}",
+            ]
+        )
+
+        # CVMFS (CMSSW, ATLAS sw, ...) — ro when available on the host.
+        if Path("/cvmfs").is_dir():
+            cmd.extend(["--bind", "/cvmfs:/cvmfs:ro"])
+
+        for path in extra_ro_binds or []:
+            if Path(path).exists():
+                cmd.extend(["--bind", f"{path}:{path}:ro"])
+
+        # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
+        # `--dangerously-skip-permissions` is allowed even if the container
+        # process runs as UID 0 (which happens on rootless podman with
+        # subuid limits that prevent keep-id mapping).
+        cmd.extend(["--env", "IS_SANDBOX=1"])
+
+        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV
+        # directives — bin/simulate reads them to find /opt/sim/<tool>
+        # inside the container. We only propagate the API/OAuth env vars
+        # the agent CLIs look for.
+        for var in (
+            "ANTHROPIC_API_KEY",
+            "OPENAI_API_KEY",
+            "GEMINI_API_KEY",
+            "GOOGLE_API_KEY",
+            "CODEX_HOME",
+            "CLAUDE_BIN",
+            "CODEX_BIN",
+            "GEMINI_BIN",
+        ):
+            val = os.environ.get(var)
+            if val:
+                cmd.extend(["--env", f"{var}={val}"])
+
+        cmd.append(image)
+        cmd.extend(_rewrite_host_cli_to_container(inner_cmd))
+
+        def cleanup() -> None:
+            _sync_credentials_back_to_host(staging_home, Path.home())
+            shutil.rmtree(staging_home, ignore_errors=True)
+
+        return cmd, cleanup
+
+
+# ── Helpers ─────────────────────────────────────────────────────────────────
+
+
+_CONTAINER_CLIS = {"claude", "codex", "gemini", "aider", "python", "python3"}
+
+
+def _rewrite_host_cli_to_container(inner_cmd: Sequence[str]) -> list[str]:
+    """If inner_cmd[0] is an absolute host path to a known agent CLI, replace
+    with the unqualified basename so the container's PATH resolves it against
+    the in-image install (e.g. /opt/node-global/bin/claude)."""
+    if not inner_cmd:
+        return list(inner_cmd)
+    head = inner_cmd[0]
+    if Path(head).is_absolute() and Path(head).name in _CONTAINER_CLIS:
+        return [Path(head).name, *inner_cmd[1:]]
+    return list(inner_cmd)
+
+
+# ── Podman / Podman-HPC (NERSC, rootless containers) ───────────────────────
+
+
+class PodmanSandbox(Sandbox):
+    """OCI-image sandbox via `podman` or `podman-hpc` (NERSC wrapper).
+
+    Same image, same bind contract as ApptainerSandbox — just a different
+    runtime. Use this when apptainer isn't installed but podman is (NERSC
+    Perlmutter: podman-hpc only).
+
+    Image ref in $LHC_BENCH_IMAGE (default: ghcr.io/dfaroughy/lhc-bench:latest).
+    """
+
+    name = "podman"
+
+    def available(self) -> bool:
+        return shutil.which("podman-hpc") is not None or shutil.which("podman") is not None
+
+    def _engine(self) -> str:
+        return "podman-hpc" if shutil.which("podman-hpc") else "podman"
+
+    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+        from agent_runtime import paths as bench_paths
+
+        image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
+
+        # Container runs as root (UID 0) by default under rootless podman —
+        # that's safe because rootless podman maps container-root to the
+        # host user, so "root" inside the container is us outside. Don't
+        # try `--userns=keep-id`: on NERSC compute nodes the subuid range
+        # doesn't cover the host UID, so the userns map fails at run time.
+        # Claude Code's "no --dangerously-skip-permissions as root" check
+        # is bypassed below via IS_SANDBOX=1.
+        staging_home = _prepare_isolated_home(Path.home())
+        cmd: list[str] = [
+            self._engine(),
+            "run",
+            "--rm",
+            # -i keeps stdin attached. Required for runners that pipe their
+            # prompt through stdin (e.g. CodexRunner uses `codex exec ... -`);
+            # without it `podman run` detaches stdin and the inner CLI sees
+            # zero bytes ("No prompt provided via stdin.").
+            "-i",
+            "--workdir",
+            str(workspace),
+            "-e",
+            f"HOME={staging_home}",
+            # Per-container ephemeral $HOME — see _prepare_isolated_home.
+            "-v",
+            f"{staging_home}:{staging_home}",
+            # Workspace: the only rw path under the repo — agent's scratch.
+            "-v",
+            f"{workspace}:{workspace}",
+            # Selective benchmark binds, ro. We do NOT bind the whole
+            # LHCRecastBench/ tree: that would expose the reference pool
+            # under tasks/shared/*/reference/ and the scoring code under
+            # evaluation/. Agent sees only tools/ + bin/ + this run's
+            # paper PDF (via the workspace/papers symlink target).
+            "-v",
+            f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
+            "-v",
+            f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
+        ]
+
+        # Resolve workspace/papers -> tasks/shared/<paper>/paper and bind
+        # only that directory, so the agent's paper PDF symlink works
+        # without exposing the rest of tasks/shared/<paper>/.
+        papers_link = workspace / "papers"
+        if papers_link.is_symlink():
+            target = papers_link.resolve()
+            if target.is_dir():
+                cmd.extend(["-v", f"{target}:{target}:ro"])
+
+        # OAuth creds + minimal CLI config live inside the staging $HOME
+        # bound above; nothing else is shared with the host's real $HOME.
+
+        if Path("/cvmfs").is_dir():
+            cmd.extend(["-v", "/cvmfs:/cvmfs:ro"])
+
+        for path in extra_ro_binds or []:
+            if Path(path).exists():
+                cmd.extend(["-v", f"{path}:{path}:ro"])
+
+        # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
+        # `--dangerously-skip-permissions` is allowed even if the container
+        # process runs as UID 0 (unavoidable under rootless podman on NERSC
+        # compute nodes because keep-id fails on subuid range limits).
+        cmd.extend(["-e", "IS_SANDBOX=1"])
+
+        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV —
+        # bin/simulate reads them to find /opt/sim/<tool> inside the container.
+        for var in (
+            "ANTHROPIC_API_KEY",
+            "OPENAI_API_KEY",
+            "GEMINI_API_KEY",
+            "GOOGLE_API_KEY",
+            "CODEX_HOME",
+            "CLAUDE_BIN",
+            "CODEX_BIN",
+            "GEMINI_BIN",
+        ):
+            val = os.environ.get(var)
+            if val:
+                cmd.extend(["-e", f"{var}={val}"])
+
+        cmd.append(image)
+        cmd.extend(_rewrite_host_cli_to_container(inner_cmd))
+
+        def cleanup() -> None:
+            _sync_credentials_back_to_host(staging_home, Path.home())
+            shutil.rmtree(staging_home, ignore_errors=True)
+
+        return cmd, cleanup
+
+
 # ── No-op passthrough (macOS / CI / free-range debugging) ──────────────────
 
 
@@ -223,22 +587,30 @@ class NoneSandbox(Sandbox):
 
 SANDBOXES: dict[str, type[Sandbox]] = {
     "bwrap": BwrapSandbox,
+    "apptainer": ApptainerSandbox,
+    "podman": PodmanSandbox,
     "none": NoneSandbox,
-    # Add future backends here: "podman": PodmanSandbox, "docker": DockerSandbox, ...
 }
 
 
 def _auto_select() -> Sandbox:
-    """Pick the best available backend, prefer isolating ones."""
-    for cls in (BwrapSandbox,):
+    """Pick the best available container backend.
+
+    Order: podman → apptainer. Both run the canonical lhc-bench image
+    with proper $HOME isolation via the staging dir built in
+    `_prepare_isolated_home`. Bwrap is intentionally excluded: it
+    doesn't use the image at all (runs analysis on the host conda env),
+    which defeats the point of the canonical container. To force bwrap,
+    pass `--sandbox bwrap` explicitly.
+    """
+    for cls in (PodmanSandbox, ApptainerSandbox):
         inst = cls()
         if inst.available():
             return inst
-    # Nothing isolating is installed — fall back to passthrough with a warning.
     sys.stderr.write(
-        "sandbox: no isolating backend available (bwrap not found); "
+        "sandbox: no container backend available (podman, apptainer both missing); "
         "falling back to 'none' (NO ISOLATION). "
-        "Install bubblewrap or set LHC_RECAST_SANDBOX=none to silence this.\n"
+        "Install one of them, or pass --sandbox bwrap / --sandbox none explicitly.\n"
     )
     return NoneSandbox()
 
@@ -249,7 +621,7 @@ def get_sandbox(name: str | None = None) -> Sandbox:
     Resolution order:
       1. explicit `name` argument
       2. LHC_RECAST_SANDBOX environment variable
-      3. auto-detect (prefer bwrap; fall back to none with warning)
+      3. auto-detect: podman → apptainer → (warn) none
 
     "auto" is a valid value everywhere and means the auto-detect path.
     """

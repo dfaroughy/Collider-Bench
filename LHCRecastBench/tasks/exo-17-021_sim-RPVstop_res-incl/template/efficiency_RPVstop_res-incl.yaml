@@ -1,0 +1,40 @@
+instructions: "Fill the 'null' signal efficiency values in dependent_variables
+               with your results.
+              "
+description: "Signal efficiency as a function of stop mass for the inclusive selection"
+target: "Resonant Stops, inclusive selection"
+cm_energy_gev: 13000
+luminosity_fb: 35.9
+---
+dependent_variables:
+- header: {name: Inclusive selection, units: '%'}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header:
+    name: Stop mass
+    units: GeV
+  values:
+  - value: 400.0
+  - value: 500.0
+  - value: 600.0
+  - value: 700.0
+  - value: 800.0
+  - value: 900.0
+  - value: 1000.0
+  - value: 1100.0
+  - value: 1200.0
+  - value: 1300.0
+  - value: 1400.0
+  - value: 1500.0

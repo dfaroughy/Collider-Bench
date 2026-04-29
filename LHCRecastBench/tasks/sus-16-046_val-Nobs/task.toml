@@ -1,0 +1,15 @@
+[task]
+id          = "sus-16-046_val-Nobs"
+paper       = "CMS-SUS-16-046"
+type        = "validation"
+target      = "observed data"
+observable  = "STgamma"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["CMS", "13TeV", "data"]
+
+[metrics]
+tolerance = 0.05
+plot = "Events/bin"

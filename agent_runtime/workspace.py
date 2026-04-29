@@ -22,17 +22,8 @@ import shutil
 import urllib.request
 from pathlib import Path
 
+from agent_runtime import paths
 from agent_runtime.naming import load_task_toml
-
-
-def tasks_dir(repo_root: Path, task_id: str) -> Path:
-    """Canonical path to a task definition."""
-    return repo_root / "LHCRecastBench" / "tasks" / task_id
-
-
-def shared_dir(repo_root: Path, paper_ref: str) -> Path:
-    """Canonical path to a paper's shared inputs."""
-    return repo_root / "LHCRecastBench" / "tasks" / "shared" / paper_ref
 
 
 def build_workspace(
@@ -48,7 +39,7 @@ def build_workspace(
     Raises FileNotFoundError if prerequisites are missing. Returns the workspace Path.
     """
     agent_dir = repo_root / "agents" / agent_name
-    benchmark_dir = repo_root / "LHCRecastBench"
+    benchmark_dir = paths.benchmark_dir(repo_root)
     workspace = repo_root / "runs" / run_dir / "workspace"
 
     toml = load_task_toml(repo_root, task_id)
@@ -56,8 +47,8 @@ def build_workspace(
     if not paper_ref:
         raise ValueError(f"task.toml: [task].paper is required (task_id={task_id})")
 
-    task_dir = tasks_dir(repo_root, task_id)
-    shared = shared_dir(repo_root, paper_ref)
+    task_dir = paths.task_dir(repo_root, task_id)
+    shared = paths.shared_paper_dir(repo_root, paper_ref)
     if not task_dir.is_dir():
         raise FileNotFoundError(f"Missing task dir: {task_dir}")
     if not shared.is_dir():
@@ -120,9 +111,10 @@ def build_workspace(
         task_text = task_text.replace("{arxiv_id}", paper_ref)
     (agent_context / "TASK.md").write_text(task_text)
 
-    # results/ — null-filled yaml skeleton + description.toml, copied from
-    # the task's template/. Agent fills nulls in place. task.toml itself is
-    # intentionally NOT copied (harness metadata only).
+    # results/ — null-filled yaml skeleton (metadata embedded at top of
+    # the yaml itself: instructions, target, luminosity, …), copied from
+    # the task's template/. Agent fills nulls in place. task.toml itself
+    # is intentionally NOT copied (harness metadata only).
     results = workspace / "results"
     results.mkdir()
     for src in template_src.rglob("*"):

@@ -1,0 +1,30 @@
+dependent_variables:
+- header: {name: btagged selection, units: '%'}
+  values:
+  - {value: 0.227}
+  - {value: 0.396}
+  - {value: 0.422}
+  - {value: 0.345}
+  - {value: 0.265}
+  - {value: 0.201}
+  - {value: 0.166}
+  - {value: 0.161}
+  - {value: 0.148}
+  - {value: 0.146}
+  - {value: 0.122}
+  - {value: 0}
+independent_variables:
+- header: {name: Stop mass, units: GeV}
+  values:
+  - {value: 400.0}
+  - {value: 500.0}
+  - {value: 600.0}
+  - {value: 700.0}
+  - {value: 800.0}
+  - {value: 900.0}
+  - {value: 1000.0}
+  - {value: 1100.0}
+  - {value: 1200.0}
+  - {value: 1300.0}
+  - {value: 1400.0}
+  - {value: 1500.0}

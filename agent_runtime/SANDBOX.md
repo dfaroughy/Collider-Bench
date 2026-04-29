@@ -17,7 +17,6 @@ The runtime captures the choice in `run_info.json["sandbox"]` so provenance is p
 
 **Via config:**
 ```yaml
-# configs/claude_simple.yaml
 extends: base.yaml
 agent: simple
 paper: "1707.06193"

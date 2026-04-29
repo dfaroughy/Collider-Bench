@@ -1,3 +1,7 @@
+._*
+.DS_Store
+__MACOSX/
+
 # Agent run outputs — frozen artifacts, not source of truth.
 runs/
 # Stray top-level run dirs (old layout, or tests that skip runs/).
@@ -22,6 +26,16 @@ build/
 dist/
 *.egg-info/
 *.egg
+
+# Packed conda env (multi-GB binary blob — re-create with
+# `conda pack -n lhc_analysis -o docker/lhc_analysis_env.tar.gz`).
+docker/lhc_analysis_env.tar.gz
+
+# ── Internal SLURM submitters (NERSC-specific, not part of public release) ────
+scripts/multi-run-interactive.sh
+scripts/submit_production_simple.sh
+scripts/submit_simple_benchmark.sh
+scripts/sbatch_simple_array.sh
 
 # Editors / OS
 .vscode/
@@ -49,3 +63,6 @@ LHCRecastBench/tools/sim/prospino/prospino.dat*
 LHCRecastBench/tools/sim/prospino/screen.out
 # Per-invocation scratch dirs created by bin/prospino
 prospino_scratch/
+.ghcr_token
+
+.codex

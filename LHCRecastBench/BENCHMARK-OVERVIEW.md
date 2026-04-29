@@ -22,25 +22,31 @@ CLI reference, see [`tools/TOOLS.md`](tools/TOOLS.md) and run
 
 ## Task-centric layout
 
-Each task is a self-contained unit covering one (paper, signal, histogram):
+Each task is a self-contained unit covering one benchmark target:
 
 ```
 LHCRecastBench/tasks/
-  <task-id>/                        e.g. sus-16-046-simulate-TChiWg-stgamma
+  <task-id>/                        e.g. sus-16-046_sim-TChiWg
     task.toml                       ← identity metadata (paper, type, signal, ...)
     TASK.md                         ← agent-facing instructions
     template/
-      description.toml              ← per-histogram kinematics + benchmark text
-      histogram_<sig>_<obs>.yml     ← null-filled skeleton the agent fills
+      histogram_<target>.yaml       ← null-filled skeleton the agent fills
     artifacts/                      ← optional task-specific auxiliary files
   shared/<paper>/                   shared across all tasks for that paper
     paper/<paper>.pdf
-    histograms/                     ← reference ground-truth (HIDDEN from agent)
+    reference/                      ← reference ground-truth (HIDDEN from agent)
     object_efficiencies/            ← detector efficiency files
 ```
 
-Task-id format: `<paper-slug>-<type>-<signal>-<histogram-slug>` with
-type ∈ {`simulate`, `validate`} (`recast` to come).
+Task-id format: `<paper-slug>_<type>-<benchmark>[_<region-or-variant>]` with
+type ∈ {`sim`, `val`, `shape`, `yield`} (`recast` to come). Observable names live in
+`task.toml` and the HEPData metadata, not in the task id or histogram filename.
+Shape-only simulation tasks use `shape` in the task id and set
+`[metrics].score = "shape"`; they score only the unit-normalized distribution
+shape while still reporting normalization as a diagnostic.
+Yield-only tasks use `yield` in the task id and set
+`[metrics].score = "yield"`; they score only the integrated
+signal-region yield while still reporting the trivial one-bin shape diagnostic.
 
 ## Agent workspace layout
 
@@ -58,7 +64,7 @@ Each run gets a fresh sandboxed workspace containing:
   papers/                  ← symlinked paper PDF (read-only)
   object_efficiencies/     ← copy of shared detector files + task artifacts/
   results/                 ← copy of tasks/<task>/template/:
-                             description.toml + null-filled histogram yaml.
+                             null-filled histogram/efficiency yaml.
                              Agent fills the nulls IN PLACE.
 ```
 
@@ -75,22 +81,26 @@ runs/
     <task-id>_<Adj><Physicist><hex8>/
       run_info.json        ← task_id, paper_ref, agent, runner, model, ...
       workspace/
-      eval/                ← score.json, rubric_scorer.json, plots/, ...
+      eval/                ← score.json, judge_scores.json, plots/, ...
 ```
 
 ## Scoring interface
 
 Each task is scored against a **single** reference histogram:
 
-- Agent output: `workspace/results/<histogram>.yml` (one series matching
-  `header_name` from `description.toml`).
-- Reference:    `LHCRecastBench/tasks/shared/<paper>/histograms/<histogram>.yaml`.
+- Agent output: `workspace/results/<file>.yaml` (one series matching
+  `header_name` extracted from the template's first HEPData document).
+- Reference:    `LHCRecastBench/tasks/shared/<paper>/reference/<file>.yaml`.
 
 Metrics applied per task:
 
-- Per-bin pulls (`pass` iff `|pull| < 2` or `rel_diff < 0.5`).
 - Baker-Cousins likelihood-ratio decomposition (shape × norm).
 - Kolmogorov–Smirnov on unit-area CDFs.
+- Fill completeness (`n_filled` / `n_bins`) as a sanity flag.
+
+For shape-only tasks, the final score is the Baker-Cousins shape score; the
+normalization score is shown but not included in `overall_combined`. For
+yield-only tasks, the final score is the normalization score.
 
 ## Offline evaluation
 
@@ -98,12 +108,9 @@ All tools in [`evaluation/`](evaluation/) accept the same run-dir argument:
 
 | Tool | What it measures |
 |---|---|
-| `score.py` | Per-bin pulls + Baker-Cousins shape/normalization + KS. |
-| `rubric_scorer.py` | Weighted checkpoint scoring + cost + token efficiency. |
+| `score.py` | Baker-Cousins shape/normalization + KS, plus fill completeness. |
 | `plot_recast.py` | Step-histogram PNG (reference vs agent, with ratio panel). |
-| `llm_judge.py` | LLM-as-Judge reasoning evaluation + CORRECTED-provenance check. |
-| `trajectory_judge.py` | 9-mode Terminal-Bench-style failure taxonomy. |
+| `llm_judge.py` | Provenance audit + qualitative trajectory narrative. |
 
 Drive all of them at once with `scripts/launch_eval.sh <run_dir>`; see
-[`evaluation/EVAL.md`](evaluation/EVAL.md) and
-[`evaluation/TAXONOMY.md`](evaluation/TAXONOMY.md) for methodology.
+[`evaluation/EVAL.md`](evaluation/EVAL.md) for methodology.

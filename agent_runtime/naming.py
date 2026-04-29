@@ -1,11 +1,10 @@
 """Shared helpers for naming recast run directories.
 
-Layout:  runs/<runner>_<model>/<task_id>_<Adj><Physicist><hex8>/...
-Example: runs/claude_opus-4-7/sus-16-046-simulate-TChiWg-STgamma_QuantumFeynmana1b2c3d4/
+Layout:  runs/<runner>_<model>/<task_id>_<Adj><Physicist>_<hex8>/...
+Example: runs/claude_opus-4-7/sus-16-046_sim-TChiWg_QuantumFeynman_a1b2c3d4/
 
-The <Adj><Physicist>_<hex8> form (with underscore) is the canonical "agent_id"
-used in logs and cross-run comparisons. The compact form (without underscore)
-is used only as part of the run-directory name.
+The <Adj><Physicist>_<hex8> form is the canonical "agent_id" used in logs,
+cross-run comparisons, and the run-directory name.
 """
 
 from __future__ import annotations
@@ -39,6 +38,7 @@ PHYSICS_ADJ: list[str] = [
     "Grim",
     "Happy",
     "Humble",
+    "Rizzy",
     "Keen",
     "Kind",
     "Lively",
@@ -63,6 +63,9 @@ PHYSICS_ADJ: list[str] = [
     "Rare",
     "Sharp",
     "Creepy",
+    "Extra",
+    "Double",
+    "Triple",
     "Special",
     "Silly",
     "Sly",
@@ -93,6 +96,8 @@ PHYSICS_ADJ: list[str] = [
     "Mysterious",
     "Nerdy",
     "Peculiar",
+    "Papi",
+    "Mami",
     "Cool",
     "Geeky",
     "Chubby",
@@ -115,7 +120,11 @@ PHYSICIST_LAST: list[str] = [
     "Faraday",
     "Galilei",
     "Kepler",
+    "Englert",
+    "Kibble",
     "Higgs",
+    "Bell",
+    "Anderson",
     "Schrodinger",
     "Heisenberg",
     "Boltzmann",
@@ -126,6 +135,9 @@ PHYSICIST_LAST: list[str] = [
     "Lorentz",
     "Hertz",
     "Laplace",
+    "vonNeumann",
+    "Weisskopf",
+    "Dyson",
     "Lagrange",
     "Gauss",
     "Quinn",
@@ -139,11 +151,13 @@ PHYSICIST_LAST: list[str] = [
     "Rubin",
     "Bose",
     "Fermi",
+    "Weyl",
     "Majorana",
     "Mach",
     "Born",
     "Sommerfeld",
     "Wu",
+    "Rydberg",
     "Zeldovich",
     "Chandrasekhar",
     "Witten",
@@ -156,12 +170,14 @@ PHYSICIST_LAST: list[str] = [
     "GellMann",
     "Landau",
     "Poincare",
+    "Geiger",
     "Alcubierre",
     "Penrose",
     "Susskind",
     "tHooft",
     "Weinberg",
     "Glashow",
+    "Gerlach",
     "Cabibbo",
     "Millikan",
     "Yukawa",
@@ -178,8 +194,18 @@ PHYSICIST_LAST: list[str] = [
     "Gross",
     "Wilczek",
     "Veltman",
+    "Ehrenfest",
     "Sakharov",
+    "Fadeev",
+    "Popov",
     "Zwicky",
+    "Oppenheimer",
+    "Kramers",
+    "Adler",
+    "Bardeen",
+    "Bjorken",
+    "Drell",
+    "Uhlenbeck",
     "Politzer",
     "Reines",
     "Perl",
@@ -187,6 +213,8 @@ PHYSICIST_LAST: list[str] = [
     "Alvarez",
     "Tomonaga",
     "Schwinger",
+    "Kadanoff",
+    "Stuckelberg",
     "Segre",
     "Lee",
     "Lawrence",
@@ -195,6 +223,8 @@ PHYSICIST_LAST: list[str] = [
     "Raman",
     "Becquerel",
     "Rontgen",
+    "Pauling",
+    "Goldstone",
 ]
 
 
@@ -237,14 +267,13 @@ def generate_run_info(
 
     Keys:
       agent_id  — <Adj><Physicist>_<hex8>      (canonical short name)
-      run_dir   — <runner>_<model>/<task_id>_<Adj><Physicist><hex8>
+      run_dir   — <runner>_<model>/<task_id>_<Adj><Physicist>_<hex8>
       task_id, agent, runner, model, paper_ref (echoed for convenience)
     """
     hex_hash = os.urandom(8).hex()
     agent_id = physicist_bigram(hex_hash)  # "ElegantFermi_a1b2c3d4"
-    compact = agent_id.replace("_", "")  # "ElegantFermia1b2c3d4"
     group = run_group(runner_name, model_name)
-    run_dir = f"{group}/{task_id}_{compact}"
+    run_dir = f"{group}/{task_id}_{agent_id}"
     return {
         "agent_id": agent_id,
         "run_dir": run_dir,
@@ -260,7 +289,9 @@ def load_task_toml(repo_root: Path, task_id: str) -> dict:
     """Read tasks/<task_id>/task.toml. Raises FileNotFoundError if absent."""
     import tomllib
 
-    path = repo_root / "LHCRecastBench" / "tasks" / task_id / "task.toml"
+    from agent_runtime import paths
+
+    path = paths.task_dir(repo_root, task_id) / "task.toml"
     if not path.is_file():
         raise FileNotFoundError(f"Missing {path}")
     return tomllib.loads(path.read_text())
@@ -316,24 +347,31 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "effort": (str, int),
     "max_iters": (int,),
     "min_iters": (int,),
+    "combined_threshold": (float, int),
     "compute": (str,),
     "account": (str,),
     "cpus": (int, str),
     "walltime": (str,),
     "qos": (str,),
     "sandbox": (str,),
-    "task": (str,),  # free-form task id (e.g. sus-16-046-simulate-TChiWg-STgamma)
-    # Sisyphus agent: separate model / effort for the planner and critic roles.
-    "critic_model": (str,),
-    "critic_effort": (str, int),
+    "task": (str,),  # free-form task id (e.g. sus-16-046_sim-TChiWg)
+    # Anneal agent: separate model / effort for the planner and examiner roles.
+    "examiner_model": (str,),
+    "examiner_effort": (str, int),
     "planner_effort": (str, int),
+    # Anneal agent: temperature schedule + stochastic rollback knobs.
+    "anneal_t0": (float, int),
+    "anneal_schedule": (str,),
+    "max_rollbacks": (int,),
+    "rollback_noise_floor": (float, int),
 }
 
-_ALLOWED_AGENTS = {"simple", "baseline", "iterative", "sisyphus"}
+_ALLOWED_AGENTS = {"simple", "baseline", "iterative", "anneal"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
-_ALLOWED_SANDBOX = {"auto", "bwrap", "none"}
+_ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "podman", "none"}
+_ALLOWED_ANNEAL_SCHEDULE = {"none", "linear", "cosine"}
 
 
 def validate_config(cfg: dict, source: str = "<config>") -> None:
@@ -390,6 +428,12 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
     if sandbox is not None and sandbox not in _ALLOWED_SANDBOX:
         raise ValueError(
             f"{source}: sandbox={sandbox!r}; must be one of {sorted(_ALLOWED_SANDBOX)}"
+        )
+    schedule = cfg.get("anneal_schedule")
+    if schedule is not None and schedule not in _ALLOWED_ANNEAL_SCHEDULE:
+        raise ValueError(
+            f"{source}: anneal_schedule={schedule!r}; "
+            f"must be one of {sorted(_ALLOWED_ANNEAL_SCHEDULE)}"
         )
     # `task` is a free-form task id — validated against the filesystem in
     # validate_launch_inputs(), not against an enum here.
@@ -554,10 +598,11 @@ def finalize_run_info(
             info["duration_wall_s"] = round(time.time() - started_at, 2)
         if scores is not None:
             info["final_score"] = {
-                "overall_score": scores.get("overall_score"),
-                "overall_pass": scores.get("overall_pass"),
-                "n_pass": scores.get("n_pass"),
+                "shape": scores.get("overall_shape"),
+                "normalization": scores.get("overall_normalization"),
+                "combined": scores.get("overall_combined"),
                 "n_filled": scores.get("n_filled"),
+                "n_bins": scores.get("n_bins"),
             }
         usage_total = {
             "api_cost_usd": 0.0,
@@ -598,10 +643,12 @@ def validate_launch_inputs(repo_root: Path, task_id: str) -> dict:
     Named to not collide with the per-agent `preflight.py` module (which runs
     postflight checks on the agent's produced analysis.py).
     """
+    from agent_runtime import paths
+
     if not task_id:
         raise ValueError("task is required (set `task:` in --config or pass --task)")
-    tasks_root = repo_root / "LHCRecastBench" / "tasks"
-    task_dir = tasks_root / task_id
+    tasks_root = paths.tasks_root(repo_root)
+    task_dir = paths.task_dir(repo_root, task_id)
     if not task_dir.is_dir():
         available = (
             sorted(p.name for p in tasks_root.iterdir() if p.is_dir() and p.name != "shared")
@@ -619,10 +666,9 @@ def validate_launch_inputs(repo_root: Path, task_id: str) -> dict:
     for required in (task_dir / "TASK.md", task_dir / "template"):
         if not required.exists():
             raise FileNotFoundError(f"Missing {required}")
-    shared = tasks_root / "shared" / paper_ref
+    shared = paths.shared_paper_dir(repo_root, paper_ref)
     if not shared.is_dir():
         raise FileNotFoundError(
-            f"Missing shared paper dir: {shared}\n"
-            f"  Expected: LHCRecastBench/tasks/shared/{paper_ref}/paper/{paper_ref}.pdf"
+            f"Missing shared paper dir: {shared}\n" f"  Expected: {shared}/paper/{paper_ref}.pdf"
         )
     return toml

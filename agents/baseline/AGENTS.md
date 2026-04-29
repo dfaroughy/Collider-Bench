@@ -6,8 +6,7 @@ You are analyzing CMS paper `{arxiv_id}`."
 ## What you have
 
 - `papers/{arxiv_id}.pdf` — the paper. Read it with `bin/read-paper`.
-- `results/*.yml` — histogram template with null values. **Fill the nulls in place with your recast results.**
-- `results/description.toml` — per-histogram metadata (bin definitions, luminosity, benchmark).
+- `results/*.yml` or `results/*.yaml` — histogram template with null values. The file is **two YAML documents** separated by `---`: a metadata block (`instructions`, `description`, `target`, `cm_energy_gev`, `luminosity_fb`) followed by the HEPData-style histogram (`dependent_variables`, `independent_variables`). **Fill the nulls in `dependent_variables[0].values` in place; do not modify bin edges or metadata.**
 - `object_efficiencies/` — detector efficiency files (if provided for this task).
 - `bin/` — CLI tools (cheat-sheet below; full reference in `TOOLS.md`)
 - `skills/` — Collider Physics skill-set
@@ -33,10 +32,11 @@ bin/run-analysis
 bin/feynrules list --search "vector-like quark"
 bin/feynrules info <model>
 bin/feynrules fetch <model> --extract --dest sim/models
-bin/simulate info
-bin/simulate mg5 <proc_card>.dat
-bin/simulate pythia8 <events>.lhe --parallel N
-bin/simulate delphes <events>.hepmc --card cms --parallel N
+bin/simulate info             # list installed models, cards, env vars
+bin/simulate --doc            # full sim guide (mg5_aMC / pythia / Delphes patterns, incl. multi-CPU pythia)
+mg5_aMC <proc_card>.dat       # parton-level (call directly, no wrapper)
+DelphesHepMC3 "$DELPHES_DIR/cards/delphes_card_CMS.tcl" out.root events.hepmc
+# Pythia: write a small Python driver (`import pythia8`) — see `bin/simulate --doc`
 bin/prospino list-processes
 bin/prospino help-process <proc>
 bin/prospino run --process <proc> --sqrts 13000 --order <fixed-order> --slha <file>.slha

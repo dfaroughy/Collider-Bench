@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
 """Unified scorer for recast results.
 
-Compares the agent's filled histogram at <workspace>/results/<file>.yml
-against the reference at LHCRecastBench/tasks/shared/<paper>/histograms/<file>
+Compares the agent's filled histogram at <workspace>/results/<file>.yaml
+against the reference at LHCRecastBench/tasks/shared/<paper>/reference/<file>
 and emits:
 
-  Per-bin metrics (how close is each prediction?)
-    - pull = (recast - ref) / ref_err
-    - rel_diff = |recast - ref| / |ref|
-    - pass iff |pull| < 2 OR rel_diff < 50%
-    - overall_score = n_pass / n_filled
-    - overall_pass  = overall_score >= 0.5
+  Baker-Cousins likelihood-ratio decomposition (shape vs norm vs total)
+    λ_total  = 2·Σ [ O·ln(O/E) − (O − E) ]          (n bins)
+    λ_shape  = 2·Σ O·ln(O/Ê)   with Ê = α·E         (n−1 bins, α=ΣO/ΣE)
+    λ_norm   = 2·[ ΣO·ln(ΣO/ΣE) − (ΣO−ΣE) ]         (1 bin)
 
-  Baker-Cousins likelihood-ratio decomposition (is it the right shape? total?)
-    λ_total  = 2·Σ [ O·ln(O/E) − (O − E) ]          ~ χ²(N)   goodness-of-fit
-    λ_shape  = 2·Σ O·ln(O/Ê)     where Ê=α·E        ~ χ²(N−1) shape only (α=ΣO/ΣE)
-    λ_norm   = 2·[ ΣO·ln(ΣO/ΣE) − (ΣO−ΣE) ]         ~ χ²(1)   total only
+  Toy-MC calibrated z-score for each axis. Each λ is calibrated against a
+  null built from N pseudo-experiments under
+      ν_i = r_i · exp(σ_sys · θ_i),  θ_i ~ N(0,1)   (per-bin log-normal)
+      o_i ~ Poisson(ν_i)
+  with σ_sys ≈ 0.20 by default — accounting for tooling differences from
+  the published recast (MC generator, PDFs, detector sim, calibration).
+  z = Φ⁻¹(1 − p_empirical), so z is consistent across axes and properly
+  calibrated even when bin counts are low (where the asymptotic χ²(dof)
+  approximation breaks down). See PDG Statistics review and Cowan, ch.10.
 
-    Each λ gives a p-value (chi2.sf), a z-score (√λ), and a bounded rubric
-    score exp(−z/5). The two p-values are calibrated hypothesis tests; the
-    bounded rubric score is what feeds the % weights in rubric_scorer.py.
+  Bounded score: S = exp(−z / SCORE_TAU) ∈ (0,1], suitable for monotone
+  aggregation across runs.
 
-    log₁₀(ΣO/ΣE) is kept as a human-readable normalization diagnostic —
-    physicists read ratios natively, and p-values saturate near zero.
+  log₁₀(ΣO/ΣE) is kept as a human-readable normalization diagnostic.
 
   Secondary shape metric
     Kolmogorov-Smirnov on unit-area CDFs with approximate p-value.
@@ -31,7 +32,7 @@ Output: <run_dir>/eval/score.json for single-shot layouts, or
 <iter_dir>/eval/score.json when run_path resolves to an iter.
 
 Usage:
-    python -m LHCRecastBench.evaluation.score runs/simulate_<paper>_<agent>_...
+    python -m LHCRecastBench.evaluation.score runs/<run_dir>
     python -m LHCRecastBench.evaluation.score runs/<run_a> runs/<run_b>   # compare
 """
 
@@ -44,22 +45,53 @@ from pathlib import Path
 
 import numpy as np
 import yaml
-from scipy.stats import chi2, kstwobign
+from scipy.stats import chi2, kstwobign, norm
 
 
-# Scale factor for the bounded rubric score: rubric = exp(-z / RUBRIC_Z_SCALE).
-# z = √λ is roughly an "effective number of sigmas of disagreement".
-# At z=5 → 0.37, z=10 → 0.14, z=20 → 0.02. Gentle enough that distinguishing
-# moderately-wrong runs from very-wrong runs is still possible in the rubric.
-RUBRIC_Z_SCALE = 5.0
+# Default per-bin log-normal systematic on the reference (multiplicative).
+# Code default is 0.0 (statistical-only) so callers must opt in to a
+# non-zero tolerance. Production runs read the task-specific value from
+# task.toml's `[metrics].tolerance` field via _resolve.py, threaded into
+# RunPaths.systematic_pct (default 0.05 across the benchmark suite).
+DEFAULT_SYSTEMATIC = 0.0
+
+# Number of toy pseudo-experiments per axis. With N=1M toys, p saturates at
+# ~1e-6 → z capped near 4.75.
+DEFAULT_N_TOYS = 1_000_000
+
+# Bounded score scale: S = exp(-z / SCORE_TAU). With toy-calibrated z:
+#   z=0 → S=1.00 (within the systematic+stat envelope)
+#   z=1 → S=0.72 (1σ off)
+#   z=2 → S=0.51 (2σ off — borderline)
+#   z=3 → S=0.37 (3σ off — clearly wrong)
+#   z=5 → S=0.19 (well off)
+SCORE_TAU = 3.0
 
 
 # ── Loading ─────────────────────────────────────────────────────────────────
 
 
 def _load_yaml(path: Path) -> dict:
+    """Load a histogram yaml.
+
+    Templates (and therefore the agent's filled output) are now two YAML
+    documents — a metadata block followed by the HEPData-style histogram —
+    while reference files in tasks/shared/<paper>/reference/ are still a
+    single histogram document. Return the doc carrying `dependent_variables`
+    in either case.
+    """
     with open(path) as f:
-        return yaml.safe_load(f)
+        docs = list(yaml.safe_load_all(f))
+    hist = next(
+        (d for d in docs if isinstance(d, dict) and "dependent_variables" in d),
+        None,
+    )
+    if hist is None:
+        raise ValueError(
+            f"{path}: no YAML document with `dependent_variables` "
+            "(expected a HEPData-style histogram)"
+        )
+    return hist
 
 
 def _extract_values(data: dict) -> list[dict]:
@@ -112,36 +144,142 @@ def _extract_bins(data: dict) -> list[dict]:
 # ── Baker-Cousins decomposition ────────────────────────────────────────────
 
 
-def _rubric(z: float) -> float:
-    """Bounded [0,1] monotone score from a z-score. See RUBRIC_Z_SCALE."""
-    if z <= 0:
+def _bounded_score(z: float) -> float:
+    """Bounded [0,1] monotone score from a toy-calibrated z. See SCORE_TAU.
+
+    z ≤ 0 means observed agreement is ≥ median of the systematic+stat null
+    (i.e. consistent with reference). Score saturates at 1.0 there.
+    """
+    if z <= 0 or not math.isfinite(z):
         return 1.0
-    return math.exp(-z / RUBRIC_Z_SCALE)
+    return math.exp(-z / SCORE_TAU)
 
 
-def bc_statistics(observed: np.ndarray, reference: np.ndarray) -> dict:
-    """Baker-Cousins likelihood-ratio decomposition.
+# ── Vectorized BC statistics (used inside the toy MC inner loop) ──────────
 
-    λ_total = λ_shape + λ_norm   (exact algebraic identity)
 
-      λ_shape = 2·Σ O_i · ln(O_i / Ê_i)       with Ê_i = (ΣO/ΣE)·E_i
+def _lam_norm_vec(o: np.ndarray, r: np.ndarray) -> np.ndarray:
+    """λ_norm vectorized over leading axis: o is (..., n), r is (n,).
+
+    Returns a 0-d or 1-d array of λ_norm values, one per row of `o`.
+    """
+    obs_tot = o.sum(axis=-1)
+    R = float(r.sum())
+    out = np.zeros_like(obs_tot, dtype=float)
+    mask = (obs_tot > 0) & (R > 0)
+    obs_m = obs_tot[mask] if obs_tot.ndim else obs_tot
+    if obs_tot.ndim:
+        out[mask] = 2.0 * (obs_m * np.log(obs_m / R) - (obs_m - R))
+    elif mask:
+        out = np.array(2.0 * (float(obs_tot) * math.log(float(obs_tot) / R) - (float(obs_tot) - R)))
+    return np.maximum(out, 0.0)
+
+
+def _lam_shape_vec(o: np.ndarray, r: np.ndarray) -> np.ndarray:
+    """λ_shape vectorized over leading axis. 0·ln(0) ≡ 0."""
+    o2 = np.atleast_2d(o)
+    obs_tot = o2.sum(axis=-1, keepdims=True)
+    R = float(r.sum())
+    ratio = np.where(obs_tot > 0, obs_tot / R, 1.0)
+    r_hat = ratio * r[None, :]
+    with np.errstate(divide="ignore", invalid="ignore"):
+        terms = np.where(
+            (o2 > 0) & (r_hat > 0),
+            o2 * np.log(o2 / np.where(r_hat > 0, r_hat, 1.0)),
+            0.0,
+        )
+    out = np.maximum(2.0 * terms.sum(axis=-1), 0.0)
+    return out if o.ndim > 1 else out[0]
+
+
+def _lam_total_vec(o: np.ndarray, r: np.ndarray) -> np.ndarray:
+    """λ_total = λ_norm + λ_shape (algebraic identity)."""
+    return _lam_norm_vec(o, r) + _lam_shape_vec(o, r)
+
+
+# ── Toy-MC calibration ────────────────────────────────────────────────────
+
+
+def _toy_calibrated_z(
+    lam_obs: float,
+    ref: np.ndarray,
+    statistic_vec,
+    *,
+    systematic_frac: float,
+    n_toys: int,
+    seed: int,
+) -> dict:
+    """Calibrate z via toy MC under (Poisson + log-normal systematic) null.
+
+    Per toy:
+      θ_i ~ N(0, 1)
+      ν_i = r_i · exp(σ_sys · θ_i)              (per-bin log-normal)
+      o_i ~ Poisson(ν_i)
+      λ_toy = statistic_vec(o_i, r_i)
+
+    Empirical p with +1 continuity correction, clamped to [1/(N+1),
+    1−1/(N+1)] so z is always finite. z = Φ⁻¹(1 − p).
+    """
+    rng = np.random.default_rng(seed)
+    n = len(ref)
+
+    if systematic_frac > 0:
+        theta = rng.standard_normal((n_toys, n))
+        nu = ref[None, :] * np.exp(systematic_frac * theta)
+    else:
+        nu = np.broadcast_to(ref, (n_toys, n)).astype(float, copy=False)
+    nu = np.clip(nu, 0.0, None)
+
+    o_toy = rng.poisson(nu).astype(float, copy=False)
+    lam_toys = statistic_vec(o_toy, ref)
+
+    n_above = int((lam_toys >= lam_obs).sum())
+    p_eps = 1.0 / (n_toys + 1)
+    p = (n_above + 1) / (n_toys + 1)
+    p_clipped = float(np.clip(p, p_eps, 1.0 - p_eps))
+    z = float(norm.isf(p_clipped))
+    return {
+        "z": z,
+        "p": p,
+        "z_capped_high": n_above == 0,
+        "n_toys": n_toys,
+    }
+
+
+def bc_statistics(
+    observed: np.ndarray,
+    reference: np.ndarray,
+    *,
+    systematic_frac: float = DEFAULT_SYSTEMATIC,
+    n_toys: int = DEFAULT_N_TOYS,
+    seed: int = 0,
+) -> dict:
+    """Baker-Cousins likelihood-ratio decomposition with toy-calibrated z.
+
+    λ_total = λ_shape + λ_norm  (exact algebraic identity)
+
+      λ_shape = 2·Σ O_i · ln(O_i / Ê_i)   with Ê_i = (ΣO/ΣE)·E_i
       λ_norm  = 2·[ ΣO·ln(ΣO/ΣE) − (ΣO − ΣE) ]
       λ_total = 2·Σ [ O_i·ln(O_i/E_i) − (O_i − E_i) ]
 
-    Each is asymptotically χ²-distributed under H₀ (obs ~ Poisson(ref)):
-      λ_shape ~ χ²(N−1),   λ_norm ~ χ²(1),   λ_total ~ χ²(N).
+    Each λ is calibrated to a z-score via toy MC under a null that includes
+    Poisson statistical fluctuation and a per-bin log-normal multiplicative
+    systematic of size `systematic_frac`. z is the Gaussian-equivalent
+    one-sided tail value Φ⁻¹(1-p_toy), not sqrt(lambda). This keeps the
+    reported z consistent across the total, normalization, and profiled-shape
+    axes and well-defined at low counts where the asymptotic χ²(dof)
+    approximation can fail.
 
-    Returns the three statistics, their p-values, z = √λ effective sigmas,
-    and bounded rubric scores exp(−z/RUBRIC_Z_SCALE).
+    Per-axis output: `lambda`, `dof`, `lambda_per_dof`, `z`, `z_stat_only`
+    (no-sys baseline for ablation), `p_value`, `score = exp(-z/τ)`,
+    plus the asymptotic χ² p-value `p_asymptotic` for reference.
 
-    0·ln(0) is taken as 0 (standard convention). Returns ``{"error": ...}``
-    if either distribution is empty.
+    0·ln(0) ≡ 0. Returns {"error": ...} for empty/degenerate inputs.
     """
     obs = np.asarray(observed, dtype=float)
     ref = np.asarray(reference, dtype=float)
     if obs.size == 0 or ref.size == 0 or obs.size != ref.size:
         return {"error": "empty or mismatched distributions"}
-
     tot_obs = float(np.sum(obs))
     tot_ref = float(np.sum(ref))
     n_bins = int(obs.size)
@@ -149,55 +287,113 @@ def bc_statistics(observed: np.ndarray, reference: np.ndarray) -> dict:
         return {"error": "total yield is zero in obs or ref"}
 
     ratio = tot_obs / tot_ref
-
-    # λ_norm (1-dof test on totals)
-    lam_norm = 2.0 * (tot_obs * math.log(ratio) - (tot_obs - tot_ref))
-    lam_norm = max(lam_norm, 0.0)  # guard float rounding
-    p_norm = float(chi2.sf(lam_norm, df=1))
-    z_norm = math.sqrt(lam_norm)
-
-    # λ_shape (n_bins−1 dof, profile over α=tot_obs/tot_ref)
-    # 0·ln(0) ≡ 0; skip obs_i ≤ 0 bins (their contribution is zero).
-    ref_hat = ratio * ref
-    with np.errstate(divide="ignore", invalid="ignore"):
-        terms = np.where(
-            (obs > 0) & (ref_hat > 0),
-            obs * np.log(obs / np.where(ref_hat > 0, ref_hat, 1.0)),
-            0.0,
-        )
-    lam_shape = max(2.0 * float(np.sum(terms)), 0.0)
-    dof_shape = max(n_bins - 1, 1)
-    p_shape = float(chi2.sf(lam_shape, df=dof_shape))
-    z_shape = math.sqrt(lam_shape)
-
-    # λ_total is algebraically λ_shape + λ_norm (profile + constraint).
+    lam_norm = float(_lam_norm_vec(obs, ref))
+    lam_shape = float(_lam_shape_vec(obs, ref))
     lam_total = lam_shape + lam_norm
-    p_total = float(chi2.sf(lam_total, df=n_bins))
-    z_total = math.sqrt(lam_total)
+
+    # Toy-calibrated z (with systematic) — different seeds per axis so the
+    # three calibrations use independent toy ensembles.
+    z_norm = _toy_calibrated_z(
+        lam_norm,
+        ref,
+        _lam_norm_vec,
+        systematic_frac=systematic_frac,
+        n_toys=n_toys,
+        seed=seed,
+    )
+    z_shape = _toy_calibrated_z(
+        lam_shape,
+        ref,
+        _lam_shape_vec,
+        systematic_frac=systematic_frac,
+        n_toys=n_toys,
+        seed=seed + 1,
+    )
+    z_total = _toy_calibrated_z(
+        lam_total,
+        ref,
+        _lam_total_vec,
+        systematic_frac=systematic_frac,
+        n_toys=n_toys,
+        seed=seed + 2,
+    )
+
+    # Stat-only ablation (sys = 0): how much of the loosening comes from
+    # the systematic. Use the SAME n_toys as the with-sys calibration so
+    # both axes saturate at the same cap; otherwise z and z_stat_only are
+    # not directly comparable.
+    z_norm_stat = _toy_calibrated_z(
+        lam_norm,
+        ref,
+        _lam_norm_vec,
+        systematic_frac=0.0,
+        n_toys=n_toys,
+        seed=seed + 100,
+    )
+    z_shape_stat = _toy_calibrated_z(
+        lam_shape,
+        ref,
+        _lam_shape_vec,
+        systematic_frac=0.0,
+        n_toys=n_toys,
+        seed=seed + 101,
+    )
+    z_total_stat = _toy_calibrated_z(
+        lam_total,
+        ref,
+        _lam_total_vec,
+        systematic_frac=0.0,
+        n_toys=n_toys,
+        seed=seed + 102,
+    )
+
+    # Asymptotic χ² p-values — kept for transparency / sanity checks but
+    # not used for any decision.
+    p_norm_asym = float(chi2.sf(lam_norm, df=1))
+    dof_shape = max(n_bins - 1, 1)
+    p_shape_asym = float(chi2.sf(lam_shape, df=dof_shape))
+    p_total_asym = float(chi2.sf(lam_total, df=n_bins))
+
+    def _round_z(z):
+        return round(z, 3) if math.isfinite(z) else z
 
     return {
         "shape": {
             "lambda": round(lam_shape, 3),
             "dof": dof_shape,
             "lambda_per_dof": round(lam_shape / dof_shape, 3),
-            "z": round(z_shape, 3),
-            "p_value": p_shape,
-            "score": round(_rubric(z_shape), 4),
+            "z": _round_z(z_shape["z"]),
+            "z_stat_only": _round_z(z_shape_stat["z"]),
+            "z_capped": z_shape["z_capped_high"],
+            "p_value": z_shape["p"],
+            "p_asymptotic": p_shape_asym,
+            "score": round(_bounded_score(z_shape["z"]), 4),
         },
         "normalization": {
             "lambda": round(lam_norm, 3),
             "dof": 1,
-            "z": round(z_norm, 3),
-            "p_value": p_norm,
-            "score": round(_rubric(z_norm), 4),
+            "z": _round_z(z_norm["z"]),
+            "z_stat_only": _round_z(z_norm_stat["z"]),
+            "z_capped": z_norm["z_capped_high"],
+            "p_value": z_norm["p"],
+            "p_asymptotic": p_norm_asym,
+            "score": round(_bounded_score(z_norm["z"]), 4),
             "ratio": round(ratio, 3),
             "log10_ratio": round(math.log10(ratio), 3),
         },
         "total": {
             "bc_stat": round(lam_total, 3),
             "dof": n_bins,
-            "z": round(z_total, 3),
-            "p_value": p_total,
+            "z": _round_z(z_total["z"]),
+            "z_stat_only": _round_z(z_total_stat["z"]),
+            "z_capped": z_total["z_capped_high"],
+            "p_value": z_total["p"],
+            "p_asymptotic": p_total_asym,
+        },
+        "calibration": {
+            "systematic_frac": systematic_frac,
+            "n_toys": n_toys,
+            "seed": seed,
         },
     }
 
@@ -244,44 +440,26 @@ def _score_series(
     rec_vals: list,
     ref_errs: list,
     bins: list[dict],
+    *,
+    systematic_frac: float = DEFAULT_SYSTEMATIC,
+    n_toys: int = DEFAULT_N_TOYS,
 ) -> dict:
-    """Score one dependent-variable series — summary stats only, no per-bin dump."""
+    """Score one dependent-variable series.
+
+    Output: Baker-Cousins shape/norm/total p-values + bounded scores, KS,
+    and an at-a-glance diagnosis. n_filled is kept as a sanity flag for
+    "did the agent fill in the histogram at all?"; per-bin pulls and the
+    n_pass / pass-rate are deliberately NOT computed — the BC/KS triple
+    is what we use to judge runs.
+    """
     n_bins = len(ref_vals)
+    n_filled = sum(1 for i in range(n_bins) if i < len(rec_vals) and rec_vals[i] is not None)
     series: dict = {
         "name": name,
         "n_bins": n_bins,
-        "n_filled": 0,
-        "n_pass": 0,
+        "n_filled": n_filled,
     }
 
-    for i in range(n_bins):
-        rec_val_raw = rec_vals[i] if i < len(rec_vals) else None
-        if rec_val_raw is None:
-            continue
-        series["n_filled"] += 1
-
-        ref_val = _as_float(ref_vals[i])
-        rec_val = _as_float(rec_val_raw)
-        if ref_val is None or rec_val is None:
-            continue
-
-        if ref_val == 0:
-            if abs(rec_val) < 1e-6:
-                series["n_pass"] += 1
-            continue
-
-        ref_err = ref_errs[i]
-        total_err = float(ref_err) if ref_err is not None else math.sqrt(abs(ref_val))
-        pull = (rec_val - ref_val) / total_err if total_err > 0 else 0.0
-        rel_diff = abs(rec_val - ref_val) / abs(ref_val)
-        if abs(pull) < 2.0 or rel_diff < 0.5:
-            series["n_pass"] += 1
-
-    series["score"] = (
-        round(series["n_pass"] / series["n_filled"], 3) if series["n_filled"] > 0 else 0.0
-    )
-
-    # Baker-Cousins decomposition on the aligned (both-numeric) subset.
     aligned = [
         (rv, cv)
         for i in range(min(len(ref_vals), len(rec_vals)))
@@ -294,7 +472,12 @@ def _score_series(
     ref_arr = np.array([p[0] for p in aligned], dtype=float)
     rec_arr = np.array([p[1] for p in aligned], dtype=float)
 
-    bc = bc_statistics(rec_arr, ref_arr)
+    bc = bc_statistics(
+        rec_arr,
+        ref_arr,
+        systematic_frac=systematic_frac,
+        n_toys=n_toys,
+    )
     if "error" in bc:
         series["bc_error"] = bc["error"]
         return series
@@ -314,6 +497,7 @@ def _score_series(
     series["shape"] = bc["shape"]
     series["normalization"] = bc["normalization"]
     series["total"] = bc["total"]
+    series["calibration"] = bc["calibration"]
     series["ks"] = ks_binned(rec_arr, ref_arr)
     series["combined"] = round(combined, 3)
     series["diagnosis"] = diagnosis
@@ -324,14 +508,14 @@ def _score_series(
 def _find_agent_output(results_dir: Path, data_filename: str) -> Path | None:
     """Find the agent-filled histogram under results/.
 
-    Accepts the exact filename or either .yml/.yaml variant (agent may have
+    Accepts the exact filename or either .yaml/.yml variant (agent may have
     kept the template's extension, which differs from the shared pool's).
     """
     direct = results_dir / data_filename
     if direct.is_file():
         return direct
     stem = Path(data_filename).stem
-    for ext in (".yml", ".yaml"):
+    for ext in (".yaml", ".yml"):
         alt = results_dir / f"{stem}{ext}"
         if alt.is_file():
             return alt
@@ -353,7 +537,7 @@ def score_run(rp) -> dict:
         return {
             "error": (
                 f"Agent output not found: {rp.results_dir}/{rp.data_filename} "
-                f"(also tried .yml / .yaml)"
+                f"(also tried .yaml / .yml)"
             )
         }
 
@@ -371,8 +555,15 @@ def score_run(rp) -> dict:
     if agent_s is None:
         return {"error": f"Series {rp.header_name!r} not in agent output {agent_path.name}"}
 
+    sys_frac = getattr(rp, "systematic_pct", DEFAULT_SYSTEMATIC)
+    score_mode = getattr(rp, "score_mode", "shape_norm")
     series = _score_series(
-        rp.header_name, ref_s["values"], agent_s["values"], ref_s["errors"], bins
+        rp.header_name,
+        ref_s["values"],
+        agent_s["values"],
+        ref_s["errors"],
+        bins,
+        systematic_frac=sys_frac,
     )
 
     output: dict = {
@@ -381,21 +572,31 @@ def score_run(rp) -> dict:
         "header_name": rp.header_name,
         "reference": str(ref_path),
         "agent_output": str(agent_path),
+        "systematic_pct": sys_frac,
+        "score_mode": score_mode,
         "series": series,
-        "n_total": series["n_bins"],
+        "n_bins": series["n_bins"],
         "n_filled": series["n_filled"],
-        "n_pass": series["n_pass"],
-        "overall_score": series.get("score", 0.0),
-        "overall_pass": series.get("score", 0.0) >= 0.5,
     }
     if "shape" in series:
         s_score = series["shape"]["score"]
         n_score = series["normalization"]["score"]
         output["overall_shape"] = round(s_score, 3)
         output["overall_normalization"] = round(n_score, 3)
-        output["overall_combined"] = round(
-            math.sqrt(s_score * n_score) if s_score > 0 and n_score > 0 else 0.0, 3
-        )
+        if score_mode == "shape":
+            output["overall_combined"] = round(s_score, 3)
+            output["score_note"] = (
+                "shape-only task: normalization diagnostic is not included in overall_combined"
+            )
+        elif score_mode == "yield":
+            output["overall_combined"] = round(n_score, 3)
+            output["score_note"] = (
+                "yield-only task: shape diagnostic is not included in overall_combined"
+            )
+        else:
+            output["overall_combined"] = round(
+                math.sqrt(s_score * n_score) if s_score > 0 and n_score > 0 else 0.0, 3
+            )
 
     return output
 
@@ -410,32 +611,28 @@ def print_scores(result: dict) -> None:
 
     print(f"\n  Task: {result['task_id']}")
     print(f"  Paper: {result['paper']}   Series: {result['header_name']}")
+    if result.get("score_mode") == "shape":
+        print("  Score mode: shape-only (normalization is diagnostic)")
+    elif result.get("score_mode") == "yield":
+        print("  Score mode: yield-only (shape is diagnostic)")
     print(f"  {'=' * 68}")
 
     s = result["series"]
-    n_pass = s["n_pass"]
-    n_filled = s["n_filled"]
-    score = s.get("score", 0)
     if "shape" in s:
         sh = s["shape"]
         no = s["normalization"]
         ks = s.get("ks", {})
         print(
-            f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})  "
+            f"    {s['name']}: filled {s['n_filled']}/{s['n_bins']}  "
             f"shape p={sh['p_value']:.2g} (score={sh['score']:.2f})  "
             f"norm p={no['p_value']:.2g} (score={no['score']:.2f})  "
             f"KS p={ks.get('p_value', float('nan')):.2g}  "
             f"[{s['diagnosis']}]"
         )
     else:
-        print(f"    {s['name']}: {n_pass}/{n_filled} pass ({score:.0%})")
+        print(f"    {s['name']}: filled {s['n_filled']}/{s['n_bins']}  (no Baker-Cousins)")
 
     print(f"\n  {'=' * 68}")
-    print(
-        f"  Bins: {result['n_pass']}/{result['n_filled']} pass "
-        f"({result['overall_score']:.0%})   status: "
-        f"{'PASS' if result['overall_pass'] else 'FAIL'}"
-    )
     if "overall_shape" in result:
         print(
             f"  Shape: {result['overall_shape']:.2f}   "
@@ -446,8 +643,8 @@ def print_scores(result: dict) -> None:
 
 
 def print_comparison(results: list[dict]) -> None:
-    print(f"\n  {'Task':<52s} {'Pass%':>7s} {'Shape':>7s} {'Norm':>7s} {'Comb':>7s}")
-    print(f"  {'─' * 83}")
+    print(f"\n  {'Task':<52s} {'Shape':>7s} {'Norm':>7s} {'Comb':>7s}")
+    print(f"  {'─' * 75}")
     for r in results:
         if "error" in r:
             label = r.get("task_id") or r.get("agent_output") or "?"
@@ -456,7 +653,6 @@ def print_comparison(results: list[dict]) -> None:
         label = str(r.get("task_id", ""))[:52]
         print(
             f"  {label:<52s} "
-            f"{r.get('overall_score', 0):>7.2f} "
             f"{r.get('overall_shape', 0):>7.2f} "
             f"{r.get('overall_normalization', 0):>7.2f} "
             f"{r.get('overall_combined', 0):>7.2f}"

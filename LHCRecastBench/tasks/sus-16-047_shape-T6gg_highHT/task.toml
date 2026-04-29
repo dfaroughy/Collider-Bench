@@ -1,0 +1,16 @@
+[task]
+id          = "sus-16-047_shape-T6gg_highHT"
+paper       = "CMS-SUS-16-047"
+type        = "simulation"
+target      = "T6gg_1750_1650"
+observable  = "pTmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "CMS", "T6gg", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+plot = "Events/bin"
+score = "shape"

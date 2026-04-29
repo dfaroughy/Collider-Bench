@@ -4,11 +4,38 @@ Agentic AI benchmark for recasting CMS particle-physics papers on NERSC Perlmutt
 
 Each **agent** reads a CMS paper, generates + runs an `analysis.py` against public CMS Open Data (or locally simulated MC signals), and fills a HEPData YAML template with per-bin yields. Its work is then scored bin-by-bin against the paper's published tables by [`LHCRecastBench/evaluation/score.py`](LHCRecastBench/evaluation/score.py) and, optionally, judged by a second LLM.
 
-## Quick start
+## Quick start (benchmark users)
+
+Everything you need — sim stack (MadGraph5, Pythia8, Delphes, ROOT), Python analysis env, vendor agent CLIs (Claude / Codex / Gemini) — is baked into a single public container image.
+
+```bash
+# 1. Pull the prebuilt benchmark image (once, ~3.5 GB)
+docker pull ghcr.io/dfaroughy/lhc-bench:latest
+#  Or, with podman / apptainer / singularity:
+#    podman    pull ghcr.io/dfaroughy/lhc-bench:latest
+#    apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
+
+# 2. Clone the harness
+git clone https://github.com/dfaroughy/LHCRecast-Bench.git
+cd LHCRecast-Bench
+
+# 3. Set the API key for whichever vendor you want to use
+export ANTHROPIC_API_KEY=...      # for --runner claude
+# or:  export OPENAI_API_KEY=...  # for --runner codex
+# or:  export GEMINI_API_KEY=...  # for --runner gemini
+# (You only need the key for the vendor you actually invoke.)
+
+# 4. Run one task
+scripts/run-agent --config configs/claude_simple.yaml --task <task-id>
+```
+
+The image is OCI-compatible and works with any container runtime — `docker`, `podman`, `apptainer` (HPC), `nerdctl` (k8s). Substitute the client; the image reference stays the same.
+
+## Quick start (developers — NERSC dev shell)
 
 ```bash
 # One-time: create / activate the conda environment
-source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate cms_analysis
+source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate lhc_analysis
 
 # Run one agent end-to-end (wraps in salloc/srun automatically)
 scripts/run-agent --config configs/claude_simple.yaml
@@ -18,6 +45,9 @@ scripts/launch_eval.sh <run_dir>
 
 # Run the test suite
 python -m pytest
+
+# Image audit (slower, requires a built local image)
+python -m pytest -m image
 ```
 
 ## Repository layout
@@ -25,7 +55,7 @@ python -m pytest
 ```
 agent_runtime/        — how we run agents (infra)
   runners.py            Runner ABC + Claude / Codex / Aider CLI wrappers
-  sandbox.py            Pluggable Sandbox (bwrap, none). See SANDBOX.md.
+  sandbox.py            Pluggable Sandbox (podman, apptainer, bwrap, none). See SANDBOX.md.
   launch.py             Shared single-run scaffolding
   workspace.py          build_workspace(): per-run sandbox layout
   naming.py             Run-dir naming, config schema, effort parsing
@@ -43,7 +73,8 @@ agents/
   simple/               Single-shot: one LLM call, score.
   baseline/             Single-shot with fuller agent_context + skills/.
   iterative/            Loop: re-run simple with inherited artifacts until pass.
-  sisyphus/             Three-role loop: planner → executor → critic (per iter).
+  anneal/               Three-role loop with temperature schedule + stochastic rollback:
+                        planner → executor → examiner (per iter).
 
 configs/              — YAML configs with `extends: base.yaml`
 scripts/              — run-agent dispatcher, launch_eval.sh
@@ -55,7 +86,7 @@ tests/                — pytest smoke suite (offline, no SLURM, no LLM calls)
 | Command | What it does |
 |---|---|
 | `scripts/run-agent --config configs/claude_simple.yaml` | Launch one agent on the configured paper |
-| `scripts/run-agent --config configs/claude_sisyphus.yaml --max-iters 5` | Multi-iteration sisyphus run |
+| `scripts/run-agent --config configs/claude_anneal.yaml --max-iters 5` | Multi-iteration anneal run |
 | `scripts/launch_eval.sh <run_dir>` | Score + judge + plot a finished run |
 | `python -m pytest` | Offline smoke tests |
 | `python -m LHCRecastBench.evaluation.render_eval <run_dir>` | Re-render `summary.md` from cached JSONs |
@@ -67,10 +98,11 @@ All agents share the same I/O contract: given a paper PDF + null-valued HEPRecas
 - **simple**: one Claude session, minimal guidance.
 - **baseline**: one Claude session, heavier `agent_context/` and `skills/`.
 - **iterative**: Python loop. Each iteration respawns the simple agent, inherits prior artifacts (analysis.py, datasets.yaml, HEPRecastData, score.json), stops when the score passes.
-- **sisyphus**: three-role loop.
-  - **Planner** (Sonnet, once): reads paper + templates, writes stable `plan.md`.
-  - **Executor** (Opus, each iter): the actual recast. Sees `plan.md` + prior-iter `critique.md`.
-  - **Critic** (Sonnet, after each non-converged iter): reads executor artifacts + reference + score.json, writes structured `critique.md` that seeds the next iter.
+- **anneal**: three-role loop with simulated-annealing dynamics.
+  - **Planner** (cheap tier, once): reads paper + templates, writes stable `plan.md`.
+  - **Executor** (strong tier, each iter): the actual recast. Sees `plan.md` (which the examiner keeps up-to-date in place) and a temperature blurb that nudges exploration vs. refinement.
+  - **Examiner** (cheap tier, after each non-converged iter): reads executor artifacts + paper, rewrites `plan.md` with concrete fixes, and maintains an examiner-only `proposals_log.md` of which past fixes worked. The executor never sees the proposals log; the examiner never sees the score or the reference values.
+  - **Annealing** (controller-side): a temperature schedule (`linear`/`cosine`/`none`) drives carry-forward depth (high T wipes more state) and stochastic rollback — on regression, the next iter's seed is rewound to the best-so-far iter's workspace with probability `1 - exp(-Δ/T)`, capped by `max_rollbacks`.
 
 Each role is a separate Claude process with a separate sandbox, tool allowlist, and (optionally) model.
 
@@ -78,7 +110,7 @@ Each role is a separate Claude process with a separate sandbox, tool allowlist, 
 
 Agents run inside a pluggable sandbox — see [`agent_runtime/SANDBOX.md`](agent_runtime/SANDBOX.md).
 
-The default on Linux is `bwrap`: the repo root is tmpfs'd, `workspace/` is rw-rebound, `LHCRecastBench/` is ro with `papers/` + `evaluation/` tmpfs'd to hide reference answers. `LHC_RECAST_SANDBOX=none` disables isolation (do not use for scored runs).
+The default is `podman` (falls back to `apptainer` on hosts where podman isn't installed). The agent runs inside the canonical `lhc-bench` image: `workspace/` is rw-bound, `LHCRecastBench/` is ro with `papers/` + `evaluation/` + each task's `template/` and reference answers tmpfs'd to hide them. `LHC_RECAST_SANDBOX=none` disables isolation (do not use for scored runs); `--sandbox bwrap` is available as an opt-in escape hatch but bypasses the container.
 
 ## Configs
 
