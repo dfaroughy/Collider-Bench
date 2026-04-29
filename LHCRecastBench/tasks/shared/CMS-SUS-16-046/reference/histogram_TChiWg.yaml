@@ -1,10 +1,10 @@
 dependent_variables:
 - header: {name: TChiWg_700}
   values:
-  - {value: 300.66}
-  - {value: 138.28}
-  - {value: 78.88}
-  - {value: 28.71}
+  - {value: 36.48}
+  - {value: 40.92}
+  - {value: 27.82}
+  - {value: 10.62}
 independent_variables:
 - header: {name: STGAMMA, units: GEV}
   values:

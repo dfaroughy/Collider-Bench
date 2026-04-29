@@ -2,7 +2,7 @@ dependent_variables:
 - header:
     name: T5Wg_1750_1700
   values:
-  - value: 488.88
+  - value: 54.85
 independent_variables:
 - header:
     name: SIGNAL_REGION
