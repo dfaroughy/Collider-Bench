@@ -1,0 +1,10 @@
+# Usage:
+#   scripts/run-agent --config configs/claude_simple.yaml
+#   scripts/run-agent --config configs/claude_simple.yaml --effort high   # CLI overrides
+
+agent:   simple
+task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
+runner:  claude
+model:   claude-opus-4-7
+effort:  max              # low | medium | high | max | <int tokens>
+extends: base.yaml

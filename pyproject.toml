@@ -45,7 +45,7 @@ testpaths = ["tests"]
 # Fast smoke suite — don't swallow stdout, fail on the first network/file error.
 addopts = "-ra --strict-markers"
 markers = [
-    "image: container-image audit suite (requires podman/podman-hpc + a built lhc-recast-runtime image; auto-skips otherwise). Run with `pytest -m image`; skip with `pytest -m 'not image'`.",
+    "image: container-image audit suite (requires podman/podman-hpc + a built lhc-bench image; auto-skips otherwise). Run with `pytest -m image`; skip with `pytest -m 'not image'`.",
 ]
 
 [tool.ruff]

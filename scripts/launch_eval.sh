@@ -57,11 +57,11 @@ done
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
 
-# Ensure the cms_analysis conda env is active so `python` resolves to the
+# Ensure the lhc_analysis conda env is active so `python` resolves to the
 # py3.11 interpreter with numpy/yaml/mplhep/etc. — without this, bare `python`
 # on NERSC login nodes can pick up /usr/bin/python2.7.
-if ! activate_cms_analysis; then
-  bootstrap_cms_analysis
+if ! activate_lhc_analysis; then
+  bootstrap_lhc_analysis
 fi
 
 export PYTHONPATH="${REPO_ROOT}:${PYTHONPATH:-}"

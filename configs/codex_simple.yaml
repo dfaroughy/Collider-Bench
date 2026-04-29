@@ -1,0 +1,10 @@
+# Usage:
+#   scripts/run-agent --config configs/codex_simple.yaml
+#   scripts/run-agent --config configs/codex_simple.yaml --effort high
+
+agent:   simple
+task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
+runner:  codex
+model:   gpt-5.5
+effort:  xhigh               # low | medium | high | xhigh | <int tokens>
+extends: base.yaml

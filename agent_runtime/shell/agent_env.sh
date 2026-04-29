@@ -3,9 +3,9 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-CMS_RECAST_CONDA_MODULE="${CMS_RECAST_CONDA_MODULE:-conda/Miniforge3-24.11.3-0}"
-CMS_RECAST_ENV_NAME="${CMS_RECAST_ENV_NAME:-cms_analysis}"
-CMS_RECAST_PACKAGES=(
+LHC_BENCH_CONDA_MODULE="${LHC_BENCH_CONDA_MODULE:-conda/Miniforge3-24.11.3-0}"
+LHC_BENCH_ENV_NAME="${LHC_BENCH_ENV_NAME:-lhc_analysis}"
+LHC_BENCH_PACKAGES=(
   python=3.11
   pyyaml
   requests
@@ -86,7 +86,7 @@ _load_conda_inner() {
     return 0
   fi
   load_module_stack
-  module load "${CMS_RECAST_CONDA_MODULE}" >/dev/null 2>&1 || module load conda >/dev/null 2>&1
+  module load "${LHC_BENCH_CONDA_MODULE}" >/dev/null 2>&1 || module load conda >/dev/null 2>&1
   if ! command -v conda >/dev/null 2>&1; then
     return 1
   fi
@@ -95,10 +95,10 @@ _load_conda_inner() {
 }
 
 conda_env_exists() {
-  conda env list | awk 'NF > 0 && $1 !~ /^#/ {print $1}' | grep -Fxq "${CMS_RECAST_ENV_NAME}"
+  conda env list | awk 'NF > 0 && $1 !~ /^#/ {print $1}' | grep -Fxq "${LHC_BENCH_ENV_NAME}"
 }
 
-activate_cms_analysis() {
+activate_lhc_analysis() {
   if ! load_conda; then
     return 1
   fi
@@ -107,11 +107,11 @@ activate_cms_analysis() {
   [[ $- == *u* ]] && had_nounset=1
   set +u
   if ! conda_env_exists; then
-    echo "Missing conda environment '${CMS_RECAST_ENV_NAME}'. Run ${REPO_ROOT}/LHCRecastBench/bin/bootstrap-recast-tools first." >&2
+    echo "Missing conda environment '${LHC_BENCH_ENV_NAME}'. Run ${REPO_ROOT}/LHCRecastBench/bin/bootstrap-recast-tools first." >&2
     (( had_nounset )) && set -u
     return 1
   fi
-  conda activate "${CMS_RECAST_ENV_NAME}" >/dev/null 2>&1
+  conda activate "${LHC_BENCH_ENV_NAME}" >/dev/null 2>&1
   local rc=$?
   (( had_nounset )) && set -u
   # Disable SSL verification globally for CERN's self-signed certificates
@@ -148,12 +148,12 @@ PY
   python -m pip install ${missing}
 }
 
-bootstrap_cms_analysis() {
+bootstrap_lhc_analysis() {
   load_conda
   if ! conda_env_exists; then
-    conda create -y -n "${CMS_RECAST_ENV_NAME}" -c conda-forge "${CMS_RECAST_PACKAGES[@]}"
+    conda create -y -n "${LHC_BENCH_ENV_NAME}" -c conda-forge "${LHC_BENCH_PACKAGES[@]}"
   fi
-  conda activate "${CMS_RECAST_ENV_NAME}" >/dev/null 2>&1
+  conda activate "${LHC_BENCH_ENV_NAME}" >/dev/null 2>&1
   ensure_python_modules
 }
 
@@ -258,7 +258,7 @@ PY
     # Explicit Lmod + conda activation — login-node env vars don't propagate.
     # PYTHONUNBUFFERED=1 keeps stream_display line-buffered when stdout is
     # not a TTY (under srun it isn't), so progress actually streams.
-    local INNER_CMD="source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate ${CMS_RECAST_ENV_NAME} && cd '${REPO_ROOT}' && export PYTHONUNBUFFERED=1 && python -m ${PY_MODULE}"
+    local INNER_CMD="source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate ${LHC_BENCH_ENV_NAME} && cd '${REPO_ROOT}' && export PYTHONUNBUFFERED=1 && python -m ${PY_MODULE}"
     local arg
     for arg in "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"; do
       INNER_CMD+=" $(printf '%q' "$arg")"
@@ -276,7 +276,7 @@ PY
 }
 
 print_env_summary() {
-  activate_cms_analysis
+  activate_lhc_analysis
   ensure_python_modules
   python - <<'PY'
 import importlib

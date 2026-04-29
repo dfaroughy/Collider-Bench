@@ -1,0 +1,16 @@
+# Usage:
+#   scripts/run-agent --config configs/gemini_iterative.yaml
+#   scripts/run-agent --config configs/gemini_iterative.yaml --max-iters 3
+#
+# Gemini CLI auto-routes between gemini-3-pro / flash / flash-lite on the
+# server side, so `model` is usually safe left empty.
+# The CLI has no reasoning-budget flag — `effort` is ignored.
+
+agent:   iterative
+task:    sus-16-047_sim-T5Wg_highHT    # see LHCRecastBench/tasks/
+runner:  gemini
+model:   ""                  # empty → auto-router picks available tier
+effort:  medium
+max_iters: 5
+min_iters: 1
+extends: base.yaml

@@ -28,7 +28,7 @@ in-repo paths otherwise):
 | `PYTHIA8_DIR` | `/opt/sim/pythia8313` | `share/Pythia8/xmldoc` (settings DB), examples |
 | `DELPHES_DIR` | `/opt/sim/delphes` | `DelphesHepMC2`, `DelphesHepMC3`, `cards/` |
 
-The conda env `cms_analysis` provides the Python bridge: `import pythia8`
+The conda env `lhc_analysis` provides the Python bridge: `import pythia8`
 and `import pyhepmc` resolve against the same Pythia/HepMC the CLIs use.
 
 ---

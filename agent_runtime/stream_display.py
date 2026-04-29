@@ -182,7 +182,7 @@ def render_line(line: str) -> None:
                     lines = [ln.strip() for ln in cmd.strip().split("\n") if ln.strip()]
                     display = " && ".join(lines)
                     display = display.replace(
-                        "source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate cms_analysis && ",
+                        "source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate lhc_analysis && ",
                         "",
                     )
                     print(f"  {GREEN}${RESET} {display[:200]}")

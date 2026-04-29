@@ -28,19 +28,10 @@ dist/
 *.egg
 
 # Packed conda env (multi-GB binary blob — re-create with
-# `conda pack -n cms_analysis -o docker/cms_analysis_env.tar.gz`).
-docker/cms_analysis_env.tar.gz
+# `conda pack -n lhc_analysis -o docker/lhc_analysis_env.tar.gz`).
+docker/lhc_analysis_env.tar.gz
 
-# ── Private overlay / vendor-only files ────────────────────────────────
-# The public benchmark image is vendor-neutral. These files contain the
-# concrete vendor-CLI integrations and our internal SLURM submitters;
-# they are intentionally not part of the public release.
-agent_runtime/_runners_vendor.py
-configs/claude_*.yaml
-configs/codex_*.yaml
-configs/gemini_*.yaml
-configs/aider_*.yaml
-docker/Dockerfile.dev
+# ── Internal SLURM submitters (NERSC-specific, not part of public release) ────
 scripts/multi-run-interactive.sh
 scripts/submit_production_simple.sh
 scripts/submit_simple_benchmark.sh
@@ -72,3 +63,4 @@ LHCRecastBench/tools/sim/prospino/prospino.dat*
 LHCRecastBench/tools/sim/prospino/screen.out
 # Per-invocation scratch dirs created by bin/prospino
 prospino_scratch/
+.ghcr_token

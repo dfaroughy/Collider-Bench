@@ -1,0 +1,11 @@
+# Usage:
+#   scripts/run-agent --config configs/gemini_pro25_simple.yaml
+#
+# Gemini CLI has no reasoning-budget flag — `effort` is ignored.
+
+agent:   simple
+task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
+runner:  gemini
+model:   gemini-2.5-pro
+effort:  medium
+extends: base.yaml

@@ -15,21 +15,23 @@ Usage:
 Backend selection (first match wins):
     1. `sandbox=` kwarg passed by the caller
     2. `LHC_RECAST_SANDBOX` environment variable
-    3. auto-detect: bwrap if installed, else none (with a warning)
+    3. auto-detect: podman → apptainer → (warn) none
 
 Available backends:
-    bwrap   — bubblewrap user-space namespaces (Linux only; recommended)
-    none    — passthrough, no isolation (macOS / CI / debugging)
+    podman    — runs the canonical lhc-bench image (default on hosts where
+                podman / podman-hpc is installed)
+    apptainer — same image via apptainer-exec (HPC sites with no podman)
+    bwrap     — bubblewrap on host, bypasses the container; opt-in only
+    none      — passthrough, no isolation (CI / debugging)
 
-Adding a new backend (e.g. Podman, Docker, Shifter): subclass Sandbox, register
-it in SANDBOXES at the bottom of this file. See agent_runtime/SANDBOX.md.
+Adding a new backend (Docker, Shifter, …): subclass Sandbox, register it in
+SANDBOXES at the bottom of this file. See agent_runtime/SANDBOX.md.
 """
 
 from __future__ import annotations
 
 import os
 import shutil
-import subprocess
 import sys
 import tempfile
 from abc import ABC, abstractmethod
@@ -39,41 +41,7 @@ from typing import Callable, Iterable, Sequence
 
 # ── Image selection ────────────────────────────────────────────────────────
 
-
-def _default_image() -> str:
-    """Image used when $LHC_RECAST_IMAGE is unset.
-
-    Prefers the private dev overlay (`localhost/lhc-recast-dev:latest`)
-    when it's present in the local image store — that's the image with
-    vendor agent CLIs (claude / codex / gemini) baked on top of the
-    public runtime. Falls back to `localhost/lhc-recast-runtime:latest`
-    (vendor-neutral, what ships with the public release) otherwise.
-
-    Probed once at module import; result is cached for the process.
-    `podman-hpc image exists` is unreliable on NERSC's wrapper (returns
-    rc=1 even for present images), so we list and substring-match.
-    """
-    dev = "localhost/lhc-recast-dev:latest"
-    runtime = "localhost/lhc-recast-runtime:latest"
-    for engine in ("podman-hpc", "podman"):
-        if not shutil.which(engine):
-            continue
-        try:
-            out = subprocess.run(
-                [engine, "images", "--format", "{{.Repository}}:{{.Tag}}"],
-                capture_output=True,
-                text=True,
-                timeout=5,
-            )
-        except (subprocess.TimeoutExpired, FileNotFoundError):
-            continue
-        if out.returncode == 0 and any(line.strip() == dev for line in out.stdout.splitlines()):
-            return dev
-        break  # engine present, dev image absent — fall through to runtime
-    return runtime
-
-
-_DEFAULT_IMAGE = _default_image()  # cache once; nothing changes mid-process
+_DEFAULT_IMAGE = "ghcr.io/dfaroughy/lhc-bench:latest"
 
 
 # Files copied into a per-container ephemeral $HOME so each agent run gets
@@ -341,13 +309,13 @@ class BwrapSandbox(Sandbox):
 class ApptainerSandbox(Sandbox):
     """OCI-image sandbox via `apptainer exec`.
 
-    Pairs with docker/Dockerfile.runtime (or docker/Dockerfile.bench for a
-    vendor-neutral setup). Runs on Linux laptops, NERSC / generic HPC, and
-    anywhere else apptainer-exec is installed — same image everywhere.
+    Pairs with docker/Dockerfile (the canonical benchmark image). Runs on
+    Linux laptops, NERSC / generic HPC, and anywhere else apptainer-exec
+    is installed — same image everywhere.
 
     Image selection:
-      $LHC_RECAST_IMAGE   — path to a .sif file or a registry ref
-                            (default: "lhc-recast-runtime:latest").
+      $LHC_BENCH_IMAGE   — path to a .sif file or a registry ref
+                            (default: "ghcr.io/dfaroughy/lhc-bench:latest").
 
     Binds:
       - host repo_root/LHCRecastBench  → same path inside container
@@ -375,7 +343,7 @@ class ApptainerSandbox(Sandbox):
     def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
         from agent_runtime import paths as bench_paths
 
-        image = os.environ.get("LHC_RECAST_IMAGE") or _DEFAULT_IMAGE
+        image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
 
         cmd: list[str] = [
             self._engine(),
@@ -489,7 +457,7 @@ class PodmanSandbox(Sandbox):
     runtime. Use this when apptainer isn't installed but podman is (NERSC
     Perlmutter: podman-hpc only).
 
-    Image ref in $LHC_RECAST_IMAGE (default: lhc-recast-runtime:latest).
+    Image ref in $LHC_BENCH_IMAGE (default: ghcr.io/dfaroughy/lhc-bench:latest).
     """
 
     name = "podman"
@@ -503,7 +471,7 @@ class PodmanSandbox(Sandbox):
     def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
         from agent_runtime import paths as bench_paths
 
-        image = os.environ.get("LHC_RECAST_IMAGE") or _DEFAULT_IMAGE
+        image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
 
         # Container runs as root (UID 0) by default under rootless podman —
         # that's safe because rootless podman maps container-root to the
@@ -626,23 +594,23 @@ SANDBOXES: dict[str, type[Sandbox]] = {
 
 
 def _auto_select() -> Sandbox:
-    """Pick the best available isolating backend.
+    """Pick the best available container backend.
 
-    Order: apptainer → podman → bwrap → none. Container backends are
-    preferred over bwrap because (a) they isolate $HOME via the staging
-    dir built in _prepare_isolated_home, which bwrap does not, and (b)
-    on HPC sites with both bwrap and a container runtime installed
-    (Perlmutter), the container is the intended path.
-    Users can force any via --sandbox <name> or LHC_RECAST_SANDBOX=<name>.
+    Order: podman → apptainer. Both run the canonical lhc-bench image
+    with proper $HOME isolation via the staging dir built in
+    `_prepare_isolated_home`. Bwrap is intentionally excluded: it
+    doesn't use the image at all (runs analysis on the host conda env),
+    which defeats the point of the canonical container. To force bwrap,
+    pass `--sandbox bwrap` explicitly.
     """
-    for cls in (ApptainerSandbox, PodmanSandbox, BwrapSandbox):
+    for cls in (PodmanSandbox, ApptainerSandbox):
         inst = cls()
         if inst.available():
             return inst
     sys.stderr.write(
-        "sandbox: no isolating backend available (bwrap, apptainer, podman all missing); "
+        "sandbox: no container backend available (podman, apptainer both missing); "
         "falling back to 'none' (NO ISOLATION). "
-        "Install one of them, or set LHC_RECAST_SANDBOX=none to silence this.\n"
+        "Install one of them, or pass --sandbox bwrap / --sandbox none explicitly.\n"
     )
     return NoneSandbox()
 
@@ -653,7 +621,7 @@ def get_sandbox(name: str | None = None) -> Sandbox:
     Resolution order:
       1. explicit `name` argument
       2. LHC_RECAST_SANDBOX environment variable
-      3. auto-detect (prefer bwrap; fall back to none with warning)
+      3. auto-detect: podman → apptainer → (warn) none
 
     "auto" is a valid value everywhere and means the auto-detect path.
     """

@@ -16,8 +16,8 @@ REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
 
 # Conda activation is needed before we can call `python` to parse the config.
-if ! activate_cms_analysis; then
-  bootstrap_cms_analysis
+if ! activate_lhc_analysis; then
+  bootstrap_lhc_analysis
 fi
 ensure_python_modules
 

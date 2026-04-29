@@ -1,17 +1,7 @@
-# Mirror of .gitignore for the public benchmark image build context.
-# Anything listed here gets stripped from the COPY ... /app/... layers
-# in docker/Dockerfile.bench and docker/Dockerfile.runtime, so the
-# resulting public image cannot accidentally bake in vendor-specific
-# files that the developer happened to have locally.
+# Stripped from the COPY ... /app/... layers in docker/Dockerfile so the
+# resulting image doesn't bake in developer-local cache.
 
-# Vendor / private overlay
-agent_runtime/_runners_vendor.py
 agent_runtime/__pycache__/
-configs/claude_*.yaml
-configs/codex_*.yaml
-configs/gemini_*.yaml
-configs/aider_*.yaml
-docker/Dockerfile.dev
 
 # Run outputs and ephemeral state
 runs/

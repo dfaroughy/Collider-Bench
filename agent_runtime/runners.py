@@ -1,14 +1,11 @@
 """Agent runner abstraction.
 
 Each runner knows how to locate its CLI binary, build a command, and
-execute the agent subprocess. The public part of this module (the one
-that ships in the benchmark image on GitHub) defines the abstract
-`Runner` base, the `register` decorator, the `RUNNERS` registry, and
-`get_runner`. Concrete vendor runner subclasses (Claude Code, Codex,
-Gemini CLI, Aider) live in the private sibling module
-`_runners_vendor.py`, which is gitignored and only present in
-internal/development checkouts. The try-import at the bottom of this
-file picks them up automatically when present.
+execute the agent subprocess. This module defines the abstract `Runner`
+base, the `register` decorator, the `RUNNERS` registry, and `get_runner`.
+Concrete vendor runner subclasses (Claude Code, Codex, Gemini CLI, Aider)
+live in the sibling module `_runners_vendor.py`. The try-import at the
+bottom of this file registers them automatically.
 
 Adding a new backend (e.g. an OSS-model harness, a different vendor
 CLI, a local Ollama wrapper):
@@ -210,23 +207,13 @@ def get_runner(name: str) -> Runner:
         available = ", ".join(sorted(RUNNERS)) or "(none registered)"
         raise ValueError(
             f"Unknown runner: {name!r}. Available: {available}. "
-            "Vendor runners (claude, codex, gemini, aider) live in the "
-            "private module `agent_runtime._runners_vendor`, not part of "
-            "the public benchmark image; users should subclass `Runner` "
-            "and call `register(...)` from this module to plug in their "
-            "own backend."
+            "Add a new backend by subclassing `Runner` and calling "
+            "`register(...)` from this module."
         )
     return cls()
 
 
 # ── Built-in runners ───────────────────────────────────────────────────────
-#
-# The legacy in-file vendor runner subclasses have been moved to
-# `agent_runtime/_runners_vendor.py` (gitignored). Try-import below.
-
-try:
-    from agent_runtime import _runners_vendor  # noqa: F401  side-effect: registers
-except ImportError:
-    # Public benchmark image / GitHub clone: no vendor runners available.
-    # Users must register their own Runner subclass via `register(...)`.
-    pass
+# Vendor `Runner` subclasses (Claude / Codex / Gemini / Aider) live in
+# `_runners_vendor.py` and self-register on import.
+from agent_runtime import _runners_vendor  # noqa: E402,F401

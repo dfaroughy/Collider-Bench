@@ -1,6 +1,6 @@
 # `run-analysis` — execute `analysis.py` under the benchmark's env
 
-**Purpose.** Activate the `cms_analysis` conda env, run `analysis.py` from
+**Purpose.** Activate the `lhc_analysis` conda env, run `analysis.py` from
 the workspace root, and print a summary. Handles pre-flight checks and
 guarantees only one analysis runs at a time in the workspace.
 
@@ -19,7 +19,7 @@ There are no flags. The tool:
 
 1. Acquires a file lock on `.analysis.lock` (fails fast if a prior run
    is still going).
-2. Sources `cms_analysis` conda env.
+2. Sources `lhc_analysis` conda env.
 3. Runs pre-flight checks (workspace layout, required files).
 4. Executes `python3 analysis.py`.
 5. Prints a summary of what `analysis.py` produced.

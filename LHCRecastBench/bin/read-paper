@@ -11,8 +11,8 @@ esac
 
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
 
-if ! activate_cms_analysis; then
-  bootstrap_cms_analysis
+if ! activate_lhc_analysis; then
+  bootstrap_lhc_analysis
 fi
 
 cd "${REPO_ROOT}"

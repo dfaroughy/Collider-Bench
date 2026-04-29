@@ -1,9 +1,8 @@
 """Runner build_command must produce well-formed CLI args for each backend.
 
-Vendor runner subclasses (Claude Code, Codex, Gemini CLI, Aider) live in
-the gitignored `agent_runtime/_runners_vendor.py`. In a public-clone
-checkout that file is absent → `RUNNERS` only contains user-registered
-runners → these vendor-specific tests skip cleanly.
+Vendor runner subclasses live in `agent_runtime/_runners_vendor.py` and
+auto-register on import. The build_command tests skip when the underlying
+CLI binary isn't installed on the host.
 """
 
 from __future__ import annotations
@@ -25,10 +24,6 @@ def test_unknown_runner_rejected():
         get_runner("nope")
 
 
-@pytest.mark.skipif(
-    "claude" not in RUNNERS,
-    reason="vendor runner not registered (public clone w/o _runners_vendor.py)",
-)
 def test_claude_build_command_disallows_schedulewakeup(tmp_path):
     """ScheduleWakeup strands sessions in -p mode; the runner must block it."""
     try:
@@ -46,10 +41,6 @@ def test_claude_build_command_disallows_schedulewakeup(tmp_path):
     assert "--max-thinking-tokens" in cmd
 
 
-@pytest.mark.skipif(
-    "codex" not in RUNNERS,
-    reason="vendor runner not registered (public clone w/o _runners_vendor.py)",
-)
 def test_codex_build_command_shape(tmp_path):
     try:
         r = get_runner("codex")
@@ -62,10 +53,6 @@ def test_codex_build_command_shape(tmp_path):
     assert "danger-full-access" in cmd
 
 
-@pytest.mark.skipif(
-    "claude" not in RUNNERS,
-    reason="vendor runner not registered (public clone w/o _runners_vendor.py)",
-)
 def test_claude_allowlist_threaded_through(tmp_path):
     try:
         r = get_runner("claude")

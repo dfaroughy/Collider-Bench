@@ -4,11 +4,38 @@ Agentic AI benchmark for recasting CMS particle-physics papers on NERSC Perlmutt
 
 Each **agent** reads a CMS paper, generates + runs an `analysis.py` against public CMS Open Data (or locally simulated MC signals), and fills a HEPData YAML template with per-bin yields. Its work is then scored bin-by-bin against the paper's published tables by [`LHCRecastBench/evaluation/score.py`](LHCRecastBench/evaluation/score.py) and, optionally, judged by a second LLM.
 
-## Quick start
+## Quick start (benchmark users)
+
+Everything you need — sim stack (MadGraph5, Pythia8, Delphes, ROOT), Python analysis env, vendor agent CLIs (Claude / Codex / Gemini) — is baked into a single public container image.
+
+```bash
+# 1. Pull the prebuilt benchmark image (once, ~3.5 GB)
+docker pull ghcr.io/dfaroughy/lhc-bench:latest
+#  Or, with podman / apptainer / singularity:
+#    podman    pull ghcr.io/dfaroughy/lhc-bench:latest
+#    apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
+
+# 2. Clone the harness
+git clone https://github.com/dfaroughy/LHCRecast-Bench.git
+cd LHCRecast-Bench
+
+# 3. Set the API key for whichever vendor you want to use
+export ANTHROPIC_API_KEY=...      # for --runner claude
+# or:  export OPENAI_API_KEY=...  # for --runner codex
+# or:  export GEMINI_API_KEY=...  # for --runner gemini
+# (You only need the key for the vendor you actually invoke.)
+
+# 4. Run one task
+scripts/run-agent --config configs/claude_simple.yaml --task <task-id>
+```
+
+The image is OCI-compatible and works with any container runtime — `docker`, `podman`, `apptainer` (HPC), `nerdctl` (k8s). Substitute the client; the image reference stays the same.
+
+## Quick start (developers — NERSC dev shell)
 
 ```bash
 # One-time: create / activate the conda environment
-source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate cms_analysis
+source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate lhc_analysis
 
 # Run one agent end-to-end (wraps in salloc/srun automatically)
 scripts/run-agent --config configs/claude_simple.yaml
@@ -18,6 +45,9 @@ scripts/launch_eval.sh <run_dir>
 
 # Run the test suite
 python -m pytest
+
+# Image audit (slower, requires a built local image)
+python -m pytest -m image
 ```
 
 ## Repository layout
@@ -25,7 +55,7 @@ python -m pytest
 ```
 agent_runtime/        — how we run agents (infra)
   runners.py            Runner ABC + Claude / Codex / Aider CLI wrappers
-  sandbox.py            Pluggable Sandbox (bwrap, none). See SANDBOX.md.
+  sandbox.py            Pluggable Sandbox (podman, apptainer, bwrap, none). See SANDBOX.md.
   launch.py             Shared single-run scaffolding
   workspace.py          build_workspace(): per-run sandbox layout
   naming.py             Run-dir naming, config schema, effort parsing
@@ -80,7 +110,7 @@ Each role is a separate Claude process with a separate sandbox, tool allowlist, 
 
 Agents run inside a pluggable sandbox — see [`agent_runtime/SANDBOX.md`](agent_runtime/SANDBOX.md).
 
-The default on Linux is `bwrap`: the repo root is tmpfs'd, `workspace/` is rw-rebound, `LHCRecastBench/` is ro with `papers/` + `evaluation/` tmpfs'd to hide reference answers. `LHC_RECAST_SANDBOX=none` disables isolation (do not use for scored runs).
+The default is `podman` (falls back to `apptainer` on hosts where podman isn't installed). The agent runs inside the canonical `lhc-bench` image: `workspace/` is rw-bound, `LHCRecastBench/` is ro with `papers/` + `evaluation/` + each task's `template/` and reference answers tmpfs'd to hide them. `LHC_RECAST_SANDBOX=none` disables isolation (do not use for scored runs); `--sandbox bwrap` is available as an opt-in escape hatch but bypasses the container.
 
 ## Configs
 

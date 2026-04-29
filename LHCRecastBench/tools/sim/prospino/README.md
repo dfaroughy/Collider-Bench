@@ -38,4 +38,4 @@ None currently. If we vendor with local changes, record them here:
 
 Prospino 2.1 expects CTEQ6L1/CTEQ6M (built-in) and can also read LHAPDF
 tables. For reproducibility we pin CT14nlo via LHAPDF; the LHAPDF library
-is provided by the `cms_analysis` conda env.
+is provided by the `lhc_analysis` conda env.

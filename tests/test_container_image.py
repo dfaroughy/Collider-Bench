@@ -1,4 +1,4 @@
-"""Audit the agent runtime container image (`localhost/lhc-recast-runtime`).
+"""Audit the canonical benchmark container image (`localhost/lhc-bench`).
 
 Verifies that everything the agent expects to find inside the container is
 actually present *and works*: Python deps in the conda env, sim-stack
@@ -28,10 +28,14 @@ import subprocess
 import textwrap
 from pathlib import Path
 
+import os
+
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-IMAGE = "localhost/lhc-recast-runtime:latest"
+# Match the sandbox default but allow override for developers running
+# tests against a locally-built image tagged differently.
+IMAGE = os.environ.get("LHC_BENCH_IMAGE", "ghcr.io/dfaroughy/lhc-bench:latest")
 
 _BENCH_DIR = REPO_ROOT / "LHCRecastBench"
 _AGENT_RUNTIME_DIR = REPO_ROOT / "agent_runtime"
@@ -148,7 +152,7 @@ def test_python_is_conda_env():
     """`python` resolves to the baked conda env, not /usr/bin/python."""
     r = _run_in_container("readlink -f $(which python)")
     assert r.returncode == 0, r.stderr
-    assert "/opt/conda/envs/cms_analysis/bin/python" in r.stdout, r.stdout
+    assert "/opt/conda/envs/lhc_analysis/bin/python" in r.stdout, r.stdout
 
 
 def test_python_imports_all_deps_in_one_shot():
@@ -229,7 +233,7 @@ _REQUIRED_ENV = [
     ("PYTHIA8_DIR", "/opt/sim/pythia8313"),
     ("DELPHES_DIR", "/opt/sim/delphes"),
     ("PROSPINO_DIR", "/opt/sim/prospino"),
-    ("CONDA_DEFAULT_ENV", "cms_analysis"),
+    ("CONDA_DEFAULT_ENV", "lhc_analysis"),
 ]
 
 
