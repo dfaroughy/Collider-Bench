@@ -12,6 +12,7 @@ authors = [{ name = "Darius Faroughy", email = "dariusfar@gmail.com" }]
 
 dependencies = [
     "pyyaml>=6",
+    "pydantic>=2",       # declarative RunnerSpec validation
     "numpy>=1.24",
     "scipy>=1.10",       # chi2 + kstwobign for Baker-Cousins p-values
     "awkward>=2",
