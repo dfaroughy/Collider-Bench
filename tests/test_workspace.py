@@ -14,9 +14,9 @@ import pytest
 from agent_runtime.workspace import build_workspace
 
 
-# Only single-shot agents are exercised here. Iterative/anneal controllers
-# haven't been migrated to the tasks/ layout yet (see their main() guards).
-AGENT_NAMES = ["simple", "baseline"]
+# Public agents only — private agents (e.g. baseline, anneal) are tested
+# under tests/test_prompts_private.py when present locally.
+AGENT_NAMES = ["simple"]
 
 
 @pytest.fixture

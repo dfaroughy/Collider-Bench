@@ -58,7 +58,7 @@ Each run gets a fresh sandboxed workspace containing:
     TASK.md                ← the task's instruction file
     AGENTS.md              ← agent role description
     TOOLS.md               ← canonical tool index
-    SOUL.md, skills/*      ← optional per-agent guidance (baseline only)
+    SOUL.md, skills/*      ← optional per-agent guidance (when shipped by the agent)
   bin/                     ← all CLI wrappers
   tools/                   ← full tools/ tree (read-only)
   papers/                  ← symlinked paper PDF (read-only)

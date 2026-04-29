@@ -3,6 +3,16 @@
 
 agent_runtime/__pycache__/
 
+# Private (non-public) agents — keep them out of the canonical image build.
+agents/anneal/
+agents/baseline/
+configs/claude_anneal.yaml
+configs/codex_anneal.yaml
+configs/gemini_anneal.yaml
+configs/claude_baseline.yaml
+configs/codex_baseline.yaml
+configs/gemini_baseline.yaml
+
 # Run outputs and ephemeral state
 runs/
 recast_*/

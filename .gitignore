@@ -37,6 +37,18 @@ scripts/submit_production_simple.sh
 scripts/submit_simple_benchmark.sh
 scripts/sbatch_simple_array.sh
 
+# ── Private agents (kept locally, not part of the public benchmark) ────────
+agents/anneal/
+agents/baseline/
+configs/claude_anneal.yaml
+configs/codex_anneal.yaml
+configs/gemini_anneal.yaml
+configs/claude_baseline.yaml
+configs/codex_baseline.yaml
+configs/gemini_baseline.yaml
+tests/test_anneal_schedule.py
+tests/test_prompts_private.py
+
 # Editors / OS
 .vscode/
 .idea/

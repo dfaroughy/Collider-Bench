@@ -7,7 +7,7 @@ This is an agentic AI benchmark for reproducing and recasting analyses published
 Everything you need — sim stack (MadGraph5, Pythia8, Delphes, ROOT), Python analysis env, vendor agent CLIs (Claude / Codex / Gemini) — is baked into a single public container image.
 
 ```bash
-# 1. Pull the prebuilt benchmark image using either of: 
+# 1. Pull the prebuilt benchmark image using either of:
 docker pull ghcr.io/dfaroughy/lhc-bench:latest
 podman pull ghcr.io/dfaroughy/lhc-bench:latest
 apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
@@ -46,11 +46,8 @@ LHCRecastBench/       — what we test against (benchmark)
   bin/                  Agent-facing CLIs (hepdata, cms-opendata, read-paper, simulate)
 
 agents/
-  simple/               Single-shot: one LLM call, score.
-  baseline/             Single-shot with fuller agent_context + skills/.
-  iterative/            Loop: re-run simple with inherited artifacts until pass.
-  anneal/               Three-role loop with temperature schedule + stochastic rollback:
-                        planner → executor → examiner (per iter).
+  simple/               Single-shot: one LLM call, score. (Add your own pattern
+                        here by creating a sibling directory + run.py.)
 
 configs/              — YAML configs with `extends: base.yaml`
 scripts/              — run-agent dispatcher, launch_eval.sh

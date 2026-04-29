@@ -1,14 +1,11 @@
 """Shared single-run launch scaffolding for single-shot agents.
 
-Collapses the boilerplate that used to be duplicated across
-agents/simple/run.py and agents/baseline/run.py: arg parsing, config
-resolution, run-info generation, workspace build, runner invocation,
-scoring, and finalization.
+Collapses the boilerplate of arg parsing, config resolution, run-info
+generation, workspace build, runner invocation, scoring, and finalization.
 
 Agents that fit the "parse config → build workspace → run once → score →
-finalize" shape should call launch_single_run(). Agents with a custom
-control loop (iterative, anneal) compose from naming.py helpers
-directly.
+finalize" shape (e.g. agents/simple) call launch_single_run(). Agents
+with a custom control loop compose from naming.py helpers directly.
 """
 
 from __future__ import annotations
