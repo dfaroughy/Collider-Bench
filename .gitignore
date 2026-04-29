@@ -64,3 +64,5 @@ LHCRecastBench/tools/sim/prospino/screen.out
 # Per-invocation scratch dirs created by bin/prospino
 prospino_scratch/
 .ghcr_token
+
+.codex

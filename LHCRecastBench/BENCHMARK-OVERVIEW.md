@@ -39,11 +39,14 @@ LHCRecastBench/tasks/
 ```
 
 Task-id format: `<paper-slug>_<type>-<benchmark>[_<region-or-variant>]` with
-type ∈ {`sim`, `val`, `shape`} (`recast` to come). Observable names live in
+type ∈ {`sim`, `val`, `shape`, `yield`} (`recast` to come). Observable names live in
 `task.toml` and the HEPData metadata, not in the task id or histogram filename.
 Shape-only simulation tasks use `shape` in the task id and set
 `[metrics].score = "shape"`; they score only the unit-normalized distribution
 shape while still reporting normalization as a diagnostic.
+Yield-only tasks use `yield` in the task id and set
+`[metrics].score = "yield"`; they score only the integrated
+signal-region yield while still reporting the trivial one-bin shape diagnostic.
 
 ## Agent workspace layout
 
@@ -96,7 +99,8 @@ Metrics applied per task:
 - Fill completeness (`n_filled` / `n_bins`) as a sanity flag.
 
 For shape-only tasks, the final score is the Baker-Cousins shape score; the
-normalization score is shown but not included in `overall_combined`.
+normalization score is shown but not included in `overall_combined`. For
+yield-only tasks, the final score is the normalization score.
 
 ## Offline evaluation
 

@@ -21,7 +21,7 @@ Output (RunPaths):
     reference_file — tasks/shared/<paper>/reference/<data_file>
     data_filename  — the histogram yaml filename (e.g. histogram_TChiWg.yaml)
     header_name    — series name to match inside the yaml (e.g. TChiWg_700)
-    score_mode     — "shape_norm" or "shape"
+    score_mode     — "shape_norm", "shape", or "yield"
     plot_mode      — "Events/bin" or "Events/GeV"
 """
 
@@ -148,9 +148,10 @@ def _load_task_identity(task_id: str) -> tuple[str, str, str, float, str, str]:
             )
     if "score" in metrics_block:
         score_mode = str(metrics_block["score"]).strip()
-        if score_mode not in {"shape_norm", "shape"}:
+        if score_mode not in {"shape_norm", "shape", "yield"}:
             raise ValueError(
-                f"{task_toml_path}: [metrics].score must be 'shape_norm' or 'shape', "
+                f"{task_toml_path}: [metrics].score must be 'shape_norm', "
+                f"'shape', or 'yield', "
                 f"got {score_mode!r}"
             )
     if "plot" in metrics_block:

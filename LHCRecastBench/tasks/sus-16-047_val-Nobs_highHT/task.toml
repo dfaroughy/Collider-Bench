@@ -7,7 +7,7 @@ observable  = "pTmiss"
 
 [metadata]
 difficulty = "medium"
-walltime   = "1h30m"
+walltime   = "2h30m"
 tags       = ["CMS", "13TeV", "data"]
 
 [metrics]

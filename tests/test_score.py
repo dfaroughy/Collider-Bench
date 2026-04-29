@@ -4,7 +4,7 @@ The statistical content of the scorer lives in ``bc_statistics()`` and
 ``ks_binned()`` in ``LHCRecastBench.evaluation.score``.
 
 We deliberately use a small toy budget here (``n_toys=1000``) so the suite
-stays fast; production scoring uses ``DEFAULT_N_TOYS`` (10k). All assertions
+stays fast; production scoring uses ``DEFAULT_N_TOYS`` (1M). All assertions
 are robust to the toy noise that small-N introduces.
 
 Tests cover:

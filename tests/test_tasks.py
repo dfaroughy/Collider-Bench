@@ -36,7 +36,7 @@ REQUIRED_METADATA_FIELDS = (
     "luminosity_fb",
 )
 ALLOWED_TYPES = {"simulation", "validation"}
-ALLOWED_SCORE_MODES = {"shape_norm", "shape"}
+ALLOWED_SCORE_MODES = {"shape_norm", "shape", "yield"}
 ALLOWED_PLOT_MODES = {"Events/bin", "Events/GeV"}
 
 
@@ -326,6 +326,8 @@ def test_template_and_reference_bin_edges_agree(task_id_param):
     if len(t_edges) != len(r_edges):
         pytest.skip("bin counts differ — covered by a separate test")
     for i, (t, r) in enumerate(zip(t_edges, r_edges, strict=False)):
-        assert t.get("low") == r.get("low") and t.get("high") == r.get("high"), (
-            f"{task_id_param}: bin {i} edges differ — " f"template={t}  reference={r}"
-        )
+        if "low" in t or "high" in t or "low" in r or "high" in r:
+            match = t.get("low") == r.get("low") and t.get("high") == r.get("high")
+        else:
+            match = t == r
+        assert match, f"{task_id_param}: bin {i} edges differ — " f"template={t}  reference={r}"

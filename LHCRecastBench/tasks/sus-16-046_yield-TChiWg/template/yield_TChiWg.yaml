@@ -1,0 +1,17 @@
+instructions: Fill the single 'null' value in dependent_variables with the total signal-region
+  yield. Do not add bins or modify the independent variable.
+description: Total signal-region event yield for TChiWg_700
+target: TChiWg, NLSP 700 GeV, Massless LSP
+cm_energy_gev: 13000
+luminosity_fb: 35.9
+---
+dependent_variables:
+- header:
+    name: TChiWg_700
+  values:
+  - value: null
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive

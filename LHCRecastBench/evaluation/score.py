@@ -55,9 +55,9 @@ from scipy.stats import chi2, kstwobign, norm
 # RunPaths.systematic_pct (default 0.05 across the benchmark suite).
 DEFAULT_SYSTEMATIC = 0.0
 
-# Number of toy pseudo-experiments per axis. With N=10k toys, p saturates at
-# ~1e-4 → z capped near 3.7. Bumping to 100k gets z_cap ≈ 4.3 at ~10× cost.
-DEFAULT_N_TOYS = 10_000
+# Number of toy pseudo-experiments per axis. With N=1M toys, p saturates at
+# ~1e-6 → z capped near 4.75.
+DEFAULT_N_TOYS = 1_000_000
 
 # Bounded score scale: S = exp(-z / SCORE_TAU). With toy-calibrated z:
 #   z=0 → S=1.00 (within the systematic+stat envelope)
@@ -264,10 +264,11 @@ def bc_statistics(
 
     Each λ is calibrated to a z-score via toy MC under a null that includes
     Poisson statistical fluctuation and a per-bin log-normal multiplicative
-    systematic of size `systematic_frac` (default 20%, capturing tooling
-    differences from the published method). z is therefore consistent
-    across axes and well-defined at low counts where the asymptotic χ²(dof)
-    approximation fails.
+    systematic of size `systematic_frac`. z is the Gaussian-equivalent
+    one-sided tail value Φ⁻¹(1-p_toy), not sqrt(lambda). This keeps the
+    reported z consistent across the total, normalization, and profiled-shape
+    axes and well-defined at low counts where the asymptotic χ²(dof)
+    approximation can fail.
 
     Per-axis output: `lambda`, `dof`, `lambda_per_dof`, `z`, `z_stat_only`
     (no-sys baseline for ablation), `p_value`, `score = exp(-z/τ)`,
@@ -587,6 +588,11 @@ def score_run(rp) -> dict:
             output["score_note"] = (
                 "shape-only task: normalization diagnostic is not included in overall_combined"
             )
+        elif score_mode == "yield":
+            output["overall_combined"] = round(n_score, 3)
+            output["score_note"] = (
+                "yield-only task: shape diagnostic is not included in overall_combined"
+            )
         else:
             output["overall_combined"] = round(
                 math.sqrt(s_score * n_score) if s_score > 0 and n_score > 0 else 0.0, 3
@@ -607,6 +613,8 @@ def print_scores(result: dict) -> None:
     print(f"  Paper: {result['paper']}   Series: {result['header_name']}")
     if result.get("score_mode") == "shape":
         print("  Score mode: shape-only (normalization is diagnostic)")
+    elif result.get("score_mode") == "yield":
+        print("  Score mode: yield-only (shape is diagnostic)")
     print(f"  {'=' * 68}")
 
     s = result["series"]

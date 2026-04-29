@@ -72,7 +72,12 @@ def _bin_edges(data: dict) -> tuple[np.ndarray, str, str]:
                 edges.append(float(entry["low"]))
                 last = float(entry["high"])
             else:
-                edges.append(float(entry.get("value", len(edges))))
+                value = entry.get("value", len(edges))
+                try:
+                    edge = float(value)
+                except (TypeError, ValueError):
+                    edge = float(len(edges))
+                edges.append(edge)
                 last = edges[-1] + 1
         edges.append(last)
         return np.array(edges), name, units
@@ -120,8 +125,15 @@ def _divide_by_width(vals: np.ndarray, edges: np.ndarray) -> np.ndarray:
 
 
 def _poisson_sigma(vals: np.ndarray) -> np.ndarray:
-    """Poisson sigma for non-negative reference bin contents."""
-    return np.sqrt(np.clip(vals, 0.0, None))
+    """Poisson sigma for non-negative reference bin contents.
+
+    For empty truth bins, sqrt(N) would give a zero-width visual band. Use
+    the one-sided Garwood-style 68% upper interval for N=0 instead.
+    This is plotting-only; scoring still uses the toy model in score.py.
+    """
+    clipped = np.clip(vals, 0.0, None)
+    sigma = np.sqrt(clipped)
+    return np.where(clipped == 0.0, 1.1394342831883648, sigma)
 
 
 def _draw_uncertainty_band(
@@ -251,16 +263,14 @@ def plot_table(
                     stat_p = _poisson_sigma(ref)
                 sys_p = systematic_frac * ref_p
             else:
-                # unit area: divide by integral of (counts)
+                # Unit-area shape as fraction per bin. Do not divide by bin width:
+                # empty-bin Garwood bands are event-count limits, and showing
+                # them as per-bin fractions avoids width-dependent visual bands.
                 ref_int = ref.sum()
                 rec_int = rec.sum()
-                ref_p = _divide_by_width(ref / ref_int, edges) if ref_int > 0 else ref
-                rec_p = _divide_by_width(rec / rec_int, edges) if rec_int > 0 else rec
-                stat_p = (
-                    _divide_by_width(_poisson_sigma(ref) / ref_int, edges)
-                    if ref_int > 0
-                    else np.zeros_like(ref)
-                )
+                ref_p = ref / ref_int if ref_int > 0 else ref
+                rec_p = rec / rec_int if rec_int > 0 else rec
+                stat_p = _poisson_sigma(ref) / ref_int if ref_int > 0 else np.zeros_like(ref)
                 sys_p = systematic_frac * ref_p
 
             # The visual band represents the same tolerance used in the
@@ -342,9 +352,7 @@ def plot_table(
         if mode == "yield":
             ax.set_ylabel(plot_mode, fontsize=AXIS_LABEL_SIZE)
         else:
-            # dN/dx / N (unit integral)
-            denom = f"d{xname}" if not xunits else f"d{xname}\\;[{xunits}]^{{-1}}"
-            ax.set_ylabel(f"$(1/N)\\;dN/{denom}$", fontsize=AXIS_LABEL_SIZE)
+            ax.set_ylabel("Fraction / bin", fontsize=AXIS_LABEL_SIZE)
         ax.legend(loc="upper right", fontsize=12, frameon=False, ncol=1)
         ax.tick_params(labelbottom=False)
         # Slight headroom for the legend
@@ -367,12 +375,8 @@ def plot_table(
                     sys_p = systematic_frac * ref_p
                 else:
                     ref_int = ref.sum()
-                    ref_p = _divide_by_width(ref / ref_int, edges) if ref_int > 0 else ref
-                    stat_p = (
-                        _divide_by_width(_poisson_sigma(ref) / ref_int, edges)
-                        if ref_int > 0
-                        else np.zeros_like(ref)
-                    )
+                    ref_p = ref / ref_int if ref_int > 0 else ref
+                    stat_p = _poisson_sigma(ref) / ref_int if ref_int > 0 else np.zeros_like(ref)
                     sys_p = systematic_frac * ref_p
                 band_sigma = np.sqrt(sys_p**2 + stat_p**2)
                 with np.errstate(divide="ignore", invalid="ignore"):

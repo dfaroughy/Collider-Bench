@@ -20,7 +20,7 @@ Every evaluator reads from the same workspace layout:
 
 The reference file lives at `LHCRecastBench/tasks/shared/<paper>/reference/<file>.yaml`. The scorer reads `task_id` from `<run_dir>/run_info.json`, picks `paper` from `task.toml`, finds `data_filename` from the single histogram file under `tasks/<task_id>/template/`, and reads `header_name` from `dependent_variables[0].header.name` of that file. The matching series in the reference is then compared.
 
-Tasks may set `[metrics].score = "shape"` in `task.toml`. For these shape-only tasks, `score.py` still reports normalization diagnostics, but `overall_combined` is the shape score alone.
+Tasks may set `[metrics].score = "shape"` in `task.toml`. For these shape-only tasks, `score.py` still reports normalization diagnostics, but `overall_combined` is the shape score alone. Tasks may also set `[metrics].score = "yield"`; for these yield-only tasks, `overall_combined` is the normalization score alone.
 
 ## The evaluators
 
@@ -38,7 +38,7 @@ Runs at the end of every agent launch; emits `eval/score.json`. One histogram, o
 
 `λ_total = λ_shape + λ_norm` is an algebraic identity (profile + constraint), not just asymptotic.
 
-Each λ yields a p-value via `scipy.stats.chi2.sf(λ, dof)` and an effective sigma `z = √λ`. The **bounded score** is the monotone `exp(−z / 5)` — gentler than the raw p-value (which saturates at zero for modest deviations on high-stat samples), still a calibrated statistical quantity. At `z=5` → 0.37; `z=10` → 0.14.
+Each λ is calibrated with toy pseudo-experiments under the Poisson plus tolerance null. The reported p-value is the empirical upper-tail probability `Pr(λ_toy >= λ_obs)`, and the reported z is the Gaussian-equivalent one-sided tail value `z = Φ^{-1}(1-p_toy)`. It is not the naive `sqrt(λ)`. Production scoring uses 1M toys per axis, so saturated tails appear near `|z| = 4.75`. The **bounded score** is the monotone `exp(−z / 3)` — gentler than the raw p-value, but still ordered by the calibrated discrepancy.
 
 **Fields in `score.json`:**
 
@@ -48,7 +48,7 @@ Each λ yields a p-value via `scipy.stats.chi2.sf(λ, dof)` and an effective sig
 - `series.ks`: `{stat, p_value, n_eff}` — secondary unit-area shape diagnostic
 - `series.combined` = √(shape.score · norm.score)
 - `series.diagnosis`: `GOOD` / `SHAPE OK, NORM BAD` / `SHAPE BAD, NORM OK` / `BOTH BAD`
-- top-level `overall_shape`, `overall_normalization`, `overall_combined` (`overall_combined = overall_shape` for shape-only tasks)
+- top-level `overall_shape`, `overall_normalization`, `overall_combined` (`overall_combined = overall_shape` for shape-only tasks and `overall_combined = overall_normalization` for yield-only tasks)
 - `n_filled`, `n_bins` — sanity flag for "did the agent fill anything?"
 
 **Why BC, not Pearson?** BC reduces to Pearson χ² at high counts but handles low/zero-count bins correctly (`0·ln(0) ≡ 0`, no divide-by-zero, still asymptotically χ²-distributed). In HEP histograms with mixed high-yield peaks and near-zero tails it's the safer default.
@@ -65,7 +65,7 @@ python -m LHCRecastBench.evaluation.score <run_dir_a> <run_dir_b>   # compare
 Produces per-table PNGs under `eval/plots/`. For each reference YAML it emits two figures:
 
 - `<stem>_yield.png` — absolute event yields using the task's `[metrics].plot` setting: `Events/bin` shows raw bin contents matching the submitted `results/*.yaml` values and the scorer; `Events/GeV` shows bin-width-divided densities for visual comparison across variable-width bins
-- `<stem>_shape.png` — unit-area normalised (same, per unit area)
+- `<stem>_shape.png` — unit-area normalised fractions per bin
 
 Each figure has a top panel with CMS as a filled histogram, Recast as a solid step histogram, and a hatched CMS uncertainty band. The band combines the task's `[metrics].tolerance` value used in the p-value calculation with Poisson counting uncertainty in quadrature. The ratio sub-panel plots `recast / CMS` as a histogram with the matching relative uncertainty band and a horizontal line at 1. Uses `mplhep.style.CMS`; no titles, legend inside the top panel. Series with both arrays all-zero are skipped.
 
@@ -124,7 +124,7 @@ eval/
 
 - **One histogram, one series per task.** Each task scores exactly one filled histogram against one reference series — no multi-table or multi-signal aggregation in the scorer. Cross-task / cross-runner aggregation happens at a higher level if you want it.
 - **Shape is the BC likelihood ratio, not Pearson χ².** BC reduces to Pearson at high counts but is well-defined at zero-expectation bins and is asymptotically χ²-distributed at lower counts. Per-bin uncertainty enters via the Poisson likelihood itself.
-- **Bounded score is a z-score, not a raw p-value.** `score = exp(−√λ / 5)`. The p-value is reported alongside for the statistical reading; the bounded score gives a usable gradient when p-values saturate at zero.
+- **Bounded score is based on the toy-calibrated z, not a raw p-value.** `score = exp(−z / 3)`, with `z = Φ^{-1}(1-p_toy)`. The p-value is reported alongside for the statistical reading; the bounded score gives a usable gradient when p-values saturate at zero.
 - **`λ_total = λ_shape + λ_norm` is an algebraic identity, not an asymptotic approximation.** Falls out cleanly from profiling α = ΣO/ΣE over the Poisson log-likelihood.
 - **No per-bin pass/fail.** The scorer reports the Baker-Cousins triple (shape, norm, total) and KS — that's the full picture. Per-bin "passing" thresholds were dropped because they obscured the shape-vs-norm decomposition that's actually informative.
 - **Multiple evaluators because no single number tells the truth.** Shape can look fine while norm is off by 50× (or vice versa); the LLM judge's provenance audit catches copying, fabrication, and unjustified post-hoc adjustments. `summary.md` reports both Submitted and Audited scores when the LLM judge has run.

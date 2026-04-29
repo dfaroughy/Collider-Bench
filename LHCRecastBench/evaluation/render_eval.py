@@ -220,6 +220,11 @@ def render_score(
             "_Shape-only task: normalization is reported as a diagnostic, not included in the audited objective._"
         )
         out.append("")
+    elif score.get("score_mode") == "yield":
+        out.append(
+            "_Yield-only task: shape is reported as a diagnostic, not included in the audited objective._"
+        )
+        out.append("")
     if audit_note:
         out.append(f"**Integrity adjustment:** {audit_note}")
         out.append("")

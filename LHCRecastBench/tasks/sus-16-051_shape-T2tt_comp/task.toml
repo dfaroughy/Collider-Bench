@@ -7,7 +7,7 @@ observable  = "ETmiss"
 
 [metadata]
 difficulty = "medium"
-walltime   = "45m"
+walltime   = "2h30m"
 tags       = ["SUSY", "CMS", "stops", "13TeV", "compressed", "simplified model"]
 
 [metrics]

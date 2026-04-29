@@ -1,0 +1,10 @@
+dependent_variables:
+- header:
+    name: T2tt_500_325
+  values:
+  - value: 38.5
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive
