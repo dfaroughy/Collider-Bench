@@ -1,8 +1,6 @@
-# LHCRecast-Bench
+# Collider-Bench
 
-Agentic AI benchmark for recasting CMS particle-physics papers on NERSC Perlmutter.
-
-Each **agent** reads a CMS paper, generates + runs an `analysis.py` against public CMS Open Data (or locally simulated MC signals), and fills a HEPData YAML template with per-bin yields. Its work is then scored bin-by-bin against the paper's published tables by [`LHCRecastBench/evaluation/score.py`](LHCRecastBench/evaluation/score.py) and, optionally, judged by a second LLM.
+This is an agentic AI benchmark for reproducing and recasting analyses published by the experimental collaborations at CERN's Large Hadron Collider.
 
 ## Quick start (benchmark users)
 
