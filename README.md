@@ -15,12 +15,22 @@ apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
 # 2. Clone the repo
 git clone https://github.com/dfaroughy/Collider-Bench.git
 
-# 3. Set the API key for whichever vendor you want to use
+# 3. Install whichever vendor agent CLI(s) you want to use, on the host.
+#    The container image carries the HEP runtime (conda env + sim stack)
+#    but NOT vendor CLIs — you bring your own. The sandbox bind-mounts
+#    your ~/.local/{bin,lib} into the container so anything installed
+#    there is reachable.
+npm i -g @anthropic-ai/claude-code   # Claude Code → ~/.local/bin/claude
+npm i -g @openai/codex                # Codex CLI    → ~/.local/bin/codex
+npm i -g @google/gemini-cli           # Gemini CLI   → ~/.local/bin/gemini
+# (or any other agentic CLI you want — Grok, Cursor, Aider, etc.)
+
+# 4. Set the API key for whichever vendor you want to use
 export ANTHROPIC_API_KEY=...       # for --runner claude
 export OPENAI_API_KEY=...          # for --runner codex
 export GEMINI_API_KEY=...          # for --runner gemini
 
-# 4. Run one task
+# 5. Run one task
 scripts/run-agent --config configs/claude_simple.yaml --task <task-id>
 ```
 

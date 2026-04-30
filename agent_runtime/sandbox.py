@@ -530,6 +530,46 @@ class PodmanSandbox(Sandbox):
             if Path(path).exists():
                 cmd.extend(["-v", f"{path}:{path}:ro"])
 
+        # ── Host CLIs (claude / codex / gemini / aider / grok / …) ──────────
+        # We don't bake vendor agent CLIs into the image; the user installs
+        # them on the host (typically under ~/.local/{bin,lib}/, via npm,
+        # pipx, or standalone binaries) and we bind-mount the whole tree at
+        # the same path inside the container. PATH is prepended below so
+        # locally-installed CLIs resolve via `_find_binary("<name>", ...)`.
+        # This lets users add a new vendor (e.g. `npm i -g grok-cli`) and
+        # run it the next session without rebuilding the image.
+        host_local = Path.home() / ".local"
+        if host_local.is_dir():
+            cmd.extend(["-v", f"{host_local}:{host_local}:ro"])
+
+        # ── PATH inside the container ───────────────────────────────────────
+        # Prepend host ~/.local/bin so locally-installed CLIs win, then the
+        # image's standard PATH (sim binaries, conda env, system).
+        # This must stay in sync with docker/Dockerfile's ENV PATH.
+        container_path = ":".join(
+            [
+                f"{host_local}/bin",
+                "/opt/sim/MG5_aMC_v3_7_0/bin",
+                "/opt/sim/delphes",
+                "/opt/node-global/bin",
+                "/opt/conda/envs/lhc_analysis/bin",
+                "/usr/local/sbin",
+                "/usr/local/bin",
+                "/usr/sbin",
+                "/usr/bin",
+                "/sbin",
+                "/bin",
+            ]
+        )
+        cmd.extend(["-e", f"PATH={container_path}"])
+
+        # ── PYTHONPATH inside the container ─────────────────────────────────
+        # The harness Python (`agent_runtime/`, `agents/<active>/runtime/`)
+        # is bind-mounted from the host repo via extra_ro_binds; this env
+        # var lets `from agent_runtime.* import ...` resolve there. Replaces
+        # the old image-baked `ENV PYTHONPATH=/app`.
+        cmd.extend(["-e", f"PYTHONPATH={repo_root}"])
+
         # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
         # `--dangerously-skip-permissions` is allowed even if the container
         # process runs as UID 0 (unavoidable under rootless podman on NERSC

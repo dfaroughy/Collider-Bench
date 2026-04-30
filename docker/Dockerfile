@@ -88,27 +88,22 @@ ENV PROSPINO_DIR=/opt/sim/prospino
 # Pythia8 has no CLI; it's exposed as the `pythia8` Python module from the env.
 ENV PATH=/opt/sim/MG5_aMC_v3_7_0/bin:/opt/sim/delphes:${PATH}
 
-# ── Node 20 + vendor agent CLIs ─────────────────────────────────────────────
-# Node lives in the conda env; npm-installed binaries land in /opt/node-global
-# so they survive across env replacements (and are easy to upgrade in place).
+# ── Node 20 (interpreter only — vendor CLIs are mounted from host) ──────────
+# Node is needed because npm-globals are JS scripts that shebang `#!/usr/bin/env
+# node`. The CLIs themselves (claude / codex / gemini / grok / aider / ...) are
+# NOT installed here; the sandbox bind-mounts the host's npm prefix to
+# /opt/node-global at run time. PATH is pre-set so anything the user has
+# installed via `npm i -g <pkg>` on the host appears on PATH inside the
+# container automatically.
 RUN mamba install -n lhc_analysis -y -c conda-forge 'nodejs>=20' \
       && mamba clean -afy
 ENV NPM_CONFIG_PREFIX=/opt/node-global
 ENV PATH=/opt/node-global/bin:${PATH}
-RUN npm install -g \
-      @anthropic-ai/claude-code \
-      @openai/codex \
-      @google/gemini-cli \
-      && npm cache clean --force
 
-# ── Vendor-neutral harness ──────────────────────────────────────────────────
-# The harness Python (workspace builder, sandbox abstraction, Runner ABC +
-# registry, agent patterns) plus the vendor `Runner` subclasses (claude,
-# codex, gemini, aider) and the agent prompt/tool packages.
-COPY agent_runtime /app/agent_runtime
-COPY agents        /app/agents
-COPY configs       /app/configs
-ENV PYTHONPATH=/app:${PYTHONPATH}
+# Harness Python (`agent_runtime/`, `agents/<active>/`, `configs/`) is
+# bind-mounted from the cloned repo at run time. The sandbox sets PYTHONPATH
+# to the host repo root so `from agent_runtime.* import ...` resolves there.
+# Nothing repo-side is baked into the image.
 
 WORKDIR /workspace
 CMD ["/bin/bash"]
