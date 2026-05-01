@@ -8,6 +8,7 @@ Builds a bwrap-ready workspace at <repo_root>/runs/<run_dir>/workspace/ with:
   - results/             copy of tasks/<task_id>/template/  (null-filled yamls;
                          agent fills in place — no separate output dir)
   - papers/              symlink → tasks/shared/<paper>/paper/
+                         (materialized into a real dir by sandbox_command)
   - object_efficiencies/ copy of tasks/shared/<paper>/object_efficiencies/
                          merged with tasks/<task_id>/artifacts/ if present
                          (task-specific files override shared ones)

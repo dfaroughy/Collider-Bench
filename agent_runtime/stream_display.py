@@ -100,7 +100,7 @@ def render_line(line: str) -> None:
         tools = stats.get("tool_calls")
         parts = []
         if duration is not None:
-            parts.append(f"{duration/1000:.0f}s")
+            parts.append(f"{duration / 1000:.0f}s")
         if tools is not None:
             parts.append(f"{tools} tool calls")
         if tokens is not None:
@@ -207,7 +207,7 @@ def render_line(line: str) -> None:
         turns = msg.get("num_turns")
         parts = []
         if duration is not None:
-            parts.append(f"{duration/1000:.0f}s")
+            parts.append(f"{duration / 1000:.0f}s")
         if turns is not None:
             parts.append(f"{turns} turns")
         if cost is not None:

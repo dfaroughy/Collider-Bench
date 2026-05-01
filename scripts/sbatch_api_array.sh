@@ -88,9 +88,11 @@ if [[ -z "${TASK_ID}" ]]; then
 fi
 
 # Fresh SLURM allocations do not inherit the interactive shell's module state.
-source /opt/cray/pe/lmod/lmod/init/bash
-module load conda
-conda activate lhc_analysis
+# Use the same bootstrap helper as scripts/run-agent; direct `conda activate`
+# under `set -u` can fail in conda deactivate hooks that reference unset vars.
+# shellcheck disable=SC1091
+source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
+activate_lhc_analysis
 
 echo "[$(date '+%F %T')] config=${CONFIG_LABEL} runner=${RUNNER} sandbox=${SANDBOX}"
 echo "[$(date '+%F %T')] idx=${SLURM_ARRAY_TASK_ID} task=${TASK_ID}"

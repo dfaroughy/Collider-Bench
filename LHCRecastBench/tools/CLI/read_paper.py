@@ -54,9 +54,9 @@ def cmd_text(pdf_path: str, pages: list[int] | None):
     for i in pages:
         page = doc[i]
         text = page.get_text()
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(f"PAGE {i + 1}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(text)
     doc.close()
 

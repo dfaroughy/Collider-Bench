@@ -115,6 +115,25 @@ def _fake_home_target(workspace: Path, home_dir_name: str) -> Path:
     return workspace.parent / _validate_home_dir_name(home_dir_name)
 
 
+def _materialize_papers_dir(workspace: Path) -> None:
+    """Replace workspace/papers symlink with a real in-workspace copy.
+
+    Some agent CLIs, notably Gemini, reject tool reads when a path inside the
+    workspace resolves through a symlink to a target outside the workspace.
+    The paper directory contains only public PDFs, so copying it into the
+    workspace before sandbox wrapping preserves the benchmark hiding contract
+    while satisfying those CLI workspace guards.
+    """
+    papers = workspace / "papers"
+    if not papers.is_symlink():
+        return
+    target = papers.resolve()
+    if not target.is_dir():
+        return
+    papers.unlink()
+    shutil.copytree(target, papers)
+
+
 def _prepare_isolated_home(
     host_home: Path,
     target: Path | None = None,
@@ -217,8 +236,7 @@ class Sandbox(ABC):
         The returned command, when executed, runs `inner_cmd` with the agent
         isolated per this backend's policy:
           - <workspace> is the only read-write path under the repo
-          - LHCRecastBench/ is read-only, but LHCRecastBench/papers and LHCRecastBench/evaluation
-            must be hidden (they hold reference answers / judge rubric)
+          - benchmark reference answers and evaluator internals are hidden
           - any paths in extra_ro_binds are mounted read-only
           - /tmp should be a fresh private tmpfs (or equivalent)
 
@@ -265,12 +283,12 @@ class BwrapSandbox(Sandbox):
 
         benchmark_dir = bench_paths.benchmark_dir(repo_root)
 
-        # bwrap can't mount over a symlink; swap any top-level workspace
-        # symlinks (bin/papers/tools) for empty dirs, then bind the resolved
+        # bwrap can't mount over a symlink; swap top-level workspace
+        # symlinks (bin/tools) for empty dirs, then bind the resolved
         # targets back in. Restore the symlinks after the agent exits.
         extra_mounts: list[tuple[str, str]] = []
         symlink_restore: list[tuple[str, str]] = []
-        for name in ("bin", "papers", "tools"):
+        for name in ("bin", "tools"):
             link = workspace / name
             if link.is_symlink():
                 real = link.resolve()
@@ -440,18 +458,12 @@ class ApptainerSandbox(Sandbox):
             # LHCRecastBench/ tree — that would expose the reference pool
             # under tasks/shared/*/reference/ and scoring code under
             # evaluation/. Agent sees only tools/, bin/, and this run's
-            # paper PDF (via the workspace/papers symlink target).
+            # paper PDF (copied into workspace/papers before wrapping).
             "--bind",
             f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
             "--bind",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
-        papers_link = workspace / "papers"
-        if papers_link.is_symlink():
-            target = papers_link.resolve()
-            if target.is_dir():
-                cmd.extend(["--bind", f"{target}:{target}:ro"])
-
         # Per-run fake $HOME under <recast>/<runner-home>/. The CLIs
         # see only runner-selected credential / config files; everything
         # they write (session logs, conversation DBs, todos, caches)
@@ -621,21 +633,12 @@ class PodmanSandbox(Sandbox):
             # LHCRecastBench/ tree: that would expose the reference pool
             # under tasks/shared/*/reference/ and the scoring code under
             # evaluation/. Agent sees only tools/ + bin/ + this run's
-            # paper PDF (via the workspace/papers symlink target).
+            # paper PDF (copied into workspace/papers before wrapping).
             "-v",
             f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
             "-v",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
-
-        # Resolve workspace/papers -> tasks/shared/<paper>/paper and bind
-        # only that directory, so the agent's paper PDF symlink works
-        # without exposing the rest of tasks/shared/<paper>/.
-        papers_link = workspace / "papers"
-        if papers_link.is_symlink():
-            target = papers_link.resolve()
-            if target.is_dir():
-                cmd.extend(["-v", f"{target}:{target}:ro"])
 
         # OAuth creds + minimal CLI config live inside the fake $HOME
         # bound above; nothing else is shared with the host's real $HOME.
@@ -711,7 +714,7 @@ class NoneSandbox(Sandbox):
     Use on platforms without bwrap (macOS, restricted Linux distros) or for
     free-range debugging. The agent can read and write anything the calling
     user can. Do NOT use for benchmark runs — reference answers in
-    LHCRecastBench/papers/<arxiv>/tasks/*/reference/ are visible and the agent can cheat.
+    benchmark reference answers and evaluator code are visible and the agent can cheat.
     """
 
     name = "none"
@@ -813,6 +816,7 @@ def sandbox_command(
     `sandbox` may be "bwrap" | "none" | "auto" | None. See get_sandbox() for
     resolution rules.
     """
+    _materialize_papers_dir(workspace)
     return get_sandbox(sandbox).wrap(
         workspace,
         repo_root,

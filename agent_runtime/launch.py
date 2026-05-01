@@ -284,7 +284,7 @@ def launch_single_run(
 
     print(f"Setting up workspace: {run_dir}")
     walltime_str = (
-        f"{walltime_s/3600:.1f}h"
+        f"{walltime_s / 3600:.1f}h"
         if walltime_s and walltime_s >= 3600
         else f"{walltime_s:.0f}s"
         if walltime_s
@@ -362,8 +362,7 @@ def launch_single_run(
             # with n_bins > 0 means the agent didn't complete the task.
             if exit_code == 0 and n_bins > 0 and n_filled == 0:
                 print(
-                    "  Agent exited cleanly but produced no filled bins — "
-                    "marking run as failed.",
+                    "  Agent exited cleanly but produced no filled bins — marking run as failed.",
                     file=sys.stderr,
                 )
                 exit_code = 1

@@ -58,7 +58,7 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
     unknown = sorted(set(cfg) - set(ALLOWED_CONFIG_KEYS))
     if unknown:
         raise ValueError(
-            f"{source}: unknown config key(s) {unknown}. " f"Allowed: {sorted(ALLOWED_CONFIG_KEYS)}"
+            f"{source}: unknown config key(s) {unknown}. Allowed: {sorted(ALLOWED_CONFIG_KEYS)}"
         )
     for key, val in list(cfg.items()):
         if val is None:
@@ -224,14 +224,14 @@ def validate_launch_inputs(repo_root: Path, task_id: str) -> dict:
     toml = load_task_toml(repo_root, task_id)
     paper_ref = (toml.get("task") or {}).get("paper")
     if not paper_ref:
-        raise ValueError(f"{task_dir/'task.toml'}: [task].paper is required")
+        raise ValueError(f"{task_dir / 'task.toml'}: [task].paper is required")
     for required in (task_dir / "TASK.md", task_dir / "template"):
         if not required.exists():
             raise FileNotFoundError(f"Missing {required}")
     shared = paths.shared_paper_dir(repo_root, paper_ref)
     if not shared.is_dir():
         raise FileNotFoundError(
-            f"Missing shared paper dir: {shared}\n" f"  Expected: {shared}/paper/{paper_ref}.pdf"
+            f"Missing shared paper dir: {shared}\n  Expected: {shared}/paper/{paper_ref}.pdf"
         )
     return toml
 

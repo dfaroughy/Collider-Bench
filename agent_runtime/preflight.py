@@ -194,20 +194,20 @@ def check_analysis(datasets_path: str, analysis_path: str):
     all_warnings.extend(code_warnings)
 
     # Print dataset summary
-    print(f"\n{'─'*60}")
+    print(f"\n{'─' * 60}")
     print("  DATASET SUMMARY")
-    print(f"{'─'*60}")
+    print(f"{'─' * 60}")
     with open(datasets_path) as f:
         for d in yaml.safe_load(f) or []:
             status = d.get("status", "")
             n = len(d.get("file_urls", []))
             tag = f" [{status}]" if status else ""
-            print(f"  {d['process']:30s} {d.get('role','?'):10s} {n:4d} files{tag}")
-    print(f"{'─'*60}")
+            print(f"  {d['process']:30s} {d.get('role', '?'):10s} {n:4d} files{tag}")
+    print(f"{'─' * 60}")
     print(f"  Active: {summary['total_files']} files, {summary['total_events']:,} events")
     if summary["blocked"]:
         print(f"  Blocked: {', '.join(summary['blocked'])}")
-    print(f"{'─'*60}\n")
+    print(f"{'─' * 60}\n")
 
     # Print warnings
     for w in all_warnings:
@@ -231,9 +231,9 @@ def print_postflight(start_time: float, results_path: str = "results.json"):
     elapsed = time.time() - start_time
     minutes = elapsed / 60
 
-    print(f"\n{'─'*60}")
+    print(f"\n{'─' * 60}")
     print(f"  ANALYSIS COMPLETE — {minutes:.1f} min")
-    print(f"{'─'*60}")
+    print(f"{'─' * 60}")
 
     results = Path(results_path)
     if results.exists():
@@ -256,4 +256,4 @@ def print_postflight(start_time: float, results_path: str = "results.json"):
         print(f"  MISSING ARTIFACTS: {', '.join(missing)}")
     else:
         print("  All required artifacts present.")
-    print(f"{'─'*60}\n")
+    print(f"{'─' * 60}\n")

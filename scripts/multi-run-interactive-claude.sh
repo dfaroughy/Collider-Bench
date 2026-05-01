@@ -30,13 +30,6 @@ fi
 
 
 TASKS=(
-  exo-17-021_sim-RPVstop_res-btag
-  exo-17-021_sim-RPVstop_res-incl
-  sus-16-046_sim-T5Wg
-  sus-16-046_sim-TChiWg
-  sus-16-046_val-Nobs
-  sus-16-047_shape-T6gg_highHT
-  sus-16-047_sim-T5Wg_highHT
   sus-16-047_sim-T5Wg_lowHT
   sus-16-047_sim-T6gg_highHT
   sus-16-047_sim-T6gg_lowHT

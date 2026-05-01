@@ -264,9 +264,7 @@ def smoke():
     for tool, arg in _BIN_HELP_CASES:
         key = f"bin:{tool}"
         parts.append(
-            f"echo '<<<{key}>>>'; "
-            f"timeout 30 bin/{tool} {arg} 2>&1; "
-            f'echo "<<<rc:{key}:$?>>>"'
+            f"echo '<<<{key}>>>'; timeout 30 bin/{tool} {arg} 2>&1; echo \"<<<rc:{key}:$?>>>\""
         )
 
     # /opt/sim/<binary> exec-bit + presence
@@ -288,7 +286,7 @@ def smoke():
     parts.append("echo '<<<launch>>>'")
     for cmd in _LAUNCH_SMOKE:
         parts.append(
-            f"echo '--- {cmd} ---'; " f"timeout 5 bash -c '{cmd} </dev/null' 2>&1; echo \"(rc=$?)\""
+            f"echo '--- {cmd} ---'; timeout 5 bash -c '{cmd} </dev/null' 2>&1; echo \"(rc=$?)\""
         )
     parts.append("echo '<<<rc:launch:0>>>'")
 
@@ -296,7 +294,7 @@ def smoke():
     for var, _ in _REQUIRED_ENV:
         key = f"env:{var}"
         parts.append(
-            f"echo '<<<{key}>>>'; printf '%s' \"${{{var}}}\"; echo; " f'echo "<<<rc:{key}:0>>>"'
+            f"echo '<<<{key}>>>'; printf '%s' \"${{{var}}}\"; echo; echo \"<<<rc:{key}:0>>>\""
         )
 
     script = "\n".join(parts)
@@ -355,9 +353,9 @@ def test_bin_tool_help(smoke, tool, arg):
         pytest.skip("smoke fixture had no result for this case")
     res = smoke[key]
     assert res["rc"] == 0, f"bin/{tool} {arg} failed (rc={res['rc']}):\n{res['out'][:800]}"
-    assert len(res["out"].strip()) > 30, (
-        f"bin/{tool} {arg} succeeded but produced suspiciously little " f"output:\n{res['out']!r}"
-    )
+    assert (
+        len(res["out"].strip()) > 30
+    ), f"bin/{tool} {arg} succeeded but produced suspiciously little output:\n{res['out']!r}"
 
 
 def test_prospino_list_processes_returns_json():

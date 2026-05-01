@@ -8,7 +8,11 @@ import shutil
 import pytest
 
 from agent_runtime.sandbox import SANDBOXES, get_sandbox, sandbox_command
-from agent_runtime.sandbox import _prepare_isolated_home, _prepare_runner_cli
+from agent_runtime.sandbox import (
+    _materialize_papers_dir,
+    _prepare_isolated_home,
+    _prepare_runner_cli,
+)
 
 
 @pytest.mark.parametrize("name", sorted(SANDBOXES))
@@ -76,6 +80,45 @@ def test_prepare_isolated_home_copies_only_requested_vendor_files(tmp_path):
     assert not (fake_home / ".codex" / "auth.json").exists()
     assert not (fake_home / ".gemini" / "oauth_creds.json").exists()
     assert not (fake_home / ".forge" / ".forge.toml").exists()
+
+
+def test_materialize_papers_dir_replaces_symlink_with_copy(tmp_path):
+    workspace = tmp_path / "ws"
+    shared = tmp_path / "shared" / "paper"
+    workspace.mkdir()
+    shared.mkdir(parents=True)
+    (shared / "CMS-TEST.pdf").write_text("pdf")
+    (workspace / "papers").symlink_to(shared)
+
+    _materialize_papers_dir(workspace)
+
+    papers = workspace / "papers"
+    assert papers.is_dir()
+    assert not papers.is_symlink()
+    assert (papers / "CMS-TEST.pdf").read_text() == "pdf"
+    assert (papers / "CMS-TEST.pdf").resolve().is_relative_to(workspace.resolve())
+
+
+def test_sandbox_command_materializes_papers_before_wrapping(repo_root, tmp_path):
+    workspace = tmp_path / "ws"
+    shared = tmp_path / "shared" / "paper"
+    workspace.mkdir()
+    shared.mkdir(parents=True)
+    (shared / "CMS-TEST.pdf").write_text("pdf")
+    (workspace / "papers").symlink_to(shared)
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/bin/true"],
+        sandbox="none",
+    )
+
+    assert cmd == ["/bin/true"]
+    assert (workspace / "papers").is_dir()
+    assert not (workspace / "papers").is_symlink()
+    assert (workspace / "papers" / "CMS-TEST.pdf").is_file()
+    cleanup()
 
 
 @pytest.mark.parametrize(

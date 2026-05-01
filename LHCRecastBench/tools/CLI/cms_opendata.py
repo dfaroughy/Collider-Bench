@@ -357,7 +357,9 @@ def cmd_files(args):
             )
         print()
 
-    print(f"Record {args.recid}: {len(files)} files total (showing {offset}-{offset+len(page)})\n")
+    print(
+        f"Record {args.recid}: {len(files)} files total (showing {offset}-{offset + len(page)})\n"
+    )
     for f in page:
         size_mb = f.get("size", 0) / 1e6 if f.get("size") else 0
         print(f"  {f['filename']:<50} {size_mb:>8.1f} MB")
@@ -601,18 +603,16 @@ def cmd_sample_info(args):
             try:
                 content = _fetch_text(url)
                 all_text.append(
-                    f"{'='*70}\n"
+                    f"{'=' * 70}\n"
                     f"ARTIFACT: {art['title']}\n"
                     f"STEP: {art['step']} (index {art['step_index']})\n"
                     f"URL: {url}\n"
-                    f"{'='*70}\n"
+                    f"{'=' * 70}\n"
                     f"{content}\n"
                 )
             except Exception as e:
                 all_text.append(
-                    f"{'='*70}\n"
-                    f"ARTIFACT: {art['title']} — FAILED TO DOWNLOAD: {e}\n"
-                    f"{'='*70}\n"
+                    f"{'=' * 70}\nARTIFACT: {art['title']} — FAILED TO DOWNLOAD: {e}\n{'=' * 70}\n"
                 )
 
         # Write concatenated artifacts

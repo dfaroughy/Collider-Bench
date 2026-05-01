@@ -261,7 +261,7 @@ def build_catalog(verbose=True):
 def load_catalog():
     if not CATALOG_PATH.exists():
         print(
-            f"Catalog not found at {CATALOG_PATH}.\n" "Run: feynrules refresh-catalog",
+            f"Catalog not found at {CATALOG_PATH}.\nRun: feynrules refresh-catalog",
             file=sys.stderr,
         )
         sys.exit(2)
