@@ -232,7 +232,6 @@ CLAUDE_SPEC = RunnerSpec(
     ),
 )
 
-
 CODEX_SPEC = RunnerSpec(
     name="codex",
     binary="codex",

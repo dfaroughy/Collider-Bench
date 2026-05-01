@@ -80,6 +80,14 @@ def test_runner_prepare_launch_applies_before_run(tmp_path, monkeypatch):
     assert ".forge/.forge.toml" not in prep.home_files
     assert prep.secret_env_names == ("ANTHROPIC_API_KEY",)
 
+    prep = r.prepare_launch(tmp_path, config={"auth": "api"})
+    assert prep.home_dir_name == ".claude_api_home"
+    assert prep.secret_env_names == ("ANTHROPIC_API_KEY",)
+    assert ".claude/settings.json" in prep.home_files
+    assert ".claude.json" not in prep.home_files
+    assert ".claude/.credentials.json" not in prep.home_files
+    assert prep.home_credential_files == ()
+
     r = get_runner("codex")
     prep = r.prepare_launch(tmp_path)
     assert prep.env["CODEX_HOME"] == str(tmp_path / ".codex_home")

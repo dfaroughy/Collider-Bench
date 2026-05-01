@@ -1,5 +1,5 @@
 [task]
-id          = "sus-16-051_sim-T2tt"
+id          = "sus-16-051_sim-T2tt_SRG"
 paper       = "CMS-SUS-16-051"
 type        = "simulation"
 target      = "T2tt_1000_50"

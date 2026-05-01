@@ -1,5 +1,5 @@
 [task]
-id          = "sus-16-051_sim-T2bW"
+id          = "sus-16-051_sim-T2bW_SRG"
 paper       = "CMS-SUS-16-051"
 type        = "simulation"
 target      = "T2bW_900_50"
@@ -12,4 +12,6 @@ tags       = ["SUSY", "CMS", "stops", "13TeV", "simplified model"]
 
 [metrics]
 tolerance = 0.05
+mode = "shape_norm"
 plot = "Events/bin"
+report = ["baker_cousins", "mean_abs_frac_error"]

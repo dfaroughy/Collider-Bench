@@ -19,6 +19,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "extends": (str,),
     "agent": (str,),
     "runner": (str,),
+    "auth": (str,),
     "model": (str,),
     "effort": (str, int),
     "max_iters": (int,),
@@ -44,6 +45,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
 
 _ALLOWED_AGENTS = {"simple", "baseline", "iterative", "anneal"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge"}
+_ALLOWED_AUTH = {"oauth", "api"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
 _ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "podman", "none"}
@@ -91,6 +93,9 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
     runner = cfg.get("runner")
     if runner and runner not in _ALLOWED_RUNNERS:
         raise ValueError(f"{source}: runner={runner!r}; must be one of {sorted(_ALLOWED_RUNNERS)}")
+    auth = cfg.get("auth")
+    if auth is not None and auth not in _ALLOWED_AUTH:
+        raise ValueError(f"{source}: auth={auth!r}; must be one of {sorted(_ALLOWED_AUTH)}")
     compute = cfg.get("compute")
     if compute is not None and compute not in _ALLOWED_COMPUTE:
         raise ValueError(f"{source}: compute={compute!r}; must be '' (login node) or 'perlmutter'")

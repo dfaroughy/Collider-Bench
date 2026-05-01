@@ -258,7 +258,7 @@ class DeclarativeRunner(Runner):
     def name(self) -> str:
         return self._spec.name
 
-    def prepare_launch(self, sandbox: Path) -> LaunchPrep:
+    def prepare_launch(self, sandbox: Path, config: dict | None = None) -> LaunchPrep:
         s = self._spec
         env: dict[str, str] = dict(s.extra_env)
         extra_ro_binds: list[Path] = []
@@ -266,6 +266,11 @@ class DeclarativeRunner(Runner):
         home_dir_name = s.home_dir_name
         home_files = list(s.home_files)
         home_credential_files = list(s.home_credential_files)
+        auth = (config or {}).get("auth")
+        if s.name == "claude" and auth == "api":
+            home_dir_name = ".claude_api_home"
+            home_files = [".claude/settings.json"]
+            home_credential_files = []
         if s.pre_launch_hook:
             hook = PRE_LAUNCH_HOOKS.get(s.pre_launch_hook)
             if hook is None:

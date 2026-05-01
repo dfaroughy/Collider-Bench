@@ -178,13 +178,14 @@ class Runner(ABC):
         that key off max_thinking_tokens alone.
         """
 
-    def prepare_launch(self, sandbox: Path) -> LaunchPrep:
+    def prepare_launch(self, sandbox: Path, config: dict | None = None) -> LaunchPrep:
         """Return runner-specific requirements before sandbox wrapping.
 
         Runner-specific setup that must be visible to a container backend
         belongs here, not in run(). Examples: CODEX_HOME/GEMINI_CLI_HOME
         redirects, static env such as NO_COLOR, or extra read-only binds.
         """
+        _ = config
         return LaunchPrep()
 
     @abstractmethod

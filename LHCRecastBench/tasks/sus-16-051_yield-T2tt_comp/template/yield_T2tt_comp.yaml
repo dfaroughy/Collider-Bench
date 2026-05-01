@@ -1,13 +1,13 @@
 instructions: Fill the single 'null' value in dependent_variables with the total signal-region
   yield. Do not add bins or modify the independent variable.
-description: Total signal-region event yield for T2tt_500_325
-target: T2tt, stop 500 GeV, neutralino 325 GeV
+description: Total signal-region event yield for T2tt_800_400
+target: T2tt, stop 800 GeV, neutralino 400 GeV
 cm_energy_gev: 13000
 luminosity_fb: 35.9
 ---
 dependent_variables:
 - header:
-    name: T2tt_500_325
+    name: T2tt_800_400
   values:
   - value: null
 independent_variables:

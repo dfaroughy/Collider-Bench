@@ -56,6 +56,12 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
         choices=["auto", "bwrap", "apptainer", "podman", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
+    parser.add_argument(
+        "--auth",
+        default=None,
+        choices=["oauth", "api"],
+        help="Runner auth mode. Claude supports oauth (default) and api.",
+    )
     parser.add_argument("--run-name", default="", help="Custom run directory name")
     return parser.parse_args(argv), parser
 
@@ -73,6 +79,7 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     args.model = args.model or cfg.get("model") or ""
     args.effort = args.effort or cfg.get("effort") or "medium"
     args.sandbox = args.sandbox or cfg.get("sandbox")
+    args.auth = args.auth or cfg.get("auth") or "oauth"
     return cfg
 
 
@@ -105,6 +112,7 @@ def _run_in_sandbox(
     extra_ro_binds: list[Path],
     effort_label: str | None = None,
     walltime_s: float | None = None,
+    config: dict | None = None,
 ) -> None:
     from agent_runtime.sandbox import sandbox_command
 
@@ -121,7 +129,7 @@ def _run_in_sandbox(
     env["PATH"] = str(workspace / "bin") + ":" + env.get("PATH", "")
     env["PYTHONPATH"] = str(repo_root) + ":" + env.get("PYTHONPATH", "")
     env["REPO_ROOT"] = str(repo_root)
-    prep = runner.prepare_launch(workspace)
+    prep = runner.prepare_launch(workspace, config=config)
     env.update(prep.env)
 
     cmd, cleanup = sandbox_command(
@@ -324,6 +332,7 @@ def launch_single_run(
                 extra_ro_binds=extra_ro_binds,
                 effort_label=effort_label,
                 walltime_s=walltime_s,
+                config=vars(args),
             )
         except subprocess.CalledProcessError as exc:
             # Agent CLI failed (e.g. exit 127 = command not found, missing

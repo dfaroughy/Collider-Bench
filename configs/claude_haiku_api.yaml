@@ -1,0 +1,12 @@
+# Usage:
+#   export ANTHROPIC_API_KEY=sk-ant-...
+#   scripts/run-agent --config configs/claude_haiku_api.yaml
+#   scripts/run-agent --config configs/claude_haiku_api.yaml --effort high
+
+agent:   simple
+task:    sus-16-046_shape-TChiWg
+runner:  claude
+auth:    api
+model:   claude-haiku-4-5
+effort:  max
+extends: base.yaml
