@@ -1,0 +1,16 @@
+[task]
+id          = "sus-16-034_yield-TChiWZ"
+paper       = "CMS-SUS-16-034"
+type        = "simulation"
+target      = "TChiWZ_550_200"
+observable  = "ETmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "CMS", "electroweakinos", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+plot = "Events/bin"
+score = "yield"

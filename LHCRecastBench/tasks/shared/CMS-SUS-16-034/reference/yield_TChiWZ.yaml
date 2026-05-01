@@ -1,0 +1,10 @@
+dependent_variables:
+- header:
+    name: TChiWZ_550_200
+  values:
+  - value: 5.41
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive
