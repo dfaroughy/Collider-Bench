@@ -12,4 +12,6 @@ tags       = ["SUSY", "CMS", "Stops", "13TeV", "RPV", "resonance"]
 
 [metrics]
 tolerance = 0.05
+mode = "shape_norm"
 plot = "Events/bin"
+report = ["baker_cousins", "mean_abs_frac_error"]

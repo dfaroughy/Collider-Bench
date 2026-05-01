@@ -38,6 +38,7 @@ REQUIRED_METADATA_FIELDS = (
 ALLOWED_TYPES = {"simulation", "validation"}
 ALLOWED_SCORE_MODES = {"shape_norm", "shape", "yield"}
 ALLOWED_PLOT_MODES = {"Events/bin", "Events/GeV"}
+ALLOWED_REPORT_METRICS = {"baker_cousins", "mean_abs_frac_error"}
 
 
 def _all_tasks() -> list[str]:
@@ -119,10 +120,7 @@ def test_task_type_is_known(task_id_param):
 
 
 def test_metrics_tolerance_set_and_valid(task_id_param):
-    """Each task must declare a per-bin systematic tolerance under
-    [metrics].tolerance — the scoring knob that broadens the toy null in
-    score.py. Non-negative float; missing means stats-only scoring,
-    which is allowed by code but discouraged for benchmark tasks."""
+    """Each task must declare the per-bin systematic tolerance."""
     toml = _task_toml(task_id_param)
     metrics = toml.get("metrics") or {}
     assert "tolerance" in metrics, f"{task_id_param}: [metrics].tolerance missing from task.toml"
@@ -136,9 +134,11 @@ def test_metrics_tolerance_set_and_valid(task_id_param):
 def test_metrics_score_mode_valid(task_id_param):
     toml = _task_toml(task_id_param)
     metrics = toml.get("metrics") or {}
-    mode = metrics.get("score", "shape_norm")
+    assert "mode" in metrics, f"{task_id_param}: [metrics].mode missing from task.toml"
+    assert "score" not in metrics, f"{task_id_param}: [metrics].score is obsolete; use mode"
+    mode = metrics["mode"]
     assert mode in ALLOWED_SCORE_MODES, (
-        f"{task_id_param}: [metrics].score must be one of {sorted(ALLOWED_SCORE_MODES)}, "
+        f"{task_id_param}: [metrics].mode must be one of {sorted(ALLOWED_SCORE_MODES)}, "
         f"got {mode!r}"
     )
 
@@ -151,6 +151,18 @@ def test_metrics_plot_mode_set_and_valid(task_id_param):
     assert (
         mode in ALLOWED_PLOT_MODES
     ), f"{task_id_param}: [metrics].plot must be one of {sorted(ALLOWED_PLOT_MODES)}, got {mode!r}"
+
+
+def test_metrics_report_set_and_valid(task_id_param):
+    toml = _task_toml(task_id_param)
+    metrics = toml.get("metrics") or {}
+    assert "report" in metrics, f"{task_id_param}: [metrics].report missing from task.toml"
+    report = metrics["report"]
+    assert (
+        isinstance(report, list) and report
+    ), f"{task_id_param}: [metrics].report must be a non-empty list"
+    unknown = sorted(set(report) - ALLOWED_REPORT_METRICS)
+    assert not unknown, f"{task_id_param}: unknown [metrics].report entries: {unknown}"
 
 
 # ── TASK.md and template/ structure ──────────────────────────────────────

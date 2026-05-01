@@ -20,7 +20,7 @@ Every evaluator reads from the same workspace layout:
 
 The reference file lives at `LHCRecastBench/tasks/shared/<paper>/reference/<file>.yaml`. The scorer reads `task_id` from `<run_dir>/run_info.json`, picks `paper` from `task.toml`, finds `data_filename` from the single histogram file under `tasks/<task_id>/template/`, and reads `header_name` from `dependent_variables[0].header.name` of that file. The matching series in the reference is then compared.
 
-Tasks may set `[metrics].score = "shape"` in `task.toml`. For these shape-only tasks, `score.py` still reports normalization diagnostics, but `overall_combined` is the shape score alone. Tasks may also set `[metrics].score = "yield"`; for these yield-only tasks, `overall_combined` is the normalization score alone.
+Tasks declare `[metrics].mode` in `task.toml`. For shape-only tasks, `mode = "shape"`; `score.py` still reports normalization diagnostics, but `overall_combined` is the shape score alone. For yield-only tasks, `mode = "yield"`; `overall_combined` is the normalization score alone. Full simulation tasks use `mode = "shape_norm"` and combine shape and normalization with a geometric mean.
 
 ## The evaluators
 

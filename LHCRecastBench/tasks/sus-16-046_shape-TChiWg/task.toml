@@ -12,5 +12,6 @@ tags       = ["SUSY", "CMS", "TChiWg", "13TeV", "simplified model"]
 
 [metrics]
 tolerance = 0.05
+mode = "shape"
 plot = "Events/bin"
-score = "shape"
+report = ["baker_cousins", "mean_abs_frac_error"]

@@ -21,14 +21,13 @@ Output (RunPaths):
     reference_file — tasks/shared/<paper>/reference/<data_file>
     data_filename  — the histogram yaml filename (e.g. histogram_TChiWg.yaml)
     header_name    — series name to match inside the yaml (e.g. TChiWg_700)
-    score_mode     — "shape_norm", "shape", or "yield"
+    score_mode     — [metrics].mode: "shape_norm", "shape", or "yield"
     plot_mode      — "Events/bin" or "Events/GeV"
 """
 
 from __future__ import annotations
 
 import json
-import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -118,81 +117,34 @@ def _load_task_identity(task_id: str) -> tuple[str, str, str, float, str, str]:
     plot_mode controls the yield-panel display only; scoring always uses
     raw bin-integrated values from the YAML.
     """
-    import yaml
+    from .context import ALLOWED_METRIC_MODES, ALLOWED_PLOT_MODES, load_task_spec
 
-    task_dir = TASKS_ROOT / task_id
-    task_toml_path = task_dir / "task.toml"
-    if not task_toml_path.is_file():
-        raise FileNotFoundError(f"Missing {task_toml_path}")
-    task_toml = tomllib.loads(task_toml_path.read_text())
-    paper_ref = (task_toml.get("task") or {}).get("paper", "").strip()
-    if not paper_ref:
-        raise ValueError(f"{task_toml_path}: [task].paper missing")
-
-    sys_pct = DEFAULT_SYSTEMATIC_PCT
-    score_mode = "shape_norm"
-    plot_mode = "Events/bin"
-    metrics_block = task_toml.get("metrics") or {}
-    if "tolerance" in metrics_block:
-        try:
-            sys_pct = float(metrics_block["tolerance"])
-        except (TypeError, ValueError) as exc:
-            raise ValueError(
-                f"{task_toml_path}: [metrics].tolerance must be a number, "
-                f"got {metrics_block['tolerance']!r}"
-            ) from exc
-        if sys_pct < 0:
-            raise ValueError(
-                f"{task_toml_path}: [metrics].tolerance must be non-negative, got {sys_pct}"
-            )
-    if "score" in metrics_block:
-        score_mode = str(metrics_block["score"]).strip()
-        if score_mode not in {"shape_norm", "shape", "yield"}:
-            raise ValueError(
-                f"{task_toml_path}: [metrics].score must be 'shape_norm', "
-                f"'shape', or 'yield', "
-                f"got {score_mode!r}"
-            )
-    if "plot" in metrics_block:
-        plot_mode = str(metrics_block["plot"]).strip()
-        if plot_mode not in {"Events/bin", "Events/GeV"}:
-            raise ValueError(
-                f"{task_toml_path}: [metrics].plot must be 'Events/bin' or 'Events/GeV', "
-                f"got {plot_mode!r}"
-            )
-
-    template_dir = task_dir / "template"
-    if not template_dir.is_dir():
-        raise FileNotFoundError(f"Missing {template_dir}")
-    candidates = sorted(template_dir.glob("*.yaml"))
-    if not candidates:
-        raise FileNotFoundError(f"No histogram .yaml in {template_dir}")
-    if len(candidates) > 1:
+    task = load_task_spec(task_id, TASKS_ROOT)
+    if not task.paper_ref:
+        raise ValueError(f"{TASKS_ROOT / task_id / 'task.toml'}: [task].paper missing")
+    if task.metrics.tolerance < 0:
         raise ValueError(
-            f"Expected a single histogram file in {template_dir}; "
-            f"got {[p.name for p in candidates]}"
+            f"{TASKS_ROOT / task_id / 'task.toml'}: [metrics].tolerance must be non-negative, "
+            f"got {task.metrics.tolerance}"
         )
-    template_path = candidates[0]
-    data_filename = template_path.name
-
-    docs = list(yaml.safe_load_all(template_path.read_text()))
-    hist_doc = next(
-        (d for d in docs if isinstance(d, dict) and "dependent_variables" in d),
-        None,
+    if task.metrics.score_mode not in ALLOWED_METRIC_MODES:
+        raise ValueError(
+            f"{TASKS_ROOT / task_id / 'task.toml'}: [metrics].mode must be one of "
+            f"{sorted(ALLOWED_METRIC_MODES)}, got {task.metrics.score_mode!r}"
+        )
+    if task.metrics.plot_mode not in ALLOWED_PLOT_MODES:
+        raise ValueError(
+            f"{TASKS_ROOT / task_id / 'task.toml'}: [metrics].plot must be one of "
+            f"{sorted(ALLOWED_PLOT_MODES)}, got {task.metrics.plot_mode!r}"
+        )
+    return (
+        task.paper_ref,
+        task.data_filename,
+        task.header_name,
+        task.metrics.tolerance,
+        task.metrics.score_mode,
+        task.metrics.plot_mode,
     )
-    if hist_doc is None:
-        raise ValueError(
-            f"{template_path}: no YAML document with `dependent_variables` "
-            "(expected a HEPData-style histogram doc)"
-        )
-    deps = hist_doc.get("dependent_variables") or []
-    if not deps:
-        raise ValueError(f"{template_path}: `dependent_variables` is empty")
-    header = (deps[0].get("header") or {}) if isinstance(deps[0], dict) else {}
-    header_name = str(header.get("name", "")).strip()
-    if not header_name:
-        raise ValueError(f"{template_path}: dependent_variables[0].header.name missing")
-    return paper_ref, data_filename, header_name, sys_pct, score_mode, plot_mode
 
 
 def _reference_file(paper_ref: str, data_filename: str) -> Path:

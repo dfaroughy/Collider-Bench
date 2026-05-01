@@ -12,5 +12,6 @@ tags       = ["SUSY", "CMS", "T5Wg", "13TeV", "simplified model"]
 
 [metrics]
 tolerance = 0.05
+mode = "yield"
 plot = "Events/bin"
-score = "yield"
+report = ["baker_cousins", "mean_abs_frac_error"]
