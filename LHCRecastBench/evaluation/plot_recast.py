@@ -418,17 +418,9 @@ def plot_recast(rp) -> dict:
     if not ref_path.is_file():
         return {"error": f"Reference missing: {ref_path}"}
 
-    # Find agent output (try exact, then alternate extension)
     agent_path = rp.results_dir / rp.data_filename
     if not agent_path.is_file():
-        stem = Path(rp.data_filename).stem
-        for ext in (".yaml", ".yml"):
-            alt = rp.results_dir / f"{stem}{ext}"
-            if alt.is_file():
-                agent_path = alt
-                break
-        else:
-            return {"error": f"Agent output not found under {rp.results_dir}"}
+        return {"error": f"Agent output not found: {agent_path}"}
 
     plots_dir = rp.eval_dir / "plots"
     systematic_frac = getattr(rp, "systematic_pct", 0.0)

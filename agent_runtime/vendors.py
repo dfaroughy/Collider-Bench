@@ -1,23 +1,22 @@
-"""Vendor agent-CLI runner specs (Claude Code, Codex, Gemini CLI, Aider).
+"""Vendor agent-CLI runner specs (Claude Code, Codex, Gemini CLI, Aider, Forge).
 
-Each vendor is now a single `RunnerSpec` literal plus, for the two that
-need it (Codex, Gemini), a small named hook function that prepares the
-per-run state directory and seeds host OAuth credentials into it.
+Each vendor is one `RunnerSpec` literal plus, where needed, named pre-launch
+or post-run hooks that prepare per-run state (e.g. seed OAuth creds into a
+workspace-relative dir, mine the forge SQLite DB into session.jsonl).
 
-This file is auto-imported from `agent_runtime/runners.py` and registers
-the four built-in runners. Adding a new vendor is a single
-RunnerSpec at the bottom of this file — no class hierarchy required.
+Auto-imported from `agent_runtime/runners.py` so the runners self-register.
+Adding a new vendor is a single RunnerSpec at the bottom — no class hierarchy.
 """
 
 from __future__ import annotations
 
 import json
-import os
 import shutil
 import sys
 from pathlib import Path
 
 from agent_runtime.runner_spec import (
+    LaunchPrep,
     RunnerSpec,
     register_declarative,
     register_post_run,
@@ -28,7 +27,7 @@ from agent_runtime.runner_spec import (
 # ── Pre-launch / post-run hooks (the imperative bits) ───────────────────────
 
 
-def _codex_pre_launch(sandbox: Path, env: dict[str, str]) -> None:
+def _codex_pre_launch(sandbox: Path) -> LaunchPrep:
     """Set up CODEX_HOME under workspace/.codex_home and seed creds.
 
     Codex stores session state + helper binaries under $CODEX_HOME. We
@@ -36,20 +35,17 @@ def _codex_pre_launch(sandbox: Path, env: dict[str, str]) -> None:
     refuses to create helper binaries under /tmp) and populate it from
     the host's ~/.codex/ before launch.
 
-    We must set CODEX_HOME on os.environ (not just the local env dict)
-    so PodmanSandbox picks it up and propagates via -e CODEX_HOME=<path>
-    into the container; the staging-$HOME design otherwise gives codex a
-    default CODEX_HOME of $HOME/.codex which lives on /tmp.
+    The returned LaunchPrep.env is passed both to the subprocess and to
+    container backends before they build `podman/apptainer ... -e`.
     """
     codex_home = sandbox / ".codex_home"
-    codex_home.mkdir(exist_ok=True)
+    codex_home.mkdir(parents=True, exist_ok=True)
     real_home = Path.home() / ".codex"
     for name in ("auth.json", "config.toml"):
         src = real_home / name
         if src.is_file():
             shutil.copy2(src, codex_home / name)
-    os.environ["CODEX_HOME"] = str(codex_home)
-    env["CODEX_HOME"] = str(codex_home)
+    return LaunchPrep(env={"CODEX_HOME": str(codex_home)}, home_dir_name=".codex_container_home")
 
 
 def _codex_post_run(sandbox: Path) -> None:
@@ -69,7 +65,7 @@ def _codex_post_run(sandbox: Path) -> None:
             p.unlink(missing_ok=True)
 
 
-def _gemini_pre_launch(sandbox: Path, env: dict[str, str]) -> None:
+def _gemini_pre_launch(sandbox: Path) -> LaunchPrep:
     """Set up GEMINI_CLI_HOME and rewrite settings.json to disable IDE probe.
 
     Mirrors codex's per-run redirect so:
@@ -100,7 +96,9 @@ def _gemini_pre_launch(sandbox: Path, env: dict[str, str]) -> None:
     )
     settings["ide"] = {"enabled": False}
     (gemini_state / "settings.json").write_text(json.dumps(settings, indent=2))
-    env["GEMINI_CLI_HOME"] = str(gemini_home)
+    return LaunchPrep(
+        env={"GEMINI_CLI_HOME": str(gemini_home)}, home_dir_name=".gemini_container_home"
+    )
 
 
 _FORGE_TRUNC_LEN = 8192  # chars per string field; bash output / file dumps cap here
@@ -136,8 +134,8 @@ def _forge_post_run(sandbox: Path) -> None:
     `conversations.context` JSON column holds the full message history
     including each turn's verbatim DeepSeek `usage` block
     (`prompt_tokens`, `completion_tokens`, `cached_tokens` — the same
-    fields the OpenAI-compatible API returns). With staging-HOME
-    persisted at `<recast>/.staging_home`, that DB survives container
+    fields the OpenAI-compatible API returns). With fake HOME
+    persisted at `<recast>/.forge_home`, that DB survives container
     exit so we can mine it on the host.
 
     We emit one JSON object per message, matching the streaming-JSONL
@@ -152,13 +150,13 @@ def _forge_post_run(sandbox: Path) -> None:
     import sqlite3
 
     recast = Path(sandbox).parent
-    db_path = recast / ".staging_home" / ".forge" / ".forge.db"
+    db_path = recast / ".forge_home" / ".forge" / ".forge.db"
     if not db_path.is_file():
         return
     try:
         conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
         # Newest conversation = the run we just finished. Older rows would
-        # only appear if the staging-HOME got reused across runs.
+        # only appear if the fake HOME got reused across runs.
         row = conn.execute(
             "SELECT context FROM conversations ORDER BY updated_at DESC LIMIT 1"
         ).fetchone()
@@ -221,6 +219,17 @@ CLAUDE_SPEC = RunnerSpec(
     # Claude sometimes hangs after emitting `result` (MCP/hooks/watchers
     # holding stdout). 15s grace, then SIGTERM the group.
     post_result_grace_s=15.0,
+    secret_env_names=("ANTHROPIC_API_KEY",),
+    home_dir_name=".claude_home",
+    home_files=(
+        ".claude.json",
+        ".claude/.credentials.json",
+        ".claude/settings.json",
+    ),
+    home_credential_files=(
+        ".claude.json",
+        ".claude/.credentials.json",
+    ),
 )
 
 
@@ -258,6 +267,7 @@ CODEX_SPEC = RunnerSpec(
     stream_format="stream_json",
     pre_launch_hook="codex",
     post_run_hook="codex",
+    secret_env_names=("OPENAI_API_KEY",),
 )
 
 
@@ -275,6 +285,7 @@ GEMINI_SPEC = RunnerSpec(
     # flash, and flash-lite based on the query.
     stream_format="stream_json",
     pre_launch_hook="gemini",
+    secret_env_names=("GEMINI_API_KEY", "GOOGLE_API_KEY"),
 )
 
 
@@ -292,6 +303,15 @@ AIDER_SPEC = RunnerSpec(
     model_flag="--model",
     # Aider has no universal thinking-tokens flag across its 75+ backends.
     stream_format="aider_text",
+    secret_env_names=(
+        "ANTHROPIC_API_KEY",
+        "DEEPSEEK_API_KEY",
+        "GEMINI_API_KEY",
+        "GOOGLE_API_KEY",
+        "OPENAI_API_KEY",
+        "OPENROUTER_API_KEY",
+    ),
+    home_dir_name=".aider_home",
 )
 
 
@@ -300,9 +320,9 @@ FORGE_SPEC = RunnerSpec(
     binary="forge",
     binary_env_var="FORGE_BIN",
     # Forge has no --model flag; model is set via `forge config set model`
-    # in the host's ~/.forge/.forge.toml, which the sandbox copies into the
-    # per-run staging $HOME via _HOME_WHITELIST. Switching models means
-    # `forge config set model <id>` on the host, not editing this YAML.
+    # in the host's ~/.forge/.forge.toml, which the sandbox copies into this
+    # runner's per-run fake $HOME. Switching models means `forge config
+    # set model <id>` on the host, not editing this YAML.
     model_flag=None,
     # Run inside the workspace; -p enables headless single-turn mode.
     pre_subcommand_args=["-C", "{sandbox}"],
@@ -318,8 +338,14 @@ FORGE_SPEC = RunnerSpec(
     # (https://no-color.org); CI=true is what most CLIs check to switch
     # to non-interactive output; TERM=dumb is the belt-and-suspenders.
     extra_env={"NO_COLOR": "1", "CI": "true", "TERM": "dumb"},
+    secret_env_names=("DEEPSEEK_API_KEY",),
     # Capture token totals from `forge conversation stats` after the run.
     post_run_hook="forge",
+    home_dir_name=".forge_home",
+    home_files=(
+        ".forge/.credentials.json",
+        ".forge/.forge.toml",
+    ),
 )
 
 

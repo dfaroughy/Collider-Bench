@@ -2,14 +2,16 @@
 
 The benchmark isolates each agent run inside a **sandbox** — a pluggable filesystem-isolation layer. A backend is a single Python class that wraps the inner command in whatever isolation primitives the host provides.
 
-Today there are two built-ins:
+Today there are four built-ins:
 
 | Backend | Status | Typical host | Network | FS isolation |
 |---|---|---|---|---|
-| `bwrap` | default on Linux with `bubblewrap` | NERSC Perlmutter, most Linux | open | yes (tmpfs + ro-binds) |
+| `podman` | auto default when available | NERSC Perlmutter, Linux with Podman | open | yes, canonical container image |
+| `apptainer` | auto fallback | HPC sites with Apptainer/Singularity | open | yes, canonical container image |
+| `bwrap` | opt-in host sandbox | Linux with `bubblewrap` | open | yes (tmpfs + ro-binds), no container image |
 | `none`  | always available | macOS, CI, free-range debugging | open | **none — do not use for scored runs** |
 
-Selection order (first match wins): `--sandbox` flag → `sandbox:` config key → `LHC_RECAST_SANDBOX` env var → auto (prefer `bwrap`, fall back to `none` with a warning).
+Selection order (first match wins): `--sandbox` flag → `sandbox:` config key → `LHC_RECAST_SANDBOX` env var → auto (`podman` → `apptainer` → `none` with a warning).
 
 The runtime captures the choice in `run_info.json["sandbox"]` so provenance is preserved.
 
@@ -19,8 +21,8 @@ The runtime captures the choice in `run_info.json["sandbox"]` so provenance is p
 ```yaml
 extends: base.yaml
 agent: simple
-paper: "1707.06193"
-sandbox: bwrap        # auto | bwrap | none
+task: sus-16-046_sim-T5Wg
+sandbox: podman       # auto | podman | apptainer | bwrap | none
 ```
 
 **Via CLI flag:**
@@ -44,7 +46,18 @@ class PodmanSandbox(Sandbox):
     def available(self) -> bool:
         return shutil.which("podman-hpc") is not None
 
-    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+    def wrap(
+        self,
+        workspace,
+        repo_root,
+        inner_cmd,
+        extra_ro_binds=None,
+        container_env=None,
+        secret_env_names=(),
+        home_dir_name=".agent_home",
+        home_files=(),
+        home_credential_files=(),
+    ):
         # Mount workspace rw, benchmark ro (minus papers/ and evaluation/),
         # and each path in extra_ro_binds ro.
         mounts = [
@@ -71,12 +84,12 @@ SANDBOXES = {
 }
 ```
 
-Add `"podman"` to `_ALLOWED_SANDBOX` in [`agent_runtime/naming.py`](../agent_runtime/naming.py) so config validation accepts it.
+Add the backend name to `_ALLOWED_SANDBOX` in [`agent_runtime/config.py`](config.py) so config validation accepts it.
 
 ## Contract every backend must honour
 
 1. **`<workspace>` is the only rw path under the repo.** Nothing in `repo_root/` (other than the bound-in workspace) should be writable.
-2. **`LHCRecastBench/` is readable but `LHCRecastBench/papers/` and `LHCRecastBench/evaluation/` are hidden.** Reference answers live in `papers/*/tasks/*/reference/`; the judge rubric lives under `evaluation/`. Both would let the agent cheat.
+2. **Only the benchmark surfaces needed by the agent are bound into container backends.** Current Podman/Apptainer runs expose `LHCRecastBench/tools/`, `LHCRecastBench/bin/`, and the resolved paper directory read-only. They do not expose `tasks/shared/*/reference/` or `evaluation/`, which would let the agent cheat.
 3. **`/tmp` is fresh.** Prevents cross-run leakage and signals.
 4. **Every `Path` in `extra_ro_binds` is mounted read-only.** The launcher uses this to re-expose Python packages (`agent_runtime/`, per-agent `runtime/`) hidden by rule #1.
 5. **`cleanup()` is safe to call once after the wrapped process exits**, including on failure. Return `lambda: None` if nothing needs restoring.

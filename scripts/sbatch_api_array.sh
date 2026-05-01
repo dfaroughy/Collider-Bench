@@ -15,7 +15,7 @@
 #SBATCH --account=m4539
 #SBATCH --constraint=cpu
 #SBATCH --qos=regular
-#SBATCH --time=04:30:00
+#SBATCH --time=02:40:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=128

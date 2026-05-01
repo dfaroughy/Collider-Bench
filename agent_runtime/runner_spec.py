@@ -27,6 +27,7 @@ from typing import Callable, Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from agent_runtime.runners import (
+    LaunchPrep,
     Runner,
     _arm_walltime_watchdog,
     _find_binary,
@@ -144,15 +145,14 @@ STREAM_PARSERS: dict[str, Callable[[], LineRenderer]] = {
 
 # ── Hook registries ──────────────────────────────────────────────────────────
 #
-# Pre-launch hooks: imperative setup that has to happen before subprocess.Popen
-# (e.g., copying OAuth creds into a workspace-relative state dir). They get the
-# sandbox path, the subprocess env dict (mutable), and may also mutate
-# os.environ for state that has to round-trip through PodmanSandbox.
+# Pre-launch hooks: imperative setup that has to happen before sandbox command
+# construction (e.g., copying OAuth creds into a workspace-relative state dir).
+# They return LaunchPrep so env/bind requirements are explicit.
 #
 # Post-run hooks: cleanup after the subprocess exits (e.g., dropping bulky
 # vendor caches/logs).
 
-PreLaunchHook = Callable[[Path, dict[str, str]], None]
+PreLaunchHook = Callable[[Path], LaunchPrep]
 PostRunHook = Callable[[Path], None]
 
 PRE_LAUNCH_HOOKS: dict[str, PreLaunchHook] = {}
@@ -234,6 +234,15 @@ class RunnerSpec(BaseModel):
 
     # ── Static env to inject into the subprocess ────────────────────────────
     extra_env: dict[str, str] = Field(default_factory=dict)
+    secret_env_names: tuple[str, ...] = Field(default_factory=tuple)
+
+    # ── Per-run fake HOME ───────────────────────────────────────────────────
+    # Container backends create `<run>/<home_dir_name>` and copy only these
+    # host-relative files into it. Keep this runner-specific so a Claude run
+    # cannot inherit Codex/Gemini/Forge state.
+    home_dir_name: str = ".agent_home"
+    home_files: tuple[str, ...] = Field(default_factory=tuple)
+    home_credential_files: tuple[str, ...] = Field(default_factory=tuple)
 
 
 # ── Generic runner driven by a spec ──────────────────────────────────────────
@@ -248,6 +257,36 @@ class DeclarativeRunner(Runner):
     @property
     def name(self) -> str:
         return self._spec.name
+
+    def prepare_launch(self, sandbox: Path) -> LaunchPrep:
+        s = self._spec
+        env: dict[str, str] = dict(s.extra_env)
+        extra_ro_binds: list[Path] = []
+        secret_env_names = list(s.secret_env_names)
+        home_dir_name = s.home_dir_name
+        home_files = list(s.home_files)
+        home_credential_files = list(s.home_credential_files)
+        if s.pre_launch_hook:
+            hook = PRE_LAUNCH_HOOKS.get(s.pre_launch_hook)
+            if hook is None:
+                raise KeyError(
+                    f"runner {s.name!r}: pre_launch_hook {s.pre_launch_hook!r} not registered"
+                )
+            prep = hook(Path(sandbox))
+            env.update(prep.env)
+            extra_ro_binds.extend(prep.extra_ro_binds)
+            secret_env_names.extend(prep.secret_env_names)
+            home_dir_name = prep.home_dir_name or home_dir_name
+            home_files.extend(prep.home_files)
+            home_credential_files.extend(prep.home_credential_files)
+        return LaunchPrep(
+            env=env,
+            extra_ro_binds=extra_ro_binds,
+            secret_env_names=tuple(dict.fromkeys(secret_env_names)),
+            home_dir_name=home_dir_name,
+            home_files=tuple(home_files),
+            home_credential_files=tuple(home_credential_files),
+        )
 
     def build_command(
         self,
@@ -297,15 +336,6 @@ class DeclarativeRunner(Runner):
     def run(self, cmd, prompt, sandbox, env, output_file, walltime_s=None):
         s = self._spec
         env = dict(env)
-
-        if s.pre_launch_hook:
-            hook = PRE_LAUNCH_HOOKS.get(s.pre_launch_hook)
-            if hook is None:
-                raise KeyError(
-                    f"runner {s.name!r}: pre_launch_hook {s.pre_launch_hook!r} not registered"
-                )
-            hook(Path(sandbox), env)
-        env.update(s.extra_env)
 
         popen_kwargs: dict = {
             "cwd": sandbox,

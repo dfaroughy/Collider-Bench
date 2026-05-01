@@ -23,7 +23,7 @@ import urllib.request
 from pathlib import Path
 
 from agent_runtime import paths
-from agent_runtime.naming import load_task_toml
+from agent_runtime.config import load_task_toml
 
 
 def build_workspace(

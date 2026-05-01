@@ -62,8 +62,8 @@ def _task_toml(task_id: str) -> dict:
 def _template_docs(task_id: str) -> tuple[Path, list]:
     """Return (template_path, [yaml docs]) for a task."""
     template_dir = TASKS_ROOT / task_id / "template"
-    files = sorted(list(template_dir.glob("*.yaml")) + list(template_dir.glob("*.yml")))
-    assert files, f"No histogram .yml/.yaml in {template_dir}"
+    files = sorted(template_dir.glob("*.yaml"))
+    assert files, f"No histogram .yaml in {template_dir}"
     return files[0], list(yaml.safe_load_all(files[0].read_text()))
 
 
@@ -148,10 +148,9 @@ def test_metrics_plot_mode_set_and_valid(task_id_param):
     metrics = toml.get("metrics") or {}
     assert "plot" in metrics, f"{task_id_param}: [metrics].plot missing from task.toml"
     mode = metrics["plot"]
-    assert mode in ALLOWED_PLOT_MODES, (
-        f"{task_id_param}: [metrics].plot must be one of {sorted(ALLOWED_PLOT_MODES)}, "
-        f"got {mode!r}"
-    )
+    assert (
+        mode in ALLOWED_PLOT_MODES
+    ), f"{task_id_param}: [metrics].plot must be one of {sorted(ALLOWED_PLOT_MODES)}, got {mode!r}"
 
 
 # ── TASK.md and template/ structure ──────────────────────────────────────
@@ -164,13 +163,15 @@ def test_task_md_present(task_id_param):
 
 
 def test_template_has_exactly_one_histogram_file(task_id_param):
-    """Resolver expects a single .yml/.yaml under template/."""
+    """Resolver expects a single .yaml under template/."""
     template_dir = TASKS_ROOT / task_id_param / "template"
     assert template_dir.is_dir(), f"Missing {template_dir}"
-    files = list(template_dir.glob("*.yml")) + list(template_dir.glob("*.yaml"))
-    assert len(files) == 1, (
-        f"{task_id_param}: expected 1 histogram in template/, got " f"{[f.name for f in files]}"
-    )
+    files = list(template_dir.glob("*.yaml"))
+    legacy = list(template_dir.glob("*.yml"))
+    assert not legacy, f"{task_id_param}: .yml files are obsolete: {[f.name for f in legacy]}"
+    assert (
+        len(files) == 1
+    ), f"{task_id_param}: expected 1 histogram in template/, got {[f.name for f in files]}"
 
 
 def test_template_no_legacy_description_toml(task_id_param):
@@ -217,10 +218,9 @@ def test_template_values_are_null(task_id_param):
     for dep in deps:
         for entry in dep.get("values", []):
             v = entry.get("value") if isinstance(entry, dict) else None
-            assert v is None, (
-                f"{task_id_param}: template has non-null value {v!r}; "
-                "templates must be null-filled"
-            )
+            assert (
+                v is None
+            ), f"{task_id_param}: template has non-null value {v!r}; templates must be null-filled"
 
 
 def test_template_bin_count_internal_consistency(task_id_param):
@@ -259,7 +259,7 @@ def test_paper_pdf_present(task_id_param):
 def test_load_task_identity_succeeds(task_id_param):
     paper, fname, header, _sys_pct, _score_mode, _plot_mode = _load_task_identity(task_id_param)
     assert paper
-    assert fname.endswith((".yml", ".yaml"))
+    assert fname.endswith(".yaml")
     assert header
 
 
@@ -330,4 +330,4 @@ def test_template_and_reference_bin_edges_agree(task_id_param):
             match = t.get("low") == r.get("low") and t.get("high") == r.get("high")
         else:
             match = t == r
-        assert match, f"{task_id_param}: bin {i} edges differ — " f"template={t}  reference={r}"
+        assert match, f"{task_id_param}: bin {i} edges differ — template={t}  reference={r}"

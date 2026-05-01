@@ -44,99 +44,140 @@ from typing import Callable, Iterable, Sequence
 _DEFAULT_IMAGE = "ghcr.io/dfaroughy/lhc-bench:latest"
 
 
-# Files copied into a per-container ephemeral $HOME so each agent run gets
-# isolated CLI state. Anything not on this list (history.jsonl, projects/,
-# sessions/, todos/, caches, telemetry, MCP needs-auth caches…) is excluded
-# so prior-run artefacts cannot leak into a benchmark run, and concurrent
-# containers don't race on shared state.
-_HOME_WHITELIST: tuple[str, ...] = (
-    # Claude Code
-    ".claude.json",
-    ".claude/.credentials.json",
-    ".claude/settings.json",
-    # Codex CLI
-    ".codex/auth.json",
-    ".codex/config.toml",
-    ".codex/installation_id",
-    # Gemini CLI
-    ".gemini/oauth_creds.json",
-    ".gemini/google_accounts.json",
-    ".gemini/installation_id",
-    ".gemini/settings.json",
-    ".gemini/trustedFolders.json",
-    # Forge (Antinomy)
-    ".forge/.credentials.json",
-    ".forge/.forge.toml",
+_RUNNER_ENV_PASSTHROUGH: tuple[str, ...] = (
+    "CODEX_HOME",
+    "GEMINI_CLI_HOME",
+    "NO_COLOR",
+    "CI",
+    "TERM",
+    "CLAUDE_BIN",
+    "CODEX_BIN",
+    "GEMINI_BIN",
+    "AIDER_BIN",
 )
 
 
-# Subset of _HOME_WHITELIST that holds OAuth tokens. Containers may rotate
-# (refresh) these during a run; if they do, the new tokens are written into
-# the per-container staging copy. We sync them back to the host on cleanup
-# so that the next sequential run picks up the fresh tokens — otherwise the
-# OAuth refresh-token rotation kills any subsequent run with a 401.
-# Within a `%1`-throttled SLURM array this is race-free; across-lane
-# parallelism is safe because each provider's credentials live in
-# independent files.
-_HOME_CREDENTIAL_FILES: tuple[str, ...] = (
-    ".claude.json",
-    ".claude/.credentials.json",
-    ".codex/auth.json",
-    ".gemini/oauth_creds.json",
-    ".gemini/google_accounts.json",
-)
+def _container_env_pairs(
+    container_env: dict[str, str] | None,
+    secret_env_names: Iterable[str] = (),
+) -> list[tuple[str, str]]:
+    """Return env vars to expose inside container backends.
+
+    Source precedence is explicit launch env first, then host env. API keys are
+    never wildcard-forwarded: each runner declares the secret env names it
+    requires, and only those names are exposed to the container.
+    """
+    out: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for var in (*_RUNNER_ENV_PASSTHROUGH, *tuple(secret_env_names)):
+        val = (container_env or {}).get(var) or os.environ.get(var)
+        if val:
+            out.append((var, val))
+            seen.add(var)
+    return out
 
 
-def _prepare_isolated_home(host_home: Path, target: Path | None = None) -> Path:
-    """Build a per-container staging $HOME containing only the credential
-    and config files in `_HOME_WHITELIST`.
+def _validate_home_dir_name(name: str) -> str:
+    """Validate the runner-specific fake-home directory name.
 
-    The container is then launched with `HOME=<staging>` and the staging
+    Fake homes are created as `<run>/<name>`. Accept one plain relative path
+    segment only, so a bad spec cannot delete or populate paths outside the run
+    directory.
+    """
+    p = Path(name)
+    if (
+        not name
+        or p.is_absolute()
+        or len(p.parts) != 1
+        or name in {".", ".."}
+        or "/" in name
+        or "\\" in name
+    ):
+        raise ValueError(f"invalid fake-home directory name: {name!r}")
+    return name
+
+
+def _validate_home_file(rel: str) -> str:
+    """Validate a host-home-relative file copied into fake HOME."""
+    p = Path(rel)
+    if (
+        not rel
+        or rel == "."
+        or p.is_absolute()
+        or any(part in {"", ".", ".."} for part in p.parts)
+        or "\\" in rel
+    ):
+        raise ValueError(f"invalid fake-home file path: {rel!r}")
+    return rel
+
+
+def _fake_home_target(workspace: Path, home_dir_name: str) -> Path:
+    return workspace.parent / _validate_home_dir_name(home_dir_name)
+
+
+def _prepare_isolated_home(
+    host_home: Path,
+    target: Path | None = None,
+    rel_files: Iterable[str] = (),
+) -> Path:
+    """Build a per-container fake $HOME containing selected files only.
+
+    The container is then launched with `HOME=<fake-home>` and the fake-home
     dir bind-mounted into the container at the same path; the CLI sees a
-    pristine home with just the auth it needs and writes any session
-    state into the staging dir. The host's real `~/.claude/`,
-    `~/.codex/`, `~/.gemini/`, `~/.forge/` are never touched *except*
-    for the credential files in `_HOME_CREDENTIAL_FILES`, which
-    `_sync_credentials_back_to_host` propagates back if the container
-    refreshed them mid-run.
+    pristine home with just the runner-specific auth/config it needs and
+    writes any session state into the fake-home dir. The copied files are
+    provided by the active runner's LaunchPrep, so unrelated vendor state
+    cannot leak into the run.
 
-    `target` is the host path to use as staging-HOME. When omitted (legacy
+    `target` is the host path to use as fake HOME. When omitted (legacy
     callers + tests) we fall back to a tempdir; production launches pass
-    `<recast>/.staging_home` so the conversation DBs / state dirs that
+    a runner-specific path such as `<recast>/.claude_home` so the
+    conversation DBs / state dirs that
     forge and claude write to `~/.forge` / `~/.claude` survive container
     cleanup. (Codex and Gemini use their own workspace-relative state
     dirs via CODEX_HOME / GEMINI_CLI_HOME — they don't depend on this.)
     """
-    staging = target if target is not None else Path(tempfile.mkdtemp(prefix="lhc-recast-home-"))
-    staging.mkdir(parents=True, exist_ok=True)
-    for rel in _HOME_WHITELIST:
+    fake_home = target if target is not None else Path(tempfile.mkdtemp(prefix="lhc-recast-home-"))
+    if target is not None and fake_home.exists():
+        if fake_home.is_symlink() or fake_home.is_file():
+            fake_home.unlink()
+        else:
+            shutil.rmtree(fake_home)
+    fake_home.mkdir(parents=True, exist_ok=True)
+    for rel in rel_files:
+        rel = _validate_home_file(rel)
         src = host_home / rel
         if not src.is_file():
             continue
-        dst = staging / rel
+        dst = fake_home / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         if not dst.exists():
             shutil.copy2(src, dst)
-    return staging
+    return fake_home
 
 
-def _sync_credentials_back_to_host(staging: Path, host_home: Path) -> None:
-    """Copy refreshed OAuth credential files from `staging` back to host.
+def _sync_credentials_back_to_host(
+    fake_home: Path,
+    host_home: Path,
+    rel_files: Iterable[str] = (),
+) -> None:
+    """Copy refreshed OAuth credential files from `fake_home` back to host.
 
     OAuth refresh-token rotation: when a CLI in the container refreshes
     its access token, the auth server invalidates the old refresh token
-    on its side. The container's staging copy now holds the new tokens;
+    on its side. The container's fake-home copy now holds the new tokens;
     the host's copy holds tokens that are dead in Anthropic/OpenAI/
     Google's eyes. Without this sync, the *next* run starts from a
     stale refresh token and immediately 401s on the first refresh.
 
-    We compare mtimes — only copy back when the staging file is newer
+    We compare mtimes — only copy back when the fake-home file is newer
     than the host file (i.e. the container actually wrote it). Best-
     effort; never raises so it can't break the cleanup path.
     """
-    for rel in _HOME_CREDENTIAL_FILES:
+    for rel in rel_files:
+        rel = _validate_home_file(rel)
         try:
-            src = staging / rel
+            src = fake_home / rel
             host = host_home / rel
             if not src.is_file() or not host.is_file():
                 continue
@@ -165,6 +206,11 @@ class Sandbox(ABC):
         repo_root: Path,
         inner_cmd: Sequence[str],
         extra_ro_binds: Iterable[Path] | None = None,
+        container_env: dict[str, str] | None = None,
+        secret_env_names: Iterable[str] = (),
+        home_dir_name: str = ".agent_home",
+        home_files: Iterable[str] = (),
+        home_credential_files: Iterable[str] = (),
     ) -> tuple[list[str], Callable[[], None]]:
         """Return (command, cleanup_fn).
 
@@ -203,7 +249,18 @@ class BwrapSandbox(Sandbox):
     def available(self) -> bool:
         return shutil.which("bwrap") is not None
 
-    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+    def wrap(
+        self,
+        workspace,
+        repo_root,
+        inner_cmd,
+        extra_ro_binds=None,
+        container_env=None,
+        secret_env_names=(),
+        home_dir_name=".agent_home",
+        home_files=(),
+        home_credential_files=(),
+    ):
         from agent_runtime import paths as bench_paths
 
         benchmark_dir = bench_paths.benchmark_dir(repo_root)
@@ -352,7 +409,18 @@ class ApptainerSandbox(Sandbox):
     def _engine(self) -> str:
         return "apptainer" if shutil.which("apptainer") else "singularity"
 
-    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+    def wrap(
+        self,
+        workspace,
+        repo_root,
+        inner_cmd,
+        extra_ro_binds=None,
+        container_env=None,
+        secret_env_names=(),
+        home_dir_name=".agent_home",
+        home_files=(),
+        home_credential_files=(),
+    ):
         from agent_runtime import paths as bench_paths
 
         image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
@@ -384,19 +452,23 @@ class ApptainerSandbox(Sandbox):
             if target.is_dir():
                 cmd.extend(["--bind", f"{target}:{target}:ro"])
 
-        # Per-run staging $HOME under <recast>/.staging_home/. The CLIs
-        # see only the whitelisted credential / config files; everything
+        # Per-run fake $HOME under <recast>/<runner-home>/. The CLIs
+        # see only runner-selected credential / config files; everything
         # they write (session logs, conversation DBs, todos, caches)
         # lands here. Persisted with the run so post-run hooks can mine
         # forge's `.forge.db` etc. for usage stats. Host's real $HOME is
         # never touched, and concurrent runs each have their own dir.
-        staging_home = _prepare_isolated_home(Path.home(), workspace.parent / ".staging_home")
+        fake_home = _prepare_isolated_home(
+            Path.home(),
+            _fake_home_target(workspace, home_dir_name),
+            home_files,
+        )
         cmd.extend(
             [
                 "--bind",
-                f"{staging_home}:{staging_home}",
+                f"{fake_home}:{fake_home}",
                 "--env",
-                f"HOME={staging_home}",
+                f"HOME={fake_home}",
             ]
         )
 
@@ -407,6 +479,9 @@ class ApptainerSandbox(Sandbox):
         for path in extra_ro_binds or []:
             if Path(path).exists():
                 cmd.extend(["--bind", f"{path}:{path}:ro"])
+        rewritten_cmd, cli_ro_binds = _prepare_runner_cli(inner_cmd)
+        for path in cli_ro_binds:
+            cmd.extend(["--bind", f"{path}:{path}:ro"])
 
         # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
         # `--dangerously-skip-permissions` is allowed even if the container
@@ -415,24 +490,16 @@ class ApptainerSandbox(Sandbox):
         cmd.extend(["--env", "IS_SANDBOX=1"])
 
         # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV
-        # directives. Pass through any vendor *_API_KEY from the host (so
-        # adding a new provider like DEEPSEEK_API_KEY / GROK_API_KEY needs
-        # no sandbox edit) plus the runner-specific binary-path overrides.
-        for var, val in os.environ.items():
-            if var.endswith("_API_KEY") and val:
-                cmd.extend(["--env", f"{var}={val}"])
-        for var in ("CODEX_HOME", "CLAUDE_BIN", "CODEX_BIN", "GEMINI_BIN", "AIDER_BIN"):
-            val = os.environ.get(var)
-            if val:
-                cmd.extend(["--env", f"{var}={val}"])
-
+        # directives. Pass through only the narrow runner/API env allowlist.
+        for var, val in _container_env_pairs(container_env, secret_env_names):
+            cmd.extend(["--env", f"{var}={val}"])
         cmd.append(image)
-        cmd.extend(_rewrite_host_cli_to_container(inner_cmd))
+        cmd.extend(rewritten_cmd)
 
         def cleanup() -> None:
-            _sync_credentials_back_to_host(staging_home, Path.home())
-            # NOTE: staging_home is intentionally preserved at
-            # <recast>/.staging_home/ so post-run hooks (e.g. forge) can
+            _sync_credentials_back_to_host(fake_home, Path.home(), home_credential_files)
+            # NOTE: fake_home is intentionally preserved under the run
+            # directory so post-run hooks (e.g. forge) can
             # mine the conversation DB, and so debug postmortem on a
             # failed run still has the agent's state to inspect.
 
@@ -442,19 +509,44 @@ class ApptainerSandbox(Sandbox):
 # ── Helpers ─────────────────────────────────────────────────────────────────
 
 
-_CONTAINER_CLIS = {"claude", "codex", "gemini", "aider", "python", "python3"}
+_HOST_AGENT_CLIS = {"claude", "codex", "gemini", "aider", "forge"}
+_IMAGE_CLIS = _HOST_AGENT_CLIS | {"python", "python3"}
+_SYSTEM_BIN_DIRS = {Path("/bin"), Path("/usr/bin"), Path("/usr/local/bin")}
 
 
-def _rewrite_host_cli_to_container(inner_cmd: Sequence[str]) -> list[str]:
-    """If inner_cmd[0] is an absolute host path to a known agent CLI, replace
-    with the unqualified basename so the container's PATH resolves it against
-    the in-image install (e.g. /opt/node-global/bin/claude)."""
+def _is_relative_to(path: Path, parent: Path) -> bool:
+    try:
+        path.relative_to(parent)
+    except ValueError:
+        return False
+    return True
+
+
+def _prepare_runner_cli(inner_cmd: Sequence[str]) -> tuple[list[str], list[Path]]:
+    """Rewrite the CLI command and return any narrow host CLI dirs to bind.
+
+    Container images may bake agent CLIs. When the selected runner binary is a
+    host-installed absolute path under the user's home (common for VS Code,
+    npm, pipx, and standalone CLI installs), bind only the resolved executable's
+    parent directory and invoke that resolved path inside the container. This
+    replaces the old whole-`~/.local` bind while still supporting host-managed
+    vendor CLIs. System paths fall back to the image binary by basename.
+    """
     if not inner_cmd:
-        return list(inner_cmd)
-    head = inner_cmd[0]
-    if Path(head).is_absolute() and Path(head).name in _CONTAINER_CLIS:
-        return [Path(head).name, *inner_cmd[1:]]
-    return list(inner_cmd)
+        return list(inner_cmd), []
+    head = Path(inner_cmd[0])
+    name = head.name
+    if not head.is_absolute() or name not in _IMAGE_CLIS:
+        return list(inner_cmd), []
+    if name not in _HOST_AGENT_CLIS:
+        return [name, *inner_cmd[1:]], []
+    if not head.exists():
+        return [name, *inner_cmd[1:]], []
+    resolved = head.resolve()
+    home = Path.home().resolve()
+    if _is_relative_to(resolved, home) and resolved.parent not in _SYSTEM_BIN_DIRS:
+        return [str(resolved), *inner_cmd[1:]], [resolved.parent]
+    return [name, *inner_cmd[1:]], []
 
 
 # ── Podman / Podman-HPC (NERSC, rootless containers) ───────────────────────
@@ -478,7 +570,18 @@ class PodmanSandbox(Sandbox):
     def _engine(self) -> str:
         return "podman-hpc" if shutil.which("podman-hpc") else "podman"
 
-    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+    def wrap(
+        self,
+        workspace,
+        repo_root,
+        inner_cmd,
+        extra_ro_binds=None,
+        container_env=None,
+        secret_env_names=(),
+        home_dir_name=".agent_home",
+        home_files=(),
+        home_credential_files=(),
+    ):
         from agent_runtime import paths as bench_paths
 
         image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
@@ -490,7 +593,11 @@ class PodmanSandbox(Sandbox):
         # doesn't cover the host UID, so the userns map fails at run time.
         # Claude Code's "no --dangerously-skip-permissions as root" check
         # is bypassed below via IS_SANDBOX=1.
-        staging_home = _prepare_isolated_home(Path.home(), workspace.parent / ".staging_home")
+        fake_home = _prepare_isolated_home(
+            Path.home(),
+            _fake_home_target(workspace, home_dir_name),
+            home_files,
+        )
         cmd: list[str] = [
             self._engine(),
             "run",
@@ -503,10 +610,10 @@ class PodmanSandbox(Sandbox):
             "--workdir",
             str(workspace),
             "-e",
-            f"HOME={staging_home}",
+            f"HOME={fake_home}",
             # Per-container ephemeral $HOME — see _prepare_isolated_home.
             "-v",
-            f"{staging_home}:{staging_home}",
+            f"{fake_home}:{fake_home}",
             # Workspace: the only rw path under the repo — agent's scratch.
             "-v",
             f"{workspace}:{workspace}",
@@ -530,7 +637,7 @@ class PodmanSandbox(Sandbox):
             if target.is_dir():
                 cmd.extend(["-v", f"{target}:{target}:ro"])
 
-        # OAuth creds + minimal CLI config live inside the staging $HOME
+        # OAuth creds + minimal CLI config live inside the fake $HOME
         # bound above; nothing else is shared with the host's real $HOME.
 
         if Path("/cvmfs").is_dir():
@@ -540,25 +647,16 @@ class PodmanSandbox(Sandbox):
             if Path(path).exists():
                 cmd.extend(["-v", f"{path}:{path}:ro"])
 
-        # ── Host CLIs (claude / codex / gemini / aider / grok / …) ──────────
-        # We don't bake vendor agent CLIs into the image; the user installs
-        # them on the host (typically under ~/.local/{bin,lib}/, via npm,
-        # pipx, or standalone binaries) and we bind-mount the whole tree at
-        # the same path inside the container. PATH is prepended below so
-        # locally-installed CLIs resolve via `_find_binary("<name>", ...)`.
-        # This lets users add a new vendor (e.g. `npm i -g grok-cli`) and
-        # run it the next session without rebuilding the image.
-        host_local = Path.home() / ".local"
-        if host_local.is_dir():
-            cmd.extend(["-v", f"{host_local}:{host_local}:ro"])
+        rewritten_cmd, cli_ro_binds = _prepare_runner_cli(inner_cmd)
+        for path in cli_ro_binds:
+            cmd.extend(["-v", f"{path}:{path}:ro"])
 
         # ── PATH inside the container ───────────────────────────────────────
-        # Prepend host ~/.local/bin so locally-installed CLIs win, then the
-        # image's standard PATH (sim binaries, conda env, system).
+        # Use only the image PATH. Host-installed agent CLIs are either baked
+        # into the image or mounted narrowly by _prepare_runner_cli().
         # This must stay in sync with docker/Dockerfile's ENV PATH.
         container_path = ":".join(
             [
-                f"{host_local}/bin",
                 "/opt/sim/MG5_aMC_v3_7_0/bin",
                 "/opt/sim/delphes",
                 "/opt/node-global/bin",
@@ -586,30 +684,18 @@ class PodmanSandbox(Sandbox):
         # compute nodes because keep-id fails on subuid range limits).
         cmd.extend(["-e", "IS_SANDBOX=1"])
 
-        # Pass through any vendor API key from the host (so a user adding
-        # e.g. DEEPSEEK_API_KEY for aider, or GROK_API_KEY for grok-cli,
-        # doesn't need a sandbox edit). Pattern is intentionally narrow —
-        # only env vars whose name ends in _API_KEY — to avoid leaking
-        # unrelated host env into the container.
-        for var, val in os.environ.items():
-            if var.endswith("_API_KEY") and val:
-                cmd.extend(["-e", f"{var}={val}"])
-
-        # Plus the runner-specific config / binary-path overrides.
-        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV —
-        # bin/simulate reads them to find /opt/sim/<tool> inside the container.
-        for var in ("CODEX_HOME", "CLAUDE_BIN", "CODEX_BIN", "GEMINI_BIN", "AIDER_BIN"):
-            val = os.environ.get(var)
-            if val:
-                cmd.extend(["-e", f"{var}={val}"])
+        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV.
+        # Pass through only the narrow runner/API env allowlist.
+        for var, val in _container_env_pairs(container_env, secret_env_names):
+            cmd.extend(["-e", f"{var}={val}"])
 
         cmd.append(image)
-        cmd.extend(_rewrite_host_cli_to_container(inner_cmd))
+        cmd.extend(rewritten_cmd)
 
         def cleanup() -> None:
-            _sync_credentials_back_to_host(staging_home, Path.home())
-            # NOTE: staging_home is intentionally preserved at
-            # <recast>/.staging_home/ so post-run hooks (e.g. forge) can
+            _sync_credentials_back_to_host(fake_home, Path.home(), home_credential_files)
+            # NOTE: fake_home is intentionally preserved under the run
+            # directory so post-run hooks (e.g. forge) can
             # mine the conversation DB, and so debug postmortem on a
             # failed run still has the agent's state to inspect.
 
@@ -633,7 +719,20 @@ class NoneSandbox(Sandbox):
     def available(self) -> bool:
         return True
 
-    def wrap(self, workspace, repo_root, inner_cmd, extra_ro_binds=None):
+    def wrap(
+        self,
+        workspace,
+        repo_root,
+        inner_cmd,
+        extra_ro_binds=None,
+        container_env=None,
+        secret_env_names=(),
+        home_dir_name=".agent_home",
+        home_files=(),
+        home_credential_files=(),
+    ):
+        # No filesystem wrapper is inserted here. `container_env` is already
+        # merged into the subprocess env by the runner layer before Popen.
         return list(inner_cmd), (lambda: None)
 
 
@@ -651,7 +750,7 @@ def _auto_select() -> Sandbox:
     """Pick the best available container backend.
 
     Order: podman → apptainer. Both run the canonical lhc-bench image
-    with proper $HOME isolation via the staging dir built in
+    with proper $HOME isolation via the fake-home dir built in
     `_prepare_isolated_home`. Bwrap is intentionally excluded: it
     doesn't use the image at all (runs analysis on the host conda env),
     which defeats the point of the canonical container. To force bwrap,
@@ -689,7 +788,7 @@ def get_sandbox(name: str | None = None) -> Sandbox:
     inst = cls()
     if not inst.available():
         raise RuntimeError(
-            f"Sandbox {name!r} is not available on this host " f"(required tools missing)."
+            f"Sandbox {name!r} is not available on this host (required tools missing)."
         )
     return inst
 
@@ -702,11 +801,26 @@ def sandbox_command(
     repo_root: Path,
     inner_cmd: Sequence[str],
     extra_ro_binds: Iterable[Path] | None = None,
+    container_env: dict[str, str] | None = None,
     sandbox: str | None = None,
+    secret_env_names: Iterable[str] = (),
+    home_dir_name: str = ".agent_home",
+    home_files: Iterable[str] = (),
+    home_credential_files: Iterable[str] = (),
 ) -> tuple[list[str], Callable[[], None]]:
     """Thin wrapper: pick a backend and delegate to its .wrap().
 
     `sandbox` may be "bwrap" | "none" | "auto" | None. See get_sandbox() for
     resolution rules.
     """
-    return get_sandbox(sandbox).wrap(workspace, repo_root, inner_cmd, extra_ro_binds)
+    return get_sandbox(sandbox).wrap(
+        workspace,
+        repo_root,
+        inner_cmd,
+        extra_ro_binds,
+        container_env,
+        secret_env_names,
+        home_dir_name,
+        home_files,
+        home_credential_files,
+    )

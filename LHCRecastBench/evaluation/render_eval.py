@@ -51,7 +51,7 @@ def _fmt_int(x) -> str:
 def _provenance(judge: dict | None) -> dict:
     if not judge:
         return {}
-    return judge.get("provenance_audit") or judge.get("provenance_verification") or {}
+    return judge.get("provenance_audit") or {}
 
 
 def _overrule(judge: dict | None) -> dict:
@@ -336,8 +336,7 @@ def render_judge(judge: dict | None) -> list[str]:
         return []
     out = ["## LLM judge — `judge_scores.json`", ""]
 
-    # New schema: provenance audit + trajectory narrative.
-    pv = judge.get("provenance_audit") or judge.get("provenance_verification") or {}
+    pv = judge.get("provenance_audit") or {}
     if pv:
         out.append("**Provenance audit:**")
         out.append("")
@@ -409,64 +408,6 @@ def render_judge(judge: dict | None) -> list[str]:
             out.append("")
         return out
 
-    # Legacy schema: six dimensions + failure report.
-    dims = [
-        ("Diagnosis quality", "diagnosis_quality"),
-        ("Creative problem-solving", "creative_problem_solving"),
-        ("Scientific honesty", "scientific_honesty"),
-        ("Hallucination (low = good)", "hallucination"),
-        ("Tool use efficiency", "tool_use_efficiency"),
-        ("Artifact completeness", "artifact_completeness"),
-    ]
-    out.append("| Dimension | Score |")
-    out.append("|---|---:|")
-    for label, key in dims:
-        v = (judge.get(key) or {}).get("score")
-        out.append(f"| {label} | {v if v is not None else '—'} / 5 |")
-    if judge.get("overall_reasoning_score") is not None:
-        out.append(f"| **Overall reasoning** | **{judge['overall_reasoning_score']} / 5** |")
-    out.append("")
-
-    # Strengths / weaknesses
-    for label, key in (
-        ("Strengths", "key_strengths"),
-        ("Weaknesses", "key_weaknesses"),
-        ("Missed opportunities", "missed_opportunities"),
-    ):
-        items = judge.get(key) or []
-        if items:
-            out.append(f"**{label}:**")
-            for it in items:
-                out.append(f"- {it}")
-            out.append("")
-
-    # Legacy provenance
-    pv = judge.get("provenance_verification") or {}
-    series = pv.get("series") or {}
-    if series:
-        buckets: dict[str, list[str]] = {}
-        for sname, info in series.items():
-            cls = info.get("classification", "UNKNOWN")
-            buckets.setdefault(cls, []).append(sname)
-        out.append(
-            "**Provenance:** "
-            + ", ".join(f"{len(lst)} {cls}" for cls, lst in sorted(buckets.items()))
-        )
-        out.append("")
-        out.append("<details><summary>Per-series classifications</summary>\n")
-        out.append("| Series | Classification |")
-        out.append("|---|---|")
-        for cls, lst in sorted(buckets.items()):
-            for sname in sorted(lst):
-                out.append(f"| `{sname}` | {cls} |")
-        out.append("\n</details>\n")
-
-    failure_path = judge.get("failure_report_path")
-    if failure_path:
-        # Show as relative link when report lives next to the JSON.
-        rel = Path(failure_path).name
-        out.append(f"See [`{rel}`]({rel}) for the narrative failure report.")
-        out.append("")
     return out
 
 

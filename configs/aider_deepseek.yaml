@@ -3,7 +3,8 @@
 #
 # Aider drives many model backends through litellm. The model string is
 # of the form "<provider>/<model-id>"; auth is per-provider via the
-# canonical *_API_KEY env var (passed through by the sandbox).
+# canonical provider API key. The aider runner forwards a fixed allowlist
+# of provider secrets; the sandbox does not wildcard-forward *_API_KEY.
 #
 # Common picks:
 #   deepseek/deepseek-chat       — V3, fast, cheap

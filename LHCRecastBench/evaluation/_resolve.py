@@ -110,8 +110,7 @@ def _load_task_identity(task_id: str) -> tuple[str, str, str, float, str, str]:
     """Return (paper_ref, data_filename, header_name, systematic_pct, score_mode, plot_mode).
 
     paper_ref comes from task.toml's [task].paper. data_filename is the
-    single .yaml histogram file under tasks/<task_id>/template/ (.yml is
-    accepted for legacy runs).
+    single .yaml histogram file under tasks/<task_id>/template/.
     header_name is taken from dependent_variables[0].header.name inside
     that file. systematic_pct is read from task.toml's [metrics].tolerance
     (a per-task scoring knob, not a data attribute); falls back to
@@ -144,7 +143,7 @@ def _load_task_identity(task_id: str) -> tuple[str, str, str, float, str, str]:
             ) from exc
         if sys_pct < 0:
             raise ValueError(
-                f"{task_toml_path}: [metrics].tolerance must be non-negative, " f"got {sys_pct}"
+                f"{task_toml_path}: [metrics].tolerance must be non-negative, got {sys_pct}"
             )
     if "score" in metrics_block:
         score_mode = str(metrics_block["score"]).strip()
@@ -165,9 +164,9 @@ def _load_task_identity(task_id: str) -> tuple[str, str, str, float, str, str]:
     template_dir = task_dir / "template"
     if not template_dir.is_dir():
         raise FileNotFoundError(f"Missing {template_dir}")
-    candidates = sorted(list(template_dir.glob("*.yaml")) + list(template_dir.glob("*.yml")))
+    candidates = sorted(template_dir.glob("*.yaml"))
     if not candidates:
-        raise FileNotFoundError(f"No histogram .yaml/.yml in {template_dir}")
+        raise FileNotFoundError(f"No histogram .yaml in {template_dir}")
     if len(candidates) > 1:
         raise ValueError(
             f"Expected a single histogram file in {template_dir}; "
@@ -197,24 +196,12 @@ def _load_task_identity(task_id: str) -> tuple[str, str, str, float, str, str]:
 
 
 def _reference_file(paper_ref: str, data_filename: str) -> Path:
-    """Locate the ground-truth file under tasks/shared/<paper>/reference/.
-
-    Accepts a data_filename ending in either .yaml or .yml. Current tasks use
-    .yaml; .yml is accepted for legacy runs. Tries both.
-    """
+    """Locate the ground-truth file under tasks/shared/<paper>/reference/."""
     base = TASKS_ROOT / "shared" / paper_ref / "reference"
     candidate = base / data_filename
     if candidate.is_file():
         return candidate
-    # Swap extension and try again.
-    stem = Path(data_filename).stem
-    for ext in (".yaml", ".yml"):
-        alt = base / f"{stem}{ext}"
-        if alt.is_file():
-            return alt
-    raise FileNotFoundError(
-        f"No reference histogram for {paper_ref}: tried {candidate} and {stem}.yaml/.yml"
-    )
+    raise FileNotFoundError(f"No reference histogram for {paper_ref}: tried {candidate}")
 
 
 def resolve_run(target: str | Path) -> RunPaths:

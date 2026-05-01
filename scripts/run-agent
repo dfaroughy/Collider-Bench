@@ -35,25 +35,17 @@ done
 
 # ── Resolve agent from config (follow extends: chain) ──────────────────────
 if [[ -z "${AGENT}" && -n "${CONFIG}" ]]; then
+  if [[ ! -f "${CONFIG}" ]]; then
+    echo "run-agent: config not found: ${CONFIG}" >&2
+    exit 2
+  fi
   AGENT="$(python - "${CONFIG}" <<'PY'
-import sys, yaml
-from pathlib import Path
-p = Path(sys.argv[1]).resolve()
-seen = set()
-while p not in seen:
-    if not p.exists():
-        sys.exit(f"run-agent: config not found: {p}")
-    seen.add(p)
-    raw = yaml.safe_load(p.read_text()) or {}
-    if not isinstance(raw, dict):
-        sys.exit(f"run-agent: {p}: top-level YAML must be a mapping")
-    if raw.get("agent"):
-        print(raw["agent"])
-        break
-    parent = raw.get("extends")
-    if not parent:
-        break
-    p = (p.parent / parent).resolve()
+import sys
+from agent_runtime.config import read_agent_from_config
+
+agent = read_agent_from_config(sys.argv[1])
+if agent:
+    print(agent)
 PY
 )"
 fi

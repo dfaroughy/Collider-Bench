@@ -30,7 +30,7 @@ def _hist_yaml_files(directory: Path) -> list[Path]:
     """Return canonical histogram YAML files in a results/reference directory."""
     if not directory or not directory.exists():
         return []
-    files = sorted(directory.glob("*.yaml")) + sorted(directory.glob("*.yml"))
+    files = sorted(directory.glob("*.yaml"))
     return [p for p in files if p.name != "submission.yaml"]
 
 
@@ -52,11 +52,11 @@ def _dump_yaml_docs(path: Path, docs: list) -> None:
 
 
 def _find_result_file(directory: Path, filename_or_stem: str) -> Path | None:
-    """Find an existing result file by exact name or stem, accepting .yaml/.yml."""
+    """Find an existing result file by exact name or .yaml stem."""
     raw = Path(filename_or_stem)
     candidates = [directory / raw.name]
     stem = raw.stem if raw.suffix else raw.name
-    candidates.extend([directory / f"{stem}.yaml", directory / f"{stem}.yml"])
+    candidates.append(directory / f"{stem}.yaml")
     for path in candidates:
         if path.is_file():
             return path
@@ -84,11 +84,7 @@ def _write_corrected_results(
         shutil.rmtree(corrected_dir)
     shutil.copytree(original_dir, corrected_dir)
 
-    # Check if judge provided corrected_results (preferred) or legacy
-    # corrected_hepdata (accepted for compatibility).
-    corrected_results = provenance.get("corrected_results") or provenance.get(
-        "corrected_hepdata", {}
-    )
+    corrected_results = provenance.get("corrected_results") or {}
     if corrected_results:
         for filename, content in corrected_results.items():
             out_path = _find_result_file(corrected_dir, filename) or (corrected_dir / filename)
@@ -502,16 +498,8 @@ def run_judge(
         report_path.write_text("\n".join(lines))
         scores["trajectory_report_path"] = str(report_path)
 
-    # Legacy support for old judge outputs.
-    failure_report = scores.get("reasoning_failure_report", "")
-    if failure_report and output_dir:
-        report_path = output_dir / "judge_failure_report.md"
-        header = f"# Reasoning Failure Report\n\n**Judge model**: {model}\n\n"
-        report_path.write_text(header + failure_report)
-        scores["failure_report_path"] = str(report_path)
-
-    # Handle provenance verification and correction
-    provenance = scores.get("provenance_audit") or scores.get("provenance_verification", {})
+    # Handle provenance audit and correction.
+    provenance = scores.get("provenance_audit") or {}
     overrule = provenance.get("overrule") or {}
     overrule_action = (
         str(overrule.get("action") or "NONE").upper() if isinstance(overrule, dict) else "NONE"
@@ -567,7 +555,7 @@ def print_scores(scores: dict) -> None:
     print(f"  Judge model: {scores.get('judge_model', '?')}")
     print(f"  {'=' * 60}")
 
-    provenance = scores.get("provenance_audit") or scores.get("provenance_verification") or {}
+    provenance = scores.get("provenance_audit") or {}
     if provenance:
         print("\n  Provenance Audit")
         print(f"    Status: {provenance.get('status', '?')}")
@@ -614,64 +602,6 @@ def print_scores(scores: dict) -> None:
         if path:
             print(f"\n  Full trajectory report: {path}")
         print()
-        return
-
-    dimensions = [
-        ("Diagnosis Quality", "diagnosis_quality"),
-        ("Creative Problem-Solving", "creative_problem_solving"),
-        ("Scientific Honesty", "scientific_honesty"),
-        ("Hallucination", "hallucination"),
-        ("Tool Use Efficiency", "tool_use_efficiency"),
-        ("Artifact Completeness", "artifact_completeness"),
-    ]
-
-    for label, key in dimensions:
-        dim = scores.get(key, {})
-        score = dim.get("score", "?")
-        reasoning = dim.get("reasoning", "")
-        bar = "#" * (score if isinstance(score, int) else 0)
-        print(f"  {label:<28s} {score}/5 {bar}")
-        if reasoning:
-            words = reasoning.split()
-            line = "    "
-            for w in words:
-                if len(line) + len(w) > 75:
-                    print(line)
-                    line = "    "
-                line += w + " "
-            if line.strip():
-                print(line)
-
-    overall = scores.get("overall_reasoning_score", "?")
-    print(f"\n  {'─' * 60}")
-    print(f"  Overall Reasoning Score: {overall}/5")
-
-    for label, key in [
-        ("Strengths", "key_strengths"),
-        ("Weaknesses", "key_weaknesses"),
-        ("Missed opportunities", "missed_opportunities"),
-    ]:
-        items = scores.get(key, [])
-        if items:
-            prefix = {"Strengths": "+", "Weaknesses": "-", "Missed opportunities": "*"}[label]
-            print(f"\n  {label}:")
-            for item in items:
-                print(f"    {prefix} {item}")
-
-    failure_report = scores.get("reasoning_failure_report", "")
-    if failure_report:
-        print(f"\n  {'─' * 60}")
-        lines = failure_report.strip().split("\n")
-        n_failures = len([ln for ln in lines if ln.startswith("### F")])
-        print(f"  Failure Report ({n_failures} failures):")
-        for line in lines[:20]:
-            print(f"    {line}")
-        if len(lines) > 20:
-            print(f"    ... ({len(lines) - 20} more lines)")
-        path = scores.get("failure_report_path")
-        if path:
-            print(f"\n  Full report: {path}")
-
     print()
 
 
@@ -708,13 +638,7 @@ def main():
         sys.exit(1)
 
     agent_dir = rp.artifact_dir
-    # Current runs write `session.jsonl`; older runs used `session_log*.txt`
-    # (kept for backwards compat with already-finished runs in runs/).
-    session_logs = (
-        sorted(agent_dir.glob("session.jsonl"))
-        or sorted(agent_dir.glob("session_log*.txt"))
-        or sorted(agent_dir.glob("session*.txt"))
-    )
+    session_logs = sorted(agent_dir.glob("session.jsonl"))
     artifacts = [
         p
         for p in (agent_dir / f for f in ("report.md", "datasets.yaml", "results.json"))
@@ -729,7 +653,7 @@ def main():
         return
 
     if not session_logs:
-        print(f"ERROR: no session.jsonl / session_log*.txt in {agent_dir}", file=sys.stderr)
+        print(f"ERROR: no session.jsonl in {agent_dir}", file=sys.stderr)
         sys.exit(1)
 
     scores = run_judge(

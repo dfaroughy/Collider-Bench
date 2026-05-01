@@ -10,8 +10,8 @@
 # metadata) and does NOT propagate to Forge — set the actual model with
 # `forge config set model deepseek-chat` first.
 #
-# DeepSeek auth: DEEPSEEK_API_KEY in the environment (sandbox passes
-# *_API_KEY env vars through automatically).
+# DeepSeek auth: DEEPSEEK_API_KEY in the environment. The forge runner
+# explicitly declares this secret for sandbox forwarding.
 
 agent:   simple
 task:    sus-16-046_yield-TChiWg    # see LHCRecastBench/tasks/

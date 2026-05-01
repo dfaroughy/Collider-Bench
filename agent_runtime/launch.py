@@ -19,14 +19,10 @@ import time
 from pathlib import Path
 from typing import Callable
 
-from agent_runtime.naming import (
-    generate_run_info,
-    resolve_effort,
-    write_run_info,
-    load_config,
-    validate_launch_inputs,
-    finalize_run_info,
-)
+from agent_runtime.config import load_config, validate_launch_inputs
+from agent_runtime.effort import resolve_effort
+from agent_runtime.naming import generate_run_info
+from agent_runtime.run_info import finalize_run_info, write_run_info
 from agent_runtime.runners import RUNNERS, get_runner
 from agent_runtime.workspace import build_workspace
 
@@ -125,12 +121,19 @@ def _run_in_sandbox(
     env["PATH"] = str(workspace / "bin") + ":" + env.get("PATH", "")
     env["PYTHONPATH"] = str(repo_root) + ":" + env.get("PYTHONPATH", "")
     env["REPO_ROOT"] = str(repo_root)
+    prep = runner.prepare_launch(workspace)
+    env.update(prep.env)
 
     cmd, cleanup = sandbox_command(
         workspace,
         repo_root,
         inner_cmd,
-        extra_ro_binds=extra_ro_binds,
+        extra_ro_binds=[*extra_ro_binds, *prep.extra_ro_binds],
+        container_env=env,
+        secret_env_names=prep.secret_env_names,
+        home_dir_name=prep.home_dir_name,
+        home_files=prep.home_files,
+        home_credential_files=prep.home_credential_files,
         sandbox=sandbox,
     )
     try:
@@ -177,8 +180,8 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
       eval/summary.md    — human-readable digest of score.json + plots
 
     Best-effort: any single evaluator that errors is logged and the others
-    still run. The LLM-based judges (trajectory_judge, llm_judge) stay
-    opt-in via scripts/launch_eval.sh because they cost subscription tokens.
+    still run. The LLM judge stays opt-in via scripts/launch_eval.sh because
+    it costs subscription tokens.
     """
     try:
         from LHCRecastBench.evaluation._resolve import resolve_run
@@ -365,9 +368,8 @@ def launch_single_run(
                 )
                 exit_code = 1
 
-        # Offline evals: rubric + plots + summary. All cheap (no LLM calls).
-        # The two LLM-based judges (trajectory_judge, llm_judge) stay opt-in
-        # via scripts/launch_eval.sh because they cost subscription tokens.
+        # Offline evals: plots + summary. The LLM judge stays opt-in via
+        # scripts/launch_eval.sh because it costs subscription tokens.
         _run_offline_evals(workspace, eval_dir)
     except BaseException:
         exit_code = 1

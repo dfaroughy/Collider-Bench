@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from agent_runtime.naming import load_config, validate_config
+from agent_runtime.config import load_config, validate_config
 
 
 CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"
@@ -37,6 +37,14 @@ def test_yaml_bool_guard():
     # there, so a bool would otherwise fall through to the str coercion path).
     with pytest.raises(ValueError, match="must not be a bool"):
         validate_config({"compute": True}, source="<test>")
+
+
+def test_yaml_bool_guard_rejects_int_typed_fields():
+    # bool is a subclass of int in Python; reject it explicitly for numeric
+    # config fields so `max_iters: true` cannot silently pass as 1.
+    for key in ("cpus", "max_iters", "effort", "anneal_t0"):
+        with pytest.raises(ValueError, match="must not be a bool"):
+            validate_config({key: True}, source="<test>")
 
 
 def test_task_key_accepts_free_form_string():

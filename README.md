@@ -18,10 +18,9 @@ cd Collider-Bench
 pip install -e .                # pulls pyyaml, pydantic, numpy, scipy, ...
 
 # 3. Install whichever vendor agent CLI(s) you want to use, on the host.
-#    The container image carries the HEP runtime (conda env + sim stack)
-#    but NOT vendor CLIs — you bring your own. The sandbox bind-mounts
-#    your ~/.local/{bin,lib} into the container so anything installed
-#    there is reachable.
+#    The container image carries the HEP runtime (conda env + sim stack).
+#    Vendor CLIs should be baked into that image or installed on the host;
+#    the sandbox will narrowly bind only the selected runner CLI directory.
 npm i -g @anthropic-ai/claude-code   # Claude Code → ~/.local/bin/claude
 npm i -g @openai/codex                # Codex CLI    → ~/.local/bin/codex
 npm i -g @google/gemini-cli           # Gemini CLI   → ~/.local/bin/gemini

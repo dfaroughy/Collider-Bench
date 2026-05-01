@@ -2,7 +2,7 @@
 
 Three independently-testable pieces:
   1. `_truncate_long_strings`  — recursive string-shortening for bash-output bloat.
-  2. `_forge_post_run`         — reads .staging_home/.forge/.forge.db, writes session.jsonl.
+  2. `_forge_post_run`         — reads .forge_home/.forge/.forge.db, writes session.jsonl.
   3. `parse_forge_usage`       — sums per-message DeepSeek `usage` blocks from the JSONL.
 
 These run without forge installed: we synthesize the SQLite DB ourselves
@@ -19,14 +19,14 @@ from pathlib import Path
 
 import pytest
 
-from agent_runtime._runners_vendor import (
+from agent_runtime.vendors import (
     _FORGE_TRUNC_HEAD,
     _FORGE_TRUNC_LEN,
     _FORGE_TRUNC_TAIL,
     _forge_post_run,
     _truncate_long_strings,
 )
-from agent_runtime.naming import parse_forge_usage
+from agent_runtime.usage import parse_forge_usage
 
 
 # ── Truncation ──────────────────────────────────────────────────────────────
@@ -109,14 +109,14 @@ def _build_forge_db(db_path: Path, ctx: dict) -> None:
 
 
 def _setup_run_dir(tmp_path: Path, ctx: dict | None) -> Path:
-    """Lay out a fake `<recast>/` with .staging_home and workspace.
+    """Lay out a fake `<recast>/` with .forge_home and workspace.
 
     Returns the workspace path the post-run hook expects.
     """
     workspace = tmp_path / "workspace"
     workspace.mkdir()
     if ctx is not None:
-        db = tmp_path / ".staging_home" / ".forge" / ".forge.db"
+        db = tmp_path / ".forge_home" / ".forge" / ".forge.db"
         _build_forge_db(db, ctx)
     return workspace
 
@@ -209,7 +209,7 @@ def test_forge_post_run_truncates_long_content(tmp_path):
 
 def test_forge_post_run_picks_newest_conversation(tmp_path):
     """If the DB somehow has multiple rows, the most recent one wins."""
-    db_path = tmp_path / ".staging_home" / ".forge" / ".forge.db"
+    db_path = tmp_path / ".forge_home" / ".forge" / ".forge.db"
     db_path.parent.mkdir(parents=True)
     conn = sqlite3.connect(db_path)
     conn.execute(
@@ -242,7 +242,7 @@ def test_forge_post_run_picks_newest_conversation(tmp_path):
 
 def test_forge_post_run_corrupt_db_silent(tmp_path):
     """Corrupt SQLite shouldn't crash the run finalizer."""
-    db_path = tmp_path / ".staging_home" / ".forge" / ".forge.db"
+    db_path = tmp_path / ".forge_home" / ".forge" / ".forge.db"
     db_path.parent.mkdir(parents=True)
     db_path.write_bytes(b"not a sqlite database")
     ws = tmp_path / "workspace"
@@ -253,7 +253,7 @@ def test_forge_post_run_corrupt_db_silent(tmp_path):
 
 def test_forge_post_run_invalid_context_json_silent(tmp_path):
     """A row with non-JSON context shouldn't crash the run finalizer."""
-    db_path = tmp_path / ".staging_home" / ".forge" / ".forge.db"
+    db_path = tmp_path / ".forge_home" / ".forge" / ".forge.db"
     db_path.parent.mkdir(parents=True)
     conn = sqlite3.connect(db_path)
     conn.execute(

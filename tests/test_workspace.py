@@ -80,18 +80,19 @@ def test_results_seeded_from_task_template(clean_workspace, agent):
 
     The template histogram file embeds its metadata at the top (instructions,
     target, luminosity, …) before a `---` separator, so there is no longer a
-    standalone description.toml — both blocks live in the .yml/.yaml file.
+    standalone description.toml — both blocks live in the .yaml file.
     """
     import yaml
 
     ws = clean_workspace(agent)
     results = ws / "results"
     assert results.is_dir()
-    yamls = list(results.glob("*.yml")) + list(results.glob("*.yaml"))
+    assert not list(results.glob("*.yml")), ".yml result templates are obsolete"
+    yamls = list(results.glob("*.yaml"))
     assert yamls, "results/ should contain the null-filled histogram"
     assert not (results / "description.toml").exists(), (
         "description.toml should no longer be seeded — metadata lives "
-        "inside the histogram .yml/.yaml file itself"
+        "inside the histogram .yaml file itself"
     )
     # The seeded file must have both the metadata block and the HEPData
     # histogram doc in it (two YAML documents).

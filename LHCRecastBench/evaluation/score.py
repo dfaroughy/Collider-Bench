@@ -464,19 +464,10 @@ def _score_series(
 
 
 def _find_agent_output(results_dir: Path, data_filename: str) -> Path | None:
-    """Find the agent-filled histogram under results/.
-
-    Accepts the exact filename or either .yaml/.yml variant (agent may have
-    kept the template's extension, which differs from the shared pool's).
-    """
+    """Find the agent-filled histogram under results/."""
     direct = results_dir / data_filename
     if direct.is_file():
         return direct
-    stem = Path(data_filename).stem
-    for ext in (".yaml", ".yml"):
-        alt = results_dir / f"{stem}{ext}"
-        if alt.is_file():
-            return alt
     return None
 
 
@@ -492,12 +483,7 @@ def score_run(rp) -> dict:
         return {"error": f"Reference missing: {ref_path}"}
     agent_path = _find_agent_output(rp.results_dir, rp.data_filename)
     if agent_path is None:
-        return {
-            "error": (
-                f"Agent output not found: {rp.results_dir}/{rp.data_filename} "
-                f"(also tried .yaml / .yml)"
-            )
-        }
+        return {"error": (f"Agent output not found: {rp.results_dir}/{rp.data_filename}")}
 
     ref_data = _load_yaml(ref_path)
     agent_data = _load_yaml(agent_path)

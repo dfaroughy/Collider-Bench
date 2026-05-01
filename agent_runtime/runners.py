@@ -4,7 +4,7 @@ Each runner knows how to locate its CLI binary, build a command, and
 execute the agent subprocess. This module defines the abstract `Runner`
 base, the `register` decorator, the `RUNNERS` registry, and `get_runner`.
 Concrete vendor runner subclasses (Claude Code, Codex, Gemini CLI, Aider)
-live in the sibling module `_runners_vendor.py`. The try-import at the
+live in the sibling module `vendors.py`. The try-import at the
 bottom of this file registers them automatically.
 
 Adding a new backend (e.g. an OSS-model harness, a different vendor
@@ -23,6 +23,7 @@ import shutil
 import signal
 import time
 from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -129,6 +130,18 @@ def _find_binary(name: str, env_var: str | None = None) -> str:
 # ── Base class ──────────────────────────────────────────────────────────────
 
 
+@dataclass(frozen=True)
+class LaunchPrep:
+    """Runner-specific launch requirements computed before sandbox wrapping."""
+
+    env: dict[str, str] = field(default_factory=dict)
+    extra_ro_binds: list[Path] = field(default_factory=list)
+    secret_env_names: tuple[str, ...] = ()
+    home_dir_name: str = ".agent_home"
+    home_files: tuple[str, ...] = ()
+    home_credential_files: tuple[str, ...] = ()
+
+
 class Runner(ABC):
     """Base class for agent runners.
 
@@ -164,6 +177,15 @@ class Runner(ABC):
         configs (e.g. Codex's model_reasoning_effort); ignored by runners
         that key off max_thinking_tokens alone.
         """
+
+    def prepare_launch(self, sandbox: Path) -> LaunchPrep:
+        """Return runner-specific requirements before sandbox wrapping.
+
+        Runner-specific setup that must be visible to a container backend
+        belongs here, not in run(). Examples: CODEX_HOME/GEMINI_CLI_HOME
+        redirects, static env such as NO_COLOR, or extra read-only binds.
+        """
+        return LaunchPrep()
 
     @abstractmethod
     def run(
@@ -215,5 +237,5 @@ def get_runner(name: str) -> Runner:
 
 # ── Built-in runners ───────────────────────────────────────────────────────
 # Vendor `Runner` subclasses (Claude / Codex / Gemini / Aider) live in
-# `_runners_vendor.py` and self-register on import.
-from agent_runtime import _runners_vendor  # noqa: E402,F401
+# `vendors.py` and self-register on import.
+from agent_runtime import vendors  # noqa: E402,F401

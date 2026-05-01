@@ -4,7 +4,7 @@
 Claude runs already have usage written at finalize-time (Anthropic's CLI
 reports `total_cost_usd` in the stream). Codex and Gemini emit token
 counts only — this script reparses their session.jsonl with the new
-parsers in `agent_runtime.naming` and a static price table in
+parsers in `agent_runtime.usage` and a static price table in
 `agent_runtime.pricing`, then rewrites run_info.json in place.
 
 Usage:
@@ -26,7 +26,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import agent_runtime.runners  # noqa: E402,F401  (resolves the import chain)
-from agent_runtime.naming import parse_usage  # noqa: E402
+from agent_runtime.usage import parse_usage  # noqa: E402
 
 
 def _find_session_log(recast_dir: Path) -> Path | None:

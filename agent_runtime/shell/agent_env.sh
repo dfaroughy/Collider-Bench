@@ -190,35 +190,9 @@ run_with_compute() {
       echo "run_with_compute: config not found: ${CONFIG}" >&2
       return 2
     fi
-    # Pull only the shell-level keys (compute, account, cpus, walltime, qos).
-    # Follows `extends:` chains so shared defaults in base.yaml are honored.
-    eval "$(python - "${CONFIG}" <<'PY'
-import sys, yaml
-from pathlib import Path
-
-def load_with_extends(p, seen=None):
-    seen = seen or []
-    p = Path(p).resolve()
-    if p in seen:
-        raise SystemExit(f"config extends cycle: {seen + [p]}")
-    seen.append(p)
-    raw = yaml.safe_load(p.read_text()) or {}
-    if not isinstance(raw, dict):
-        raise SystemExit(f"{p}: top-level YAML must be a mapping")
-    parent = raw.pop("extends", None)
-    merged = {}
-    if parent:
-        merged.update(load_with_extends(p.parent / parent, seen))
-    merged.update(raw)
-    return merged
-
-cfg = load_with_extends(sys.argv[1])
-for key in ("compute", "account", "cpus", "walltime", "qos"):
-    val = cfg.get(key, "")
-    if val is None: val = ""
-    print(f'{key.upper()}={val!r}')
-PY
-)"
+    # Pull only shell-level keys. Python owns YAML parsing/extends/schema
+    # validation in agent_runtime.config; keep shell as a thin consumer.
+    eval "$(python -m agent_runtime.config --shell-defaults "${CONFIG}")"
   fi
 
   # Second pass: actual arg parse — CLI overrides config defaults

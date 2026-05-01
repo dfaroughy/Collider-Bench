@@ -8,6 +8,7 @@ import shutil
 import pytest
 
 from agent_runtime.sandbox import SANDBOXES, get_sandbox, sandbox_command
+from agent_runtime.sandbox import _prepare_isolated_home, _prepare_runner_cli
 
 
 @pytest.mark.parametrize("name", sorted(SANDBOXES))
@@ -52,6 +53,62 @@ def test_default_image_is_canonical_ghcr_ref():
     assert _DEFAULT_IMAGE == "ghcr.io/dfaroughy/lhc-bench:latest"
 
 
+def test_prepare_isolated_home_copies_only_requested_vendor_files(tmp_path):
+    host = tmp_path / "host"
+    (host / ".claude").mkdir(parents=True)
+    (host / ".codex").mkdir(parents=True)
+    (host / ".gemini").mkdir(parents=True)
+    (host / ".forge").mkdir(parents=True)
+    (host / ".claude.json").write_text("{}")
+    (host / ".claude" / ".credentials.json").write_text("{}")
+    (host / ".codex" / "auth.json").write_text("{}")
+    (host / ".gemini" / "oauth_creds.json").write_text("{}")
+    (host / ".forge" / ".forge.toml").write_text("model = 'x'")
+
+    fake_home = _prepare_isolated_home(
+        host,
+        tmp_path / "fake_home",
+        (".claude.json", ".claude/.credentials.json"),
+    )
+
+    assert (fake_home / ".claude.json").is_file()
+    assert (fake_home / ".claude" / ".credentials.json").is_file()
+    assert not (fake_home / ".codex" / "auth.json").exists()
+    assert not (fake_home / ".gemini" / "oauth_creds.json").exists()
+    assert not (fake_home / ".forge" / ".forge.toml").exists()
+
+
+@pytest.mark.parametrize(
+    "bad",
+    ("../escape", "/tmp/escape", ".", "..", "nested/home", r"nested\home"),
+)
+def test_fake_home_rejects_unsafe_home_dir_names(repo_root, tmp_path, monkeypatch, bad):
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None
+    )
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+    with pytest.raises(ValueError, match="invalid fake-home directory name"):
+        sandbox_command(
+            workspace,
+            repo_root,
+            ["/bin/true"],
+            sandbox="podman",
+            home_dir_name=bad,
+        )
+
+
+@pytest.mark.parametrize(
+    "bad",
+    ("../secret.json", "/tmp/secret.json", ".", "dir/../secret.json", r"dir\secret.json"),
+)
+def test_prepare_isolated_home_rejects_unsafe_home_files(tmp_path, bad):
+    host = tmp_path / "host"
+    host.mkdir()
+    with pytest.raises(ValueError, match="invalid fake-home file path"):
+        _prepare_isolated_home(host, tmp_path / "fake_home", (bad,))
+
+
 def test_unknown_backend_rejected():
     with pytest.raises(ValueError, match="Unknown sandbox"):
         get_sandbox("nonexistent-backend")
@@ -83,7 +140,124 @@ def test_none_backend_is_passthrough(repo_root, tmp_path):
     workspace = tmp_path / "ws"
     workspace.mkdir()
     inner = ["/bin/true", "--flag"]
-    cmd, cleanup = sandbox_command(workspace, repo_root, inner, sandbox="none")
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        inner,
+        container_env={"CODEX_HOME": str(tmp_path / ".codex_home")},
+        sandbox="none",
+    )
     # The 'none' backend just passes the inner command through.
     assert cmd == inner
     cleanup()
+
+
+def _env_values(cmd, flag):
+    return [cmd[i + 1] for i, arg in enumerate(cmd[:-1]) if arg == flag]
+
+
+def test_podman_command_includes_runner_env(repo_root, tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None
+    )
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "secret-key")
+    monkeypatch.setenv("GROK_API_KEY", "should-not-pass")
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/usr/bin/codex", "exec"],
+        container_env={
+            "CODEX_HOME": str(workspace / ".codex_home"),
+            "NO_COLOR": "1",
+            "SHOULD_NOT_PASS": "x",
+        },
+        home_files=(),
+        secret_env_names=("DEEPSEEK_API_KEY",),
+        sandbox="podman",
+    )
+    envs = _env_values(cmd, "-e")
+    assert f"CODEX_HOME={workspace / '.codex_home'}" in envs
+    assert "NO_COLOR=1" in envs
+    assert "DEEPSEEK_API_KEY=secret-key" in envs
+    assert "GROK_API_KEY=should-not-pass" not in envs
+    assert not any(e.startswith("SHOULD_NOT_PASS=") for e in envs)
+    cleanup()
+
+
+def test_podman_command_does_not_forward_wildcard_api_keys(repo_root, tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None
+    )
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "secret-key")
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/usr/bin/codex", "exec"],
+        container_env={"CODEX_HOME": str(workspace / ".codex_home")},
+        home_files=(),
+        sandbox="podman",
+    )
+    envs = _env_values(cmd, "-e")
+    assert not any(e.startswith("DEEPSEEK_API_KEY=") for e in envs)
+    cleanup()
+
+
+def test_apptainer_command_includes_runner_env(repo_root, tmp_path, monkeypatch):
+    def fake_which(name):
+        return "/usr/bin/apptainer" if name == "apptainer" else None
+
+    monkeypatch.setattr(shutil, "which", fake_which)
+    monkeypatch.setenv("GROK_API_KEY", "secret-key")
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/usr/bin/gemini", "-p", "hi"],
+        container_env={
+            "GEMINI_CLI_HOME": str(workspace / ".gemini_home"),
+            "TERM": "dumb",
+            "SHOULD_NOT_PASS": "x",
+        },
+        home_files=(),
+        secret_env_names=("GROK_API_KEY",),
+        sandbox="apptainer",
+    )
+    envs = _env_values(cmd, "--env")
+    assert f"GEMINI_CLI_HOME={workspace / '.gemini_home'}" in envs
+    assert "TERM=dumb" in envs
+    assert "GROK_API_KEY=secret-key" in envs
+    assert not any(e.startswith("SHOULD_NOT_PASS=") for e in envs)
+    cleanup()
+
+
+def test_prepare_runner_cli_narrowly_binds_host_agent_cli(tmp_path, monkeypatch):
+    home = tmp_path / "home"
+    cli_dir = home / ".local" / "share" / "gemini-cli" / "bundle"
+    cli_dir.mkdir(parents=True)
+    cli = cli_dir / "gemini.js"
+    cli.write_text("#!/usr/bin/env node\n")
+    cli.chmod(0o755)
+    bin_dir = home / ".local" / "bin"
+    bin_dir.mkdir(parents=True)
+    link = bin_dir / "gemini"
+    link.symlink_to(cli)
+    monkeypatch.setattr("pathlib.Path.home", lambda: home)
+
+    rewritten, binds = _prepare_runner_cli([str(link), "-p", "hi"])
+
+    assert rewritten == [str(cli.resolve()), "-p", "hi"]
+    assert binds == [cli_dir.resolve()]
+
+
+def test_prepare_runner_cli_uses_image_binary_for_system_paths():
+    rewritten, binds = _prepare_runner_cli(["/usr/bin/gemini", "-p", "hi"])
+    assert rewritten == ["gemini", "-p", "hi"]
+    assert binds == []
