@@ -44,12 +44,12 @@ TASKS=(
   sus-16-047_sim-T5Wg_lowHT
   sus-16-047_sim-T6gg_highHT
   sus-16-047_sim-T6gg_lowHT
-  sus-16-051_shape-T2tt
+  sus-16-051_shape-T2tt_SRG
+  sus-16-051_shape-T2bW_SRG
   sus-16-051_shape-T2tt_comp
-  sus-16-051_sim-T2tt
+  sus-16-051_sim-T2tt_SRG
+  sus-16-051_sim-T2bW_SRG
   sus-16-051_sim-T2tt_comp
-  exo-17-021_sim-RPVstop_res-btag
-  exo-17-021_sim-RPVstop_res-incl
 )
 
 
