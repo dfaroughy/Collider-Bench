@@ -30,17 +30,26 @@ fi
 
 
 TASKS=(
+  sus-16-034_shape-TChiWZ
+  sus-16-034_sim-TChiWZ
+  sus-16-046_shape-T5Wg
+  sus-16-046_shape-TChiWg
+  sus-16-046_sim-T5Wg
+  sus-16-046_sim-TChiWg
+  sus-16-047_shape-T5Wg_highHT
+  sus-16-047_shape-T5Wg_lowHT
+  sus-16-047_shape-T6gg_highHT
+  sus-16-047_shape-T6gg_lowHT
+  sus-16-047_sim-T5Wg_highHT
   sus-16-047_sim-T5Wg_lowHT
   sus-16-047_sim-T6gg_highHT
   sus-16-047_sim-T6gg_lowHT
-  sus-16-047_val-Nobs_highHT
-  sus-16-047_val-Nobs_lowHT
-  sus-16-047_yield-T6gg_highHT
-  sus-16-047_yield-T6gg_lowHT
+  sus-16-051_shape-T2tt
+  sus-16-051_shape-T2tt_comp
   sus-16-051_sim-T2tt
   sus-16-051_sim-T2tt_comp
-  sus-16-051_yield-T2tt
-  sus-16-051_yield-T2tt_comp
+  exo-17-021_sim-RPVstop_res-btag
+  exo-17-021_sim-RPVstop_res-incl
 )
 
 cd "${REPO_ROOT}"
