@@ -5,7 +5,7 @@ need it (Codex, Gemini), a small named hook function that prepares the
 per-run state directory and seeds host OAuth credentials into it.
 
 This file is auto-imported from `agent_runtime/runners.py` and registers
-the four built-in runners. Adding a new vendor (e.g. Grok) is a single
+the four built-in runners. Adding a new vendor is a single
 RunnerSpec at the bottom of this file — no class hierarchy required.
 """
 
@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import sys
 from pathlib import Path
 
 from agent_runtime.runner_spec import (
@@ -102,9 +103,97 @@ def _gemini_pre_launch(sandbox: Path, env: dict[str, str]) -> None:
     env["GEMINI_CLI_HOME"] = str(gemini_home)
 
 
+_FORGE_TRUNC_LEN = 8192  # chars per string field; bash output / file dumps cap here
+_FORGE_TRUNC_HEAD = 2048  # head/tail kept around the truncation marker
+_FORGE_TRUNC_TAIL = 2048
+
+
+def _truncate_long_strings(obj: object) -> object:
+    """Walk a JSON-deserialized tree and shorten any string > _FORGE_TRUNC_LEN.
+
+    This is what keeps `session.jsonl` from re-acquiring the multi-MB
+    bash-output bloat we used to filter out of the TTY stream. We trim
+    every string field uniformly (vs. role-specific filtering) so that
+    new forge message types don't silently start emitting full file
+    dumps when forge upstream changes its schema.
+    """
+    if isinstance(obj, str):
+        if len(obj) <= _FORGE_TRUNC_LEN:
+            return obj
+        cut = len(obj) - _FORGE_TRUNC_HEAD - _FORGE_TRUNC_TAIL
+        return f"{obj[:_FORGE_TRUNC_HEAD]}\n[... truncated {cut} chars ...]\n{obj[-_FORGE_TRUNC_TAIL:]}"
+    if isinstance(obj, dict):
+        return {k: _truncate_long_strings(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_truncate_long_strings(x) for x in obj]
+    return obj
+
+
+def _forge_post_run(sandbox: Path) -> None:
+    """Convert forge's SQLite conversation DB into <workspace>/session.jsonl.
+
+    Forge stores conversation state in `~/.forge/.forge.db`; the
+    `conversations.context` JSON column holds the full message history
+    including each turn's verbatim DeepSeek `usage` block
+    (`prompt_tokens`, `completion_tokens`, `cached_tokens` — the same
+    fields the OpenAI-compatible API returns). With staging-HOME
+    persisted at `<recast>/.staging_home`, that DB survives container
+    exit so we can mine it on the host.
+
+    We emit one JSON object per message, matching the streaming-JSONL
+    shape the other vendors (claude/codex/gemini) write directly. Any
+    string field longer than _FORGE_TRUNC_LEN is collapsed
+    (head + marker + tail) to keep the file under a few MB even for
+    long agentic runs that produce huge command outputs.
+
+    Best-effort: any failure is logged and swallowed so a busted DB
+    can't break the run finalize path.
+    """
+    import sqlite3
+
+    recast = Path(sandbox).parent
+    db_path = recast / ".staging_home" / ".forge" / ".forge.db"
+    if not db_path.is_file():
+        return
+    try:
+        conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+        # Newest conversation = the run we just finished. Older rows would
+        # only appear if the staging-HOME got reused across runs.
+        row = conn.execute(
+            "SELECT context FROM conversations ORDER BY updated_at DESC LIMIT 1"
+        ).fetchone()
+        conn.close()
+        if not row or not row[0]:
+            return
+        ctx = json.loads(row[0])
+    except (sqlite3.Error, OSError, json.JSONDecodeError) as exc:
+        sys.stderr.write(f"_forge_post_run: {exc}\n")
+        return
+    messages = ctx.get("messages") or []
+    out_path = Path(sandbox) / "session.jsonl"
+    try:
+        with open(out_path, "w") as f:
+            # First line: a synthetic `init` event holding conversation-level
+            # metadata so the LLM judge has the model id + system prompt
+            # bounds without scanning every message.
+            head = {
+                "type": "init",
+                "conversation_id": ctx.get("conversation_id", ""),
+                "model": ctx.get("model", ""),
+                "max_tokens": ctx.get("max_tokens"),
+                "n_messages": len(messages),
+            }
+            f.write(json.dumps(head, separators=(",", ":")) + "\n")
+            for m in messages:
+                f.write(json.dumps(_truncate_long_strings(m), separators=(",", ":")) + "\n")
+    except OSError as exc:
+        sys.stderr.write(f"_forge_post_run: write {out_path}: {exc}\n")
+
+
 register_pre_launch("codex", _codex_pre_launch)
 register_post_run("codex", _codex_post_run)
 register_pre_launch("gemini", _gemini_pre_launch)
+register_post_run("forge", _forge_post_run)
 
 
 # ── Vendor specs (the declarative bits) ─────────────────────────────────────
@@ -206,7 +295,35 @@ AIDER_SPEC = RunnerSpec(
 )
 
 
+FORGE_SPEC = RunnerSpec(
+    name="forge",
+    binary="forge",
+    binary_env_var="FORGE_BIN",
+    # Forge has no --model flag; model is set via `forge config set model`
+    # in the host's ~/.forge/.forge.toml, which the sandbox copies into the
+    # per-run staging $HOME via _HOME_WHITELIST. Switching models means
+    # `forge config set model <id>` on the host, not editing this YAML.
+    model_flag=None,
+    # Run inside the workspace; -p enables headless single-turn mode.
+    pre_subcommand_args=["-C", "{sandbox}"],
+    prompt_flag="-p",
+    # Forge emits a TTY-style stream (ANSI clear-line codes + a Braille
+    # spinner with no LF between updates). The forge_text parser strips
+    # the noise and surfaces status bullets + assistant content.
+    stream_format="forge_text",
+    # Suppress the spinner: without these the CR-only progress updates
+    # accumulate in the pipe with no newline to flush them through Python's
+    # line-buffered `for raw in proc.stdout` reader, blocking the harness
+    # for the entire run. NO_COLOR is the cross-tool standard
+    # (https://no-color.org); CI=true is what most CLIs check to switch
+    # to non-interactive output; TERM=dumb is the belt-and-suspenders.
+    extra_env={"NO_COLOR": "1", "CI": "true", "TERM": "dumb"},
+    # Capture token totals from `forge conversation stats` after the run.
+    post_run_hook="forge",
+)
+
+
 # ── Registration ────────────────────────────────────────────────────────────
 
-for spec in (CLAUDE_SPEC, CODEX_SPEC, GEMINI_SPEC, AIDER_SPEC):
+for spec in (CLAUDE_SPEC, CODEX_SPEC, GEMINI_SPEC, AIDER_SPEC, FORGE_SPEC):
     register_declarative(spec)

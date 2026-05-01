@@ -235,27 +235,28 @@ def render_score(
     if "shape" in s:
         sh = s["shape"]
         nm = s["normalization"]
-        ks = s.get("ks", {})
+        bfe = s.get("bin_fractional_error", {})
         out.append("<details><summary>Baker-Cousins decomposition</summary>\n")
-        out.append("| Component | score | z | p | extras |")
-        out.append("|---|---:|---:|---:|---|")
+        out.append("| Component | z | p | extras |")
+        out.append("|---|---:|---:|---|")
         out.append(
-            f"| shape | {_fmt_num(sh['score'])} | {_fmt_num(sh.get('z'))} | "
+            f"| shape | {_fmt_num(sh.get('z'))} | "
             f"{_fmt_p(sh.get('p_value'))} | dof={_fmt_int(sh.get('dof'))} |"
         )
         out.append(
-            f"| normalization | {_fmt_num(nm['score'])} | {_fmt_num(nm.get('z'))} | "
-            f"{_fmt_p(nm.get('p_value'))} | ratio={_fmt_num(nm.get('ratio'))} |"
+            f"| normalization | {_fmt_num(nm.get('z'))} | "
+            f"{_fmt_p(nm.get('p_value'))} | dof={_fmt_int(nm.get('dof'))} |"
         )
-        if ks:
+        if bfe:
             out.append(
-                f"| KS | — | — | {_fmt_p(ks.get('p_value'))} | "
-                f"D={_fmt_num(ks.get('statistic'))} |"
+                f"| bin fractional error | — | — | "
+                f"mean={_fmt_num(bfe.get('mean_abs_frac_error_percent'))}%, "
+                f"bins={_fmt_int(bfe.get('n_valid_bins'))} |"
             )
         if "total" in s and isinstance(s.get("total"), dict):
             t = s["total"]
             out.append(
-                f"| total | — | {_fmt_num(t.get('z'))} | {_fmt_p(t.get('p_value'))} | "
+                f"| total | {_fmt_num(t.get('z'))} | {_fmt_p(t.get('p_value'))} | "
                 f"λ={_fmt_num(t.get('bc_stat'))}, dof={_fmt_int(t.get('dof'))} |"
             )
         out.append(f"\n*Diagnosis:* {s.get('diagnosis', '—')}\n")

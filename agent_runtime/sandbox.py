@@ -64,6 +64,9 @@ _HOME_WHITELIST: tuple[str, ...] = (
     ".gemini/installation_id",
     ".gemini/settings.json",
     ".gemini/trustedFolders.json",
+    # Forge (Antinomy)
+    ".forge/.credentials.json",
+    ".forge/.forge.toml",
 )
 
 
@@ -84,27 +87,36 @@ _HOME_CREDENTIAL_FILES: tuple[str, ...] = (
 )
 
 
-def _prepare_isolated_home(host_home: Path) -> Path:
+def _prepare_isolated_home(host_home: Path, target: Path | None = None) -> Path:
     """Build a per-container staging $HOME containing only the credential
     and config files in `_HOME_WHITELIST`.
 
     The container is then launched with `HOME=<staging>` and the staging
     dir bind-mounted into the container at the same path; the CLI sees a
     pristine home with just the auth it needs and writes any session
-    state into the staging dir, which is destroyed at cleanup. The host's
-    real `~/.claude/`, `~/.codex/`, `~/.gemini/` are never touched
-    *except* for the credential files in `_HOME_CREDENTIAL_FILES`, which
+    state into the staging dir. The host's real `~/.claude/`,
+    `~/.codex/`, `~/.gemini/`, `~/.forge/` are never touched *except*
+    for the credential files in `_HOME_CREDENTIAL_FILES`, which
     `_sync_credentials_back_to_host` propagates back if the container
     refreshed them mid-run.
+
+    `target` is the host path to use as staging-HOME. When omitted (legacy
+    callers + tests) we fall back to a tempdir; production launches pass
+    `<recast>/.staging_home` so the conversation DBs / state dirs that
+    forge and claude write to `~/.forge` / `~/.claude` survive container
+    cleanup. (Codex and Gemini use their own workspace-relative state
+    dirs via CODEX_HOME / GEMINI_CLI_HOME — they don't depend on this.)
     """
-    staging = Path(tempfile.mkdtemp(prefix="lhc-recast-home-"))
+    staging = target if target is not None else Path(tempfile.mkdtemp(prefix="lhc-recast-home-"))
+    staging.mkdir(parents=True, exist_ok=True)
     for rel in _HOME_WHITELIST:
         src = host_home / rel
         if not src.is_file():
             continue
         dst = staging / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dst)
+        if not dst.exists():
+            shutil.copy2(src, dst)
     return staging
 
 
@@ -372,12 +384,13 @@ class ApptainerSandbox(Sandbox):
             if target.is_dir():
                 cmd.extend(["--bind", f"{target}:{target}:ro"])
 
-        # Per-container ephemeral $HOME. The CLIs see only the whitelisted
-        # credential / config files; everything they write (session logs,
-        # transcripts, todos, caches) goes to this throwaway dir and is
-        # deleted on cleanup. Host's real $HOME is never touched, and
-        # concurrent containers don't share state.
-        staging_home = _prepare_isolated_home(Path.home())
+        # Per-run staging $HOME under <recast>/.staging_home/. The CLIs
+        # see only the whitelisted credential / config files; everything
+        # they write (session logs, conversation DBs, todos, caches)
+        # lands here. Persisted with the run so post-run hooks can mine
+        # forge's `.forge.db` etc. for usage stats. Host's real $HOME is
+        # never touched, and concurrent runs each have their own dir.
+        staging_home = _prepare_isolated_home(Path.home(), workspace.parent / ".staging_home")
         cmd.extend(
             [
                 "--bind",
@@ -402,19 +415,13 @@ class ApptainerSandbox(Sandbox):
         cmd.extend(["--env", "IS_SANDBOX=1"])
 
         # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV
-        # directives — bin/simulate reads them to find /opt/sim/<tool>
-        # inside the container. We only propagate the API/OAuth env vars
-        # the agent CLIs look for.
-        for var in (
-            "ANTHROPIC_API_KEY",
-            "OPENAI_API_KEY",
-            "GEMINI_API_KEY",
-            "GOOGLE_API_KEY",
-            "CODEX_HOME",
-            "CLAUDE_BIN",
-            "CODEX_BIN",
-            "GEMINI_BIN",
-        ):
+        # directives. Pass through any vendor *_API_KEY from the host (so
+        # adding a new provider like DEEPSEEK_API_KEY / GROK_API_KEY needs
+        # no sandbox edit) plus the runner-specific binary-path overrides.
+        for var, val in os.environ.items():
+            if var.endswith("_API_KEY") and val:
+                cmd.extend(["--env", f"{var}={val}"])
+        for var in ("CODEX_HOME", "CLAUDE_BIN", "CODEX_BIN", "GEMINI_BIN", "AIDER_BIN"):
             val = os.environ.get(var)
             if val:
                 cmd.extend(["--env", f"{var}={val}"])
@@ -424,7 +431,10 @@ class ApptainerSandbox(Sandbox):
 
         def cleanup() -> None:
             _sync_credentials_back_to_host(staging_home, Path.home())
-            shutil.rmtree(staging_home, ignore_errors=True)
+            # NOTE: staging_home is intentionally preserved at
+            # <recast>/.staging_home/ so post-run hooks (e.g. forge) can
+            # mine the conversation DB, and so debug postmortem on a
+            # failed run still has the agent's state to inspect.
 
         return cmd, cleanup
 
@@ -480,7 +490,7 @@ class PodmanSandbox(Sandbox):
         # doesn't cover the host UID, so the userns map fails at run time.
         # Claude Code's "no --dangerously-skip-permissions as root" check
         # is bypassed below via IS_SANDBOX=1.
-        staging_home = _prepare_isolated_home(Path.home())
+        staging_home = _prepare_isolated_home(Path.home(), workspace.parent / ".staging_home")
         cmd: list[str] = [
             self._engine(),
             "run",
@@ -576,18 +586,19 @@ class PodmanSandbox(Sandbox):
         # compute nodes because keep-id fails on subuid range limits).
         cmd.extend(["-e", "IS_SANDBOX=1"])
 
+        # Pass through any vendor API key from the host (so a user adding
+        # e.g. DEEPSEEK_API_KEY for aider, or GROK_API_KEY for grok-cli,
+        # doesn't need a sandbox edit). Pattern is intentionally narrow —
+        # only env vars whose name ends in _API_KEY — to avoid leaking
+        # unrelated host env into the container.
+        for var, val in os.environ.items():
+            if var.endswith("_API_KEY") and val:
+                cmd.extend(["-e", f"{var}={val}"])
+
+        # Plus the runner-specific config / binary-path overrides.
         # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV —
         # bin/simulate reads them to find /opt/sim/<tool> inside the container.
-        for var in (
-            "ANTHROPIC_API_KEY",
-            "OPENAI_API_KEY",
-            "GEMINI_API_KEY",
-            "GOOGLE_API_KEY",
-            "CODEX_HOME",
-            "CLAUDE_BIN",
-            "CODEX_BIN",
-            "GEMINI_BIN",
-        ):
+        for var in ("CODEX_HOME", "CLAUDE_BIN", "CODEX_BIN", "GEMINI_BIN", "AIDER_BIN"):
             val = os.environ.get(var)
             if val:
                 cmd.extend(["-e", f"{var}={val}"])
@@ -597,7 +608,10 @@ class PodmanSandbox(Sandbox):
 
         def cleanup() -> None:
             _sync_credentials_back_to_host(staging_home, Path.home())
-            shutil.rmtree(staging_home, ignore_errors=True)
+            # NOTE: staging_home is intentionally preserved at
+            # <recast>/.staging_home/ so post-run hooks (e.g. forge) can
+            # mine the conversation DB, and so debug postmortem on a
+            # failed run still has the agent's state to inspect.
 
         return cmd, cleanup
 

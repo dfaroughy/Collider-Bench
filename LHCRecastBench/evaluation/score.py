@@ -25,8 +25,8 @@ and emits:
 
   log₁₀(ΣO/ΣE) is kept as a human-readable normalization diagnostic.
 
-  Secondary shape metric
-    Kolmogorov-Smirnov on unit-area CDFs with approximate p-value.
+  Secondary bin-level diagnostic
+    Σ_i |E_i − O_i| / E_i, reported as a percent over bins with E_i > 0.
 
 Output: <run_dir>/eval/score.json for single-shot layouts, or
 <iter_dir>/eval/score.json when run_path resolves to an iter.
@@ -45,7 +45,7 @@ from pathlib import Path
 
 import numpy as np
 import yaml
-from scipy.stats import chi2, kstwobign, norm
+from scipy.stats import norm
 
 
 # Default per-bin log-normal systematic on the reference (multiplicative).
@@ -241,7 +241,6 @@ def _toy_calibrated_z(
     return {
         "z": z,
         "p": p,
-        "z_capped_high": n_above == 0,
         "n_toys": n_toys,
     }
 
@@ -270,9 +269,7 @@ def bc_statistics(
     axes and well-defined at low counts where the asymptotic χ²(dof)
     approximation can fail.
 
-    Per-axis output: `lambda`, `dof`, `lambda_per_dof`, `z`, `z_stat_only`
-    (no-sys baseline for ablation), `p_value`, `score = exp(-z/τ)`,
-    plus the asymptotic χ² p-value `p_asymptotic` for reference.
+    Per-axis output: `lambda`, `dof`, `lambda_per_dof`, `z`, and `p_value`.
 
     0·ln(0) ≡ 0. Returns {"error": ...} for empty/degenerate inputs.
     """
@@ -286,7 +283,6 @@ def bc_statistics(
     if tot_obs <= 0 or tot_ref <= 0:
         return {"error": "total yield is zero in obs or ref"}
 
-    ratio = tot_obs / tot_ref
     lam_norm = float(_lam_norm_vec(obs, ref))
     lam_shape = float(_lam_shape_vec(obs, ref))
     lam_total = lam_shape + lam_norm
@@ -318,41 +314,7 @@ def bc_statistics(
         seed=seed + 2,
     )
 
-    # Stat-only ablation (sys = 0): how much of the loosening comes from
-    # the systematic. Use the SAME n_toys as the with-sys calibration so
-    # both axes saturate at the same cap; otherwise z and z_stat_only are
-    # not directly comparable.
-    z_norm_stat = _toy_calibrated_z(
-        lam_norm,
-        ref,
-        _lam_norm_vec,
-        systematic_frac=0.0,
-        n_toys=n_toys,
-        seed=seed + 100,
-    )
-    z_shape_stat = _toy_calibrated_z(
-        lam_shape,
-        ref,
-        _lam_shape_vec,
-        systematic_frac=0.0,
-        n_toys=n_toys,
-        seed=seed + 101,
-    )
-    z_total_stat = _toy_calibrated_z(
-        lam_total,
-        ref,
-        _lam_total_vec,
-        systematic_frac=0.0,
-        n_toys=n_toys,
-        seed=seed + 102,
-    )
-
-    # Asymptotic χ² p-values — kept for transparency / sanity checks but
-    # not used for any decision.
-    p_norm_asym = float(chi2.sf(lam_norm, df=1))
     dof_shape = max(n_bins - 1, 1)
-    p_shape_asym = float(chi2.sf(lam_shape, df=dof_shape))
-    p_total_asym = float(chi2.sf(lam_total, df=n_bins))
 
     def _round_z(z):
         return round(z, 3) if math.isfinite(z) else z
@@ -363,32 +325,19 @@ def bc_statistics(
             "dof": dof_shape,
             "lambda_per_dof": round(lam_shape / dof_shape, 3),
             "z": _round_z(z_shape["z"]),
-            "z_stat_only": _round_z(z_shape_stat["z"]),
-            "z_capped": z_shape["z_capped_high"],
             "p_value": z_shape["p"],
-            "p_asymptotic": p_shape_asym,
-            "score": round(_bounded_score(z_shape["z"]), 4),
         },
         "normalization": {
             "lambda": round(lam_norm, 3),
             "dof": 1,
             "z": _round_z(z_norm["z"]),
-            "z_stat_only": _round_z(z_norm_stat["z"]),
-            "z_capped": z_norm["z_capped_high"],
             "p_value": z_norm["p"],
-            "p_asymptotic": p_norm_asym,
-            "score": round(_bounded_score(z_norm["z"]), 4),
-            "ratio": round(ratio, 3),
-            "log10_ratio": round(math.log10(ratio), 3),
         },
         "total": {
             "bc_stat": round(lam_total, 3),
             "dof": n_bins,
             "z": _round_z(z_total["z"]),
-            "z_stat_only": _round_z(z_total_stat["z"]),
-            "z_capped": z_total["z_capped_high"],
             "p_value": z_total["p"],
-            "p_asymptotic": p_total_asym,
         },
         "calibration": {
             "systematic_frac": systematic_frac,
@@ -398,27 +347,38 @@ def bc_statistics(
     }
 
 
-def ks_binned(observed: np.ndarray, reference: np.ndarray) -> dict:
-    """Binned Kolmogorov-Smirnov: D = max|CDF_obs − CDF_ref| + approximate p-value.
+def bin_fractional_error_percent(observed: np.ndarray, reference: np.ndarray) -> dict:
+    """Σ_i |E_i - O_i| / E_i as a percent over bins with E_i > 0.
 
-    For an exactly-calibrated KS test you need unbinned samples; here we
-    approximate the effective sample size by ΣE (the total reference yield
-    treated as pseudo-counts) and use the asymptotic two-sided Kolmogorov
-    distribution. This is a secondary diagnostic — the primary shape test
-    is the Baker-Cousins λ_shape above.
+    The metric is intentionally simple and human-readable. Bins with zero
+    reference yield are excluded because the requested ratio is undefined
+    there; their count and any nonzero predictions in those bins are reported
+    separately so this convention is visible in score.json.
     """
     obs = np.asarray(observed, dtype=float)
     ref = np.asarray(reference, dtype=float)
-    tot_obs = float(np.sum(obs))
-    tot_ref = float(np.sum(ref))
-    if tot_obs <= 0 or tot_ref <= 0:
-        return {"stat": 1.0, "p_value": 0.0, "n_eff": 0.0}
-    obs_cdf = np.cumsum(obs / tot_obs)
-    ref_cdf = np.cumsum(ref / tot_ref)
-    stat = float(np.max(np.abs(obs_cdf - ref_cdf)))
-    # Asymptotic Kolmogorov distribution: K = D·√n_eff
-    p = float(kstwobign.sf(stat * math.sqrt(tot_ref)))
-    return {"stat": round(stat, 4), "p_value": p, "n_eff": round(tot_ref, 3)}
+    if obs.size == 0 or ref.size == 0 or obs.size != ref.size:
+        return {"error": "empty or mismatched distributions"}
+
+    mask = ref > 0
+    n_valid = int(mask.sum())
+    n_zero_truth = int((~mask).sum())
+    n_zero_truth_nonzero_pred = int(((~mask) & (obs != 0)).sum())
+    if n_valid == 0:
+        return {
+            "error": "no positive truth bins",
+            "n_valid_bins": 0,
+            "n_zero_truth_bins": n_zero_truth,
+            "n_zero_truth_nonzero_pred": n_zero_truth_nonzero_pred,
+        }
+
+    terms = np.abs(ref[mask] - obs[mask]) / ref[mask]
+    return {
+        "mean_abs_frac_error_percent": round(float(100.0 * terms.mean()), 3),
+        "n_valid_bins": n_valid,
+        "n_zero_truth_bins": n_zero_truth,
+        "n_zero_truth_nonzero_pred": n_zero_truth_nonzero_pred,
+    }
 
 
 # ── Scoring ─────────────────────────────────────────────────────────────────
@@ -446,11 +406,11 @@ def _score_series(
 ) -> dict:
     """Score one dependent-variable series.
 
-    Output: Baker-Cousins shape/norm/total p-values + bounded scores, KS,
-    and an at-a-glance diagnosis. n_filled is kept as a sanity flag for
+    Output: Baker-Cousins shape/norm/total p-values, plus
+    a simple bin-level fractional-error diagnostic and an at-a-glance
+    diagnosis. n_filled is kept as a sanity flag for
     "did the agent fill in the histogram at all?"; per-bin pulls and the
-    n_pass / pass-rate are deliberately NOT computed — the BC/KS triple
-    is what we use to judge runs.
+    n_pass / pass-rate are deliberately NOT computed.
     """
     n_bins = len(ref_vals)
     n_filled = sum(1 for i in range(n_bins) if i < len(rec_vals) and rec_vals[i] is not None)
@@ -471,6 +431,7 @@ def _score_series(
 
     ref_arr = np.array([p[0] for p in aligned], dtype=float)
     rec_arr = np.array([p[1] for p in aligned], dtype=float)
+    series["bin_fractional_error"] = bin_fractional_error_percent(rec_arr, ref_arr)
 
     bc = bc_statistics(
         rec_arr,
@@ -482,9 +443,8 @@ def _score_series(
         series["bc_error"] = bc["error"]
         return series
 
-    s_score = bc["shape"]["score"]
-    n_score = bc["normalization"]["score"]
-    combined = math.sqrt(s_score * n_score) if s_score > 0 and n_score > 0 else 0.0
+    s_score = _bounded_score(float(bc["shape"]["z"]))
+    n_score = _bounded_score(float(bc["normalization"]["z"]))
     if s_score > 0.7 and n_score > 0.7:
         diagnosis = "GOOD"
     elif s_score > 0.7:
@@ -498,8 +458,6 @@ def _score_series(
     series["normalization"] = bc["normalization"]
     series["total"] = bc["total"]
     series["calibration"] = bc["calibration"]
-    series["ks"] = ks_binned(rec_arr, ref_arr)
-    series["combined"] = round(combined, 3)
     series["diagnosis"] = diagnosis
 
     return series
@@ -579,8 +537,8 @@ def score_run(rp) -> dict:
         "n_filled": series["n_filled"],
     }
     if "shape" in series:
-        s_score = series["shape"]["score"]
-        n_score = series["normalization"]["score"]
+        s_score = _bounded_score(float(series["shape"]["z"]))
+        n_score = _bounded_score(float(series["normalization"]["z"]))
         output["overall_shape"] = round(s_score, 3)
         output["overall_normalization"] = round(n_score, 3)
         if score_mode == "shape":
@@ -621,12 +579,12 @@ def print_scores(result: dict) -> None:
     if "shape" in s:
         sh = s["shape"]
         no = s["normalization"]
-        ks = s.get("ks", {})
+        bfe = s.get("bin_fractional_error", {})
         print(
             f"    {s['name']}: filled {s['n_filled']}/{s['n_bins']}  "
-            f"shape p={sh['p_value']:.2g} (score={sh['score']:.2f})  "
-            f"norm p={no['p_value']:.2g} (score={no['score']:.2f})  "
-            f"KS p={ks.get('p_value', float('nan')):.2g}  "
+            f"shape p={sh['p_value']:.2g}  "
+            f"norm p={no['p_value']:.2g}  "
+            f"mean bin frac err={bfe.get('mean_abs_frac_error_percent', float('nan')):.1f}%  "
             f"[{s['diagnosis']}]"
         )
     else:

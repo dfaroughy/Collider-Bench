@@ -7,8 +7,8 @@
 # subscription.
 #
 # Usage:
-#   bash scripts/multi-run-interactive-codex.sh                 # default: codex_simple
-#   bash scripts/multi-run-interactive-codex.sh codex_simple
+#   bash scripts/multi-run-interactive-codex.sh
+#   bash scripts/multi-run-interactive-codex.sh codex_gpt55
 #   ...
 #
 # To run multiple (runner, model) cells in parallel, launch this script
@@ -17,7 +17,7 @@
 
 set -uo pipefail   # not -e — keep going if one task fails so the rest of the cell still runs
 
-CONFIG_LABEL="${1:-codex_simple}"
+CONFIG_LABEL="${1:-codex_gpt54-mini}"
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"
@@ -30,18 +30,31 @@ fi
 
 
 TASKS=(
+  sus-16-046_shape-T5Wg
+  sus-16-046_shape-TChiWg
+  sus-16-047_shape-T5Wg_highHT
+  sus-16-047_shape-T5Wg_lowHT
+  sus-16-047_shape-T6gg_highHT
+  sus-16-047_shape-T6gg_lowHT
+  sus-16-051_shape-T2tt
+  sus-16-051_shape-T2tt_comp
+  sus-16-046_yield-T5Wg
+  sus-16-046_yield-TChiWg
   sus-16-047_yield-T5Wg_highHT
   sus-16-047_yield-T5Wg_lowHT
   sus-16-047_yield-T6gg_highHT
   sus-16-047_yield-T6gg_lowHT
   sus-16-051_yield-T2tt
   sus-16-051_yield-T2tt_comp
-  sus-16-046_val-Nobs
-  sus-16-046_yield-T5Wg
-  sus-16-046_yield-TChiWg
+  # sus-16-046_sim-T5Wg
+  # sus-16-046_sim-TChiWg
+  sus-16-047_sim-T5Wg_highHT
   sus-16-047_sim-T5Wg_lowHT
+  sus-16-047_sim-T6gg_highHT
+  sus-16-047_sim-T6gg_lowHT
+  # sus-16-051_sim-T2tt
+  sus-16-051_sim-T2tt_comp
 )
-
 
 cd "${REPO_ROOT}"
 echo "[$(date '+%F %T')] config=${CONFIG_LABEL}  sandbox=${SANDBOX}  total tasks=${#TASKS[@]}"

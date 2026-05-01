@@ -708,8 +708,12 @@ def main():
         sys.exit(1)
 
     agent_dir = rp.artifact_dir
-    session_logs = sorted(agent_dir.glob("session_log*.txt")) or sorted(
-        agent_dir.glob("session*.txt")
+    # Current runs write `session.jsonl`; older runs used `session_log*.txt`
+    # (kept for backwards compat with already-finished runs in runs/).
+    session_logs = (
+        sorted(agent_dir.glob("session.jsonl"))
+        or sorted(agent_dir.glob("session_log*.txt"))
+        or sorted(agent_dir.glob("session*.txt"))
     )
     artifacts = [
         p
@@ -725,7 +729,7 @@ def main():
         return
 
     if not session_logs:
-        print(f"ERROR: no session_log*.txt found in {agent_dir}", file=sys.stderr)
+        print(f"ERROR: no session.jsonl / session_log*.txt in {agent_dir}", file=sys.stderr)
         sys.exit(1)
 
     scores = run_judge(

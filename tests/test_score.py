@@ -1,7 +1,7 @@
-"""Baker-Cousins shape/norm decomposition + KS p-value with toy-MC z.
+"""Baker-Cousins shape/norm decomposition + bin-error diagnostic with toy-MC z.
 
 The statistical content of the scorer lives in ``bc_statistics()`` and
-``ks_binned()`` in ``LHCRecastBench.evaluation.score``.
+``bin_fractional_error_percent()`` in ``LHCRecastBench.evaluation.score``.
 
 We deliberately use a small toy budget here (``n_toys=1000``) so the suite
 stays fast; production scoring uses ``DEFAULT_N_TOYS`` (1M). All assertions
@@ -16,7 +16,7 @@ Tests cover:
   - bounded score is monotone-decreasing in z
   - the systematic broadens the toy null (z with sys ≤ z without sys)
   - z is finite even for perfect agreement (no -inf from log of 1)
-  - KS sanity properties
+  - bin fractional-error diagnostic sanity properties
 """
 
 from __future__ import annotations
@@ -28,8 +28,9 @@ import pytest
 
 from LHCRecastBench.evaluation.score import (
     DEFAULT_SYSTEMATIC,
+    _bounded_score,
+    bin_fractional_error_percent,
     bc_statistics,
-    ks_binned,
 )
 
 
@@ -55,10 +56,6 @@ def test_identity_identical_distributions():
     assert bc["shape"]["z"] <= 0
     assert bc["normalization"]["z"] <= 0
     assert bc["total"]["z"] <= 0
-    # Bounded score = 1 when z ≤ 0.
-    assert bc["shape"]["score"] == 1.0
-    assert bc["normalization"]["score"] == 1.0
-    assert bc["normalization"]["ratio"] == 1.0
     # Toy p_value should be near 1; allow toy noise.
     assert bc["shape"]["p_value"] == pytest.approx(1.0, abs=2.0 / N_TOYS)
 
@@ -70,7 +67,6 @@ def test_pure_normalization_error_leaves_shape_untouched(k):
     bc = _bc(obs, ref)
     assert bc["shape"]["lambda"] == pytest.approx(0.0, abs=1e-9)
     assert bc["normalization"]["lambda"] > 0
-    assert bc["normalization"]["ratio"] == pytest.approx(k)
     # z grows monotonically with the size of the normalization error.
     assert bc["normalization"]["z"] > 0
 
@@ -83,7 +79,6 @@ def test_pure_shape_distortion_leaves_norm_untouched():
     bc = _bc(obs, ref)
     assert bc["normalization"]["lambda"] == pytest.approx(0.0, abs=1e-9)
     assert bc["shape"]["lambda"] > 0
-    assert bc["normalization"]["ratio"] == 1.0
 
 
 def test_additive_identity_lambda_total_equals_shape_plus_norm():
@@ -129,7 +124,7 @@ def test_bounded_score_monotone_in_z():
     prev_score = 1.0
     for k in (1.0, 1.5, 2.0, 3.0, 5.0, 10.0):
         bc = _bc(k * ref, ref, seed=int(k * 100))
-        score = bc["normalization"]["score"]
+        score = _bounded_score(bc["normalization"]["z"])
         assert 0.0 <= score <= 1.0
         if k > 1.0:
             assert score <= prev_score + 1e-9
@@ -156,15 +151,6 @@ def test_systematic_loosens_normalization_score():
     bc_without = _bc(obs, ref, sys=0.0, seed=7)
     # With sys, observed disagreement is more likely under the null → smaller z.
     assert bc_with["normalization"]["z"] < bc_without["normalization"]["z"]
-
-
-def test_stat_only_z_is_reported():
-    """Each axis carries a `z_stat_only` field for ablation."""
-    ref = np.array([10.0, 20.0, 30.0, 20.0, 10.0])
-    bc = _bc(2.0 * ref, ref, sys=0.20)
-    for axis in ("shape", "normalization", "total"):
-        assert "z_stat_only" in bc[axis]
-        assert math.isfinite(bc[axis]["z_stat_only"])
 
 
 def test_calibration_metadata_recorded():
@@ -206,31 +192,30 @@ def test_single_bin_series_has_shape_dof_one():
     assert bc["shape"]["lambda"] == 0.0
 
 
-# ── KS secondary metric ────────────────────────────────────────────────────
+# ── Bin fractional-error secondary metric ──────────────────────────────────
 
 
-def test_ks_identical_is_zero():
+def test_bin_fractional_error_identical_is_zero():
     ref = np.array([10.0, 20.0, 30.0, 20.0, 10.0])
-    r = ks_binned(ref, ref)
-    assert r["stat"] == 0.0
-    assert r["p_value"] == pytest.approx(1.0)
+    r = bin_fractional_error_percent(ref, ref)
+    assert r["mean_abs_frac_error_percent"] == 0.0
+    assert r["n_valid_bins"] == 5
 
 
-def test_ks_distorted_has_small_p():
+def test_bin_fractional_error_reports_mean_percent():
     ref = np.array([10.0, 20.0, 30.0, 20.0, 10.0])
-    obs = np.array([30.0, 20.0, 10.0, 20.0, 10.0])
-    r = ks_binned(obs, ref)
-    assert r["stat"] > 0
-    assert r["p_value"] < 0.5
+    obs = np.array([5.0, 20.0, 60.0, 10.0, 10.0])
+    r = bin_fractional_error_percent(obs, ref)
+    # Terms are 0.5, 0, 1, 0.5, 0 => mean 40%.
+    assert r["mean_abs_frac_error_percent"] == pytest.approx(40.0)
 
 
-def test_ks_monotonic_in_distortion_strength():
-    ref = np.array([10.0, 20.0, 30.0, 20.0, 10.0])
-    prev_stat = 0.0
-    for push in (0.0, 10.0, 20.0, 29.0):
-        obs = ref.copy()
-        obs[0] += push
-        obs[2] -= push
-        r = ks_binned(obs, ref)
-        assert r["stat"] >= prev_stat
-        prev_stat = r["stat"]
+def test_bin_fractional_error_handles_zero_truth_bins():
+    ref = np.array([0.0, 10.0, 0.0, 20.0])
+    obs = np.array([0.0, 20.0, 3.0, 10.0])
+    r = bin_fractional_error_percent(obs, ref)
+    # Positive-truth terms are 1.0 and 0.5 => mean 75%.
+    assert r["mean_abs_frac_error_percent"] == pytest.approx(75.0)
+    assert r["n_valid_bins"] == 2
+    assert r["n_zero_truth_bins"] == 2
+    assert r["n_zero_truth_nonzero_pred"] == 1

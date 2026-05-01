@@ -139,7 +139,7 @@ def _run_in_sandbox(
             prompt,
             workspace,
             env,
-            workspace / "session_log.txt",
+            workspace / "session.jsonl",
             walltime_s=walltime_s,
         )
     finally:
@@ -378,7 +378,7 @@ def launch_single_run(
             exit_code=exit_code,
             started_at=started_at,
             scores=scores,
-            session_logs=[workspace / "session_log.txt"],
+            session_logs=[workspace / "session.jsonl"],
         )
 
     print(f"\nDone. Results in {workspace}")

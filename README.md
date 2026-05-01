@@ -12,8 +12,10 @@ docker pull ghcr.io/dfaroughy/lhc-bench:latest
 podman pull ghcr.io/dfaroughy/lhc-bench:latest
 apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
 
-# 2. Clone the repo
+# 2. Clone the repo and install the harness
 git clone https://github.com/dfaroughy/Collider-Bench.git
+cd Collider-Bench
+pip install -e .                # pulls pyyaml, pydantic, numpy, scipy, ...
 
 # 3. Install whichever vendor agent CLI(s) you want to use, on the host.
 #    The container image carries the HEP runtime (conda env + sim stack)

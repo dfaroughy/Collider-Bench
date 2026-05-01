@@ -19,6 +19,7 @@ shape.
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 from pathlib import Path
 from typing import Callable, Literal
@@ -36,38 +37,108 @@ from agent_runtime.runners import (
 
 # ── Stream parser registry ───────────────────────────────────────────────────
 #
-# A "stream parser" is just a callable that gets each stdout line as it
-# arrives and renders something to the terminal. The harness already has
-# a unified renderer for all three JSON formats (claude, codex, gemini)
-# in `stream_display.render_line` — it auto-detects format. So the JSON
-# parsers all alias to it; only aider's plain-text output needs its own
-# render rule.
+# Each parser takes one stdout line, prints whatever a human should see to
+# the terminal, and returns the line(s) that should be written to the run's
+# session.jsonl. Returning [] suppresses the line from the file (forge uses
+# this — its session.jsonl is built post-run from its SQLite DB, which has
+# richer structure than the TTY stream).
+#
+# Why filter at file-write time? session.jsonl is consumed by the LLM judge
+# during evaluation; spinner frames + ANSI clear codes are unreadable and
+# pricey to feed to the judge. claude/codex/gemini already emit valid JSONL
+# (one JSON object per line) so their parsers pass lines through unchanged.
+LineRenderer = Callable[[str], list[str]]
 
-LineRenderer = Callable[[str], None]
 
-
-def _render_stream_json(line: str) -> None:
+def _render_stream_json(line: str) -> list[str]:
+    # All JSON streams (claude / codex / gemini) → the line IS structured
+    # data. Keep it verbatim in the file; render to terminal via the
+    # unified auto-detecting renderer.
     from agent_runtime.stream_display import render_line
 
     render_line(line)
+    return [line] if line else []
 
 
-def _render_aider_text(line: str) -> None:
-    # Aider streams plain text; surface only the lines a human cares about
-    # (assistant turns, tool-call boxes, errors).
+def _render_aider_text(line: str) -> list[str]:
+    # Aider streams plain text. Surface only assistant turns, tool-call
+    # boxes, and errors — both to terminal and to file.
     if line.startswith(">") or "─" in line or "Error" in line:
         print(f"  {line}", flush=True)
+        return [line]
+    return []
 
 
-def _render_raw(_line: str) -> None:
-    """Passthrough — write to file, render nothing."""
-    return None
+# Forge's TTY output: ANSI clear-line codes + a spinner that updates with
+# CR (no LF) so a single Python "line" can hold dozens of status frames.
+# We split on the ANSI escape, drop spinner frames, keep status bullets
+# (`● [HH:MM:SS] ...`) and any plain assistant-content text.
+_ANSI_ESC = re.compile(r"\x1b\[\d*[A-Za-z]")
+# Braille spinner glyphs Forge cycles through.
+_SPINNER_CHARS = "⠹⠸⠼⠴⠦⠧⠇⠏⠋⠙⠉⠩⠡⠪⠠⠐⠈⠌"
+# A spinner line looks like:
+#   <braille> Processing 2:27m · Ctrl+C to interrupt
+#   <braille> Researching 04s · Ctrl+C to interrupt
+#   <braille> Analyzing 1:23:45h · ...
+# Time can be `\d+s`, `\d+:\d+m`, `\d+:\d+:\d+h`. Anchor on the middle
+# dot (·) which is constant across all spinner messages.
+_SPINNER_LINE = re.compile(rf"^[{re.escape(_SPINNER_CHARS)}]\s+\S+\s+\S+\s*·")
 
 
-STREAM_PARSERS: dict[str, LineRenderer] = {
-    "stream_json": _render_stream_json,
-    "aider_text": _render_aider_text,
-    "raw": _render_raw,
+# Forge bullet event format: `● [HH:MM:SS] Verb [<arg>] <rest>`.
+_FORGE_EVENT = re.compile(r"^●\s+\[[\d:]+\]\s+(\w+)")
+
+
+class _ForgeStreamParser:
+    """TTY-only Forge parser.
+
+    Forge's TTY stream interleaves ANSI clear codes, a Braille spinner,
+    bullet event lines (`● [HH:MM:SS] Verb [...] arg`), and the bash
+    stdout transcription that follows `Execute` events. We strip the
+    spinner / ANSI noise and print clean event lines to the terminal so
+    the user sees progress, but return `[]` for every line — the
+    file-side `session.jsonl` is built post-run from the SQLite DB by
+    `_forge_post_run`, which has the full structured conversation
+    (including per-call DeepSeek `usage`) instead of this TTY view.
+    """
+
+    # Verbs whose succeeding non-bullet lines are tool-output transcription.
+    _DROP_AFTER = frozenset({"Execute"})
+
+    def __init__(self) -> None:
+        self._dropping = False
+
+    def __call__(self, line: str) -> list[str]:
+        if not line:
+            return []
+        for chunk in _ANSI_ESC.split(line):
+            chunk = chunk.strip()
+            if not chunk or _SPINNER_LINE.match(chunk):
+                continue
+            m = _FORGE_EVENT.match(chunk)
+            if m:
+                self._dropping = m.group(1) in self._DROP_AFTER
+                print(f"  {chunk}", flush=True)
+                continue
+            if self._dropping:
+                continue  # bash output / file content / etc.
+            print(f"  {chunk}", flush=True)
+        return []  # session.jsonl is written post-run from the forge DB
+
+
+def _render_raw(line: str) -> list[str]:
+    # Passthrough — keep verbatim, render nothing to terminal.
+    return [line] if line else []
+
+
+# Each entry is a factory: called once per run to produce a callable
+# that processes lines. Stateless parsers return the function directly;
+# stateful ones (forge_text) return a fresh instance per run.
+STREAM_PARSERS: dict[str, Callable[[], LineRenderer]] = {
+    "stream_json": lambda: _render_stream_json,
+    "aider_text": lambda: _render_aider_text,
+    "forge_text": lambda: _ForgeStreamParser(),
+    "raw": lambda: _render_raw,
 }
 
 
@@ -152,7 +223,7 @@ class RunnerSpec(BaseModel):
     effort_label_map: dict[str, str] = Field(default_factory=dict)
 
     # ── Streaming + lifecycle ───────────────────────────────────────────────
-    stream_format: Literal["stream_json", "aider_text", "raw"] = "raw"
+    stream_format: Literal["stream_json", "aider_text", "forge_text", "raw"] = "raw"
     post_result_grace_s: float = Field(
         default=0.0, description=">0 enables 'kill the group N s after the result event'"
     )
@@ -245,6 +316,13 @@ class DeclarativeRunner(Runner):
         }
         if s.prompt_via == "stdin":
             popen_kwargs["stdin"] = subprocess.PIPE
+        else:
+            # Without an explicit /dev/null, the subprocess inherits the
+            # harness's stdin. Combined with podman's -i flag, that pipes
+            # the host's (possibly TTY-attached) stdin into the container,
+            # which can make some CLIs (e.g. forge) wait for stdin EOF
+            # before processing -p, hanging indefinitely.
+            popen_kwargs["stdin"] = subprocess.DEVNULL
 
         proc = subprocess.Popen(cmd, **popen_kwargs)
         pgid = os.getpgid(proc.pid)
@@ -264,7 +342,7 @@ class DeclarativeRunner(Runner):
                 killed_for_hang = True
                 _kill_process_group(pgid)
 
-        parser = STREAM_PARSERS[s.stream_format]
+        parser = STREAM_PARSERS[s.stream_format]()  # factory: fresh state per run
         try:
             if s.prompt_via == "stdin":
                 assert proc.stdin is not None
@@ -274,10 +352,13 @@ class DeclarativeRunner(Runner):
             with open(output_file, "wb") as f:
                 assert proc.stdout is not None
                 for raw in proc.stdout:
-                    f.write(raw)
-                    f.flush()
                     line = raw.decode("utf-8", errors="replace").rstrip()
-                    parser(line)
+                    # Parser returns the cleaned line(s) to write to the
+                    # session.jsonl (e.g. forge_text returns [] — file is
+                    # Empty list means "this line is noise — skip writing".
+                    for clean in parser(line):
+                        f.write(clean.encode("utf-8") + b"\n")
+                    f.flush()
                     if s.post_result_grace_s > 0 and watchdog is None and _is_result_line(line):
                         import threading
 

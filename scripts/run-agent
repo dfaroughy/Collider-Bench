@@ -6,10 +6,8 @@
 # on the CLI overrides the config value.
 #
 # Usage:
-#   run-agent --config configs/claude_simple.yaml
-#   run-agent --config configs/claude_iterative.yaml --effort high
-#   run-agent --agent baseline --paper-ref 1707.06193 --runner claude
-#   run-agent --config configs/claude_simple.yaml --compute perlmutter
+#   run-agent --config configs/claude_opus.yaml
+#   run-agent --config configs/claude_opus.yaml --compute perlmutter
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
@@ -63,7 +61,7 @@ fi
 if [[ -z "${AGENT}" ]]; then
   echo "run-agent: --agent NAME required, or set \`agent:\` in --config." >&2
   echo "  Known agents: simple, baseline, iterative, anneal" >&2
-  echo "  Example: bin/run-agent --config configs/claude_simple.yaml" >&2
+  echo "  Example: bin/run-agent --config configs/claude_opus.yaml" >&2
   exit 2
 fi
 

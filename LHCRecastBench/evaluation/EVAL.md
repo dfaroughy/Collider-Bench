@@ -15,7 +15,7 @@ Every evaluator reads from the same workspace layout:
   datasets.yaml
   analysis.py | analysis/*.py
   report.md
-  session_log.txt              # CLI stream-json (used by LLM judges)
+  session.jsonl                # one JSON object per line, vendor-native events (used by LLM judges)
 ```
 
 The reference file lives at `LHCRecastBench/tasks/shared/<paper>/reference/<file>.yaml`. The scorer reads `task_id` from `<run_dir>/run_info.json`, picks `paper` from `task.toml`, finds `data_filename` from the single histogram file under `tasks/<task_id>/template/`, and reads `header_name` from `dependent_variables[0].header.name` of that file. The matching series in the reference is then compared.
@@ -24,7 +24,7 @@ Tasks may set `[metrics].score = "shape"` in `task.toml`. For these shape-only t
 
 ## The evaluators
 
-### 1. `score.py` — Baker-Cousins shape/norm/total + KS (automatic)
+### 1. `score.py` — Baker-Cousins shape/norm/total + bin error (automatic)
 
 Runs at the end of every agent launch; emits `eval/score.json`. One histogram, one series, one pass.
 
@@ -42,11 +42,10 @@ Each λ is calibrated with toy pseudo-experiments under the Poisson plus toleran
 
 **Fields in `score.json`:**
 
-- `series.shape`: `{lambda, dof, lambda_per_dof, z, p_value, score}`
-- `series.normalization`: `{lambda, dof=1, z, p_value, score, ratio, log10_ratio}` — ratio kept for human readability (physicists read "2× off" more naturally than "z=8.3")
+- `series.shape`: `{lambda, dof, lambda_per_dof, z, p_value}`
+- `series.normalization`: `{lambda, dof=1, z, p_value}`
 - `series.total`: `{bc_stat, dof, z, p_value}`
-- `series.ks`: `{stat, p_value, n_eff}` — secondary unit-area shape diagnostic
-- `series.combined` = √(shape.score · norm.score)
+- `series.bin_fractional_error`: `{mean_abs_frac_error_percent, n_valid_bins, n_zero_truth_bins, n_zero_truth_nonzero_pred}`. The mean is `100 * mean_i(|truth_i - pred_i| / truth_i)` over truth-positive bins; zero-truth bins are counted separately.
 - `series.diagnosis`: `GOOD` / `SHAPE OK, NORM BAD` / `SHAPE BAD, NORM OK` / `BOTH BAD`
 - top-level `overall_shape`, `overall_normalization`, `overall_combined` (`overall_combined = overall_shape` for shape-only tasks and `overall_combined = overall_normalization` for yield-only tasks)
 - `n_filled`, `n_bins` — sanity flag for "did the agent fill anything?"
@@ -109,7 +108,7 @@ After all four have run, `eval/` contains:
 
 ```
 eval/
-  score.json                           # Baker-Cousins shape/norm/total + KS p-values
+  score.json                           # Baker-Cousins shape/norm/total + bin fractional error
   summary.md                           # human-readable digest; shows Submitted/Audited scores when judged
   plots/                               # CMS/recast histogram PNGs with tolerance bands (yield + shape)
     <histogram>_yield.png
@@ -126,7 +125,7 @@ eval/
 - **Shape is the BC likelihood ratio, not Pearson χ².** BC reduces to Pearson at high counts but is well-defined at zero-expectation bins and is asymptotically χ²-distributed at lower counts. Per-bin uncertainty enters via the Poisson likelihood itself.
 - **Bounded score is based on the toy-calibrated z, not a raw p-value.** `score = exp(−z / 3)`, with `z = Φ^{-1}(1-p_toy)`. The p-value is reported alongside for the statistical reading; the bounded score gives a usable gradient when p-values saturate at zero.
 - **`λ_total = λ_shape + λ_norm` is an algebraic identity, not an asymptotic approximation.** Falls out cleanly from profiling α = ΣO/ΣE over the Poisson log-likelihood.
-- **No per-bin pass/fail.** The scorer reports the Baker-Cousins triple (shape, norm, total) and KS — that's the full picture. Per-bin "passing" thresholds were dropped because they obscured the shape-vs-norm decomposition that's actually informative.
+- **No per-bin pass/fail.** The scorer reports the Baker-Cousins triple (shape, norm, total) plus a simple aggregate bin-fractional-error diagnostic. Per-bin "passing" thresholds were dropped because they obscured the shape-vs-norm decomposition that's actually informative.
 - **Multiple evaluators because no single number tells the truth.** Shape can look fine while norm is off by 50× (or vice versa); the LLM judge's provenance audit catches copying, fabrication, and unjustified post-hoc adjustments. `summary.md` reports both Submitted and Audited scores when the LLM judge has run.
 
 ## Running on a completed run

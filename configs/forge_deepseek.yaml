@@ -1,0 +1,21 @@
+# Usage:
+#   scripts/run-agent --config configs/forge_deepseek.yaml
+#
+# Forge (Antinomy) drives many model backends. Unlike claude/codex/gemini,
+# Forge configures the model via its own config (~/.forge/.forge.toml),
+# not a CLI flag. Switching model means `forge config set model <id>` on
+# the host BEFORE launching this run.
+#
+# This `model` field is informational (used in run-dir naming + run_info
+# metadata) and does NOT propagate to Forge — set the actual model with
+# `forge config set model deepseek-chat` first.
+#
+# DeepSeek auth: DEEPSEEK_API_KEY in the environment (sandbox passes
+# *_API_KEY env vars through automatically).
+
+agent:   simple
+task:    sus-16-046_yield-TChiWg    # see LHCRecastBench/tasks/
+runner:  forge
+model:   deepseek-v4-pro            # informational; configure via `forge config`
+effort:  high                     # ignored by forge
+extends: base.yaml
