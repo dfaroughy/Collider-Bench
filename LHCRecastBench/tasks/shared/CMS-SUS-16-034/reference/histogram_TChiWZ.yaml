@@ -1,0 +1,14 @@
+dependent_variables:
+- header: {name: TChiWZ_550_200}
+  values:
+  - {value: 0.45}
+  - {value: 1.37}
+  - {value: 1.65}
+  - {value: 1.94}
+independent_variables:
+- header: {name: ETMISS, units: GEV}
+  values:
+  - {low: 100.0, high: 150.0}
+  - {low: 150.0, high: 250.0}
+  - {low: 250.0, high: 350.0}
+  - {low: 350.0, high: 450.0}

@@ -1,0 +1,17 @@
+instructions: Fill the single 'null' value in dependent_variables with the total signal-region
+  yield. Do not add bins or modify the independent variable.
+description: Total signal-region event yield for TChiWZ_550_200
+target: TChiWZ, chargino/neutralino-2 550 GeV, neutralino-1 200 GeV
+cm_energy_gev: 13000
+luminosity_fb: 35.9
+---
+dependent_variables:
+- header:
+    name: TChiWZ_550_200
+  values:
+  - value: null
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive

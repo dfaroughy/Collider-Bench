@@ -1,15 +1,15 @@
 instructions: "Fill the 'null' bin values in dependent_variables with values proportional to your simulated bin populations. Shape-only task: absolute normalization is ignored by scoring.
-               In the rightmost bin include ALL events with E_T^miss > 550 GeV.
+               In the rightmost bin include ALL events with E_T^miss > 350 GeV.
                Do not modify bin edges.
               "
 description: "Shape-only signal distribution for binned E_T^miss"
-target: "T2tt, stop 800 GeV, neutralino 400 GeV"
+target: "TChiWZ, chargino/neutralino-2 550 GeV, neutralino-1 200 GeV"
 cm_energy_gev: 13000
 luminosity_fb: 35.9
 scoring: shape_only
 ---
 dependent_variables:
-- header: {name: T2tt_800_400}
+- header: {name: TChiWZ_550_200}
   values:
   - {value: null}
   - {value: null}
@@ -18,7 +18,7 @@ dependent_variables:
 independent_variables:
 - header: {name: ETMISS, units: GEV}
   values:
+  - {low: 100.0, high: 150.0}
+  - {low: 150.0, high: 250.0}
   - {low: 250.0, high: 350.0}
   - {low: 350.0, high: 450.0}
-  - {low: 450.0, high: 550.0}
-  - {low: 550.0, high: 650.0}

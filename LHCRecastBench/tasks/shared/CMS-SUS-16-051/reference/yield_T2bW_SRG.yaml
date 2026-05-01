@@ -1,8 +1,8 @@
 dependent_variables:
 - header:
-    name: T2tt_800_400
+    name: T2bW_900_50
   values:
-  - value: 7.9
+  - value: 2.87
 independent_variables:
 - header:
     name: SIGNAL_REGION
