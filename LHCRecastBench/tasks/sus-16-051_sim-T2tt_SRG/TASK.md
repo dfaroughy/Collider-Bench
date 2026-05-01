@@ -3,23 +3,24 @@
 > **Luminosity:** 35.9 fb⁻¹
 > **Task type:** simulation
 > **Signal benchmark:** `T2tt_1000_50`
+> **Signal region:** SR-G (`tmod > 10`, `N_J ≥ 4`, `M_lb ≤ 175 GeV`)
 > **Observable:** `E_T^miss`
 
 ### Task
 
-Implement the search analysis described in **CMS-SUS-16-051** and use it to predict the binned differential signal yield in `E_T^miss` for the benchmark point `T2tt_1000_50`, in the analysis's **standard signal-region selection**, normalized to 35.9 fb⁻¹ at √s = 13 TeV.
+Implement the search analysis described in **CMS-SUS-16-051** and use it to predict the binned differential signal yield in `E_T^miss` for the benchmark point `T2tt_1000_50`, in **signal region SR-G** of the analysis's standard (heavy-stop, mass-split) categorisation, normalized to 35.9 fb⁻¹ at √s = 13 TeV.
 
 You should:
 
 1. Generate `T2tt_1000_50` events using a matrix-element generator + parton shower + detector simulation chain of your choice.
-2. Read the paper to determine the object identification, event-selection requirements, and the standard-selection signal-region cuts that define this analysis (Section 5 / Table 2 of the paper). Apply them to your generated events.
+2. Read the paper to determine the object identification, baseline event-selection requirements, and the SR-G cuts that define this analysis (Section 5 / Table 2 of the paper). Apply them to your generated events.
 3. Histogram the surviving events in `E_T^miss` using the bin edges already present in the `results/*.yaml` template (do not modify them).
 
 ### Definitions
 
 - `E_T^miss` — the magnitude of the negative vector sum of the transverse momenta of all reconstructed particle-flow candidates in the event.
-- `T2tt_1000_50` — pair-produced top squarks at `m(t̃) = 1000 GeV`, each decaying via the `T2tt` simplified-model topology to a top quark and a neutralino at `m(χ̃⁰₁) = 50 GeV`. This is the mass-split benchmark targeted by the standard signal-region selection.
-- Standard signal-region selection — the search's primary categorisation (as opposed to the compressed-spectrum selection), targeting heavy-stop, mass-split decays.
+- `T2tt_1000_50` — pair-produced top squarks at `m(t̃) = 1000 GeV`, each decaying via the `T2tt` simplified-model topology to a top quark and a neutralino at `m(χ̃⁰₁) = 50 GeV`. This is the mass-split benchmark targeted by the standard SR categorisation.
+- **SR-G** — one of the standard (heavy-stop, mass-split) signal regions in Table 2 of the paper, defined on top of the baseline selection by `tmod > 10`, `N_J ≥ 4`, and `M_lb ≤ 175 GeV`. The standard categorisation is the search's primary one, as opposed to the compressed-spectrum selection.
 
 ### Output requirements
 

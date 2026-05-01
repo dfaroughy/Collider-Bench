@@ -2,23 +2,23 @@
 > **Centre-of-mass energy:** 13 TeV
 > **Luminosity:** 35.9 fb⁻¹
 > **Task type:** simulation (yield-only)
-> **Signal benchmark:** `T2tt_500_325`
+> **Signal benchmark:** `T2tt_800_400`
 > **Observable:** total signal-region yield
 
 ### Task
 
-Implement the search analysis described in **CMS-SUS-16-051** and use it to predict the total number of signal events for the benchmark point `T2tt_500_325` in the analysis's **signal region**, normalized to 35.9 fb⁻¹ at √s = 13 TeV.
+Implement the search analysis described in **CMS-SUS-16-051** and use it to predict the total number of signal events for the benchmark point `T2tt_800_400` in the analysis's **signal region**, normalized to 35.9 fb⁻¹ at √s = 13 TeV.
 
 You should:
 
-1. Generate `T2tt_500_325` events using a matrix-element generator + parton shower + detector simulation chain of your choice.
+1. Generate `T2tt_800_400` events using a matrix-element generator + parton shower + detector simulation chain of your choice.
 2. Read the paper to determine the object identification, event-selection requirements, and the signal-region cuts that define this analysis. Apply them to your generated events.
 3. Sum the surviving event yield over the full signal region and fill the single `null` value already present in the `results/*.yaml` template.
 
 ### Definitions
 
-- Total signal-region yield — the expected number of `T2tt_500_325` events passing the analysis signal-region selection after all event weights and normalization factors have been applied.
-- `T2tt_500_325` — the signal benchmark point specified in the task metadata.
+- Total signal-region yield — the expected number of `T2tt_800_400` events passing the analysis signal-region selection after all event weights and normalization factors have been applied.
+- `T2tt_800_400` — the signal benchmark point specified in the task metadata.
 - `E_T^miss` — the distribution observable used in the corresponding binned simulation task; this yield-only task scores only the integrated signal-region yield.
 
 ### Output requirements

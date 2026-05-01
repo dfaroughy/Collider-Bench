@@ -1,0 +1,17 @@
+instructions: Fill the single 'null' value in dependent_variables with the total signal-region
+  yield. Do not add bins or modify the independent variable.
+description: Total signal-region event yield for T2bW_900_50
+target: T2bW, stop 900 GeV, neutralino 50 GeV
+cm_energy_gev: 13000
+luminosity_fb: 35.9
+---
+dependent_variables:
+- header:
+    name: T2bW_900_50
+  values:
+  - value: null
+independent_variables:
+- header:
+    name: SIGNAL_REGION
+  values:
+  - value: inclusive

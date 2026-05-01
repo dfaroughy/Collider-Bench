@@ -1,16 +1,15 @@
 [task]
-id          = "sus-16-051_shape-T2tt_comp"
+id          = "sus-16-051_sim-T2bW"
 paper       = "CMS-SUS-16-051"
 type        = "simulation"
-target      = "T2tt_800_400"
+target      = "T2bW_900_50"
 observable  = "ETmiss"
 
 [metadata]
 difficulty = "medium"
 walltime   = "2h30m"
-tags       = ["SUSY", "CMS", "stops", "13TeV", "compressed", "simplified model"]
+tags       = ["SUSY", "CMS", "stops", "13TeV", "simplified model"]
 
 [metrics]
 tolerance = 0.05
 plot = "Events/bin"
-score = "shape"

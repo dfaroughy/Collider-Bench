@@ -1,14 +1,14 @@
 dependent_variables:
-- header: {name: T2tt_800_400}
+- header: {name: T2bW_900_50}
   values:
-  - {value: 2.3}
-  - {value: 1.7}
-  - {value: 1.7}
-  - {value: 2.2}
+  - {value: 0.44}
+  - {value: 0.76}
+  - {value: 0.91}
+  - {value: 0.76}
 independent_variables:
 - header: {name: ETMISS, units: GEV}
   values:
   - {low: 250.0, high: 350.0}
   - {low: 350.0, high: 450.0}
-  - {low: 450.0, high: 550.0}
-  - {low: 550.0, high: 650.0}
+  - {low: 450.0, high: 600.0}
+  - {low: 600.0, high: 750.0}
