@@ -443,6 +443,13 @@ class ApptainerSandbox(Sandbox):
 
         image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
 
+        # Singularity 3.1 (still default on some HPC sites) doesn't support
+        # `--env KEY=VAL`; that flag was added in 3.6. Both old singularity
+        # and apptainer always honor `SINGULARITYENV_*` host env vars —
+        # collect inner env pairs here and prefix the command with `env ...`
+        # so this works uniformly across versions.
+        env_pairs: list[tuple[str, str]] = []
+
         cmd: list[str] = [
             self._engine(),
             "exec",
@@ -475,14 +482,11 @@ class ApptainerSandbox(Sandbox):
             _fake_home_target(workspace, home_dir_name),
             home_files,
         )
-        cmd.extend(
-            [
-                "--bind",
-                f"{fake_home}:{fake_home}",
-                "--env",
-                f"HOME={fake_home}",
-            ]
-        )
+        # Singularity / apptainer special-case HOME: use `--home src:dest`
+        # rather than an env var, since `--cleanenv` + SINGULARITYENV_HOME is
+        # ignored in older singularity. This both bind-mounts and sets $HOME
+        # inside the container.
+        cmd.extend(["--home", f"{fake_home}:{fake_home}"])
 
         # CVMFS (CMSSW, ATLAS sw, ...) — ro when available on the host.
         if Path("/cvmfs").is_dir():
@@ -495,18 +499,17 @@ class ApptainerSandbox(Sandbox):
         for path in cli_ro_binds:
             cmd.extend(["--bind", f"{path}:{path}:ro"])
 
-        # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
-        # `--dangerously-skip-permissions` is allowed even if the container
-        # process runs as UID 0 (which happens on rootless podman with
-        # subuid limits that prevent keep-id mapping).
-        cmd.extend(["--env", "IS_SANDBOX=1"])
+        env_pairs.append(("IS_SANDBOX", "1"))
 
         # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV
         # directives. Pass through only the narrow runner/API env allowlist.
         for var, val in _container_env_pairs(container_env, secret_env_names):
-            cmd.extend(["--env", f"{var}={val}"])
+            env_pairs.append((var, val))
         cmd.append(image)
         cmd.extend(rewritten_cmd)
+
+        if env_pairs:
+            cmd = ["env", *(f"SINGULARITYENV_{k}={v}" for k, v in env_pairs), *cmd]
 
         def cleanup() -> None:
             _sync_credentials_back_to_host(fake_home, Path.home(), home_credential_files)
