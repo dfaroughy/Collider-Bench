@@ -49,6 +49,37 @@ def test_auto_never_picks_bwrap():
     ), "auto-select returned bwrap; it should be excluded from the auto chain"
 
 
+def test_auto_prefers_apptainer_over_singularity(monkeypatch):
+    def fake_which(name):
+        if name in {"apptainer", "singularity"}:
+            return f"/usr/bin/{name}"
+        return None
+
+    monkeypatch.setattr(shutil, "which", fake_which)
+
+    assert get_sandbox("auto").name == "apptainer"
+
+
+def test_auto_falls_back_to_singularity(monkeypatch):
+    def fake_which(name):
+        return "/usr/bin/singularity" if name == "singularity" else None
+
+    monkeypatch.setattr(shutil, "which", fake_which)
+
+    assert get_sandbox("auto").name == "singularity"
+
+
+def test_apptainer_does_not_implicitly_select_singularity(monkeypatch):
+    def fake_which(name):
+        return "/usr/bin/singularity" if name == "singularity" else None
+
+    monkeypatch.setattr(shutil, "which", fake_which)
+
+    with pytest.raises(RuntimeError, match="apptainer"):
+        get_sandbox("apptainer")
+    assert get_sandbox("singularity").name == "singularity"
+
+
 def test_default_image_is_canonical_ghcr_ref():
     """Regression guard: the default image must point at the published
     canonical image, not a localhost / lhc-recast-* leftover."""
@@ -277,6 +308,35 @@ def test_apptainer_command_includes_runner_env(repo_root, tmp_path, monkeypatch)
     assert f"GEMINI_CLI_HOME={workspace / '.gemini_home'}" in envs
     assert "TERM=dumb" in envs
     assert "GROK_API_KEY=secret-key" in envs
+    assert not any(e.startswith("SHOULD_NOT_PASS=") for e in envs)
+    cleanup()
+
+
+def test_singularity_command_includes_runner_env(repo_root, tmp_path, monkeypatch):
+    def fake_which(name):
+        return "/usr/bin/singularity" if name == "singularity" else None
+
+    monkeypatch.setattr(shutil, "which", fake_which)
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "secret-key")
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/usr/bin/claude", "-p", "hi"],
+        container_env={
+            "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
+            "SHOULD_NOT_PASS": "x",
+        },
+        home_files=(),
+        secret_env_names=("DEEPSEEK_API_KEY",),
+        sandbox="singularity",
+    )
+    assert cmd[:2] == ["singularity", "exec"]
+    envs = _env_values(cmd, "--env")
+    assert "ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic" in envs
+    assert "DEEPSEEK_API_KEY=secret-key" in envs
     assert not any(e.startswith("SHOULD_NOT_PASS=") for e in envs)
     cleanup()
 

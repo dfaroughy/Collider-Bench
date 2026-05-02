@@ -45,19 +45,12 @@ RUNNER="${RUNNER:-unknown}"
 # 29 benchmark tasks. Keep this list in sync with LHCRecastBench/tasks/
 # and with the default --array=0-28.
 TASKS=(
-  exo-17-021_sim-RPVstop_res-btag
-  exo-17-021_sim-RPVstop_res-incl
-  sus-16-046_yield-T5Wg
-  sus-16-046_yield-TChiWg
+  sus-16-034_shape-TChiWZ
+  sus-16-034_sim-TChiWZ
   sus-16-046_shape-T5Wg
   sus-16-046_shape-TChiWg
   sus-16-046_sim-T5Wg
   sus-16-046_sim-TChiWg
-  sus-16-046_val-Nobs
-  sus-16-047_yield-T5Wg_highHT
-  sus-16-047_yield-T5Wg_lowHT
-  sus-16-047_yield-T6gg_highHT
-  sus-16-047_yield-T6gg_lowHT
   sus-16-047_shape-T5Wg_highHT
   sus-16-047_shape-T5Wg_lowHT
   sus-16-047_shape-T6gg_highHT
@@ -66,13 +59,11 @@ TASKS=(
   sus-16-047_sim-T5Wg_lowHT
   sus-16-047_sim-T6gg_highHT
   sus-16-047_sim-T6gg_lowHT
-  sus-16-047_val-Nobs_highHT
-  sus-16-047_val-Nobs_lowHT
-  sus-16-051_yield-T2tt
-  sus-16-051_yield-T2tt_comp
-  sus-16-051_shape-T2tt
+  sus-16-051_shape-T2tt_SRG
+  sus-16-051_shape-T2bW_SRG
   sus-16-051_shape-T2tt_comp
-  sus-16-051_sim-T2tt
+  sus-16-051_sim-T2tt_SRG
+  sus-16-051_sim-T2bW_SRG
   sus-16-051_sim-T2tt_comp
 )
 

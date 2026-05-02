@@ -19,6 +19,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "extends": (str,),
     "agent": (str,),
     "runner": (str,),
+    "provider": (str,),
     "auth": (str,),
     "model": (str,),
     "effort": (str, int),
@@ -45,11 +46,17 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
 
 _ALLOWED_AGENTS = {"simple", "baseline", "iterative", "anneal"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge"}
+_ALLOWED_PROVIDERS = {"anthropic", "openai", "google", "deepseek"}
 _ALLOWED_AUTH = {"oauth", "api"}
 _ALLOWED_COMPUTE = {"", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
-_ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "podman", "none"}
+_ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "singularity", "podman", "none"}
 _ALLOWED_ANNEAL_SCHEDULE = {"none", "linear", "cosine"}
+_API_AUTH_ENV: dict[tuple[str, str], tuple[str, ...]] = {
+    ("claude", "anthropic"): ("ANTHROPIC_API_KEY",),
+    ("claude", "deepseek"): ("DEEPSEEK_API_KEY",),
+    ("forge", "deepseek"): ("DEEPSEEK_API_KEY",),
+}
 
 
 def validate_config(cfg: dict, source: str = "<config>") -> None:
@@ -93,6 +100,11 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
     runner = cfg.get("runner")
     if runner and runner not in _ALLOWED_RUNNERS:
         raise ValueError(f"{source}: runner={runner!r}; must be one of {sorted(_ALLOWED_RUNNERS)}")
+    provider = cfg.get("provider")
+    if provider and provider not in _ALLOWED_PROVIDERS:
+        raise ValueError(
+            f"{source}: provider={provider!r}; must be one of {sorted(_ALLOWED_PROVIDERS)}"
+        )
     auth = cfg.get("auth")
     if auth is not None and auth not in _ALLOWED_AUTH:
         raise ValueError(f"{source}: auth={auth!r}; must be one of {sorted(_ALLOWED_AUTH)}")
@@ -154,6 +166,25 @@ def load_config(path: str | os.PathLike | None) -> dict:
     cfg = _load(Path(path))
     validate_config(cfg, source=str(Path(path)))
     return cfg
+
+
+def validate_api_auth_env(cfg: dict, environ: dict[str, str] | None = None) -> None:
+    """Fail early when a config requests API-key auth but required env is absent."""
+    if cfg.get("auth") != "api":
+        return
+    runner = str(cfg.get("runner") or "")
+    provider = str(cfg.get("provider") or ("anthropic" if runner == "claude" else runner))
+    required = _API_AUTH_ENV.get((runner, provider), ())
+    if not required:
+        return
+    env = environ if environ is not None else os.environ
+    missing = [name for name in required if not env.get(name)]
+    if missing:
+        exports = " ".join(f"export {name}=..." for name in missing)
+        raise ValueError(
+            f"runner={runner!r} auth='api' requires environment variable(s): "
+            f"{', '.join(missing)}. Set them before launching, e.g. `{exports}`."
+        )
 
 
 def read_agent_from_config(path: str | os.PathLike) -> str | None:

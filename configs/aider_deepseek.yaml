@@ -22,3 +22,5 @@ runner:  aider
 model:   deepseek/deepseek-chat
 effort:  medium                     # ignored by aider
 extends: base.yaml
+
+sandbox: podman

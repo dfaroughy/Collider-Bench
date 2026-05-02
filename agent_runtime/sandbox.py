@@ -15,12 +15,13 @@ Usage:
 Backend selection (first match wins):
     1. `sandbox=` kwarg passed by the caller
     2. `LHC_RECAST_SANDBOX` environment variable
-    3. auto-detect: podman → apptainer → (warn) none
+    3. auto-detect: podman → apptainer → singularity → (warn) none
 
 Available backends:
     podman    — runs the canonical lhc-bench image (default on hosts where
                 podman / podman-hpc is installed)
-    apptainer — same image via apptainer-exec (HPC sites with no podman)
+    apptainer — same image via apptainer exec (HPC sites with no podman)
+    singularity — same image via singularity exec (legacy/generic HPC)
     bwrap     — bubblewrap on host, bypasses the container; opt-in only
     none      — passthrough, no isolation (CI / debugging)
 
@@ -54,6 +55,16 @@ _RUNNER_ENV_PASSTHROUGH: tuple[str, ...] = (
     "CODEX_BIN",
     "GEMINI_BIN",
     "AIDER_BIN",
+    # Routing the Claude Code CLI at a non-Anthropic backend (e.g. DeepSeek's
+    # Anthropic-compatible endpoint at https://api.deepseek.com/anthropic).
+    # The container otherwise defaults to Anthropic and 401s.
+    "ANTHROPIC_BASE_URL",
+    "ANTHROPIC_MODEL",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+    "CLAUDE_CODE_SUBAGENT_MODEL",
+    "CLAUDE_CODE_EFFORT_LEVEL",
 )
 
 
@@ -390,7 +401,7 @@ class BwrapSandbox(Sandbox):
         return cmd, cleanup
 
 
-# ── Apptainer / Singularity (portable OCI runner, HPC-friendly) ────────────
+# ── Apptainer / Singularity (portable OCI runners, HPC-friendly) ───────────
 
 
 class ApptainerSandbox(Sandbox):
@@ -422,10 +433,10 @@ class ApptainerSandbox(Sandbox):
     name = "apptainer"
 
     def available(self) -> bool:
-        return shutil.which("apptainer") is not None or shutil.which("singularity") is not None
+        return shutil.which("apptainer") is not None
 
     def _engine(self) -> str:
-        return "apptainer" if shutil.which("apptainer") else "singularity"
+        return "apptainer"
 
     def wrap(
         self,
@@ -516,6 +527,22 @@ class ApptainerSandbox(Sandbox):
             # failed run still has the agent's state to inspect.
 
         return cmd, cleanup
+
+
+class SingularitySandbox(ApptainerSandbox):
+    """OCI-image sandbox via `singularity exec`.
+
+    Shares the Apptainer bind/env contract, but is exposed as a distinct
+    backend so `--sandbox apptainer` and `--sandbox singularity` are explicit.
+    """
+
+    name = "singularity"
+
+    def available(self) -> bool:
+        return shutil.which("singularity") is not None
+
+    def _engine(self) -> str:
+        return "singularity"
 
 
 # ── Helpers ─────────────────────────────────────────────────────────────────
@@ -744,6 +771,7 @@ class NoneSandbox(Sandbox):
 SANDBOXES: dict[str, type[Sandbox]] = {
     "bwrap": BwrapSandbox,
     "apptainer": ApptainerSandbox,
+    "singularity": SingularitySandbox,
     "podman": PodmanSandbox,
     "none": NoneSandbox,
 }
@@ -752,19 +780,19 @@ SANDBOXES: dict[str, type[Sandbox]] = {
 def _auto_select() -> Sandbox:
     """Pick the best available container backend.
 
-    Order: podman → apptainer. Both run the canonical lhc-bench image
+    Order: podman → apptainer → singularity. All run the canonical lhc-bench image
     with proper $HOME isolation via the fake-home dir built in
     `_prepare_isolated_home`. Bwrap is intentionally excluded: it
     doesn't use the image at all (runs analysis on the host conda env),
     which defeats the point of the canonical container. To force bwrap,
     pass `--sandbox bwrap` explicitly.
     """
-    for cls in (PodmanSandbox, ApptainerSandbox):
+    for cls in (PodmanSandbox, ApptainerSandbox, SingularitySandbox):
         inst = cls()
         if inst.available():
             return inst
     sys.stderr.write(
-        "sandbox: no container backend available (podman, apptainer both missing); "
+        "sandbox: no container backend available (podman, apptainer, singularity missing); "
         "falling back to 'none' (NO ISOLATION). "
         "Install one of them, or pass --sandbox bwrap / --sandbox none explicitly.\n"
     )
@@ -777,7 +805,7 @@ def get_sandbox(name: str | None = None) -> Sandbox:
     Resolution order:
       1. explicit `name` argument
       2. LHC_RECAST_SANDBOX environment variable
-      3. auto-detect: podman → apptainer → (warn) none
+      3. auto-detect: podman → apptainer → singularity → (warn) none
 
     "auto" is a valid value everywhere and means the auto-detect path.
     """

@@ -8,3 +8,5 @@ runner:  claude
 model:   claude-opus-4-7
 effort:  max              # low | medium | high | max | <int tokens>
 extends: base.yaml
+
+sandbox: podman

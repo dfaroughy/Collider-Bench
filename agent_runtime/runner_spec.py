@@ -267,10 +267,28 @@ class DeclarativeRunner(Runner):
         home_files = list(s.home_files)
         home_credential_files = list(s.home_credential_files)
         auth = (config or {}).get("auth")
+        provider = (config or {}).get("provider")
         if s.name == "claude" and auth == "api":
             home_dir_name = ".claude_api_home"
             home_files = [".claude/settings.json"]
             home_credential_files = []
+        if s.name == "claude" and auth == "api" and provider == "deepseek":
+            secret_env_names = []
+            deepseek_key = os.environ.get("DEEPSEEK_API_KEY", "")
+            env.update(
+                {
+                    "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
+                    "ANTHROPIC_MODEL": str((config or {}).get("model") or "deepseek-v4-pro[1m]"),
+                    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-pro[1m]",
+                    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-pro[1m]",
+                    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
+                    "CLAUDE_CODE_SUBAGENT_MODEL": "deepseek-v4-flash",
+                    "CLAUDE_CODE_EFFORT_LEVEL": str((config or {}).get("effort") or "max"),
+                }
+            )
+            if deepseek_key:
+                env["ANTHROPIC_AUTH_TOKEN"] = deepseek_key
+            secret_env_names.extend(("DEEPSEEK_API_KEY", "ANTHROPIC_AUTH_TOKEN"))
         if s.pre_launch_hook:
             hook = PRE_LAUNCH_HOOKS.get(s.pre_launch_hook)
             if hook is None:

@@ -7,8 +7,8 @@
 # subscription.
 #
 # Usage:
-#   bash scripts/multi-run-interactive-gemini.sh                # default: forge_deepseek
-#   bash scripts/multi-run-interactive-gemini.sh forge_deepseek
+#   bash scripts/multi-run-interactive-codex.sh                 # default: claude_sonnet
+#   bash scripts/multi-run-interactive-codex.sh claude_sonnet
 #   ...
 #
 # To run multiple (runner, model) cells in parallel, launch this script
@@ -17,7 +17,7 @@
 
 set -uo pipefail   # not -e — keep going if one task fails so the rest of the cell still runs
 
-CONFIG_LABEL="${1:-forge_deepseek}"
+CONFIG_LABEL="${1:-claude_haiku_api}"
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"
@@ -27,6 +27,7 @@ if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
   exit 2
 fi
+
 
 TASKS=(
   sus-16-034_shape-TChiWZ
@@ -50,7 +51,6 @@ TASKS=(
   sus-16-051_sim-T2bW_SRG
   sus-16-051_sim-T2tt_comp
 )
-
 
 cd "${REPO_ROOT}"
 echo "[$(date '+%F %T')] config=${CONFIG_LABEL}  sandbox=${SANDBOX}  total tasks=${#TASKS[@]}"

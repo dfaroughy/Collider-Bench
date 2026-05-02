@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 from typing import Callable
 
-from agent_runtime.config import load_config, validate_launch_inputs
+from agent_runtime.config import load_config, validate_api_auth_env, validate_launch_inputs
 from agent_runtime.effort import resolve_effort
 from agent_runtime.naming import generate_run_info
 from agent_runtime.run_info import finalize_run_info, write_run_info
@@ -53,7 +53,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--sandbox",
         default=None,
-        choices=["auto", "bwrap", "apptainer", "podman", "none"],
+        choices=["auto", "bwrap", "apptainer", "singularity", "podman", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
     parser.add_argument(
@@ -80,6 +80,10 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     args.effort = args.effort or cfg.get("effort") or "medium"
     args.sandbox = args.sandbox or cfg.get("sandbox")
     args.auth = args.auth or cfg.get("auth") or "oauth"
+    try:
+        validate_api_auth_env(vars(args))
+    except ValueError as exc:
+        parser.error(str(exc))
     return cfg
 
 

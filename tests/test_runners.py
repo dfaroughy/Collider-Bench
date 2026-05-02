@@ -88,6 +88,22 @@ def test_runner_prepare_launch_applies_before_run(tmp_path, monkeypatch):
     assert ".claude/.credentials.json" not in prep.home_files
     assert prep.home_credential_files == ()
 
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "sk-test")
+    prep = r.prepare_launch(
+        tmp_path,
+        config={
+            "auth": "api",
+            "provider": "deepseek",
+            "model": "deepseek-v4-pro[1m]",
+            "effort": "max",
+        },
+    )
+    assert prep.home_dir_name == ".claude_api_home"
+    assert prep.secret_env_names == ("DEEPSEEK_API_KEY", "ANTHROPIC_AUTH_TOKEN")
+    assert prep.env["ANTHROPIC_BASE_URL"] == "https://api.deepseek.com/anthropic"
+    assert prep.env["ANTHROPIC_AUTH_TOKEN"] == "sk-test"
+    assert prep.env["ANTHROPIC_MODEL"] == "deepseek-v4-pro[1m]"
+
     r = get_runner("codex")
     prep = r.prepare_launch(tmp_path)
     assert prep.env["CODEX_HOME"] == str(tmp_path / ".codex_home")

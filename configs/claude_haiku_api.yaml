@@ -6,7 +6,9 @@
 agent:   simple
 task:    sus-16-046_shape-TChiWg
 runner:  claude
+provider: anthropic
 auth:    api
 model:   claude-haiku-4-5
 effort:  max
+sandbox: podman
 extends: base.yaml

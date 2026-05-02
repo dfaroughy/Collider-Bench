@@ -7,11 +7,12 @@ Today there are four built-ins:
 | Backend | Status | Typical host | Network | FS isolation |
 |---|---|---|---|---|
 | `podman` | auto default when available | NERSC Perlmutter, Linux with Podman | open | yes, canonical container image |
-| `apptainer` | auto fallback | HPC sites with Apptainer/Singularity | open | yes, canonical container image |
+| `apptainer` | auto fallback | HPC sites with Apptainer | open | yes, canonical container image |
+| `singularity` | auto fallback | HPC sites with Singularity | open | yes, canonical container image |
 | `bwrap` | opt-in host sandbox | Linux with `bubblewrap` | open | yes (tmpfs + ro-binds), no container image |
 | `none`  | always available | macOS, CI, free-range debugging | open | **none — do not use for scored runs** |
 
-Selection order (first match wins): `--sandbox` flag → `sandbox:` config key → `LHC_RECAST_SANDBOX` env var → auto (`podman` → `apptainer` → `none` with a warning).
+Selection order (first match wins): `--sandbox` flag → `sandbox:` config key → `LHC_RECAST_SANDBOX` env var → auto (`podman` → `apptainer` → `singularity` → `none` with a warning).
 
 The runtime captures the choice in `run_info.json["sandbox"]` so provenance is preserved.
 
@@ -22,7 +23,7 @@ The runtime captures the choice in `run_info.json["sandbox"]` so provenance is p
 extends: base.yaml
 agent: simple
 task: sus-16-046_sim-T5Wg
-sandbox: podman       # auto | podman | apptainer | bwrap | none
+sandbox: podman       # auto | podman | apptainer | singularity | bwrap | none
 ```
 
 **Via CLI flag:**
@@ -80,7 +81,8 @@ Register it:
 SANDBOXES = {
     "bwrap":  BwrapSandbox,
     "none":   NoneSandbox,
-    "podman": PodmanSandbox,      # ← add here
+    "podman": PodmanSandbox,
+    "singularity": SingularitySandbox,  # ← add here
 }
 ```
 

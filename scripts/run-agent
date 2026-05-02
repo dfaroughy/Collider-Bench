@@ -13,6 +13,14 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
 
+# Optional local, gitignored API-key file used by API-backed runners.
+# Expected variables include ANTHROPIC_API_KEY and DEEPSEEK_API_KEY.
+API_KEYS_FILE="${LHC_RECAST_API_KEYS_FILE:-${REPO_ROOT}/.api_keys.env}"
+if [[ -f "${API_KEYS_FILE}" ]]; then
+  # shellcheck disable=SC1090
+  source "${API_KEYS_FILE}"
+fi
+
 # Conda activation is needed before we can call `python` to parse the config.
 if ! activate_lhc_analysis; then
   bootstrap_lhc_analysis
@@ -55,6 +63,21 @@ if [[ -z "${AGENT}" ]]; then
   echo "  Known agents: simple, baseline, iterative, anneal" >&2
   echo "  Example: bin/run-agent --config configs/claude_opus.yaml" >&2
   exit 2
+fi
+
+# Catch missing API-key auth before requesting an interactive allocation.
+if [[ -n "${CONFIG}" ]]; then
+  python - "${CONFIG}" <<'PY'
+import sys
+
+from agent_runtime.config import load_config, validate_api_auth_env
+
+try:
+    validate_api_auth_env(load_config(sys.argv[1]))
+except ValueError as exc:
+    print(f"run-agent: {exc}", file=sys.stderr)
+    raise SystemExit(2)
+PY
 fi
 
 case "${AGENT}" in

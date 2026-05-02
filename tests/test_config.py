@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from agent_runtime.config import load_config, validate_config
+from agent_runtime.config import load_config, validate_api_auth_env, validate_config
 
 
 CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"
@@ -51,6 +51,45 @@ def test_task_key_accepts_free_form_string():
     """Task is now a free-form task id (validated against the filesystem later)."""
     validate_config({"agent": "simple", "task": "sus-16-046_sim-TChiWg"})
     validate_config({"agent": "simple", "task": "whatever-the-user-wants"})
+
+
+def test_singularity_is_valid_sandbox_config():
+    validate_config({"sandbox": "singularity"}, source="<test>")
+
+
+def test_unknown_sandbox_rejected():
+    with pytest.raises(ValueError, match="sandbox"):
+        validate_config({"sandbox": "docker"}, source="<test>")
+
+
+@pytest.mark.parametrize(
+    "config_path",
+    [p for p in SHIPPED_CONFIGS if p.name != "base.yaml"],
+    ids=lambda p: p.name,
+)
+def test_non_base_configs_pin_sandbox(config_path):
+    cfg = load_config(str(config_path))
+    assert cfg.get("sandbox"), f"{config_path.name}: every runnable config must pin sandbox"
+    validate_config({"sandbox": cfg["sandbox"]}, source=str(config_path))
+
+
+def test_claude_api_auth_requires_anthropic_api_key():
+    cfg = {"agent": "simple", "runner": "claude", "provider": "anthropic", "auth": "api"}
+    with pytest.raises(ValueError, match="ANTHROPIC_API_KEY"):
+        validate_api_auth_env(cfg, environ={})
+
+    env_name = "ANTHROPIC" + "_API_KEY"
+    validate_api_auth_env(cfg, environ={env_name: "present"})
+
+
+def test_deepseek_api_auth_requires_deepseek_key():
+    for runner in ("claude", "forge"):
+        cfg = {"agent": "simple", "runner": runner, "provider": "deepseek", "auth": "api"}
+        with pytest.raises(ValueError, match="DEEPSEEK_API_KEY"):
+            validate_api_auth_env(cfg, environ={})
+
+        env_name = "DEEPSEEK" + "_API_KEY"
+        validate_api_auth_env(cfg, environ={env_name: "present"})
 
 
 def test_extends_chain_resolved():

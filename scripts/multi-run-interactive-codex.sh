@@ -17,7 +17,7 @@
 
 set -uo pipefail   # not -e — keep going if one task fails so the rest of the cell still runs
 
-CONFIG_LABEL="${1:-codex_gpt55}"
+CONFIG_LABEL="${1:-codex_gpt54-mini}"
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"

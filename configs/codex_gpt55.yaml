@@ -8,3 +8,5 @@ runner:  codex
 model:   gpt-5.5
 effort:  xhigh               # low | medium | high | xhigh | <int tokens>
 extends: base.yaml
+
+sandbox: podman

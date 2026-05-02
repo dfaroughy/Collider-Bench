@@ -9,3 +9,5 @@ runner:  gemini
 model:   gemini-2.5-pro
 effort:  medium
 extends: base.yaml
+
+sandbox: podman

@@ -17,17 +17,22 @@ import json
 from pathlib import Path
 
 
-def parse_session_log_usage(session_log: Path) -> dict:
+def parse_session_log_usage(session_log: Path, model: str = "") -> dict:
     """Extract usage (cost, tokens) from a claude --output-format stream-json log.
 
     Returns {} if the log is missing or unreadable. Tolerant of truncation —
     returns whatever the last `result` event contained.
 
-    Claude is the only vendor that reports `total_cost_usd` directly in the
-    stream — codex and gemini emit token counts only and route through
-    `parse_codex_usage` / `parse_gemini_usage` (cost is computed via
-    `agent_runtime.pricing`).
+    Claude reports `total_cost_usd` directly in the stream — for native
+    Anthropic Claude that's authoritative. When the Claude Code CLI is
+    pointed at a third-party backend (e.g. DeepSeek's Anthropic-compatible
+    endpoint via ANTHROPIC_BASE_URL), the CLI still emits `total_cost_usd`
+    but it's computed from Anthropic's prices applied to the third-party's
+    tokens — wrong by ~3-5×. We detect this case via the `model` arg and
+    re-price via `agent_runtime.pricing` instead.
     """
+    from agent_runtime import pricing
+
     session_log = Path(session_log) if session_log else None
     if session_log is None or not session_log.exists():
         return {}
@@ -62,7 +67,7 @@ def parse_session_log_usage(session_log: Path) -> dict:
         return {}
     if not (total_cost or input_tokens or output_tokens):
         return {}
-    return {
+    out = {
         "api_cost_usd": round(total_cost, 6),
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
@@ -71,6 +76,20 @@ def parse_session_log_usage(session_log: Path) -> dict:
         "tokens_total_billed": input_tokens + output_tokens + cache_creation,
         "n_turns": n_turns,
     }
+    # Override with table-priced cost when CC is routed to a non-Anthropic
+    # backend (the stream's total_cost_usd is wrong in that case).
+    if model and not model.startswith("claude-"):
+        # Claude's input_tokens excludes cached tokens — pass the components
+        # directly; pricing.compute_cost expects total prompt = input + cache.
+        cost, priced = pricing.compute_cost(
+            model,
+            input_tokens=input_tokens + cache_read + cache_creation,
+            output_tokens=output_tokens,
+            cached_input_tokens=cache_read,
+        )
+        out["api_cost_usd"] = cost
+        out["cost_priced"] = priced
+    return out
 
 
 def parse_codex_usage(session_log: Path, model: str) -> dict:
@@ -287,7 +306,7 @@ def parse_usage(runner: str, model: str, session_log: Path) -> dict:
     its SQLite DB.
     """
     if runner == "claude":
-        return parse_session_log_usage(session_log)
+        return parse_session_log_usage(session_log, model)
     if runner == "codex":
         return parse_codex_usage(session_log, model)
     if runner == "gemini":
