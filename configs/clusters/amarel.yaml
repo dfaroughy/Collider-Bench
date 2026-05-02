@@ -1,0 +1,14 @@
+# Rutgers Amarel overlay. Per-agent configs:
+#   extends: clusters/amarel.yaml
+#
+# Also export $LHC_BENCH_IMAGE pointing at a local .sif (Amarel ships only
+# singularity 3.1, which can't pull docker:// refs reliably) — e.g.:
+#   export LHC_BENCH_IMAGE=/scratch/$USER/lhc-bench_latest.sif
+extends:    ../base.yaml
+compute:    slurm
+partition:  main
+cpus:       4
+walltime:   "04:00:00"
+lmod_init:  /opt/sw/admin/lmod/lmod/init/bash
+modules:    singularity/3.1.0
+conda_init: $HOME/miniconda3/etc/profile.d/conda.sh

@@ -30,6 +30,13 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "cpus": (int, str),
     "walltime": (str,),
     "qos": (str,),
+    "partition": (str,),
+    "constraint": (str,),
+    # Optional cluster bootstrap. Values are passed through to agent_env.sh's
+    # run_with_compute() to source Lmod, load modules, and activate conda.
+    "lmod_init": (str,),
+    "modules": (str,),
+    "conda_init": (str,),
     "sandbox": (str,),
     "task": (str,),  # free-form task id (e.g. sus-16-046_sim-TChiWg)
     # Anneal agent: separate model / effort for the planner and examiner roles.
@@ -46,7 +53,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
 _ALLOWED_AGENTS = {"simple", "baseline", "iterative", "anneal"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge"}
 _ALLOWED_AUTH = {"oauth", "api"}
-_ALLOWED_COMPUTE = {"", "perlmutter"}
+_ALLOWED_COMPUTE = {"", "login", "slurm"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
 _ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "podman", "none"}
 _ALLOWED_ANNEAL_SCHEDULE = {"none", "linear", "cosine"}
@@ -98,7 +105,9 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
         raise ValueError(f"{source}: auth={auth!r}; must be one of {sorted(_ALLOWED_AUTH)}")
     compute = cfg.get("compute")
     if compute is not None and compute not in _ALLOWED_COMPUTE:
-        raise ValueError(f"{source}: compute={compute!r}; must be '' (login node) or 'perlmutter'")
+        raise ValueError(
+            f"{source}: compute={compute!r}; must be one of {sorted(_ALLOWED_COMPUTE)}"
+        )
     effort = cfg.get("effort")
     if (
         isinstance(effort, str)
@@ -187,7 +196,18 @@ def shell_defaults(path: str | os.PathLike) -> dict[str, str]:
     cfg = load_config(path)
     return {
         key.upper(): "" if cfg.get(key) is None else str(cfg.get(key, ""))
-        for key in ("compute", "account", "cpus", "walltime", "qos")
+        for key in (
+            "compute",
+            "account",
+            "cpus",
+            "walltime",
+            "qos",
+            "partition",
+            "constraint",
+            "lmod_init",
+            "modules",
+            "conda_init",
+        )
     }
 
 
@@ -248,7 +268,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--shell-defaults",
         metavar="CONFIG",
-        help="Print shell assignments for compute/account/cpus/walltime/qos.",
+        help="Print shell assignments for SLURM + cluster bootstrap keys.",
     )
     args = parser.parse_args(argv)
 

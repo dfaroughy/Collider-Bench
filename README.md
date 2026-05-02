@@ -35,10 +35,71 @@ export OPENAI_API_KEY=...          # for --runner codex
 export GEMINI_API_KEY=...          # for --runner gemini
 
 # 5. Run one task
-scripts/run-agent --config configs/claude_simple.yaml --task <task-id>
+scripts/run-agent --config configs/claude_opus.yaml --task <task-id>
 ```
 
 The image is OCI-compatible and works with any container runtime — `docker`, `podman`, `apptainer` (HPC), `nerdctl` (k8s). Substitute the client; the image reference stays the same.
+
+## Running on a cluster
+
+Configs are organized so the cluster setup is one line. Per-agent configs
+extend a cluster overlay under [`configs/clusters/`](configs/clusters/) that
+sets all the SLURM and bootstrap details for that site:
+
+```yaml
+# configs/claude_opus.yaml — runs on NERSC Perlmutter
+extends: clusters/perlmutter.yaml
+agent:   simple
+task:    sus-16-046_shape-TChiWg
+runner:  claude
+model:   claude-opus-4-7
+effort:  max
+```
+
+```yaml
+# configs/claude_opus_amarel.yaml — runs on Rutgers Amarel
+extends: clusters/amarel.yaml
+agent:   simple
+task:    sus-16-046_shape-TChiWg
+runner:  claude
+model:   claude-opus-4-7
+effort:  max
+```
+
+`scripts/run-agent` uses the overlay to choose `--compute slurm` and emit
+the right `salloc`/`srun` flags (partition, qos, account, constraint),
+sources the cluster's Lmod init, and activates conda inside the allocation.
+
+### Adding a new cluster
+
+Drop a YAML file under `configs/clusters/<name>.yaml` — no code changes
+needed:
+
+```yaml
+extends:    ../base.yaml
+compute:    slurm
+partition:  whatever            # any of these are optional; only emitted if set
+qos:        whatever
+constraint: whatever            # e.g. "cpu" on NERSC; unused on most clusters
+account:    whatever
+cpus:       64
+walltime:   "04:00:00"
+lmod_init:  /path/to/lmod/init/bash         # sourced before module loads
+modules:    "conda apptainer"               # space-separated, then `module load`-ed
+conda_init: $HOME/miniconda3/etc/profile.d/conda.sh   # sourced before `conda activate`
+```
+
+Per-agent configs then `extends: clusters/<name>.yaml`.
+
+### Login-node mode
+
+`extends: base.yaml` (or no overlay at all) runs on the current host —
+no SLURM allocation. Useful for laptops or quick local tests. CLI flags
+override config values, so you can also force it from the command line:
+
+```bash
+scripts/run-agent --config configs/claude_opus.yaml --compute login
+```
 
 ## Repository layout
 
@@ -134,12 +195,14 @@ escape hatch but bypasses the container.
 ## Configs
 
 Each agent + runner combo has a YAML config under [`configs/`](configs/).
-Configs use `extends: base.yaml` to pull shared compute defaults. Unknown keys
-raise at load time; see [`agent_runtime/config.py`](agent_runtime/config.py).
+Per-agent configs use `extends:` to pull in either the cluster-agnostic
+[`base.yaml`](configs/base.yaml) (login-node mode) or a cluster overlay
+under [`configs/clusters/`](configs/clusters/). Unknown keys raise at load
+time; see [`agent_runtime/config.py`](agent_runtime/config.py).
 
 ```yaml
-# configs/claude_simple.yaml
-extends: base.yaml
+# configs/claude_opus.yaml — Perlmutter
+extends: clusters/perlmutter.yaml
 agent:   simple
 task:    sus-16-047_sim-T5Wg_lowHT
 runner:  claude

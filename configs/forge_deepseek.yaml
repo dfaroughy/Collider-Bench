@@ -18,4 +18,4 @@ task:    sus-16-046_yield-TChiWg    # see LHCRecastBench/tasks/
 runner:  forge
 model:   deepseek-v4-pro            # informational; configure via `forge config`
 effort:  high                     # ignored by forge
-extends: base.yaml
+extends: clusters/perlmutter.yaml

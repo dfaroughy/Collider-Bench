@@ -158,21 +158,30 @@ bootstrap_lhc_analysis() {
 }
 
 run_with_compute() {
-  # Dispatch a Python -m invocation either to the current host (login node)
-  # or to a Perlmutter compute allocation. Caller sets PY_MODULE to the
+  # Dispatch a Python -m invocation either to the current host (login node,
+  # the default) or to a SLURM allocation. Caller sets PY_MODULE to the
   # module path (e.g. "agents.simple.run") and forwards "$@" here.
   #
   # Recognized flags (consumed here):
   #   --config PATH           load defaults from a YAML config (CLI flags still override)
-  #   --compute perlmutter    wrap in salloc/srun (default: off)
-  #   --cpus N                CPUs per task when --compute=perlmutter (default: 128)
-  #   --walltime HH:MM:SS     walltime (default: 04:00:00)
-  #   --qos NAME              qos (default: interactive)
-  #   --account NAME          SLURM account (default: unset)
+  #   --compute MODE          ""/"login" → run inline; "slurm" → wrap in salloc/srun
+  #   --cpus N                CPUs per task          (default: 4)
+  #   --walltime HH:MM:SS     walltime               (default: 04:00:00)
+  #   --partition NAME        SLURM partition        (only emitted if set)
+  #   --qos NAME              SLURM qos              (only emitted if set)
+  #   --account NAME          SLURM account          (only emitted if set)
+  #   --constraint NAME       SLURM constraint       (only emitted if set; e.g. "cpu" on NERSC)
+  #
+  # Cluster-specific bootstrap, optional, sourced from config or env:
+  #   lmod_init / LMOD_INIT_SCRIPT     path to Lmod's init/bash (e.g. /opt/cray/pe/lmod/lmod/init/bash)
+  #   modules / LHC_BENCH_MODULES      space-separated module list to `module load` (e.g. "conda singularity")
+  #   conda_init / CONDA_INIT_SCRIPT   path to conda's profile.d/conda.sh (e.g. \$HOME/miniconda3/etc/profile.d/conda.sh)
+  #
   # Anything else is forwarded verbatim to the Python module. --config is also
   # forwarded so the Python entrypoint can pick up its own defaults from the
   # same file.
-  local CONFIG="" COMPUTE="" CPUS="" WALLTIME="" QOS="" CONSTRAINT="cpu" ACCOUNT=""
+  local CONFIG="" COMPUTE="" CPUS="" WALLTIME="" QOS="" CONSTRAINT="" ACCOUNT="" PARTITION=""
+  local LMOD_INIT="" MODULES="" CONDA_INIT=""
   local -a REMAINING_ARGS=()
 
   # First pass: locate --config so its values can serve as defaults
@@ -202,16 +211,21 @@ run_with_compute() {
       --compute)   COMPUTE="$2"; shift 2 ;;
       --cpus)      CPUS="$2"; shift 2 ;;
       --walltime)  WALLTIME="$2"; shift 2 ;;
-      --qos)       QOS="$2"; shift 2 ;;
-      --account)   ACCOUNT="$2"; shift 2 ;;
-      *)           REMAINING_ARGS+=("$1"); shift ;;
+      --qos)        QOS="$2"; shift 2 ;;
+      --account)    ACCOUNT="$2"; shift 2 ;;
+      --partition)  PARTITION="$2"; shift 2 ;;
+      --constraint) CONSTRAINT="$2"; shift 2 ;;
+      *)            REMAINING_ARGS+=("$1"); shift ;;
     esac
   done
 
-  # Final defaults if neither config nor CLI set them
-  CPUS="${CPUS:-128}"
   WALLTIME="${WALLTIME:-04:00:00}"
-  QOS="${QOS:-interactive}"
+  CPUS="${CPUS:-4}"
+  # Cluster-specific bootstrap can come from the YAML config (lmod_init etc.)
+  # or from env vars. Config keys win if both are set.
+  LMOD_INIT="${LMOD_INIT:-${LMOD_INIT_SCRIPT:-}}"
+  MODULES="${MODULES:-${LHC_BENCH_MODULES:-}}"
+  CONDA_INIT="${CONDA_INIT:-${CONDA_INIT_SCRIPT:-}}"
 
   # Forward --config to the python entrypoint so it can apply its own defaults
   if [[ -n "${CONFIG}" ]]; then
@@ -225,28 +239,64 @@ run_with_compute() {
 
   cd "${REPO_ROOT}"
 
-  if [[ "${COMPUTE}" == "perlmutter" ]]; then
-    echo "Requesting Perlmutter compute node (${CPUS} CPUs, ${WALLTIME}, qos=${QOS})..."
-    local ACCT_FLAG=""
-    [[ -n "${ACCOUNT}" ]] && ACCT_FLAG="--account=${ACCOUNT}"
-    # Explicit Lmod + conda activation — login-node env vars don't propagate.
-    # PYTHONUNBUFFERED=1 keeps stream_display line-buffered when stdout is
-    # not a TTY (under srun it isn't), so progress actually streams.
-    local INNER_CMD="source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate ${LHC_BENCH_ENV_NAME} && cd '${REPO_ROOT}' && export PYTHONUNBUFFERED=1 && python -m ${PY_MODULE}"
-    local arg
-    for arg in "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"; do
-      INNER_CMD+=" $(printf '%q' "$arg")"
-    done
-    # srun --unbuffered disables srun's own line-buffering on stdout so the
-    # agent's streamed output reaches the user's terminal in real time.
-    exec salloc --nodes=1 --ntasks=1 --qos="${QOS}" \
-      --time="${WALLTIME}" --constraint="${CONSTRAINT}" \
-      --cpus-per-task="${CPUS}" ${ACCT_FLAG} \
-      srun --ntasks=1 --cpus-per-task="${CPUS}" --unbuffered \
-      bash -c "${INNER_CMD}"
-  else
+  if [[ -z "${COMPUTE}" || "${COMPUTE}" == "login" ]]; then
     exec python -m "${PY_MODULE}" "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
   fi
+
+  if [[ "${COMPUTE}" != "slurm" ]]; then
+    echo "run_with_compute: unknown compute mode '${COMPUTE}' (expected ''/'login' or 'slurm')" >&2
+    return 2
+  fi
+
+  # ── SLURM allocation ───────────────────────────────────────────────────────
+  # All SLURM args except --nodes/--ntasks/--time/--cpus-per-task are
+  # optional; we only emit the flag when the corresponding key is set in
+  # the config or on the CLI. That keeps the shape cluster-agnostic:
+  # Perlmutter sets constraint+qos+account, Amarel sets partition, etc.
+  local -a SLURM_ARGS=(
+    --nodes=1 --ntasks=1
+    --time="${WALLTIME}" --cpus-per-task="${CPUS}"
+  )
+  [[ -n "${PARTITION}"  ]] && SLURM_ARGS+=(--partition="${PARTITION}")
+  [[ -n "${QOS}"        ]] && SLURM_ARGS+=(--qos="${QOS}")
+  [[ -n "${ACCOUNT}"    ]] && SLURM_ARGS+=(--account="${ACCOUNT}")
+  [[ -n "${CONSTRAINT}" ]] && SLURM_ARGS+=(--constraint="${CONSTRAINT}")
+
+  local DESC="${CPUS} CPUs, ${WALLTIME}"
+  [[ -n "${PARTITION}"  ]] && DESC+=", partition=${PARTITION}"
+  [[ -n "${QOS}"        ]] && DESC+=", qos=${QOS}"
+  [[ -n "${CONSTRAINT}" ]] && DESC+=", constraint=${CONSTRAINT}"
+  echo "Requesting SLURM allocation (${DESC})..."
+
+  # Build the inner command. PYTHONUNBUFFERED=1 keeps stream_display
+  # line-buffered when stdout is not a TTY (under srun it isn't), so
+  # progress streams in real time.
+  local PRELUDE=""
+  if [[ -n "${LMOD_INIT}" ]]; then
+    PRELUDE="[ -f ${LMOD_INIT} ] && source ${LMOD_INIT}"
+    [[ -n "${MODULES}" ]] && PRELUDE+=" && module load ${MODULES}"
+    PRELUDE+=" 2>/dev/null;"
+  elif [[ -n "${MODULES}" ]]; then
+    # Module function may already exist (e.g. via /etc/profile); just load.
+    PRELUDE="module load ${MODULES} 2>/dev/null;"
+  fi
+
+  local CONDA_ACT=""
+  if [[ -n "${CONDA_INIT}" ]]; then
+    CONDA_ACT="source ${CONDA_INIT} && conda activate ${LHC_BENCH_ENV_NAME} && "
+  fi
+
+  local INNER_CMD="${PRELUDE} ${CONDA_ACT}cd '${REPO_ROOT}' && export PYTHONUNBUFFERED=1 && python -m ${PY_MODULE}"
+  local arg
+  for arg in "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"; do
+    INNER_CMD+=" $(printf '%q' "$arg")"
+  done
+
+  # srun --unbuffered disables srun's stdout buffering so the agent's
+  # streamed output reaches the user's terminal in real time.
+  exec salloc "${SLURM_ARGS[@]}" \
+    srun --ntasks=1 --cpus-per-task="${CPUS}" --unbuffered \
+    bash -c "${INNER_CMD}"
 }
 
 print_env_summary() {

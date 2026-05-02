@@ -1,8 +1,11 @@
 # Shared defaults. Per-agent configs pull these in via `extends: base.yaml`.
 # `task` is a task-id matching LHCRecastBench/tasks/<task-id>/ — set in the
 # per-agent config.
-compute:  perlmutter
-account:  m4539
-cpus:     128
+#
+# This base is cluster-agnostic: it runs on the login node by default. To run
+# under SLURM, extend a cluster overlay instead (e.g. `extends: clusters/perlmutter.yaml`)
+# or set `compute: slurm` plus the SLURM keys (partition / qos / account /
+# constraint) here in your config.
+compute:  ""
 walltime: "04:00:00"
-qos:      interactive
+cpus:     4

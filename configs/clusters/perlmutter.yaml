@@ -1,0 +1,12 @@
+# NERSC Perlmutter overlay. Per-agent configs:
+#   extends: clusters/perlmutter.yaml
+extends:    ../base.yaml
+compute:    slurm
+constraint: cpu
+qos:        interactive
+account:    m4539
+cpus:       128
+walltime:   "04:00:00"
+# Cray PE Lmod + the conda module Perlmutter ships with.
+lmod_init:  /opt/cray/pe/lmod/lmod/init/bash
+modules:    conda

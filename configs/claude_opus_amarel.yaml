@@ -1,0 +1,6 @@
+extends: clusters/amarel.yaml
+agent:   simple
+task:    sus-16-046_shape-TChiWg
+runner:  claude
+model:   claude-opus-4-7
+effort:  max

@@ -21,4 +21,4 @@ task:    sus-16-046_yield-TChiWg    # see LHCRecastBench/tasks/
 runner:  aider
 model:   deepseek/deepseek-chat
 effort:  medium                     # ignored by aider
-extends: base.yaml
+extends: clusters/perlmutter.yaml

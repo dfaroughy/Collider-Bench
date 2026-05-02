@@ -9,4 +9,4 @@ runner:  claude
 auth:    api
 model:   claude-opus-4-7
 effort:  max
-extends: base.yaml
+extends: clusters/perlmutter.yaml
