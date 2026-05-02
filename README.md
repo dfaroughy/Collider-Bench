@@ -1,4 +1,5 @@
-# Collider-Bench
+
+![Collider-Bench](Collider-Bench.png)
 
 This is an agentic AI benchmark for reproducing and recasting analyses published by the experimental collaborations at CERN's Large Hadron Collider.
 
