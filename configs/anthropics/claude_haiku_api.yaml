@@ -1,7 +1,7 @@
 # Usage:
 #   export ANTHROPIC_API_KEY=sk-ant-...
-#   scripts/run-agent --config configs/claude_haiku_api.yaml
-#   scripts/run-agent --config configs/claude_haiku_api.yaml --effort high
+#   scripts/run-agent --config configs/anthropics/claude_haiku_api.yaml
+#   scripts/run-agent --config configs/anthropics/claude_haiku_api.yaml --effort high
 
 agent:   simple
 task:    sus-16-046_shape-TChiWg
@@ -11,4 +11,4 @@ auth:    api
 model:   claude-haiku-4-5
 effort:  max
 sandbox: podman
-extends: base.yaml
+extends: ../utils/perlmutter_api.yaml

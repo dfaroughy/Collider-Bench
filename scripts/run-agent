@@ -6,8 +6,8 @@
 # on the CLI overrides the config value.
 #
 # Usage:
-#   run-agent --config configs/claude_opus.yaml
-#   run-agent --config configs/claude_opus.yaml --compute perlmutter
+#   run-agent --config configs/anthropics/claude_opus.yaml
+#   run-agent --config configs/anthropics/claude_opus.yaml --compute slurm
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
@@ -31,15 +31,52 @@ ensure_python_modules
 AGENT=""
 CONFIG=""
 FORWARDED=()
+CONFIG_ARG_INDEX=-1
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --agent)      AGENT="$2"; shift 2 ;;
     --agent=*)    AGENT="${1#--agent=}"; shift ;;
-    --config)     CONFIG="$2"; FORWARDED+=("$1" "$2"); shift 2 ;;
-    --config=*)   CONFIG="${1#--config=}"; FORWARDED+=("$1"); shift ;;
+    --config)     CONFIG="$2"; CONFIG_ARG_INDEX=${#FORWARDED[@]}; FORWARDED+=("$1" "$2"); shift 2 ;;
+    --config=*)   CONFIG="${1#--config=}"; CONFIG_ARG_INDEX=${#FORWARDED[@]}; FORWARDED+=("$1"); shift ;;
     *)            FORWARDED+=("$1"); shift ;;
   esac
 done
+
+resolve_config_path() {
+  local path="$1"
+  if [[ -f "${path}" ]]; then
+    printf '%s\n' "${path}"
+    return 0
+  fi
+
+  # Compatibility for parent scripts launched before configs moved into
+  # harness-specific subdirectories. Example:
+  # configs/codex_gpt55.yaml -> configs/openai/codex_gpt55.yaml.
+  local base
+  base="$(basename "${path}")"
+  mapfile -t matches < <(find "${REPO_ROOT}/configs" -mindepth 2 -maxdepth 2 -type f -name "${base}" | sort)
+  if [[ ${#matches[@]} -eq 1 ]]; then
+    printf '%s\n' "${matches[0]}"
+    return 0
+  fi
+  return 1
+}
+
+if [[ -n "${CONFIG}" ]]; then
+  if RESOLVED_CONFIG="$(resolve_config_path "${CONFIG}")"; then
+    if [[ "${RESOLVED_CONFIG}" != "${CONFIG}" ]]; then
+      echo "run-agent: resolved moved config ${CONFIG} -> ${RESOLVED_CONFIG}" >&2
+      CONFIG="${RESOLVED_CONFIG}"
+      if [[ ${CONFIG_ARG_INDEX} -ge 0 ]]; then
+        if [[ "${FORWARDED[$CONFIG_ARG_INDEX]}" == "--config" ]]; then
+          FORWARDED[$((CONFIG_ARG_INDEX + 1))]="${CONFIG}"
+        else
+          FORWARDED[$CONFIG_ARG_INDEX]="--config=${CONFIG}"
+        fi
+      fi
+    fi
+  fi
+fi
 
 # ── Resolve agent from config (follow extends: chain) ──────────────────────
 if [[ -z "${AGENT}" && -n "${CONFIG}" ]]; then
@@ -61,7 +98,7 @@ fi
 if [[ -z "${AGENT}" ]]; then
   echo "run-agent: --agent NAME required, or set \`agent:\` in --config." >&2
   echo "  Known agents: simple, baseline, iterative, anneal" >&2
-  echo "  Example: bin/run-agent --config configs/claude_opus.yaml" >&2
+  echo "  Example: bin/run-agent --config configs/anthropics/claude_opus.yaml" >&2
   exit 2
 fi
 

@@ -28,9 +28,16 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "combined_threshold": (float, int),
     "compute": (str,),
     "account": (str,),
+    "partition": (str,),
+    "constraint": (str,),
+    "nodes": (int, str),
+    "ntasks": (int, str),
     "cpus": (int, str),
     "walltime": (str,),
     "qos": (str,),
+    "salloc_extra": (str,),
+    "srun_extra": (str,),
+    "env_setup": (str,),
     "sandbox": (str,),
     "task": (str,),  # free-form task id (e.g. sus-16-046_sim-TChiWg)
     # Anneal agent: separate model / effort for the planner and examiner roles.
@@ -48,7 +55,7 @@ _ALLOWED_AGENTS = {"simple", "baseline", "iterative", "anneal"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge"}
 _ALLOWED_PROVIDERS = {"anthropic", "openai", "google", "deepseek"}
 _ALLOWED_AUTH = {"oauth", "api"}
-_ALLOWED_COMPUTE = {"", "perlmutter"}
+_ALLOWED_COMPUTE = {"", "local", "slurm", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
 _ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "singularity", "podman", "none"}
 _ALLOWED_ANNEAL_SCHEDULE = {"none", "linear", "cosine"}
@@ -110,7 +117,9 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
         raise ValueError(f"{source}: auth={auth!r}; must be one of {sorted(_ALLOWED_AUTH)}")
     compute = cfg.get("compute")
     if compute is not None and compute not in _ALLOWED_COMPUTE:
-        raise ValueError(f"{source}: compute={compute!r}; must be '' (login node) or 'perlmutter'")
+        raise ValueError(
+            f"{source}: compute={compute!r}; must be one of {sorted(_ALLOWED_COMPUTE)}"
+        )
     effort = cfg.get("effort")
     if (
         isinstance(effort, str)
@@ -218,7 +227,20 @@ def shell_defaults(path: str | os.PathLike) -> dict[str, str]:
     cfg = load_config(path)
     return {
         key.upper(): "" if cfg.get(key) is None else str(cfg.get(key, ""))
-        for key in ("compute", "account", "cpus", "walltime", "qos")
+        for key in (
+            "compute",
+            "account",
+            "partition",
+            "constraint",
+            "nodes",
+            "ntasks",
+            "cpus",
+            "walltime",
+            "qos",
+            "salloc_extra",
+            "srun_extra",
+            "env_setup",
+        )
     }
 
 
@@ -279,7 +301,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--shell-defaults",
         metavar="CONFIG",
-        help="Print shell assignments for compute/account/cpus/walltime/qos.",
+        help=(
+            "Print shell assignments for "
+            "compute/account/partition/constraint/nodes/ntasks/cpus/walltime/qos/"
+            "salloc_extra/srun_extra/env_setup."
+        ),
     )
     args = parser.parse_args(argv)
 

@@ -7,8 +7,8 @@
 # subscription.
 #
 # Usage:
-#   bash scripts/multi-run-interactive-codex.sh                 # default: claude_sonnet
-#   bash scripts/multi-run-interactive-codex.sh claude_sonnet
+#   bash scripts/multi-run-interactive-claude-api.sh            # default: anthropics/claude_haiku_api
+#   bash scripts/multi-run-interactive-claude-api.sh anthropics/claude_opus_api
 #   ...
 #
 # To run multiple (runner, model) cells in parallel, launch this script
@@ -17,9 +17,13 @@
 
 set -uo pipefail   # not -e — keep going if one task fails so the rest of the cell still runs
 
-CONFIG_LABEL="${1:-claude_haiku_api}"
+CONFIG_LABEL="${1:-anthropics/claude_haiku_api}"
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
-CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
+if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
+  CONFIG="${CONFIG_LABEL}"
+else
+  CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
+fi
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"
 SANDBOX="${LHC_RECAST_SANDBOX:-podman}"
 

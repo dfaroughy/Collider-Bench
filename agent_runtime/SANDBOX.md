@@ -20,7 +20,7 @@ The runtime captures the choice in `run_info.json["sandbox"]` so provenance is p
 
 **Via config:**
 ```yaml
-extends: base.yaml
+extends: ../utils/perlmutter_interactive.yaml
 agent: simple
 task: sus-16-046_sim-T5Wg
 sandbox: podman       # auto | podman | apptainer | singularity | bwrap | none

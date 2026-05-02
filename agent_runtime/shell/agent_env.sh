@@ -158,21 +158,29 @@ bootstrap_lhc_analysis() {
 }
 
 run_with_compute() {
-  # Dispatch a Python -m invocation either to the current host (login node)
-  # or to a Perlmutter compute allocation. Caller sets PY_MODULE to the
+  # Dispatch a Python -m invocation either to the current host/login node
+  # or to a Slurm allocation. Caller sets PY_MODULE to the
   # module path (e.g. "agents.simple.run") and forwards "$@" here.
   #
   # Recognized flags (consumed here):
   #   --config PATH           load defaults from a YAML config (CLI flags still override)
-  #   --compute perlmutter    wrap in salloc/srun (default: off)
-  #   --cpus N                CPUs per task when --compute=perlmutter (default: 128)
+  #   --compute slurm         wrap in salloc/srun (default: off)
+  #   --partition NAME        SLURM partition (default: unset)
+  #   --constraint NAME        SLURM node constraint (default: cpu)
+  #   --nodes N               SLURM nodes (default: 1)
+  #   --ntasks N              SLURM tasks (default: 1)
+  #   --cpus N                CPUs per task when --compute=slurm (default: 128)
   #   --walltime HH:MM:SS     walltime (default: 04:00:00)
   #   --qos NAME              qos (default: interactive)
   #   --account NAME          SLURM account (default: unset)
+  #   --salloc-extra FLAGS    Extra flags appended to salloc (single shell string)
+  #   --srun-extra FLAGS      Extra flags appended to srun (single shell string)
+  #   --env-setup CMD         Optional command run inside the allocation before env activation
   # Anything else is forwarded verbatim to the Python module. --config is also
   # forwarded so the Python entrypoint can pick up its own defaults from the
   # same file.
-  local CONFIG="" COMPUTE="" CPUS="" WALLTIME="" QOS="" CONSTRAINT="cpu" ACCOUNT=""
+  local CONFIG="" COMPUTE="" ACCOUNT="" PARTITION="" CONSTRAINT="" NODES="" NTASKS="" CPUS=""
+  local WALLTIME="" QOS="" SALLOC_EXTRA="" SRUN_EXTRA="" ENV_SETUP=""
   local -a REMAINING_ARGS=()
 
   # First pass: locate --config so its values can serve as defaults
@@ -181,6 +189,9 @@ run_with_compute() {
   while [[ $i -lt ${#ALL_ARGS[@]} ]]; do
     if [[ "${ALL_ARGS[$i]}" == "--config" ]]; then
       CONFIG="${ALL_ARGS[$((i+1))]}"
+      break
+    elif [[ "${ALL_ARGS[$i]}" == --config=* ]]; then
+      CONFIG="${ALL_ARGS[$i]#--config=}"
       break
     fi
     i=$((i+1))
@@ -199,16 +210,28 @@ run_with_compute() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --config)    shift 2 ;;   # consumed above; still threaded to python below
+      --config=*)  shift ;;
       --compute)   COMPUTE="$2"; shift 2 ;;
+      --partition) PARTITION="$2"; shift 2 ;;
+      --constraint) CONSTRAINT="$2"; shift 2 ;;
+      --nodes)     NODES="$2"; shift 2 ;;
+      --ntasks)    NTASKS="$2"; shift 2 ;;
       --cpus)      CPUS="$2"; shift 2 ;;
       --walltime)  WALLTIME="$2"; shift 2 ;;
       --qos)       QOS="$2"; shift 2 ;;
       --account)   ACCOUNT="$2"; shift 2 ;;
+      --salloc-extra) SALLOC_EXTRA="$2"; shift 2 ;;
+      --srun-extra)   SRUN_EXTRA="$2"; shift 2 ;;
+      --env-setup)    ENV_SETUP="$2"; shift 2 ;;
       *)           REMAINING_ARGS+=("$1"); shift ;;
     esac
   done
 
   # Final defaults if neither config nor CLI set them
+  COMPUTE="${COMPUTE:-}"
+  CONSTRAINT="${CONSTRAINT:-cpu}"
+  NODES="${NODES:-1}"
+  NTASKS="${NTASKS:-1}"
   CPUS="${CPUS:-128}"
   WALLTIME="${WALLTIME:-04:00:00}"
   QOS="${QOS:-interactive}"
@@ -225,25 +248,51 @@ run_with_compute() {
 
   cd "${REPO_ROOT}"
 
-  if [[ "${COMPUTE}" == "perlmutter" ]]; then
-    echo "Requesting Perlmutter compute node (${CPUS} CPUs, ${WALLTIME}, qos=${QOS})..."
-    local ACCT_FLAG=""
-    [[ -n "${ACCOUNT}" ]] && ACCT_FLAG="--account=${ACCOUNT}"
-    # Explicit Lmod + conda activation — login-node env vars don't propagate.
-    # PYTHONUNBUFFERED=1 keeps stream_display line-buffered when stdout is
-    # not a TTY (under srun it isn't), so progress actually streams.
-    local INNER_CMD="source /opt/cray/pe/lmod/lmod/init/bash && module load conda && conda activate ${LHC_BENCH_ENV_NAME} && cd '${REPO_ROOT}' && export PYTHONUNBUFFERED=1 && python -m ${PY_MODULE}"
+  if [[ "${COMPUTE}" == "slurm" || "${COMPUTE}" == "perlmutter" ]]; then
+    if [[ "${COMPUTE}" == "perlmutter" ]]; then
+      echo "NOTE: compute=perlmutter is accepted as a legacy alias for compute=slurm." >&2
+    fi
+    local detail="nodes=${NODES}, ntasks=${NTASKS}, cpus/task=${CPUS}, time=${WALLTIME}"
+    [[ -n "${ACCOUNT}" ]] && detail+=", account=${ACCOUNT}"
+    [[ -n "${PARTITION}" ]] && detail+=", partition=${PARTITION}"
+    [[ -n "${QOS}" ]] && detail+=", qos=${QOS}"
+    [[ -n "${CONSTRAINT}" ]] && detail+=", constraint=${CONSTRAINT}"
+    echo "Requesting Slurm allocation (${detail})..."
+
+    local -a SALLOC_ARGS=(--nodes="${NODES}" --ntasks="${NTASKS}" --time="${WALLTIME}")
+    local -a SRUN_ARGS=(--ntasks="${NTASKS}" --cpus-per-task="${CPUS}" --unbuffered)
+    [[ -n "${ACCOUNT}" ]] && SALLOC_ARGS+=(--account="${ACCOUNT}")
+    [[ -n "${PARTITION}" ]] && SALLOC_ARGS+=(--partition="${PARTITION}")
+    [[ -n "${QOS}" ]] && SALLOC_ARGS+=(--qos="${QOS}")
+    [[ -n "${CONSTRAINT}" ]] && SALLOC_ARGS+=(--constraint="${CONSTRAINT}")
+    [[ -n "${CPUS}" ]] && SALLOC_ARGS+=(--cpus-per-task="${CPUS}")
+    if [[ -n "${SALLOC_EXTRA}" ]]; then
+      # shellcheck disable=SC2206
+      local -a SALLOC_EXTRA_ARGS=(${SALLOC_EXTRA})
+      SALLOC_ARGS+=("${SALLOC_EXTRA_ARGS[@]}")
+    fi
+    if [[ -n "${SRUN_EXTRA}" ]]; then
+      # shellcheck disable=SC2206
+      local -a SRUN_EXTRA_ARGS=(${SRUN_EXTRA})
+      SRUN_ARGS+=("${SRUN_EXTRA_ARGS[@]}")
+    fi
+
+    # Source this shell library inside the allocation instead of embedding
+    # Perlmutter-specific module commands. Cluster-specific setup can be
+    # injected with `env_setup:` when activate_lhc_analysis cannot discover
+    # conda on its own.
+    local INNER_CMD=""
+    if [[ -n "${ENV_SETUP}" ]]; then
+      INNER_CMD+="${ENV_SETUP} && "
+    fi
+    INNER_CMD+="source '${REPO_ROOT}/agent_runtime/shell/agent_env.sh' && activate_lhc_analysis && cd '${REPO_ROOT}' && export PYTHONUNBUFFERED=1 && python -m ${PY_MODULE}"
     local arg
     for arg in "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"; do
       INNER_CMD+=" $(printf '%q' "$arg")"
     done
     # srun --unbuffered disables srun's own line-buffering on stdout so the
     # agent's streamed output reaches the user's terminal in real time.
-    exec salloc --nodes=1 --ntasks=1 --qos="${QOS}" \
-      --time="${WALLTIME}" --constraint="${CONSTRAINT}" \
-      --cpus-per-task="${CPUS}" ${ACCT_FLAG} \
-      srun --ntasks=1 --cpus-per-task="${CPUS}" --unbuffered \
-      bash -c "${INNER_CMD}"
+    exec salloc "${SALLOC_ARGS[@]}" srun "${SRUN_ARGS[@]}" bash -lc "${INNER_CMD}"
   else
     exec python -m "${PY_MODULE}" "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
   fi

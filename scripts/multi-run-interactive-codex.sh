@@ -8,7 +8,7 @@
 #
 # Usage:
 #   bash scripts/multi-run-interactive-codex.sh
-#   bash scripts/multi-run-interactive-codex.sh codex_gpt55
+#   bash scripts/multi-run-interactive-codex.sh openai/codex_gpt55
 #   ...
 #
 # To run multiple (runner, model) cells in parallel, launch this script
@@ -17,9 +17,13 @@
 
 set -uo pipefail   # not -e — keep going if one task fails so the rest of the cell still runs
 
-CONFIG_LABEL="${1:-codex_gpt55}"
+CONFIG_LABEL="${1:-openai/codex_gpt55}"
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
-CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
+if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
+  CONFIG="${CONFIG_LABEL}"
+else
+  CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
+fi
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"
 SANDBOX="${LHC_RECAST_SANDBOX:-podman}"
 

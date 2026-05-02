@@ -1,5 +1,5 @@
 # Usage:
-#   scripts/run-agent --config configs/gemini_pro25_simple.yaml
+#   scripts/run-agent --config configs/google/gemini_25pro.yaml
 #
 # Gemini CLI has no reasoning-budget flag — `effort` is ignored.
 
@@ -8,6 +8,6 @@ task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
 runner:  gemini
 model:   gemini-2.5-pro
 effort:  medium
-extends: base.yaml
+extends: ../utils/perlmutter_interactive.yaml
 
 sandbox: podman

@@ -7,10 +7,10 @@
 # refresh. For OAuth-backed CLIs, keep using sbatch_simple_array.sh with %1.
 #
 # Submit through:
-#   bash scripts/submit_api_parallel.sh forge_deepseek 8
+#   bash scripts/submit_api_parallel.sh forgecode/forge_deepseek 8
 #
 # Or directly:
-#   sbatch --array=0-28%8 scripts/sbatch_api_array.sh forge_deepseek
+#   sbatch --array=0-19%8 scripts/sbatch_api_array.sh forgecode/forge_deepseek
 
 #SBATCH --account=m4539
 #SBATCH --constraint=cpu
@@ -25,14 +25,18 @@
 
 set -euo pipefail
 
-CONFIG_LABEL="${1:-${CONFIG_LABEL:-forge_deepseek}}"
+CONFIG_LABEL="${1:-${CONFIG_LABEL:-forgecode/forge_deepseek}}"
 SANDBOX="${LHC_RECAST_SANDBOX:-podman}"
 
 REPO_ROOT="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)}"
 cd "${REPO_ROOT}"
 mkdir -p runs/_logs
 
-CONFIG="configs/${CONFIG_LABEL}.yaml"
+if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
+  CONFIG="${CONFIG_LABEL}"
+else
+  CONFIG="configs/${CONFIG_LABEL}.yaml"
+fi
 
 if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
@@ -42,8 +46,8 @@ fi
 RUNNER="$(awk -F: '/^runner:/ {gsub(/[ \t]/, "", $2); print $2; exit}' "${CONFIG}")"
 RUNNER="${RUNNER:-unknown}"
 
-# 29 benchmark tasks. Keep this list in sync with LHCRecastBench/tasks/
-# and with the default --array=0-28.
+# NeurIPS benchmark tasks. Keep this list in sync with scripts/neurips_tasks.txt
+# and with the default --array=0-19.
 TASKS=(
   sus-16-034_shape-TChiWZ
   sus-16-034_sim-TChiWZ

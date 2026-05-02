@@ -1,6 +1,6 @@
 # Usage:
-#   scripts/run-agent --config configs/claude_deepseek.yaml
-#   bash scripts/submit_api_parallel.sh claude_deepseek 20 0-19 --job_name claude-deepseek
+#   scripts/run-agent --config configs/anthropics/claude_deepseek.yaml
+#   bash scripts/submit_api_parallel.sh anthropics/claude_deepseek 20 0-19 --job_name claude-deepseek
 #
 # Claude Code harness routed to DeepSeek's Anthropic-compatible API.
 # Required secret in .api_keys.env:
@@ -11,7 +11,7 @@ task: sus-16-046_shape-TChiWg
 runner: claude
 provider: deepseek
 auth: api
-model: "deepseek-v4-pro[1m]"
+model: "deepseek-v4-pro"
 effort: max
 sandbox: podman
-extends: base.yaml
+extends: ../utils/perlmutter_api.yaml

@@ -1,5 +1,5 @@
 # Usage:
-#   scripts/run-agent --config configs/aider_deepseek.yaml
+#   scripts/run-agent --config configs/aider/aider_deepseek.yaml
 #
 # Aider drives many model backends through litellm. The model string is
 # of the form "<provider>/<model-id>"; auth is per-provider via the
@@ -21,6 +21,6 @@ task:    sus-16-046_yield-TChiWg    # see LHCRecastBench/tasks/
 runner:  aider
 model:   deepseek/deepseek-chat
 effort:  medium                     # ignored by aider
-extends: base.yaml
+extends: ../utils/perlmutter_api.yaml
 
 sandbox: podman

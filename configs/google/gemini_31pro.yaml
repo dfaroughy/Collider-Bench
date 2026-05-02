@@ -1,5 +1,5 @@
 # Usage:
-#   scripts/run-agent --config configs/gemini_simple.yaml
+#   scripts/run-agent --config configs/google/gemini_31pro.yaml
 #
 # Gemini CLI auto-routes between gemini-3-pro / flash / flash-lite on the
 # server side, so `model` is usually safe left empty. Set explicitly only
@@ -11,6 +11,6 @@ task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
 runner:  gemini
 model:   gemini-3-pro-preview # or flash-preview / 2.5-pro / 2.5-flash / 2.5-flash-lite; "" → auto-router
 effort:  high
-extends: base.yaml
+extends: ../utils/perlmutter_interactive.yaml
 
 sandbox: podman

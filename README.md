@@ -33,7 +33,7 @@ export OPENAI_API_KEY=...          # for --runner codex
 export GEMINI_API_KEY=...          # for --runner gemini
 
 # 5. Run one task
-scripts/run-agent --config configs/claude_simple.yaml --task <task-id> 
+scripts/run-agent --config configs/anthropics/claude_sonnet.yaml --task <task-id>
 ```
 
 The image is OCI-compatible and works with any container runtime — `docker`, `podman`, `apptainer` (HPC), `nerdctl` (k8s).
@@ -66,7 +66,7 @@ agents/
   simple/               Single-shot: one LLM call, score. (Add your own pattern
                         here by creating a sibling directory + run.py.)
 
-configs/              — YAML configs with `extends: base.yaml`
+configs/              — YAML configs grouped by harness, with shared compute profiles
 scripts/              — run-agent dispatcher, launch_eval.sh
 tests/                — pytest smoke suite (offline, no SLURM, no LLM calls)
 ```
@@ -131,17 +131,30 @@ escape hatch but bypasses the container.
 
 ## Configs
 
-Each agent + runner combo has a YAML config under [`configs/`](configs/).
-Configs use `extends: base.yaml` to pull shared compute defaults. Unknown keys
-raise at load time; see [`agent_runtime/config.py`](agent_runtime/config.py).
+Each agent + runner combo has a YAML config under [`configs/`](configs/),
+grouped by harness:
+
+- `configs/anthropics/claude_*.yaml`
+- `configs/openai/codex_*.yaml`
+- `configs/google/gemini_*.yaml`
+- `configs/forgecode/forge_*.yaml`
+- `configs/aider/aider_*.yaml`
+
+Shared launch profiles live separately:
+
+- `configs/utils/perlmutter_interactive.yaml`: interactive Slurm runs through `salloc`.
+- `configs/utils/perlmutter_api.yaml`: regular-qos defaults for API-backed batch launches.
+
+Runnable configs use `extends: ../utils/...` to pull compute defaults. Unknown keys raise at load time; see
+[`agent_runtime/config.py`](agent_runtime/config.py).
 
 ```yaml
-# configs/claude_simple.yaml
-extends: base.yaml
+# configs/anthropics/claude_sonnet.yaml
+extends: ../utils/perlmutter_interactive.yaml
 agent:   simple
 task:    sus-16-047_sim-T5Wg_lowHT
 runner:  claude
-model:   claude-opus-4-7
+model:   claude-sonnet-4-6
 effort:  medium
 ```
 

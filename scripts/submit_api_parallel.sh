@@ -3,21 +3,21 @@
 #
 # Usage:
 #   bash scripts/submit_api_parallel.sh
-#   bash scripts/submit_api_parallel.sh forge_deepseek 8
-#   bash scripts/submit_api_parallel.sh forge_deepseek 16 0-28
-#   bash scripts/submit_api_parallel.sh forge_deepseek 4 13-20
-#   bash scripts/submit_api_parallel.sh claude_haiku_api 20 0-19 --job_name haiku-test
+#   bash scripts/submit_api_parallel.sh forgecode/forge_deepseek 8
+#   bash scripts/submit_api_parallel.sh forgecode/forge_deepseek 16 0-19
+#   bash scripts/submit_api_parallel.sh forgecode/forge_deepseek 4 13-20
+#   bash scripts/submit_api_parallel.sh anthropics/claude_haiku_api 20 0-19 --job_name haiku-test
 #
 # Arguments:
-#   1. config label under configs/      default: forge_deepseek
+#   1. config label under configs/      default: forgecode/forge_deepseek
 #   2. max concurrent array elements    default: 8
-#   3. array index range                default: 0-28
+#   3. array index range                default: 0-19
 
 set -euo pipefail
 
-CONFIG_LABEL="${1:-forge_deepseek}"
+CONFIG_LABEL="${1:-forgecode/forge_deepseek}"
 PARALLEL="${2:-8}"
-ARRAY_RANGE="${3:-0-28}"
+ARRAY_RANGE="${3:-0-19}"
 shift $(( $# > 0 ? 1 : 0 ))
 shift $(( $# > 0 ? 1 : 0 ))
 shift $(( $# > 0 ? 1 : 0 ))
@@ -63,7 +63,11 @@ if [[ -f "${API_KEYS_FILE}" ]]; then
   source "${API_KEYS_FILE}"
 fi
 
-CONFIG="configs/${CONFIG_LABEL}.yaml"
+if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
+  CONFIG="${CONFIG_LABEL}"
+else
+  CONFIG="configs/${CONFIG_LABEL}.yaml"
+fi
 if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
   exit 2
@@ -118,7 +122,9 @@ case "${RUNNER}:${PROVIDER}:${AUTH}" in
     ;;
 esac
 
-JOB_NAME="${JOB_NAME:-lhc-api-${CONFIG_LABEL}}"
+SAFE_CONFIG_LABEL="${CONFIG_LABEL//\//-}"
+SAFE_CONFIG_LABEL="${SAFE_CONFIG_LABEL%.yaml}"
+JOB_NAME="${JOB_NAME:-lhc-api-${SAFE_CONFIG_LABEL}}"
 echo "submitting ${JOB_NAME}: array=${ARRAY_RANGE}%${PARALLEL}, qos=regular"
 out="$(
   sbatch \

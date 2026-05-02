@@ -1,5 +1,5 @@
 # Usage:
-#   scripts/run-agent --config configs/forge_deepseek.yaml
+#   scripts/run-agent --config configs/forgecode/forge_deepseek.yaml
 #
 # Forge (Antinomy) drives many model backends. Unlike claude/codex/gemini,
 # Forge configures the model via its own config (~/.forge/.forge.toml),
@@ -21,4 +21,4 @@ auth: api
 model:   deepseek-v4-pro            # informational; configure via `forge config`
 effort:  high                     # ignored by forge
 sandbox: podman
-extends: base.yaml
+extends: ../utils/perlmutter_api.yaml

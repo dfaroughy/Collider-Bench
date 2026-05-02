@@ -6,21 +6,23 @@ from pathlib import Path
 
 import pytest
 
-from agent_runtime.config import load_config, validate_api_auth_env, validate_config
+from agent_runtime.config import load_config, shell_defaults, validate_api_auth_env, validate_config
 
 
 CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"
-SHIPPED_CONFIGS = sorted(CONFIG_DIR.glob("*.yaml"))
+SHIPPED_CONFIGS = sorted(CONFIG_DIR.rglob("*.yaml"))
+PROFILE_CONFIGS = set((CONFIG_DIR / "utils").glob("*.yaml"))
+RUNNABLE_CONFIGS = [p for p in SHIPPED_CONFIGS if p not in PROFILE_CONFIGS]
 
 
 @pytest.mark.parametrize("config_path", SHIPPED_CONFIGS, ids=lambda p: p.name)
 def test_config_loads_and_validates(config_path):
     cfg = load_config(str(config_path))
-    # base.yaml has no `agent:` — that's intentional (it's inherited).
-    # Every other config must pin an agent and a task id.
-    if config_path.name != "base.yaml":
+    # Profile configs only carry allocation defaults; runnable harness configs
+    # must pin an agent and task id.
+    if config_path not in PROFILE_CONFIGS:
         assert cfg.get("agent") in {"simple", "baseline", "iterative", "anneal"}
-        assert cfg.get("task"), "every non-base config must set `task:` to a task id"
+        assert cfg.get("task"), "every runnable config must set `task:` to a task id"
 
 
 def test_unknown_key_rejected():
@@ -42,7 +44,7 @@ def test_yaml_bool_guard():
 def test_yaml_bool_guard_rejects_int_typed_fields():
     # bool is a subclass of int in Python; reject it explicitly for numeric
     # config fields so `max_iters: true` cannot silently pass as 1.
-    for key in ("cpus", "max_iters", "effort", "anneal_t0"):
+    for key in ("nodes", "ntasks", "cpus", "max_iters", "effort", "anneal_t0"):
         with pytest.raises(ValueError, match="must not be a bool"):
             validate_config({key: True}, source="<test>")
 
@@ -64,7 +66,7 @@ def test_unknown_sandbox_rejected():
 
 @pytest.mark.parametrize(
     "config_path",
-    [p for p in SHIPPED_CONFIGS if p.name != "base.yaml"],
+    RUNNABLE_CONFIGS,
     ids=lambda p: p.name,
 )
 def test_non_base_configs_pin_sandbox(config_path):
@@ -93,19 +95,67 @@ def test_deepseek_api_auth_requires_deepseek_key():
 
 
 def test_extends_chain_resolved():
-    """Non-base configs should inherit compute/account/qos from base.yaml.
+    """Runnable configs should inherit compute/account/qos from profile configs.
 
-    Picks any non-base shipped config; in public clones the per-vendor
+    Picks any runnable shipped config; in public clones some local development
     configs are gitignored so we fall back to skipping cleanly.
     """
-    candidates = [p for p in SHIPPED_CONFIGS if p.name != "base.yaml"]
+    candidates = RUNNABLE_CONFIGS
     if not candidates:
         pytest.skip(
-            "no non-base configs present (public clone — vendor configs "
+            "no runnable configs present (public clone — vendor configs "
             "live in the gitignored configs/{claude,codex,gemini,aider}_*.yaml)"
         )
     cfg = load_config(str(candidates[0]))
-    # Inherited from base.yaml:
-    assert cfg.get("compute") == "perlmutter"
+    # Inherited from configs/utils:
+    assert cfg.get("compute") == "slurm"
     assert cfg.get("account")
+    assert "partition" in cfg
+    assert cfg.get("constraint") == "cpu"
+    assert cfg.get("nodes") == 1
+    assert cfg.get("ntasks") == 1
     assert cfg.get("qos")
+
+
+def test_slurm_resource_keys_validate():
+    validate_config(
+        {
+            "compute": "perlmutter",
+            "account": "m4539",
+            "partition": "cpu",
+            "constraint": "cpu",
+            "nodes": 1,
+            "ntasks": 1,
+            "cpus": 16,
+            "walltime": "04:00:00",
+            "qos": "interactive",
+            "salloc_extra": "--exclusive",
+            "srun_extra": "--cpu-bind=cores",
+            "env_setup": "source ~/.bashrc",
+        },
+        source="<test>",
+    )
+
+
+def test_shell_defaults_include_slurm_resource_keys():
+    defaults = shell_defaults(CONFIG_DIR / "utils" / "perlmutter_interactive.yaml")
+    assert defaults["COMPUTE"] == "slurm"
+    assert defaults["ACCOUNT"] == "m4539"
+    assert defaults["PARTITION"] == ""
+    assert defaults["CONSTRAINT"] == "cpu"
+    assert defaults["NODES"] == "1"
+    assert defaults["NTASKS"] == "1"
+    assert defaults["CPUS"] == "128"
+    assert defaults["SALLOC_EXTRA"] == ""
+    assert defaults["SRUN_EXTRA"] == ""
+    assert defaults["ENV_SETUP"] == ""
+
+
+def test_api_profile_defaults_are_regular_qos():
+    defaults = shell_defaults(CONFIG_DIR / "utils" / "perlmutter_api.yaml")
+    assert defaults["COMPUTE"] == "slurm"
+    assert defaults["ACCOUNT"] == "m4539"
+    assert defaults["CONSTRAINT"] == "cpu"
+    assert defaults["CPUS"] == "16"
+    assert defaults["WALLTIME"] == "03:00:00"
+    assert defaults["QOS"] == "regular"

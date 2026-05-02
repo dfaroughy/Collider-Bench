@@ -1,0 +1,13 @@
+# Perlmutter interactive Slurm profile.
+compute:  slurm
+account:  m4539
+partition: ""
+constraint: cpu
+nodes:    1
+ntasks:   1
+cpus:     128
+walltime: "04:00:00"
+qos:      interactive
+salloc_extra: ""
+srun_extra: ""
+env_setup: ""

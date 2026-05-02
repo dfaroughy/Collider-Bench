@@ -1,0 +1,25 @@
+# Rutgers Amarel Slurm profile template.
+#
+# Copy or extend this profile from a runnable harness config, then set account,
+# partition, qos, and env_setup to match the Amarel allocation you intend to use.
+#
+# Example runnable config:
+#   extends: ../utils/amarel_slurm.yaml
+#
+# Notes:
+# - Leave account/qos/partition empty only if Amarel accepts site defaults.
+# - Set env_setup when conda is not discoverable in non-login Slurm shells.
+# - Prefer a modest cpu count for API-backed runs unless the task will actually
+#   shard event generation across many cores.
+compute:  slurm
+account:  ""
+partition: ""
+constraint: ""
+nodes:    1
+ntasks:   1
+cpus:     16
+walltime: "04:00:00"
+qos:      ""
+salloc_extra: ""
+srun_extra: ""
+env_setup: ""

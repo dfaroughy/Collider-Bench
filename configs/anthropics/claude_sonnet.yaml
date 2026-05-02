@@ -1,12 +1,11 @@
 # Usage:
-#   scripts/run-agent --config configs/claude_sonnet_simple.yaml
-#   scripts/run-agent --config configs/claude_sonnet_simple.yaml --effort high
+#   scripts/run-agent --config configs/anthropics/claude_sonnet.yaml
+#   scripts/run-agent --config configs/anthropics/claude_sonnet.yaml --effort high
 
 agent:   simple
 task:    sus-16-046_shape-TChiWg    # see LHCRecastBench/tasks/
 runner:  claude
 model:   claude-sonnet-4-6
 effort:  max              # low | medium | high | max | <int tokens>
-extends: base.yaml
-
 sandbox: podman
+extends: ../utils/perlmutter_interactive.yaml
