@@ -23,13 +23,9 @@ cd Collider-Bench
 pip install -e .                # pulls pyyaml, pydantic, numpy, scipy, ...
 
 # 3. Install whichever vendor agent CLI(s) you want to use, on the host.
-#    The container image carries the HEP runtime (conda env + sim stack).
-#    Vendor CLIs should be baked into that image or installed on the host;
-#    the sandbox will narrowly bind only the selected runner CLI directory.
 npm i -g @anthropic-ai/claude-code   # Claude Code → ~/.local/bin/claude
 npm i -g @openai/codex                # Codex CLI    → ~/.local/bin/codex
 npm i -g @google/gemini-cli           # Gemini CLI   → ~/.local/bin/gemini
-# (or any other agentic CLI you want — Grok, Cursor, Aider, etc.)
 
 # 4. Set the API key for whichever vendor you want to use
 export ANTHROPIC_API_KEY=...       # for --runner claude
@@ -37,10 +33,10 @@ export OPENAI_API_KEY=...          # for --runner codex
 export GEMINI_API_KEY=...          # for --runner gemini
 
 # 5. Run one task
-scripts/run-agent --config configs/claude_simple.yaml --task <task-id>
+scripts/run-agent --config configs/claude_simple.yaml --task <task-id> 
 ```
 
-The image is OCI-compatible and works with any container runtime — `docker`, `podman`, `apptainer` (HPC), `nerdctl` (k8s). Substitute the client; the image reference stays the same.
+The image is OCI-compatible and works with any container runtime — `docker`, `podman`, `apptainer` (HPC), `nerdctl` (k8s).
 
 ## Repository layout
 
