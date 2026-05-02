@@ -189,11 +189,10 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
 
     Writes:
       eval/plots/*.png   — reference vs agent histogram + ratio panel
-      eval/summary.md    — human-readable digest of score.json + plots
 
-    Best-effort: any single evaluator that errors is logged and the others
-    still run. The LLM judge stays opt-in via scripts/launch_eval.sh because
-    it costs subscription tokens.
+    `eval/score.json` is written by score_run() before this is called, and
+    is the only metric artifact — no derived summary file is produced.
+    Best-effort: any single evaluator that errors is logged.
     """
     try:
         from LHCRecastBench.evaluation._resolve import resolve_run
@@ -206,7 +205,6 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
         print(f"  WARN: skipping offline evals — {exc}")
         return
 
-    # Plot reference vs agent
     try:
         from LHCRecastBench.evaluation.plot_recast import plot_recast
 
@@ -216,16 +214,6 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
             print(f"  Plots: {len(files)} file(s) in {eval_dir / 'plots'}")
     except Exception as exc:  # noqa: BLE001
         print(f"  WARN: plot_recast failed: {exc}")
-
-    # Render summary.md (reads score.json + run_info.json)
-    try:
-        from LHCRecastBench.evaluation.render_eval import render_summary
-
-        # render_summary takes the dir containing eval/. Single-shot →
-        # rp.run_dir; per-iter → rp.eval_dir.parent (the iter dir).
-        render_summary(rp.eval_dir.parent)
-    except Exception as exc:  # noqa: BLE001
-        print(f"  WARN: render_eval failed: {exc}")
 
 
 def launch_single_run(
@@ -380,7 +368,8 @@ def launch_single_run(
                 )
                 exit_code = 1
 
-        # Offline evals: plots + summary. The LLM judge stays opt-in via
+        # Offline evals: plot ref vs agent histogram. score.json is already
+        # written by score_run() above. The LLM judge stays opt-in via
         # scripts/launch_eval.sh because it costs subscription tokens.
         _run_offline_evals(workspace, eval_dir)
     except BaseException:

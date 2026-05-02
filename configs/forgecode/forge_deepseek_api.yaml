@@ -21,4 +21,4 @@ auth: api
 model:   deepseek-v4-pro            # informational; configure via `forge config`
 effort:  high                     # ignored by forge
 sandbox: podman
-extends: ../utils/perlmutter_interactive.yaml
+extends: ../utils/perlmutter_api.yaml

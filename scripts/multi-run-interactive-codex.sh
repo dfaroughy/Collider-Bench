@@ -25,7 +25,11 @@ else
   CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
 fi
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"
-SANDBOX="${LHC_RECAST_SANDBOX:-podman}"
+SANDBOX="${LHC_RECAST_SANDBOX:-}"
+SANDBOX_ARGS=()
+if [[ -n "${SANDBOX}" ]]; then
+  SANDBOX_ARGS=(--sandbox "${SANDBOX}")
+fi
 
 if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
@@ -60,7 +64,7 @@ TASKS=(
 )
 
 cd "${REPO_ROOT}"
-echo "[$(date '+%F %T')] config=${CONFIG_LABEL}  sandbox=${SANDBOX}  total tasks=${#TASKS[@]}"
+echo "[$(date '+%F %T')] config=${CONFIG_LABEL}  sandbox=${SANDBOX:-config}  total tasks=${#TASKS[@]}"
 echo
 
 ok=0; fail=0
@@ -68,7 +72,7 @@ for i in "${!TASKS[@]}"; do
   t="${TASKS[$i]}"
   printf '\n=== [%s] task %d/%d: %s ===\n' \
          "$(date '+%F %T')" "$((i+1))" "${#TASKS[@]}" "${t}"
-  if "${RUN_AGENT}" --config "${CONFIG}" --task "${t}" --sandbox "${SANDBOX}"; then
+  if "${RUN_AGENT}" --config "${CONFIG}" --task "${t}" "${SANDBOX_ARGS[@]}"; then
     ok=$((ok+1))
   else
     rc=$?

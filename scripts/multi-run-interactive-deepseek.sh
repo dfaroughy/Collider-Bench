@@ -25,7 +25,11 @@ else
   CONFIG="${REPO_ROOT}/configs/${CONFIG_LABEL}.yaml"
 fi
 RUN_AGENT="${REPO_ROOT}/scripts/run-agent"
-SANDBOX="${LHC_RECAST_SANDBOX:-podman}"
+SANDBOX="${LHC_RECAST_SANDBOX:-}"
+SANDBOX_ARGS=()
+if [[ -n "${SANDBOX}" ]]; then
+  SANDBOX_ARGS=(--sandbox "${SANDBOX}")
+fi
 
 if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
@@ -33,11 +37,6 @@ if [[ ! -f "${CONFIG}" ]]; then
 fi
 
 TASKS=(
-  sus-16-034_shape-TChiWZ
-  sus-16-034_sim-TChiWZ
-  sus-16-046_shape-T5Wg
-  sus-16-046_shape-TChiWg
-  sus-16-046_sim-T5Wg
   sus-16-046_sim-TChiWg
   sus-16-047_shape-T5Wg_highHT
   sus-16-047_shape-T5Wg_lowHT
@@ -47,17 +46,11 @@ TASKS=(
   sus-16-047_sim-T5Wg_lowHT
   sus-16-047_sim-T6gg_highHT
   sus-16-047_sim-T6gg_lowHT
-  sus-16-051_shape-T2tt_SRG
-  sus-16-051_shape-T2bW_SRG
-  sus-16-051_shape-T2tt_comp
-  sus-16-051_sim-T2tt_SRG
-  sus-16-051_sim-T2bW_SRG
-  sus-16-051_sim-T2tt_comp
 )
 
 
 cd "${REPO_ROOT}"
-echo "[$(date '+%F %T')] config=${CONFIG_LABEL}  sandbox=${SANDBOX}  total tasks=${#TASKS[@]}"
+echo "[$(date '+%F %T')] config=${CONFIG_LABEL}  sandbox=${SANDBOX:-config}  total tasks=${#TASKS[@]}"
 echo
 
 ok=0; fail=0
@@ -65,7 +58,7 @@ for i in "${!TASKS[@]}"; do
   t="${TASKS[$i]}"
   printf '\n=== [%s] task %d/%d: %s ===\n' \
          "$(date '+%F %T')" "$((i+1))" "${#TASKS[@]}" "${t}"
-  if "${RUN_AGENT}" --config "${CONFIG}" --task "${t}" --sandbox "${SANDBOX}"; then
+  if "${RUN_AGENT}" --config "${CONFIG}" --task "${t}" "${SANDBOX_ARGS[@]}"; then
     ok=$((ok+1))
   else
     rc=$?

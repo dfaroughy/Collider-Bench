@@ -26,7 +26,11 @@
 set -euo pipefail
 
 CONFIG_LABEL="${1:-${CONFIG_LABEL:-forgecode/forge_deepseek}}"
-SANDBOX="${LHC_RECAST_SANDBOX:-podman}"
+SANDBOX="${LHC_RECAST_SANDBOX:-}"
+SANDBOX_ARGS=()
+if [[ -n "${SANDBOX}" ]]; then
+  SANDBOX_ARGS=(--sandbox "${SANDBOX}")
+fi
 
 REPO_ROOT="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)}"
 cd "${REPO_ROOT}"
@@ -72,20 +76,18 @@ fi
 # NeurIPS benchmark tasks. Keep this list in sync with scripts/neurips_tasks.txt
 # and with the default --array=0-19.
 TASKS=(
-  sus-16-034_shape-TChiWZ
-  sus-16-034_sim-TChiWZ
-  sus-16-046_shape-T5Wg
-  sus-16-046_shape-TChiWg
-  sus-16-046_sim-T5Wg
-  sus-16-046_sim-TChiWg
-  sus-16-047_shape-T5Wg_highHT
-  sus-16-047_shape-T5Wg_lowHT
-  sus-16-047_shape-T6gg_highHT
-  sus-16-047_shape-T6gg_lowHT
-  sus-16-047_sim-T5Wg_highHT
-  sus-16-047_sim-T5Wg_lowHT
-  sus-16-047_sim-T6gg_highHT
-  sus-16-047_sim-T6gg_lowHT
+  sus-16-051_shape-T2tt_SRG
+  sus-16-051_shape-T2bW_SRG
+  sus-16-051_shape-T2tt_comp
+  sus-16-051_sim-T2tt_SRG
+  sus-16-051_sim-T2bW_SRG
+  sus-16-051_sim-T2tt_comp
+  sus-16-051_shape-T2tt_SRG
+  sus-16-051_shape-T2bW_SRG
+  sus-16-051_shape-T2tt_comp
+  sus-16-051_sim-T2tt_SRG
+  sus-16-051_sim-T2bW_SRG
+  sus-16-051_sim-T2tt_comp
   sus-16-051_shape-T2tt_SRG
   sus-16-051_shape-T2bW_SRG
   sus-16-051_shape-T2tt_comp
@@ -122,7 +124,7 @@ print(load_config(sys.argv[1]).get("runner") or "unknown")
 PY
 )"
 
-echo "[$(date '+%F %T')] config=${CONFIG_LABEL} runner=${RUNNER} sandbox=${SANDBOX}"
+echo "[$(date '+%F %T')] config=${CONFIG_LABEL} runner=${RUNNER} sandbox=${SANDBOX:-config}"
 echo "[$(date '+%F %T')] idx=${SLURM_ARRAY_TASK_ID} task=${TASK_ID}"
 echo "[$(date '+%F %T')] node=$(hostname) job=${SLURM_JOB_ID} array_job=${SLURM_ARRAY_JOB_ID}"
 
@@ -133,4 +135,4 @@ exec srun --ntasks=1 --cpus-per-task="${SLURM_CPUS_PER_TASK:-16}" --unbuffered \
   python -m agents.simple.run \
     --config "${CONFIG}" \
     --task "${TASK_ID}" \
-    --sandbox "${SANDBOX}"
+    "${SANDBOX_ARGS[@]}"
