@@ -1,8 +1,0 @@
-# Shared defaults. Per-agent configs pull these in via `extends: base.yaml`.
-# `task` is a task-id matching LHCRecastBench/tasks/<task-id>/ — set in the
-# per-agent config.
-compute:  perlmutter
-account:  m4539
-cpus:     128
-walltime: "04:00:00"
-qos:      interactive
