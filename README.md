@@ -13,8 +13,9 @@ narrowly mounted from the host by the sandbox.
 ```bash
 # 1. Pull the prebuilt benchmark image using either of:
 docker pull ghcr.io/dfaroughy/lhc-bench:latest
-podman pull ghcr.io/dfaroughy/lhc-bench:latest
+singularity pull lhc-bench.sif docker://ghcr.io/dfaroughy/lhc-bench:latest
 apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
+podman pull ghcr.io/dfaroughy/lhc-bench:latest
 
 # 2. Clone the repo and install the harness
 git clone https://github.com/dfaroughy/Collider-Bench.git
