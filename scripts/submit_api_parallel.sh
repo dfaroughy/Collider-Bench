@@ -63,10 +63,37 @@ if [[ -f "${API_KEYS_FILE}" ]]; then
   source "${API_KEYS_FILE}"
 fi
 
-if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
-  CONFIG="${CONFIG_LABEL}"
-else
-  CONFIG="configs/${CONFIG_LABEL}.yaml"
+resolve_config_path() {
+  local label="$1"
+  local path
+  if [[ "${label}" == /* || "${label}" == *.yaml ]]; then
+    path="${label}"
+  else
+    path="configs/${label}.yaml"
+  fi
+  if [[ -f "${path}" ]]; then
+    printf '%s\n' "${path}"
+    return 0
+  fi
+
+  # Compatibility for old flat labels submitted around the config-layout
+  # refactor, e.g. forge_deepseek -> configs/forgecode/forge_deepseek.yaml.
+  local base
+  base="$(basename "${path}")"
+  mapfile -t matches < <(find "${REPO_ROOT}/configs" -mindepth 2 -maxdepth 2 -type f -name "${base}" | sort)
+  if [[ ${#matches[@]} -eq 1 ]]; then
+    printf '%s\n' "${matches[0]}"
+    return 0
+  fi
+  return 1
+}
+
+if ! CONFIG="$(resolve_config_path "${CONFIG_LABEL}")"; then
+  if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
+    CONFIG="${CONFIG_LABEL}"
+  else
+    CONFIG="configs/${CONFIG_LABEL}.yaml"
+  fi
 fi
 if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
@@ -78,11 +105,43 @@ if ! [[ "${PARALLEL}" =~ ^[1-9][0-9]*$ ]]; then
   exit 2
 fi
 
-RUNNER="$(awk -F: '/^runner:/ {gsub(/[ \t]/, "", $2); print $2; exit}' "${CONFIG}")"
-PROVIDER="$(awk -F: '/^provider:/ {gsub(/[ \t]/, "", $2); print $2; exit}' "${CONFIG}")"
-AUTH="$(awk -F: '/^auth:/ {gsub(/[ \t]/, "", $2); print $2; exit}' "${CONFIG}")"
-MODEL="$(awk -F: '/^model:/ {gsub(/[ \t]/, "", $2); print $2; exit}' "${CONFIG}")"
-PROVIDER="${PROVIDER:-$([[ "${RUNNER}" == "claude" ]] && echo anthropic || echo "${RUNNER}")}"
+# Config values may be inherited through `extends:`, so parse through the
+# Python config loader rather than grepping YAML.
+# shellcheck disable=SC1091
+source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
+activate_lhc_analysis
+eval "$(
+  python - "${CONFIG}" <<'PY'
+import shlex
+import sys
+
+from agent_runtime.config import load_config
+
+cfg = load_config(sys.argv[1])
+runner = str(cfg.get("runner") or "")
+provider = str(cfg.get("provider") or ("anthropic" if runner == "claude" else runner))
+auth = str(cfg.get("auth") or "")
+model = str(cfg.get("model") or "")
+resources = {
+    "ACCOUNT": cfg.get("account"),
+    "PARTITION": cfg.get("partition"),
+    "CONSTRAINT": cfg.get("constraint"),
+    "NODES": cfg.get("nodes"),
+    "NTASKS": cfg.get("ntasks"),
+    "CPUS": cfg.get("cpus"),
+    "WALLTIME": cfg.get("walltime"),
+    "QOS": cfg.get("qos"),
+}
+for key, value in {
+    "RUNNER": runner,
+    "PROVIDER": provider,
+    "AUTH": auth,
+    "MODEL": model,
+    **resources,
+}.items():
+    print(f"{key}={shlex.quote('' if value is None else str(value))}")
+PY
+)"
 
 SBATCH_EXPORT="ALL"
 case "${RUNNER}:${PROVIDER}:${AUTH}" in
@@ -125,16 +184,28 @@ esac
 SAFE_CONFIG_LABEL="${CONFIG_LABEL//\//-}"
 SAFE_CONFIG_LABEL="${SAFE_CONFIG_LABEL%.yaml}"
 JOB_NAME="${JOB_NAME:-lhc-api-${SAFE_CONFIG_LABEL}}"
-echo "submitting ${JOB_NAME}: array=${ARRAY_RANGE}%${PARALLEL}, qos=regular"
+
+SBATCH_ARGS=()
+[[ -n "${ACCOUNT:-}" ]] && SBATCH_ARGS+=(--account="${ACCOUNT}")
+[[ -n "${PARTITION:-}" ]] && SBATCH_ARGS+=(--partition="${PARTITION}")
+[[ -n "${CONSTRAINT:-}" ]] && SBATCH_ARGS+=(--constraint="${CONSTRAINT}")
+[[ -n "${QOS:-}" ]] && SBATCH_ARGS+=(--qos="${QOS}")
+[[ -n "${WALLTIME:-}" ]] && SBATCH_ARGS+=(--time="${WALLTIME}")
+[[ -n "${NODES:-}" ]] && SBATCH_ARGS+=(--nodes="${NODES}")
+[[ -n "${NTASKS:-}" ]] && SBATCH_ARGS+=(--ntasks="${NTASKS}")
+[[ -n "${CPUS:-}" ]] && SBATCH_ARGS+=(--cpus-per-task="${CPUS}")
+
+echo "submitting ${JOB_NAME}: array=${ARRAY_RANGE}%${PARALLEL}, config=${CONFIG}"
 out="$(
   sbatch \
+    "${SBATCH_ARGS[@]}" \
     --export="${SBATCH_EXPORT}" \
     --job-name="${JOB_NAME}" \
     --array="${ARRAY_RANGE}%${PARALLEL}" \
-    scripts/sbatch_api_array.sh "${CONFIG_LABEL}"
+    scripts/sbatch_api_array.sh "${CONFIG}"
 )"
 echo "${out}"
-jobid="$(echo "${out}" | grep -oE '[0-9]+' | head -1)"
+jobid="$(awk '/Submitted batch job/ {print $4; exit}' <<<"${out}")"
 
 cat <<EOF
 
@@ -149,5 +220,5 @@ results:
   runs/<runner>_<model>/<task_id>_<adj><physicist>_<hex>/
 
 single-task rerun example:
-  sbatch --job-name=${JOB_NAME}-one --array=13 scripts/sbatch_api_array.sh ${CONFIG_LABEL}
+  sbatch --job-name=${JOB_NAME}-one --array=13 scripts/sbatch_api_array.sh ${CONFIG}
 EOF

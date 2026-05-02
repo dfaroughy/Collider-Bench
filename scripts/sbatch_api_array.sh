@@ -32,19 +32,42 @@ REPO_ROOT="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}
 cd "${REPO_ROOT}"
 mkdir -p runs/_logs
 
-if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
-  CONFIG="${CONFIG_LABEL}"
-else
-  CONFIG="configs/${CONFIG_LABEL}.yaml"
-fi
+resolve_config_path() {
+  local label="$1"
+  local path
+  if [[ "${label}" == /* || "${label}" == *.yaml ]]; then
+    path="${label}"
+  else
+    path="configs/${label}.yaml"
+  fi
+  if [[ -f "${path}" ]]; then
+    printf '%s\n' "${path}"
+    return 0
+  fi
 
+  # Compatibility for old flat labels submitted around the config-layout
+  # refactor, e.g. forge_deepseek -> configs/forgecode/forge_deepseek.yaml.
+  local base
+  base="$(basename "${path}")"
+  mapfile -t matches < <(find "${REPO_ROOT}/configs" -mindepth 2 -maxdepth 2 -type f -name "${base}" | sort)
+  if [[ ${#matches[@]} -eq 1 ]]; then
+    printf '%s\n' "${matches[0]}"
+    return 0
+  fi
+  return 1
+}
+
+if ! CONFIG="$(resolve_config_path "${CONFIG_LABEL}")"; then
+  if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
+    CONFIG="${CONFIG_LABEL}"
+  else
+    CONFIG="configs/${CONFIG_LABEL}.yaml"
+  fi
+fi
 if [[ ! -f "${CONFIG}" ]]; then
   echo "config not found: ${CONFIG}" >&2
   exit 2
 fi
-
-RUNNER="$(awk -F: '/^runner:/ {gsub(/[ \t]/, "", $2); print $2; exit}' "${CONFIG}")"
-RUNNER="${RUNNER:-unknown}"
 
 # NeurIPS benchmark tasks. Keep this list in sync with scripts/neurips_tasks.txt
 # and with the default --array=0-19.
@@ -88,6 +111,16 @@ fi
 # shellcheck disable=SC1091
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
 activate_lhc_analysis
+
+RUNNER="$(
+  python - "${CONFIG}" <<'PY'
+import sys
+
+from agent_runtime.config import load_config
+
+print(load_config(sys.argv[1]).get("runner") or "unknown")
+PY
+)"
 
 echo "[$(date '+%F %T')] config=${CONFIG_LABEL} runner=${RUNNER} sandbox=${SANDBOX}"
 echo "[$(date '+%F %T')] idx=${SLURM_ARRAY_TASK_ID} task=${TASK_ID}"
