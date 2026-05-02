@@ -191,12 +191,6 @@ print(f"merged {total} events into {out}")
 PY
 ```
 
-On a 32-core node, 50k events finishes in ~30-90 s wall-clock instead
-of ~10 min single-core. The CMS-SUS-16-047 reference run
-(`sims/generate_T5Wg.py` in any successful claude_opus run) is a
-working example of this pattern and produced 50k events in well under
-5 minutes.
-
 ---
 
 ## Delphes — fast detector simulation

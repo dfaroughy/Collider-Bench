@@ -79,3 +79,4 @@ prospino_scratch/
 .api_keys.env
 .api_keys.*
 .codex
+*.sif

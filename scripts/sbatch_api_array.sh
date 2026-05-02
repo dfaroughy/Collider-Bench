@@ -15,11 +15,11 @@
 #SBATCH --account=m4539
 #SBATCH --constraint=cpu
 #SBATCH --qos=regular
-#SBATCH --time=02:40:00
+#SBATCH --time=03:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=128
-#SBATCH --array=0-28%8
+#SBATCH --cpus-per-task=16
+#SBATCH --array=0-19%20
 #SBATCH --output=runs/_logs/%x-%A_%a.out
 #SBATCH --error=runs/_logs/%x-%A_%a.err
 
@@ -92,7 +92,7 @@ echo "[$(date '+%F %T')] node=$(hostname) job=${SLURM_JOB_ID} array_job=${SLURM_
 # We are already inside the SLURM allocation, so call the simple-agent Python
 # entrypoint directly. This avoids scripts/run-agent's interactive salloc path.
 export PYTHONUNBUFFERED=1
-exec srun --ntasks=1 --cpus-per-task="${SLURM_CPUS_PER_TASK:-128}" --unbuffered \
+exec srun --ntasks=1 --cpus-per-task="${SLURM_CPUS_PER_TASK:-16}" --unbuffered \
   python -m agents.simple.run \
     --config "${CONFIG}" \
     --task "${TASK_ID}" \
