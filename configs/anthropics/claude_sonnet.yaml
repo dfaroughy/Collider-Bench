@@ -5,6 +5,7 @@
 agent:   simple
 task:    sus-16-046_shape-TChiWg    # see LHCRecastBench/tasks/
 runner:  claude
+auth:    oauth            # use Claude Code subscription login (not ANTHROPIC_API_KEY)
 model:   claude-sonnet-4-6
 effort:  max              # low | medium | high | max | <int tokens>
 sandbox: podman

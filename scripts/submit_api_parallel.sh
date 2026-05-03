@@ -143,6 +143,8 @@ for key, value in {
 PY
 )"
 
+echo "submit_api_parallel: runner=${RUNNER} provider=${PROVIDER} auth=${AUTH:-<unset>} model=${MODEL:-<unset>}" >&2
+
 SBATCH_EXPORT="ALL"
 case "${RUNNER}:${PROVIDER}:${AUTH}" in
   claude:anthropic:api)

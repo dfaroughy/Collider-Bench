@@ -13,14 +13,6 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 source "${REPO_ROOT}/agent_runtime/shell/agent_env.sh"
 
-# Optional local, gitignored API-key file used by API-backed runners.
-# Expected variables include ANTHROPIC_API_KEY and DEEPSEEK_API_KEY.
-API_KEYS_FILE="${LHC_RECAST_API_KEYS_FILE:-${REPO_ROOT}/.api_keys.env}"
-if [[ -f "${API_KEYS_FILE}" ]]; then
-  # shellcheck disable=SC1090
-  source "${API_KEYS_FILE}"
-fi
-
 # Conda activation is needed before we can call `python` to parse the config.
 if ! activate_lhc_analysis; then
   bootstrap_lhc_analysis
@@ -100,6 +92,34 @@ if [[ -z "${AGENT}" ]]; then
   echo "  Known agents: simple, baseline, iterative, anneal" >&2
   echo "  Example: bin/run-agent --config configs/anthropics/claude_opus.yaml" >&2
   exit 2
+fi
+
+# Resolve `auth` from the config (default: "oauth" when unset). The claude
+# CLI silently prefers ANTHROPIC_API_KEY over the user's OAuth login when
+# both are present, so we must not export the API key on OAuth-intended
+# runs — and must actively strip any inherited API-auth env on that path.
+AUTH="oauth"
+if [[ -n "${CONFIG}" ]]; then
+  AUTH="$(python - "${CONFIG}" <<'PY'
+import sys
+from agent_runtime.config import load_config
+
+cfg = load_config(sys.argv[1])
+print(cfg.get("auth") or "oauth")
+PY
+)"
+fi
+
+API_KEYS_FILE="${LHC_RECAST_API_KEYS_FILE:-${REPO_ROOT}/.api_keys.env}"
+if [[ "${AUTH}" == "api" ]]; then
+  if [[ -f "${API_KEYS_FILE}" ]]; then
+    # shellcheck disable=SC1090
+    source "${API_KEYS_FILE}"
+  fi
+  echo "run-agent: auth=api" >&2
+else
+  unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN ANTHROPIC_BASE_URL ANTHROPIC_MODEL
+  echo "run-agent: auth=oauth" >&2
 fi
 
 # Catch missing API-key auth before requesting an interactive allocation.

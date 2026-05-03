@@ -38,11 +38,6 @@ fi
 
 
 TASKS=(
-  sus-16-034_shape-TChiWZ
-  sus-16-034_sim-TChiWZ
-  sus-16-047_sim-T5Wg_lowHT
-  sus-16-047_sim-T6gg_highHT
-  sus-16-047_sim-T6gg_lowHT
   sus-16-051_shape-T2tt_SRG
   sus-16-051_shape-T2bW_SRG
   sus-16-051_shape-T2tt_comp
