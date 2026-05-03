@@ -11,9 +11,12 @@ import numpy as np
 import pytest
 
 from LHCRecastBench.Evals.metrics import (
+    Delta,
     baker_cousins_p_value,
     jensen_shannon,
     mean_abs_frac_error_pct,
+    per_bin_disagreement,
+    rmsle,
     total_frac_error_pct,
 )
 
@@ -62,6 +65,154 @@ def test_total_frac_error_basic():
 
 def test_total_frac_error_returns_none_on_zero_ref():
     assert total_frac_error_pct(np.array([1.0]), np.array([0.0])) is None
+
+
+# ── Δ (paper-text fractional yield difference, raw fraction not %) ──────────
+
+
+def test_Delta_zero_for_matching_totals():
+    assert Delta(np.array([10.0, 20.0]), np.array([15.0, 15.0])) == 0.0
+
+
+def test_Delta_basic():
+    # Σobs=10, Σref=20 → Δ = |10-20|/20 = 0.5
+    assert Delta(np.array([5.0, 5.0]), np.array([10.0, 10.0])) == pytest.approx(0.5)
+
+
+def test_Delta_is_total_frac_error_pct_over_100():
+    """Δ must equal total_frac_error_pct / 100 by construction."""
+    obs = np.array([7.0, 13.0, 11.0])
+    ref = np.array([5.0, 18.0, 9.0])
+    assert Delta(obs, ref) == pytest.approx(total_frac_error_pct(obs, ref) / 100.0, rel=1e-5)
+
+
+def test_Delta_returns_none_on_zero_ref():
+    assert Delta(np.array([1.0]), np.array([0.0])) is None
+
+
+def test_Delta_returns_none_on_empty():
+    assert Delta(np.array([]), np.array([])) is None
+
+
+# ── d̄ / d_max (per-bin disagreement on normalized histograms) ───────────────
+
+
+def test_per_bin_disagreement_zero_for_identical():
+    a = np.array([10.0, 20.0, 30.0])
+    d_bar, d_max = per_bin_disagreement(a, a)
+    assert d_bar == 0.0
+    assert d_max == 0.0
+
+
+def test_per_bin_disagreement_disjoint_supports():
+    """All mass in bin 0 vs all mass in bin 1: d_bar = 1 (TV), d_max = 1."""
+    p = np.array([10.0, 0.0])
+    q = np.array([0.0, 10.0])
+    d_bar, d_max = per_bin_disagreement(p, q)
+    assert d_bar == pytest.approx(1.0)
+    assert d_max == pytest.approx(1.0)
+
+
+def test_per_bin_disagreement_normalization_invariant():
+    """Scale either histogram → no change (both are unit-area normalized first)."""
+    p = np.array([1.0, 2.0, 3.0])
+    q = np.array([3.0, 2.0, 1.0])
+    a = per_bin_disagreement(p, q)
+    b = per_bin_disagreement(p * 1000, q)
+    c = per_bin_disagreement(p, q / 100)
+    assert a == b == c
+
+
+def test_per_bin_disagreement_d_bar_in_unit_interval():
+    """TV distance between probability distributions is in [0, 1]."""
+    rng = np.random.default_rng(0)
+    for _ in range(20):
+        p = rng.exponential(size=8) + 0.1
+        q = rng.exponential(size=8) + 0.1
+        d_bar, _ = per_bin_disagreement(p, q)
+        assert 0.0 <= d_bar <= 1.0 + 1e-9
+
+
+def test_per_bin_disagreement_d_max_in_unit_interval():
+    """Worst-bin probability difference is in [0, 1]."""
+    rng = np.random.default_rng(1)
+    for _ in range(20):
+        p = rng.exponential(size=8) + 0.1
+        q = rng.exponential(size=8) + 0.1
+        _, d_max = per_bin_disagreement(p, q)
+        assert 0.0 <= d_max <= 1.0 + 1e-9
+
+
+def test_per_bin_disagreement_d_max_ge_d_bar_over_K():
+    """d_max ≥ d_bar / K (since Σ|p-q|/2 ≤ K·max|p-q|/2 → max ≥ Σ/K, then ÷2)."""
+    rng = np.random.default_rng(2)
+    for _ in range(10):
+        K = 12
+        p = rng.exponential(size=K) + 0.1
+        q = rng.exponential(size=K) + 0.1
+        d_bar, d_max = per_bin_disagreement(p, q)
+        # 2·d_bar = Σ|p-q| ≤ K·max|p-q| = K·d_max → d_max ≥ 2·d_bar/K
+        assert d_max + 1e-9 >= 2 * d_bar / K
+
+
+def test_per_bin_disagreement_returns_none_on_zero_total():
+    out = per_bin_disagreement(np.array([0.0, 0.0]), np.array([1.0, 1.0]))
+    assert out == (None, None)
+
+
+def test_per_bin_disagreement_returns_none_on_size_mismatch():
+    out = per_bin_disagreement(np.array([1.0]), np.array([1.0, 2.0]))
+    assert out == (None, None)
+
+
+# ── RMSLE (raw-yield, multi-OoM log error) ───────────────────────────────────
+
+
+def test_rmsle_zero_for_identical():
+    a = np.array([10.0, 100.0, 1000.0])
+    assert rmsle(a, a) == 0.0
+
+
+def test_rmsle_basic():
+    """Predicting 10× too low on every bin: ln(10+1)-ln(100+1) ≈ -2.214 ⇒ RMSLE ≈ 2.214."""
+    obs = np.array([10.0, 10.0])
+    ref = np.array([100.0, 100.0])
+    expected = abs(np.log(11.0) - np.log(101.0))
+    assert rmsle(obs, ref) == pytest.approx(expected, abs=1e-5)
+
+
+def test_rmsle_scale_aware_across_orders_of_magnitude():
+    """Catches tail-bin disagreement that linear MSE would miss."""
+    # Same absolute error (Δ=10) on a peak (1000→1010) vs a tail (5→15)
+    # has very different log-ratio impact: peak log-ratio is tiny, tail is large.
+    peak_err = rmsle(np.array([1010.0]), np.array([1000.0]))
+    tail_err = rmsle(np.array([15.0]), np.array([5.0]))
+    assert tail_err > 5.0 * peak_err
+
+
+def test_rmsle_handles_zero_bins():
+    """+1 offset means zero counts don't blow up the log."""
+    obs = np.array([0.0, 5.0, 10.0])
+    ref = np.array([0.0, 5.0, 10.0])
+    assert rmsle(obs, ref) == 0.0
+    # And a one-sided zero (truth=0, pred=10) is finite:
+    out = rmsle(np.array([10.0]), np.array([0.0]))
+    assert out is not None
+    assert out > 0
+
+
+def test_rmsle_returns_none_on_negative():
+    """Negative inputs are undefined for RMSLE."""
+    assert rmsle(np.array([-1.0, 5.0]), np.array([2.0, 5.0])) is None
+    assert rmsle(np.array([1.0, 5.0]), np.array([-2.0, 5.0])) is None
+
+
+def test_rmsle_returns_none_on_size_mismatch():
+    assert rmsle(np.array([1.0]), np.array([1.0, 2.0])) is None
+
+
+def test_rmsle_returns_none_on_empty():
+    assert rmsle(np.array([]), np.array([])) is None
 
 
 # ── Jensen-Shannon ───────────────────────────────────────────────────────────

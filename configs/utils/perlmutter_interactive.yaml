@@ -1,4 +1,3 @@
-# Perlmutter interactive Slurm profile.
 compute:  slurm
 account:  m4539
 partition: ""

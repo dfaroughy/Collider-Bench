@@ -1,6 +1,3 @@
-# Perlmutter regular-qos profile for API-backed harnesses.
-# The sbatch API-array script owns the actual allocation today; these values
-# keep direct run-agent launches and future submit wrappers aligned.
 compute:  slurm
 account:  m4539
 partition: ""

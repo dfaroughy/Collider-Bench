@@ -70,6 +70,17 @@ ENV LHC_BENCH_ENV_NAME=lhc_analysis
 # shared libraries: libCore.so.6.38: cannot open shared object file`.
 ENV LD_LIBRARY_PATH=/opt/conda/envs/lhc_analysis/lib:${LD_LIBRARY_PATH}
 
+# Cache redirects so the agent never tries to write into a root-owned
+# directory. Under rootless podman the agent IS UID 0 inside its
+# namespace and could write anywhere, but apptainer / singularity /
+# `podman --userns=keep-id` run the agent as a non-root user against
+# this image's root-owned filesystem and would otherwise hit EPERM on
+# pip, matplotlib, or pycache writes. /tmp is always world-writable.
+ENV PIP_CACHE_DIR=/tmp/pip-cache \
+    MPLCONFIGDIR=/tmp/mpl-cache \
+    PYTHONPYCACHEPREFIX=/tmp/pycache \
+    XDG_CACHE_HOME=/tmp/xdg-cache
+
 # ── Vendored sim stack ──────────────────────────────────────────────────────
 # Baked at /opt/sim so the host's LHCRecastBench/tools/sim can be shadowed
 # by this immutable copy when the host dir doesn't ship pre-built binaries.
@@ -104,6 +115,20 @@ ENV PATH=/opt/node-global/bin:${PATH}
 # bind-mounted from the cloned repo at run time. The sandbox sets PYTHONPATH
 # to the host repo root so `from agent_runtime.* import ...` resolves there.
 # Nothing repo-side is baked into the image.
+
+# Make /opt/sim readable+executable for non-root users. The vendored sim
+# binaries land here from `COPY` with their host-side perms preserved
+# (typically 750/640 for HEP installs), which is fine under rootless
+# podman because the agent is mapped to UID 0 inside its namespace, but
+# under singularity / apptainer (no UID remap, --fakeroot disabled on
+# many clusters incl. Rutgers Amarel) the agent runs as the invoking
+# host UID and cannot read or exec these files.
+#
+# `o+rX` (capital X) only adds +x on directories and already-executable
+# files — plain data files don't accidentally become executable. We
+# intentionally don't add +w: /opt/sim is meant to be read-only at run
+# time, and agents write their scratch state under their workspace.
+RUN chmod -R o+rX /opt/sim
 
 WORKDIR /workspace
 CMD ["/bin/bash"]

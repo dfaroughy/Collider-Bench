@@ -37,14 +37,19 @@ calls them directly and assembles the JSON.
   "score_mode": "shape_norm",       // from task.toml [metrics].mode
 
   "shape": {
-    "mean_abs_frac_error_pct":  5.2,    // post-normalization, bin-by-bin
+    "mean_abs_frac_error_pct":  5.2,    // post-normalization, bin-by-bin relative
     "p_value":                  0.32,   // Baker-Cousins λ_shape, toy-calibrated
     "jensen_shannon":           0.04,   // JSD, base-2 log, in [0, 1]
-    "jensen_shannon_dist":      0.20    // sqrt(JSD), the true metric
+    "jensen_shannon_dist":      0.20,   // sqrt(JSD), the true metric
+    "d_bar":                    0.042,  // ½·L1(p,q) = total-variation distance, in [0,1]
+    "d_max":                    0.052,  // max_i |p_i − q_i|, in [0,1] (worst-bin)
+    "dmax_dbar_ratio":          1.000   // d_max / d_bar, in [1/K, 1]; 1 = single-bin failure
   },
 
   "normalization": {
-    "mean_abs_frac_error_pct":  1.8     // |Σobs − Σref| / Σref × 100
+    "mean_abs_frac_error_pct":  1.8,    // |Σobs − Σref| / Σref × 100
+    "Delta":                    0.018,  // = mean_abs_frac_error_pct / 100  (paper-text Δ)
+    "rmsle":                    0.42    // sqrt((1/K) Σ [ln(N_obs+1) − ln(N_ref+1)]²)
   }
 }
 ```
@@ -89,9 +94,37 @@ triangle inequality).
 
 - **`shape.mean_abs_frac_error_pct`** = `100 · mean_i (|p_i - q_i| / p_i)` over
   reference-positive bins, with both histograms first normalized to unit area.
-  Pure shape metric.
+  Pure shape metric. Per-bin **relative** error — small bins dominate.
+- **`shape.d_bar`** = `(1/2) · Σ_i |p_i - q_i|` on unit-area-normalized
+  histograms — the total-variation distance between p and q, in `[0, 1]`.
+  Per-bin denominator is the constant `1/K` (mean target bin) rather than each
+  bin's own value, so large bins contribute proportionally — complement to
+  `mean_abs_frac_error_pct`'s small-bin weighting.
+- **`shape.d_max`** = `max_i |p_i - q_i|` on unit-area-normalized histograms,
+  in `[0, 1]`. Worst single-bin probability difference: catches catastrophic
+  single-bin failures that integrated metrics average away. K-independent
+  (no `K·` factor) so values are comparable across tasks with different bin
+  counts. Only metric in the schema that's *not* a sum/mean.
+- **`shape.dmax_dbar_ratio`** = `d_max / d_bar`, bounded in `[1/K, 1]`.
+  Concentration of the shape disagreement: `1` means the entire L1 mass is
+  in one bin (a single-bin failure); `1/K` means the disagreement is
+  spread uniformly across all K bins. Disambiguates "concentrated outlier"
+  from "diffuse mismatch" runs that have the same `d_bar`. `null` when
+  `d_bar == 0` (perfect match).
 - **`normalization.mean_abs_frac_error_pct`** = `100 · |Σobs - Σref| / Σref`.
   Single number, naming kept symmetric with the shape block.
+- **`normalization.Delta`** = `|Σobs - Σref| / Σref` (raw fraction, no ×100).
+  Matches the Δ_norm notation in the paper: the natural scoring primitive
+  for `sim` (`shape_norm`) tasks where the absolute event rate is the
+  thing being predicted. Mathematically the same as
+  `mean_abs_frac_error_pct / 100`; both fields coexist for convenience.
+- **`normalization.rmsle`** = `sqrt((1/K) Σ_i [ln(N_obs_i + 1) − ln(N_ref_i + 1)]²)`.
+  Root-mean-squared log error on raw bin yields. Designed for non-negative
+  values that span orders of magnitude — typical of HEP histograms (signal
+  peaks at ~10⁴ events alongside tail bins at ~10). Unlike linear MSE,
+  every bin contributes on equal log-footing, so a 100× tail-bin error
+  registers as strongly as a 100× peak-bin error. The `+1` offset handles
+  zero-count bins. Unbounded above; lower = better.
 
 ## CLI
 

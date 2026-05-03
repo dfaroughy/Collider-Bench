@@ -17,7 +17,7 @@
 
 set -uo pipefail   # not -e — keep going if one task fails so the rest of the cell still runs
 
-CONFIG_LABEL="${1:-anthropics/claude_sonnet}"
+CONFIG_LABEL="${1:-anthropics/claude_haiku}"
 REPO_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 if [[ "${CONFIG_LABEL}" == /* || "${CONFIG_LABEL}" == *.yaml ]]; then
   CONFIG="${CONFIG_LABEL}"
@@ -38,9 +38,6 @@ fi
 
 
 TASKS=(
-  sus-16-034_shape-TChiWZ
-  sus-16-034_sim-TChiWZ
-  sus-16-046_shape-T5Wg
   sus-16-046_shape-TChiWg
   sus-16-046_sim-T5Wg
   sus-16-046_sim-TChiWg

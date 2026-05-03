@@ -85,7 +85,12 @@ def test_score_run_perfect_match_schema(tmp_path):
             "p_value",
             "jensen_shannon",
             "jensen_shannon_dist",
+            "d_bar",
+            "d_max",
+            "dmax_dbar_ratio",
         } <= set(s)
+        # Perfect match → d_bar = 0 → ratio is undefined (null).
+        assert s["dmax_dbar_ratio"] is None
         if s["mean_abs_frac_error_pct"] is not None:
             assert s["mean_abs_frac_error_pct"] == pytest.approx(0.0, abs=1e-6)
         if s["jensen_shannon"] is not None:
@@ -114,6 +119,36 @@ def test_score_run_writes_score_json(tmp_path):
     assert out.is_file()
     loaded = json.loads(out.read_text())
     assert loaded == result
+
+
+def test_score_run_dmax_dbar_ratio_in_expected_bounds(tmp_path):
+    """For a non-perfect prediction, ratio must lie in [1/K, 1]."""
+    # Build a perfect run, then perturb the prediction to break perfection.
+    run_dir, _task_id, _ref = _make_perfect_run(tmp_path)
+    pred_files = list((run_dir / "workspace" / "results").glob("*.yaml"))
+    assert len(pred_files) == 1
+    # Tweak one bin's value to 1.5x to introduce disagreement.
+    txt = pred_files[0].read_text()
+    # Cheap perturbation: find first numeric "value: <num>" and double it.
+    import re
+
+    new_txt, n_subs = re.subn(
+        r"(value:\s*)(\d+(?:\.\d+)?)",
+        lambda m: f"{m.group(1)}{float(m.group(2)) * 2.0}",
+        txt,
+        count=1,
+    )
+    assert n_subs == 1
+    pred_files[0].write_text(new_txt)
+
+    result = score.score_run(run_dir, n_toys=2_000)
+    s = result["shape"]
+    if s.get("d_bar") is None or s.get("d_max") is None:
+        pytest.skip("d_bar/d_max undefined for this fixture (zero-total)")
+    K = result["n_bins"]
+    ratio = s["dmax_dbar_ratio"]
+    assert ratio is not None
+    assert 1.0 / K - 1e-9 <= ratio <= 1.0 + 1e-9
 
 
 @pytest.mark.parametrize(

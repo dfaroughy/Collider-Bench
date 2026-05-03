@@ -18,13 +18,18 @@ Schema:
       "task_id": ..., "paper": ..., "header_name": ...,
       "n_bins": N, "n_filled": M, "score_mode": "shape" | "yield" | "shape_norm",
       "shape": {
-        "mean_abs_frac_error_pct":  float,    # post-normalization, bin-by-bin
+        "mean_abs_frac_error_pct":  float,    # bin-by-bin relative err, post-norm
         "p_value":                  float,    # BC λ_shape, toy-calibrated
         "jensen_shannon":           float,    # base-2 log, in [0, 1]
-        "jensen_shannon_dist":      float     # sqrt(JSD), the true metric
+        "jensen_shannon_dist":      float,    # sqrt(JSD), the true metric
+        "d_bar":                    float,    # ½·L1(p,q) = TV distance, in [0, 1]
+        "d_max":                    float,    # max_i |p_i - q_i|, in [0, 1] (worst-bin)
+        "dmax_dbar_ratio":          float     # d_max / d_bar, in [1/K, 1]; 1 = single-bin failure
       },
       "normalization": {
-        "mean_abs_frac_error_pct":  float     # |sum(obs) - sum(ref)| / sum(ref) * 100
+        "mean_abs_frac_error_pct":  float,    # |sum(obs) - sum(ref)| / sum(ref) * 100
+        "Delta":                    float,    # raw fraction (= mean_abs_frac_error_pct / 100)
+        "rmsle":                    float     # root-mean-squared log error on raw bin yields
       }
     }
 
@@ -41,9 +46,12 @@ from pathlib import Path
 
 from . import histograms, plotting
 from .metrics import (
+    Delta,
     baker_cousins_p_value,
     jensen_shannon,
     mean_abs_frac_error_pct,
+    per_bin_disagreement,
+    rmsle,
     total_frac_error_pct,
 )
 
@@ -204,6 +212,15 @@ def score_run(
         else:
             shape_bin_err = None
         jsd, jsd_dist = jensen_shannon(aligned.prediction, aligned.reference)
+        d_bar, d_max = per_bin_disagreement(aligned.prediction, aligned.reference)
+        # Concentration of the shape disagreement:
+        #   ratio = 1     → disagreement concentrated in one bin
+        #   ratio = 1/K   → disagreement spread uniformly across K bins
+        # None when d_bar == 0 (perfect match → ratio is 0/0).
+        if d_bar is None or d_max is None or d_bar == 0:
+            dmax_dbar_ratio: float | None = None
+        else:
+            dmax_dbar_ratio = round(d_max / d_bar, 6)
         bc_kwargs: dict = {"systematic_frac": task["tolerance"]}
         if n_toys is not None:
             bc_kwargs["n_toys"] = n_toys
@@ -215,11 +232,16 @@ def score_run(
             "p_value": p_shape,
             "jensen_shannon": jsd,
             "jensen_shannon_dist": jsd_dist,
+            "d_bar": d_bar,
+            "d_max": d_max,
+            "dmax_dbar_ratio": dmax_dbar_ratio,
         }
 
     if want_norm:
         out["normalization"] = {
             "mean_abs_frac_error_pct": total_frac_error_pct(aligned.prediction, aligned.reference),
+            "Delta": Delta(aligned.prediction, aligned.reference),
+            "rmsle": rmsle(aligned.prediction, aligned.reference),
         }
 
     return out

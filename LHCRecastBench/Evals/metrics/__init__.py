@@ -6,12 +6,21 @@ No registry, no class hierarchy — score.py composes them directly.
 """
 
 from .baker_cousins import baker_cousins_p_value
-from .bin_error import mean_abs_frac_error_pct, total_frac_error_pct
+from .bin_error import (
+    Delta,
+    mean_abs_frac_error_pct,
+    per_bin_disagreement,
+    rmsle,
+    total_frac_error_pct,
+)
 from .jsd import jensen_shannon
 
 __all__ = [
+    "Delta",
     "baker_cousins_p_value",
     "jensen_shannon",
     "mean_abs_frac_error_pct",
+    "per_bin_disagreement",
+    "rmsle",
     "total_frac_error_pct",
 ]

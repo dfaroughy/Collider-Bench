@@ -40,15 +40,6 @@ fi
 TASKS=(
   sus-16-034_shape-TChiWZ
   sus-16-034_sim-TChiWZ
-  sus-16-046_shape-T5Wg
-  sus-16-046_shape-TChiWg
-  sus-16-046_sim-T5Wg
-  sus-16-046_sim-TChiWg
-  sus-16-047_shape-T5Wg_highHT
-  sus-16-047_shape-T5Wg_lowHT
-  sus-16-047_shape-T6gg_highHT
-  sus-16-047_shape-T6gg_lowHT
-  sus-16-047_sim-T5Wg_highHT
   sus-16-047_sim-T5Wg_lowHT
   sus-16-047_sim-T6gg_highHT
   sus-16-047_sim-T6gg_lowHT

@@ -1,23 +1,20 @@
 #!/bin/bash
 # Run the evaluation suite on a completed benchmark run.
 #
-# Always runs: score, plot_recast, render_eval (offline, no LLM cost).
+# Always runs: LHCRecastBench.Evals.score (writes eval/score.json + eval/plots/).
 #
 # Pass --judge to run the LLM provenance audit + trajectory narrative
-# (judge_scores.json). Without --judge, evaluation is offline-only.
+# (eval/judge_scores.json + eval/judge_trajectory.md). Without --judge,
+# evaluation is offline-only.
 #
-# Results go to <run_dir>/eval/ (or <iter_dir>/eval/ for per-iter runs);
-# task_id + paper are read from run_info.json + task.toml by each tool.
+# `score.json` is the only metric artifact — no derived summary.md is
+# produced. task_id + paper are read from run_info.json + task.toml.
 #
 # Usage:
 #   ./launch_eval.sh <run_path>
 #   ./launch_eval.sh <run_path> --judge
 #
-# run_path can be any of:
-#   runs/<runner>_<model>/<task_id>_<hex>                 (top-level)
-#   runs/<runner>_<model>/<task_id>_<hex>/workspace       (artifact dir)
-#   runs/<runner>_<model>/<task_id>_<hex>/validation/iter_NNN  (per-iter)
-#   runs/<runner>_<model>/<task_id>_<hex>/workspace/results     (scoring dir)
+# run_path is the run directory: runs/<runner>_<model>/<task_id>_<hex>/
 
 set -euo pipefail
 
@@ -72,14 +69,12 @@ else
     echo "=== Evaluating $RUN_PATH (judge=off) ==="
 fi
 
-python -m LHCRecastBench.evaluation.score             "$RUN_PATH"
-python -m LHCRecastBench.evaluation.plot_recast       "$RUN_PATH"
+# score.py handles both metrics and plotting in one pass (drop --no-plots
+# to suppress PNG generation when iterating quickly).
+python -m LHCRecastBench.Evals.score "$RUN_PATH"
 
 if [ "$RUN_JUDGE" -eq 1 ]; then
-    python -m LHCRecastBench.evaluation.llm_judge "$RUN_PATH"
+    python -m LHCRecastBench.Evals.judge "$RUN_PATH"
 else
     echo "Skipping LLM judge (pass --judge to run it)"
 fi
-
-# render_eval resolves its own output dir from the run path.
-python -m LHCRecastBench.evaluation.render_eval       "$RUN_PATH"
