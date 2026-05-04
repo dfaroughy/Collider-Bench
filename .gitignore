@@ -80,3 +80,4 @@ prospino_scratch/
 .api_keys.*
 .codex
 *.sif
+_evaluation_deprecated/

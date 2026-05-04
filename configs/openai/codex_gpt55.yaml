@@ -1,10 +1,10 @@
 # Usage:
 #   scripts/run-agent --config configs/openai/codex_gpt55.yaml
 #   scripts/run-agent --config configs/openai/codex_gpt55.yaml --effort high
-
 agent:   simple
 task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
 runner:  codex
+auth:    oauth            # use Claude Code subscription login (not ANTHROPIC_API_KEY)
 model:   gpt-5.5
 effort:  xhigh               # low | medium | high | xhigh | <int tokens>
 sandbox: podman
