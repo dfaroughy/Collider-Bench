@@ -9,7 +9,7 @@ context; it was not available to the agent during the run and the judge must
 not penalize the agent for failing to compare against it.
 
 Usage:
-    python -m LHCRecastBench.evaluation.llm_judge <run_dir_or_workspace>
+    python -m LHCRecastBench.Evals.judge <run_dir_or_workspace>
 """
 
 from __future__ import annotations

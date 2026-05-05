@@ -169,15 +169,13 @@ def _default_score(workspace: Path) -> dict:
     dict rather than raising, so a scoring failure doesn't mask the run.
     """
     try:
-        from LHCRecastBench.evaluation._resolve import resolve_run
-        from LHCRecastBench.evaluation.score import score_run
+        from LHCRecastBench.Evals import score
     except ImportError as exc:
         return {"error": f"eval import failed: {exc}"}
     try:
-        rp = resolve_run(workspace)
+        return score.score_run(workspace.parent)
     except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
         return {"error": str(exc)}
-    return score_run(rp)
 
 
 # Scoring hook type — injectable via launch_single_run(..., score=...).
@@ -195,25 +193,29 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
     Best-effort: any single evaluator that errors is logged.
     """
     try:
-        from LHCRecastBench.evaluation._resolve import resolve_run
+        from LHCRecastBench.Evals import score
     except ImportError as exc:
         print(f"  WARN: skipping offline evals — eval modules not importable: {exc}")
         return
-    try:
-        rp = resolve_run(workspace)
-    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
-        print(f"  WARN: skipping offline evals — {exc}")
+    score_path = eval_dir / "score.json"
+    if not score_path.is_file():
+        print(f"  WARN: skipping plots — no {score_path}")
         return
+    try:
+        result = json.loads(score_path.read_text())
+    except Exception as exc:  # noqa: BLE001
+        print(f"  WARN: skipping plots — could not parse score.json: {exc}")
+        return
+    if "error" in result:
+        return  # nothing to plot from a failed score
 
     try:
-        from LHCRecastBench.evaluation.plot_recast import plot_recast
-
-        plot_result = plot_recast(rp)
-        files = plot_result.get("files") if isinstance(plot_result, dict) else None
+        score._emit(workspace.parent, result, with_plots=True)
+        files = list((eval_dir / "plots").glob("*.png")) if (eval_dir / "plots").is_dir() else []
         if files:
             print(f"  Plots: {len(files)} file(s) in {eval_dir / 'plots'}")
     except Exception as exc:  # noqa: BLE001
-        print(f"  WARN: plot_recast failed: {exc}")
+        print(f"  WARN: plot generation failed: {exc}")
 
 
 def launch_single_run(
@@ -348,12 +350,20 @@ def launch_single_run(
         else:
             n_filled = scores.get("n_filled", 0)
             n_bins = scores.get("n_bins", 0)
-            sh = scores.get("overall_shape")
-            no = scores.get("overall_normalization")
-            cb = scores.get("overall_combined")
+            shape_block = scores.get("shape") or {}
+            norm_block = scores.get("normalization") or {}
             print(f"  Filled: {n_filled}/{n_bins} bins")
-            if sh is not None and no is not None:
-                print(f"  Shape: {sh:.2f}   Norm: {no:.2f}   Combined: {cb:.2f}")
+            if shape_block:
+                p = shape_block.get("p_value")
+                jsd = shape_block.get("jensen_shannon")
+                if p is not None:
+                    print(
+                        f"  Shape: bin_err={shape_block.get('mean_abs_frac_error_pct')}%  p={p}  JSD={jsd}"
+                    )
+            if norm_block:
+                fe = norm_block.get("mean_abs_frac_error_pct")
+                if fe is not None:
+                    print(f"  Norm: frac_err={fe}%")
             # Agent CLIs sometimes exit cleanly (rc=0) but never reach the
             # scoring step — e.g. Claude Code returns rc=0 with a 429 result
             # event when the 5-hour subscription cap rejects the request, and

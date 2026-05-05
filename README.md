@@ -80,21 +80,16 @@ the run workspace as `results/*.yaml`.
 Task families:
 
 - `sim`: reproduce the distribution shape and normalization.
-- `shape`: reproduce only the distribution shape; normalization is not scored.
-- `yield`: estimate the inclusive event yield only.
-- `val`: reproduce validation data counts.
+- `shape` (diagnostics task): reproduce only the distribution shape; normalization is not scored.
 
 | Task id | Paper | Kind | Metric | Plot units |
 |---|---|---|---|---|
-| `exo-17-021_sim-RPVstop_res-btag` | CMS-EXO-17-021 | sim | shape+norm | Events/bin |
-| `exo-17-021_sim-RPVstop_res-incl` | CMS-EXO-17-021 | sim | shape+norm | Events/bin |
+| `sus-16-034_shape-TChiWZ` | CMS-SUS-16-034 | shape | shape | Events/bin |
+| `sus-16-034_sim-TChiWZ` | CMS-SUS-16-034 | sim | shape+norm | Events/bin |
 | `sus-16-046_shape-T5Wg` | CMS-SUS-16-046 | shape | shape | Events/bin |
 | `sus-16-046_shape-TChiWg` | CMS-SUS-16-046 | shape | shape | Events/bin |
 | `sus-16-046_sim-T5Wg` | CMS-SUS-16-046 | sim | shape+norm | Events/GeV |
 | `sus-16-046_sim-TChiWg` | CMS-SUS-16-046 | sim | shape+norm | Events/bin |
-| `sus-16-046_val-Nobs` | CMS-SUS-16-046 | val | shape+norm | Events/bin |
-| `sus-16-046_yield-T5Wg` | CMS-SUS-16-046 | yield | yield | Events/bin |
-| `sus-16-046_yield-TChiWg` | CMS-SUS-16-046 | yield | yield | Events/bin |
 | `sus-16-047_shape-T5Wg_highHT` | CMS-SUS-16-047 | shape | shape | Events/bin |
 | `sus-16-047_shape-T5Wg_lowHT` | CMS-SUS-16-047 | shape | shape | Events/bin |
 | `sus-16-047_shape-T6gg_highHT` | CMS-SUS-16-047 | shape | shape | Events/bin |
@@ -103,18 +98,12 @@ Task families:
 | `sus-16-047_sim-T5Wg_lowHT` | CMS-SUS-16-047 | sim | shape+norm | Events/bin |
 | `sus-16-047_sim-T6gg_highHT` | CMS-SUS-16-047 | sim | shape+norm | Events/bin |
 | `sus-16-047_sim-T6gg_lowHT` | CMS-SUS-16-047 | sim | shape+norm | Events/bin |
-| `sus-16-047_val-Nobs_highHT` | CMS-SUS-16-047 | val | shape+norm | Events/bin |
-| `sus-16-047_val-Nobs_lowHT` | CMS-SUS-16-047 | val | shape+norm | Events/bin |
-| `sus-16-047_yield-T5Wg_highHT` | CMS-SUS-16-047 | yield | yield | Events/bin |
-| `sus-16-047_yield-T5Wg_lowHT` | CMS-SUS-16-047 | yield | yield | Events/bin |
-| `sus-16-047_yield-T6gg_highHT` | CMS-SUS-16-047 | yield | yield | Events/bin |
-| `sus-16-047_yield-T6gg_lowHT` | CMS-SUS-16-047 | yield | yield | Events/bin |
-| `sus-16-051_shape-T2tt` | CMS-SUS-16-051 | shape | shape | Events/bin |
+| `sus-16-051_shape-T2tt_SRG` | CMS-SUS-16-051 | shape | shape | Events/bin |
+| `sus-16-051_shape-T2bW_SRG` | CMS-SUS-16-051 | shape | shape | Events/bin |
 | `sus-16-051_shape-T2tt_comp` | CMS-SUS-16-051 | shape | shape | Events/bin |
-| `sus-16-051_sim-T2tt` | CMS-SUS-16-051 | sim | shape+norm | Events/bin |
+| `sus-16-051_sim-T2tt_SRG` | CMS-SUS-16-051 | sim | shape+norm | Events/bin |
+| `sus-16-051_sim-T2bW_SRG` | CMS-SUS-16-051 | sim | shape+norm | Events/bin |
 | `sus-16-051_sim-T2tt_comp` | CMS-SUS-16-051 | sim | shape+norm | Events/bin |
-| `sus-16-051_yield-T2tt` | CMS-SUS-16-051 | yield | yield | Events/bin |
-| `sus-16-051_yield-T2tt_comp` | CMS-SUS-16-051 | yield | yield | Events/bin |
 
 ## Sandboxing
 
@@ -138,12 +127,6 @@ grouped by harness:
 - `configs/openai/codex_*.yaml`
 - `configs/google/gemini_*.yaml`
 - `configs/forgecode/forge_*.yaml`
-- `configs/aider/aider_*.yaml`
-
-Shared launch profiles live separately:
-
-- `configs/utils/perlmutter_interactive.yaml`: interactive Slurm runs through `salloc`.
-- `configs/utils/perlmutter_api.yaml`: regular-qos defaults for API-backed batch launches.
 
 Runnable configs use `extends: ../utils/...` to pull compute defaults. Unknown keys raise at load time; see
 [`agent_runtime/config.py`](agent_runtime/config.py).

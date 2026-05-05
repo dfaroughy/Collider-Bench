@@ -1,0 +1,11 @@
+# Usage:
+#   scripts/run-agent --config configs/openai/codex_gpt54-mini.yaml
+#   scripts/run-agent --config configs/openai/codex_gpt54-mini.yaml --effort high
+agent:   simple
+task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
+runner:  codex
+auth:    oauth            # use Claude Code subscription login (not ANTHROPIC_API_KEY)
+model:   gpt-5.3-codex-spark
+effort:  xhigh               # low | medium | high | xhigh | <int tokens>
+sandbox: podman
+extends: ../utils/perlmutter_interactive.yaml

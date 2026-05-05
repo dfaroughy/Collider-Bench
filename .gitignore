@@ -81,3 +81,7 @@ prospino_scratch/
 .codex
 *.sif
 _evaluation_deprecated/
+.gitignore
+.mcp.json
+.dockerignore
+.github
