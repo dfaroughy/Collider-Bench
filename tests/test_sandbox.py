@@ -230,6 +230,55 @@ def _env_values(cmd, flag):
     return [cmd[i + 1] for i, arg in enumerate(cmd[:-1]) if arg == flag]
 
 
+def _bind_values(cmd, flag):
+    return [cmd[i + 1] for i, arg in enumerate(cmd[:-1]) if arg == flag]
+
+
+def test_podman_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None
+    )
+    workspace = tmp_path / "ws"
+    disabled = workspace / "disabled_tools" / "delphes"
+    disabled.mkdir(parents=True)
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/usr/bin/codex", "exec"],
+        container_env={"CODEX_HOME": str(workspace / ".codex_home")},
+        home_files=(),
+        sandbox="podman",
+    )
+    binds = _bind_values(cmd, "-v")
+    assert f"{disabled}:/opt/sim/delphes:ro" in binds
+    assert f"{disabled}:{repo_root / 'LHCRecastBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
+    cleanup()
+
+
+def test_apptainer_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch):
+    def fake_which(name):
+        return "/usr/bin/apptainer" if name == "apptainer" else None
+
+    monkeypatch.setattr(shutil, "which", fake_which)
+    workspace = tmp_path / "ws"
+    disabled = workspace / "disabled_tools" / "delphes"
+    disabled.mkdir(parents=True)
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/usr/bin/gemini", "-p", "hi"],
+        container_env={"GEMINI_CLI_HOME": str(workspace / ".gemini_home")},
+        home_files=(),
+        sandbox="apptainer",
+    )
+    binds = _bind_values(cmd, "--bind")
+    assert f"{disabled}:/opt/sim/delphes:ro" in binds
+    assert f"{disabled}:{repo_root / 'LHCRecastBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
+    cleanup()
+
+
 def test_podman_command_includes_runner_env(repo_root, tmp_path, monkeypatch):
     monkeypatch.setattr(
         shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None

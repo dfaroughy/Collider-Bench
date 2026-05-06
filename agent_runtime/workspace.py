@@ -21,10 +21,67 @@ from __future__ import annotations
 
 import shutil
 import urllib.request
+import textwrap
 from pathlib import Path
 
 from agent_runtime import paths
 from agent_runtime.config import load_task_toml
+
+
+_DELPHES_STUBS = (
+    "Delphes",
+    "DelphesEnv.sh",
+    "DelphesHepMC",
+    "DelphesHepMC2",
+    "DelphesHepMC3",
+    "DelphesLHEF",
+    "DelphesPythia8",
+    "DelphesROOT",
+    "DelphesSTDHEP",
+)
+_DELPHES_DISABLED_MESSAGE = "Delphes tool is disabled for this benchmark task."
+
+
+def _disabled_tools(tool_policy: dict | None) -> set[str]:
+    if not tool_policy:
+        return set()
+    disabled = tool_policy.get("disabled", [])
+    return {str(tool).lower() for tool in disabled}
+
+
+def _write_disabled_tool_stub(path: Path, message: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        textwrap.dedent(
+            f"""\
+            #!/usr/bin/env bash
+            echo "{message}" >&2
+            return 1 2>/dev/null || exit 1
+            """
+        )
+    )
+    path.chmod(0o755)
+
+
+def apply_tool_policy(workspace: Path, tool_policy: dict | None) -> None:
+    """Apply per-run tool perturbations inside the workspace.
+
+    Currently implemented policy:
+      tool_policy.disabled: ["delphes"]
+
+    The policy is intentionally enforced with workspace-local stubs and env
+    overrides, not by mutating the shared benchmark tool installation.
+    """
+    disabled = _disabled_tools(tool_policy)
+    if "delphes" not in disabled:
+        return
+
+    bin_dir = workspace / "bin"
+    disabled_delphes_dir = workspace / "disabled_tools" / "delphes"
+    for name in _DELPHES_STUBS:
+        _write_disabled_tool_stub(bin_dir / name, _DELPHES_DISABLED_MESSAGE)
+        _write_disabled_tool_stub(disabled_delphes_dir / name, _DELPHES_DISABLED_MESSAGE)
+    (disabled_delphes_dir / "cards").mkdir(parents=True, exist_ok=True)
 
 
 def build_workspace(
@@ -32,6 +89,7 @@ def build_workspace(
     agent_name: str,
     task_id: str,
     run_dir: str,
+    tool_policy: dict | None = None,
 ) -> Path:
     """Create a fresh workspace under <repo_root>/runs/<run_dir>/workspace.
 
@@ -83,6 +141,7 @@ def build_workspace(
         (bin_dir / script.name).symlink_to(script)
     for script in (agent_dir / "runtime" / "bin").iterdir():
         (bin_dir / script.name).symlink_to(script)
+    apply_tool_policy(workspace, tool_policy)
 
     # Agent instructions (AGENTS.md, SOUL.md, skills/*.md, ...). TOOLS.md comes
     # from the benchmark (canonical index), not the per-agent copy.

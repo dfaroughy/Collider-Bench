@@ -39,6 +39,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "srun_extra": (str,),
     "env_setup": (str,),
     "sandbox": (str,),
+    "tool_policy": (dict,),
     "task": (str,),  # free-form task id (e.g. sus-16-046_sim-TChiWg)
     # Anneal agent: separate model / effort for the planner and examiner roles.
     "examiner_model": (str,),
@@ -59,6 +60,8 @@ _ALLOWED_COMPUTE = {"", "local", "slurm", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
 _ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "singularity", "podman", "none"}
 _ALLOWED_ANNEAL_SCHEDULE = {"none", "linear", "cosine"}
+_ALLOWED_TOOL_POLICY_KEYS = {"disabled"}
+_ALLOWED_DISABLED_TOOLS = {"delphes"}
 _API_AUTH_ENV: dict[tuple[str, str], tuple[str, ...]] = {
     ("claude", "anthropic"): ("ANTHROPIC_API_KEY",),
     ("claude", "deepseek"): ("DEEPSEEK_API_KEY",),
@@ -133,6 +136,23 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
         raise ValueError(
             f"{source}: sandbox={sandbox!r}; must be one of {sorted(_ALLOWED_SANDBOX)}"
         )
+    tool_policy = cfg.get("tool_policy")
+    if tool_policy is not None:
+        unknown_policy = sorted(set(tool_policy) - _ALLOWED_TOOL_POLICY_KEYS)
+        if unknown_policy:
+            raise ValueError(
+                f"{source}: tool_policy has unknown key(s) {unknown_policy}. "
+                f"Allowed: {sorted(_ALLOWED_TOOL_POLICY_KEYS)}"
+            )
+        disabled = tool_policy.get("disabled", [])
+        if not isinstance(disabled, list) or any(not isinstance(x, str) for x in disabled):
+            raise ValueError(f"{source}: tool_policy.disabled must be a list of strings")
+        unknown_tools = sorted(set(disabled) - _ALLOWED_DISABLED_TOOLS)
+        if unknown_tools:
+            raise ValueError(
+                f"{source}: unknown disabled tool(s) {unknown_tools}. "
+                f"Allowed: {sorted(_ALLOWED_DISABLED_TOOLS)}"
+            )
     schedule = cfg.get("anneal_schedule")
     if schedule is not None and schedule not in _ALLOWED_ANNEAL_SCHEDULE:
         raise ValueError(

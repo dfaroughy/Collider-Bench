@@ -10,6 +10,7 @@ from .bin_error import (
     Delta,
     mean_abs_frac_error_pct,
     per_bin_disagreement,
+    relative_l2,
     rmsle,
     total_frac_error_pct,
 )
@@ -21,6 +22,7 @@ __all__ = [
     "jensen_shannon",
     "mean_abs_frac_error_pct",
     "per_bin_disagreement",
+    "relative_l2",
     "rmsle",
     "total_frac_error_pct",
 ]

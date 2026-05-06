@@ -133,6 +133,9 @@ def _run_in_sandbox(
     env["PATH"] = str(workspace / "bin") + ":" + env.get("PATH", "")
     env["PYTHONPATH"] = str(repo_root) + ":" + env.get("PYTHONPATH", "")
     env["REPO_ROOT"] = str(repo_root)
+    tool_policy = (config or {}).get("tool_policy") or {}
+    if "delphes" in set(tool_policy.get("disabled", [])):
+        env["DELPHES_DIR"] = str(workspace / "disabled_tools" / "delphes")
     prep = runner.prepare_launch(workspace, config=config)
     env.update(prep.env)
 
@@ -238,7 +241,7 @@ def launch_single_run(
     """
     _score = score or _default_score
     args, parser = _parse_args(agent_name, argv)
-    _resolve(args, parser)
+    cfg = _resolve(args, parser)
     task_id = args.task
     effort_label, max_thinking = resolve_effort(args.effort)
 
@@ -283,6 +286,8 @@ def launch_single_run(
             "sandbox": args.sandbox or "auto",
         }
     )
+    if cfg.get("tool_policy"):
+        info["tool_policy"] = cfg["tool_policy"]
 
     print(f"Setting up workspace: {run_dir}")
     walltime_str = (
@@ -297,7 +302,13 @@ def launch_single_run(
         f"(effort={effort_label}, max_thinking_tokens={max_thinking}, "
         f"walltime={walltime_str})"
     )
-    workspace = build_workspace(repo_root, agent_name, task_id, run_dir)
+    workspace = build_workspace(
+        repo_root,
+        agent_name,
+        task_id,
+        run_dir,
+        tool_policy=cfg.get("tool_policy"),
+    )
     recast_path = workspace.parent
     write_run_info(recast_path, info)
     print(f"Workspace: {workspace}")
@@ -326,7 +337,7 @@ def launch_single_run(
                 extra_ro_binds=extra_ro_binds,
                 effort_label=effort_label,
                 walltime_s=walltime_s,
-                config=vars(args),
+                config={**cfg, **vars(args)},
             )
         except subprocess.CalledProcessError as exc:
             # Agent CLI failed (e.g. exit 127 = command not found, missing

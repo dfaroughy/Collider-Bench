@@ -145,6 +145,11 @@ def _materialize_papers_dir(workspace: Path) -> None:
     shutil.copytree(target, papers)
 
 
+def _disabled_delphes_dir(workspace: Path) -> Path | None:
+    path = workspace / "disabled_tools" / "delphes"
+    return path if path.is_dir() else None
+
+
 def _prepare_isolated_home(
     host_home: Path,
     target: Path | None = None,
@@ -367,12 +372,24 @@ class BwrapSandbox(Sandbox):
         # and bin/simulate redirects MG5's `output` directive into the agent
         # workspace, so the install dir sees only template/config refreshes.
         sim_dir = bench_paths.sim_dir(repo_root)
+        disabled_delphes = _disabled_delphes_dir(workspace)
         for install in ("MG5_aMC_v3_7_0", "delphes"):
             install_path = sim_dir / install
             if install_path.is_dir():
-                cmd.extend(["--bind", str(install_path), str(install_path)])
+                if install == "delphes" and disabled_delphes is not None:
+                    cmd.extend(["--ro-bind", str(disabled_delphes), str(install_path)])
+                else:
+                    cmd.extend(["--bind", str(install_path), str(install_path)])
         for host_path, mount_path in extra_mounts:
             cmd.extend(["--ro-bind", host_path, mount_path])
+        if disabled_delphes is not None:
+            cmd.extend(
+                [
+                    "--ro-bind",
+                    str(disabled_delphes),
+                    str(workspace / "tools" / "sim" / "delphes"),
+                ]
+            )
         for path in extra_ro_binds or []:
             if Path(path).exists():
                 cmd.extend(["--ro-bind", str(path), str(path)])
@@ -475,6 +492,16 @@ class ApptainerSandbox(Sandbox):
             "--bind",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
+        disabled_delphes = _disabled_delphes_dir(workspace)
+        if disabled_delphes is not None:
+            cmd.extend(
+                [
+                    "--bind",
+                    f"{disabled_delphes}:/opt/sim/delphes:ro",
+                    "--bind",
+                    f"{disabled_delphes}:{bench_paths.sim_dir(repo_root) / 'delphes'}:ro",
+                ]
+            )
         # Per-run fake $HOME under <recast>/<runner-home>/. The CLIs
         # see only runner-selected credential / config files; everything
         # they write (session logs, conversation DBs, todos, caches)
@@ -666,6 +693,16 @@ class PodmanSandbox(Sandbox):
             "-v",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
+        disabled_delphes = _disabled_delphes_dir(workspace)
+        if disabled_delphes is not None:
+            cmd.extend(
+                [
+                    "-v",
+                    f"{disabled_delphes}:/opt/sim/delphes:ro",
+                    "-v",
+                    f"{disabled_delphes}:{bench_paths.sim_dir(repo_root) / 'delphes'}:ro",
+                ]
+            )
 
         # OAuth creds + minimal CLI config live inside the fake $HOME
         # bound above; nothing else is shared with the host's real $HOME.

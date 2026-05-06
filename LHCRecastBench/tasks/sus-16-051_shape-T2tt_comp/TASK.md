@@ -18,7 +18,7 @@ You should:
 ### Definitions
 
 - `E_T^miss` — the magnitude of the negative vector sum of the transverse momenta of all reconstructed particle-flow candidates in the event.
-- `T2tt_800_400` — pair-produced top squarks at `m(t̃) = 800 GeV`, each decaying via the `T2tt` simplified-model topology to a top quark and a neutralino at `m(χ̃⁰₁) = 400 GeV`. 
+- `T2tt_800_400` — pair-produced top squarks at `m(t̃) = 800 GeV`, each decaying via the `T2tt` simplified-model topology to a top quark and a neutralino at `m(χ̃⁰₁) = 400 GeV`.
 - Compressed signal-region selection — the search's secondary categorisation (Table 3 in the paper), designed to enhance sensitivity to compressed-spectrum stop decays via an ISR-tagged event topology.
 
 ### Output requirements

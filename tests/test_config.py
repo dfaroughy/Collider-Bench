@@ -64,6 +64,20 @@ def test_unknown_sandbox_rejected():
         validate_config({"sandbox": "docker"}, source="<test>")
 
 
+def test_tool_policy_disabled_delphes_validates():
+    validate_config({"tool_policy": {"disabled": ["delphes"]}}, source="<test>")
+
+
+def test_tool_policy_rejects_unknown_policy_key():
+    with pytest.raises(ValueError, match="tool_policy has unknown key"):
+        validate_config({"tool_policy": {"degraded": {"delphes": "no_btag"}}}, source="<test>")
+
+
+def test_tool_policy_rejects_unknown_disabled_tool():
+    with pytest.raises(ValueError, match="unknown disabled tool"):
+        validate_config({"tool_policy": {"disabled": ["root"]}}, source="<test>")
+
+
 @pytest.mark.parametrize(
     "config_path",
     RUNNABLE_CONFIGS,

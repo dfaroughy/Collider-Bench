@@ -12,13 +12,12 @@
 #
 # DeepSeek auth: DEEPSEEK_API_KEY in the environment. The forge runner
 # explicitly declares this secret for sandbox forwarding.
-
 agent:   simple
-task:    sus-16-034_sim-TChiWZ    # see LHCRecastBench/tasks/
+task:    sus-16-046_yield-TChiWg    # see LHCRecastBench/tasks/
 runner:  forge
 provider: deepseek
 auth: api
-model:   deepseek-v4-pro            # informational; configure via `forge config`
+model:   deepseek-r1            # informational; configure via `forge config`
 effort:  high                     # ignored by forge
 sandbox: podman
 extends: ../utils/perlmutter_interactive.yaml

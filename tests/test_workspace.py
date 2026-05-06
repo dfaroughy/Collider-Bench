@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import shutil
+import subprocess
 
 import pytest
 
@@ -109,6 +110,40 @@ def test_task_toml_not_leaked_into_workspace(clean_workspace):
     ws = clean_workspace("simple")
     assert not (ws / "task.toml").exists()
     assert not (ws / "results" / "task.toml").exists()
+
+
+def test_disabled_delphes_policy_installs_stubs(repo_root, tmp_run_name, task_id):
+    ws = build_workspace(
+        repo_root,
+        "simple",
+        task_id,
+        tmp_run_name,
+        tool_policy={"disabled": ["delphes"]},
+    )
+    try:
+        for rel in (
+            "bin/DelphesHepMC3",
+            "bin/DelphesROOT",
+            "disabled_tools/delphes/DelphesHepMC3",
+        ):
+            assert (ws / rel).is_file()
+            assert os.access(ws / rel, os.X_OK)
+
+        proc = subprocess.run(
+            [str(ws / "bin" / "DelphesHepMC3")],
+            check=False,
+            text=True,
+            capture_output=True,
+        )
+        assert proc.returncode != 0
+        assert "Delphes tool is disabled for this benchmark task." in proc.stderr
+    finally:
+        shutil.rmtree(repo_root / "runs" / tmp_run_name, ignore_errors=True)
+
+
+def test_workspace_without_tool_policy_has_no_delphes_stub(clean_workspace):
+    ws = clean_workspace("simple")
+    assert not (ws / "disabled_tools" / "delphes" / "DelphesHepMC3").exists()
 
 
 def test_invalid_task_raises_filenotfound(repo_root, tmp_run_name):

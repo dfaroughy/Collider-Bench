@@ -24,12 +24,14 @@ Schema:
         "jensen_shannon_dist":      float,    # sqrt(JSD), the true metric
         "d_bar":                    float,    # ½·L1(p,q) = TV distance, in [0, 1]
         "d_max":                    float,    # max_i |p_i - q_i|, in [0, 1] (worst-bin)
-        "dmax_dbar_ratio":          float     # d_max / d_bar, in [1/K, 1]; 1 = single-bin failure
+        "dmax_dbar_ratio":          float,    # d_max / d_bar, in [1/K, 1]; 1 = single-bin failure
+        "relative_l2":              float     # √(Σ(p−q)²/Σq²) on unit-area dists
       },
       "normalization": {
         "mean_abs_frac_error_pct":  float,    # |sum(obs) - sum(ref)| / sum(ref) * 100
         "Delta":                    float,    # raw fraction (= mean_abs_frac_error_pct / 100)
-        "rmsle":                    float     # root-mean-squared log error on raw bin yields
+        "rmsle":                    float,    # root-mean-squared log error on raw bin yields
+        "relative_l2":              float     # √(Σ(N_obs−N_ref)²/Σ N_ref²) on raw yields
       }
     }
 
@@ -51,6 +53,7 @@ from .metrics import (
     jensen_shannon,
     mean_abs_frac_error_pct,
     per_bin_disagreement,
+    relative_l2,
     rmsle,
     total_frac_error_pct,
 )
@@ -235,6 +238,7 @@ def score_run(
             "d_bar": d_bar,
             "d_max": d_max,
             "dmax_dbar_ratio": dmax_dbar_ratio,
+            "relative_l2": relative_l2(aligned.prediction, aligned.reference, normalize=True),
         }
 
     if want_norm:
@@ -242,6 +246,7 @@ def score_run(
             "mean_abs_frac_error_pct": total_frac_error_pct(aligned.prediction, aligned.reference),
             "Delta": Delta(aligned.prediction, aligned.reference),
             "rmsle": rmsle(aligned.prediction, aligned.reference),
+            "relative_l2": relative_l2(aligned.prediction, aligned.reference),
         }
 
     return out

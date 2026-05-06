@@ -1,0 +1,4398 @@
+{
+  "models": {
+    "claude_haiku-4-5": {
+      "_label": "Haiku 4.5",
+      "tasks": {
+        "sus-16-034_shape-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": null
+            },
+            {
+              "cost_usd": 0.473505,
+              "delta": null,
+              "n_turns": 44,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": 113381.0,
+              "wall_s": 282.95
+            },
+            {
+              "cost_usd": 1.251595,
+              "delta": null,
+              "n_turns": 94,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.265197,
+              "run_label": "run-3",
+              "status": "cheat",
+              "tokens_total_billed": 325448.0,
+              "wall_s": 1760.64
+            }
+          ]
+        },
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 1.203555,
+              "delta": null,
+              "n_turns": 98,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 179343.0,
+              "wall_s": 1029.91
+            },
+            {
+              "cost_usd": 0.482965,
+              "delta": null,
+              "n_turns": 39,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 54954.0,
+              "wall_s": 201.61
+            },
+            {
+              "cost_usd": 1.276543,
+              "delta": 0.815157,
+              "n_turns": 82,
+              "relative_l2_norm": 0.89267,
+              "relative_l2_shape": 1.639018,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 464294.0,
+              "wall_s": 2334.56
+            }
+          ]
+        },
+        "sus-16-046_shape-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 0.772649,
+              "delta": null,
+              "n_turns": 60,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.025543,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 250895.0,
+              "wall_s": 1696.12
+            },
+            {
+              "cost_usd": 1.076129,
+              "delta": null,
+              "n_turns": 103,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.120935,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 162646.0,
+              "wall_s": 764.82
+            },
+            {
+              "cost_usd": 1.444244,
+              "delta": null,
+              "n_turns": 101,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.361272,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 123176.0,
+              "wall_s": 1510.35
+            }
+          ]
+        },
+        "sus-16-046_shape-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 0.732377,
+              "delta": null,
+              "n_turns": 61,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.507268,
+              "run_label": "run-1",
+              "status": "cheat",
+              "tokens_total_billed": 124216.0,
+              "wall_s": 336.75
+            },
+            {
+              "cost_usd": 1.098821,
+              "delta": null,
+              "n_turns": 105,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.898002,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 168404.0,
+              "wall_s": 2062.82
+            },
+            {
+              "cost_usd": 0.560827,
+              "delta": null,
+              "n_turns": 58,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.150464,
+              "run_label": "run-3",
+              "status": "cheat",
+              "tokens_total_billed": 101390.0,
+              "wall_s": 337.16
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 0.426914,
+              "delta": 57.81495,
+              "n_turns": 50,
+              "relative_l2_norm": 39.735056,
+              "relative_l2_shape": 0.452788,
+              "run_label": "run-1",
+              "status": "cheat",
+              "tokens_total_billed": 77445.0,
+              "wall_s": 249.3
+            },
+            {
+              "cost_usd": 1.032656,
+              "delta": 14.478578,
+              "n_turns": 92,
+              "relative_l2_norm": 18.007447,
+              "relative_l2_shape": 1.525148,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 160831.0,
+              "wall_s": 690.05
+            },
+            {
+              "cost_usd": 0.987306,
+              "delta": 15.390155,
+              "n_turns": 84,
+              "relative_l2_norm": 16.616255,
+              "relative_l2_shape": 1.411419,
+              "run_label": "run-3",
+              "status": "cheat",
+              "tokens_total_billed": 157007.0,
+              "wall_s": 1191.75
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 1.502233,
+              "delta": 0.963604,
+              "n_turns": 91,
+              "relative_l2_norm": 0.961323,
+              "relative_l2_shape": 1.329025,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 670341.0,
+              "wall_s": 4273.84
+            },
+            {
+              "cost_usd": 1.633417,
+              "delta": 0.997459,
+              "n_turns": 48,
+              "relative_l2_norm": 0.997219,
+              "relative_l2_shape": 1.008688,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 75589.0,
+              "wall_s": 573.64
+            },
+            {
+              "cost_usd": 0.989101,
+              "delta": 0.827348,
+              "n_turns": 96,
+              "relative_l2_norm": 0.808484,
+              "relative_l2_shape": 0.648229,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 148049.0,
+              "wall_s": 534.47
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.621608,
+              "delta": null,
+              "n_turns": 63,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.192817,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 111279.0,
+              "wall_s": 443.41
+            },
+            {
+              "cost_usd": 1.156946,
+              "delta": null,
+              "n_turns": 76,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.763434,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 131843.0,
+              "wall_s": 648.75
+            },
+            {
+              "cost_usd": 0.694363,
+              "delta": null,
+              "n_turns": 27,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": 44854.0,
+              "wall_s": 231.71
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 1.441252,
+              "delta": null,
+              "n_turns": 122,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 253092.0,
+              "wall_s": 1731.11
+            },
+            {
+              "cost_usd": 0.84194,
+              "delta": null,
+              "n_turns": 83,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.299242,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 126118.0,
+              "wall_s": 1674.5
+            },
+            {
+              "cost_usd": 0.788351,
+              "delta": null,
+              "n_turns": 83,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.265642,
+              "run_label": "run-3",
+              "status": "cheat",
+              "tokens_total_billed": 127670.0,
+              "wall_s": 566.8
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.606539,
+              "delta": null,
+              "n_turns": 68,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.34047,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 96799.0,
+              "wall_s": 407.47
+            },
+            {
+              "cost_usd": 0.748381,
+              "delta": null,
+              "n_turns": 71,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.228317,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 128327.0,
+              "wall_s": 477.59
+            },
+            {
+              "cost_usd": 0.599362,
+              "delta": null,
+              "n_turns": 67,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 97347.0,
+              "wall_s": 482.14
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.271751,
+              "delta": null,
+              "n_turns": 37,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 53302.0,
+              "wall_s": 791.1
+            },
+            {
+              "cost_usd": 0.711627,
+              "delta": null,
+              "n_turns": 70,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.913113,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 119468.0,
+              "wall_s": 421.36
+            },
+            {
+              "cost_usd": 1.012194,
+              "delta": null,
+              "n_turns": 100,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.027175,
+              "run_label": "run-3",
+              "status": "cheat",
+              "tokens_total_billed": 138252.0,
+              "wall_s": 512.89
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 2.626842,
+              "delta": 380.073703,
+              "n_turns": 61,
+              "relative_l2_norm": 423.911984,
+              "relative_l2_shape": 0.355578,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 105564.0,
+              "wall_s": 619.95
+            },
+            {
+              "cost_usd": 0.837506,
+              "delta": null,
+              "n_turns": 2,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 2836.0,
+              "wall_s": 1699.1
+            },
+            {
+              "cost_usd": 0.772256,
+              "delta": 0.19619,
+              "n_turns": 71,
+              "relative_l2_norm": 1.122369,
+              "relative_l2_shape": 1.337499,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 135118.0,
+              "wall_s": 464.6
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 1.019361,
+              "delta": 0.131579,
+              "n_turns": 105,
+              "relative_l2_norm": 0.134395,
+              "relative_l2_shape": 0.038249,
+              "run_label": "run-1",
+              "status": "cheat",
+              "tokens_total_billed": 129883.0,
+              "wall_s": 488.57
+            },
+            {
+              "cost_usd": 1.716988,
+              "delta": 8.018458,
+              "n_turns": 134,
+              "relative_l2_norm": 7.873386,
+              "relative_l2_shape": 0.145873,
+              "run_label": "run-2",
+              "status": "cheat",
+              "tokens_total_billed": 173321.0,
+              "wall_s": 1066.35
+            },
+            {
+              "cost_usd": 1.469722,
+              "delta": null,
+              "n_turns": 114,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 136509.0,
+              "wall_s": 746.22
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.94679,
+              "delta": 0.634254,
+              "n_turns": 91,
+              "relative_l2_norm": 1.892792,
+              "relative_l2_shape": 1.376468,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 143428.0,
+              "wall_s": 1725.51
+            },
+            {
+              "cost_usd": 0.662309,
+              "delta": 2873.652721,
+              "n_turns": 63,
+              "relative_l2_norm": 3331.996394,
+              "relative_l2_shape": 0.207033,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 117792.0,
+              "wall_s": 600.69
+            },
+            {
+              "cost_usd": 0.584459,
+              "delta": 25.760909,
+              "n_turns": 45,
+              "relative_l2_norm": 17.627812,
+              "relative_l2_shape": 0.774121,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 120368.0,
+              "wall_s": 388.76
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.946897,
+              "delta": 1.0,
+              "n_turns": 80,
+              "relative_l2_norm": 1.0,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 157659.0,
+              "wall_s": 603.23
+            },
+            {
+              "cost_usd": 0.813281,
+              "delta": 442.117174,
+              "n_turns": 84,
+              "relative_l2_norm": 404.712316,
+              "relative_l2_shape": 1.212187,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 125474.0,
+              "wall_s": 2078.73
+            },
+            {
+              "cost_usd": 0.450322,
+              "delta": 590.290323,
+              "n_turns": 51,
+              "relative_l2_norm": 428.024795,
+              "relative_l2_shape": 0.592952,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 83766.0,
+              "wall_s": 266.32
+            }
+          ]
+        },
+        "sus-16-051_shape-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.952192,
+              "delta": null,
+              "n_turns": 2,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.780105,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 1895.0,
+              "wall_s": 1116.71
+            },
+            {
+              "cost_usd": 0.875566,
+              "delta": null,
+              "n_turns": 66,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.500449,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 138131.0,
+              "wall_s": 414.03
+            },
+            {
+              "cost_usd": 1.346465,
+              "delta": null,
+              "n_turns": 115,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.038606,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 170740.0,
+              "wall_s": 3279.62
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.610371,
+              "delta": null,
+              "n_turns": 63,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.317345,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 103984.0,
+              "wall_s": 2161.45
+            },
+            {
+              "cost_usd": 0.818079,
+              "delta": null,
+              "n_turns": 83,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.251267,
+              "run_label": "run-2",
+              "status": "cheat",
+              "tokens_total_billed": 139772.0,
+              "wall_s": 406.03
+            },
+            {
+              "cost_usd": 1.470893,
+              "delta": null,
+              "n_turns": 137,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.588109,
+              "run_label": "run-3",
+              "status": "cheat",
+              "tokens_total_billed": 181206.0,
+              "wall_s": 931.9
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 2.147247,
+              "delta": null,
+              "n_turns": 101,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 160304.0,
+              "wall_s": 1419.2
+            },
+            {
+              "cost_usd": 0.915602,
+              "delta": null,
+              "n_turns": 95,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.598246,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 125996.0,
+              "wall_s": 2247.17
+            },
+            {
+              "cost_usd": 1.071173,
+              "delta": null,
+              "n_turns": 96,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.573621,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 149252.0,
+              "wall_s": 602.86
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.709993,
+              "delta": 35.376307,
+              "n_turns": 2,
+              "relative_l2_norm": 39.290102,
+              "relative_l2_shape": 0.709488,
+              "run_label": "run-1",
+              "status": "cheat",
+              "tokens_total_billed": 2877.0,
+              "wall_s": 2061.82
+            },
+            {
+              "cost_usd": 0.782659,
+              "delta": 1.926829,
+              "n_turns": 61,
+              "relative_l2_norm": 3.366868,
+              "relative_l2_shape": 1.098346,
+              "run_label": "run-2",
+              "status": "cheat",
+              "tokens_total_billed": 111740.0,
+              "wall_s": 492.41
+            },
+            {
+              "cost_usd": 3.249325,
+              "delta": 3925.480836,
+              "n_turns": 104,
+              "relative_l2_norm": 4181.768786,
+              "relative_l2_shape": 0.212613,
+              "run_label": "run-3",
+              "status": "cheat",
+              "tokens_total_billed": 146018.0,
+              "wall_s": 1062.95
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.896921,
+              "delta": 1.0,
+              "n_turns": 93,
+              "relative_l2_norm": 1.0,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 124665.0,
+              "wall_s": 403.06
+            },
+            {
+              "cost_usd": 0.984207,
+              "delta": 52.535354,
+              "n_turns": 78,
+              "relative_l2_norm": 58.648395,
+              "relative_l2_shape": 1.311781,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 159308.0,
+              "wall_s": 1088.92
+            },
+            {
+              "cost_usd": 0.840328,
+              "delta": 30.305916,
+              "n_turns": 78,
+              "relative_l2_norm": 43.455583,
+              "relative_l2_shape": 1.625932,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 129386.0,
+              "wall_s": 454.04
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 1.268191,
+              "delta": 0.873418,
+              "n_turns": 89,
+              "relative_l2_norm": 0.879618,
+              "relative_l2_shape": 1.624374,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 178745.0,
+              "wall_s": 674.4
+            },
+            {
+              "cost_usd": 0.808171,
+              "delta": 4.696203,
+              "n_turns": 65,
+              "relative_l2_norm": 7.614659,
+              "relative_l2_shape": 0.993839,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 145230.0,
+              "wall_s": 2573.49
+            },
+            {
+              "cost_usd": 0.679031,
+              "delta": 335.202532,
+              "n_turns": 69,
+              "relative_l2_norm": 367.715449,
+              "relative_l2_shape": 0.571768,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 110564.0,
+              "wall_s": 1603.45
+            }
+          ]
+        }
+      }
+    },
+    "claude_opus-4-7": {
+      "_label": "Opus 4.7",
+      "tasks": {
+        "sus-16-034_shape-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 11.267385,
+              "delta": null,
+              "n_turns": 131,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.065525,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 315459.0,
+              "wall_s": 1710.51
+            },
+            {
+              "cost_usd": 14.624539,
+              "delta": null,
+              "n_turns": 164,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.15415,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 352736.0,
+              "wall_s": 1928.22
+            },
+            {
+              "cost_usd": 10.535469,
+              "delta": null,
+              "n_turns": 143,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.088441,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 274354.0,
+              "wall_s": 1650.19
+            }
+          ]
+        },
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 17.720077,
+              "delta": 0.096913,
+              "n_turns": 196,
+              "relative_l2_norm": 0.10985,
+              "relative_l2_shape": 0.066373,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 391647.0,
+              "wall_s": 2074.49
+            },
+            {
+              "cost_usd": 17.096411,
+              "delta": 0.301636,
+              "n_turns": 186,
+              "relative_l2_norm": 0.328551,
+              "relative_l2_shape": 0.127153,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 375088.0,
+              "wall_s": 3144.98
+            },
+            {
+              "cost_usd": 20.771251,
+              "delta": 0.098983,
+              "n_turns": 224,
+              "relative_l2_norm": 0.124828,
+              "relative_l2_shape": 0.072714,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 390444.0,
+              "wall_s": 2491.86
+            }
+          ]
+        },
+        "sus-16-046_shape-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 8.682515,
+              "delta": null,
+              "n_turns": 135,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.30432,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 262569.0,
+              "wall_s": 1872.56
+            },
+            {
+              "cost_usd": 5.496404,
+              "delta": null,
+              "n_turns": 90,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.320115,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 215982.0,
+              "wall_s": 1125.85
+            },
+            {
+              "cost_usd": 13.149523,
+              "delta": null,
+              "n_turns": 218,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.308212,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 376474.0,
+              "wall_s": 1881.32
+            }
+          ]
+        },
+        "sus-16-046_shape-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 9.496543,
+              "delta": null,
+              "n_turns": 150,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.027727,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 236464.0,
+              "wall_s": 1347.48
+            },
+            {
+              "cost_usd": 10.085839,
+              "delta": null,
+              "n_turns": 165,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.189824,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 325639.0,
+              "wall_s": 1474.37
+            },
+            {
+              "cost_usd": 7.765468,
+              "delta": null,
+              "n_turns": 130,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.137932,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 228541.0,
+              "wall_s": 1484.69
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 17.280241,
+              "delta": 0.263413,
+              "n_turns": 172,
+              "relative_l2_norm": 0.246509,
+              "relative_l2_shape": 0.032605,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 398034.0,
+              "wall_s": 2237.59
+            },
+            {
+              "cost_usd": 11.567964,
+              "delta": 0.921127,
+              "n_turns": 183,
+              "relative_l2_norm": 0.939184,
+              "relative_l2_shape": 0.318999,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 338812.0,
+              "wall_s": 1795.32
+            },
+            {
+              "cost_usd": 11.425422,
+              "delta": 0.330256,
+              "n_turns": 180,
+              "relative_l2_norm": 0.328182,
+              "relative_l2_shape": 0.003893,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 310580.0,
+              "wall_s": 2005.74
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 14.3859,
+              "delta": 0.213946,
+              "n_turns": 141,
+              "relative_l2_norm": 0.210132,
+              "relative_l2_shape": 0.016713,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 403199.0,
+              "wall_s": 2345.15
+            },
+            {
+              "cost_usd": 12.763929,
+              "delta": 0.321039,
+              "n_turns": 181,
+              "relative_l2_norm": 0.31934,
+              "relative_l2_shape": 0.010311,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 530583.0,
+              "wall_s": 2149.45
+            },
+            {
+              "cost_usd": 9.774919,
+              "delta": 0.933726,
+              "n_turns": 150,
+              "relative_l2_norm": 0.932644,
+              "relative_l2_shape": 0.193366,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 318156.0,
+              "wall_s": 1540.09
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 10.036361,
+              "delta": null,
+              "n_turns": 156,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.121888,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 317102.0,
+              "wall_s": 1583.66
+            },
+            {
+              "cost_usd": 11.943926,
+              "delta": null,
+              "n_turns": 181,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.084392,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 358724.0,
+              "wall_s": 2020.83
+            },
+            {
+              "cost_usd": 8.9133,
+              "delta": null,
+              "n_turns": 137,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.028717,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 237135.0,
+              "wall_s": 1274.29
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 10.918736,
+              "delta": null,
+              "n_turns": 168,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.411798,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 297950.0,
+              "wall_s": 1714.83
+            },
+            {
+              "cost_usd": 14.755562,
+              "delta": null,
+              "n_turns": 232,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.407579,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 401696.0,
+              "wall_s": 2811.7
+            },
+            {
+              "cost_usd": 11.392089,
+              "delta": null,
+              "n_turns": 181,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.317995,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 330458.0,
+              "wall_s": 1856.26
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 12.622324,
+              "delta": null,
+              "n_turns": 203,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.003075,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 371576.0,
+              "wall_s": 2325.23
+            },
+            {
+              "cost_usd": 6.798087,
+              "delta": null,
+              "n_turns": 114,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.982059,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 208477.0,
+              "wall_s": 1123.71
+            },
+            {
+              "cost_usd": 6.850532,
+              "delta": null,
+              "n_turns": 101,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.013585,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 230176.0,
+              "wall_s": 1632.32
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 7.830564,
+              "delta": null,
+              "n_turns": 104,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.00849,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 263238.0,
+              "wall_s": 1102.24
+            },
+            {
+              "cost_usd": 11.007227,
+              "delta": null,
+              "n_turns": 158,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.015189,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 433251.0,
+              "wall_s": 1453.52
+            },
+            {
+              "cost_usd": 8.81505,
+              "delta": null,
+              "n_turns": 138,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.010369,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 242167.0,
+              "wall_s": 1471.62
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": null,
+              "delta": 2.90367,
+              "n_turns": null,
+              "relative_l2_norm": 2.867749,
+              "relative_l2_shape": 0.086661,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": null,
+              "wall_s": 2705.43
+            },
+            {
+              "cost_usd": 17.90517,
+              "delta": 0.69799,
+              "n_turns": 270,
+              "relative_l2_norm": 0.694223,
+              "relative_l2_shape": 0.085015,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": 508756.0,
+              "wall_s": 3393.27
+            },
+            {
+              "cost_usd": 11.80345,
+              "delta": 0.728706,
+              "n_turns": 197,
+              "relative_l2_norm": 0.727665,
+              "relative_l2_shape": 0.049148,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": 344623.0,
+              "wall_s": 1694.1
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 15.239914,
+              "delta": 0.553368,
+              "n_turns": 246,
+              "relative_l2_norm": 0.644131,
+              "relative_l2_shape": 0.491989,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 454647.0,
+              "wall_s": 2959.52
+            },
+            {
+              "cost_usd": 10.565453,
+              "delta": 0.671579,
+              "n_turns": 159,
+              "relative_l2_norm": 0.653739,
+              "relative_l2_shape": 0.152034,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 331661.0,
+              "wall_s": 3171.42
+            },
+            {
+              "cost_usd": 12.360136,
+              "delta": 0.938632,
+              "n_turns": 191,
+              "relative_l2_norm": 0.949612,
+              "relative_l2_shape": 0.670309,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 352205.0,
+              "wall_s": 1881.59
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 18.036463,
+              "delta": 0.576046,
+              "n_turns": 167,
+              "relative_l2_norm": 0.57784,
+              "relative_l2_shape": 0.012288,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 443771.0,
+              "wall_s": 2578.37
+            },
+            {
+              "cost_usd": 13.746375,
+              "delta": 0.952268,
+              "n_turns": 196,
+              "relative_l2_norm": 0.990399,
+              "relative_l2_shape": 1.107474,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 356752.0,
+              "wall_s": 2644.02
+            },
+            {
+              "cost_usd": 15.581221,
+              "delta": 0.360257,
+              "n_turns": 249,
+              "relative_l2_norm": 0.348925,
+              "relative_l2_shape": 0.030064,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 412364.0,
+              "wall_s": 2418.72
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 12.517207,
+              "delta": 15.737073,
+              "n_turns": 200,
+              "relative_l2_norm": 16.543148,
+              "relative_l2_shape": 0.067874,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 367740.0,
+              "wall_s": 2930.44
+            },
+            {
+              "cost_usd": 25.706737,
+              "delta": 10.54836,
+              "n_turns": 375,
+              "relative_l2_norm": 10.676257,
+              "relative_l2_shape": 0.015936,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 674955.0,
+              "wall_s": 4506.68
+            },
+            {
+              "cost_usd": 10.788999,
+              "delta": 6.829797,
+              "n_turns": 167,
+              "relative_l2_norm": 6.693671,
+              "relative_l2_shape": 0.029625,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 318918.0,
+              "wall_s": 3049.14
+            }
+          ]
+        },
+        "sus-16-051_shape-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 13.886151,
+              "delta": null,
+              "n_turns": 168,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.32647,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 338642.0,
+              "wall_s": 3858.64
+            },
+            {
+              "cost_usd": 18.591942,
+              "delta": null,
+              "n_turns": 185,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.235553,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 415364.0,
+              "wall_s": 2546.22
+            },
+            {
+              "cost_usd": 12.960265,
+              "delta": null,
+              "n_turns": 164,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.143158,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 307810.0,
+              "wall_s": 2057.14
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 13.793691,
+              "delta": null,
+              "n_turns": 149,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.223672,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 409856.0,
+              "wall_s": 2610.56
+            },
+            {
+              "cost_usd": 9.437437,
+              "delta": null,
+              "n_turns": 144,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.336912,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 266912.0,
+              "wall_s": 1391.28
+            },
+            {
+              "cost_usd": 13.451288,
+              "delta": null,
+              "n_turns": 164,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.352105,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 328263.0,
+              "wall_s": 1506.17
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 8.016868,
+              "delta": null,
+              "n_turns": 111,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.228193,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 238238.0,
+              "wall_s": 1278.5
+            },
+            {
+              "cost_usd": 9.648547,
+              "delta": null,
+              "n_turns": 136,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.226405,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 277871.0,
+              "wall_s": 1722.79
+            },
+            {
+              "cost_usd": 11.898605,
+              "delta": null,
+              "n_turns": 155,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.246421,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 291570.0,
+              "wall_s": 2366.9
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 20.641382,
+              "delta": 0.102401,
+              "n_turns": 233,
+              "relative_l2_norm": 0.340885,
+              "relative_l2_shape": 0.311675,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 381516.0,
+              "wall_s": 2320.54
+            },
+            {
+              "cost_usd": 13.43496,
+              "delta": 0.030597,
+              "n_turns": 153,
+              "relative_l2_norm": 0.259902,
+              "relative_l2_shape": 0.260492,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 377178.0,
+              "wall_s": 2361.81
+            },
+            {
+              "cost_usd": 12.485823,
+              "delta": 0.004544,
+              "n_turns": 151,
+              "relative_l2_norm": 0.23826,
+              "relative_l2_shape": 0.238528,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 334252.0,
+              "wall_s": 2032.64
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 15.218677,
+              "delta": 0.192482,
+              "n_turns": 159,
+              "relative_l2_norm": 0.453211,
+              "relative_l2_shape": 0.38302,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 555779.0,
+              "wall_s": 2094.51
+            },
+            {
+              "cost_usd": 17.473919,
+              "delta": 0.084103,
+              "n_turns": 203,
+              "relative_l2_norm": 0.364898,
+              "relative_l2_shape": 0.377243,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 379760.0,
+              "wall_s": 2387.54
+            },
+            {
+              "cost_usd": 10.312438,
+              "delta": 0.224949,
+              "n_turns": 139,
+              "relative_l2_norm": 0.450464,
+              "relative_l2_shape": 0.453503,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 264624.0,
+              "wall_s": 1838.63
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 14.881709,
+              "delta": 0.006968,
+              "n_turns": 200,
+              "relative_l2_norm": 0.153831,
+              "relative_l2_shape": 0.152541,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 278469.0,
+              "wall_s": 1625.99
+            },
+            {
+              "cost_usd": 14.998088,
+              "delta": 0.934248,
+              "n_turns": 198,
+              "relative_l2_norm": 0.93456,
+              "relative_l2_shape": 0.133626,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 301422.0,
+              "wall_s": 1755.64
+            },
+            {
+              "cost_usd": 9.838496,
+              "delta": 0.379503,
+              "n_turns": 150,
+              "relative_l2_norm": 0.406544,
+              "relative_l2_shape": 0.253801,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 240978.0,
+              "wall_s": 1587.53
+            }
+          ]
+        }
+      }
+    },
+    "claude_sonnet-4-6": {
+      "_label": "Sonnet 4.6",
+      "tasks": {
+        "sus-16-034_shape-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 6.395509,
+              "delta": null,
+              "n_turns": 158,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.111998,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 568772.0,
+              "wall_s": 4473.01
+            },
+            {
+              "cost_usd": 7.37604,
+              "delta": null,
+              "n_turns": 193,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.068061,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 368620.0,
+              "wall_s": 5644.95
+            },
+            {
+              "cost_usd": 11.780601,
+              "delta": null,
+              "n_turns": 286,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.091121,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 480827.0,
+              "wall_s": 4147.93
+            }
+          ]
+        },
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 6.481544,
+              "delta": 0.164824,
+              "n_turns": 130,
+              "relative_l2_norm": 0.185205,
+              "relative_l2_shape": 0.041439,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 448398.0,
+              "wall_s": 2996.07
+            },
+            {
+              "cost_usd": 6.123275,
+              "delta": 0.445712,
+              "n_turns": 161,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 266427.0,
+              "wall_s": 2816.88
+            },
+            {
+              "cost_usd": 4.724122,
+              "delta": 0.284362,
+              "n_turns": 118,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 261145.0,
+              "wall_s": 2562.33
+            }
+          ]
+        },
+        "sus-16-046_shape-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 6.0676,
+              "delta": null,
+              "n_turns": 145,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.653553,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 282928.0,
+              "wall_s": 2285.48
+            },
+            {
+              "cost_usd": 5.088677,
+              "delta": null,
+              "n_turns": 124,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.348961,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 258512.0,
+              "wall_s": 2469.39
+            },
+            {
+              "cost_usd": 7.174159,
+              "delta": null,
+              "n_turns": 182,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.310285,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 406539.0,
+              "wall_s": 2696.62
+            }
+          ]
+        },
+        "sus-16-046_shape-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 6.893917,
+              "delta": null,
+              "n_turns": 182,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.055343,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 311226.0,
+              "wall_s": 3190.3
+            },
+            {
+              "cost_usd": 6.414615,
+              "delta": null,
+              "n_turns": 170,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.010324,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 295526.0,
+              "wall_s": 2995.76
+            },
+            {
+              "cost_usd": 5.767604,
+              "delta": null,
+              "n_turns": 150,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.322271,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 280644.0,
+              "wall_s": 3446.85
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 6.644278,
+              "delta": 0.92862,
+              "n_turns": 174,
+              "relative_l2_norm": 0.944581,
+              "relative_l2_shape": 0.310453,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 286957.0,
+              "wall_s": 2417.51
+            },
+            {
+              "cost_usd": 8.689732,
+              "delta": 0.824038,
+              "n_turns": 219,
+              "relative_l2_norm": 0.807182,
+              "relative_l2_shape": 0.136931,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 453258.0,
+              "wall_s": 3577.66
+            },
+            {
+              "cost_usd": 9.515479,
+              "delta": 0.102398,
+              "n_turns": 234,
+              "relative_l2_norm": 0.091308,
+              "relative_l2_shape": 0.017184,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 450747.0,
+              "wall_s": 4404.04
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 7.851014,
+              "delta": 0.973091,
+              "n_turns": 217,
+              "relative_l2_norm": 0.973567,
+              "relative_l2_shape": 0.161272,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 395454.0,
+              "wall_s": 4025.25
+            },
+            {
+              "cost_usd": 6.338165,
+              "delta": 0.875556,
+              "n_turns": 163,
+              "relative_l2_norm": 0.875958,
+              "relative_l2_shape": 0.112568,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 359951.0,
+              "wall_s": 3306.32
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 6.031593,
+              "delta": null,
+              "n_turns": 133,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.640783,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 380067.0,
+              "wall_s": 2421.17
+            },
+            {
+              "cost_usd": 5.649475,
+              "delta": null,
+              "n_turns": 148,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.079448,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 314742.0,
+              "wall_s": 5713.73
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 5.259043,
+              "delta": null,
+              "n_turns": 135,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.083043,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 279427.0,
+              "wall_s": 3381.72
+            },
+            {
+              "cost_usd": 4.24238,
+              "delta": null,
+              "n_turns": 110,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.313278,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 221339.0,
+              "wall_s": 4657.6
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 6.492441,
+              "delta": null,
+              "n_turns": 163,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.012728,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 307827.0,
+              "wall_s": 2904.35
+            },
+            {
+              "cost_usd": 5.58813,
+              "delta": null,
+              "n_turns": 160,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.959518,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 287031.0,
+              "wall_s": 2929.36
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 5.549155,
+              "delta": null,
+              "n_turns": 148,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.483461,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 279643.0,
+              "wall_s": 4097.26
+            },
+            {
+              "cost_usd": 12.355567,
+              "delta": null,
+              "n_turns": 321,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.011779,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 368293.0,
+              "wall_s": 2672.35
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 7.904488,
+              "delta": 0.607547,
+              "n_turns": 200,
+              "relative_l2_norm": 0.602473,
+              "relative_l2_shape": 0.030747,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 386280.0,
+              "wall_s": 3090.69
+            },
+            {
+              "cost_usd": 6.88615,
+              "delta": 0.577315,
+              "n_turns": 189,
+              "relative_l2_norm": 0.571716,
+              "relative_l2_shape": 0.058092,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 398819.0,
+              "wall_s": 3353.13
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 8.555103,
+              "delta": null,
+              "n_turns": 204,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 635447.0,
+              "wall_s": 3877.44
+            },
+            {
+              "cost_usd": 6.699081,
+              "delta": 0.951368,
+              "n_turns": 187,
+              "relative_l2_norm": 0.956041,
+              "relative_l2_shape": 0.359499,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 318509.0,
+              "wall_s": 2862.11
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 7.305319,
+              "delta": 0.990769,
+              "n_turns": 163,
+              "relative_l2_norm": 0.997934,
+              "relative_l2_shape": 1.075469,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 299741.0,
+              "wall_s": 1934.46
+            },
+            {
+              "cost_usd": 10.950561,
+              "delta": 1.705303,
+              "n_turns": 280,
+              "relative_l2_norm": 1.805548,
+              "relative_l2_shape": 0.049473,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 468786.0,
+              "wall_s": 5088.48
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 9.582086,
+              "delta": null,
+              "n_turns": 244,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 446129.0,
+              "wall_s": 2835.53
+            },
+            {
+              "cost_usd": 10.535962,
+              "delta": 2.350871,
+              "n_turns": 244,
+              "relative_l2_norm": 2.381079,
+              "relative_l2_shape": 0.013408,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 588826.0,
+              "wall_s": 5068.9
+            }
+          ]
+        },
+        "sus-16-051_shape-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 5.345328,
+              "delta": null,
+              "n_turns": 135,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.346559,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 238825.0,
+              "wall_s": 4147.09
+            },
+            {
+              "cost_usd": 4.650458,
+              "delta": null,
+              "n_turns": 119,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.319765,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 297375.0,
+              "wall_s": 2574.89
+            },
+            {
+              "cost_usd": 6.535811,
+              "delta": null,
+              "n_turns": 176,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.453975,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 282712.0,
+              "wall_s": 2984.52
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 5.316691,
+              "delta": null,
+              "n_turns": 137,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.780756,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 249062.0,
+              "wall_s": 5157.93
+            },
+            {
+              "cost_usd": 5.16275,
+              "delta": null,
+              "n_turns": 165,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.388744,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 209713.0,
+              "wall_s": 3794.74
+            },
+            {
+              "cost_usd": 4.63455,
+              "delta": null,
+              "n_turns": 105,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.475665,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 231577.0,
+              "wall_s": 2725.45
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 5.908185,
+              "delta": null,
+              "n_turns": 155,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 268397.0,
+              "wall_s": 2987.44
+            },
+            {
+              "cost_usd": 7.13574,
+              "delta": null,
+              "n_turns": 191,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.351658,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 296848.0,
+              "wall_s": 5053.61
+            },
+            {
+              "cost_usd": 5.042199,
+              "delta": null,
+              "n_turns": 126,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.281725,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 241623.0,
+              "wall_s": 3473.63
+            },
+            {
+              "cost_usd": 4.085916,
+              "delta": null,
+              "n_turns": 103,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.215088,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 223038.0,
+              "wall_s": 3189.46
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 8.854569,
+              "delta": 0.990314,
+              "n_turns": 198,
+              "relative_l2_norm": 0.993908,
+              "relative_l2_shape": 1.603122,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 481474.0,
+              "wall_s": 6171.96
+            },
+            {
+              "cost_usd": 8.768337,
+              "delta": 0.829164,
+              "n_turns": 221,
+              "relative_l2_norm": 0.886252,
+              "relative_l2_shape": 0.278256,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 399892.0,
+              "wall_s": 4926.03
+            },
+            {
+              "cost_usd": 9.381042,
+              "delta": 0.563346,
+              "n_turns": 248,
+              "relative_l2_norm": 0.589924,
+              "relative_l2_shape": 0.314571,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 441348.0,
+              "wall_s": 6610.95
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 6.586355,
+              "delta": 0.149206,
+              "n_turns": 191,
+              "relative_l2_norm": 0.387707,
+              "relative_l2_shape": 0.329263,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 337170.0,
+              "wall_s": 4536.37
+            },
+            {
+              "cost_usd": 6.326233,
+              "delta": 0.082511,
+              "n_turns": 175,
+              "relative_l2_norm": 0.4223,
+              "relative_l2_shape": 0.432775,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 279955.0,
+              "wall_s": 4096.84
+            },
+            {
+              "cost_usd": 6.059556,
+              "delta": 0.180722,
+              "n_turns": 183,
+              "relative_l2_norm": 0.768726,
+              "relative_l2_shape": 0.78418,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 284796.0,
+              "wall_s": 6241.6
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 6.372165,
+              "delta": 0.970259,
+              "n_turns": 173,
+              "relative_l2_norm": 0.970466,
+              "relative_l2_shape": 0.254743,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 272213.0,
+              "wall_s": 2474.14
+            },
+            {
+              "cost_usd": 5.484153,
+              "delta": 0.198611,
+              "n_turns": 153,
+              "relative_l2_norm": 0.284939,
+              "relative_l2_shape": 0.165531,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 237099.0,
+              "wall_s": 3965.28
+            },
+            {
+              "cost_usd": 10.730346,
+              "delta": 0.795835,
+              "n_turns": 240,
+              "relative_l2_norm": 0.79939,
+              "relative_l2_shape": 0.366405,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 523622.0,
+              "wall_s": 6793.72
+            }
+          ]
+        }
+      }
+    },
+    "codex_gpt-5.4-mini": {
+      "_label": "GPT-5.4-mini",
+      "tasks": {
+        "sus-16-034_shape-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 2.73831,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.0461,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 22296426.0,
+              "wall_s": 1795.96
+            },
+            {
+              "cost_usd": 1.853907,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.175367,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 14696932.0,
+              "wall_s": 1830.31
+            },
+            {
+              "cost_usd": 3.507083,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.152233,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 30534626.0,
+              "wall_s": 2842.98
+            }
+          ]
+        },
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 3.387557,
+              "delta": 0.988991,
+              "n_turns": 1,
+              "relative_l2_norm": 0.988222,
+              "relative_l2_shape": 0.212715,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 27418413.0,
+              "wall_s": 3505.66
+            },
+            {
+              "cost_usd": 4.158536,
+              "delta": 0.672481,
+              "n_turns": 1,
+              "relative_l2_norm": 0.678932,
+              "relative_l2_shape": 0.073168,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 38123019.0,
+              "wall_s": 3847.38
+            },
+            {
+              "cost_usd": 3.39521,
+              "delta": 0.251395,
+              "n_turns": 1,
+              "relative_l2_norm": 0.290263,
+              "relative_l2_shape": 0.112005,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 29476693.0,
+              "wall_s": 2722.61
+            }
+          ]
+        },
+        "sus-16-046_shape-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 2.42689,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.075546,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 17768684.0,
+              "wall_s": 1580.25
+            },
+            {
+              "cost_usd": 3.411822,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.022017,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 27069369.0,
+              "wall_s": 2196.86
+            },
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": 9.69
+            }
+          ]
+        },
+        "sus-16-046_shape-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 3.522666,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.271651,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 28466078.0,
+              "wall_s": 2581.86
+            },
+            {
+              "cost_usd": 2.974391,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.148718,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 21424322.0,
+              "wall_s": 2323.85
+            },
+            {
+              "cost_usd": 2.073565,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.398924,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 18933734.0,
+              "wall_s": 1599.51
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 3.402039,
+              "delta": 0.388679,
+              "n_turns": 1,
+              "relative_l2_norm": 0.378211,
+              "relative_l2_shape": 0.023726,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 32352609.0,
+              "wall_s": 2295.97
+            },
+            {
+              "cost_usd": 2.905279,
+              "delta": 0.087056,
+              "n_turns": 1,
+              "relative_l2_norm": 0.134828,
+              "relative_l2_shape": 0.054555,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 24525584.0,
+              "wall_s": 1968.16
+            },
+            {
+              "cost_usd": 2.721755,
+              "delta": 0.998553,
+              "n_turns": 1,
+              "relative_l2_norm": 0.999223,
+              "relative_l2_shape": 0.67508,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 19683721.0,
+              "wall_s": 1930.17
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 3.509696,
+              "delta": 0.989299,
+              "n_turns": 1,
+              "relative_l2_norm": 0.989651,
+              "relative_l2_shape": 0.116704,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 24427476.0,
+              "wall_s": 3477.39
+            },
+            {
+              "cost_usd": 3.788027,
+              "delta": 0.55577,
+              "n_turns": 1,
+              "relative_l2_norm": 0.568854,
+              "relative_l2_shape": 0.0782,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 34289477.0,
+              "wall_s": 2707.9
+            },
+            {
+              "cost_usd": 4.813371,
+              "delta": 0.948565,
+              "n_turns": 1,
+              "relative_l2_norm": 0.947416,
+              "relative_l2_shape": 0.474434,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 34872725.0,
+              "wall_s": 4334.52
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 3.806213,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.244487,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 32303678.0,
+              "wall_s": 3120.73
+            },
+            {
+              "cost_usd": 2.756466,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.240693,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": 23051487.0,
+              "wall_s": 3632.62
+            },
+            {
+              "cost_usd": 2.268136,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": 17777292.0,
+              "wall_s": 1772.43
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 1.548512,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 10797557.0,
+              "wall_s": 1233.11
+            },
+            {
+              "cost_usd": 2.69644,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.42638,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 19372071.0,
+              "wall_s": 2489.76
+            },
+            {
+              "cost_usd": 2.728256,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.381295,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 20753834.0,
+              "wall_s": 2023.24
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 3.437807,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.031132,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 26621259.0,
+              "wall_s": 2263.22
+            },
+            {
+              "cost_usd": 3.370473,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.123173,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 25660103.0,
+              "wall_s": 2643.3
+            },
+            {
+              "cost_usd": 1.808568,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.01016,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 12790823.0,
+              "wall_s": 1243.65
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 4.697226,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.490266,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 48197583.0,
+              "wall_s": 4171.14
+            },
+            {
+              "cost_usd": 3.791701,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.187458,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 27305339.0,
+              "wall_s": 2849.77
+            },
+            {
+              "cost_usd": 1.841528,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.009722,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 14188266.0,
+              "wall_s": 2455.22
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 4.206456,
+              "delta": 1.578906,
+              "n_turns": 1,
+              "relative_l2_norm": 1.566167,
+              "relative_l2_shape": 0.038204,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 37395141.0,
+              "wall_s": 5760.75
+            },
+            {
+              "cost_usd": 3.616077,
+              "delta": 0.878225,
+              "n_turns": 1,
+              "relative_l2_norm": 0.881579,
+              "relative_l2_shape": 0.195372,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 27573400.0,
+              "wall_s": 2626.8
+            },
+            {
+              "cost_usd": 4.455544,
+              "delta": 2.658259,
+              "n_turns": 1,
+              "relative_l2_norm": 2.713615,
+              "relative_l2_shape": 0.286914,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 38082119.0,
+              "wall_s": 6189.86
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 2.882586,
+              "delta": 1.0,
+              "n_turns": 1,
+              "relative_l2_norm": 1.0,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 24586836.0,
+              "wall_s": 3597.55
+            },
+            {
+              "cost_usd": 1.954713,
+              "delta": 0.965817,
+              "n_turns": 1,
+              "relative_l2_norm": 0.96476,
+              "relative_l2_shape": 0.23007,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": 16322452.0,
+              "wall_s": 1826.37
+            },
+            {
+              "cost_usd": 7.204524,
+              "delta": 1.050457,
+              "n_turns": 1,
+              "relative_l2_norm": 1.038659,
+              "relative_l2_shape": 0.231444,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 58730241.0,
+              "wall_s": 3471.3
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 2.894863,
+              "delta": 1.0,
+              "n_turns": 1,
+              "relative_l2_norm": 1.0,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 24369361.0,
+              "wall_s": 2165.46
+            },
+            {
+              "cost_usd": 4.651551,
+              "delta": 2.961688,
+              "n_turns": 1,
+              "relative_l2_norm": 2.763947,
+              "relative_l2_shape": 0.073299,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 35594696.0,
+              "wall_s": 2956.36
+            },
+            {
+              "cost_usd": 5.059378,
+              "delta": 0.539541,
+              "n_turns": 1,
+              "relative_l2_norm": 0.534222,
+              "relative_l2_shape": 0.016712,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 38174703.0,
+              "wall_s": 3463.57
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 4.538189,
+              "delta": 0.914848,
+              "n_turns": 1,
+              "relative_l2_norm": 0.9404,
+              "relative_l2_shape": 0.454463,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 36737108.0,
+              "wall_s": 5259.53
+            },
+            {
+              "cost_usd": 2.694997,
+              "delta": 0.905314,
+              "n_turns": 1,
+              "relative_l2_norm": 0.908274,
+              "relative_l2_shape": 0.003209,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 21879732.0,
+              "wall_s": 2455.46
+            },
+            {
+              "cost_usd": 3.219178,
+              "delta": 1.0,
+              "n_turns": 1,
+              "relative_l2_norm": 1.0,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 29624008.0,
+              "wall_s": 2674.14
+            }
+          ]
+        },
+        "sus-16-051_shape-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 4.804928,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.147485,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 49105776.0,
+              "wall_s": 3643.22
+            },
+            {
+              "cost_usd": 3.197044,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.148442,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 23195254.0,
+              "wall_s": 2456.29
+            },
+            {
+              "cost_usd": 2.564192,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.263371,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 20837617.0,
+              "wall_s": 2154.4
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 4.145192,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.174996,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 36780688.0,
+              "wall_s": 2921.83
+            },
+            {
+              "cost_usd": 3.196983,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.202845,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 25845242.0,
+              "wall_s": 3367.59
+            },
+            {
+              "cost_usd": 2.056756,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.332325,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 14263201.0,
+              "wall_s": 1654.05
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": 2706.87
+            },
+            {
+              "cost_usd": 3.222709,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.062472,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 28995566.0,
+              "wall_s": 4162.96
+            },
+            {
+              "cost_usd": 2.244569,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.245451,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 20270559.0,
+              "wall_s": 2345.58
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 4.402365,
+              "delta": 0.990844,
+              "n_turns": 1,
+              "relative_l2_norm": 0.99286,
+              "relative_l2_shape": 1.236455,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 38509556.0,
+              "wall_s": 3585.88
+            },
+            {
+              "cost_usd": 5.459015,
+              "delta": 2.184843,
+              "n_turns": 1,
+              "relative_l2_norm": 2.231289,
+              "relative_l2_shape": 0.088632,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 37812774.0,
+              "wall_s": 3906.47
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 3.103663,
+              "delta": 0.21019,
+              "n_turns": 1,
+              "relative_l2_norm": 0.348771,
+              "relative_l2_shape": 0.232718,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 20850469.0,
+              "wall_s": 2266.96
+            },
+            {
+              "cost_usd": 3.393029,
+              "delta": 0.991384,
+              "n_turns": 1,
+              "relative_l2_norm": 0.99267,
+              "relative_l2_shape": 0.362468,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 28355234.0,
+              "wall_s": 2956.59
+            },
+            {
+              "cost_usd": 3.48093,
+              "delta": 0.980834,
+              "n_turns": 1,
+              "relative_l2_norm": 0.982972,
+              "relative_l2_shape": 0.201053,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 28758699.0,
+              "wall_s": 2902.07
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 0.01983,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 42533.0,
+              "wall_s": 21.58
+            },
+            {
+              "cost_usd": 4.989691,
+              "delta": 0.861268,
+              "n_turns": 1,
+              "relative_l2_norm": 0.857689,
+              "relative_l2_shape": 0.76218,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 38859262.0,
+              "wall_s": 3651.1
+            },
+            {
+              "cost_usd": 1.908374,
+              "delta": 0.598284,
+              "n_turns": 1,
+              "relative_l2_norm": 0.671572,
+              "relative_l2_shape": 0.833327,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 17603722.0,
+              "wall_s": 1640.22
+            }
+          ]
+        }
+      }
+    },
+    "codex_gpt-5.5": {
+      "_label": "GPT-5.5",
+      "tasks": {
+        "sus-16-034_shape-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 8.575071,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.117532,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 12840332.0,
+              "wall_s": 1516.94
+            },
+            {
+              "cost_usd": 11.122337,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.032607,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 17924003.0,
+              "wall_s": 2680.55
+            },
+            {
+              "cost_usd": 7.716626,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.046155,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 11065621.0,
+              "wall_s": 2603.56
+            }
+          ]
+        },
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 11.647449,
+              "delta": 0.350325,
+              "n_turns": 1,
+              "relative_l2_norm": 0.349845,
+              "relative_l2_shape": 0.105965,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 17451301.0,
+              "wall_s": 2008.1
+            },
+            {
+              "cost_usd": 9.400738,
+              "delta": 0.315931,
+              "n_turns": 1,
+              "relative_l2_norm": 0.330429,
+              "relative_l2_shape": 0.073731,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 14538830.0,
+              "wall_s": 1731.84
+            },
+            {
+              "cost_usd": 10.088207,
+              "delta": 0.158155,
+              "n_turns": 1,
+              "relative_l2_norm": 0.196512,
+              "relative_l2_shape": 0.112923,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 14927712.0,
+              "wall_s": 1591.28
+            }
+          ]
+        },
+        "sus-16-046_shape-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 7.905641,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.289364,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 10954169.0,
+              "wall_s": 1679.79
+            },
+            {
+              "cost_usd": 8.074605,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.26952,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 12320093.0,
+              "wall_s": 1532.64
+            },
+            {
+              "cost_usd": 9.453441,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.021472,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 13960236.0,
+              "wall_s": 1694.91
+            }
+          ]
+        },
+        "sus-16-046_shape-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 10.804949,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.020262,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 16418088.0,
+              "wall_s": 2242.25
+            },
+            {
+              "cost_usd": 8.026928,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.017278,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 12015774.0,
+              "wall_s": 2037.48
+            },
+            {
+              "cost_usd": 12.251004,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.025001,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 19789192.0,
+              "wall_s": 2334.4
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 11.082272,
+              "delta": 0.127258,
+              "n_turns": 1,
+              "relative_l2_norm": 0.113679,
+              "relative_l2_shape": 0.020976,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 16780018.0,
+              "wall_s": 1595.32
+            },
+            {
+              "cost_usd": 8.433468,
+              "delta": 0.068554,
+              "n_turns": 1,
+              "relative_l2_norm": 0.060061,
+              "relative_l2_shape": 0.012769,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 12703744.0,
+              "wall_s": 1441.71
+            },
+            {
+              "cost_usd": 8.818829,
+              "delta": 0.235858,
+              "n_turns": 1,
+              "relative_l2_norm": 0.221339,
+              "relative_l2_shape": 0.025141,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 12581803.0,
+              "wall_s": 1334.03
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 9.778748,
+              "delta": 0.332673,
+              "n_turns": 1,
+              "relative_l2_norm": 0.326442,
+              "relative_l2_shape": 0.02905,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 14448540.0,
+              "wall_s": 1482.49
+            },
+            {
+              "cost_usd": 8.722766,
+              "delta": 0.296323,
+              "n_turns": 1,
+              "relative_l2_norm": 0.293897,
+              "relative_l2_shape": 0.012892,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 12216371.0,
+              "wall_s": 1872.29
+            },
+            {
+              "cost_usd": 12.45657,
+              "delta": 0.215521,
+              "n_turns": 1,
+              "relative_l2_norm": 0.212269,
+              "relative_l2_shape": 0.018626,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 19841796.0,
+              "wall_s": 2253.94
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 22.072834,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.104501,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 36925428.0,
+              "wall_s": 2484.28
+            },
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.066514,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": null,
+              "wall_s": 2705.64
+            },
+            {
+              "cost_usd": 9.889212,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.18786,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 15448257.0,
+              "wall_s": 1199.4
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 11.37444,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.09422,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 16186159.0,
+              "wall_s": 1727.33
+            },
+            {
+              "cost_usd": 9.164154,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.272483,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 9607404.0,
+              "wall_s": 1550.17
+            },
+            {
+              "cost_usd": 9.428532,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.201825,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 14182794.0,
+              "wall_s": 1653.08
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 12.108897,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.021087,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 19280106.0,
+              "wall_s": 2185.85
+            },
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.399362,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": 2705.69
+            },
+            {
+              "cost_usd": 10.352267,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.029909,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 15364646.0,
+              "wall_s": 1867.51
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 7.983232,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.009883,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 12001355.0,
+              "wall_s": 1630.01
+            },
+            {
+              "cost_usd": 8.804812,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.328256,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 12256352.0,
+              "wall_s": 2311.02
+            },
+            {
+              "cost_usd": 10.272205,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.003492,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 16125643.0,
+              "wall_s": 2634.74
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 13.404334,
+              "delta": 0.886588,
+              "n_turns": 1,
+              "relative_l2_norm": 0.885627,
+              "relative_l2_shape": 0.060373,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 20347885.0,
+              "wall_s": 2440.88
+            },
+            {
+              "cost_usd": 9.697198,
+              "delta": 0.446964,
+              "n_turns": 1,
+              "relative_l2_norm": 0.441141,
+              "relative_l2_shape": 0.061891,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 14591360.0,
+              "wall_s": 2008.02
+            },
+            {
+              "cost_usd": 10.184013,
+              "delta": 0.529907,
+              "n_turns": 1,
+              "relative_l2_norm": 0.531811,
+              "relative_l2_shape": 0.120229,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 15206327.0,
+              "wall_s": 1396.72
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 12.473339,
+              "delta": 0.843381,
+              "n_turns": 1,
+              "relative_l2_norm": 0.823111,
+              "relative_l2_shape": 0.164715,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 20177195.0,
+              "wall_s": 2352.11
+            },
+            {
+              "cost_usd": 9.905906,
+              "delta": 0.904992,
+              "n_turns": 1,
+              "relative_l2_norm": 0.901703,
+              "relative_l2_shape": 0.275627,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 13987125.0,
+              "wall_s": 2166.61
+            },
+            {
+              "cost_usd": 19.758971,
+              "delta": 0.635947,
+              "n_turns": 1,
+              "relative_l2_norm": 0.649779,
+              "relative_l2_shape": 0.224731,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 34216310.0,
+              "wall_s": 2561.96
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 10.54547,
+              "delta": 0.46349,
+              "n_turns": 1,
+              "relative_l2_norm": 0.458186,
+              "relative_l2_shape": 0.03273,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 16318020.0,
+              "wall_s": 1626.84
+            },
+            {
+              "cost_usd": null,
+              "delta": 0.978928,
+              "n_turns": null,
+              "relative_l2_norm": 0.994852,
+              "relative_l2_shape": 1.06205,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": 2705.15
+            },
+            {
+              "cost_usd": 10.947297,
+              "delta": 0.31725,
+              "n_turns": 1,
+              "relative_l2_norm": 0.293583,
+              "relative_l2_shape": 0.02998,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 16955650.0,
+              "wall_s": 1592.87
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 11.164998,
+              "delta": 0.087627,
+              "n_turns": 1,
+              "relative_l2_norm": 0.072567,
+              "relative_l2_shape": 0.023909,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 17360761.0,
+              "wall_s": 1898.98
+            },
+            {
+              "cost_usd": null,
+              "delta": 0.981425,
+              "n_turns": null,
+              "relative_l2_norm": 0.983797,
+              "relative_l2_shape": 0.200248,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": 2705.05
+            },
+            {
+              "cost_usd": 12.937435,
+              "delta": 0.286306,
+              "n_turns": 1,
+              "relative_l2_norm": 0.306102,
+              "relative_l2_shape": 0.021429,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 21172918.0,
+              "wall_s": 2271.34
+            }
+          ]
+        },
+        "sus-16-051_shape-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 10.899423,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.180808,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 17105973.0,
+              "wall_s": 2414.74
+            },
+            {
+              "cost_usd": 5.475516,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.314857,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 6306774.0,
+              "wall_s": 1299.66
+            },
+            {
+              "cost_usd": 14.05259,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.1728,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 22503730.0,
+              "wall_s": 2908.16
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 8.25887,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.325956,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 12833326.0,
+              "wall_s": 1961.72
+            },
+            {
+              "cost_usd": 11.305588,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.250241,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 17079207.0,
+              "wall_s": 1975.81
+            },
+            {
+              "cost_usd": 13.195726,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.324887,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 21013399.0,
+              "wall_s": 2291.86
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 14.591022,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.217235,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 23238065.0,
+              "wall_s": 2970.43
+            },
+            {
+              "cost_usd": 12.525135,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 18273094.0,
+              "wall_s": 2991.0
+            },
+            {
+              "cost_usd": 10.865262,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.166686,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 16205325.0,
+              "wall_s": 2886.37
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": 9.24
+            },
+            {
+              "cost_usd": 11.456987,
+              "delta": 0.064691,
+              "n_turns": 1,
+              "relative_l2_norm": 0.191468,
+              "relative_l2_shape": 0.172607,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 16626504.0,
+              "wall_s": 2177.61
+            },
+            {
+              "cost_usd": 9.015276,
+              "delta": 0.94246,
+              "n_turns": 1,
+              "relative_l2_norm": 0.942591,
+              "relative_l2_shape": 0.856412,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 12403563.0,
+              "wall_s": 1753.05
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 23.623005,
+              "delta": 0.409861,
+              "n_turns": 1,
+              "relative_l2_norm": 0.493967,
+              "relative_l2_shape": 0.225474,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 38960604.0,
+              "wall_s": 4296.17
+            },
+            {
+              "cost_usd": 17.782533,
+              "delta": 0.232561,
+              "n_turns": 1,
+              "relative_l2_norm": 0.425383,
+              "relative_l2_shape": 0.321761,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 28616871.0,
+              "wall_s": 3260.21
+            },
+            {
+              "cost_usd": 8.041483,
+              "delta": 0.33748,
+              "n_turns": 1,
+              "relative_l2_norm": 0.468345,
+              "relative_l2_shape": 0.267018,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 12256718.0,
+              "wall_s": 1748.38
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 11.362625,
+              "delta": 0.289271,
+              "n_turns": 1,
+              "relative_l2_norm": 0.341272,
+              "relative_l2_shape": 0.274044,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 17142520.0,
+              "wall_s": 1745.05
+            },
+            {
+              "cost_usd": 11.086665,
+              "delta": null,
+              "n_turns": 1,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 13202486.0,
+              "wall_s": 1793.49
+            },
+            {
+              "cost_usd": 17.549807,
+              "delta": 0.377658,
+              "n_turns": 1,
+              "relative_l2_norm": 0.40121,
+              "relative_l2_shape": 0.196794,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 28630297.0,
+              "wall_s": 3686.39
+            }
+          ]
+        }
+      }
+    },
+    "forge_deepseek-v4-pro": {
+      "_label": "DeepSeek-V4",
+      "tasks": {
+        "sus-16-034_shape-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 0.272775,
+              "delta": null,
+              "n_turns": 37,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.264101,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 2573351.0,
+              "wall_s": 5103.36
+            },
+            {
+              "cost_usd": 0.422494,
+              "delta": null,
+              "n_turns": 84,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.088853,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 6864779.0,
+              "wall_s": 4289.01
+            },
+            {
+              "cost_usd": 0.217853,
+              "delta": null,
+              "n_turns": 29,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.114136,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 2246955.0,
+              "wall_s": 8377.69
+            }
+          ]
+        },
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 0.271301,
+              "delta": 0.557227,
+              "n_turns": 45,
+              "relative_l2_norm": 0.59244,
+              "relative_l2_shape": 0.288981,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 3467188.0,
+              "wall_s": 8983.14
+            },
+            {
+              "cost_usd": 0.036245,
+              "delta": 0.999982,
+              "n_turns": 3,
+              "relative_l2_norm": 0.999984,
+              "relative_l2_shape": 0.66172,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 189435.0,
+              "wall_s": 5022.28
+            }
+          ]
+        },
+        "sus-16-046_shape-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 0.174786,
+              "delta": null,
+              "n_turns": 26,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.045902,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 1485687.0,
+              "wall_s": 5863.27
+            },
+            {
+              "cost_usd": 0.561016,
+              "delta": null,
+              "n_turns": 74,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.179889,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 5950724.0,
+              "wall_s": 3714.32
+            },
+            {
+              "cost_usd": 0.262545,
+              "delta": null,
+              "n_turns": 44,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.017975,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 3870869.0,
+              "wall_s": 8931.47
+            }
+          ]
+        },
+        "sus-16-046_shape-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 0.192281,
+              "delta": null,
+              "n_turns": 40,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.160237,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 2522718.0,
+              "wall_s": 4552.29
+            },
+            {
+              "cost_usd": 0.173066,
+              "delta": null,
+              "n_turns": 27,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.154937,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 2088459.0,
+              "wall_s": 7208.83
+            },
+            {
+              "cost_usd": 0.069152,
+              "delta": null,
+              "n_turns": 9,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.144907,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 523783.0,
+              "wall_s": 7277.35
+            },
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-4",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": null
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 0.325374,
+              "delta": 0.99998,
+              "n_turns": 75,
+              "relative_l2_norm": 0.999982,
+              "relative_l2_shape": 0.165333,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 5667492.0,
+              "wall_s": 7917.29
+            },
+            {
+              "cost_usd": 0.296075,
+              "delta": 0.987294,
+              "n_turns": 53,
+              "relative_l2_norm": 0.985307,
+              "relative_l2_shape": 0.221436,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 3297537.0,
+              "wall_s": 4932.89
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 0.319006,
+              "delta": 0.999386,
+              "n_turns": 62,
+              "relative_l2_norm": 0.999423,
+              "relative_l2_shape": 0.258682,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 3988197.0,
+              "wall_s": 2953.29
+            },
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": null,
+              "wall_s": null
+            },
+            {
+              "cost_usd": 0.31723,
+              "delta": 0.436487,
+              "n_turns": 62,
+              "relative_l2_norm": 0.435095,
+              "relative_l2_shape": 0.012789,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 5334220.0,
+              "wall_s": 6913.87
+            },
+            {
+              "cost_usd": 0.25013,
+              "delta": 0.936568,
+              "n_turns": 43,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-4",
+              "status": "pass",
+              "tokens_total_billed": 3566150.0,
+              "wall_s": 7884.47
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.351958,
+              "delta": null,
+              "n_turns": 75,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.824745,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 5754454.0,
+              "wall_s": 6482.08
+            },
+            {
+              "cost_usd": 0.221848,
+              "delta": null,
+              "n_turns": 50,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": 2578640.0,
+              "wall_s": 9004.1
+            },
+            {
+              "cost_usd": null,
+              "delta": null,
+              "n_turns": null,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": null,
+              "wall_s": null
+            },
+            {
+              "cost_usd": 0.353455,
+              "delta": null,
+              "n_turns": 51,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": 4513621.0,
+              "wall_s": 9003.24
+            }
+          ]
+        },
+        "sus-16-047_shape-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.111777,
+              "delta": null,
+              "n_turns": 17,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.245065,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 828790.0,
+              "wall_s": 8348.07
+            },
+            {
+              "cost_usd": 0.059218,
+              "delta": null,
+              "n_turns": 4,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.937107,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 326791.0,
+              "wall_s": 5164.26
+            },
+            {
+              "cost_usd": 0.272691,
+              "delta": null,
+              "n_turns": 47,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 1.618689,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 2601530.0,
+              "wall_s": 5462.42
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.182426,
+              "delta": null,
+              "n_turns": 28,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.031837,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 1558275.0,
+              "wall_s": 5070.58
+            },
+            {
+              "cost_usd": 0.220185,
+              "delta": null,
+              "n_turns": 45,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.009483,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 2434869.0,
+              "wall_s": 3240.3
+            },
+            {
+              "cost_usd": 0.290808,
+              "delta": null,
+              "n_turns": 41,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.023677,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 3138380.0,
+              "wall_s": 6058.57
+            }
+          ]
+        },
+        "sus-16-047_shape-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.114078,
+              "delta": null,
+              "n_turns": 17,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.696712,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 1518252.0,
+              "wall_s": 9004.8
+            },
+            {
+              "cost_usd": 0.227447,
+              "delta": null,
+              "n_turns": 29,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": 2245001.0,
+              "wall_s": 7645.01
+            },
+            {
+              "cost_usd": 0.368446,
+              "delta": null,
+              "n_turns": 68,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.094455,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 4946964.0,
+              "wall_s": 4167.48
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.338462,
+              "delta": 0.274087,
+              "n_turns": 42,
+              "relative_l2_norm": 0.27396,
+              "relative_l2_shape": 0.120069,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 3502295.0,
+              "wall_s": 7405.03
+            },
+            {
+              "cost_usd": 0.219103,
+              "delta": 2.271955,
+              "n_turns": 22,
+              "relative_l2_norm": 2.962986,
+              "relative_l2_shape": 0.667292,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 1417541.0,
+              "wall_s": 6098.48
+            },
+            {
+              "cost_usd": 0.347687,
+              "delta": 0.992209,
+              "n_turns": 48,
+              "relative_l2_norm": 0.992068,
+              "relative_l2_shape": 0.11613,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": 4314797.0,
+              "wall_s": 9009.49
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.299167,
+              "delta": 0.998391,
+              "n_turns": 62,
+              "relative_l2_norm": 0.998481,
+              "relative_l2_shape": 0.30529,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 3624578.0,
+              "wall_s": 3692.28
+            },
+            {
+              "cost_usd": 0.217322,
+              "delta": 1.0,
+              "n_turns": 37,
+              "relative_l2_norm": 1.0,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "hung",
+              "tokens_total_billed": 1864620.0,
+              "wall_s": 9003.78
+            },
+            {
+              "cost_usd": 0.294483,
+              "delta": 0.858105,
+              "n_turns": 39,
+              "relative_l2_norm": 0.881692,
+              "relative_l2_shape": 0.794848,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 3870782.0,
+              "wall_s": 8131.67
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.126374,
+              "delta": 429.830201,
+              "n_turns": 14,
+              "relative_l2_norm": 451.028368,
+              "relative_l2_shape": 0.065737,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 887370.0,
+              "wall_s": 6262.91
+            },
+            {
+              "cost_usd": 0.157421,
+              "delta": 0.999868,
+              "n_turns": 18,
+              "relative_l2_norm": 0.999869,
+              "relative_l2_shape": 0.018994,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 1057983.0,
+              "wall_s": 4928.79
+            },
+            {
+              "cost_usd": 0.427447,
+              "delta": 24.862478,
+              "n_turns": 63,
+              "relative_l2_norm": 18.029515,
+              "relative_l2_shape": 0.463293,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 5337213.0,
+              "wall_s": 6338.64
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.077976,
+              "delta": 0.996869,
+              "n_turns": 9,
+              "relative_l2_norm": 0.996685,
+              "relative_l2_shape": 0.085264,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 502405.0,
+              "wall_s": 5442.98
+            },
+            {
+              "cost_usd": 0.354609,
+              "delta": null,
+              "n_turns": 53,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 4059275.0,
+              "wall_s": 4899.49
+            },
+            {
+              "cost_usd": 0.06056,
+              "delta": 0.702258,
+              "n_turns": 7,
+              "relative_l2_norm": 0.713054,
+              "relative_l2_shape": 0.065326,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 357548.0,
+              "wall_s": 5319.88
+            }
+          ]
+        },
+        "sus-16-051_shape-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.36786,
+              "delta": null,
+              "n_turns": 73,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.450918,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 5558595.0,
+              "wall_s": 5979.5
+            },
+            {
+              "cost_usd": 0.207836,
+              "delta": null,
+              "n_turns": 26,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.859052,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 1606651.0,
+              "wall_s": 5387.3
+            },
+            {
+              "cost_usd": 0.371526,
+              "delta": null,
+              "n_turns": 51,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.605353,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 4432351.0,
+              "wall_s": 7380.27
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.313617,
+              "delta": null,
+              "n_turns": 40,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.505972,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 3119691.0,
+              "wall_s": 5676.1
+            },
+            {
+              "cost_usd": 0.248758,
+              "delta": null,
+              "n_turns": 42,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.364629,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 3570719.0,
+              "wall_s": 8574.14
+            },
+            {
+              "cost_usd": 0.20589,
+              "delta": null,
+              "n_turns": 28,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 1960121.0,
+              "wall_s": 6620.97
+            }
+          ]
+        },
+        "sus-16-051_shape-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 0.063073,
+              "delta": null,
+              "n_turns": 7,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.784663,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 351944.0,
+              "wall_s": 6722.04
+            },
+            {
+              "cost_usd": 0.276429,
+              "delta": null,
+              "n_turns": 34,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.60663,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 2627280.0,
+              "wall_s": 5028.28
+            },
+            {
+              "cost_usd": 0.12619,
+              "delta": null,
+              "n_turns": 10,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": 776560.0,
+              "wall_s": 9003.14
+            },
+            {
+              "cost_usd": 0.387108,
+              "delta": null,
+              "n_turns": 78,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-4",
+              "status": "hung",
+              "tokens_total_billed": 5251506.0,
+              "wall_s": 9003.11
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.043419,
+              "delta": 0.990446,
+              "n_turns": 6,
+              "relative_l2_norm": 0.990752,
+              "relative_l2_shape": 1.564258,
+              "run_label": "run-1",
+              "status": "hung",
+              "tokens_total_billed": 120557.0,
+              "wall_s": 9004.87
+            },
+            {
+              "cost_usd": 0.193271,
+              "delta": 41.993031,
+              "n_turns": 42,
+              "relative_l2_norm": 42.832827,
+              "relative_l2_shape": 0.453964,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 2218698.0,
+              "wall_s": 4863.59
+            },
+            {
+              "cost_usd": 0.211036,
+              "delta": 1.0,
+              "n_turns": 30,
+              "relative_l2_norm": 1.0,
+              "relative_l2_shape": null,
+              "run_label": "run-3",
+              "status": "hung",
+              "tokens_total_billed": 2464719.0,
+              "wall_s": 9003.98
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.265744,
+              "delta": 0.749784,
+              "n_turns": 32,
+              "relative_l2_norm": 1.044737,
+              "relative_l2_shape": 1.779839,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 2392065.0,
+              "wall_s": 6783.64
+            },
+            {
+              "cost_usd": 0.102197,
+              "delta": 0.999993,
+              "n_turns": 10,
+              "relative_l2_norm": 0.999996,
+              "relative_l2_shape": 0.685347,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 708345.0,
+              "wall_s": 6149.57
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 0.229293,
+              "delta": 0.999982,
+              "n_turns": 38,
+              "relative_l2_norm": 0.999983,
+              "relative_l2_shape": 0.217484,
+              "run_label": "run-1",
+              "status": "pass",
+              "tokens_total_billed": 2220653.0,
+              "wall_s": 3900.77
+            },
+            {
+              "cost_usd": 0.300327,
+              "delta": 0.999937,
+              "n_turns": 57,
+              "relative_l2_norm": 0.99994,
+              "relative_l2_shape": 0.452282,
+              "run_label": "run-2",
+              "status": "pass",
+              "tokens_total_billed": 3597183.0,
+              "wall_s": 4742.45
+            },
+            {
+              "cost_usd": 0.081288,
+              "delta": 0.999963,
+              "n_turns": 13,
+              "relative_l2_norm": 0.999964,
+              "relative_l2_shape": 0.425581,
+              "run_label": "run-3",
+              "status": "pass",
+              "tokens_total_billed": 601999.0,
+              "wall_s": 6898.46
+            },
+            {
+              "cost_usd": 0.318544,
+              "delta": 0.971137,
+              "n_turns": 44,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_label": "run-4",
+              "status": "pass",
+              "tokens_total_billed": 3401069.0,
+              "wall_s": 5655.5
+            }
+          ]
+        }
+      }
+    }
+  },
+  "source_root": "/global/cfs/cdirs/m4539/ColliderBench"
+}

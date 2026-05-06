@@ -1,0 +1,1572 @@
+{
+  "metric": "normalization.Delta",
+  "models": {
+    "claude_haiku-4-5": {
+      "_label": "Haiku 4.5",
+      "tasks": {
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 1.276543,
+              "delta": 0.815157,
+              "n_turns": 82,
+              "run_label": "run-3",
+              "tokens_total_billed": 464294,
+              "wall_s": 2334.56
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 0.426914,
+              "delta": 57.81495,
+              "n_turns": 50,
+              "run_label": "run-1",
+              "tokens_total_billed": 77445,
+              "wall_s": 249.3
+            },
+            {
+              "cost_usd": 1.032656,
+              "delta": 14.478578,
+              "n_turns": 92,
+              "run_label": "run-2",
+              "tokens_total_billed": 160831,
+              "wall_s": 690.05
+            },
+            {
+              "cost_usd": 0.987306,
+              "delta": 15.390155,
+              "n_turns": 84,
+              "run_label": "run-3",
+              "tokens_total_billed": 157007,
+              "wall_s": 1191.75
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 1.502233,
+              "delta": 0.963604,
+              "n_turns": 91,
+              "run_label": "run-1",
+              "tokens_total_billed": 670341,
+              "wall_s": 4273.84
+            },
+            {
+              "cost_usd": 1.633417,
+              "delta": 0.997459,
+              "n_turns": 48,
+              "run_label": "run-2",
+              "tokens_total_billed": 75589,
+              "wall_s": 573.64
+            },
+            {
+              "cost_usd": 0.989101,
+              "delta": 0.827348,
+              "n_turns": 96,
+              "run_label": "run-3",
+              "tokens_total_billed": 148049,
+              "wall_s": 534.47
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 2.626842,
+              "delta": 380.073703,
+              "n_turns": 61,
+              "run_label": "run-1",
+              "tokens_total_billed": 105564,
+              "wall_s": 619.95
+            },
+            {
+              "cost_usd": 0.772256,
+              "delta": 0.19619,
+              "n_turns": 71,
+              "run_label": "run-3",
+              "tokens_total_billed": 135118,
+              "wall_s": 464.6
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 1.019361,
+              "delta": 0.131579,
+              "n_turns": 105,
+              "run_label": "run-1",
+              "tokens_total_billed": 129883,
+              "wall_s": 488.57
+            },
+            {
+              "cost_usd": 1.716988,
+              "delta": 8.018458,
+              "n_turns": 134,
+              "run_label": "run-2",
+              "tokens_total_billed": 173321,
+              "wall_s": 1066.35
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.94679,
+              "delta": 0.634254,
+              "n_turns": 91,
+              "run_label": "run-1",
+              "tokens_total_billed": 143428,
+              "wall_s": 1725.51
+            },
+            {
+              "cost_usd": 0.662309,
+              "delta": 2873.652721,
+              "n_turns": 63,
+              "run_label": "run-2",
+              "tokens_total_billed": 117792,
+              "wall_s": 600.69
+            },
+            {
+              "cost_usd": 0.584459,
+              "delta": 25.760909,
+              "n_turns": 45,
+              "run_label": "run-3",
+              "tokens_total_billed": 120368,
+              "wall_s": 388.76
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.946897,
+              "delta": 1.0,
+              "n_turns": 80,
+              "run_label": "run-1",
+              "tokens_total_billed": 157659,
+              "wall_s": 603.23
+            },
+            {
+              "cost_usd": 0.813281,
+              "delta": 442.117174,
+              "n_turns": 84,
+              "run_label": "run-2",
+              "tokens_total_billed": 125474,
+              "wall_s": 2078.73
+            },
+            {
+              "cost_usd": 0.450322,
+              "delta": 590.290323,
+              "n_turns": 51,
+              "run_label": "run-3",
+              "tokens_total_billed": 83766,
+              "wall_s": 266.32
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.709993,
+              "delta": 35.376307,
+              "n_turns": 2,
+              "run_label": "run-1",
+              "tokens_total_billed": 2877,
+              "wall_s": 2061.82
+            },
+            {
+              "cost_usd": 0.782659,
+              "delta": 1.926829,
+              "n_turns": 61,
+              "run_label": "run-2",
+              "tokens_total_billed": 111740,
+              "wall_s": 492.41
+            },
+            {
+              "cost_usd": 3.249325,
+              "delta": 3925.480836,
+              "n_turns": 104,
+              "run_label": "run-3",
+              "tokens_total_billed": 146018,
+              "wall_s": 1062.95
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.896921,
+              "delta": 1.0,
+              "n_turns": 93,
+              "run_label": "run-1",
+              "tokens_total_billed": 124665,
+              "wall_s": 403.06
+            },
+            {
+              "cost_usd": 0.984207,
+              "delta": 52.535354,
+              "n_turns": 78,
+              "run_label": "run-2",
+              "tokens_total_billed": 159308,
+              "wall_s": 1088.92
+            },
+            {
+              "cost_usd": 0.840328,
+              "delta": 30.305916,
+              "n_turns": 78,
+              "run_label": "run-3",
+              "tokens_total_billed": 129386,
+              "wall_s": 454.04
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 1.268191,
+              "delta": 0.873418,
+              "n_turns": 89,
+              "run_label": "run-1",
+              "tokens_total_billed": 178745,
+              "wall_s": 674.4
+            },
+            {
+              "cost_usd": 0.808171,
+              "delta": 4.696203,
+              "n_turns": 65,
+              "run_label": "run-2",
+              "tokens_total_billed": 145230,
+              "wall_s": 2573.49
+            },
+            {
+              "cost_usd": 0.679031,
+              "delta": 335.202532,
+              "n_turns": 69,
+              "run_label": "run-3",
+              "tokens_total_billed": 110564,
+              "wall_s": 1603.45
+            }
+          ]
+        }
+      }
+    },
+    "claude_opus-4-7": {
+      "_label": "Opus 4.7",
+      "tasks": {
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 17.720077,
+              "delta": 0.096913,
+              "n_turns": 196,
+              "run_label": "run-1",
+              "tokens_total_billed": 391647,
+              "wall_s": 2074.49
+            },
+            {
+              "cost_usd": 17.096411,
+              "delta": 0.301636,
+              "n_turns": 186,
+              "run_label": "run-2",
+              "tokens_total_billed": 375088,
+              "wall_s": 3144.98
+            },
+            {
+              "cost_usd": 20.771251,
+              "delta": 0.098983,
+              "n_turns": 224,
+              "run_label": "run-3",
+              "tokens_total_billed": 390444,
+              "wall_s": 2491.86
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 17.280241,
+              "delta": 0.263413,
+              "n_turns": 172,
+              "run_label": "run-1",
+              "tokens_total_billed": 398034,
+              "wall_s": 2237.59
+            },
+            {
+              "cost_usd": 11.567964,
+              "delta": 0.921127,
+              "n_turns": 183,
+              "run_label": "run-2",
+              "tokens_total_billed": 338812,
+              "wall_s": 1795.32
+            },
+            {
+              "cost_usd": 11.425422,
+              "delta": 0.330256,
+              "n_turns": 180,
+              "run_label": "run-3",
+              "tokens_total_billed": 310580,
+              "wall_s": 2005.74
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 14.3859,
+              "delta": 0.213946,
+              "n_turns": 141,
+              "run_label": "run-1",
+              "tokens_total_billed": 403199,
+              "wall_s": 2345.15
+            },
+            {
+              "cost_usd": 12.763929,
+              "delta": 0.321039,
+              "n_turns": 181,
+              "run_label": "run-2",
+              "tokens_total_billed": 530583,
+              "wall_s": 2149.45
+            },
+            {
+              "cost_usd": 9.774919,
+              "delta": 0.933726,
+              "n_turns": 150,
+              "run_label": "run-3",
+              "tokens_total_billed": 318156,
+              "wall_s": 1540.09
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": null,
+              "delta": 2.90367,
+              "n_turns": null,
+              "run_label": "run-1",
+              "tokens_total_billed": null,
+              "wall_s": 2705.43
+            },
+            {
+              "cost_usd": 17.90517,
+              "delta": 0.69799,
+              "n_turns": 270,
+              "run_label": "run-2",
+              "tokens_total_billed": 508756,
+              "wall_s": 3393.27
+            },
+            {
+              "cost_usd": 11.80345,
+              "delta": 0.728706,
+              "n_turns": 197,
+              "run_label": "run-3",
+              "tokens_total_billed": 344623,
+              "wall_s": 1694.1
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 15.239914,
+              "delta": 0.553368,
+              "n_turns": 246,
+              "run_label": "run-1",
+              "tokens_total_billed": 454647,
+              "wall_s": 2959.52
+            },
+            {
+              "cost_usd": 10.565453,
+              "delta": 0.671579,
+              "n_turns": 159,
+              "run_label": "run-2",
+              "tokens_total_billed": 331661,
+              "wall_s": 3171.42
+            },
+            {
+              "cost_usd": 12.360136,
+              "delta": 0.938632,
+              "n_turns": 191,
+              "run_label": "run-3",
+              "tokens_total_billed": 352205,
+              "wall_s": 1881.59
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 18.036463,
+              "delta": 0.576046,
+              "n_turns": 167,
+              "run_label": "run-1",
+              "tokens_total_billed": 443771,
+              "wall_s": 2578.37
+            },
+            {
+              "cost_usd": 13.746375,
+              "delta": 0.952268,
+              "n_turns": 196,
+              "run_label": "run-2",
+              "tokens_total_billed": 356752,
+              "wall_s": 2644.02
+            },
+            {
+              "cost_usd": 15.581221,
+              "delta": 0.360257,
+              "n_turns": 249,
+              "run_label": "run-3",
+              "tokens_total_billed": 412364,
+              "wall_s": 2418.72
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 12.517207,
+              "delta": 15.737073,
+              "n_turns": 200,
+              "run_label": "run-1",
+              "tokens_total_billed": 367740,
+              "wall_s": 2930.44
+            },
+            {
+              "cost_usd": 25.706737,
+              "delta": 10.54836,
+              "n_turns": 375,
+              "run_label": "run-2",
+              "tokens_total_billed": 674955,
+              "wall_s": 4506.68
+            },
+            {
+              "cost_usd": 10.788999,
+              "delta": 6.829797,
+              "n_turns": 167,
+              "run_label": "run-3",
+              "tokens_total_billed": 318918,
+              "wall_s": 3049.14
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 20.641382,
+              "delta": 0.102401,
+              "n_turns": 233,
+              "run_label": "run-1",
+              "tokens_total_billed": 381516,
+              "wall_s": 2320.54
+            },
+            {
+              "cost_usd": 13.43496,
+              "delta": 0.030597,
+              "n_turns": 153,
+              "run_label": "run-2",
+              "tokens_total_billed": 377178,
+              "wall_s": 2361.81
+            },
+            {
+              "cost_usd": 12.485823,
+              "delta": 0.004544,
+              "n_turns": 151,
+              "run_label": "run-3",
+              "tokens_total_billed": 334252,
+              "wall_s": 2032.64
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 15.218677,
+              "delta": 0.192482,
+              "n_turns": 159,
+              "run_label": "run-1",
+              "tokens_total_billed": 555779,
+              "wall_s": 2094.51
+            },
+            {
+              "cost_usd": 17.473919,
+              "delta": 0.084103,
+              "n_turns": 203,
+              "run_label": "run-2",
+              "tokens_total_billed": 379760,
+              "wall_s": 2387.54
+            },
+            {
+              "cost_usd": 10.312438,
+              "delta": 0.224949,
+              "n_turns": 139,
+              "run_label": "run-3",
+              "tokens_total_billed": 264624,
+              "wall_s": 1838.63
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 14.881709,
+              "delta": 0.006968,
+              "n_turns": 200,
+              "run_label": "run-1",
+              "tokens_total_billed": 278469,
+              "wall_s": 1625.99
+            },
+            {
+              "cost_usd": 14.998088,
+              "delta": 0.934248,
+              "n_turns": 198,
+              "run_label": "run-2",
+              "tokens_total_billed": 301422,
+              "wall_s": 1755.64
+            },
+            {
+              "cost_usd": 9.838496,
+              "delta": 0.379503,
+              "n_turns": 150,
+              "run_label": "run-3",
+              "tokens_total_billed": 240978,
+              "wall_s": 1587.53
+            }
+          ]
+        }
+      }
+    },
+    "claude_sonnet-4-6": {
+      "_label": "Sonnet 4.6",
+      "tasks": {
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 6.481544,
+              "delta": 0.164824,
+              "n_turns": 130,
+              "run_label": "run-1",
+              "tokens_total_billed": 448398,
+              "wall_s": 2996.07
+            },
+            {
+              "cost_usd": 6.123275,
+              "delta": 0.445712,
+              "n_turns": 161,
+              "run_label": "run-2",
+              "tokens_total_billed": 266427,
+              "wall_s": 2816.88
+            },
+            {
+              "cost_usd": 4.724122,
+              "delta": 0.284362,
+              "n_turns": 118,
+              "run_label": "run-3",
+              "tokens_total_billed": 261145,
+              "wall_s": 2562.33
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 6.644278,
+              "delta": 0.92862,
+              "n_turns": 174,
+              "run_label": "run-1",
+              "tokens_total_billed": 286957,
+              "wall_s": 2417.51
+            },
+            {
+              "cost_usd": 8.689732,
+              "delta": 0.824038,
+              "n_turns": 219,
+              "run_label": "run-2",
+              "tokens_total_billed": 453258,
+              "wall_s": 3577.66
+            },
+            {
+              "cost_usd": 9.515479,
+              "delta": 0.102398,
+              "n_turns": 234,
+              "run_label": "run-3",
+              "tokens_total_billed": 450747,
+              "wall_s": 4404.04
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 7.851014,
+              "delta": 0.973091,
+              "n_turns": 217,
+              "run_label": "run-1",
+              "tokens_total_billed": 395454,
+              "wall_s": 4025.25
+            },
+            {
+              "cost_usd": 6.338165,
+              "delta": 0.875556,
+              "n_turns": 163,
+              "run_label": "run-2",
+              "tokens_total_billed": 359951,
+              "wall_s": 3306.32
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 7.904488,
+              "delta": 0.607547,
+              "n_turns": 200,
+              "run_label": "run-1",
+              "tokens_total_billed": 386280,
+              "wall_s": 3090.69
+            },
+            {
+              "cost_usd": 6.88615,
+              "delta": 0.577315,
+              "n_turns": 189,
+              "run_label": "run-2",
+              "tokens_total_billed": 398819,
+              "wall_s": 3353.13
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 6.699081,
+              "delta": 0.951368,
+              "n_turns": 187,
+              "run_label": "run-2",
+              "tokens_total_billed": 318509,
+              "wall_s": 2862.11
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 7.305319,
+              "delta": 0.990769,
+              "n_turns": 163,
+              "run_label": "run-1",
+              "tokens_total_billed": 299741,
+              "wall_s": 1934.46
+            },
+            {
+              "cost_usd": 10.950561,
+              "delta": 1.705303,
+              "n_turns": 280,
+              "run_label": "run-2",
+              "tokens_total_billed": 468786,
+              "wall_s": 5088.48
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 10.535962,
+              "delta": 2.350871,
+              "n_turns": 244,
+              "run_label": "run-2",
+              "tokens_total_billed": 588826,
+              "wall_s": 5068.9
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 8.854569,
+              "delta": 0.990314,
+              "n_turns": 198,
+              "run_label": "run-1",
+              "tokens_total_billed": 481474,
+              "wall_s": 6171.96
+            },
+            {
+              "cost_usd": 8.768337,
+              "delta": 0.829164,
+              "n_turns": 221,
+              "run_label": "run-2",
+              "tokens_total_billed": 399892,
+              "wall_s": 4926.03
+            },
+            {
+              "cost_usd": 9.381042,
+              "delta": 0.563346,
+              "n_turns": 248,
+              "run_label": "run-3",
+              "tokens_total_billed": 441348,
+              "wall_s": 6610.95
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 6.586355,
+              "delta": 0.149206,
+              "n_turns": 191,
+              "run_label": "run-1",
+              "tokens_total_billed": 337170,
+              "wall_s": 4536.37
+            },
+            {
+              "cost_usd": 6.326233,
+              "delta": 0.082511,
+              "n_turns": 175,
+              "run_label": "run-2",
+              "tokens_total_billed": 279955,
+              "wall_s": 4096.84
+            },
+            {
+              "cost_usd": 6.059556,
+              "delta": 0.180722,
+              "n_turns": 183,
+              "run_label": "run-3",
+              "tokens_total_billed": 284796,
+              "wall_s": 6241.6
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 6.372165,
+              "delta": 0.970259,
+              "n_turns": 173,
+              "run_label": "run-1",
+              "tokens_total_billed": 272213,
+              "wall_s": 2474.14
+            },
+            {
+              "cost_usd": 5.484153,
+              "delta": 0.198611,
+              "n_turns": 153,
+              "run_label": "run-2",
+              "tokens_total_billed": 237099,
+              "wall_s": 3965.28
+            },
+            {
+              "cost_usd": 10.730346,
+              "delta": 0.795835,
+              "n_turns": 240,
+              "run_label": "run-3",
+              "tokens_total_billed": 523622,
+              "wall_s": 6793.72
+            }
+          ]
+        }
+      }
+    },
+    "codex_gpt-5.4-mini": {
+      "_label": "GPT-5.4-mini",
+      "tasks": {
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 3.387557,
+              "delta": 0.988991,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 27418413,
+              "wall_s": 3505.66
+            },
+            {
+              "cost_usd": 4.158536,
+              "delta": 0.672481,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 38123019,
+              "wall_s": 3847.38
+            },
+            {
+              "cost_usd": 3.39521,
+              "delta": 0.251395,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 29476693,
+              "wall_s": 2722.61
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 3.402039,
+              "delta": 0.388679,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 32352609,
+              "wall_s": 2295.97
+            },
+            {
+              "cost_usd": 2.905279,
+              "delta": 0.087056,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 24525584,
+              "wall_s": 1968.16
+            },
+            {
+              "cost_usd": 2.721755,
+              "delta": 0.998553,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 19683721,
+              "wall_s": 1930.17
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 3.509696,
+              "delta": 0.989299,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 24427476,
+              "wall_s": 3477.39
+            },
+            {
+              "cost_usd": 3.788027,
+              "delta": 0.55577,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 34289477,
+              "wall_s": 2707.9
+            },
+            {
+              "cost_usd": 4.813371,
+              "delta": 0.948565,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 34872725,
+              "wall_s": 4334.52
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 4.206456,
+              "delta": 1.578906,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 37395141,
+              "wall_s": 5760.75
+            },
+            {
+              "cost_usd": 3.616077,
+              "delta": 0.878225,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 27573400,
+              "wall_s": 2626.8
+            },
+            {
+              "cost_usd": 4.455544,
+              "delta": 2.658259,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 38082119,
+              "wall_s": 6189.86
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 2.882586,
+              "delta": 1.0,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 24586836,
+              "wall_s": 3597.55
+            },
+            {
+              "cost_usd": 1.954713,
+              "delta": 0.965817,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 16322452,
+              "wall_s": 1826.37
+            },
+            {
+              "cost_usd": 7.204524,
+              "delta": 1.050457,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 58730241,
+              "wall_s": 3471.3
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 2.894863,
+              "delta": 1.0,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 24369361,
+              "wall_s": 2165.46
+            },
+            {
+              "cost_usd": 4.651551,
+              "delta": 2.961688,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 35594696,
+              "wall_s": 2956.36
+            },
+            {
+              "cost_usd": 5.059378,
+              "delta": 0.539541,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 38174703,
+              "wall_s": 3463.57
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 4.538189,
+              "delta": 0.914848,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 36737108,
+              "wall_s": 5259.53
+            },
+            {
+              "cost_usd": 2.694997,
+              "delta": 0.905314,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 21879732,
+              "wall_s": 2455.46
+            },
+            {
+              "cost_usd": 3.219178,
+              "delta": 1.0,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 29624008,
+              "wall_s": 2674.14
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 4.402365,
+              "delta": 0.990844,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 38509556,
+              "wall_s": 3585.88
+            },
+            {
+              "cost_usd": 5.459015,
+              "delta": 2.184843,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 37812774,
+              "wall_s": 3906.47
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 3.103663,
+              "delta": 0.21019,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 20850469,
+              "wall_s": 2266.96
+            },
+            {
+              "cost_usd": 3.393029,
+              "delta": 0.991384,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 28355234,
+              "wall_s": 2956.59
+            },
+            {
+              "cost_usd": 3.48093,
+              "delta": 0.980834,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 28758699,
+              "wall_s": 2902.07
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 4.989691,
+              "delta": 0.861268,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 38859262,
+              "wall_s": 3651.1
+            },
+            {
+              "cost_usd": 1.908374,
+              "delta": 0.598284,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 17603722,
+              "wall_s": 1640.22
+            }
+          ]
+        }
+      }
+    },
+    "codex_gpt-5.5": {
+      "_label": "GPT-5.5",
+      "tasks": {
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 11.647449,
+              "delta": 0.350325,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 17451301,
+              "wall_s": 2008.1
+            },
+            {
+              "cost_usd": 9.400738,
+              "delta": 0.315931,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 14538830,
+              "wall_s": 1731.84
+            },
+            {
+              "cost_usd": 10.088207,
+              "delta": 0.158155,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 14927712,
+              "wall_s": 1591.28
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 11.082272,
+              "delta": 0.127258,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 16780018,
+              "wall_s": 1595.32
+            },
+            {
+              "cost_usd": 8.433468,
+              "delta": 0.068554,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 12703744,
+              "wall_s": 1441.71
+            },
+            {
+              "cost_usd": 8.818829,
+              "delta": 0.235858,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 12581803,
+              "wall_s": 1334.03
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 9.778748,
+              "delta": 0.332673,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 14448540,
+              "wall_s": 1482.49
+            },
+            {
+              "cost_usd": 8.722766,
+              "delta": 0.296323,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 12216371,
+              "wall_s": 1872.29
+            },
+            {
+              "cost_usd": 12.45657,
+              "delta": 0.215521,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 19841796,
+              "wall_s": 2253.94
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 13.404334,
+              "delta": 0.886588,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 20347885,
+              "wall_s": 2440.88
+            },
+            {
+              "cost_usd": 9.697198,
+              "delta": 0.446964,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 14591360,
+              "wall_s": 2008.02
+            },
+            {
+              "cost_usd": 10.184013,
+              "delta": 0.529907,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 15206327,
+              "wall_s": 1396.72
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 12.473339,
+              "delta": 0.843381,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 20177195,
+              "wall_s": 2352.11
+            },
+            {
+              "cost_usd": 9.905906,
+              "delta": 0.904992,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 13987125,
+              "wall_s": 2166.61
+            },
+            {
+              "cost_usd": 19.758971,
+              "delta": 0.635947,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 34216310,
+              "wall_s": 2561.96
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 10.54547,
+              "delta": 0.46349,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 16318020,
+              "wall_s": 1626.84
+            },
+            {
+              "cost_usd": null,
+              "delta": 0.978928,
+              "n_turns": null,
+              "run_label": "run-2",
+              "tokens_total_billed": null,
+              "wall_s": 2705.15
+            },
+            {
+              "cost_usd": 10.947297,
+              "delta": 0.31725,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 16955650,
+              "wall_s": 1592.87
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 11.164998,
+              "delta": 0.087627,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 17360761,
+              "wall_s": 1898.98
+            },
+            {
+              "cost_usd": null,
+              "delta": 0.981425,
+              "n_turns": null,
+              "run_label": "run-2",
+              "tokens_total_billed": null,
+              "wall_s": 2705.05
+            },
+            {
+              "cost_usd": 12.937435,
+              "delta": 0.286306,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 21172918,
+              "wall_s": 2271.34
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 11.456987,
+              "delta": 0.064691,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 16626504,
+              "wall_s": 2177.61
+            },
+            {
+              "cost_usd": 9.015276,
+              "delta": 0.94246,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 12403563,
+              "wall_s": 1753.05
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 23.623005,
+              "delta": 0.409861,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 38960604,
+              "wall_s": 4296.17
+            },
+            {
+              "cost_usd": 17.782533,
+              "delta": 0.232561,
+              "n_turns": 1,
+              "run_label": "run-2",
+              "tokens_total_billed": 28616871,
+              "wall_s": 3260.21
+            },
+            {
+              "cost_usd": 8.041483,
+              "delta": 0.33748,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 12256718,
+              "wall_s": 1748.38
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 11.362625,
+              "delta": 0.289271,
+              "n_turns": 1,
+              "run_label": "run-1",
+              "tokens_total_billed": 17142520,
+              "wall_s": 1745.05
+            },
+            {
+              "cost_usd": 17.549807,
+              "delta": 0.377658,
+              "n_turns": 1,
+              "run_label": "run-3",
+              "tokens_total_billed": 28630297,
+              "wall_s": 3686.39
+            }
+          ]
+        }
+      }
+    },
+    "forge_deepseek-v4-pro": {
+      "_label": "DeepSeek-V4",
+      "tasks": {
+        "sus-16-034_sim-TChiWZ": {
+          "replicates": [
+            {
+              "cost_usd": 0.271301,
+              "delta": 0.557227,
+              "n_turns": 45,
+              "run_label": "run-1",
+              "tokens_total_billed": 3467188,
+              "wall_s": 8983.14
+            },
+            {
+              "cost_usd": 0.036245,
+              "delta": 0.999982,
+              "n_turns": 3,
+              "run_label": "run-2",
+              "tokens_total_billed": 189435,
+              "wall_s": 5022.28
+            }
+          ]
+        },
+        "sus-16-046_sim-T5Wg": {
+          "replicates": [
+            {
+              "cost_usd": 0.325374,
+              "delta": 0.99998,
+              "n_turns": 75,
+              "run_label": "run-1",
+              "tokens_total_billed": 5667492,
+              "wall_s": 7917.29
+            },
+            {
+              "cost_usd": 0.296075,
+              "delta": 0.987294,
+              "n_turns": 53,
+              "run_label": "run-2",
+              "tokens_total_billed": 3297537,
+              "wall_s": 4932.89
+            }
+          ]
+        },
+        "sus-16-046_sim-TChiWg": {
+          "replicates": [
+            {
+              "cost_usd": 0.319006,
+              "delta": 0.999386,
+              "n_turns": 62,
+              "run_label": "run-1",
+              "tokens_total_billed": 3988197,
+              "wall_s": 2953.29
+            },
+            {
+              "cost_usd": 0.31723,
+              "delta": 0.436487,
+              "n_turns": 62,
+              "run_label": "run-3",
+              "tokens_total_billed": 5334220,
+              "wall_s": 6913.87
+            },
+            {
+              "cost_usd": 0.25013,
+              "delta": 0.936568,
+              "n_turns": 43,
+              "run_label": "run-4",
+              "tokens_total_billed": 3566150,
+              "wall_s": 7884.47
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.338462,
+              "delta": 0.274087,
+              "n_turns": 42,
+              "run_label": "run-1",
+              "tokens_total_billed": 3502295,
+              "wall_s": 7405.03
+            },
+            {
+              "cost_usd": 0.219103,
+              "delta": 2.271955,
+              "n_turns": 22,
+              "run_label": "run-2",
+              "tokens_total_billed": 1417541,
+              "wall_s": 6098.48
+            },
+            {
+              "cost_usd": 0.347687,
+              "delta": 0.992209,
+              "n_turns": 48,
+              "run_label": "run-3",
+              "tokens_total_billed": 4314797,
+              "wall_s": 9009.49
+            }
+          ]
+        },
+        "sus-16-047_sim-T5Wg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.299167,
+              "delta": 0.998391,
+              "n_turns": 62,
+              "run_label": "run-1",
+              "tokens_total_billed": 3624578,
+              "wall_s": 3692.28
+            },
+            {
+              "cost_usd": 0.217322,
+              "delta": 1.0,
+              "n_turns": 37,
+              "run_label": "run-2",
+              "tokens_total_billed": 1864620,
+              "wall_s": 9003.78
+            },
+            {
+              "cost_usd": 0.294483,
+              "delta": 0.858105,
+              "n_turns": 39,
+              "run_label": "run-3",
+              "tokens_total_billed": 3870782,
+              "wall_s": 8131.67
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_highHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.126374,
+              "delta": 429.830201,
+              "n_turns": 14,
+              "run_label": "run-1",
+              "tokens_total_billed": 887370,
+              "wall_s": 6262.91
+            },
+            {
+              "cost_usd": 0.157421,
+              "delta": 0.999868,
+              "n_turns": 18,
+              "run_label": "run-2",
+              "tokens_total_billed": 1057983,
+              "wall_s": 4928.79
+            },
+            {
+              "cost_usd": 0.427447,
+              "delta": 24.862478,
+              "n_turns": 63,
+              "run_label": "run-3",
+              "tokens_total_billed": 5337213,
+              "wall_s": 6338.64
+            }
+          ]
+        },
+        "sus-16-047_sim-T6gg_lowHT": {
+          "replicates": [
+            {
+              "cost_usd": 0.077976,
+              "delta": 0.996869,
+              "n_turns": 9,
+              "run_label": "run-1",
+              "tokens_total_billed": 502405,
+              "wall_s": 5442.98
+            },
+            {
+              "cost_usd": 0.06056,
+              "delta": 0.702258,
+              "n_turns": 7,
+              "run_label": "run-3",
+              "tokens_total_billed": 357548,
+              "wall_s": 5319.88
+            }
+          ]
+        },
+        "sus-16-051_sim-T2bW_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.043419,
+              "delta": 0.990446,
+              "n_turns": 6,
+              "run_label": "run-1",
+              "tokens_total_billed": 120557,
+              "wall_s": 9004.87
+            },
+            {
+              "cost_usd": 0.193271,
+              "delta": 41.993031,
+              "n_turns": 42,
+              "run_label": "run-2",
+              "tokens_total_billed": 2218698,
+              "wall_s": 4863.59
+            },
+            {
+              "cost_usd": 0.211036,
+              "delta": 1.0,
+              "n_turns": 30,
+              "run_label": "run-3",
+              "tokens_total_billed": 2464719,
+              "wall_s": 9003.98
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_SRG": {
+          "replicates": [
+            {
+              "cost_usd": 0.265744,
+              "delta": 0.749784,
+              "n_turns": 32,
+              "run_label": "run-1",
+              "tokens_total_billed": 2392065,
+              "wall_s": 6783.64
+            },
+            {
+              "cost_usd": 0.102197,
+              "delta": 0.999993,
+              "n_turns": 10,
+              "run_label": "run-2",
+              "tokens_total_billed": 708345,
+              "wall_s": 6149.57
+            }
+          ]
+        },
+        "sus-16-051_sim-T2tt_comp": {
+          "replicates": [
+            {
+              "cost_usd": 0.229293,
+              "delta": 0.999982,
+              "n_turns": 38,
+              "run_label": "run-1",
+              "tokens_total_billed": 2220653,
+              "wall_s": 3900.77
+            },
+            {
+              "cost_usd": 0.300327,
+              "delta": 0.999937,
+              "n_turns": 57,
+              "run_label": "run-2",
+              "tokens_total_billed": 3597183,
+              "wall_s": 4742.45
+            },
+            {
+              "cost_usd": 0.081288,
+              "delta": 0.999963,
+              "n_turns": 13,
+              "run_label": "run-3",
+              "tokens_total_billed": 601999,
+              "wall_s": 6898.46
+            },
+            {
+              "cost_usd": 0.318544,
+              "delta": 0.971137,
+              "n_turns": 44,
+              "run_label": "run-4",
+              "tokens_total_billed": 3401069,
+              "wall_s": 5655.5
+            }
+          ]
+        }
+      }
+    }
+  },
+  "source_root": "/global/cfs/cdirs/m4539/ColliderBench"
+}

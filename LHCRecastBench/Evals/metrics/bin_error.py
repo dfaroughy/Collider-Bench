@@ -101,6 +101,46 @@ def rmsle(observed: np.ndarray, reference: np.ndarray) -> float | None:
     return float(round(float(np.sqrt(np.mean(diff**2))), 6))
 
 
+def relative_l2(
+    observed: np.ndarray,
+    reference: np.ndarray,
+    *,
+    normalize: bool = False,
+) -> float | None:
+    """Reference-relative L2 distance.
+
+        d(ŷ, y*) = sqrt( Σ_k (ŷ_k − y*_k)² / Σ_k (y*_k)² )
+
+    Single scalar in [0, ∞). 0 = exact agreement; values around 1 mean the
+    L2 error of the prediction is comparable to the L2 norm of the truth.
+    Each squared deviation is weighted by `(y*_k)²` (large bins dominate),
+    in contrast to `mean_abs_frac_error_pct` which weights by `1/y*_k`
+    (small bins dominate).
+
+    `normalize=True` rescales each input to unit area first
+    (`y_k → y_k / Σ_i y_i`), turning this into a pure shape metric. Use
+    `normalize=False` to compute the L2 on raw bin yields.
+
+    Returns None if sizes mismatch or `Σ(y*²) == 0`.
+    """
+    obs = np.asarray(observed, dtype=float)
+    ref = np.asarray(reference, dtype=float)
+    if obs.size == 0 or ref.size == 0 or obs.size != ref.size:
+        return None
+    if normalize:
+        ref_sum = float(ref.sum())
+        obs_sum = float(obs.sum())
+        if ref_sum <= 0 or obs_sum <= 0:
+            return None
+        ref = ref / ref_sum
+        obs = obs / obs_sum
+    denom = float(np.sum(ref * ref))
+    if denom == 0:
+        return None
+    num = float(np.sum((obs - ref) ** 2))
+    return float(round(float(np.sqrt(num / denom)), 6))
+
+
 def Delta(observed: np.ndarray, reference: np.ndarray) -> float | None:
     """Fractional yield difference Δ ≡ |Σ_obs − Σ_ref| / Σ_ref.
 
