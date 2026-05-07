@@ -85,3 +85,4 @@ _evaluation_deprecated/
 .mcp.json
 .dockerignore
 .github
+utils/

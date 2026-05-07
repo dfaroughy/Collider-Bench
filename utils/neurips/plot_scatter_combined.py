@@ -26,7 +26,6 @@ import seaborn as sns
 
 from utils.neurips.plot_delta_vs_shape_scatter import (
     MODEL_SPECS as DELTA_MODEL_SPECS,
-    task_pairs as delta_pairs,
 )
 from utils.neurips.plot_shape_vs_sim_scatter import (
     MODEL_SPECS as SHAPE_MODEL_SPECS,
@@ -136,57 +135,60 @@ def main() -> None:
         }
     )
 
-    # sharey=True + wspace=0 → both panels share the same y-axis range and
-    # sit flush against each other (no gap between them).
+    # Panels swapped per user request: delta_vs_shape on the LEFT, shape_vs_sim
+    # on the RIGHT. Both panels render on linear axes (no log). y-axis is no
+    # longer shared because the two panels' y-fields have different meanings
+    # (sim-run shape l2 vs shape-variant shape l2).
     fig, (ax_left, ax_right) = plt.subplots(
         1,
         2,
         figsize=(args.figwidth, args.figheight),
-        sharey=True,
-        gridspec_kw={"wspace": 0.0},
     )
 
-    # ── Left panel: shape_vs_sim ─────────────────────────────────────────
-    # No legend here — the right panel carries the legend for both panels.
-    xs, ys, _ordered_left = _draw_scatter(
+    # ── Left panel: delta vs relative_l2_shape ───────────────────────────
+    # We need x = <delta_norm> (linear, not log10) and y = <relative_l2_shape>.
+    # delta_pairs() from the standalone module gives us (log10⟨Δ⟩, ⟨l2_shape⟩);
+    # we replace x with the linear delta and pull y from relative_l2_shape.
+    def delta_pairs_linear(block):
+        out = []
+        for tid, entry in sorted((block.get("tasks") or {}).items()):
+            if "_sim-" not in tid:
+                continue
+            reps = [r for r in (entry.get("replicates") or []) if r.get("status", "pass") == "pass"]
+            d_vals = [float(r["delta"]) for r in reps if r.get("delta") is not None]
+            n_vals = [
+                float(r["relative_l2_shape"])
+                for r in reps
+                if r.get("relative_l2_shape") is not None
+            ]
+            if not d_vals or not n_vals:
+                continue
+            d_mean = sum(d_vals) / len(d_vals)
+            n_mean = sum(n_vals) / len(n_vals)
+            if d_mean <= 0:
+                continue
+            out.append((tid, d_mean, n_mean))
+        return out
+
+    # Legend lives on this (left) panel; right panel has none.
+    _xs1, _ys1, ordered_left = _draw_scatter(
         ax_left,
         models_block,
-        shape_pairs,
-        SHAPE_MODEL_SPECS,
+        delta_pairs_linear,
+        DELTA_MODEL_SPECS,
         avg_tasks=args.avg_tasks,
     )
-    if xs and ys:
-        lo = min(xs + ys) * 0.7
-        hi = max(xs + ys) * 1.3
-        ax_left.plot([lo, hi], [lo, hi], color="#506A85", ls="--", lw=1.0, alpha=0.8, zorder=2)
-        ax_left.set_xlim(lo, hi)
-        ax_left.set_ylim(lo, hi)
-    ax_left.set_xscale("log")
-    ax_left.set_yscale("log")
-    ax_left.set_xlabel(r"$\langle d(\hat p,p^\star) \rangle$ ($\mathtt{shape}$ tasks)")
-    ax_left.set_ylabel(r"$\langle d(\hat p,p^\star) \rangle$ ($\mathtt{sim}$ tasks)")
+    ax_left.set_xlabel(r"$\langle \delta_{\rm norm} \rangle$")
+    ax_left.set_xlim(0, 2)
+    ax_left.set_ylim(0, 2)
+    ax_left.set_ylabel(r"$\langle d(\hat p, p^\star)\rangle$")
     ax_left.set_box_aspect(1)
     ax_left.grid(True, which="major", linewidth=0.55, color="#D8DDE3")
     ax_left.grid(True, which="minor", linewidth=0.35, color="#E6E9ED")
     ax_left.set_axisbelow(True)
-
-    # ── Right panel: delta_vs_shape ──────────────────────────────────────
-    _xs2, _ys2, ordered_right = _draw_scatter(
-        ax_right,
-        models_block,
-        delta_pairs,
-        DELTA_MODEL_SPECS,
-        avg_tasks=args.avg_tasks,
-    )
-    ax_right.set_yscale("log")
-    ax_right.set_xlabel(r"$\log_{10}\langle \delta_{\rm norm} \rangle$")
-    ax_right.set_box_aspect(1)
-    ax_right.grid(True, which="major", linewidth=0.55, color="#D8DDE3")
-    ax_right.grid(True, which="minor", linewidth=0.35, color="#E6E9ED")
-    ax_right.set_axisbelow(True)
-    leg = ax_right.legend(
-        handles=ordered_right,
-        loc="lower right",
+    leg = ax_left.legend(
+        handles=ordered_left,
+        loc="upper right",
         frameon=True,
         edgecolor="#444444",
         fancybox=False,
@@ -198,6 +200,31 @@ def main() -> None:
     leg.get_frame().set_alpha(0.78)
     leg.get_frame().set_linewidth(0.9)
 
+    # ── Right panel: shape_vs_sim ────────────────────────────────────────
+    # No legend on this panel — the left panel carries the shared legend.
+    xs, ys, _ordered_right = _draw_scatter(
+        ax_right,
+        models_block,
+        shape_pairs,
+        SHAPE_MODEL_SPECS,
+        avg_tasks=args.avg_tasks,
+    )
+    if xs and ys:
+        # Linear y=x diagonal across the data range.
+        lo = min(xs + ys)
+        hi = max(xs + ys)
+        pad = 0.05 * (hi - lo) if hi > lo else 0.1
+        lo -= pad
+        hi += pad
+        ax_right.plot([lo, hi], [lo, hi], color="#506A85", ls="--", lw=1.0, alpha=0.8, zorder=2)
+        ax_right.set_xlim(lo, hi)
+        ax_right.set_ylim(lo, hi)
+    ax_right.set_xlabel(r"$\langle d(\hat p,p^\star) \rangle$ ($\mathtt{shape}$ tasks)")
+    ax_right.set_ylabel(r"$\langle d(\hat p,p^\star) \rangle$ ($\mathtt{sim}$ tasks)")
+    ax_right.set_box_aspect(1)
+    ax_right.grid(True, which="major", linewidth=0.55, color="#D8DDE3")
+    ax_right.grid(True, which="minor", linewidth=0.35, color="#E6E9ED")
+    ax_right.set_axisbelow(True)
     fig.tight_layout()
     args.out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(args.out, dpi=300)

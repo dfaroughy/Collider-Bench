@@ -15,7 +15,8 @@ Output schema (utils/neurips/data/delta_norm.json by default):
           "tasks": {
             "<task_id>": {
               "replicates": [
-                {"delta": float, "run_label": "run-1", "wall_s": float, "cost_usd": float,
+                {"delta": float, "run_label": "run-1", "run_dir": "...",
+                 "wall_s": float, "cost_usd": float,
                  "tokens_total_billed": float, "n_turns": int}, ...
               ]
             }
@@ -86,6 +87,7 @@ def collect(root: Path, models: list[tuple[str, str]]) -> dict:
                 {
                     "delta": round(float(delta), 6),
                     "run_label": run_dir.parent.name,
+                    "run_dir": str(run_dir.relative_to(root)),
                     "wall_s": cost["wall_s"],
                     "cost_usd": cost["cost_usd"],
                     "tokens_total_billed": cost["tokens_total_billed"],

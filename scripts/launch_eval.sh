@@ -12,7 +12,7 @@
 #
 # Usage:
 #   ./launch_eval.sh <run_path>
-#   ./launch_eval.sh <run_path> --judge
+#   ./launch_eval.sh /global/cfs/cdirs/m4539/ColliderBench/<run_path> --judge
 #
 # run_path is the run directory: runs/<runner>_<model>/<task_id>_<hex>/
 

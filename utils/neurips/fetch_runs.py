@@ -18,6 +18,7 @@ Output schema (utils/neurips/data/runs.json by default):
               "replicates": [
                 {
                   "run_label":           "run-1",
+                  "run_dir":             "claude_opus-4-7/run-1/...",
                   "wall_s":              float | null,
                   "cost_usd":            float | null,
                   "tokens_total_billed": float | null,
@@ -113,6 +114,7 @@ def collect(root: Path, models: list[tuple[str, str]]) -> dict:
             cost = _load_run_info(run_dir)
             replicate = {
                 "run_label": run_dir.parent.name,
+                "run_dir": str(run_dir.relative_to(root)),
                 "wall_s": cost["wall_s"],
                 "cost_usd": cost["cost_usd"],
                 "tokens_total_billed": cost["tokens_total_billed"],

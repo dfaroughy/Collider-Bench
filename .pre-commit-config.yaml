@@ -39,4 +39,4 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
-        exclude: ^(runs/|old/|LHCRecastBench/tools/sim/(delphes|MG5_aMC_v3_7_0)/)
+        exclude: ^(runs/|old/|utils/neurips/(data/|[^/]+\.json$)|LHCRecastBench/tools/sim/(delphes|MG5_aMC_v3_7_0)/)

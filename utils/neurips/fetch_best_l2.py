@@ -4,7 +4,7 @@
 Walks /global/cfs/cdirs/m4539/ColliderBench/<model>/run-N/<run>/eval/score.json
 for the canonical six models, finds the best (smallest) relative_l2 across
 replicate runs of each task, and writes utils/neurips/best_l2.json keyed by
-model → task_id → {best, run_label}.
+model → task_id → {best, run_dir, run_label}.
 
 Usage:
     python -m utils.neurips.fetch_best_l2
@@ -87,6 +87,7 @@ def collect(root: Path, models: list[tuple[str, str]], metric: str) -> dict:
             per_task_best[tid] = {
                 "best": round(v, 6),
                 "run_label": run_label,
+                "run_dir": str(run_dir.relative_to(root)),
                 "wall_s": cost["wall_s"],
                 "cost_usd": cost["cost_usd"],
                 "tokens_total_billed": cost["tokens_total_billed"],

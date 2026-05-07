@@ -11,10 +11,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-034_shape-TChiWZ_AgileLorentz_62910a64",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": null
+              "wall_s": null,
+              "status": "hung"
             },
             {
               "cost_usd": 0.473505,
@@ -22,10 +23,11 @@
               "n_turns": 44,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-034_shape-TChiWZ_RomanticChandrasekhar_8335122d",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": 113381.0,
-              "wall_s": 282.95
+              "wall_s": 282.95,
+              "status": "hung"
             },
             {
               "cost_usd": 1.251595,
@@ -33,10 +35,11 @@
               "n_turns": 94,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.265197,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-034_shape-TChiWZ_LivelyYukawa_7a4a39b2",
               "run_label": "run-3",
-              "status": "cheat",
               "tokens_total_billed": 325448.0,
-              "wall_s": 1760.64
+              "wall_s": 1760.64,
+              "status": "cheat"
             }
           ]
         },
@@ -48,10 +51,11 @@
               "n_turns": 98,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-034_sim-TChiWZ_FlashyWeyl_d2a46168",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 179343.0,
-              "wall_s": 1029.91
+              "wall_s": 1029.91,
+              "status": "hung"
             },
             {
               "cost_usd": 0.482965,
@@ -59,10 +63,11 @@
               "n_turns": 39,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-034_sim-TChiWZ_RomanticBhabha_83377f83",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 54954.0,
-              "wall_s": 201.61
+              "wall_s": 201.61,
+              "status": "pass"
             },
             {
               "cost_usd": 1.276543,
@@ -70,10 +75,11 @@
               "n_turns": 82,
               "relative_l2_norm": 0.89267,
               "relative_l2_shape": 1.639018,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-034_sim-TChiWZ_HappyWien_d77003fc",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 464294.0,
-              "wall_s": 2334.56
+              "wall_s": 2334.56,
+              "status": "pass"
             }
           ]
         },
@@ -85,10 +91,11 @@
               "n_turns": 60,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.025543,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-046_shape-T5Wg_SpicyBethe_b039ea61",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 250895.0,
-              "wall_s": 1696.12
+              "wall_s": 1696.12,
+              "status": "pass"
             },
             {
               "cost_usd": 1.076129,
@@ -96,10 +103,11 @@
               "n_turns": 103,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.120935,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-046_shape-T5Wg_GayNewton_4180891b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 162646.0,
-              "wall_s": 764.82
+              "wall_s": 764.82,
+              "status": "pass"
             },
             {
               "cost_usd": 1.444244,
@@ -107,10 +115,11 @@
               "n_turns": 101,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.361272,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-046_shape-T5Wg_FartyKibble_c3fd0eab",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 123176.0,
-              "wall_s": 1510.35
+              "wall_s": 1510.35,
+              "status": "pass"
             }
           ]
         },
@@ -122,10 +131,11 @@
               "n_turns": 61,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.507268,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-046_shape-TChiWg_SpecialGamow_f7c99d89",
               "run_label": "run-1",
-              "status": "cheat",
               "tokens_total_billed": 124216.0,
-              "wall_s": 336.75
+              "wall_s": 336.75,
+              "status": "cheat"
             },
             {
               "cost_usd": 1.098821,
@@ -133,10 +143,11 @@
               "n_turns": 105,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.898002,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-046_shape-TChiWg_HumbleRutherford_7690c8af",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 168404.0,
-              "wall_s": 2062.82
+              "wall_s": 2062.82,
+              "status": "pass"
             },
             {
               "cost_usd": 0.560827,
@@ -144,10 +155,11 @@
               "n_turns": 58,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.150464,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-046_shape-TChiWg_SlyPerl_97ddf867",
               "run_label": "run-3",
-              "status": "cheat",
               "tokens_total_billed": 101390.0,
-              "wall_s": 337.16
+              "wall_s": 337.16,
+              "status": "cheat"
             }
           ]
         },
@@ -159,10 +171,11 @@
               "n_turns": 50,
               "relative_l2_norm": 39.735056,
               "relative_l2_shape": 0.452788,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-046_sim-T5Wg_CandidAdler_68d6b147",
               "run_label": "run-1",
-              "status": "cheat",
               "tokens_total_billed": 77445.0,
-              "wall_s": 249.3
+              "wall_s": 249.3,
+              "status": "cheat"
             },
             {
               "cost_usd": 1.032656,
@@ -170,10 +183,11 @@
               "n_turns": 92,
               "relative_l2_norm": 18.007447,
               "relative_l2_shape": 1.525148,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-046_sim-T5Wg_MerryNielsen_1d7dcd4f",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 160831.0,
-              "wall_s": 690.05
+              "wall_s": 690.05,
+              "status": "pass"
             },
             {
               "cost_usd": 0.987306,
@@ -181,10 +195,11 @@
               "n_turns": 84,
               "relative_l2_norm": 16.616255,
               "relative_l2_shape": 1.411419,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-046_sim-T5Wg_FlashyPoincare_703f25c3",
               "run_label": "run-3",
-              "status": "cheat",
               "tokens_total_billed": 157007.0,
-              "wall_s": 1191.75
+              "wall_s": 1191.75,
+              "status": "cheat"
             }
           ]
         },
@@ -196,10 +211,11 @@
               "n_turns": 91,
               "relative_l2_norm": 0.961323,
               "relative_l2_shape": 1.329025,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-046_sim-TChiWg_OddNielsen_22f4f59c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 670341.0,
-              "wall_s": 4273.84
+              "wall_s": 4273.84,
+              "status": "pass"
             },
             {
               "cost_usd": 1.633417,
@@ -207,10 +223,11 @@
               "n_turns": 48,
               "relative_l2_norm": 0.997219,
               "relative_l2_shape": 1.008688,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-046_sim-TChiWg_SpecialdeBroglie_959f2358",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 75589.0,
-              "wall_s": 573.64
+              "wall_s": 573.64,
+              "status": "pass"
             },
             {
               "cost_usd": 0.989101,
@@ -218,10 +235,11 @@
               "n_turns": 96,
               "relative_l2_norm": 0.808484,
               "relative_l2_shape": 0.648229,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-046_sim-TChiWg_CleverSommerfeld_aba86caf",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 148049.0,
-              "wall_s": 534.47
+              "wall_s": 534.47,
+              "status": "pass"
             }
           ]
         },
@@ -233,10 +251,11 @@
               "n_turns": 63,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.192817,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_shape-T5Wg_highHT_RapidBell_2c88e81a",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 111279.0,
-              "wall_s": 443.41
+              "wall_s": 443.41,
+              "status": "pass"
             },
             {
               "cost_usd": 1.156946,
@@ -244,10 +263,11 @@
               "n_turns": 76,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.763434,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_shape-T5Wg_highHT_QuietSakharov_8c59fa39",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 131843.0,
-              "wall_s": 648.75
+              "wall_s": 648.75,
+              "status": "pass"
             },
             {
               "cost_usd": 0.694363,
@@ -255,10 +275,11 @@
               "n_turns": 27,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_shape-T5Wg_highHT_BraveOppenheimer_aa5d18bc",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": 44854.0,
-              "wall_s": 231.71
+              "wall_s": 231.71,
+              "status": "hung"
             }
           ]
         },
@@ -270,10 +291,11 @@
               "n_turns": 122,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_shape-T5Wg_lowHT_LooneyRontgen_e074c019",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 253092.0,
-              "wall_s": 1731.11
+              "wall_s": 1731.11,
+              "status": "pass"
             },
             {
               "cost_usd": 0.84194,
@@ -281,10 +303,11 @@
               "n_turns": 83,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.299242,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_shape-T5Wg_lowHT_GrandGamow_11526174",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 126118.0,
-              "wall_s": 1674.5
+              "wall_s": 1674.5,
+              "status": "pass"
             },
             {
               "cost_usd": 0.788351,
@@ -292,10 +315,11 @@
               "n_turns": 83,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.265642,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_shape-T5Wg_lowHT_FartySchrodinger_c38a6501",
               "run_label": "run-3",
-              "status": "cheat",
               "tokens_total_billed": 127670.0,
-              "wall_s": 566.8
+              "wall_s": 566.8,
+              "status": "cheat"
             }
           ]
         },
@@ -307,10 +331,11 @@
               "n_turns": 68,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.34047,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_shape-T6gg_highHT_GrandKadanoff_73e230e4",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 96799.0,
-              "wall_s": 407.47
+              "wall_s": 407.47,
+              "status": "pass"
             },
             {
               "cost_usd": 0.748381,
@@ -318,10 +343,11 @@
               "n_turns": 71,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.228317,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_shape-T6gg_highHT_CreepyCurie_2ff340bb",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 128327.0,
-              "wall_s": 477.59
+              "wall_s": 477.59,
+              "status": "pass"
             },
             {
               "cost_usd": 0.599362,
@@ -329,10 +355,11 @@
               "n_turns": 67,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_shape-T6gg_highHT_DeepMaskawa_6c54cb1a",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 97347.0,
-              "wall_s": 482.14
+              "wall_s": 482.14,
+              "status": "pass"
             }
           ]
         },
@@ -344,10 +371,11 @@
               "n_turns": 37,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_shape-T6gg_lowHT_CandidPolitzer_06db4766",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 53302.0,
-              "wall_s": 791.1
+              "wall_s": 791.1,
+              "status": "hung"
             },
             {
               "cost_usd": 0.711627,
@@ -355,10 +383,11 @@
               "n_turns": 70,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.913113,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_shape-T6gg_lowHT_PeculiarKibble_b70f1bf6",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 119468.0,
-              "wall_s": 421.36
+              "wall_s": 421.36,
+              "status": "pass"
             },
             {
               "cost_usd": 1.012194,
@@ -366,10 +395,11 @@
               "n_turns": 100,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.027175,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_shape-T6gg_lowHT_CreepyNambu_914c2393",
               "run_label": "run-3",
-              "status": "cheat",
               "tokens_total_billed": 138252.0,
-              "wall_s": 512.89
+              "wall_s": 512.89,
+              "status": "cheat"
             }
           ]
         },
@@ -381,10 +411,11 @@
               "n_turns": 61,
               "relative_l2_norm": 423.911984,
               "relative_l2_shape": 0.355578,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_sim-T5Wg_highHT_WittyBethe_3939cf1c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 105564.0,
-              "wall_s": 619.95
+              "wall_s": 619.95,
+              "status": "pass"
             },
             {
               "cost_usd": 0.837506,
@@ -392,10 +423,11 @@
               "n_turns": 2,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_sim-T5Wg_highHT_GrimNielsen_d6069864",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 2836.0,
-              "wall_s": 1699.1
+              "wall_s": 1699.1,
+              "status": "pass"
             },
             {
               "cost_usd": 0.772256,
@@ -403,10 +435,11 @@
               "n_turns": 71,
               "relative_l2_norm": 1.122369,
               "relative_l2_shape": 1.337499,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_sim-T5Wg_highHT_PlayfulBoltzmann_e88c2974",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 135118.0,
-              "wall_s": 464.6
+              "wall_s": 464.6,
+              "status": "pass"
             }
           ]
         },
@@ -418,10 +451,11 @@
               "n_turns": 105,
               "relative_l2_norm": 0.134395,
               "relative_l2_shape": 0.038249,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_sim-T5Wg_lowHT_GeekyEinstein_59ee1282",
               "run_label": "run-1",
-              "status": "cheat",
               "tokens_total_billed": 129883.0,
-              "wall_s": 488.57
+              "wall_s": 488.57,
+              "status": "cheat"
             },
             {
               "cost_usd": 1.716988,
@@ -429,10 +463,11 @@
               "n_turns": 134,
               "relative_l2_norm": 7.873386,
               "relative_l2_shape": 0.145873,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_sim-T5Wg_lowHT_RareNewton_f1809806",
               "run_label": "run-2",
-              "status": "cheat",
               "tokens_total_billed": 173321.0,
-              "wall_s": 1066.35
+              "wall_s": 1066.35,
+              "status": "cheat"
             },
             {
               "cost_usd": 1.469722,
@@ -440,10 +475,11 @@
               "n_turns": 114,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_sim-T5Wg_lowHT_GrimFeynman_d678558b",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 136509.0,
-              "wall_s": 746.22
+              "wall_s": 746.22,
+              "status": "pass"
             }
           ]
         },
@@ -455,10 +491,11 @@
               "n_turns": 91,
               "relative_l2_norm": 1.892792,
               "relative_l2_shape": 1.376468,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_sim-T6gg_highHT_OilyGross_ff550d70",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 143428.0,
-              "wall_s": 1725.51
+              "wall_s": 1725.51,
+              "status": "pass"
             },
             {
               "cost_usd": 0.662309,
@@ -466,10 +503,11 @@
               "n_turns": 63,
               "relative_l2_norm": 3331.996394,
               "relative_l2_shape": 0.207033,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_sim-T6gg_highHT_EccentricSakharov_4ad0aa60",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 117792.0,
-              "wall_s": 600.69
+              "wall_s": 600.69,
+              "status": "pass"
             },
             {
               "cost_usd": 0.584459,
@@ -477,10 +515,11 @@
               "n_turns": 45,
               "relative_l2_norm": 17.627812,
               "relative_l2_shape": 0.774121,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_sim-T6gg_highHT_GeekyNielsen_590630fe",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 120368.0,
-              "wall_s": 388.76
+              "wall_s": 388.76,
+              "status": "pass"
             }
           ]
         },
@@ -492,10 +531,11 @@
               "n_turns": 80,
               "relative_l2_norm": 1.0,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-047_sim-T6gg_lowHT_HappyKibble_13fd8a58",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 157659.0,
-              "wall_s": 603.23
+              "wall_s": 603.23,
+              "status": "hung"
             },
             {
               "cost_usd": 0.813281,
@@ -503,10 +543,11 @@
               "n_turns": 84,
               "relative_l2_norm": 404.712316,
               "relative_l2_shape": 1.212187,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-047_sim-T6gg_lowHT_BoldKadanoff_036b8f38",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 125474.0,
-              "wall_s": 2078.73
+              "wall_s": 2078.73,
+              "status": "pass"
             },
             {
               "cost_usd": 0.450322,
@@ -514,10 +555,11 @@
               "n_turns": 51,
               "relative_l2_norm": 428.024795,
               "relative_l2_shape": 0.592952,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-047_sim-T6gg_lowHT_PuffyPerl_9e66306e",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 83766.0,
-              "wall_s": 266.32
+              "wall_s": 266.32,
+              "status": "pass"
             }
           ]
         },
@@ -529,10 +571,11 @@
               "n_turns": 2,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.780105,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-051_shape-T2bW_SRG_CreepyFeynman_91782f3e",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 1895.0,
-              "wall_s": 1116.71
+              "wall_s": 1116.71,
+              "status": "pass"
             },
             {
               "cost_usd": 0.875566,
@@ -540,10 +583,11 @@
               "n_turns": 66,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.500449,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-051_shape-T2bW_SRG_EccentricEinstein_ac7728cd",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 138131.0,
-              "wall_s": 414.03
+              "wall_s": 414.03,
+              "status": "pass"
             },
             {
               "cost_usd": 1.346465,
@@ -551,10 +595,11 @@
               "n_turns": 115,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.038606,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-051_shape-T2bW_SRG_MysticAmpere_1e9bb9e0",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 170740.0,
-              "wall_s": 3279.62
+              "wall_s": 3279.62,
+              "status": "pass"
             }
           ]
         },
@@ -566,10 +611,11 @@
               "n_turns": 63,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.317345,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-051_shape-T2tt_SRG_CalmGauss_c9210bcb",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 103984.0,
-              "wall_s": 2161.45
+              "wall_s": 2161.45,
+              "status": "pass"
             },
             {
               "cost_usd": 0.818079,
@@ -577,10 +623,11 @@
               "n_turns": 83,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.251267,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-051_shape-T2tt_SRG_LivelyKibble_dc0f4c7d",
               "run_label": "run-2",
-              "status": "cheat",
               "tokens_total_billed": 139772.0,
-              "wall_s": 406.03
+              "wall_s": 406.03,
+              "status": "cheat"
             },
             {
               "cost_usd": 1.470893,
@@ -588,10 +635,11 @@
               "n_turns": 137,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.588109,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-051_shape-T2tt_SRG_SuperSusskind_60ba53de",
               "run_label": "run-3",
-              "status": "cheat",
               "tokens_total_billed": 181206.0,
-              "wall_s": 931.9
+              "wall_s": 931.9,
+              "status": "cheat"
             }
           ]
         },
@@ -603,10 +651,11 @@
               "n_turns": 101,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-051_shape-T2tt_comp_SpicyMajorana_b0a56809",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 160304.0,
-              "wall_s": 1419.2
+              "wall_s": 1419.2,
+              "status": "pass"
             },
             {
               "cost_usd": 0.915602,
@@ -614,10 +663,11 @@
               "n_turns": 95,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.598246,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-051_shape-T2tt_comp_PrimeEnglert_25855ad6",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 125996.0,
-              "wall_s": 2247.17
+              "wall_s": 2247.17,
+              "status": "pass"
             },
             {
               "cost_usd": 1.071173,
@@ -625,10 +675,11 @@
               "n_turns": 96,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.573621,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-051_shape-T2tt_comp_SassyKepler_430dbdfd",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 149252.0,
-              "wall_s": 602.86
+              "wall_s": 602.86,
+              "status": "pass"
             }
           ]
         },
@@ -640,10 +691,11 @@
               "n_turns": 2,
               "relative_l2_norm": 39.290102,
               "relative_l2_shape": 0.709488,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-051_sim-T2bW_SRG_GrandFeynman_d5014b2a",
               "run_label": "run-1",
-              "status": "cheat",
               "tokens_total_billed": 2877.0,
-              "wall_s": 2061.82
+              "wall_s": 2061.82,
+              "status": "cheat"
             },
             {
               "cost_usd": 0.782659,
@@ -651,10 +703,11 @@
               "n_turns": 61,
               "relative_l2_norm": 3.366868,
               "relative_l2_shape": 1.098346,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-051_sim-T2bW_SRG_KindRaman_7972118e",
               "run_label": "run-2",
-              "status": "cheat",
               "tokens_total_billed": 111740.0,
-              "wall_s": 492.41
+              "wall_s": 492.41,
+              "status": "cheat"
             },
             {
               "cost_usd": 3.249325,
@@ -662,10 +715,11 @@
               "n_turns": 104,
               "relative_l2_norm": 4181.768786,
               "relative_l2_shape": 0.212613,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-051_sim-T2bW_SRG_PrimeVeltman_e9576501",
               "run_label": "run-3",
-              "status": "cheat",
               "tokens_total_billed": 146018.0,
-              "wall_s": 1062.95
+              "wall_s": 1062.95,
+              "status": "cheat"
             }
           ]
         },
@@ -677,10 +731,11 @@
               "n_turns": 93,
               "relative_l2_norm": 1.0,
               "relative_l2_shape": null,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-051_sim-T2tt_SRG_SharpKadanoff_906b5c3c",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 124665.0,
-              "wall_s": 403.06
+              "wall_s": 403.06,
+              "status": "hung"
             },
             {
               "cost_usd": 0.984207,
@@ -688,10 +743,11 @@
               "n_turns": 78,
               "relative_l2_norm": 58.648395,
               "relative_l2_shape": 1.311781,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-051_sim-T2tt_SRG_CleverVolta_4925fabd",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 159308.0,
-              "wall_s": 1088.92
+              "wall_s": 1088.92,
+              "status": "pass"
             },
             {
               "cost_usd": 0.840328,
@@ -699,10 +755,11 @@
               "n_turns": 78,
               "relative_l2_norm": 43.455583,
               "relative_l2_shape": 1.625932,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-051_sim-T2tt_SRG_PeculiarBragg_55e8e73d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 129386.0,
-              "wall_s": 454.04
+              "wall_s": 454.04,
+              "status": "pass"
             }
           ]
         },
@@ -714,10 +771,11 @@
               "n_turns": 89,
               "relative_l2_norm": 0.879618,
               "relative_l2_shape": 1.624374,
+              "run_dir": "claude_haiku-4-5/run-1/sus-16-051_sim-T2tt_comp_FierceRubbia_6fde35e7",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 178745.0,
-              "wall_s": 674.4
+              "wall_s": 674.4,
+              "status": "pass"
             },
             {
               "cost_usd": 0.808171,
@@ -725,10 +783,11 @@
               "n_turns": 65,
               "relative_l2_norm": 7.614659,
               "relative_l2_shape": 0.993839,
+              "run_dir": "claude_haiku-4-5/run-2/sus-16-051_sim-T2tt_comp_FuzzyEnglert_420e9fe7",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 145230.0,
-              "wall_s": 2573.49
+              "wall_s": 2573.49,
+              "status": "pass"
             },
             {
               "cost_usd": 0.679031,
@@ -736,10 +795,11 @@
               "n_turns": 69,
               "relative_l2_norm": 367.715449,
               "relative_l2_shape": 0.571768,
+              "run_dir": "claude_haiku-4-5/run-3/sus-16-051_sim-T2tt_comp_RomanticEnglert_e5856e5c",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 110564.0,
-              "wall_s": 1603.45
+              "wall_s": 1603.45,
+              "status": "pass"
             }
           ]
         }
@@ -756,10 +816,11 @@
               "n_turns": 131,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.065525,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-034_shape-TChiWZ_CandidGauss_6898d834",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 315459.0,
-              "wall_s": 1710.51
+              "wall_s": 1710.51,
+              "status": "pass"
             },
             {
               "cost_usd": 14.624539,
@@ -767,10 +828,11 @@
               "n_turns": 164,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.15415,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-034_shape-TChiWZ_CandidPlanck_06f66ffc",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 352736.0,
-              "wall_s": 1928.22
+              "wall_s": 1928.22,
+              "status": "pass"
             },
             {
               "cost_usd": 10.535469,
@@ -778,10 +840,11 @@
               "n_turns": 143,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.088441,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-034_shape-TChiWZ_SuperSommerfeld_c2318a75",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 274354.0,
-              "wall_s": 1650.19
+              "wall_s": 1650.19,
+              "status": "pass"
             }
           ]
         },
@@ -793,10 +856,11 @@
               "n_turns": 196,
               "relative_l2_norm": 0.10985,
               "relative_l2_shape": 0.066373,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-034_sim-TChiWZ_AgileWu_003237a7",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 391647.0,
-              "wall_s": 2074.49
+              "wall_s": 2074.49,
+              "status": "pass"
             },
             {
               "cost_usd": 17.096411,
@@ -804,10 +868,11 @@
               "n_turns": 186,
               "relative_l2_norm": 0.328551,
               "relative_l2_shape": 0.127153,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-034_sim-TChiWZ_AtomicWilczek_c656c0d6",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 375088.0,
-              "wall_s": 3144.98
+              "wall_s": 3144.98,
+              "status": "pass"
             },
             {
               "cost_usd": 20.771251,
@@ -815,10 +880,11 @@
               "n_turns": 224,
               "relative_l2_norm": 0.124828,
               "relative_l2_shape": 0.072714,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-034_sim-TChiWZ_FluffyAmpere_5d9b1852",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 390444.0,
-              "wall_s": 2491.86
+              "wall_s": 2491.86,
+              "status": "pass"
             }
           ]
         },
@@ -830,10 +896,11 @@
               "n_turns": 135,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.30432,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-046_shape-T5Wg_FiercedeBroglie_b9289f61",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 262569.0,
-              "wall_s": 1872.56
+              "wall_s": 1872.56,
+              "status": "pass"
             },
             {
               "cost_usd": 5.496404,
@@ -841,10 +908,11 @@
               "n_turns": 90,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.320115,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-046_shape-T5Wg_FunkyBjorken_ad61e2d1",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 215982.0,
-              "wall_s": 1125.85
+              "wall_s": 1125.85,
+              "status": "pass"
             },
             {
               "cost_usd": 13.149523,
@@ -852,10 +920,11 @@
               "n_turns": 218,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.308212,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-046_shape-T5Wg_RapidEinstein_2c007d03",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 376474.0,
-              "wall_s": 1881.32
+              "wall_s": 1881.32,
+              "status": "pass"
             }
           ]
         },
@@ -867,10 +936,11 @@
               "n_turns": 150,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.027727,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-046_shape-TChiWg_BraveAlcubierre_ed4168ac",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 236464.0,
-              "wall_s": 1347.48
+              "wall_s": 1347.48,
+              "status": "pass"
             },
             {
               "cost_usd": 10.085839,
@@ -878,10 +948,11 @@
               "n_turns": 165,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.189824,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-046_shape-TChiWg_SlyDyson_35966620",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 325639.0,
-              "wall_s": 1474.37
+              "wall_s": 1474.37,
+              "status": "pass"
             },
             {
               "cost_usd": 7.765468,
@@ -889,10 +960,11 @@
               "n_turns": 130,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.137932,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-046_shape-TChiWg_SillyDirac_9603447d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 228541.0,
-              "wall_s": 1484.69
+              "wall_s": 1484.69,
+              "status": "pass"
             }
           ]
         },
@@ -904,10 +976,11 @@
               "n_turns": 172,
               "relative_l2_norm": 0.246509,
               "relative_l2_shape": 0.032605,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-046_sim-T5Wg_SaltyLagrange_e2191cb9",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 398034.0,
-              "wall_s": 2237.59
+              "wall_s": 2237.59,
+              "status": "pass"
             },
             {
               "cost_usd": 11.567964,
@@ -915,10 +988,11 @@
               "n_turns": 183,
               "relative_l2_norm": 0.939184,
               "relative_l2_shape": 0.318999,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-046_sim-T5Wg_PapiHiggs_b887ed82",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 338812.0,
-              "wall_s": 1795.32
+              "wall_s": 1795.32,
+              "status": "pass"
             },
             {
               "cost_usd": 11.425422,
@@ -926,10 +1000,11 @@
               "n_turns": 180,
               "relative_l2_norm": 0.328182,
               "relative_l2_shape": 0.003893,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-046_sim-T5Wg_BoldNielsen_6506525a",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 310580.0,
-              "wall_s": 2005.74
+              "wall_s": 2005.74,
+              "status": "pass"
             }
           ]
         },
@@ -941,10 +1016,11 @@
               "n_turns": 141,
               "relative_l2_norm": 0.210132,
               "relative_l2_shape": 0.016713,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-046_sim-TChiWg_BrightQuinn_f41b3ef3",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 403199.0,
-              "wall_s": 2345.15
+              "wall_s": 2345.15,
+              "status": "pass"
             },
             {
               "cost_usd": 12.763929,
@@ -952,10 +1028,11 @@
               "n_turns": 181,
               "relative_l2_norm": 0.31934,
               "relative_l2_shape": 0.010311,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-046_sim-TChiWg_BraveNambu_aa4c2290",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 530583.0,
-              "wall_s": 2149.45
+              "wall_s": 2149.45,
+              "status": "pass"
             },
             {
               "cost_usd": 9.774919,
@@ -963,10 +1040,11 @@
               "n_turns": 150,
               "relative_l2_norm": 0.932644,
               "relative_l2_shape": 0.193366,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-046_sim-TChiWg_BubblyHawking_b18e890d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 318156.0,
-              "wall_s": 1540.09
+              "wall_s": 1540.09,
+              "status": "pass"
             }
           ]
         },
@@ -978,10 +1056,11 @@
               "n_turns": 156,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.121888,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_shape-T5Wg_highHT_QuietKobayashi_8c53f401",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 317102.0,
-              "wall_s": 1583.66
+              "wall_s": 1583.66,
+              "status": "pass"
             },
             {
               "cost_usd": 11.943926,
@@ -989,10 +1068,11 @@
               "n_turns": 181,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.084392,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_shape-T5Wg_highHT_MysteriousMaskawa_b5549fc0",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 358724.0,
-              "wall_s": 2020.83
+              "wall_s": 2020.83,
+              "status": "pass"
             },
             {
               "cost_usd": 8.9133,
@@ -1000,10 +1080,11 @@
               "n_turns": 137,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.028717,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_shape-T5Wg_highHT_ChubbyMaskawa_5acba89e",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 237135.0,
-              "wall_s": 1274.29
+              "wall_s": 1274.29,
+              "status": "pass"
             }
           ]
         },
@@ -1015,10 +1096,11 @@
               "n_turns": 168,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.411798,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_shape-T5Wg_lowHT_PrimeHiggs_2587f250",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 297950.0,
-              "wall_s": 1714.83
+              "wall_s": 1714.83,
+              "status": "pass"
             },
             {
               "cost_usd": 14.755562,
@@ -1026,10 +1108,11 @@
               "n_turns": 232,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.407579,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_shape-T5Wg_lowHT_WiseWilson_9c4dc038",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 401696.0,
-              "wall_s": 2811.7
+              "wall_s": 2811.7,
+              "status": "pass"
             },
             {
               "cost_usd": 11.392089,
@@ -1037,10 +1120,11 @@
               "n_turns": 181,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.317995,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_shape-T5Wg_lowHT_FlashyCurie_d2f33624",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 330458.0,
-              "wall_s": 1856.26
+              "wall_s": 1856.26,
+              "status": "pass"
             }
           ]
         },
@@ -1052,10 +1136,11 @@
               "n_turns": 203,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.003075,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_shape-T6gg_highHT_GrandChandrasekhar_d5ac70a0",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 371576.0,
-              "wall_s": 2325.23
+              "wall_s": 2325.23,
+              "status": "pass"
             },
             {
               "cost_usd": 6.798087,
@@ -1063,10 +1148,11 @@
               "n_turns": 114,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.982059,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_shape-T6gg_highHT_QuietRutherford_8c19faf5",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 208477.0,
-              "wall_s": 1123.71
+              "wall_s": 1123.71,
+              "status": "pass"
             },
             {
               "cost_usd": 6.850532,
@@ -1074,10 +1160,11 @@
               "n_turns": 101,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.013585,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_shape-T6gg_highHT_OilyWu_3ba95c81",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 230176.0,
-              "wall_s": 1632.32
+              "wall_s": 1632.32,
+              "status": "pass"
             }
           ]
         },
@@ -1089,10 +1176,11 @@
               "n_turns": 104,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.00849,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_shape-T6gg_lowHT_CandidGeiger_0640a846",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 263238.0,
-              "wall_s": 1102.24
+              "wall_s": 1102.24,
+              "status": "pass"
             },
             {
               "cost_usd": 11.007227,
@@ -1100,10 +1188,11 @@
               "n_turns": 158,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.015189,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_shape-T6gg_lowHT_RizzyLawrence_d9e645af",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 433251.0,
-              "wall_s": 1453.52
+              "wall_s": 1453.52,
+              "status": "pass"
             },
             {
               "cost_usd": 8.81505,
@@ -1111,10 +1200,11 @@
               "n_turns": 138,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.010369,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_shape-T6gg_lowHT_PuffyBorn_3c30bd18",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 242167.0,
-              "wall_s": 1471.62
+              "wall_s": 1471.62,
+              "status": "pass"
             }
           ]
         },
@@ -1126,10 +1216,11 @@
               "n_turns": null,
               "relative_l2_norm": 2.867749,
               "relative_l2_shape": 0.086661,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_sim-T5Wg_highHT_SpicyPoincare_e394b18a",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": null,
-              "wall_s": 2705.43
+              "wall_s": 2705.43,
+              "status": "pass"
             },
             {
               "cost_usd": 17.90517,
@@ -1137,10 +1228,11 @@
               "n_turns": 270,
               "relative_l2_norm": 0.694223,
               "relative_l2_shape": 0.085015,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T5Wg_highHT_StrangePlanck_377ffb35",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": 508756.0,
-              "wall_s": 3393.27
+              "wall_s": 3393.27,
+              "status": "hung"
             },
             {
               "cost_usd": 11.80345,
@@ -1148,10 +1240,11 @@
               "n_turns": 197,
               "relative_l2_norm": 0.727665,
               "relative_l2_shape": 0.049148,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_sim-T5Wg_highHT_AnnoyingNielsen_8b7d50cd",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": 344623.0,
-              "wall_s": 1694.1
+              "wall_s": 1694.1,
+              "status": "hung"
             }
           ]
         },
@@ -1163,10 +1256,11 @@
               "n_turns": 246,
               "relative_l2_norm": 0.644131,
               "relative_l2_shape": 0.491989,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_sim-T5Wg_lowHT_KindWilczek_7956e44a",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 454647.0,
-              "wall_s": 2959.52
+              "wall_s": 2959.52,
+              "status": "pass"
             },
             {
               "cost_usd": 10.565453,
@@ -1174,10 +1268,11 @@
               "n_turns": 159,
               "relative_l2_norm": 0.653739,
               "relative_l2_shape": 0.152034,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T5Wg_lowHT_SlowGerlach_a947bd52",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 331661.0,
-              "wall_s": 3171.42
+              "wall_s": 3171.42,
+              "status": "pass"
             },
             {
               "cost_usd": 12.360136,
@@ -1185,10 +1280,11 @@
               "n_turns": 191,
               "relative_l2_norm": 0.949612,
               "relative_l2_shape": 0.670309,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_sim-T5Wg_lowHT_GoofyBhabha_9fae1db6",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 352205.0,
-              "wall_s": 1881.59
+              "wall_s": 1881.59,
+              "status": "pass"
             }
           ]
         },
@@ -1200,10 +1296,11 @@
               "n_turns": 167,
               "relative_l2_norm": 0.57784,
               "relative_l2_shape": 0.012288,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_sim-T6gg_highHT_WiseRubin_d4816a8e",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 443771.0,
-              "wall_s": 2578.37
+              "wall_s": 2578.37,
+              "status": "pass"
             },
             {
               "cost_usd": 13.746375,
@@ -1211,10 +1308,11 @@
               "n_turns": 196,
               "relative_l2_norm": 0.990399,
               "relative_l2_shape": 1.107474,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T6gg_highHT_GoofyYang_9fb213b6",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 356752.0,
-              "wall_s": 2644.02
+              "wall_s": 2644.02,
+              "status": "pass"
             },
             {
               "cost_usd": 15.581221,
@@ -1222,10 +1320,11 @@
               "n_turns": 249,
               "relative_l2_norm": 0.348925,
               "relative_l2_shape": 0.030064,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_sim-T6gg_highHT_CleverWu_49a9ee98",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 412364.0,
-              "wall_s": 2418.72
+              "wall_s": 2418.72,
+              "status": "pass"
             }
           ]
         },
@@ -1237,10 +1336,11 @@
               "n_turns": 200,
               "relative_l2_norm": 16.543148,
               "relative_l2_shape": 0.067874,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-047_sim-T6gg_lowHT_SaltyWeinberg_4dbc9d68",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 367740.0,
-              "wall_s": 2930.44
+              "wall_s": 2930.44,
+              "status": "pass"
             },
             {
               "cost_usd": 25.706737,
@@ -1248,10 +1348,11 @@
               "n_turns": 375,
               "relative_l2_norm": 10.676257,
               "relative_l2_shape": 0.015936,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T6gg_lowHT_PlayfulAmpere_869ba608",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 674955.0,
-              "wall_s": 4506.68
+              "wall_s": 4506.68,
+              "status": "pass"
             },
             {
               "cost_usd": 10.788999,
@@ -1259,10 +1360,11 @@
               "n_turns": 167,
               "relative_l2_norm": 6.693671,
               "relative_l2_shape": 0.029625,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-047_sim-T6gg_lowHT_BrightFadeev_665af59c",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 318918.0,
-              "wall_s": 3049.14
+              "wall_s": 3049.14,
+              "status": "pass"
             }
           ]
         },
@@ -1274,10 +1376,11 @@
               "n_turns": 168,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.32647,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-051_shape-T2bW_SRG_CosmicDrell_cbd9503f",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 338642.0,
-              "wall_s": 3858.64
+              "wall_s": 3858.64,
+              "status": "pass"
             },
             {
               "cost_usd": 18.591942,
@@ -1285,10 +1388,11 @@
               "n_turns": 185,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.235553,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-051_shape-T2bW_SRG_HappyPoisson_13c7c553",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 415364.0,
-              "wall_s": 2546.22
+              "wall_s": 2546.22,
+              "status": "pass"
             },
             {
               "cost_usd": 12.960265,
@@ -1296,10 +1400,11 @@
               "n_turns": 164,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.143158,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-051_shape-T2bW_SRG_SassyGlashow_43bdd7f9",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 307810.0,
-              "wall_s": 2057.14
+              "wall_s": 2057.14,
+              "status": "pass"
             }
           ]
         },
@@ -1311,10 +1416,11 @@
               "n_turns": 149,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.223672,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-051_shape-T2tt_SRG_BoringWu_7ba93b51",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 409856.0,
-              "wall_s": 2610.56
+              "wall_s": 2610.56,
+              "status": "pass"
             },
             {
               "cost_usd": 9.437437,
@@ -1322,10 +1428,11 @@
               "n_turns": 144,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.336912,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-051_shape-T2tt_SRG_CosmicYang_693b7aa4",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 266912.0,
-              "wall_s": 1391.28
+              "wall_s": 1391.28,
+              "status": "pass"
             },
             {
               "cost_usd": 13.451288,
@@ -1333,10 +1440,11 @@
               "n_turns": 164,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.352105,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-051_shape-T2tt_SRG_DeepOhm_6c9d4855",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 328263.0,
-              "wall_s": 1506.17
+              "wall_s": 1506.17,
+              "status": "pass"
             }
           ]
         },
@@ -1348,10 +1456,11 @@
               "n_turns": 111,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.228193,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-051_shape-T2tt_comp_DaringGibbs_5fc563e7",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 238238.0,
-              "wall_s": 1278.5
+              "wall_s": 1278.5,
+              "status": "pass"
             },
             {
               "cost_usd": 9.648547,
@@ -1359,10 +1468,11 @@
               "n_turns": 136,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.226405,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-051_shape-T2tt_comp_ElectricRaman_61e9b5bd",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 277871.0,
-              "wall_s": 1722.79
+              "wall_s": 1722.79,
+              "status": "pass"
             },
             {
               "cost_usd": 11.898605,
@@ -1370,10 +1480,11 @@
               "n_turns": 155,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.246421,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-051_shape-T2tt_comp_KindCompton_179e0334",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 291570.0,
-              "wall_s": 2366.9
+              "wall_s": 2366.9,
+              "status": "pass"
             }
           ]
         },
@@ -1385,10 +1496,11 @@
               "n_turns": 233,
               "relative_l2_norm": 0.340885,
               "relative_l2_shape": 0.311675,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-051_sim-T2bW_SRG_AtomicPolitzer_02db3979",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 381516.0,
-              "wall_s": 2320.54
+              "wall_s": 2320.54,
+              "status": "pass"
             },
             {
               "cost_usd": 13.43496,
@@ -1396,10 +1508,11 @@
               "n_turns": 153,
               "relative_l2_norm": 0.259902,
               "relative_l2_shape": 0.260492,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-051_sim-T2bW_SRG_CosmicPoincare_693f1a74",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 377178.0,
-              "wall_s": 2361.81
+              "wall_s": 2361.81,
+              "status": "pass"
             },
             {
               "cost_usd": 12.485823,
@@ -1407,10 +1520,11 @@
               "n_turns": 151,
               "relative_l2_norm": 0.23826,
               "relative_l2_shape": 0.238528,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-051_sim-T2bW_SRG_FlashyOppenheimer_0ed4081e",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 334252.0,
-              "wall_s": 2032.64
+              "wall_s": 2032.64,
+              "status": "pass"
             }
           ]
         },
@@ -1422,10 +1536,11 @@
               "n_turns": 159,
               "relative_l2_norm": 0.453211,
               "relative_l2_shape": 0.38302,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-051_sim-T2tt_SRG_BoldAdler_c75f43d0",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 555779.0,
-              "wall_s": 2094.51
+              "wall_s": 2094.51,
+              "status": "pass"
             },
             {
               "cost_usd": 17.473919,
@@ -1433,10 +1548,11 @@
               "n_turns": 203,
               "relative_l2_norm": 0.364898,
               "relative_l2_shape": 0.377243,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-051_sim-T2tt_SRG_FluffyCurie_5d05a45c",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 379760.0,
-              "wall_s": 2387.54
+              "wall_s": 2387.54,
+              "status": "pass"
             },
             {
               "cost_usd": 10.312438,
@@ -1444,10 +1560,11 @@
               "n_turns": 139,
               "relative_l2_norm": 0.450464,
               "relative_l2_shape": 0.453503,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-051_sim-T2tt_SRG_SaltyBell_4d11cf0c",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 264624.0,
-              "wall_s": 1838.63
+              "wall_s": 1838.63,
+              "status": "pass"
             }
           ]
         },
@@ -1459,10 +1576,11 @@
               "n_turns": 200,
               "relative_l2_norm": 0.153831,
               "relative_l2_shape": 0.152541,
+              "run_dir": "claude_opus-4-7/run-1/sus-16-051_sim-T2tt_comp_KindWilczek_db564816",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 278469.0,
-              "wall_s": 1625.99
+              "wall_s": 1625.99,
+              "status": "pass"
             },
             {
               "cost_usd": 14.998088,
@@ -1470,10 +1588,11 @@
               "n_turns": 198,
               "relative_l2_norm": 0.93456,
               "relative_l2_shape": 0.133626,
+              "run_dir": "claude_opus-4-7/run-2/sus-16-051_sim-T2tt_comp_SharpHuygens_2e9ab4cf",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 301422.0,
-              "wall_s": 1755.64
+              "wall_s": 1755.64,
+              "status": "pass"
             },
             {
               "cost_usd": 9.838496,
@@ -1481,10 +1600,11 @@
               "n_turns": 150,
               "relative_l2_norm": 0.406544,
               "relative_l2_shape": 0.253801,
+              "run_dir": "claude_opus-4-7/run-3/sus-16-051_sim-T2tt_comp_SkinnyLawrence_bee6d219",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 240978.0,
-              "wall_s": 1587.53
+              "wall_s": 1587.53,
+              "status": "pass"
             }
           ]
         }
@@ -1501,10 +1621,11 @@
               "n_turns": 158,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.111998,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-034_shape-TChiWZ_LivelyKepler_18fb5ea2",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 568772.0,
-              "wall_s": 4473.01
+              "wall_s": 4473.01,
+              "status": "pass"
             },
             {
               "cost_usd": 7.37604,
@@ -1512,10 +1633,11 @@
               "n_turns": 193,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.068061,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-034_shape-TChiWZ_LuckyAlcubierre_1b41ae0b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 368620.0,
-              "wall_s": 5644.95
+              "wall_s": 5644.95,
+              "status": "pass"
             },
             {
               "cost_usd": 11.780601,
@@ -1523,10 +1645,11 @@
               "n_turns": 286,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.091121,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-034_shape-TChiWZ_RomanticGeorgi_834b5b96",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 480827.0,
-              "wall_s": 4147.93
+              "wall_s": 4147.93,
+              "status": "pass"
             }
           ]
         },
@@ -1538,32 +1661,35 @@
               "n_turns": 130,
               "relative_l2_norm": 0.185205,
               "relative_l2_shape": 0.041439,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-034_sim-TChiWZ_GeekyMayer_bb0769a2",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 448398.0,
-              "wall_s": 2996.07
+              "wall_s": 2996.07,
+              "status": "pass"
             },
             {
               "cost_usd": 6.123275,
               "delta": 0.445712,
               "n_turns": 161,
-              "relative_l2_norm": null,
-              "relative_l2_shape": null,
+              "relative_l2_norm": 0.449572,
+              "relative_l2_shape": 0.090302,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-034_sim-TChiWZ_CosmicLandau_073e86df",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 266427.0,
-              "wall_s": 2816.88
+              "wall_s": 2816.88,
+              "status": "pass"
             },
             {
               "cost_usd": 4.724122,
               "delta": 0.284362,
               "n_turns": 118,
-              "relative_l2_norm": null,
-              "relative_l2_shape": null,
+              "relative_l2_norm": 0.273426,
+              "relative_l2_shape": 0.072649,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-034_sim-TChiWZ_OddSchwinger_22e12aab",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 261145.0,
-              "wall_s": 2562.33
+              "wall_s": 2562.33,
+              "status": "pass"
             }
           ]
         },
@@ -1575,10 +1701,11 @@
               "n_turns": 145,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.653553,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-046_shape-T5Wg_BubblyKibble_f40f01ba",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 282928.0,
-              "wall_s": 2285.48
+              "wall_s": 2285.48,
+              "status": "pass"
             },
             {
               "cost_usd": 5.088677,
@@ -1586,10 +1713,11 @@
               "n_turns": 124,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.348961,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-046_shape-T5Wg_ProudCurie_ea7ccdfc",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 258512.0,
-              "wall_s": 2469.39
+              "wall_s": 2469.39,
+              "status": "pass"
             },
             {
               "cost_usd": 7.174159,
@@ -1597,10 +1725,11 @@
               "n_turns": 182,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.310285,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-046_shape-T5Wg_GrimBohr_74f258d6",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 406539.0,
-              "wall_s": 2696.62
+              "wall_s": 2696.62,
+              "status": "pass"
             }
           ]
         },
@@ -1612,10 +1741,11 @@
               "n_turns": 182,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.055343,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-046_shape-TChiWg_RareMaskawa_8154896e",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 311226.0,
-              "wall_s": 3190.3
+              "wall_s": 3190.3,
+              "status": "pass"
             },
             {
               "cost_usd": 6.414615,
@@ -1623,10 +1753,11 @@
               "n_turns": 170,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.010324,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-046_shape-TChiWg_HumbleMayer_14f5b84d",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 295526.0,
-              "wall_s": 2995.76
+              "wall_s": 2995.76,
+              "status": "pass"
             },
             {
               "cost_usd": 5.767604,
@@ -1634,10 +1765,11 @@
               "n_turns": 150,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.322271,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-046_shape-TChiWg_GrimMaskawa_d65472ef",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 280644.0,
-              "wall_s": 3446.85
+              "wall_s": 3446.85,
+              "status": "pass"
             }
           ]
         },
@@ -1649,10 +1781,11 @@
               "n_turns": 174,
               "relative_l2_norm": 0.944581,
               "relative_l2_shape": 0.310453,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-046_sim-T5Wg_DeepSegre_b66db45c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 286957.0,
-              "wall_s": 2417.51
+              "wall_s": 2417.51,
+              "status": "pass"
             },
             {
               "cost_usd": 8.689732,
@@ -1660,10 +1793,11 @@
               "n_turns": 219,
               "relative_l2_norm": 0.807182,
               "relative_l2_shape": 0.136931,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-046_sim-T5Wg_NobleGauss_8221a287",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 453258.0,
-              "wall_s": 3577.66
+              "wall_s": 3577.66,
+              "status": "pass"
             },
             {
               "cost_usd": 9.515479,
@@ -1671,10 +1805,11 @@
               "n_turns": 234,
               "relative_l2_norm": 0.091308,
               "relative_l2_shape": 0.017184,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-046_sim-T5Wg_HumbleZwicky_145ccb26",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 450747.0,
-              "wall_s": 4404.04
+              "wall_s": 4404.04,
+              "status": "pass"
             }
           ]
         },
@@ -1686,10 +1821,11 @@
               "n_turns": 217,
               "relative_l2_norm": 0.973567,
               "relative_l2_shape": 0.161272,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-046_sim-TChiWg_CandidGellMann_b2b404c4",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 395454.0,
-              "wall_s": 4025.25
+              "wall_s": 4025.25,
+              "status": "pass"
             },
             {
               "cost_usd": 6.338165,
@@ -1697,10 +1833,23 @@
               "n_turns": 163,
               "relative_l2_norm": 0.875958,
               "relative_l2_shape": 0.112568,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-046_sim-TChiWg_NobleLorentz_8291df23",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 359951.0,
-              "wall_s": 3306.32
+              "wall_s": 3306.32,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 5.404619,
+              "delta": 0.925799,
+              "n_turns": 151,
+              "relative_l2_norm": 0.927468,
+              "relative_l2_shape": 0.181652,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-046_sim-TChiWg_DoubleTesla_938f4f32",
+              "run_label": "run-3",
+              "tokens_total_billed": 241538.0,
+              "wall_s": 2301.23,
+              "status": "pass"
             }
           ]
         },
@@ -1712,10 +1861,11 @@
               "n_turns": 133,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.640783,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_shape-T5Wg_highHT_JollyFadeev_f75a5054",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 380067.0,
-              "wall_s": 2421.17
+              "wall_s": 2421.17,
+              "status": "pass"
             },
             {
               "cost_usd": 5.649475,
@@ -1723,10 +1873,23 @@
               "n_turns": 148,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.079448,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_shape-T5Wg_highHT_FattyAlcubierre_5b41d404",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 314742.0,
-              "wall_s": 5713.73
+              "wall_s": 5713.73,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 5.733294,
+              "delta": null,
+              "n_turns": 134,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.69704,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_shape-T5Wg_highHT_BraveKibble_aa0fca4f",
+              "run_label": "run-3",
+              "tokens_total_billed": 279313.0,
+              "wall_s": 3183.66,
+              "status": "pass"
             }
           ]
         },
@@ -1738,10 +1901,11 @@
               "n_turns": 135,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.083043,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_shape-T5Wg_lowHT_NobleGeorgi_754b0e9c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 279427.0,
-              "wall_s": 3381.72
+              "wall_s": 3381.72,
+              "status": "pass"
             },
             {
               "cost_usd": 4.24238,
@@ -1749,10 +1913,23 @@
               "n_turns": 110,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.313278,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_shape-T5Wg_lowHT_SlowOppenheimer_47d44beb",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 221339.0,
-              "wall_s": 4657.6
+              "wall_s": 4657.6,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 6.23066,
+              "delta": null,
+              "n_turns": 159,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.48271,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_shape-T5Wg_lowHT_GoofySakharov_9fd00924",
+              "run_label": "run-3",
+              "tokens_total_billed": 301729.0,
+              "wall_s": 6982.0,
+              "status": "pass"
             }
           ]
         },
@@ -1764,10 +1941,11 @@
               "n_turns": 163,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.012728,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_shape-T6gg_highHT_MamiDrell_a6623fbd",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 307827.0,
-              "wall_s": 2904.35
+              "wall_s": 2904.35,
+              "status": "pass"
             },
             {
               "cost_usd": 5.58813,
@@ -1775,10 +1953,23 @@
               "n_turns": 160,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.959518,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_shape-T6gg_highHT_RadiantAmpere_2b9bc8c0",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 287031.0,
-              "wall_s": 2929.36
+              "wall_s": 2929.36,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 6.412907,
+              "delta": null,
+              "n_turns": 158,
+              "relative_l2_norm": null,
+              "relative_l2_shape": null,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_shape-T6gg_highHT_QuantumPoisson_eb50c4ba",
+              "run_label": "run-3",
+              "tokens_total_billed": 267587.0,
+              "wall_s": 3279.41,
+              "status": "pass"
             }
           ]
         },
@@ -1790,10 +1981,11 @@
               "n_turns": 148,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.483461,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_shape-T6gg_lowHT_CalmEinstein_b1006387",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 279643.0,
-              "wall_s": 4097.26
+              "wall_s": 4097.26,
+              "status": "pass"
             },
             {
               "cost_usd": 12.355567,
@@ -1801,10 +1993,23 @@
               "n_turns": 321,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.011779,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_shape-T6gg_lowHT_LucidKibble_1a0f46c6",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 368293.0,
-              "wall_s": 2672.35
+              "wall_s": 2672.35,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 4.603874,
+              "delta": null,
+              "n_turns": 117,
+              "relative_l2_norm": null,
+              "relative_l2_shape": 0.003808,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_shape-T6gg_lowHT_LuckyNoether_1b8d9966",
+              "run_label": "run-3",
+              "tokens_total_billed": 232257.0,
+              "wall_s": 2281.05,
+              "status": "pass"
             }
           ]
         },
@@ -1816,10 +2021,11 @@
               "n_turns": 200,
               "relative_l2_norm": 0.602473,
               "relative_l2_shape": 0.030747,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_sim-T5Wg_highHT_FunkyHiggs_f0fe6b5a",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 386280.0,
-              "wall_s": 3090.69
+              "wall_s": 3090.69,
+              "status": "pass"
             },
             {
               "cost_usd": 6.88615,
@@ -1827,10 +2033,23 @@
               "n_turns": 189,
               "relative_l2_norm": 0.571716,
               "relative_l2_shape": 0.058092,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T5Wg_highHT_ElegantUhlenbeck_6e63ed04",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 398819.0,
-              "wall_s": 3353.13
+              "wall_s": 3353.13,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 9.206408,
+              "delta": 0.865837,
+              "n_turns": 229,
+              "relative_l2_norm": 0.889476,
+              "relative_l2_shape": 0.792034,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_sim-T5Wg_highHT_FluffyMayer_5d078b96",
+              "run_label": "run-3",
+              "tokens_total_billed": 446975.0,
+              "wall_s": 4382.81,
+              "status": "pass"
             }
           ]
         },
@@ -1842,10 +2061,11 @@
               "n_turns": 204,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_sim-T5Wg_lowHT_AgileBardeen_c460bfa3",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 635447.0,
-              "wall_s": 3877.44
+              "wall_s": 3877.44,
+              "status": "hung"
             },
             {
               "cost_usd": 6.699081,
@@ -1853,10 +2073,23 @@
               "n_turns": 187,
               "relative_l2_norm": 0.956041,
               "relative_l2_shape": 0.359499,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T5Wg_lowHT_GrandSegre_11e4aea9",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 318509.0,
-              "wall_s": 2862.11
+              "wall_s": 2862.11,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 6.545444,
+              "delta": 1.682579,
+              "n_turns": 180,
+              "relative_l2_norm": 1.630721,
+              "relative_l2_shape": 0.212715,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_sim-T5Wg_lowHT_OilyFadeev_9dd14a4d",
+              "run_label": "run-3",
+              "tokens_total_billed": 325648.0,
+              "wall_s": 4614.12,
+              "status": "pass"
             }
           ]
         },
@@ -1868,10 +2101,11 @@
               "n_turns": 163,
               "relative_l2_norm": 0.997934,
               "relative_l2_shape": 1.075469,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_sim-T6gg_highHT_DeepBhabha_ce371020",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 299741.0,
-              "wall_s": 1934.46
+              "wall_s": 1934.46,
+              "status": "pass"
             },
             {
               "cost_usd": 10.950561,
@@ -1879,10 +2113,23 @@
               "n_turns": 280,
               "relative_l2_norm": 1.805548,
               "relative_l2_shape": 0.049473,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T6gg_highHT_KindPopov_db5b1063",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 468786.0,
-              "wall_s": 5088.48
+              "wall_s": 5088.48,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 7.323068,
+              "delta": 0.990143,
+              "n_turns": 185,
+              "relative_l2_norm": 0.993145,
+              "relative_l2_shape": 0.419126,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_sim-T6gg_highHT_JollyPerl_52ddbb4a",
+              "run_label": "run-3",
+              "tokens_total_billed": 326658.0,
+              "wall_s": 3731.92,
+              "status": "pass"
             }
           ]
         },
@@ -1894,10 +2141,11 @@
               "n_turns": 244,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-047_sim-T6gg_lowHT_StrangeBjorken_37d84804",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 446129.0,
-              "wall_s": 2835.53
+              "wall_s": 2835.53,
+              "status": "pass"
             },
             {
               "cost_usd": 10.535962,
@@ -1905,10 +2153,23 @@
               "n_turns": 244,
               "relative_l2_norm": 2.381079,
               "relative_l2_shape": 0.013408,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T6gg_lowHT_SpecialSusskind_9543365a",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 588826.0,
-              "wall_s": 5068.9
+              "wall_s": 5068.9,
+              "status": "pass"
+            },
+            {
+              "cost_usd": 7.171281,
+              "delta": 0.999661,
+              "n_turns": 193,
+              "relative_l2_norm": 0.999834,
+              "relative_l2_shape": 0.93716,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-047_sim-T6gg_lowHT_CandidBhabha_063700a3",
+              "run_label": "run-3",
+              "tokens_total_billed": 349005.0,
+              "wall_s": 3177.33,
+              "status": "pass"
             }
           ]
         },
@@ -1920,10 +2181,11 @@
               "n_turns": 135,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.346559,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-051_shape-T2bW_SRG_PlayfulGoldstone_e87618fe",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 238825.0,
-              "wall_s": 4147.09
+              "wall_s": 4147.09,
+              "status": "pass"
             },
             {
               "cost_usd": 4.650458,
@@ -1931,10 +2193,11 @@
               "n_turns": 119,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.319765,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_shape-T2bW_SRG_SharpCherenkov_f2b19693",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 297375.0,
-              "wall_s": 2574.89
+              "wall_s": 2574.89,
+              "status": "pass"
             },
             {
               "cost_usd": 6.535811,
@@ -1942,10 +2205,11 @@
               "n_turns": 176,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.453975,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-051_shape-T2bW_SRG_SwiftNambu_38c382e3",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 282712.0,
-              "wall_s": 2984.52
+              "wall_s": 2984.52,
+              "status": "pass"
             }
           ]
         },
@@ -1957,10 +2221,11 @@
               "n_turns": 137,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.780756,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-051_shape-T2tt_SRG_CheerfulSchwinger_a86a1692",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 249062.0,
-              "wall_s": 5157.93
+              "wall_s": 5157.93,
+              "status": "pass"
             },
             {
               "cost_usd": 5.16275,
@@ -1968,10 +2233,11 @@
               "n_turns": 165,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.388744,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_shape-T2tt_SRG_ElegantDirac_0c034c57",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 209713.0,
-              "wall_s": 3794.74
+              "wall_s": 3794.74,
+              "status": "pass"
             },
             {
               "cost_usd": 4.63455,
@@ -1979,10 +2245,11 @@
               "n_turns": 105,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.475665,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-051_shape-T2tt_SRG_FunkyAmpere_4b24c8e8",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 231577.0,
-              "wall_s": 2725.45
+              "wall_s": 2725.45,
+              "status": "pass"
             }
           ]
         },
@@ -1994,10 +2261,11 @@
               "n_turns": 155,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-051_shape-T2tt_comp_MysticZwicky_c95c8197",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 268397.0,
-              "wall_s": 2987.44
+              "wall_s": 2987.44,
+              "status": "pass"
             },
             {
               "cost_usd": 7.13574,
@@ -2005,10 +2273,11 @@
               "n_turns": 191,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.351658,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-051_shape-T2tt_comp_LooneyLee_e0e59ddb",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 296848.0,
-              "wall_s": 5053.61
+              "wall_s": 5053.61,
+              "status": "pass"
             },
             {
               "cost_usd": 5.042199,
@@ -2016,10 +2285,11 @@
               "n_turns": 126,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.281725,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_shape-T2tt_comp_DeepBecquerel_ce73d7be",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 241623.0,
-              "wall_s": 3473.63
+              "wall_s": 3473.63,
+              "status": "pass"
             },
             {
               "cost_usd": 4.085916,
@@ -2027,10 +2297,11 @@
               "n_turns": 103,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.215088,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-051_shape-T2tt_comp_SpicyPenrose_4e42724d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 223038.0,
-              "wall_s": 3189.46
+              "wall_s": 3189.46,
+              "status": "pass"
             }
           ]
         },
@@ -2042,10 +2313,11 @@
               "n_turns": 198,
               "relative_l2_norm": 0.993908,
               "relative_l2_shape": 1.603122,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-051_sim-T2bW_SRG_NobleCompton_20276490",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 481474.0,
-              "wall_s": 6171.96
+              "wall_s": 6171.96,
+              "status": "pass"
             },
             {
               "cost_usd": 8.768337,
@@ -2053,10 +2325,11 @@
               "n_turns": 221,
               "relative_l2_norm": 0.886252,
               "relative_l2_shape": 0.278256,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_sim-T2bW_SRG_AtomicBohr_c6f2e655",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 399892.0,
-              "wall_s": 4926.03
+              "wall_s": 4926.03,
+              "status": "pass"
             },
             {
               "cost_usd": 9.381042,
@@ -2064,10 +2337,11 @@
               "n_turns": 248,
               "relative_l2_norm": 0.589924,
               "relative_l2_shape": 0.314571,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-051_sim-T2bW_SRG_CalmMaxwell_05f83d4d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 441348.0,
-              "wall_s": 6610.95
+              "wall_s": 6610.95,
+              "status": "pass"
             }
           ]
         },
@@ -2079,10 +2353,11 @@
               "n_turns": 191,
               "relative_l2_norm": 0.387707,
               "relative_l2_shape": 0.329263,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-051_sim-T2tt_SRG_GrimPenrose_d6b95057",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 337170.0,
-              "wall_s": 4536.37
+              "wall_s": 4536.37,
+              "status": "pass"
             },
             {
               "cost_usd": 6.326233,
@@ -2090,10 +2365,11 @@
               "n_turns": 175,
               "relative_l2_norm": 0.4223,
               "relative_l2_shape": 0.432775,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_sim-T2tt_SRG_KindGoldstone_17edaa6b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 279955.0,
-              "wall_s": 4096.84
+              "wall_s": 4096.84,
+              "status": "pass"
             },
             {
               "cost_usd": 6.059556,
@@ -2101,10 +2377,11 @@
               "n_turns": 183,
               "relative_l2_norm": 0.768726,
               "relative_l2_shape": 0.78418,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-051_sim-T2tt_SRG_QuickVolta_2825cf21",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 284796.0,
-              "wall_s": 6241.6
+              "wall_s": 6241.6,
+              "status": "pass"
             }
           ]
         },
@@ -2116,10 +2393,11 @@
               "n_turns": 173,
               "relative_l2_norm": 0.970466,
               "relative_l2_shape": 0.254743,
+              "run_dir": "claude_sonnet-4-6/run-1/sus-16-051_sim-T2tt_comp_ProDrell_c1d9c4b7",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 272213.0,
-              "wall_s": 2474.14
+              "wall_s": 2474.14,
+              "status": "pass"
             },
             {
               "cost_usd": 5.484153,
@@ -2127,10 +2405,11 @@
               "n_turns": 153,
               "relative_l2_norm": 0.284939,
               "relative_l2_shape": 0.165531,
+              "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_sim-T2tt_comp_AgileFadeev_62d116dd",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 237099.0,
-              "wall_s": 3965.28
+              "wall_s": 3965.28,
+              "status": "pass"
             },
             {
               "cost_usd": 10.730346,
@@ -2138,10 +2417,11 @@
               "n_turns": 240,
               "relative_l2_norm": 0.79939,
               "relative_l2_shape": 0.366405,
+              "run_dir": "claude_sonnet-4-6/run-3/sus-16-051_sim-T2tt_comp_RadiantAmpere_2b2422bf",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 523622.0,
-              "wall_s": 6793.72
+              "wall_s": 6793.72,
+              "status": "pass"
             }
           ]
         }
@@ -2158,10 +2438,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.0461,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-034_shape-TChiWZ_QuantumLandau_89b57491",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 22296426.0,
-              "wall_s": 1795.96
+              "wall_s": 1795.96,
+              "status": "pass"
             },
             {
               "cost_usd": 1.853907,
@@ -2169,10 +2450,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.175367,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-034_shape-TChiWZ_ArcaneMajorana_01a5a08d",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 14696932.0,
-              "wall_s": 1830.31
+              "wall_s": 1830.31,
+              "status": "pass"
             },
             {
               "cost_usd": 3.507083,
@@ -2180,10 +2462,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.152233,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-034_shape-TChiWZ_CleverHertz_ab9233eb",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 30534626.0,
-              "wall_s": 2842.98
+              "wall_s": 2842.98,
+              "status": "pass"
             }
           ]
         },
@@ -2195,10 +2478,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.988222,
               "relative_l2_shape": 0.212715,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-034_sim-TChiWZ_FartyMayer_c37eed3e",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 27418413.0,
-              "wall_s": 3505.66
+              "wall_s": 3505.66,
+              "status": "pass"
             },
             {
               "cost_usd": 4.158536,
@@ -2206,10 +2490,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.678932,
               "relative_l2_shape": 0.073168,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-034_sim-TChiWZ_SharpRubbia_90de4e8f",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 38123019.0,
-              "wall_s": 3847.38
+              "wall_s": 3847.38,
+              "status": "pass"
             },
             {
               "cost_usd": 3.39521,
@@ -2217,10 +2502,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.290263,
               "relative_l2_shape": 0.112005,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-034_sim-TChiWZ_NobleEhrenfest_e4cf3d26",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 29476693.0,
-              "wall_s": 2722.61
+              "wall_s": 2722.61,
+              "status": "pass"
             }
           ]
         },
@@ -2232,10 +2518,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.075546,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-046_shape-T5Wg_FatWeisskopf_aa1edb1a",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 17768684.0,
-              "wall_s": 1580.25
+              "wall_s": 1580.25,
+              "status": "pass"
             },
             {
               "cost_usd": 3.411822,
@@ -2243,10 +2530,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.022017,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-046_shape-T5Wg_FlashyRydberg_d2aaf63f",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 27069369.0,
-              "wall_s": 2196.86
+              "wall_s": 2196.86,
+              "status": "pass"
             },
             {
               "cost_usd": null,
@@ -2254,10 +2542,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-046_shape-T5Wg_LivelyGibbs_7ac5c2e1",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": 9.69
+              "wall_s": 9.69,
+              "status": "hung"
             }
           ]
         },
@@ -2269,10 +2558,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.271651,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-046_shape-TChiWg_SillyFadeev_32d1c277",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 28466078.0,
-              "wall_s": 2581.86
+              "wall_s": 2581.86,
+              "status": "pass"
             },
             {
               "cost_usd": 2.974391,
@@ -2280,10 +2570,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.148718,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-046_shape-TChiWg_LuckyGalilei_1bfa970b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 21424322.0,
-              "wall_s": 2323.85
+              "wall_s": 2323.85,
+              "status": "pass"
             },
             {
               "cost_usd": 2.073565,
@@ -2291,10 +2582,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.398924,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-046_shape-TChiWg_SwiftHuygens_9a230733",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 18933734.0,
-              "wall_s": 1599.51
+              "wall_s": 1599.51,
+              "status": "pass"
             }
           ]
         },
@@ -2306,10 +2598,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.378211,
               "relative_l2_shape": 0.023726,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-046_sim-T5Wg_NimbleAlcubierre_bd377ddb",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 32352609.0,
-              "wall_s": 2295.97
+              "wall_s": 2295.97,
+              "status": "pass"
             },
             {
               "cost_usd": 2.905279,
@@ -2317,10 +2610,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.134828,
               "relative_l2_shape": 0.054555,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-046_sim-T5Wg_CosmicSakharov_07d0c5e5",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 24525584.0,
-              "wall_s": 1968.16
+              "wall_s": 1968.16,
+              "status": "pass"
             },
             {
               "cost_usd": 2.721755,
@@ -2328,10 +2622,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.999223,
               "relative_l2_shape": 0.67508,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-046_sim-T5Wg_OddTesla_848fb4e2",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 19683721.0,
-              "wall_s": 1930.17
+              "wall_s": 1930.17,
+              "status": "pass"
             }
           ]
         },
@@ -2343,10 +2638,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.989651,
               "relative_l2_shape": 0.116704,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-046_sim-TChiWg_MysteriousGalilei_98c85710",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 24427476.0,
-              "wall_s": 3477.39
+              "wall_s": 3477.39,
+              "status": "pass"
             },
             {
               "cost_usd": 3.788027,
@@ -2354,10 +2650,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.568854,
               "relative_l2_shape": 0.0782,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-046_sim-TChiWg_WittyKepler_9bfb6336",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 34289477.0,
-              "wall_s": 2707.9
+              "wall_s": 2707.9,
+              "status": "pass"
             },
             {
               "cost_usd": 4.813371,
@@ -2365,10 +2662,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.947416,
               "relative_l2_shape": 0.474434,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-046_sim-TChiWg_FattyvonNeumann_5b1db645",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 34872725.0,
-              "wall_s": 4334.52
+              "wall_s": 4334.52,
+              "status": "pass"
             }
           ]
         },
@@ -2380,10 +2678,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.244487,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_shape-T5Wg_highHT_LuckyBell_1b11d4c5",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 32303678.0,
-              "wall_s": 3120.73
+              "wall_s": 3120.73,
+              "status": "pass"
             },
             {
               "cost_usd": 2.756466,
@@ -2391,10 +2690,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.240693,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_shape-T5Wg_highHT_SweatyFeynman_a0ef6732",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": 23051487.0,
-              "wall_s": 3632.62
+              "wall_s": 3632.62,
+              "status": "hung"
             },
             {
               "cost_usd": 2.268136,
@@ -2402,10 +2702,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_shape-T5Wg_highHT_FluffyPauli_bff045d7",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": 17777292.0,
-              "wall_s": 1772.43
+              "wall_s": 1772.43,
+              "status": "hung"
             }
           ]
         },
@@ -2417,10 +2718,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_shape-T5Wg_lowHT_DeepRubin_b62a5fd0",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 10797557.0,
-              "wall_s": 1233.11
+              "wall_s": 1233.11,
+              "status": "pass"
             },
             {
               "cost_usd": 2.69644,
@@ -2428,10 +2730,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.42638,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_shape-T5Wg_lowHT_SlowHawking_a98eb6e1",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 19372071.0,
-              "wall_s": 2489.76
+              "wall_s": 2489.76,
+              "status": "pass"
             },
             {
               "cost_usd": 2.728256,
@@ -2439,10 +2742,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.381295,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_shape-T5Wg_lowHT_SharpBethe_2e39bc03",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 20753834.0,
-              "wall_s": 2023.24
+              "wall_s": 2023.24,
+              "status": "pass"
             }
           ]
         },
@@ -2454,10 +2758,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.031132,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_shape-T6gg_highHT_NerdyMajorana_f92e4306",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 26621259.0,
-              "wall_s": 2263.22
+              "wall_s": 2263.22,
+              "status": "pass"
             },
             {
               "cost_usd": 3.370473,
@@ -2465,10 +2770,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.123173,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_shape-T6gg_highHT_SweatyMayer_a07eef93",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 25660103.0,
-              "wall_s": 2643.3
+              "wall_s": 2643.3,
+              "status": "pass"
             },
             {
               "cost_usd": 1.808568,
@@ -2476,10 +2782,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.01016,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_shape-T6gg_highHT_WiseLaplace_3a1cd9b6",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 12790823.0,
-              "wall_s": 1243.65
+              "wall_s": 1243.65,
+              "status": "pass"
             }
           ]
         },
@@ -2491,10 +2798,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.490266,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_shape-T6gg_lowHT_MerryMaxwell_c8f8ae16",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 48197583.0,
-              "wall_s": 4171.14
+              "wall_s": 4171.14,
+              "status": "pass"
             },
             {
               "cost_usd": 3.791701,
@@ -2502,10 +2810,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.187458,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_shape-T6gg_lowHT_SharpGeiger_90b79766",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 27305339.0,
-              "wall_s": 2849.77
+              "wall_s": 2849.77,
+              "status": "pass"
             },
             {
               "cost_usd": 1.841528,
@@ -2513,10 +2822,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.009722,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_shape-T6gg_lowHT_WiseWeisskopf_fe1e6677",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 14188266.0,
-              "wall_s": 2455.22
+              "wall_s": 2455.22,
+              "status": "pass"
             }
           ]
         },
@@ -2528,10 +2838,11 @@
               "n_turns": 1,
               "relative_l2_norm": 1.566167,
               "relative_l2_shape": 0.038204,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_sim-T5Wg_highHT_MysticSusskind_804306f6",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 37395141.0,
-              "wall_s": 5760.75
+              "wall_s": 5760.75,
+              "status": "pass"
             },
             {
               "cost_usd": 3.616077,
@@ -2539,10 +2850,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.881579,
               "relative_l2_shape": 0.195372,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T5Wg_highHT_SwiftMayer_9af56dcf",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 27573400.0,
-              "wall_s": 2626.8
+              "wall_s": 2626.8,
+              "status": "pass"
             },
             {
               "cost_usd": 4.455544,
@@ -2550,10 +2862,11 @@
               "n_turns": 1,
               "relative_l2_norm": 2.713615,
               "relative_l2_shape": 0.286914,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_sim-T5Wg_highHT_SlyPauling_97752620",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 38082119.0,
-              "wall_s": 6189.86
+              "wall_s": 6189.86,
+              "status": "pass"
             }
           ]
         },
@@ -2565,10 +2878,11 @@
               "n_turns": 1,
               "relative_l2_norm": 1.0,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_sim-T5Wg_lowHT_WackyWilson_444d6a24",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 24586836.0,
-              "wall_s": 3597.55
+              "wall_s": 3597.55,
+              "status": "pass"
             },
             {
               "cost_usd": 1.954713,
@@ -2576,10 +2890,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.96476,
               "relative_l2_shape": 0.23007,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T5Wg_lowHT_AtomicYukawa_c6c19ae6",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": 16322452.0,
-              "wall_s": 1826.37
+              "wall_s": 1826.37,
+              "status": "hung"
             },
             {
               "cost_usd": 7.204524,
@@ -2587,10 +2902,11 @@
               "n_turns": 1,
               "relative_l2_norm": 1.038659,
               "relative_l2_shape": 0.231444,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_sim-T5Wg_lowHT_CleverQuinn_4922445f",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 58730241.0,
-              "wall_s": 3471.3
+              "wall_s": 3471.3,
+              "status": "pass"
             }
           ]
         },
@@ -2602,10 +2918,11 @@
               "n_turns": 1,
               "relative_l2_norm": 1.0,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_sim-T6gg_highHT_LuckyHiggs_dffef9f3",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 24369361.0,
-              "wall_s": 2165.46
+              "wall_s": 2165.46,
+              "status": "pass"
             },
             {
               "cost_usd": 4.651551,
@@ -2613,10 +2930,11 @@
               "n_turns": 1,
               "relative_l2_norm": 2.763947,
               "relative_l2_shape": 0.073299,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T6gg_highHT_MamiBhabha_b9ae1b10",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 35594696.0,
-              "wall_s": 2956.36
+              "wall_s": 2956.36,
+              "status": "pass"
             },
             {
               "cost_usd": 5.059378,
@@ -2624,10 +2942,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.534222,
               "relative_l2_shape": 0.016712,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_sim-T6gg_highHT_MerryPenrose_e142616c",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 38174703.0,
-              "wall_s": 3463.57
+              "wall_s": 3463.57,
+              "status": "pass"
             }
           ]
         },
@@ -2639,10 +2958,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.9404,
               "relative_l2_shape": 0.454463,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-047_sim-T6gg_lowHT_PlayfulSusskind_e8ba5779",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 36737108.0,
-              "wall_s": 5259.53
+              "wall_s": 5259.53,
+              "status": "pass"
             },
             {
               "cost_usd": 2.694997,
@@ -2650,10 +2970,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.908274,
               "relative_l2_shape": 0.003209,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T6gg_lowHT_FartyNielsen_c37dd8d3",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 21879732.0,
-              "wall_s": 2455.46
+              "wall_s": 2455.46,
+              "status": "pass"
             },
             {
               "cost_usd": 3.219178,
@@ -2661,10 +2982,11 @@
               "n_turns": 1,
               "relative_l2_norm": 1.0,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-047_sim-T6gg_lowHT_LooneyGross_1ccc76af",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 29624008.0,
-              "wall_s": 2674.14
+              "wall_s": 2674.14,
+              "status": "pass"
             }
           ]
         },
@@ -2676,10 +2998,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.147485,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-051_shape-T2bW_SRG_BrightHeisenberg_668b3297",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 49105776.0,
-              "wall_s": 3643.22
+              "wall_s": 3643.22,
+              "status": "pass"
             },
             {
               "cost_usd": 3.197044,
@@ -2687,10 +3010,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.148442,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_shape-T2bW_SRG_PeculiarGerlach_5547481b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 23195254.0,
-              "wall_s": 2456.29
+              "wall_s": 2456.29,
+              "status": "pass"
             },
             {
               "cost_usd": 2.564192,
@@ -2698,10 +3022,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.263371,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-051_shape-T2bW_SRG_SillyCherenkov_34b1b59f",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 20837617.0,
-              "wall_s": 2154.4
+              "wall_s": 2154.4,
+              "status": "pass"
             }
           ]
         },
@@ -2713,10 +3038,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.174996,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-051_shape-T2tt_SRG_RadiantLaplace_ef1c5094",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 36780688.0,
-              "wall_s": 2921.83
+              "wall_s": 2921.83,
+              "status": "pass"
             },
             {
               "cost_usd": 3.196983,
@@ -2724,10 +3050,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.202845,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_shape-T2tt_SRG_MysteriousCurie_537c763a",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 25845242.0,
-              "wall_s": 3367.59
+              "wall_s": 3367.59,
+              "status": "pass"
             },
             {
               "cost_usd": 2.056756,
@@ -2735,10 +3062,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.332325,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-051_shape-T2tt_SRG_AnnoyingCurie_8b7c3f6b",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 14263201.0,
-              "wall_s": 1654.05
+              "wall_s": 1654.05,
+              "status": "pass"
             }
           ]
         },
@@ -2750,10 +3078,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-051_shape-T2tt_comp_BrightBecquerel_5a7374de",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": 2706.87
+              "wall_s": 2706.87,
+              "status": "hung"
             },
             {
               "cost_usd": 3.222709,
@@ -2761,10 +3090,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.062472,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_shape-T2tt_comp_TripleYukawa_324a90f1",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 28995566.0,
-              "wall_s": 4162.96
+              "wall_s": 4162.96,
+              "status": "pass"
             },
             {
               "cost_usd": 2.244569,
@@ -2772,10 +3102,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.245451,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-051_shape-T2tt_comp_CheerfulLorentz_461a5f2c",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 20270559.0,
-              "wall_s": 2345.58
+              "wall_s": 2345.58,
+              "status": "pass"
             }
           ]
         },
@@ -2787,10 +3118,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.99286,
               "relative_l2_shape": 1.236455,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-051_sim-T2bW_SRG_RomanticBoltzmann_218ce026",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 38509556.0,
-              "wall_s": 3585.88
+              "wall_s": 3585.88,
+              "status": "pass"
             },
             {
               "cost_usd": 5.459015,
@@ -2798,10 +3130,11 @@
               "n_turns": 1,
               "relative_l2_norm": 2.231289,
               "relative_l2_shape": 0.088632,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_sim-T2bW_SRG_NobleLaplace_e49384aa",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 37812774.0,
-              "wall_s": 3906.47
+              "wall_s": 3906.47,
+              "status": "pass"
             }
           ]
         },
@@ -2813,10 +3146,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.348771,
               "relative_l2_shape": 0.232718,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-051_sim-T2tt_SRG_AntiTomonaga_c0e04aa7",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 20850469.0,
-              "wall_s": 2266.96
+              "wall_s": 2266.96,
+              "status": "pass"
             },
             {
               "cost_usd": 3.393029,
@@ -2824,10 +3158,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.99267,
               "relative_l2_shape": 0.362468,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_sim-T2tt_SRG_NuclearUhlenbeck_a2dad80e",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 28355234.0,
-              "wall_s": 2956.59
+              "wall_s": 2956.59,
+              "status": "pass"
             },
             {
               "cost_usd": 3.48093,
@@ -2835,10 +3170,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.982972,
               "relative_l2_shape": 0.201053,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-051_sim-T2tt_SRG_NimbleNielsen_e37ded9b",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 28758699.0,
-              "wall_s": 2902.07
+              "wall_s": 2902.07,
+              "status": "pass"
             }
           ]
         },
@@ -2850,10 +3186,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.4-mini/run-1/sus-16-051_sim-T2tt_comp_FattyHawking_bd17361a",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 42533.0,
-              "wall_s": 21.58
+              "wall_s": 21.58,
+              "status": "hung"
             },
             {
               "cost_usd": 4.989691,
@@ -2861,10 +3198,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.857689,
               "relative_l2_shape": 0.76218,
+              "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_sim-T2tt_comp_RapidMeitner_2c38923a",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 38859262.0,
-              "wall_s": 3651.1
+              "wall_s": 3651.1,
+              "status": "pass"
             },
             {
               "cost_usd": 1.908374,
@@ -2872,10 +3210,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.671572,
               "relative_l2_shape": 0.833327,
+              "run_dir": "codex_gpt-5.4-mini/run-3/sus-16-051_sim-T2tt_comp_MysticGamow_1ec96750",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 17603722.0,
-              "wall_s": 1640.22
+              "wall_s": 1640.22,
+              "status": "pass"
             }
           ]
         }
@@ -2892,10 +3231,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.117532,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-034_shape-TChiWZ_KeenPauling_787536dc",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 12840332.0,
-              "wall_s": 1516.94
+              "wall_s": 1516.94,
+              "status": "pass"
             },
             {
               "cost_usd": 11.122337,
@@ -2903,10 +3243,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.032607,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-034_shape-TChiWZ_OilySalam_ffa093dd",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 17924003.0,
-              "wall_s": 2680.55
+              "wall_s": 2680.55,
+              "status": "pass"
             },
             {
               "cost_usd": 7.716626,
@@ -2914,10 +3255,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.046155,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-034_shape-TChiWZ_MamiMajorana_57a5db0d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 11065621.0,
-              "wall_s": 2603.56
+              "wall_s": 2603.56,
+              "status": "pass"
             }
           ]
         },
@@ -2929,10 +3271,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.349845,
               "relative_l2_shape": 0.105965,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-034_sim-TChiWZ_CosmicRydberg_cbaadded",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 17451301.0,
-              "wall_s": 2008.1
+              "wall_s": 2008.1,
+              "status": "pass"
             },
             {
               "cost_usd": 9.400738,
@@ -2940,10 +3283,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.330429,
               "relative_l2_shape": 0.073731,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-034_sim-TChiWZ_RapidLee_f06e0e45",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 14538830.0,
-              "wall_s": 1731.84
+              "wall_s": 1731.84,
+              "status": "pass"
             },
             {
               "cost_usd": 10.088207,
@@ -2951,10 +3295,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.196512,
               "relative_l2_shape": 0.112923,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-034_sim-TChiWZ_KindQuinn_799913bc",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 14927712.0,
-              "wall_s": 1591.28
+              "wall_s": 1591.28,
+              "status": "pass"
             }
           ]
         },
@@ -2966,10 +3311,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.289364,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-046_shape-T5Wg_SpecialSegre_95e407e8",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 10954169.0,
-              "wall_s": 1679.79
+              "wall_s": 1679.79,
+              "status": "pass"
             },
             {
               "cost_usd": 8.074605,
@@ -2977,10 +3323,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.26952,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-046_shape-T5Wg_SwiftQuinn_327900bd",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 12320093.0,
-              "wall_s": 1532.64
+              "wall_s": 1532.64,
+              "status": "pass"
             },
             {
               "cost_usd": 9.453441,
@@ -2988,10 +3335,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.021472,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-046_shape-T5Wg_MysteriousLagrange_53207175",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 13960236.0,
-              "wall_s": 1694.91
+              "wall_s": 1694.91,
+              "status": "pass"
             }
           ]
         },
@@ -3003,10 +3351,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.020262,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-046_shape-TChiWg_LucidCurie_def3cdef",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 16418088.0,
-              "wall_s": 2242.25
+              "wall_s": 2242.25,
+              "status": "pass"
             },
             {
               "cost_usd": 8.026928,
@@ -3014,10 +3363,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.017278,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-046_shape-TChiWg_FunkyZeldovich_402b1b33",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 12015774.0,
-              "wall_s": 2037.48
+              "wall_s": 2037.48,
+              "status": "pass"
             },
             {
               "cost_usd": 12.251004,
@@ -3025,10 +3375,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.025001,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-046_shape-TChiWg_QuickLawrence_ece624d6",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 19789192.0,
-              "wall_s": 2334.4
+              "wall_s": 2334.4,
+              "status": "pass"
             }
           ]
         },
@@ -3040,10 +3391,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.113679,
               "relative_l2_shape": 0.020976,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-046_sim-T5Wg_DaringCurie_6b7c51ba",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 16780018.0,
-              "wall_s": 1595.32
+              "wall_s": 1595.32,
+              "status": "pass"
             },
             {
               "cost_usd": 8.433468,
@@ -3051,10 +3403,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.060061,
               "relative_l2_shape": 0.012769,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-046_sim-T5Wg_SillyPolitzer_ceadf451",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 12703744.0,
-              "wall_s": 1441.71
+              "wall_s": 1441.71,
+              "status": "pass"
             },
             {
               "cost_usd": 8.818829,
@@ -3062,10 +3415,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.221339,
               "relative_l2_shape": 0.025141,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-046_sim-T5Wg_QuietAdler_ee5f8605",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 12581803.0,
-              "wall_s": 1334.03
+              "wall_s": 1334.03,
+              "status": "pass"
             }
           ]
         },
@@ -3077,10 +3431,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.326442,
               "relative_l2_shape": 0.02905,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-046_sim-TChiWg_GrandKibble_730f2a0c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 14448540.0,
-              "wall_s": 1482.49
+              "wall_s": 1482.49,
+              "status": "pass"
             },
             {
               "cost_usd": 8.722766,
@@ -3088,10 +3443,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.293897,
               "relative_l2_shape": 0.012892,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-046_sim-TChiWg_QuietVeltman_77aa1e53",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 12216371.0,
-              "wall_s": 1872.29
+              "wall_s": 1872.29,
+              "status": "pass"
             },
             {
               "cost_usd": 12.45657,
@@ -3099,10 +3455,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.212269,
               "relative_l2_shape": 0.018626,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-046_sim-TChiWg_ExtraGalilei_f4839b9c",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 19841796.0,
-              "wall_s": 2253.94
+              "wall_s": 2253.94,
+              "status": "pass"
             }
           ]
         },
@@ -3114,10 +3471,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.104501,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_shape-T5Wg_highHT_QuickGellMann_ec3d7a04",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 36925428.0,
-              "wall_s": 2484.28
+              "wall_s": 2484.28,
+              "status": "pass"
             },
             {
               "cost_usd": null,
@@ -3125,10 +3483,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.066514,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_shape-T5Wg_highHT_SaltyEinstein_925e8874",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": null,
-              "wall_s": 2705.64
+              "wall_s": 2705.64,
+              "status": "pass"
             },
             {
               "cost_usd": 9.889212,
@@ -3136,10 +3495,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.18786,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_shape-T5Wg_highHT_LivelyZeldovich_dcab63f6",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 15448257.0,
-              "wall_s": 1199.4
+              "wall_s": 1199.4,
+              "status": "pass"
             }
           ]
         },
@@ -3151,10 +3511,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.09422,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_shape-T5Wg_lowHT_StrangeRaman_37e948fe",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 16186159.0,
-              "wall_s": 1727.33
+              "wall_s": 1727.33,
+              "status": "pass"
             },
             {
               "cost_usd": 9.164154,
@@ -3162,10 +3523,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.272483,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_shape-T5Wg_lowHT_SwiftNoether_d2703f4f",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 9607404.0,
-              "wall_s": 1550.17
+              "wall_s": 1550.17,
+              "status": "pass"
             },
             {
               "cost_usd": 9.428532,
@@ -3173,10 +3535,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.201825,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_shape-T5Wg_lowHT_QuickGross_ecccf894",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 14182794.0,
-              "wall_s": 1653.08
+              "wall_s": 1653.08,
+              "status": "pass"
             }
           ]
         },
@@ -3188,10 +3551,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.021087,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_shape-T6gg_highHT_MysteriousBohr_537b554a",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 19280106.0,
-              "wall_s": 2185.85
+              "wall_s": 2185.85,
+              "status": "pass"
             },
             {
               "cost_usd": null,
@@ -3199,10 +3563,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.399362,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_shape-T6gg_highHT_QuirkyWilson_8a420f8c",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": 2705.69
+              "wall_s": 2705.69,
+              "status": "hung"
             },
             {
               "cost_usd": 10.352267,
@@ -3210,10 +3575,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.029909,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_shape-T6gg_highHT_AntiPolitzer_5edb2581",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 15364646.0,
-              "wall_s": 1867.51
+              "wall_s": 1867.51,
+              "status": "pass"
             }
           ]
         },
@@ -3225,10 +3591,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.009883,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_shape-T6gg_lowHT_SaltyBragg_4de82135",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 12001355.0,
-              "wall_s": 1630.01
+              "wall_s": 1630.01,
+              "status": "pass"
             },
             {
               "cost_usd": 8.804812,
@@ -3236,10 +3603,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.328256,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_shape-T6gg_lowHT_MysticGeorgi_bc9e6f55",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 12256352.0,
-              "wall_s": 2311.02
+              "wall_s": 2311.02,
+              "status": "pass"
             },
             {
               "cost_usd": 10.272205,
@@ -3247,10 +3615,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.003492,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_shape-T6gg_lowHT_SwiftHiggs_fc10f8f2",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 16125643.0,
-              "wall_s": 2634.74
+              "wall_s": 2634.74,
+              "status": "pass"
             }
           ]
         },
@@ -3262,10 +3631,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.885627,
               "relative_l2_shape": 0.060373,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_sim-T5Wg_highHT_ElectricQuinn_0b99b799",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 20347885.0,
-              "wall_s": 2440.88
+              "wall_s": 2440.88,
+              "status": "pass"
             },
             {
               "cost_usd": 9.697198,
@@ -3273,10 +3643,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.441141,
               "relative_l2_shape": 0.061891,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T5Wg_highHT_SharpGalilei_2b6a6e54",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 14591360.0,
-              "wall_s": 2008.02
+              "wall_s": 2008.02,
+              "status": "pass"
             },
             {
               "cost_usd": 10.184013,
@@ -3284,10 +3655,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.531811,
               "relative_l2_shape": 0.120229,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_sim-T5Wg_highHT_SassyVeltman_4357608b",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 15206327.0,
-              "wall_s": 1396.72
+              "wall_s": 1396.72,
+              "status": "pass"
             }
           ]
         },
@@ -3299,10 +3671,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.823111,
               "relative_l2_shape": 0.164715,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_sim-T5Wg_lowHT_AnnoyingBohr_29f2eece",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 20177195.0,
-              "wall_s": 2352.11
+              "wall_s": 2352.11,
+              "status": "pass"
             },
             {
               "cost_usd": 9.905906,
@@ -3310,10 +3683,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.901703,
               "relative_l2_shape": 0.275627,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T5Wg_lowHT_DeepBecquerel_0abaeb30",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 13987125.0,
-              "wall_s": 2166.61
+              "wall_s": 2166.61,
+              "status": "pass"
             },
             {
               "cost_usd": 19.758971,
@@ -3321,10 +3695,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.649779,
               "relative_l2_shape": 0.224731,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_sim-T5Wg_lowHT_JollyLorentz_b41a73ed",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 34216310.0,
-              "wall_s": 2561.96
+              "wall_s": 2561.96,
+              "status": "pass"
             }
           ]
         },
@@ -3336,10 +3711,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.458186,
               "relative_l2_shape": 0.03273,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_sim-T6gg_highHT_DoubleBhabha_9337a525",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 16318020.0,
-              "wall_s": 1626.84
+              "wall_s": 1626.84,
+              "status": "pass"
             },
             {
               "cost_usd": null,
@@ -3347,10 +3723,11 @@
               "n_turns": null,
               "relative_l2_norm": 0.994852,
               "relative_l2_shape": 1.06205,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T6gg_highHT_BraveSommerfeld_3d2919fc",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": 2705.15
+              "wall_s": 2705.15,
+              "status": "hung"
             },
             {
               "cost_usd": 10.947297,
@@ -3358,10 +3735,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.293583,
               "relative_l2_shape": 0.02998,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_sim-T6gg_highHT_SwiftFeynman_9aef07a4",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 16955650.0,
-              "wall_s": 1592.87
+              "wall_s": 1592.87,
+              "status": "pass"
             }
           ]
         },
@@ -3373,10 +3751,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.072567,
               "relative_l2_shape": 0.023909,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-047_sim-T6gg_lowHT_GrandFermi_11a34617",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 17360761.0,
-              "wall_s": 1898.98
+              "wall_s": 1898.98,
+              "status": "pass"
             },
             {
               "cost_usd": null,
@@ -3384,10 +3763,11 @@
               "n_turns": null,
               "relative_l2_norm": 0.983797,
               "relative_l2_shape": 0.200248,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T6gg_lowHT_BraveEinstein_ddbca01c",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": 2705.05
+              "wall_s": 2705.05,
+              "status": "hung"
             },
             {
               "cost_usd": 12.937435,
@@ -3395,10 +3775,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.306102,
               "relative_l2_shape": 0.021429,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-047_sim-T6gg_lowHT_SlowGerlach_a947c1c0",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 21172918.0,
-              "wall_s": 2271.34
+              "wall_s": 2271.34,
+              "status": "pass"
             }
           ]
         },
@@ -3410,10 +3791,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.180808,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-051_shape-T2bW_SRG_OilyHertz_3b1b482c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 17105973.0,
-              "wall_s": 2414.74
+              "wall_s": 2414.74,
+              "status": "pass"
             },
             {
               "cost_usd": 5.475516,
@@ -3421,10 +3803,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.314857,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-051_shape-T2bW_SRG_PapiOhm_b89d843b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 6306774.0,
-              "wall_s": 1299.66
+              "wall_s": 1299.66,
+              "status": "pass"
             },
             {
               "cost_usd": 14.05259,
@@ -3432,10 +3815,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.1728,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-051_shape-T2bW_SRG_RapidAlvarez_f0df3853",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 22503730.0,
-              "wall_s": 2908.16
+              "wall_s": 2908.16,
+              "status": "pass"
             }
           ]
         },
@@ -3447,10 +3831,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.325956,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-051_shape-T2tt_SRG_AnnoyingHamilton_edc645ec",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 12833326.0,
-              "wall_s": 1961.72
+              "wall_s": 1961.72,
+              "status": "pass"
             },
             {
               "cost_usd": 11.305588,
@@ -3458,10 +3843,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.250241,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-051_shape-T2tt_SRG_QuantumBell_ebff6aec",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 17079207.0,
-              "wall_s": 1975.81
+              "wall_s": 1975.81,
+              "status": "pass"
             },
             {
               "cost_usd": 13.195726,
@@ -3469,10 +3855,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.324887,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-051_shape-T2tt_SRG_SaltyKramers_4d5e897f",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 21013399.0,
-              "wall_s": 2291.86
+              "wall_s": 2291.86,
+              "status": "pass"
             }
           ]
         },
@@ -3484,10 +3871,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.217235,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-051_shape-T2tt_comp_LooneyWilson_e0c4438d",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 23238065.0,
-              "wall_s": 2970.43
+              "wall_s": 2970.43,
+              "status": "pass"
             },
             {
               "cost_usd": 12.525135,
@@ -3495,10 +3883,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-051_shape-T2tt_comp_BraveTesla_dd14a95a",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 18273094.0,
-              "wall_s": 2991.0
+              "wall_s": 2991.0,
+              "status": "pass"
             },
             {
               "cost_usd": 10.865262,
@@ -3506,10 +3895,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.166686,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-051_shape-T2tt_comp_RizzyFermi_15a3d7dd",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 16205325.0,
-              "wall_s": 2886.37
+              "wall_s": 2886.37,
+              "status": "pass"
             }
           ]
         },
@@ -3521,10 +3911,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-051_sim-T2bW_SRG_CalmYang_67b21b25",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": 9.24
+              "wall_s": 9.24,
+              "status": "hung"
             },
             {
               "cost_usd": 11.456987,
@@ -3532,10 +3923,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.191468,
               "relative_l2_shape": 0.172607,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-051_sim-T2bW_SRG_CandidLawrence_066fe56c",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 16626504.0,
-              "wall_s": 2177.61
+              "wall_s": 2177.61,
+              "status": "pass"
             },
             {
               "cost_usd": 9.015276,
@@ -3543,10 +3935,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.942591,
               "relative_l2_shape": 0.856412,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-051_sim-T2bW_SRG_HumbleBjorken_d8d89d0e",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 12403563.0,
-              "wall_s": 1753.05
+              "wall_s": 1753.05,
+              "status": "pass"
             }
           ]
         },
@@ -3558,10 +3951,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.493967,
               "relative_l2_shape": 0.225474,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-051_sim-T2tt_SRG_RomanticPauli_e5f0f81d",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 38960604.0,
-              "wall_s": 4296.17
+              "wall_s": 4296.17,
+              "status": "pass"
             },
             {
               "cost_usd": 17.782533,
@@ -3569,10 +3963,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.425383,
               "relative_l2_shape": 0.321761,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-051_sim-T2tt_SRG_KindWeyl_172db955",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 28616871.0,
-              "wall_s": 3260.21
+              "wall_s": 3260.21,
+              "status": "pass"
             },
             {
               "cost_usd": 8.041483,
@@ -3580,10 +3975,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.468345,
               "relative_l2_shape": 0.267018,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-051_sim-T2tt_SRG_SolidPlanck_98f69fc1",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 12256718.0,
-              "wall_s": 1748.38
+              "wall_s": 1748.38,
+              "status": "pass"
             }
           ]
         },
@@ -3595,10 +3991,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.341272,
               "relative_l2_shape": 0.274044,
+              "run_dir": "codex_gpt-5.5/run-1/sus-16-051_sim-T2tt_comp_RadiantFaraday_8df92b41",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 17142520.0,
-              "wall_s": 1745.05
+              "wall_s": 1745.05,
+              "status": "pass"
             },
             {
               "cost_usd": 11.086665,
@@ -3606,10 +4003,11 @@
               "n_turns": 1,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "codex_gpt-5.5/run-2/sus-16-051_sim-T2tt_comp_ProudFeynman_c3012f02",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 13202486.0,
-              "wall_s": 1793.49
+              "wall_s": 1793.49,
+              "status": "pass"
             },
             {
               "cost_usd": 17.549807,
@@ -3617,10 +4015,11 @@
               "n_turns": 1,
               "relative_l2_norm": 0.40121,
               "relative_l2_shape": 0.196794,
+              "run_dir": "codex_gpt-5.5/run-3/sus-16-051_sim-T2tt_comp_DoubleNewton_31094142",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 28630297.0,
-              "wall_s": 3686.39
+              "wall_s": 3686.39,
+              "status": "pass"
             }
           ]
         }
@@ -3637,10 +4036,11 @@
               "n_turns": 37,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.264101,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-034_shape-TChiWZ_WackyGoldstone_4476923c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 2573351.0,
-              "wall_s": 5103.36
+              "wall_s": 5103.36,
+              "status": "pass"
             },
             {
               "cost_usd": 0.422494,
@@ -3648,10 +4048,11 @@
               "n_turns": 84,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.088853,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-034_shape-TChiWZ_GeekyPopov_595b8432",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 6864779.0,
-              "wall_s": 4289.01
+              "wall_s": 4289.01,
+              "status": "pass"
             },
             {
               "cost_usd": 0.217853,
@@ -3659,10 +4060,11 @@
               "n_turns": 29,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.114136,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-034_shape-TChiWZ_ElectricOppenheimer_0b5d2efb",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 2246955.0,
-              "wall_s": 8377.69
+              "wall_s": 8377.69,
+              "status": "pass"
             }
           ]
         },
@@ -3674,10 +4076,11 @@
               "n_turns": 45,
               "relative_l2_norm": 0.59244,
               "relative_l2_shape": 0.288981,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-034_sim-TChiWZ_SwiftNielsen_9a0685c6",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 3467188.0,
-              "wall_s": 8983.14
+              "wall_s": 8983.14,
+              "status": "pass"
             },
             {
               "cost_usd": 0.036245,
@@ -3685,10 +4088,11 @@
               "n_turns": 3,
               "relative_l2_norm": 0.999984,
               "relative_l2_shape": 0.66172,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-034_sim-TChiWZ_GrandCabibbo_73bfc07b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 189435.0,
-              "wall_s": 5022.28
+              "wall_s": 5022.28,
+              "status": "pass"
             }
           ]
         },
@@ -3700,10 +4104,11 @@
               "n_turns": 26,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.045902,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-046_shape-T5Wg_BoringNoether_dd8d77e5",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 1485687.0,
-              "wall_s": 5863.27
+              "wall_s": 5863.27,
+              "status": "pass"
             },
             {
               "cost_usd": 0.561016,
@@ -3711,10 +4116,11 @@
               "n_turns": 74,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.179889,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-046_shape-T5Wg_PrimeLawrence_e9e623be",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 5950724.0,
-              "wall_s": 3714.32
+              "wall_s": 3714.32,
+              "status": "pass"
             },
             {
               "cost_usd": 0.262545,
@@ -3722,10 +4128,11 @@
               "n_turns": 44,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.017975,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-046_shape-T5Wg_ProudZwicky_ead3a59d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 3870869.0,
-              "wall_s": 8931.47
+              "wall_s": 8931.47,
+              "status": "pass"
             }
           ]
         },
@@ -3737,10 +4144,11 @@
               "n_turns": 40,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.160237,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-046_shape-TChiWg_CosmicGellMann_cbb4d07e",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 2522718.0,
-              "wall_s": 4552.29
+              "wall_s": 4552.29,
+              "status": "pass"
             },
             {
               "cost_usd": 0.173066,
@@ -3748,10 +4156,11 @@
               "n_turns": 27,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.154937,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-046_shape-TChiWg_RareBell_8fff376d",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 2088459.0,
-              "wall_s": 7208.83
+              "wall_s": 7208.83,
+              "status": "pass"
             },
             {
               "cost_usd": 0.069152,
@@ -3759,10 +4168,11 @@
               "n_turns": 9,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.144907,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-046_shape-TChiWg_HappyBohr_7504c914",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 523783.0,
-              "wall_s": 7277.35
+              "wall_s": 7277.35,
+              "status": "pass"
             },
             {
               "cost_usd": null,
@@ -3770,10 +4180,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-4/sus-16-046_shape-TChiWg_WiseDyson_3a9694da",
               "run_label": "run-4",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": null
+              "wall_s": null,
+              "status": "hung"
             }
           ]
         },
@@ -3785,10 +4196,11 @@
               "n_turns": 75,
               "relative_l2_norm": 0.999982,
               "relative_l2_shape": 0.165333,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-046_sim-T5Wg_BoldGalilei_c70c38c1",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 5667492.0,
-              "wall_s": 7917.29
+              "wall_s": 7917.29,
+              "status": "pass"
             },
             {
               "cost_usd": 0.296075,
@@ -3796,10 +4208,11 @@
               "n_turns": 53,
               "relative_l2_norm": 0.985307,
               "relative_l2_shape": 0.221436,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-046_sim-T5Wg_CuriousKibble_6a869beb",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 3297537.0,
-              "wall_s": 4932.89
+              "wall_s": 4932.89,
+              "status": "pass"
             }
           ]
         },
@@ -3811,10 +4224,11 @@
               "n_turns": 62,
               "relative_l2_norm": 0.999423,
               "relative_l2_shape": 0.258682,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-046_sim-TChiWg_MysteriousPoisson_b5507e62",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 3988197.0,
-              "wall_s": 2953.29
+              "wall_s": 2953.29,
+              "status": "pass"
             },
             {
               "cost_usd": null,
@@ -3822,10 +4236,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-046_sim-TChiWg_GayGamow_41c92710",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": null,
-              "wall_s": null
+              "wall_s": null,
+              "status": "hung"
             },
             {
               "cost_usd": 0.31723,
@@ -3833,10 +4248,11 @@
               "n_turns": 62,
               "relative_l2_norm": 0.435095,
               "relative_l2_shape": 0.012789,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-046_sim-TChiWg_CuriousPerl_ccddb4ab",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 5334220.0,
-              "wall_s": 6913.87
+              "wall_s": 6913.87,
+              "status": "pass"
             },
             {
               "cost_usd": 0.25013,
@@ -3844,10 +4260,11 @@
               "n_turns": 43,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-4/sus-16-046_sim-TChiWg_PrimeWeinberg_e9bcb136",
               "run_label": "run-4",
-              "status": "pass",
               "tokens_total_billed": 3566150.0,
-              "wall_s": 7884.47
+              "wall_s": 7884.47,
+              "status": "pass"
             }
           ]
         },
@@ -3859,10 +4276,11 @@
               "n_turns": 75,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.824745,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_shape-T5Wg_highHT_FunkytHooft_ad44906b",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 5754454.0,
-              "wall_s": 6482.08
+              "wall_s": 6482.08,
+              "status": "pass"
             },
             {
               "cost_usd": 0.221848,
@@ -3870,10 +4288,11 @@
               "n_turns": 50,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_shape-T5Wg_highHT_ChubbyCherenkov_5ab17563",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": 2578640.0,
-              "wall_s": 9004.1
+              "wall_s": 9004.1,
+              "status": "hung"
             },
             {
               "cost_usd": null,
@@ -3881,10 +4300,11 @@
               "n_turns": null,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_shape-T5Wg_highHT_GrimEhrenfest_7458b1c1",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": null,
-              "wall_s": null
+              "wall_s": null,
+              "status": "pass"
             },
             {
               "cost_usd": 0.353455,
@@ -3892,10 +4312,11 @@
               "n_turns": 51,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_shape-T5Wg_highHT_SharpVolta_f29c190f",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": 4513621.0,
-              "wall_s": 9003.24
+              "wall_s": 9003.24,
+              "status": "hung"
             }
           ]
         },
@@ -3907,10 +4328,11 @@
               "n_turns": 17,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.245065,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_shape-T5Wg_lowHT_StubbornMajorana_50a5c3ef",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 828790.0,
-              "wall_s": 8348.07
+              "wall_s": 8348.07,
+              "status": "pass"
             },
             {
               "cost_usd": 0.059218,
@@ -3918,10 +4340,11 @@
               "n_turns": 4,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.937107,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_shape-T5Wg_lowHT_SlowFaraday_a9822bb9",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 326791.0,
-              "wall_s": 5164.26
+              "wall_s": 5164.26,
+              "status": "pass"
             },
             {
               "cost_usd": 0.272691,
@@ -3929,10 +4352,11 @@
               "n_turns": 47,
               "relative_l2_norm": null,
               "relative_l2_shape": 1.618689,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_shape-T5Wg_lowHT_TripleGellMann_323ddb59",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 2601530.0,
-              "wall_s": 5462.42
+              "wall_s": 5462.42,
+              "status": "pass"
             }
           ]
         },
@@ -3944,10 +4368,11 @@
               "n_turns": 28,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.031837,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_shape-T6gg_highHT_JollyAlcubierre_52417c2c",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 1558275.0,
-              "wall_s": 5070.58
+              "wall_s": 5070.58,
+              "status": "pass"
             },
             {
               "cost_usd": 0.220185,
@@ -3955,10 +4380,11 @@
               "n_turns": 45,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.009483,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_shape-T6gg_highHT_KeenHiggs_1687d397",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 2434869.0,
-              "wall_s": 3240.3
+              "wall_s": 3240.3,
+              "status": "pass"
             },
             {
               "cost_usd": 0.290808,
@@ -3966,10 +4392,11 @@
               "n_turns": 41,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.023677,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_shape-T6gg_highHT_LucidPlanck_7c08cf4d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 3138380.0,
-              "wall_s": 6058.57
+              "wall_s": 6058.57,
+              "status": "pass"
             }
           ]
         },
@@ -3981,10 +4408,11 @@
               "n_turns": 17,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.696712,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_shape-T6gg_lowHT_QuickAlcubierre_8ab81f24",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 1518252.0,
-              "wall_s": 9004.8
+              "wall_s": 9004.8,
+              "status": "hung"
             },
             {
               "cost_usd": 0.227447,
@@ -3992,10 +4420,11 @@
               "n_turns": 29,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_shape-T6gg_lowHT_PrimeSchrodinger_e9136c21",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": 2245001.0,
-              "wall_s": 7645.01
+              "wall_s": 7645.01,
+              "status": "hung"
             },
             {
               "cost_usd": 0.368446,
@@ -4003,10 +4432,11 @@
               "n_turns": 68,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.094455,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_shape-T6gg_lowHT_TripleBell_f6ffcd24",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 4946964.0,
-              "wall_s": 4167.48
+              "wall_s": 4167.48,
+              "status": "pass"
             }
           ]
         },
@@ -4018,10 +4448,11 @@
               "n_turns": 42,
               "relative_l2_norm": 0.27396,
               "relative_l2_shape": 0.120069,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_sim-T5Wg_highHT_KeenAlcubierre_dab82ab9",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 3502295.0,
-              "wall_s": 7405.03
+              "wall_s": 7405.03,
+              "status": "pass"
             },
             {
               "cost_usd": 0.219103,
@@ -4029,10 +4460,11 @@
               "n_turns": 22,
               "relative_l2_norm": 2.962986,
               "relative_l2_shape": 0.667292,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_sim-T5Wg_highHT_NobleHiggs_e4878759",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 1417541.0,
-              "wall_s": 6098.48
+              "wall_s": 6098.48,
+              "status": "pass"
             },
             {
               "cost_usd": 0.347687,
@@ -4040,10 +4472,11 @@
               "n_turns": 48,
               "relative_l2_norm": 0.992068,
               "relative_l2_shape": 0.11613,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_sim-T5Wg_highHT_RapidWilson_f04d603a",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": 4314797.0,
-              "wall_s": 9009.49
+              "wall_s": 9009.49,
+              "status": "hung"
             }
           ]
         },
@@ -4055,10 +4488,11 @@
               "n_turns": 62,
               "relative_l2_norm": 0.998481,
               "relative_l2_shape": 0.30529,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_sim-T5Wg_lowHT_MysteriousCurie_b5f35462",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 3624578.0,
-              "wall_s": 3692.28
+              "wall_s": 3692.28,
+              "status": "pass"
             },
             {
               "cost_usd": 0.217322,
@@ -4066,10 +4500,11 @@
               "n_turns": 37,
               "relative_l2_norm": 1.0,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_sim-T5Wg_lowHT_SolidPauling_faecabfb",
               "run_label": "run-2",
-              "status": "hung",
               "tokens_total_billed": 1864620.0,
-              "wall_s": 9003.78
+              "wall_s": 9003.78,
+              "status": "hung"
             },
             {
               "cost_usd": 0.294483,
@@ -4077,10 +4512,11 @@
               "n_turns": 39,
               "relative_l2_norm": 0.881692,
               "relative_l2_shape": 0.794848,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_sim-T5Wg_lowHT_AgileSommerfeld_00a8ff63",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 3870782.0,
-              "wall_s": 8131.67
+              "wall_s": 8131.67,
+              "status": "pass"
             }
           ]
         },
@@ -4092,10 +4528,11 @@
               "n_turns": 14,
               "relative_l2_norm": 451.028368,
               "relative_l2_shape": 0.065737,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_sim-T6gg_highHT_QuickCompton_8a9eb3ce",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 887370.0,
-              "wall_s": 6262.91
+              "wall_s": 6262.91,
+              "status": "pass"
             },
             {
               "cost_usd": 0.157421,
@@ -4103,10 +4540,11 @@
               "n_turns": 18,
               "relative_l2_norm": 0.999869,
               "relative_l2_shape": 0.018994,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_sim-T6gg_highHT_EccentricdeBroglie_ac9f2781",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 1057983.0,
-              "wall_s": 4928.79
+              "wall_s": 4928.79,
+              "status": "pass"
             },
             {
               "cost_usd": 0.427447,
@@ -4114,10 +4552,11 @@
               "n_turns": 63,
               "relative_l2_norm": 18.029515,
               "relative_l2_shape": 0.463293,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_sim-T6gg_highHT_JollyTesla_b418769d",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 5337213.0,
-              "wall_s": 6338.64
+              "wall_s": 6338.64,
+              "status": "pass"
             }
           ]
         },
@@ -4129,10 +4568,11 @@
               "n_turns": 9,
               "relative_l2_norm": 0.996685,
               "relative_l2_shape": 0.085264,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_sim-T6gg_lowHT_FierceHawking_6f171e36",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 502405.0,
-              "wall_s": 5442.98
+              "wall_s": 5442.98,
+              "status": "pass"
             },
             {
               "cost_usd": 0.354609,
@@ -4140,10 +4580,11 @@
               "n_turns": 53,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_sim-T6gg_lowHT_FormalSusskind_0f431c20",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 4059275.0,
-              "wall_s": 4899.49
+              "wall_s": 4899.49,
+              "status": "pass"
             },
             {
               "cost_usd": 0.06056,
@@ -4151,10 +4592,11 @@
               "n_turns": 7,
               "relative_l2_norm": 0.713054,
               "relative_l2_shape": 0.065326,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-047_sim-T6gg_lowHT_SadAdler_aed67254",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 357548.0,
-              "wall_s": 5319.88
+              "wall_s": 5319.88,
+              "status": "pass"
             }
           ]
         },
@@ -4166,10 +4608,11 @@
               "n_turns": 73,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.450918,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-051_shape-T2bW_SRG_BrightGoldstone_66ed2178",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 5558595.0,
-              "wall_s": 5979.5
+              "wall_s": 5979.5,
+              "status": "pass"
             },
             {
               "cost_usd": 0.207836,
@@ -4177,10 +4620,11 @@
               "n_turns": 26,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.859052,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_shape-T2bW_SRG_CandidCompton_ca27b44b",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 1606651.0,
-              "wall_s": 5387.3
+              "wall_s": 5387.3,
+              "status": "pass"
             },
             {
               "cost_usd": 0.371526,
@@ -4188,10 +4632,11 @@
               "n_turns": 51,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.605353,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-051_shape-T2bW_SRG_ZanyGamow_51c96047",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 4432351.0,
-              "wall_s": 7380.27
+              "wall_s": 7380.27,
+              "status": "pass"
             }
           ]
         },
@@ -4203,10 +4648,11 @@
               "n_turns": 40,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.505972,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-051_shape-T2tt_SRG_CleverPlanck_ab7fdcbe",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 3119691.0,
-              "wall_s": 5676.1
+              "wall_s": 5676.1,
+              "status": "pass"
             },
             {
               "cost_usd": 0.248758,
@@ -4214,10 +4660,11 @@
               "n_turns": 42,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.364629,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_shape-T2tt_SRG_MaliciousZeldovich_e734c353",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 3570719.0,
-              "wall_s": 8574.14
+              "wall_s": 8574.14,
+              "status": "pass"
             },
             {
               "cost_usd": 0.20589,
@@ -4225,10 +4672,11 @@
               "n_turns": 28,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-051_shape-T2tt_SRG_GrimAmpere_d62474a4",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 1960121.0,
-              "wall_s": 6620.97
+              "wall_s": 6620.97,
+              "status": "pass"
             }
           ]
         },
@@ -4240,10 +4688,11 @@
               "n_turns": 7,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.784663,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-051_shape-T2tt_comp_SharpGalilei_2e0cac0e",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 351944.0,
-              "wall_s": 6722.04
+              "wall_s": 6722.04,
+              "status": "pass"
             },
             {
               "cost_usd": 0.276429,
@@ -4251,10 +4700,11 @@
               "n_turns": 34,
               "relative_l2_norm": null,
               "relative_l2_shape": 0.60663,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_shape-T2tt_comp_OilyNielsen_ff7d5515",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 2627280.0,
-              "wall_s": 5028.28
+              "wall_s": 5028.28,
+              "status": "pass"
             },
             {
               "cost_usd": 0.12619,
@@ -4262,10 +4712,11 @@
               "n_turns": 10,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-051_shape-T2tt_comp_ArcaneLorentz_c591cf3c",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": 776560.0,
-              "wall_s": 9003.14
+              "wall_s": 9003.14,
+              "status": "hung"
             },
             {
               "cost_usd": 0.387108,
@@ -4273,10 +4724,11 @@
               "n_turns": 78,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-4/sus-16-051_shape-T2tt_comp_NimbleWigner_e3b3006f",
               "run_label": "run-4",
-              "status": "hung",
               "tokens_total_billed": 5251506.0,
-              "wall_s": 9003.11
+              "wall_s": 9003.11,
+              "status": "hung"
             }
           ]
         },
@@ -4288,10 +4740,11 @@
               "n_turns": 6,
               "relative_l2_norm": 0.990752,
               "relative_l2_shape": 1.564258,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-051_sim-T2bW_SRG_FuzzyHuygens_a42386a8",
               "run_label": "run-1",
-              "status": "hung",
               "tokens_total_billed": 120557.0,
-              "wall_s": 9004.87
+              "wall_s": 9004.87,
+              "status": "hung"
             },
             {
               "cost_usd": 0.193271,
@@ -4299,10 +4752,11 @@
               "n_turns": 42,
               "relative_l2_norm": 42.832827,
               "relative_l2_shape": 0.453964,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_sim-T2bW_SRG_CalmKadanoff_67e2a696",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 2218698.0,
-              "wall_s": 4863.59
+              "wall_s": 4863.59,
+              "status": "pass"
             },
             {
               "cost_usd": 0.211036,
@@ -4310,10 +4764,11 @@
               "n_turns": 30,
               "relative_l2_norm": 1.0,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-051_sim-T2bW_SRG_NerdyGoldstone_54ed6c50",
               "run_label": "run-3",
-              "status": "hung",
               "tokens_total_billed": 2464719.0,
-              "wall_s": 9003.98
+              "wall_s": 9003.98,
+              "status": "hung"
             }
           ]
         },
@@ -4325,10 +4780,11 @@
               "n_turns": 32,
               "relative_l2_norm": 1.044737,
               "relative_l2_shape": 1.779839,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-051_sim-T2tt_SRG_SassyPauli_4379d853",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 2392065.0,
-              "wall_s": 6783.64
+              "wall_s": 6783.64,
+              "status": "pass"
             },
             {
               "cost_usd": 0.102197,
@@ -4336,10 +4792,11 @@
               "n_turns": 10,
               "relative_l2_norm": 0.999996,
               "relative_l2_shape": 0.685347,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_sim-T2tt_SRG_CuriousRaman_cce9fd99",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 708345.0,
-              "wall_s": 6149.57
+              "wall_s": 6149.57,
+              "status": "pass"
             }
           ]
         },
@@ -4351,10 +4808,11 @@
               "n_turns": 38,
               "relative_l2_norm": 0.999983,
               "relative_l2_shape": 0.217484,
+              "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-051_sim-T2tt_comp_HumbleHamilton_76c6d988",
               "run_label": "run-1",
-              "status": "pass",
               "tokens_total_billed": 2220653.0,
-              "wall_s": 3900.77
+              "wall_s": 3900.77,
+              "status": "pass"
             },
             {
               "cost_usd": 0.300327,
@@ -4362,10 +4820,11 @@
               "n_turns": 57,
               "relative_l2_norm": 0.99994,
               "relative_l2_shape": 0.452282,
+              "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_sim-T2tt_comp_NerdyRutherford_b6197895",
               "run_label": "run-2",
-              "status": "pass",
               "tokens_total_billed": 3597183.0,
-              "wall_s": 4742.45
+              "wall_s": 4742.45,
+              "status": "pass"
             },
             {
               "cost_usd": 0.081288,
@@ -4373,10 +4832,11 @@
               "n_turns": 13,
               "relative_l2_norm": 0.999964,
               "relative_l2_shape": 0.425581,
+              "run_dir": "forge_deepseek-v4-pro/run-3/sus-16-051_sim-T2tt_comp_AtomicGerlach_02be28a1",
               "run_label": "run-3",
-              "status": "pass",
               "tokens_total_billed": 601999.0,
-              "wall_s": 6898.46
+              "wall_s": 6898.46,
+              "status": "pass"
             },
             {
               "cost_usd": 0.318544,
@@ -4384,10 +4844,11 @@
               "n_turns": 44,
               "relative_l2_norm": null,
               "relative_l2_shape": null,
+              "run_dir": "forge_deepseek-v4-pro/run-4/sus-16-051_sim-T2tt_comp_BoringRydberg_ddaaeba4",
               "run_label": "run-4",
-              "status": "pass",
               "tokens_total_billed": 3401069.0,
-              "wall_s": 5655.5
+              "wall_s": 5655.5,
+              "status": "pass"
             }
           ]
         }

@@ -60,7 +60,7 @@ def collect(root: Path, models: list[tuple[str, str]], metric: str) -> dict:
         if not mroot.is_dir():
             out[mdir] = {"_label": label, "_missing": True, "tasks": {}}
             continue
-        # task_id → list of {l2, wall_s, cost_usd, tokens, n_turns, run_label}
+        # task_id → list of {l2, wall_s, cost_usd, tokens, n_turns, run_dir, run_label}
         groups: dict[str, list[dict]] = {}
         for sj in mroot.glob("run-*/*/eval/score.json"):
             try:
@@ -82,6 +82,7 @@ def collect(root: Path, models: list[tuple[str, str]], metric: str) -> dict:
                     "cost_usd": cost["cost_usd"],
                     "tokens_total_billed": cost["tokens_total_billed"],
                     "n_turns": cost["n_turns"],
+                    "run_dir": str(run_dir.relative_to(root)),
                     "run_label": run_dir.parent.name,
                 }
             )
@@ -98,8 +99,9 @@ def collect(root: Path, models: list[tuple[str, str]], metric: str) -> dict:
                 "cost_usd": _avg([r["cost_usd"] for r in replicates]),
                 "tokens_total_billed": _avg([r["tokens_total_billed"] for r in replicates]),
                 "n_turns": _avg([r["n_turns"] for r in replicates]),
-                # run_label refers to a representative replicate, since
+                # run_dir/run_label refer to a representative replicate, since
                 # "mean" does not pick a specific run.
+                "run_dir": replicates[0]["run_dir"],
                 "run_label": replicates[0]["run_label"],
             }
         out[mdir] = {"_label": label, "tasks": per_task}

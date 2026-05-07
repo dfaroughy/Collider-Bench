@@ -10,6 +10,7 @@
           "cost_usd": 1.276543,
           "n_replicates": 1,
           "n_turns": 82.0,
+          "run_dir": "claude_haiku-4-5/run-3/sus-16-034_sim-TChiWZ_HappyWien_d77003fc",
           "run_label": "run-3",
           "tokens_total_billed": 464294.0,
           "wall_s": 2334.56
@@ -19,6 +20,7 @@
           "cost_usd": 0.8156253333333333,
           "n_replicates": 3,
           "n_turns": 75.33333333333333,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-046_sim-T5Wg_MerryNielsen_1d7dcd4f",
           "run_label": "run-2",
           "tokens_total_billed": 131761.0,
           "wall_s": 710.3666666666667
@@ -28,6 +30,7 @@
           "cost_usd": 1.374917,
           "n_replicates": 3,
           "n_turns": 78.33333333333333,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-046_sim-TChiWg_SpecialdeBroglie_959f2358",
           "run_label": "run-2",
           "tokens_total_billed": 297993.0,
           "wall_s": 1793.9833333333333
@@ -37,6 +40,7 @@
           "cost_usd": 1.699549,
           "n_replicates": 2,
           "n_turns": 66.0,
+          "run_dir": "claude_haiku-4-5/run-1/sus-16-047_sim-T5Wg_highHT_WittyBethe_3939cf1c",
           "run_label": "run-1",
           "tokens_total_billed": 120341.0,
           "wall_s": 542.2750000000001
@@ -46,6 +50,7 @@
           "cost_usd": 1.3681744999999998,
           "n_replicates": 2,
           "n_turns": 119.5,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-047_sim-T5Wg_lowHT_RareNewton_f1809806",
           "run_label": "run-2",
           "tokens_total_billed": 151602.0,
           "wall_s": 777.4599999999999
@@ -55,6 +60,7 @@
           "cost_usd": 0.731186,
           "n_replicates": 3,
           "n_turns": 66.33333333333333,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-047_sim-T6gg_highHT_EccentricSakharov_4ad0aa60",
           "run_label": "run-2",
           "tokens_total_billed": 127196.0,
           "wall_s": 904.9866666666667
@@ -64,6 +70,7 @@
           "cost_usd": 0.7368333333333333,
           "n_replicates": 3,
           "n_turns": 71.66666666666667,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-047_sim-T6gg_lowHT_BoldKadanoff_036b8f38",
           "run_label": "run-2",
           "tokens_total_billed": 122299.66666666667,
           "wall_s": 982.76
@@ -73,6 +80,7 @@
           "cost_usd": 1.5806589999999998,
           "n_replicates": 3,
           "n_turns": 55.666666666666664,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-051_sim-T2bW_SRG_KindRaman_7972118e",
           "run_label": "run-2",
           "tokens_total_billed": 86878.33333333333,
           "wall_s": 1205.7266666666667
@@ -82,6 +90,7 @@
           "cost_usd": 0.907152,
           "n_replicates": 3,
           "n_turns": 83.0,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-051_sim-T2tt_SRG_CleverVolta_4925fabd",
           "run_label": "run-2",
           "tokens_total_billed": 137786.33333333334,
           "wall_s": 648.6733333333334
@@ -91,6 +100,7 @@
           "cost_usd": 0.9184643333333333,
           "n_replicates": 3,
           "n_turns": 74.33333333333333,
+          "run_dir": "claude_haiku-4-5/run-2/sus-16-051_sim-T2tt_comp_FuzzyEnglert_420e9fe7",
           "run_label": "run-2",
           "tokens_total_billed": 144846.33333333334,
           "wall_s": 1617.1133333333332
@@ -105,6 +115,7 @@
           "cost_usd": 18.529246333333333,
           "n_replicates": 3,
           "n_turns": 202.0,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-034_sim-TChiWZ_AtomicWilczek_c656c0d6",
           "run_label": "run-2",
           "tokens_total_billed": 385726.3333333333,
           "wall_s": 2570.443333333333
@@ -114,6 +125,7 @@
           "cost_usd": 13.424542333333333,
           "n_replicates": 3,
           "n_turns": 178.33333333333334,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-046_sim-T5Wg_PapiHiggs_b887ed82",
           "run_label": "run-2",
           "tokens_total_billed": 349142.0,
           "wall_s": 2012.8833333333334
@@ -123,6 +135,7 @@
           "cost_usd": 12.308249333333332,
           "n_replicates": 3,
           "n_turns": 157.33333333333334,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-046_sim-TChiWg_BraveNambu_aa4c2290",
           "run_label": "run-2",
           "tokens_total_billed": 417312.6666666667,
           "wall_s": 2011.5633333333333
@@ -132,6 +145,7 @@
           "cost_usd": 14.854309999999998,
           "n_replicates": 3,
           "n_turns": 233.5,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T5Wg_highHT_StrangePlanck_377ffb35",
           "run_label": "run-2",
           "tokens_total_billed": 426689.5,
           "wall_s": 2597.6
@@ -141,6 +155,7 @@
           "cost_usd": 12.721834333333334,
           "n_replicates": 3,
           "n_turns": 198.66666666666666,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T5Wg_lowHT_SlowGerlach_a947bd52",
           "run_label": "run-2",
           "tokens_total_billed": 379504.3333333333,
           "wall_s": 2670.8433333333332
@@ -150,6 +165,7 @@
           "cost_usd": 15.788019666666667,
           "n_replicates": 3,
           "n_turns": 204.0,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T6gg_highHT_GoofyYang_9fb213b6",
           "run_label": "run-2",
           "tokens_total_billed": 404295.6666666667,
           "wall_s": 2547.0366666666664
@@ -159,6 +175,7 @@
           "cost_usd": 16.33764766666667,
           "n_replicates": 3,
           "n_turns": 247.33333333333334,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-047_sim-T6gg_lowHT_PlayfulAmpere_869ba608",
           "run_label": "run-2",
           "tokens_total_billed": 453871.0,
           "wall_s": 3495.42
@@ -168,6 +185,7 @@
           "cost_usd": 15.520721666666667,
           "n_replicates": 3,
           "n_turns": 179.0,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-051_sim-T2bW_SRG_CosmicPoincare_693f1a74",
           "run_label": "run-2",
           "tokens_total_billed": 364315.3333333333,
           "wall_s": 2238.33
@@ -177,6 +195,7 @@
           "cost_usd": 14.335011333333332,
           "n_replicates": 3,
           "n_turns": 167.0,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-051_sim-T2tt_SRG_FluffyCurie_5d05a45c",
           "run_label": "run-2",
           "tokens_total_billed": 400054.3333333333,
           "wall_s": 2106.8933333333334
@@ -186,6 +205,7 @@
           "cost_usd": 13.239431,
           "n_replicates": 3,
           "n_turns": 182.66666666666666,
+          "run_dir": "claude_opus-4-7/run-2/sus-16-051_sim-T2tt_comp_SharpHuygens_2e9ab4cf",
           "run_label": "run-2",
           "tokens_total_billed": 273623.0,
           "wall_s": 1656.3866666666668
@@ -196,73 +216,81 @@
       "_label": "Sonnet 4.6",
       "tasks": {
         "sus-16-034_sim-TChiWZ": {
-          "best": 0.185205,
-          "cost_usd": 6.481544,
-          "n_replicates": 1,
-          "n_turns": 130.0,
-          "run_label": "run-1",
-          "tokens_total_billed": 448398.0,
-          "wall_s": 2996.07
+          "best": 0.302734,
+          "cost_usd": 5.776313666666667,
+          "n_replicates": 3,
+          "n_turns": 136.33333333333334,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-034_sim-TChiWZ_CosmicLandau_073e86df",
+          "run_label": "run-2",
+          "tokens_total_billed": 325323.3333333333,
+          "wall_s": 2791.76
         },
         "sus-16-046_sim-T5Wg": {
           "best": 0.614357,
           "cost_usd": 8.283163,
           "n_replicates": 3,
           "n_turns": 209.0,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-046_sim-T5Wg_NobleGauss_8221a287",
           "run_label": "run-2",
           "tokens_total_billed": 396987.3333333333,
           "wall_s": 3466.403333333333
         },
         "sus-16-046_sim-TChiWg": {
-          "best": 0.924762,
-          "cost_usd": 7.0945895,
-          "n_replicates": 2,
-          "n_turns": 190.0,
+          "best": 0.925664,
+          "cost_usd": 6.5312660000000005,
+          "n_replicates": 3,
+          "n_turns": 177.0,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-046_sim-TChiWg_NobleLorentz_8291df23",
           "run_label": "run-2",
-          "tokens_total_billed": 377702.5,
-          "wall_s": 3665.785
+          "tokens_total_billed": 332314.3333333333,
+          "wall_s": 3210.9333333333334
         },
         "sus-16-047_sim-T5Wg_highHT": {
-          "best": 0.587095,
-          "cost_usd": 7.395319,
-          "n_replicates": 2,
-          "n_turns": 194.5,
+          "best": 0.687888,
+          "cost_usd": 7.999015333333333,
+          "n_replicates": 3,
+          "n_turns": 206.0,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T5Wg_highHT_ElegantUhlenbeck_6e63ed04",
           "run_label": "run-2",
-          "tokens_total_billed": 392549.5,
-          "wall_s": 3221.91
+          "tokens_total_billed": 410691.3333333333,
+          "wall_s": 3608.876666666667
         },
         "sus-16-047_sim-T5Wg_lowHT": {
-          "best": 0.956041,
-          "cost_usd": 6.699081,
-          "n_replicates": 1,
-          "n_turns": 187.0,
+          "best": 1.293381,
+          "cost_usd": 6.6222625,
+          "n_replicates": 2,
+          "n_turns": 183.5,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T5Wg_lowHT_GrandSegre_11e4aea9",
           "run_label": "run-2",
-          "tokens_total_billed": 318509.0,
-          "wall_s": 2862.11
+          "tokens_total_billed": 322078.5,
+          "wall_s": 3738.115
         },
         "sus-16-047_sim-T6gg_highHT": {
-          "best": 1.401741,
-          "cost_usd": 9.12794,
-          "n_replicates": 2,
-          "n_turns": 221.5,
+          "best": 1.265542,
+          "cost_usd": 8.526316,
+          "n_replicates": 3,
+          "n_turns": 209.33333333333334,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T6gg_highHT_KindPopov_db5b1063",
           "run_label": "run-2",
-          "tokens_total_billed": 384263.5,
-          "wall_s": 3511.47
+          "tokens_total_billed": 365061.6666666667,
+          "wall_s": 3584.9533333333334
         },
         "sus-16-047_sim-T6gg_lowHT": {
-          "best": 2.381079,
-          "cost_usd": 10.535962,
-          "n_replicates": 1,
-          "n_turns": 244.0,
+          "best": 1.690457,
+          "cost_usd": 8.8536215,
+          "n_replicates": 2,
+          "n_turns": 218.5,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-047_sim-T6gg_lowHT_SpecialSusskind_9543365a",
           "run_label": "run-2",
-          "tokens_total_billed": 588826.0,
-          "wall_s": 5068.9
+          "tokens_total_billed": 468915.5,
+          "wall_s": 4123.115
         },
         "sus-16-051_sim-T2bW_SRG": {
           "best": 0.823361,
           "cost_usd": 9.001316000000001,
           "n_replicates": 3,
           "n_turns": 222.33333333333334,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_sim-T2bW_SRG_AtomicBohr_c6f2e655",
           "run_label": "run-2",
           "tokens_total_billed": 440904.6666666667,
           "wall_s": 5902.98
@@ -272,6 +300,7 @@
           "cost_usd": 6.324048,
           "n_replicates": 3,
           "n_turns": 183.0,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_sim-T2tt_SRG_KindGoldstone_17edaa6b",
           "run_label": "run-2",
           "tokens_total_billed": 300640.3333333333,
           "wall_s": 4958.27
@@ -281,6 +310,7 @@
           "cost_usd": 7.528888,
           "n_replicates": 3,
           "n_turns": 188.66666666666666,
+          "run_dir": "claude_sonnet-4-6/run-2/sus-16-051_sim-T2tt_comp_AgileFadeev_62d116dd",
           "run_label": "run-2",
           "tokens_total_billed": 344311.3333333333,
           "wall_s": 4411.046666666667
@@ -295,6 +325,7 @@
           "cost_usd": 3.647101,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-034_sim-TChiWZ_SharpRubbia_90de4e8f",
           "run_label": "run-2",
           "tokens_total_billed": 31672708.333333332,
           "wall_s": 3358.55
@@ -304,6 +335,7 @@
           "cost_usd": 3.009691,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-046_sim-T5Wg_CosmicSakharov_07d0c5e5",
           "run_label": "run-2",
           "tokens_total_billed": 25520638.0,
           "wall_s": 2064.7666666666664
@@ -313,6 +345,7 @@
           "cost_usd": 4.037031333333333,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-046_sim-TChiWg_WittyKepler_9bfb6336",
           "run_label": "run-2",
           "tokens_total_billed": 31196559.333333332,
           "wall_s": 3506.6033333333335
@@ -322,6 +355,7 @@
           "cost_usd": 4.092692333333334,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T5Wg_highHT_SwiftMayer_9af56dcf",
           "run_label": "run-2",
           "tokens_total_billed": 34350220.0,
           "wall_s": 4859.136666666666
@@ -331,6 +365,7 @@
           "cost_usd": 4.013941,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T5Wg_lowHT_AtomicYukawa_c6c19ae6",
           "run_label": "run-2",
           "tokens_total_billed": 33213176.333333332,
           "wall_s": 2965.0733333333333
@@ -340,6 +375,7 @@
           "cost_usd": 4.201930666666667,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T6gg_highHT_MamiBhabha_b9ae1b10",
           "run_label": "run-2",
           "tokens_total_billed": 32712920.0,
           "wall_s": 2861.7966666666666
@@ -349,6 +385,7 @@
           "cost_usd": 3.4841213333333334,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-047_sim-T6gg_lowHT_FartyNielsen_c37dd8d3",
           "run_label": "run-2",
           "tokens_total_billed": 29413616.0,
           "wall_s": 3463.043333333333
@@ -358,6 +395,7 @@
           "cost_usd": 4.93069,
           "n_replicates": 2,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_sim-T2bW_SRG_NobleLaplace_e49384aa",
           "run_label": "run-2",
           "tokens_total_billed": 38161165.0,
           "wall_s": 3746.175
@@ -367,6 +405,7 @@
           "cost_usd": 3.3258739999999998,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_sim-T2tt_SRG_NuclearUhlenbeck_a2dad80e",
           "run_label": "run-2",
           "tokens_total_billed": 25988134.0,
           "wall_s": 2708.54
@@ -376,6 +415,7 @@
           "cost_usd": 3.4490325,
           "n_replicates": 2,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.4-mini/run-2/sus-16-051_sim-T2tt_comp_RapidMeitner_2c38923a",
           "run_label": "run-2",
           "tokens_total_billed": 28231492.0,
           "wall_s": 2645.66
@@ -390,6 +430,7 @@
           "cost_usd": 10.378798,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-034_sim-TChiWZ_RapidLee_f06e0e45",
           "run_label": "run-2",
           "tokens_total_billed": 15639281.0,
           "wall_s": 1777.0733333333333
@@ -399,6 +440,7 @@
           "cost_usd": 9.444856333333332,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-046_sim-T5Wg_SillyPolitzer_ceadf451",
           "run_label": "run-2",
           "tokens_total_billed": 14021855.0,
           "wall_s": 1457.02
@@ -408,6 +450,7 @@
           "cost_usd": 10.319361333333333,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-046_sim-TChiWg_QuietVeltman_77aa1e53",
           "run_label": "run-2",
           "tokens_total_billed": 15502235.666666666,
           "wall_s": 1869.5733333333333
@@ -417,6 +460,7 @@
           "cost_usd": 11.095181666666667,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T5Wg_highHT_SharpGalilei_2b6a6e54",
           "run_label": "run-2",
           "tokens_total_billed": 16715190.666666666,
           "wall_s": 1948.54
@@ -426,6 +470,7 @@
           "cost_usd": 14.046071999999999,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T5Wg_lowHT_DeepBecquerel_0abaeb30",
           "run_label": "run-2",
           "tokens_total_billed": 22793543.333333332,
           "wall_s": 2360.226666666667
@@ -435,6 +480,7 @@
           "cost_usd": 10.7463835,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T6gg_highHT_BraveSommerfeld_3d2919fc",
           "run_label": "run-2",
           "tokens_total_billed": 16636835.0,
           "wall_s": 1974.9533333333334
@@ -444,6 +490,7 @@
           "cost_usd": 12.0512165,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-047_sim-T6gg_lowHT_BraveEinstein_ddbca01c",
           "run_label": "run-2",
           "tokens_total_billed": 19266839.5,
           "wall_s": 2291.79
@@ -453,6 +500,7 @@
           "cost_usd": 10.236131499999999,
           "n_replicates": 2,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-051_sim-T2bW_SRG_CandidLawrence_066fe56c",
           "run_label": "run-2",
           "tokens_total_billed": 14515033.5,
           "wall_s": 1965.33
@@ -462,6 +510,7 @@
           "cost_usd": 16.482340333333333,
           "n_replicates": 3,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-2/sus-16-051_sim-T2tt_SRG_KindWeyl_172db955",
           "run_label": "run-2",
           "tokens_total_billed": 26611397.666666668,
           "wall_s": 3101.5866666666666
@@ -471,6 +520,7 @@
           "cost_usd": 14.456216000000001,
           "n_replicates": 2,
           "n_turns": 1.0,
+          "run_dir": "codex_gpt-5.5/run-1/sus-16-051_sim-T2tt_comp_RadiantFaraday_8df92b41",
           "run_label": "run-1",
           "tokens_total_billed": 22886408.5,
           "wall_s": 2715.72
@@ -485,6 +535,7 @@
           "cost_usd": 0.153773,
           "n_replicates": 2,
           "n_turns": 24.0,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-034_sim-TChiWZ_GrandCabibbo_73bfc07b",
           "run_label": "run-2",
           "tokens_total_billed": 1828311.5,
           "wall_s": 7002.709999999999
@@ -494,6 +545,7 @@
           "cost_usd": 0.31072449999999996,
           "n_replicates": 2,
           "n_turns": 64.0,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-046_sim-T5Wg_CuriousKibble_6a869beb",
           "run_label": "run-2",
           "tokens_total_billed": 4482514.5,
           "wall_s": 6425.09
@@ -503,6 +555,7 @@
           "cost_usd": 0.318118,
           "n_replicates": 2,
           "n_turns": 62.0,
+          "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-046_sim-TChiWg_MysteriousPoisson_b5507e62",
           "run_label": "run-1",
           "tokens_total_billed": 4661208.5,
           "wall_s": 4933.58
@@ -512,6 +565,7 @@
           "cost_usd": 0.30175066666666667,
           "n_replicates": 3,
           "n_turns": 37.333333333333336,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_sim-T5Wg_highHT_NobleHiggs_e4878759",
           "run_label": "run-2",
           "tokens_total_billed": 3078211.0,
           "wall_s": 7504.333333333333
@@ -521,6 +575,7 @@
           "cost_usd": 0.270324,
           "n_replicates": 3,
           "n_turns": 46.0,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_sim-T5Wg_lowHT_SolidPauling_faecabfb",
           "run_label": "run-2",
           "tokens_total_billed": 3119993.3333333335,
           "wall_s": 6942.576666666667
@@ -530,6 +585,7 @@
           "cost_usd": 0.23708066666666666,
           "n_replicates": 3,
           "n_turns": 31.666666666666668,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-047_sim-T6gg_highHT_EccentricdeBroglie_ac9f2781",
           "run_label": "run-2",
           "tokens_total_billed": 2427522.0,
           "wall_s": 5843.446666666667
@@ -539,6 +595,7 @@
           "cost_usd": 0.069268,
           "n_replicates": 2,
           "n_turns": 8.0,
+          "run_dir": "forge_deepseek-v4-pro/run-1/sus-16-047_sim-T6gg_lowHT_FierceHawking_6f171e36",
           "run_label": "run-1",
           "tokens_total_billed": 429976.5,
           "wall_s": 5381.43
@@ -548,6 +605,7 @@
           "cost_usd": 0.14924199999999999,
           "n_replicates": 3,
           "n_turns": 26.0,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_sim-T2bW_SRG_CalmKadanoff_67e2a696",
           "run_label": "run-2",
           "tokens_total_billed": 1601324.6666666667,
           "wall_s": 7624.1466666666665
@@ -557,6 +615,7 @@
           "cost_usd": 0.18397049999999998,
           "n_replicates": 2,
           "n_turns": 21.0,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_sim-T2tt_SRG_CuriousRaman_cce9fd99",
           "run_label": "run-2",
           "tokens_total_billed": 1550205.0,
           "wall_s": 6466.605
@@ -566,6 +625,7 @@
           "cost_usd": 0.203636,
           "n_replicates": 3,
           "n_turns": 36.0,
+          "run_dir": "forge_deepseek-v4-pro/run-2/sus-16-051_sim-T2tt_comp_NerdyRutherford_b6197895",
           "run_label": "run-2",
           "tokens_total_billed": 2139945.0,
           "wall_s": 5180.5599999999995
