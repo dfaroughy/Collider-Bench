@@ -40,7 +40,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--task",
         default=None,
-        help="Task id, matching a directory under LHCRecastBench/tasks/ "
+        help="Task id, matching a directory under ColliderBench/tasks/ "
         "(e.g. sus-16-046_sim-TChiWg).",
     )
     parser.add_argument("--runner", default=None, choices=sorted(RUNNERS))
@@ -165,14 +165,14 @@ def _run_in_sandbox(
 
 
 def _default_score(workspace: Path) -> dict:
-    """Default scoring hook — calls the in-repo LHCRecastBench evaluator.
+    """Default scoring hook — calls the in-repo ColliderBench evaluator.
 
     Kept as a separate function so alternate scorers can be injected via
     `launch_single_run(..., score=<callable>)`. Returns an {"error": ...}
     dict rather than raising, so a scoring failure doesn't mask the run.
     """
     try:
-        from LHCRecastBench.Evals import score
+        from ColliderBench.Evals import score
     except ImportError as exc:
         return {"error": f"eval import failed: {exc}"}
     try:
@@ -196,7 +196,7 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
     Best-effort: any single evaluator that errors is logged.
     """
     try:
-        from LHCRecastBench.Evals import score
+        from ColliderBench.Evals import score
     except ImportError as exc:
         print(f"  WARN: skipping offline evals — eval modules not importable: {exc}")
         return
@@ -236,7 +236,7 @@ def launch_single_run(
                     from the caller.
     argv          — override sys.argv for testing; None uses sys.argv[1:].
     score         — optional scorer: (workspace) -> dict. Defaults to
-                    _default_score which calls the in-repo LHCRecastBench
+                    _default_score which calls the in-repo ColliderBench
                     evaluator. Pass a no-op `lambda w: {}` to skip scoring.
     """
     _score = score or _default_score
@@ -393,7 +393,9 @@ def launch_single_run(
         # written by score_run() above. The LLM judge stays opt-in via
         # scripts/launch_eval.sh because it costs subscription tokens.
         _run_offline_evals(workspace, eval_dir)
-    except BaseException:
+    except Exception:
+        # Catch *application* errors so finalize_run_info still records the
+        # failed exit_code; KeyboardInterrupt / SystemExit propagate untouched.
         exit_code = 1
         raise
     finally:

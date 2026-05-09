@@ -82,13 +82,13 @@ ENV PIP_CACHE_DIR=/tmp/pip-cache \
     XDG_CACHE_HOME=/tmp/xdg-cache
 
 # ── Vendored sim stack ──────────────────────────────────────────────────────
-# Baked at /opt/sim so the host's LHCRecastBench/tools/sim can be shadowed
+# Baked at /opt/sim so the host's ColliderBench/tools/sim can be shadowed
 # by this immutable copy when the host dir doesn't ship pre-built binaries.
 # Sizes (approx): mg5 200 MB, pythia 290 MB, delphes 110 MB, prospino 60 MB.
-COPY LHCRecastBench/tools/sim/MG5_aMC_v3_7_0 /opt/sim/MG5_aMC_v3_7_0
-COPY LHCRecastBench/tools/sim/pythia8313     /opt/sim/pythia8313
-COPY LHCRecastBench/tools/sim/delphes        /opt/sim/delphes
-COPY LHCRecastBench/tools/sim/prospino       /opt/sim/prospino
+COPY ColliderBench/tools/sim/MG5_aMC_v3_7_0 /opt/sim/MG5_aMC_v3_7_0
+COPY ColliderBench/tools/sim/pythia8313     /opt/sim/pythia8313
+COPY ColliderBench/tools/sim/delphes        /opt/sim/delphes
+COPY ColliderBench/tools/sim/prospino       /opt/sim/prospino
 
 ENV MG5_DIR=/opt/sim/MG5_aMC_v3_7_0
 ENV PYTHIA8_DIR=/opt/sim/pythia8313

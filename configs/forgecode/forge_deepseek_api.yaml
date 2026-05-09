@@ -14,7 +14,7 @@
 # explicitly declares this secret for sandbox forwarding.
 
 agent:   simple
-task:    sus-16-046_yield-TChiWg    # see LHCRecastBench/tasks/
+task:    sus-16-046_yield-TChiWg    # see ColliderBench/tasks/
 runner:  forge
 provider: deepseek
 auth: api

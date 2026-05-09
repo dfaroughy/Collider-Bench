@@ -15,10 +15,10 @@ from pathlib import Path
 
 import pytest
 
-from LHCRecastBench.Evals import score
+from ColliderBench.Evals import score
 
 
-_BENCH_ROOT = Path(__file__).resolve().parent.parent / "LHCRecastBench"
+_BENCH_ROOT = Path(__file__).resolve().parent.parent / "ColliderBench"
 _TASKS_ROOT = _BENCH_ROOT / "tasks"
 
 

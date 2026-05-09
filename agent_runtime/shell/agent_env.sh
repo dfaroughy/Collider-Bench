@@ -107,7 +107,7 @@ activate_lhc_analysis() {
   [[ $- == *u* ]] && had_nounset=1
   set +u
   if ! conda_env_exists; then
-    echo "Missing conda environment '${LHC_BENCH_ENV_NAME}'. Run ${REPO_ROOT}/LHCRecastBench/bin/bootstrap-recast-tools first." >&2
+    echo "Missing conda environment '${LHC_BENCH_ENV_NAME}'. Run ${REPO_ROOT}/ColliderBench/bin/bootstrap-recast-tools first." >&2
     (( had_nounset )) && set -u
     return 1
   fi

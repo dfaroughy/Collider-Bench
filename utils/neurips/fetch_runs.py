@@ -55,6 +55,7 @@ MODELS: list[tuple[str, str]] = [
     ("codex_gpt-5.5", "GPT-5.5"),
     ("codex_gpt-5.4-mini", "GPT-5.4-mini"),
     ("forge_deepseek-v4-pro", "DeepSeek-V4"),
+    ("forge_deepseek-r1", "DeepSeek-R1"),
 ]
 
 

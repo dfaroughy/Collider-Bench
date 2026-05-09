@@ -6,7 +6,7 @@ Right: per-model grouped task accuracy bars using the same threshold tau.
 
 Usage:
     python -m utils.neurips.plot_combined
-    python -m utils.neurips.plot_combined --tau 0.25 --data utils/neurips/best_l2_norm.json
+    python -m utils.neurips.plot_combined --tau 0.25 --data utils/neurips/data/runs.json
 """
 
 from __future__ import annotations
@@ -23,7 +23,14 @@ import seaborn as sns
 from matplotlib.legend_handler import HandlerPatch
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch, Rectangle
-from matplotlib.ticker import FuncFormatter, LogLocator, MultipleLocator, PercentFormatter
+from matplotlib.ticker import (
+    FixedLocator,
+    FuncFormatter,
+    LogLocator,
+    MultipleLocator,
+    NullLocator,
+    PercentFormatter,
+)
 
 
 class _BigPatchHandler(HandlerPatch):
@@ -84,6 +91,7 @@ MODEL_SPECS: tuple[ModelSpec, ...] = (
     ModelSpec("codex_gpt-5.5", "GPT-5.5", "#2454A6", "^", "OpenAI"),
     ModelSpec("codex_gpt-5.4-mini", "GPT-5.4-mini", "#2A9FBF", "^", "OpenAI"),
     ModelSpec("forge_deepseek-v4-pro", " DeepSeek-V4", "#6D4BC3", "s", "DeepSeek"),
+    ModelSpec("forge_deepseek-r1", " DeepSeek-R1", "#A88EE0", "s", "DeepSeek"),
 )
 
 # Stronger paper colors (richer than the prior pastels, still readable).
@@ -165,9 +173,15 @@ def collect_summaries(
     tasks). Cost is summed over every replicate of every task that
     contributed (i.e. total spend, not per-replicate average).
     """
-    # The DeepSeek experiment ran at a 75 % promotional discount; gross-up the
-    # logged USD values by 1 / (1 - 0.75) = 4.0 to compare on a list-price basis.
-    DEEPSEEK_COST_FACTOR = 4.0
+    # The DeepSeek experiments ran at a promotional discount; per-model gross-up
+    # factors below restore an approximate list-price USD for the Pareto x-axis.
+    # V4: ~75 % off across input/output → factor 4.
+    # R1: same percentage discount, but R1's list price is ~2× V4's (input
+    #     $0.55 vs $0.27, output $2.19 vs $1.10), so factor ≈ 2 × 4 = 8.
+    DEEPSEEK_COST_FACTORS = {
+        "forge_deepseek-v4-pro": 4.0,
+        "forge_deepseek-r1": 8.0,
+    }
 
     summaries: list[ModelSummary] = []
     for spec in MODEL_SPECS:
@@ -198,8 +212,8 @@ def collect_summaries(
             mean_l2 = sum(l2_vals) / len(l2_vals)
             task_values[task_id] = mean_l2
             task_accuracy[task_id] = 100.0 if mean_l2 < tau else 0.0
-        if xaxis == "cost" and spec.dirname == "forge_deepseek-v4-pro":
-            resource *= DEEPSEEK_COST_FACTOR
+        if xaxis == "cost" and spec.dirname in DEEPSEEK_COST_FACTORS:
+            resource *= DEEPSEEK_COST_FACTORS[spec.dirname]
         if not task_values:
             continue
         n_pass = int(sum(v < tau for v in task_values.values()))
@@ -268,8 +282,6 @@ def plot_pareto(ax, summaries: list[ModelSummary], *, tau: float, xaxis: str) ->
         ax.set_xlim(min(x_values) * 0.75, max(x_values) * 1.35)
         # Finer x ticks: $50 majors, $10 minors. Locators take linear values
         # even on a log axis, so they show up unevenly spaced — that's fine.
-        from matplotlib.ticker import FixedLocator, NullLocator
-
         if xaxis == "cost":
             ax.xaxis.set_major_locator(FixedLocator([1, 5, 10, 25, 50, 100, 200, 400]))
             ax.xaxis.set_minor_locator(NullLocator())
@@ -283,12 +295,8 @@ def plot_pareto(ax, summaries: list[ModelSummary], *, tau: float, xaxis: str) ->
             ax.xaxis.set_minor_locator(NullLocator())
             ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
 
-    from matplotlib.ticker import FixedLocator, NullLocator
-
-    # y-axis frame extends to 150 (gives the legend headroom in the upper-left)
-    # but visible ticks stop at 100 % so the empty headroom stays unmarked.
     ax.set_ylim(-5, 50)
-    ax.yaxis.set_major_locator(FixedLocator(list(range(0, 101, 10))))
+    ax.yaxis.set_major_locator(MultipleLocator(10))
     ax.yaxis.set_minor_locator(NullLocator())
     ax.yaxis.set_major_formatter(PercentFormatter(xmax=100, decimals=0))
     ax.set_xlabel(RESOURCE_LABELS[xaxis])
@@ -383,16 +391,30 @@ def plot_accuracy_bars(ax, summaries: list[ModelSummary], tasks: list[str], *, t
         )
 
     ax.set_xticks(x_centers)
-    ax.set_xticklabels([summary.spec.label for summary in summaries])
+
+    # Two-line tick labels: model name on top, version below.
+    # Splits on the first space, falling back to the first hyphen for
+    # hyphenated model names like "GPT-5.5" or "DeepSeek-V4". Already-multi-line
+    # labels (e.g. the Human-in-loop column) are left alone.
+    def _two_line(label: str) -> str:
+        if "\n" in label:
+            return label
+        s = label.strip()
+        if " " in s:
+            head, _, tail = s.partition(" ")
+            return f"{head}\n{tail}"
+        if "-" in s:
+            head, _, tail = s.partition("-")
+            return f"{head}\n{tail}"
+        return label
+
+    ax.set_xticklabels([_two_line(summary.spec.label) for summary in summaries])
     # Model tick labels (panel 2 x-axis): +25 % over rcParams xtick.labelsize.
     ax.tick_params(axis="x", labelsize=plt.rcParams["xtick.labelsize"] * 1.35)
 
-    finite_vals = [
-        v for summary in summaries for v in summary.task_values.values() if v is not None and v > 0
-    ]
-    floor = (min(finite_vals) * 0.5) if finite_vals else 1e-3
-    # ax.set_yscale("log")
-    ax.set_ylim(bottom=floor, top=2)
+    # Linear y-axis: 0 floor, fixed top to keep the d=tau line and the Human
+    # baseline in a comparable visual range across runs.
+    ax.set_ylim(bottom=0.0, top=2.0)
     ax.set_ylabel(r"$\langle\, d(\hat y, y^\star)\, \rangle$")
 
     # Panel-1 title in small caps. matplotlib mathtext doesn't honor \textsc,
@@ -598,6 +620,7 @@ def main() -> None:
         "claude_sonnet-4-6",
         "codex_gpt-5.4-mini",
         "forge_deepseek-v4-pro",
+        "forge_deepseek-r1",
         "claude_haiku-4-5",
     )
     by_dirname = {s.spec.dirname: s for s in summaries}

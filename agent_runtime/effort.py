@@ -47,5 +47,8 @@ def resolve_effort(effort: str | int | None) -> tuple[str, int]:
         return (f"custom({n})", n)
     if s in EFFORT_THINKING_TOKENS:
         return (s, EFFORT_THINKING_TOKENS[s])
-    # Unknown label → fall back to medium rather than erroring
-    return ("medium", EFFORT_THINKING_TOKENS["medium"])
+    # Unknown label: raise so typos like "higgh" don't silently coast on the
+    # medium default. Integer strings are still accepted via the isdigit path
+    # above, so users wanting a custom budget can pass e.g. "12000".
+    valid = ", ".join(sorted(EFFORT_THINKING_TOKENS)) + ", or an integer token budget"
+    raise ValueError(f"unknown effort {effort!r}; expected one of: {valid}")

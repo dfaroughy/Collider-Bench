@@ -37,7 +37,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 # tests against a locally-built image tagged differently.
 IMAGE = os.environ.get("LHC_BENCH_IMAGE", "ghcr.io/dfaroughy/lhc-bench:latest")
 
-_BENCH_DIR = REPO_ROOT / "LHCRecastBench"
+_BENCH_DIR = REPO_ROOT / "ColliderBench"
 _AGENT_RUNTIME_DIR = REPO_ROOT / "agent_runtime"
 
 
@@ -95,7 +95,7 @@ def _run_in_container(
 ) -> subprocess.CompletedProcess:
     """Run a one-shot bash -c invocation inside the runtime image.
 
-    The repo (LHCRecastBench/ + agent_runtime/) is mounted ro at the same
+    The repo (ColliderBench/ + agent_runtime/) is mounted ro at the same
     path it has on the host — this matches production sandbox.py's mount
     layout, so bin/ wrappers that source agent_env.sh work correctly.
 

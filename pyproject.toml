@@ -29,16 +29,13 @@ dev = [
 ]
 
 [project.scripts]
-# Convenience entry points — the production path is still `scripts/run-agent`,
+# Convenience entry point — the production path is still `scripts/run-agent`,
 # which also handles Perlmutter salloc/srun wrapping.
-lhc-recast-simple    = "agents.simple.run:main"
-lhc-recast-baseline  = "agents.baseline.run:main"
-lhc-recast-iterative = "agents.iterative.runtime.controller.recast_loop:main"
-lhc-recast-sisyphus  = "agents.sisyphus.runtime.controller.sisyphus_loop:main"
+lhc-recast-simple = "agents.simple.run:main"
 
 [tool.setuptools.packages.find]
 # Three top-level packages: runtime, benchmark, and the agents namespace.
-include = ["agent_runtime*", "LHCRecastBench*", "agents*"]
+include = ["agent_runtime*", "ColliderBench*", "agents*"]
 exclude = ["recast_*", "old*", "runs*", "draft*"]
 
 [tool.pytest.ini_options]
@@ -54,9 +51,9 @@ line-length = 100
 target-version = "py310"
 # Don't lint upstream-vendored code or historical scratch dirs.
 extend-exclude = [
-    "LHCRecastBench/tools/sim/MG5_aMC_v3_7_0",
-    "LHCRecastBench/tools/sim/delphes",
-    "LHCRecastBench/tools/sim/pythia8313",  # upstream Pythia examples
+    "ColliderBench/tools/sim/MG5_aMC_v3_7_0",
+    "ColliderBench/tools/sim/delphes",
+    "ColliderBench/tools/sim/pythia8313",  # upstream Pythia examples
     "old",
     "runs",
     "draft",

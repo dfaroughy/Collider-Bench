@@ -10,7 +10,7 @@ One canonical image: `lhc-bench:latest`. Built from
 | Vendor agent CLIs (`/opt/node-global/bin`) | `claude`, `codex`, `gemini` (npm-installed) |
 | Harness (`/app`) | `agent_runtime/`, `agents/`, `configs/` |
 
-Host-mounted at run time (never baked): `LHCRecastBench/` (tasks, tools, evaluation, bin), OAuth creds (`~/.claude`, `~/.codex`, `~/.gemini`), `/cvmfs` if present, workspace and `runs/`.
+Host-mounted at run time (never baked): `ColliderBench/` (tasks, tools, evaluation, bin), OAuth creds (`~/.claude`, `~/.codex`, `~/.gemini`), `/cvmfs` if present, workspace and `runs/`.
 
 ## Build
 
@@ -55,7 +55,7 @@ apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
 ./scripts/run-agent --config configs/claude_simple.yaml --sandbox podman
 ```
 
-Use `--sandbox apptainer` on hosts where Apptainer is the only runtime. The `Sandbox` class in [`agent_runtime/sandbox.py`](../agent_runtime/sandbox.py) handles all binds (`LHCRecastBench`, workspace, OAuth creds, `/cvmfs`, baked `/opt/sim`). `$LHC_BENCH_IMAGE` overrides the image ref (default: `ghcr.io/dfaroughy/lhc-bench:latest`).
+Use `--sandbox apptainer` on hosts where Apptainer is the only runtime. The `Sandbox` class in [`agent_runtime/sandbox.py`](../agent_runtime/sandbox.py) handles all binds (`ColliderBench`, workspace, OAuth creds, `/cvmfs`, baked `/opt/sim`). `$LHC_BENCH_IMAGE` overrides the image ref (default: `ghcr.io/dfaroughy/lhc-bench:latest`).
 
 ## Pre-built SIF for Apptainer users
 
@@ -72,7 +72,7 @@ If you're not using our `agent_runtime/`, mount the benchmark content and drive 
 
 ```bash
 apptainer exec \
-  --bind "$PWD/LHCRecastBench:$PWD/LHCRecastBench" \
+  --bind "$PWD/ColliderBench:$PWD/ColliderBench" \
   --bind "$PWD/runs:$PWD/runs" \
   --bind /cvmfs:/cvmfs:ro \
   lhc-bench.sif \
@@ -83,15 +83,15 @@ Then score with:
 
 ```bash
 apptainer exec \
-  --bind "$PWD/LHCRecastBench:$PWD/LHCRecastBench" \
+  --bind "$PWD/ColliderBench:$PWD/ColliderBench" \
   --bind "$PWD/runs:$PWD/runs" \
   lhc-bench.sif \
-  python -m LHCRecastBench.evaluation.score runs/<your-run>
+  python -m ColliderBench.evaluation.score runs/<your-run>
 ```
 
 ## Sim-tool overrides
 
-`bin/simulate` honours env-var overrides for every tool. The image exports these pointing at the baked copies under `/opt/sim/`; the host copy is shadowed so users get the same versions regardless of what their `LHCRecastBench/tools/sim/` tree contains:
+`bin/simulate` honours env-var overrides for every tool. The image exports these pointing at the baked copies under `/opt/sim/`; the host copy is shadowed so users get the same versions regardless of what their `ColliderBench/tools/sim/` tree contains:
 
 | Env var | Default (in image) |
 |---|---|
@@ -100,4 +100,4 @@ apptainer exec \
 | `DELPHES_DIR` | `/opt/sim/delphes` |
 | `PROSPINO_DIR` | `/opt/sim/prospino` |
 
-Outside the container, these are unset and `bin/simulate` falls back to `${REPO_ROOT}/LHCRecastBench/tools/sim/*`.
+Outside the container, these are unset and `bin/simulate` falls back to `${REPO_ROOT}/ColliderBench/tools/sim/*`.

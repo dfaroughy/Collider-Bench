@@ -268,7 +268,7 @@ class BwrapSandbox(Sandbox):
     """User-space sandbox via `bwrap` (bubblewrap).
 
     Exposes the host filesystem but shadows the entire repo with a tmpfs, then
-    re-binds only workspace/ (rw) and a minimal LHCRecastBench/ subset (ro). PID /
+    re-binds only workspace/ (rw) and a minimal ColliderBench/ subset (ro). PID /
     IPC / UTS namespaces are unshared; network is left intact so the agent can
     reach the model API and public data sources.
 
@@ -335,7 +335,7 @@ class BwrapSandbox(Sandbox):
             "--unshare-ipc",
             "--unshare-uts",
         ]
-        # Legacy `LHCRecastBench/papers/` tree (now under tasks/shared/) was
+        # Legacy `ColliderBench/papers/` tree (now under tasks/shared/) was
         # tmpfs'd here historically. Skip the line if the path doesn't exist
         # — bwrap fails to mount over a non-existent directory inside the
         # ro-bound benchmark dir.
@@ -433,12 +433,12 @@ class ApptainerSandbox(Sandbox):
                             (default: "ghcr.io/dfaroughy/lhc-bench:latest").
 
     Binds:
-      - host repo_root/LHCRecastBench  → same path inside container
+      - host repo_root/ColliderBench  → same path inside container
         (benchmark content stays editable; tasks/, evaluation/, tools/CLI)
       - workspace                      → same path inside container (rw)
       - ~/.claude, ~/.codex, ~/.gemini → /root/.claude etc.  (OAuth)
       - /cvmfs                         → /cvmfs (ro) if present
-      - baked /opt/sim/<tool>          → host .../LHCRecastBench/tools/sim/<tool>
+      - baked /opt/sim/<tool>          → host .../ColliderBench/tools/sim/<tool>
         — the image's baked sim stack overrides whatever the host has.
       - any paths in extra_ro_binds
 
@@ -483,7 +483,7 @@ class ApptainerSandbox(Sandbox):
             "--bind",
             f"{workspace}:{workspace}",
             # Selective benchmark binds. We do NOT bind the whole
-            # LHCRecastBench/ tree — that would expose the reference pool
+            # ColliderBench/ tree — that would expose the reference pool
             # under tasks/shared/*/reference/ and scoring code under
             # evaluation/. Agent sees only tools/, bin/, and this run's
             # paper PDF (copied into workspace/papers before wrapping).
@@ -684,7 +684,7 @@ class PodmanSandbox(Sandbox):
             "-v",
             f"{workspace}:{workspace}",
             # Selective benchmark binds, ro. We do NOT bind the whole
-            # LHCRecastBench/ tree: that would expose the reference pool
+            # ColliderBench/ tree: that would expose the reference pool
             # under tasks/shared/*/reference/ and the scoring code under
             # evaluation/. Agent sees only tools/ + bin/ + this run's
             # paper PDF (copied into workspace/papers before wrapping).

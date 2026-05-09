@@ -3,9 +3,9 @@
 # Default target: codex_gpt-5.5/run-1.
 #
 # Behavior per run:
-#   1. score (always): python -m LHCRecastBench.Evals.score <run>
+#   1. score (always): python -m ColliderBench.Evals.score <run>
 #                      → writes eval/score.json + eval/plots/*.png
-#   2. judge (opt-in): python -m LHCRecastBench.Evals.judge <run>
+#   2. judge (opt-in): python -m ColliderBench.Evals.judge <run>
 #                      → only when --judge is passed
 #
 # Usage:
@@ -78,7 +78,7 @@ for i in "${!RUNS[@]}"; do
          "$(date '+%F %T')" "$((i+1))" "${#RUNS[@]}" "$(basename "${run}")"
 
   if [[ "${SKIP_SCORE}" == "0" ]]; then
-    if python -m LHCRecastBench.Evals.score --n-toys "${N_TOYS}" "${run}"; then
+    if python -m ColliderBench.Evals.score --n-toys "${N_TOYS}" "${run}"; then
       ok_score=$((ok_score+1))
     else
       fail_score=$((fail_score+1))
@@ -87,7 +87,7 @@ for i in "${!RUNS[@]}"; do
   fi
 
   if [[ "${RUN_JUDGE}" == "1" ]]; then
-    judge_args=(-m LHCRecastBench.Evals.judge)
+    judge_args=(-m ColliderBench.Evals.judge)
     [[ -n "${JUDGE_MODEL}" ]] && judge_args+=(--model "${JUDGE_MODEL}")
     judge_args+=("${run}")
     if python "${judge_args[@]}"; then

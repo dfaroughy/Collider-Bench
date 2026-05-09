@@ -32,20 +32,20 @@ dist/
 docker/lhc_analysis_env.tar.gz
 
 # ── Internal SLURM submitters (NERSC-specific, not part of public release) ────
-scripts/multi-run-interactive.sh
-scripts/submit_production_simple.sh
-scripts/submit_simple_benchmark.sh
+# Public users get scripts/run-agent (works with --compute local) and
+# scripts/launch_eval.sh; everything below assumes Perlmutter's SLURM,
+# m4539 account, and NERSC interactive/regular qos.
 scripts/sbatch_simple_array.sh
+scripts/sbatch_api_array.sh
+scripts/submit_api_parallel.sh
+scripts/multi-run-interactive-*.sh
+scripts/neurips_tasks.txt
 
-# ── Private agents (kept locally, not part of the public benchmark) ────────
+# ── Private agent (kept locally, not part of the public benchmark) ─────────
 agents/anneal/
-agents/baseline/
 configs/anthropics/claude_anneal.yaml
 configs/openai/codex_anneal.yaml
 configs/google/gemini_anneal.yaml
-configs/anthropics/claude_baseline.yaml
-configs/openai/codex_baseline.yaml
-configs/google/gemini_baseline.yaml
 tests/test_anneal_schedule.py
 tests/test_prompts_private.py
 
@@ -68,11 +68,11 @@ draft/*.out
 draft/*.synctex.gz
 
 # Prospino build products (reproducible from the vendored source via `make`)
-LHCRecastBench/tools/sim/prospino/**/*.o
-LHCRecastBench/tools/sim/prospino/**/*.mod
-LHCRecastBench/tools/sim/prospino/prospino_2.run
-LHCRecastBench/tools/sim/prospino/prospino.dat*
-LHCRecastBench/tools/sim/prospino/screen.out
+ColliderBench/tools/sim/prospino/**/*.o
+ColliderBench/tools/sim/prospino/**/*.mod
+ColliderBench/tools/sim/prospino/prospino_2.run
+ColliderBench/tools/sim/prospino/prospino.dat*
+ColliderBench/tools/sim/prospino/screen.out
 # Per-invocation scratch dirs created by bin/prospino
 prospino_scratch/
 .ghcr_token

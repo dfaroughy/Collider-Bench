@@ -245,8 +245,9 @@ def print_postflight(start_time: float, results_path: str = "results.json"):
             cutflow = data.get("cutflow", {})
             if cutflow:
                 print(f"  Cutflow samples: {', '.join(cutflow.keys())}")
-        except Exception:
-            pass
+        except (json.JSONDecodeError, OSError, AttributeError, TypeError) as exc:
+            # Surface read/parse failures (was previously bare except: pass).
+            print(f"  WARNING: could not parse {results.name}: {type(exc).__name__}: {exc}")
 
     required = [
         "report.md",

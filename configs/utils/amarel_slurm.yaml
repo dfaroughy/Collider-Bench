@@ -1,21 +1,3 @@
-# Rutgers Amarel Slurm profile template.
-#
-# Copy or extend this profile from a runnable harness config, then set account,
-# qos, and env_setup to match the Amarel allocation you intend to use.
-#
-# Example runnable config:
-#   extends: ../utils/amarel_slurm.yaml
-#
-# Notes:
-# - Amarel's general CPU partition is `main`; the guide also lists `gpu`, `mem`,
-#   `nonpre`, `graphical`, and `cmain`.
-# - The guide's interactive shell example is:
-#     srun --partition=main --mem=2000 --time=30:00 --pty bash
-# - The benchmark launcher uses the salloc+srun pattern instead:
-#     salloc --partition=main --time=04:00:00 --ntasks=1 --cpus-per-task=16 ...
-# - Set env_setup when conda is not discoverable in non-login Slurm shells.
-# - Prefer a modest cpu count for API-backed runs unless the task will actually
-#   shard event generation across many cores.
 compute:  slurm
 account:  ""
 partition: main

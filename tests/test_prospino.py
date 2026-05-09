@@ -13,7 +13,7 @@ import json
 
 import pytest
 
-from LHCRecastBench.tools.CLI import prospino
+from ColliderBench.tools.CLI import prospino
 
 
 # ── Always-run: structure & CLI surface ────────────────────────────────────

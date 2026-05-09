@@ -21,7 +21,7 @@ def test_config_loads_and_validates(config_path):
     # Profile configs only carry allocation defaults; runnable harness configs
     # must pin an agent and task id.
     if config_path not in PROFILE_CONFIGS:
-        assert cfg.get("agent") in {"simple", "baseline", "iterative", "anneal"}
+        assert cfg.get("agent") in {"simple", "anneal"}
         assert cfg.get("task"), "every runnable config must set `task:` to a task id"
 
 
@@ -173,3 +173,20 @@ def test_api_profile_defaults_are_regular_qos():
     assert defaults["CPUS"] == "16"
     assert defaults["WALLTIME"] == "03:00:00"
     assert defaults["QOS"] == "regular"
+
+
+# ── validate_api_auth_env: cases not covered by tests above ────────────────
+
+
+def test_validate_api_auth_env_passes_when_auth_oauth():
+    # OAuth path doesn't need any env var, regardless of empty environ.
+    validate_api_auth_env({"auth": "oauth", "runner": "claude"}, environ={})
+
+
+def test_validate_api_auth_env_passes_when_no_auth_field():
+    validate_api_auth_env({"runner": "claude"}, environ={})
+
+
+def test_validate_api_auth_env_passes_for_unregistered_runner_provider():
+    # No entry in _API_AUTH_ENV → no-op (e.g. gemini, codex).
+    validate_api_auth_env({"auth": "api", "runner": "gemini"}, environ={})

@@ -1,6 +1,6 @@
 """Benchmark path layout — one source of truth.
 
-Consolidates the hardcoded "LHCRecastBench/..." strings that used to live
+Consolidates the hardcoded "ColliderBench/..." strings that used to live
 across workspace.py, sandbox.py, and naming.py so a benchmark-dir rename
 is a one-file change.
 """
@@ -10,7 +10,7 @@ from __future__ import annotations
 from pathlib import Path
 
 
-BENCHMARK_DIRNAME = "LHCRecastBench"
+BENCHMARK_DIRNAME = "ColliderBench"
 
 
 def benchmark_dir(repo_root: Path) -> Path:

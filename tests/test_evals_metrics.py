@@ -1,4 +1,4 @@
-"""Sanity tests for the LHCRecastBench.Evals metrics.
+"""Sanity tests for the ColliderBench.Evals metrics.
 
 Covers the math of bin_error / jsd / baker_cousins independently from the
 histogram I/O layer. Toy counts are tiny here so the suite stays fast;
@@ -10,7 +10,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from LHCRecastBench.Evals.metrics import (
+from ColliderBench.Evals.metrics import (
     Delta,
     baker_cousins_p_value,
     jensen_shannon,
@@ -19,6 +19,7 @@ from LHCRecastBench.Evals.metrics import (
     rmsle,
     total_frac_error_pct,
 )
+from ColliderBench.Evals.metrics.bin_error import relative_l2
 
 
 # ── bin error ────────────────────────────────────────────────────────────────
@@ -311,3 +312,44 @@ def test_bc_returns_none_on_zero_total():
 def test_bc_invalid_kind_raises():
     with pytest.raises(ValueError, match="kind"):
         baker_cousins_p_value(np.array([1.0]), np.array([1.0]), kind="weird", n_toys=_FAST_TOYS)
+
+
+# ── relative_l2 ─────────────────────────────────────────────────────────────
+
+
+def test_relative_l2_zero_when_identical():
+    a = np.array([10.0, 20.0, 30.0])
+    assert relative_l2(a, a) == pytest.approx(0.0)
+
+
+def test_relative_l2_scales_with_deviation():
+    ref = np.array([10.0, 20.0, 30.0])
+    obs = np.array([11.0, 22.0, 33.0])  # +10% everywhere
+    # sqrt(Σ Δ² / Σ ref²) = sqrt(14 / 1400) = 0.1
+    assert relative_l2(obs, ref) == pytest.approx(0.1)
+
+
+def test_relative_l2_returns_none_on_size_mismatch():
+    assert relative_l2(np.array([1.0, 2.0]), np.array([1.0])) is None
+
+
+def test_relative_l2_returns_none_on_zero_reference():
+    assert relative_l2(np.array([1.0, 2.0]), np.array([0.0, 0.0])) is None
+
+
+def test_relative_l2_normalize_makes_it_a_shape_metric():
+    # Same shape, different normalization → normalize=True yields ~0.
+    ref = np.array([1.0, 2.0, 3.0])
+    obs = np.array([10.0, 20.0, 30.0])  # 10× scale
+    assert relative_l2(obs, ref, normalize=True) == pytest.approx(0.0, abs=1e-12)
+    # Without normalize, the scale shows up as a large value.
+    assert relative_l2(obs, ref, normalize=False) > 1.0
+
+
+def test_relative_l2_normalize_returns_none_when_either_sum_nonpositive():
+    assert relative_l2(np.zeros(3), np.array([1.0, 2.0, 3.0]), normalize=True) is None
+    assert relative_l2(np.array([1.0, 2.0, 3.0]), np.zeros(3), normalize=True) is None
+
+
+def test_relative_l2_empty_inputs_return_none():
+    assert relative_l2(np.array([]), np.array([])) is None

@@ -63,9 +63,9 @@ class PodmanSandbox(Sandbox):
         # and each path in extra_ro_binds ro.
         mounts = [
             "-v", f"{workspace}:{workspace}:rw",
-            "-v", f"{repo_root/'LHCRecastBench'}:{repo_root/'LHCRecastBench'}:ro",
-            "--tmpfs", str(repo_root/"LHCRecastBench"/"papers"),
-            "--tmpfs", str(repo_root/"LHCRecastBench"/"evaluation"),
+            "-v", f"{repo_root/'ColliderBench'}:{repo_root/'ColliderBench'}:ro",
+            "--tmpfs", str(repo_root/"ColliderBench"/"papers"),
+            "--tmpfs", str(repo_root/"ColliderBench"/"evaluation"),
             "--tmpfs", "/tmp",
         ]
         for p in (extra_ro_binds or []):
@@ -91,7 +91,7 @@ Add the backend name to `_ALLOWED_SANDBOX` in [`agent_runtime/config.py`](config
 ## Contract every backend must honour
 
 1. **`<workspace>` is the only rw path under the repo.** Nothing in `repo_root/` (other than the bound-in workspace) should be writable.
-2. **Only the benchmark surfaces needed by the agent are bound into container backends.** Current Podman/Apptainer runs expose `LHCRecastBench/tools/`, `LHCRecastBench/bin/`, and the resolved paper directory read-only. They do not expose `tasks/shared/*/reference/` or `evaluation/`, which would let the agent cheat.
+2. **Only the benchmark surfaces needed by the agent are bound into container backends.** Current Podman/Apptainer runs expose `ColliderBench/tools/`, `ColliderBench/bin/`, and the resolved paper directory read-only. They do not expose `tasks/shared/*/reference/` or `evaluation/`, which would let the agent cheat.
 3. **`/tmp` is fresh.** Prevents cross-run leakage and signals.
 4. **Every `Path` in `extra_ro_binds` is mounted read-only.** The launcher uses this to re-expose Python packages (`agent_runtime/`, per-agent `runtime/`) hidden by rule #1.
 5. **`cleanup()` is safe to call once after the wrapped process exits**, including on failure. Return `lambda: None` if nothing needs restoring.

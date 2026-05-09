@@ -2,8 +2,8 @@
 
 Builds a bwrap-ready workspace at <repo_root>/runs/<run_dir>/workspace/ with:
   - templates/           agent runtime workspace stubs (report.md, datasets.yaml …)
-  - tools/               symlink → LHCRecastBench/tools/
-  - bin/                 merged symlinks from LHCRecastBench/bin/ + agent_dir/runtime/bin/
+  - tools/               symlink → ColliderBench/tools/
+  - bin/                 merged symlinks from ColliderBench/bin/ + agent_dir/runtime/bin/
   - agent_context/       all *.md files under agent_dir (outside runtime/) + TASK.md
   - results/             copy of tasks/<task_id>/template/  (null-filled yamls;
                          agent fills in place — no separate output dir)
@@ -20,8 +20,9 @@ purely metadata for the harness.
 from __future__ import annotations
 
 import shutil
-import urllib.request
+import ssl
 import textwrap
+import urllib.request
 from pathlib import Path
 
 from agent_runtime import paths
@@ -93,8 +94,8 @@ def build_workspace(
 ) -> Path:
     """Create a fresh workspace under <repo_root>/runs/<run_dir>/workspace.
 
-    agent_name must match a directory under agents/ (e.g. 'simple', 'baseline').
-    task_id must match a directory under LHCRecastBench/tasks/.
+    agent_name must match a directory under agents/ (e.g. 'simple', 'anneal').
+    task_id must match a directory under ColliderBench/tasks/.
     Raises FileNotFoundError if prerequisites are missing. Returns the workspace Path.
     """
     agent_dir = repo_root / "agents" / agent_name
@@ -131,7 +132,7 @@ def build_workspace(
             if f.is_file():
                 shutil.copy2(f, workspace / f.name)
 
-    # tools/ is a symlink (LHCRecastBench/tools is ro-bind-mounted by sandbox.py)
+    # tools/ is a symlink (ColliderBench/tools is ro-bind-mounted by sandbox.py)
     (workspace / "tools").symlink_to(benchmark_dir / "tools")
 
     # bin/ merges benchmark + agent scripts
@@ -209,6 +210,36 @@ def build_workspace(
         pdf_path.parent.mkdir(parents=True, exist_ok=True)
         url = f"https://arxiv.org/pdf/{paper_ref}"
         print(f"Downloading: {url}")
-        urllib.request.urlretrieve(url, pdf_path)
+        _fetch_arxiv_pdf(url, pdf_path)
 
     return workspace
+
+
+def _fetch_arxiv_pdf(url: str, dest: Path) -> None:
+    """Fetch ``url`` to ``dest`` with TLS verification + a PDF magic-byte check.
+
+    urllib enforces TLS certificate validation by default since Python 3.6;
+    we pass an explicit `ssl.create_default_context()` to make that
+    intent visible and to fail loudly rather than silently fall through to
+    an unverified connection if a future stdlib change relaxes the default.
+    The download lands at ``dest.tmp`` first; we promote it to ``dest`` only
+    after confirming the body starts with the PDF magic bytes (``%PDF``),
+    so partially-written files or HTML error pages from arXiv don't shadow
+    a legitimate cached PDF.
+    """
+    ctx = ssl.create_default_context()
+    tmp = dest.with_suffix(dest.suffix + ".tmp")
+    req = urllib.request.Request(url, headers={"User-Agent": "lhc-recast/0.1"})
+    with urllib.request.urlopen(req, context=ctx, timeout=60) as resp, open(tmp, "wb") as fh:
+        shutil.copyfileobj(resp, fh)
+    # PDF files start with "%PDF-". Reject anything that doesn't (e.g. an
+    # HTML "withdrawn paper" page from arXiv would otherwise sit on disk
+    # forever, masquerading as the paper).
+    with open(tmp, "rb") as fh:
+        head = fh.read(5)
+    if head != b"%PDF-":
+        tmp.unlink(missing_ok=True)
+        raise RuntimeError(
+            f"downloaded {url} is not a PDF (first bytes={head!r}); refusing to cache"
+        )
+    tmp.rename(dest)

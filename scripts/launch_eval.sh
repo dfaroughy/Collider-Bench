@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run the evaluation suite on a completed benchmark run.
 #
-# Always runs: LHCRecastBench.Evals.score (writes eval/score.json + eval/plots/).
+# Always runs: ColliderBench.Evals.score (writes eval/score.json + eval/plots/).
 #
 # Pass --judge to run the LLM provenance audit + trajectory narrative
 # (eval/judge_scores.json + eval/judge_trajectory.md). Without --judge,
@@ -71,10 +71,10 @@ fi
 
 # score.py handles both metrics and plotting in one pass (drop --no-plots
 # to suppress PNG generation when iterating quickly).
-python -m LHCRecastBench.Evals.score "$RUN_PATH"
+python -m ColliderBench.Evals.score "$RUN_PATH"
 
 if [ "$RUN_JUDGE" -eq 1 ]; then
-    python -m LHCRecastBench.Evals.judge "$RUN_PATH"
+    python -m ColliderBench.Evals.judge "$RUN_PATH"
 else
     echo "Skipping LLM judge (pass --judge to run it)"
 fi

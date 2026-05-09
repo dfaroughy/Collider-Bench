@@ -15,8 +15,8 @@ import pytest
 from agent_runtime.workspace import build_workspace
 
 
-# Public agents only — private agents (e.g. baseline, anneal) are tested
-# under tests/test_prompts_private.py when present locally.
+# Public agents only — the private anneal agent is tested under
+# tests/test_prompts_private.py when present locally.
 AGENT_NAMES = ["simple"]
 
 
@@ -47,7 +47,7 @@ def test_workspace_layout(clean_workspace, agent):
     assert (ws / "papers").is_symlink()
     # papers/ must resolve to the shared paper dir under tasks/shared/
     link = os.readlink(ws / "papers")
-    assert "tasks/shared" in link or "LHCRecastBench" in link
+    assert "tasks/shared" in link or "ColliderBench" in link
 
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)

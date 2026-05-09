@@ -13,6 +13,25 @@ All rates are USD per 1,000,000 tokens.
 
 from __future__ import annotations
 
+import datetime as _dt
+import warnings as _warnings
+
+# ── Promotional-discount expiry guards ─────────────────────────────────────
+# Some entries below are quoted at a *discounted* effective rate. After the
+# expiry date the table is stale: the vendor will bill at list price but we'd
+# still report the discounted figure, under-counting cost ~4×. We trip a loud
+# warning at import time on the day of expiry so the user can update the
+# table before the next run lands.
+_DEEPSEEK_V4_PROMO_EXPIRY = _dt.date(2026, 5, 31)
+if _dt.date.today() > _DEEPSEEK_V4_PROMO_EXPIRY:
+    _warnings.warn(
+        f"DeepSeek-v4-pro 75 %-off promo expired on "
+        f"{_DEEPSEEK_V4_PROMO_EXPIRY.isoformat()}; the rates in pricing.py "
+        "still reflect the discounted prices and now under-count cost ~4×. "
+        "Update the table to list price.",
+        stacklevel=2,
+    )
+
 
 # ── Price table ────────────────────────────────────────────────────────────
 # Verified against vendor pricing pages, 2026-04. If a model is missing,

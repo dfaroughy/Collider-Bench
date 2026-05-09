@@ -3,7 +3,7 @@
 #   scripts/run-agent --config configs/anthropics/claude_sonnet.yaml --effort high
 
 agent:   simple
-task:    sus-16-046_shape-TChiWg    # see LHCRecastBench/tasks/
+task:    sus-16-046_shape-TChiWg    # see ColliderBench/tasks/
 runner:  claude
 auth:    oauth            # use Claude Code subscription login (not ANTHROPIC_API_KEY)
 model:   claude-sonnet-4-6

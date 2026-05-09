@@ -2,7 +2,7 @@
 #   scripts/run-agent --config configs/openai/codex_gpt54-mini.yaml
 #   scripts/run-agent --config configs/openai/codex_gpt54-mini.yaml --effort high
 agent:   simple
-task:    sus-16-046_sim-TChiWg    # see LHCRecastBench/tasks/
+task:    sus-16-046_sim-TChiWg    # see ColliderBench/tasks/
 runner:  codex
 auth:    oauth            # use Claude Code subscription login (not ANTHROPIC_API_KEY)
 model:   gpt-5.4-mini

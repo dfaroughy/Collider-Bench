@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# Discovery helper for the sim stack — not a wrapper around the
+# generators themselves. Call mg5_aMC, your own pythia driver, and
+# DelphesHepMC3 directly. See `bin/simulate --doc` for the patterns
+# (including multi-CPU Pythia via split + parallel + concat).
+#
+# Subcommands:
+#   bin/simulate            (or `info`)   — list installed models, cards, env vars
+#   bin/simulate --doc                    — show CLI/SIMULATE.md
+#
+# History: this file used to also expose `mg5`, `pythia8`, `delphes`
+# subcommands that did chunked split-and-merge in shell. The
+# pythia8 path was buggy (chunk subprocess hung on `wait`), the mg5
+# path was a 5-line cd-and-run, and the delphes path was 3 lines of
+# shell over the binary. Agents that produced clean results wrote
+# their own Python drivers, bypassing the wrapper entirely. So we
+# kept just the discovery surface and pushed the rest into the docs.
+
+set -uo pipefail
+
+REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)}"
+DOC="${REPO_ROOT}/ColliderBench/tools/CLI/SIMULATE.md"
+
+SIM_DIR="${REPO_ROOT}/ColliderBench/tools/sim"
+# Containers (Apptainer / Podman) override these to point at the image's
+# baked sim stack under /opt/sim/*. Fall back to the repo tree.
+MG5_DIR="${MG5_DIR:-${SIM_DIR}/MG5_aMC_v3_7_0}"
+PYTHIA8_DIR="${PYTHIA8_DIR:-${SIM_DIR}/pythia8313}"
+DELPHES_DIR="${DELPHES_DIR:-${SIM_DIR}/delphes}"
+PROSPINO_DIR="${PROSPINO_DIR:-${SIM_DIR}/prospino}"
+
+case "${1:-info}" in
+
+  --doc)
+    exec cat "${DOC}"
+    ;;
+
+  info)
+    echo "=== Simulation stack ==="
+    echo
+    echo "MadGraph5 v3.7.0:  ${MG5_DIR}"
+    echo "  binary:  ${MG5_DIR}/bin/mg5_aMC"
+    echo "  models:"
+    for d in "${MG5_DIR}/models"/*/; do
+      name=$(basename "$d")
+      [[ "$name" == "__pycache__" || "$name" == "template_files" ]] && continue
+      echo "    ${name}"
+    done
+    echo
+    echo "Pythia8:           ${PYTHIA8_DIR}"
+    echo "  use as Python module: \`import pythia8\` (no CLI)"
+    echo "  xmldoc dir:           \${CONDA_PREFIX}/share/Pythia8/xmldoc"
+    echo
+    echo "Delphes:           ${DELPHES_DIR}"
+    echo "  binaries:  DelphesHepMC2, DelphesHepMC3, DelphesROOT, DelphesLHEF, DelphesSTDHEP"
+    echo "  cards:"
+    for f in "${DELPHES_DIR}/cards"/delphes_card_*.tcl; do
+      echo "    $(basename "$f")"
+    done
+    echo
+    echo "Prospino:          ${PROSPINO_DIR}"
+    echo "  use \`bin/prospino\` for the wrapper, or run \`prospino_2.run\` directly."
+    echo
+    echo "Run \`bin/simulate --doc\` for direct-CLI patterns (incl. multi-CPU Pythia)."
+    ;;
+
+  help|-h|--help)
+    cat <<EOF
+Usage: bin/simulate [info|--doc]
+
+  info      list installed models, cards, env vars (default)
+  --doc     show full simulation guide (CLI/SIMULATE.md)
+
+Generators (mg5, pythia, delphes) are now called directly — see --doc.
+EOF
+    ;;
+
+  *)
+    echo "bin/simulate: subcommand '${1}' is no longer supported." >&2
+    echo "  Call mg5_aMC / DelphesHepMC3 / your-own-pythia-driver directly." >&2
+    echo "  See \`bin/simulate --doc\` for patterns." >&2
+    exit 2
+    ;;
+esac

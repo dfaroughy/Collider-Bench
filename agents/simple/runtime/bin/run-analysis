@@ -3,7 +3,7 @@
 set -euo pipefail
 
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../../../.." && pwd)}"
-DOC="${REPO_ROOT}/LHCRecastBench/tools/CLI/RUN-ANALYSIS.md"
+DOC="${REPO_ROOT}/ColliderBench/tools/CLI/RUN-ANALYSIS.md"
 
 case "${1:-}" in
   --doc) exec cat "${DOC}" ;;
@@ -57,7 +57,7 @@ if [ ${EXIT_CODE} -eq 124 ]; then
     echo ""
     echo "  ERROR: analysis.py exceeded the ${ANALYSIS_TIMEOUT}s timeout."
     echo "  Use vectorized awkward array operations and parallel file processing."
-    echo "  Import: from LHCRecastBench.tools.streaming import stream_files"
+    echo "  Import: from ColliderBench.tools.streaming import stream_files"
     echo ""
 fi
 

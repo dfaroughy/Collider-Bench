@@ -52,7 +52,7 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "rollback_noise_floor": (float, int),
 }
 
-_ALLOWED_AGENTS = {"simple", "baseline", "iterative", "anneal"}
+_ALLOWED_AGENTS = {"simple", "anneal"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge"}
 _ALLOWED_PROVIDERS = {"anthropic", "openai", "google", "deepseek"}
 _ALLOWED_AUTH = {"oauth", "api"}

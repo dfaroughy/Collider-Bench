@@ -252,7 +252,7 @@ def test_podman_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch):
     )
     binds = _bind_values(cmd, "-v")
     assert f"{disabled}:/opt/sim/delphes:ro" in binds
-    assert f"{disabled}:{repo_root / 'LHCRecastBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
+    assert f"{disabled}:{repo_root / 'ColliderBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
     cleanup()
 
 
@@ -275,7 +275,7 @@ def test_apptainer_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch
     )
     binds = _bind_values(cmd, "--bind")
     assert f"{disabled}:/opt/sim/delphes:ro" in binds
-    assert f"{disabled}:{repo_root / 'LHCRecastBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
+    assert f"{disabled}:{repo_root / 'ColliderBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
     cleanup()
 
 

@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
-"""Two-panel composite: shape-vs-sim and delta-vs-shape scatters side by side.
+"""Two-panel composite: delta-vs-shape (left) and shape-vs-sim (right) scatters.
 
-Reuses the `task_pairs` extractors and the `MODEL_SPECS` lists from the two
-existing single-panel modules so that any future tweak you make to either
-file (axis fields, log scaling, labels, etc.) flows into both the standalone
-plot and this composite without duplication. Visual styling — colors,
-markers, theme, legends — mirrors the single-panel versions.
-
-Reads utils/neurips/data/runs.json (produced by fetch_runs.py).
+Both panels share the same ModelSpec catalog and use the run-status filter
+("pass" only) when computing per-task means. Reads
+utils/neurips/data/runs.json (produced by fetch_runs.py).
 
 Usage:
     python -m utils.neurips.plot_scatter_combined
@@ -18,19 +14,84 @@ from __future__ import annotations
 
 import argparse
 import json
+from dataclasses import dataclass
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-from utils.neurips.plot_delta_vs_shape_scatter import (
-    MODEL_SPECS as DELTA_MODEL_SPECS,
+
+@dataclass(frozen=True)
+class ModelSpec:
+    dirname: str
+    label: str
+    color: str
+    marker: str
+    family: str
+
+
+MODEL_SPECS: tuple[ModelSpec, ...] = (
+    ModelSpec("claude_opus-4-7", "Opus 4.7", "#C44536", "o", "Anthropic"),
+    ModelSpec("claude_sonnet-4-6", "Sonnet 4.6", "#E88C30", "o", "Anthropic"),
+    ModelSpec("claude_haiku-4-5", "Haiku 4.5", "#D8B12D", "o", "Anthropic"),
+    ModelSpec("codex_gpt-5.5", "GPT-5.5", "#2454A6", "^", "OpenAI"),
+    ModelSpec("codex_gpt-5.4-mini", "GPT-5.4-mini", "#2A9FBF", "^", "OpenAI"),
+    ModelSpec("forge_deepseek-v4-pro", "DeepSeek-V4", "#6D4BC3", "s", "DeepSeek"),
+    ModelSpec("forge_deepseek-r1", "DeepSeek-R1", "#A88EE0", "s", "DeepSeek"),
 )
-from utils.neurips.plot_shape_vs_sim_scatter import (
-    MODEL_SPECS as SHAPE_MODEL_SPECS,
-    task_pairs as shape_pairs,
-)
+
+
+def _base_task(task_id: str) -> str | None:
+    """Strip `_sim-`/`_shape-` infix to a base-task key (e.g. "paper|target")."""
+    for kind in ("sim", "shape"):
+        marker = f"_{kind}-"
+        if marker in task_id:
+            paper, target = task_id.split(marker, 1)
+            return f"{paper}|{target}"
+    return None
+
+
+def _kind_of(task_id: str) -> str | None:
+    if "_sim-" in task_id:
+        return "sim"
+    if "_shape-" in task_id:
+        return "shape"
+    return None
+
+
+def _mean_replicate_l2_shape(entry: dict) -> float | None:
+    """Mean `relative_l2_shape` over pass-only replicates."""
+    vals = [
+        float(r["relative_l2_shape"])
+        for r in (entry.get("replicates") or [])
+        if r.get("relative_l2_shape") is not None and r.get("status", "pass") == "pass"
+    ]
+    return (sum(vals) / len(vals)) if vals else None
+
+
+def shape_pairs(model_block: dict) -> list[tuple[str, float, float]]:
+    """Per base-task: (base, mean shape l2 on sim variant, on shape variant)."""
+    by_base: dict[str, dict[str, dict]] = {}
+    for tid, entry in (model_block.get("tasks") or {}).items():
+        base = _base_task(tid)
+        kind = _kind_of(tid)
+        if base is None or kind is None:
+            continue
+        by_base.setdefault(base, {})[kind] = entry
+
+    out: list[tuple[str, float, float]] = []
+    for base, variants in sorted(by_base.items()):
+        sim_entry = variants.get("sim")
+        shape_entry = variants.get("shape")
+        if sim_entry is None or shape_entry is None:
+            continue
+        x = _mean_replicate_l2_shape(sim_entry)
+        y = _mean_replicate_l2_shape(shape_entry)
+        if x is None or y is None:
+            continue
+        out.append((base, x, y))
+    return out
 
 
 def _draw_scatter(
@@ -42,7 +103,7 @@ def _draw_scatter(
     avg_tasks: bool,
 ):
     """Draw one panel exactly the way the single-panel modules do."""
-    family_handles: dict[str, list] = {"Anthropic": [], "OpenAI": [], "DeepSeek": []}
+    family_handles: dict[str, list] = {}
     xs: list[float] = []
     ys: list[float] = []
     marker_size = 180 if avg_tasks else 42
@@ -69,12 +130,14 @@ def _draw_scatter(
             zorder=4,
             label=spec.label,
         )
-        family_handles[spec.family].append(h)
+        family_handles.setdefault(spec.family, []).append(h)
         xs.extend(x_arr.tolist())
         ys.extend(y_arr.tolist())
 
     family_order = ["Anthropic", "OpenAI", "DeepSeek"]
-    ordered = [h for f in family_order for h in family_handles.get(f, [])]
+    # Append any unknown families at the end in first-seen order.
+    extras = [f for f in family_handles if f not in family_order]
+    ordered = [h for f in (*family_order, *extras) for h in family_handles.get(f, [])]
     return xs, ys, ordered
 
 
@@ -175,7 +238,7 @@ def main() -> None:
         ax_left,
         models_block,
         delta_pairs_linear,
-        DELTA_MODEL_SPECS,
+        MODEL_SPECS,
         avg_tasks=args.avg_tasks,
     )
     ax_left.set_xlabel(r"$\langle \delta_{\rm norm} \rangle$")
@@ -206,7 +269,7 @@ def main() -> None:
         ax_right,
         models_block,
         shape_pairs,
-        SHAPE_MODEL_SPECS,
+        MODEL_SPECS,
         avg_tasks=args.avg_tasks,
     )
     if xs and ys:

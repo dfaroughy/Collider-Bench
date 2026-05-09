@@ -1,7 +1,9 @@
 
-![Collider-Bench](Collider-Bench.png)
+![Collider-Bench](artifacts/Collider-Bench.png)
 
-This is an agentic AI benchmark for reproducing and recasting analyses published by the experimental collaborations at CERN's Large Hadron Collider.
+**Collider-Bench**, a benchmark for evaluating whether LLM agents can reproduce experimental analyses from the Large Hadron Collider (LHC) using only public papers and open scientific software. Such analyses are often difficult to reproduce because the public toolchain only approximates the software used internally by the experimental collaborations, while the published papers inevitably omit implementation details needed for a faithful reconstruction. Agents must therefore rely on physical reasoning, domain knowledge, and trial-and-error to fill these gaps. Each task requires the agent to turn a published analysis into an executable simulation-and-selection pipeline and submit predicted collision event yields in specified signal regions.
+
+![Collider-Bench diagram](artifacts/Collider-Bench_diagram.png)
 
 ## Quick start
 
@@ -38,72 +40,34 @@ scripts/run-agent --config configs/anthropics/claude_sonnet.yaml --task <task-id
 
 The image is OCI-compatible and works with any container runtime — `docker`, `podman`, `apptainer` (HPC), `nerdctl` (k8s).
 
-## Repository layout
-
-```
-agent_runtime/        — how we run agents (infra)
-  runners.py            Runner ABC + registry
-  runner_spec.py        Declarative runner specs + stream parsers
-  vendors.py            Claude / Codex / Gemini / Aider / Forge runner specs
-  sandbox.py            Pluggable Sandbox (podman, apptainer, bwrap, none). See SANDBOX.md.
-  launch.py             Shared single-run scaffolding
-  workspace.py          build_workspace(): per-run sandbox layout
-  naming.py             Run-dir naming
-  config.py             YAML config loading + validation
-  effort.py             Effort label / token-budget parsing
-  run_info.py           run_info.json finalization + usage accounting
-  preflight.py          AST lint for analysis.py
-  stream_display.py     stream-json → terminal renderer
-  shell/agent_env.sh    Conda + Lmod + SLURM bootstrap
-
-LHCRecastBench/       — what we test against (benchmark)
-  tasks/                Task definitions, templates, and shared paper/reference data
-  evaluation/           score.py, llm_judge.py, plot_recast.py, render_eval.py
-  tools/                Agent-facing HEP libraries (streaming, sim helpers)
-  bin/                  Agent-facing CLIs (hepdata, cms-opendata, read-paper, simulate)
-
-agents/
-  simple/               Single-shot: one LLM call, score. (Add your own pattern
-                        here by creating a sibling directory + run.py.)
-
-configs/              — YAML configs grouped by harness, with shared compute profiles
-scripts/              — run-agent dispatcher, launch_eval.sh
-tests/                — pytest smoke suite (offline, no SLURM, no LLM calls)
-```
-
 ## Tasks
 
-Tasks live under [`LHCRecastBench/tasks/`](LHCRecastBench/tasks/). Each task
+Tasks live under [`ColliderBench/tasks/`](ColliderBench/tasks/). Each task
 has a `TASK.md`, `task.toml`, and a null-filled `template/*.yaml` copied into
-the run workspace as `results/*.yaml`.
+the run workspace as `results/*.yaml`. The shipped corpus is the ten **`sim`**
+tasks below; `shape`, `yield`, and `val` variants live in `secondary_tasks/`
+as diagnostics and are not part of the headline benchmark.
 
-Task families:
+Each `sim` task asks the agent to reproduce the published per-bin yield
+distribution. Scoring is a single primary metric — the relative L² distance
+$d(\hat y, y^\star)$ between the agent's bin yields $\hat y$ and the published
+reference $y^\star$ — plus the integrated yield error $\Delta =
+|\Sigma\hat y - \Sigma y^\star| / \Sigma y^\star$. RMSLE, Jensen-Shannon, and
+the Baker-Cousins shape p-value are also computed per run but are diagnostic
+only.
 
-- `sim`: reproduce the distribution shape and normalization.
-- `shape` (diagnostics task): reproduce only the distribution shape; normalization is not scored.
-
-| Task id | Paper | Kind | Metric | Plot units |
-|---|---|---|---|---|
-| `sus-16-034_shape-TChiWZ` | CMS-SUS-16-034 | shape | shape | Events/bin |
-| `sus-16-034_sim-TChiWZ` | CMS-SUS-16-034 | sim | shape+norm | Events/bin |
-| `sus-16-046_shape-T5Wg` | CMS-SUS-16-046 | shape | shape | Events/bin |
-| `sus-16-046_shape-TChiWg` | CMS-SUS-16-046 | shape | shape | Events/bin |
-| `sus-16-046_sim-T5Wg` | CMS-SUS-16-046 | sim | shape+norm | Events/GeV |
-| `sus-16-046_sim-TChiWg` | CMS-SUS-16-046 | sim | shape+norm | Events/bin |
-| `sus-16-047_shape-T5Wg_highHT` | CMS-SUS-16-047 | shape | shape | Events/bin |
-| `sus-16-047_shape-T5Wg_lowHT` | CMS-SUS-16-047 | shape | shape | Events/bin |
-| `sus-16-047_shape-T6gg_highHT` | CMS-SUS-16-047 | shape | shape | Events/bin |
-| `sus-16-047_shape-T6gg_lowHT` | CMS-SUS-16-047 | shape | shape | Events/bin |
-| `sus-16-047_sim-T5Wg_highHT` | CMS-SUS-16-047 | sim | shape+norm | Events/bin |
-| `sus-16-047_sim-T5Wg_lowHT` | CMS-SUS-16-047 | sim | shape+norm | Events/bin |
-| `sus-16-047_sim-T6gg_highHT` | CMS-SUS-16-047 | sim | shape+norm | Events/bin |
-| `sus-16-047_sim-T6gg_lowHT` | CMS-SUS-16-047 | sim | shape+norm | Events/bin |
-| `sus-16-051_shape-T2tt_SRG` | CMS-SUS-16-051 | shape | shape | Events/bin |
-| `sus-16-051_shape-T2bW_SRG` | CMS-SUS-16-051 | shape | shape | Events/bin |
-| `sus-16-051_shape-T2tt_comp` | CMS-SUS-16-051 | shape | shape | Events/bin |
-| `sus-16-051_sim-T2tt_SRG` | CMS-SUS-16-051 | sim | shape+norm | Events/bin |
-| `sus-16-051_sim-T2bW_SRG` | CMS-SUS-16-051 | sim | shape+norm | Events/bin |
-| `sus-16-051_sim-T2tt_comp` | CMS-SUS-16-051 | sim | shape+norm | Events/bin |
+| Task id | Analysis target | Signal | Observable | Paper | Plot units |
+|---|---|---|---|---|---|
+| `sus-16-034_sim-TChiWZ`        | leptons + jets | `TChiWZ`              | $E_T^{\rm miss}$ | CMS-SUS-16-034 | Events/bin |
+| `sus-16-046_sim-T5Wg`          | photons        | `T5Wg`                | $S_T^{\gamma}$   | CMS-SUS-16-046 | Events/GeV |
+| `sus-16-046_sim-TChiWg`        | photons        | `TChiWg`              | $S_T^{\gamma}$   | CMS-SUS-16-046 | Events/bin |
+| `sus-16-047_sim-T5Wg_highHT`   | photons        | `T5Wg`, high-$H_T$    | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
+| `sus-16-047_sim-T5Wg_lowHT`    | photons        | `T5Wg`, low-$H_T$     | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
+| `sus-16-047_sim-T6gg_highHT`   | photons        | `T6gg`, high-$H_T$    | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
+| `sus-16-047_sim-T6gg_lowHT`    | photons        | `T6gg`, low-$H_T$     | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
+| `sus-16-051_sim-T2tt_SRG`      | single lepton  | `T2tt`                | $E_T^{\rm miss}$ | CMS-SUS-16-051 | Events/bin |
+| `sus-16-051_sim-T2bW_SRG`      | single lepton  | `T2bW`                | $E_T^{\rm miss}$ | CMS-SUS-16-051 | Events/bin |
+| `sus-16-051_sim-T2tt_comp`     | single lepton  | `T2tt`, compressed    | $E_T^{\rm miss}$ | CMS-SUS-16-051 | Events/bin |
 
 ## Sandboxing
 
@@ -112,7 +76,7 @@ Agents run inside a pluggable sandbox — see [`agent_runtime/SANDBOX.md`](agent
 The default is `podman` (falls back to `apptainer` on hosts where podman isn't
 installed). The agent runs inside the canonical `lhc-bench` image:
 `workspace/` is rw-bound, and container backends expose only the benchmark
-surfaces the agent needs: `LHCRecastBench/tools/`, `LHCRecastBench/bin/`, and
+surfaces the agent needs: `ColliderBench/tools/`, `ColliderBench/bin/`, and
 the resolved paper directory. Hidden reference data and evaluator code are not
 mounted into the agent container. `LHC_RECAST_SANDBOX=none` disables isolation
 (do not use for scored runs); `--sandbox bwrap` is available as an opt-in
@@ -143,28 +107,9 @@ effort:  medium
 
 CLI flags on `scripts/run-agent` override config values.
 
-## Developer setup
-
-After cloning:
-
-```bash
-pip install pre-commit
-pre-commit install            # installs the git hook (one-time per clone)
-```
-
-From then on, every `git commit` runs the hooks in [`.pre-commit-config.yaml`](.pre-commit-config.yaml): whitespace cleanup, YAML validation, `ruff` lint + format, secrets scan. Commits with violations are rejected until fixed (most are auto-fixed in place — just `git add` and retry).
-
-Ad-hoc run on the whole tree:
-
-```bash
-pre-commit run --all-files
-```
-
 ## Continuous integration
 
 [`.github/workflows/test.yml`](.github/workflows/test.yml) runs on every push and PR to `main`:
 
 - **`pytest`** on Python 3.10 / 3.11 / 3.12 (matrix).
 - **`pre-commit`** on all files (fails the job if any hook would make a change).
-
-CI runners don't have `claude` / `codex` / `bwrap` installed; the tests that depend on them self-skip cleanly.
