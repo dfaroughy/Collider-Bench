@@ -1,3 +1,6 @@
+This folder is copied from https://github.com/mg5amcnlo/mg5amcnlo and follows the paper J. Alwall et al, *"The automated computation of tree-level and next-to-leading order differential cross sections, and their matching to parton shower simulations"*, arXiv:1405.0301 [hep-ph]
+
+
 # MadGraph5_aMC@NLO
 MadGraph5_aMC@NLO is a framework that aims at providing all the elements necessary for SM and BSM phenomenology, such as the computations of cross sections, the generation of hard events and their matching with event generators, and the use of a variety of tools relevant to event manipulation and analysis.
 Processes can be simulated to LO accuracy for any user-defined Lagrangian, an the NLO accuracy in the case of models that support this kind of calculations -- prominent among these are QCD and EW corrections to SM processes.
