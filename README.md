@@ -19,7 +19,7 @@ podman pull ghcr.io/dfaroughy/lhc-bench:latest
 # 2. Clone the repo and install the harness
 git clone https://github.com/dfaroughy/Collider-Bench.git
 cd Collider-Bench
-pip install -e .                
+pip install -e .
 
 # 3. Install whichever vendor agent CLI(s) you want to use, on the host.
 npm i -g @anthropic-ai/claude-code   # Claude Code → ~/.local/bin/claude
@@ -60,6 +60,22 @@ reference $y^\star$.
 | `sus-16-051_sim-T2tt_SRG`      | single lepton  | `T2tt`                | $E_T^{\rm miss}$ | CMS-SUS-16-051<sup>4</sup> | Events/bin |
 | `sus-16-051_sim-T2bW_SRG`      | single lepton  | `T2bW`                | $E_T^{\rm miss}$ | CMS-SUS-16-051<sup>4</sup> | Events/bin |
 | `sus-16-051_sim-T2tt_comp`     | single lepton  | `T2tt`, compressed    | $E_T^{\rm miss}$ | CMS-SUS-16-051<sup>4</sup> | Events/bin |
+
+### Running one task
+Launches the agent CLI, scores the result, writes `runs/<runner>_<model>/<task>/`.
+
+```bash
+scripts/run-agent --config configs/anthropics/claude_sonnet.yaml \
+                  --task sus-16-047_sim-T5Wg_lowHT
+```
+
+### Re-scoring or judging an existing run
+
+Offline scoring with LLM-judge option:
+```bash
+scripts/launch_eval.sh runs/<path>
+scripts/launch_eval.sh runs/<path>  --judge
+```
 
 ## Sandboxing
 
