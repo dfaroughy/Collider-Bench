@@ -85,6 +85,7 @@ _evaluation_deprecated/
 .mcp.json
 .dockerignore
 .github
-# Research scratchpad: plot scripts, NeurIPS figures, runs.json snapshot.
-# utils/__init__.py and utils/run_evals_with_judge.sh stay tracked.
-utils/neurips/
+# Research scratchpad — plot scripts, NeurIPS figures, runs.json snapshot,
+# and a batch eval driver. The public single-run driver is
+# scripts/launch_eval.sh.
+utils/
