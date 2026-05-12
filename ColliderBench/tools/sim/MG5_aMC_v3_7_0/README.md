@@ -1,4 +1,4 @@
-This folder is copied from https://github.com/mg5amcnlo/mg5amcnlo and follows the paper J. Alwall et al, *"The automated computation of tree-level and next-to-leading order differential cross sections, and their matching to parton shower simulations"*, arXiv:1405.0301 [hep-ph]
+This folder is copied from MadGraph5_aMC@NLO (https://launchpad.net/mg5amcnlo) and follows the paper J. Alwall et al, *"The automated computation of tree-level and next-to-leading order differential cross sections, and their matching to parton shower simulations"*, arXiv:1405.0301 [hep-ph]
 
 
 # MadGraph5_aMC@NLO
