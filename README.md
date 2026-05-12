@@ -118,11 +118,14 @@ CLI flags on `scripts/run-agent` override config values.
 <sup>1</sup> Albert M Sirunyan et al. Search for new phenomena in final states with two opposite-charge, same-
 flavor leptons, jets, and missing transverse momentum in pp collisions at √s = 13 TeV. JHEP,
 03:076, 2018b. doi: 10.1007/s13130-018-7845-2
+
 <sup>2</sup> Albert M Sirunyan et al. Search for gauge-mediated supersymmetry in events with at least one
 photon and missing transverse momentum in pp collisions at √s = 13 TeV. Phys. Lett. B, 780:
 118–143, 2018a. doi: 10.1016/j.physletb.2018.02.045
+
 <sup>3</sup> Albert M Sirunyan et al. Search for supersymmetry in events with at least one photon, missing
 transverse momentum, and large transverse event activity in proton-proton collisions at √s = 13
 TeV. JHEP, 12:142, 2017b. doi: 10.1007/JHEP12(2017)142
+
 <sup>4</sup> Albert M Sirunyan et al. Search for top squark pair production in pp collisions at √s = 13 TeV
 using single lepton events. JHEP, 10:019, 2017a. doi: 10.1007/JHEP10(2017)019
