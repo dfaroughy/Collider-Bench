@@ -85,4 +85,6 @@ _evaluation_deprecated/
 .mcp.json
 .dockerignore
 .github
-utils/
+# Research scratchpad: plot scripts, NeurIPS figures, runs.json snapshot.
+# utils/__init__.py and utils/run_evals_with_judge.sh stay tracked.
+utils/neurips/
