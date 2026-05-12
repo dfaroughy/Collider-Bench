@@ -58,16 +58,16 @@ only.
 
 | Task id | Analysis target | Signal | Observable | Paper | Plot units |
 |---|---|---|---|---|---|
-| `sus-16-034_sim-TChiWZ`        | leptons + jets | `TChiWZ`              | $E_T^{\rm miss}$ | CMS-SUS-16-034 | Events/bin |
-| `sus-16-046_sim-T5Wg`          | photons        | `T5Wg`                | $S_T^{\gamma}$   | CMS-SUS-16-046 | Events/GeV |
-| `sus-16-046_sim-TChiWg`        | photons        | `TChiWg`              | $S_T^{\gamma}$   | CMS-SUS-16-046 | Events/bin |
-| `sus-16-047_sim-T5Wg_highHT`   | photons        | `T5Wg`, high-$H_T$    | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
-| `sus-16-047_sim-T5Wg_lowHT`    | photons        | `T5Wg`, low-$H_T$     | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
-| `sus-16-047_sim-T6gg_highHT`   | photons        | `T6gg`, high-$H_T$    | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
-| `sus-16-047_sim-T6gg_lowHT`    | photons        | `T6gg`, low-$H_T$     | $p_T^{\rm miss}$ | CMS-SUS-16-047 | Events/bin |
-| `sus-16-051_sim-T2tt_SRG`      | single lepton  | `T2tt`                | $E_T^{\rm miss}$ | CMS-SUS-16-051 | Events/bin |
-| `sus-16-051_sim-T2bW_SRG`      | single lepton  | `T2bW`                | $E_T^{\rm miss}$ | CMS-SUS-16-051 | Events/bin |
-| `sus-16-051_sim-T2tt_comp`     | single lepton  | `T2tt`, compressed    | $E_T^{\rm miss}$ | CMS-SUS-16-051 | Events/bin |
+| `sus-16-034_sim-TChiWZ`        | leptons + jets | `TChiWZ`              | $E_T^{\rm miss}$ | CMS-SUS-16-034[^1] | Events/bin |
+| `sus-16-046_sim-T5Wg`          | photons        | `T5Wg`                | $S_T^{\gamma}$   | CMS-SUS-16-046[^2] | Events/GeV |
+| `sus-16-046_sim-TChiWg`        | photons        | `TChiWg`              | $S_T^{\gamma}$   | CMS-SUS-16-046[^2]| Events/bin |
+| `sus-16-047_sim-T5Wg_highHT`   | photons        | `T5Wg`, high-$H_T$    | $p_T^{\rm miss}$ | CMS-SUS-16-047[^3] | Events/bin |
+| `sus-16-047_sim-T5Wg_lowHT`    | photons        | `T5Wg`, low-$H_T$     | $p_T^{\rm miss}$ | CMS-SUS-16-047[^3] | Events/bin |
+| `sus-16-047_sim-T6gg_highHT`   | photons        | `T6gg`, high-$H_T$    | $p_T^{\rm miss}$ | CMS-SUS-16-047[^3] | Events/bin |
+| `sus-16-047_sim-T6gg_lowHT`    | photons        | `T6gg`, low-$H_T$     | $p_T^{\rm miss}$ | CMS-SUS-16-047[^3] | Events/bin |
+| `sus-16-051_sim-T2tt_SRG`      | single lepton  | `T2tt`                | $E_T^{\rm miss}$ | CMS-SUS-16-051[^4] | Events/bin |
+| `sus-16-051_sim-T2bW_SRG`      | single lepton  | `T2bW`                | $E_T^{\rm miss}$ | CMS-SUS-16-051[^4] | Events/bin |
+| `sus-16-051_sim-T2tt_comp`     | single lepton  | `T2tt`, compressed    | $E_T^{\rm miss}$ | CMS-SUS-16-051[^4] | Events/bin |
 
 ## Sandboxing
 
@@ -113,3 +113,16 @@ CLI flags on `scripts/run-agent` override config values.
 
 - **`pytest`** on Python 3.10 / 3.11 / 3.12 (matrix).
 - **`pre-commit`** on all files (fails the job if any hook would make a change).
+
+## References
+[^1] Albert M Sirunyan et al. Search for new phenomena in final states with two opposite-charge, same-
+flavor leptons, jets, and missing transverse momentum in pp collisions at √s = 13 TeV. JHEP,
+03:076, 2018b. doi: 10.1007/s13130-018-7845-2
+[^2] Albert M Sirunyan et al. Search for gauge-mediated supersymmetry in events with at least one
+photon and missing transverse momentum in pp collisions at √s = 13 TeV. Phys. Lett. B, 780:
+118–143, 2018a. doi: 10.1016/j.physletb.2018.02.045
+[^3] Albert M Sirunyan et al. Search for supersymmetry in events with at least one photon, missing
+transverse momentum, and large transverse event activity in proton-proton collisions at √s = 13
+TeV. JHEP, 12:142, 2017b. doi: 10.1007/JHEP12(2017)142
+[^4] Albert M Sirunyan et al. Search for top squark pair production in pp collisions at √s = 13 TeV
+using single lepton events. JHEP, 10:019, 2017a. doi: 10.1007/JHEP10(2017)019
