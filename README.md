@@ -2,7 +2,12 @@
 ![Collider-Bench](artifacts/Collider-Bench.png)
 ![Collider-Bench diagram](artifacts/Collider-Bench_diagram.png)
 
-**Collider-Bench**, a benchmark for evaluating whether LLM agents can reproduce experimental analyses from the Large Hadron Collider (LHC) using only public papers and open scientific software. Such analyses are often difficult to reproduce because the public toolchain only approximates the software used internally by the experimental collaborations, while the published papers inevitably omit implementation details needed for a faithful reconstruction. Agents must therefore rely on physical reasoning, domain knowledge, and trial-and-error to fill these gaps. Each task requires the agent to turn a published analysis into an executable simulation-and-selection pipeline and submit predicted collision event yields in specified signal regions.
+**Collider-Bench** is an AI  benchmark for evaluating whether LLM agents can reproduce experimental analyses from the **Large Hadron Collider** (LHC) at **CERN** using only public papers and open scientific software.
+
+Each task requires multi-step scientific reasoning by an autonomous coding agent, from reading a published CMS or ATLAS search and identifying the relevant signal region, to generating and processing simulated signal events, implementing the event selection, and predicting the binned signal yields reported by the analysis
+
+The benchmark tests long-horizon scientific reasoning under realistic conditions, including ambiguous or underspecified paper descriptions, underdocumented domain-specific tools and approximate public simulation pipelines.
+
 
 ## Quick start
 
