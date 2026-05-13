@@ -28,7 +28,7 @@ dev = [
     "pytest-xdist",
 ]
 # Only needed when (re)building/pushing the HF task corpus via
-# scripts/build_hf_dataset.py — kept out of the default install so non-publishers
+# hub/build_hf_dataset.py — kept out of the default install so non-publishers
 # don't pull these deps.
 hub = [
     "datasets>=2.18",

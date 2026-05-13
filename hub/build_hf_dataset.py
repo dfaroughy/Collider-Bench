@@ -8,17 +8,17 @@ answers into any LLM trained on HF data).
 
 Usage:
     # Dry run — build the dataset in memory + print schema preview, do NOT push.
-    scripts/build_hf_dataset.py --dry-run
+    hub/build_hf_dataset.py --dry-run
 
     # Push to your HF dataset (defaults to Dariusfar/ColliderBench).
     huggingface-cli login                     # once per host
-    scripts/build_hf_dataset.py --push
+    hub/build_hf_dataset.py --push
 
     # Push to a different repo, or as private:
-    scripts/build_hf_dataset.py --push --repo Dariusfar/ColliderBench-preview --private
+    hub/build_hf_dataset.py --push --repo Dariusfar/ColliderBench-preview --private
 
     # Upload the dataset_card.md / CITATION.cff alongside (after the dataset push):
-    scripts/build_hf_dataset.py --push --upload-card
+    hub/build_hf_dataset.py --push --upload-card
 
 Requires:  pip install -e ".[hub]"   (datasets + huggingface_hub)
 """
@@ -109,6 +109,18 @@ def _count_bins(template_yaml_text: str) -> int:
     return 0
 
 
+def _import_build_prompt(repo_root: Path):
+    """Import agents.simple.run.build_prompt without forcing the repo on sys.path
+    at module-level (keeps the dry-run dependency surface tiny)."""
+    import sys
+
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
+    from agents.simple.run import build_prompt
+
+    return build_prompt
+
+
 def _load_task_row(task_dir: Path, repo_root: Path) -> dict:
     """Build one HF dataset row from a single task directory."""
     task_id = task_dir.name
@@ -155,21 +167,28 @@ def _load_task_row(task_dir: Path, repo_root: Path) -> dict:
     metadata = toml_data.get("metadata") or {}
     extra = _TASK_META[task_id]
 
+    # The initial system prompt the harness's `simple` agent sends. Rendered
+    # per-task (currently `build_prompt` doesn't actually template paper_id
+    # in, but we pass it so the column reflects what the harness would emit
+    # if/when that changes).
+    build_prompt = _import_build_prompt(repo_root)
+    initial_prompt = build_prompt(paper_id)
+
     return {
         "task_id": task_id,
         "paper_id": paper_id,
+        "task_type": (toml_data.get("task") or {}).get("type") or "",
         "analysis_target": extra["analysis_target"],
         "signal_model": extra["signal_model"],
         "observable": (toml_data.get("task") or {}).get("observable") or "",
         "observable_pretty": extra["observable_pretty"],
         "plot_units": metrics.get("plot") or "",
         "score_mode": metrics.get("mode") or "",
-        "tolerance": float(metrics.get("tolerance") or 0.0),
         "walltime": metadata.get("walltime") or "",
         "difficulty": metadata.get("difficulty") or "",
         "tags": [str(t) for t in (metadata.get("tags") or [])],
-        "instructions_md": task_md_text,
-        "task_toml": toml_text,
+        "initial_prompt": initial_prompt,
+        "task_md": task_md_text,
         "template_yaml": template_text,
         "n_bins": _count_bins(template_text),
         "paper_pdf": pdf_bytes,
@@ -276,18 +295,18 @@ def main() -> None:
         {
             "task_id": Value("string"),
             "paper_id": Value("string"),
+            "task_type": Value("string"),
             "analysis_target": Value("string"),
             "signal_model": Value("string"),
             "observable": Value("string"),
             "observable_pretty": Value("string"),
             "plot_units": Value("string"),
             "score_mode": Value("string"),
-            "tolerance": Value("float64"),
             "walltime": Value("string"),
             "difficulty": Value("string"),
             "tags": Sequence(Value("string")),
-            "instructions_md": Value("string"),
-            "task_toml": Value("string"),
+            "initial_prompt": Value("string"),
+            "task_md": Value("string"),
             "template_yaml": Value("string"),
             "n_bins": Value("int64"),
             "paper_pdf": Value("binary"),
@@ -322,14 +341,15 @@ def main() -> None:
         card_md = repo_root / "hub" / "dataset_card.md"
         cite_cff = repo_root / "hub" / "CITATION.cff"
         if card_md.is_file():
+            merged = _merge_card_with_remote_dataset_info(card_md, args.repo, api, ds=ds)
             api.upload_file(
-                path_or_fileobj=str(card_md),
+                path_or_fileobj=merged.encode("utf-8"),
                 path_in_repo="README.md",
                 repo_id=args.repo,
                 repo_type="dataset",
                 commit_message="update dataset card",
             )
-            print(f"  uploaded {card_md.name} → {args.repo}/README.md")
+            print(f"  uploaded {card_md.name} → {args.repo}/README.md (dataset_info merged in)")
         if cite_cff.is_file():
             api.upload_file(
                 path_or_fileobj=str(cite_cff),
@@ -339,6 +359,93 @@ def main() -> None:
                 commit_message="update citation file",
             )
             print(f"  uploaded {cite_cff.name} → {args.repo}/CITATION.cff")
+
+
+def _split_frontmatter(text: str) -> tuple[dict, str]:
+    """Return (parsed front-matter dict, body string) from a Markdown doc.
+
+    A doc with no `---\\n…\\n---` opener returns ({}, text).
+    """
+    if not text.startswith("---\n"):
+        return {}, text
+    end = text.find("\n---\n", 4)
+    if end == -1:
+        return {}, text
+    front = text[4:end]
+    body = text[end + 5 :]
+    try:
+        data = yaml.safe_load(front) or {}
+    except yaml.YAMLError:
+        data = {}
+    return data, body
+
+
+def _join_frontmatter(front: dict, body: str) -> str:
+    """Render a Markdown doc with a YAML front-matter header."""
+    fm = yaml.safe_dump(front, sort_keys=False, allow_unicode=True).rstrip()
+    return f"---\n{fm}\n---\n\n{body.lstrip()}"
+
+
+def _merge_card_with_remote_dataset_info(local_card_path: Path, repo: str, api, *, ds) -> str:
+    """Compose a README that satisfies the HF Dataset Viewer.
+
+    Layout of a viewer-compatible README:
+      - YAML front matter MUST carry a `dataset_info` block whose
+        `features` list matches the Parquet schema exactly. If it
+        doesn't, the viewer fails with `CastError: column names don't
+        match`.
+      - The body is freely user-authored.
+
+    Strategy: build `dataset_info.features` from the *local* Dataset object
+    via `ds.features._to_yaml_list()` (canonical source of truth — survives
+    any schema drift). For the other dataset_info sub-keys (splits,
+    download_size, dataset_size) reuse whatever is on the Hub if present;
+    they're approximate sizes and rarely fatal if slightly stale. Same for
+    `configs` (data-files routing).
+    """
+    from huggingface_hub import hf_hub_download
+    from huggingface_hub.errors import EntryNotFoundError
+
+    local_text = local_card_path.read_text()
+    local_front, local_body = _split_frontmatter(local_text)
+
+    # Pull anything reusable from the remote (sizes, configs, splits).
+    try:
+        remote_path = hf_hub_download(repo_id=repo, filename="README.md", repo_type="dataset")
+        remote_text = Path(remote_path).read_text()
+        remote_front, _ = _split_frontmatter(remote_text)
+    except (EntryNotFoundError, FileNotFoundError):
+        remote_front = {}
+
+    remote_info = remote_front.get("dataset_info") or {}
+    local_features_yaml = ds.features._to_yaml_list()
+    # If the remote splits/sizes look reasonable, keep them as a best-effort
+    # estimate. Either way, ALWAYS overwrite features from our local schema.
+    dataset_info = {
+        "features": local_features_yaml,
+        "splits": remote_info.get("splits") or [{"name": "train", "num_examples": len(ds)}],
+    }
+    if "download_size" in remote_info:
+        dataset_info["download_size"] = remote_info["download_size"]
+    if "dataset_size" in remote_info:
+        dataset_info["dataset_size"] = remote_info["dataset_size"]
+
+    local_front["dataset_info"] = dataset_info
+    if "configs" in remote_front:
+        local_front["configs"] = remote_front["configs"]
+    else:
+        # Fallback `configs` — tells HF where to find the Parquet shards.
+        local_front.setdefault(
+            "configs",
+            [
+                {
+                    "config_name": "default",
+                    "data_files": [{"split": "train", "path": "data/train-*"}],
+                }
+            ],
+        )
+
+    return _join_frontmatter(local_front, local_body)
 
 
 if __name__ == "__main__":

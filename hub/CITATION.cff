@@ -6,6 +6,14 @@ authors:
   - family-names: Faroughy
     given-names: Darius A.
     email: darius.faroughy@rutgers.edu
+  - family-names: Palacios Schweitzer
+    given-names: Sofia
+  - family-names: Pang
+    given-names: Ian
+  - family-names: Mishra-Sharma
+    given-names: Siddharth
+  - family-names: Shih
+    given-names: David
 repository-code: "https://github.com/dfaroughy/Collider-Bench"
 url: "https://huggingface.co/datasets/Dariusfar/ColliderBench"
 license: MIT
