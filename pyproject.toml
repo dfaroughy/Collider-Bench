@@ -27,6 +27,13 @@ dev = [
     "pytest>=7",
     "pytest-xdist",
 ]
+# Only needed when (re)building/pushing the HF task corpus via
+# scripts/build_hf_dataset.py — kept out of the default install so non-publishers
+# don't pull these deps.
+hub = [
+    "datasets>=2.18",
+    "huggingface_hub>=0.20",
+]
 
 [project.scripts]
 # Convenience entry point — the production path is still `scripts/run-agent`,

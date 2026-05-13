@@ -6,7 +6,7 @@ target      = "T2tt_800_400"
 observable  = "ETmiss"
 
 [metadata]
-difficulty = "medium"
+difficulty = "hard"
 walltime   = "2h30m"
 tags       = ["SUSY", "CMS", "stops", "13TeV", "compressed", "simplified model"]
 
@@ -14,4 +14,4 @@ tags       = ["SUSY", "CMS", "stops", "13TeV", "compressed", "simplified model"]
 tolerance = 0.05
 mode = "shape_norm"
 plot = "Events/bin"
-report = ["baker_cousins", "mean_abs_frac_error"]
+report = ["relative_l2", "delta"]

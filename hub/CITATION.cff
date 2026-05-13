@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: "Collider-Bench: Benchmarking AI Agents with Particle Physics Analysis Reproduction"
+message: "If you use this dataset, please cite it as below."
+type: dataset
+authors:
+  - family-names: Faroughy
+    given-names: Darius A.
+    email: darius.faroughy@rutgers.edu
+repository-code: "https://github.com/dfaroughy/Collider-Bench"
+url: "https://huggingface.co/datasets/Dariusfar/ColliderBench"
+license: MIT
+year: 2026
+keywords:
+  - high-energy physics
+  - particle physics
+  - LHC
+  - CMS
+  - LLM agents
+  - benchmark
+  - simulation
+  - recasting

@@ -6,7 +6,7 @@ target      = "TChiWZ_550_200"
 observable  = "ETmiss"
 
 [metadata]
-difficulty = "medium"
+difficulty = "easy"
 walltime   = "2h30m"
 tags       = ["SUSY", "CMS", "electroweakinos", "13TeV", "simplified model"]
 
@@ -14,4 +14,4 @@ tags       = ["SUSY", "CMS", "electroweakinos", "13TeV", "simplified model"]
 tolerance = 0.05
 mode = "shape_norm"
 plot = "Events/bin"
-report = ["baker_cousins", "mean_abs_frac_error"]
+report = ["relative_l2", "delta"]
