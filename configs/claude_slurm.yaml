@@ -1,0 +1,40 @@
+# Public reference config — Claude Code via API inside a SLURM allocation
+# on NERSC Perlmutter (or any cluster with a similar SLURM + podman-hpc stack).
+#
+# Use this when you want isolated compute-node runs instead of running on a
+# login node or workstation. agent_runtime/shell/agent_env.sh wraps the
+# launcher in `salloc` + `srun` whenever `compute: slurm` is set.
+#
+# Prerequisites:
+#   - a NERSC (or compatible) account with SLURM access — fill in `account`
+#   - ANTHROPIC_API_KEY in your .api_keys.env (sourced by scripts/run-agent
+#     when auth: api)
+#   - podman-hpc on the compute node (NERSC default) OR apptainer/singularity
+#   - the lhc-bench image pre-pulled / migrated for the compute backend
+#
+# Launch:
+#   scripts/run-agent --config configs/claude_slurm.yaml
+#
+# Schema reference: see configs/CONFIG.md.
+
+agent:    simple
+task:     sus-16-046_sim-T5Wg
+runner:   claude
+auth:     api
+model:    claude-opus-4-7
+effort:   max
+sandbox:  podman
+compute:  slurm
+
+# SLURM allocation parameters — adjust per your cluster's policy.
+account:      ""              # fill in your NERSC project / cluster account
+partition:    ""              # leave blank for default; set if your site requires one
+constraint:   cpu             # Perlmutter: cpu|gpu; clear if irrelevant elsewhere
+nodes:        1
+ntasks:       1
+cpus:         128             # Perlmutter cpu-node has 128 logical CPUs
+walltime:     "04:00:00"
+qos:          interactive     # interactive | regular | shared — site-specific
+salloc_extra: ""              # extra raw flags passed to salloc
+srun_extra:   ""              # extra raw flags passed to srun
+env_setup:    ""              # shell snippet to run inside the allocation before launch

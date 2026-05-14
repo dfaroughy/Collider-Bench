@@ -41,13 +41,16 @@ scripts/submit_api_parallel.sh
 scripts/multi-run-interactive-*.sh
 scripts/neurips_tasks.txt
 
-# ── Private agent (kept locally, not part of the public benchmark) ─────────
-agents/anneal/
-configs/anthropics/claude_anneal.yaml
-configs/openai/codex_anneal.yaml
-configs/google/gemini_anneal.yaml
-tests/test_anneal_schedule.py
-tests/test_prompts_private.py
+# ── Private configs — public release ships only configs/claude{,_slurm}.yaml +
+# configs/CONFIG.md. Everything else under configs/ is dfarough's working set
+# (vendor-specific models, NERSC-shaped profiles, anneal variants) and stays
+# local. New private configs can land under any of these paths without
+# updating this file.
+configs/anthropics/
+configs/openai/
+configs/google/
+configs/forgecode/
+configs/utils/
 
 # Editors / OS
 .vscode/

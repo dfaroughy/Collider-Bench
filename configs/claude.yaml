@@ -1,0 +1,25 @@
+# Public reference config — Claude Code via API on a local host.
+#
+# Use this on any machine with Podman (or Apptainer/Singularity) installed and
+# the lhc-bench container image pulled. Designed for industry / academic users
+# who run end-to-end on a single workstation, cloud VM, or non-SLURM Linux box.
+#
+# Prerequisites:
+#   - ANTHROPIC_API_KEY exported in the calling shell
+#   - the claude CLI on $PATH (npm i -g @anthropic-ai/claude-code)
+#   - podman pull ghcr.io/dfaroughy/lhc-bench:latest
+#
+# Launch:
+#   scripts/run-agent --config configs/claude.yaml
+#   scripts/run-agent --config configs/claude.yaml --task sus-16-046_sim-TChiWg
+#
+# Schema reference: see configs/CONFIG.md.
+
+agent:    simple
+task:     sus-16-046_sim-T5Wg     # smallest exemplar; override on the CLI for others
+runner:   claude
+auth:     api                     # requires ANTHROPIC_API_KEY
+model:    claude-opus-4-7
+effort:   max                     # low | medium | high | max | <int tokens>
+sandbox:  podman                  # podman | apptainer | singularity | none
+compute:  local                   # bypasses SLURM dispatch in agent_env.sh
