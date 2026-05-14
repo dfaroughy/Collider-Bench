@@ -31,6 +31,17 @@ dist/
 # `conda pack -n lhc_analysis -o docker/lhc_analysis_env.tar.gz`).
 docker/lhc_analysis_env.tar.gz
 
+# Vendored HEP simulator sources (MG5, Pythia8, Delphes, Prospino). These are
+# baked into the public container image at /opt/sim/ during `docker build` and
+# are NOT used by the agent at runtime — the harness's PATH inside the
+# container resolves mg5_aMC / Delphes / etc. to the image copies. Users who
+# pull the image never touch these directories. Kept locally for the image
+# rebuild path; not redistributed via git.
+ColliderBench/tools/sim/MG5_aMC_v3_7_0/
+ColliderBench/tools/sim/pythia8313/
+ColliderBench/tools/sim/delphes/
+ColliderBench/tools/sim/prospino/
+
 # ── Internal SLURM submitters (NERSC-specific, not part of public release) ────
 # Public users get scripts/run-agent (works with --compute local) and
 # scripts/launch_eval.sh; everything below assumes Perlmutter's SLURM,
@@ -70,12 +81,6 @@ draft/*.log
 draft/*.out
 draft/*.synctex.gz
 
-# Prospino build products (reproducible from the vendored source via `make`)
-ColliderBench/tools/sim/prospino/**/*.o
-ColliderBench/tools/sim/prospino/**/*.mod
-ColliderBench/tools/sim/prospino/prospino_2.run
-ColliderBench/tools/sim/prospino/prospino.dat*
-ColliderBench/tools/sim/prospino/screen.out
 # Per-invocation scratch dirs created by bin/prospino
 prospino_scratch/
 .ghcr_token
