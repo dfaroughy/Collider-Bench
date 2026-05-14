@@ -1,5 +1,18 @@
 # Citations
 
+
+## Collider-Bench
+
+If you use Collider-Bench itself in a publication or evaluation, please cite
+the dataset record on HuggingFace (CITATION.cff included with the corpus):
+
+> D. A. Faroughy, S. Palacios Schweitzer, I. Pang, S. Mishra-Sharma and D. Shih,
+> *Collider-Bench: Benchmarking AI Agents with Particle Physics Analysis Reproduction*,
+> 2026.
+> <https://huggingface.co/datasets/Dariusfar/ColliderBench>
+
+---
+
 Collider-Bench is built on top of established open-source HEP simulation
 software and depends on it for the agent's run-time pipeline. Users of the
 benchmark are asked to cite the relevant tool(s) for any work that consumes
@@ -71,19 +84,3 @@ NLO QCD cross sections for SUSY pair production.
 
 Source:
 <https://www.thphys.uni-heidelberg.de/~plehn/index.php?show=prospino>
-
----
-
-## Collider-Bench
-
-If you use Collider-Bench itself in a publication or evaluation, please cite
-the dataset record on HuggingFace (CITATION.cff included with the corpus):
-
-> D. A. Faroughy, S. Palacios Schweitzer, I. Pang, S. Mishra-Sharma and
-> D. Shih,
-> *Collider-Bench: A benchmark for LHC analysis recasting by LLM agents*,
-> 2026.
-> <https://huggingface.co/datasets/Dariusfar/ColliderBench>
-
-The GitHub repository at <https://github.com/dfaroughy/Collider-Bench> hosts
-the runtime harness, scorer, and task corpus.
