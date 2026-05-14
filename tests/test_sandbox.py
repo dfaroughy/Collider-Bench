@@ -244,8 +244,11 @@ def test_podman_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch):
         sandbox="podman",
     )
     binds = _bind_values(cmd, "-v")
+    # Disabled-delphes shadows the image's /opt/sim/delphes. The host-side
+    # tools/sim/delphes path is NOT bound at all (tools/sim/ is excluded
+    # from the agent's view by design), so no separate mask is needed there.
     assert f"{disabled}:/opt/sim/delphes:ro" in binds
-    assert f"{disabled}:{repo_root / 'ColliderBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
+    assert not any("tools/sim" in b for b in binds)
     cleanup()
 
 
@@ -268,8 +271,45 @@ def test_apptainer_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch
     )
     binds = _bind_values(cmd, "--bind")
     assert f"{disabled}:/opt/sim/delphes:ro" in binds
-    assert f"{disabled}:{repo_root / 'ColliderBench' / 'tools' / 'sim' / 'delphes'}:ro" in binds
+    assert not any("tools/sim" in b for b in binds)
     cleanup()
+
+
+def test_podman_does_not_bind_tools_sim(repo_root, tmp_path, monkeypatch):
+    """tools/sim/ must never be exposed to the agent — only the narrow agent-
+    facing slice of tools/ (CLI, streaming.py, TOOLS.md, __init__.py) gets
+    bound. The HEP simulators always come from the image's /opt/sim/."""
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None
+    )
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+    cmd, _cleanup = sandbox_command(workspace, repo_root, ["/bin/true"], sandbox="podman")
+    binds = _bind_values(cmd, "-v")
+    # No bind argument may mention tools/sim/, period.
+    assert not any(
+        "tools/sim" in b for b in binds
+    ), f"tools/sim/ leaked into the podman bind list: {[b for b in binds if 'tools/sim' in b]}"
+    # The narrow agent-facing slice should be there.
+    tools = repo_root / "ColliderBench" / "tools"
+    for sub in ("CLI", "streaming.py", "TOOLS.md", "__init__.py"):
+        p = tools / sub
+        if p.exists():
+            assert f"{p}:{p}:ro" in binds, f"expected bind for {p} not found"
+
+
+def test_apptainer_does_not_bind_tools_sim(repo_root, tmp_path, monkeypatch):
+    """Same contract for apptainer."""
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/apptainer" if name == "apptainer" else None
+    )
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+    cmd, _cleanup = sandbox_command(workspace, repo_root, ["/bin/true"], sandbox="apptainer")
+    binds = _bind_values(cmd, "--bind")
+    assert not any(
+        "tools/sim" in b for b in binds
+    ), f"tools/sim/ leaked into the apptainer bind list: {[b for b in binds if 'tools/sim' in b]}"
 
 
 def test_podman_command_includes_runner_env(repo_root, tmp_path, monkeypatch):

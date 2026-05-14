@@ -275,13 +275,12 @@ class ApptainerSandbox(Sandbox):
                             (default: "ghcr.io/dfaroughy/lhc-bench:latest").
 
     Binds:
-      - host repo_root/ColliderBench  → same path inside container
-        (benchmark content stays editable; tasks/, evaluation/, tools/CLI)
       - workspace                      → same path inside container (rw)
-      - ~/.claude, ~/.codex, ~/.gemini → /root/.claude etc.  (OAuth)
+      - the narrow agent-facing slice of ColliderBench/tools/
+        (CLI, streaming.py, TOOLS.md, __init__.py) and ColliderBench/bin/ ro
+        — tools/sim/ is deliberately NOT bound so the agent always uses the
+        image's baked /opt/sim/ binaries.
       - /cvmfs                         → /cvmfs (ro) if present
-      - baked /opt/sim/<tool>          → host .../ColliderBench/tools/sim/<tool>
-        — the image's baked sim stack overrides whatever the host has.
       - any paths in extra_ro_binds
 
     Leakage hardening is straightforward: by bind-mounting only what the
@@ -327,10 +326,11 @@ class ApptainerSandbox(Sandbox):
             # Selective benchmark binds. We do NOT bind the whole
             # ColliderBench/ tree — that would expose the reference pool
             # under tasks/shared/*/reference/ and scoring code under
-            # evaluation/. Agent sees only tools/, bin/, and this run's
-            # paper PDF (copied into workspace/papers before wrapping).
-            "--bind",
-            f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
+            # evaluation/. Agent sees only the narrow agent-facing slice
+            # of tools/ (see _TOOLS_AGENT_SUBPATHS — excludes tools/sim/),
+            # plus bin/ and this run's paper PDF (copied into
+            # workspace/papers before wrapping).
+            *_tools_bind_args(repo_root, "--bind"),
             "--bind",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
@@ -340,8 +340,6 @@ class ApptainerSandbox(Sandbox):
                 [
                     "--bind",
                     f"{disabled_delphes}:/opt/sim/delphes:ro",
-                    "--bind",
-                    f"{disabled_delphes}:{bench_paths.sim_dir(repo_root) / 'delphes'}:ro",
                 ]
             )
         # Per-run fake $HOME under <recast>/<runner-home>/. The CLIs
@@ -415,6 +413,34 @@ class SingularitySandbox(ApptainerSandbox):
 
 
 # ── Helpers ─────────────────────────────────────────────────────────────────
+
+
+# Agent-visible subpaths under ColliderBench/tools/. We bind these individually
+# rather than the whole tools/ dir because tools/sim/ — the vendored MG5 /
+# Pythia / Delphes / Prospino source trees — is gitignored. A public clone
+# never has it; a maintainer clone keeps it on disk for image rebuilds. The
+# canonical sim binaries always come from the image's /opt/sim/, so exposing
+# tools/sim/ via the bind would (1) leak maintainer-only filesystem state and
+# (2) make the agent's tools/ view asymmetric across hosts.
+_TOOLS_AGENT_SUBPATHS: tuple[str, ...] = (
+    "CLI",
+    "__init__.py",
+    "streaming.py",
+    "TOOLS.md",
+)
+
+
+def _tools_bind_args(repo_root: Path, flag: str) -> list[str]:
+    """Return ['<flag>', '<src:dst:ro>', ...] for every agent-visible tools/ subpath."""
+    from agent_runtime import paths as bench_paths
+
+    tools = bench_paths.tools_dir(repo_root)
+    out: list[str] = []
+    for name in _TOOLS_AGENT_SUBPATHS:
+        p = tools / name
+        if p.exists():
+            out.extend([flag, f"{p}:{p}:ro"])
+    return out
 
 
 _HOST_AGENT_CLIS = {"claude", "codex", "gemini", "aider", "forge"}
@@ -528,10 +554,11 @@ class PodmanSandbox(Sandbox):
             # Selective benchmark binds, ro. We do NOT bind the whole
             # ColliderBench/ tree: that would expose the reference pool
             # under tasks/shared/*/reference/ and the scoring code under
-            # evaluation/. Agent sees only tools/ + bin/ + this run's
-            # paper PDF (copied into workspace/papers before wrapping).
-            "-v",
-            f"{bench_paths.tools_dir(repo_root)}:{bench_paths.tools_dir(repo_root)}:ro",
+            # evaluation/. Agent sees only the narrow agent-facing slice
+            # of tools/ (see _TOOLS_AGENT_SUBPATHS — excludes tools/sim/),
+            # plus bin/ and this run's paper PDF (copied into
+            # workspace/papers before wrapping).
+            *_tools_bind_args(repo_root, "-v"),
             "-v",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
@@ -541,8 +568,6 @@ class PodmanSandbox(Sandbox):
                 [
                     "-v",
                     f"{disabled_delphes}:/opt/sim/delphes:ro",
-                    "-v",
-                    f"{disabled_delphes}:{bench_paths.sim_dir(repo_root) / 'delphes'}:ro",
                 ]
             )
 
