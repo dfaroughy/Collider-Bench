@@ -1,8 +1,8 @@
 # Prospino 2.1
+Taken from https://www.thphys.uni-heidelberg.de/~plehn/index.php?show=prospino follwing W. Beenakker, R. Hoepker, M. Spira and P.M. Zerwas, *Squark and gluino production at hadron
+colliders*. Nucl. Phys. B, 492:51–103, 1997. doi: 10.1016/S0550-3213(97)80027-2, and W. Beenakker, M. Klasen, M. Kramer, T. Plehn, M. Spira, and P. M. Zerwas, *The Production of
+charginos / neutralinos and sleptons at hadron colliders.* Phys. Rev. Lett., 83:3780–3783, 1999. doi: 10.1103/PhysRevLett.100.029901
 
-NLO cross-section calculator for SUSY pair production at hadron colliders
-(squark/gluino, stop/sbottom, neutralino/chargino, slepton). Authors:
-W. Beenakker, R. Hoepker, M. Spira, P.M. Zerwas.
 
 ## Status
 
