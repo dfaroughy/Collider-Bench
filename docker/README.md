@@ -3,6 +3,12 @@
 One canonical image: `lhc-bench:latest`. Built from
 [`docker/Dockerfile`](Dockerfile) (no chain, no overlays).
 
+The image bundles four established open-source HEP simulators —
+MadGraph5_aMC@NLO, Pythia 8, Delphes, Prospino — under `/opt/sim/`. Their
+full citation list is at [`../CITATIONS.md`](../CITATIONS.md). Users of the
+benchmark are asked to cite the relevant tool(s) for any work that consumes
+their output.
+
 | Layer | Contents |
 |---|---|
 | Conda env (`lhc_analysis`) | analysis libs (uproot, awkward, vector, hist, mplhep, hepdata, …) + Pythia8 Python bindings + Node 20 |

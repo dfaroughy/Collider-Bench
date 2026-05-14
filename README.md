@@ -122,6 +122,13 @@ compute:  local               # or slurm (+ allocation fields)
 
 CLI flags on `scripts/run-agent` override config values.
 
+## Citing
+
+If you use Collider-Bench in a publication, please cite the dataset record
+on HuggingFace and the HEP simulation software the benchmark depends on
+(MadGraph5_aMC@NLO, Pythia 8, Delphes, Prospino). Full reference list with
+DOIs / arXiv numbers is in [`CITATIONS.md`](CITATIONS.md).
+
 ## Continuous integration
 
 [`.github/workflows/test.yml`](.github/workflows/test.yml) runs on every push and PR to `main`:
