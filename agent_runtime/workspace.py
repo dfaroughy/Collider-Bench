@@ -1,6 +1,6 @@
 """Shared workspace setup for agent runs.
 
-Builds a bwrap-ready workspace at <repo_root>/runs/<run_dir>/workspace/ with:
+Builds a sandbox-ready workspace at <repo_root>/runs/<run_dir>/workspace/ with:
   - templates/           agent runtime workspace stubs (report.md, datasets.yaml …)
   - tools/               symlink → ColliderBench/tools/
   - bin/                 merged symlinks from ColliderBench/bin/ + agent_dir/runtime/bin/
@@ -94,7 +94,7 @@ def build_workspace(
 ) -> Path:
     """Create a fresh workspace under <repo_root>/runs/<run_dir>/workspace.
 
-    agent_name must match a directory under agents/ (e.g. 'simple', 'anneal').
+    agent_name must match a directory under agents/ (e.g. 'simple').
     task_id must match a directory under ColliderBench/tasks/.
     Raises FileNotFoundError if prerequisites are missing. Returns the workspace Path.
     """

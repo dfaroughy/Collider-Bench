@@ -6,11 +6,10 @@ Today there are four built-ins:
 
 | Backend | Status | Typical host | Network | FS isolation |
 |---|---|---|---|---|
-| `podman` | auto default when available | NERSC Perlmutter, Linux with Podman | open | yes, canonical container image |
+| `podman` | auto default when available | NERSC Perlmutter, Linux/Mac with Podman | open | yes, canonical container image |
 | `apptainer` | auto fallback | HPC sites with Apptainer | open | yes, canonical container image |
 | `singularity` | auto fallback | HPC sites with Singularity | open | yes, canonical container image |
-| `bwrap` | opt-in host sandbox | Linux with `bubblewrap` | open | yes (tmpfs + ro-binds), no container image |
-| `none`  | always available | macOS, CI, free-range debugging | open | **none — do not use for scored runs** |
+| `none`  | always available | CI, free-range debugging | open | **none — do not use for scored runs** |
 
 Selection order (first match wins): `--sandbox` flag → `sandbox:` config key → `LHC_RECAST_SANDBOX` env var → auto (`podman` → `apptainer` → `singularity` → `none` with a warning).
 
@@ -23,7 +22,7 @@ The runtime captures the choice in `run_info.json["sandbox"]` so provenance is p
 extends: ../utils/perlmutter_interactive.yaml
 agent: simple
 task: sus-16-046_sim-T5Wg
-sandbox: podman       # auto | podman | apptainer | singularity | bwrap | none
+sandbox: podman       # auto | podman | apptainer | singularity | none
 ```
 
 **Via CLI flag:**
@@ -79,9 +78,9 @@ Register it:
 
 ```python
 SANDBOXES = {
-    "bwrap":  BwrapSandbox,
     "none":   NoneSandbox,
     "podman": PodmanSandbox,
+    "apptainer": ApptainerSandbox,
     "singularity": SingularitySandbox,  # ← add here
 }
 ```
@@ -101,6 +100,5 @@ Anything else (PID/IPC namespace unshare, capability drop, user-namespace remap)
 
 ## Known caveats
 
-- **`bwrap` on NERSC** can't tmpfs `$HOME` (autofs). The agent retains rw access to the user's home directory. Acceptable on single-user trusted setups; run under a scrubbed service account for multi-tenant use.
-- **`none`** provides no isolation. The passthrough exists for macOS dev and CI where bwrap isn't available. Never score runs produced with `sandbox: none`.
+- **`none`** provides no isolation. The passthrough exists for CI and free-range debugging on hosts without any container engine. Never score runs produced with `sandbox: none`.
 - **Container backends (Docker, Podman, Shifter)** need an image built with the benchmark toolchain (MadGraph, Pythia, Delphes, conda env). On HPC nodes without Docker, `podman-hpc migrate` is usually required to convert a locally built image.

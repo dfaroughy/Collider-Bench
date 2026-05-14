@@ -4,7 +4,7 @@
 The upstream FORTRAN has no real CLI — you edit `prospino_main.f90`, run
 `make`, then `./prospino_2.run`. This wrapper hides that: renders the main
 file from a template, (re)builds if needed, runs the binary in a scratch
-dir inside the caller's CWD (= the agent's bwrapped workspace), and parses
+dir inside the caller's CWD (= the agent's sandboxed workspace), and parses
 the result into a stable JSON schema.
 
 Usage:
@@ -257,7 +257,7 @@ def _run_in_scratch(
 ) -> tuple[Path, Path]:
     """Execute Prospino in an isolated scratch dir under CWD. Returns (scratch_dir, prospino.dat).
 
-    CWD is the agent's bwrapped workspace — the only rw path in the sandbox
+    CWD is the agent's sandboxed workspace — the only rw path in the sandbox
     — so scratch always lands there. No env-var or flag override.
     """
     _build()

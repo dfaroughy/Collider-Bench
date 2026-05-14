@@ -15,8 +15,7 @@ import pytest
 from agent_runtime.workspace import build_workspace
 
 
-# Public agents only — the private anneal agent is tested under
-# tests/test_prompts_private.py when present locally.
+# Public agents only.
 AGENT_NAMES = ["simple"]
 
 

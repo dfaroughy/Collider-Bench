@@ -1,6 +1,6 @@
 # AGENTS
 
-You are analyzing CMS paper `{arxiv_id}`."
+You are analyzing CMS paper `{arxiv_id}`.
 
 ## What you have
 
@@ -8,7 +8,7 @@ You are analyzing CMS paper `{arxiv_id}`."
 - `results/*.yaml` — histogram template with null values. The file is **two YAML documents** separated by `---`: a metadata block (`instructions`, `description`, `target`, `cm_energy_gev`, `luminosity_fb`) followed by the HEPData-style histogram (`dependent_variables`, `independent_variables`). **Fill the nulls in `dependent_variables[0].values` in place; do not modify bin edges or metadata.**
 - `object_efficiencies/` — detector efficiency files (if provided for this task).
 - `bin/` — CLI tools (cheat-sheet below; full reference in `TOOLS.md`)
-- `tools/` — Python libraries and collider physics toolkit
+- `tools/` — Python helper libraries (`tools/streaming`, …) and `tools/CLI/*` source for the `bin/` shims. The compiled HEP simulators (MG5, Pythia8, Delphes, Prospino) live under `/opt/sim/` inside the container and are already on `$PATH`.
 
 ## Tools (cheat-sheet)
 

@@ -5,26 +5,22 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LHC_BENCH_CONDA_MODULE="${LHC_BENCH_CONDA_MODULE:-conda/Miniforge3-24.11.3-0}"
 LHC_BENCH_ENV_NAME="${LHC_BENCH_ENV_NAME:-lhc_analysis}"
+# Host-side env package list — used only by the conda bootstrap fallback in
+# `bootstrap_lhc_analysis`. Mirrors pyproject.toml's `dependencies` exactly:
+# the harness runs entirely from these packages, and none of the HEP-stack
+# libraries (pythia8, pyhepmc, xrootd, uproot, awkward, hist) live here.
+# Those are baked into the container image instead.
+#
+# The preferred path is `pip install -e .` from a venv — `activate_lhc_analysis`
+# detects that case and skips the conda flow entirely. This list is the
+# fallback for Perlmutter and other conda-driven hosts.
 LHC_BENCH_PACKAGES=(
   python=3.11
   pyyaml
-  requests
-  aiohttp
-  uproot
-  awkward
-  vector
+  pydantic
   numpy
-  scipy
   matplotlib
-  hist
   mplhep
-  xrootd
-  fsspec-xrootd
-  # Physics tools the agent needs at runtime: PDF reading (read-paper),
-  # event-record I/O (HEPMC), parton-shower bindings.
-  pymupdf
-  pyhepmc
-  pythia8
 )
 
 load_module_stack() {
@@ -33,13 +29,12 @@ load_module_stack() {
   fi
   # Try known Lmod init paths. The Cray path is the one that actually exists
   # on NERSC Perlmutter; the /usr/share path is the generic distro location.
-  # Inside bwrap the parent-shell's module function isn't inherited, so this
-  # has to re-source.
+  # Fresh shells without an inherited `module` function need to re-source.
   local init
   # Lmod's init references $FPATH and other vars that may be unset under
-  # `set -u` (e.g. env -i bash, fresh bwrap shells). Relax nounset, restore
-  # after. Also source the Cray-PE init if present — it populates
-  # MODULEPATH, which is what `module load conda` actually needs.
+  # `set -u` (e.g. env -i bash, fresh shells). Relax nounset, restore after.
+  # Also source the Cray-PE init if present — it populates MODULEPATH, which
+  # is what `module load conda` actually needs.
   local had_nounset=0
   [[ $- == *u* ]] && had_nounset=1
   set +u
@@ -55,7 +50,7 @@ load_module_stack() {
     fi
   done
   # Populate MODULEPATH on NERSC / Cray systems. This usually runs at login
-  # via /etc/profile.d/, but bwrap/fresh shells skip /etc/profile.
+  # via /etc/profile.d/, but fresh shells skip /etc/profile.
   for craype in /etc/profile.d/zz-cray-pe.sh /etc/bash.bashrc.local; do
     if [[ -f "$craype" && -z "${MODULEPATH:-}" ]]; then
       # shellcheck disable=SC1090
@@ -98,16 +93,43 @@ conda_env_exists() {
   conda env list | awk 'NF > 0 && $1 !~ /^#/ {print $1}' | grep -Fxq "${LHC_BENCH_ENV_NAME}"
 }
 
+# True when the currently-active Python interpreter has the harness's host-side
+# dependencies importable. Typically this means the caller is in a venv where
+# `pip install -e ".[dev]"` already ran. Used to short-circuit the conda flow
+# for non-HEP users (industry researchers, generic Linux hosts).
+harness_python_ready() {
+  command -v python >/dev/null 2>&1 || return 1
+  python - <<'PY' >/dev/null 2>&1
+import importlib.util
+for mod in ("yaml", "pydantic", "numpy", "matplotlib", "mplhep"):
+    if importlib.util.find_spec(mod) is None:
+        raise SystemExit(1)
+PY
+}
+
 activate_lhc_analysis() {
+  # Venv-first: if the calling shell already has a Python with the harness
+  # deps importable (typical after `pip install -e ".[dev]"` in a venv), use
+  # it as-is. This is the supported path for industry / non-HEP users; no
+  # conda required.
+  if harness_python_ready; then
+    export PYTHONHTTPSVERIFY=0
+    return 0
+  fi
+
+  # Fallback: load conda + activate the lhc_analysis env (Perlmutter / dev path).
   if ! load_conda; then
+    echo "activate_lhc_analysis: no harness-ready Python and conda not available." >&2
+    echo "  Quickest fix: 'python -m venv .venv && source .venv/bin/activate && pip install -e .[dev]'." >&2
+    echo "  HPC users: install conda, then re-run scripts/run-agent to bootstrap '${LHC_BENCH_ENV_NAME}'." >&2
     return 1
   fi
-  # conda_env_exists + conda activate can both touch unset vars; relax nounset.
   local had_nounset=0
   [[ $- == *u* ]] && had_nounset=1
   set +u
   if ! conda_env_exists; then
-    echo "Missing conda environment '${LHC_BENCH_ENV_NAME}'. Run ${REPO_ROOT}/ColliderBench/bin/bootstrap-recast-tools first." >&2
+    echo "Missing conda environment '${LHC_BENCH_ENV_NAME}'." >&2
+    echo "  Either 'pip install -e .[dev]' in a venv (recommended), or run bootstrap_lhc_analysis." >&2
     (( had_nounset )) && set -u
     return 1
   fi
@@ -120,21 +142,18 @@ activate_lhc_analysis() {
 }
 
 ensure_python_modules() {
+  # Pip-install any host-side harness deps that are missing from the active
+  # Python. Kept as a safety net for the conda-bootstrap path; `pip install
+  # -e .` in a venv already covers everything here.
   local missing
   missing="$(python - <<'PY'
 from importlib.util import find_spec
 
 packages = {
     "yaml": "PyYAML",
-    "requests": "requests",
-    "aiohttp": "aiohttp",
-    "uproot": "uproot",
-    "awkward": "awkward",
-    "vector": "vector",
+    "pydantic": "pydantic",
     "numpy": "numpy",
-    "scipy": "scipy",
     "matplotlib": "matplotlib",
-    "hist": "hist",
     "mplhep": "mplhep",
 }
 print(" ".join(pkg for mod, pkg in packages.items() if find_spec(mod) is None))
@@ -305,7 +324,7 @@ print_env_summary() {
 import importlib
 import sys
 
-modules = ["yaml", "requests", "aiohttp", "uproot", "awkward", "vector", "numpy"]
+modules = ["yaml", "pydantic", "numpy", "matplotlib", "mplhep"]
 print(f"Python {sys.version.split()[0]}")
 for module in modules:
     importlib.import_module(module)

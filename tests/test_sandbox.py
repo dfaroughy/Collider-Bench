@@ -18,7 +18,7 @@ from agent_runtime.sandbox import (
 @pytest.mark.parametrize("name", sorted(SANDBOXES))
 def test_backend_instantiates(name):
     # Skip backends whose required tools aren't present on this host
-    # (e.g. apptainer on a bwrap-only box, or vice versa).
+    # (e.g. apptainer on a podman-only box, or vice versa).
     cls = SANDBOXES[name]
     if not cls().available():
         pytest.skip(f"{name} backend tools not installed")
@@ -38,15 +38,6 @@ def test_auto_prefers_podman_when_available():
         pytest.skip("podman not installed")
     sb = get_sandbox("auto")
     assert sb.name == "podman", f"auto-select returned {sb.name!r}; podman should win when present"
-
-
-def test_auto_never_picks_bwrap():
-    """Bwrap bypasses the canonical container; auto-select must never land
-    on it. (It remains opt-in via --sandbox bwrap.)"""
-    sb = get_sandbox("auto")
-    assert (
-        sb.name != "bwrap"
-    ), "auto-select returned bwrap; it should be excluded from the auto chain"
 
 
 def test_auto_prefers_apptainer_over_singularity(monkeypatch):
@@ -191,8 +182,8 @@ def test_unknown_backend_rejected():
 def test_sandbox_command_roundtrip(repo_root, tmp_path):
     """End-to-end: wrap a trivial inner command, get back a runnable list.
 
-    Prefers podman (the production path) when installed; falls back to
-    bwrap, then 'none' on stripped-down hosts (CI/macOS) — we just need
+    Prefers podman (the production path) when installed, then apptainer /
+    singularity, finally 'none' on stripped-down hosts (CI). We just need
     *some* available backend so command construction is exercised.
     """
     workspace = tmp_path / "ws"
@@ -200,8 +191,10 @@ def test_sandbox_command_roundtrip(repo_root, tmp_path):
     inner = ["/bin/true"]
     if shutil.which("podman") or shutil.which("podman-hpc"):
         backend = "podman"
-    elif shutil.which("bwrap"):
-        backend = "bwrap"
+    elif shutil.which("apptainer"):
+        backend = "apptainer"
+    elif shutil.which("singularity"):
+        backend = "singularity"
     else:
         backend = "none"
     cmd, cleanup = sandbox_command(workspace, repo_root, inner, sandbox=backend)

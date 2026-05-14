@@ -21,7 +21,7 @@ def test_config_loads_and_validates(config_path):
     # Profile configs only carry allocation defaults; runnable harness configs
     # must pin an agent and task id.
     if config_path not in PROFILE_CONFIGS:
-        assert cfg.get("agent") in {"simple", "anneal"}
+        assert cfg.get("agent") == "simple"
         assert cfg.get("task"), "every runnable config must set `task:` to a task id"
 
 
@@ -43,8 +43,8 @@ def test_yaml_bool_guard():
 
 def test_yaml_bool_guard_rejects_int_typed_fields():
     # bool is a subclass of int in Python; reject it explicitly for numeric
-    # config fields so `max_iters: true` cannot silently pass as 1.
-    for key in ("nodes", "ntasks", "cpus", "max_iters", "effort", "anneal_t0"):
+    # config fields so `cpus: true` cannot silently pass as 1.
+    for key in ("nodes", "ntasks", "cpus", "effort"):
         with pytest.raises(ValueError, match="must not be a bool"):
             validate_config({key: True}, source="<test>")
 

@@ -17,7 +17,7 @@ Tests skip automatically when the backing CLI isn't present (e.g. codex not inst
 ## What's NOT covered
 
 - **End-to-end agent runs** — they cost ~$10 and need SLURM. See [`scripts/run-agent`](../scripts/run-agent) manually when you want to validate a full iteration.
-- **Sandbox runtime behavior** — we verify command construction, not that `bwrap` actually isolates (that would need root / namespaces in CI).
+- **Sandbox runtime behavior** — we verify command construction, not that the container backends actually isolate (that would need a real container runtime in CI).
 - **Scoring correctness** — `ColliderBench/evaluation/score.py` does real physics math; add targeted cases there when you change the metric, not here.
 
 ## Running

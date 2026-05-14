@@ -4,7 +4,7 @@ Wraps Prospino 2.1 (Beenakker, Hoepker, Spira, Zerwas). Upstream has no CLI;
 this tool renders `prospino_main.f90` from a template, builds on first use,
 runs, and parses the output into a stable JSON schema.
 
-Agent-facing tool. Runs inside the agent's bwrapped workspace — all state
+Agent-facing tool. Runs inside the agent's sandboxed workspace — all state
 lands in `./prospino_scratch/` (workspace-local).
 
 ## Commands

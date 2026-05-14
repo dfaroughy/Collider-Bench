@@ -5,21 +5,21 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lhc-recast"
 version = "0.1.0"
-description = "LHC-Recast benchmark and agent infrastructure for CMS paper recasting."
+description = "Benchmarking AI Agents with Particle Physics Analysis Reproduction."
 requires-python = ">=3.10"
 readme = "README.md"
-authors = [{ name = "Darius Faroughy", email = "dariusfar@gmail.com" }]
+authors = [{ name = "Darius Faroughy", email = "darius.faroughy@rutgers.edu" }]
 
 dependencies = [
+    # Host-side harness only. None of the HEP-stack libraries (pythia8,
+    # pyhepmc, xrootd, uproot, awkward, hist) are needed on the host —
+    # they live inside the container image. `pip install -e .` from a
+    # clean venv is enough to drive scripts/run-agent end-to-end.
     "pyyaml>=6",
     "pydantic>=2",       # declarative RunnerSpec validation
-    "numpy>=1.24",
-    "scipy>=1.10",       # chi2 + kstwobign for Baker-Cousins p-values
-    "awkward>=2",
-    "uproot>=5",
-    "hist",
-    "mplhep",
-    "matplotlib",
+    "numpy>=1.24",       # baker_cousins + bin_error metrics
+    "matplotlib",        # eval/plots
+    "mplhep",            # CMS-style plot styling
 ]
 
 [project.optional-dependencies]

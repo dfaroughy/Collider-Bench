@@ -53,7 +53,7 @@ def _parse_args(agent_name: str, argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--sandbox",
         default=None,
-        choices=["auto", "bwrap", "apptainer", "singularity", "podman", "none"],
+        choices=["auto", "apptainer", "singularity", "podman", "none"],
         help="Filesystem isolation backend (default: auto)",
     )
     parser.add_argument(

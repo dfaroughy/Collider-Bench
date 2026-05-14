@@ -49,7 +49,7 @@ def test_codex_build_command_shape(tmp_path):
         pytest.skip(f"codex binary not installed: {exc}")
     assert "exec" in cmd
     assert "--skip-git-repo-check" in cmd
-    # danger-full-access is needed because bwrap provides isolation, not codex.
+    # danger-full-access is needed because the sandbox provides isolation, not codex.
     assert "danger-full-access" in cmd
 
 

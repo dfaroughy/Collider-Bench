@@ -23,9 +23,6 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "auth": (str,),
     "model": (str,),
     "effort": (str, int),
-    "max_iters": (int,),
-    "min_iters": (int,),
-    "combined_threshold": (float, int),
     "compute": (str,),
     "account": (str,),
     "partition": (str,),
@@ -41,25 +38,15 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
     "sandbox": (str,),
     "tool_policy": (dict,),
     "task": (str,),  # free-form task id (e.g. sus-16-046_sim-TChiWg)
-    # Anneal agent: separate model / effort for the planner and examiner roles.
-    "examiner_model": (str,),
-    "examiner_effort": (str, int),
-    "planner_effort": (str, int),
-    # Anneal agent: temperature schedule + stochastic rollback knobs.
-    "anneal_t0": (float, int),
-    "anneal_schedule": (str,),
-    "max_rollbacks": (int,),
-    "rollback_noise_floor": (float, int),
 }
 
-_ALLOWED_AGENTS = {"simple", "anneal"}
+_ALLOWED_AGENTS = {"simple"}
 _ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge"}
 _ALLOWED_PROVIDERS = {"anthropic", "openai", "google", "deepseek"}
 _ALLOWED_AUTH = {"oauth", "api"}
 _ALLOWED_COMPUTE = {"", "local", "slurm", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
-_ALLOWED_SANDBOX = {"auto", "bwrap", "apptainer", "singularity", "podman", "none"}
-_ALLOWED_ANNEAL_SCHEDULE = {"none", "linear", "cosine"}
+_ALLOWED_SANDBOX = {"auto", "apptainer", "singularity", "podman", "none"}
 _ALLOWED_TOOL_POLICY_KEYS = {"disabled"}
 _ALLOWED_DISABLED_TOOLS = {"delphes"}
 _API_AUTH_ENV: dict[tuple[str, str], tuple[str, ...]] = {
@@ -153,12 +140,6 @@ def validate_config(cfg: dict, source: str = "<config>") -> None:
                 f"{source}: unknown disabled tool(s) {unknown_tools}. "
                 f"Allowed: {sorted(_ALLOWED_DISABLED_TOOLS)}"
             )
-    schedule = cfg.get("anneal_schedule")
-    if schedule is not None and schedule not in _ALLOWED_ANNEAL_SCHEDULE:
-        raise ValueError(
-            f"{source}: anneal_schedule={schedule!r}; "
-            f"must be one of {sorted(_ALLOWED_ANNEAL_SCHEDULE)}"
-        )
     # `task` is a free-form task id — validated against the filesystem in
     # validate_launch_inputs(), not against an enum here.
 

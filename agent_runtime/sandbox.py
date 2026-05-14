@@ -22,7 +22,6 @@ Available backends:
                 podman / podman-hpc is installed)
     apptainer — same image via apptainer exec (HPC sites with no podman)
     singularity — same image via singularity exec (legacy/generic HPC)
-    bwrap     — bubblewrap on host, bypasses the container; opt-in only
     none      — passthrough, no isolation (CI / debugging)
 
 Adding a new backend (Docker, Shifter, …): subclass Sandbox, register it in
@@ -261,163 +260,6 @@ class Sandbox(ABC):
         """
 
 
-# ── bubblewrap (Linux user-space namespaces) ───────────────────────────────
-
-
-class BwrapSandbox(Sandbox):
-    """User-space sandbox via `bwrap` (bubblewrap).
-
-    Exposes the host filesystem but shadows the entire repo with a tmpfs, then
-    re-binds only workspace/ (rw) and a minimal ColliderBench/ subset (ro). PID /
-    IPC / UTS namespaces are unshared; network is left intact so the agent can
-    reach the model API and public data sources.
-
-    Known limitation on NERSC: $HOME is on autofs and cannot be tmpfs'd from
-    inside the bwrap namespace. The agent therefore retains read-write access
-    to $HOME. Acceptable on trusted single-user setups; run under a scrubbed
-    service account if this matters.
-    """
-
-    name = "bwrap"
-
-    def available(self) -> bool:
-        return shutil.which("bwrap") is not None
-
-    def wrap(
-        self,
-        workspace,
-        repo_root,
-        inner_cmd,
-        extra_ro_binds=None,
-        container_env=None,
-        secret_env_names=(),
-        home_dir_name=".agent_home",
-        home_files=(),
-        home_credential_files=(),
-    ):
-        from agent_runtime import paths as bench_paths
-
-        benchmark_dir = bench_paths.benchmark_dir(repo_root)
-
-        # bwrap can't mount over a symlink; swap top-level workspace
-        # symlinks (bin/tools) for empty dirs, then bind the resolved
-        # targets back in. Restore the symlinks after the agent exits.
-        extra_mounts: list[tuple[str, str]] = []
-        symlink_restore: list[tuple[str, str]] = []
-        for name in ("bin", "tools"):
-            link = workspace / name
-            if link.is_symlink():
-                real = link.resolve()
-                target = os.readlink(str(link))
-                extra_mounts.append((str(real), str(workspace / name)))
-                symlink_restore.append((str(link), target))
-                link.unlink()
-                link.mkdir()
-
-        cmd: list[str] = [
-            "bwrap",
-            "--bind",
-            "/",
-            "/",
-            "--tmpfs",
-            str(repo_root),
-            "--bind",
-            str(workspace),
-            str(workspace),
-            "--ro-bind",
-            str(benchmark_dir),
-            str(benchmark_dir),
-            "--tmpfs",
-            str(benchmark_dir / "evaluation"),  # judge rubric + scorers
-            "--tmpfs",
-            "/tmp",
-            "--unshare-pid",
-            "--unshare-ipc",
-            "--unshare-uts",
-        ]
-        # Legacy `ColliderBench/papers/` tree (now under tasks/shared/) was
-        # tmpfs'd here historically. Skip the line if the path doesn't exist
-        # — bwrap fails to mount over a non-existent directory inside the
-        # ro-bound benchmark dir.
-        if (benchmark_dir / "papers").is_dir():
-            cmd.extend(["--tmpfs", str(benchmark_dir / "papers")])
-
-        # Shadow the new reference pool: tasks/shared/<paper>/reference/
-        # carries the ground-truth values, and tasks/<task-id>/template/
-        # carries null-filled skeletons that were already copied into
-        # workspace/results/ — hide both from the agent so it can't peek.
-        tasks_dir = bench_paths.tasks_root(repo_root)
-        if tasks_dir.is_dir():
-            shared_root = bench_paths.shared_root(repo_root)
-            if shared_root.is_dir():
-                for paper_dir in shared_root.iterdir():
-                    ref = paper_dir / "reference"
-                    if ref.is_dir():
-                        cmd.extend(["--tmpfs", str(ref)])
-            for task_dir in tasks_dir.iterdir():
-                if task_dir.name == "shared" or not task_dir.is_dir():
-                    continue
-                tmpl = task_dir / "template"
-                if tmpl.is_dir():
-                    cmd.extend(["--tmpfs", str(tmpl)])
-
-        # Some simulators (MG5, Delphes) insist on writing inside their own
-        # install tree during init — e.g. MG5 copies Template/LO/Source/make_opts
-        # into place before any user command.
-        #
-        # Ideal fix is an overlay ("writes go to tmpfs, real install untouched"),
-        # but overlayfs refuses to mount with lustre as the lowerdir on NERSC
-        # (EINVAL on userxattr). Fall back to a plain rw bind. The writes MG5
-        # does are deterministic (overwrite with the same content every run)
-        # and bin/simulate redirects MG5's `output` directive into the agent
-        # workspace, so the install dir sees only template/config refreshes.
-        sim_dir = bench_paths.sim_dir(repo_root)
-        disabled_delphes = _disabled_delphes_dir(workspace)
-        for install in ("MG5_aMC_v3_7_0", "delphes"):
-            install_path = sim_dir / install
-            if install_path.is_dir():
-                if install == "delphes" and disabled_delphes is not None:
-                    cmd.extend(["--ro-bind", str(disabled_delphes), str(install_path)])
-                else:
-                    cmd.extend(["--bind", str(install_path), str(install_path)])
-        for host_path, mount_path in extra_mounts:
-            cmd.extend(["--ro-bind", host_path, mount_path])
-        if disabled_delphes is not None:
-            cmd.extend(
-                [
-                    "--ro-bind",
-                    str(disabled_delphes),
-                    str(workspace / "tools" / "sim" / "delphes"),
-                ]
-            )
-        for path in extra_ro_binds or []:
-            if Path(path).exists():
-                cmd.extend(["--ro-bind", str(path), str(path)])
-        cmd.extend(
-            [
-                "--dev",
-                "/dev",
-                "--proc",
-                "/proc",
-                "--chdir",
-                str(workspace),
-                "--die-with-parent",
-                "--",
-            ]
-        )
-        cmd.extend(list(inner_cmd))
-
-        def cleanup() -> None:
-            for link_path, target in symlink_restore:
-                p = Path(link_path)
-                if p.is_dir():
-                    shutil.rmtree(p)
-                if not p.exists():
-                    p.symlink_to(target)
-
-        return cmd, cleanup
-
-
 # ── Apptainer / Singularity (portable OCI runners, HPC-friendly) ───────────
 
 
@@ -442,9 +284,9 @@ class ApptainerSandbox(Sandbox):
         — the image's baked sim stack overrides whatever the host has.
       - any paths in extra_ro_binds
 
-    Leakage hardening is simpler than bwrap's: by bind-mounting only what
-    the agent should see, the rest of the container FS starts from the
-    image (no host leak) and the rest of the host FS is not visible.
+    Leakage hardening is straightforward: by bind-mounting only what the
+    agent should see, the rest of the container FS starts from the image
+    (no host leak) and the rest of the host FS is not visible.
     """
 
     name = "apptainer"
@@ -775,10 +617,10 @@ class PodmanSandbox(Sandbox):
 class NoneSandbox(Sandbox):
     """Run the agent with no filesystem isolation.
 
-    Use on platforms without bwrap (macOS, restricted Linux distros) or for
-    free-range debugging. The agent can read and write anything the calling
-    user can. Do NOT use for benchmark runs — reference answers in
-    benchmark reference answers and evaluator code are visible and the agent can cheat.
+    Use on platforms without any container engine (CI, restricted hosts) or
+    for free-range debugging. The agent can read and write anything the
+    calling user can. Do NOT use for benchmark runs — reference answers
+    and evaluator code are visible and the agent can cheat.
     """
 
     name = "none"
@@ -806,7 +648,6 @@ class NoneSandbox(Sandbox):
 # ── Registry + selection ────────────────────────────────────────────────────
 
 SANDBOXES: dict[str, type[Sandbox]] = {
-    "bwrap": BwrapSandbox,
     "apptainer": ApptainerSandbox,
     "singularity": SingularitySandbox,
     "podman": PodmanSandbox,
@@ -817,12 +658,9 @@ SANDBOXES: dict[str, type[Sandbox]] = {
 def _auto_select() -> Sandbox:
     """Pick the best available container backend.
 
-    Order: podman → apptainer → singularity. All run the canonical lhc-bench image
-    with proper $HOME isolation via the fake-home dir built in
-    `_prepare_isolated_home`. Bwrap is intentionally excluded: it
-    doesn't use the image at all (runs analysis on the host conda env),
-    which defeats the point of the canonical container. To force bwrap,
-    pass `--sandbox bwrap` explicitly.
+    Order: podman → apptainer → singularity. All run the canonical
+    lhc-bench image with proper $HOME isolation via the fake-home dir
+    built in `_prepare_isolated_home`.
     """
     for cls in (PodmanSandbox, ApptainerSandbox, SingularitySandbox):
         inst = cls()
@@ -831,7 +669,7 @@ def _auto_select() -> Sandbox:
     sys.stderr.write(
         "sandbox: no container backend available (podman, apptainer, singularity missing); "
         "falling back to 'none' (NO ISOLATION). "
-        "Install one of them, or pass --sandbox bwrap / --sandbox none explicitly.\n"
+        "Install one of them, or pass --sandbox none explicitly.\n"
     )
     return NoneSandbox()
 
@@ -878,8 +716,8 @@ def sandbox_command(
 ) -> tuple[list[str], Callable[[], None]]:
     """Thin wrapper: pick a backend and delegate to its .wrap().
 
-    `sandbox` may be "bwrap" | "none" | "auto" | None. See get_sandbox() for
-    resolution rules.
+    `sandbox` may be "podman" | "apptainer" | "singularity" | "none" | "auto"
+    | None. See get_sandbox() for resolution rules.
     """
     _materialize_papers_dir(workspace)
     return get_sandbox(sandbox).wrap(
