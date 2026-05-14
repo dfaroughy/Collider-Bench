@@ -11,22 +11,23 @@ The benchmark tests long-horizon scientific reasoning under realistic conditions
 
 ## Quick start
 
-Everything you need for the runtime is baked into a single public container
-image.
+The HEP simulation stack (MadGraph, Pythia8, Delphes, Prospino) lives entirely
+inside the prebuilt container image. You don't need to install any of it on
+the host — a clean Python venv plus one container runtime is enough.
 
 ```bash
-# 1. Pull the prebuilt benchmark image using either of:
-docker pull ghcr.io/dfaroughy/lhc-bench:latest
-singularity pull lhc-bench.sif docker://ghcr.io/dfaroughy/lhc-bench:latest
-apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
-podman pull ghcr.io/dfaroughy/lhc-bench:latest
-
-# 2. Clone the repo and install the harness
+# 1. Clone + install the harness into a venv (no conda required)
 git clone https://github.com/dfaroughy/Collider-Bench.git
 cd Collider-Bench
-pip install -e .
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
 
-# 3. Install whichever vendor agent CLI(s) you want to use, on the host.
+# 2. Pull the prebuilt benchmark image (~3.5 GB, one-time)
+docker pull    ghcr.io/dfaroughy/lhc-bench:latest      # Docker
+podman pull    ghcr.io/dfaroughy/lhc-bench:latest      # Podman / Podman Desktop
+apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest  # Apptainer / Singularity HPC
+
+# 3. Install one vendor agent CLI on the host (the harness mounts it into the container)
 npm i -g @anthropic-ai/claude-code   # Claude Code → ~/.local/bin/claude
 npm i -g @openai/codex                # Codex CLI    → ~/.local/bin/codex
 npm i -g @google/gemini-cli           # Gemini CLI   → ~/.local/bin/gemini
@@ -37,10 +38,12 @@ export OPENAI_API_KEY=...          # for --runner codex
 export GEMINI_API_KEY=...          # for --runner gemini
 
 # 5. Run one task
-scripts/run-agent --config configs/anthropics/claude_opus.yaml --task <task-id>
+scripts/run-agent --config configs/claude.yaml --task sus-16-046_sim-T5Wg
 ```
 
-The image is OCI-compatible and works with various containers — `docker`, `podman`, `apptainer`.
+The image is OCI-compliant — `docker`, `podman`, `apptainer`, `singularity` all
+work against it. Apple Silicon Macs currently run it under Rosetta emulation
+(amd64 image); a Linux box or cloud VM is the smoother path.
 
 ## Tasks
 
@@ -70,7 +73,7 @@ reference $y^\star$.
 Launches the agent CLI, scores the result, writes `runs/<runner>_<model>/<task>/`.
 
 ```bash
-scripts/run-agent --config configs/anthropics/claude_sonnet.yaml \
+scripts/run-agent --config configs/claude.yaml \
                   --task sus-16-047_sim-T5Wg_lowHT
 ```
 
@@ -94,21 +97,27 @@ mounted into the agent container.
 
 ## Configs
 
-Each agent + runner combo has a YAML config under [`configs/`](configs/),
-grouped by harness:
+Two public reference configs live under [`configs/`](configs/):
 
-- `configs/anthropics/claude_*.yaml`
-- `configs/openai/codex_*.yaml`
-- `configs/forgecode/forge_*.yaml`
+| Config | When to use |
+|---|---|
+| [`configs/claude.yaml`](configs/claude.yaml)            | Single-host runs on any Linux box, Mac with Podman Desktop, or cloud VM. `compute: local`, `sandbox: podman`. |
+| [`configs/claude_slurm.yaml`](configs/claude_slurm.yaml) | SLURM allocation on Perlmutter / a similar cluster. `compute: slurm` plus the usual allocation fields. |
+
+Both files are self-contained — copy and adapt. Full schema, validation
+rules, and the runtime path from YAML to launched process are documented in
+[`configs/CONFIG.md`](configs/CONFIG.md).
+
+Minimum viable config:
 
 ```yaml
-# configs/anthropics/claude_sonnet.yaml
-extends: ../utils/perlmutter_interactive.yaml
-agent:   simple
-task:    sus-16-047_sim-T5Wg_lowHT
-runner:  claude
-model:   claude-sonnet-4-6
-effort:  medium
+agent:    simple
+task:     sus-16-046_sim-T5Wg
+runner:   claude              # claude | codex | gemini | aider | forge
+auth:     api                 # or oauth
+model:    claude-opus-4-7
+sandbox:  podman              # podman | apptainer | singularity | none
+compute:  local               # or slurm (+ allocation fields)
 ```
 
 CLI flags on `scripts/run-agent` override config values.

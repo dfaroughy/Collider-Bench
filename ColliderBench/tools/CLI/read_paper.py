@@ -20,7 +20,17 @@ def _open_doc(pdf_path: str):
     try:
         import fitz
     except ImportError:
-        print("ERROR: pymupdf not installed. Run: pip install pymupdf", file=sys.stderr)
+        # PyMuPDF is baked into the canonical container image's conda env.
+        # If you're hitting this outside the container, you're on a bare-host
+        # venv that doesn't ship pymupdf — install it explicitly:
+        #     pip install pymupdf
+        # Or run the harness so this tool fires inside the image instead.
+        print(
+            "ERROR: pymupdf not installed. This tool runs inside the lhc-bench "
+            "container by default. If invoked from a bare-host venv, run: "
+            "pip install pymupdf",
+            file=sys.stderr,
+        )
         sys.exit(1)
     if not os.path.exists(pdf_path):
         print(f"ERROR: file not found: {pdf_path}", file=sys.stderr)

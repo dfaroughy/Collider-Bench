@@ -35,8 +35,12 @@ All commands support `--json` for machine-readable output.
 
 ## Gotchas
 
-- **Always use `root://` (xrootd) URLs**, not `https://`. HTTPS fails
-  with SSL errors on NERSC.
+- **Prefer `root://` (xrootd) URLs over `https://`** for performance and
+  reliability. HTTPS works on the public internet but is single-stream and
+  noticeably slower for large NanoAOD files; on isolated/federated networks
+  (NERSC and similar) it can also fail outright with SSL errors. xrootd
+  uses parallel streams + CERN's federated peering, which is what the
+  underlying CMS Open Data tooling expects.
 - For cross sections, **pass the NanoAOD recid to `sample-info`**, not
   the MiniAOD recid — the tool walks the provenance chain for you.
 - `files --limit` defaults to 20; use `--limit 100000` or `--save

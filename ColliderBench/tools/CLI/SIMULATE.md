@@ -91,7 +91,13 @@ lhe_in, hepmc_out = sys.argv[1], sys.argv[2]
 with open(lhe_in) as f:
     n_lhe = sum(1 for line in f if "<event>" in line)
 
-xmldir = os.environ["CONDA_PREFIX"] + "/share/Pythia8/xmldoc"
+# Inside the container image, $PYTHIA8_DIR is set; outside, fall back to
+# the conda env's xmldoc path. Both branches resolve to the same Pythia
+# settings DB; we just don't want `os.environ["CONDA_PREFIX"]` to KeyError
+# in a venv-only shell.
+xmldir = os.environ.get("PYTHIA8_DIR", "") + "/share/Pythia8/xmldoc"
+if not os.path.isdir(xmldir):
+    xmldir = os.environ["CONDA_PREFIX"] + "/share/Pythia8/xmldoc"
 p = pythia8.Pythia(xmldir, False)
 p.readString(f"Beams:LHEF = {lhe_in}")
 p.readString("Beams:frameType = 4")     # read beams from LHE header
