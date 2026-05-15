@@ -139,7 +139,7 @@ def test_slurm_resource_keys_validate():
     validate_config(
         {
             "compute": "perlmutter",
-            "account": "m4539",
+            "account": "YOUR_PROJECT",
             "partition": "cpu",
             "constraint": "cpu",
             "nodes": 1,
@@ -156,26 +156,38 @@ def test_slurm_resource_keys_validate():
 
 
 def test_shell_defaults_include_slurm_resource_keys():
-    defaults = shell_defaults(CONFIG_DIR / "utils" / "perlmutter_interactive.yaml")
+    """Loaded from a gitignored maintainer profile when present."""
+    profile = CONFIG_DIR / "utils" / "perlmutter_interactive.yaml"
+    if not profile.is_file():
+        pytest.skip("maintainer-only profile not present in this clone")
+    defaults = shell_defaults(profile)
+    # Structural checks only — every SLURM key is extracted with a string value.
+    for key in (
+        "COMPUTE",
+        "ACCOUNT",
+        "PARTITION",
+        "CONSTRAINT",
+        "NODES",
+        "NTASKS",
+        "CPUS",
+        "WALLTIME",
+        "QOS",
+        "SALLOC_EXTRA",
+        "SRUN_EXTRA",
+        "ENV_SETUP",
+    ):
+        assert key in defaults, f"missing shell-default key: {key}"
+        assert isinstance(defaults[key], str)
     assert defaults["COMPUTE"] == "slurm"
-    assert defaults["ACCOUNT"] == "m4539"
-    assert defaults["PARTITION"] == ""
-    assert defaults["CONSTRAINT"] == "cpu"
-    assert defaults["NODES"] == "1"
-    assert defaults["NTASKS"] == "1"
-    assert defaults["CPUS"] == "128"
-    assert defaults["SALLOC_EXTRA"] == ""
-    assert defaults["SRUN_EXTRA"] == ""
-    assert defaults["ENV_SETUP"] == ""
 
 
 def test_api_profile_defaults_are_regular_qos():
-    defaults = shell_defaults(CONFIG_DIR / "utils" / "perlmutter_api.yaml")
+    """Same as above for the API/regular-qos profile."""
+    profile = CONFIG_DIR / "utils" / "perlmutter_api.yaml"
+    if not profile.is_file():
+        pytest.skip("maintainer-only profile not present in this clone")
+    defaults = shell_defaults(profile)
     assert defaults["COMPUTE"] == "slurm"
-    assert defaults["ACCOUNT"] == "m4539"
-    assert defaults["CONSTRAINT"] == "cpu"
-    assert defaults["CPUS"] == "16"
-    assert defaults["WALLTIME"] == "03:00:00"
     assert defaults["QOS"] == "regular"
 
 

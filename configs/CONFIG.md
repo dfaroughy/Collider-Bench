@@ -53,7 +53,7 @@ to `salloc`/`srun` after `shell_defaults()` extracts them in
 
 | Key | Type | Notes |
 |---|---|---|
-| `account`      | str | SLURM `--account`. NERSC: project ID (e.g. `m4539`). Required by most sites. |
+| `account`      | str | SLURM `--account`. NERSC: your project ID (e.g. `YOUR_PROJECT`). Required by most sites. |
 | `partition`    | str | `--partition`. Leave `""` for the default. |
 | `constraint`   | str | `--constraint`. Perlmutter: `cpu` or `gpu`. |
 | `nodes`        | int \| str | `--nodes`. |
