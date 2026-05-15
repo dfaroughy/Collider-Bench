@@ -8,42 +8,46 @@ Each task requires multi-step scientific reasoning by an autonomous coding agent
 
 The benchmark tests long-horizon scientific reasoning under realistic conditions, including ambiguous or underspecified paper descriptions, underdocumented domain-specific tools and approximate public simulation pipelines.
 
+arXiv preprint: [2605.13950](https://arxiv.org/abs/2605.13950)
 
 ## Quick start
 
 The HEP simulation stack (MadGraph, Pythia8, Delphes, Prospino) lives entirely
-inside the prebuilt container image. You don't need to install any of it on
-the host — a clean Python venv plus one container runtime is enough.
+inside the prebuilt container image.
 
-```bash
-# 1. Clone + install the harness into a venv (no conda required)
+1. Clone + install the harness into a venv
+
+```
 git clone https://github.com/dfaroughy/Collider-Bench.git
 cd Collider-Bench
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
+```
 
-# 2. Pull the prebuilt benchmark image (~3.5 GB, one-time)
-docker pull    ghcr.io/dfaroughy/lhc-bench:latest      # Docker
-podman pull    ghcr.io/dfaroughy/lhc-bench:latest      # Podman / Podman Desktop
-apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest  # Apptainer / Singularity HPC
+2. Pull the prebuilt benchmark image via podman | docker | apptainer
 
-# 3. Install one vendor agent CLI on the host (the harness mounts it into the container)
-npm i -g @anthropic-ai/claude-code   # Claude Code → ~/.local/bin/claude
+```
+podman pull    ghcr.io/dfaroughy/lhc-bench:latest
+docker pull    ghcr.io/dfaroughy/lhc-bench:latest
+apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
+```
+
+3. Install one vendor agent CLI on the host and set the API key
+```
+npm i -g @anthropic-ai/claude-code    # Claude Code → ~/.local/bin/claude
 npm i -g @openai/codex                # Codex CLI    → ~/.local/bin/codex
-npm i -g @google/gemini-cli           # Gemini CLI   → ~/.local/bin/gemini
 
-# 4. Set the API key for whichever vendor you want to use
-export ANTHROPIC_API_KEY=...       # for --runner claude
+export ANTHROPIC_API_KEY=...          # for --runner claude
 export OPENAI_API_KEY=...          # for --runner codex
-export GEMINI_API_KEY=...          # for --runner gemini
+```
 
-# 5. Run one task
+4. Run task
+```
 scripts/run-agent --config configs/claude.yaml --task sus-16-046_sim-T5Wg
 ```
 
-The image is OCI-compliant — `docker`, `podman`, `apptainer`, `singularity` all
-work against it. Apple Silicon Macs currently run it under Rosetta emulation
-(amd64 image); a Linux box or cloud VM is the smoother path.
+The image is OCI-compliant —  `podman`, `docker`, `apptainer`, `singularity` all
+work against it.
 
 ## Tasks
 
@@ -123,6 +127,18 @@ compute:  local               # or slurm (+ allocation fields)
 CLI flags on `scripts/run-agent` override config values.
 
 ## Citing
+
+```bibtex
+@article{Faroughy:2026dkj,
+    author = "Faroughy, Darius A. and Palacios Schweitzer, Sofia and Pang, Ian and Mishra-Sharma, Siddharth and Shih, David",
+    title = "{Collider-Bench: Benchmarking AI Agents with Particle Physics Analysis Reproduction}",
+    eprint = "2605.13950",
+    archivePrefix = "arXiv",
+    primaryClass = "cs.LG",
+    month = "5",
+    year = "2026"
+}
+```
 
 If you use Collider-Bench in a publication, please cite the dataset record
 on HuggingFace and the HEP simulation software the benchmark depends on
