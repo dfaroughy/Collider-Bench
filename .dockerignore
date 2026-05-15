@@ -1,28 +1,27 @@
-# Stripped from the COPY ... /app/... layers in docker/Dockerfile so the
-# resulting image doesn't bake in developer-local cache.
-
-agent_runtime/__pycache__/
-
-# Private (non-public) agents — keep them out of the canonical image build.
-agents/anneal/
-agents/baseline/
-configs/claude_anneal.yaml
-configs/codex_anneal.yaml
-configs/gemini_anneal.yaml
-configs/claude_baseline.yaml
-configs/codex_baseline.yaml
-configs/gemini_baseline.yaml
-
-# Run outputs and ephemeral state
-runs/
-recast_*/
-simulate_*/
-validate_*/
-__pycache__/
-.pytest_cache/
+# Stripped from the build context in docker/Dockerfile so the resulting
+# image doesn't bake in developer-local cache / state. Mirrors the
+# generic patterns from .gitignore.
 
 # Editor / OS noise
 .vscode/
 .idea/
 .DS_Store
 ._*
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Run outputs and ephemeral state
+runs/
+recast_*/
+simulate_*/
+validate_*/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

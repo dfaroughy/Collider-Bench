@@ -21,72 +21,29 @@ dist/
 
 # ── Run outputs (frozen artifacts; not source of truth) ─────────────────────
 runs/
-recast_*/
-simulate_*/
-validate_*/
-
-# Per-invocation scratch dirs created by bin/prospino.
-prospino_scratch/
-
-# Codex session state auto-seeded by CodexRunner into workspace/.codex_home/.
-.codex_home/
-
-# Claude Code per-project settings (permissions allowlists, hooks — user-specific).
-.claude/
-
-# LaTeX draft scratch.
-draft/*.aux
-draft/*.log
-draft/*.out
-draft/*.synctex.gz
 
 # ── Secrets — never commit ───────────────────────────────────────────────────
-.api_keys.env
+.env
+.env.*
+*.key
+*.pem
 .api_keys.*
-.ghcr_token
-.codex
-.mcp.json
+
+# detect-secrets baseline — generated locally; regenerate with
+#   detect-secrets scan > .secrets.baseline
+# Not tracked because it can hold per-clone file paths.
+.secrets.baseline
 
 # ── Image build artifacts ────────────────────────────────────────────────────
-# Packed conda env (multi-GB binary blob — re-create with
-# `conda pack -n lhc_analysis -o docker/lhc_analysis_env.tar.gz`).
-docker/lhc_analysis_env.tar.gz
-
-# Apptainer/Singularity image files built locally.
+# Multi-GB binary blobs from `conda pack` and local image builds.
+*.tar.gz
 *.sif
 
 # ── Vendored HEP simulator sources ───────────────────────────────────────────
-# These are baked into the public container image at /opt/sim/ during
-# `docker build` and are NOT used by the agent at runtime — the sandbox's
-# PATH inside the container resolves mg5_aMC / Delphes / etc. to the image
-# copies. Users who pull the image never touch these directories. They live
-# only on the maintainer's machine for image-rebuild purposes.
+# Not redistributed via git — baked into the public container image at
+# /opt/sim/ during `docker build`. Users who pull the image never need
+# these directories.
 ColliderBench/tools/sim/MG5_aMC_v3_7_0/
 ColliderBench/tools/sim/pythia8313/
 ColliderBench/tools/sim/delphes/
 ColliderBench/tools/sim/prospino/
-
-# ── Maintainer-only working set ──────────────────────────────────────────────
-# The public release ships exactly:
-#   configs/claude.yaml, configs/claude_slurm.yaml, configs/CONFIG.md
-# Everything else under configs/ is vendor-specific or NERSC-shaped and stays
-# local. SLURM submission helpers below assume Perlmutter's queue layout.
-configs/anthropics/
-configs/openai/
-configs/google/
-configs/forgecode/
-configs/utils/
-
-scripts/sbatch_simple_array.sh
-scripts/sbatch_api_array.sh
-scripts/submit_api_parallel.sh
-scripts/multi-run-interactive-*.sh
-scripts/neurips_tasks.txt
-
-# Research scratchpad — NeurIPS plot scripts, runs.json snapshot, batch eval
-# wrapper. The public single-run driver is scripts/launch_eval.sh.
-utils/
-
-# Large archival directory — not part of the active tree.
-old/
-_evaluation_deprecated/
