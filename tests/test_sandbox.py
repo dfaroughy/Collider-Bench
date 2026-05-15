@@ -312,6 +312,43 @@ def test_apptainer_does_not_bind_tools_sim(repo_root, tmp_path, monkeypatch):
     ), f"tools/sim/ leaked into the apptainer bind list: {[b for b in binds if 'tools/sim' in b]}"
 
 
+def test_docker_backend_uses_docker_engine(repo_root, tmp_path, monkeypatch):
+    """DockerSandbox reuses PodmanSandbox.wrap() but exec's `docker` instead."""
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/docker" if name == "docker" else None
+    )
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+    cmd, _cleanup = sandbox_command(workspace, repo_root, ["/bin/true"], sandbox="docker")
+    assert cmd[0] == "docker"
+    assert "run" in cmd[:5]
+
+
+def test_docker_does_not_bind_tools_sim(repo_root, tmp_path, monkeypatch):
+    """Docker must honor the same narrow-tools/ contract as podman/apptainer."""
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/docker" if name == "docker" else None
+    )
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+    cmd, _cleanup = sandbox_command(workspace, repo_root, ["/bin/true"], sandbox="docker")
+    binds = _bind_values(cmd, "-v")
+    assert not any(
+        "tools/sim" in b for b in binds
+    ), f"tools/sim/ leaked into the docker bind list: {[b for b in binds if 'tools/sim' in b]}"
+
+
+def test_auto_falls_back_to_docker_when_no_podman(monkeypatch):
+    """If podman isn't installed but docker is, auto-select picks docker
+    before apptainer / singularity."""
+
+    def fake_which(name):
+        return f"/usr/bin/{name}" if name in {"docker", "apptainer", "singularity"} else None
+
+    monkeypatch.setattr(shutil, "which", fake_which)
+    assert get_sandbox("auto").name == "docker"
+
+
 def test_podman_command_includes_runner_env(repo_root, tmp_path, monkeypatch):
     monkeypatch.setattr(
         shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None

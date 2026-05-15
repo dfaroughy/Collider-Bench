@@ -116,7 +116,7 @@ task:     sus-16-046_sim-T5Wg
 runner:   claude              # claude | codex | gemini | aider | forge
 auth:     api                 # or oauth
 model:    claude-opus-4-7
-sandbox:  podman              # podman | apptainer | singularity | none
+sandbox:  podman              # podman | docker | apptainer | singularity | none
 compute:  local               # or slurm (+ allocation fields)
 ```
 

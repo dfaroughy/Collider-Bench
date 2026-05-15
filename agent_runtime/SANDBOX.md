@@ -7,11 +7,12 @@ Today there are four built-ins:
 | Backend | Status | Typical host | Network | FS isolation |
 |---|---|---|---|---|
 | `podman` | auto default when available | NERSC Perlmutter, Linux/Mac with Podman | open | yes, canonical container image |
+| `docker` | auto fallback after podman | Industry workstations, Docker Desktop on Mac, cloud VMs | open | yes, canonical container image |
 | `apptainer` | auto fallback | HPC sites with Apptainer | open | yes, canonical container image |
 | `singularity` | auto fallback | HPC sites with Singularity | open | yes, canonical container image |
 | `none`  | always available | CI, free-range debugging | open | **none — do not use for scored runs** |
 
-Selection order (first match wins): `--sandbox` flag → `sandbox:` config key → `LHC_RECAST_SANDBOX` env var → auto (`podman` → `apptainer` → `singularity` → `none` with a warning).
+Selection order (first match wins): `--sandbox` flag → `sandbox:` config key → `LHC_RECAST_SANDBOX` env var → auto (`podman` → `docker` → `apptainer` → `singularity` → `none` with a warning).
 
 The runtime captures the choice in `run_info.json["sandbox"]` so provenance is preserved.
 
@@ -22,7 +23,7 @@ The runtime captures the choice in `run_info.json["sandbox"]` so provenance is p
 extends: ../utils/perlmutter_interactive.yaml
 agent: simple
 task: sus-16-046_sim-T5Wg
-sandbox: podman       # auto | podman | apptainer | singularity | none
+sandbox: podman       # auto | podman | docker | apptainer | singularity | none
 ```
 
 **Via CLI flag:**

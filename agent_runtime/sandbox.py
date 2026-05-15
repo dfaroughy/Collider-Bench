@@ -20,6 +20,8 @@ Backend selection (first match wins):
 Available backends:
     podman    — runs the canonical lhc-bench image (default on hosts where
                 podman / podman-hpc is installed)
+    docker    — same image via `docker run` (industry workstations, Docker
+                Desktop on Mac/Windows-WSL, cloud VMs)
     apptainer — same image via apptainer exec (HPC sites with no podman)
     singularity — same image via singularity exec (legacy/generic HPC)
     none      — passthrough, no isolation (CI / debugging)
@@ -636,6 +638,31 @@ class PodmanSandbox(Sandbox):
         return cmd, cleanup
 
 
+# ── Docker (industry workstations, Docker Desktop on Mac, cloud VMs) ───────
+
+
+class DockerSandbox(PodmanSandbox):
+    """OCI-image sandbox via `docker`.
+
+    Functionally equivalent to PodmanSandbox — same image, same bind
+    contract, same env passthrough. Docker's CLI is podman-CLI-compatible
+    for the flag subset we use (`run`, `--rm`, `-i`, `-v`, `-e`,
+    `--workdir`), so we inherit from PodmanSandbox and only override
+    the engine name + availability probe.
+
+    Use this on hosts that have Docker Desktop / Docker Engine but not
+    Podman (common on macOS, Windows-WSL, and some industry workstations).
+    """
+
+    name = "docker"
+
+    def available(self) -> bool:
+        return shutil.which("docker") is not None
+
+    def _engine(self) -> str:
+        return "docker"
+
+
 # ── No-op passthrough (macOS / CI / free-range debugging) ──────────────────
 
 
@@ -676,6 +703,7 @@ SANDBOXES: dict[str, type[Sandbox]] = {
     "apptainer": ApptainerSandbox,
     "singularity": SingularitySandbox,
     "podman": PodmanSandbox,
+    "docker": DockerSandbox,
     "none": NoneSandbox,
 }
 
@@ -683,16 +711,18 @@ SANDBOXES: dict[str, type[Sandbox]] = {
 def _auto_select() -> Sandbox:
     """Pick the best available container backend.
 
-    Order: podman → apptainer → singularity. All run the canonical
-    lhc-bench image with proper $HOME isolation via the fake-home dir
-    built in `_prepare_isolated_home`.
+    Order: podman → docker → apptainer → singularity. All run the
+    canonical lhc-bench image with proper $HOME isolation via the
+    fake-home dir built in `_prepare_isolated_home`. Podman is preferred
+    over Docker only because it's the engine the maintainer's runs are
+    validated on; they are functionally interchangeable here.
     """
-    for cls in (PodmanSandbox, ApptainerSandbox, SingularitySandbox):
+    for cls in (PodmanSandbox, DockerSandbox, ApptainerSandbox, SingularitySandbox):
         inst = cls()
         if inst.available():
             return inst
     sys.stderr.write(
-        "sandbox: no container backend available (podman, apptainer, singularity missing); "
+        "sandbox: no container backend available (podman, docker, apptainer, singularity missing); "
         "falling back to 'none' (NO ISOLATION). "
         "Install one of them, or pass --sandbox none explicitly.\n"
     )

@@ -59,9 +59,13 @@ def test_singularity_is_valid_sandbox_config():
     validate_config({"sandbox": "singularity"}, source="<test>")
 
 
+def test_docker_is_valid_sandbox_config():
+    validate_config({"sandbox": "docker"}, source="<test>")
+
+
 def test_unknown_sandbox_rejected():
     with pytest.raises(ValueError, match="sandbox"):
-        validate_config({"sandbox": "docker"}, source="<test>")
+        validate_config({"sandbox": "rkt"}, source="<test>")
 
 
 def test_tool_policy_disabled_delphes_validates():

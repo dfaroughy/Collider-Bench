@@ -40,7 +40,7 @@ and the `_ALLOWED_*` sets). Unknown keys and wrong types raise at load time.
 | `auth`     | str | `oauth`, `api` | yes | `api` → harness reads the runner-specific API key from the environment. `oauth` → harness expects an existing CLI login (`~/.claude`, `~/.codex`, `~/.gemini`) and copies the auth files into the per-run fake `$HOME`. |
 | `model`    | str | vendor-specific model ID | yes | Forwarded verbatim to the CLI's `--model` flag. |
 | `effort`   | str \| int | `low`, `medium`, `high`, `max`, `xhigh`, or an integer (raw token budget) | no | Mapped per runner: e.g. Claude → `thinking.budget_tokens`, Codex → `--reasoning-effort`. |
-| `sandbox`  | str | `auto`, `podman`, `apptainer`, `singularity`, `none` | no (default `auto`) | Filesystem-isolation backend. See [`agent_runtime/SANDBOX.md`](../agent_runtime/SANDBOX.md). |
+| `sandbox`  | str | `auto`, `podman`, `docker`, `apptainer`, `singularity`, `none` | no (default `auto`) | Filesystem-isolation backend. See [`agent_runtime/SANDBOX.md`](../agent_runtime/SANDBOX.md). |
 | `compute`  | str | `""`, `local`, `slurm`, `perlmutter` | no (default `""`) | `slurm` triggers the `salloc`/`srun` wrapping in [`agent_runtime/shell/agent_env.sh:run_with_compute`](../agent_runtime/shell/agent_env.sh). `local` and `""` run in the current shell. |
 | `tool_policy` | dict | `{ disabled: [str, ...] }` | no | Currently the only honored toggle is `disabled: [delphes]`, which swaps the Delphes installation for an empty placeholder so the agent can't shell out to it. |
 | `extends`  | str | path relative to the config file | no | Path-style inheritance. The child overrides the parent key-by-key. Loaded recursively in [`load_config`](../agent_runtime/config.py). |
@@ -127,7 +127,7 @@ task:    sus-16-046_sim-T5Wg
 runner:  claude
 auth:    api          # or oauth
 model:   claude-opus-4-7
-sandbox: podman       # podman | apptainer | singularity | none
+sandbox: podman       # podman | docker | apptainer | singularity | none
 compute: local        # or slurm + the SLURM fields above
 ```
 
