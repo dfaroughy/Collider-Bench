@@ -3,8 +3,7 @@
 
 ## Collider-Bench
 
-If you use Collider-Bench itself in a publication or evaluation, please cite
-the dataset record on HuggingFace (CITATION.cff included with the corpus):
+If you use Collider-Bench itself in a publication or evaluation, please cite us under:
 
 ```bibtex
 @article{Faroughy:2026dkj,

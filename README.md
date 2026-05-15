@@ -15,7 +15,7 @@ arXiv preprint: [2605.13950](https://arxiv.org/abs/2605.13950)
 The HEP simulation stack (MadGraph, Pythia8, Delphes, Prospino) lives entirely
 inside the prebuilt container image.
 
-1. Clone + install the harness into a venv
+Clone and install the harness into a venv
 
 ```
 git clone https://github.com/dfaroughy/Collider-Bench.git
@@ -24,7 +24,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-2. Pull the prebuilt benchmark image via podman | docker | apptainer
+Pull the prebuilt benchmark image via podman | docker | apptainer
 
 ```
 podman pull    ghcr.io/dfaroughy/lhc-bench:latest
@@ -32,16 +32,15 @@ docker pull    ghcr.io/dfaroughy/lhc-bench:latest
 apptainer pull docker://ghcr.io/dfaroughy/lhc-bench:latest
 ```
 
-3. Install one vendor agent CLI on the host and set the API key
+Install the vendor agents on the host and export the API keys
 ```
 npm i -g @anthropic-ai/claude-code    # Claude Code → ~/.local/bin/claude
 npm i -g @openai/codex                # Codex CLI    → ~/.local/bin/codex
-
 export ANTHROPIC_API_KEY=...          # for --runner claude
 export OPENAI_API_KEY=...          # for --runner codex
 ```
 
-4. Run task
+Run task
 ```
 scripts/run-agent --config configs/claude.yaml --task sus-16-046_sim-T5Wg
 ```
@@ -126,7 +125,17 @@ compute:  local               # or slurm (+ allocation fields)
 
 CLI flags on `scripts/run-agent` override config values.
 
-## Citing
+## Continuous integration
+
+[`.github/workflows/test.yml`](.github/workflows/test.yml) runs on every push and PR to `main`:
+
+- **`pytest`** on Python 3.10 / 3.11 / 3.12 (matrix).
+- **`pre-commit`** on all files (fails the job if any hook would make a change).
+
+
+## Citation
+
+If you use Collider-Bench in a publication, please cite us.
 
 ```bibtex
 @article{Faroughy:2026dkj,
@@ -140,17 +149,7 @@ CLI flags on `scripts/run-agent` override config values.
 }
 ```
 
-If you use Collider-Bench in a publication, please cite the dataset record
-on HuggingFace and the HEP simulation software the benchmark depends on
-(MadGraph5_aMC@NLO, Pythia 8, Delphes, Prospino). Full reference list with
-DOIs / arXiv numbers is in [`CITATIONS.md`](CITATIONS.md).
-
-## Continuous integration
-
-[`.github/workflows/test.yml`](.github/workflows/test.yml) runs on every push and PR to `main`:
-
-- **`pytest`** on Python 3.10 / 3.11 / 3.12 (matrix).
-- **`pre-commit`** on all files (fails the job if any hook would make a change).
+The HEP tool reference list is in [`CITATIONS.md`](CITATIONS.md).
 
 ## References
 <sup>1</sup> Albert M Sirunyan et al. Search for new phenomena in final states with two opposite-charge, same-
