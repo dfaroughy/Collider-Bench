@@ -58,7 +58,7 @@ the cheaper one (`oauth`) unless the user explicitly says otherwise.**
 | Mode | What it uses | When to pick it | Caveats |
 |---|---|---|---|
 | `oauth` | The vendor CLI's own login session (`claude /login`, `codex /login`, `gemini auth login`) — usage gets billed to that account's subscription / free quota. | **Default for individual users.** A Claude / ChatGPT / Gemini subscription is ~$20–200/month flat and covers thousands of runs. Most researchers already have one. | Needs an interactive login on the host first. Refresh tokens rotate — the harness syncs them back to the host on exit ([sandbox.py:_sync_credentials_back_to_host](agent_runtime/sandbox.py)). Batch / headless / SLURM execution is fragile. |
-| `api` | A direct API key (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `DEEPSEEK_API_KEY`). | Production batch eval, SLURM jobs, CI, parallel sweeps, anywhere you need headless reliability. Pays per-token list price — Opus is ~$15/Mtok input + $75/Mtok output, so a single sus-16-046_sim-T5Wg run costs roughly $5–15. **Easy to burn $100+ overnight if not careful.** | No interactive login, just an exported env var. The validator ([config.py:validate_api_auth_env](agent_runtime/config.py)) fails fast if the key is missing, so misconfigured runs don't spend tokens. |
+| `api` | A direct API key (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `DEEPSEEK_API_KEY`). | Production batch eval, SLURM jobs, CI, parallel sweeps, anywhere you need headless reliability.| No interactive login, just an exported env var. The validator ([config.py:validate_api_auth_env](agent_runtime/config.py)) fails fast if the key is missing, so misconfigured runs don't spend tokens. |
 
 In configs:
 
