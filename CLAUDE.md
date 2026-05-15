@@ -34,9 +34,13 @@ docker pull ghcr.io/dfaroughy/lhc-bench:latest
 npm i -g @anthropic-ai/claude-code   # claude → ~/.local/bin/claude
 # alternatives: @openai/codex, @google/gemini-cli, aider, forge-code
 
-# 4. API key for the chosen vendor
+# 4. Pick an auth mode (see "Auth modes" below) and configure it
+#    — for `auth: api` (configs/claude.yaml default):
 export ANTHROPIC_API_KEY=...      # claude
 # OPENAI_API_KEY=, GEMINI_API_KEY=, DEEPSEEK_API_KEY= for other runners
+#    — for `auth: oauth` (cheaper / subscription-funded):
+# claude /login        # (or: codex /login, gemini auth login)
+# Then change configs/claude.yaml's `auth: api` → `auth: oauth`.
 
 # 5. Smoke test — should print run paths and exit 0 within ~20 min
 scripts/run-agent --config configs/claude.yaml --task sus-16-046_sim-T5Wg
@@ -45,6 +49,30 @@ scripts/run-agent --config configs/claude.yaml --task sus-16-046_sim-T5Wg
 The smoke test runs the smallest task (`sus-16-046_sim-T5Wg`, ~4 bins) end
 to end and writes a scored run under `runs/claude_opus-4-7/...`. If it
 fails, see the pitfall table below before asking the human.
+
+## Auth modes — `oauth` vs `api`
+
+Each major vendor (Anthropic / OpenAI / Google) supports two paths. **Pick
+the cheaper one (`oauth`) unless the user explicitly says otherwise.**
+
+| Mode | What it uses | When to pick it | Caveats |
+|---|---|---|---|
+| `oauth` | The vendor CLI's own login session (`claude /login`, `codex /login`, `gemini auth login`) — usage gets billed to that account's subscription / free quota. | **Default for individual users.** A Claude / ChatGPT / Gemini subscription is ~$20–200/month flat and covers thousands of runs. Most researchers already have one. | Needs an interactive login on the host first. Refresh tokens rotate — the harness syncs them back to the host on exit ([sandbox.py:_sync_credentials_back_to_host](agent_runtime/sandbox.py)). Batch / headless / SLURM execution is fragile. |
+| `api` | A direct API key (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `DEEPSEEK_API_KEY`). | Production batch eval, SLURM jobs, CI, parallel sweeps, anywhere you need headless reliability. Pays per-token list price — Opus is ~$15/Mtok input + $75/Mtok output, so a single sus-16-046_sim-T5Wg run costs roughly $5–15. **Easy to burn $100+ overnight if not careful.** | No interactive login, just an exported env var. The validator ([config.py:validate_api_auth_env](agent_runtime/config.py)) fails fast if the key is missing, so misconfigured runs don't spend tokens. |
+
+In configs:
+
+```yaml
+auth: oauth     # uses the existing CLI login on the host
+# OR
+auth: api       # requires the matching *_API_KEY env var
+```
+
+Both shipped configs (`configs/claude.yaml`, `configs/claude_slurm.yaml`)
+default to `auth: api` for batch / SLURM convenience. **If you're setting
+up for a single human researcher, switch the field to `oauth` and have them
+run `claude /login` once.** That alone can reduce their per-run cost from
+$10 to a few cents (subscription-amortized).
 
 ## Sanity checks (before the smoke test)
 
