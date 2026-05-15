@@ -18,6 +18,7 @@ If you use Collider-Bench itself in a publication or evaluation, please cite us 
 ```
 
 Dataset: <https://huggingface.co/datasets/Dariusfar/ColliderBench>
+
 GitHub: <https://github.com/dfaroughy/Collider-Bench>
 
 ---
