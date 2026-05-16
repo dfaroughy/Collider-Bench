@@ -108,7 +108,7 @@ PHYSICS_ADJ: list[str] = [
     "Choco",
     "Vanilla",
     "Minty",
-    "Caramel",ß
+    "Caramel",
     "Bitter",
     "Sweet",
     "Sour",
