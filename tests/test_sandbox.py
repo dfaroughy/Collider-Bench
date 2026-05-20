@@ -227,13 +227,19 @@ def _bind_values(cmd, flag):
     return [cmd[i + 1] for i, arg in enumerate(cmd[:-1]) if arg == flag]
 
 
-def test_podman_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch):
+def test_podman_blind_masks_delphes(repo_root, tmp_path, monkeypatch):
+    """Delphes is blind: empty /opt/sim mask + filtered docs over the
+    canonical paths, from the run-local .tool_policy/ tree (outside ws)."""
     monkeypatch.setattr(
         shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None
     )
     workspace = tmp_path / "ws"
-    disabled = workspace / "disabled_tools" / "delphes"
-    disabled.mkdir(parents=True)
+    root = workspace.parent / ".tool_policy" / "delphes"
+    (root / "opt_sim").mkdir(parents=True)
+    shadow = workspace.parent / ".tool_policy" / "_docs"  # single shared shadow
+    (shadow / "CLI").mkdir(parents=True)
+    (shadow / "TOOLS.md").write_text("# filtered\n")
+    (shadow / "simulate").write_text("#!/usr/bin/env bash\n")
 
     cmd, cleanup = sandbox_command(
         workspace,
@@ -244,22 +250,25 @@ def test_podman_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch):
         sandbox="podman",
     )
     binds = _bind_values(cmd, "-v")
-    # Disabled-delphes shadows the image's /opt/sim/delphes. The host-side
-    # tools/sim/delphes path is NOT bound at all (tools/sim/ is excluded
-    # from the agent's view by design), so no separate mask is needed there.
-    assert f"{disabled}:/opt/sim/delphes:ro" in binds
+    _assert_no_duplicate_dest(binds)
+    assert f"{root / 'opt_sim'}:/opt/sim/delphes:ro" in binds
+    # host-side tools/sim/ is never exposed (excluded by design).
     assert not any("tools/sim" in b for b in binds)
     cleanup()
 
 
-def test_apptainer_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch):
+def test_apptainer_blind_masks_delphes(repo_root, tmp_path, monkeypatch):
     def fake_which(name):
         return "/usr/bin/apptainer" if name == "apptainer" else None
 
     monkeypatch.setattr(shutil, "which", fake_which)
     workspace = tmp_path / "ws"
-    disabled = workspace / "disabled_tools" / "delphes"
-    disabled.mkdir(parents=True)
+    root = workspace.parent / ".tool_policy" / "delphes"
+    (root / "opt_sim").mkdir(parents=True)
+    shadow = workspace.parent / ".tool_policy" / "_docs"  # single shared shadow
+    (shadow / "CLI").mkdir(parents=True)
+    (shadow / "TOOLS.md").write_text("# filtered\n")
+    (shadow / "simulate").write_text("#!/usr/bin/env bash\n")
 
     cmd, cleanup = sandbox_command(
         workspace,
@@ -270,8 +279,59 @@ def test_apptainer_masks_disabled_delphes_paths(repo_root, tmp_path, monkeypatch
         sandbox="apptainer",
     )
     binds = _bind_values(cmd, "--bind")
-    assert f"{disabled}:/opt/sim/delphes:ro" in binds
+    _assert_no_duplicate_dest(binds)
+    assert f"{root / 'opt_sim'}:/opt/sim/delphes:ro" in binds
     assert not any("tools/sim" in b for b in binds)
+    cleanup()
+
+
+def _assert_no_duplicate_dest(binds):
+    """podman rejects two mounts at the same container destination (exit
+    125). Every -v/--bind destination must be unique."""
+    dests = [b.split(":")[1] for b in binds if b.count(":") >= 2]
+    dups = {d for d in dests if dests.count(d) > 1}
+    assert not dups, f"duplicate mount destinations (podman exit 125): {sorted(dups)}"
+
+
+def test_podman_blind_masks_prospino(repo_root, tmp_path, monkeypatch):
+    """prospino: empty /opt/sim mask + filtered docs SUBSTITUTED at the
+    canonical destinations — exactly one mount per destination (the bug that
+    caused exit 125 was a duplicate tools/CLI + tools/TOOLS.md mount)."""
+    from agent_runtime import paths as bp
+
+    monkeypatch.setattr(
+        shutil, "which", lambda name: "/usr/bin/podman" if name == "podman" else None
+    )
+    workspace = tmp_path / "ws"
+    root = workspace.parent / ".tool_policy" / "prospino"
+    (root / "opt_sim").mkdir(parents=True)
+    shadow = workspace.parent / ".tool_policy" / "_docs"  # single shared shadow
+    (shadow / "CLI").mkdir(parents=True)
+    (shadow / "TOOLS.md").write_text("# filtered\n")
+    (shadow / "simulate").write_text("#!/usr/bin/env bash\n")
+
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        ["/usr/bin/codex", "exec"],
+        container_env={"CODEX_HOME": str(workspace / ".codex_home")},
+        home_files=(),
+        sandbox="podman",
+    )
+    binds = _bind_values(cmd, "-v")
+    tools_dir = bp.tools_dir(repo_root)
+    cli_dst = f"{tools_dir / 'CLI'}"
+
+    # No duplicate destinations anywhere (the regression guard).
+    _assert_no_duplicate_dest(binds)
+    # /opt/sim mask + nested simulate override are additive.
+    assert f"{root / 'opt_sim'}:/opt/sim/prospino:ro" in binds
+    assert f"{shadow / 'simulate'}:{bp.bin_dir(repo_root) / 'simulate'}:ro" in binds
+    # CLI / TOOLS.md are SUBSTITUTED at the canonical dst (shadow source,
+    # canonical destination), and the real source is NOT also bound there.
+    assert f"{shadow / 'CLI'}:{cli_dst}:ro" in binds
+    assert f"{cli_dst}:{cli_dst}:ro" not in binds
+    assert f"{shadow / 'TOOLS.md'}:{tools_dir / 'TOOLS.md'}:ro" in binds
     cleanup()
 
 

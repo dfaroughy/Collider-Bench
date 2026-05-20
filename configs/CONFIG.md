@@ -42,7 +42,7 @@ and the `_ALLOWED_*` sets). Unknown keys and wrong types raise at load time.
 | `effort`   | str \| int | `low`, `medium`, `high`, `max`, `xhigh`, or an integer (raw token budget) | no | Mapped per runner: e.g. Claude → `thinking.budget_tokens`, Codex → `--reasoning-effort`. |
 | `sandbox`  | str | `auto`, `podman`, `docker`, `apptainer`, `singularity`, `none` | no (default `auto`) | Filesystem-isolation backend. See [`agent_runtime/SANDBOX.md`](../agent_runtime/SANDBOX.md). |
 | `compute`  | str | `""`, `local`, `slurm`, `perlmutter` | no (default `""`) | `slurm` triggers the `salloc`/`srun` wrapping in [`agent_runtime/shell/agent_env.sh:run_with_compute`](../agent_runtime/shell/agent_env.sh). `local` and `""` run in the current shell. |
-| `tool_policy` | dict | `{ disabled: [str, ...] }` | no | Currently the only honored toggle is `disabled: [delphes]`, which swaps the Delphes installation for an empty placeholder so the agent can't shell out to it. |
+| `tool_policy` | dict | `{ disabled: [str, ...] }` | no | `disabled` accepts `delphes` and/or `prospino`. Both are *blind* ablations: every agent-visible trace is removed (the `bin/` shim, the dedicated `tools/CLI/*.md` doc, the `TOOLS.md` row, `AGENTS.md` mentions, the `bin/simulate` hint, and `/opt/sim/<tool>`), so the agent has no *usable* path to the tool and no doc/shim signal it ever existed (but see the blind-ablation Gotcha — an empty `/opt/sim/<tool>` dir + `$<TOOL>_DIR` remain detectable by a probing agent). The doc scrub is **block-aware** — it keeps the scrubbed `bin/simulate` valid bash (a removed `for … do` takes its `done`) and drops whole markdown sections (e.g. SIMULATE.md's `## Delphes …`) without dangling headers. Note Delphes is the load-bearing detector-sim stage, so blinding it leaves an intentional, un-narrated hole in the pipeline docs (sibling tools survive). Enforced per-run via run-local mask trees + filtered shadow docs bind-mounted over the canonical paths — the shared benchmark install is never mutated. The visible-stub mode (`blind=False`) still exists in [`workspace.py`](../agent_runtime/workspace.py) (`_ABLATIONS`) but no shipped tool uses it. |
 | `extends`  | str | path relative to the config file | no | Path-style inheritance. The child overrides the parent key-by-key. Loaded recursively in [`load_config`](../agent_runtime/config.py). |
 
 ### SLURM fields
@@ -153,3 +153,17 @@ runtime effect when absent).
   reproducibility across vendors, pass an integer.
 - **Boolean values are rejected.** `auth: yes` parses as a Python `bool` and
   the validator refuses it. Quote it: `auth: "api"`.
+- **Blind ablation prevents *use*, not *detection* (known limitation).**
+  `tool_policy.disabled` removes every usable path to the tool (shim, CLI
+  doc + module, `TOOLS.md`/`AGENTS.md`/`SIMULATE.md` mentions, the
+  `bin/simulate` hint) and masks `/opt/sim/<tool>` with an empty dir. But
+  two residues are *irreducible without rebuilding the image* (which the
+  harness must never do): an agent that runs `ls /opt/sim` still sees an
+  empty `<tool>/` directory, and `env` still shows `$<TOOL>_DIR=/opt/sim/
+  <tool>` (left at the image default on purpose, so the env looks normal).
+  A curious agent can therefore infer "a tool called `<tool>` existed here
+  and is now empty/disabled" — it gets nothing usable, but the blind is
+  not perfectly opaque. Observed in practice: in a `disabled: [prospino]`
+  run the agent ran `ls /opt/sim`, saw the empty `prospino/`, probed it,
+  and moved on. This is accepted: scoring depends on the agent not being
+  able to *run* the tool, which holds.

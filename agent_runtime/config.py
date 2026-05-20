@@ -48,7 +48,12 @@ _ALLOWED_COMPUTE = {"", "local", "slurm", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
 _ALLOWED_SANDBOX = {"auto", "apptainer", "singularity", "podman", "docker", "none"}
 _ALLOWED_TOOL_POLICY_KEYS = {"disabled"}
-_ALLOWED_DISABLED_TOOLS = {"delphes"}
+# Keep in sync with agent_runtime.workspace._ABLATIONS (a drift test in
+# tests/test_workspace.py asserts the two stay equal). `delphes` is ablated
+# with visible "disabled" stubs; `prospino` is ablated *blind* — every
+# agent-visible trace (bin shim, CLI doc, TOOLS.md row, AGENTS.md mentions,
+# bin/simulate hint, $PROSPINO_DIR, /opt/sim/prospino) is removed.
+_ALLOWED_DISABLED_TOOLS = {"delphes", "prospino"}
 _API_AUTH_ENV: dict[tuple[str, str], tuple[str, ...]] = {
     ("claude", "anthropic"): ("ANTHROPIC_API_KEY",),
     ("claude", "deepseek"): ("DEEPSEEK_API_KEY",),

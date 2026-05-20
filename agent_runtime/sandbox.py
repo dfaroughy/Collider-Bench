@@ -146,9 +146,30 @@ def _materialize_papers_dir(workspace: Path) -> None:
     shutil.copytree(target, papers)
 
 
-def _disabled_delphes_dir(workspace: Path) -> Path | None:
-    path = workspace / "disabled_tools" / "delphes"
-    return path if path.is_dir() else None
+def _tool_policy_doc_subs(workspace: Path, repo_root: Path) -> dict[str, str]:
+    """{canonical_dst: shadow_src} for blind-tool docs (tools/CLI, TOOLS.md).
+
+    Fed into _tools_bind_args so a disabled tool's docs are *substituted* at
+    their canonical destination — not bound a second time (podman rejects
+    duplicate mount destinations with exit 125).
+    """
+    from agent_runtime.workspace import tool_policy_binds
+
+    doc_subs, _ = tool_policy_binds(workspace, repo_root)
+    return doc_subs
+
+
+def _tool_policy_extra_binds(workspace: Path, repo_root: Path, flag: str) -> list[str]:
+    """Additive ablation binds with destinations not otherwise mounted: the
+    empty /opt/sim/<sub> masks and the nested bin/simulate override.
+    """
+    from agent_runtime.workspace import tool_policy_binds
+
+    _, extra = tool_policy_binds(workspace, repo_root)
+    out: list[str] = []
+    for src, dst in extra:
+        out.extend([flag, f"{src}:{dst}:ro"])
+    return out
 
 
 def _prepare_isolated_home(
@@ -332,18 +353,11 @@ class ApptainerSandbox(Sandbox):
             # of tools/ (see _TOOLS_AGENT_SUBPATHS — excludes tools/sim/),
             # plus bin/ and this run's paper PDF (copied into
             # workspace/papers before wrapping).
-            *_tools_bind_args(repo_root, "--bind"),
+            *_tools_bind_args(repo_root, "--bind", _tool_policy_doc_subs(workspace, repo_root)),
             "--bind",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
-        disabled_delphes = _disabled_delphes_dir(workspace)
-        if disabled_delphes is not None:
-            cmd.extend(
-                [
-                    "--bind",
-                    f"{disabled_delphes}:/opt/sim/delphes:ro",
-                ]
-            )
+        cmd.extend(_tool_policy_extra_binds(workspace, repo_root, "--bind"))
         # Per-run fake $HOME under <recast>/<runner-home>/. The CLIs
         # see only runner-selected credential / config files; everything
         # they write (session logs, conversation DBs, todos, caches)
@@ -432,16 +446,26 @@ _TOOLS_AGENT_SUBPATHS: tuple[str, ...] = (
 )
 
 
-def _tools_bind_args(repo_root: Path, flag: str) -> list[str]:
-    """Return ['<flag>', '<src:dst:ro>', ...] for every agent-visible tools/ subpath."""
+def _tools_bind_args(
+    repo_root: Path, flag: str, doc_subs: dict[str, str] | None = None
+) -> list[str]:
+    """['<flag>', '<src:dst:ro>', ...] for every agent-visible tools/ subpath.
+
+    `doc_subs` (from workspace.tool_policy_binds) swaps the *source* for a
+    blind tool's filtered shadow while keeping the canonical destination, so
+    a disabled tool's docs are masked with exactly one mount per
+    destination (no duplicate -v → no podman exit 125).
+    """
     from agent_runtime import paths as bench_paths
 
+    doc_subs = doc_subs or {}
     tools = bench_paths.tools_dir(repo_root)
     out: list[str] = []
     for name in _TOOLS_AGENT_SUBPATHS:
         p = tools / name
         if p.exists():
-            out.extend([flag, f"{p}:{p}:ro"])
+            src = doc_subs.get(str(p), str(p))
+            out.extend([flag, f"{src}:{p}:ro"])
     return out
 
 
@@ -560,18 +584,11 @@ class PodmanSandbox(Sandbox):
             # of tools/ (see _TOOLS_AGENT_SUBPATHS — excludes tools/sim/),
             # plus bin/ and this run's paper PDF (copied into
             # workspace/papers before wrapping).
-            *_tools_bind_args(repo_root, "-v"),
+            *_tools_bind_args(repo_root, "-v", _tool_policy_doc_subs(workspace, repo_root)),
             "-v",
             f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
         ]
-        disabled_delphes = _disabled_delphes_dir(workspace)
-        if disabled_delphes is not None:
-            cmd.extend(
-                [
-                    "-v",
-                    f"{disabled_delphes}:/opt/sim/delphes:ro",
-                ]
-            )
+        cmd.extend(_tool_policy_extra_binds(workspace, repo_root, "-v"))
 
         # OAuth creds + minimal CLI config live inside the fake $HOME
         # bound above; nothing else is shared with the host's real $HOME.

@@ -24,7 +24,7 @@ from agent_runtime.effort import resolve_effort
 from agent_runtime.naming import generate_run_info
 from agent_runtime.run_info import finalize_run_info, write_run_info
 from agent_runtime.runners import RUNNERS, get_runner
-from agent_runtime.workspace import build_workspace
+from agent_runtime.workspace import build_workspace, disabled_tool_env
 
 
 PromptBuilder = Callable[[str], str]
@@ -134,8 +134,10 @@ def _run_in_sandbox(
     env["PYTHONPATH"] = str(repo_root) + ":" + env.get("PYTHONPATH", "")
     env["REPO_ROOT"] = str(repo_root)
     tool_policy = (config or {}).get("tool_policy") or {}
-    if "delphes" in set(tool_policy.get("disabled", [])):
-        env["DELPHES_DIR"] = str(workspace / "disabled_tools" / "delphes")
+    # Visible-stub tools (delphes) get their $*_DIR redirected at the stub
+    # tree; blind tools (prospino) deliberately get NO env override so the
+    # environment stays indistinguishable from a never-offered run.
+    env.update(disabled_tool_env(workspace, tool_policy))
     prep = runner.prepare_launch(workspace, config=config)
     env.update(prep.env)
 

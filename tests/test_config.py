@@ -72,6 +72,18 @@ def test_tool_policy_disabled_delphes_validates():
     validate_config({"tool_policy": {"disabled": ["delphes"]}}, source="<test>")
 
 
+def test_tool_policy_disabled_prospino_validates():
+    validate_config({"tool_policy": {"disabled": ["prospino"]}}, source="<test>")
+
+
+def test_tool_policy_allowlist_matches_ablation_registry():
+    """config._ALLOWED_DISABLED_TOOLS must not drift from workspace._ABLATIONS."""
+    from agent_runtime.config import _ALLOWED_DISABLED_TOOLS
+    from agent_runtime.workspace import _ABLATIONS
+
+    assert _ALLOWED_DISABLED_TOOLS == set(_ABLATIONS)
+
+
 def test_tool_policy_rejects_unknown_policy_key():
     with pytest.raises(ValueError, match="tool_policy has unknown key"):
         validate_config({"tool_policy": {"degraded": {"delphes": "no_btag"}}}, source="<test>")

@@ -111,7 +111,9 @@ def test_task_toml_not_leaked_into_workspace(clean_workspace):
     assert not (ws / "results" / "task.toml").exists()
 
 
-def test_disabled_delphes_policy_installs_stubs(repo_root, tmp_run_name, task_id):
+def test_disabled_delphes_is_blind_and_keeps_simulate_valid(repo_root, tmp_run_name, task_id):
+    """Delphes is now a *blind* ablation (load-bearing tool, accept the hole):
+    no stub, scrubbed docs, and the scrubbed bin/simulate must stay valid bash."""
     ws = build_workspace(
         repo_root,
         "simple",
@@ -120,29 +122,121 @@ def test_disabled_delphes_policy_installs_stubs(repo_root, tmp_run_name, task_id
         tool_policy={"disabled": ["delphes"]},
     )
     try:
-        for rel in (
-            "bin/DelphesHepMC3",
-            "bin/DelphesROOT",
-            "disabled_tools/delphes/DelphesHepMC3",
-        ):
-            assert (ws / rel).is_file()
-            assert os.access(ws / rel, os.X_OK)
+        # No visible stub anywhere — the old DelphesHepMC3 stub is gone.
+        assert not (ws / "bin" / "DelphesHepMC3").exists()
+        assert not (ws / "disabled_tools" / "delphes").exists()
 
-        proc = subprocess.run(
-            [str(ws / "bin" / "DelphesHepMC3")],
-            check=False,
-            text=True,
-            capture_output=True,
-        )
-        assert proc.returncode != 0
-        assert "Delphes tool is disabled for this benchmark task." in proc.stderr
+        agents_md = (ws / "agent_context" / "AGENTS.md").read_text()
+        tools_md = (ws / "agent_context" / "TOOLS.md").read_text()
+        assert "delphes" not in agents_md.lower()
+        assert "delphes" not in tools_md.lower()
+        # Sibling tools survive the scrub (only Delphes is removed).
+        assert "mg5" in agents_md.lower() and "pythia" in tools_md.lower()
+
+        root = ws.parent / ".tool_policy" / "delphes"
+        assert (root / "opt_sim").is_dir()
+        assert not any((root / "opt_sim").iterdir())  # empty /opt/sim mask
+
+        shadow = ws.parent / ".tool_policy" / "_docs"  # shared doc shadow
+        sim_md = (shadow / "CLI" / "SIMULATE.md").read_text()
+        assert "delphes" not in sim_md.lower()
+        assert "## Output ROOT schema" in sim_md  # later sections intact
+        assert sim_md.count("```") % 2 == 0  # code fences still balanced
+
+        sim = shadow / "simulate"
+        assert "delphes" not in sim.read_text().lower()
+        proc = subprocess.run(["bash", "-n", str(sim)], check=False, text=True, capture_output=True)
+        assert proc.returncode == 0, f"scrubbed bin/simulate is invalid bash: {proc.stderr}"
     finally:
         shutil.rmtree(repo_root / "runs" / tmp_run_name, ignore_errors=True)
 
 
-def test_workspace_without_tool_policy_has_no_delphes_stub(clean_workspace):
+def test_workspace_without_tool_policy_keeps_delphes(clean_workspace):
     ws = clean_workspace("simple")
-    assert not (ws / "disabled_tools" / "delphes" / "DelphesHepMC3").exists()
+    assert not (ws / "disabled_tools" / "delphes").exists()
+    assert not (ws.parent / ".tool_policy").exists()
+    assert "delphes" in (ws / "agent_context" / "TOOLS.md").read_text().lower()
+
+
+def test_disabled_prospino_is_blind(repo_root, tmp_run_name, task_id):
+    """prospino ablation must leave NO agent-visible trace anywhere."""
+    ws = build_workspace(
+        repo_root,
+        "simple",
+        task_id,
+        tmp_run_name,
+        tool_policy={"disabled": ["prospino"]},
+    )
+    try:
+        # No bin shim, no stub — the wrapper is simply gone from $PATH.
+        assert not (ws / "bin" / "prospino").exists()
+
+        # Per-run agent docs are scrubbed (case-insensitive), but other
+        # tools survive — only prospino is removed.
+        agents_md = (ws / "agent_context" / "AGENTS.md").read_text()
+        tools_md = (ws / "agent_context" / "TOOLS.md").read_text()
+        assert "prospino" not in agents_md.lower()
+        assert "prospino" not in tools_md.lower()
+        assert "Delphes" in agents_md and "delphes" in tools_md.lower()
+
+        # Ablation artifacts live OUTSIDE the agent-visible workspace.
+        assert not (ws / "disabled_tools" / "prospino").exists()
+        root = ws.parent / ".tool_policy" / "prospino"
+        assert (root / "opt_sim").is_dir()
+        assert not any((root / "opt_sim").iterdir())  # empty /opt/sim mask
+
+        shadow = ws.parent / ".tool_policy" / "_docs"  # shared doc shadow
+        assert not (shadow / "CLI" / "PROSPINO.md").exists()
+        # The impl module + any stale .pyc must be gone too — every entry
+        # point routes through ColliderBench.tools.CLI.prospino.
+        assert not (shadow / "CLI" / "prospino.py").exists()
+        assert not list((shadow / "CLI").rglob("*prospino*.pyc"))
+        assert not (shadow / "CLI" / "__pycache__").exists()
+        assert (shadow / "CLI" / "SIMULATE.md").is_file()  # other docs kept
+        assert (shadow / "CLI" / "hepdata.py").is_file()  # sibling tools kept
+        assert "prospino" not in (shadow / "TOOLS.md").read_text().lower()
+        sim = (shadow / "simulate").read_text()
+        assert "prospino" not in sim.lower()
+        assert os.access(shadow / "simulate", os.X_OK)
+    finally:
+        shutil.rmtree(repo_root / "runs" / tmp_run_name, ignore_errors=True)
+
+
+def test_disabling_both_tools_shares_one_scrubbed_doc_shadow(repo_root, tmp_run_name, task_id):
+    """Both blind tools → ONE shared shadow scrubbed of BOTH (a per-tool
+    shadow would collide at the same mount destination → podman exit 125)."""
+    ws = build_workspace(
+        repo_root,
+        "simple",
+        task_id,
+        tmp_run_name,
+        tool_policy={"disabled": ["prospino", "delphes"]},
+    )
+    try:
+        assert not (ws / "bin" / "prospino").exists()
+        for tool in ("prospino", "delphes"):
+            assert (ws.parent / ".tool_policy" / tool / "opt_sim").is_dir()
+
+        shadow = ws.parent / ".tool_policy" / "_docs"
+        assert not (shadow / "CLI" / "PROSPINO.md").exists()
+        # The single shared shadow is scrubbed of BOTH tools at once.
+        for name in ("prospino", "delphes"):
+            assert name not in (shadow / "TOOLS.md").read_text().lower()
+            assert name not in (shadow / "simulate").read_text().lower()
+            for md in (shadow / "CLI").rglob("*.md"):
+                assert name not in md.read_text().lower()
+        proc = subprocess.run(
+            ["bash", "-n", str(shadow / "simulate")],
+            check=False,
+            text=True,
+            capture_output=True,
+        )
+        assert proc.returncode == 0, f"scrubbed bin/simulate invalid bash: {proc.stderr}"
+        # agent_context scrubbed of both.
+        am = (ws / "agent_context" / "AGENTS.md").read_text().lower()
+        assert "prospino" not in am and "delphes" not in am
+    finally:
+        shutil.rmtree(repo_root / "runs" / tmp_run_name, ignore_errors=True)
 
 
 def test_invalid_task_raises_filenotfound(repo_root, tmp_run_name):

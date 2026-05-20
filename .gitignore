@@ -19,6 +19,12 @@ dist/
 *.egg-info/
 *.egg
 
+# ── Virtual environments (created by the CLAUDE.md setup; never source) ──────
+.venv/
+venv/
+env/
+ENV/
+
 # ── Run outputs (frozen artifacts; not source of truth) ─────────────────────
 runs/
 
