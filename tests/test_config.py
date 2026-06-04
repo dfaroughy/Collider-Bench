@@ -125,16 +125,19 @@ def test_deepseek_api_auth_requires_deepseek_key():
 
 
 def test_extends_chain_resolved():
-    """Runnable configs should inherit compute/account/qos from profile configs.
+    """When a runnable config uses `extends:`, the chain merges in compute /
+    account / qos / etc. from the profile.
 
-    Picks any runnable shipped config; in public clones some local development
-    configs are gitignored so we fall back to skipping cleanly.
+    The public shipped configs (claude.yaml, claude_slurm.yaml) are
+    self-contained by design — no `extends:` — so this test skips on a
+    public clone. It still runs against any private maintainer config
+    under configs/ that does declare an extends chain.
     """
-    candidates = RUNNABLE_CONFIGS
+    candidates = [p for p in RUNNABLE_CONFIGS if "extends:" in p.read_text()]
     if not candidates:
         pytest.skip(
-            "no runnable configs present (public clone — vendor configs "
-            "live in the gitignored configs/{claude,codex,gemini,aider}_*.yaml)"
+            "no runnable configs with `extends:` present "
+            "(public clones ship only self-contained reference configs)"
         )
     cfg = load_config(str(candidates[0]))
     # Inherited from configs/utils:
