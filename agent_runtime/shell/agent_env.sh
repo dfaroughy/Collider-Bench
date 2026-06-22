@@ -98,10 +98,12 @@ conda_env_exists() {
 # `pip install -e ".[dev]"` already ran. Used to short-circuit the conda flow
 # for non-HEP users (industry researchers, generic Linux hosts).
 harness_python_ready() {
+  # NOTE: this list is the union of modules ColliderBench's `bin/*` tools
+  # need at runtime — NOT the union of harness Python deps.
   command -v python >/dev/null 2>&1 || return 1
   python - <<'PY' >/dev/null 2>&1
 import importlib.util
-for mod in ("yaml", "pydantic", "numpy", "matplotlib", "mplhep"):
+for mod in ("yaml", "numpy", "matplotlib", "mplhep"):
     if importlib.util.find_spec(mod) is None:
         raise SystemExit(1)
 PY
