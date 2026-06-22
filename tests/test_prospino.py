@@ -128,6 +128,46 @@ def test_parse_dat_rejects_empty(tmp_path):
         prospino._parse_dat(dat)
 
 
+# ── Image-contract resolution ──────────────────────────────────────────────
+
+
+def test_prospino_src_honours_env_var(monkeypatch, tmp_path):
+    """`$PROSPINO_DIR` (set by the container image at /opt/sim/prospino) is the
+    sole source of truth for the wrapper. The earlier `__file__`-relative
+    resolution pointed at `ColliderBench/tools/sim/prospino` which is
+    gitignored and never exists — regression: don't reintroduce that."""
+    import importlib
+
+    fake = tmp_path / "image_prospino"
+    fake.mkdir()
+    monkeypatch.setenv("PROSPINO_DIR", str(fake))
+    reloaded = importlib.reload(prospino)
+    try:
+        assert reloaded.PROSPINO_SRC == fake
+        assert reloaded.BINARY == fake / "prospino_2.run"
+        assert reloaded.MAIN_F90 == fake / "prospino_main.f90"
+    finally:
+        # Restore module state for the rest of the test session — other tests
+        # monkeypatch PROSPINO_SRC and rely on the original constants.
+        monkeypatch.delenv("PROSPINO_DIR", raising=False)
+        importlib.reload(prospino)
+
+
+def test_prospino_src_defaults_to_image_canonical_when_env_unset(monkeypatch):
+    """Without `$PROSPINO_DIR`, default to the image-canonical path so import
+    survives on the host (where tests then skip the binary-using cases).
+    The previous `__file__`-relative default silently pointed at a path that
+    never exists, masking the real failure as 'not vendored'."""
+    import importlib
+
+    monkeypatch.delenv("PROSPINO_DIR", raising=False)
+    reloaded = importlib.reload(prospino)
+    try:
+        assert str(reloaded.PROSPINO_SRC) == "/opt/sim/prospino"
+    finally:
+        importlib.reload(prospino)
+
+
 # ── Build-required golden test ─────────────────────────────────────────────
 
 _BINARY_ABSENT = not prospino.BINARY.exists()

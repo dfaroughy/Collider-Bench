@@ -44,10 +44,14 @@ from pathlib import Path
 
 # ── Layout ──────────────────────────────────────────────────────────────────
 
-# Resolve repo-relative paths from this file's location so the tool works
-# whether invoked from the repo, a sandboxed workspace, or a symlink.
-_THIS = Path(__file__).resolve()
-PROSPINO_SRC = _THIS.parent.parent / "sim" / "prospino"
+# Image contract. The Prospino 2.1 source is vendored into the container
+# image (docker/Dockerfile installs it under /opt/sim/prospino and exports
+# `PROSPINO_DIR`), NOT into the repo — `ColliderBench/tools/sim/` is
+# gitignored. Resolve from the published env var so this wrapper works
+# inside any sandbox that honours the same image contract (alongside
+# `$MG5_DIR`, `$DELPHES_DIR`, `$PYTHIA8_DIR` — the shell-side `bin/simulate`
+# uses these by the same convention).
+PROSPINO_SRC = Path(os.environ.get("PROSPINO_DIR", "/opt/sim/prospino"))
 BINARY = PROSPINO_SRC / "prospino_2.run"
 MAIN_F90 = PROSPINO_SRC / "prospino_main.f90"
 DAT_FILE = "prospino.dat"
