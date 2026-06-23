@@ -1,0 +1,45 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with m_eff > 3800.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned m_eff"
+target: "Gl, gluino 2400 GeV, LSP 400 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 139.0
+---
+dependent_variables:
+- header: {name: Gl_2400_400}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header: {name: MEFF, units: GEV}
+  values:
+  - {low: 1000.0, high: 1200.0}
+  - {low: 1200.0, high: 1400.0}
+  - {low: 1400.0, high: 1600.0}
+  - {low: 1600.0, high: 1800.0}
+  - {low: 1800.0, high: 2000.0}
+  - {low: 2000.0, high: 2200.0}
+  - {low: 2200.0, high: 2400.0}
+  - {low: 2400.0, high: 2600.0}
+  - {low: 2600.0, high: 2800.0}
+  - {low: 2800.0, high: 3000.0}
+  - {low: 3000.0, high: 3200.0}
+  - {low: 3200.0, high: 3400.0}
+  - {low: 3400.0, high: 3600.0}
+  - {low: 3600.0, high: 3800.0}
+  - {low: 3800.0, high: 4000.0}

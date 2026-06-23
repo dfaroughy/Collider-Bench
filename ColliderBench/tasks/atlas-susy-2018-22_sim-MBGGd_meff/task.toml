@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-susy-2018-22_sim-MBGGd_meff"
+paper       = "ATLAS-SUSY-2018-22"
+type        = "simulation"
+target      = "Gl_2400_400"
+observable  = "MEFF"
+
+[metadata]
+difficulty = "medium"
+walltime   = "3h"
+tags       = ["SUSY", "ATLAS", "strong production", "squarks", "gluinos", "13TeV", "simplified model", "multibin"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events"
+report = ["relative_l2", "delta"]

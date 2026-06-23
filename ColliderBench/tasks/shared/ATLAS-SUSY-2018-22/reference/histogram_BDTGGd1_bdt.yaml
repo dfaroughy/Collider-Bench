@@ -1,0 +1,54 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned BDT_GGd1_score"
+target: "Gl, gluino 2200 GeV, LSP 500 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 139.0
+---
+dependent_variables:
+- header: {name: Gl_2200_500}
+  values:
+  - {value: 0.22}
+  - {value: 0.15}
+  - {value: 0.12}
+  - {value: 0.11}
+  - {value: 0.1}
+  - {value: 0.11}
+  - {value: 0.1}
+  - {value: 0.091}
+  - {value: 0.13}
+  - {value: 0.11}
+  - {value: 0.11}
+  - {value: 0.15}
+  - {value: 0.16}
+  - {value: 0.17}
+  - {value: 0.19}
+  - {value: 0.33}
+  - {value: 0.39}
+  - {value: 0.62}
+  - {value: 1.3}
+  - {value: 17}
+independent_variables:
+- header: {name: BDT_GGd1_SCORE}
+  values:
+  - {low: -1.0, high: -0.9}
+  - {low: -0.9, high: -0.8}
+  - {low: -0.8, high: -0.7}
+  - {low: -0.7, high: -0.6}
+  - {low: -0.6, high: -0.5}
+  - {low: -0.5, high: -0.4}
+  - {low: -0.4, high: -0.3}
+  - {low: -0.3, high: -0.2}
+  - {low: -0.2, high: -0.1}
+  - {low: -0.1, high: 2.7756e-17}
+  - {low: 0.0, high: 0.1}
+  - {low: 0.1, high: 0.2}
+  - {low: 0.2, high: 0.3}
+  - {low: 0.3, high: 0.4}
+  - {low: 0.4, high: 0.5}
+  - {low: 0.5, high: 0.6}
+  - {low: 0.6, high: 0.7}
+  - {low: 0.7, high: 0.8}
+  - {low: 0.8, high: 0.9}
+  - {low: 0.9, high: 1.0}

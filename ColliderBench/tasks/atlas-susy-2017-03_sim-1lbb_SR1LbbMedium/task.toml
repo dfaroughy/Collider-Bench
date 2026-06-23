@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-susy-2017-03_sim-1lbb_SR1LbbMedium"
+paper       = "ATLAS-SUSY-2017-03"
+type        = "simulation"
+target      = "C1N2_225_0"
+observable  = "ETMISS"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "ATLAS", "EWK", "C1N2", "Higgs", "13TeV", "simplified model", "1lbb"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events"
+report = ["relative_l2", "delta"]

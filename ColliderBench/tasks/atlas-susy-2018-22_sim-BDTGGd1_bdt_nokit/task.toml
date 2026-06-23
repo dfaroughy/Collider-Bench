@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-susy-2018-22_sim-BDTGGd1_bdt_nokit"
+paper       = "ATLAS-SUSY-2018-22"
+type        = "simulation"
+target      = "Gl_2200_500"
+observable  = "BDT_GGd1_SCORE"
+
+[metadata]
+difficulty = "hard"
+walltime   = "3h"
+tags       = ["SUSY", "ATLAS", "strong production", "squarks", "gluinos", "13TeV", "simplified model", "bdt"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events"
+report = ["relative_l2", "delta"]

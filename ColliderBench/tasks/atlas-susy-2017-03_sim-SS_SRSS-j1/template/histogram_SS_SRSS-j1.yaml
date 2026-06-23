@@ -1,0 +1,33 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with m_lj > 480 GeV.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned m_lj"
+target: "C1N2, chargino/neutralino-2 175 GeV, LSP 0 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: C1N2_175_0}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header: {name: MLJ, units: GEV}
+  values:
+  - {low: 0.0, high: 60.0}
+  - {low: 60.0, high: 120.0}
+  - {low: 120.0, high: 180.0}
+  - {low: 180.0, high: 240.0}
+  - {low: 240.0, high: 300.0}
+  - {low: 300.0, high: 360.0}
+  - {low: 360.0, high: 420.0}
+  - {low: 420.0, high: 480.0}
+  - {low: 480.0, high: 540.0}

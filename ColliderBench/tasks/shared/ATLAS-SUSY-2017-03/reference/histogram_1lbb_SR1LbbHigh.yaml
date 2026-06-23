@@ -1,0 +1,29 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with mCT > 360 GeV.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned mCT"
+target: "C1N2, chargino/neutralino-2 550 GeV, LSP 75 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: C1N2_550_75}
+  values:
+  - {value: 0.5389}
+  - {value: 1.2672}
+  - {value: 2.2542}
+  - {value: 2.0519}
+  - {value: 1.3634}
+  - {value: 0.7867}
+  - {value: 0.9404}
+independent_variables:
+- header: {name: MCT, units: GEV}
+  values:
+  - {low: 60.0, high: 110.0}
+  - {low: 110.0, high: 160.0}
+  - {low: 160.0, high: 210.0}
+  - {low: 210.0, high: 260.0}
+  - {low: 260.0, high: 310.0}
+  - {low: 310.0, high: 360.0}
+  - {low: 360.0, high: 410.0}

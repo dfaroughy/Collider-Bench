@@ -1,0 +1,49 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with m_eff > 4800.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned m_eff"
+target: "Sq compressed, squark 850 GeV, LSP 825 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 139.0
+---
+dependent_variables:
+- header: {name: Sq_850_825}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header: {name: MEFF, units: GEV}
+  values:
+  - {low: 1600.0, high: 1800.0}
+  - {low: 1800.0, high: 2000.0}
+  - {low: 2000.0, high: 2200.0}
+  - {low: 2200.0, high: 2400.0}
+  - {low: 2400.0, high: 2600.0}
+  - {low: 2600.0, high: 2800.0}
+  - {low: 2800.0, high: 3000.0}
+  - {low: 3000.0, high: 3200.0}
+  - {low: 3200.0, high: 3400.0}
+  - {low: 3400.0, high: 3600.0}
+  - {low: 3600.0, high: 3800.0}
+  - {low: 3800.0, high: 4000.0}
+  - {low: 4000.0, high: 4200.0}
+  - {low: 4200.0, high: 4400.0}
+  - {low: 4400.0, high: 4600.0}
+  - {low: 4600.0, high: 4800.0}
+  - {low: 4800.0, high: 5000.0}

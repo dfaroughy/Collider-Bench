@@ -1,0 +1,33 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with ETmiss > 600 GeV.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned ETmiss"
+target: "C1N2, chargino/neutralino-2 550 GeV, LSP 0 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: C1N2_550_0}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header: {name: ETMISS, units: GEV}
+  values:
+  - {low: 200.0, high: 250.0}
+  - {low: 250.0, high: 300.0}
+  - {low: 300.0, high: 350.0}
+  - {low: 350.0, high: 400.0}
+  - {low: 400.0, high: 450.0}
+  - {low: 450.0, high: 500.0}
+  - {low: 500.0, high: 550.0}
+  - {low: 550.0, high: 600.0}
+  - {low: 600.0, high: 650.0}
