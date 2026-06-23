@@ -1,0 +1,41 @@
+# OpenCode agent driving a *local* GLM-4.5-Air vLLM cluster.
+#
+# Workflow (one-time per session):
+#   1. On a login shell, request 4 Perlmutter GPU nodes and start the
+#      Ray-based vLLM cluster (much heavier than Flash — needs ~40 min
+#      to warm up across 16 GPUs):
+#        /pscratch/sd/d/dfarough/LLMs/start_glm45_air_4node_service.sh
+#      That writes /pscratch/sd/d/dfarough/LLMs/glm45_air_api.env with
+#      GLM_AIR_API_BASE / GLM_AIR_API_KEY pointing at the head node:8000.
+#
+#   2. (Optional) verify connectivity from a login node:
+#        source /pscratch/sd/d/dfarough/LLMs/glm45_air_api.env
+#        curl -sS "$GLM_AIR_API_BASE/models" \
+#          -H "Authorization: Bearer $GLM_AIR_API_KEY"
+#
+#   3. Run the benchmark — no `source` needed; the harness auto-reads
+#      glm45_air_api.env if GLM_AIR_API_BASE/GLM_AIR_API_KEY aren't in
+#      the shell. The hostname rotates on every salloc restart; the env
+#      file is rewritten in place, so the harness always picks up the
+#      fresh node:
+#        scripts/run-agent --config configs/opencode/glm45_air.yaml
+#        scripts/run-agent --config configs/opencode/glm45_air.yaml --task sus-16-046_sim-T5Wg
+#
+# Auth: `api` with provider=local-air — the harness validates that
+#       GLM_AIR_API_BASE and GLM_AIR_API_KEY are exported before launch
+#       and runs a 3-second preflight ping against `/v1/models` so a
+#       silent vLLM death (SLURM allocation expired, KV-cache OOM, etc.)
+#       fails fast with an actionable hint instead of hanging in the
+#       client for ~2 minutes.
+#
+# The opencode binary (`/global/homes/d/dfarough/.opencode/bin/opencode`)
+# lives under $HOME and is bind-mounted into the sandbox automatically.
+
+agent:    simple
+task:     sus-16-046_sim-T5Wg          # smallest exemplar; override on CLI for others
+runner:   opencode
+provider: local-air                    # selects glm45_air_api.env + the right preflight target
+auth:     api                          # requires GLM_AIR_API_BASE + GLM_AIR_API_KEY
+model:    glm-air-local/glm-4.5-air    # provider-prefixed (see configs/opencode/opencode.json)
+sandbox:  podman
+compute:  local                        # the vLLM cluster already owns the 4 GPU nodes

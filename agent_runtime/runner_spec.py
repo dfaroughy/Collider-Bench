@@ -151,7 +151,11 @@ STREAM_PARSERS: dict[str, Callable[[], LineRenderer]] = {
 # Post-run hooks: cleanup after the subprocess exits (e.g., dropping bulky
 # vendor caches/logs).
 
-PreLaunchHook = Callable[[Path], LaunchPrep]
+# Hook receives the sandbox dir and the resolved harness config (so
+# config-dependent prep — e.g. templating opencode.json's small_model
+# to match the run's main model — has access without a side channel).
+# Existing hooks that don't need config can accept it and ignore it.
+PreLaunchHook = Callable[[Path, dict | None], LaunchPrep]
 PostRunHook = Callable[[Path], None]
 
 PRE_LAUNCH_HOOKS: dict[str, PreLaunchHook] = {}
@@ -204,7 +208,9 @@ class RunnerSpec(BaseModel):
     final_args: list[str] = Field(default_factory=list)
 
     # ── Prompt delivery ─────────────────────────────────────────────────────
-    prompt_via: Literal["flag", "stdin"] = "flag"
+    # "positional" appends the prompt as the final argv token (used by
+    # opencode `run [message..]`); prompt_flag is ignored in that mode.
+    prompt_via: Literal["flag", "stdin", "positional"] = "flag"
     prompt_flag: str = "-p"
 
     # ── Model / allowlist / disallowed ──────────────────────────────────────
@@ -379,6 +385,11 @@ class DeclarativeRunner(Runner):
         # prompt_via == "stdin" → fed in run()
 
         cmd.extend(_fmt(s.final_args))
+
+        # Positional prompt goes after final_args so any vendor terminator
+        # (e.g. "--") in final_args can disambiguate it from a flag.
+        if s.prompt_via == "positional":
+            cmd.append(prompt)
         return cmd
 
     def run(self, cmd, prompt, sandbox, env, output_file, walltime_s=None):
@@ -404,6 +415,37 @@ class DeclarativeRunner(Runner):
 
         proc = subprocess.Popen(cmd, **popen_kwargs)
         pgid = os.getpgid(proc.pid)
+
+        # Diagnose phantom SIGINTs. Terminal Ctrl-C, IDE-injected signal
+        # (VS Code shell-integration, etc.), NERSC login-node policing,
+        # and stray keystrokes all show up as the same bare "^C" line +
+        # KeyboardInterrupt traceback. Log enough to tell them apart on
+        # the next occurrence, forward to the subprocess group, then let
+        # the default disposition raise so the finally block cleans up.
+        import datetime as _dt
+        import signal as _signal
+
+        _harness_ppid = os.getppid()
+
+        def _diagnose_and_forward(signum, frame):
+            sig = _signal.Signals(signum).name
+            ts = _dt.datetime.now().isoformat(timespec="seconds")
+            print(
+                f"\n[runner] received {sig} at {ts} "
+                f"(harness pid={os.getpid()}, ppid={_harness_ppid}, "
+                f"pgrp={os.getpgrp()}, sender unknown — kernel doesn't expose it without SA_SIGINFO). "
+                f"Forwarding to subprocess group {pgid}; cleanup running.",
+                flush=True,
+            )
+            try:
+                os.killpg(pgid, signum)
+            except ProcessLookupError:
+                pass
+            _signal.signal(signum, _signal.SIG_DFL)
+            raise KeyboardInterrupt(f"runner received {sig}")
+
+        _signal.signal(_signal.SIGINT, _diagnose_and_forward)
+        _signal.signal(_signal.SIGTERM, _diagnose_and_forward)
 
         walltime_timer = _arm_walltime_watchdog(pgid, walltime_s)
 

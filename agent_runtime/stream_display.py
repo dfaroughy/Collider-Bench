@@ -47,10 +47,57 @@ def render_line(line: str) -> None:
 
     msg_type = msg.get("type")
 
+    # OpenCode (--format json): nested-part shape with a `sessionID`-bearing
+    # `part` object on every event. Dispatch BEFORE the claude tool_use branch
+    # below because both use the literal type string `tool_use` but with
+    # incompatible field layouts (claude: top-level tool_name+input; opencode:
+    # part.tool+part.state.input).
+    part = msg.get("part")
+    if (
+        isinstance(part, dict)
+        and "sessionID" in part
+        and msg_type in {"step_start", "step_finish", "text", "tool_use"}
+    ):
+        global _MID_STREAM
+        if msg_type == "text":
+            text = part.get("text") or ""
+            if text:
+                _flush_stream_newline()
+                print(text.rstrip(), flush=True)
+            return
+        if msg_type == "tool_use":
+            _flush_stream_newline()
+            tool = part.get("tool") or "?"
+            inp = (part.get("state") or {}).get("input") or {}
+            if tool == "bash":
+                cmd = str(inp.get("command", ""))
+                display = " ".join(ln.strip() for ln in cmd.splitlines() if ln.strip())
+                print(f"  {GREEN}${RESET} {display[:200]}")
+            elif tool == "read":
+                path = str(inp.get("filePath") or inp.get("file_path") or "")
+                print(f"  {BLUE}[Read]{RESET} {path.split('/')[-1]}")
+            elif tool == "write":
+                path = str(inp.get("filePath") or inp.get("file_path") or "")
+                print(f"  {BLUE}[Write]{RESET} {path.split('/')[-1]}")
+            elif tool == "edit":
+                path = str(inp.get("filePath") or inp.get("file_path") or "")
+                print(f"  {YELLOW}[Edit]{RESET} {path.split('/')[-1]}")
+            elif tool == "grep":
+                print(f"  {DIM}[Grep]{RESET} {inp.get('pattern', '')}")
+            elif tool == "list":
+                print(f"  {DIM}[ls]{RESET} {inp.get('path', '')}")
+            else:
+                print(f"  {DIM}[{tool}]{RESET}")
+            sys.stdout.flush()
+            return
+        # step_start / step_finish: silent (boundaries are implicit from
+        # text + tool_use cadence; step_finish carries per-step tokens but
+        # the final session.jsonl has them for accurate cost accounting).
+        return
+
     # Gemini CLI: {"type":"message","role":"assistant","content":"...","delta":true}
     # plus "init" / "tool_use" / "tool_result" / "result" events. No nested
     # content blocks; assistant messages arrive as many small delta chunks.
-    global _MID_STREAM
     if msg_type == "message" and "role" in msg:
         if msg.get("role") == "assistant":
             content = msg.get("content", "")

@@ -541,7 +541,7 @@ def _tools_bind_args(
     return _render_mount_args(_tools_readonly_mounts(repo_root, doc_subs), flag)
 
 
-_HOST_AGENT_CLIS = {"claude", "codex", "gemini", "aider", "forge"}
+_HOST_AGENT_CLIS = {"claude", "codex", "gemini", "aider", "forge", "opencode"}
 _IMAGE_CLIS = _HOST_AGENT_CLIS | {"python", "python3"}
 _SYSTEM_BIN_DIRS = {Path("/bin"), Path("/usr/bin"), Path("/usr/local/bin")}
 

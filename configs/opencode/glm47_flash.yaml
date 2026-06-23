@@ -1,0 +1,34 @@
+# OpenCode agent driving a *local* GLM-4.7-Flash vLLM server.
+#
+# Workflow (one-time per session):
+#   1. On a login shell, request a Perlmutter GPU node and start the vLLM
+#      server (4×A100, tensor-parallel-size 4):
+#        /pscratch/sd/d/dfarough/LLMs/start_glm47_service.sh
+#      That writes /pscratch/sd/d/dfarough/LLMs/glm47_api.env with
+#      GLM_API_BASE / GLM_API_KEY pointing at the compute node:8000.
+#
+#   2. (Optional) verify connectivity from a login node:
+#        source /pscratch/sd/d/dfarough/LLMs/glm47_api.env
+#        curl -sS "$GLM_API_BASE/models" -H "Authorization: Bearer $GLM_API_KEY"
+#
+#   3. Run the benchmark — no `source` needed; the harness auto-reads
+#      glm47_api.env if GLM_API_BASE/GLM_API_KEY aren't in the shell.
+#      This makes vLLM restarts (which rotate the node hostname) transparent:
+#        scripts/run-agent --config configs/opencode/glm47_flash.yaml
+#        scripts/run-agent --config configs/opencode/glm47_flash.yaml --task sus-16-046_sim-T5Wg
+#
+# Auth: `api` with provider=local — the harness validates that
+#       GLM_API_BASE and GLM_API_KEY are exported before launch
+#       (configs/CONFIG.md / agent_runtime/config.py:_API_AUTH_ENV).
+#
+# The opencode binary (`/global/homes/d/dfarough/.opencode/bin/opencode`)
+# lives under $HOME and is bind-mounted into the sandbox automatically.
+
+agent:    simple
+task:     sus-16-046_sim-T5Wg      # smallest exemplar; override on CLI for others
+runner:   opencode
+provider: local
+auth:     api                      # requires GLM_API_BASE + GLM_API_KEY
+model:    glm-local/glm-4.7-flash  # provider-prefixed (see configs/opencode/opencode.json)
+sandbox:  podman
+compute:  local                    # the vLLM server already owns the GPU node
