@@ -1,0 +1,41 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "glm-local/glm-4.7-flash",
+  "small_model": "glm-local/glm-4.7-flash",
+  "provider": {
+    "glm-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "GLM local vLLM",
+      "options": {
+        "baseURL": "{env:GLM_API_BASE}",
+        "apiKey": "{env:GLM_API_KEY}"
+      },
+      "models": {
+        "glm-4.7-flash": {
+          "name": "GLM-4.7-Flash local",
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          }
+        }
+      }
+    },
+    "glm-air-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "GLM-Air local vLLM (4-node Ray cluster)",
+      "options": {
+        "baseURL": "{env:GLM_AIR_API_BASE}",
+        "apiKey": "{env:GLM_AIR_API_KEY}"
+      },
+      "models": {
+        "glm-4.5-air": {
+          "name": "GLM-4.5-Air local",
+          "limit": {
+            "context": 65536,
+            "output": 16384
+          }
+        }
+      }
+    }
+  }
+}

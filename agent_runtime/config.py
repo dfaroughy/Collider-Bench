@@ -41,8 +41,12 @@ ALLOWED_CONFIG_KEYS: dict[str, tuple[type, ...]] = {
 }
 
 _ALLOWED_AGENTS = {"simple"}
-_ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge"}
-_ALLOWED_PROVIDERS = {"anthropic", "openai", "google", "deepseek"}
+_ALLOWED_RUNNERS = {"claude", "codex", "gemini", "aider", "forge", "opencode"}
+# `local` = GLM-4.7-Flash on a single GPU node (see configs/opencode/glm47_flash.yaml).
+# `local-air` = GLM-4.5-Air on a 4-node Ray cluster (see configs/opencode/glm45_air.yaml).
+# Separate provider names so the (runner, provider) lookup picks the right
+# env-file fallback + preflight target.
+_ALLOWED_PROVIDERS = {"anthropic", "openai", "google", "deepseek", "local", "local-air"}
 _ALLOWED_AUTH = {"oauth", "api"}
 _ALLOWED_COMPUTE = {"", "local", "slurm", "perlmutter"}
 _ALLOWED_EFFORT_LABELS = {"low", "medium", "high", "max", "xhigh"}
@@ -58,7 +62,53 @@ _API_AUTH_ENV: dict[tuple[str, str], tuple[str, ...]] = {
     ("claude", "anthropic"): ("ANTHROPIC_API_KEY",),
     ("claude", "deepseek"): ("DEEPSEEK_API_KEY",),
     ("forge", "deepseek"): ("DEEPSEEK_API_KEY",),
+    # `opencode` driving a local vLLM server (e.g. GLM-4.7-Flash) needs the
+    # base URL + token written into the user's shell by
+    # /pscratch/sd/d/dfarough/LLMs/start_glm47_service.sh.
+    ("opencode", "local"): ("GLM_API_BASE", "GLM_API_KEY"),
+    # GLM-4.5-Air on the 4-node ray cluster — see
+    # /pscratch/sd/d/dfarough/LLMs/start_glm45_air_4node_service.sh, which
+    # writes `GLM_AIR_API_BASE` / `GLM_AIR_API_KEY` into glm45_air_api.env.
+    ("opencode", "local-air"): ("GLM_AIR_API_BASE", "GLM_AIR_API_KEY"),
 }
+
+# Per-(runner, provider) env-file fallback: when API-auth env vars are
+# missing from the live shell, the validator will source one of these
+# files (parsing `export KEY=value` lines) and re-check. Lets long-lived
+# servers (e.g. a vLLM job on a GPU node whose hostname changes on every
+# salloc restart) be picked up without users having to re-source the env
+# file in every shell after a server restart.
+_API_AUTH_ENV_FALLBACK_FILES: dict[tuple[str, str], str] = {
+    ("opencode", "local"): "/pscratch/sd/d/dfarough/LLMs/glm47_api.env",
+    ("opencode", "local-air"): "/pscratch/sd/d/dfarough/LLMs/glm45_air_api.env",
+}
+
+
+def _parse_export_env_file(path: str | os.PathLike) -> dict[str, str]:
+    """Parse `export KEY=value` lines from a shell env file. Best-effort."""
+    out: dict[str, str] = {}
+    try:
+        text = Path(path).read_text()
+    except OSError:
+        return out
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export ") :].strip()
+        if "=" not in line:
+            continue
+        key, _, val = line.partition("=")
+        key = key.strip()
+        val = val.strip()
+        if (val.startswith('"') and val.endswith('"')) or (
+            val.startswith("'") and val.endswith("'")
+        ):
+            val = val[1:-1]
+        if key:
+            out[key] = val
+    return out
 
 
 def validate_config(cfg: dict, source: str = "<config>") -> None:
@@ -184,7 +234,17 @@ def load_config(path: str | os.PathLike | None) -> dict:
 
 
 def validate_api_auth_env(cfg: dict, environ: dict[str, str] | None = None) -> None:
-    """Fail early when a config requests API-key auth but required env is absent."""
+    """Fail early when a config requests API-key auth but required env is absent.
+
+    For runners that ship a `_API_AUTH_ENV_FALLBACK_FILES` registration
+    (e.g. opencode/local pointing at the GLM vLLM launcher's
+    glm47_api.env), the file is the authoritative source — its values
+    OVERRIDE anything pre-set in the shell. This is on purpose: the
+    file is rewritten on every server restart with the fresh hostname,
+    so a stale `GLM_API_BASE` left in the shell from an older `source`
+    would otherwise silently route requests to a dead node. If the
+    file is absent, the shell values are honoured as-is.
+    """
     if cfg.get("auth") != "api":
         return
     runner = str(cfg.get("runner") or "")
@@ -193,13 +253,102 @@ def validate_api_auth_env(cfg: dict, environ: dict[str, str] | None = None) -> N
     if not required:
         return
     env = environ if environ is not None else os.environ
+    fallback = _API_AUTH_ENV_FALLBACK_FILES.get((runner, provider))
+    if fallback and Path(fallback).is_file():
+        parsed = _parse_export_env_file(fallback)
+        for name in required:
+            if parsed.get(name):
+                # File wins. Stale shell values for a moved server are
+                # the failure mode this overwrite exists to prevent.
+                env[name] = parsed[name]
     missing = [name for name in required if not env.get(name)]
     if missing:
         exports = " ".join(f"export {name}=..." for name in missing)
+        hint = f" Or start the local server (writes {fallback})." if fallback else ""
         raise ValueError(
             f"runner={runner!r} auth='api' requires environment variable(s): "
-            f"{', '.join(missing)}. Set them before launching, e.g. `{exports}`."
+            f"{', '.join(missing)}. Set them before launching, e.g. `{exports}`.{hint}"
         )
+
+
+# ── Preflight reachability probe for local API endpoints ────────────────────
+#
+# Some runners (opencode/local → vLLM on a SLURM-allocated GPU node) point at
+# a server whose lifecycle is independent of the harness — when the salloc
+# expires or the user forgets to start vLLM, every API call hangs until the
+# client-side stream timeout (~2 min in opencode). A 2-second preflight ping
+# turns those silent hangs into a clear actionable error.
+
+
+def _probe_local_endpoint(base_url: str, api_key: str, timeout_s: float = 3.0) -> tuple[bool, str]:
+    """GET `<base_url>/models` with a bearer token. Stdlib-only, no deps."""
+    import urllib.error
+    import urllib.request
+
+    req = urllib.request.Request(
+        base_url.rstrip("/") + "/models",
+        headers={"Authorization": f"Bearer {api_key}"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout_s) as resp:
+            if resp.status != 200:
+                return False, f"HTTP {resp.status}"
+            return True, ""
+    except urllib.error.HTTPError as exc:
+        return False, f"HTTP {exc.code} {exc.reason}"
+    except (urllib.error.URLError, OSError, TimeoutError) as exc:
+        return False, f"connect: {exc}"
+
+
+# Registry of (runner, provider) → probe spec. Add an entry whenever a runner
+# points at a local server whose silent death would otherwise hang the run.
+_API_PREFLIGHT_PROBES: dict[tuple[str, str], dict] = {
+    ("opencode", "local"): {
+        "base_var": "GLM_API_BASE",
+        "key_var": "GLM_API_KEY",
+        "what": "GLM-4.7-Flash vLLM server",
+        "hint": (
+            "  squeue -u $USER       # is the SLURM allocation still alive?\n"
+            "  /pscratch/sd/d/dfarough/LLMs/start_glm47_service.sh   "
+            "# (re)launch vLLM"
+        ),
+    },
+    ("opencode", "local-air"): {
+        "base_var": "GLM_AIR_API_BASE",
+        "key_var": "GLM_AIR_API_KEY",
+        "what": "GLM-4.5-Air vLLM cluster (4 nodes via Ray)",
+        "hint": (
+            "  squeue -u $USER       # is the SLURM allocation still alive?\n"
+            "  /pscratch/sd/d/dfarough/LLMs/start_glm45_air_4node_service.sh   "
+            "# (re)launch vLLM cluster"
+        ),
+    },
+}
+
+
+def preflight_local_endpoint(
+    cfg: dict,
+    environ: dict[str, str] | None = None,
+    probe=_probe_local_endpoint,
+) -> None:
+    """Ping the local API endpoint registered for (runner, provider). No-op
+    when no registration matches. Raises ValueError on failure with a
+    human-actionable hint. `probe` is injectable for tests."""
+    if cfg.get("auth") != "api":
+        return
+    runner = str(cfg.get("runner") or "")
+    provider = str(cfg.get("provider") or "")
+    spec = _API_PREFLIGHT_PROBES.get((runner, provider))
+    if not spec:
+        return
+    env = environ if environ is not None else os.environ
+    base = env.get(spec["base_var"])
+    key = env.get(spec["key_var"])
+    if not base or not key:
+        return  # validate_api_auth_env already failed if these were required
+    ok, detail = probe(base, key)
+    if not ok:
+        raise ValueError(f"{spec['what']} unreachable at {base} ({detail}).\n" f"{spec['hint']}")
 
 
 def read_agent_from_config(path: str | os.PathLike) -> str | None:

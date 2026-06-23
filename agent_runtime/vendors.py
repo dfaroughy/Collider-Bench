@@ -27,7 +27,7 @@ from agent_runtime.runner_spec import (
 # ── Pre-launch / post-run hooks (the imperative bits) ───────────────────────
 
 
-def _codex_pre_launch(sandbox: Path) -> LaunchPrep:
+def _codex_pre_launch(sandbox: Path, config: dict | None = None) -> LaunchPrep:
     """Set up CODEX_HOME under workspace/.codex_home and seed creds.
 
     Codex stores session state + helper binaries under $CODEX_HOME. We
@@ -65,7 +65,7 @@ def _codex_post_run(sandbox: Path) -> None:
             p.unlink(missing_ok=True)
 
 
-def _gemini_pre_launch(sandbox: Path) -> LaunchPrep:
+def _gemini_pre_launch(sandbox: Path, config: dict | None = None) -> LaunchPrep:
     """Set up GEMINI_CLI_HOME and rewrite settings.json to disable IDE probe.
 
     Mirrors codex's per-run redirect so:
@@ -188,10 +188,48 @@ def _forge_post_run(sandbox: Path) -> None:
         sys.stderr.write(f"_forge_post_run: write {out_path}: {exc}\n")
 
 
+def _opencode_pre_launch(sandbox: Path, config: dict | None = None) -> LaunchPrep:
+    """Seed opencode's project-level provider config into the workspace.
+
+    OpenCode reads its provider registry from `opencode.json` in the
+    directory passed via `--dir`. We copy the harness-owned config
+    (configs/opencode/opencode.json — declares both `glm-local` and
+    `glm-air-local` as OpenAI-compatible providers that pull
+    baseURL/apiKey from per-provider `GLM_*_API_BASE` env vars) into
+    the sandbox so the same provider definition is found inside the
+    container.
+
+    `small_model` rewrite: opencode runs a separate small-model stream
+    for title generation. The repo-checked-in opencode.json pins it to
+    Flash, which 400s with "URL cannot be parsed" when only Air's
+    server is up (or vice versa). We rewrite `small_model` to match
+    the run's main model so the title pass uses the same provider —
+    eliminates the cross-server leak when only one local server is
+    live.
+
+    Per-run HOME is redirected to `<sandbox>/.opencode_home` so
+    opencode's XDG state (./local/share/opencode/opencode.db, plugin
+    cache, etc.) stays inside the run dir and parallel runs don't
+    race on the same sqlite files.
+    """
+    repo_root = Path(__file__).resolve().parents[1]
+    src = repo_root / "configs" / "opencode" / "opencode.json"
+    dst = sandbox / "opencode.json"
+    if src.is_file():
+        spec = json.loads(src.read_text())
+        run_model = (config or {}).get("model")
+        if run_model:
+            spec["model"] = run_model
+            spec["small_model"] = run_model
+        dst.write_text(json.dumps(spec, indent=2))
+    return LaunchPrep(home_dir_name=".opencode_home")
+
+
 register_pre_launch("codex", _codex_pre_launch)
 register_post_run("codex", _codex_post_run)
 register_pre_launch("gemini", _gemini_pre_launch)
 register_post_run("forge", _forge_post_run)
+register_pre_launch("opencode", _opencode_pre_launch)
 
 
 # ── Vendor specs (the declarative bits) ─────────────────────────────────────
@@ -348,7 +386,48 @@ FORGE_SPEC = RunnerSpec(
 )
 
 
+OPENCODE_SPEC = RunnerSpec(
+    name="opencode",
+    binary="opencode",
+    binary_env_var="OPENCODE_BIN",
+    # `opencode run --model <provider/model> --dir <ws> --dangerously-skip-permissions
+    #   --format json -- <prompt>`
+    # `--format json` makes opencode emit one JSON event per line on stdout,
+    # so the unified `stream_json` parser already handles it like
+    # claude/codex/gemini do.
+    subcommand=["run"],
+    post_subcommand_args=[
+        "--dir",
+        "{sandbox}",
+        "--dangerously-skip-permissions",
+        "--format",
+        "json",
+    ],
+    # `--` makes a leading-dash prompt unambiguous against the flag parser.
+    final_args=["--"],
+    prompt_via="positional",
+    model_flag="--model",
+    # Effort is provider-specific in opencode (`--variant high|max|...`) and
+    # only meaningful for proprietary backends; the local vLLM server ignores
+    # it, so we don't wire it through.
+    stream_format="stream_json",
+    # GLM_*_API_{BASE,KEY} forwarded into the sandbox; opencode.json's
+    # provider definitions read them via `{env:…}`. Both Flash and Air
+    # pairs are listed so a single shared image / single sandbox spec
+    # serves both providers — `_container_env_pairs` silently drops
+    # whichever vars aren't actually set on the host, so unused entries
+    # cost nothing. Add new pairs here when wiring more local providers.
+    secret_env_names=(
+        "GLM_API_BASE",
+        "GLM_API_KEY",
+        "GLM_AIR_API_BASE",
+        "GLM_AIR_API_KEY",
+    ),
+    pre_launch_hook="opencode",
+)
+
+
 # ── Registration ────────────────────────────────────────────────────────────
 
-for spec in (CLAUDE_SPEC, CODEX_SPEC, GEMINI_SPEC, AIDER_SPEC, FORGE_SPEC):
+for spec in (CLAUDE_SPEC, CODEX_SPEC, GEMINI_SPEC, AIDER_SPEC, FORGE_SPEC, OPENCODE_SPEC):
     register_declarative(spec)

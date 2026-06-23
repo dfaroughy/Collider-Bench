@@ -19,7 +19,12 @@ import time
 from pathlib import Path
 from typing import Callable
 
-from agent_runtime.config import load_config, validate_api_auth_env, validate_launch_inputs
+from agent_runtime.config import (
+    load_config,
+    preflight_local_endpoint,
+    validate_api_auth_env,
+    validate_launch_inputs,
+)
 from agent_runtime.effort import resolve_effort
 from agent_runtime.naming import generate_run_info
 from agent_runtime.run_info import finalize_run_info, write_run_info
@@ -76,12 +81,19 @@ def _resolve(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict:
     if not args.task:
         parser.error("--task is required (CLI or --config <yaml>:task)")
     args.runner = args.runner or cfg.get("runner") or "claude"
+    args.provider = getattr(args, "provider", None) or cfg.get("provider")
     args.model = args.model or cfg.get("model") or ""
     args.effort = args.effort or cfg.get("effort") or "medium"
     args.sandbox = args.sandbox or cfg.get("sandbox")
     args.auth = args.auth or cfg.get("auth") or "oauth"
+    # Pass merged dict so the validator sees `provider` (YAML field, not
+    # on the argparse Namespace) — required for any (runner, provider)
+    # auth-env or fallback-file lookup to resolve. The preflight probe
+    # runs AFTER the validator so env-file fallback values are in place.
+    merged = {**cfg, **{k: v for k, v in vars(args).items() if v is not None}}
     try:
-        validate_api_auth_env(vars(args))
+        validate_api_auth_env(merged)
+        preflight_local_endpoint(merged)
     except ValueError as exc:
         parser.error(str(exc))
     return cfg
