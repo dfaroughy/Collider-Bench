@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-sus-16-24_sim-TSlepSlep_SR2-SF-loose_mll"
+paper       = "ATLAS-SUS-16-24"
+type        = "simulation"
+target      = "TSlepSlep_400_1"
+observable  = "mll"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "ATLAS", "electroweak", "slepton", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events/bin"
+report = ["relative_l2", "delta"]

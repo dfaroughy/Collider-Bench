@@ -1,0 +1,24 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned m_T2 in SR2-DF-100"
+target: "TChipmSlepSnu, chargino 300 GeV, neutralino 150 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: TChipmSlepSnu_300_150}
+  values:
+  - {value: 58.63}
+  - {value: 31.69}
+  - {value: 7.803}
+  - {value: 0.9936}
+  - {value: 0.2149}
+independent_variables:
+- header: {name: MT2, units: GEV}
+  values:
+  - {low: 100.0, high: 115.0}
+  - {low: 115.0, high: 130.0}
+  - {low: 130.0, high: 145.0}
+  - {low: 145.0, high: 160.0}
+  - {low: 160.0, high: 175.0}

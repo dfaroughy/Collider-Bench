@@ -1,0 +1,43 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with m_eff(incl.) > 4000 GeV.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned m_eff(incl.) in SR6j-2600"
+target: "T5WW, gluino 1705 GeV, chargino 865 GeV, neutralino 25 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: T5WW_1705_865_25}
+  values:
+  - {value: 0.02035}
+  - {value: 0.1242}
+  - {value: 0.3594}
+  - {value: 0.682}
+  - {value: 1.318}
+  - {value: 2.275}
+  - {value: 2.627}
+  - {value: 2.999}
+  - {value: 2.08}
+  - {value: 1.679}
+  - {value: 1.181}
+  - {value: 0.5735}
+  - {value: 0.5576}
+  - {value: 0.2622}
+independent_variables:
+- header: {name: MEFF, units: GEV}
+  values:
+  - {low: 1400.0, high: 1600.0}
+  - {low: 1600.0, high: 1800.0}
+  - {low: 1800.0, high: 2000.0}
+  - {low: 2000.0, high: 2200.0}
+  - {low: 2200.0, high: 2400.0}
+  - {low: 2400.0, high: 2600.0}
+  - {low: 2600.0, high: 2800.0}
+  - {low: 2800.0, high: 3000.0}
+  - {low: 3000.0, high: 3200.0}
+  - {low: 3200.0, high: 3400.0}
+  - {low: 3400.0, high: 3600.0}
+  - {low: 3600.0, high: 3800.0}
+  - {low: 3800.0, high: 4000.0}
+  - {low: 4000.0, high: 4200.0}

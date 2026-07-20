@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-sus-16-07_sim-T2qq_SR2j"
+paper       = "ATLAS-SUS-16-07"
+type        = "simulation"
+target      = "T2qq_1500_0"
+observable  = "Meff"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "ATLAS", "squark", "T2qq", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events/bin"
+report = ["relative_l2", "delta"]

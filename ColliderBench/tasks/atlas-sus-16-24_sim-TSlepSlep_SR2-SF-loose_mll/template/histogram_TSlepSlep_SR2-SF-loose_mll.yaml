@@ -1,0 +1,55 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with m_ll > 480 GeV.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned m_ll in SR2-SF-loose"
+target: "TSlepSlep, slepton 400 GeV, neutralino 1 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: TSlepSlep_400_1}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header: {name: MLL, units: GEV}
+  values:
+  - {low: 100.0, high: 120.0}
+  - {low: 120.0, high: 140.0}
+  - {low: 140.0, high: 160.0}
+  - {low: 160.0, high: 180.0}
+  - {low: 180.0, high: 200.0}
+  - {low: 200.0, high: 220.0}
+  - {low: 220.0, high: 240.0}
+  - {low: 240.0, high: 260.0}
+  - {low: 260.0, high: 280.0}
+  - {low: 280.0, high: 300.0}
+  - {low: 300.0, high: 320.0}
+  - {low: 320.0, high: 340.0}
+  - {low: 340.0, high: 360.0}
+  - {low: 360.0, high: 380.0}
+  - {low: 380.0, high: 400.0}
+  - {low: 400.0, high: 420.0}
+  - {low: 420.0, high: 440.0}
+  - {low: 440.0, high: 460.0}
+  - {low: 460.0, high: 480.0}
+  - {low: 480.0, high: 500.0}

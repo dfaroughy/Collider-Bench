@@ -1,0 +1,47 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with m_eff(incl.) > 4000 GeV.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned m_eff(incl.) in SR4j-2200"
+target: "T1, gluino 1800 GeV, neutralino 800 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: T1_1800_800}
+  values:
+  - {value: 0.03417}
+  - {value: 0.1881}
+  - {value: 0.7625}
+  - {value: 1.383}
+  - {value: 2.512}
+  - {value: 3.39}
+  - {value: 3.761}
+  - {value: 2.553}
+  - {value: 2.055}
+  - {value: 1.319}
+  - {value: 0.8825}
+  - {value: 0.4845}
+  - {value: 0.2817}
+  - {value: 0.243}
+  - {value: 0.06906}
+  - {value: 0.06329}
+independent_variables:
+- header: {name: MEFF, units: GEV}
+  values:
+  - {low: 1000.0, high: 1200.0}
+  - {low: 1200.0, high: 1400.0}
+  - {low: 1400.0, high: 1600.0}
+  - {low: 1600.0, high: 1800.0}
+  - {low: 1800.0, high: 2000.0}
+  - {low: 2000.0, high: 2200.0}
+  - {low: 2200.0, high: 2400.0}
+  - {low: 2400.0, high: 2600.0}
+  - {low: 2600.0, high: 2800.0}
+  - {low: 2800.0, high: 3000.0}
+  - {low: 3000.0, high: 3200.0}
+  - {low: 3200.0, high: 3400.0}
+  - {low: 3400.0, high: 3600.0}
+  - {low: 3600.0, high: 3800.0}
+  - {low: 3800.0, high: 4000.0}
+  - {low: 4000.0, high: 4200.0}

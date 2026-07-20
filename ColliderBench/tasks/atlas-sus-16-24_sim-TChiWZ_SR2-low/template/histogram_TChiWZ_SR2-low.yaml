@@ -1,0 +1,31 @@
+instructions: "Fill the 'null' bin values in dependent_variables with your results.
+               In the rightmost bin include ALL events with E_T^miss > 225 GeV.
+               Do not modify bin edges.
+              "
+description: "Signal event counts for binned E_T^miss in SR2-low"
+target: "TChiWZ, chargino/neutralino-2 150 GeV, neutralino 50 GeV"
+cm_energy_gev: 13000
+luminosity_fb: 36.1
+---
+dependent_variables:
+- header: {name: TChiWZ_150_50}
+  values:
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+  - {value: null}
+independent_variables:
+- header: {name: ETMISS, units: GEV}
+  values:
+  - {low: 50.0, high: 75.0}
+  - {low: 75.0, high: 100.0}
+  - {low: 100.0, high: 125.0}
+  - {low: 125.0, high: 150.0}
+  - {low: 150.0, high: 175.0}
+  - {low: 175.0, high: 200.0}
+  - {low: 200.0, high: 225.0}
+  - {low: 225.0, high: 250.0}
