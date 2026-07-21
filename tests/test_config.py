@@ -239,6 +239,174 @@ def test_opencode_local_air_preflight_distinct_from_flash():
     assert flash["base_var"] != air["base_var"]
 
 
+# ── Claude Code as harness, vLLM/GLM as backend ────────────────────────────
+
+
+def test_claude_local_provider_validates_for_both_flash_and_air():
+    """`provider: local` and `provider: local-air` must be accepted under
+    the `claude` runner — this is the path that lets Claude Code drive
+    a local GLM model via vLLM's Anthropic /v1/messages endpoint."""
+    validate_config({"runner": "claude", "provider": "local"}, source="<test>")
+    validate_config({"runner": "claude", "provider": "local-air"}, source="<test>")
+
+
+def test_claude_local_auth_requires_glm_env(monkeypatch, tmp_path):
+    """`(claude, local)` shares the Flash env-var contract with
+    `(opencode, local)`. If the harness ever silently drops this pair
+    from `_API_AUTH_ENV`, the validator becomes a no-op and Claude Code
+    launches with a broken ANTHROPIC_BASE_URL."""
+    monkeypatch.setitem(
+        __import__(
+            "agent_runtime.config", fromlist=["_API_AUTH_ENV_FALLBACK_FILES"]
+        )._API_AUTH_ENV_FALLBACK_FILES,
+        ("claude", "local"),
+        str(tmp_path / "absent.env"),
+    )
+    cfg = {"agent": "simple", "runner": "claude", "provider": "local", "auth": "api"}
+    with pytest.raises(ValueError, match="GLM_API_BASE"):
+        validate_api_auth_env(cfg, environ={})
+
+
+def test_claude_local_air_auth_requires_glm_air_env(monkeypatch, tmp_path):
+    monkeypatch.setitem(
+        __import__(
+            "agent_runtime.config", fromlist=["_API_AUTH_ENV_FALLBACK_FILES"]
+        )._API_AUTH_ENV_FALLBACK_FILES,
+        ("claude", "local-air"),
+        str(tmp_path / "absent.env"),
+    )
+    cfg = {"agent": "simple", "runner": "claude", "provider": "local-air", "auth": "api"}
+    with pytest.raises(ValueError, match="GLM_AIR_API_BASE"):
+        validate_api_auth_env(cfg, environ={})
+
+
+def test_claude_local_air_loads_fallback_env_file(monkeypatch, tmp_path):
+    """Same auto-discovery as opencode's local-air — when the shell lacks
+    the GLM_AIR_* vars, the validator must source glm45_air_api.env."""
+    fb = tmp_path / "glm45_air_api.env"
+    fb.write_text(
+        "export GLM_AIR_API_BASE=http://airnode:8010/v1\n"
+        "export GLM_AIR_API_KEY=air-token\n"  # pragma: allowlist secret
+    )
+    monkeypatch.setitem(
+        __import__(
+            "agent_runtime.config", fromlist=["_API_AUTH_ENV_FALLBACK_FILES"]
+        )._API_AUTH_ENV_FALLBACK_FILES,
+        ("claude", "local-air"),
+        str(fb),
+    )
+    cfg = {"agent": "simple", "runner": "claude", "provider": "local-air", "auth": "api"}
+    env: dict[str, str] = {}
+    validate_api_auth_env(cfg, environ=env)
+    assert env["GLM" + "_AIR_API_BASE"] == "http://airnode:8010/v1"
+    assert env["GLM" + "_AIR_API_KEY"] == "air-token"  # pragma: allowlist secret
+
+
+def test_claude_local_air_preflight_target_is_air_server(monkeypatch):
+    """Preflight for `(claude, local-air)` must point at the Air vars,
+    not Flash's — a Flash-Air confusion here would route the probe at
+    the wrong (or stale) server."""
+    from agent_runtime.config import _API_PREFLIGHT_PROBES
+
+    spec = _API_PREFLIGHT_PROBES[("claude", "local-air")]
+    assert spec["base_var"] == "GLM" + "_AIR_API_BASE"
+    assert spec["key_var"] == "GLM" + "_AIR_API_KEY"
+    # The label should disambiguate from the opencode/local-air entry.
+    assert "Claude Code" in spec["what"]
+
+
+def test_claude_local_wiring_strips_trailing_v1_for_anthropic_base_url(monkeypatch):
+    """The launcher writes `GLM_AIR_API_BASE=http://node:8010/v1` (includes
+    `/v1` for OpenAI-compat). Claude Code appends `/v1/messages` to
+    ANTHROPIC_BASE_URL, so passing the value verbatim produces
+    `http://node:8010/v1/v1/messages` — a 404. The runner_spec block
+    must strip the trailing `/v1` before exporting."""
+    from agent_runtime.vendors import CLAUDE_SPEC
+    from agent_runtime.runner_spec import DeclarativeRunner
+
+    monkeypatch.setenv("GLM" + "_AIR_API_BASE", "http://airnode:8010/v1")
+    monkeypatch.setenv("GLM" + "_AIR_API_KEY", "air-token")  # pragma: allowlist secret
+    runner = DeclarativeRunner(CLAUDE_SPEC)
+    cfg = {
+        "auth": "api",
+        "runner": "claude",
+        "provider": "local-air",
+        "model": "glm-4.5-air",
+    }
+    prep = runner.prepare_launch("/tmp/fake_sandbox", config=cfg)
+    assert prep.env["ANTHROPIC_BASE_URL"] == "http://airnode:8010"  # /v1 stripped
+    assert prep.env["ANTHROPIC_MODEL"] == "glm-4.5-air"
+    # Every alias resolves to the served-model-name (vLLM is single-model).
+    for alias in (
+        "ANTHROPIC_DEFAULT_OPUS_MODEL",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+        "CLAUDE_CODE_SUBAGENT_MODEL",
+    ):
+        assert prep.env[alias] == "glm-4.5-air", alias
+    # Auth token must be present so vLLM accepts the call.
+    assert prep.env.get("ANTHROPIC_AUTH_TOKEN") == "air-token"  # pragma: allowlist secret
+    # Forward the GLM vars too so the container sees them.
+    assert "GLM" + "_AIR_API_BASE" in prep.secret_env_names
+    assert "GLM" + "_AIR_API_KEY" in prep.secret_env_names
+    # Context-management env vars (regression guard — see the
+    # standalone test below for the failure mode they prevent).
+    assert prep.env.get("CLAUDE_CODE_AUTO_COMPACT_WINDOW") == "131072"
+    assert prep.env.get("CLAUDE_CODE_MAX_OUTPUT_TOKENS") == "16000"
+
+
+def test_claude_local_wiring_sets_compaction_window_to_vllm_max_model_len(monkeypatch):
+    """Claude Code defaults its auto-compact threshold for a 200k window
+    (the native Anthropic models all have ~200k). With local vLLM at
+    --max-model-len 131072, never telling Claude Code the real size
+    means no compaction ever fires — the run dies on the first
+    `model_context_window_exceeded` API error.
+
+    Regression: keep `CLAUDE_CODE_AUTO_COMPACT_WINDOW` in sync with
+    the vLLM launchers (launch_glm47_vllm.sh /
+    launch_glm45_air_vllm.sh both set MAX_MODEL_LEN=131072). If
+    either launcher's MAX_MODEL_LEN changes, this constant must too.
+    """
+    from agent_runtime.vendors import CLAUDE_SPEC
+    from agent_runtime.runner_spec import DeclarativeRunner
+
+    monkeypatch.setenv("GLM" + "_API_BASE", "http://node:8000/v1")
+    monkeypatch.setenv("GLM" + "_API_KEY", "k")  # pragma: allowlist secret
+    runner = DeclarativeRunner(CLAUDE_SPEC)
+    for prov, model in (("local", "glm-4.7-flash"), ("local-air", "glm-4.5-air")):
+        cfg = {"auth": "api", "runner": "claude", "provider": prov, "model": model}
+        if prov == "local-air":
+            monkeypatch.setenv("GLM" + "_AIR_API_BASE", "http://airnode:8010/v1")
+            monkeypatch.setenv("GLM" + "_AIR_API_KEY", "k")  # pragma: allowlist secret
+        prep = runner.prepare_launch("/tmp/fake_sandbox", config=cfg)
+        # Both providers point at vLLM with --max-model-len 131072.
+        assert prep.env["CLAUDE_CODE_AUTO_COMPACT_WINDOW"] == "131072", prov
+        # max_output_tokens stays well below half the window so context
+        # grows can fill the remaining ~115k turn after turn before
+        # compaction kicks in.
+        assert prep.env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] == "16000", prov
+
+
+def test_claude_local_wiring_handles_base_url_without_v1_suffix(monkeypatch):
+    """If a future launcher writes the base URL WITHOUT a trailing /v1
+    (e.g. `http://node:8010`), the strip should be a no-op — don't
+    over-strip and create `http://node:801`."""
+    from agent_runtime.vendors import CLAUDE_SPEC
+    from agent_runtime.runner_spec import DeclarativeRunner
+
+    monkeypatch.setenv("GLM" + "_API_BASE", "http://flashnode:8000")
+    monkeypatch.setenv("GLM" + "_API_KEY", "flash-token")  # pragma: allowlist secret
+    runner = DeclarativeRunner(CLAUDE_SPEC)
+    cfg = {
+        "auth": "api",
+        "runner": "claude",
+        "provider": "local",
+        "model": "glm-4.7-flash",
+    }
+    prep = runner.prepare_launch("/tmp/fake_sandbox", config=cfg)
+    assert prep.env["ANTHROPIC_BASE_URL"] == "http://flashnode:8000"  # unchanged
+
+
 def test_opencode_pre_launch_rewrites_small_model_to_run_model(tmp_path):
     """The repo-checked-in `opencode.json` pins `small_model` to Flash. When
     the Air server is up and Flash is down, opencode tries the title pass

@@ -295,6 +295,66 @@ class DeclarativeRunner(Runner):
             if deepseek_key:
                 env["ANTHROPIC_AUTH_TOKEN"] = deepseek_key
             secret_env_names.extend(("DEEPSEEK_API_KEY", "ANTHROPIC_AUTH_TOKEN"))
+
+        # Claude Code -> local vLLM (GLM-4.7-Flash or GLM-4.5-Air) via
+        # Anthropic's /v1/messages API surface (vLLM exposes it natively
+        # alongside /v1/chat/completions). The launcher-written
+        # GLM_*_API_BASE includes a trailing `/v1`; Claude Code appends
+        # `/v1/messages` to ANTHROPIC_BASE_URL, so we strip the `/v1`
+        # here to avoid the doubled `/v1/v1/messages` path.
+        if s.name == "claude" and auth == "api" and provider in ("local", "local-air"):
+            base_var, key_var = (
+                ("GLM_AIR_API_BASE", "GLM_AIR_API_KEY")
+                if provider == "local-air"
+                else ("GLM_API_BASE", "GLM_API_KEY")
+            )
+            raw_base = os.environ.get(base_var, "")
+            base_no_v1 = raw_base[: -len("/v1")] if raw_base.endswith("/v1") else raw_base
+            api_key = os.environ.get(key_var, "")
+            run_model = str((config or {}).get("model") or "")
+            secret_env_names = []
+            env.update(
+                {
+                    "ANTHROPIC_BASE_URL": base_no_v1,
+                    "ANTHROPIC_MODEL": run_model,
+                    # vLLM serves a SINGLE model per endpoint, so every
+                    # alias Claude Code might pick (opus/sonnet/haiku/subagent)
+                    # must resolve to that one served-model-name. Otherwise
+                    # the title-pass / subagent calls 404.
+                    "ANTHROPIC_DEFAULT_OPUS_MODEL": run_model,
+                    "ANTHROPIC_DEFAULT_SONNET_MODEL": run_model,
+                    "ANTHROPIC_DEFAULT_HAIKU_MODEL": run_model,
+                    "CLAUDE_CODE_SUBAGENT_MODEL": run_model,
+                    "CLAUDE_CODE_EFFORT_LEVEL": str((config or {}).get("effort") or "max"),
+                    # Context management — tell Claude Code the real model
+                    # window so its auto-compact threshold fires at
+                    # window-13k (the reserve it bakes in for output + tool
+                    # defs) instead of the default 200k it assumes for
+                    # native Anthropic models. Without this, no compaction
+                    # ever fires and the run dies on the first
+                    # `model_context_window_exceeded` (which is exactly
+                    # what killed RomanticKadanoff at turn 27).
+                    #
+                    # Both Flash and Air launchers set --max-model-len
+                    # 131072 (Air's native max_position_embeddings is
+                    # 202752 but 128k is the safe vLLM-tested ceiling).
+                    # Auto-compact threshold = 131072 - 13000 = 118k input;
+                    # if the agent overflows, a summarization API call
+                    # condenses old turns and the loop continues.
+                    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "131072",
+                    # Cap max_tokens in API requests so we don't reserve
+                    # half the window for thinking output. `effort: max`
+                    # would otherwise drive `--max-thinking-tokens 31999`
+                    # straight into the API as `max_tokens=32000`, eating
+                    # ~25% of the window on every turn. 16k keeps room
+                    # for substantial reasoning + tool calls while leaving
+                    # ~115k for conversation history.
+                    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "16000",
+                }
+            )
+            if api_key:
+                env["ANTHROPIC_AUTH_TOKEN"] = api_key
+            secret_env_names.extend((base_var, key_var, "ANTHROPIC_AUTH_TOKEN"))
         if s.pre_launch_hook:
             hook = PRE_LAUNCH_HOOKS.get(s.pre_launch_hook)
             if hook is None:

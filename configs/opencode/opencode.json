@@ -25,7 +25,12 @@
       "name": "GLM-Air local vLLM (4-node Ray cluster)",
       "options": {
         "baseURL": "{env:GLM_AIR_API_BASE}",
-        "apiKey": "{env:GLM_AIR_API_KEY}"
+        "apiKey": "{env:GLM_AIR_API_KEY}",
+        "extraBody": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
       },
       "models": {
         "glm-4.5-air": {

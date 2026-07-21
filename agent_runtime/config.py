@@ -70,6 +70,12 @@ _API_AUTH_ENV: dict[tuple[str, str], tuple[str, ...]] = {
     # /pscratch/sd/d/dfarough/LLMs/start_glm45_air_4node_service.sh, which
     # writes `GLM_AIR_API_BASE` / `GLM_AIR_API_KEY` into glm45_air_api.env.
     ("opencode", "local-air"): ("GLM_AIR_API_BASE", "GLM_AIR_API_KEY"),
+    # Claude Code harness can also drive vLLM via Anthropic's /v1/messages
+    # endpoint — vLLM exposes it natively (see the route table when the
+    # server boots). Uses the SAME env vars as the opencode/local entries
+    # because the underlying server is the same; only the harness differs.
+    ("claude", "local"): ("GLM_API_BASE", "GLM_API_KEY"),
+    ("claude", "local-air"): ("GLM_AIR_API_BASE", "GLM_AIR_API_KEY"),
 }
 
 # Per-(runner, provider) env-file fallback: when API-auth env vars are
@@ -81,6 +87,10 @@ _API_AUTH_ENV: dict[tuple[str, str], tuple[str, ...]] = {
 _API_AUTH_ENV_FALLBACK_FILES: dict[tuple[str, str], str] = {
     ("opencode", "local"): "/pscratch/sd/d/dfarough/LLMs/glm47_api.env",
     ("opencode", "local-air"): "/pscratch/sd/d/dfarough/LLMs/glm45_air_api.env",
+    # Claude-Code-as-harness shares the same vLLM servers, so the same
+    # files apply.
+    ("claude", "local"): "/pscratch/sd/d/dfarough/LLMs/glm47_api.env",
+    ("claude", "local-air"): "/pscratch/sd/d/dfarough/LLMs/glm45_air_api.env",
 }
 
 
@@ -317,6 +327,28 @@ _API_PREFLIGHT_PROBES: dict[tuple[str, str], dict] = {
         "base_var": "GLM_AIR_API_BASE",
         "key_var": "GLM_AIR_API_KEY",
         "what": "GLM-4.5-Air vLLM cluster (4 nodes via Ray)",
+        "hint": (
+            "  squeue -u $USER       # is the SLURM allocation still alive?\n"
+            "  /pscratch/sd/d/dfarough/LLMs/start_glm45_air_4node_service.sh   "
+            "# (re)launch vLLM cluster"
+        ),
+    },
+    # Claude-Code-as-harness probes the same servers — vLLM exposes
+    # /v1/models on the same port for both protocols.
+    ("claude", "local"): {
+        "base_var": "GLM_API_BASE",
+        "key_var": "GLM_API_KEY",
+        "what": "GLM-4.7-Flash vLLM server (via Claude Code harness)",
+        "hint": (
+            "  squeue -u $USER       # is the SLURM allocation still alive?\n"
+            "  /pscratch/sd/d/dfarough/LLMs/start_glm47_service.sh   "
+            "# (re)launch vLLM"
+        ),
+    },
+    ("claude", "local-air"): {
+        "base_var": "GLM_AIR_API_BASE",
+        "key_var": "GLM_AIR_API_KEY",
+        "what": "GLM-4.5-Air vLLM cluster (via Claude Code harness)",
         "hint": (
             "  squeue -u $USER       # is the SLURM allocation still alive?\n"
             "  /pscratch/sd/d/dfarough/LLMs/start_glm45_air_4node_service.sh   "
