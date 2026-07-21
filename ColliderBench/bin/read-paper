@@ -15,5 +15,10 @@ if ! activate_lhc_analysis; then
   bootstrap_lhc_analysis
 fi
 
-cd "${REPO_ROOT}"
+# Make the shim self-sufficient: set PYTHONPATH so `python -m` finds
+# the ColliderBench package regardless of cwd or how the agent harness
+# invokes us. Do NOT cd to REPO_ROOT — that would silently rewrite
+# relative-path arguments (the agent passes `papers/foo.pdf` relative
+# to its workspace, and a sneaky cd would break that).
+export PYTHONPATH="${REPO_ROOT}${PYTHONPATH:+:$PYTHONPATH}"
 exec python -m ColliderBench.tools.CLI.read_paper "$@"
