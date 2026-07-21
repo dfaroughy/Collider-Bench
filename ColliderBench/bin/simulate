@@ -46,6 +46,9 @@ case "${1:-info}" in
       [[ "$name" == "__pycache__" || "$name" == "template_files" ]] && continue
       echo "    ${name}"
     done
+    echo "  particle naming (BSM models use short UFO aliases, not physics names):"
+    echo "    bin/simulate particles <model>   — full PDG/name/role table for that model"
+    echo "    Example for T5Wg-like SUSY: \`import model MSSM_SLHA2; generate p p > go go\`"
     echo
     echo "Pythia8:           ${PYTHIA8_DIR}"
     echo "  use as Python module: \`import pythia8\` (no CLI)"
@@ -64,12 +67,94 @@ case "${1:-info}" in
     echo "Run \`bin/simulate --doc\` for direct-CLI patterns (incl. multi-CPU Pythia)."
     ;;
 
+  particles)
+    model="${2:-}"
+    if [[ -z "${model}" ]]; then
+      echo "Usage: bin/simulate particles <model>"          >&2
+      echo "  Lists each particle's PDG, UFO alias, mass-symbol, and role" >&2
+      echo "  for the requested MadGraph model. Run 'bin/simulate info'"   >&2
+      echo "  for the model directory listing."                            >&2
+      exit 2
+    fi
+    pfile="${MG5_DIR}/models/${model}/particles.py"
+    if [[ ! -f "${pfile}" ]]; then
+      echo "bin/simulate: no particles.py for model '${model}'." >&2
+      echo "  Available models:" >&2
+      for d in "${MG5_DIR}/models"/*/; do
+        n=$(basename "$d")
+        [[ "$n" == "__pycache__" || "$n" == "template_files" ]] && continue
+        [[ -f "$d/particles.py" ]] && echo "    $n" >&2
+      done
+      exit 2
+    fi
+    # Parse particles.py via AST. Filter to particle (not anti-) entries
+    # with positive PDG; print a compact table. We pull `pdg_code`,
+    # `name`, `mass` symbol, and let the agent infer role from the
+    # canonical UFO names (n1/n2.. = neutralinos, x1+/x2+ = charginos,
+    # go = gluino, ul/ur/dl.. = squarks, …). Keeps the output well under
+    # a screenful for MSSM_SLHA2 (~35 BSM rows after filtering).
+    python3 - "${pfile}" "${model}" <<'PYEOF'
+import ast, sys
+
+pfile, model = sys.argv[1], sys.argv[2]
+src = open(pfile).read()
+tree = ast.parse(src)
+
+# Find every `Particle(...)` constructor at module scope.
+rows = []
+for node in ast.walk(tree):
+    if not (isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "Particle"):
+        continue
+    kw = {k.arg: k.value for k in node.keywords if k.arg}
+    def lit(name):
+        v = kw.get(name)
+        if isinstance(v, ast.Constant): return v.value
+        if isinstance(v, ast.Attribute): return v.attr
+        if isinstance(v, ast.Name):      return v.id
+        if isinstance(v, ast.UnaryOp) and isinstance(v.op, ast.USub):
+            o = v.operand
+            if isinstance(o, ast.Constant): return -o.value
+        return None
+    pdg = lit("pdg_code")
+    name = lit("name")
+    mass = lit("mass")
+    width = lit("width")
+    if pdg is None or name is None: continue
+    if not isinstance(pdg, int) or pdg <= 0: continue   # skip anti-particles + auxiliaries
+    rows.append((pdg, str(name), str(mass) if mass else "-",
+                 str(width) if width else "-"))
+
+rows.sort()
+print(f"=== {model}: particles (positive-PDG only; anti-particles auto-implied) ===")
+print(f"  {'PDG':>8s}  {'alias':<10s}  {'mass':<14s}  {'width':<14s}")
+print(f"  {'---':>8s}  {'-----':<10s}  {'-----':<14s}  {'-----':<14s}")
+for pdg, name, mass, width in rows:
+    print(f"  {pdg:>8d}  {name:<10s}  {mass:<14s}  {width:<14s}")
+print()
+print(f"  total: {len(rows)} particles")
+print()
+print("MG5 syntax notes:")
+print("  - Use the `alias` column verbatim in `generate p p > X Y` lines.")
+print("  - For SUSY topologies: go=gluino, n1..n4=neutralinos, x1±/x2±=charginos.")
+print("    Squark/slepton aliases use sd/su/sl/sv prefixes — see the table above.")
+print("    (Anti-particles are auto-implied: write `x1-` where you'd say `chi1-`.)")
+print("  - Override masses by passing an SLHA card: `launch ; set param_card <path>.`")
+print("  - For decays + cross sections, use `add process` + branching ratios in the SLHA.")
+PYEOF
+    ;;
+
   help|-h|--help)
     cat <<EOF
-Usage: bin/simulate [info|--doc]
+Usage: bin/simulate [info|particles <model>|--doc]
 
-  info      list installed models, cards, env vars (default)
-  --doc     show full simulation guide (CLI/SIMULATE.md)
+  info                     list installed models, cards, env vars (default)
+  particles <model>        per-model particle PDG/alias/mass/width table
+                             (use this for SUSY/BSM models where the UFO
+                             alias differs from the physics name —
+                             e.g. MSSM_SLHA2 calls gluino \`go\`, not \`gluino\`)
+  --doc                    show full simulation guide (CLI/SIMULATE.md)
 
 Generators (mg5, pythia, delphes) are now called directly — see --doc.
 EOF

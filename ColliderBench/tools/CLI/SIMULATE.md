@@ -15,9 +15,17 @@ SM backgrounds you usually want `cms-opendata` instead — save compute.
 ## Quick discovery
 
 ```bash
-bin/simulate info        # installed UFO models + Delphes cards + tool paths
-bin/simulate --doc       # this page
+bin/simulate info                    # installed UFO models + Delphes cards + tool paths
+bin/simulate particles <model>       # PDG / UFO-alias / mass / width table for one model
+bin/simulate --doc                   # this page
 ```
+
+**Particle naming gotcha (BSM).** MadGraph's UFO models use short
+aliases (e.g. MSSM_SLHA2 calls the gluino `go`, the lightest neutralino
+`n1`, charginos `x1+`/`x2+`). Writing `generate p p > gluino gluino`
+fails with `InvalidCmd: No particle gluino in model`. Run
+`bin/simulate particles MSSM_SLHA2` to see the actual aliases — copy
+them verbatim into your process card.
 
 The relevant env vars (set inside the bench image; fall back to the
 in-repo paths otherwise):
