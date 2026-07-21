@@ -15,5 +15,9 @@ if ! activate_lhc_analysis; then
   bootstrap_lhc_analysis
 fi
 
-cd "${REPO_ROOT}"
+# Self-sufficient: set PYTHONPATH so `python -m` finds the package
+# regardless of cwd. Don't cd — keeps prospino's `prospino_scratch/`
+# output dir in the caller's workspace (where the agent expects its
+# own artifacts) rather than scribbling into the repo root.
+export PYTHONPATH="${REPO_ROOT}${PYTHONPATH:+:$PYTHONPATH}"
 exec python -m ColliderBench.tools.CLI.prospino "$@"

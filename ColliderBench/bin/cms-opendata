@@ -15,5 +15,8 @@ if ! activate_lhc_analysis; then
   bootstrap_lhc_analysis
 fi
 
-cd "${REPO_ROOT}"
+# Self-sufficient: set PYTHONPATH so `python -m` finds the package
+# regardless of cwd. Don't cd — relative-path arguments must stay
+# relative to the caller's workspace.
+export PYTHONPATH="${REPO_ROOT}${PYTHONPATH:+:$PYTHONPATH}"
 exec python -m ColliderBench.tools.CLI.cms_opendata "$@"
