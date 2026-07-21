@@ -386,6 +386,40 @@ def test_read_paper_extracts_text_from_pdf():
     assert "pymupdf" not in r.stdout.lower(), "read-paper still reports pymupdf missing"
 
 
+def test_simulate_particles_lists_susy_aliases_for_mssm_slha2():
+    """`bin/simulate particles MSSM_SLHA2` must surface the actual UFO
+    aliases (go, n1..n4, x1+/x2+) so agents stop generating proc cards
+    with literature names like 'gluino' / 'chi1+' that MG5 rejects.
+
+    Regression: every Air run we've seen failed to use MG5 because
+    `generate p p > gluino gluino` raises `InvalidCmd: No particle
+    gluino in model`. This output is the cheat sheet that prevents
+    that — losing it (e.g. by parsing particles.py with a bad regex
+    that filters out positive-PDG BSM entries) silently regresses
+    every BSM run."""
+    r = _run_in_container("bin/simulate particles MSSM_SLHA2", timeout=15)
+    assert r.returncode == 0, r.stderr
+    out = r.stdout
+    # The four SUSY aliases the agents most commonly miss.
+    for alias in (" go ", " n1 ", " n2 ", " x1+", " x2+"):
+        assert alias in out, f"missing alias {alias!r} in particles output:\n{out[:400]}"
+    # PDG codes for gluino + neutralinos + charginos.
+    for pdg in ("1000021", "1000022", "1000024"):
+        assert pdg in out, f"missing PDG {pdg} in particles output"
+    # Doc-size discipline: should stay one screenful. If this fails the
+    # filter is letting too much in — anti-particles or auxiliaries.
+    assert out.count("\n") < 90, (
+        f"particles output bloated to {out.count(chr(10))} lines — "
+        "check the positive-PDG filter."
+    )
+
+
+def test_simulate_particles_usage_error_when_no_model_given():
+    r = _run_in_container("bin/simulate particles", timeout=5)
+    assert r.returncode == 2
+    assert "Usage" in r.stderr or "Usage" in r.stdout
+
+
 # ── Sim-stack binaries ────────────────────────────────────────────────────
 
 
