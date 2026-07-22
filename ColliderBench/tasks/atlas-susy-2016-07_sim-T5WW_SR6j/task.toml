@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-susy-2016-07_sim-T5WW_SR6j"
+paper       = "ATLAS-SUSY-2016-07"
+type        = "simulation"
+target      = "T5WW_1705_865_25"
+observable  = "Meff"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "ATLAS", "gluino", "T5WW", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events/bin"
+report = ["relative_l2", "delta"]

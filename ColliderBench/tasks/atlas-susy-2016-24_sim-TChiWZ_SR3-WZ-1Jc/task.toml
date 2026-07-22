@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-susy-2016-24_sim-TChiWZ_SR3-WZ-1Jc"
+paper       = "ATLAS-SUSY-2016-24"
+type        = "simulation"
+target      = "TChiWZ_450_150"
+observable  = "ETmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "ATLAS", "electroweak", "chargino", "neutralino", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events/bin"
+report = ["relative_l2", "delta"]

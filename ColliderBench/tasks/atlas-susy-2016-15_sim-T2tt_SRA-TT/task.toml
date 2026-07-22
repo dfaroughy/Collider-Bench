@@ -1,0 +1,17 @@
+[task]
+id          = "atlas-susy-2016-15_sim-T2tt_SRA-TT"
+paper       = "ATLAS-SUSY-2016-15"
+type        = "simulation"
+target      = "T2tt_1000_1"
+observable  = "ETmiss"
+
+[metadata]
+difficulty = "medium"
+walltime   = "2h30m"
+tags       = ["SUSY", "ATLAS", "stops", "13TeV", "simplified model"]
+
+[metrics]
+tolerance = 0.05
+mode = "shape_norm"
+plot = "Events/bin"
+report = ["relative_l2", "delta"]
