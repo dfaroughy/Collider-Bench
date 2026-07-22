@@ -1,5 +1,6 @@
 instructions: "Fill the 'null' bin values in dependent_variables with your results.
                In the rightmost bin include ALL events with m_eff(incl.) > 4000 GeV.
+               This is an N-1 distribution.
                Do not modify bin edges.
               "
 description: "Signal event counts for binned m_eff(incl.) in SR2j-2800"
