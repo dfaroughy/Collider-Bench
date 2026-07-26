@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -24,6 +25,22 @@ import yaml
 
 
 JUDGE_RUBRIC_PATH = Path(__file__).parent / "judge_rubric.md"
+
+# Character budget for the extracted session summary; None means unbounded.
+#
+# Unbounded is the default because any finite value is a per-vendor penalty
+# rather than a neutral budget: agents differ systematically in how much they
+# emit, so a fixed cap binds on the verbose ones only. The previous 50k
+# truncated 46 of 60 codex_gpt-5.4-mini runs against 1 of 181 Claude runs —
+# head-first, so the judge never reached the steps that produced the submitted
+# values, which is exactly what the provenance audit is meant to check.
+#
+# The extractor already bounds output by construction: it keeps assistant text,
+# tool names, and errors, and drops successful tool output. Across the 364-run
+# corpus that yields at most 129.8k chars from a 10 MB raw log. Set an int here
+# (or pass max_chars) to reimpose a limit; truncation is then marked inline with
+# `[... truncated ...]` and recorded by callers.
+SESSION_SUMMARY_MAX_CHARS: int | None = None
 
 
 def _hist_yaml_files(directory: Path) -> list[Path]:
@@ -177,28 +194,68 @@ JUDGE_PROMPT_TEMPLATE = """\
 # ── Session log extraction ──────────────────────────────────────────────────
 
 
-def extract_session_summary(session_path: Path, max_chars: int = 50000) -> str:
-    """Extract key reasoning moments from a session log.
+def find_session_logs(workspace: Path) -> list[Path]:
+    """Return the best available session log without favoring a vendor format.
 
-    Supports Claude stream-json format natively. For other formats,
-    returns the raw text (the judge LLM can read any format).
+    Prefer a non-empty native JSONL stream, then a non-empty plain-text log.
+    Empty files are returned only when no non-empty alternative exists.
+    """
+    candidates = [workspace / "session.jsonl", workspace / "session_log.txt"]
+    nonempty = [path for path in candidates if path.is_file() and path.stat().st_size > 0]
+    if nonempty:
+        return [nonempty[0]]
+    return [path for path in candidates if path.is_file()][:1]
+
+
+def extract_session_summary(
+    session_path: Path, max_chars: int | None = SESSION_SUMMARY_MAX_CHARS
+) -> str:
+    """Extract comparable agent/tool/error moments from vendor session logs.
+
+    `max_chars=None` means unbounded. It is normalised to math.inf here so the
+    per-vendor parsers keep a single numeric budget path — every comparison
+    against inf is simply never true, so nothing truncates.
     """
     if not session_path.exists():
         return "(no session log)"
 
-    # Try Claude stream-json format first
-    first_line = ""
-    with open(session_path) as f:
-        first_line = f.readline().strip()
+    if max_chars is None:
+        max_chars = math.inf
 
-    if first_line.startswith("{") and '"type"' in first_line:
+    session_format = None
+    with open(session_path) as f:
+        for line in f:
+            try:
+                value = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(value, dict):
+                continue
+            msg_type = str(value.get("type") or "")
+            if msg_type in ("system", "assistant", "user"):
+                session_format = "claude"
+                break
+            if msg_type.startswith(("thread.", "turn.", "item.")):
+                session_format = "codex"
+                break
+            message = value.get("message")
+            if isinstance(message, dict) and isinstance(message.get("text"), dict):
+                session_format = "forge"
+                break
+
+    if session_format == "claude":
         return _extract_claude_stream_json(session_path, max_chars)
-    else:
-        # Raw text log — truncate and return as-is
-        text = session_path.read_text()
-        if len(text) > max_chars:
-            text = text[:max_chars] + "\n... (truncated)"
-        return text
+    if session_format == "codex":
+        return _extract_codex_jsonl(session_path, max_chars)
+    if session_format == "forge":
+        return _extract_forge_jsonl(session_path, max_chars)
+
+    # Unknown JSONL and ordinary text logs remain readable rather than being
+    # silently discarded by a vendor-specific parser.
+    text = session_path.read_text()
+    if len(text) > max_chars:
+        text = text[:max_chars] + "\n... (truncated)"
+    return text
 
 
 def _extract_claude_stream_json(session_path: Path, max_chars: int) -> str:
@@ -277,6 +334,100 @@ def _extract_claude_stream_json(session_path: Path, max_chars: int) -> str:
                 moments.append("[... truncated ...]\n")
                 break
 
+    return "".join(moments)
+
+
+def _append_moment(moments: list[str], entry: str, total_chars: int, max_chars: int) -> int:
+    """Append one normalized entry while enforcing a shared character budget."""
+    remaining = max_chars - total_chars
+    if remaining <= 0:
+        return total_chars
+    if len(entry) > remaining:
+        moments.append(entry[:remaining])
+        return max_chars
+    moments.append(entry)
+    return total_chars + len(entry)
+
+
+def _extract_codex_jsonl(session_path: Path, max_chars: int) -> str:
+    """Extract Codex ``exec --json`` events into the common judge summary."""
+    moments: list[str] = []
+    total_chars = 0
+    with open(session_path) as f:
+        for line in f:
+            try:
+                msg = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(msg, dict) or msg.get("type") != "item.completed":
+                continue
+            item = msg.get("item") or {}
+            if not isinstance(item, dict):
+                continue
+            item_type = item.get("type")
+            entry = ""
+            if item_type == "agent_message":
+                text = str(item.get("text") or "").strip()
+                if text:
+                    entry = f"[THOUGHT] {text}\n"
+            elif item_type == "command_execution":
+                command = str(item.get("command") or "")[:200]
+                entry = f"[TOOL] Bash: {command}\n"
+                exit_code = item.get("exit_code")
+                status = str(item.get("status") or "")
+                if (exit_code not in (None, 0)) or status == "failed":
+                    output = str(item.get("aggregated_output") or "")[:300]
+                    entry += f"[ERROR] exit_code={exit_code}: {output}\n"
+            elif item_type in ("file_change", "patch"):
+                entry = f"[TOOL] {item_type}\n"
+            if entry:
+                total_chars = _append_moment(moments, entry, total_chars, max_chars)
+            if total_chars >= max_chars:
+                moments.append("[... truncated ...]\n")
+                break
+    return "".join(moments)
+
+
+def _extract_forge_jsonl(session_path: Path, max_chars: int) -> str:
+    """Extract Forge message/tool events into the common judge summary."""
+    moments: list[str] = []
+    total_chars = 0
+    with open(session_path) as f:
+        for line in f:
+            try:
+                msg = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(msg, dict):
+                continue
+            message = msg.get("message") or {}
+            text_obj = message.get("text") if isinstance(message, dict) else None
+            entry = ""
+            if isinstance(text_obj, dict) and text_obj.get("role") == "Assistant":
+                content = str(text_obj.get("content") or "").strip()
+                if content:
+                    entry += f"[THOUGHT] {content}\n"
+                for call in text_obj.get("tool_calls") or []:
+                    if not isinstance(call, dict):
+                        continue
+                    name = str(call.get("name") or "?")
+                    args = call.get("arguments") or {}
+                    if name == "shell" and isinstance(args, dict):
+                        entry += f"[TOOL] Bash: {str(args.get('command') or '')[:200]}\n"
+                    else:
+                        entry += f"[TOOL] {name}\n"
+            tool_obj = message.get("tool") if isinstance(message, dict) else None
+            if isinstance(tool_obj, dict):
+                name = str(tool_obj.get("name") or "?")
+                output = tool_obj.get("output") or {}
+                entry += f"[TOOL] {name}\n"
+                if isinstance(output, dict) and output.get("is_error"):
+                    entry += f"[ERROR] {json.dumps(output.get('values') or [])[:300]}\n"
+            if entry:
+                total_chars = _append_moment(moments, entry, total_chars, max_chars)
+            if total_chars >= max_chars:
+                moments.append("[... truncated ...]\n")
+                break
     return "".join(moments)
 
 
@@ -644,7 +795,7 @@ def main():
         sys.exit(1)
 
     workspace = rp["workspace"]
-    session_logs = sorted(workspace.glob("session.jsonl"))
+    session_logs = find_session_logs(workspace)
     artifacts = [
         p
         for p in (workspace / f for f in ("report.md", "datasets.yaml", "results.json"))
