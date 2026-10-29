@@ -43,10 +43,9 @@ def test_workspace_layout(clean_workspace, agent):
     assert (ws / "agent_context" / "AGENTS.md").is_file()
     assert (ws / "bin").is_dir()
     assert (ws / "tools").is_symlink()
-    assert (ws / "papers").is_symlink()
-    # papers/ must resolve to the shared paper dir under tasks/shared/
-    link = os.readlink(ws / "papers")
-    assert "tasks/shared" in link or "ColliderBench" in link
+    assert (ws / "papers").is_dir()
+    assert not (ws / "papers").is_symlink()
+    assert list((ws / "papers").glob("*.pdf"))
 
 
 @pytest.mark.parametrize("agent", AGENT_NAMES)

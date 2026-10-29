@@ -7,7 +7,7 @@ Offline smoke suite. No SLURM, no LLM calls, no network — `python -m pytest` c
 | File | Asserts |
 |---|---|
 | `test_config.py` | Every shipped YAML config parses and validates; `extends:` chain is followed; unknown keys are rejected; PyYAML bool guard fires. |
-| `test_workspace.py` | `build_workspace(agent)` produces the canonical layout (agent_context, bin/, tools/ symlink, papers/ symlink to ColliderBench); run-analysis is on PATH. |
+| `test_workspace.py` | `build_workspace(agent)` produces the canonical layout (agent_context, bin/, tools/ symlink, copied papers/); run-analysis is on PATH. |
 | `test_prompts.py` | simple agent prompt builder renders for any paper_ref. |
 | `test_sandbox.py` | Every registered backend instantiates; auto picks one; sandbox_command returns `(list[str], callable)` and the "none" backend is a passthrough. |
 | `test_runners.py` | Every runner class instantiates; Claude's build_command has `--disallowedTools ScheduleWakeup` and `--max-thinking-tokens`; Codex's has `exec` + `danger-full-access`; allowlist is threaded through. |

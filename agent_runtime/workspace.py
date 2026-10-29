@@ -7,8 +7,7 @@ Builds a sandbox-ready workspace at <repo_root>/runs/<run_dir>/workspace/ with:
   - agent_context/       all *.md files under agent_dir (outside runtime/) + TASK.md
   - results/             copy of tasks/<task_id>/template/  (null-filled yamls;
                          agent fills in place — no separate output dir)
-  - papers/              symlink → tasks/shared/<paper>/paper/
-                         (materialized into a real dir by sandbox_command)
+  - papers/              copy of tasks/shared/<paper>/paper/
   - object_efficiencies/ copy of tasks/shared/<paper>/object_efficiencies/
                          merged with tasks/<task_id>/artifacts/ if present
                          (task-specific files override shared ones)
@@ -523,10 +522,11 @@ def build_workspace(
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dest)
 
-    # papers/ — symlink to the shared paper dir (PDF is large and immutable).
+    # Remember whether the shared paper directory existed before the fetch.
+    # Previously only that case created workspace/papers; preserve that
+    # behavior while moving the copy into workspace construction.
     shared_paper = shared / "paper"
-    if shared_paper.is_dir():
-        (workspace / "papers").symlink_to(shared_paper.resolve())
+    had_shared_paper = shared_paper.is_dir()
 
     # object_efficiencies/ — copy the shared pool; overlay task-specific
     # artifacts/ on top (task file with same name wins).
@@ -548,6 +548,11 @@ def build_workspace(
         url = f"https://arxiv.org/pdf/{paper_ref}"
         print(f"Downloading: {url}")
         _fetch_arxiv_pdf(url, pdf_path)
+
+    # The sandbox launcher used to replace a papers symlink with this copy.
+    # Build it here so the workspace is ready before sandbox selection.
+    if had_shared_paper:
+        shutil.copytree(shared_paper, workspace / "papers")
 
     return workspace
 
