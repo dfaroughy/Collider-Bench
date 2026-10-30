@@ -513,14 +513,7 @@ def build_workspace(
     # the task's template/. Agent fills nulls in place. task.toml itself
     # is intentionally NOT copied (harness metadata only).
     results = workspace / "results"
-    results.mkdir()
-    for src in template_src.rglob("*"):
-        if src.is_dir():
-            continue
-        rel = src.relative_to(template_src)
-        dest = results / rel
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dest)
+    _copy_result_templates(template_src, results)
 
     # Remember whether the shared paper directory existed before the fetch.
     # Previously only that case created workspace/papers; preserve that
@@ -532,14 +525,8 @@ def build_workspace(
     # artifacts/ on top (task file with same name wins).
     obj_eff = workspace / "object_efficiencies"
     shared_eff = shared / "object_efficiencies"
-    if shared_eff.is_dir():
-        shutil.copytree(shared_eff, obj_eff, dirs_exist_ok=True)
     task_artifacts = task_dir / "artifacts"
-    if task_artifacts.is_dir():
-        obj_eff.mkdir(exist_ok=True)
-        for src in task_artifacts.iterdir():
-            if src.is_file():
-                shutil.copy2(src, obj_eff / src.name)
+    _copy_object_efficiencies(shared_eff, task_artifacts, obj_eff)
 
     # Fetch the paper PDF once into the canonical shared location if missing.
     pdf_path = shared / "paper" / f"{paper_ref}.pdf"
@@ -555,6 +542,33 @@ def build_workspace(
         shutil.copytree(shared_paper, workspace / "papers")
 
     return workspace
+
+
+def _copy_result_templates(template_src: Path, results: Path) -> None:
+    """Copy task result templates into the workspace results directory."""
+    results.mkdir()
+    for src in template_src.rglob("*"):
+        if src.is_dir():
+            continue
+        rel = src.relative_to(template_src)
+        dest = results / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dest)
+
+
+def _copy_object_efficiencies(
+    shared_eff: Path,
+    task_artifacts: Path,
+    obj_eff: Path,
+) -> None:
+    """Copy shared object efficiencies, then overlay flat task artifacts."""
+    if shared_eff.is_dir():
+        shutil.copytree(shared_eff, obj_eff, dirs_exist_ok=True)
+    if task_artifacts.is_dir():
+        obj_eff.mkdir(exist_ok=True)
+        for src in task_artifacts.iterdir():
+            if src.is_file():
+                shutil.copy2(src, obj_eff / src.name)
 
 
 def _fetch_arxiv_pdf(url: str, dest: Path) -> None:
