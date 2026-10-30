@@ -521,6 +521,44 @@ def _parse_judge_response(text: str) -> tuple[dict | None, dict | None]:
     return scores, None
 
 
+def _format_trajectory_report(trajectory: dict, model: str) -> str:
+    """Format the trajectory narrative as Markdown."""
+    lines = [f"# Judge Trajectory Narrative\n\n**Judge model**: {model}\n"]
+    for key, title in [
+        ("summary", "Summary"),
+        ("planning", "Planning"),
+        ("tool_use", "Tool Use"),
+        ("scientific_judgment", "Scientific Judgment"),
+        ("honesty_and_reporting", "Honesty And Reporting"),
+        ("overall_assessment", "Overall Assessment"),
+    ]:
+        value = trajectory.get(key)
+        if value:
+            lines.append(f"\n## {title}\n\n{value}\n")
+    for key, title in [
+        ("strengths", "Strengths"),
+        ("creative_moves", "Creative Moves"),
+        ("stuck_points", "Stuck Points"),
+        ("issues", "Issues"),
+    ]:
+        items = trajectory.get(key) or []
+        if items:
+            lines.append(f"\n## {title}\n")
+            for item in items:
+                if isinstance(item, dict):
+                    desc = item.get("description") or item.get("label") or json.dumps(item)
+                    extra = []
+                    for subkey in ("impact", "severity", "avoidable", "evidence"):
+                        if item.get(subkey) is not None:
+                            extra.append(f"{subkey}: {item[subkey]}")
+                    suffix = f" ({'; '.join(extra)})" if extra else ""
+                    lines.append(f"- {desc}{suffix}")
+                else:
+                    lines.append(f"- {item}")
+            lines.append("")
+    return "\n".join(lines)
+
+
 def run_judge(
     session_logs: list[Path],
     results_dir: Path | None,
@@ -638,40 +676,7 @@ def run_judge(
     trajectory = scores.get("trajectory") or {}
     if trajectory and output_dir:
         report_path = output_dir / "judge_trajectory.md"
-        lines = [f"# Judge Trajectory Narrative\n\n**Judge model**: {model}\n"]
-        for key, title in [
-            ("summary", "Summary"),
-            ("planning", "Planning"),
-            ("tool_use", "Tool Use"),
-            ("scientific_judgment", "Scientific Judgment"),
-            ("honesty_and_reporting", "Honesty And Reporting"),
-            ("overall_assessment", "Overall Assessment"),
-        ]:
-            value = trajectory.get(key)
-            if value:
-                lines.append(f"\n## {title}\n\n{value}\n")
-        for key, title in [
-            ("strengths", "Strengths"),
-            ("creative_moves", "Creative Moves"),
-            ("stuck_points", "Stuck Points"),
-            ("issues", "Issues"),
-        ]:
-            items = trajectory.get(key) or []
-            if items:
-                lines.append(f"\n## {title}\n")
-                for item in items:
-                    if isinstance(item, dict):
-                        desc = item.get("description") or item.get("label") or json.dumps(item)
-                        extra = []
-                        for subkey in ("impact", "severity", "avoidable", "evidence"):
-                            if item.get(subkey) is not None:
-                                extra.append(f"{subkey}: {item[subkey]}")
-                        suffix = f" ({'; '.join(extra)})" if extra else ""
-                        lines.append(f"- {desc}{suffix}")
-                    else:
-                        lines.append(f"- {item}")
-                lines.append("")
-        report_path.write_text("\n".join(lines))
+        report_path.write_text(_format_trajectory_report(trajectory, model))
         scores["trajectory_report_path"] = str(report_path)
 
     # Handle provenance audit and correction.
