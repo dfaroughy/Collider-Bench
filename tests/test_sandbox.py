@@ -4,6 +4,7 @@ every backend that advertises itself as available."""
 from __future__ import annotations
 
 import shutil
+from pathlib import Path
 
 import pytest
 
@@ -225,6 +226,67 @@ def _env_values(cmd, flag):
 
 def _bind_values(cmd, flag):
     return [cmd[i + 1] for i, arg in enumerate(cmd[:-1]) if arg == flag]
+
+
+@pytest.mark.parametrize(
+    ("backend", "engine", "flag"),
+    (("apptainer", "apptainer", "--bind"), ("podman", "podman", "-v")),
+)
+def test_container_backends_preserve_readonly_mount_order(
+    repo_root, tmp_path, monkeypatch, backend, engine, flag
+):
+    monkeypatch.setattr(
+        shutil, "which", lambda name: f"/usr/bin/{name}" if name == engine else None
+    )
+    host_home = tmp_path / "host-home"
+    cli_dir = host_home / ".local" / "bin"
+    cli_dir.mkdir(parents=True)
+    cli = cli_dir / "codex"
+    cli.write_text("#!/bin/sh\n")
+    cli.chmod(0o755)
+    monkeypatch.setattr("pathlib.Path.home", lambda: host_home)
+
+    original_is_dir = type(tmp_path).is_dir
+
+    def is_dir(path):
+        if path == Path("/cvmfs"):
+            return True
+        return original_is_dir(path)
+
+    monkeypatch.setattr(Path, "is_dir", is_dir)
+
+    workspace = tmp_path / "ws"
+    workspace.mkdir()
+    extra = tmp_path / "extra-readonly"
+    extra.mkdir()
+    cmd, cleanup = sandbox_command(
+        workspace,
+        repo_root,
+        [str(cli), "exec"],
+        extra_ro_binds=[extra],
+        home_files=(),
+        sandbox=backend,
+    )
+
+    actual = [value for value in _bind_values(cmd, flag) if value.endswith(":ro")]
+    tools = repo_root / "ColliderBench" / "tools"
+    expected = [
+        f"{tools / name}:{tools / name}:ro"
+        for name in ("CLI", "__init__.py", "streaming.py", "TOOLS.md")
+        if (tools / name).exists()
+    ]
+    bin_dir = repo_root / "ColliderBench" / "bin"
+    expected.extend(
+        [
+            f"{bin_dir}:{bin_dir}:ro",
+            "/cvmfs:/cvmfs:ro",
+            f"{extra}:{extra}:ro",
+            f"{cli_dir}:{cli_dir}:ro",
+        ]
+    )
+    assert cmd[0] == engine
+    assert actual == expected
+    cleanup()
 
 
 def test_podman_blind_masks_delphes(repo_root, tmp_path, monkeypatch):

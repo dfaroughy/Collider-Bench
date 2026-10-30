@@ -172,6 +172,39 @@ def _tool_policy_extra_binds(workspace: Path, repo_root: Path, flag: str) -> lis
     return out
 
 
+def _agent_readonly_mount_args(workspace: Path, repo_root: Path, flag: str) -> list[str]:
+    """Build the shared read-only benchmark mounts in their command order."""
+    from agent_runtime import paths as bench_paths
+
+    return [
+        *_tools_bind_args(repo_root, flag, _tool_policy_doc_subs(workspace, repo_root)),
+        flag,
+        f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
+        *_tool_policy_extra_binds(workspace, repo_root, flag),
+    ]
+
+
+def _additional_readonly_mount_args(
+    extra_ro_binds: Iterable[Path] | None,
+    inner_cmd: Sequence[str],
+    flag: str,
+) -> tuple[list[str], list[str]]:
+    """Build optional host mounts and return the rewritten runner command."""
+    out: list[str] = []
+    if Path("/cvmfs").is_dir():
+        out.extend([flag, "/cvmfs:/cvmfs:ro"])
+
+    for path in extra_ro_binds or []:
+        if Path(path).exists():
+            out.extend([flag, f"{path}:{path}:ro"])
+
+    rewritten_cmd, cli_ro_binds = _prepare_runner_cli(inner_cmd)
+    for path in cli_ro_binds:
+        out.extend([flag, f"{path}:{path}:ro"])
+
+    return out, rewritten_cmd
+
+
 def _prepare_isolated_home(
     host_home: Path,
     target: Path | None = None,
@@ -331,8 +364,6 @@ class ApptainerSandbox(Sandbox):
         home_files=(),
         home_credential_files=(),
     ):
-        from agent_runtime import paths as bench_paths
-
         image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
 
         cmd: list[str] = [
@@ -353,11 +384,8 @@ class ApptainerSandbox(Sandbox):
             # of tools/ (see _TOOLS_AGENT_SUBPATHS — excludes tools/sim/),
             # plus bin/ and this run's paper PDF (copied into
             # workspace/papers before wrapping).
-            *_tools_bind_args(repo_root, "--bind", _tool_policy_doc_subs(workspace, repo_root)),
-            "--bind",
-            f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
+            *_agent_readonly_mount_args(workspace, repo_root, "--bind"),
         ]
-        cmd.extend(_tool_policy_extra_binds(workspace, repo_root, "--bind"))
         # Per-run fake $HOME under <recast>/<runner-home>/. The CLIs
         # see only runner-selected credential / config files; everything
         # they write (session logs, conversation DBs, todos, caches)
@@ -378,16 +406,10 @@ class ApptainerSandbox(Sandbox):
             ]
         )
 
-        # CVMFS (CMSSW, ATLAS sw, ...) — ro when available on the host.
-        if Path("/cvmfs").is_dir():
-            cmd.extend(["--bind", "/cvmfs:/cvmfs:ro"])
-
-        for path in extra_ro_binds or []:
-            if Path(path).exists():
-                cmd.extend(["--bind", f"{path}:{path}:ro"])
-        rewritten_cmd, cli_ro_binds = _prepare_runner_cli(inner_cmd)
-        for path in cli_ro_binds:
-            cmd.extend(["--bind", f"{path}:{path}:ro"])
+        optional_mounts, rewritten_cmd = _additional_readonly_mount_args(
+            extra_ro_binds, inner_cmd, "--bind"
+        )
+        cmd.extend(optional_mounts)
 
         # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
         # `--dangerously-skip-permissions` is allowed even if the container
@@ -542,8 +564,6 @@ class PodmanSandbox(Sandbox):
         home_files=(),
         home_credential_files=(),
     ):
-        from agent_runtime import paths as bench_paths
-
         image = os.environ.get("LHC_BENCH_IMAGE") or _DEFAULT_IMAGE
 
         # Container runs as root (UID 0) by default under rootless podman —
@@ -584,25 +604,16 @@ class PodmanSandbox(Sandbox):
             # of tools/ (see _TOOLS_AGENT_SUBPATHS — excludes tools/sim/),
             # plus bin/ and this run's paper PDF (copied into
             # workspace/papers before wrapping).
-            *_tools_bind_args(repo_root, "-v", _tool_policy_doc_subs(workspace, repo_root)),
-            "-v",
-            f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
+            *_agent_readonly_mount_args(workspace, repo_root, "-v"),
         ]
-        cmd.extend(_tool_policy_extra_binds(workspace, repo_root, "-v"))
 
         # OAuth creds + minimal CLI config live inside the fake $HOME
         # bound above; nothing else is shared with the host's real $HOME.
 
-        if Path("/cvmfs").is_dir():
-            cmd.extend(["-v", "/cvmfs:/cvmfs:ro"])
-
-        for path in extra_ro_binds or []:
-            if Path(path).exists():
-                cmd.extend(["-v", f"{path}:{path}:ro"])
-
-        rewritten_cmd, cli_ro_binds = _prepare_runner_cli(inner_cmd)
-        for path in cli_ro_binds:
-            cmd.extend(["-v", f"{path}:{path}:ro"])
+        optional_mounts, rewritten_cmd = _additional_readonly_mount_args(
+            extra_ro_binds, inner_cmd, "-v"
+        )
+        cmd.extend(optional_mounts)
 
         # ── PATH inside the container ───────────────────────────────────────
         # Use only the image PATH. Host-installed agent CLIs are either baked
