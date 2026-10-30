@@ -150,6 +150,55 @@ def resolve_paths(run_path: str | Path) -> dict:
     }
 
 
+def _shape_metrics(aligned, tolerance: float, n_toys: int | None) -> dict:
+    """Calculate the shape metrics for an aligned prediction/reference pair."""
+    # Bin-error on unit-area-normalized arrays so it's a pure shape metric.
+    ref_sum = float(aligned.reference.sum())
+    pred_sum = float(aligned.prediction.sum())
+    if ref_sum > 0 and pred_sum > 0:
+        shape_bin_err = mean_abs_frac_error_pct(
+            aligned.prediction / pred_sum, aligned.reference / ref_sum
+        )
+    else:
+        shape_bin_err = None
+    jsd, jsd_dist = jensen_shannon(aligned.prediction, aligned.reference)
+    d_bar, d_max = per_bin_disagreement(aligned.prediction, aligned.reference)
+    # Concentration of the shape disagreement:
+    #   ratio = 1     → disagreement concentrated in one bin
+    #   ratio = 1/K   → disagreement spread uniformly across K bins
+    # None when d_bar == 0 (perfect match → ratio is 0/0).
+    if d_bar is None or d_max is None or d_bar == 0:
+        dmax_dbar_ratio: float | None = None
+    else:
+        dmax_dbar_ratio = round(d_max / d_bar, 6)
+    bc_kwargs: dict = {"systematic_frac": tolerance}
+    if n_toys is not None:
+        bc_kwargs["n_toys"] = n_toys
+    p_shape = baker_cousins_p_value(
+        aligned.prediction, aligned.reference, kind="shape", **bc_kwargs
+    )
+    return {
+        "mean_abs_frac_error_pct": shape_bin_err,
+        "p_value": p_shape,
+        "jensen_shannon": jsd,
+        "jensen_shannon_dist": jsd_dist,
+        "d_bar": d_bar,
+        "d_max": d_max,
+        "dmax_dbar_ratio": dmax_dbar_ratio,
+        "relative_l2": relative_l2(aligned.prediction, aligned.reference, normalize=True),
+    }
+
+
+def _normalization_metrics(aligned) -> dict:
+    """Calculate normalization metrics for an aligned prediction/reference pair."""
+    return {
+        "mean_abs_frac_error_pct": total_frac_error_pct(aligned.prediction, aligned.reference),
+        "Delta": Delta(aligned.prediction, aligned.reference),
+        "rmsle": rmsle(aligned.prediction, aligned.reference),
+        "relative_l2": relative_l2(aligned.prediction, aligned.reference),
+    }
+
+
 # ── Score ──────────────────────────────────────────────────────────────────
 
 
@@ -205,49 +254,10 @@ def score_run(
     }
 
     if want_shape:
-        # Bin-error on unit-area-normalized arrays so it's a pure shape metric.
-        ref_sum = float(aligned.reference.sum())
-        pred_sum = float(aligned.prediction.sum())
-        if ref_sum > 0 and pred_sum > 0:
-            shape_bin_err = mean_abs_frac_error_pct(
-                aligned.prediction / pred_sum, aligned.reference / ref_sum
-            )
-        else:
-            shape_bin_err = None
-        jsd, jsd_dist = jensen_shannon(aligned.prediction, aligned.reference)
-        d_bar, d_max = per_bin_disagreement(aligned.prediction, aligned.reference)
-        # Concentration of the shape disagreement:
-        #   ratio = 1     → disagreement concentrated in one bin
-        #   ratio = 1/K   → disagreement spread uniformly across K bins
-        # None when d_bar == 0 (perfect match → ratio is 0/0).
-        if d_bar is None or d_max is None or d_bar == 0:
-            dmax_dbar_ratio: float | None = None
-        else:
-            dmax_dbar_ratio = round(d_max / d_bar, 6)
-        bc_kwargs: dict = {"systematic_frac": task["tolerance"]}
-        if n_toys is not None:
-            bc_kwargs["n_toys"] = n_toys
-        p_shape = baker_cousins_p_value(
-            aligned.prediction, aligned.reference, kind="shape", **bc_kwargs
-        )
-        out["shape"] = {
-            "mean_abs_frac_error_pct": shape_bin_err,
-            "p_value": p_shape,
-            "jensen_shannon": jsd,
-            "jensen_shannon_dist": jsd_dist,
-            "d_bar": d_bar,
-            "d_max": d_max,
-            "dmax_dbar_ratio": dmax_dbar_ratio,
-            "relative_l2": relative_l2(aligned.prediction, aligned.reference, normalize=True),
-        }
+        out["shape"] = _shape_metrics(aligned, task["tolerance"], n_toys)
 
     if want_norm:
-        out["normalization"] = {
-            "mean_abs_frac_error_pct": total_frac_error_pct(aligned.prediction, aligned.reference),
-            "Delta": Delta(aligned.prediction, aligned.reference),
-            "rmsle": rmsle(aligned.prediction, aligned.reference),
-            "relative_l2": relative_l2(aligned.prediction, aligned.reference),
-        }
+        out["normalization"] = _normalization_metrics(aligned)
 
     return out
 
