@@ -23,7 +23,7 @@ from agent_runtime.config import load_config, validate_api_auth_env, validate_la
 from agent_runtime.effort import resolve_effort
 from agent_runtime.naming import generate_run_info
 from agent_runtime.run_info import finalize_run_info, write_run_info
-from agent_runtime.runners import RUNNERS, get_runner
+from agent_runtime.runners import LaunchPrep, RUNNERS, Runner, get_runner
 from agent_runtime.workspace import build_workspace, disabled_tool_env
 
 
@@ -105,21 +105,17 @@ def _parse_walltime_s(s: str | None) -> float | None:
     return float(h * 3600 + mi * 60 + sec)
 
 
-def _run_in_sandbox(
+def _assemble_sandbox_run(
     workspace: Path,
     repo_root: Path,
     prompt: str,
     runner_name: str,
     model: str | None,
     max_thinking_tokens: int | None,
-    sandbox: str | None,
-    extra_ro_binds: list[Path],
     effort_label: str | None = None,
-    walltime_s: float | None = None,
     config: dict | None = None,
-) -> None:
-    from agent_runtime.sandbox import sandbox_command
-
+) -> tuple[Runner, list[str], dict[str, str], LaunchPrep]:
+    """Assemble the runner command, environment, and launch preparation."""
     runner = get_runner(runner_name)
     inner_cmd = runner.build_command(
         prompt,
@@ -140,6 +136,34 @@ def _run_in_sandbox(
     env.update(disabled_tool_env(workspace, tool_policy))
     prep = runner.prepare_launch(workspace, config=config)
     env.update(prep.env)
+    return runner, inner_cmd, env, prep
+
+
+def _run_in_sandbox(
+    workspace: Path,
+    repo_root: Path,
+    prompt: str,
+    runner_name: str,
+    model: str | None,
+    max_thinking_tokens: int | None,
+    sandbox: str | None,
+    extra_ro_binds: list[Path],
+    effort_label: str | None = None,
+    walltime_s: float | None = None,
+    config: dict | None = None,
+) -> None:
+    from agent_runtime.sandbox import sandbox_command
+
+    runner, inner_cmd, env, prep = _assemble_sandbox_run(
+        workspace,
+        repo_root,
+        prompt,
+        runner_name,
+        model,
+        max_thinking_tokens,
+        effort_label=effort_label,
+        config=config,
+    )
 
     cmd, cleanup = sandbox_command(
         workspace,
