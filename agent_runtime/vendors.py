@@ -216,9 +216,6 @@ CLAUDE_SPEC = RunnerSpec(
     disallowed_tools=["ScheduleWakeup"],
     thinking_tokens_flag="--max-thinking-tokens",
     stream_format="stream_json",
-    # Claude sometimes hangs after emitting `result` (MCP/hooks/watchers
-    # holding stdout). 15s grace, then SIGTERM the group.
-    post_result_grace_s=15.0,
     secret_env_names=("ANTHROPIC_API_KEY",),
     home_dir_name=".claude_home",
     home_files=(

@@ -27,13 +27,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 
-def _is_result_line(line: str) -> bool:
-    """True if this stream-json line is the session's final `result` event."""
-    # Structural match on the unambiguous `"type":"result"` key avoids a
-    # json.loads on every line — this runs in the hot path of ClaudeRunner.
-    return '"type":"result"' in line or '"type": "result"' in line
-
-
 # ── Process-group cleanup ──────────────────────────────────────────────────
 
 
@@ -73,9 +66,7 @@ def _arm_walltime_watchdog(pgid: int, walltime_s: float | None):
     time" from generic CalledProcessError failures.
 
     Used by every vendor runner to enforce the per-task walltime from
-    `task.toml [metadata].walltime`. Plays well with the runner's own
-    finally-block kill — calling _kill_process_group twice on a dead
-    group is a no-op.
+    `task.toml [metadata].walltime`.
     """
     if not walltime_s or walltime_s <= 0:
         return None

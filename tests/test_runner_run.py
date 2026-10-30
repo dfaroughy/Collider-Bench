@@ -1,18 +1,18 @@
 """Characterization of DeclarativeRunner.run with a fake process and fake timers.
 
-Pins the *current* behavior of the subprocess lifecycle in
-agent_runtime/runner_spec.py: the exact `Popen` arguments, stdin handling for
-flag vs stdin prompts, how stdout is decoded / stripped / parsed / written (with a
-flush per line), when the post-result watchdog is armed and what it does, the
-order of cleanup and the post-run hook, the exit-code rules and which exceptions
-skip or keep the cleanup, so the extraction of output consumption into
-`_consume_runner_output` is shown to be behavior-preserving. Most tests drive
+Pins the subprocess lifecycle in agent_runtime/runner_spec.py: the exact `Popen`
+arguments, stdin handling for flag vs stdin prompts, how stdout is decoded / stripped
+/ parsed / written (with a flush per line), the order of cleanup and the post-run
+hook, the exit-code rules and which exceptions skip or keep the cleanup. The runner
+never terminates an agent on its own: there is no post-result watchdog timer and no
+unconditional process-group kill; only the task walltime (armed through
+`_arm_walltime_watchdog`, cancelled in the cleanup) may end a run. Most tests drive
 `DeclarativeRunner.run`; the last section tests `_consume_runner_output` directly.
 
 Entirely offline and deterministic: `subprocess.Popen`, `os.getpgid`,
-`threading.Timer`, `_kill_process_group` and `_arm_walltime_watchdog` are replaced
-by recorders, so no process is spawned, no timer runs, nothing sleeps and no
-signal is sent. Output files live under tmp_path.
+`threading.Timer`, `_kill_process_group` (if the module still has it) and
+`_arm_walltime_watchdog` are replaced by recorders, so no process is spawned, no timer
+runs, nothing sleeps and no signal is sent. Output files live under tmp_path.
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ from pathlib import Path
 import pytest
 
 # `agent_runtime.runners` must be imported before `agent_runtime.runner_spec` (circular import).
-from agent_runtime.runners import LaunchPrep  # isort: skip  # noqa: F401
+from agent_runtime.runners import get_runner  # isort: skip
 from agent_runtime import runner_spec  # isort: skip
 from agent_runtime.runner_spec import DeclarativeRunner, RunnerSpec  # isort: skip
 
@@ -151,7 +151,9 @@ def world(tmp_path, monkeypatch):
     monkeypatch.setattr(subprocess, "Popen", fake_popen)
     monkeypatch.setattr(os, "getpgid", fake_getpgid)
     monkeypatch.setattr(threading, "Timer", _FakeTimer)
-    monkeypatch.setattr(runner_spec, "_kill_process_group", fake_kill)
+    # raising=False: the runner no longer needs this helper; if it is gone the tests
+    # still assert it is never called.
+    monkeypatch.setattr(runner_spec, "_kill_process_group", fake_kill, raising=False)
     monkeypatch.setattr(runner_spec, "_arm_walltime_watchdog", fake_arm)
 
     out = tmp_path / "session.jsonl"
@@ -359,88 +361,69 @@ def test_stream_format_selects_the_parser_from_the_registry(world):
     assert seen == ["x"] and _text(rec) == "x\n"
 
 
-# ── post-result watchdog ────────────────────────────────────────────────────
+# ── no early termination: no post-result timer, no group kill ───────────────
+
+_RESULT_LINES = [
+    _RESULT,
+    '{"type": "result"}',
+    'note: {"type":"result"} appears inside text  ',
+]
 
 
-def test_watchdog_is_armed_once_at_the_first_result_line_with_the_grace_period(world):
+def test_the_spec_no_longer_has_a_post_result_grace_setting():
+    with pytest.raises(ValueError):  # pydantic ValidationError (extra fields forbidden)
+        RunnerSpec(name="t", binary="tbin", post_result_grace_s=15.0)
+    assert "post_result_grace_s" not in RunnerSpec.model_fields
+    for name in ("claude", "codex", "gemini", "aider", "forge"):
+        assert not hasattr(get_runner(name)._spec, "post_result_grace_s")
+
+
+@pytest.mark.parametrize("line", _RESULT_LINES)
+def test_a_result_line_never_arms_a_timer(world, line):
     rec = world(
-        lines=["noise\n", _RESULT + "\n", _RESULT + "\n", "after\n"],
-        post_result_grace_s=15.0,
+        lines=["noise\n", line + "\n", line + "\n", "after\n"],
         parser=_passthrough_parser(),
     )
-    (timer,) = _FakeTimer.instances
-    assert timer.interval == 15.0 and timer.daemon is True and timer.started
-    assert rec.events.index("watchdog_start") < rec.events.index("wait")
-    assert timer.cancelled  # cancelled in the cleanup
-
-
-def test_watchdog_is_armed_after_the_result_line_was_written_and_flushed(world):
-    out = world.rec.out
-    at_start: list[bytes] = []
-    original_start = _FakeTimer.start
-
-    def spying_start(self):
-        at_start.append(out.read_bytes())
-        original_start(self)
-
-    world.monkeypatch.setattr(_FakeTimer, "start", spying_start)
-    world(lines=[_RESULT + "\n"], post_result_grace_s=5.0, parser=_passthrough_parser())
-    assert at_start == [(_RESULT + "\n").encode()]
-
-
-@pytest.mark.parametrize("variant", ['{"type": "result"}', '{"type":"result"}'])
-def test_both_result_event_spellings_arm_the_watchdog(world, variant):
-    world(lines=[variant + "\n"], post_result_grace_s=3.0, parser=_passthrough_parser())
-    assert len(_FakeTimer.instances) == 1
-
-
-def test_result_detection_is_a_substring_match_on_the_stripped_line(world):
-    # Any line merely containing the marker arms the watchdog, JSON or not.
-    world(lines=['note: {"type":"result"} appears inside text  \n'], post_result_grace_s=2.0)
-    assert len(_FakeTimer.instances) == 1
-
-
-def test_no_watchdog_without_a_grace_period_or_without_a_result_line(world):
-    world(lines=[_RESULT + "\n"], post_result_grace_s=0.0, parser=_passthrough_parser())
     assert _FakeTimer.instances == []
-    world(lines=["not a result\n"], post_result_grace_s=9.0, parser=_passthrough_parser())
-    assert _FakeTimer.instances == []
+    assert "watchdog_start" not in rec.events and "cancel_watchdog" not in rec.events
 
 
-def test_a_stalled_session_is_terminated_and_counts_as_success(world, capsys):
-    _FakeTimer.fire_on_start = True
-    rec = world(
-        lines=[_RESULT + "\n"],
-        rc=-15,
-        poll=None,
-        post_result_grace_s=15.0,
-        parser=_passthrough_parser(),
-    )
-    assert rec.result is None  # killed after the result: no CalledProcessError
-    assert capsys.readouterr().out == (
-        "\n[runner] t stalled 15s after result event; terminating session.\n"
-    )
-    assert rec.kill_calls == [_PGID, _PGID]  # once by the watchdog, once in the cleanup
+def test_no_stall_message_and_no_termination_after_a_result_line(world, capsys):
+    rec = world(lines=[_RESULT + "\n"], rc=0, poll=None, parser=_passthrough_parser())
+    assert rec.result is None
+    assert "stalled" not in capsys.readouterr().out
+    assert rec.kill_calls == [] and "kill_group" not in rec.events
 
 
-def test_watchdog_does_nothing_when_the_process_already_exited(world, capsys):
-    _FakeTimer.fire_on_start = True
-    with pytest.raises(subprocess.CalledProcessError):
-        world(
-            lines=[_RESULT + "\n"],
-            rc=3,
-            poll=0,
-            post_result_grace_s=15.0,
-            parser=_passthrough_parser(),
-        )
-    assert capsys.readouterr().out == ""
-    assert world.rec.kill_calls == [_PGID]  # only the unconditional cleanup kill
+@pytest.mark.parametrize("rc", [-15, -9, 3])
+def test_nonzero_exit_after_a_result_line_is_still_a_failure(world, rc, capsys):
+    with pytest.raises(subprocess.CalledProcessError) as info:
+        world(lines=[_RESULT + "\n"], rc=rc, poll=None, parser=_passthrough_parser())
+    assert info.value.returncode == rc
+    assert "stalled" not in capsys.readouterr().out
+    assert world.rec.kill_calls == []
+
+
+def test_the_runner_waits_for_the_process_after_the_result_line(world):
+    rec = world(lines=[_RESULT + "\n", "late output\n"], parser=_passthrough_parser())
+    assert rec.events[rec.events.index("wait") :] == ["wait", "cancel_walltime"]
+    assert _text(rec) == _RESULT + "\nlate output\n"
+
+
+@pytest.mark.parametrize("rc", [0, 1, -9])
+def test_the_process_group_is_never_killed_on_success_or_nonzero_exit(world, rc):
+    if rc == 0:
+        world(rc=rc)
+    else:
+        with pytest.raises(subprocess.CalledProcessError):
+            world(rc=rc)
+    assert world.rec.kill_calls == [] and "kill_group" not in world.rec.events
 
 
 # ── cleanup ordering + post-run hook ────────────────────────────────────────
 
 
-def test_cleanup_order_cancel_timers_then_kill_group_then_post_hook(world):
+def test_cleanup_order_cancel_walltime_then_post_hook_with_no_group_kill(world):
     hook_calls = []
 
     def hook(sandbox):
@@ -448,22 +431,25 @@ def test_cleanup_order_cancel_timers_then_kill_group_then_post_hook(world):
         hook_calls.append(sandbox)
 
     world.monkeypatch.setitem(runner_spec.POST_RUN_HOOKS, "h", hook)
-    rec = world(
-        lines=[_RESULT + "\n"],
-        post_result_grace_s=15.0,
-        post_run_hook="h",
-        parser=_passthrough_parser(),
-    )
+    rec = world(lines=[_RESULT + "\n"], post_run_hook="h", parser=_passthrough_parser())
     tail = rec.events[rec.events.index("wait") :]
-    assert tail == ["wait", "cancel_walltime", "cancel_watchdog", "kill_group", "post_hook"]
+    assert tail == ["wait", "cancel_walltime", "post_hook"]
     assert hook_calls == [Path(rec.sandbox)]
     assert rec.walltime_timer.cancelled
+    assert rec.kill_calls == []
 
 
-def test_cleanup_skips_missing_timers_and_unregistered_hook_names(world):
+def test_cleanup_skips_a_missing_walltime_timer_and_unregistered_hook_names(world):
     world.rec.arm_returns_timer = False
     rec = world(post_run_hook="never-registered")
-    assert rec.events[rec.events.index("wait") :] == ["wait", "kill_group"]
+    assert rec.events[rec.events.index("wait") :] == ["wait"]
+
+
+def test_walltime_is_the_only_termination_path_and_is_cancelled_on_normal_exit(world):
+    rec = world(walltime_s=45.0)
+    assert rec.arm_calls == [(_PGID, 45.0)]
+    assert rec.walltime_timer.cancelled
+    assert rec.kill_calls == []  # the walltime helper (patched here) is the only killer
 
 
 def test_post_hook_receives_a_path_even_for_a_str_sandbox(world):
@@ -490,11 +476,12 @@ def test_nonzero_exit_raises_called_process_error_with_rc_and_the_command(world,
     assert info.value.cmd is world.rec.cmd
 
 
-def test_nonzero_exit_still_runs_the_full_cleanup_before_raising(world):
+def test_nonzero_exit_still_runs_the_cleanup_and_post_hook_before_raising(world):
     _register_marker_hook(world)
     with pytest.raises(subprocess.CalledProcessError):
         world(rc=1, post_run_hook="h")
-    assert world.rec.events[-2:] == ["kill_group", "post_hook"]
+    assert world.rec.events[-3:] == ["wait", "cancel_walltime", "post_hook"]
+    assert world.rec.kill_calls == []
 
 
 # ── exceptions ──────────────────────────────────────────────────────────────
@@ -529,14 +516,16 @@ def test_errors_while_streaming_propagate_and_still_clean_up(world, exc):
         world(lines=["x\n"], parser=factory, post_run_hook="h")
     assert info.value is exc
     assert "wait" not in world.rec.events  # rc is never read
-    assert world.rec.events[-3:] == ["cancel_walltime", "kill_group", "post_hook"]
+    assert world.rec.events[-2:] == ["cancel_walltime", "post_hook"]
+    assert world.rec.kill_calls == []
 
 
 def test_stdin_write_failure_propagates_and_cleans_up_without_reading_output(world):
     with pytest.raises(BrokenPipeError):
         world(prompt_via="stdin", stdin_exc=BrokenPipeError(), lines=["x\n"])
     assert "wait" not in world.rec.events
-    assert world.rec.events[-2:] == ["cancel_walltime", "kill_group"]
+    assert world.rec.events[-1:] == ["cancel_walltime"]
+    assert world.rec.kill_calls == []
     assert not world.rec.out.exists()  # the output file is opened only after stdin delivery
 
 
@@ -545,7 +534,8 @@ def test_unwritable_output_path_propagates_after_the_prompt_was_delivered(world,
     with pytest.raises(FileNotFoundError):
         world(prompt_via="stdin", output_file=bad, lines=["x\n"])
     assert world.rec.proc.stdin.closed
-    assert world.rec.events[-2:] == ["cancel_walltime", "kill_group"]
+    assert world.rec.events[-1:] == ["cancel_walltime"]
+    assert world.rec.kill_calls == []
 
 
 # ── ordering constraints: parser factory before the try, masking in teardown ─
@@ -565,7 +555,7 @@ def test_parser_factory_failure_skips_all_cleanup_and_prompt_delivery(world):
             post_run_hook="h",
         )
     # Popen and the walltime timer already exist, but the factory runs before the
-    # try/finally: no cancel, no group kill, no post-run hook, no stdin, no output file.
+    # try/finally: no cancel, no post-run hook, no stdin, no output file (and never a kill).
     assert world.rec.events == ["popen", "getpgid", "arm_walltime"]
     assert world.rec.kill_calls == []
     assert not world.rec.walltime_timer.cancelled
@@ -589,10 +579,10 @@ def test_a_failing_post_hook_masks_the_streaming_error_but_keeps_it_as_context(w
     with pytest.raises(OSError, match="hook boom") as info:
         world(lines=["x\n"], parser=factory, post_run_hook="h")
     assert info.value.__context__ is stream_exc
-    assert world.rec.kill_calls == [_PGID]  # the kill happened before the hook raised
+    assert world.rec.kill_calls == []  # no group kill anywhere in the teardown
 
 
-def test_a_failing_timer_cancel_skips_the_kill_and_the_post_hook(world):
+def test_a_failing_timer_cancel_skips_the_post_hook(world):
     def bad_cancel():
         raise RuntimeError("cancel boom")
 
@@ -604,22 +594,10 @@ def test_a_failing_timer_cancel_skips_the_kill_and_the_post_hook(world):
     assert "post_hook" not in world.rec.events
 
 
-def test_a_failing_group_kill_masks_the_exit_error_and_skips_the_post_hook(world):
-    def bad_kill(pgid, *a, **k):
-        raise PermissionError("kill boom")
-
-    world.monkeypatch.setattr(runner_spec, "_kill_process_group", bad_kill)
-    _register_marker_hook(world)
-    with pytest.raises(PermissionError, match="kill boom"):
-        world(rc=1, post_run_hook="h")  # would otherwise raise CalledProcessError
-    assert "post_hook" not in world.rec.events
-
-
 def test_stream_steps_happen_in_the_documented_order(world):
     rec = world(
         prompt_via="stdin",
         lines=[_RESULT + "\n"],
-        post_result_grace_s=7.0,
         walltime_s=30.0,
         parser=_passthrough_parser(),
     )
@@ -629,15 +607,12 @@ def test_stream_steps_happen_in_the_documented_order(world):
         "arm_walltime",
         "stdin_write",
         "stdin_close",
-        "watchdog_start",  # armed after the line was written and flushed
         "wait",
         "cancel_walltime",
-        "cancel_watchdog",
-        "kill_group",
     ]
 
 
-# ── Direct tests of the extracted helper: _consume_runner_output ────────────
+# ── Direct tests of the extracted helper: _consume_runner_output(proc, parser, output) ──
 
 
 class _StdoutOnly:
@@ -647,8 +622,15 @@ class _StdoutOnly:
         self.stdout = iter(lines)
 
 
-def _consume(lines, parser, out, on_line=lambda line: None):
-    runner_spec._consume_runner_output(_StdoutOnly(lines), parser, out, on_line)
+def _consume(lines, parser, out):
+    return runner_spec._consume_runner_output(_StdoutOnly(lines), parser, out)
+
+
+def test_consume_takes_only_the_process_the_parser_and_the_output_path():
+    import inspect
+
+    params = list(inspect.signature(runner_spec._consume_runner_output).parameters)
+    assert params == ["proc", "parser", "output_file"]
 
 
 def test_consume_decodes_utf8_with_replacement_and_rstrips_each_raw_line(tmp_path):
@@ -659,8 +641,8 @@ def test_consume_decodes_utf8_with_replacement_and_rstrips_each_raw_line(tmp_pat
         lambda line: seen.append(line) or [line],
         out,
     )
-    assert seen == ["  lead kept", "ok � bytes", "", "é"]
-    assert out.read_bytes() == "  lead kept\nok � bytes\n\né\n".encode()
+    assert seen == ["  lead kept", "ok \ufffd bytes", "", "é"]
+    assert out.read_bytes() == "  lead kept\nok \ufffd bytes\n\né\n".encode()
 
 
 def test_consume_writes_each_parser_item_with_a_newline_and_skips_empty_results(tmp_path):
@@ -673,43 +655,23 @@ def test_consume_writes_each_parser_item_with_a_newline_and_skips_empty_results(
     assert out.read_bytes() == b"A\nx\ny\n"
 
 
-def test_consume_flushes_after_every_raw_line_and_notifies_after_the_flush(tmp_path):
+def test_consume_flushes_after_every_raw_line_even_when_the_parser_writes_nothing(tmp_path):
     out = tmp_path / "o.jsonl"
-    snapshots: list[tuple[str, bytes]] = []
-    _consume(
-        [b"first\n", b"quiet\n", b"third\n"],
-        lambda line: [] if line == "quiet" else [line],
-        out,
-        on_line=lambda line: snapshots.append((line, out.read_bytes())),
-    )
-    # The callback sees the current line's output already on disk, including when the
-    # parser wrote nothing, and receives the stripped raw line (not the parser output).
-    assert snapshots == [
-        ("first", b"first\n"),
-        ("quiet", b"first\n"),
-        ("third", b"first\nthird\n"),
-    ]
-
-
-def test_consume_per_line_order_is_parser_then_write_then_callback(tmp_path):
-    out = tmp_path / "o.jsonl"
-    order: list[str] = []
+    snapshots: list[bytes] = []
 
     def parser(line):
-        order.append(f"parse:{line}")
-        return [line]
+        snapshots.append(out.read_bytes())
+        return [] if line == "quiet" else [line]
 
-    _consume([b"a\n", b"b\n"], parser, out, on_line=lambda line: order.append(f"cb:{line}"))
-    assert order == ["parse:a", "cb:a", "parse:b", "cb:b"]
+    _consume([b"first\n", b"quiet\n", b"third\n", b"fourth\n"], parser, out)
+    # Each parser call sees everything written (and flushed) for the previous lines.
+    assert snapshots == [b"", b"first\n", b"first\n", b"first\nthird\n"]
 
 
-def test_consume_notifies_for_blank_lines_too_and_returns_none(tmp_path):
+def test_consume_returns_none_and_handles_blank_lines(tmp_path):
     out = tmp_path / "o.jsonl"
-    called: list[str] = []
-    result = runner_spec._consume_runner_output(
-        _StdoutOnly([b"\n", b"x\n"]), lambda line: [line] if line else [], out, called.append
-    )
-    assert result is None and called == ["", "x"]
+    result = _consume([b"\n", b"x\n"], lambda line: [line] if line else [], out)
+    assert result is None
     assert out.read_bytes() == b"x\n"
 
 
@@ -723,9 +685,8 @@ def test_consume_truncates_existing_output_creates_missing_and_accepts_str_paths
     assert empty.exists() and empty.read_bytes() == b""
 
 
-def test_parser_error_propagates_keeps_prior_output_and_skips_the_callback(tmp_path):
+def test_parser_error_propagates_and_keeps_prior_output_flushed_and_closed(tmp_path):
     out = tmp_path / "o.jsonl"
-    called: list[str] = []
 
     def parser(line):
         if line == "bad":
@@ -733,34 +694,15 @@ def test_parser_error_propagates_keeps_prior_output_and_skips_the_callback(tmp_p
         return [line]
 
     with pytest.raises(RuntimeError, match="parser boom"):
-        _consume([b"ok\n", b"bad\n", b"never\n"], parser, out, called.append)
-    assert called == ["ok"]
-    assert out.read_bytes() == b"ok\n"  # earlier lines were flushed; the file is closed
-
-
-def test_callback_error_propagates_after_its_line_was_written_and_stops_consumption(tmp_path):
-    out = tmp_path / "o.jsonl"
-    seen: list[str] = []
-
-    def on_line(line):
-        if line == "two":
-            raise ValueError("callback boom")
-
-    def parser(line):
-        seen.append(line)
-        return [line]
-
-    with pytest.raises(ValueError, match="callback boom"):
-        _consume([b"one\n", b"two\n", b"three\n"], parser, out, on_line)
-    assert seen == ["one", "two"]  # "three" is never parsed
-    assert out.read_bytes() == b"one\ntwo\n"
+        _consume([b"ok\n", b"bad\n", b"never\n"], parser, out)
+    assert out.read_bytes() == b"ok\n"
 
 
 def test_unopenable_output_path_fails_before_stdout_is_consumed(tmp_path):
     proc = _StdoutOnly([b"x\n"])
     with pytest.raises(FileNotFoundError):
         runner_spec._consume_runner_output(
-            proc, lambda line: [line], tmp_path / "no-dir" / "o.jsonl", lambda line: None
+            proc, lambda line: [line], tmp_path / "no-dir" / "o.jsonl"
         )
     assert list(proc.stdout) == [b"x\n"]  # untouched
 
@@ -769,5 +711,5 @@ def test_missing_stdout_creates_the_file_then_fails_an_assertion(tmp_path):
     out = tmp_path / "o.jsonl"
     proc = type("P", (), {"stdout": None})()
     with pytest.raises(AssertionError):
-        runner_spec._consume_runner_output(proc, lambda line: [line], out, lambda line: None)
+        runner_spec._consume_runner_output(proc, lambda line: [line], out)
     assert out.exists() and out.read_bytes() == b""

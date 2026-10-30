@@ -32,8 +32,6 @@ from agent_runtime.runners import (
     Runner,
     _arm_walltime_watchdog,
     _find_binary,
-    _is_result_line,
-    _kill_process_group,
     register,
 )
 
@@ -225,9 +223,6 @@ class RunnerSpec(BaseModel):
 
     # ── Streaming + lifecycle ───────────────────────────────────────────────
     stream_format: Literal["stream_json", "aider_text", "forge_text", "raw"] = "raw"
-    post_result_grace_s: float = Field(
-        default=0.0, description=">0 enables 'kill the group N s after the result event'"
-    )
 
     # ── Hook names (lookup keys into the registries above) ──────────────────
     pre_launch_hook: str | None = None
@@ -270,9 +265,8 @@ def _consume_runner_output(
     proc,
     parser: Callable[[str], list[str]],
     output_file: Path | str,
-    on_line: Callable[[str], None],
 ) -> None:
-    """Parse and persist each runner output line, then notify its consumer."""
+    """Parse and persist each runner output line."""
     with open(output_file, "wb") as f:
         assert proc.stdout is not None
         for raw in proc.stdout:
@@ -282,7 +276,6 @@ def _consume_runner_output(
             for clean in parser(line):
                 f.write(clean.encode("utf-8") + b"\n")
             f.flush()
-            on_line(line)
 
 
 class DeclarativeRunner(Runner):
@@ -413,30 +406,8 @@ class DeclarativeRunner(Runner):
         pgid = os.getpgid(proc.pid)
 
         walltime_timer = _arm_walltime_watchdog(pgid, walltime_s)
-        watchdog = None
-        killed_for_hang = False
-
-        def _fire_watchdog() -> None:
-            nonlocal killed_for_hang
-            if proc.poll() is None:
-                print(
-                    f"\n[runner] {s.name} stalled {s.post_result_grace_s:.0f}s "
-                    "after result event; terminating session.",
-                    flush=True,
-                )
-                killed_for_hang = True
-                _kill_process_group(pgid)
 
         parser = STREAM_PARSERS[s.stream_format]()  # factory: fresh state per run
-
-        def _on_line(line: str) -> None:
-            nonlocal watchdog
-            if s.post_result_grace_s > 0 and watchdog is None and _is_result_line(line):
-                import threading
-
-                watchdog = threading.Timer(s.post_result_grace_s, _fire_watchdog)
-                watchdog.daemon = True
-                watchdog.start()
 
         try:
             if s.prompt_via == "stdin":
@@ -444,22 +415,17 @@ class DeclarativeRunner(Runner):
                 proc.stdin.write(prompt.encode())
                 proc.stdin.close()
 
-            _consume_runner_output(proc, parser, output_file, _on_line)
+            _consume_runner_output(proc, parser, output_file)
             rc = proc.wait()
         finally:
             if walltime_timer is not None:
                 walltime_timer.cancel()
-            if watchdog is not None:
-                watchdog.cancel()
-            _kill_process_group(pgid)
             if s.post_run_hook:
                 post_hook = POST_RUN_HOOKS.get(s.post_run_hook)
                 if post_hook is not None:
                     post_hook(Path(sandbox))
 
-        # A session we killed post-result is a successful run from the
-        # benchmark's POV — the model finished; only cleanup hung.
-        if rc != 0 and not killed_for_hang:
+        if rc != 0:
             raise subprocess.CalledProcessError(rc, cmd)
 
 
