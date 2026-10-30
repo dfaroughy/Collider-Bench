@@ -261,6 +261,48 @@ def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
         print(f"  WARN: plot generation failed: {exc}")
 
 
+def _build_run_info(
+    args: argparse.Namespace,
+    cfg: dict,
+    agent_name: str,
+    task_id: str,
+    paper_ref: str,
+    effort_label: str | None,
+    max_thinking: int | None,
+) -> tuple[dict, str]:
+    """Build initial run metadata and select its run directory."""
+    if args.run_name:
+        info = {
+            "agent_id": args.run_name,
+            "run_dir": args.run_name,
+            "task_id": task_id,
+            "paper_ref": paper_ref,
+            "agent": agent_name,
+            "runner": args.runner,
+            "model": args.model or args.runner,
+        }
+        run_dir = args.run_name
+    else:
+        info = generate_run_info(
+            task_id=task_id,
+            agent_name=agent_name,
+            runner_name=args.runner,
+            model_name=args.model or args.runner,
+            paper_ref=paper_ref,
+        )
+        run_dir = info["run_dir"]
+    info.update(
+        {
+            "effort": effort_label,
+            "max_thinking_tokens": max_thinking,
+            "sandbox": args.sandbox or "auto",
+        }
+    )
+    if cfg.get("tool_policy"):
+        info["tool_policy"] = cfg["tool_policy"]
+    return info, run_dir
+
+
 def launch_single_run(
     agent_name: str,
     build_prompt: PromptBuilder,
@@ -299,35 +341,9 @@ def launch_single_run(
     except ValueError as exc:
         parser.error(str(exc))
 
-    if args.run_name:
-        info = {
-            "agent_id": args.run_name,
-            "run_dir": args.run_name,
-            "task_id": task_id,
-            "paper_ref": paper_ref,
-            "agent": agent_name,
-            "runner": args.runner,
-            "model": args.model or args.runner,
-        }
-        run_dir = args.run_name
-    else:
-        info = generate_run_info(
-            task_id=task_id,
-            agent_name=agent_name,
-            runner_name=args.runner,
-            model_name=args.model or args.runner,
-            paper_ref=paper_ref,
-        )
-        run_dir = info["run_dir"]
-    info.update(
-        {
-            "effort": effort_label,
-            "max_thinking_tokens": max_thinking,
-            "sandbox": args.sandbox or "auto",
-        }
+    info, run_dir = _build_run_info(
+        args, cfg, agent_name, task_id, paper_ref, effort_label, max_thinking
     )
-    if cfg.get("tool_policy"):
-        info["tool_policy"] = cfg["tool_policy"]
 
     print(f"Setting up workspace: {run_dir}")
     walltime_str = (
