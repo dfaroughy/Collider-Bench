@@ -559,6 +559,51 @@ def _format_trajectory_report(trajectory: dict, model: str) -> str:
     return "\n".join(lines)
 
 
+def _apply_provenance_correction(
+    scores: dict,
+    results_dir: Path | None,
+    output_dir: Path | None,
+    rp,
+) -> None:
+    """Apply judge provenance corrections and record corrected scores."""
+    provenance = scores.get("provenance_audit") or {}
+    overrule = provenance.get("overrule") or {}
+    overrule_action = (
+        str(overrule.get("action") or "NONE").upper() if isinstance(overrule, dict) else "NONE"
+    )
+    needs_corrected_rescore = (
+        provenance.get("status") == "CORRECTED" or overrule_action == "RESCORE_CORRECTED"
+    )
+    if needs_corrected_rescore and output_dir and results_dir and rp is not None:
+        corrected_dir = output_dir / "results_corrected_by_judge"
+        _write_corrected_results(provenance, results_dir, corrected_dir)
+        scores["corrected_dir"] = str(corrected_dir)
+
+        # Re-score on corrected data using the new score_run API.
+        try:
+            from .score import score_run
+
+            run_path = rp["run_dir"]
+            corrected_scores = score_run(run_path, results_dir=corrected_dir)
+            scores["corrected_score"] = corrected_scores
+            (output_dir / "score_corrected.json").write_text(json.dumps(corrected_scores, indent=2))
+            submitted_scores = score_run(run_path)
+            scores["submitted_score"] = submitted_scores
+
+            print("\n  Provenance correction applied:")
+            for label, sc in [("Submitted", submitted_scores), ("Corrected", corrected_scores)]:
+                sh = (sc.get("shape") or {}).get("p_value")
+                no = (sc.get("normalization") or {}).get("mean_abs_frac_error_pct")
+                if sh is not None or no is not None:
+                    print(
+                        f"    {label}: shape p={sh if sh is None else f'{sh:.3g}'}  "
+                        f"norm Δ%={no if no is None else f'{no:.2f}'}  "
+                        f"({sc.get('n_filled', 0)}/{sc.get('n_bins', 0)} bins filled)"
+                    )
+        except Exception as e:
+            scores["corrected_score_error"] = str(e)
+
+
 def run_judge(
     session_logs: list[Path],
     results_dir: Path | None,
@@ -679,43 +724,7 @@ def run_judge(
         report_path.write_text(_format_trajectory_report(trajectory, model))
         scores["trajectory_report_path"] = str(report_path)
 
-    # Handle provenance audit and correction.
-    provenance = scores.get("provenance_audit") or {}
-    overrule = provenance.get("overrule") or {}
-    overrule_action = (
-        str(overrule.get("action") or "NONE").upper() if isinstance(overrule, dict) else "NONE"
-    )
-    needs_corrected_rescore = (
-        provenance.get("status") == "CORRECTED" or overrule_action == "RESCORE_CORRECTED"
-    )
-    if needs_corrected_rescore and output_dir and results_dir and rp is not None:
-        corrected_dir = output_dir / "results_corrected_by_judge"
-        _write_corrected_results(provenance, results_dir, corrected_dir)
-        scores["corrected_dir"] = str(corrected_dir)
-
-        # Re-score on corrected data using the new score_run API.
-        try:
-            from .score import score_run
-
-            run_path = rp["run_dir"]
-            corrected_scores = score_run(run_path, results_dir=corrected_dir)
-            scores["corrected_score"] = corrected_scores
-            (output_dir / "score_corrected.json").write_text(json.dumps(corrected_scores, indent=2))
-            submitted_scores = score_run(run_path)
-            scores["submitted_score"] = submitted_scores
-
-            print("\n  Provenance correction applied:")
-            for label, sc in [("Submitted", submitted_scores), ("Corrected", corrected_scores)]:
-                sh = (sc.get("shape") or {}).get("p_value")
-                no = (sc.get("normalization") or {}).get("mean_abs_frac_error_pct")
-                if sh is not None or no is not None:
-                    print(
-                        f"    {label}: shape p={sh if sh is None else f'{sh:.3g}'}  "
-                        f"norm Δ%={no if no is None else f'{no:.2f}'}  "
-                        f"({sc.get('n_filled', 0)}/{sc.get('n_bins', 0)} bins filled)"
-                    )
-        except Exception as e:
-            scores["corrected_score_error"] = str(e)
+    _apply_provenance_correction(scores, results_dir, output_dir, rp)
 
     return scores
 
