@@ -453,27 +453,13 @@ def _load_results_summary(directory: Path, max_chars: int = 5000) -> str:
 # ── Run the judge ───────────────────────────────────────────────────────────
 
 
-def run_judge(
+def _build_judge_prompt(
     session_logs: list[Path],
     results_dir: Path | None,
     reference_file: Path | None,
     artifacts: list[Path] | None = None,
-    model: str = "claude-opus-4-6",
-    output_dir: Path | None = None,
-    rp=None,
-) -> dict:
-    """Run the LLM judge.
-
-    Args:
-        session_logs: list of session log files (any readable format)
-        results_dir: path to the agent's filled results/ dir (optional)
-        reference_file: path to the ground-truth histogram yaml (optional)
-        artifacts: optional list of additional files (audit.json, report.md, etc.)
-        model: judge LLM model
-        output_dir: where to save the failure report (optional)
-        rp: paths-dict from `score.resolve_paths`, used when provenance correction
-            re-scores the corrected dir.
-    """
+) -> str:
+    """Load judge context and format the prompt."""
     # Load session logs
     session_parts = []
     for log_path in session_logs:
@@ -506,13 +492,37 @@ def run_judge(
 
     # Build prompt
     rubric = JUDGE_RUBRIC_PATH.read_text()
-    prompt = JUDGE_PROMPT_TEMPLATE.format(
+    return JUDGE_PROMPT_TEMPLATE.format(
         rubric=rubric,
         results_yaml=results_yaml,
         reference_yaml=reference_yaml,
         artifacts_text=artifacts_text,
         session_summary=session_summary,
     )
+
+
+def run_judge(
+    session_logs: list[Path],
+    results_dir: Path | None,
+    reference_file: Path | None,
+    artifacts: list[Path] | None = None,
+    model: str = "claude-opus-4-6",
+    output_dir: Path | None = None,
+    rp=None,
+) -> dict:
+    """Run the LLM judge.
+
+    Args:
+        session_logs: list of session log files (any readable format)
+        results_dir: path to the agent's filled results/ dir (optional)
+        reference_file: path to the ground-truth histogram yaml (optional)
+        artifacts: optional list of additional files (audit.json, report.md, etc.)
+        model: judge LLM model
+        output_dir: where to save the failure report (optional)
+        rp: paths-dict from `score.resolve_paths`, used when provenance correction
+            re-scores the corrected dir.
+    """
+    prompt = _build_judge_prompt(session_logs, results_dir, reference_file, artifacts)
 
     # Call Claude via CLI using stream-json so we can show a live heartbeat
     # instead of blocking silently for up to 30 minutes. Each line of stdout
