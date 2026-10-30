@@ -501,6 +501,26 @@ def _build_judge_prompt(
     )
 
 
+def _parse_judge_response(text: str) -> tuple[dict | None, dict | None]:
+    """Extract and parse the JSON object from the judge response text."""
+    try:
+        start = text.index("{")
+        depth = 0
+        end = start
+        for i in range(start, len(text)):
+            if text[i] == "{":
+                depth += 1
+            elif text[i] == "}":
+                depth -= 1
+                if depth == 0:
+                    end = i + 1
+                    break
+        scores = json.loads(text[start:end])
+    except (ValueError, json.JSONDecodeError) as e:
+        return None, {"error": f"Could not parse judge response: {e}", "raw": text[:2000]}
+    return scores, None
+
+
 def run_judge(
     session_logs: list[Path],
     results_dir: Path | None,
@@ -606,22 +626,9 @@ def run_judge(
     # if the CLI provided it, else concatenate everything we saw.
     text = final_result_text if final_result_text is not None else "".join(text_parts)
 
-    # Extract JSON from judge response
-    try:
-        start = text.index("{")
-        depth = 0
-        end = start
-        for i in range(start, len(text)):
-            if text[i] == "{":
-                depth += 1
-            elif text[i] == "}":
-                depth -= 1
-                if depth == 0:
-                    end = i + 1
-                    break
-        scores = json.loads(text[start:end])
-    except (ValueError, json.JSONDecodeError) as e:
-        return {"error": f"Could not parse judge response: {e}", "raw": text[:2000]}
+    scores, parse_error = _parse_judge_response(text)
+    if parse_error is not None:
+        return parse_error
 
     scores["judge_model"] = model
 
