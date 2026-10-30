@@ -266,6 +266,25 @@ def _merge_launch_prep(
     )
 
 
+def _consume_runner_output(
+    proc,
+    parser: Callable[[str], list[str]],
+    output_file: Path | str,
+    on_line: Callable[[str], None],
+) -> None:
+    """Parse and persist each runner output line, then notify its consumer."""
+    with open(output_file, "wb") as f:
+        assert proc.stdout is not None
+        for raw in proc.stdout:
+            line = raw.decode("utf-8", errors="replace").rstrip()
+            # Parser returns the cleaned line(s) to write to the
+            # session.jsonl (e.g. forge_text returns [] — this line is noise).
+            for clean in parser(line):
+                f.write(clean.encode("utf-8") + b"\n")
+            f.flush()
+            on_line(line)
+
+
 class DeclarativeRunner(Runner):
     """A `Runner` whose entire behavior is described by a `RunnerSpec`."""
 
@@ -409,28 +428,23 @@ class DeclarativeRunner(Runner):
                 _kill_process_group(pgid)
 
         parser = STREAM_PARSERS[s.stream_format]()  # factory: fresh state per run
+
+        def _on_line(line: str) -> None:
+            nonlocal watchdog
+            if s.post_result_grace_s > 0 and watchdog is None and _is_result_line(line):
+                import threading
+
+                watchdog = threading.Timer(s.post_result_grace_s, _fire_watchdog)
+                watchdog.daemon = True
+                watchdog.start()
+
         try:
             if s.prompt_via == "stdin":
                 assert proc.stdin is not None
                 proc.stdin.write(prompt.encode())
                 proc.stdin.close()
 
-            with open(output_file, "wb") as f:
-                assert proc.stdout is not None
-                for raw in proc.stdout:
-                    line = raw.decode("utf-8", errors="replace").rstrip()
-                    # Parser returns the cleaned line(s) to write to the
-                    # session.jsonl (e.g. forge_text returns [] — file is
-                    # Empty list means "this line is noise — skip writing".
-                    for clean in parser(line):
-                        f.write(clean.encode("utf-8") + b"\n")
-                    f.flush()
-                    if s.post_result_grace_s > 0 and watchdog is None and _is_result_line(line):
-                        import threading
-
-                        watchdog = threading.Timer(s.post_result_grace_s, _fire_watchdog)
-                        watchdog.daemon = True
-                        watchdog.start()
+            _consume_runner_output(proc, parser, output_file, _on_line)
             rc = proc.wait()
         finally:
             if walltime_timer is not None:
