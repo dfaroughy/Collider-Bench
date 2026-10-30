@@ -106,6 +106,22 @@ def _container_env_pairs(
     return out
 
 
+def _container_command_tail(
+    flag: str,
+    container_env: dict[str, str] | None,
+    secret_env_names: Iterable[str],
+    image: str,
+    rewritten_cmd: Sequence[str],
+) -> list[str]:
+    """Render the shared sandbox marker, passthrough env, image, and command."""
+    args = [flag, "IS_SANDBOX=1"]
+    for var, val in _container_env_pairs(container_env, secret_env_names):
+        args.extend([flag, f"{var}={val}"])
+    args.append(image)
+    args.extend(rewritten_cmd)
+    return args
+
+
 def _validate_home_dir_name(name: str) -> str:
     """Validate the runner-specific fake-home directory name.
 
@@ -265,6 +281,20 @@ def _prepare_isolated_home(
     return fake_home
 
 
+def _prepare_fake_home(
+    workspace: Path,
+    home_dir_name: str,
+    home_files: Iterable[str],
+) -> tuple[Path, str, str]:
+    """Prepare fake HOME and return its bind spec and HOME assignment."""
+    fake_home = _prepare_isolated_home(
+        Path.home(),
+        _fake_home_target(workspace, home_dir_name),
+        home_files,
+    )
+    return fake_home, f"{fake_home}:{fake_home}", f"HOME={fake_home}"
+
+
 def _sync_credentials_back_to_host(
     fake_home: Path,
     host_home: Path,
@@ -411,17 +441,15 @@ class ApptainerSandbox(Sandbox):
         # lands here. Persisted with the run so post-run hooks can mine
         # forge's `.forge.db` etc. for usage stats. Host's real $HOME is
         # never touched, and concurrent runs each have their own dir.
-        fake_home = _prepare_isolated_home(
-            Path.home(),
-            _fake_home_target(workspace, home_dir_name),
-            home_files,
+        fake_home, fake_home_bind, fake_home_env = _prepare_fake_home(
+            workspace, home_dir_name, home_files
         )
         cmd.extend(
             [
                 "--bind",
-                f"{fake_home}:{fake_home}",
+                fake_home_bind,
                 "--env",
-                f"HOME={fake_home}",
+                fake_home_env,
             ]
         )
 
@@ -433,15 +461,11 @@ class ApptainerSandbox(Sandbox):
         # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
         # `--dangerously-skip-permissions` is allowed even if the container
         # process runs as UID 0 (which happens on rootless podman with
-        # subuid limits that prevent keep-id mapping).
-        cmd.extend(["--env", "IS_SANDBOX=1"])
-
-        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV
-        # directives. Pass through only the narrow runner/API env allowlist.
-        for var, val in _container_env_pairs(container_env, secret_env_names):
-            cmd.extend(["--env", f"{var}={val}"])
-        cmd.append(image)
-        cmd.extend(rewritten_cmd)
+        # subuid limits that prevent keep-id mapping). The shared tail also
+        # adds the narrow runner/API env allowlist before the image/command.
+        cmd.extend(
+            _container_command_tail("--env", container_env, secret_env_names, image, rewritten_cmd)
+        )
 
         def cleanup() -> None:
             _sync_credentials_back_to_host(fake_home, Path.home(), home_credential_files)
@@ -599,10 +623,8 @@ class PodmanSandbox(Sandbox):
         # doesn't cover the host UID, so the userns map fails at run time.
         # Claude Code's "no --dangerously-skip-permissions as root" check
         # is bypassed below via IS_SANDBOX=1.
-        fake_home = _prepare_isolated_home(
-            Path.home(),
-            _fake_home_target(workspace, home_dir_name),
-            home_files,
+        fake_home, fake_home_bind, fake_home_env = _prepare_fake_home(
+            workspace, home_dir_name, home_files
         )
         cmd: list[str] = [
             self._engine(),
@@ -616,10 +638,10 @@ class PodmanSandbox(Sandbox):
             "--workdir",
             str(workspace),
             "-e",
-            f"HOME={fake_home}",
+            fake_home_env,
             # Per-container ephemeral $HOME — see _prepare_isolated_home.
             "-v",
-            f"{fake_home}:{fake_home}",
+            fake_home_bind,
             # Workspace: the only rw path under the repo — agent's scratch.
             "-v",
             f"{workspace}:{workspace}",
@@ -671,16 +693,11 @@ class PodmanSandbox(Sandbox):
         # IS_SANDBOX=1 tells Claude Code we're in a sandboxed environment, so
         # `--dangerously-skip-permissions` is allowed even if the container
         # process runs as UID 0 (unavoidable under rootless podman on NERSC
-        # compute nodes because keep-id fails on subuid range limits).
-        cmd.extend(["-e", "IS_SANDBOX=1"])
-
-        # Sim-tool locations ($MG5_DIR etc.) are baked into the image's ENV.
-        # Pass through only the narrow runner/API env allowlist.
-        for var, val in _container_env_pairs(container_env, secret_env_names):
-            cmd.extend(["-e", f"{var}={val}"])
-
-        cmd.append(image)
-        cmd.extend(rewritten_cmd)
+        # compute nodes because keep-id fails on subuid range limits). The
+        # shared tail adds runner/API env after PATH and PYTHONPATH.
+        cmd.extend(
+            _container_command_tail("-e", container_env, secret_env_names, image, rewritten_cmd)
+        )
 
         def cleanup() -> None:
             _sync_credentials_back_to_host(fake_home, Path.home(), home_credential_files)
