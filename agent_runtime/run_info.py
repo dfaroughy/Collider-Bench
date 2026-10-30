@@ -31,6 +31,44 @@ def write_run_info(recast_dir: Path, info: dict) -> Path:
     return out
 
 
+def _aggregate_usage(
+    session_logs: list[Path] | None,
+    runner: str,
+    model: str,
+) -> dict | None:
+    """Accumulate parsed token usage across session logs, if any was found."""
+    usage_total = {
+        "api_cost_usd": 0.0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_tokens": 0,
+        "cache_creation_tokens": 0,
+        "tokens_total_billed": 0,
+        "n_turns": 0,
+    }
+    any_usage = False
+    priced_all = True
+    for log_path in session_logs or []:
+        if not log_path:
+            continue
+        u = parse_usage(runner, model, Path(log_path))
+        if not u:
+            continue
+        any_usage = True
+        priced_all = priced_all and u.get("cost_priced", True)
+        for k in usage_total:
+            usage_total[k] += u.get(k, 0) or 0
+    if not any_usage:
+        return None
+
+    usage_total["api_cost_usd"] = round(usage_total["api_cost_usd"], 6)
+    # Claude reports its own cost; codex/gemini/forge cost is computed
+    # from a static price table — flag that so a stale price isn't silent.
+    if runner in ("codex", "gemini", "forge"):
+        usage_total["cost_priced"] = priced_all
+    return usage_total
+
+
 def finalize_run_info(
     recast_dir: Path,
     exit_code: int,
@@ -64,36 +102,11 @@ def finalize_run_info(
                 "n_filled": scores.get("n_filled"),
                 "n_bins": scores.get("n_bins"),
             }
-        usage_total = {
-            "api_cost_usd": 0.0,
-            "input_tokens": 0,
-            "output_tokens": 0,
-            "cache_read_tokens": 0,
-            "cache_creation_tokens": 0,
-            "tokens_total_billed": 0,
-            "n_turns": 0,
-        }
-        any_usage = False
-        priced_all = True
         runner = info.get("runner") or ""
         model = info.get("model") or ""
-        for log_path in session_logs or []:
-            if not log_path:
-                continue
-            u = parse_usage(runner, model, Path(log_path))
-            if not u:
-                continue
-            any_usage = True
-            priced_all = priced_all and u.get("cost_priced", True)
-            for k in usage_total:
-                usage_total[k] += u.get(k, 0) or 0
-        if any_usage:
-            usage_total["api_cost_usd"] = round(usage_total["api_cost_usd"], 6)
-            # Claude reports its own cost; codex/gemini/forge cost is computed
-            # from a static price table — flag that so a stale price isn't silent.
-            if runner in ("codex", "gemini", "forge"):
-                usage_total["cost_priced"] = priced_all
-            info["usage"] = usage_total
+        usage = _aggregate_usage(session_logs, runner, model)
+        if usage is not None:
+            info["usage"] = usage
         info_path.write_text(json.dumps(info, indent=2))
         return info_path
     except Exception as exc:
