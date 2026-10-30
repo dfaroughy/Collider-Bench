@@ -21,6 +21,7 @@ from __future__ import annotations
 import os
 import re
 import subprocess
+from dataclasses import replace
 from pathlib import Path
 from typing import Callable, Literal
 
@@ -248,6 +249,23 @@ class RunnerSpec(BaseModel):
 # ── Generic runner driven by a spec ──────────────────────────────────────────
 
 
+def _merge_launch_prep(
+    base: LaunchPrep,
+    hook: LaunchPrep,
+) -> LaunchPrep:
+    """Return the base launch settings with hook-provided values merged in."""
+    env = dict(base.env)
+    env.update(hook.env)
+    return LaunchPrep(
+        env=env,
+        extra_ro_binds=[*base.extra_ro_binds, *hook.extra_ro_binds],
+        secret_env_names=(*base.secret_env_names, *hook.secret_env_names),
+        home_dir_name=hook.home_dir_name or base.home_dir_name,
+        home_files=(*base.home_files, *hook.home_files),
+        home_credential_files=(*base.home_credential_files, *hook.home_credential_files),
+    )
+
+
 class DeclarativeRunner(Runner):
     """A `Runner` whose entire behavior is described by a `RunnerSpec`."""
 
@@ -260,20 +278,24 @@ class DeclarativeRunner(Runner):
 
     def prepare_launch(self, sandbox: Path, config: dict | None = None) -> LaunchPrep:
         s = self._spec
-        env: dict[str, str] = dict(s.extra_env)
-        extra_ro_binds: list[Path] = []
-        secret_env_names = list(s.secret_env_names)
-        home_dir_name = s.home_dir_name
-        home_files = list(s.home_files)
-        home_credential_files = list(s.home_credential_files)
+        prep = LaunchPrep(
+            env=dict(s.extra_env),
+            secret_env_names=s.secret_env_names,
+            home_dir_name=s.home_dir_name,
+            home_files=s.home_files,
+            home_credential_files=s.home_credential_files,
+        )
         auth = (config or {}).get("auth")
         provider = (config or {}).get("provider")
         if s.name == "claude" and auth == "api":
-            home_dir_name = ".claude_api_home"
-            home_files = [".claude/settings.json"]
-            home_credential_files = []
+            prep = replace(
+                prep,
+                home_dir_name=".claude_api_home",
+                home_files=(".claude/settings.json",),
+                home_credential_files=(),
+            )
         if s.name == "claude" and auth == "api" and provider == "deepseek":
-            secret_env_names = []
+            env = dict(prep.env)
             deepseek_key = os.environ.get("DEEPSEEK_API_KEY", "")
             env.update(
                 {
@@ -288,28 +310,19 @@ class DeclarativeRunner(Runner):
             )
             if deepseek_key:
                 env["ANTHROPIC_AUTH_TOKEN"] = deepseek_key
-            secret_env_names.extend(("DEEPSEEK_API_KEY", "ANTHROPIC_AUTH_TOKEN"))
+            prep = replace(
+                prep,
+                env=env,
+                secret_env_names=("DEEPSEEK_API_KEY", "ANTHROPIC_AUTH_TOKEN"),
+            )
         if s.pre_launch_hook:
             hook = PRE_LAUNCH_HOOKS.get(s.pre_launch_hook)
             if hook is None:
                 raise KeyError(
                     f"runner {s.name!r}: pre_launch_hook {s.pre_launch_hook!r} not registered"
                 )
-            prep = hook(Path(sandbox))
-            env.update(prep.env)
-            extra_ro_binds.extend(prep.extra_ro_binds)
-            secret_env_names.extend(prep.secret_env_names)
-            home_dir_name = prep.home_dir_name or home_dir_name
-            home_files.extend(prep.home_files)
-            home_credential_files.extend(prep.home_credential_files)
-        return LaunchPrep(
-            env=env,
-            extra_ro_binds=extra_ro_binds,
-            secret_env_names=tuple(dict.fromkeys(secret_env_names)),
-            home_dir_name=home_dir_name,
-            home_files=tuple(home_files),
-            home_credential_files=tuple(home_credential_files),
-        )
+            prep = _merge_launch_prep(prep, hook(Path(sandbox)))
+        return replace(prep, secret_env_names=tuple(dict.fromkeys(prep.secret_env_names)))
 
     def build_command(
         self,
