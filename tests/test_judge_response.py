@@ -119,6 +119,12 @@ def test_only_the_first_balanced_object_is_used(judge_stream):
     assert out == {"a": 1, "judge_model": _MODEL}
 
 
+def test_response_with_its_own_error_key_is_accepted_as_scores(judge_stream):
+    # A valid judge object that happens to carry an "error" field is not a failure.
+    out = judge_stream([_result('{"error": "none", "overall": 3}')])
+    assert out == {"error": "none", "overall": 3, "judge_model": _MODEL}
+
+
 # ── which text is parsed ────────────────────────────────────────────────────
 
 
