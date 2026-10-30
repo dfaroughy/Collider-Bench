@@ -187,6 +187,44 @@ def _default_score(workspace: Path) -> dict:
 ScoreFn = Callable[[Path], dict]
 
 
+def _report_score_results(scores: dict, exit_code: int) -> int:
+    """Print score results and demote clean exits that produced no bins."""
+    if "error" in scores:
+        print(f"  ERROR: {scores['error']}")
+        exit_code = 1
+    else:
+        n_filled = scores.get("n_filled", 0)
+        n_bins = scores.get("n_bins", 0)
+        shape_block = scores.get("shape") or {}
+        norm_block = scores.get("normalization") or {}
+        print(f"  Filled: {n_filled}/{n_bins} bins")
+        if shape_block:
+            p = shape_block.get("p_value")
+            jsd = shape_block.get("jensen_shannon")
+            if p is not None:
+                print(
+                    f"  Shape: bin_err={shape_block.get('mean_abs_frac_error_pct')}%  p={p}  JSD={jsd}"
+                )
+        if norm_block:
+            fe = norm_block.get("mean_abs_frac_error_pct")
+            if fe is not None:
+                print(f"  Norm: frac_err={fe}%")
+        # Agent CLIs sometimes exit cleanly (rc=0) but never reach the
+        # scoring step — e.g. Claude Code returns rc=0 with a 429 result
+        # event when the 5-hour subscription cap rejects the request, and
+        # codex/gemini have analogous "soft failure" exits. The
+        # launch_single_run's CalledProcessError handling doesn't fire in those cases, so
+        # we demote here based on the observed output: n_filled == 0
+        # with n_bins > 0 means the agent didn't complete the task.
+        if exit_code == 0 and n_bins > 0 and n_filled == 0:
+            print(
+                "  Agent exited cleanly but produced no filled bins — marking run as failed.",
+                file=sys.stderr,
+            )
+            exit_code = 1
+    return exit_code
+
+
 def _run_offline_evals(workspace: Path, eval_dir: Path) -> None:
     """Run the offline (LLM-free) evaluators after the agent completes.
 
@@ -356,40 +394,7 @@ def launch_single_run(
         eval_dir = recast_path / "eval"
         eval_dir.mkdir(exist_ok=True)
         (eval_dir / "score.json").write_text(json.dumps(scores, indent=2))
-
-        if "error" in scores:
-            print(f"  ERROR: {scores['error']}")
-            exit_code = 1
-        else:
-            n_filled = scores.get("n_filled", 0)
-            n_bins = scores.get("n_bins", 0)
-            shape_block = scores.get("shape") or {}
-            norm_block = scores.get("normalization") or {}
-            print(f"  Filled: {n_filled}/{n_bins} bins")
-            if shape_block:
-                p = shape_block.get("p_value")
-                jsd = shape_block.get("jensen_shannon")
-                if p is not None:
-                    print(
-                        f"  Shape: bin_err={shape_block.get('mean_abs_frac_error_pct')}%  p={p}  JSD={jsd}"
-                    )
-            if norm_block:
-                fe = norm_block.get("mean_abs_frac_error_pct")
-                if fe is not None:
-                    print(f"  Norm: frac_err={fe}%")
-            # Agent CLIs sometimes exit cleanly (rc=0) but never reach the
-            # scoring step — e.g. Claude Code returns rc=0 with a 429 result
-            # event when the 5-hour subscription cap rejects the request, and
-            # codex/gemini have analogous "soft failure" exits. The
-            # CalledProcessError path above doesn't fire in those cases, so
-            # we demote here based on the observed output: n_filled == 0
-            # with n_bins > 0 means the agent didn't complete the task.
-            if exit_code == 0 and n_bins > 0 and n_filled == 0:
-                print(
-                    "  Agent exited cleanly but produced no filled bins — marking run as failed.",
-                    file=sys.stderr,
-                )
-                exit_code = 1
+        exit_code = _report_score_results(scores, exit_code)
 
         # Offline evals: plot ref vs agent histogram. score.json is already
         # written by score_run() above. The LLM judge stays opt-in via
