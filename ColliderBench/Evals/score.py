@@ -199,6 +199,55 @@ def _normalization_metrics(aligned) -> dict:
     }
 
 
+def _load_score_inputs(
+    run_path: str | Path,
+    results_dir: Path | None = None,
+) -> tuple[dict, histograms.Aligned | None, dict | None]:
+    """Resolve run inputs, load histograms and align their selected series."""
+    rp = resolve_paths(Path(run_path))
+    task = rp["task"]
+    src_results = Path(results_dir) if results_dir is not None else rp["results_dir"]
+
+    pred_path = src_results / rp["data_filename"]
+    if not pred_path.is_file():
+        return (
+            rp,
+            None,
+            {
+                "task_id": rp["task_id"],
+                "paper": task["paper"],
+                "error": f"agent output missing: {pred_path}",
+            },
+        )
+    ref_path = rp["reference_file"]
+
+    ref_hist = histograms.load_histogram(ref_path)
+    pred_hist = histograms.load_histogram(pred_path)
+    ref_series = histograms.select_series(ref_hist, rp["header_name"])
+    pred_series = histograms.select_series(pred_hist, rp["header_name"])
+    if ref_series is None:
+        return (
+            rp,
+            None,
+            {
+                "task_id": rp["task_id"],
+                "error": f"series {rp['header_name']!r} not in reference",
+            },
+        )
+    if pred_series is None:
+        return (
+            rp,
+            None,
+            {
+                "task_id": rp["task_id"],
+                "error": f"series {rp['header_name']!r} not in prediction",
+            },
+        )
+
+    aligned = histograms.align(ref_series, pred_series, ref_hist.bins)
+    return rp, aligned, None
+
+
 # ── Score ──────────────────────────────────────────────────────────────────
 
 
@@ -214,32 +263,11 @@ def score_run(
     — the LLM judge's corrected-results pass sets this to its own dir so we
     can re-score without mutating the run.
     """
-    rp = resolve_paths(Path(run_path))
+    rp, aligned, input_error = _load_score_inputs(run_path, results_dir)
+    if input_error is not None:
+        return input_error
+
     task = rp["task"]
-    src_results = Path(results_dir) if results_dir is not None else rp["results_dir"]
-
-    pred_path = src_results / rp["data_filename"]
-    if not pred_path.is_file():
-        return {
-            "task_id": rp["task_id"],
-            "paper": task["paper"],
-            "error": f"agent output missing: {pred_path}",
-        }
-    ref_path = rp["reference_file"]
-
-    ref_hist = histograms.load_histogram(ref_path)
-    pred_hist = histograms.load_histogram(pred_path)
-    ref_series = histograms.select_series(ref_hist, rp["header_name"])
-    pred_series = histograms.select_series(pred_hist, rp["header_name"])
-    if ref_series is None:
-        return {"task_id": rp["task_id"], "error": f"series {rp['header_name']!r} not in reference"}
-    if pred_series is None:
-        return {
-            "task_id": rp["task_id"],
-            "error": f"series {rp['header_name']!r} not in prediction",
-        }
-
-    aligned = histograms.align(ref_series, pred_series, ref_hist.bins)
     mode = task["mode"]
     want_shape = mode in ("shape", "shape_norm")
     want_norm = mode in ("yield", "shape_norm")
