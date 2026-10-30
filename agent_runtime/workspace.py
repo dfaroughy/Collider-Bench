@@ -416,6 +416,43 @@ def tool_policy_binds(
     return doc_subs, extra
 
 
+def _build_agent_context(
+    agent_dir: Path,
+    benchmark_dir: Path,
+    workspace: Path,
+    task_md: Path,
+    paper_ref: str | None,
+) -> None:
+    """Populate the workspace agent context from agent and task instructions."""
+    # Agent instructions (AGENTS.md, SOUL.md, skills/*.md, ...). TOOLS.md comes
+    # from the benchmark (canonical index), not the per-agent copy.
+    agent_context = workspace / "agent_context"
+    agent_context.mkdir()
+    for src in agent_dir.rglob("*.md"):
+        rel = src.relative_to(agent_dir)
+        if rel.parts[0] == "runtime":
+            continue
+        if rel.name == "TOOLS.md":
+            continue
+        dest = agent_context / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        text = src.read_text()
+        if paper_ref:
+            text = text.replace("{arxiv_id}", paper_ref)
+        dest.write_text(text)
+
+    # Canonical TOOLS.md seeded from the benchmark.
+    tools_index = benchmark_dir / "tools" / "TOOLS.md"
+    if tools_index.is_file():
+        shutil.copy2(tools_index, agent_context / "TOOLS.md")
+
+    # Task spec — copied into agent_context alongside AGENTS.md.
+    task_text = task_md.read_text()
+    if paper_ref:
+        task_text = task_text.replace("{arxiv_id}", paper_ref)
+    (agent_context / "TASK.md").write_text(task_text)
+
+
 def build_workspace(
     repo_root: Path,
     agent_name: str,
@@ -475,33 +512,7 @@ def build_workspace(
         (bin_dir / script.name).symlink_to(script)
     apply_tool_policy(workspace, tool_policy)
 
-    # Agent instructions (AGENTS.md, SOUL.md, skills/*.md, ...). TOOLS.md comes
-    # from the benchmark (canonical index), not the per-agent copy.
-    agent_context = workspace / "agent_context"
-    agent_context.mkdir()
-    for src in agent_dir.rglob("*.md"):
-        rel = src.relative_to(agent_dir)
-        if rel.parts[0] == "runtime":
-            continue
-        if rel.name == "TOOLS.md":
-            continue
-        dest = agent_context / rel
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        text = src.read_text()
-        if paper_ref:
-            text = text.replace("{arxiv_id}", paper_ref)
-        dest.write_text(text)
-
-    # Canonical TOOLS.md seeded from the benchmark.
-    tools_index = benchmark_dir / "tools" / "TOOLS.md"
-    if tools_index.is_file():
-        shutil.copy2(tools_index, agent_context / "TOOLS.md")
-
-    # Task spec — copied into agent_context alongside AGENTS.md.
-    task_text = task_md.read_text()
-    if paper_ref:
-        task_text = task_text.replace("{arxiv_id}", paper_ref)
-    (agent_context / "TASK.md").write_text(task_text)
+    _build_agent_context(agent_dir, benchmark_dir, workspace, task_md, paper_ref)
 
     # Blind-ablation doc scrub — runs last, after every agent_context doc
     # exists, so e.g. prospino leaves no trace in AGENTS.md / TOOLS.md / the
