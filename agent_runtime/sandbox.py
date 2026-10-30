@@ -37,6 +37,7 @@ import shutil
 import sys
 import tempfile
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Iterable, Sequence
 
@@ -44,6 +45,22 @@ from typing import Callable, Iterable, Sequence
 # ── Image selection ────────────────────────────────────────────────────────
 
 _DEFAULT_IMAGE = "ghcr.io/dfaroughy/lhc-bench:latest"
+
+
+@dataclass(frozen=True)
+class _ReadonlyMount:
+    source: str
+    destination: str
+    read_only: bool
+
+
+def _render_mount_args(mounts: Iterable[_ReadonlyMount], flag: str) -> list[str]:
+    """Render structured mounts as ordered container CLI arguments."""
+    args: list[str] = []
+    for mount in mounts:
+        suffix = ":ro" if mount.read_only else ""
+        args.extend([flag, f"{mount.source}:{mount.destination}{suffix}"])
+    return args
 
 
 _RUNNER_ENV_PASSTHROUGH: tuple[str, ...] = (
@@ -149,8 +166,8 @@ def _materialize_papers_dir(workspace: Path) -> None:
 def _tool_policy_doc_subs(workspace: Path, repo_root: Path) -> dict[str, str]:
     """{canonical_dst: shadow_src} for blind-tool docs (tools/CLI, TOOLS.md).
 
-    Fed into _tools_bind_args so a disabled tool's docs are *substituted* at
-    their canonical destination — not bound a second time (podman rejects
+    Fed into _tools_readonly_mounts so a disabled tool's docs are *substituted*
+    at their canonical destination — not bound a second time (podman rejects
     duplicate mount destinations with exit 125).
     """
     from agent_runtime.workspace import tool_policy_binds
@@ -159,29 +176,31 @@ def _tool_policy_doc_subs(workspace: Path, repo_root: Path) -> dict[str, str]:
     return doc_subs
 
 
-def _tool_policy_extra_binds(workspace: Path, repo_root: Path, flag: str) -> list[str]:
+def _tool_policy_extra_mounts(workspace: Path, repo_root: Path) -> list[_ReadonlyMount]:
     """Additive ablation binds with destinations not otherwise mounted: the
     empty /opt/sim/<sub> masks and the nested bin/simulate override.
     """
     from agent_runtime.workspace import tool_policy_binds
 
     _, extra = tool_policy_binds(workspace, repo_root)
-    out: list[str] = []
+    mounts: list[_ReadonlyMount] = []
     for src, dst in extra:
-        out.extend([flag, f"{src}:{dst}:ro"])
-    return out
+        mounts.append(_ReadonlyMount(f"{src}", f"{dst}", True))
+    return mounts
 
 
 def _agent_readonly_mount_args(workspace: Path, repo_root: Path, flag: str) -> list[str]:
     """Build the shared read-only benchmark mounts in their command order."""
     from agent_runtime import paths as bench_paths
 
-    return [
-        *_tools_bind_args(repo_root, flag, _tool_policy_doc_subs(workspace, repo_root)),
-        flag,
-        f"{bench_paths.bin_dir(repo_root)}:{bench_paths.bin_dir(repo_root)}:ro",
-        *_tool_policy_extra_binds(workspace, repo_root, flag),
-    ]
+    mounts = _tools_readonly_mounts(repo_root, _tool_policy_doc_subs(workspace, repo_root))
+    mounts.append(
+        _ReadonlyMount(
+            f"{bench_paths.bin_dir(repo_root)}", f"{bench_paths.bin_dir(repo_root)}", True
+        )
+    )
+    mounts.extend(_tool_policy_extra_mounts(workspace, repo_root))
+    return _render_mount_args(mounts, flag)
 
 
 def _additional_readonly_mount_args(
@@ -190,19 +209,19 @@ def _additional_readonly_mount_args(
     flag: str,
 ) -> tuple[list[str], list[str]]:
     """Build optional host mounts and return the rewritten runner command."""
-    out: list[str] = []
+    mounts: list[_ReadonlyMount] = []
     if Path("/cvmfs").is_dir():
-        out.extend([flag, "/cvmfs:/cvmfs:ro"])
+        mounts.append(_ReadonlyMount("/cvmfs", "/cvmfs", True))
 
     for path in extra_ro_binds or []:
         if Path(path).exists():
-            out.extend([flag, f"{path}:{path}:ro"])
+            mounts.append(_ReadonlyMount(f"{path}", f"{path}", True))
 
     rewritten_cmd, cli_ro_binds = _prepare_runner_cli(inner_cmd)
     for path in cli_ro_binds:
-        out.extend([flag, f"{path}:{path}:ro"])
+        mounts.append(_ReadonlyMount(f"{path}", f"{path}", True))
 
-    return out, rewritten_cmd
+    return _render_mount_args(mounts, flag), rewritten_cmd
 
 
 def _prepare_isolated_home(
@@ -468,10 +487,10 @@ _TOOLS_AGENT_SUBPATHS: tuple[str, ...] = (
 )
 
 
-def _tools_bind_args(
-    repo_root: Path, flag: str, doc_subs: dict[str, str] | None = None
-) -> list[str]:
-    """['<flag>', '<src:dst:ro>', ...] for every agent-visible tools/ subpath.
+def _tools_readonly_mounts(
+    repo_root: Path, doc_subs: dict[str, str] | None = None
+) -> list[_ReadonlyMount]:
+    """Build mounts for every agent-visible tools/ subpath.
 
     `doc_subs` (from workspace.tool_policy_binds) swaps the *source* for a
     blind tool's filtered shadow while keeping the canonical destination, so
@@ -482,13 +501,20 @@ def _tools_bind_args(
 
     doc_subs = doc_subs or {}
     tools = bench_paths.tools_dir(repo_root)
-    out: list[str] = []
+    mounts: list[_ReadonlyMount] = []
     for name in _TOOLS_AGENT_SUBPATHS:
         p = tools / name
         if p.exists():
             src = doc_subs.get(str(p), str(p))
-            out.extend([flag, f"{src}:{p}:ro"])
-    return out
+            mounts.append(_ReadonlyMount(src, str(p), True))
+    return mounts
+
+
+def _tools_bind_args(
+    repo_root: Path, flag: str, doc_subs: dict[str, str] | None = None
+) -> list[str]:
+    """Render read-only bind args for the agent-visible tools subpaths."""
+    return _render_mount_args(_tools_readonly_mounts(repo_root, doc_subs), flag)
 
 
 _HOST_AGENT_CLIS = {"claude", "codex", "gemini", "aider", "forge"}

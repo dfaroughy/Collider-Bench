@@ -374,7 +374,7 @@ def tool_policy_binds(
     Returns ``(doc_subs, extra)``:
 
     * ``doc_subs`` — ``{canonical_dst: shadow_src}`` for paths the canonical
-      ``_tools_bind_args`` already binds (``tools/CLI``, ``tools/TOOLS.md``).
+      ``_tools_readonly_mounts`` already binds (``tools/CLI``, ``tools/TOOLS.md``).
       The caller must bind the *shadow* source AT that destination instead
       of the real source — it must NOT emit a second mount for the same
       destination. podman rejects duplicate mount destinations outright
