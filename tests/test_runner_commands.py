@@ -357,7 +357,7 @@ def test_forge_launch_prep_has_static_env_and_fake_home_files():
 
 
 def _hooked(monkeypatch, hook_prep, **spec_kw):
-    monkeypatch.setitem(runner_spec.PRE_LAUNCH_HOOKS, "h", lambda sandbox: hook_prep)
+    monkeypatch.setitem(runner_spec.PRE_LAUNCH_HOOKS, "h", lambda sandbox, config: hook_prep)
     spec = _spec(pre_launch_hook="h", **spec_kw)
     return DeclarativeRunner(spec).prepare_launch(_SB)
 
@@ -403,8 +403,9 @@ def test_hook_with_empty_home_dir_name_falls_back_to_the_spec(monkeypatch):
 def test_hook_runs_after_claude_api_overrides_are_applied(monkeypatch):
     seen = {}
 
-    def hook(sandbox):
+    def hook(sandbox, config):
         seen["sandbox"] = sandbox
+        seen["config"] = config
         return LaunchPrep(home_dir_name="", home_files=("extra",))
 
     monkeypatch.setitem(runner_spec.PRE_LAUNCH_HOOKS, "h", hook)
@@ -417,6 +418,7 @@ def test_hook_runs_after_claude_api_overrides_are_applied(monkeypatch):
     )
     prep = DeclarativeRunner(spec).prepare_launch(Path("/sb"), {"auth": "api"})
     assert seen["sandbox"] == Path("/sb")
+    assert seen["config"] == {"auth": "api"}
     assert prep.home_dir_name == ".claude_api_home"
     assert prep.home_files == (".claude/settings.json", "extra")
 

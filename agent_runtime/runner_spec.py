@@ -333,13 +333,44 @@ class DeclarativeRunner(Runner):
                 env=env,
                 secret_env_names=("DEEPSEEK_API_KEY", "ANTHROPIC_AUTH_TOKEN"),
             )
+        if s.name == "claude" and auth == "api" and provider in ("local", "local-air"):
+            base_var, key_var = (
+                ("GLM_AIR_API_BASE", "GLM_AIR_API_KEY")
+                if provider == "local-air"
+                else ("GLM_API_BASE", "GLM_API_KEY")
+            )
+            raw_base = os.environ.get(base_var, "")
+            base_no_v1 = raw_base[: -len("/v1")] if raw_base.endswith("/v1") else raw_base
+            api_key = os.environ.get(key_var, "")
+            run_model = str((config or {}).get("model") or "")
+            env = dict(prep.env)
+            env.update(
+                {
+                    "ANTHROPIC_BASE_URL": base_no_v1,
+                    "ANTHROPIC_MODEL": run_model,
+                    "ANTHROPIC_DEFAULT_OPUS_MODEL": run_model,
+                    "ANTHROPIC_DEFAULT_SONNET_MODEL": run_model,
+                    "ANTHROPIC_DEFAULT_HAIKU_MODEL": run_model,
+                    "CLAUDE_CODE_SUBAGENT_MODEL": run_model,
+                    "CLAUDE_CODE_EFFORT_LEVEL": str((config or {}).get("effort") or "max"),
+                    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "131072",
+                    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "16000",
+                }
+            )
+            if api_key:
+                env["ANTHROPIC_AUTH_TOKEN"] = api_key
+            prep = replace(
+                prep,
+                env=env,
+                secret_env_names=(base_var, key_var, "ANTHROPIC_AUTH_TOKEN"),
+            )
         if s.pre_launch_hook:
             hook = PRE_LAUNCH_HOOKS.get(s.pre_launch_hook)
             if hook is None:
                 raise KeyError(
                     f"runner {s.name!r}: pre_launch_hook {s.pre_launch_hook!r} not registered"
                 )
-            prep = _merge_launch_prep(prep, hook(Path(sandbox)))
+            prep = _merge_launch_prep(prep, hook(Path(sandbox), config))
         return replace(prep, secret_env_names=tuple(dict.fromkeys(prep.secret_env_names)))
 
     def build_command(
@@ -416,37 +447,6 @@ class DeclarativeRunner(Runner):
         proc = subprocess.Popen(cmd, **popen_kwargs)
         pgid = os.getpgid(proc.pid)
 
-        # Diagnose phantom SIGINTs. Terminal Ctrl-C, IDE-injected signal
-        # (VS Code shell-integration, etc.), NERSC login-node policing,
-        # and stray keystrokes all show up as the same bare "^C" line +
-        # KeyboardInterrupt traceback. Log enough to tell them apart on
-        # the next occurrence, forward to the subprocess group, then let
-        # the default disposition raise so the finally block cleans up.
-        import datetime as _dt
-        import signal as _signal
-
-        _harness_ppid = os.getppid()
-
-        def _diagnose_and_forward(signum, frame):
-            sig = _signal.Signals(signum).name
-            ts = _dt.datetime.now().isoformat(timespec="seconds")
-            print(
-                f"\n[runner] received {sig} at {ts} "
-                f"(harness pid={os.getpid()}, ppid={_harness_ppid}, "
-                f"pgrp={os.getpgrp()}, sender unknown — kernel doesn't expose it without SA_SIGINFO). "
-                f"Forwarding to subprocess group {pgid}; cleanup running.",
-                flush=True,
-            )
-            try:
-                os.killpg(pgid, signum)
-            except ProcessLookupError:
-                pass
-            _signal.signal(signum, _signal.SIG_DFL)
-            raise KeyboardInterrupt(f"runner received {sig}")
-
-        _signal.signal(_signal.SIGINT, _diagnose_and_forward)
-        _signal.signal(_signal.SIGTERM, _diagnose_and_forward)
-
         walltime_timer = _arm_walltime_watchdog(pgid, walltime_s)
 
         parser = STREAM_PARSERS[s.stream_format]()  # factory: fresh state per run
@@ -457,6 +457,11 @@ class DeclarativeRunner(Runner):
                 proc.stdin.write(prompt.encode())
                 proc.stdin.close()
 
+            print(
+                f"  Streaming events from {s.name}... "
+                "(first event may take ~60s on cold start; do NOT Ctrl-C)",
+                flush=True,
+            )
             _consume_runner_output(proc, parser, output_file)
             rc = proc.wait()
         finally:
